@@ -101,7 +101,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         // no legend here, it is all about the steps here
         chart.getLegend().setEnabled(false);
     }

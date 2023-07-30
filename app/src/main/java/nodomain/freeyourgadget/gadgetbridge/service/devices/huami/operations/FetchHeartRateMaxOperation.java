@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -50,6 +51,11 @@ public class FetchHeartRateMaxOperation extends AbstractRepeatingFetchOperation 
 
     public FetchHeartRateMaxOperation(final HuamiSupport support) {
         super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_MAX_HEART_RATE, "max hr data");
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_hr_data);
     }
 
     @Override

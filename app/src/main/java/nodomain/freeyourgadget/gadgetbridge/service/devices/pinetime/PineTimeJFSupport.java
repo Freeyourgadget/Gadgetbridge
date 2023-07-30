@@ -326,9 +326,11 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         if (navigationInfoSpec.instruction == null) {
             navigationInfoSpec.instruction = "";
         }
-
+        if (navigationInfoSpec.distanceToTurn == null) {
+            navigationInfoSpec.distanceToTurn = "";
+        }
         safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_NARRATIVE, navigationInfoSpec.instruction.getBytes(StandardCharsets.UTF_8));
-        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_MAN_DISTANCE, (navigationInfoSpec.distanceToTurn + "m").getBytes(StandardCharsets.UTF_8));
+        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_MAN_DISTANCE, navigationInfoSpec.distanceToTurn.getBytes(StandardCharsets.UTF_8));
         String iconname;
         switch (navigationInfoSpec.nextAction) {
             case NavigationInfoSpec.ACTION_CONTINUE:
@@ -389,7 +391,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     public void onSetTime() {
         // Since this is a standard we should generalize this in Gadgetbridge (properly)
         GregorianCalendar now = BLETypeConversions.createCalendar();
-        byte[] bytesCurrentTime = BLETypeConversions.calendarToCurrentTime(now);
+        byte[] bytesCurrentTime = BLETypeConversions.calendarToCurrentTime(now, 0);
         byte[] bytesLocalTime = BLETypeConversions.calendarToLocalTime(now);
 
         TransactionBuilder builder = new TransactionBuilder("set time");
@@ -423,7 +425,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                         .setKeepBond(true)
                         .setForeground(false)
                         .setUnsafeExperimentalButtonlessServiceInSecureDfuEnabled(false)
-                        .setMtu(517)
+                        .setMtu(23)
                         .setZip(uri);
 
                 controller = starter.start(getContext(), PineTimeDFUService.class);
@@ -697,7 +699,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 6) // 6h
                             .put("EventType", WeatherData.EventType.Location.value)
                             .put("Location", weatherSpec.location)
                             .put("Altitude", 0)
@@ -730,7 +732,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 6) // 6h this should be the weather provider's interval, really
+                            .put("Expires", 60 * 60 * 6) // 6h this should be the weather provider's interval, really
                             .put("EventType", WeatherData.EventType.Humidity.value)
                             .put("Humidity", (int) weatherSpec.currentHumidity)
                             .end()
@@ -755,7 +757,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 6) // 6h this should be the weather provider's interval, really
+                            .put("Expires", 60 * 60 * 6) // 6h this should be the weather provider's interval, really
                             .put("EventType", WeatherData.EventType.Temperature.value)
                             .put("Temperature", (int) ((weatherSpec.currentTemp - 273.15) * 100))
                             .put("DewPoint", (int) (-32768))

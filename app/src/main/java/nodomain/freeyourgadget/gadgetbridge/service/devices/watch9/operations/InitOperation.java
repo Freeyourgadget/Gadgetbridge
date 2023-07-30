@@ -47,7 +47,7 @@ public class InitOperation extends AbstractBTLEOperation<Watch9DeviceSupport>{
         super(support);
         this.needsAuth = needsAuth;
         this.builder = builder;
-        builder.setGattCallback(this);
+        builder.setCallback(this);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class InitOperation extends AbstractBTLEOperation<Watch9DeviceSupport>{
                 getSupport().logMessageContent(value);
                 if (ArrayUtils.equals(value, Watch9Constants.RESP_AUTHORIZATION_TASK, 5) && value[8] == 0x01) {
                     TransactionBuilder builder = getSupport().createTransactionBuilder("authInit");
-                    builder.setGattCallback(this);
+                    builder.setCallback(this);
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     getSupport().initialize(builder).performImmediately(builder);
                 } else {

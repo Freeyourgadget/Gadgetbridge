@@ -274,7 +274,7 @@
     <string name="weeksteps_today_steps_description">Kroků dnes, cíl: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nepotvrzovat přenos dat o aktivitě</string>
     <string name="pref_summary_dont_ack_transfers">Pokud není přenos dat potvrzen náramku, potom nebudou smazána. Užitečné pokud je GB používán dohromady s jinou aplikací.</string>
-    <string name="pref_summary_keep_data_on_device">Zachová data o aktivitě v Mi Band i po synchronizaci. Užitečné pokud je GB používán dohromady s jinou aplikací.</string>
+    <string name="pref_summary_keep_data_on_device">Zachová data o aktivitě v zařízení i po synchronizaci. Užitečné pokud je GB používán dohromady s jinými aplikacemi.</string>
     <string name="pref_title_low_latency_fw_update">Použít režim z nízkým zpožděním pro aktualizace firmwaru</string>
     <string name="pref_summary_low_latency_fw_update">Může to pomoci u zařízení, kde aktualizace firmwaru selhala.</string>
     <string name="live_activity_steps_history">Historie kroků</string>
@@ -923,12 +923,12 @@
     <string name="Strokes">Záběry</string>
     <string name="bpm">tepů/min</string>
     <string name="minutes_km">min/km</string>
-    <string name="seconds_km">sec/km</string>
+    <string name="seconds_km">s/km</string>
     <string name="calories_unit">kcal</string>
     <string name="laps_unit">bazénů</string>
     <string name="swim_style">plavecký styl</string>
     <string name="swolf_index">swolf index</string>
-    <string name="seconds">sec</string>
+    <string name="seconds">sek</string>
     <string name="strokes_unit">záb</string>
     <string name="strokes_second">záb/s</string>
     <string name="km_h">km/h</string>
@@ -1908,4 +1908,166 @@
     <string name="pref_crown_vibration">Vibrace korunky</string>
     <string name="pref_display_caller_summary">Zobrazit jméno nebo telefonní číslo příchozích hovorů</string>
     <string name="pref_pair_bluetooth_calls_summary">Klepněte sem pro zahájení párovacího procesu</string>
+    <string name="accuracy">Přesnost</string>
+    <string name="balanced">Vyvážený</string>
+    <string name="power_saving">Šetření energie</string>
+    <string name="custom">Vlastní</string>
+    <string name="activity_prefs_target_weight_kg">Cílová váha v kg</string>
+    <string name="bluetooth_calls">Bluetooth volání</string>
+    <string name="bluetooth_calls_settings">Nastavení Bluetooth volání</string>
+    <string name="title_activity_contact_details">Podrobnosti kontaktu</string>
+    <string name="activity_type_dance">Tanec</string>
+    <string name="activity_type_volleyball">Volejbal</string>
+    <string name="activity_type_zumba">Zumba</string>
+    <string name="menuitem_recommendation">Doručení</string>
+    <string name="menuitem_calendar">Kalendář</string>
+    <string name="appmanager_watchface_activate">Aktivovat</string>
+    <string name="appmanager_app_download">Stáhnout do mezipaměti</string>
+    <string name="appmanager_download_started">Začalo stahování aplikace</string>
+    <string name="appmanager_downloaded_to_cache">Staženo %s do mezipaměti</string>
+    <string name="appmanager_download_app_error">Chyba při stahování aplikace</string>
+    <string name="pref_title_overwrite_settings_on_connection">Přepsat nastavení při připojení</string>
+    <string name="pref_summary_overwrite_settings_on_connection">Přepsat všechna nastavení na náramku při jeho připojení.</string>
+    <string name="pref_workout_detection_title">Rozpoznání cvičení</string>
+    <string name="function_enabled">Povoleno</string>
+    <string name="charts_legend_stress_average">Průměrný stress</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="pref_screen_auto_brightness_summary">Automaticky nastavit jas obrazovky v závislosti na okolním osvětlení</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Denní cíl: čas vestoje v minutách</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="ftp_server">FTP server</string>
+    <string name="activity_error_share_failed">Sdílení souboru selhalo.</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
+    <string name="pref_screen_auto_brightness_title">Automatický jas</string>
+    <string name="pref_workout_detection_categories_title">Kategorie cvičení</string>
+    <string name="pref_workout_keep_screen_on_title">Při cvičení ponechat zapnutou obrazovku</string>
+    <string name="long_press">Dlouhé podržení</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="single_tap">Jedno klepnutí</string>
+    <string name="double_tap">Dvojité klepnutí</string>
+    <string name="triple_tap">Trojité klepnutí</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="pref_workout_detection_sensitivity">Citlivost</string>
+    <string name="seconds_25">25 sekund</string>
+    <string name="pref_enable_unsupported_settings_title">Povolit nepodporovaná nastavení</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Denní cíl: čas spalování tuků v minutách</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
+    <string name="pref_contacts_title">Kontakty</string>
+    <string name="activity_type_gymnastics">Gymnastika</string>
+    <string name="activity_type_bowling">Bowling</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="menuitem_mi_ai">MI AI</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="gps">GPS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="bluetooth_calls_pairing">Párování Bluetooth volání</string>
+    <string name="all_satellites">Všechny satelity</string>
+    <string name="pref_display_caller_title">Zobrazit informace o kontaktu</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Používat data GPS z telefonu</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interval aktualizace GPS dat v ms</string>
+    <string name="pref_camera_remote_summary">Umožní hodinkám ovládat fotoaparát telefonu</string>
+    <string name="pref_workout_keep_screen_on_summary">Obrazovka zůstane při cvičení zapnutá a jas bude automaticky upravován pro zobrazení</string>
+    <string name="menuitem_vo2_max">VO₂ Max</string>
+    <string name="pref_contacts_summary">Nastavit kontakty na hodinkách</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Spánek REM</string>
+    <string name="activity_type_table_tennis">Ping pong</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="pref_summary_third_party_app_device_settings">Povolit ostatním nainstalovaným aplikacím třetích stran měnit nastavení přes ...</string>
+    <string name="pref_title_third_party_app_device_settings">Povolit aplikacím třetích stran měnit nastavení</string>
+    <string name="share_screenshot">Sdílet snímek obrazovky</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="menuitem_last_workout">Poslední cvičení</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="dev_tools">Vývojářské nástroje</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="prefs_touch_lock_buds2">Dotykové ovládání</string>
+    <string name="activity_type_boxing">Boxování</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
+    <string name="menuitem_membership_cards">Věrnostní karty</string>
+    <string name="status">Stav</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="menuitem_aqi">Index kvality vzduchu</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="menuitem_forecast">Předpověď</string>
+    <string name="menuitem_sun_moon">Slunce a Měsíc</string>
+    <string name="menuitem_phone">Telefon</string>
+    <string name="menuitem_theater_mode">Režim kina</string>
+    <string name="menuitem_brightness">Jas</string>
+    <string name="menuitem_lockscreen">Zamykací obrazovka</string>
+    <string name="yesterdays_activity">Včerejší aktivita</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (pouze oficiální aplikace)</string>
+    <string name="wifi_hotspot">Wi-Fi Hotspot</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="menuitem_cards">Karty</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="sports_activity_confirm_delete_title">Odstranit %d aktivit</string>
+    <string name="fwapp_install_device_not_supported">Soubor nemůže být nainstalován, zařízení není podporováno.</string>
+    <string name="menuitem_volume">Hlasitost</string>
+    <string name="action_changelog">Seznam změn</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Použít pouze sítě pro určení polohy</string>
+    <string name="pref_workout_detection_summary">Automaticky rozpoznávat cvičení</string>
+    <string name="contact_delete_confirm_title">Odstranit kontakt</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Jak přijímat hovory přes Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Povolte níže uvedené nastavení volání přes Bluetooth.</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 3 Pro.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_header_offline_voice">Hlasové ovládání offline</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Klepnutím na tlačítko níže zahájíte proces párování.</string>
+    <string name="pref_title_notification_cache_while_disconnected">Mezipaměť, když je telefon mimo dosah</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex 2.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTS 4.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Chystáte se nainstalovat firmvér %s na vašem GTS 4 Mini.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Přejděte do nastavení bluetooth telefonu a spárujte se s novým zařízením, které se zobrazí (podobný název jako vaše aktuální hodinky, ale s příponou, např. \"Amazfit GTR 4 - AFC8\".</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Odesílání zmeškaných oznámení, když se zařízení znovu připojí poté, co bylo mimo dosah telefonu</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Zpracovávat oznámení multimediálních aplikací před běžným seznamem aplikací. Pokud není tato předvolba zaškrtnuta, musí být mediální aplikace povoleny v seznamu aplikací, aby fungovalo ovládání médií ze zařízení.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Seznam multimedálních aplikací s ignorovanými notifikacemi</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Odebrat předvolby zařízení\?</string>
+    <string name="single_band">Jednoduché Pásmo</string>
+    <string name="dual_band">Duální Pásmo</string>
+    <string name="low_power_gps">Nízká spotřeba GPS</string>
+    <string name="accuracy_first">Upřednostnit přesnost</string>
+    <string name="speed_first">Upřednostnit rychlost</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Tím se resetují předvolby zařízení pro všechna připojená zařízení. Jste si jisti\?</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 3.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 4.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Chystáte se nainstalovat firmvér %s na vašem Amazfit Band 7.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_summary_receive_calls_watch">Provádění a přijímání hovorů přímo na hodinkách</string>
+    <string name="pref_pair_bluetooth_calls_title">Párování pro hovory přes Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Chcete-li přijímat hovory přes Bluetooth, musíte telefon spárovat s druhou instancí hodinek.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">UPOZORNĚNÍ: Pokud povolíte volání Bluetooth bez spárování s druhou instancí hodinek, oznámení o hovorech nemusí fungovat podle očekávání.</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Využít gps telefonu k přepsání gps dat bangle hodinek</string>
 </resources>

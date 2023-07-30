@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP_SIZE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_UPDATE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_UPDATE_INTERVAL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_USE_NETWORK_ONLY;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.getUser;
@@ -37,7 +38,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Base64;
@@ -58,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedWriter;
@@ -71,17 +72,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
-import java.util.Timer;
-import java.util.UUID;
 
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -99,12 +98,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.LocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -112,24 +109,21 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiPhoneGpsStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
-import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
@@ -153,9 +147,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
 
-    private Boolean gpsUpdateSetup = false;
-    private Timer gpsPositionTimer;
-    private final int gpsUpdateTimerInterval = 1000;
+    private boolean gpsUpdateSetup = false;
 
     // this stores the globalUartReceiver (for uart.tx intents)
     private BroadcastReceiver globalUartReceiver = null;
@@ -198,6 +190,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
 
     private void stopLocationUpdate() {
+        if (!gpsUpdateSetup)
+            return;
         LOG.info("Stop location updates");
         GBLocationManager.stop(getContext(), this);
         gpsUpdateSetup = false;
@@ -251,7 +245,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (!stateString.equals(lastStateString)) {
                           lastStateString = stateString;
                           LOG.info("ACTION_DEVICE_CHANGED " + stateString);
-                          addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
+                          addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
                         }
                         if (gbDevice!=null && (gbDevice.getState() == GBDevice.State.NOT_CONNECTED || gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT)) {
                             stopLocationUpdate();
@@ -312,13 +306,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         rxCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(rxCharacteristic, true);
 
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, false);
+        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, true);
 
-        uartTx(builder, " \u0003"); // clear active line
+        // No need to clear active line with Ctrl-C now - firmwares in 2023 auto-clear on connect
 
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("datetime_synconconnect", true))
@@ -333,6 +327,27 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
         lastBatteryPercent = -1;
+
+        /* Here we get the last Activity info saved from Bangle.js, and then send
+        its timestamp. Bangle.js can then look back at its history and can try and
+        send any missing data.  */
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            BangleJSSampleProvider provider = new BangleJSSampleProvider(getDevice(), dbHandler.getDaoSession());
+            BangleJSActivitySample sample = provider.getLatestActivitySample();
+            if (sample!=null) {
+                LOG.info("Send 'actlast' with last activity's timestamp: "+sample.getTimestamp());
+                try {
+                    JSONObject o = new JSONObject();
+                    o.put("t", "actlast");
+                    o.put("time", sample.getTimestamp());
+                    uartTxJSON("actlast", o);
+                } catch (JSONException e) {
+                    LOG.info("JSONException: " + e.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            LOG.warn("Error getting last activity: " + ex.getLocalizedMessage());
+        }
 
         LOG.info("Initialization Done");
 
@@ -379,8 +394,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (ch==12) json += "\\f";
                 else if (ch==34) json += "\\\""; // quote
                 else if (ch==92) json += "\\\\"; // slash
-                else if (ch<32 || ch==127 || ch==173)
+                else if (ch<32 || ch==127 || ch==173 ||
+                         ((ch>=0xC2) && (ch<=0xF4))) // unicode start char range
                     json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
+                else if (ch>255)
+                    json += "\\u"+Integer.toHexString((ch&65535)|65536).substring(1);
                 else json += s.charAt(i);
             }
             // if it was less characters to send base64, do that!
@@ -417,11 +435,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } catch (JSONException e) {
                     LOG.warn("jsonToString object error: " + e.getLocalizedMessage());
                 }
-                json += key+":"+jsonToStringInternal(o);
+                json += "\""+key+"\":"+jsonToStringInternal(o);
                 if (iter.hasNext()) json+=",";
             }
             return json+"}";
-        } // else int/double/null
+        } else if (v==null) {
+            // else int/double/null
+            return "null";
+        }
         return v.toString();
     }
 
@@ -504,31 +525,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (json.has("fw2"))
                     getDevice().setFirmwareVersion2(json.getString("fw2"));
             } break;
-            case "status": {
-                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
-                batteryInfo.state = BatteryState.UNKNOWN;
-                if (json.has("chg")) {
-                    batteryInfo.state = (json.getInt("chg") == 1) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
-                }
-                if (json.has("bat")) {
-                    int b = json.getInt("bat");
-                    if (b < 0) b = 0;
-                    if (b > 100) b = 100;
-                    // smooth out battery level reporting (it can only go up if charging, or down if discharging)
-                    // http://forum.espruino.com/conversations/379294
-                    if (lastBatteryPercent<0) lastBatteryPercent = b;
-                    if (batteryInfo.state == BatteryState.BATTERY_NORMAL && b > lastBatteryPercent)
-                        b = lastBatteryPercent;
-                    if (batteryInfo.state == BatteryState.BATTERY_CHARGING && b < lastBatteryPercent)
-                        b = lastBatteryPercent;
-                    lastBatteryPercent = b;
-                    batteryInfo.level = b;
-                }
-
-                if (json.has("volt"))
-                    batteryInfo.voltage = (float) json.getDouble("volt");
-                handleGBDeviceEvent(batteryInfo);
-            } break;
             case "findPhone": {
                 boolean start = json.has("n") && json.getBoolean("n");
                 GBDeviceEventFindPhone deviceEventFindPhone = new GBDeviceEventFindPhone();
@@ -545,293 +541,24 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 deviceEventCallControl.event = GBDeviceEventCallControl.Event.valueOf(json.getString("n").toUpperCase());
                 evaluateGBDeviceEvent(deviceEventCallControl);
             } break;
-            case "notify" : {
-                GBDeviceEventNotificationControl deviceEvtNotificationControl = new GBDeviceEventNotificationControl();
-                // .title appears unused
-                deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.valueOf(json.getString("n").toUpperCase());
-                if (json.has("id"))
-                    deviceEvtNotificationControl.handle = json.getInt("id");
-                if (json.has("tel"))
-                    deviceEvtNotificationControl.phoneNumber = json.getString("tel");
-                if (json.has("msg"))
-                    deviceEvtNotificationControl.reply = json.getString("msg");
-                /* REPLY responses don't use the ID from the event (MUTE/etc seem to), but instead
-                * they use a handle that was provided in an action list on the onNotification.. event  */
-                if (deviceEvtNotificationControl.event == GBDeviceEventNotificationControl.Event.REPLY) {
-                    Long foundHandle = (Long)mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
-                    if (foundHandle!=null)
-                        deviceEvtNotificationControl.handle = foundHandle;
-                }
-                evaluateGBDeviceEvent(deviceEvtNotificationControl);
-            } break;
-            case "act": {
-                BangleJSActivitySample sample = new BangleJSActivitySample();
-                sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
-                int hrm = 0;
-                int steps = 0;
-                if (json.has("time")) sample.setTimestamp(json.getInt("time"));
-                if (json.has("hrm")) hrm = json.getInt("hrm");
-                if (json.has("stp")) steps = json.getInt("stp");
-                int activity = BangleJSSampleProvider.TYPE_ACTIVITY;
-                /*if (json.has("act")) {
-                    String actName = "TYPE_" + json.getString("act").toUpperCase();
-                    try {
-                        Field f = ActivityKind.class.getField(actName);
-                        try {
-                            activity = f.getInt(null);
-                        } catch (IllegalAccessException e) {
-                            LOG.info("JSON activity '"+actName+"' not readable");
-                        }
-                    } catch (NoSuchFieldException e) {
-                        LOG.info("JSON activity '"+actName+"' not found");
-                    }
-                }*/
-                sample.setRawKind(activity);
-                sample.setHeartRate(hrm);
-                sample.setSteps(steps);
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    Long userId = getUser(dbHandler.getDaoSession()).getId();
-                    Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
-                    BangleJSSampleProvider provider = new BangleJSSampleProvider(getDevice(), dbHandler.getDaoSession());
-                    sample.setDeviceId(deviceId);
-                    sample.setUserId(userId);
-                    provider.addGBActivitySample(sample);
-                } catch (Exception ex) {
-                    LOG.warn("Error saving activity: " + ex.getLocalizedMessage());
-                }
-                // push realtime data
-                if (realtimeHRM || realtimeStep) {
-                    Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
-                            .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-                }
-            } break;
-            case "http": {
-                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-                String _id=null;
-                try {
-                    _id = json.getString("id");
-                } catch (JSONException e) {
-                }
-                final String id = _id;
-
-                if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
-                    String url = json.getString("url");
-
-                    int method = Request.Method.GET;
-                    if (json.has("method")) {
-                        String m = json.getString("method").toLowerCase();
-                        if (m.equals("get")) method = Request.Method.GET;
-                        else if (m.equals("post")) method = Request.Method.POST;
-                        else if (m.equals("head")) method = Request.Method.HEAD;
-                        else if (m.equals("put")) method = Request.Method.PUT;
-                        else if (m.equals("patch")) method = Request.Method.PATCH;
-                        else if (m.equals("delete")) method = Request.Method.DELETE;
-                        else uartTxJSONError("http", "Unknown HTTP method "+m,id);
-                    }
-
-                    byte[] _body = null;
-                    if (json.has("body"))
-                        _body = json.getString("body").getBytes();
-                    final byte[] body = _body;
-
-                    Map<String,String> _headers = null;
-                    if (json.has("headers")) {
-                        JSONObject h = json.getJSONObject("headers");
-                        _headers = new HashMap<String,String>();
-                        Iterator<String> iter = h.keys();
-                        while (iter.hasNext()) {
-                            String key = iter.next();
-                            try {
-                                String value = h.getString(key);
-                                _headers.put(key, value);
-                            } catch (JSONException e) {
-                            }
-                        }
-                    }
-                    final Map<String,String> headers = _headers;
-
-                    String _xmlPath = "";
-                    try {
-                        _xmlPath = json.getString("xpath");
-                    } catch (JSONException e) {
-                    }
-                    final String xmlPath = _xmlPath;
-                    // Request a string response from the provided URL.
-                    StringRequest stringRequest = new StringRequest(method, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    JSONObject o = new JSONObject();
-                                    if (xmlPath.length() != 0) {
-                                        try {
-                                            InputSource inputXML = new InputSource(new StringReader(response));
-                                            XPath xPath = XPathFactory.newInstance().newXPath();
-                                            response = xPath.evaluate(xmlPath, inputXML);
-                                        } catch (Exception error) {
-                                            uartTxJSONError("http", error.toString(), id);
-                                            return;
-                                        }
-                                    }
-                                    try {
-                                        o.put("t", "http");
-                                        if( id!=null)
-                                            o.put("id", id);
-                                        o.put("resp", response);
-                                    } catch (JSONException e) {
-                                        GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                                    }
-                                    uartTxJSON("http", o);
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            uartTxJSONError("http", error.toString(), id);
-                        }
-                    }) {
-                        @Override
-                        public byte[] getBody() throws AuthFailureError {
-                            if (body == null) return super.getBody();
-                            return body;
-                        }
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            // clone the data from super.getHeaders() so we can write to it
-                            Map<String, String> h = new HashMap<>(super.getHeaders());
-                            if (headers != null) {
-                                for (String key : headers.keySet()) {
-                                    String value = headers.get(key);
-                                    h.put(key, value);
-                                }
-                            }
-                            return h;
-                        }
-                    };
-                    RequestQueue queue = getRequestQueue();
-                    queue.add(stringRequest);
-                } else {
-                    if (BuildConfig.INTERNET_ACCESS)
-                        uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings",id);
-                    else
-                        uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build",id);
-                }
-            } break;
-            case "intent": {
-                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-                if (devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
-                    String target = json.has("target") ? json.getString("target") : "broadcastreceiver";
-                    Intent in = new Intent();
-                    if (json.has("action")) in.setAction(json.getString("action"));
-                    if (json.has("flags")) {
-                        JSONArray flags = json.getJSONArray("flags");
-                        for (int i = 0; i < flags.length(); i++) {
-                            in = addIntentFlag(in, flags.getString(i));
-                        }
-                    }
-                    if (json.has("categories")) {
-                        JSONArray categories = json.getJSONArray("categories");
-                        for (int i = 0; i < categories.length(); i++) {
-                            in.addCategory(categories.getString(i));
-                        }
-                    }
-                    if (json.has("package") && !json.has("class")) {
-                        in = json.getString("package").equals("gadgetbridge") ?
-                                in.setPackage(this.getContext().getPackageName()) :
-                                in.setPackage(json.getString("package"));
-                    }
-                    if (json.has("package") && json.has("class")) {
-                        in = json.getString("package").equals("gadgetbridge") ?
-                                in.setClassName(this.getContext().getPackageName(), json.getString("class")) :
-                                in.setClassName(json.getString("package"), json.getString("class"));
-                    }
-
-                    if (json.has("mimetype")) in.setType(json.getString("mimetype"));
-                    if (json.has("data")) in.setData(Uri.parse(json.getString("data")));
-                    if (json.has("extra")) {
-                        JSONObject extra = json.getJSONObject("extra");
-                        Iterator<String> iter = extra.keys();
-                        while (iter.hasNext()) {
-                            String key = iter.next();
-                            in.putExtra(key, extra.getString(key)); // Should this be implemented for other types, e.g. extra.getInt(key)? Or will this always work even if receiving ints/doubles/etc.?
-                        }
-                    }
-                    LOG.info("Executing intent:\n\t" + String.valueOf(in) + "\n\tTargeting: " + target);
-                    //GB.toast(getContext(), String.valueOf(in), Toast.LENGTH_LONG, GB.INFO);
-                    switch (target) {
-                        case "broadcastreceiver":
-                            getContext().sendBroadcast(in);
-                            break;
-                        case "activity": // See wakeActivity.java if you want to start activities from under the keyguard/lock sceen.
-                            getContext().startActivity(in);
-                            break;
-                        case "service": // Should this be implemented differently, e.g. workManager?
-                            getContext().startService(in);
-                            break;
-                        case "foregroundservice": // Should this be implemented differently, e.g. workManager?
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                getContext().startForegroundService(in);
-                            } else {
-                                getContext().startService(in);
-                            }
-                            break;
-                        default:
-                            LOG.info("Targeting '"+target+"' isn't implemented or doesn't exist.");
-                            GB.toast(getContext(), "Targeting '"+target+"' isn't implemented or it doesn't exist.", Toast.LENGTH_LONG, GB.INFO);
-                    }
-                } else {
-                    uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings", null);
-                } break;
-            }
-            case "force_calendar_sync": {
-                //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
-                //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
-                JSONArray ids = json.getJSONArray("ids");
-                ArrayList<Long> idsList = new ArrayList(ids.length());
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    DaoSession session = dbHandler.getDaoSession();
-                    Long deviceId = DBHelper.getDevice(gbDevice, session).getId();
-                    QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
-                    //FIXME just use that and don't query every time?
-                    List<CalendarSyncState> states = qb.where(
-                                CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
-
-                    LOG.info("force_calendar_sync on banglejs: "+ ids.length() +" events on the device, "+ states.size() +" on our db");
-                    for (int i = 0; i < ids.length(); i++) {
-                        Long id = ids.getLong(i);
-                        qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
-                        CalendarSyncState calendarSyncState = qb.where(
-                                qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
-                                    CalendarSyncStateDao.Properties.CalendarEntryId.eq(id))).build().unique();
-                        if(calendarSyncState == null) {
-                            onDeleteCalendarEvent((byte)0, id);
-                            LOG.info("event id="+ id +" is on device id="+ deviceId +", removing it there");
-                        } else {
-                            //used for later, no need to check twice the ones that do not match
-                            idsList.add(id);
-                        }
-                    }
-
-                    //remove all elements not in ids from database (we don't have them)
-                    for(CalendarSyncState calendarSyncState : states) {
-                        long id = calendarSyncState.getCalendarEntryId();
-                        if(!idsList.contains(id)) {
-                            qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
-                            qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
-                                        CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
-                                .buildDelete().executeDeleteWithoutDetachingEntities();
-                            LOG.info("event id="+ id +" is not on device id="+ deviceId +", removing from our db");
-                        }
-                    }
-                } catch (Exception e1) {
-                    GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
-                }
-                //force a syncCalendar now, send missing events
-                Context context = GBApplication.getContext();
-                Intent intent = new Intent("FORCE_CALENDAR_SYNC");
-                intent.setPackage(BuildConfig.APPLICATION_ID);
-                GBApplication.getContext().sendBroadcast(intent);
-            } break;
+            case "status":
+                handleBatteryStatus(json);
+                break;
+            case "notify" :
+                handleNotificationControl(json);
+                break;
+            case "act":
+                handleActivity(json);
+                break;
+            case "http":
+                handleHttp(json);
+                break;
+            case "force_calendar_sync":
+                handleCalendarSync(json);
+                break;
+            case "intent":
+                handleIntent(json);
+                break;
             case "gps_power": {
                 boolean status = json.getBoolean("status");
                 LOG.info("Got gps power status: " + status);
@@ -844,6 +571,361 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
             }
+        }
+    }
+
+    /**
+     * Handle "status" packets: battery info updates
+     */
+    private void handleBatteryStatus(JSONObject json) throws JSONException {
+        GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+        batteryInfo.state = BatteryState.UNKNOWN;
+        if (json.has("chg")) {
+            batteryInfo.state = (json.getInt("chg") == 1) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+        }
+        if (json.has("bat")) {
+            int b = json.getInt("bat");
+            if (b < 0) b = 0;
+            if (b > 100) b = 100;
+            // smooth out battery level reporting (it can only go up if charging, or down if discharging)
+            // http://forum.espruino.com/conversations/379294
+            if (lastBatteryPercent<0) lastBatteryPercent = b;
+            if (batteryInfo.state == BatteryState.BATTERY_NORMAL && b > lastBatteryPercent)
+                b = lastBatteryPercent;
+            if (batteryInfo.state == BatteryState.BATTERY_CHARGING && b < lastBatteryPercent)
+                b = lastBatteryPercent;
+            lastBatteryPercent = b;
+            batteryInfo.level = b;
+        }
+
+        if (json.has("volt"))
+            batteryInfo.voltage = (float) json.getDouble("volt");
+        handleGBDeviceEvent(batteryInfo);
+    }
+
+    /**
+     * Handle "notify" packet, used to send notification control from device to GB
+     */
+    private void handleNotificationControl(JSONObject json) throws JSONException {
+        GBDeviceEventNotificationControl deviceEvtNotificationControl = new GBDeviceEventNotificationControl();
+        // .title appears unused
+        deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.valueOf(json.getString("n").toUpperCase());
+        if (json.has("id"))
+            deviceEvtNotificationControl.handle = json.getInt("id");
+        if (json.has("tel"))
+            deviceEvtNotificationControl.phoneNumber = json.getString("tel");
+        if (json.has("msg"))
+            deviceEvtNotificationControl.reply = json.getString("msg");
+        /* REPLY responses don't use the ID from the event (MUTE/etc seem to), but instead
+         * they use a handle that was provided in an action list on the onNotification.. event  */
+        if (deviceEvtNotificationControl.event == GBDeviceEventNotificationControl.Event.REPLY) {
+            Long foundHandle = (Long)mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
+            if (foundHandle!=null)
+                deviceEvtNotificationControl.handle = foundHandle;
+        }
+        evaluateGBDeviceEvent(deviceEvtNotificationControl);
+    }
+
+    /**
+     * Handle "act" packet, used to send activity reports
+     */
+    private void handleActivity(JSONObject json) throws JSONException {
+        BangleJSActivitySample sample = new BangleJSActivitySample();
+        sample.setTimestamp((int) (System.currentTimeMillis() / 1000L));
+        int hrm = 0;
+        int steps = 0;
+        if (json.has("time")) sample.setTimestamp(json.getInt("time"));
+        if (json.has("hrm")) hrm = json.getInt("hrm");
+        if (json.has("stp")) steps = json.getInt("stp");
+        int activity = BangleJSSampleProvider.TYPE_ACTIVITY;
+        /*if (json.has("act")) {
+            String actName = "TYPE_" + json.getString("act").toUpperCase();
+            try {
+                Field f = ActivityKind.class.getField(actName);
+                try {
+                    activity = f.getInt(null);
+                } catch (IllegalAccessException e) {
+                    LOG.info("JSON activity '"+actName+"' not readable");
+                }
+            } catch (NoSuchFieldException e) {
+                LOG.info("JSON activity '"+actName+"' not found");
+            }
+        }*/
+        sample.setRawKind(activity);
+        sample.setHeartRate(hrm);
+        sample.setSteps(steps);
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            Long userId = getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+            BangleJSSampleProvider provider = new BangleJSSampleProvider(getDevice(), dbHandler.getDaoSession());
+            sample.setDeviceId(deviceId);
+            sample.setUserId(userId);
+            provider.addGBActivitySample(sample);
+        } catch (Exception ex) {
+            LOG.warn("Error saving activity: " + ex.getLocalizedMessage());
+        }
+        // push realtime data
+        if (realtimeHRM || realtimeStep) {
+            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        }
+    }
+
+    /**
+     * Handle "http" packet: make an HTTP request and return a "http" response
+     */
+    private void handleHttp(JSONObject json) throws JSONException {
+        String _id = null;
+        try {
+            _id = json.getString("id");
+        } catch (JSONException e) {
+        }
+        final String id = _id;
+
+        if (! BuildConfig.INTERNET_ACCESS) {
+            uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings", id);
+            return;
+        }
+
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        if (! devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
+            uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build", id);
+            return;
+        }
+
+        String url = json.getString("url");
+
+        int method = Request.Method.GET;
+        if (json.has("method")) {
+            String m = json.getString("method").toLowerCase();
+            if (m.equals("get")) method = Request.Method.GET;
+            else if (m.equals("post")) method = Request.Method.POST;
+            else if (m.equals("head")) method = Request.Method.HEAD;
+            else if (m.equals("put")) method = Request.Method.PUT;
+            else if (m.equals("patch")) method = Request.Method.PATCH;
+            else if (m.equals("delete")) method = Request.Method.DELETE;
+            else uartTxJSONError("http", "Unknown HTTP method "+m,id);
+        }
+
+        byte[] _body = null;
+        if (json.has("body"))
+            _body = json.getString("body").getBytes();
+        final byte[] body = _body;
+
+        Map<String,String> _headers = null;
+        if (json.has("headers")) {
+            JSONObject h = json.getJSONObject("headers");
+            _headers = new HashMap<String,String>();
+            Iterator<String> iter = h.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    String value = h.getString(key);
+                    _headers.put(key, value);
+                } catch (JSONException e) {
+                }
+            }
+        }
+        final Map<String,String> headers = _headers;
+
+        String _xmlPath = "";
+        String _xmlReturn = "";
+        try {
+            _xmlPath = json.getString("xpath");
+            _xmlReturn = json.getString("return");
+        } catch (JSONException e) {
+        }
+        final String xmlPath = _xmlPath;
+        final String xmlReturn = _xmlReturn;
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(method, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject o = new JSONObject();
+                        if (xmlPath.length() != 0) {
+                            try {
+                                InputSource inputXML = new InputSource(new StringReader(response));
+                                XPath xPath = XPathFactory.newInstance().newXPath();
+                                if (xmlReturn.equals("array")) {
+                                    NodeList result = (NodeList) xPath.evaluate(xmlPath, inputXML, XPathConstants.NODESET);
+                                    response = null; // don't add it below
+                                    JSONArray arr = new JSONArray();
+                                    if (result != null) {
+                                        for (int i = 0; i < result.getLength(); i++)
+                                            arr.put(result.item(i).getTextContent());
+                                    }
+                                    o.put("resp", arr);
+                                } else {
+                                    response = xPath.evaluate(xmlPath, inputXML);
+                                }
+                            } catch (Exception error) {
+                                uartTxJSONError("http", error.toString(), id);
+                                return;
+                            }
+                        }
+                        try {
+                            o.put("t", "http");
+                            if( id!=null)
+                                o.put("id", id);
+                            if (response!=null)
+                                o.put("resp", response);
+                        } catch (JSONException e) {
+                            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                        uartTxJSON("http", o);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                uartTxJSONError("http", error.toString(), id);
+            }
+        }) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                if (body == null) return super.getBody();
+                return body;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // clone the data from super.getHeaders() so we can write to it
+                Map<String, String> h = new HashMap<>(super.getHeaders());
+                if (headers != null) {
+                    for (String key : headers.keySet()) {
+                        String value = headers.get(key);
+                        h.put(key, value);
+                    }
+                }
+                return h;
+            }
+        };
+        RequestQueue queue = getRequestQueue();
+        queue.add(stringRequest);
+    }
+
+    /**
+     * Handle "force_calendar_sync" packet
+     */
+    private void handleCalendarSync(JSONObject json) throws JSONException {
+        //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
+        JSONArray ids = json.getJSONArray("ids");
+        ArrayList<Long> idsList = new ArrayList<>(ids.length());
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            DaoSession session = dbHandler.getDaoSession();
+            Long deviceId = DBHelper.getDevice(gbDevice, session).getId();
+            QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
+            //FIXME just use that and don't query every time?
+            List<CalendarSyncState> states = qb.where(
+                    CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
+
+            LOG.info("force_calendar_sync on banglejs: "+ ids.length() +" events on the device, "+ states.size() +" on our db");
+            for (int i = 0; i < ids.length(); i++) {
+                Long id = ids.getLong(i);
+                qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
+                CalendarSyncState calendarSyncState = qb.where(
+                        qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
+                                CalendarSyncStateDao.Properties.CalendarEntryId.eq(id))).build().unique();
+                if(calendarSyncState == null) {
+                    onDeleteCalendarEvent((byte)0, id);
+                    LOG.info("event id="+ id +" is on device id="+ deviceId +", removing it there");
+                } else {
+                    //used for later, no need to check twice the ones that do not match
+                    idsList.add(id);
+                }
+            }
+
+            //remove all elements not in ids from database (we don't have them)
+            for(CalendarSyncState calendarSyncState : states) {
+                long id = calendarSyncState.getCalendarEntryId();
+                if(!idsList.contains(id)) {
+                    qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
+                    qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
+                                    CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
+                            .buildDelete().executeDeleteWithoutDetachingEntities();
+                    LOG.info("event id="+ id +" is not on device id="+ deviceId +", removing from our db");
+                }
+            }
+        } catch (Exception e1) {
+            GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
+        }
+        //force a syncCalendar now, send missing events
+        Context context = GBApplication.getContext();
+        Intent intent = new Intent("FORCE_CALENDAR_SYNC");
+        intent.setPackage(BuildConfig.APPLICATION_ID);
+        GBApplication.getContext().sendBroadcast(intent);
+    }
+
+    /**
+     * Handle "intent" packet: broadcast an Android intent
+     */
+    private void handleIntent(JSONObject json) throws JSONException {
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        if (!devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
+            uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings", null);
+            return;
+        }
+
+        String target = json.has("target") ? json.getString("target") : "broadcastreceiver";
+        Intent in = new Intent();
+        if (json.has("action")) in.setAction(json.getString("action"));
+        if (json.has("flags")) {
+            JSONArray flags = json.getJSONArray("flags");
+            for (int i = 0; i < flags.length(); i++) {
+                in = addIntentFlag(in, flags.getString(i));
+            }
+        }
+        if (json.has("categories")) {
+            JSONArray categories = json.getJSONArray("categories");
+            for (int i = 0; i < categories.length(); i++) {
+                in.addCategory(categories.getString(i));
+            }
+        }
+        if (json.has("package") && !json.has("class")) {
+            in = json.getString("package").equals("gadgetbridge") ?
+                    in.setPackage(this.getContext().getPackageName()) :
+                    in.setPackage(json.getString("package"));
+        }
+        if (json.has("package") && json.has("class")) {
+            in = json.getString("package").equals("gadgetbridge") ?
+                    in.setClassName(this.getContext().getPackageName(), json.getString("class")) :
+                    in.setClassName(json.getString("package"), json.getString("class"));
+        }
+
+        if (json.has("mimetype")) in.setType(json.getString("mimetype"));
+        if (json.has("data")) in.setData(Uri.parse(json.getString("data")));
+        if (json.has("extra")) {
+            JSONObject extra = json.getJSONObject("extra");
+            Iterator<String> iter = extra.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                in.putExtra(key, extra.getString(key)); // Should this be implemented for other types, e.g. extra.getInt(key)? Or will this always work even if receiving ints/doubles/etc.?
+            }
+        }
+        LOG.info("Executing intent:\n\t" + String.valueOf(in) + "\n\tTargeting: " + target);
+        //GB.toast(getContext(), String.valueOf(in), Toast.LENGTH_LONG, GB.INFO);
+        switch (target) {
+            case "broadcastreceiver":
+                getContext().sendBroadcast(in);
+                break;
+            case "activity": // See wakeActivity.java if you want to start activities from under the keyguard/lock sceen.
+                getContext().startActivity(in);
+                break;
+            case "service": // Should this be implemented differently, e.g. workManager?
+                getContext().startService(in);
+                break;
+            case "foregroundservice": // Should this be implemented differently, e.g. workManager?
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    getContext().startForegroundService(in);
+                } else {
+                    getContext().startService(in);
+                }
+                break;
+            default:
+                LOG.info("Targeting '"+target+"' isn't implemented or doesn't exist.");
+                GB.toast(getContext(), "Targeting '"+target+"' isn't implemented or it doesn't exist.", Toast.LENGTH_LONG, GB.INFO);
         }
     }
 
@@ -947,11 +1029,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if(devicePrefs.getBoolean(PREF_DEVICE_GPS_UPDATE, false)) {
             int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 1000);
             LOG.info("Setup location listener with an update interval of " + intervalLength + " ms");
-
-            try {
-                GBLocationManager.start(getContext(), this, LocationProviderType.GPS, intervalLength);
-            } catch (IllegalArgumentException e) {
-                LOG.warn("GPS provider could not be started", e);
+            boolean onlyUseNetworkGPS = devicePrefs.getBoolean(PREF_DEVICE_GPS_USE_NETWORK_ONLY, false);
+            LOG.info("Using combined GPS and NETWORK based location: " + onlyUseNetworkGPS);
+            if (!onlyUseNetworkGPS) {
+                try {
+                    GBLocationManager.start(getContext(), this, LocationProviderType.GPS, intervalLength);
+                } catch (IllegalArgumentException e) {
+                    LOG.warn("GPS provider could not be started", e);
+                }
             }
 
             try {
@@ -962,6 +1047,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } else {
             GB.toast("Phone gps data update is deactivated in the settings", Toast.LENGTH_SHORT, GB.INFO);
         }
+        gpsUpdateSetup = true;
     }
 
     @Override
@@ -985,6 +1071,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             o.put("hdop", location.getAccuracy());
             o.put("externalSource", true);
+            o.put("gpsSource", location.getProvider());
             LOG.debug("Sending gps value: " + o.toString());
             uartTxJSON("gps", o);
         } catch (JSONException e) {
@@ -1037,6 +1124,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
+                    LOG.info("renderUnicodeAsImage converting " + word);
                     result += renderUnicodeWordAsImage(word)+ch;
                 } else { // or just copy across
                     result += word+ch;
@@ -1045,11 +1133,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 needsTranslate = false;
             } else {
                 // TODO: better check?
-                if (ch<0 || ch>255) needsTranslate = true;
+                if (ch>255) needsTranslate = true;
                 word += ch;
             }
         }
         if (needsTranslate) { // convert word
+            LOG.info("renderUnicodeAsImage converting " + word);
             result += renderUnicodeWordAsImage(word);
         } else { // or just copy across
             result += word;
@@ -1315,7 +1404,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             JSONObject o = new JSONObject();
             o.put("t", "weather");
             o.put("temp", weatherSpec.currentTemp);
+            o.put("hi", weatherSpec.todayMaxTemp);
+            o.put("lo", weatherSpec.todayMinTemp );
             o.put("hum", weatherSpec.currentHumidity);
+            o.put("rain", weatherSpec.precipProbability);
+            o.put("uv", Math.round(weatherSpec.uvIndex*10)/10);
             o.put("code", weatherSpec.currentConditionCode);
             o.put("txt", weatherSpec.currentCondition);
             o.put("wind", weatherSpec.windSpeed);
@@ -1336,6 +1429,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         float baseline = -paint.ascent(); // ascent() is negative
         int width = (int) (paint.measureText(text) + 0.5f); // round
         int height = (int) (baseline + paint.descent() + 0.5f);
+        if (width<1) width=1;
+        if (height<1) height=1;
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
         canvas.drawText(text, 0, baseline, paint);
@@ -1347,7 +1442,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         MONOCHROME_TRANSPARENT, // 1bpp, black = transparent
         RGB_3BPP, // 3bpp
         RGB_3BPP_TRANSPARENT // 3bpp, least used color as transparent
-    };
+    }
 
     /** Used for writing single bits to an array */
     public static class BitWriter {
@@ -1520,6 +1615,28 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "force_calendar_sync_start");
             uartTxJSON("forceCalendarSync", o);
         } catch(JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "nav");
+            if (navigationInfoSpec.instruction!=null)
+                o.put("instr", navigationInfoSpec.instruction);
+            o.put("distance", navigationInfoSpec.distanceToTurn);
+            String[] navActions = {
+                    "","continue", "left", "left_slight", "left_sharp",  "right", "right_slight",
+                    "right_sharp", "keep_left", "keep_right", "uturn_left", "uturn_right",
+                    "offroute", "roundabout_right", "roundabout_left", "roundabout_straight", "roundabout_uturn", "finish"};
+            if (navigationInfoSpec.nextAction>0 && navigationInfoSpec.nextAction<navActions.length)
+                o.put("action", navActions[navigationInfoSpec.nextAction]);
+            if (navigationInfoSpec.ETA!=null)
+                o.put("eta", navigationInfoSpec.ETA);
+            uartTxJSON("onSetNavigationInfo", o);
+        } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
     }

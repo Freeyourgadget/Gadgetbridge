@@ -30,17 +30,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadata;
+import android.media.session.MediaController;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -56,7 +52,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -71,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.notifications.GoogleMapsNotificationHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -81,14 +77,26 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static androidx.media.app.NotificationCompat.MediaStyle.getMediaSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_SUBMODE_ALL;
+import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.ensureNotNull;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -127,6 +135,8 @@ public class NotificationListener extends NotificationListenerService {
     private final Handler mHandler = new Handler();
     private Runnable mSetMusicInfoRunnable = null;
     private Runnable mSetMusicStateRunnable = null;
+
+    private GoogleMapsNotificationHandler googleMapsNotificationHandler = new GoogleMapsNotificationHandler();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -277,6 +287,9 @@ public class NotificationListener extends NotificationListenerService {
 
         if (shouldIgnoreSource(sbn)) return;
 
+        /* Check for navigation notifications and ignore if we're handling them */
+        if (googleMapsNotificationHandler.handle(getApplicationContext(), sbn)) return;
+
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
@@ -332,6 +345,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.when = notification.when;
 
         // determinate Source App Name ("Label")
         String name = getAppName(source);
@@ -374,8 +388,9 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
-        if (notificationSpec.body != null) {
-            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.title + " " + notificationSpec.body)) {
+        if (notificationSpec.title != null || notificationSpec.body != null) {
+            final String textToCheck = ensureNotNull(notificationSpec.title) + " " + ensureNotNull(notificationSpec.body);
+            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), textToCheck)) {
                 return;
             }
         }
@@ -640,9 +655,9 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean handleMediaSessionNotification(StatusBarNotification sbn) {
-        MediaSessionCompat.Token mediaSession = getMediaSession(sbn.getNotification());
-        return mediaSession != null && handleMediaSessionNotification(mediaSession);
+    private boolean handleMediaSessionNotification(final StatusBarNotification sbn) {
+        final MediaSession.Token token = sbn.getNotification().extras.getParcelable(Notification.EXTRA_MEDIA_SESSION);
+        return token != null && handleMediaSessionNotification(token);
     }
 
     /**
@@ -651,49 +666,15 @@ public class NotificationListener extends NotificationListenerService {
      * @param mediaSession The mediasession to handle.
      * @return true if notification was handled, false otherwise
      */
-    public boolean handleMediaSessionNotification(MediaSessionCompat.Token mediaSession) {
-        final MusicSpec musicSpec = new MusicSpec();
-        final MusicStateSpec stateSpec = new MusicStateSpec();
-
-        MediaControllerCompat c;
+    public boolean handleMediaSessionNotification(MediaSession.Token mediaSession) {
         try {
-            c = new MediaControllerCompat(getApplicationContext(), mediaSession);
-
-            PlaybackStateCompat s = c.getPlaybackState();
-            stateSpec.position = (int) (s.getPosition() / 1000);
-            stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
-            stateSpec.repeat = 1;
-            stateSpec.shuffle = 1;
-            switch (s.getState()) {
-                case PlaybackStateCompat.STATE_PLAYING:
-                    stateSpec.state = MusicStateSpec.STATE_PLAYING;
-                    break;
-                case PlaybackStateCompat.STATE_STOPPED:
-                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
-                    break;
-                case PlaybackStateCompat.STATE_PAUSED:
-                    stateSpec.state = MusicStateSpec.STATE_PAUSED;
-                    break;
-                default:
-                    stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
-                    break;
+            final MediaController c = new MediaController(getApplicationContext(), mediaSession);
+            if (c.getMetadata() == null) {
+                return false;
             }
 
-            MediaMetadataCompat d = c.getMetadata();
-            if (d == null)
-                return false;
-            if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
-                musicSpec.artist = d.getString(MediaMetadataCompat.METADATA_KEY_ARTIST);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
-                musicSpec.album = d.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
-                musicSpec.track = d.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
-                musicSpec.duration = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) / 1000;
-            if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
-                musicSpec.trackCount = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
-                musicSpec.trackNr = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER);
+            final MusicStateSpec stateSpec = MediaManager.extractMusicStateSpec(c.getPlaybackState());
+            final MusicSpec musicSpec = MediaManager.extractMusicSpec(c.getMetadata());
 
             // finally, tell the device about it
             if (mSetMusicInfoRunnable != null) {
@@ -719,7 +700,8 @@ public class NotificationListener extends NotificationListenerService {
             mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
-        } catch (NullPointerException | RemoteException | SecurityException e) {
+        } catch (final NullPointerException | SecurityException e) {
+            LOG.error("Failed to handle media session notification", e);
             return false;
         }
     }
@@ -729,6 +711,8 @@ public class NotificationListener extends NotificationListenerService {
         logNotification(sbn, false);
 
         notificationStack.remove(sbn.getPackageName());
+
+        googleMapsNotificationHandler.handleRemove(sbn);
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 

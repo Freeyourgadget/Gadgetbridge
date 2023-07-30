@@ -100,7 +100,7 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
 
 
         builder.notify(getCharacteristic(HPlusConstants.UUID_CHARACTERISTIC_MEASURE), true);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(measureCharacteristic, true);
         //Initialize device
         sendUserInfo(builder); //Sync preferences

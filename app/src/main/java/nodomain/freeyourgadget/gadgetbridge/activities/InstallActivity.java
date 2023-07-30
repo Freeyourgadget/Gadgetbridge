@@ -16,12 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.graphics.Bitmap;
+
+import androidx.annotation.Nullable;
+
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 
 public interface InstallActivity {
     CharSequence getInfoText();
 
     void setInfoText(String text);
+
+    void setPreview(@Nullable Bitmap bitmap);
 
     void setInstallEnabled(boolean enable);
 

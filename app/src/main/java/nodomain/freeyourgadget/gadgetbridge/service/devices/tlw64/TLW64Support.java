@@ -94,7 +94,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
         ctrlCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_CONTROL);
         notifyCharacteristic = getCharacteristic(TLW64Constants.UUID_CHARACTERISTIC_NOTIFY);
 
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(notifyCharacteristic, true);
 
         setTime(builder);

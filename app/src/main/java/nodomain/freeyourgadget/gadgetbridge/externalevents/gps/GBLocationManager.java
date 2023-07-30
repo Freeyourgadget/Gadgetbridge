@@ -105,7 +105,9 @@ public class GBLocationManager {
                 stopProvider(context, providerMap.get(providerType));
                 toBeRemoved.add(providerType);
             }
-            toBeRemoved.forEach(c->{providerMap.remove(c);});
+            for (final LocationProviderType providerType : toBeRemoved) {
+                providerMap.remove(providerType);
+            }
         } else {
             stopProvider(context, providerMap.get(gpsType));
             providerMap.remove(gpsType);

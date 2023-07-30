@@ -76,7 +76,7 @@ public class JYouSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattCharacteristic measureCharacteristic = getCharacteristic(JYouConstants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(JYouConstants.UUID_CHARACTERISTIC_CONTROL);
 
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(measureCharacteristic, true);
 
         syncSettings(builder);

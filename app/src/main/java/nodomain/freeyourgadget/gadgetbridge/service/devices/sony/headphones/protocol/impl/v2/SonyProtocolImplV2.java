@@ -376,6 +376,18 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
     }
 
     @Override
+    public Request getVolume() {
+        LOG.warn("Volume not implemented for V2");
+        return null;
+    }
+
+    @Override
+    public Request setVolume(final int volume) {
+        LOG.warn("Volume not implemented for V2");
+        return null;
+    }
+
+    @Override
     public List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload) {
         final PayloadTypeV2 payloadType = PayloadTypeV2.fromCode(messageType, payload[0]);
 

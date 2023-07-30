@@ -24,6 +24,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -52,6 +53,8 @@ public interface EventHandler {
     void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
     void onSetReminders(ArrayList<? extends Reminder> reminders);
+
+    void onSetLoyaltyCards(ArrayList<LoyaltyCard> cards);
 
     void onSetWorldClocks(ArrayList<? extends WorldClock> clocks);
 

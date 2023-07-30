@@ -1460,4 +1460,42 @@
     <string name="about_activity_title_banglejs_nopebble">Sobre Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="appmanager_watchface_activate">Activa</string>
+    <string name="custom">Personalitzat</string>
+    <string name="accuracy">Precisió</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps">GPS</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_main_nightly">GB Nightly funcionant</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, Sense proveïdor de Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sense Pebble</string>
+    <string name="about_activity_title_main_nopebble">Sobre Gadgetbridge Nightly Sense Pebble</string>
+    <string name="gadgetbridge_running_main_nopebble">GB Nightly Sense Pebble funcionant</string>
+    <string name="about_activity_title_banglejs_nightly">Sobre Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="balanced">Equilibrat</string>
+    <string name="power_saving">Estalvi d\'energia</string>
+    <string name="about_description_banglejs_nightly">L\'aplicació complementària d\'Android per a Bangle.js està construïda fonamentant-se en projecte Gadgetbridge, amb l\'afegit d\'accés a Internet .
+\n
+\nA causa de les polítiques de la botiga del Google Play, no se\'ns permet incloure un enllaç per fer donatius a la mateixa aplicació, però si us agrada aquesta aplicació considereu fer una donació a través de la pàgina d\'inici de Gadgetbridge a continuació.</string>
+    <string name="about_activity_title_main_nightly">Sobre Gadgetbridge Nightly</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="appmanager_app_share">Comparteix</string>
+    <string name="fw_upgrade_notice_amazfit_gts3"></string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Sou a punt d’instal·lar el microprogramari %s a la vostra Amazfit GTS 4.
+\n
+\nLa vostra polsera es reiniciarà després d’instal·lar el fitxer .zip.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="appmanager_app_start">Inicia</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Sou a punt d’instal·lar el microprogramari %s a la vostra Amazfit GTS 4 Mini.
+\n
+\nLa vostra polsera es reiniciarà després d’instal·lar el fitxer .zip.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js Nightly funcionant</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="action_changelog">Registre de canvis</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <SeekBarPreference
+            android:defaultValue="15"
+            android:icon="@drawable/ic_volume_up"
+            android:key="volume"
+            android:max="30"
+            android:title="@string/menuitem_volume" />
+</androidx.preference.PreferenceScreen>

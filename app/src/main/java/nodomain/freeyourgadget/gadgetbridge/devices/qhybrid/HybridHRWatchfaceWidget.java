@@ -76,8 +76,9 @@ public class HybridHRWatchfaceWidget implements Serializable {
         widgetTypes.put("widgetCalories", context.getString(R.string.watchface_widget_type_calories));
         widgetTypes.put("widget2ndTZ", context.getString(R.string.watchface_widget_type_2nd_tz));
         widgetTypes.put("widgetActiveMins", context.getString(R.string.watchface_widget_type_active_mins));
+        widgetTypes.put("widgetChanceOfRain", context.getString(R.string.watchface_widget_type_chance_rain));
+        widgetTypes.put("widgetUV", context.getString(R.string.watchface_widget_type_uv_index));
         widgetTypes.put("widgetCustom", context.getString(R.string.watchface_widget_type_custom));
-//        widgetTypes.put("widgetChanceOfRain", context.getString(R.string.watchface_widget_type_chance_rain));  // Disabled due to missing support in Gadgetbridge
         return widgetTypes;
     }
 

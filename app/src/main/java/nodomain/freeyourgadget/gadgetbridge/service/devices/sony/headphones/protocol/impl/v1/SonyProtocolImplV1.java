@@ -520,6 +520,31 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     @Override
+    public Request getVolume() {
+        return new Request(
+                PayloadTypeV1.VOLUME_GET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.VOLUME_GET.getCode(),
+                        (byte) 0x01,
+                        (byte) 0x20
+                }
+        );
+    }
+
+    @Override
+    public Request setVolume(final int volume) {
+        return new Request(
+                PayloadTypeV1.VOLUME_SET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.VOLUME_SET.getCode(),
+                        (byte) 0x01,
+                        (byte) 0x20,
+                        (byte) volume
+                }
+        );
+    }
+
+    @Override
     public List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload) {
         final PayloadTypeV1 payloadType = PayloadTypeV1.fromCode(messageType, payload[0]);
 
@@ -543,6 +568,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             case AMBIENT_SOUND_CONTROL_RET:
             case AMBIENT_SOUND_CONTROL_NOTIFY:
                 return handleAmbientSoundControl(payload);
+            case VOLUME_RET:
+            case VOLUME_NOTIFY:
+                return handleVolume(payload);
             case NOISE_CANCELLING_OPTIMIZER_STATUS:
                 return handleNoiseCancellingOptimizerStatus(payload);
             case NOISE_CANCELLING_OPTIMIZER_STATE_RET:
@@ -602,6 +630,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             put(SonyHeadphonesCapabilities.PauseWhenTakenOff, getPauseWhenTakenOff());
             put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, getAmbientSoundControlButtonMode());
             put(SonyHeadphonesCapabilities.QuickAccess, getQuickAccess());
+            put(SonyHeadphonesCapabilities.Volume, getVolume());
         }};
 
         for (Map.Entry<SonyHeadphonesCapabilities, Request> capabilityEntry : capabilityRequestMap.entrySet()) {
@@ -667,10 +696,41 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         final AmbientSoundControl ambientSoundControl = new AmbientSoundControl(mode, focusOnVoice, ambientSound);
 
-        LOG.warn("Ambient sound control: {}", ambientSoundControl);
+        LOG.debug("Ambient sound control: {}", ambientSoundControl);
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
                 .withPreferences(ambientSoundControl.toPreferences());
+
+        return Collections.singletonList(eventUpdatePreferences);
+    }
+
+    public List<? extends GBDeviceEvent> handleVolume(final byte[] payload) {
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        AmbientSoundControl.Mode mode = null;
+
+        if (payload[1] != (byte) 0x01) {
+            LOG.warn("Unexpected byte at position 1 for volume: {}", payload[1]);
+            return Collections.emptyList();
+        }
+        if (payload[2] != (byte) 0x20) {
+            LOG.warn("Unexpected byte at position 2 for volume: {}", payload[1]);
+            return Collections.emptyList();
+        }
+
+        final int volume = payload[3];
+        if (volume < 0 || volume > 30) {
+            LOG.warn("Volume {} is out of range", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        LOG.debug("Volume: {}", volume);
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_VOLUME, volume);
 
         return Collections.singletonList(eventUpdatePreferences);
     }

@@ -58,6 +58,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -212,7 +214,16 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                             uuids = serviceUuids.toArray(new ParcelUuid[0]);
                         }
                     }
-                    LOG.warn(result.getDevice().getName() + ": " +
+                    String name = "[unknown]";
+                    try {
+                        name = result.getDevice().getName();
+                    } catch (SecurityException e) {
+                        /* This should never happen because we need all the permissions
+                        to get to the point where we can even scan, but 'SecurityException' check
+                        is added to stop Android Studio errors */
+                        LOG.error("SecurityException on device.getName()");
+                    }
+                    LOG.warn(name + ": " +
                             ((scanRecord != null) ? scanRecord.getBytes().length : -1));
                     addToCandidateListIfNotAlreadyProcessed(result.getDevice(), (short) result.getRssi(), uuids);
 
@@ -268,7 +279,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         checkAndRequestLocationPermission();
 
-        startDiscovery();
+        if (!startDiscovery()) {
+            /* if we couldn't start scanning, go back to the main page.
+            A toast will have been shown explaining what's wrong */
+            finish();
+        }
     }
 
     public void onStartButtonClick(View button) {
@@ -328,7 +343,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onResume();
     }
 
-    private void handleDeviceFound(BluetoothDevice device, short rssi) {
+    private void handleDeviceFound(BluetoothDevice device, short rssi) throws SecurityException {
         if (device.getName() != null) {
             if (handleDeviceFound(device, rssi, null)) {
                 LOG.info("found supported device " + device.getName() + " without scanning services, skipping service scan.");
@@ -358,7 +373,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
     }
 
-    private boolean handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
+    private boolean handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) throws SecurityException {
         LOG.debug("found device: " + device.getName() + ", " + device.getAddress());
         if (LOG.isDebugEnabled()) {
             if (uuids != null && uuids.length > 0) {
@@ -368,7 +383,16 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
 
-        if (device.getBondState() == BluetoothDevice.BOND_BONDED && ignoreBonded) {
+        boolean bonded = false;
+        try {
+            bonded = device.getBondState() == BluetoothDevice.BOND_BONDED;
+        } catch (SecurityException e) {
+            /* This should never happen because we need all the permissions
+               to get to the point where we can even scan, but 'SecurityException' check
+               is added to stop Android Studio errors */
+            LOG.error("SecurityException on device.getBondState");
+        }
+        if (bonded && ignoreBonded) {
             return true; // Ignore already bonded devices
         }
 
@@ -389,10 +413,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return false;
     }
 
-    private void startDiscovery() {
+    private boolean startDiscovery() {
         if (isScanning()) {
             LOG.warn("Not starting discovery, because already scanning.");
-            return;
+            return false;
         }
 
         LOG.info("Starting discovery");
@@ -405,7 +429,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             setScanning(true);
         } else {
             toast(DiscoveryActivity.this, getString(R.string.discovery_enable_bluetooth), Toast.LENGTH_SHORT, GB.ERROR);
+            return false;
         }
+        return true;
     }
 
     private void stopDiscovery() {
@@ -439,7 +465,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         // Filters being non-null would be a very good idea with background scan, but in this case,
         // not really required.
-        adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
+        try {
+            adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), getScanCallback());
+        } catch (SecurityException e) {
+            /* This should never happen because we call this from startDiscovery,
+            which checks ensureBluetoothReady. But we add try...catch to stop Android Studio errors */
+            LOG.error("SecurityException on startScan");
+        }
 
         LOG.debug("Bluetooth LE discovery started successfully");
         bluetoothLEProgress.setVisibility(View.VISIBLE);
@@ -465,6 +497,10 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         } catch (NullPointerException e) {
             LOG.warn("Internal NullPointerException when stopping the scan!");
             return;
+        } catch (SecurityException e) {
+            /* This should never happen because ensureBluetoothReady should set adaptor=null,
+            but we add try...catch to stop Android Studio errors */
+            LOG.error("SecurityException on adapter.stopScan");
         }
 
         LOG.debug("Stopped BLE discovery");
@@ -483,19 +519,30 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
         handler.removeMessages(0, stopRunnable);
         handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
-        if (adapter.startDiscovery()) {
-            LOG.debug("Discovery started successfully");
-            bluetoothProgress.setVisibility(View.VISIBLE);
-        } else {
-            LOG.error("Discovery starting failed");
+        try {
+            if (adapter.startDiscovery()) {
+                LOG.debug("Discovery started successfully");
+                bluetoothProgress.setVisibility(View.VISIBLE);
+            } else {
+                LOG.error("Discovery starting failed");
+            }
+        } catch (SecurityException e) {
+            /* This should never happen because we call this from startDiscovery,
+            which checks ensureBluetoothReady. But we add try...catch to stop Android Studio errors */
+            LOG.error("BluetoothAdaptor.startDiscovery failed with SecurityException");
         }
     }
 
     private void stopBTDiscovery() {
-        if (adapter != null) {
+        if (adapter == null) return;
+        try {
             adapter.cancelDiscovery();
-            LOG.info("Stopped BT discovery");
+        } catch (SecurityException e) {
+            /* This should never happen because ensureBluetoothReady should set adaptor=null,
+            but we add try...catch to stop Android Studio errors */
+            LOG.error("BluetoothAdaptor.cancelDiscovery failed with SecurityException");
         }
+        LOG.info("Stopped BT discovery");
     }
 
     private void bluetoothStateChanged(int newState) {
@@ -511,6 +558,18 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private boolean checkBluetoothAvailable() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                LOG.warn("No BLUETOOTH_SCAN permission");
+                this.adapter = null;
+                return false;
+            }
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                LOG.warn("No BLUETOOTH_CONNECT permission");
+                this.adapter = null;
+                return false;
+            }
+        }
         BluetoothManager bluetoothService = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         if (bluetoothService == null) {
             LOG.warn("No bluetooth service available");
@@ -526,7 +585,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (!adapter.isEnabled()) {
             LOG.warn("Bluetooth not enabled");
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBtIntent);
+            try {
+                startActivity(enableBtIntent);
+            } catch (SecurityException e) {
+                /* This should never happen because we did checkSelfPermission above.
+                   But we add try...catch to stop Android Studio errors */
+                LOG.warn("startActivity(enableBtIntent) failed with SecurityException");
+            }
             this.adapter = null;
             return false;
         }
@@ -540,7 +605,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         boolean available = checkBluetoothAvailable();
         startButton.setEnabled(available);
         if (available) {
-            adapter.cancelDiscovery();
+            try {
+                adapter.cancelDiscovery();
+            } catch (SecurityException e) {
+                /* This should never happen because checkBluetoothAvailable should return false
+                if we don't have permissions. But we add try...catch to stop Android Studio errors */
+                LOG.error("SecurityException on adapter.cancelDiscovery, but checkBluetoothAvailable()=true!");
+            }
             // must not return the result of cancelDiscovery()
             // appears to return false when currently not scanning
             return true;
@@ -586,21 +657,61 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private void checkAndRequestLocationPermission() {
+        /* This is more or less a copy of what's in ControlCenterv2, but
+        we do this in case the permissions weren't requested since there
+        is no way we can scan without this stuff */
+        List<String> wantedPermissions = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             LOG.error("No permission to access coarse location!");
-            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            wantedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             LOG.error("No permission to access fine location!");
-            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            wantedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
+        // if we need location permissions, request both together to avoid a bunch of dialogs
+        if (wantedPermissions.size() > 0) {
+            toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
+            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+            wantedPermissions.clear();
+        }
+        // Now we have to request background location separately!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 LOG.error("No permission to access background location!");
                 toast(DiscoveryActivity.this, getString(R.string.error_no_location_access), Toast.LENGTH_SHORT, GB.ERROR);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
+            }
+        }
+        // Now, we can request Bluetooth permissions....
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                LOG.error("No permission to access Bluetooth scanning!");
+                toast(DiscoveryActivity.this, getString(R.string.error_no_bluetooth_scan), Toast.LENGTH_SHORT, GB.ERROR);
+                wantedPermissions.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                LOG.error("No permission to access Bluetooth connection!");
+                toast(DiscoveryActivity.this, getString(R.string.error_no_bluetooth_connect), Toast.LENGTH_SHORT, GB.ERROR);
+                wantedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+        }
+        if (wantedPermissions.size() > 0) {
+            GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+            } else {
+                ActivityResultLauncher<String[]> requestMultiplePermissionsLauncher =
+                    registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+                        if (!isGranted.containsValue(false)) {
+                            // Permission is granted. Continue the action or workflow in your app.
+                            // should we do startDiscovery here??
+                        } else {
+                            // Explain to the user that the feature is unavailable because the feature requires a permission that the user has denied.
+                            GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                    });
+                requestMultiplePermissionsLauncher.launch(wantedPermissions.toArray(new String[0]));
             }
         }
 

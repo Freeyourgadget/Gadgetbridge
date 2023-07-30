@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
-    vanous
+/*  Copyright (C) 2015-2023 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
+    vanous, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -19,49 +19,51 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.text.InputType;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AboutUserPreferencesActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class ChartsPreferencesActivity extends AbstractSettingsActivity {
+public class ChartsPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.charts_preferences);
+    protected String fragmentTag() {
+        return ChartsPreferencesFragment.FRAGMENT_TAG;
     }
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
 
-        Preference pref = findPreference("pref_category_activity_personal");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent(ChartsPreferencesActivity.this, AboutUserPreferencesActivity.class);
-                startActivity(enableIntent);
-                return true;
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return new ChartsPreferencesFragment();
+    }
+
+    public static class ChartsPreferencesFragment extends AbstractPreferenceFragment {
+        static final String FRAGMENT_TAG = "CHARTS_PREFERENCES_FRAGMENT";
+
+        @Override
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
+            setPreferencesFromResource(R.xml.charts_preferences, rootKey);
+
+            setInputTypeFor(GBPrefs.CHART_MAX_HEART_RATE, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(GBPrefs.CHART_MIN_HEART_RATE, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_sleep_lines_limit", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_session_length", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_max_idle_phase_length", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_steps_per_minute", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_steps_per_minute_for_run", InputType.TYPE_CLASS_NUMBER);
+
+            final Preference aboutUserPref = findPreference("pref_category_activity_personal");
+            if (aboutUserPref != null) {
+                aboutUserPref.setOnPreferenceClickListener(preference -> {
+                    final Intent enableIntent = new Intent(getActivity(), AboutUserPreferencesActivity.class);
+                    startActivity(enableIntent);
+                    return true;
+                });
             }
-        });
-
+        }
     }
-
-
-    @Override
-    protected String[] getPreferenceKeysWithSummary() {
-        return new String[]{
-                "chart_list_min_session_length",
-                "chart_list_max_idle_phase_length",
-                "chart_list_min_steps_per_minute",
-                "chart_list_min_steps_per_minute_for_run",
-                GBPrefs.CHART_MAX_HEART_RATE,
-                GBPrefs.CHART_MIN_HEART_RATE,
-                "chart_sleep_lines_limit",
-        };
-    }
-
 }

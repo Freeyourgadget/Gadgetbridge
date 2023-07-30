@@ -36,7 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 public class ActivityListingAdapter extends AbstractActivityListingAdapter<ActivitySession> {
     public static final String CHART_COLOR_START = "#e74c3c";
     public static final String CHART_COLOR_END = "#2ecc71";
-    protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingAdapter.class);
     protected final int ANIM_TIME = 250;
     private final int SESSION_SUMMARY = ActivitySession.SESSION_SUMMARY;
     private final int SESSION_EMPTY = ActivitySession.SESSION_EMPTY;

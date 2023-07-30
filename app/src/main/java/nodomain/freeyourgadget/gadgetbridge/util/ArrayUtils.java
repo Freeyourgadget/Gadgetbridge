@@ -16,9 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class ArrayUtils {
     /**
@@ -93,5 +91,32 @@ public class ArrayUtils {
             stringBuilder.append(String.format("0x%02X ", i));
         }
         return stringBuilder.toString();
+    }
+
+
+    /**
+     * Finds a value in a byte array
+     * @param value the value to find in the array
+     * @param array the array to search
+     * @return index of the first occurrence of the value in the array, -1 if the array does not contain the value
+     */
+    public static int indexOf(byte value, byte[] array) {
+        return indexOf(value, array, 0, array.length);
+    }
+
+    /**
+     * Finds a value in a byte array
+     * @param value  the value to find in the array
+     * @param array  the array to search
+     * @param offset initial offset in the array to be searched (0 = start at the beginning)
+     * @param size   number of bytes to search beginning at the given offset
+     * @return index of the first occurrence of the value in the array (from the beginning of the array, i.e. not from
+     * the offset position), -1 if the array does not contain the value
+     */
+    public static int indexOf(byte value, byte[] array, int offset, int size) {
+        for (int i = offset; i < offset + size; ++i) {
+            if (array[i] == value) return i;
+        }
+        return -1;
     }
 }

@@ -61,7 +61,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         this.authFlags = authFlags;
         this.cryptFlags = cryptFlags;
         this.builder = builder;
-        builder.setGattCallback(this);
+        builder.setCallback(this);
     }
 
     @Override

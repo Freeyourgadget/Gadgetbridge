@@ -50,7 +50,7 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         builder.notify(getCharacteristic(SuperCarsConstants.CHARACTERISTIC_UUID_FFF4), true); //for battery
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
 
         IntentFilter filter = new IntentFilter();

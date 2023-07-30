@@ -72,11 +72,6 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
 
     @Override
     protected void handleNotificationNotif(byte[] value) {
-        if (value.length != 3 && value.length != 6 && value.length != 7 && value.length != 11) {
-            LOG.error("Notifications should be 3, 6, 7 or 11 bytes long.");
-            getSupport().logMessageContent(value);
-            return;
-        }
         boolean success = (value[2] == HuamiService.SUCCESS) || ((value[1] == REPLY_UPDATE_PROGRESS) && value.length >= 6); // ugly
 
         if (value[0] == HuamiService.RESPONSE && success) {

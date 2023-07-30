@@ -51,9 +51,8 @@ public class AmazfitCorSupport extends AmazfitBipSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
-            sendMusicStateToDevice(null, stateSpec);
-            bufferMusicStateSpec = stateSpec;
+        if (mediaManager.onSetMusicState(stateSpec)) {
+            sendMusicStateToDevice(null, mediaManager.getBufferMusicStateSpec());
         }
     }
 

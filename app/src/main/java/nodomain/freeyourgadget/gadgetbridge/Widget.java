@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.WidgetAlarmsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
@@ -126,7 +126,7 @@ public class Widget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.todaywidget_header_alarm_icon, startAlarmListPIntent);
 
         //charts
-        Intent startChartsIntent = new Intent(context, ChartsActivity.class);
+        Intent startChartsIntent = new Intent(context, ActivityChartsActivity.class);
         startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, deviceForWidget);
         PendingIntent startChartsPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);

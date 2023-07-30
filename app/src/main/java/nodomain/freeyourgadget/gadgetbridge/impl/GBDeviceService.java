@@ -25,16 +25,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -72,7 +71,9 @@ public class GBDeviceService implements DeviceService {
             EXTRA_MUSIC_ALBUM,
             EXTRA_MUSIC_TRACK,
             EXTRA_CALENDAREVENT_TITLE,
-            EXTRA_CALENDAREVENT_DESCRIPTION
+            EXTRA_CALENDAREVENT_DESCRIPTION,
+            EXTRA_CALENDAREVENT_LOCATION,
+            EXTRA_CALENDAREVENT_CALNAME,
     };
     private static final Logger LOG = LoggerFactory.getLogger(GBDeviceService.class);
 
@@ -264,6 +265,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        final Intent intent = createIntent().setAction(ACTION_SET_LOYALTY_CARDS)
+                .putExtra(EXTRA_LOYALTY_CARDS, cards);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
         Intent intent = createIntent().setAction(ACTION_SET_WORLD_CLOCKS)
                 .putExtra(EXTRA_WORLD_CLOCKS, clocks);
@@ -294,7 +302,8 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_SETNAVIGATIONINFO)
                 .putExtra(EXTRA_NAVIGATION_INSTRUCTION, navigationInfoSpec.instruction)
                 .putExtra(EXTRA_NAVIGATION_NEXT_ACTION, navigationInfoSpec.nextAction)
-                .putExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN, navigationInfoSpec.distanceToTurn);
+                .putExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN, navigationInfoSpec.distanceToTurn)
+                .putExtra(EXTRA_NAVIGATION_ETA, navigationInfoSpec.ETA);
         invokeService(intent);
     }
 

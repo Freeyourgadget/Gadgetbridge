@@ -8,8 +8,15 @@
         <uses-permission android:name="android.permission.INTERNET" />
     -->
     <!-- Used for Bluetooth access -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30"/>
+    <!-- Needed to looks for Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <!-- Needed to communicate with already-paired Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Since Android 10 -->
@@ -25,6 +32,10 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!-- Read loyalty cards from Catima -->
+    <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
+    <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -49,6 +60,16 @@
 
     <!-- Used for starting activities from the background with intents -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!--
+    SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
+    services from other packages via intents, when targeting Android API level 30 or later
+    (e.g. Bangle.js build variant) on devices running Android 11 or later.
+    https://developer.android.com/training/package-visibility
+    https://support.google.com/googleplay/android-developer/answer/10158779?hl=en#zippy=%2Cpermitted-uses-of-the-query-all-packages-permission%2Cexceptions
+    -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -106,6 +127,18 @@
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.loyaltycards.LoyaltyCardsSettingsActivity"
+            android:label="@string/loyalty_cards"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
+        <activity
+            android:name=".devices.pebble.PebbleSettingsActivity"
+            android:label="@string/pref_title_pebble_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".devices.hplus.HPlusSettingsActivity"
+            android:label="@string/preferences_hplus_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".devices.zetime.ZeTimePreferenceActivity"
@@ -388,14 +421,14 @@
         <receiver
             android:name=".externalevents.WeatherNotificationReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_UPDATE_2" />
             </intent-filter>
         </receiver>
 
         <activity android:name=".externalevents.WeatherNotificationConfig"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
@@ -501,6 +534,7 @@
             android:name=".devices.banglejs.AppsManagementActivity"
             android:label="@string/title_activity_appmanager"
             android:launchMode="singleTop"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|layoutDirection|uiMode"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".devices.miband.MiBandPairingActivity"
@@ -521,7 +555,7 @@
             android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
             android:label="@string/title_activity_LenovoWatch_calibration" />
         <activity
-            android:name=".activities.charts.ChartsActivity"
+            android:name=".activities.charts.ActivityChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
@@ -703,6 +737,10 @@
             android:name=".devices.qhybrid.CalibrationActivity"
             android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
+        <activity
+            android:name=".devices.withingssteelhr.WithingsCalibrationActivity"
+            android:label="@string/qhybrid_title_calibration"
+            android:parentActivityName=".devices.withingssteelhr.WithingsCalibrationActivity" />
         <activity
             android:name=".devices.qhybrid.CommuteActionsActivity"
             android:label="@string/qhybrid_pref_title_actions"

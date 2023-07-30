@@ -74,8 +74,9 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
             if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.APP) {
                 // After an app is installed, request the display items from the band (new app will be at the end)
                 try {
-                    TransactionBuilder builder = performInitialized("request display items");
+                    TransactionBuilder builder = performInitialized("request display items and apps");
                     getSupport().requestDisplayItems(builder);
+                    getSupport().requestApps(builder);
                     builder.queue(getQueue());
                 } catch (final IOException e) {
                     LOG.error("Failed to request display items after app install", e);
@@ -83,8 +84,9 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
             } else if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
                 // After a watchface is installed, request the watchfaces from the band (new watchface will be at the end)
                 try {
-                    TransactionBuilder builder = performInitialized("request watchfaces");
+                    TransactionBuilder builder = performInitialized("request watchfaces and apps");
                     getSupport().requestWatchfaces(builder);
+                    getSupport().requestApps(builder);
                     builder.queue(getQueue());
                 } catch (final IOException e) {
                     LOG.error("Failed to request watchfaces after watchface install", e);

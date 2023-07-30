@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
-    vanous
+/*  Copyright (C) 2015-2023 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
+    vanous, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -18,36 +18,27 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.preference.Preference;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import androidx.preference.PreferenceFragmentCompat;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivity {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
+public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.discovery_pairing_preferences);
-
-        final Prefs prefs = GBApplication.getPrefs();
-        final Preference pref = findPreference("scanning_intensity");
-        pref.setSummary(String.valueOf(prefs.getInt("scanning_intensity", 1)));
-
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                preference.setSummary(newVal.toString());
-                return true;
-            }
-        });
+    protected String fragmentTag() {
+        return DiscoveryPairingPreferenceFragment.FRAGMENT_TAG;
     }
+
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected PreferenceFragmentCompat newFragment() {
+        return new DiscoveryPairingPreferenceFragment();
+    }
+
+    public static class DiscoveryPairingPreferenceFragment extends AbstractPreferenceFragment {
+        static final String FRAGMENT_TAG = "DISCOVERY_PAIRING_PREFERENCES_FRAGMENT";
+
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
+            setPreferencesFromResource(R.xml.discovery_pairing_preferences, rootKey);
+        }
     }
 }

@@ -19,8 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -41,6 +44,11 @@ public class AmazfitGTS3FirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_GTS3_NAME;
+    }
+
+    @Override
+    public Set<Integer> deviceSources() {
+        return new HashSet<>(Arrays.asList(224, 225));
     }
 
     @Override

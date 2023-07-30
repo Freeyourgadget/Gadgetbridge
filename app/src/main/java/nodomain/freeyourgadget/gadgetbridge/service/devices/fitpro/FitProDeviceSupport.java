@@ -204,7 +204,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_RX), true);
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_BATTERY_SERVICE), true);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
 
         deviceInfoProfile.requestDeviceInfo(builder);
         batteryInfoProfile.requestBatteryInfo(builder);

@@ -88,7 +88,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         measureCharacteristic = getCharacteristic(No1F1Constants.UUID_CHARACTERISTIC_MEASURE);
         ctrlCharacteristic = getCharacteristic(No1F1Constants.UUID_CHARACTERISTIC_CONTROL);
 
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(measureCharacteristic, true);
 
         setTime(builder);

@@ -30,4 +30,9 @@ public class RecordedDataTypes {
     public static final int TYPE_SLEEP_RESPIRATORY_RATE = 0x00000200;
 
     public static final int TYPE_ALL          = (int)0xffffffff;
+
+    // Types to fetch during sync - scheduled, sync button, etc.
+    // Does not include debug logs or workouts
+    public static final int TYPE_SYNC = TYPE_ACTIVITY | TYPE_SPO2 | TYPE_STRESS |
+            TYPE_HEART_RATE | TYPE_PAI | TYPE_SLEEP_RESPIRATORY_RATE;
 }

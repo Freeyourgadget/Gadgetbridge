@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:icon="@drawable/ic_loyalty"
+        android:key="pref_key_loyalty_cards"
+        android:title="@string/loyalty_cards" />
+</androidx.preference.PreferenceScreen>

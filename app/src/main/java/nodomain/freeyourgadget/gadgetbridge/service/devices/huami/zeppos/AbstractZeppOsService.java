@@ -18,9 +18,13 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.content.Context;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractZeppOsService {
@@ -52,6 +56,15 @@ public abstract class AbstractZeppOsService {
 
     protected Huami2021Support getSupport() {
         return mSupport;
+    }
+
+    protected Huami2021Coordinator getCoordinator() {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getSupport().getDevice());
+        return (Huami2021Coordinator) coordinator;
+    }
+
+    protected Prefs getDevicePrefs() {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress()));
     }
 
     protected void write(final String taskName, final byte b) {

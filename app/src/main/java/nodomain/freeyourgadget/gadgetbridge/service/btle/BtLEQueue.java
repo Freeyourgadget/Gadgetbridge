@@ -84,6 +84,7 @@ public final class BtLEQueue {
     private boolean mAutoReconnect;
     private boolean scanReconnect;
     private boolean mImplicitGattCallbackModify = true;
+    private boolean mSendWriteRequestResponse = false;
 
     private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
 
@@ -225,6 +226,10 @@ public final class BtLEQueue {
 
     public void setImplicitGattCallbackModify(final boolean enable) {
         mImplicitGattCallbackModify = enable;
+    }
+
+    public void setSendWriteRequestResponse(final boolean enable) {
+        mSendWriteRequestResponse = enable;
     }
 
     protected boolean isConnected() {
@@ -769,8 +774,12 @@ public final class BtLEQueue {
                 return;
             }
             LOG.debug("characteristic write request: " + device.getAddress() + " characteristic: " + characteristic.getUuid());
+            boolean success = false;
             if (getCallbackToUse() != null) {
-                getCallbackToUse().onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
+                success = getCallbackToUse().onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
+            }
+            if (responseNeeded && mSendWriteRequestResponse) {
+                mBluetoothGattServer.sendResponse(device, requestId, success ? BluetoothGatt.GATT_SUCCESS : BluetoothGatt.GATT_FAILURE, 0, new byte[0]);
             }
         }
 
@@ -791,10 +800,13 @@ public final class BtLEQueue {
                 return;
             }
             LOG.debug("onDescriptorWriteRequest: " + device.getAddress());
+            boolean success = false;
             if(getCallbackToUse() != null) {
-                getCallbackToUse().onDescriptorWriteRequest(device, requestId, descriptor, preparedWrite, responseNeeded, offset, value);
+                success = getCallbackToUse().onDescriptorWriteRequest(device, requestId, descriptor, preparedWrite, responseNeeded, offset, value);
+            }
+            if (responseNeeded && mSendWriteRequestResponse) {
+                mBluetoothGattServer.sendResponse(device, requestId, success ? BluetoothGatt.GATT_SUCCESS : BluetoothGatt.GATT_FAILURE, 0, new byte[0]);
             }
         }
     }
-
 }

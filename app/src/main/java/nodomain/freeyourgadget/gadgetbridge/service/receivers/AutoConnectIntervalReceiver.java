@@ -74,6 +74,7 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
 
             if(allDevicesInitialized){
                 LOG.info("will reset connection delay, all devices are initialized!");
+                mDelay = 4;
                 return;
             }
             if(scheduleAutoConnect){

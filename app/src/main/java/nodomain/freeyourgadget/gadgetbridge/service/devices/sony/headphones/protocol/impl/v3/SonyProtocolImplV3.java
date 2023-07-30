@@ -359,9 +359,9 @@ public class SonyProtocolImplV3 extends SonyProtocolImplV2 {
             return Collections.emptyList();
         }
 
-        final Boolean disabled = booleanFromByte(payload[3]);
+        final Boolean disabled = booleanFromByte(payload[2]);
         if (disabled == null) {
-            LOG.warn("Unknown speak to chat enabled code {}", String.format("%02x", payload[3]));
+            LOG.warn("Unknown speak to chat enabled code {}", String.format("%02x", payload[2]));
             return Collections.emptyList();
         }
 

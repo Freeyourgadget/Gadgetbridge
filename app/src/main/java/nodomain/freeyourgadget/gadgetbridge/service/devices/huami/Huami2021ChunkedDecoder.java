@@ -33,6 +33,10 @@ public class Huami2021ChunkedDecoder {
     private int currentLength;
     ByteBuffer reassemblyBuffer;
 
+    // Keep track of last handle and count for acks
+    private byte lastHandle;
+    private byte lastCount;
+
     private volatile byte[] sharedSessionKey;
 
     private Huami2021Handler huami2021Handler;
@@ -52,16 +56,25 @@ public class Huami2021ChunkedDecoder {
         this.huami2021Handler = huami2021Handler;
     }
 
-    public void decode(final byte[] data) {
+    public byte getLastHandle() {
+        return lastHandle;
+    }
+
+    public byte getLastCount() {
+        return lastCount;
+    }
+
+    public boolean decode(final byte[] data) {
         int i = 0;
         if (data[i++] != 0x03) {
-            //LOG.warn("Ignoring non-chunked payload");
-            return;
+            LOG.warn("Ignoring non-chunked payload");
+            return false;
         }
         final byte flags = data[i++];
         final boolean encrypted = ((flags & 0x08) == 0x08);
         final boolean firstChunk = ((flags & 0x01) == 0x01);
         final boolean lastChunk = ((flags & 0x02) == 0x02);
+        final boolean needsAck = ((flags & 0x04) == 0x04);
 
         if (force2021Protocol) {
             i++; // skip extended header
@@ -69,9 +82,10 @@ public class Huami2021ChunkedDecoder {
         final byte handle = data[i++];
         if (currentHandle != null && currentHandle != handle) {
             LOG.warn("ignoring handle {}, expected {}", handle, currentHandle);
-            return;
+            return false;
         }
-        byte count = data[i++];
+        lastHandle = handle;
+        lastCount = data[i++];
         if (firstChunk) { // beginning
             int full_length = (data[i++] & 0xff) | ((data[i++] & 0xff) << 8) | ((data[i++] & 0xff) << 16) | ((data[i++] & 0xff) << 24);
             currentLength = full_length;
@@ -96,7 +110,7 @@ public class Huami2021ChunkedDecoder {
                     LOG.warn("Got encrypted message, but there's no shared session key");
                     currentHandle = null;
                     currentType = 0;
-                    return;
+                    return false;
                 }
 
                 byte[] messagekey = new byte[16];
@@ -110,7 +124,7 @@ public class Huami2021ChunkedDecoder {
                     LOG.warn("error decrypting " + e);
                     currentHandle = null;
                     currentType = 0;
-                    return;
+                    return false;
                 }
             }
             LOG.debug(
@@ -128,5 +142,7 @@ public class Huami2021ChunkedDecoder {
             currentHandle = null;
             currentType = 0;
         }
+
+        return needsAck;
     }
 }

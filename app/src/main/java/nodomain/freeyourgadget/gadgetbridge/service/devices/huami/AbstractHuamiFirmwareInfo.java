@@ -17,6 +17,10 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.graphics.Bitmap;
+
+import androidx.annotation.Nullable;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Map;
@@ -28,15 +32,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 public abstract class AbstractHuamiFirmwareInfo {
     private byte[] bytes;
 
-    private final int crc16;
-    private final int crc32;
+    private int crc16;
+    private int crc32;
 
-    protected final HuamiFirmwareType firmwareType;
+    protected HuamiFirmwareType firmwareType;
 
     public AbstractHuamiFirmwareInfo(byte[] bytes) {
-        this.bytes = bytes;
-        this.crc16 = CheckSums.getCRC16(bytes);
-        this.crc32 = CheckSums.getCRC32(bytes);
+        setBytes(bytes);
         this.firmwareType = determineFirmwareType(bytes);
     }
 
@@ -70,6 +72,12 @@ public abstract class AbstractHuamiFirmwareInfo {
         return crc32;
     }
 
+    public void setBytes(final byte[] bytes) {
+        this.bytes = bytes;
+        this.crc16 = CheckSums.getCRC16(bytes);
+        this.crc32 = CheckSums.getCRC32(bytes);
+    }
+
     public int getFirmwareVersion() {
         return getCrc16(); // HACK until we know how to determine the version from the fw bytes
     }
@@ -80,6 +88,11 @@ public abstract class AbstractHuamiFirmwareInfo {
 
     public void unsetFwBytes() {
         this.bytes = null;
+    }
+
+    @Nullable
+    public Bitmap getPreview() {
+        return null;
     }
 
     public abstract String toVersion(int crc16);

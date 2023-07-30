@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -58,6 +59,11 @@ public class FetchActivityOperation extends AbstractRepeatingFetchOperation {
     public FetchActivityOperation(final HuamiSupport support) {
         super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, "activity data");
         this.sampleSize = support.getActivitySampleSize();
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_activity_data);
     }
 
     @Override

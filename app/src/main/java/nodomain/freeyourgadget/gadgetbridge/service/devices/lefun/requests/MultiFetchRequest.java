@@ -63,7 +63,7 @@ public abstract class MultiFetchRequest extends Request {
         try {
             super.operationFinished();
             TransactionBuilder builder = performInitialized("Finishing operation");
-            builder.setGattCallback(null);
+            builder.setCallback(null);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Failed to reset callback", Toast.LENGTH_SHORT,

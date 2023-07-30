@@ -1,0 +1,44 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message DeviceStatusService {
+    optional RemoteDeviceBatteryStatusChangedNotification remote_device_battery_status_changed_notification = 1;
+    optional RemoteDeviceBatteryStatusRequest remote_device_battery_status_request = 2;
+    optional RemoteDeviceBatteryStatusResponse remote_device_battery_status_response = 3;
+    optional ActivityStatusRequest activity_status_request = 4;
+    optional ActivityStatusResponse activity_status_response = 5;
+
+    message RemoteDeviceBatteryStatusChangedNotification {
+    }
+
+    message RemoteDeviceBatteryStatusRequest {
+    }
+
+    message RemoteDeviceBatteryStatusResponse {
+        optional ResponseStatus status = 1;
+        optional int32 current_battery_level = 2;
+    }
+
+    message ActivityStatusRequest {
+    }
+
+    message ActivityStatusResponse {
+        optional ActivityStatus status = 1;
+
+        enum ActivityStatus {
+            OFF = 0;
+            STOPPED = 1;
+            PAUSED = 2;
+            ON = 3;
+        }
+    }
+
+    enum ResponseStatus {
+        UNKNOWN_RESPONSE_STATUS = 0;
+        OK = 1;
+        NO_REMOTE_DEVICE = 2;
+    }
+}

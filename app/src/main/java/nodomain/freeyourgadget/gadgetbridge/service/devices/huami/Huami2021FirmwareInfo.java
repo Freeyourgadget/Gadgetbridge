@@ -17,17 +17,30 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import androidx.annotation.Nullable;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
@@ -36,6 +49,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021FirmwareInfo.class);
 
     private final String preComputedVersion;
+    private GBDeviceApp gbDeviceApp;
 
     public Huami2021FirmwareInfo(final byte[] bytes) {
         super(bytes);
@@ -46,6 +60,12 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
      * The device name, to search on firmware.bin in order to determine compatibility.
      */
     public abstract String deviceName();
+
+    /**
+     * The device sources, to match compatible packages.
+     * As per: https://docs.zepp.com/docs/reference/related-resources/device-list/
+     */
+    public abstract Set<Integer> deviceSources();
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(final byte[] bytes) {
@@ -65,6 +85,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             return HuamiFirmwareType.INVALID;
         }
 
+        final Set<UIHHContainer.FileType> agpsEpoTypes = new HashSet<>();
         UIHHContainer.FileEntry uihhFirmwareZipFile = null;
         boolean hasChangelog = false;
         for (final UIHHContainer.FileEntry file : uihh.getFiles()) {
@@ -75,12 +96,18 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 case FIRMWARE_CHANGELOG:
                     hasChangelog = true;
                     continue;
+                case AGPS_EPO_GR_3:
+                case AGPS_EPO_GAL_7:
+                case AGPS_EPO_BDS_3:
+                    agpsEpoTypes.add(file.getType());
+                    continue;
                 default:
                     LOG.warn("Unexpected file for {}", file.getType());
             }
         }
 
         if (uihhFirmwareZipFile != null && hasChangelog) {
+            // UIHH firmware update
             final ZipFile zipFile = new ZipFile(uihhFirmwareZipFile.getContent());
             final byte[] firmwareBin;
             try {
@@ -93,6 +120,11 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             if (isCompatibleFirmwareBin(firmwareBin)) {
                 return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
             }
+        }
+
+        if (agpsEpoTypes.size() == 3) {
+            // AGPS EPO update
+            return HuamiFirmwareType.AGPS_UIHH;
         }
 
         return HuamiFirmwareType.INVALID;
@@ -114,29 +146,136 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
 
         // Attempt to handle as an app / watchface
-        final JSONObject appJson = getAppJson(zipFile);
-        if (appJson == null) {
-            return HuamiFirmwareType.INVALID;
+        final JSONObject appJson = getJson(zipFile, "app.json");
+        if (appJson != null) {
+            final int appId;
+            final String appName;
+            final String appVersion;
+            final String appType;
+            final String appCreator;
+            final String appIconPath;
+            final JSONObject appJsonApp;
+            try {
+                appJsonApp = appJson.getJSONObject("app");
+                appId = appJsonApp.getInt("appId");
+                appName = appJsonApp.getString("appName");
+                appVersion = appJsonApp.getJSONObject("version").getString("name");
+                appType = appJsonApp.getString("appType");
+                appCreator = appJsonApp.getString("vender");
+                appIconPath = appJsonApp.getString("icon");
+            } catch (final Exception e) {
+                LOG.error("Failed to get appType from app.json", e);
+                return HuamiFirmwareType.INVALID;
+            }
+
+            final HuamiFirmwareType huamiFirmwareType;
+            final GBDeviceApp.Type gbDeviceAppType;
+            switch (appType) {
+                case "watchface":
+                    huamiFirmwareType = HuamiFirmwareType.WATCHFACE;
+                    gbDeviceAppType = GBDeviceApp.Type.WATCHFACE;
+                    break;
+                case "app":
+                    huamiFirmwareType = HuamiFirmwareType.APP;
+                    gbDeviceAppType = GBDeviceApp.Type.APP_GENERIC;
+                    break;
+                default:
+                    LOG.warn("Unknown app type {}", appType);
+                    return HuamiFirmwareType.INVALID;
+            }
+
+            Bitmap icon = null;
+            try {
+                final byte[] iconBytes = zipFile.getFileFromZip("assets/" + appIconPath);
+                if (BitmapUtil.isPng(iconBytes)) {
+                    icon = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.length);
+                } else {
+                    icon = BitmapUtil.decodeTga(iconBytes);
+                }
+            } catch (final ZipFileException e) {
+                LOG.error("Failed to get app icon from zip", e);
+            }
+
+            gbDeviceApp = new GBDeviceApp(
+                    UUID.fromString(String.format("%08x-0000-0000-0000-000000000000", appId)),
+                    appName,
+                    appCreator,
+                    appVersion,
+                    gbDeviceAppType,
+                    icon
+            );
+
+            return huamiFirmwareType;
         }
 
-        final String appType;
-        try {
-            appType = appJson.getJSONObject("app").getString("appType");
-        } catch (final Exception e) {
-            LOG.error("Failed to get appType from app.json", e);
-            return HuamiFirmwareType.INVALID;
-        }
-
-        switch (appType) {
-            case "watchface":
-                return HuamiFirmwareType.WATCHFACE;
-            case "app":
-                return HuamiFirmwareType.APP;
-            default:
-                LOG.warn("Unknown app type {}", appType);
+        // Attempt to handle as a zab file
+        final byte[] zpk = handleZabPackage(zipFile);
+        if (zpk != null) {
+            setBytes(zpk);
+            return handleZipPackage(zpk);
         }
 
         return HuamiFirmwareType.INVALID;
+    }
+
+    /**
+     * A zab package is a zip file with:
+     * - manifest.json
+     * - .sc (source code)
+     * - One or more zpk files
+     * <p>
+     * Right now, we only handle the first compatible zpk file that is supported by the connected device.
+     */
+    private byte[] handleZabPackage(final ZipFile zipFile) {
+        final JSONObject manifest = getJson(zipFile, "manifest.json");
+        if (manifest == null) {
+            return null;
+        }
+
+        final JSONArray zpks;
+        try {
+            zpks = manifest.getJSONArray("zpks");
+        } catch (final Exception e) {
+            LOG.error("Failed to get zpks from manifest.json", e);
+            return null;
+        }
+
+        // Iterate all zpks until a compatible one is found
+        for (int i = 0; i < zpks.length(); i++) {
+            try {
+                final JSONObject zpkEntry = zpks.getJSONObject(i);
+                final JSONArray platforms = zpkEntry.getJSONArray("platforms");
+
+                // Check if this zpk is compatible with the current device
+                for (int j = 0; j < platforms.length(); j++) {
+                    final JSONObject platform = platforms.getJSONObject(j);
+
+                    if (deviceSources().contains(platform.getInt("deviceSource"))) {
+                        // It's compatible with the device, fetch device.zip
+                        final String name = zpkEntry.getString("name");
+                        final byte[] zpkBytes = zipFile.getFileFromZip(name);
+                        if (!ZipFile.isZipFile(zpkBytes)) {
+                            LOG.warn("bytes for {} not a zip file", name);
+                            continue;
+                        }
+                        final ZipFile zpkFile = new ZipFile(zpkBytes);
+                        final byte[] deviceZip = zpkFile.getFileFromZip("device.zip");
+                        if (!ZipFile.isZipFile(zpkBytes)) {
+                            LOG.warn("bytes for device.zip of zpk {} not a zip file", name);
+                            continue;
+                        }
+
+                        return deviceZip;
+                    }
+                }
+            } catch (final Exception e) {
+                LOG.warn("Failed to parse zpk", e);
+            }
+        }
+
+        LOG.warn("No compatible zpk found in zab file");
+
+        return null;
     }
 
     @Override
@@ -175,6 +314,20 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             }
         } catch (final Exception e) {
             LOG.error("Failed to pre compute version", e);
+        }
+
+        return null;
+    }
+
+    public GBDeviceApp getAppInfo() {
+        return gbDeviceApp;
+    }
+
+    @Nullable
+    @Override
+    public Bitmap getPreview() {
+        if (gbDeviceApp != null) {
+            return gbDeviceApp.getPreviewImage();
         }
 
         return null;
@@ -261,7 +414,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         // TODO check i18n section?
         // TODO Show preview icon?
 
-        final JSONObject appJson = getAppJson(zipFile);
+        final JSONObject appJson = getJson(zipFile, "app.json");
         if (appJson == null) {
             return null;
         }
@@ -275,12 +428,12 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         return null;
     }
 
-    private static JSONObject getAppJson(final ZipFile zipFile) {
+    private static JSONObject getJson(final ZipFile zipFile, final String path) {
         final byte[] appJsonBin;
         try {
-            appJsonBin = zipFile.getFileFromZip("app.json");
+            appJsonBin = zipFile.getFileFromZip(path);
         } catch (final ZipFileException e) {
-            LOG.error("Failed to read app.json", e);
+            LOG.error("Failed to read " + path, e);
             return null;
         }
 
@@ -290,7 +443,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                     .replace("\uFEFF", "");
             return new JSONObject(appJsonString);
         } catch (final Exception e) {
-            LOG.error("Failed to parse app.json", e);
+            LOG.error("Failed to parse " + path, e);
         }
 
         return null;

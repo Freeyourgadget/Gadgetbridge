@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue=""
+        android:icon="@drawable/ic_link"
+        android:key="banglejs_webview_url"
+        android:summary="@string/pref_summary_banglejs_webview_url"
+        android:title="@string/pref_title_banglejs_webview_url" />
+</androidx.preference.PreferenceScreen>

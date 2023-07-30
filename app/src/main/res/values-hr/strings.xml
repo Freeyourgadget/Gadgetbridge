@@ -106,12 +106,12 @@
     <string name="pref_activity_recognition_mode_none">ništa</string>
     <string name="pref_activity_recognition_mode_ask">pitaj</string>
     <string name="menuitem_menu">Izbornik</string>
-    <string name="watchface_dialog_widget_color">Boja:</string>
+    <string name="watchface_dialog_widget_color">Boja</string>
     <string name="enable_vibrations_summary">Vibracije za pozive, poruke, obavijesti i drugo</string>
     <string name="enable_notifications_summary">Obavijesti za pozive, poruke i više</string>
     <string name="prefs_dolby_summary">Dolby unaprijed postavljen za ekvilajzer</string>
     <string name="prefs_game_mode">Način igranja</string>
-    <string name="sony_warn_sbc_codec">Upozorenje: Postavke ekvilajzera, audio položaja i surrounda rade samo za SBC audio kodek.</string>
+    <string name="sony_warn_sbc_codec">Upozorenje: Postavke ekvilajzera, audio položaja i surround zvuka rade samo za SBC audio kodek.</string>
     <string name="sony_notification_voice_guide">Obavijesti i glasovni vodič</string>
     <string name="sony_automatic_power_off_30_min">30 minuta</string>
     <string name="sony_automatic_power_off_1_hour">1 sat</string>
@@ -201,7 +201,7 @@
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="updatefirmwareoperation_update_complete_rebooting">Instalacija firmwarea dovršena, ponovno pokretanje uređaja…</string>
     <string name="updatefirmwareoperation_write_failed">Flashanje firmvera nije uspjelo</string>
-    <string name="pref_summary_keep_data_on_device">Zadržat će podatke o aktivnostima na Mi Bandu čak i nakon sinkronizacije. Korisno ako se GB koristi zajedno s drugim aplikacijama.</string>
+    <string name="pref_summary_keep_data_on_device">Zadržat će podatke o aktivnostima na uređaju čak i nakon sinkronizacije. Korisno ako se GB koristi zajedno s drugim aplikacijama.</string>
     <string name="prefs_find_phone_summary">Upotrijebite svoj bend za reprodukciju melodije zvona na telefonu.</string>
     <string name="mi2_prefs_inactivity_warnings_summary">Band će vibrirati kada ste neko vrijeme bili neaktivni</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Onemogući upozorenja o neaktivnosti za vremenski interval</string>
@@ -250,7 +250,7 @@
     <string name="error_background_service">Pokretanje pozadinske usluge nije uspjelo</string>
     <string name="error_background_service_reason_truncated">Pokretanje pozadinske usluge nije uspjelo jer…</string>
     <string name="device_is_currently_bonded">VEĆ POVEZANO</string>
-    <string name="device_requires_key">POTREBAN KLJUČ</string>
+    <string name="device_requires_key">POTREBAN JE KLJUČ, PRITISNI ZA UNOS</string>
     <string name="error_background_service_reason">Pokretanje pozadinske usluge nije uspjelo zbog iznimke. Pogreška:</string>
     <string name="error_retrieving_devices_database">Pogreška prilikom dohvaćanja uređaja iz baze podataka</string>
     <string name="ignore_bonded_devices_description">Omogućavanje ove opcije zanemarit će uređaje koji su već bili povezani/upareni prilikom skeniranja</string>
@@ -348,7 +348,7 @@
     <string name="qhybrid_calibration_clockwise">U smjeru kazaljke na satu</string>
     <string name="qhybrid_calibration_1_step">1 korak</string>
     <string name="qhybrid_calibration_10_steps">10 koraka</string>
-    <string name="qhybrid_watchface_configuration_old_firmware">Zaslon za konfiguraciju izgleda sata za satove s verzijom firmvera DN1.0.2.19r i nižom</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Zaslon za konfiguraciju brojčanika za satove s brojčanik verzijom DN1.0.2.19r i nižom</string>
     <string name="qhybrid_pref_title_actions">Radnje</string>
     <string name="qhybrid_pref_summary_actions">Radnje za aplikaciju Putovanje na posao</string>
     <string name="pref_title_developer_settings">Postavke programera</string>
@@ -356,25 +356,25 @@
     <string name="qhybrid_pref_title_external_intents">Dopusti opasne vanjske namjere</string>
     <string name="qhybrid_pref_summary_external_intents">Omogućuje drugim Android aplikacijama učitavanje/prepisivanje datoteka</string>
     <string name="button_watchface_edit_name">Uredi naziv</string>
-    <string name="button_watchface_settings">Postavke izgleda sata</string>
-    <string name="watchface_dialog_title_set_name">Postavite naziv sata</string>
+    <string name="button_watchface_settings">Postavke brojčanika</string>
+    <string name="watchface_dialog_title_set_name">Postavi naziv brojčanika</string>
     <string name="watchface_toast_settings_incomplete">Postavke nepotpune, widget nije dodan</string>
     <string name="watchface_dialog_title_add_widget">Dodaj widget</string>
     <string name="watchface_widget_type_steps">Koraci</string>
     <string name="watchface_widget_type_heart_rate">Broj otkucaja srca</string>
     <string name="button_watchface_preview">Pregled na satu</string>
     <string name="button_watchface_save_apply">Spremi i primijeni</string>
-    <string name="watchface_dialog_widget_type">Vrsta:</string>
-    <string name="watchface_dialog_widget_y_coordinate">Y koordinata (maks. 240):</string>
+    <string name="watchface_dialog_widget_type">Vrsta</string>
+    <string name="watchface_dialog_widget_y_coordinate">Koordinata Y (maks. 240)</string>
     <string name="watchface_dialog_widget_color_white">Bijela</string>
     <string name="watchface_dialog_widget_color_black">Crna</string>
-    <string name="watchface_dialog_title_settings">Postavke izgleda sata</string>
+    <string name="watchface_dialog_title_settings">Postavke brojčanika</string>
     <string name="watchface_setting_title_display_refresh_timeout">Istek vremena za osvježavanje zaslona</string>
-    <string name="watchface_setting_title_wrist_flick">Pokret zapešćem</string>
+    <string name="watchface_setting_title_wrist_flick">Traj zglobom</string>
     <string name="watchface_setting_desc_wrist_flick">(da biste potpuno onemogućili, omogućite relativno kretanje i postavite sve vrijednosti na 0)</string>
-    <string name="watchface_setting_wrist_flick_move_relative">Pomicanje kazaljki u odnosu na vrijeme:</string>
-    <string name="watchface_setting_wrist_flick_hour">Pokazivač sata (-360 do 360):</string>
-    <string name="watchface_setting_wrist_flick_minute">Minutna kazaljka (-360 do 360):</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Pomicanje kazaljki u odnosu na vrijeme</string>
+    <string name="watchface_setting_wrist_flick_hour">Kazaljka za sate (-360 do 360)</string>
+    <string name="watchface_setting_wrist_flick_minute">Kazaljka za minute (-360 do 360)</string>
     <string name="watchface_cache_confirm_overwrite">Pokazivač s ovim imenom već postoji u predmemoriji. Želite li ga prebrisati\?</string>
     <string name="watchface_upload_failed">Prijenos izgleda sata nije uspio. Pokušajte ponovno.</string>
     <string name="watchface_widget_type_battery">Baterija</string>
@@ -433,16 +433,16 @@
     <string name="sony_button_mode_playback_control">Kontrola reprodukcije</string>
     <string name="sony_button_mode_volume_control">Kontrola glasnoće</string>
     <string name="watchface_widget_type_custom">Prilagođeni widget</string>
-    <string name="watchface_dialog_widget_timezone">Vremenska zona:</string>
-    <string name="watchface_dialog_widget_timeout_show_circle">Prikaži krug nakon isteka:</string>
+    <string name="watchface_dialog_widget_timezone">Vremenska zona</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Prikaži krug nakon isteka vremena</string>
     <string name="qhybrid_title_on_device_confirmation">Omogući potvrdu uparivanja na uređaju</string>
     <string name="qhybrid_summary_on_device_confirmation">Potvrde uparivanja na uređaju mogu biti neugodne. Ako ih onemogućite, možete izgubiti funkcionalnost.</string>
     <string name="pref_media_playpause">Uključite reprodukciju</string>
     <string name="pref_activity_recognize_biking">prepoznaj vožnju bicikla</string>
     <string name="pref_activity_recognition_mode_auto">automatski</string>
-    <string name="fossil_hr_button_config_info">Neki se gumbi ne mogu konfigurirati jer su njihove funkcije tvrdo kodirane u firmware sata.
+    <string name="fossil_hr_button_config_info">Neki se gumbi ne mogu konfigurirati jer su njihove funkcije tvrdo kodirane u firmwareu sata.
 \n
-\nUpozorenje: dugim pritiskom na gornju tipku kada je instaliran sat iz službene aplikacije Fossil također će se prebacivati između prikazivanja/skrivanja widgeta.</string>
+\nUpozorenje: dugim pritiskom na gornju tipku kada je instaliran brojčanik iz službene aplikacije Fossil također će se prebacivati između prikazivanja/skrivanja widgeta.</string>
     <string name="pref_activity_recognize_walking">prepoznaj hodanje</string>
     <string name="pref_title_physical_buttons">Fizički gumbi</string>
     <string name="title_activity_set_reminders">Konfiguriranje podsjetnika</string>
@@ -534,7 +534,7 @@
     <string name="kind_gps_almanac">GPS Almanac</string>
     <string name="kind_gps_cep">Ispravljanje GPS pogreške</string>
     <string name="kind_resources">Resursi</string>
-    <string name="kind_watchface">Izgled sata</string>
+    <string name="kind_watchface">Brojčanik</string>
     <string name="devicetype_unknown">Nepoznati uređaj</string>
     <string name="kind_agps_bundle">AGPS Paket</string>
     <string name="add_test_device">Dodaj testni uređaj</string>
@@ -630,8 +630,8 @@
     <string name="activity_summaries_all_activities">Sve aktivnosti</string>
     <string name="qhybrid_title_apps">Aplikacije</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
-    <string name="watchface_dialog_widget_presets">Unaprijed postavljene pozicije:</string>
-    <string name="watchface_dialog_widget_preset_top">Vrh</string>
+    <string name="watchface_dialog_widget_presets">Predodređeni podaci položaja</string>
+    <string name="watchface_dialog_widget_preset_top">Gore</string>
     <string name="watchface_dialog_widget_preset_left">Lijevo</string>
     <string name="watchface_dialog_widget_preset_right">Desno</string>
     <string name="prefs_game_mode_summary">Samo ako vaš telefon podržava način igranja</string>
@@ -723,7 +723,7 @@
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ograničenje</string>
     <string name="pref_summary_pebble_mtu_limit">Ako vaš Pebble 2/Pebble LE ne radi prema očekivanjima, pokušajte s ovom postavkom ograničiti MTU (važeći raspon 20–512)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Preuranjeno ACK PebbleKit</string>
-    <string name="pref_summary_pebble_enable_bgjs">Kada je omogućeno, dopušta prikazima vremena, podataka o bateriji itd.</string>
+    <string name="pref_summary_pebble_enable_bgjs">Kada je omogućeno, dopušta brojčanicima prikaz vremena, podataka o bateriji itd.</string>
     <string name="pref_summary_expose_hr">Omogućuje drugim aplikacijama pristup HR podacima u stvarnom vremenu dok je Gadgetbridge povezan</string>
     <string name="pref_title_expose_hr">pristup HR-u treće strane u stvarnom vremenu</string>
     <string name="pref_title_use_custom_font">Koristite prilagođeni font</string>
@@ -769,7 +769,7 @@
     <string name="title_activity_sleepmonitor">Nadzor spavanja</string>
     <string name="pref_write_logfiles">Pisanje datoteka dnevnika</string>
     <string name="prefs_wearside">Nosite li lijevo ili desno\?</string>
-    <string name="pref_screen_notification_profile_sms">SMS</string>
+    <string name="pref_screen_notification_profile_sms">SMS obavijest</string>
     <string name="pref_header_vibration_settings">Postavke vibracije</string>
     <string name="pref_screen_notification_profile_generic">Opća obavijest</string>
     <string name="pref_screen_notification_profile_email">Obavijest e-pošte</string>
@@ -812,7 +812,7 @@
     <string name="alarm_snooze">Odgodi</string>
     <string name="user_feedback_miband_set_alarms_failed">Došlo je do pogreške prilikom postavljanja alarma, pokušajte ponovno.</string>
     <string name="dbaccess_error_executing">Pogreška pri izvršavanju \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Vaša aktivnost (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Vaša aktivnost</string>
     <string name="cannot_connect">Ne mogu se povezati: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Nije moguće pronaći rukovatelja za instalaciju ove datoteke.</string>
     <string name="pbw_install_handler_unable_to_install">Nije moguće instalirati datu datoteku: %1$s</string>
@@ -978,7 +978,7 @@
 \n
 \nMožete omogućiti sistemsku aplikaciju za vremensku prognozu vašeg Pebblea iz upravljanja aplikacijom.
 \n
-\nPodržani satovi automatski će prikazati vrijeme.</string>
+\nPodržani brojčanici će automatski prikazati vrijeme.</string>
     <string name="activity_web_view">Aktivnost web-prikaza</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Pronašli ste!</string>
@@ -1002,7 +1002,7 @@
     <string name="meters_second">m/s</string>
     <string name="prefs_events_forwarding_fellsleep">U snu</string>
     <string name="watchface_dialog_widget_preset_bottom">Dolje</string>
-    <string name="watchface_setting_wrist_flick_duration">Trajanje (u ms):</string>
+    <string name="watchface_setting_wrist_flick_duration">Trajanje (u ms)</string>
     <string name="pref_header_sony_ambient_sound_control">Upravljanje ambijentalnim zvukom</string>
     <string name="sony_ambient_sound_off">Isključeno</string>
     <string name="sony_ambient_sound_noise_cancelling">Poništavanje buke</string>
@@ -1050,8 +1050,8 @@
     <string name="pref_title_equalizer_soft">Meko</string>
     <string name="sony_equalizer_band_2500">2.500</string>
     <string name="sony_equalizer_band_6300">6.300</string>
-    <string name="watchface_dialog_widget_update_timeout">Vrijeme čekanja ažuriranja u minutama:</string>
-    <string name="watchface_dialog_widget_timeout_hide_text">Sakrij tekst nakon isteka:</string>
+    <string name="watchface_dialog_widget_update_timeout">Vrijeme čekanja ažuriranja u minutama</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Sakrij tekst nakon isteka vremena</string>
     <string name="menuitem_mutephone">Bešumno</string>
     <string name="qhybrid_time_shift">vremenski pomak</string>
     <string name="qhybrid_overwrite_buttons">gumbi za prepisivanje</string>
@@ -1061,7 +1061,7 @@
     <string name="pref_check_permission_status">Provjerite status dopuštenja</string>
     <string name="cm">cm</string>
     <string name="fossil_hr_edit_action">Uređivanje radnje</string>
-    <string name="watchface_dialog_widget_x_coordinate">Koordinata X (maks. 240):</string>
+    <string name="watchface_dialog_widget_x_coordinate">Koordinata X (maks. 240)</string>
     <string name="activity_type_hiking">Pješačenje</string>
     <string name="pref_title_middle_button_function_long">Srednji gumb dugo</string>
     <string name="pref_title_middle_button_function_double">Srednji gumb dvostruko</string>
@@ -1074,8 +1074,8 @@
     <string name="backstroke">Leđno</string>
     <string name="watchface_widget_type_date">Datum</string>
     <string name="watchface_widget_type_weather">Vrijeme</string>
-    <string name="qhybrid_title_watchface_designer">Dizajner izgleda sata</string>
-    <string name="watchface_setting_display_refresh_full">Potpuno osvježavanje (u minutama):</string>
+    <string name="qhybrid_title_watchface_designer">Dizajner brojčanika</string>
+    <string name="watchface_setting_display_refresh_full">Potpuno osvježavanje (u minutama)</string>
     <string name="watchface_widget_type_chance_rain">Moguća kiša</string>
     <string name="pref_title_equalizer_trebble">Pojačanje visokih tonova</string>
     <string name="prefs_dolby_mode">Dolby način rada</string>
@@ -1149,7 +1149,7 @@
 \n%1$s
 \nVerzija %2$s od %3$s
 \n</string>
-    <string name="watchface_install_info">Spremate se instalirati sljedeći izgled sata:
+    <string name="watchface_install_info">Spremate se instalirati sljedeći brojčanik:
 \n
 \n%1$s
 \nVerzija %2$s od %3$s
@@ -1172,8 +1172,8 @@
     <string name="vibration_profile_medium">Srednje</string>
     <string name="vibration_profile_long">Dugo</string>
     <string name="vibration_profile_waterdrop">Kapljica</string>
-    <string name="vibration_profile_ring">Zvonjenje</string>
-    <string name="vibration_profile_alarm_clock">Alarm</string>
+    <string name="vibration_profile_ring">Zvono</string>
+    <string name="vibration_profile_alarm_clock">Budilica</string>
     <string name="miband_prefs_vibration">Vibracija</string>
     <string name="pref_screen_notification_profile_missed_call">Obavijest propuštenog poziva</string>
     <string name="pref_screen_notification_profile_generic_chat">Chat</string>
@@ -1202,7 +1202,7 @@
     <string name="mi2_prefs_button_press_count_max_delay">Maksimalno kašnjenje između pritisaka</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksimalno kašnjenje između pritiskanja gumba u milisekundama</string>
     <string name="mi2_prefs_goal_notification">Obavijest o cilju</string>
-    <string name="appmanager_installed_watchfaces">Instalirani izgledi sata</string>
+    <string name="appmanager_installed_watchfaces">Instalirani brojčanici</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Spremate se instalirati %s firmware na vaš Amazfit Bip Lite.
 \n
 \nObavezno instalirajte .fw datoteku, a nakon toga .res datoteku. Vaš sat će se ponovno pokrenuti nakon instaliranja .fw datoteke.
@@ -1270,8 +1270,8 @@
     <string name="about_activity_title_generic">O Gadgetbridge</string>
     <string name="about_description_generic">Zamjena za libre bez oblaka bez kopiranja za zatvorene aplikacije za Android gadgete od dobavljača.</string>
     <string name="about_core_team_title">Osnovni tim (po redoslijedu doprinosa prvog koda)</string>
-    <string name="qhybrid_title_watchface">Konfiguracija izgleda sata</string>
-    <string name="button_watchface_select_image">Promjena pozadinske slike</string>
+    <string name="qhybrid_title_watchface">Konfiguracija brojčanika</string>
+    <string name="button_watchface_select_image">Promijeni sliku pozadine</string>
     <string name="button_watchface_add_widget">Dodaj widget</string>
     <string name="sony_equalizer_preset_bass_boost">Pojačanje basa</string>
     <string name="sony_equalizer_preset_speech">Govor</string>
@@ -1288,7 +1288,7 @@
     <string name="fossil_hr_auth_failed">Provjera autentičnosti nije uspjela, ograničena funkcionalnost</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_touch_lock">Zaključavanje dodirom</string>
-    <string name="discover_unsupported_devices_description">Omogućavanjem ove opcije prikazat će se svi otkriveni bluetooth uređaji prilikom skeniranja. Kratki dodir kopirat će naziv uređaja i mac adresu u međuspremnik. Dugi pritisak pokrenut će dijaloški okvir `Dodaj testni uređaj`.</string>
+    <string name="discover_unsupported_devices_description">Omogućavanjem ove opcije prikazat će se svi otkriveni bluetooth uređaji prilikom skeniranja. Kratki dodir kopirat će naziv uređaja i mac adresu u međuspremnik. Dugi pritisak pokrenut će dijaloški okvir `Dodaj testni uređaj`. Može prouzročiti moguće probleme zamrzavanja aplikacije.</string>
     <string name="pref_media_play">Reprodukcija</string>
     <string name="pref_media_pause">Pauza</string>
     <string name="about_hash">Uredi %s</string>
@@ -1302,7 +1302,7 @@
     <string name="activity_summaries_statistics">Statistika</string>
     <string name="sports_activity_quick_filter_this_week">Ovaj tjedan</string>
     <string name="sports_activity_quick_filter_last_week">Prethodni tjedan</string>
-    <string name="watchface_setting_display_refresh_partial">Djelomično osvježavanje (u minutama):</string>
+    <string name="watchface_setting_display_refresh_partial">Djelomično osvježavanje (u minutama)</string>
     <string name="watchface_setting_power_saving_hands">Onemogućite pokrete ruku dok su izvan zapešća</string>
     <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="nothing_prefs_inear_summary">Reproduciraj/pauziraj glazbu ovisno o tome nosiš li slušalice</string>
@@ -1535,7 +1535,7 @@
     <string name="device_unsupported">NEPODRŽANO</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
-    <string name="watchface_dialog_widget_width">Širina:</string>
+    <string name="watchface_dialog_widget_width">Širina widgeta (u pikselima)</string>
     <string name="discovery_bluetooth_scan">Bluetooth pretraga:</string>
     <string name="discovery_bluetooth_le_scan">Bluetooth LE pretraga:</string>
     <string name="sony_speak_to_chat_sensitivity_auto">Automaska</string>
@@ -1585,4 +1585,17 @@
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="appmanager_watchface_activate">Aktiviraj</string>
+    <string name="vibration_profile_default">Zadano</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Prilagođeni widget</string>
+    <string name="watchface_setting_title_custom_events">Prilagođen događaj</string>
+    <string name="watchface_setting_button_toggle_widgets">Uklj./Isklj. widgete</string>
+    <string name="zepp_os_watchface_superposition">superpozicija</string>
+    <string name="watchface_dialog_widget_cat_generic">Opće</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Widget za drugu vremensku zonu</string>
+    <string name="watchface_dialog_widget_background">Pozadina</string>
+    <string name="watchface_dialog_widget_cat_position">Položaj</string>
+    <string name="watchface_setting_button_move_hands">Pomakni kazaljke</string>
+    <string name="prefs_always_on_display_follow_watchface">Stil slijedi brojčanik</string>
+    <string name="watchface_dialog_title_widget">Postavke widgeta</string>
 </resources>

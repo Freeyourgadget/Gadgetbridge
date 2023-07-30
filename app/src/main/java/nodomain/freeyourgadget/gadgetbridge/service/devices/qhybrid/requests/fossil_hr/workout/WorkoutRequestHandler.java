@@ -53,7 +53,7 @@ public class WorkoutRequestHandler {
             addStateResponse(workoutResponse, "success", "");
             OpenTracksController.startRecording(context, activityKind);
         } else if (workoutRequest.optString("type").equals("req_distance")) {
-            long timeSecs = GBApplication.app().getOpenTracksObserver().getTimeMillisChange() / 1000;
+            long timeSecs = Math.round(GBApplication.app().getOpenTracksObserver().getTimeMillisChange() / 1000f);
             float distanceCM = GBApplication.app().getOpenTracksObserver().getDistanceMeterChange() * 100;
             LOG.info("Workout distance requested, returning " + distanceCM + " cm, " + timeSecs + " sec");
             workoutResponse.put("workoutApp._.config.gps", new JSONObject()

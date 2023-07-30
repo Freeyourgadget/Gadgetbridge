@@ -47,7 +47,7 @@ public class FossilAppWriter {
         this.mContext = context;
         if (this.mContext == null) throw new AssertionError("context cannot be null");
         this.version = version;
-        if (!this.version.matches("^[0-9]\\.[0-9]$")) throw new AssertionError("Version must be in x.x format");
+        if (!this.version.matches("^[0-9]\\.[0-9]+$")) throw new AssertionError("Version must be in x.x format");
         this.code = code;
         if (this.code.size() == 0) throw new AssertionError("At least one code file InputStream must be supplied");
         this.icons = icons;

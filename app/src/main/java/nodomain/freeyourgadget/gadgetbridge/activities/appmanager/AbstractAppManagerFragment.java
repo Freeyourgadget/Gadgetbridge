@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +49,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import androidx.core.content.FileProvider;
@@ -130,6 +135,8 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     }
 
     private void refreshListFromDevice(Intent intent) {
+        final Map<UUID, GBDeviceApp> cachedAppsMap = getCachedAppsMap(null);
+
         appList.clear();
         int appCount = intent.getIntExtra("app_count", 0);
         for (int i = 0; i < appCount; i++) {
@@ -140,19 +147,38 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i, 0)];
             Bitmap previewImage = getAppPreviewImage(uuid.toString());
 
+            // Fill out information from the cached app if missing
+            final GBDeviceApp cachedApp = cachedAppsMap.get(uuid);
+            if (cachedApp != null) {
+                if (StringUtils.isBlank(appName)) {
+                    appName = cachedApp.getName();
+                }
+                if (StringUtils.isBlank(appCreator)) {
+                    appCreator = cachedApp.getCreator();
+                }
+            } else {
+                if (StringUtils.isBlank(appName)) {
+                    // If the app does not have a name, fallback to uuid
+                    appName = uuid.toString();
+                }
+            }
+
             GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, appVersion, appType, previewImage);
             app.setOnDevice(true);
-            if ((mGBDevice.getType() == DeviceType.FOSSILQHYBRID) && (app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(appVersion))) {
-                app.setUpToDate(false);
-            }
-            try {
-                if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+            if (mGBDevice.getType() == DeviceType.FOSSILQHYBRID) {
+                if ((app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(appVersion))) {
                     app.setUpToDate(false);
                 }
-            } catch (IllegalArgumentException e) {
-                LOG.warn("App JSON: " + app.getJSON().toString());
-                LOG.warn("Couldn't read app version", e);
+                try {
+                    if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+                        app.setUpToDate(false);
+                    }
+                } catch (IllegalArgumentException e) {
+                    LOG.warn("App JSON: " + app.getJSON().toString());
+                    LOG.warn("Couldn't read app version", e);
+                }
             }
+
             if (filterApp(app)) {
                 appList.add(app);
             }
@@ -235,6 +261,15 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         }
     };
+
+    protected Map<UUID, GBDeviceApp> getCachedAppsMap(final List<UUID> uuids) {
+        final List<GBDeviceApp> cachedApps = getCachedApps(uuids);
+        final Map<UUID, GBDeviceApp> cachedAppsMap = new HashMap<>();
+        for (GBDeviceApp cachedApp : cachedApps) {
+            cachedAppsMap.put(cachedApp.getUUID(), cachedApp);
+        }
+        return cachedAppsMap;
+    }
 
     protected List<GBDeviceApp> getCachedApps(List<UUID> uuids) {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
@@ -404,7 +439,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         });
         appListView.setLayoutManager(new GridAutoFitLayoutManager(getActivity(), 300));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_appmanager_watchapp, this);
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(
+                appList,
+                R.layout.item_appmanager_watchapp,
+                this,
+                mCoordinator.supportsAppReordering() || isCacheManager()
+        );
         appListView.setAdapter(mGBDeviceAppAdapter);
 
         ItemTouchHelper.Callback appItemTouchHelperCallback = new AppItemTouchHelperCallback(mGBDeviceAppAdapter);
@@ -538,31 +578,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             LOG.warn("could not get external dir while trying to access app cache.");
             return true;
         }
-        Intent refreshIntent;
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete_cache:
-                String baseName = selectedApp.getUUID().toString();
-                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png", "_preview.png", "_bg.png"};
-                for (String suffix : suffixToDelete) {
-                    File fileToDelete = new File(appCacheDir,baseName + suffix);
-                    if (!fileToDelete.delete()) {
-                        LOG.warn("could not delete file from app cache: " + fileToDelete.toString());
-                    } else {
-                        LOG.info("deleted file: " + fileToDelete.toString());
-                    }
-                }
-                AppManagerActivity.deleteFromAppOrderFile(getSortFilename(), selectedApp.getUUID()); // FIXME: only if successful
-                refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
-                // fall through
+                deleteAppConfirm(selectedApp, true);
+                return true;
             case R.id.appmanager_app_delete:
-                if (mCoordinator.supportsAppReordering()) {
-                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
-                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
-                    refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
-                }
-                GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+                deleteAppConfirm(selectedApp, false);
                 return true;
             case R.id.appmanager_app_start:
             case R.id.appmanager_watchface_activate:
@@ -637,6 +658,80 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void deleteAppConfirm(final GBDeviceApp selectedApp, final boolean deleteFromCache) {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.Delete)
+                .setMessage(requireContext().getString(R.string.contact_delete_confirm_description, selectedApp.getName()))
+                .setIcon(R.drawable.ic_warning)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if (deleteFromCache) {
+                        deleteAppFromCache(selectedApp);
+                    }
+                    deleteAppFromDevice(selectedApp);
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void deleteAppFromCache(final GBDeviceApp selectedApp) {
+        final File appCacheDir;
+        try {
+            appCacheDir = mCoordinator.getAppCacheDir();
+        } catch (final IOException e) {
+            LOG.warn("Could not get external dir while trying to access app cache", e);
+            return;
+        }
+
+        String baseName = selectedApp.getUUID().toString();
+        String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png", "_preview.png", "_bg.png"};
+        for (String suffix : suffixToDelete) {
+            File fileToDelete = new File(appCacheDir, baseName + suffix);
+            if (!fileToDelete.delete()) {
+                LOG.warn("Could not delete file from app cache: {}", fileToDelete);
+            } else {
+                LOG.debug("Deleted from app cache: {}", fileToDelete);
+            }
+        }
+        AppManagerActivity.deleteFromAppOrderFile(getSortFilename(), selectedApp.getUUID()); // FIXME: only if successful
+        Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(refreshIntent);
+    }
+
+    private void deleteAppFromDevice(final GBDeviceApp selectedApp) {
+        if (mCoordinator.supportsAppReordering()) {
+            AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
+            AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
+            Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(refreshIntent);
+        }
+
+        GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+    }
+
+    /**
+     * Sort an app list by the UUIDs in the sort filename.
+     *
+     * @param appList the app list to sort in-place
+     */
+    protected void sortAppList(final List<GBDeviceApp> appList) {
+        final ArrayList<UUID> uuids = AppManagerActivity.getUuidsFromFile(getSortFilename());
+        final Map<UUID, Integer> uuidPosMap = new HashMap<>();
+        for (int i = 0; i < uuids.size(); i++) {
+            uuidPosMap.put(uuids.get(i), i);
+        }
+
+        Collections.sort(appList, (a1, a2) -> {
+            final Integer pos1 = uuidPosMap.get(a1.getUUID());
+            final Integer pos2 = uuidPosMap.get(a2.getUUID());
+
+            if (pos1 != null && pos2 != null) return Integer.compare(pos1, pos2);
+            if (pos1 == null && pos2 == null) return a1.getName().compareToIgnoreCase(a2.getName());
+            if (pos1 != null) return -1;
+
+            return 1;
+        });
     }
 
     @Override

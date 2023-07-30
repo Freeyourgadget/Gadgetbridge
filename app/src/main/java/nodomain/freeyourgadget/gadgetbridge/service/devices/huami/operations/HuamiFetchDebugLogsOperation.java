@@ -32,6 +32,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -47,6 +49,11 @@ public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
     public HuamiFetchDebugLogsOperation(HuamiSupport support) {
         super(support);
         setName("fetch debug logs");
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_debug_logs);
     }
 
     @Override
@@ -121,7 +128,7 @@ public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
     protected void bufferActivityData(@NonNull byte[] value) {
         try {
             logOutputStream.write(value, 1, value.length - 1);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.warn("could not write to output stream", e);
             handleActivityFetchFinish(false);
         }

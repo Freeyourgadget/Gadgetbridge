@@ -42,6 +42,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
@@ -66,6 +67,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_WATCHFACE, handler, prefs);
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE, handler, prefs);
 
         for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {
             if (config.getPrefKey() == null) {
@@ -198,6 +200,9 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // Hides the headers if none of the preferences under them are available
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_APPS, Arrays.asList(
+                LoyaltyCardsSettingsConst.PREF_KEY_LOYALTY_CARDS
+        ));
         hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_TIME, Arrays.asList(
                 DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
                 DeviceSettingsPreferenceConst.PREF_DATEFORMAT,
@@ -361,10 +366,16 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         // Notify preference changed on button click, so we can react to them
         final List<Preference> wifiFtpButtons = Arrays.asList(
                 handler.findPreference(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR),
+                handler.findPreference(DeviceSettingsPreferenceConst.PREF_APP_LOGS_START),
+                handler.findPreference(DeviceSettingsPreferenceConst.PREF_APP_LOGS_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_START),
-                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STOP)
+                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STOP),
+                // TODO: These are temporary for debugging and will be removed
+                handler.findPreference("zepp_os_alexa_btn_trigger"),
+                handler.findPreference("zepp_os_alexa_btn_send_simple"),
+                handler.findPreference("zepp_os_alexa_btn_send_complex")
         );
 
         for (final Preference btn : wifiFtpButtons) {

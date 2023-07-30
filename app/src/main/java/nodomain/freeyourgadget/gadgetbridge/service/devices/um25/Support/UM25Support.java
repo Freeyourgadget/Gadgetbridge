@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Data.CaptureGroup;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Data.MeasurementData;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class UM25Support extends UM25BaseSupport {
@@ -194,7 +195,7 @@ public class UM25Support extends UM25BaseSupport {
                     .setSmallIcon(R.drawable.ic_notification_low_battery)
                     .setContentTitle("USB current")
                     .setContentText("USB current below threshold")
-                    .setContentIntent(PendingIntent.getActivity(getContext(), 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+                    .setContentIntent(PendingIntentUtils.getActivity(getContext(), 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT, false))
                     .build();
 
             GB.notify(

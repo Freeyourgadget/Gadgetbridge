@@ -36,11 +36,13 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFi
 public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMiBandFWInstallHandler.class);
 
+    protected final Uri mUri;
     protected final Context mContext;
     protected AbstractMiBandFWHelper helper;
     private String errorMessage;
 
     public AbstractMiBandFWInstallHandler(Uri uri, Context context) {
+        mUri = uri;
         mContext = context;
 
         try {
@@ -49,6 +51,10 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             errorMessage = e.getMessage();
             LOG.warn(errorMessage, e);
         }
+    }
+
+    public Uri getUri() {
+        return mUri;
     }
 
     public Context getContext() {
@@ -77,7 +83,11 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
-        if (!isSupportedDeviceType(device) || !device.isInitialized()) {
+        if (!isSupportedDeviceType(device)) {
+            installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
+            installActivity.setInstallEnabled(false);
+            return;
+        } else if (!device.isInitialized()) {
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_ready));
             installActivity.setInstallEnabled(false);
             return;
@@ -101,7 +111,7 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
         StringBuilder builder = new StringBuilder();
-        if (helper.getFirmwareType() != WATCHFACE && helper.getFirmwareType() != AGPS_UIHH) {
+        if (!helper.getFirmwareType().isWatchface() && !helper.getFirmwareType().isApp() && helper.getFirmwareType() != AGPS_UIHH) {
             if (helper.isSingleFirmware()) {
                 builder.append(getFwUpgradeNotice());
             } else {
@@ -120,6 +130,9 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
                 // TODO: set a UNKNOWN (question mark) button
             }
         }
+
+        installActivity.setPreview(helper.getPreview());
+
         installActivity.setInfoText(builder.toString());
         installActivity.setInstallItem(fwItem);
         installActivity.setInstallEnabled(true);

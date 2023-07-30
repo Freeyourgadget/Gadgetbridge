@@ -56,7 +56,8 @@ public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.AudioUpsampling,
                 SonyHeadphonesCapabilities.TouchSensorSingle,
                 SonyHeadphonesCapabilities.AutomaticPowerOffByTime,
-                SonyHeadphonesCapabilities.VoiceNotifications
+                SonyHeadphonesCapabilities.VoiceNotifications,
+                SonyHeadphonesCapabilities.Volume
         );
     }
 }

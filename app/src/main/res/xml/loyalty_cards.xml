@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_header_loyalty_cards_catima"
+        android:title="@string/loyalty_cards_catima">
+
+        <ListPreference
+            android:defaultValue="me.hackerchick.catima"
+            android:entries="@array/pref_huami2021_empty_array"
+            android:entryValues="@array/pref_huami2021_empty_array"
+            android:key="loyalty_cards_catima_package"
+            android:summary="%s"
+            android:title="@string/loyalty_cards_catima_package" />
+
+        <Preference
+            android:icon="@drawable/ic_loyalty"
+            android:key="loyalty_cards_open_catima"
+            android:title="@string/loyalty_cards_open_catima" />
+
+        <Preference
+            android:icon="@drawable/ic_warning_gray"
+            android:key="loyalty_cards_catima_not_installed"
+            android:summary="@string/loyalty_cards_catima_not_installed" />
+
+        <Preference
+            android:icon="@drawable/ic_warning_gray"
+            android:key="loyalty_cards_catima_not_compatible"
+            android:summary="@string/loyalty_cards_catima_not_compatible" />
+
+        <Preference
+            android:icon="@drawable/ic_loyalty"
+            android:key="loyalty_cards_install_catima"
+            android:title="@string/loyalty_cards_install" />
+
+        <Preference
+            android:icon="@drawable/ic_warning_gray"
+            android:key="loyalty_cards_catima_permissions"
+            android:summary="@string/loyalty_cards_catima_permissions_summary"
+            android:title="@string/loyalty_cards_catima_permissions_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_header_loyalty_cards_sync"
+        android:title="@string/loyalty_cards_sync">
+
+        <Preference
+            android:icon="@drawable/ic_refresh"
+            android:key="loyalty_cards_sync"
+            android:summary="@string/loyalty_cards_sync_summary"
+            android:title="@string/loyalty_cards_sync_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_header_loyalty_cards_sync_options"
+        android:title="@string/loyalty_cards_sync_options">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_list_numbered"
+            android:key="loyalty_cards_sync_groups_only"
+            android:title="@string/loyalty_cards_sync_groups_only" />
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/pref_huami2021_empty_array"
+            android:dependency="loyalty_cards_sync_groups_only"
+            android:dialogTitle="@string/loyalty_cards_sync_groups"
+            android:entries="@array/pref_huami2021_empty_array"
+            android:entryValues="@array/pref_huami2021_empty_array"
+            android:icon="@drawable/ic_checklist"
+            android:key="loyalty_cards_sync_groups"
+            android:summary=""
+            android:title="@string/loyalty_cards_sync_groups" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_archive"
+            android:key="loyalty_cards_sync_archived"
+            android:title="@string/loyalty_cards_sync_archived" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_star_gray"
+            android:key="loyalty_cards_sync_starred"
+            android:title="@string/loyalty_cards_sync_starred" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

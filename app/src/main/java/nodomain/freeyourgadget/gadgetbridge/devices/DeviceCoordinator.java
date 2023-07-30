@@ -323,7 +323,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    int getAlarmSlotCount();
+    int getAlarmSlotCount(GBDevice device);
 
     /**
      * Returns true if this device/coordinator supports alarms with smart wakeup
@@ -364,7 +364,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    boolean supportsAppsManagement();
+    boolean supportsAppsManagement(GBDevice device);
 
     /**
      * Returns the Activity class that will be used to manage device apps.

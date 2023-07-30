@@ -6,13 +6,13 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.LoggerFactory;
-
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -21,7 +21,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.R;
 public class MiBand6Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand6Coordinator.class);
     @NonNull
@@ -72,6 +71,16 @@ public class MiBand6Coordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsPai() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsStressMeasurement() {
         return true;
     }
 

@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.75.1" versioncode="224">
+        <change>Fix Weather Notification integration</change>
+    </release>
+    <release version="0.75.0" versioncode="223">
+        <change>Bangle.js: Add message size limitation to Calendar and Messages</change>
+        <change>Bangle.js: Add switch to control if the GPS chip should be used to locate the location</change>
+        <change>Bangle.js: Send more weather data to watch</change>
+        <change>Bangle.js: Allow an activity sample to have a timestamp</change>
+        <change>Bangle.js: Send last received activity timestamp on connect (to allow sync of activity samples)</change>
+        <change>Bangle.js: Allow connecting HW keyboard without closing app loader</change>
+        <change>Bangle.js: Bump flavor target SDK version to 31</change>
+        <change>Bangle.js: Fix convertion of emoji/unicode to bitmap without width/height</change>
+        <change>Bangle.js: Fix location listener not being cleaned up when waiting for reconnect</change>
+        <change>Bangle.js: Fix memory leak from HTTP requests</change>
+        <change>Bangle.js: Fix orientation changes closing app loader</change>
+        <change>Bangle.js: Fix return to applications management activity after having opened another window</change>
+        <change>Bangle.js: Set default value for GPS event interval to 1 second</change>
+        <change>Bangle.js: Support navigation instructions</change>
+        <change>Bangle.js: Escape characters that fall in the Unicode codepoint area (for Espruino ~2v18.20 and later)</change>
+        <change>Bangle.js: HTTP request XPath can now return Arrays</change>
+        <change>Fossil/Skagen Hybrids: Add support for ultraviolet index and rain probability</change>
+        <change>Fossil/Skagen Hybrids: Add UV index and chance of rain widgets</change>
+        <change>Fossil/Skagen Hybrids: Allow launching the calibration activity on any Gadgetbridge variant</change>
+        <change>Fossil/Skagen Hybrids: Increase accuracy of workout distance calculation</change>
+        <change>Fossil/Skagen Hybrids: Fix weather icons day/night status</change>
+        <change>InfiniTime: Fix weather expiry time</change>
+        <change>InfiniTime: Support navigation instructions</change>
+        <change>Mi Band 6: Allow making device discoverable via Bluetooth when connected</change>
+        <change>Mi Band 7: Add preference to display call contact information</change>
+        <change>Zepp OS: Add gpx route file upload</change>
+        <change>Zepp OS: Add screenshot support</change>
+        <change>Zepp OS: Add stress charts</change>
+        <change>Zepp OS: Add watch app logs developer option</change>
+        <change>Zepp OS: Display watchface and app preview on install</change>
+        <change>Zepp OS: Fix update operations on Zepp OS 2.1+</change>
+        <change>Zepp OS: Manage contacts on watch</change>
+        <change>Zepp OS: Start new GPX segments on pause/resume</change>
+        <change>Zepp OS: Support flashing zab files</change>
+        <change>App Manager: Fix cached apps sorting</change>
+        <change>App Manager: Hide drag handle if app reorder is not supported</change>
+        <change>App Manager: Add confirmation before deleting app</change>
+        <change>Add menus to share GPX, raw summary, raw details</change>
+        <change>Debug Activity: Allow pairing current device as companion</change>
+        <change>Fix some null pointer exception crashes</change>
+        <change>Intent API: Add command to set device mac address</change>
+        <change>Intent API: Add dataTypes parameter for activity sync</change>
+        <change>Intent API: Add debug actions for notifications and incoming calls</change>
+        <change>OsmAnd: Add support for navigation instructions</change>
+        <change>Scrape navigation instructions from Google Maps notifications</change>
+        <change>Fix lag when a folder has a lot of devices</change>
+        <change>Fix transliteration returning non-ASCII characters</change>
+        <change>Enable "allow high MTU" setting by default</change>
+        <change>Make some hardcoded english strings translatable</change>
+    </release>
     <release version="0.74.0" versioncode="222">
         <change>Initial support for Amazfit GTR 3 Pro</change>
         <change>Initial support for Sony WH-1000XM5</change>

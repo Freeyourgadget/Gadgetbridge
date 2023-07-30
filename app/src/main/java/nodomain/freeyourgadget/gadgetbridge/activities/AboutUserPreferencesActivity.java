@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
-    vanous
+/*  Copyright (C) 2015-2023 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
+    vanous, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -32,50 +32,88 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 
-public class AboutUserPreferencesActivity extends AbstractSettingsActivity {
+public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.about_user);
-        addPreferenceHandlerFor(PREF_USER_NAME);
-        addPreferenceHandlerFor(PREF_USER_YEAR_OF_BIRTH);
-        addPreferenceHandlerFor(PREF_USER_HEIGHT_CM);
-        addPreferenceHandlerFor(PREF_USER_WEIGHT_KG);
-        addPreferenceHandlerFor(PREF_USER_GENDER);
-        addPreferenceHandlerFor(PREF_USER_STEPS_GOAL);
-        addPreferenceHandlerFor(PREF_USER_GOAL_WEIGHT_KG);
-        addPreferenceHandlerFor(PREF_USER_GOAL_STANDING_TIME_HOURS);
-        addPreferenceHandlerFor(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES);
-
-        addIntentNotificationListener(PREF_USER_STEPS_GOAL);
-        addIntentNotificationListener(PREF_USER_HEIGHT_CM);
-        addIntentNotificationListener(PREF_USER_SLEEP_DURATION);
-        addIntentNotificationListener(PREF_USER_STEP_LENGTH_CM);
-        addIntentNotificationListener(PREF_USER_DISTANCE_METERS);
-        addIntentNotificationListener(PREF_USER_GOAL_WEIGHT_KG);
-        addIntentNotificationListener(PREF_USER_GOAL_STANDING_TIME_HOURS);
-        addIntentNotificationListener(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES);
+    protected String fragmentTag() {
+        return AboutUserPreferencesFragment.FRAGMENT_TAG;
     }
 
     @Override
-    protected String[] getPreferenceKeysWithSummary() {
-        return new String[]{
-                PREF_USER_YEAR_OF_BIRTH,
-                PREF_USER_HEIGHT_CM,
-                PREF_USER_WEIGHT_KG,
-                PREF_USER_SLEEP_DURATION,
-                PREF_USER_STEPS_GOAL,
-                PREF_USER_STEP_LENGTH_CM,
-                PREF_USER_ACTIVETIME_MINUTES,
-                PREF_USER_CALORIES_BURNT,
-                PREF_USER_DISTANCE_METERS,
-                PREF_USER_GOAL_WEIGHT_KG,
-                PREF_USER_GOAL_STANDING_TIME_HOURS,
-                PREF_USER_GOAL_FAT_BURN_TIME_MINUTES
-        };
+    protected PreferenceFragmentCompat newFragment() {
+        return new AboutUserPreferencesFragment();
+    }
+
+    public static class AboutUserPreferencesFragment extends AbstractPreferenceFragment {
+        static final String FRAGMENT_TAG = "ABOUT_USER_PREFERENCES_FRAGMENT";
+
+        @Override
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
+            setPreferencesFromResource(R.xml.about_user, rootKey);
+
+            addPreferenceHandlerFor(PREF_USER_NAME, true, false);
+            addPreferenceHandlerFor(PREF_USER_YEAR_OF_BIRTH, true, false);
+            addPreferenceHandlerFor(PREF_USER_HEIGHT_CM, true, true);
+            addPreferenceHandlerFor(PREF_USER_WEIGHT_KG, true, false);
+            addPreferenceHandlerFor(PREF_USER_GENDER, true, false);
+            addPreferenceHandlerFor(PREF_USER_STEPS_GOAL, true, true);
+            addPreferenceHandlerFor(PREF_USER_GOAL_WEIGHT_KG, true, true);
+            addPreferenceHandlerFor(PREF_USER_GOAL_STANDING_TIME_HOURS, true, true);
+            addPreferenceHandlerFor(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES, true, true);
+            addPreferenceHandlerFor(PREF_USER_SLEEP_DURATION, false, true);
+            addPreferenceHandlerFor(PREF_USER_STEP_LENGTH_CM, false, true);
+            addPreferenceHandlerFor(PREF_USER_DISTANCE_METERS, false, true);
+
+            setInputTypeFor(PREF_USER_YEAR_OF_BIRTH, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_HEIGHT_CM, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_WEIGHT_KG, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_STEPS_GOAL, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_GOAL_WEIGHT_KG, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_GOAL_STANDING_TIME_HOURS, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_SLEEP_DURATION, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_CALORIES_BURNT, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_ACTIVETIME_MINUTES, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_STEP_LENGTH_CM, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(PREF_USER_DISTANCE_METERS, InputType.TYPE_CLASS_NUMBER);
+        }
+
+        /**
+         * @param prefKey           the pref key that chagned
+         * @param sendToDevice      notify all device support classes of the preference change
+         * @param refreshDeviceList Ensure that the Control center is re-rendered when user preferences change
+         */
+        private void addPreferenceHandlerFor(final String prefKey,
+                                             final boolean sendToDevice,
+                                             final boolean refreshDeviceList) {
+            final Preference pref = findPreference(prefKey);
+            if (pref == null) {
+                LOG.warn("Could not find preference {}", prefKey);
+                return;
+            }
+
+            pref.setOnPreferenceChangeListener((preference, newVal) -> {
+                if (sendToDevice) {
+                    GBApplication.deviceService().onSendConfiguration(prefKey);
+                }
+                if (refreshDeviceList) {
+                    final Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                    LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).sendBroadcast(refreshIntent);
+                    return true;
+                }
+                return true;
+            });
+        }
     }
 }
