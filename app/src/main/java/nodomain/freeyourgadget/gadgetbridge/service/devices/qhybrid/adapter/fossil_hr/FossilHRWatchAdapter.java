@@ -1754,6 +1754,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 // logger.info(jsonString);
                 JSONObject requestJson = new JSONObject(jsonString);
 
+                if(!requestJson.has("req")){
+                    return;
+                }
+
                 JSONObject request = requestJson.getJSONObject("req");
                 int requestId = request.getInt("id");
 
