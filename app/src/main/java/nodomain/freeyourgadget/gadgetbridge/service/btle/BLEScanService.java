@@ -121,10 +121,15 @@ public class BLEScanService extends Service {
             restartScan(true);
         }
 
-        scheduleRestartScan();
+        // schedule after 5 seconds to fix weird timing of both services
+        scheduleRestartScan(5000);
     }
 
     private void scheduleRestartScan(){
+        scheduleRestartScan(DELAY_SCAN_RESTART);
+    }
+
+    private void scheduleRestartScan(long millis){
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             LOG.debug("restarting scan...");
@@ -134,7 +139,7 @@ public class BLEScanService extends Service {
                 LOG.error("error during scheduled scan restart", e);
             }
             scheduleRestartScan();
-        }, DELAY_SCAN_RESTART);
+        }, millis);
     }
 
     @Override
