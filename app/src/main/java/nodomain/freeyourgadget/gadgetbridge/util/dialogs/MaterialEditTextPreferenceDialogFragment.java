@@ -18,17 +18,21 @@
 
 package nodomain.freeyourgadget.gadgetbridge.util.dialogs;
 
-import static androidx.annotation.RestrictTo.Scope.LIBRARY;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RestrictTo;
 import androidx.preference.EditTextPreference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class MaterialEditTextPreferenceDialogFragment extends MaterialPreferenceDialogFragment {
+    private static final Logger LOG = LoggerFactory.getLogger(MaterialEditTextPreferenceDialogFragment.class);
 
     private static final String SAVE_STATE_TEXT = "EditTextPreferenceDialogFragment.text";
 
@@ -76,9 +80,18 @@ public class MaterialEditTextPreferenceDialogFragment extends MaterialPreference
         mEditText.setText(mText);
         // Place cursor at the end
         mEditText.setSelection(mEditText.getText().length());
-//        if (getEditTextPreference().getOnBindEditTextListener() != null) {
-//            getEditTextPreference().getOnBindEditTextListener().onBindEditText(mEditText);
-//        }
+        // Use reflection to be able to call EditTextPreference.getOnBindEditTextListener(), which is package-private
+        Method getOnBindEditTextListener = null;
+        try {
+            getOnBindEditTextListener = EditTextPreference.class.getDeclaredMethod("getOnBindEditTextListener");
+            getOnBindEditTextListener.setAccessible(true);
+            EditTextPreference.OnBindEditTextListener listener = (EditTextPreference.OnBindEditTextListener) getOnBindEditTextListener.invoke(getEditTextPreference());
+            if (listener != null) {
+                listener.onBindEditText(mEditText);
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            LOG.error("Error when using reflection to access EditTextPreference.getOnBindEditTextListener()", e);
+        }
     }
 
     private EditTextPreference getEditTextPreference() {
@@ -86,7 +99,6 @@ public class MaterialEditTextPreferenceDialogFragment extends MaterialPreference
     }
 
     /** @hide */
-    @RestrictTo(LIBRARY)
     @Override
     protected boolean needInputMethod() {
         // We want the input method to show, if possible, when dialog is displayed
