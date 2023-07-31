@@ -56,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text="&lt;&lt;&lt;" />
 
             <Button
@@ -63,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text="&lt;&lt;" />
 
             <Button
@@ -70,6 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text="&lt;" />
             
             <Button
@@ -77,12 +80,14 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text=">" />
             <Button
                 android:id="@+id/charts_next_week"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text=">>" />
 
             <Button
@@ -90,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:text=">>>" />
 
         </LinearLayout>
