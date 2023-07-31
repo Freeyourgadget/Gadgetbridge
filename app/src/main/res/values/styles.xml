@@ -17,6 +17,7 @@
         <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
+        <item name="cardview_background_color">@color/cardview_light_background</item>
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_light</item>
@@ -42,6 +43,7 @@
         <item name="actionBarStyle">@style/GadgetbridgeTheme.RedActionBar</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
+        <item name="cardview_background_color">@color/cardview_dark_background</item>
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_dark</item>
@@ -63,6 +65,7 @@
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
+        <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
@@ -70,6 +73,7 @@
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
+        <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
