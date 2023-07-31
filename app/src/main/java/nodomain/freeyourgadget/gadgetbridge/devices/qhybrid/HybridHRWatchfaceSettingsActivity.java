@@ -18,17 +18,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MenuItem;
+
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
-import android.view.MenuItem;
-
-import androidx.fragment.app.Fragment;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 
@@ -88,59 +87,64 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.fossil_hr_watchface_settings, rootKey);
 
-            EditTextPreference refresh_full = (EditTextPreference) findPreference("pref_hybridhr_watchface_refresh_full");
+            EditTextPreference refresh_full = findPreference("pref_hybridhr_watchface_refresh_full");
             refresh_full.setOnPreferenceChangeListener(this);
             refresh_full.setText(Integer.toString(settings.getDisplayTimeoutFull()));
             refresh_full.setSummary(Integer.toString(settings.getDisplayTimeoutFull()));
+            setInputTypeFor("pref_hybridhr_watchface_refresh_full", InputType.TYPE_CLASS_NUMBER);
 
-            EditTextPreference refresh_partial = (EditTextPreference) findPreference("pref_hybridhr_watchface_refresh_partial");
+            EditTextPreference refresh_partial = findPreference("pref_hybridhr_watchface_refresh_partial");
             refresh_partial.setOnPreferenceChangeListener(this);
             refresh_partial.setText(Integer.toString(settings.getDisplayTimeoutPartial()));
             refresh_partial.setSummary(Integer.toString(settings.getDisplayTimeoutPartial()));
+            setInputTypeFor("pref_hybridhr_watchface_refresh_partial", InputType.TYPE_CLASS_NUMBER);
 
-            SwitchPreference wrist_flick_relative = (SwitchPreference) findPreference("pref_hybridhr_watchface_wrist_flick_relative");
+            SwitchPreference wrist_flick_relative = findPreference("pref_hybridhr_watchface_wrist_flick_relative");
             wrist_flick_relative.setOnPreferenceChangeListener(this);
             wrist_flick_relative.setChecked(settings.isWristFlickHandsMoveRelative());
 
-            EditTextPreference wrist_flick_hour_hand = (EditTextPreference) findPreference("pref_hybridhr_watchface_wrist_flick_hour_hand");
+            EditTextPreference wrist_flick_hour_hand = findPreference("pref_hybridhr_watchface_wrist_flick_hour_hand");
             wrist_flick_hour_hand.setOnPreferenceChangeListener(this);
             wrist_flick_hour_hand.setText(Integer.toString(settings.getWristFlickMoveHour()));
             wrist_flick_hour_hand.setSummary(Integer.toString(settings.getWristFlickMoveHour()));
+            setInputTypeFor("pref_hybridhr_watchface_wrist_flick_hour_hand", InputType.TYPE_CLASS_NUMBER);
 
-            EditTextPreference wrist_flick_minute_hand = (EditTextPreference) findPreference("pref_hybridhr_watchface_wrist_flick_minute_hand");
+            EditTextPreference wrist_flick_minute_hand = findPreference("pref_hybridhr_watchface_wrist_flick_minute_hand");
             wrist_flick_minute_hand.setOnPreferenceChangeListener(this);
             wrist_flick_minute_hand.setText(Integer.toString(settings.getWristFlickMoveMinute()));
             wrist_flick_minute_hand.setSummary(Integer.toString(settings.getWristFlickMoveMinute()));
+            setInputTypeFor("pref_hybridhr_watchface_wrist_flick_minute_hand", InputType.TYPE_CLASS_NUMBER);
 
-            EditTextPreference wrist_flick_duration = (EditTextPreference) findPreference("pref_hybridhr_watchface_wrist_flick_duration");
+            EditTextPreference wrist_flick_duration = findPreference("pref_hybridhr_watchface_wrist_flick_duration");
             wrist_flick_duration.setOnPreferenceChangeListener(this);
             wrist_flick_duration.setText(Integer.toString(settings.getWristFlickDuration()));
             wrist_flick_duration.setSummary(Integer.toString(settings.getWristFlickDuration()));
+            setInputTypeFor("pref_hybridhr_watchface_wrist_flick_duration", InputType.TYPE_CLASS_NUMBER);
 
-            ListPreference toggle_widgets = (ListPreference) findPreference("pref_hybridhr_watchface_toggle_widgets");
+            ListPreference toggle_widgets = findPreference("pref_hybridhr_watchface_toggle_widgets");
             toggle_widgets.setOnPreferenceChangeListener(this);
             toggle_widgets.setValue(settings.getToggleWidgetsEvent());
             toggle_widgets.setSummary(toggle_widgets.getEntry());
 
-            ListPreference toggle_backlight = (ListPreference) findPreference("pref_hybridhr_watchface_toggle_backlight");
+            ListPreference toggle_backlight = findPreference("pref_hybridhr_watchface_toggle_backlight");
             toggle_backlight.setOnPreferenceChangeListener(this);
             toggle_backlight.setValue(settings.getToggleBacklightEvent());
             toggle_backlight.setSummary(toggle_backlight.getEntry());
 
-            ListPreference move_hands = (ListPreference) findPreference("pref_hybridhr_watchface_move_hands");
+            ListPreference move_hands = findPreference("pref_hybridhr_watchface_move_hands");
             move_hands.setOnPreferenceChangeListener(this);
             move_hands.setValue(settings.getMoveHandsEvent());
             move_hands.setSummary(move_hands.getEntry());
 
-            SwitchPreference power_saving_display = (SwitchPreference) findPreference("pref_hybridhr_watchface_power_saving_display");
+            SwitchPreference power_saving_display = findPreference("pref_hybridhr_watchface_power_saving_display");
             power_saving_display.setOnPreferenceChangeListener(this);
             power_saving_display.setChecked(settings.getPowersaveDisplay());
 
-            SwitchPreference power_saving_hands = (SwitchPreference) findPreference("pref_hybridhr_watchface_power_saving_hands");
+            SwitchPreference power_saving_hands = findPreference("pref_hybridhr_watchface_power_saving_hands");
             power_saving_hands.setOnPreferenceChangeListener(this);
             power_saving_hands.setChecked(settings.getPowersaveHands());
 
-            SwitchPreference light_up_on_notification = (SwitchPreference) findPreference("pref_hybridhr_watchface_light_up_on_notification");
+            SwitchPreference light_up_on_notification = findPreference("pref_hybridhr_watchface_light_up_on_notification");
             light_up_on_notification.setOnPreferenceChangeListener(this);
             light_up_on_notification.setChecked(settings.getLightUpOnNotification());
         }
