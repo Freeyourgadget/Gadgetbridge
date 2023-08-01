@@ -25,9 +25,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.SimpleDateFormat;
@@ -132,7 +132,7 @@ public class GBReminderListAdapter extends RecyclerView.Adapter<GBReminderListAd
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final CardView container;
+        final MaterialCardView container;
 
         final TextView reminderTime;
         final TextView reminderMessage;

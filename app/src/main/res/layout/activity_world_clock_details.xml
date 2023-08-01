@@ -8,17 +8,17 @@
     android:orientation="vertical"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.WorldClockDetails">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_enabled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="3dp"
         card_view:contentPadding="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,19 +32,19 @@
                 android:layout_height="match_parent"
                 android:text="@string/function_enabled" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_timezone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_enabled"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="3dp"
         card_view:contentPadding="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,19 +71,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_timezone" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_timezone"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="3dp"
         card_view:contentPadding="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,19 +109,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_message" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_label"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="3dp"
         card_view:contentPadding="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,7 +147,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_code" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_save"

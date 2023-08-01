@@ -25,9 +25,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.DateFormat;
@@ -113,7 +113,7 @@ public class GBWorldClockListAdapter extends RecyclerView.Adapter<GBWorldClockLi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final CardView container;
+        final MaterialCardView container;
 
         final TextView worldClockTimezone;
         final TextView worldClockLabel;
