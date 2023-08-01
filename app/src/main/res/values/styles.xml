@@ -17,6 +17,7 @@
         <item name="actionBarStyle">@style/GadgetbridgeTheme.RedActionBar</item>
         <item name="drawerArrowStyle">@style/GadgetbridgeTheme.DrawerButtonStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
+        <item name="actionOverflowButtonStyle">@style/GadgetbridgeTheme.OverflowMenuButton</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="drawer_title_color">@android:color/white</item>
@@ -49,6 +50,7 @@
         <item name="actionBarStyle">@style/GadgetbridgeTheme.RedActionBar</item>
         <item name="drawerArrowStyle">@style/GadgetbridgeTheme.DrawerButtonStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
+        <item name="actionOverflowButtonStyle">@style/GadgetbridgeTheme.OverflowMenuButton</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="drawer_title_color">@android:color/white</item>
@@ -133,6 +135,9 @@
         <item name="color">@android:color/white</item>
     </style>
     <style name="GadgetbridgeTheme.NavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">@android:color/white</item>
+    </style>
+    <style name="GadgetbridgeTheme.OverflowMenuButton" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="tint">@android:color/white</item>
     </style>
     <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.Material3.DynamicColors.DayNight" />

@@ -6,12 +6,14 @@
         android:id="@+id/activity_action_filter"
         android:icon="@drawable/ic_filter_alt"
         android:title="@string/pref_header_filter"
+        app:iconTint="?attr/actionmenu_icon_color"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/overflowMenu"
         android:icon="@drawable/ic_menu"
         android:title="@string/menuitem_more"
+        app:iconTint="?attr/actionmenu_icon_color"
         app:showAsAction="always">
 
         <menu>
