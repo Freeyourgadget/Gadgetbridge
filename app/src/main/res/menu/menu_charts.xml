@@ -4,12 +4,16 @@
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity">
     <item
         android:id="@+id/charts_fetch_activity_data"
-        app:showAsAction="ifRoom"
+        android:title="@string/controlcenter_fetch_activity_data"
         android:icon="@drawable/ic_refresh"
-        android:title="@string/controlcenter_fetch_activity_data"/>
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/prefs_charts_menu"
-        android:icon="@drawable/ic_settings"
         android:title="@string/pref_header_charts"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_settings"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="ifRoom"
+        />
 </menu>
