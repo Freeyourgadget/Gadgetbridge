@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
+        android:textColor="?attr/drawer_title_color"
         android:text="@string/app_name" />
 
 </LinearLayout>

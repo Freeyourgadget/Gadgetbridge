@@ -5,6 +5,7 @@
     <attr name="textColorTertiary" format="color" />
 
     <attr name="drawer_header_color" format="color" />
+    <attr name="drawer_title_color" format="color" />
     <attr name="cardview_background_color" format="color" />
 
     <attr name="chart_deep_sleep" format="color" />
