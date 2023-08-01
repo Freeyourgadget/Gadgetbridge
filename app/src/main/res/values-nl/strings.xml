@@ -1779,7 +1779,7 @@
     <string name="hybridhr_widget_bg_thin_circle">Dunne cirkel</string>
     <string name="hybridhr_widget_bg_dashed_circle">Gestreepte cirkel</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Tekstafbeeldingsgrootte</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Als \'Tekst als afbeelding\' ingeschakeld is, op welke grootte moet de tekst worden afgebeeld\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Grootte die moet worden gebruikt voor bitmaptekstweergave</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2e tijdzone-widget</string>
     <string name="watchface_dialog_title_widget">Widget-instellingen</string>
     <string name="watchface_dialog_widget_background">Achtergrond</string>
@@ -2252,11 +2252,11 @@
     <string name="stress_mild">Mild</string>
     <string name="stress_moderate">Matig</string>
     <string name="stress_high">Hoog</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Deze optie is alleen actief als de GPS-gegevens van de telefoon worden gebruikt. Deze optie kan worden gebruikt om alleen de netwerkprovider te gebruiken om de locatie te bepalen. Dit vermindert het stroomverbruik ten koste van de nauwkeurigheid. Het apparaat moet opnieuw worden verbonden.</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Update-interval GPS-gegevens in ms</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Gebruik alleen de netwerkprovider om de locatie te bepalen. Dit vermindert het stroomverbruik ten koste van de nauwkeurigheid. Opnieuw verbinden is benodigd.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Update-interval GPS-gegevens</string>
     <string name="action_changelog">Wijzigingenlijst</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Gebruik GPS-gegevens van telefoon</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Deze optie is alleen actief als de GPS-gegevens van de telefoon worden gebruikt. Deze optie stelt het interval in ms in hoe vaak de GPS-positie wordt bijgewerkt</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Het interval voor hoe vaak de gps-positie wordt bijgewerkt, in ms</string>
     <string name="pref_title_banglejs_phone_gps_network_only">Gebruik alleen het netwerk om de locatie te bepalen</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Gebruik de GPS-gegevens van de telefoon om de GPS-gegevens van het Bangle-apparaat te overschrijven</string>
     <string name="changelog_title">Wat is er nieuw</string>
@@ -2306,4 +2306,37 @@
     <string name="busy_task_fetch_hr_data">Hartslaggegevens ophalen</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="activity_prefs_goals">Doelen</string>
+    <string name="activity_type_windsurfing">Windsurfen</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_baseball">Honkbal</string>
+    <string name="activity_type_handball">Handbal</string>
+    <string name="activity_type_tennis">Tennis</string>
+    <string name="activity_type_dancing">Dansen</string>
+    <string name="activity_type_snowboarding">Snowboarden</string>
+    <string name="activity_type_icehockey">IJshockey</string>
+    <string name="activity_type_iceskating">Schaatsen</string>
+    <string name="activity_type_other">Overige</string>
+    <string name="withings_calibration_text_activity_target">Lijn ten slotte de activiteitswijzer uit op 100%. Houd er rekening mee dat deze wijzer alleen met de klok mee beweegt.</string>
+    <string name="withings_bt_calibration_previous">Vorige</string>
+    <string name="withings_bt_calibration_next">Volgende</string>
+    <string name="activity_type_surfing">Surfen</string>
+    <string name="activity_type_kitesurfing">Kitesurfen</string>
+    <string name="activity_type_football">Voetbal</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_weightlifting">Gewichtheffen</string>
+    <string name="error_no_bluetooth_connect">Bluetooth-verbindingstoegang moet worden verleend en ingeschakeld om het scannen goed te laten werken</string>
+    <string name="activity_type_skiing">Skiën</string>
+    <string name="activity_type_riding">Paardrijden</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="error_no_bluetooth_scan">Bluetooth-scantoegang moet worden verleend en ingeschakeld om het scannen correct te laten werken</string>
+    <string name="activity_type_golf">Golfen</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="withings_calibration_text_minutes">Gebruik nu de draaiknop om de minutenwijzer op de 12 uit te lijnen.</string>
+    <string name="permission_request">Met %1$s kunt u berichten en andere gegevens van Android naar uw apparaat verzenden. Om dit te doen, heeft het toestemming nodig om toegang te krijgen tot die gegevens, zonder deze toestemmingen werkt het mogelijk niet goed.
+\n
+\nU krijgt nu enkele Android-dialoogvensters te zien waarin om die machtigingen wordt gevraagd.
+\n
+\nTik op \'%2$s\' om door te gaan.</string>
+    <string name="withings_calibration_text_hours">Gebruik de onderstaande draaiknop om de uurwijzer op de 12 uit te lijnen.</string>
 </resources>
