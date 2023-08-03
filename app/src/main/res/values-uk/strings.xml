@@ -284,7 +284,7 @@
     <string name="pref_summary_minimize_priority_off">Піктограма в рядку стану та сповіщення на екрані блокування відображаються</string>
     <string name="pref_summary_minimize_priority_on">Піктограма в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які надсилають сповіщення Pebble через PebbleKit.</string>
-    <string name="pref_summary_notification_filter">Блокувати всі сповіщення, якщо на телефоні ввімкнено режим «Не турбувати»</string>
+    <string name="pref_summary_notification_filter">Блокувати всі сповіщення, якщо на телефоні ввімкнено режим \"Не турбувати\"</string>
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови</string>
     <string name="pref_title_call_privacy_mode">Режим приватності викликів</string>
@@ -542,9 +542,9 @@
     <string name="activity_prefs_chart_min_heart_rate">Найповільніше серцебиття</string>
     <string name="notif_battery_low">%1$s низький заряд</string>
     <string name="notif_battery_low_extended">%1$s низький заряд: %2$s</string>
-    <string name="pref_summary_rtl">Увімкніть, якщо ваш пристрій не показує мови «справа наліво»</string>
-    <string name="pref_rtl_max_line_length">Найбільша довжина рядка «справа наліво»</string>
-    <string name="pref_rtl_max_line_length_summary">Подовжує чи скорочує строки на які розбитий текст «cправа наліво»</string>
+    <string name="pref_summary_rtl">Увімкніть, якщо ваш пристрій не показує мови \"справа наліво\"</string>
+    <string name="pref_rtl_max_line_length">Найбільша довжина рядка \"справа наліво\"</string>
+    <string name="pref_rtl_max_line_length_summary">Подовжує чи скорочує строки на які розбитий текст \"cправа наліво\"</string>
     <string name="lack_of_sleep">Недосипання: %1$s</string>
     <string name="overslept">Пересип: %1$s</string>
     <string name="lack_of_step">Недостатньо кроків: %1$d</string>
@@ -653,11 +653,11 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Сталася помилка видалення старої бази даних активності.</string>
     <string name="title_activity_pebble_pairing">Створення з\'єднання з Pebble</string>
     <string name="pebble_pairing_hint">На вашому пристрої з\'явиться сповіщення з запитом про під\'єднання. Якщо сповіщення не з\'явилося, то знайдіть його у шторці сповіщень і прийміть запит на під\'єднання. Після цього прийміть запит під\'єднання на своєму Pebble.</string>
-    <string name="weather_notification_label">Щоб отримувати відомості про погоду, переконайтеся, що пункт «Gadgetbridge» ввімкнено в застосунку «Сповіщення про погоду».
+    <string name="weather_notification_label">Щоб отримувати відомості про погоду, переконайтеся, що пункт \"Gadgetbridge\" ввімкнено в застосунку \"Weather notification\".
 \n
 \nДодаткові налаштування тут не потрібні.
 \n
-\nУвімкнути застосунок погоди на вашому Pebble можна в «Менеджері застосунків».
+\nУвімкнути застосунок погоди на вашому Pebble можна в \"Менеджері застосунків\".
 \n
 \nПідтримувані циферблати покажуть погоду автоматично.</string>
     <string name="pref_title_setup_bt_pairing">Увімкніть Bluetooth з\'єднання</string>
@@ -672,7 +672,7 @@
     <string name="discovery_enable_bluetooth">Увімкнути Bluetooth для виявлення пристроїв.</string>
     <string name="discovery_successfully_bonded">Пов\'язаний з %1$s.</string>
     <string name="discovery_pair_title">З\'єднання з %1$s\?</string>
-    <string name="discovery_pair_question">Виберіть «Створити з\'єднання» для під\'єднання вашого пристрою. Якщо не вдається, спробуйте знову попередньо видаливши старе з\'єднання.</string>
+    <string name="discovery_pair_question">Виберіть \"Створити з\'єднання\" для під\'єднання вашого пристрою. Якщо не вдається, спробуйте знову попередньо видаливши старе з\'єднання.</string>
     <string name="discovery_yes_pair">Створити з\'єднання</string>
     <string name="discovery_dont_pair">Не створювати з\'єднання</string>
     <string name="mi2_prefs_button_press_count_summary">Кількість натискань кнопки для запуску Події 1. Наступне таке ж натискання призведе до створення Події 2 і так далі.</string>
@@ -732,7 +732,7 @@
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!
 \n
-\nПОВНІСТЮ НЕ ПРОТЕСТОВАНО, ІМОВІРНО ВАМ ПОТРІБНО ВСТАНОВИТИ МІКРОПРОГРАМУ BEATS_W ЯКЩО ВАШ ПРИСТРІЙ «Amazfit Band 2»</string>
+\nПОВНІСТЮ НЕ ПРОТЕСТОВАНО, ІМОВІРНО ВАМ ПОТРІБНО ВСТАНОВИТИ МІКРОПРОГРАМУ BEATS_W ЯКЩО ВАШ ПРИСТРІЙ \"Amazfit Band 2\"</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Smart Band 4</string>
     <string name="fw_upgrade_notice_miband4">Ви збираєтесь установити мікропрограму %s на Mi Smart Band 4.
@@ -772,7 +772,7 @@
     <string name="activity_error_no_app_for_gpx">Для показу сліду вашої активності, встановіть застосунок який може обробляти GPX-файли.</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
-    <string name="prefs_enable_find_phone">Увімкнути «Знайти телефон»</string>
+    <string name="prefs_enable_find_phone">Увімкнути \'Знайти телефон\'</string>
     <string name="prefs_find_phone_summary">Застосовувати годинник для відтворення мелодії на телефоні.</string>
     <string name="prefs_find_phone_duration">Тривалість виклику в секундах</string>
     <string name="maximum_duration">Тривалість</string>
@@ -902,7 +902,7 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="swolfIndex">swolf індекс</string>
     <string name="swimStyle">Стиль плавання</string>
-    <string name="pref_title_weather_summary">Застосовується для постачальника погоди LineageOS, інші версії Android мають використовувати застосунки як-от «Сповіщення про погоду». Шукайте більше відомостей у вікі Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Застосовується для постачальника погоди LineageOS, інші версії Android мають використовувати застосунки як-от \"Weather notification\". Шукайте більше відомостей у вікі Gadgetbridge.</string>
     <string name="prefs_events_forwarding_summary">Використовувати події пристрою для запуску дій і трансляцій Android</string>
     <string name="prefs_events_forwarding_broadcast_title">Трансляційні повідомлення</string>
     <string name="medley">Змішаний</string>
@@ -1474,7 +1474,7 @@
     <string name="reminder_delete_confirm_title">Видалити нагадування</string>
     <string name="reminder_no_free_slots_title">Немає вільних комірок</string>
     <string name="reminder_no_free_slots_description">На пристрої немає вільних комірок для нагадувань (загальна кількість комірок: %1$s)</string>
-    <string name="mi2_prefs_do_not_disturb_lift_wrist">Вмикати екран під час піднесення руки в режимі «Не турбувати»</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Вмикати екран під час піднесення руки в режимі \"Не турбувати\"</string>
     <string name="averageAltitude">Середня</string>
     <string name="minSpeed">Мінімальна</string>
     <string name="maxHR">Найшвидше серцебиття</string>
@@ -1613,7 +1613,7 @@
     <string name="about_description_main_nightly">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас уже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальника Pebble.</string>
     <string name="about_description_main_nopebble">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. У цій версії постачальник Pebble перейменований для запобігання конфліктів, тому деякі інтеграції, пов\'язані з Pebble, не працюватимуть, але його можна встановити разом із наявним установленим Gadgetbridge.</string>
     <string name="pref_device_action_fitness_app_control_toggle">Перемкнути стеження фітнес-застосунку</string>
-    <string name="world_clock_delete_confirm_title">Видалити«%1$s»</string>
+    <string name="world_clock_delete_confirm_title">Видалити \'%1$s\'</string>
     <string name="world_clock_delete_confirm_description">Ви впевнені, що хочете видалити світовий годинник\?</string>
     <string name="world_clock_no_free_slots_description">Пристрій не має вільних комірок для світових годинників (загальна кількість комірок: %1$s)</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Чутливість</string>
@@ -1742,7 +1742,7 @@
     <string name="controlcenter_set_preferences">Установити параметри</string>
     <string name="controlcenter_toggle_details">Перемкнути подробиці</string>
     <string name="pref_explanation_authkey">Деякі пристрої потребують спеціального ключа сполучення для першої ініціалізації пристрою. Торкніться тут, щоб переглянути подробиці у вікі.</string>
-    <string name="pref_explanation_authkey_new_protocol">Якщо ви отримали повідомлення «Оновіть застосунок до найновішої версії» на годиннику, обов\'язково перегляньте «Новий протокол автентифікації» вище. Торкніться тут, щоб переглянути подробиці у вікі.</string>
+    <string name="pref_explanation_authkey_new_protocol">Якщо ви отримали повідомлення \"Оновіть застосунок до найновішої версії\" на годиннику, обов\'язково перегляньте «Новий протокол автентифікації» вище. Торкніться тут, щоб переглянути подробиці у вікі.</string>
     <string name="controlcenter_connected_fraction">Під\'єднано: %d/%d</string>
     <string name="connection_over_bt_classic">З\'єднання через класичний Bluetooth</string>
     <string name="controlcenter_add_new_folder">Додати нову теку</string>
@@ -2168,7 +2168,7 @@
     <string name="pref_display_caller_title">Показати контактну інформацію</string>
     <string name="pref_pair_bluetooth_calls_help_summary">Щоб приймати виклики через Bluetooth, вам потрібно з\'єднати телефон з другим екземпляром годинника.</string>
     <string name="pref_pair_bluetooth_calls_summary">Клацніть тут, щоб розпочати процес створення пари</string>
-    <string name="pref_pair_bluetooth_calls_help_2">2. Перейдіть до налаштувань Bluetooth свого телефону та створіть пару з новим пристроєм, який з’явиться (назва схожа на поточний годинник, але з суфіксом, наприклад, «Amazfit GTR 4 - AFC8»).</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Перейдіть до налаштувань Bluetooth свого телефону та створіть пару з новим пристроєм, який з’явиться (назва схожа на поточний годинник, але з суфіксом, наприклад, \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_warning">ПОПЕРЕДЖЕННЯ. Якщо ввімкнути виклики через Bluetooth без під\'єднання до другого екземпляра, сповіщення про виклики можуть не працювати належним чином.</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Увімкніть налаштування викликів Bluetooth нижче.</string>
     <string name="pref_title_notification_cache_while_disconnected">Кеш поза зоною досяжності</string>
