@@ -2219,4 +2219,5 @@
     <string name="withings_bt_calibration_previous">Previous</string>
     <string name="withings_bt_calibration_next">Next</string>
     <string name="drag_handle">drag handle</string>
+    <string name="find_my_phone_found_it">FOUND IT</string>
 </resources>
