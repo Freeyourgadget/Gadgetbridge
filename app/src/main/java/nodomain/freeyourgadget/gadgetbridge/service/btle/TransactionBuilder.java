@@ -1,6 +1,6 @@
 /*  Copyright (C) 2015-2024 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Frank Ertl,
-    José Rebelo
+    José Rebelo, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,7 @@ import androidx.annotation.RequiresApi;
 import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.BondAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.FunctionAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
@@ -116,6 +117,11 @@ public class TransactionBuilder {
     public TransactionBuilder wait(int millis) {
         WaitAction action = new WaitAction(millis);
         return add(action);
+    }
+
+    // Runs the given function/lambda
+    public TransactionBuilder run(FunctionAction.Function function) {
+        return add(new FunctionAction(function));
     }
 
     public TransactionBuilder add(BtLEAction action) {

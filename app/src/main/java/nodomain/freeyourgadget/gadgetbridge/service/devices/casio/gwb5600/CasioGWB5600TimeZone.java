@@ -17,6 +17,10 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -128,11 +132,12 @@ PONTA DELGADA      E4 00  FC  04     02
         this.dstSetting = dstSetting;
     }
 
-    static public byte[] dstWatchStateRequest(int slot) {
-    // request only even slots, the response will also contain the next odd slot
-        return new byte[] {
-            Casio2C2DSupport.FEATURE_DST_WATCH_STATE,
-            (byte) slot};
+    static public Set<Casio2C2DSupport.FeatureRequest> requests(int slot) {
+        HashSet<Casio2C2DSupport.FeatureRequest> requests = new HashSet();
+        requests.add(new Casio2C2DSupport.FeatureRequest(Casio2C2DSupport.FEATURE_DST_WATCH_STATE, (byte) (slot/2*2)));
+        requests.add(new Casio2C2DSupport.FeatureRequest(Casio2C2DSupport.FEATURE_DST_SETTING, (byte) slot));
+        requests.add(new Casio2C2DSupport.FeatureRequest(Casio2C2DSupport.FEATURE_WORLD_CITY, (byte) slot));
+        return requests;
     }
 
     static public byte[] dstWatchStateBytes(int slotA, CasioGWB5600TimeZone zoneA, int slotB, CasioGWB5600TimeZone zoneB) {
@@ -149,12 +154,6 @@ PONTA DELGADA      E4 00  FC  04     02
             (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff};
     }
 
-    static public byte[] dstSettingRequest(int slot) {
-        return new byte[] {
-            Casio2C2DSupport.FEATURE_DST_SETTING,
-            (byte) slot};
-    }
-
     public byte[] dstSettingBytes(int slot) {
         return new byte[] {
             Casio2C2DSupport.FEATURE_DST_SETTING,
@@ -166,12 +165,6 @@ PONTA DELGADA      E4 00  FC  04     02
             dstRules};
     }
 
-    static public byte[] worldCityRequest(int slot) {
-        return new byte[] {
-            Casio2C2DSupport.FEATURE_WORLD_CITY,
-            (byte) slot};
-    }
-
     public byte[] worldCityBytes(int slot) {
         byte[] bytes = {
             Casio2C2DSupport.FEATURE_WORLD_CITY,
@@ -181,7 +174,7 @@ PONTA DELGADA      E4 00  FC  04     02
         return bytes;
     }
 
-    static CasioGWB5600TimeZone fromWatchResponses(List<byte[]> responses, int slot) {
+    static CasioGWB5600TimeZone fromWatchResponses(Map<Casio2C2DSupport.FeatureRequest, byte[]> responses, int slot) {
         byte[] name = "unknown".getBytes(StandardCharsets.US_ASCII);
         byte[] number = {0,0};
         byte offset = 0;
@@ -189,7 +182,7 @@ PONTA DELGADA      E4 00  FC  04     02
         byte dstRules = 0;
         byte dstSetting = 0;
 
-        for (byte[] response: responses) {
+        for (byte[] response: responses.values()) {
             if (response[0] == Casio2C2DSupport.FEATURE_DST_WATCH_STATE && response.length >= 9) {
                 if (response[1] == slot) {
                     dstSetting = response[3];

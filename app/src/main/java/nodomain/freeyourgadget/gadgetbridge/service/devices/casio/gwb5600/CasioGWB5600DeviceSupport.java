@@ -17,19 +17,26 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
 
 import java.util.UUID;
-import java.io.IOException;
-
-import android.widget.Toast;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
+
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600TimeZone;
 
 public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGWB5600DeviceSupport.class);
@@ -61,13 +68,46 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
             connect();
             return builder;
         }
-        try {
-            new InitOperation(this, builder).perform();
-        } catch (IOException e) {
-            GB.toast(getContext(), "Initializing watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
-        }
+
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        requestWorldClocks(builder);
 
         return builder;
+    }
+
+    private void requestWorldClocks(TransactionBuilder builder) {
+        HashSet<FeatureRequest> requests = new HashSet();
+
+        for (byte i = 0; i < 6; i++) {
+            requests.addAll(CasioGWB5600TimeZone.requests(i));
+        }
+
+        requestFeatures(builder, requests, responses -> {
+                TransactionBuilder clockBuilder = createTransactionBuilder("setClocks");
+                setClocks(clockBuilder, responses);
+                clockBuilder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+                clockBuilder.queue(getQueue());
+        });
+    }
+
+    private void setClocks(TransactionBuilder builder, Map<FeatureRequest, byte[]> responses) {
+        ZoneId tz = ZoneId.systemDefault();
+        Instant now = Instant.now().plusSeconds(2);
+        CasioGWB5600TimeZone[] timezones = {
+            CasioGWB5600TimeZone.fromZoneId(tz, now, tz.getDisplayName(TextStyle.SHORT, Locale.getDefault())),
+            CasioGWB5600TimeZone.fromWatchResponses(responses, 1),
+            CasioGWB5600TimeZone.fromWatchResponses(responses, 2),
+            CasioGWB5600TimeZone.fromWatchResponses(responses, 3),
+            CasioGWB5600TimeZone.fromWatchResponses(responses, 4),
+            CasioGWB5600TimeZone.fromWatchResponses(responses, 5),
+        };
+        for (int i = 5; i >= 0; i--) {
+            if (i%2 == 0)
+                writeAllFeatures(builder, CasioGWB5600TimeZone.dstWatchStateBytes(i, timezones[i], i+1, timezones[i+1]));
+            writeAllFeatures(builder, timezones[i].dstSettingBytes(i));
+            writeAllFeatures(builder, timezones[i].worldCityBytes(i));
+        }
+        writeCurrentTime(builder, ZonedDateTime.ofInstant(now, tz));
     }
 
 }
