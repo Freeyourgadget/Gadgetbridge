@@ -81,6 +81,7 @@
         <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+        <item name="sports_activity_summary_background">?attr/colorSurface</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
@@ -91,6 +92,7 @@
         <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+        <item name="sports_activity_summary_background">?attr/colorSurface</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
         <item name="android:windowBackground">@android:color/black</item>
