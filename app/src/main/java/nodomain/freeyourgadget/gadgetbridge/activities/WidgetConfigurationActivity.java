@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -29,10 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
-public class WidgetConfigurationActivity extends Activity {
+public class WidgetConfigurationActivity extends Activity implements GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(WidgetConfigurationActivity.class);
     int mAppWidgetId;
 
@@ -40,6 +42,8 @@ public class WidgetConfigurationActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        AbstractGBActivity.init(this, AbstractGBActivity.NO_ACTIONBAR);
+
         super.onCreate(savedInstanceState);
 
         setResult(RESULT_CANCELED);
@@ -131,5 +135,10 @@ public class WidgetConfigurationActivity extends Activity {
             LOG.error("Error getting list of all devices: " + e);
         }
         return newMap;
+    }
+
+    @Override
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        AndroidUtils.setLanguage(this, language);
     }
 }
