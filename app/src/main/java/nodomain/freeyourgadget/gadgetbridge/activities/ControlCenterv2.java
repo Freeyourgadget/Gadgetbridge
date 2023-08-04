@@ -472,8 +472,7 @@ public class ControlCenterv2 extends AppCompatActivity
         String css = ChangeLog.DEFAULT_CSS;
         css += "body { "
                 + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
-                + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
-                "}";
+                + "}";
         return new ChangeLog(this, css);
     }
 
