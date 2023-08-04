@@ -300,6 +300,7 @@
     <string name="pref_blacklist_calendars_summary">Blacklisted calendars will not be synced to the device</string>
     <string name="pref_header_cannned_messages">Canned messages</string>
     <string name="pref_title_canned_replies">Replies</string>
+    <string name="pref_canned_message">Message</string>
     <string name="pref_summary_canned_replies">Reply from the watch using preset messages</string>
     <string name="pref_title_canned_reply_suffix">Common suffix</string>
     <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
