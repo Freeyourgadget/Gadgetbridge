@@ -100,12 +100,12 @@ public class FitMessage {
             case UINT16Z:
             case UINT32Z:
             case BYTE:
-                writeFitNumberToMessage(writer, (Integer) value, size);
+                writeFitNumberToMessage(writer, ((Number) value).intValue(), size);
                 break;
             case SINT64:
             case UINT64:
             case UINT64Z:
-                writeFitNumberToMessage(writer, (Long) value, size);
+                writeFitNumberToMessage(writer, ((Number) value).longValue(), size);
                 break;
             case STRING:
                 writeFitStringToMessage(writer, (String) value, size);
