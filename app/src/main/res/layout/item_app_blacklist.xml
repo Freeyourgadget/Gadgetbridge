@@ -17,8 +17,7 @@
         android:layout_marginTop="8dp"
         android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
         android:text="NOTIF"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/blacklist_checkboxes" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/item_pebble_checkbox"
@@ -30,8 +29,7 @@
         android:layout_toEndOf="@+id/item_checkbox"
         android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
         android:text="PEBBLE"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/blacklist_checkboxes" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
         android:id="@+id/item_image"
