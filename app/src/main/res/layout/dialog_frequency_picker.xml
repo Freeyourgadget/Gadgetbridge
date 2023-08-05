@@ -47,6 +47,7 @@
             android:id="@+id/frequency_preset1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
             android:text="" />
 
@@ -61,6 +62,7 @@
             android:id="@+id/frequency_preset3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
             android:text="" />
 
