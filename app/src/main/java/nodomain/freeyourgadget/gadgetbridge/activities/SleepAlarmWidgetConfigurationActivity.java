@@ -85,12 +85,6 @@ public class SleepAlarmWidgetConfigurationActivity extends Activity implements G
         builder.setSingleChoiceItems(allDevicesString, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
                 ListView lw = ((AlertDialog) dialog).getListView();
                 int selectedItemPosition = lw.getCheckedItemPosition();
 
@@ -106,16 +100,8 @@ public class SleepAlarmWidgetConfigurationActivity extends Activity implements G
                 finish();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent resultValue;
-                resultValue = new Intent();
-                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-                setResult(RESULT_CANCELED, resultValue);
-                finish();
-            }
-        });
+        builder.setCancelable(false);
+
         AlertDialog dialog = builder.create();
         dialog.show();
     }
