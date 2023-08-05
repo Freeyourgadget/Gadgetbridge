@@ -366,7 +366,7 @@
         <change>Fossil Hybrid HR: Fix on-device confirmation for older firmwares</change>
         <change>Sony WH-1000XM3: Fix Ambient Sound Control commands, potentially improving ANC quality</change>
         <change>Sony WH-1000XM3: Read configuration from device</change>
-        <change>InfiniTime: Remove debug Toast and subscription to UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES</change>
+        <change>InfiniTime: Remove debug Toast and subscription to motion raw XYZ values characteristic</change>
         <change>Roidmi: Fix frequency configuration on some non-english languages</change>
         <change>Roidmi 3: Add support for Mojietu 3 rebrand</change>
         <change>Huami: Support hiking and climbing activities, decode some more activity details</change>
