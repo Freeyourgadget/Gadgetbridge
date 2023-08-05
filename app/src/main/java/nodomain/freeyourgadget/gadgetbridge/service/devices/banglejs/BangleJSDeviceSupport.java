@@ -1212,13 +1212,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("d", jsonalarms);
 
             for (Alarm alarm : alarms) {
-                if (!alarm.getEnabled()) continue;
+                if (alarm.getUnused()) continue;
                 JSONObject jsonalarm = new JSONObject();
                 jsonalarms.put(jsonalarm);
                 //Calendar calendar = AlarmUtils.toCalendar(alarm);
                 jsonalarm.put("h", alarm.getHour());
                 jsonalarm.put("m", alarm.getMinute());
                 jsonalarm.put("rep", alarm.getRepetition());
+                jsonalarm.put("on", alarm.getEnabled());
             }
             uartTxJSON("onSetAlarms", o);
         } catch (JSONException e) {
