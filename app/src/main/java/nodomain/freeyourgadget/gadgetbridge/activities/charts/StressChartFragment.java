@@ -84,7 +84,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
     protected void init() {
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(requireContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(requireContext());
-        CHART_TEXT_COLOR = ContextCompat.getColor(requireContext(), R.color.secondarytext);
+        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(requireContext());
 
         STRESS_AVERAGE_LABEL = requireContext().getString(R.string.charts_legend_stress_average);
     }

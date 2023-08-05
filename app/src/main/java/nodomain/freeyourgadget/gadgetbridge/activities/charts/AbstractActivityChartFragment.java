@@ -101,7 +101,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         TypedValue runningColor = new TypedValue();
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(getContext());
         if (prefs.getBoolean("chart_heartrate_color", false)) {
             HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_alternative);
         }else{

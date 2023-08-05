@@ -1329,10 +1329,15 @@ public class GBApplication extends Application {
     }
 
     public static int getTextColor(Context context) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.textColorPrimary, typedValue, true);
-        return typedValue.data;
+        if (GBApplication.isDarkThemeEnabled()) {
+            return context.getResources().getColor(R.color.primarytext_dark);
+        } else {
+            return context.getResources().getColor(R.color.primarytext_light);
+        }
+    }
+
+    public static int getSecondaryTextColor(Context context) {
+        return context.getResources().getColor(R.color.secondarytext);
     }
 
     @Override

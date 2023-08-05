@@ -125,7 +125,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
     private void init() {
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(getContext());
         BATTERY_LABEL = getString(R.string.battery_level);
     }
 
