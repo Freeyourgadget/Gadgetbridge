@@ -1783,7 +1783,7 @@
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2e tijdzone-widget</string>
     <string name="watchface_dialog_title_widget">Widget-instellingen</string>
     <string name="watchface_dialog_widget_background">Achtergrond</string>
-    <string name="share_log_not_enabled_message">U moet eerst inloggen inschakelen in Instellingen - Logbestanden schrijven</string>
+    <string name="share_log_not_enabled_message">U moet eerst het schrijven van logbestanden inschakelen in Instellingen - Logbestanden schrijven</string>
     <string name="step_streak_total">Totaal</string>
     <string name="steps_streaks_since_date">Sinds %s</string>
     <string name="step_streak_average_steps_hint">Gemiddeld aantal stappen per dag van de reeks</string>
