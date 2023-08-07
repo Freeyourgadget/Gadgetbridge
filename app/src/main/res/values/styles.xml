@@ -77,6 +77,7 @@
         <item name="actionOverflowMenuStyle">@style/GadgetbridgeTheme.OverflowMenuStyle</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
         <item name="drawer_title_color">?attr/colorOnSurface</item>
         <item name="cardview_background_color">?attr/colorSurface</item>
@@ -89,6 +90,7 @@
         <item name="actionOverflowMenuStyle">@style/GadgetbridgeTheme.OverflowMenuStyle</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
         <item name="drawer_title_color">?attr/colorOnSurface</item>
         <item name="cardview_background_color">?attr/colorSurface</item>
