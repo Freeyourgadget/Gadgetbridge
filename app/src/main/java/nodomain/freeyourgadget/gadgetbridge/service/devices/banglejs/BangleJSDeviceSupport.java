@@ -19,7 +19,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
-import static java.sql.Date.valueOf;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP_SIZE;
@@ -102,7 +101,6 @@ import io.wax911.emojify.EmojiManager;
 import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFormat;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
@@ -134,7 +132,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -811,7 +808,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 summary.setEndTime(endTime);
                 summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
                 summary.setRawDetailsPath(String.valueOf(inputFile));
-                summary.setSummaryData(storedLog);
+
+                JSONObject summaryData = new JSONObject();
+                summaryData = addSummaryData(summaryData,"test",3,"mm");
+                summary.setSummaryData(summaryData.toString());
 
                 ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
                 track.startNewSegment();
@@ -848,6 +848,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
                     }
                     track.addTrackPoint(point);
+                    LOG.info("Activity Point:\n" + point.getHeartRate());
                     point = new ActivityPoint();
                 }
 
@@ -903,9 +904,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
 
+                LOG.info("Activity track:\n" + track.getSegments());
 
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -2097,4 +2097,29 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return exporter;
     }
 
+    protected JSONObject addSummaryData(JSONObject summaryData, String key, float value, String unit) {
+        if (value > 0) {
+            try {
+                JSONObject innerData = new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", unit);
+                summaryData.put(key, innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+        return summaryData;
+    }
+
+    protected JSONObject addSummaryData(JSONObject summaryData, String key, String value) {
+        if (key != null && !key.equals("") && value != null && !value.equals("")) {
+            try {
+                JSONObject innerData = new JSONObject();
+                innerData.put("value", value);
+                innerData.put("unit", "string");
+                summaryData.put(key, innerData);
+            } catch (JSONException ignore) {
+            }
+        }
+        return summaryData;
+    }
 }
