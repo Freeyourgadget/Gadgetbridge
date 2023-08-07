@@ -74,6 +74,7 @@
     <!-- Material 3 dynamic color (Material You) themes -->
     <style name="GadgetbridgeThemeDynamicLight" parent="Theme.Material3.DynamicColors.Light">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
+        <item name="actionOverflowMenuStyle">@style/GadgetbridgeTheme.OverflowMenuStyle</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
@@ -85,6 +86,7 @@
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
+        <item name="actionOverflowMenuStyle">@style/GadgetbridgeTheme.OverflowMenuStyle</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="drawer_header_color">?attr/colorSurface</item>
@@ -142,10 +144,12 @@
     <style name="GadgetbridgeTheme.OverflowMenuButton" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="tint">@android:color/white</item>
     </style>
-    <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.Material3.DynamicColors.DayNight" />
-    <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.Material3.DynamicColors.DayNight" />
     <style name="GadgetbridgeTheme.ActionBarTitleStyle" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="android:textColor">@color/primarytext_dark</item>
+    </style>
+    <style name="GadgetbridgeTheme.OverflowMenuStyle" parent="Widget.Material3.PopupMenu.Overflow">
+        <item name="android:popupBackground">?attr/colorSecondaryContainer</item>
+        <item name="android:textColorPrimary">?attr/colorOnSecondaryContainer</item>
     </style>
 
     <!-- splash screen -->
