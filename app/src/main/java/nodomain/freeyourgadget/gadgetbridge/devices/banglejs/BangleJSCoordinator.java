@@ -34,6 +34,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -111,7 +112,7 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
@@ -188,6 +189,7 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
+    @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
 
@@ -205,11 +207,18 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         if (BuildConfig.INTERNET_ACCESS)
             settings.add(R.xml.devicesettings_device_internet_access);
 
+        settings.add(R.xml.devicesettings_banglejs_activity);
+
         settings.add(R.xml.devicesettings_header_developer);
         settings.add(R.xml.devicesettings_banglejs_apploader);
         settings.add(R.xml.devicesettings_device_intents);
 
         return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
+    }
+
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
+        return new BangleJSSettingsCustomizer(device);
     }
 
     @Override

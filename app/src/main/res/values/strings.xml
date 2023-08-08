@@ -2222,4 +2222,7 @@
     <string name="withings_bt_calibration_next">Next</string>
     <string name="drag_handle">drag handle</string>
     <string name="find_my_phone_found_it">FOUND IT</string>
+    <string name="pref_activity_full_sync_trigger_summary">Trigger a full sync of all activity data</string>
+    <string name="pref_activity_full_sync_trigger_title">Full sync</string>
+    <string name="pref_activity_full_sync_trigger_warning">This will trigger a full sync of all activity data from the device. It may take a few minutes to complete.</string>
 </resources>
