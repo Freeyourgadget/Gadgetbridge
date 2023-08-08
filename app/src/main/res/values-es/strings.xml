@@ -2341,4 +2341,8 @@
     <string name="activity_type_skiing">Esquí</string>
     <string name="activity_type_other">Otros</string>
     <string name="activity_type_dancing">Danza</string>
+    <string name="pref_canned_message">Mensaje</string>
+    <string name="drag_handle">control de arrastre</string>
+    <string name="find_my_phone_found_it">LO ENCONTRÉ</string>
+    <string name="pref_theme_dynamic">Colores dinámicos</string>
 </resources>
