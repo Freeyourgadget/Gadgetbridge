@@ -1771,7 +1771,7 @@
     <string name="open_fw_installer_connect_maximum_one_device">请只连接一个设备，以便将文件发送到该设备上。</string>
     <string name="appmanager_item_outdated">（已过时）</string>
     <string name="appmanager_app_share">分享</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">如果启用 \"文本为位图\"，文本应该呈现多大的尺寸？</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">用于位图文本渲染的大小</string>
     <string name="watchface_dialog_widget_cat_generic">通用</string>
     <string name="watchface_dialog_widget_cat_position">位置</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">第二时区小部件</string>
@@ -2252,8 +2252,8 @@
     <string name="stress_moderate">缓和</string>
     <string name="stress_relaxed">放松</string>
     <string name="watchface_widget_type_uv_index">紫外线指数</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">仅当使用手机的 GPS 数据时，此选项才有效。此选项设置更新 GPS 位置的频率（以毫秒为单位）</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">GPS 数据更新间隔（以毫秒为单位）</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">GPS 位置更新频率的间隔（以毫秒为单位）</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">GPS 数据更新间隔</string>
     <string name="title">标题</string>
     <string name="status_icon">状态图标</string>
     <string name="preview_image">图片预览</string>
@@ -2262,7 +2262,7 @@
     <string name="changelog_show_full">更多…</string>
     <string name="changelog_ok_button">好</string>
     <string name="changelog_title">新功能</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">仅当使用手机的 GPS 数据时，此选项才有效。此选项可用于仅使用网络提供商来确定位置。这降低了功耗，但以精度为代价。需要重新连接设备。</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">仅使用网络提供商来确定位置。这降低了功耗，但牺牲了精度。需要重新连接。</string>
     <string name="pref_title_banglejs_phone_gps_enbale">使用手机的GPS数据</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">使用手机的GPS数据覆盖手环设备的GPS数据</string>
     <string name="action_changelog">更改日志</string>
@@ -2339,4 +2339,8 @@
     <string name="withings_calibration_text_hours">请使用下面的表盘将时针对准 12。</string>
     <string name="withings_calibration_text_minutes">现在使用表盘将分针与 12 对齐。</string>
     <string name="withings_bt_calibration_previous">之前</string>
+    <string name="pref_theme_dynamic">动态色彩</string>
+    <string name="pref_canned_message">信息</string>
+    <string name="drag_handle">拖动把手</string>
+    <string name="find_my_phone_found_it">已找到</string>
 </resources>
