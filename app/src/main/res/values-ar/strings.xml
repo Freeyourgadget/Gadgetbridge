@@ -2324,4 +2324,8 @@
     <string name="withings_calibration_text_minutes">الآن استخدم القرص لمحاذاة عقرب الدقائق إلى 12.</string>
     <string name="withings_calibration_text_activity_target">أخيرًا قم بمحاذاة يد النشاط إلى 100٪. يرجى الانتباه إلى أن هذا العقرب يتحرك في اتجاه عقارب الساعة فقط.</string>
     <string name="withings_bt_calibration_next">التالي</string>
+    <string name="pref_theme_dynamic">ألوان ديناميكية</string>
+    <string name="find_my_phone_found_it">تم العثور عليها</string>
+    <string name="pref_canned_message">رسالة</string>
+    <string name="drag_handle">مقبض السحب</string>
 </resources>
