@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Configuración</string>
@@ -2345,4 +2345,6 @@
     <string name="drag_handle">control de arrastre</string>
     <string name="find_my_phone_found_it">LO ENCONTRÉ</string>
     <string name="pref_theme_dynamic">Colores dinámicos</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Ajustes de Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Nota: Estas preferencias solo se aplican a las Mi Bands 1 y 2.</string>
 </resources>
