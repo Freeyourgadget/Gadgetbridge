@@ -2343,4 +2343,8 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_tennis">Tennis</string>
     <string name="activity_type_surfing">Surf</string>
     <string name="activity_type_football">Football</string>
+    <string name="drag_handle">Poignets</string>
+    <string name="pref_theme_dynamic">Couleurs dynamiques</string>
+    <string name="pref_canned_message">Message</string>
+    <string name="find_my_phone_found_it">TROUVÉ</string>
 </resources>
