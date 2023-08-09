@@ -2350,4 +2350,6 @@
     <string name="pref_activity_full_sync_trigger_warning">Esto activará una sincronización completa de todos los datos de actividad del dispositivo. Puede tardar unos minutos en completarse.</string>
     <string name="pref_activity_full_sync_trigger_summary">Activar una sincronización completa de todos los datos de actividad</string>
     <string name="pref_activity_full_sync_trigger_title">Sincronización completa</string>
+    <string name="pref_show_changelog_summary">Mostrar el registro de cambios desde la última versión después de actualizar Gadgetbridge</string>
+    <string name="pref_show_changelog">Mostrar el registro de cambios al inicio</string>
 </resources>
