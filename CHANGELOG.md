@@ -1,6 +1,7 @@
 ### Changelog
 
 #### Next Version (WIP)
+* Switch UI to Material 3 and support dynamic colors
 * Initial support for Bohemic Smart Bracelet
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
@@ -8,6 +9,12 @@
 * Amazfit GTS 2e: Add activate display on lift sensitivity
 * Amazfit GTR 3 / GTS 3: Enable AGPS Updates
 * Amazfit Neo: Enable PAI support
+* Bangle.js: Allow enable/disable of alarms
+* Bangle.js: Fetch activity data
+* Bangle.js: Fix GB integration when watch is not programmable
+* Bangle.js: Put JSON keys in quotes
+* Bangle.js: Reorganize device settings
+* Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device
 * Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
 * Huami/Zepp OS: Add PAI charts
 * Huami/Zepp OS: Improve music info stability
@@ -20,6 +27,7 @@
 * Sony WH-1000XM5: Fix speak-to-chat enable/disable
 * Zepp OS: Add loyalty cards integration with Catima
 * Zepp OS: Fix reminder creation
+* Allow filtering notifications from work profile apps
 * Bump target SDK version to 31
 * Fix media button control for some applications
 * Fix notification filters by title if notification does not contain a body
@@ -28,6 +36,7 @@
 * Fix some security error crashes when permissions are not granted
 * Fix transliteration of emoji
 * Fix transliteration of non-ASCII accented characters
+* Make application list sorting case-insensitive
 * Introduce native app shortcuts for android > 30
 * Update device settings action bar title depending on current screen
 
