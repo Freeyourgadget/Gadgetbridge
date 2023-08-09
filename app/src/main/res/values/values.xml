@@ -101,6 +101,8 @@
     <item name="p_sleep" type="string">sleep</item>
     <item name="p_sleep_week" type="string">sleepweek</item>
     <item name="p_steps_week" type="string">stepsweek</item>
+    <item name="p_stress" type="string">stress</item>
+    <item name="p_pai" type="string">pai</item>
     <item name="p_speed_zones" type="string">speedzones</item>
     <item name="p_live_stats" type="string">livestats</item>
 
@@ -125,5 +127,6 @@
     <item name="pref_theme_value_system" translatable="false" type="string">system</item>
     <item name="pref_theme_value_light" translatable="false" type="string">light</item>
     <item name="pref_theme_value_dark" translatable="false" type="string">dark</item>
+    <item name="pref_theme_value_dynamic" translatable="false" type="string">dynamic</item>
 
 </resources>

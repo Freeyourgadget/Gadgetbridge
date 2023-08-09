@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static cyanogenmod.providers.WeatherContract.WeatherColumns.TempUnit.FAHRENHEIT;
@@ -103,7 +104,7 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
         if (enable) {
             Intent intent = new Intent("GB_UPDATE_WEATHER");
             intent.setPackage(BuildConfig.APPLICATION_ID);
-            mPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+            mPendingIntent = PendingIntentUtils.getBroadcast(mContext, 0, intent, 0, false);
             am.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 10000, AlarmManager.INTERVAL_HOUR, mPendingIntent);
         } else {
             am.cancel(mPendingIntent);

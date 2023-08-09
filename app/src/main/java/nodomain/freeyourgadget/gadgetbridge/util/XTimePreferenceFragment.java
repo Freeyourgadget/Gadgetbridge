@@ -23,9 +23,10 @@ import android.widget.TimePicker;
 
 import androidx.preference.DialogPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 
-public class XTimePreferenceFragment extends PreferenceDialogFragmentCompat implements DialogPreference.TargetFragment {
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialPreferenceDialogFragment;
+
+public class XTimePreferenceFragment extends MaterialPreferenceDialogFragment implements DialogPreference.TargetFragment {
     private TimePicker picker = null;
 
     @Override

@@ -85,7 +85,7 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 0;
     }
 
@@ -105,7 +105,7 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 
@@ -147,6 +147,10 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getWorldClocksLabelLength() {
         return 8;
+    }
+
+    public boolean supportsNavigation() {
+        return true;
     }
 
     @Override

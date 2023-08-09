@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lukas Veneziano, Maxim Baz
+/*  Copyright (C) 2016-2023 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lukas Veneziano, Maxim Baz, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.threeten.bp.ZonedDateTime;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
@@ -37,10 +39,11 @@ public class BLETypeConversions {
      * Converts a timestamp to the byte sequence to be sent to the current time characteristic
      *
      * @param timestamp
+     * @param reason
      * @return
      * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
      */
-    public static byte[] calendarToCurrentTime(Calendar timestamp) {
+    public static byte[] calendarToCurrentTime(Calendar timestamp, int reason) {
         // year,year,month,dayofmonth,hour,minute,second,dayofweek,fractions256,reason
 
         byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
@@ -54,7 +57,33 @@ public class BLETypeConversions {
                 fromUint8(timestamp.get(Calendar.SECOND)),
                 dayOfWeekToRawBytes(timestamp),
                 fromUint8((int) (timestamp.get(Calendar.MILLISECOND) / 1000. * 256)),
-                0, // reason (not set)
+                (byte) reason, // use 0 if unknown reason
+        };
+    }
+
+    /**
+     * Converts a timestamp to the byte sequence to be sent to the current time characteristic
+     *
+     * @param timestamp
+     * @param reason
+     * @return
+     * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
+     */
+    public static byte[] toCurrentTime(ZonedDateTime timestamp, int reason) {
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,fractions256,reason
+
+        byte[] year = fromUint16(timestamp.getYear());
+        return new byte[] {
+                year[0],
+                year[1],
+                fromUint8(timestamp.getMonthValue()),
+                fromUint8(timestamp.getDayOfMonth()),
+                fromUint8(timestamp.getHour()),
+                fromUint8(timestamp.getMinute()),
+                fromUint8(timestamp.getSecond()),
+                fromUint8(timestamp.getDayOfWeek().getValue()),
+                fromUint8((int) (timestamp.getNano() / 1000000000. * 256)),
+                (byte) reason, // use 0 if unknown reason
         };
     }
 
@@ -164,6 +193,10 @@ public class BLETypeConversions {
         return value & 0xff;
     }
 
+    public static int toUnsigned(byte[] bytes, int offset) {
+        return bytes[offset + 0] & 0xff;
+    }
+
     public static int toUint16(byte value) {
         return toUnsigned(value);
     }
@@ -186,6 +219,16 @@ public class BLETypeConversions {
 
     public static int toUint32(byte[] bytes, int offset) {
         return (bytes[offset + 0] & 0xff) | ((bytes[offset + 1] & 0xff) << 8) | ((bytes[offset + 2] & 0xff) << 16) | ((bytes[offset + 3] & 0xff) << 24);
+    }
+
+    public static long toUint64(byte... bytes) {
+        return (bytes[0] & 0xFFL) | ((bytes[1] & 0xFFL) << 8) | ((bytes[2] & 0xFFL) << 16) | ((bytes[3] & 0xFFL) << 24) |
+                ((bytes[4] & 0xFFL) << 32) | ((bytes[5] & 0xFFL) << 40) | ((bytes[6] & 0xFFL) << 48) | ((bytes[7] & 0xFFL) << 56);
+    }
+
+    public static long toUint64(byte[] bytes, int offset) {
+        return (bytes[offset + 0] & 0xFFL) | ((bytes[offset + 1] & 0xFFL) << 8) | ((bytes[offset + 2] & 0xFFL) << 16) | ((bytes[offset + 3] & 0xFFL) << 24) |
+                ((bytes[offset + 4] & 0xFFL) << 32) | ((bytes[offset + 5] & 0xFFL) << 40) | ((bytes[offset + 6] & 0xFFL) << 48) | ((bytes[offset + 7] & 0xFFL) << 56);
     }
 
     public static byte[] fromUint16(int value) {
@@ -227,6 +270,33 @@ public class BLETypeConversions {
 
     public static byte fromUint8(int value) {
         return (byte) (value & 0xff);
+    }
+
+    public static void writeUint8(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+    }
+
+    public static void writeUint16(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+    }
+
+    public static void writeUint32(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+        array[offset + 2] = (byte) (value >> 16);
+        array[offset + 3] = (byte) (value >> 24);
+    }
+
+    public static void writeUint64(byte[] array, int offset, long value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+        array[offset + 2] = (byte) (value >> 16);
+        array[offset + 3] = (byte) (value >> 24);
+        array[offset + 4] = (byte) (value >> 32);
+        array[offset + 5] = (byte) (value >> 40);
+        array[offset + 6] = (byte) (value >> 48);
+        array[offset + 7] = (byte) (value >> 56);
     }
 
     /**

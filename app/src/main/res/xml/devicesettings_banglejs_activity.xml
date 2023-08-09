@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:key="pref_key_header_banglejs_activity"
+        android:title="@string/Activity">
+
+        <Preference
+            android:icon="@drawable/ic_refresh"
+            android:key="pref_banglejs_activity_full_sync_trigger"
+            android:summary="@string/pref_activity_full_sync_trigger_summary"
+            android:title="@string/pref_activity_full_sync_trigger_title" />
+
+        <!-- dummy preference, just to trigger customizer notifications -->
+        <EditTextPreference
+            android:defaultValue="NOT_RUNNING"
+            android:enabled="false"
+            android:key="pref_banglejs_activity_full_sync_status"
+            android:shouldDisableView="false"
+            android:title="pref_banglejs_activity_full_sync_status"
+            app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

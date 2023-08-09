@@ -84,7 +84,7 @@ public abstract class RoidmiCoordinator extends AbstractBLClassicDeviceCoordinat
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 0;
     }
 
@@ -99,7 +99,7 @@ public abstract class RoidmiCoordinator extends AbstractBLClassicDeviceCoordinat
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

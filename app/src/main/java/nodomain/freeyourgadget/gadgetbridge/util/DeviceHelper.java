@@ -27,6 +27,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveHrCoordinator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro.Amazfit
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4mini.AmazfitGTS4MiniCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2.AmazfitTRex2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.BohemicSmartBraceletDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM5Coordinator;
@@ -57,7 +59,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Cooridnator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
@@ -142,6 +146,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM4Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -334,6 +339,8 @@ public class DeviceHelper {
         result.add(new Y5Coordinator());
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new CasioGBX100DeviceCoordinator());
+        result.add(new CasioGWB5600DeviceCoordinator());
+        result.add(new CasioGMWB5000DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
         result.add(new ITagCoordinator());
@@ -344,11 +351,12 @@ public class DeviceHelper {
         result.add(new PineTimeJFCoordinator());
         result.add(new SG2Coordinator());
         result.add(new LefunDeviceCoordinator());
+        result.add(new BohemicSmartBraceletDeviceCoordinator());
         result.add(new SonySWR12DeviceCoordinator());
         result.add(new WaspOSCoordinator());
         result.add(new SMAQ2OSSCoordinator());
         result.add(new UM25Coordinator());
-        result.add(new DomyosT540Cooridnator());
+        result.add(new DomyosT540Coordinator());
         result.add(new FitProDeviceCoordinator());
         result.add(new Ear1Coordinator());
         result.add(new GalaxyBudsDeviceCoordinator());
@@ -371,7 +379,8 @@ public class DeviceHelper {
         result.add(new SuperCarsCoordinator());
         result.add(new AsteroidOSDeviceCoordinator());
         result.add(new SoFlowCoordinator());
-
+        result.add(new VivomoveHrCoordinator());
+        result.add(new WithingsSteelHRDeviceCoordinator());
         return result;
     }
 

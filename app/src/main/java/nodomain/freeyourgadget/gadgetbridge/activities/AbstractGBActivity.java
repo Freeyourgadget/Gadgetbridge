@@ -24,10 +24,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import java.util.Locale;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import java.util.Locale;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
@@ -50,6 +51,9 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
                     setLanguage(GBApplication.getLanguage(), true);
                     break;
+                case GBApplication.ACTION_THEME_CHANGE:
+                    recreate();
+                    break;
                 case GBApplication.ACTION_QUIT:
                     finish();
                     break;
@@ -69,7 +73,27 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
     }
 
     public static void init(GBActivity activity, int flags) {
-        if (GBApplication.isDarkThemeEnabled()) {
+        if (GBApplication.areDynamicColorsEnabled()) {
+            if (GBApplication.isDarkThemeEnabled()) {
+                if ((flags & NO_ACTIONBAR) != 0) {
+                    if (GBApplication.isAmoledBlackEnabled())
+                        activity.setTheme(R.style.GadgetbridgeThemeDynamicDarkAmoled_NoActionBar);
+                    else
+                        activity.setTheme(R.style.GadgetbridgeThemeDynamicDark_NoActionBar);
+                } else {
+                    if (GBApplication.isAmoledBlackEnabled())
+                        activity.setTheme(R.style.GadgetbridgeThemeDynamicDarkAmoled);
+                    else
+                        activity.setTheme(R.style.GadgetbridgeThemeDynamicDark);
+                }
+            } else {
+                if ((flags & NO_ACTIONBAR) != 0) {
+                    activity.setTheme(R.style.GadgetbridgeThemeDynamicLight_NoActionBar);
+                } else {
+                    activity.setTheme(R.style.GadgetbridgeThemeDynamicLight);
+                }
+            }
+        } else if (GBApplication.isDarkThemeEnabled()) {
             if ((flags & NO_ACTIONBAR) != 0) {
                 if (GBApplication.isAmoledBlackEnabled())
                     activity.setTheme(R.style.GadgetbridgeThemeBlack_NoActionBar);
@@ -96,6 +120,7 @@ public abstract class AbstractGBActivity extends AppCompatActivity implements GB
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_QUIT);
         filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
+        filterLocal.addAction(GBApplication.ACTION_THEME_CHANGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         init(this);

@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.GregorianCalendar;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -35,6 +36,11 @@ public class FetchSpo2SleepOperation extends AbstractRepeatingFetchOperation {
 
     public FetchSpo2SleepOperation(final HuamiSupport support) {
         super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_SPO2_SLEEP, "spo2 sleep data");
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_spo2_data);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class FetchSpo2SleepOperation extends AbstractRepeatingFetchOperation {
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.info("SPO2 (sleep) at {}: {} unknown={}", timestamp.getTime(), spo2, GB.hexdump(unknown));
+            LOG.debug("SPO2 (sleep) at {}: {} unknown={}", timestamp.getTime(), spo2, GB.hexdump(unknown));
             // TODO save
         }
 

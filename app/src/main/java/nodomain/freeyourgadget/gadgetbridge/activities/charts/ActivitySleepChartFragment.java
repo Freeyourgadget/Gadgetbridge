@@ -46,7 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
-public class ActivitySleepChartFragment extends AbstractChartFragment {
+public class ActivitySleepChartFragment extends AbstractActivityChartFragment<DefaultChartsData<LineData>> {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private LineChart mChart;
@@ -127,14 +127,13 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+    protected DefaultChartsData<LineData> refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> samples = getSamples(db, device);
         return refresh(device, samples);
     }
 
     @Override
-    protected void updateChartsnUIThread(ChartsData chartsData) {
-        DefaultChartsData dcd = (DefaultChartsData) chartsData;
+    protected void updateChartsnUIThread(DefaultChartsData<LineData> dcd) {
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
@@ -148,7 +147,7 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         List<LegendEntry> legendEntries = new ArrayList<>(5);
 
         LegendEntry activityEntry = new LegendEntry();

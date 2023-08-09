@@ -16,8 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts4mini;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -36,6 +39,11 @@ public class AmazfitGTS4MiniFirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_GTS4_MINI_NAME;
+    }
+
+    @Override
+    public Set<Integer> deviceSources() {
+        return new HashSet<>(Arrays.asList(246, 247));
     }
 
     @Override

@@ -136,7 +136,7 @@
         android:icon="@drawable/ic_sensor_calibration"
         android:summary="@string/qhybrid_summary_calibration">
         <intent
-            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetPackage="@string/applicationId"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CalibrationActivity" />
     </Preference>
 
@@ -173,14 +173,14 @@
 
         <EditTextPreference
             android:key="voice_service_package"
-            android:title="Voice service package"
-            android:summary="Application that contains the service handling voice commands"
+            android:title="@string/voice_service_package_title"
+            android:summary="@string/voice_service_package_summary"
             app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:key="voice_service_class"
-            android:title="Voice service full path"
-            android:summary="Full service path handling voice commands"
+            android:title="@string/voice_service_class_title"
+            android:summary="@string/voice_service_class_summary"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceScreen>

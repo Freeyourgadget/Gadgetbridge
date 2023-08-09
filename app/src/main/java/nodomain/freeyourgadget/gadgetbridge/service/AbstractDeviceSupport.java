@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -91,9 +92,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
@@ -262,7 +265,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         intent.putExtra(FindPhoneActivity.EXTRA_RING, ring);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntentUtils.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, false);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID )
                 .setSmallIcon(R.drawable.ic_notification)
@@ -318,6 +321,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             return;
         }
         gbDevice.setFirmwareVersion(infoEvent.fwVersion);
+        if (infoEvent.fwVersion2 != null) {
+            gbDevice.setFirmwareVersion2(infoEvent.fwVersion2);
+        }
         gbDevice.setModel(infoEvent.hwVersion);
         gbDevice.sendDeviceUpdateIntent(context);
     }
@@ -387,6 +393,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
+        if (screenshot.getData() == null) {
+            LOG.warn("Screnshot data is null");
+            return;
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
         String filename = "screenshot_" + dateFormat.format(new Date()) + ".bmp";
 
@@ -397,21 +408,22 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             intent.setAction(android.content.Intent.ACTION_VIEW);
             Uri screenshotURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".screenshot_provider", new File(fullpath));
             intent.setDataAndType(screenshotURI, "image/*");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            PendingIntent pIntent = PendingIntentUtils.getActivity(context, 0, intent, 0, false);
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotURI);
 
-            PendingIntent pendingShareIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "share screenshot"),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingShareIntent = PendingIntentUtils.getActivity(context, 0, Intent.createChooser(shareIntent, context.getString(R.string.share_screenshot)),
+                    PendingIntent.FLAG_UPDATE_CURRENT, false);
 
-            NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
+            NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, context.getString(R.string.share), pendingShareIntent).build();
 
-            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle("Screenshot taken")
-                    .setTicker("Screenshot taken")
+            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
+                    .setContentTitle(context.getString(R.string.screenshot_taken))
+                    .setTicker(context.getString(R.string.screenshot_taken))
                     .setContentText(filename)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setStyle(new NotificationCompat.BigPictureStyle()
@@ -637,6 +649,16 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+
+    }
+
+    /**
+     * If loyalty cards can be set on the device, this method can be
+     * overridden and implemented by the device support class.
+     * @param cards {@link java.util.ArrayList} containing {@link LoyaltyCard} instances
+     */
+    @Override
+    public void onSetLoyaltyCards(ArrayList<LoyaltyCard> cards) {
 
     }
 
@@ -958,6 +980,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     @Override
     public void onTestNewFunction() {
+
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
 
     }
 }

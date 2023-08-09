@@ -498,7 +498,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         this.mReportCharacteristic = getCharacteristic(MakibesHR3Constants.UUID_CHARACTERISTIC_REPORT);
 
         builder.notify(this.mReportCharacteristic, true);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
 
 
         // Allow modifications

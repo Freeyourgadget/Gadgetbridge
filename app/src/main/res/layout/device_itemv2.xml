@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardCornerRadius="3dp"
+        app:cardBackgroundColor="?attr/cardview_background_color"
         card_view:cardElevation="3dp"
         card_view:contentPadding="8dp">
 
@@ -534,7 +536,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

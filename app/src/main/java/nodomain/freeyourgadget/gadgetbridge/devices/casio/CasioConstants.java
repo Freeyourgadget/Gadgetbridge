@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2021 Andreas Böhler
+/*  Copyright (C) 2018-2023 Andreas Böhler, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -118,6 +118,7 @@ public final class CasioConstants {
         MODEL_CASIO_5600B,
         MODEL_CASIO_GBX100,
         MODEL_CASIO_STB1000,
+        MODEL_CASIO_GWB5600,
     }
 
     public enum ConfigurationOption {
@@ -157,6 +158,7 @@ public final class CasioConstants {
             put("CASIO_VERSION_INFORMATION", (byte) 0x20);
             put("CASIO_DST_WATCH_STATE", (byte) 0x1d);
             put("CASIO_DST_SETTING", (byte) 0x1e);
+            put("CASIO_WORLD_CITY", (byte) 0x1f);
             put("CASIO_SERVICE_DISCOVERY_MANAGER", (byte) 0x47);
             put("CASIO_CURRENT_TIME", (byte) 0x09);
             put("CASIO_SETTING_FOR_USER_PROFILE", (byte) 0x45);

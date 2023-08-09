@@ -66,7 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class LiveActivityFragment extends AbstractChartFragment {
+public class LiveActivityFragment extends AbstractActivityChartFragment<ChartsData> {
     private static final Logger LOG = LoggerFactory.getLogger(LiveActivityFragment.class);
     private static final int MAX_STEPS_PER_MINUTE = 300;
     private static final int MIN_STEPS_PER_MINUTE = 60;
@@ -533,7 +533,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         // no legend
     }
 }

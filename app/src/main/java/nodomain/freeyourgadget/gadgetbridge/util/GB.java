@@ -27,6 +27,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
@@ -147,8 +148,8 @@ public class GB {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
 
         return pendingIntent;
     }
@@ -189,18 +190,18 @@ public class GB {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
             if (connected) {
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
-                PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent disconnectPendingIntent = PendingIntentUtils.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
                 builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
                 if (DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) {
                     deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                     deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
-                    PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent fetchPendingIntent = PendingIntentUtils.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
                     builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
                 }
             } else if (device.getState().equals(GBDevice.State.WAITING_FOR_RECONNECT) || device.getState().equals(GBDevice.State.NOT_CONNECTED)) {
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
                 deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent reconnectPendingIntent = PendingIntentUtils.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT, false);
                 builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
             }
         }else{
@@ -244,7 +245,7 @@ public class GB {
                 Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                 deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
-                PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent fetchPendingIntent = PendingIntentUtils.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
                 builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
             }
         }
@@ -273,7 +274,7 @@ public class GB {
         if (GBApplication.getPrefs().getString("last_device_address", null) != null) {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
-            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent reconnectPendingIntent = PendingIntentUtils.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
             builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
         }
 
@@ -347,44 +348,12 @@ public class GB {
     }
 
     public static String writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) throws IOException {
+        LOG.info("Will write screenshot as {}", filename);
 
-        LOG.info("Will write screenshot: " + screenshot.width + "x" + screenshot.height + "x" + screenshot.bpp + "bpp");
-        final int FILE_HEADER_SIZE = 14;
-        final int INFO_HEADER_SIZE = 40;
-
-        File dir = FileUtils.getExternalFilesDir();
-        File outputFile = new File(dir, filename);
+        final File dir = FileUtils.getExternalFilesDir();
+        final File outputFile = new File(dir, filename);
         try (FileOutputStream fos = new FileOutputStream(outputFile)) {
-            ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-            headerbuf.order(ByteOrder.LITTLE_ENDIAN);
-
-            // file header
-            headerbuf.put((byte) 'B');
-            headerbuf.put((byte) 'M');
-            headerbuf.putInt(0); // size in bytes (uncompressed = 0)
-            headerbuf.putInt(0); // reserved
-            headerbuf.putInt(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-
-            // info header
-            headerbuf.putInt(INFO_HEADER_SIZE);
-            headerbuf.putInt(screenshot.width);
-            headerbuf.putInt(-screenshot.height);
-            headerbuf.putShort((short) 1); // planes
-            headerbuf.putShort((short) screenshot.bpp);
-            headerbuf.putInt(0); // compression
-            headerbuf.putInt(0); // length of pixeldata in bytes (uncompressed=0)
-            headerbuf.putInt(0); // pixels per meter (x)
-            headerbuf.putInt(0); // pixels per meter (y)
-            headerbuf.putInt(screenshot.clut.length / 4); // number of colors in CLUT
-            headerbuf.putInt(0); // numbers of used colors
-            headerbuf.put(screenshot.clut);
-            fos.write(headerbuf.array());
-            int rowbytes = (screenshot.width * screenshot.bpp) / 8;
-            byte[] pad = new byte[rowbytes % 4];
-            for (int i = 0; i < screenshot.height; i++) {
-                fos.write(screenshot.data, rowbytes * i, rowbytes);
-                fos.write(pad);
-            }
+            fos.write(screenshot.getData());
         }
         return outputFile.getAbsolutePath();
     }
@@ -481,8 +450,8 @@ public class GB {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_TRANSFER)
                 .setTicker((title == null) ? context.getString(R.string.app_name) : title)
@@ -516,7 +485,7 @@ public class GB {
     public static void createGpsNotification(Context context, int numDevices) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0, notificationIntent, 0, false);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_GPS)
                 .setTicker(context.getString(R.string.notification_gps_title))
@@ -539,8 +508,8 @@ public class GB {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.app_name))
@@ -569,8 +538,8 @@ public class GB {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_LOW_BATTERY)
                 .setContentTitle(context.getString(R.string.notif_battery_low_title))
@@ -603,8 +572,8 @@ public class GB {
         Intent notificationIntent = new Intent(context, SettingsActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notif_export_failed_title))

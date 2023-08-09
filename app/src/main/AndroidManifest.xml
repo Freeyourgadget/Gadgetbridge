@@ -8,8 +8,15 @@
         <uses-permission android:name="android.permission.INTERNET" />
     -->
     <!-- Used for Bluetooth access -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30"/>
+    <!-- Needed to looks for Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <!-- Needed to communicate with already-paired Bluetooth devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Since Android 10 -->
@@ -26,11 +33,22 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- Read loyalty cards from Catima -->
+    <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
+    <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions" />
+
+    <!--
+        Allow Gadgetbridge to run Termux commands. Permission must be granted manually through the
+        permissions page in Android settings.
+        More information: https://github.com/termux/termux-app/wiki/RUN_COMMAND-Intent
+    -->
+    <uses-permission android:name="com.termux.permission.RUN_COMMAND"/>
 
     <!-- Used for background service -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -49,6 +67,16 @@
 
     <!-- Used for starting activities from the background with intents -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!--
+    SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
+    services from other packages via intents, when targeting Android API level 30 or later
+    (e.g. Bangle.js build variant) on devices running Android 11 or later.
+    https://developer.android.com/training/package-visibility
+    https://support.google.com/googleplay/android-developer/answer/10158779?hl=en#zippy=%2Cpermitted-uses-of-the-query-all-packages-permission%2Cexceptions
+    -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -77,7 +105,8 @@
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
             android:theme="@style/SplashTheme"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -104,7 +133,19 @@
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
-            android:label="@string/preferences_miband_settings"
+            android:label="@string/preferences_miband_1_2_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.loyaltycards.LoyaltyCardsSettingsActivity"
+            android:label="@string/loyalty_cards"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
+        <activity
+            android:name=".devices.pebble.PebbleSettingsActivity"
+            android:label="@string/pref_title_pebble_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".devices.hplus.HPlusSettingsActivity"
+            android:label="@string/preferences_hplus_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".devices.zetime.ZeTimePreferenceActivity"
@@ -134,7 +175,8 @@
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
-            android:parentActivityName=".activities.ControlCenterv2">
+            android:parentActivityName=".activities.ControlCenterv2"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -355,7 +397,8 @@
         <service
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
@@ -375,7 +418,8 @@
 
         <receiver
             android:name=".externalevents.GenericWeatherReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
             </intent-filter>
@@ -383,13 +427,15 @@
 
         <receiver
             android:name=".externalevents.WeatherNotificationReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_UPDATE_2" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".externalevents.WeatherNotificationConfig">
+        <activity android:name=".externalevents.WeatherNotificationConfig"
+            android:exported="true">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
@@ -397,7 +443,8 @@
 
         <receiver
             android:name=".externalevents.AutoStartReceiver"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -494,6 +541,7 @@
             android:name=".devices.banglejs.AppsManagementActivity"
             android:label="@string/title_activity_appmanager"
             android:launchMode="singleTop"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|layoutDirection|uiMode"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".devices.miband.MiBandPairingActivity"
@@ -514,7 +562,7 @@
             android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
             android:label="@string/title_activity_LenovoWatch_calibration" />
         <activity
-            android:name=".activities.charts.ChartsActivity"
+            android:name=".activities.charts.ActivityChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
@@ -590,7 +638,8 @@
 
         <receiver
             android:name=".SleepAlarmWidget"
-            android:label="@string/appwidget_sleep_alarm_widget_label">
+            android:label="@string/appwidget_sleep_alarm_widget_label"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
@@ -602,7 +651,8 @@
         </receiver>
         <receiver
             android:name=".Widget"
-            android:label="@string/widget_listing_label">
+            android:label="@string/widget_listing_label"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
@@ -621,13 +671,15 @@
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <activity android:name=".activities.WidgetConfigurationActivity">
+        <activity android:name=".activities.WidgetConfigurationActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity">
+        <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
@@ -639,7 +691,8 @@
             android:clearTaskOnLaunch="true"
             android:label="@string/app_configure"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.appmanager.AppManagerActivity">
+            android:parentActivityName=".activities.appmanager.AppManagerActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
@@ -692,6 +745,10 @@
             android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
+            android:name=".devices.withingssteelhr.WithingsCalibrationActivity"
+            android:label="@string/qhybrid_title_calibration"
+            android:parentActivityName=".devices.withingssteelhr.WithingsCalibrationActivity" />
+        <activity
             android:name=".devices.qhybrid.CommuteActionsActivity"
             android:label="@string/qhybrid_pref_title_actions"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
@@ -726,7 +783,8 @@
             android:name=".activities.GpxReceiverActivity"
             android:label="@string/gpx_receiver_activity_title"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />

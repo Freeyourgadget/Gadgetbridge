@@ -19,18 +19,23 @@ package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActivitySample> {
+    private static final Logger LOG = LoggerFactory.getLogger(BangleJSSampleProvider.class);
+
     public BangleJSSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
@@ -77,11 +82,54 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity;
+        return rawIntensity / 256.0f;
     }
 
     @Override
     public BangleJSActivitySample createActivitySample() {
         return new BangleJSActivitySample();
+    }
+
+    /**
+     * Upserts a sample in the database, avoiding duplicated samples if a sample already exists in a
+     * close timestamp (within 2 minutes);
+     */
+    public void upsertSample(final BangleJSActivitySample sample) {
+        final List<BangleJSActivitySample> nearSamples = getGBActivitySamples(
+                sample.getTimestamp() - 60 * 2,
+                sample.getTimestamp() + 60 * 2,
+                normalizeType(sample.getRawKind())
+        );
+
+        if (nearSamples.isEmpty()) {
+            // No nearest sample, just insert
+            LOG.debug("No duplicate found at {}, inserting", sample.getTimestamp());
+            addGBActivitySample(sample);
+            return;
+        }
+
+        BangleJSActivitySample nearestSample = nearSamples.get(0);
+
+        for (final BangleJSActivitySample s : nearSamples) {
+            final int curDist = Math.abs(nearestSample.getTimestamp() - s.getTimestamp());
+            final int newDist = Math.abs(sample.getTimestamp() - s.getTimestamp());
+            if (newDist < curDist) {
+                nearestSample = s;
+            }
+        }
+
+        LOG.debug("Found {} duplicates for {}, updating nearest sample at {}", nearSamples.size(), sample.getTimestamp(), nearestSample.getTimestamp());
+
+        if (sample.getHeartRate() != 0) {
+            nearestSample.setHeartRate(sample.getHeartRate());
+        }
+        if (sample.getSteps() != 0) {
+            nearestSample.setSteps(sample.getSteps());
+        }
+        if (sample.getRawIntensity() != 0) {
+            nearestSample.setRawIntensity(sample.getRawIntensity());
+        }
+
+        addGBActivitySample(nearestSample);
     }
 }

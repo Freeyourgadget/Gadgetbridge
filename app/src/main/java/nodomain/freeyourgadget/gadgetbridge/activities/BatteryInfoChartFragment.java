@@ -52,7 +52,8 @@ import java.util.List;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.TimestampTranslation;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -94,7 +95,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
     }
 
     private DefaultBatteryChartsData fill_dcd(List<? extends BatteryLevel> samples) {
-        AbstractChartFragment.TimestampTranslation tsTranslation = new AbstractChartFragment.TimestampTranslation();
+        TimestampTranslation tsTranslation = new TimestampTranslation();
         List<Entry> entries = new ArrayList<Entry>();
         int firstTs = 0;
 
@@ -124,7 +125,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
     private void init() {
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(getContext());
         BATTERY_LABEL = getString(R.string.battery_level);
     }
 
@@ -192,11 +193,11 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
     }
 
     protected static class customFormatter extends ValueFormatter {
-        private final AbstractChartFragment.TimestampTranslation tsTranslation;
+        private final TimestampTranslation tsTranslation;
         SimpleDateFormat annotationDateFormat = new SimpleDateFormat("dd.MM HH:mm");
         Calendar cal = GregorianCalendar.getInstance();
 
-        public customFormatter(AbstractChartFragment.TimestampTranslation tsTranslation) {
+        public customFormatter(TimestampTranslation tsTranslation) {
             this.tsTranslation = tsTranslation;
         }
 
@@ -239,7 +240,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         }
     }
 
-    private class DefaultBatteryChartsData extends AbstractChartFragment.DefaultChartsData {
+    private class DefaultBatteryChartsData extends DefaultChartsData {
         public int firstTs;
 
         public DefaultBatteryChartsData(ChartData data, ValueFormatter xValueFormatter, int ts) {
@@ -259,7 +260,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
 
         public batteryValuesAndDateMarker(Context context, int layoutResource, int ts) {
             super(context, layoutResource);
-            AbstractChartFragment.TimestampTranslation tsTranslation = new AbstractChartFragment.TimestampTranslation();
+            TimestampTranslation tsTranslation = new TimestampTranslation();
             formatter = new customFormatter(tsTranslation);
             top_text = (TextView) findViewById(R.id.chart_marker_item_top);
             bottom_text = (TextView) findViewById(R.id.chart_marker_item_bottom);

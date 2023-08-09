@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:defaultValue="@array/pref_withings_steel_activity_types_default"
+        android:dialogTitle="@string/mi5_prefs_workout_activity_types"
+        android:entries="@array/pref_withings_steel_activity_types"
+        android:entryValues="@array/pref_withings_steel_activity_types_values"
+        android:key="workout_activity_types_sortable"
+        android:persistent="true"
+        android:summary="@string/mi5_prefs_workout_activity_types_summary"
+        android:title="@string/mi5_prefs_workout_activity_types" />
+    <Preference
+        android:title="@string/qhybrid_title_calibration"
+        android:icon="@drawable/ic_sensor_calibration"
+        android:summary="@string/qhybrid_summary_calibration"
+        android:key="hands_calibration">
+        <intent
+            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsCalibrationActivity" />
+    </Preference>
+</androidx.preference.PreferenceScreen>

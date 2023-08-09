@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 
 public class AutoConnectIntervalReceiver extends BroadcastReceiver {
 
@@ -73,6 +74,7 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
 
             if(allDevicesInitialized){
                 LOG.info("will reset connection delay, all devices are initialized!");
+                mDelay = 4;
                 return;
             }
             if(scheduleAutoConnect){
@@ -101,7 +103,7 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
         AlarmManager am = (AlarmManager) (GBApplication.getContext().getSystemService(Context.ALARM_SERVICE));
         Intent intent = new Intent("GB_RECONNECT");
         intent.setPackage(BuildConfig.APPLICATION_ID);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(GBApplication.getContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getBroadcast(GBApplication.getContext(), 0, intent, 0, false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Calendar.getInstance().
                     getTimeInMillis() + delay * 1000, pendingIntent);

@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,7 +55,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +134,7 @@ public class ConfigActivity extends AbstractGBActivity {
 
                 layout2.setGravity(Gravity.CENTER);
 
-                new AlertDialog.Builder(ConfigActivity.this)
+                new MaterialAlertDialogBuilder(ConfigActivity.this)
                         .setTitle(getString(R.string.qhybrid_offset_time_by))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -177,7 +179,7 @@ public class ConfigActivity extends AbstractGBActivity {
 
                 layout2.setGravity(Gravity.CENTER);
 
-                new AlertDialog.Builder(ConfigActivity.this)
+                new MaterialAlertDialogBuilder(ConfigActivity.this)
                         .setTitle(getString(R.string.qhybrid_offset_timezone))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -387,7 +389,7 @@ public class ConfigActivity extends AbstractGBActivity {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
                             if (!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")) {
-                                new AlertDialog.Builder(ConfigActivity.this)
+                                new MaterialAlertDialogBuilder(ConfigActivity.this)
                                         .setMessage(getString(R.string.qhybrid_prompt_million_steps))
                                         .setPositiveButton("ok", null)
                                         .show();
@@ -449,7 +451,7 @@ public class ConfigActivity extends AbstractGBActivity {
                         buttonTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                AlertDialog dialog = new AlertDialog.Builder(ConfigActivity.this)
+                                AlertDialog dialog = new MaterialAlertDialogBuilder(ConfigActivity.this)
                                         .setItems(names, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {

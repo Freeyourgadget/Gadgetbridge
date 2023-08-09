@@ -46,7 +46,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
  * If you combine such preferences with a custom OnPreferenceChangeListener, you have
  * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
  * not be displayed.
+ *
+ * @deprecated use AbstractSettingsActivityV2
  */
+@Deprecated
 public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity implements GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
@@ -244,26 +247,4 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
             LOG.warn("Could not find preference " + preferenceKey);
         }
     }
-
-    // Ensure that the Control center is re-rendered when user preferences change
-    protected void addIntentNotificationListener(final String preferenceKey) {
-        Preference pref = findPreference(preferenceKey);
-
-        if (pref != null) {
-            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
-                    return true;
-                }
-            });
-        } else {
-            LOG.warn("Could not find preference " + preferenceKey);
-        }
-    }
-
-
-
-
 }

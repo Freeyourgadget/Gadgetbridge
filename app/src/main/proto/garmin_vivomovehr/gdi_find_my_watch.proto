@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message FindMyWatchService {
+    optional FindMyWatchRequest find_request = 1;
+    optional FindMyWatchResponse find_response = 2;
+    optional FindMyWatchCancelRequest cancel_request = 3;
+    optional FindMyWatchCancelResponse cancel_response = 4;
+
+    message FindMyWatchRequest {
+        required int32 timeout = 1;
+    }
+
+    message FindMyWatchResponse {
+        optional ResponseStatus status = 1;
+    }
+
+    message FindMyWatchCancelRequest {
+    }
+
+    message FindMyWatchCancelResponse {
+        optional ResponseStatus status = 1;
+    }
+
+    enum ResponseStatus {
+        UNKNOWN_RESPONSE_STATUS = 0;
+        OK = 100;
+        ERROR = 200;
+    }
+}

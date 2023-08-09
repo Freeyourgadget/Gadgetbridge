@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:alpha="0.1"
-        android:tint="?attr/textColorPrimary"
         app:srcCompat="@drawable/gadgetbridge_img" />
 
     <androidx.recyclerview.widget.RecyclerView

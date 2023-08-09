@@ -26,31 +26,31 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileTransferService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<Huami2021Support>
-        implements ZeppOsFileUploadService.Callback {
+        implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsGpxRouteUploadOperation.class);
 
     private final ZeppOsGpxRouteFile file;
     private final byte[] fileBytes;
 
-    private final ZeppOsFileUploadService fileUploadService;
+    private final ZeppOsFileTransferService fileTransferService;
 
     public ZeppOsGpxRouteUploadOperation(final Huami2021Support support,
                                          final ZeppOsGpxRouteFile file,
-                                         final ZeppOsFileUploadService fileUploadService) {
+                                         final ZeppOsFileTransferService fileTransferService) {
         super(support);
         this.file = file;
         this.fileBytes = file.getEncodedBytes();
-        this.fileUploadService = fileUploadService;
+        this.fileTransferService = fileTransferService;
     }
 
     @Override
     protected void doPerform() throws IOException {
-        fileUploadService.sendFile(
+        fileTransferService.sendFile(
                 "sport://file_transfer?appId=7073283073&params={}",
                 "track_" + file.getTimestamp() + ".dat",
                 fileBytes,
@@ -86,6 +86,11 @@ public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<Huami20
 
         final int progressPercent = (int) ((((float) (progress)) / fileBytes.length) * 100);
         updateProgress(progressPercent);
+    }
+
+    @Override
+    public void onFileDownloadFinish(final String url, final String filename, final byte[] data) {
+        LOG.warn("Received unexpected file: url={} filename={} length={}", url, filename, data.length);
     }
 
     private void updateProgress(final int progressPercent) {

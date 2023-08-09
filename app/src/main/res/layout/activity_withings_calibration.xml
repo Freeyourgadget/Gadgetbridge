@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rotaryControl="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/withings_calibration_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:text="@string/withings_calibration_text_hours"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.RotaryControl
+        android:id="@+id/rotary_control"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="30dp"
+        rotaryControl:controlpoint_color="@color/accent"
+        rotaryControl:controlpoint_size="20dp"
+        rotaryControl:line_color="@color/design_default_color_on_secondary"
+        rotaryControl:line_thickness="10dp" />
+
+    <Button
+        android:id="@+id/withings_calibration_button_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="50dp"
+        android:padding="16dp"
+        android:text="@string/withings_bt_calibration_previous" />
+
+    <Button
+        android:id="@+id/withings_calibration_button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="50dp"
+        android:padding="16dp"
+        android:text="@string/withings_bt_calibration_next" />
+
+    <Button
+        android:id="@+id/withings_calibration_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:padding="16dp"
+        android:text="@string/ok" />
+
+</RelativeLayout>

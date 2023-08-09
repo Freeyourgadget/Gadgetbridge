@@ -2,14 +2,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!--
-        SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
-        services from other packages via intents, when targeting Android API level 30 or later
-        (e.g. Bangle.js build variant) on devices running Android 11 or later.
-        https://developer.android.com/training/package-visibility
-        https://support.google.com/googleplay/android-developer/answer/10158779?hl=en#zippy=%2Cpermitted-uses-of-the-query-all-packages-permission%2Cexceptions
-    -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-
 </manifest>

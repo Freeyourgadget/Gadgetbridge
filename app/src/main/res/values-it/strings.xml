@@ -1929,7 +1929,7 @@
     <string name="menuitem_unsupported">[NON SUPPORTATO] %s</string>
     <string name="world_clock_code">Codice</string>
     <string name="function_enabled">Attivata</string>
-    <string name="activity_type_core_training">Core Training</string>
+    <string name="activity_type_core_training">Allenamento Core</string>
     <string name="menuitem_volume">Volume</string>
     <string name="sports_activity_confirm_delete_title">Elimina %d attività</string>
     <string name="sports_activity_confirm_delete_description">Sei sicuro di voler eliminare %d attività\?</string>
@@ -1974,7 +1974,7 @@
     <string name="pref_title_upper_button_long_press_action">Azione pressione prolungata pulsante superiore</string>
     <string name="pref_title_lower_button_short_press_action">Azione pressione breve pulsante inferiore</string>
     <string name="activity_type_hiit">Allenamento a intervalli ad alta intensità</string>
-    <string name="activity_type_stepper">Stepper</string>
+    <string name="activity_type_stepper">Step</string>
     <string name="watchface_setting_button_move_hands">Movimento mani</string>
     <string name="maximumOxygenUptake">Massimo Assorbimento Ossigeno</string>
     <string name="menuitem_brightness">Luminosità</string>
@@ -2194,4 +2194,37 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
     <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="debug_companion_pair_current">Accoppia il dispositivo corrente</string>
+    <string name="gpx_route_upload_failed">Caricamento traccia GPX fallito</string>
+    <string name="gpx_route_upload_complete">Caricamento traccia GPX completato</string>
+    <string name="gpx_route_upload_in_progress">Caricamento traccia GPX</string>
+    <string name="activity_detail_share_gps_label">Condividi traccia GPX</string>
+    <string name="intent_api_allow_debug_commands_title">Consenti Comandi di Debug</string>
+    <string name="contact_name">Nome</string>
+    <string name="fossil_hr_pairing_successful">Accoppiamento con l\'orologio riuscito</string>
+    <string name="fossil_hr_pairing_failed">Accoppiamento con l\'orologio fallito</string>
+    <string name="intent_api_allow_debug_commands_summary">Consenti di attivare comandi del menu di debug tramite l\'API Intenti</string>
+    <string name="fossil_hr_confirm_connection">Conferma sull\'orologio</string>
+    <string name="fossil_hr_connection_not_confirmed">Connessione non confermata sull\'orologio, modalità non autenticata attiva</string>
+    <string name="fossil_hr_confirmation_timeout">Timeout di conferma, continua</string>
+    <string name="fossil_hr_confirmation_skipped">Conferma sul dispositivo saltata</string>
+    <string name="contact_phone_number">Numero di telefono</string>
+    <string name="contact_missing_number">Il numero del contatto è vuoto</string>
+    <string name="contact_missing_name">Il nome del contatto è vuoto</string>
+    <string name="title_activity_set_contacts">Configura contatti</string>
+    <string name="pref_contacts_title">Contatti</string>
+    <string name="pref_contacts_summary">Configura contatti sull\'orologio</string>
+    <string name="contact_delete_confirm_title">Elimina contatto</string>
+    <string name="contact_delete_confirm_description">Sei sicuro di voler eliminare \'%1$s\'\?</string>
+    <string name="contact_no_free_slots_description">Il dispositivo non ha campi liberi per contatti (campi totali: %1$s)</string>
+    <string name="dev_tools">Strumenti Sviluppatori</string>
+    <string name="debug_companion_show_associated">Mostra i dispositivi associati</string>
+    <string name="activity_detail_share_raw_details">Condividi Dettagli Raw</string>
+    <string name="activity_detail_share_raw_summary">Condividi Riepilogo Raw</string>
+    <string name="pref_header_navigation">Navigazione</string>
+    <string name="title_activity_contact_details">Dettagli contatto</string>
+    <string name="activity_error_share_failed">Condivisione file fallita.</string>
+    <string name="kind_gpx_route">Traccia GPX</string>
+    <string name="pref_title_navigation_forward">Invia navigazione all\'orologio</string>
+    <string name="pref_summary_navigation_forward">Inoltra istruzioni da app di navigazione all\'orologio</string>
 </resources>

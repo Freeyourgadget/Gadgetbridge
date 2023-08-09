@@ -54,7 +54,7 @@ public class Transaction extends AbstractTransaction {
         return mActions.isEmpty();
     }
 
-    public void setGattCallback(@Nullable GattCallback callback) {
+    public void setCallback(@Nullable GattCallback callback) {
         gattCallback = callback;
         modifyGattCallback = true;
     }

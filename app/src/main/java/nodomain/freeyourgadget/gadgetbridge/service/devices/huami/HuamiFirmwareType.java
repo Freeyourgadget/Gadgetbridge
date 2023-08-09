@@ -44,4 +44,12 @@ public enum HuamiFirmwareType {
     public byte getValue() {
         return value;
     }
+
+    public boolean isApp() {
+        return this == APP || this == ZEPPOS_APP;
+    }
+
+    public boolean isWatchface() {
+        return this == WATCHFACE;
+    }
 }

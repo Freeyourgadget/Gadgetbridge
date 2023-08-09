@@ -45,7 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
 
-public class SpeedZonesFragment extends AbstractChartFragment {
+public class SpeedZonesFragment extends AbstractActivityChartFragment<ChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(SpeedZonesFragment.class);
 
     private HorizontalBarChart mStatsChart;
@@ -139,7 +139,7 @@ public class SpeedZonesFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         // no legend here, it is all about the steps here
         chart.getLegend().setEnabled(false);
     }

@@ -23,6 +23,16 @@ public class RecordedDataTypes {
     public static final int TYPE_GPS_TRACKS   = 0x00000004;
     public static final int TYPE_TEMPERATURE  = 0x00000008;
     public static final int TYPE_DEBUGLOGS    = 0x00000010;
+    public static final int TYPE_SPO2         = 0x00000020;
+    public static final int TYPE_STRESS       = 0x00000040;
+    public static final int TYPE_HEART_RATE   = 0x00000080;
+    public static final int TYPE_PAI          = 0x00000100;
+    public static final int TYPE_SLEEP_RESPIRATORY_RATE = 0x00000200;
 
     public static final int TYPE_ALL          = (int)0xffffffff;
+
+    // Types to fetch during sync - scheduled, sync button, etc.
+    // Does not include debug logs or workouts
+    public static final int TYPE_SYNC = TYPE_ACTIVITY | TYPE_SPO2 | TYPE_STRESS |
+            TYPE_HEART_RATE | TYPE_PAI | TYPE_SLEEP_RESPIRATORY_RATE;
 }

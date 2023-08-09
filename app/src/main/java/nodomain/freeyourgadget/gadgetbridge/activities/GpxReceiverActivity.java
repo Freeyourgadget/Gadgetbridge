@@ -86,7 +86,7 @@ public class GpxReceiverActivity extends AbstractGBActivity {
 
         if (documentUris != null) {
             for (Uri uri : documentUris) {
-                if (uri.getPath().toLowerCase().endsWith(".gpx")) {
+                if (uri!=null && uri.getPath().toLowerCase().endsWith(".gpx")) {
                     FileToProcess file = new FileToProcess(uri);
                     fileList.add(file);
                     fileListingText.append(String.format("%s %s\n\n", file.name, file.exists ? getString(R.string.dbmanagementactivity_overwrite) : ""));

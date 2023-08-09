@@ -91,7 +91,7 @@ public class MiScale2DeviceSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         // Weight and body composition
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_BODY_COMPOSITION_MEASUREMENT), true);
 
         return builder;

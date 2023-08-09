@@ -28,20 +28,20 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressActi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileTransferService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Updates the AGPS EPO on a Zepp OS device. Update goes as follows:
  * 1. Request an upload start from {@link ZeppOsAgpsService}
- * 2. After successful ack from 1, upload the file to agps://upgrade using {@link ZeppOsFileUploadService}
+ * 2. After successful ack from 1, upload the file to agps://upgrade using {@link ZeppOsFileTransferService}
  * 3. After successful ack from 2, trigger the actual update with {@link ZeppOsAgpsService}
  * 4. After successful ack from 3, update is finished. Trigger an AGPS config request from {@link ZeppOsConfigService}
  * to reload the AGPS update and expiration timestamps.
  */
 public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<Huami2021Support>
-        implements ZeppOsFileUploadService.Callback, ZeppOsAgpsService.Callback {
+        implements ZeppOsFileTransferService.Callback, ZeppOsAgpsService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAgpsUpdateOperation.class);
 
     private static final String AGPS_UPDATE_URL = "agps://upgrade";
@@ -51,19 +51,19 @@ public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<Huami2021Su
     private final byte[] fileBytes;
 
     private final ZeppOsAgpsService agpsService;
-    private final ZeppOsFileUploadService fileUploadService;
+    private final ZeppOsFileTransferService fileTransferService;
     private final ZeppOsConfigService configService;
 
     public ZeppOsAgpsUpdateOperation(final Huami2021Support support,
                                      final ZeppOsAgpsFile file,
                                      final ZeppOsAgpsService agpsService,
-                                     final ZeppOsFileUploadService fileUploadService,
+                                     final ZeppOsFileTransferService fileTransferService,
                                      final ZeppOsConfigService configService) {
         super(support);
         this.file = file;
         this.fileBytes = file.getUihhBytes();
         this.agpsService = agpsService;
-        this.fileUploadService = fileUploadService;
+        this.fileTransferService = fileTransferService;
         this.configService = configService;
     }
 
@@ -100,13 +100,18 @@ public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<Huami2021Su
     }
 
     @Override
+    public void onFileDownloadFinish(final String url, final String filename, final byte[] data) {
+        LOG.warn("Received unexpected file: url={} filename={} length={}", url, filename, data.length);
+    }
+
+    @Override
     public void onAgpsUploadStartResponse(final boolean success) {
         if (!success) {
             onFinish(false);
             return;
         }
 
-        fileUploadService.sendFile(AGPS_UPDATE_URL, AGPS_UPDATE_FILE, fileBytes, this);
+        fileTransferService.sendFile(AGPS_UPDATE_URL, AGPS_UPDATE_FILE, fileBytes, this);
     }
 
     @Override

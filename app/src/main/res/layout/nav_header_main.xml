@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/side_nav_bar"
+    android:background="?attr/drawer_header_color"
     android:gravity="bottom"
     android:orientation="vertical"
+    android:layout_marginTop="16dp"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <ImageView
         android:id="@+id/imageView"
@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
+        android:textColor="?attr/drawer_title_color"
         android:text="@string/app_name" />
 
 </LinearLayout>

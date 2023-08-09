@@ -1,0 +1,50 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message SmsNotificationService {
+    optional SmsSendMessageRequest sms_send_message_request = 1;
+    optional SmsSendMessageResponse sms_send_message_response = 2;
+    optional SmsCannedListChangedNotification sms_canned_list_changed_notification = 3;
+    optional SmsCannedListRequest sms_canned_list_request = 4;
+    optional SmsCannedListResponse sms_canned_list_response = 5;
+
+    message SmsSendMessageRequest {
+        optional string receiver_number = 1;
+        optional string message = 2;
+    }
+
+    message SmsSendMessageResponse {
+        optional ResponseStatus status = 1;
+    }
+
+    message SmsCannedListChangedNotification {
+        repeated CannedListType changed_type = 1;
+    }
+
+    message SmsCannedListRequest {
+        repeated CannedListType requested_types = 1;
+    }
+
+    message SmsCannedListResponse {
+        optional ResponseStatus status = 1;
+        repeated SmsCannedList lists = 2;
+    }
+
+    message SmsCannedList {
+        optional CannedListType type = 1;
+        repeated string response = 2;
+    }
+
+    enum CannedListType {
+        PHONE_CALL_RESPONSE = 0;
+        SMS_MESSAGE_RESPONSE = 1;
+    }
+
+    enum ResponseStatus {
+        SUCCESS = 0;
+        GENERIC_ERROR = 1;
+    }
+}

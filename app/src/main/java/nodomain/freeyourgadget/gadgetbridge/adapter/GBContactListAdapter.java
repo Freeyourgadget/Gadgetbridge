@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +24,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class GBContactListAdapter extends RecyclerView.Adapter<GBContactListAdap
         holder.container.setOnClickListener(v -> ((ConfigureContacts) mContext).configureContact(contact));
 
         holder.container.setOnLongClickListener(v -> {
-            new AlertDialog.Builder(v.getContext())
+            new MaterialAlertDialogBuilder(v.getContext())
                     .setTitle(R.string.contact_delete_confirm_title)
                     .setMessage(mContext.getString(R.string.contact_delete_confirm_description, contact.getName()))
                     .setIcon(R.drawable.ic_warning)
@@ -92,7 +93,7 @@ public class GBContactListAdapter extends RecyclerView.Adapter<GBContactListAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final CardView container;
+        final MaterialCardView container;
 
         final TextView contactName;
         final TextView contactNumber;

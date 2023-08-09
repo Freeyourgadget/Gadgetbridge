@@ -3,10 +3,9 @@
     <PreferenceCategory
         android:title="@string/connection_over_bt_classic" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:icon="@drawable/ic_bluetooth"
         android:key="prefs_key_device_reconnect_on_acl"
         android:title="@string/autoconnect_from_device_title"
-        android:summary="@string/autoconnect_from_device_summary"
-        android:layout="@layout/preference_checkbox" />
+        android:summary="@string/autoconnect_from_device_summary" />
 </PreferenceScreen>

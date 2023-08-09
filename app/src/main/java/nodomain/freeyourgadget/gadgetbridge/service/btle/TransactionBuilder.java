@@ -26,8 +26,11 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import java.util.Arrays;
+
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestMtuAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
@@ -60,9 +63,27 @@ public class TransactionBuilder {
         return add(action);
     }
 
+    public TransactionBuilder writeChunkedData(BluetoothGattCharacteristic characteristic, byte[] data, int chunkSize) {
+        for (int start = 0; start < data.length; start += chunkSize) {
+            int end = start + chunkSize;
+            if (end > data.length) end = data.length;
+            WriteAction action = new WriteAction(characteristic, Arrays.copyOfRange(data, start, end));
+            add(action);
+        }
+
+        return this;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public TransactionBuilder requestMtu(int mtu){
         return add(
                 new RequestMtuAction(mtu)
+        );
+    }
+
+    public TransactionBuilder requestConnectionPriority(int priority){
+        return add(
+                new RequestConnectionPriorityAction(priority)
         );
     }
 
@@ -101,8 +122,8 @@ public class TransactionBuilder {
      *
      * @param callback the callback to set, may be null
      */
-    public void setGattCallback(@Nullable GattCallback callback) {
-        mTransaction.setGattCallback(callback);
+    public void setCallback(@Nullable GattCallback callback) {
+        mTransaction.setCallback(callback);
     }
 
     public

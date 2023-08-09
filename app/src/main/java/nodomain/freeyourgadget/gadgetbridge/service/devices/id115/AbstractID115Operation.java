@@ -62,7 +62,7 @@ public abstract class AbstractID115Operation extends AbstractBTLEOperation<ID115
             try {
                 TransactionBuilder builder = performInitialized("reenabling disabled notifications");
                 enableNotifications(builder, false);
-                builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
+                builder.setCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.queue(getQueue());
             } catch (IOException ex) {
                 GB.toast(getContext(), "Error enabling ID115 notifications, you may need to connect and disconnect", Toast.LENGTH_LONG, GB.ERROR, ex);

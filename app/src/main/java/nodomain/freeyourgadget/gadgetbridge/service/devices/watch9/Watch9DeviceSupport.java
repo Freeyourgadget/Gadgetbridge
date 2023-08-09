@@ -314,7 +314,7 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
                 .enableDoNotDisturb(builder, false)
                 .setFitnessGoal(builder);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-        builder.setGattCallback(this);
+        builder.setCallback(this);
 
         return this;
     }

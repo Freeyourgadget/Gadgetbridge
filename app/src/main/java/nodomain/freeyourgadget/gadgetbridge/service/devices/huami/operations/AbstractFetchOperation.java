@@ -89,7 +89,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
         TransactionBuilder builder = performInitialized(getName());
         if (fetchCount == 0) {
-            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+            builder.add(new SetDeviceBusyAction(getDevice(), taskDescription(), getContext()));
         }
         fetchCount++;
 
@@ -103,6 +103,11 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         startFetching(builder);
         builder.queue(getQueue());
     }
+
+    /**
+     * A task description, to display in notifications and device card.
+     */
+    protected abstract String taskDescription();
 
     protected abstract void startFetching(TransactionBuilder builder);
 
@@ -130,6 +135,24 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
      */
     @CallSuper
     protected boolean handleActivityFetchFinish(boolean success) {
+        final AbstractFetchOperation nextFetchOperation = getSupport().getNextFetchOperation();
+        if (nextFetchOperation != null) {
+            LOG.debug("Performing next operation {}", nextFetchOperation.getName());
+            try {
+                nextFetchOperation.perform();
+                return true;
+            } catch (final IOException e) {
+                GB.toast(
+                        getContext(),
+                        "Failed to run next fetch operation",
+                        Toast.LENGTH_SHORT,
+                        GB.ERROR, e
+                );
+
+                return false;
+            }
+        }
+
         GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();
@@ -179,7 +202,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
                         if (expectedDataLength == 0 && isHuami2021) {
                             // Nothing to receive, if we try to fetch data it will fail
                             sendAck2021(true);
-                        } else {
+                        } else if (expectedDataLength != 0) {
                             TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
                             newBuilder.notify(characteristicActivityData, true);
                             newBuilder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
@@ -259,7 +282,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         setStartTimestamp(startTimestamp);
         LOG.info("Will transfer {} packets since {}", expectedDataLength, startTimestamp.getTime());
 
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data),
+        GB.updateTransferNotification(taskDescription(),
                 getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
                         DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), true, 0, getContext());
     }

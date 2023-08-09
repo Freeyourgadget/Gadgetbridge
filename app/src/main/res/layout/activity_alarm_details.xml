@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:inputType="text"
                 android:maxLength="32" />
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Description"
+                android:hint="@string/description"
                 android:inputType="textMultiLine"
                 android:maxLength="256"
                 android:singleLine="false" />

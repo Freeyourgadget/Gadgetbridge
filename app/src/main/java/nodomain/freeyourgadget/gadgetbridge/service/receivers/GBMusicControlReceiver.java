@@ -48,6 +48,8 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         int keyCode = -1;
         int volumeAdjust = AudioManager.ADJUST_LOWER;
 
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        
         switch (musicCmd) {
             case NEXT:
                 keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
@@ -74,7 +76,6 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 // change default and fall through, :P
                 volumeAdjust = AudioManager.ADJUST_RAISE;
             case VOLUMEDOWN:
-                AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, volumeAdjust, 0);
 
                 final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -93,22 +94,30 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             LOG.debug("keypress: " + musicCmd.toString() + " sent to: " + audioPlayer);
 
             long eventtime = SystemClock.uptimeMillis();
+            
+            if (GBApplication.getPrefs().getBoolean("mb_intents", false)) {
+                Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
+                downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
+                if (!"default".equals(audioPlayer)) {
+                    downIntent.setPackage(audioPlayer);
+                }
+                context.sendOrderedBroadcast(downIntent, null);
 
-            Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-            KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
-            downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-            if (!"default".equals(audioPlayer)) {
-                downIntent.setPackage(audioPlayer);
-            }
-            context.sendOrderedBroadcast(downIntent, null);
+                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
+                upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
+                if (!"default".equals(audioPlayer)) {
+                    upIntent.setPackage(audioPlayer);
+                }
+                context.sendOrderedBroadcast(upIntent, null);
+            } else {
+                KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
+                audioManager.dispatchMediaKeyEvent(downEvent);
 
-            Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-            KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
-            upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-            if (!"default".equals(audioPlayer)) {
-                upIntent.setPackage(audioPlayer);
+                KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
+                audioManager.dispatchMediaKeyEvent(upEvent);
             }
-            context.sendOrderedBroadcast(upIntent, null);
         }
     }
 

@@ -17,8 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
@@ -27,7 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -38,8 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,7 +42,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -560,6 +554,14 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     private void log(String message){
         logger.debug(message);
+    }
+
+    @Override
+    public String customStringFilter(String inputString) {
+        // Remove Unicode code points that can't be displayed by the watch like emoji skin tones and variation selectors
+        // \x{1f3fb}-\x{1f3ff} = Emoji skin tones: https://en.wikipedia.org/wiki/Emoticons_(Unicode_block)
+        // \ufe00-\ufe0f = Variation selectors: https://en.wikipedia.org/wiki/Variation_Selectors_(Unicode_block)
+        return inputString.replaceAll("[\\x{1f3fb}-\\x{1f3ff}|\\ufe00-\\ufe0f]", "");
     }
 
     @Override

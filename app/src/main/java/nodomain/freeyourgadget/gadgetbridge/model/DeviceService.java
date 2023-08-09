@@ -40,6 +40,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
     String ACTION_SETMUSICSTATE = PREFIX + ".action.setmusicstate";
     String ACTION_SET_PHONE_VOLUME = PREFIX + ".action.set_phone_volume";
+    String ACTION_SETNAVIGATIONINFO = PREFIX + ".action.setnavigationinfo";
     String ACTION_REQUEST_DEVICEINFO = PREFIX + ".action.request_deviceinfo";
     String ACTION_REQUEST_APPINFO = PREFIX + ".action.request_appinfo";
     String ACTION_REQUEST_SCREENSHOT = PREFIX + ".action.request_screenshot";
@@ -59,6 +60,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_SAVE_ALARMS = PREFIX + ".action.save_alarms";
     String ACTION_SET_REMINDERS = PREFIX + ".action.set_reminders";
+    String ACTION_SET_LOYALTY_CARDS = PREFIX + ".action.set_loyalty_cards";
     String ACTION_SET_WORLD_CLOCKS = PREFIX + ".action.set_world_clocks";
     String ACTION_SET_CONTACTS = PREFIX + ".action.set_contacts";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
@@ -110,6 +112,10 @@ public interface DeviceService extends EventHandler {
     String EXTRA_MUSIC_POSITION = "music_position";
     String EXTRA_MUSIC_RATE = "music_rate";
     String EXTRA_PHONE_VOLUME = "phone_volume";
+    String EXTRA_NAVIGATION_INSTRUCTION = "navigation_instruction";
+    String EXTRA_NAVIGATION_DISTANCE_TO_TURN = "navigation_distance_to_turn";
+    String EXTRA_NAVIGATION_NEXT_ACTION = "navigation_next_action";
+    String EXTRA_NAVIGATION_ETA = "navigation_eta";
     String EXTRA_APP_UUID = "app_uuid";
     String EXTRA_APP_START = "app_start";
     String EXTRA_APP_CONFIG = "app_config";
@@ -118,6 +124,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CONFIG = "config";
     String EXTRA_ALARMS = "alarms";
     String EXTRA_REMINDERS = "reminders";
+    String EXTRA_LOYALTY_CARDS = "loyalty_cards";
     String EXTRA_WORLD_CLOCKS = "world_clocks";
     String EXTRA_CONTACTS = "contacts";
     String EXTRA_CONNECT_FIRST_TIME = "connect_first_time";

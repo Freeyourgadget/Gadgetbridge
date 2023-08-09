@@ -23,15 +23,14 @@ import java.util.Date;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public interface ChartsHost {
-    String DATE_PREV_DAY = ChartsActivity.class.getName().concat(".date_prev_day");
-    String DATE_NEXT_DAY = ChartsActivity.class.getName().concat(".date_next_day");
-    String DATE_PREV_WEEK = ChartsActivity.class.getName().concat(".date_prev_week");
-    String DATE_NEXT_WEEK = ChartsActivity.class.getName().concat(".date_next_week");
-    String DATE_PREV_MONTH = ChartsActivity.class.getName().concat(".date_prev_month");
-    String DATE_NEXT_MONTH = ChartsActivity.class.getName().concat(".date_next_month");
+    String DATE_PREV_DAY = ChartsHost.class.getName().concat(".date_prev_day");
+    String DATE_NEXT_DAY = ChartsHost.class.getName().concat(".date_next_day");
+    String DATE_PREV_WEEK = ChartsHost.class.getName().concat(".date_prev_week");
+    String DATE_NEXT_WEEK = ChartsHost.class.getName().concat(".date_next_week");
+    String DATE_PREV_MONTH = ChartsHost.class.getName().concat(".date_prev_month");
+    String DATE_NEXT_MONTH = ChartsHost.class.getName().concat(".date_next_month");
 
-
-    String REFRESH = ChartsActivity.class.getName().concat(".refresh");
+    String REFRESH = ChartsHost.class.getName().concat(".refresh");
 
     GBDevice getDevice();
 

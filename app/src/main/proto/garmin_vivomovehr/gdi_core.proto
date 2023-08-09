@@ -1,0 +1,79 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message CoreService {
+    optional SyncRequest sync_request = 1;
+    optional SyncResponse sync_response = 2;
+    optional GetLocationRequest get_location_request = 3;
+    optional GetLocationResponse get_location_response = 4;
+    optional LocationUpdatedSetEnabledRequest location_updated_set_enabled_request = 5;
+    optional LocationUpdatedSetEnabledResponse location_updated_set_enabled_response = 6;
+    optional LocationUpdatedNotification location_updated_notification = 7;
+
+    message SyncRequest {
+    }
+
+    message SyncResponse {
+        optional ResponseStatus status = 1;
+
+        enum ResponseStatus {
+            UNKNOWN_RESPONSE_STATUS = 0;
+            OK = 1;
+        }
+    }
+
+    message GetLocationRequest {
+        optional RequestType request_type = 1;
+
+        enum RequestType {
+            STANDARD = 0;
+            EMERGENCY = 1;
+        }
+    }
+
+    message GetLocationResponse {
+        optional Status status = 1;
+        optional LocationData location_data = 2;
+
+        enum Status {
+            OK = 1;
+            NO_VALID_LOCATION = 2;
+            LOCATION_SERVICES_UNAVAILABLE = 3;
+            LOCATION_SERVICES_DISABLED = 4;
+            TRY_AGAIN_LATER = 5;
+        }
+    }
+
+    message LocationUpdatedSetEnabledRequest {
+        optional bool enabled = 1;
+        repeated Request requests = 2;
+    }
+
+    message Request {
+        optional DataType requested = 1;
+        optional float min_update_threshold = 2;
+        optional float distance_threshold = 3;
+
+        enum DataType {
+            SIGNIFICANT_LOCATION = 0;
+            GENERAL_LOCATION = 1;
+            REALTIME_TRACKING = 2;
+            INREACH_TRACKING = 3;
+        }
+    }
+
+    message LocationUpdatedSetEnabledResponse {
+        // TODO
+    }
+
+    message LocationUpdatedNotification {
+        repeated LocationData location_data = 1;
+    }
+
+    message LocationData {
+        // TODO
+    }
+}

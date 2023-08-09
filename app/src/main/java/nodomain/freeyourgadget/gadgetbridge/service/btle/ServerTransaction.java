@@ -57,7 +57,7 @@ public class ServerTransaction extends AbstractTransaction {
         return String.format(Locale.US, "%s: Transaction task: %s with %d actions", getCreationTime(), getTaskName(), mActions.size());
     }
 
-    public void setGattCallback(@Nullable GattServerCallback callback) {
+    public void setCallback(@Nullable GattServerCallback callback) {
         gattCallback = callback;
     }
 

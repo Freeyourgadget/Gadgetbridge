@@ -28,8 +28,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +125,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView container;
+        MaterialCardView container;
 
         TextView alarmTime;
         Switch isEnabled;

@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
 
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
@@ -56,7 +58,7 @@ public class PeriodicExporter extends BroadcastReceiver {
 
     public static void scheduleAlarm(Context context, Integer autoExportInterval, boolean autoExportEnabled) {
         Intent i = new Intent(context, PeriodicExporter.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
+        PendingIntent pi = PendingIntentUtils.getBroadcast(context, 0, i, 0, false);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
         if (!autoExportEnabled) {

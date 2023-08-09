@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -22,9 +23,9 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-import android.location.Location;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,8 +38,6 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
-import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.CheckInitializedAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
@@ -55,6 +54,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
  * @see BtLEQueue
  */
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback, GattServerCallback {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
+
     private BtLEQueue mQueue;
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
@@ -79,8 +80,28 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             mQueue.setAutoReconnect(getAutoReconnect());
             mQueue.setScanReconnect(getScanReconnect());
             mQueue.setImplicitGattCallbackModify(getImplicitCallbackModify());
+            mQueue.setSendWriteRequestResponse(getSendWriteRequestResponse());
         }
         return mQueue.connect();
+    }
+
+    public void disconnect() {
+        if (mQueue != null) {
+            mQueue.disconnect();
+        }
+    }
+
+    /**
+     * Whether to send a write request response to the device, if requested. The standard actually
+     * expects this to happen, but Gadgetbridge did not originally support it. This is set to false
+     * to prevent breaking devices that are somehow not expecting the response.
+     * <p>
+     * See also: https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2831#issuecomment-941568
+     *
+     * @return whether to send write request responses, if a response is requested
+     */
+    public boolean getSendWriteRequestResponse() {
+        return false;
     }
 
     @Override
@@ -138,11 +159,13 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      */
     public TransactionBuilder performInitialized(String taskName) throws IOException {
         if (!isConnected()) {
+            LOG.debug("Connecting to device for {}", taskName);
             if (!connect()) {
                 throw new IOException("1: Unable to connect to device: " + getDevice());
             }
         }
         if (!isInitialized()) {
+            LOG.debug("Initializing device for {}", taskName);
             // first, add a transaction that performs device initialization
             TransactionBuilder builder = createTransactionBuilder("Initialize device");
             builder.add(new CheckInitializedAction(gbDevice));

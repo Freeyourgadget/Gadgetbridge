@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_voice"
+        android:key="pref_screen_alexa"
+        android:title="@string/menuitem_alexa">
+
+        <ListPreference
+            android:defaultValue="auto"
+            android:entries="@array/pref_language_all"
+            android:entryValues="@array/pref_language_all_values"
+            android:icon="@drawable/ic_language"
+            android:key="voice_service_language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
+
+        <PreferenceCategory
+            android:key="pref_header_voice_service"
+            android:title="@string/voice_service">
+
+            <EditTextPreference
+                android:key="voice_service_package"
+                android:summary="@string/voice_service_package_summary"
+                android:title="@string/voice_service_package_title"
+                app:useSimpleSummaryProvider="true" />
+
+            <EditTextPreference
+                android:key="voice_service_class"
+                android:summary="@string/voice_service_class_summary"
+                android:title="@string/voice_service_class_title"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <!-- Keeping these without a translation intentionally, they should be temporary -->
+        <PreferenceCategory
+            android:key="pref_header_voice_service_debug"
+            android:title="@string/action_debug">
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="zepp_os_alexa_reply_title"
+                android:title="Reply Title"
+                app:useSimpleSummaryProvider="true" />
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="zepp_os_alexa_reply_subtitle"
+                android:title="Reply Subtitle"
+                app:useSimpleSummaryProvider="true" />
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="zepp_os_alexa_reply_text"
+                android:title="Reply Text"
+                app:useSimpleSummaryProvider="true" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="zepp_os_alexa_ask_more_input"
+                android:summary="Continue listening after sending the reply"
+                android:title="Ask for more input" />
+
+            <Preference
+                android:key="zepp_os_alexa_btn_trigger"
+                android:summary="Send a command trigger to the watch (stops sending voice data)"
+                android:title="Send command trigger" />
+
+            <Preference
+                android:key="zepp_os_alexa_btn_send_simple"
+                android:summary="Send a simple reply to the watch (just text)"
+                android:title="Send simple reply" />
+
+            <Preference
+                android:key="zepp_os_alexa_btn_send_complex"
+                android:summary="Send a complex reply to the watch (title, subtitle, text)"
+                android:title="Send complex reply" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

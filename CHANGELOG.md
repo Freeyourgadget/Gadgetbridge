@@ -1,5 +1,99 @@
 ### Changelog
 
+#### Next Version (WIP)
+* Switch UI to Material 3 and support dynamic colors
+* Initial support for Bohemic Smart Bracelet
+* Initial support for Casio GW-B5600
+* Initial support for Garmin Vivomove HR
+* Initial support for Withings Steel HR
+* Amazfit GTS 2e: Add activate display on lift sensitivity
+* Amazfit GTR 3 / GTS 3: Enable AGPS Updates
+* Amazfit Neo: Enable PAI support
+* Bangle.js: Allow enable/disable of alarms
+* Bangle.js: Fetch activity data
+* Bangle.js: Fix GB integration when watch is not programmable
+* Bangle.js: Put JSON keys in quotes
+* Bangle.js: Reorganize device settings
+* Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device
+* Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
+* Huami/Zepp OS: Add PAI charts
+* Huami/Zepp OS: Improve music info stability
+* Huami/Zepp OS: Improve reconnection and device initialization
+* Huami: Persist workout raw details even if gpx has no points
+* Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
+* Mi Band 6: Enable PAI and stress support
+* LeFun: Fix heart rate popup when measurement is triggered from phone
+* Sony WH-1000XM3/WF-SP800N: Add volume setting
+* Sony WH-1000XM5: Fix speak-to-chat enable/disable
+* Zepp OS: Add loyalty cards integration with Catima
+* Zepp OS: Fix reminder creation
+* Allow filtering notifications from work profile apps
+* Bump target SDK version to 31
+* Fix media button control for some applications
+* Fix notification filters by title if notification does not contain a body
+* Fix opening screenshots from notification on external apps
+* Fix reconnect delay reset after all devices are initialized
+* Fix some security error crashes when permissions are not granted
+* Fix transliteration of emoji
+* Fix transliteration of non-ASCII accented characters
+* Make application list sorting case-insensitive
+* Introduce native app shortcuts for android > 30
+* Update device settings action bar title depending on current screen
+
+#### 0.75.1
+* Fix Weather Notification integration
+
+#### 0.75.0
+* Bangle.js: Add message size limitation to Calendar and Messages
+* Bangle.js: Add switch to control if the GPS chip should be used to locate the location
+* Bangle.js: Send more weather data to watch
+* Bangle.js: Allow an activity sample to have a timestamp
+* Bangle.js: Send last received activity timestamp on connect (to allow sync of activity samples)
+* Bangle.js: Allow connecting HW keyboard without closing app loader
+* Bangle.js: Bump flavor target SDK version to 31
+* Bangle.js: Fix convertion of emoji/unicode to bitmap without width/height
+* Bangle.js: Fix location listener not being cleaned up when waiting for reconnect
+* Bangle.js: Fix memory leak from HTTP requests
+* Bangle.js: Fix orientation changes closing app loader
+* Bangle.js: Fix return to applications management activity after having opened another window
+* Bangle.js: Set default value for GPS event interval to 1 second
+* Bangle.js: Support navigation instructions
+* Bangle.js: Escape characters that fall in the Unicode codepoint area (for Espruino ~2v18.20 and later)
+* Bangle.js: HTTP request XPath can now return Arrays
+* Fossil/Skagen Hybrids: Add support for ultraviolet index and rain probability
+* Fossil/Skagen Hybrids: Add UV index and chance of rain widgets
+* Fossil/Skagen Hybrids: Allow launching the calibration activity on any Gadgetbridge variant
+* Fossil/Skagen Hybrids: Increase accuracy of workout distance calculation
+* Fossil/Skagen Hybrids: Fix weather icons day/night status
+* InfiniTime: Fix weather expiry time
+* InfiniTime: Support navigation instructions
+* Mi Band 6: Allow making device discoverable via Bluetooth when connected
+* Mi Band 7: Add preference to display call contact information
+* Zepp OS: Add gpx route file upload
+* Zepp OS: Add screenshot support
+* Zepp OS: Add stress charts
+* Zepp OS: Add watch app logs developer option
+* Zepp OS: Display watchface and app preview on install
+* Zepp OS: Fix update operations on Zepp OS 2.1+
+* Zepp OS: Manage contacts on watch
+* Zepp OS: Start new GPX segments on pause/resume
+* Zepp OS: Support flashing zab files
+* App Manager: Fix cached apps sorting
+* App Manager: Hide drag handle if app reorder is not supported
+* App Manager: Add confirmation before deleting app
+* Add menus to share GPX, raw summary, raw details
+* Debug Activity: Allow pairing current device as companion
+* Fix some null pointer exception crashes
+* Intent API: Add command to set device mac address
+* Intent API: Add dataTypes parameter for activity sync
+* Intent API: Add debug actions for notifications and incoming calls
+* OsmAnd: Add support for navigation instructions
+* Scrape navigation instructions from Google Maps notifications
+* Fix lag when a folder has a lot of devices
+* Fix transliteration returning non-ASCII characters
+* Enable "allow high MTU" setting by default
+* Make some hardcoded english strings translatable
+
 #### 0.74.0
 * Initial support for Amazfit GTR 3 Pro
 * Initial support for Sony WH-1000XM5
@@ -313,7 +407,7 @@
 * Fossil Hybrid HR: Fix on-device confirmation for older firmwares
 * Sony WH-1000XM3: Fix Ambient Sound Control commands, potentially improving ANC quality
 * Sony WH-1000XM3: Read configuration from device
-* InfiniTime: Remove debug Toast and subscription to UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES
+* InfiniTime: Remove debug Toast and subscription to motion raw XYZ values characteristic
 * Roidmi: Fix frequency configuration on some non-english languages
 * Roidmi 3: Add support for Mojietu 3 rebrand
 * Huami: Support hiking and climbing activities, decode some more activity details

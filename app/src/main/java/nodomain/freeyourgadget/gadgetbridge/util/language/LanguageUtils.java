@@ -25,10 +25,8 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +36,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ArabicTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.BengaliTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CroatianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CzechTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.EstonianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ExtendedAsciiTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.FlattenToAsciiTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.FrenchTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GeorgianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GermanTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GreekTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.HebrewTransliterator;
@@ -55,8 +55,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.language.impl.RussianTransliter
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ScandinavianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.TurkishTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.UkranianTransliterator;
-import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GeorgianTransliterator;
-import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CroatianTransliterator;
 
 public class LanguageUtils {
     private static final Logger LOG = LoggerFactory.getLogger(LanguageUtils.class);

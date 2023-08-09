@@ -71,11 +71,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     // This needs to be simplified.
     private final LimitedQueue mNotificationReplyAction = new LimitedQueue(16);
 
-    private final ZeppOsFileUploadService fileUploadService;
+    private final ZeppOsFileTransferService fileTransferService;
 
-    public ZeppOsNotificationService(final Huami2021Support support, final ZeppOsFileUploadService fileUploadService) {
+    public ZeppOsNotificationService(final Huami2021Support support, final ZeppOsFileTransferService fileTransferService) {
         super(support);
-        this.fileUploadService = fileUploadService;
+        this.fileTransferService = fileTransferService;
     }
 
     @Override
@@ -380,11 +380,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
         );
         final String filename = String.format("logo_%s.tga", packageName.replace(".", "_"));
 
-        fileUploadService.sendFile(
+        fileTransferService.sendFile(
                 url,
                 filename,
                 tga565,
-                new ZeppOsFileUploadService.Callback() {
+                new ZeppOsFileTransferService.Callback() {
                     @Override
                     public void onFileUploadFinish(final boolean success) {
                         LOG.info("Finished sending icon, success={}", success);
@@ -396,6 +396,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
                     @Override
                     public void onFileUploadProgress(final int progress) {
                         LOG.trace("Icon send progress: {}", progress);
+                    }
+
+                    @Override
+                    public void onFileDownloadFinish(final String url, final String filename, final byte[] data) {
+                        LOG.warn("Receiver unexpected file: url={} filename={} length={}", url, filename, data.length);
                     }
                 }
         );

@@ -551,7 +551,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 .checkInitTime(builder)
                 .syncPreferences(builder);                      // read preferences from app and set them to watch
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         return this;
     }
 

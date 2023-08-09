@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -147,4 +148,8 @@ public abstract class AbstractMiBandFWHelper {
     public abstract void checkValid() throws IllegalArgumentException;
 
     public abstract HuamiFirmwareType getFirmwareType();
+
+    public Bitmap getPreview() {
+        return null;
+    }
 }

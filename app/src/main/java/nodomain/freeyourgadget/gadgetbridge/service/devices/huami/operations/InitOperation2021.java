@@ -127,7 +127,11 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
             return super.onCharacteristicChanged(gatt, characteristic);
         }
 
-        this.huami2021ChunkedDecoder.decode(value);
+        final boolean needsAck = huami2021ChunkedDecoder.decode(value);
+        if (needsAck) {
+            huamiSupport.sendChunkedAck();
+        }
+
         return true;
     }
 

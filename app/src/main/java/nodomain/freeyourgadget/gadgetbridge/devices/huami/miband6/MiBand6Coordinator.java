@@ -6,13 +6,13 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.LoggerFactory;
-
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -21,7 +21,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.R;
 public class MiBand6Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand6Coordinator.class);
     @NonNull
@@ -76,6 +75,16 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsPai() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsStressMeasurement() {
+        return true;
+    }
+
+    @Override
     public int getWorldClocksSlotCount() {
         return 20; // as enforced by Mi Fit
     }
@@ -108,6 +117,7 @@ public class MiBand6Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_huami2021_fetch_operation_time_unit,

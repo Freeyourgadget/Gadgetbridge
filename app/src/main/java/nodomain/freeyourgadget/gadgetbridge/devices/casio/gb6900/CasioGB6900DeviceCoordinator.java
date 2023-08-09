@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo
+/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, José Rebelo, Johannes Krude
 
     based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
 
@@ -29,10 +29,9 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -40,7 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class CasioGB6900DeviceCoordinator extends AbstractBLEDeviceCoordinator {
+public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceCoordinator.class);
 
     @NonNull
@@ -118,7 +117,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 5; // 4 regular and one snooze
     }
 
@@ -133,12 +132,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public String getManufacturer() {
-        return "Casio";
-    }
-
-    @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

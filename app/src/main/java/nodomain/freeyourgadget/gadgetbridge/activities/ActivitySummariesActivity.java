@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,6 +43,7 @@ import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
@@ -241,7 +241,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                             }
                         }
 
-                        new AlertDialog.Builder(ActivitySummariesActivity.this)
+                        new MaterialAlertDialogBuilder(ActivitySummariesActivity.this)
                                 .setTitle(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_title, toDelete.size()))
                                 .setMessage(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_description, toDelete.size()))
                                 .setIcon(R.drawable.ic_delete_forever)

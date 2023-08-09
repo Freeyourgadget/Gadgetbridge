@@ -17,20 +17,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.ArraySet;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -54,7 +58,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DiffUtil;
@@ -67,6 +72,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -75,7 +82,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -83,7 +89,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -96,7 +101,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateDialog;
 import nodomain.freeyourgadget.gadgetbridge.activities.OpenFwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -163,7 +168,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         for (final Map.Entry<String, List<GBDevice>> folder : devicesPerFolder.entrySet()) {
             enrichedList.add(new GBDeviceFolder(folder.getKey()));
-            enrichedList.addAll(folder.getValue());
+            if (folder.getKey().equals(expandedFolderName)) {
+                enrichedList.addAll(folder.getValue());
+            }
         }
 
         return enrichedList;
@@ -213,6 +220,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                 }else {
                     expandedFolderName = folder.getName();
                 }
+                rebuildFolders();
                 notifyDataSetChanged();
             }
         });
@@ -281,6 +289,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
                     showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        createDynamicShortcut(device);
+                    }
                     GBApplication.deviceService(device).connect();
                 }
             }
@@ -418,7 +429,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                         @Override
                                                         public void onClick(View v) {
                                                             showTransientSnackbar(R.string.busy_task_fetch_activity_data);
-                                                            GBApplication.deviceService(device).onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+                                                            GBApplication.deviceService(device).onFetchRecordedData(RecordedDataTypes.TYPE_SYNC);
                                                         }
                                                     }
         );
@@ -438,7 +449,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //manage apps
-        holder.manageAppsView.setVisibility((device.isInitialized() && coordinator.supportsAppsManagement()) ? View.VISIBLE : View.GONE);
+        holder.manageAppsView.setVisibility((device.isInitialized() && coordinator.supportsAppsManagement(device)) ? View.VISIBLE : View.GONE);
         holder.manageAppsView.setOnClickListener(new View.OnClickListener()
 
                                                  {
@@ -456,7 +467,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //set alarms
-        holder.setAlarmsView.setVisibility(coordinator.getAlarmSlotCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.setAlarmsView.setVisibility(coordinator.getAlarmSlotCount(device) > 0 ? View.VISIBLE : View.GONE);
         holder.setAlarmsView.setOnClickListener(new View.OnClickListener()
 
                                                 {
@@ -493,7 +504,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                          @Override
                                                          public void onClick(View v) {
                                                              Intent startIntent;
-                                                             startIntent = new Intent(context, ChartsActivity.class);
+                                                             startIntent = new Intent(context, ActivityChartsActivity.class);
                                                              startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                              context.startActivity(startIntent);
                                                          }
@@ -538,7 +549,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         holder.findDevice.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
-                                                     new AlertDialog.Builder(context)
+                                                     new MaterialAlertDialogBuilder(context)
                                                              .setCancelable(true)
                                                              .setTitle(context.getString(R.string.controlcenter_find_device))
                                                              .setMessage(context.getString(R.string.find_lost_device_message, device.getName()))
@@ -616,7 +627,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
             @Override
             public void onClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                 final LayoutInflater inflater = LayoutInflater.from(context);
                 final View frequency_picker_view = inflater.inflate(R.layout.dialog_frequency_picker, null);
                 builder.setTitle(R.string.preferences_fm_frequency);
@@ -704,7 +715,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             public void onClick(DialogInterface dialog, int which) {
                                 float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
                                 if (frequency < FREQ_MIN || frequency > FREQ_MAX) {
-                                    new AlertDialog.Builder(context)
+                                    new MaterialAlertDialogBuilder(context)
                                             .setTitle(R.string.pref_invalid_frequency_title)
                                             .setMessage(R.string.pref_invalid_frequency_message)
                                             .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -786,7 +797,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             holder.powerOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertDialog.Builder(context)
+                    new MaterialAlertDialogBuilder(context)
                             .setTitle(R.string.controlcenter_power_off_confirm_title)
                             .setMessage(R.string.controlcenter_power_off_confirm_description)
                             .setIcon(R.drawable.ic_power_settings_new)
@@ -811,7 +822,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
     private boolean showInstallerItem(GBDevice device) {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.supportsAppsManagement() || coordinator.supportsFlashing();
+        return coordinator.supportsAppsManagement(device) || coordinator.supportsFlashing();
     }
 
     private void showDeviceSubmenu(final View v, final GBDevice device) {
@@ -888,7 +899,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     }
 
     private void showRemoveDeviceDialog(final GBDevice device) {
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setCancelable(true)
                 .setTitle(context.getString(R.string.controlcenter_delete_device_name, device.getName()))
                 .setMessage(R.string.controlcenter_delete_device_dialogmessage)
@@ -1009,7 +1020,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         linearLayout.addView(deviceListSpinner);
         linearLayout.addView(newFolderLayout);
 
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setCancelable(true)
                 .setTitle(R.string.controlcenter_set_folder_title)
                 .setView(linearLayout)
@@ -1069,7 +1080,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         container.addView(input);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setView(container)
                 .setCancelable(true)
                 .setTitle(context.getString(R.string.controlcenter_set_alias))
@@ -1113,7 +1124,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         View root;
-        CardView container;
+        MaterialCardView container;
 
         ImageView deviceImageView;
         TextView deviceNameLabel;
@@ -1312,9 +1323,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         //do the multiple mini-charts for activities in a loop
         Hashtable<PieChart, Pair<Boolean, Integer>> activitiesStatusMiniCharts = new Hashtable<>();
-        activitiesStatusMiniCharts.put(holder.TotalStepsChart, new Pair<>(showActivitySteps && steps > 0, ChartsActivity.getChartsTabIndex("stepsweek", device, context)));
-        activitiesStatusMiniCharts.put(holder.SleepTimeChart, new Pair<>(showActivitySleep && sleep > 0, ChartsActivity.getChartsTabIndex("sleep", device, context)));
-        activitiesStatusMiniCharts.put(holder.TotalDistanceChart, new Pair<>(showActivityDistance && steps > 0, ChartsActivity.getChartsTabIndex("activity", device, context)));
+        activitiesStatusMiniCharts.put(holder.TotalStepsChart, new Pair<>(showActivitySteps && steps > 0, ActivityChartsActivity.getChartsTabIndex("stepsweek", device, context)));
+        activitiesStatusMiniCharts.put(holder.SleepTimeChart, new Pair<>(showActivitySleep && sleep > 0, ActivityChartsActivity.getChartsTabIndex("sleep", device, context)));
+        activitiesStatusMiniCharts.put(holder.TotalDistanceChart, new Pair<>(showActivityDistance && steps > 0, ActivityChartsActivity.getChartsTabIndex("activity", device, context)));
 
         for (Map.Entry<PieChart, Pair<Boolean, Integer>> miniCharts : activitiesStatusMiniCharts.entrySet()) {
             PieChart miniChart = miniCharts.getKey();
@@ -1324,9 +1335,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                              @Override
                                              public void onClick(View v) {
                                                  Intent startIntent;
-                                                 startIntent = new Intent(context, ChartsActivity.class);
+                                                 startIntent = new Intent(context, ActivityChartsActivity.class);
                                                  startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                 startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, parameters.second);
+                                                 startIntent.putExtra(ActivityChartsActivity.EXTRA_FRAGMENT_ID, parameters.second);
                                                  context.startActivity(startIntent);
                                              }
                                          }
@@ -1399,6 +1410,24 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             hsvb[i] = interpolate(hsva[i], hsvb[i], proportion);
         }
         return Color.HSVToColor(hsvb);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    void createDynamicShortcut(GBDevice device) {
+        Intent intent = new Intent(context, ControlCenterv2.class)
+                .setAction(ACTION_CONNECT)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .putExtra("device", device.getAddress());
+
+        ShortcutManager shortcutManager = (ShortcutManager) context.getApplicationContext().getSystemService(Context.SHORTCUT_SERVICE);
+
+        shortcutManager.pushDynamicShortcut(new ShortcutInfo.Builder(context, device.getAddress())
+                .setLongLived(false)
+                .setShortLabel(device.getAliasOrName())
+                .setIntent(intent)
+                .setIcon(Icon.createWithResource(context, device.getType().getIcon()))
+                .build()
+        );
     }
 
     private static class GBDeviceDiffUtil extends DiffUtil.ItemCallback<GBDevice> {

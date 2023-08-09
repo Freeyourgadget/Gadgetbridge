@@ -23,8 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -35,6 +33,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -114,7 +114,7 @@ public class WidgetSettingsActivity extends AbstractGBActivity {
     }
 
     private void showElementDialog(@Nullable final CustomWidgetElement element){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(WidgetSettingsActivity.this)
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(WidgetSettingsActivity.this)
                 .setView(R.layout.qhybrid_element_popup_view);
 
         if(element == null) {

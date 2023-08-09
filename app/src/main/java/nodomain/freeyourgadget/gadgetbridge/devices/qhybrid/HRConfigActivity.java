@@ -16,7 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import android.app.AlertDialog;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +35,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,8 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
-
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
 
 public class HRConfigActivity extends AbstractGBActivity {
     private SharedPreferences sharedPreferences;
@@ -110,7 +111,7 @@ public class HRConfigActivity extends AbstractGBActivity {
         findViewById(R.id.qhybrid_set_background).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(HRConfigActivity.this)
+                new MaterialAlertDialogBuilder(HRConfigActivity.this)
                         .setTitle("whoop whoop")
                         .setMessage("background has to be pushed every time a custom widget changes, causing traffic and battery drain. Consider that when using custom widgets.")
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -153,7 +154,7 @@ public class HRConfigActivity extends AbstractGBActivity {
                     }
 
                     final String[] nameStrings = names.toArray(new String[0]);
-                    new AlertDialog.Builder(HRConfigActivity.this)
+                    new MaterialAlertDialogBuilder(HRConfigActivity.this)
                             .setItems(
                                     nameStrings,
                                     new DialogInterface.OnClickListener() {

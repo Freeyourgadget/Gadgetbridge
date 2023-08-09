@@ -46,7 +46,7 @@ message Steps {
 
 message Type {
     int32 type = 1; // 1 = running, 4 = bike, 3 = walk
-    // TODO 2, always 0?
+    int32 ai = 2; // 0 = normal, 1 = ai/automatic
 }
 
 message Distance {

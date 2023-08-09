@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -26,8 +25,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class GBReminderListAdapter extends RecyclerView.Adapter<GBReminderListAd
         holder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                new AlertDialog.Builder(v.getContext())
+                new MaterialAlertDialogBuilder(v.getContext())
                         .setTitle(R.string.reminder_delete_confirm_title)
                         .setMessage(R.string.reminder_delete_confirm_description)
                         .setIcon(R.drawable.ic_warning)
@@ -131,7 +132,7 @@ public class GBReminderListAdapter extends RecyclerView.Adapter<GBReminderListAd
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final CardView container;
+        final MaterialCardView container;
 
         final TextView reminderTime;
         final TextView reminderMessage;

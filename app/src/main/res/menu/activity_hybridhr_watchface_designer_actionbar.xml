@@ -3,13 +3,15 @@
     <item
         android:id="@+id/button_preview_watchface"
         android:title="@string/button_watchface_preview"
-        app:showAsAction="always"
         android:icon="@drawable/ic_watch_bw"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="always"
         />
     <item
         android:id="@+id/button_save_watchface"
         android:title="@string/button_watchface_save_apply"
-        app:showAsAction="always"
         android:icon="@drawable/ic_done"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="always"
         />
 </menu>

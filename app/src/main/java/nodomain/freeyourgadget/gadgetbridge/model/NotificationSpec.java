@@ -24,6 +24,7 @@ public class NotificationSpec {
     public int flags;
     private static final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
     private int id;
+    public long when;
     public String sender;
     public String phoneNumber;
     public String title;
@@ -53,7 +54,7 @@ public class NotificationSpec {
     public int dndSuppressed;
 
     public NotificationSpec() {
-        this.id = c.incrementAndGet();
+        this(-1);
     }
 
     public NotificationSpec(int id) {
@@ -61,6 +62,7 @@ public class NotificationSpec {
             this.id = id;
         else
             this.id = c.incrementAndGet();
+        this.when = System.currentTimeMillis();
     }
 
     public int getId() {

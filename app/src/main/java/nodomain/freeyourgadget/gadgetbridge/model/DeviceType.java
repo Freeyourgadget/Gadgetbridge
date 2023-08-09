@@ -1,8 +1,9 @@
-/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Gordon Williams,
     Jean-François Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft,
     Manuel Ruß, maxirnilian, Pavel, Pavel Elagin, protomors, Quallenauge,
-    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan
+    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -92,6 +93,8 @@ public enum DeviceType {
     ROIDMI3(112, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi3),
     CASIOGB6900(120, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogb6900),
     CASIOGBX100(121, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogbx100),
+    CASIOGWB5600(122, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogwb5600),
+    CASIOGMWB5000(123, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogmwb5000),
     MISCALE2(131, R.drawable.ic_device_miscale2, R.drawable.ic_device_miscale2_disabled, R.string.devicetype_miscale2),
     BFH16(140, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_bfh16),
     MAKIBESHR3(150, R.drawable.ic_device_default, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_hr3),
@@ -101,10 +104,12 @@ public enum DeviceType {
     PINETIME_JF(190, R.drawable.ic_device_pinetime, R.drawable.ic_device_pinetime_disabled, R.string.devicetype_pinetime_jf),
     MIJIA_LYWSD02(200, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_mijia_lywsd02),
     LEFUN(210, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_lefun),
+    BOHEMIC_SMART_BRACELET(211, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_bohemic_smart_bracelet),
     SMAQ2OSS(220, R.drawable.ic_device_default, R.drawable.ic_device_default, R.string.devicetype_smaq2oss),
     FITPRO(230, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_fitpro),
     ITAG(250, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_itag),
     NUTMINI(251, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_nut_mini),
+    VIVOMOVE_HR(260, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_vivomove_hr),
     VIBRATISSIMO(300, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
     SONY_SWR12(310, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_sonyswr12),
     LIVEVIEW(320, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),
@@ -133,6 +138,7 @@ public enum DeviceType {
     SUPER_CARS(530, R.drawable.ic_device_supercars, R.drawable.ic_device_supercars_disabled, R.string.devicetype_super_cars),
     ASTEROIDOS(540, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_asteroidos),
     SOFLOW_SO6(550, R.drawable.ic_device_vesc, R.drawable.ic_device_vesc_disabled, R.string.devicetype_soflow_s06),
+    WITHINGS_STEEL_HR(560, R.drawable.ic_device_watchxplus, R.drawable.ic_device_watchxplus_disabled, R.string.withings_steel_hr),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

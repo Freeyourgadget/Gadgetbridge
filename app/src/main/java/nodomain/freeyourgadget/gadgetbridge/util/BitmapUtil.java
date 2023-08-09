@@ -30,9 +30,17 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class BitmapUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(BitmapUtil.class);
+
     /**
      * Downscale a bitmap to a maximum resolution. Doesn't scale if the bitmap is already smaller than the max resolution.
      *
@@ -283,5 +291,106 @@ public class BitmapUtil {
         tga565buf.put(bmp565buf.array());
 
         return tga565buf.array();
+    }
+
+    public static boolean isPng(final byte[] data) {
+        return ArrayUtils.equals(data, new byte[] {(byte) 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a}, 0);
+    }
+
+    @Nullable
+    public static Bitmap decodeTga(final byte[] bytes) {
+        final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        final byte idLength = buf.get();
+        final byte colorMapType = buf.get();
+        final byte imageType = buf.get();
+        final short colorMapFirstEntryIndex = buf.getShort();
+        final short colorMapLength = buf.getShort();
+        final byte colorMapEntrySize = buf.get();
+        final short xOrigin = buf.getShort();
+        final short yOrigin = buf.getShort();
+        final short width = buf.getShort();
+        final short height = buf.getShort();
+        final byte bitsPerPixel = buf.get();
+        final byte imageDescriptor = buf.get();
+
+        final byte[] id = new byte[idLength];
+        buf.get(id);
+
+        if (imageType== 2 && colorMapType == 0) {
+            // Parse true-color uncompressed image data as RGB565
+            final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            bitmap.copyPixelsFromBuffer(buf);
+
+            return bitmap;
+        }
+
+        if (colorMapType != 0x01) {
+            LOG.warn("Unknown color map type {}", colorMapType);
+            return null;
+        }
+
+        if (colorMapEntrySize != 32) {
+            LOG.warn("Color map entry size {} not supported", colorMapEntrySize);
+            return null;
+        }
+
+        final int[] colorMap = new int[colorMapLength];
+        for (int i = 0; i < colorMapLength; i++) {
+            colorMap[i] = buf.getInt();
+        }
+
+        final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        switch (imageType) {
+            case 1:
+                if (bitsPerPixel != 8) {
+                    LOG.warn("Unsupported bits per pixel {} for imageType 1", bitsPerPixel);
+                    return null;
+                }
+
+                // uncompressed color-mapped image
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        bitmap.setPixel(x, y, colorMap[buf.get() & 0xff]);
+                    }
+                }
+                break;
+            case 9:
+                // run-length encoded color-mapped image
+                int i = 0;
+                while (buf.position() < buf.limit()) {
+                    final byte b = buf.get();
+                    final int count = (b & 127) + 1;
+                    if ((b & 128) != 0) {
+                        // msb 1 - run-length encoded
+                        final int val = buf.get() & 0xff;
+                        for (int j = 0; j < count; j++) {
+                            int y = i / width;
+                            int x = i % width;
+                            bitmap.setPixel(x, y, colorMap[val]);
+                            i++;
+                        }
+                    } else {
+                        // msb 0 - raw pixels
+                        for (int j = 0; j < count; j++) {
+                            int y = i / width;
+                            int x = i % width;
+                            bitmap.setPixel(x, y, colorMap[buf.get() & 0xff]);
+                            i++;
+                        }
+                    }
+                }
+                break;
+            default:
+                LOG.warn("Image type {} not supported", imageType);
+                return null;
+        }
+
+        final int remainingBytes = buf.limit() - buf.position();
+        if (remainingBytes != 0) {
+            LOG.warn("There are {} bytes remaining in the buffer", remainingBytes);
+        }
+
+        return bitmap;
     }
 }

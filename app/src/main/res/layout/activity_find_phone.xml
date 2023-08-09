@@ -3,11 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:gravity="center">
 
     <Button
         android:id="@+id/foundbutton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FOUND IT" />
+        android:layout_height="wrap_content"
+        android:text="@string/find_my_phone_found_it" />
 </LinearLayout>

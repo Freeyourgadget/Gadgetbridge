@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -39,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -239,6 +241,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        if (checkBusy("set navigation info")) {
+            return;
+        }
+        delegate.onSetNavigationInfo(navigationInfoSpec);
+    }
+
+    @Override
     public void onInstallApp(Uri uri) {
         if (checkBusy("install app")) {
             return;
@@ -372,6 +382,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetContacts(contacts);
+    }
+
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        if (checkBusy("set loyalty cards")) {
+            return;
+        }
+        delegate.onSetLoyaltyCards(cards);
     }
 
     @Override

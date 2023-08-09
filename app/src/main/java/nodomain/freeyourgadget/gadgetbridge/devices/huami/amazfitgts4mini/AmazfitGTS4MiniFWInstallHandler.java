@@ -22,7 +22,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
@@ -38,7 +38,7 @@ class AmazfitGTS4MiniFWInstallHandler extends AbstractHuami2021FWInstallHandler 
     }
 
     @Override
-    protected AbstractMiBandFWHelper createHelper(final Uri uri, final Context context) throws IOException {
+    protected HuamiFWHelper createHelper(final Uri uri, final Context context) throws IOException {
         return new AmazfitGTS4MiniFWHelper(uri, context);
     }
 

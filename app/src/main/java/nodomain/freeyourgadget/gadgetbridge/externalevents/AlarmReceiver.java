@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
@@ -37,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(AlarmReceiver.class);
@@ -45,7 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Context context = GBApplication.getContext();
         Intent intent = new Intent("DAILY_ALARM");
         intent.setPackage(BuildConfig.APPLICATION_ID);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getBroadcast(context, 0, intent, 0, false);
         AlarmManager am = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
 
         if (am != null) {

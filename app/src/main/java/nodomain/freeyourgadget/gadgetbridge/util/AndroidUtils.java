@@ -23,6 +23,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -38,6 +39,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.color.DynamicColors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +116,18 @@ public class AndroidUtils {
      */
     public static String getTextColorHex(Context context) {
         int color;
-        if (GBApplication.isDarkThemeEnabled()) {
+        if (DynamicColors.isDynamicColorAvailable() && GBApplication.areDynamicColorsEnabled()) {
+            Context dynamicColorContext;
+            if (GBApplication.isDarkThemeEnabled()) {
+                dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicDark);
+            } else {
+                dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
+            }
+            int[] attrsToResolve = {R.attr.colorOnSurface};
+            TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
+            color = ta.getColor(0, 0);
+            ta.recycle();
+        } else if (GBApplication.isDarkThemeEnabled()) {
             color = context.getResources().getColor(R.color.primarytext_dark);
         } else {
             color = context.getResources().getColor(R.color.primarytext_light);
@@ -127,7 +141,18 @@ public class AndroidUtils {
      */
     public static String getBackgroundColorHex(Context context) {
         int color;
-        if (GBApplication.isDarkThemeEnabled()) {
+        if (DynamicColors.isDynamicColorAvailable() && GBApplication.areDynamicColorsEnabled()) {
+            Context dynamicColorContext;
+            if (GBApplication.isDarkThemeEnabled()) {
+                dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicDark);
+            } else {
+                dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
+            }
+            int[] attrsToResolve = {R.attr.colorSurface};
+            TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
+            color = ta.getColor(0, 0);
+            ta.recycle();
+        } else if (GBApplication.isDarkThemeEnabled()) {
             color = context.getResources().getColor(R.color.cardview_dark_background);
         } else {
             color = context.getResources().getColor(R.color.cardview_light_background);

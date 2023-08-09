@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class GenericWeatherReceiver extends BroadcastReceiver {
+    private static final Logger LOG = LoggerFactory.getLogger(GenericWeatherReceiver.class);
+
     public final static String ACTION_GENERIC_WEATHER = "nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER";
     public final static String EXTRA_WEATHER_JSON = "WeatherJson";
 
@@ -55,8 +59,10 @@ public class GenericWeatherReceiver extends BroadcastReceiver {
                     weatherSpec.currentCondition = safelyGet(weatherJson, String.class, "currentCondition", "");
                     weatherSpec.currentConditionCode = safelyGet(weatherJson, Integer.class, "currentConditionCode", 0);
                     weatherSpec.currentHumidity = safelyGet(weatherJson, Integer.class, "currentHumidity", 0);
-                    weatherSpec.windSpeed = safelyGet(weatherJson, Float.class, "windSpeed", 0f);
+                    weatherSpec.windSpeed = safelyGet(weatherJson, Number.class, "windSpeed", 0d).floatValue();
                     weatherSpec.windDirection = safelyGet(weatherJson, Integer.class, "windDirection", 0);
+                    weatherSpec.uvIndex = safelyGet(weatherJson, Number.class, "uvIndex", 0d).floatValue();
+                    weatherSpec.precipProbability = safelyGet(weatherJson, Integer.class, "precipProbability", 0);
 
                     if (weatherJson.has("forecasts")) {
                         JSONArray forecastArray = weatherJson.getJSONArray("forecasts");
@@ -66,7 +72,7 @@ public class GenericWeatherReceiver extends BroadcastReceiver {
                             JSONObject forecastJson = forecastArray.getJSONObject(i);
 
                             WeatherSpec.Forecast forecast = new WeatherSpec.Forecast();
-                            
+
                             forecast.conditionCode = safelyGet(forecastJson, Integer.class, "conditionCode", 0);
                             forecast.humidity = safelyGet(forecastJson, Integer.class, "humidity", 0);
                             forecast.maxTemp = safelyGet(forecastJson, Integer.class, "maxTemp", 0);
@@ -75,6 +81,8 @@ public class GenericWeatherReceiver extends BroadcastReceiver {
                             weatherSpec.forecasts.add(forecast);
                         }
                     }
+
+                    LOG.info("Got generic weather for {}", weatherSpec.location);
 
                     Weather.getInstance().setWeatherSpec(weatherSpec);
                     GBApplication.deviceService().onSendWeather(weatherSpec);

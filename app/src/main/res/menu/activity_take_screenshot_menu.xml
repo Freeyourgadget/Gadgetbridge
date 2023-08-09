@@ -6,7 +6,7 @@
         android:id="@+id/activity_detail_overflowMenu"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
-        app:iconTint="@color/primarytext_dark"
+        app:iconTint="?attr/actionmenu_icon_color"
         app:showAsAction="always">
 
         <menu>

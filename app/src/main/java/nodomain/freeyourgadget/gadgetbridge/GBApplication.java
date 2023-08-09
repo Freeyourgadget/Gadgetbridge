@@ -101,6 +101,8 @@ import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Main Application class that initializes and provides access to certain things like
  * logging and DB access.
@@ -116,7 +118,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 19;
+    private static final int CURRENT_PREFS_VERSION = 21;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -130,6 +132,7 @@ public class GBApplication extends Application {
     public static final String ACTION_QUIT
             = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.quit";
     public static final String ACTION_LANGUAGE_CHANGE = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.language_change";
+    public static final String ACTION_THEME_CHANGE = "nodomain.freeyourgadget.gadgetbridge.gbapplication.action.theme_change";
     public static final String ACTION_NEW_DATA = "nodomain.freeyourgadget.gadgetbridge.action.new_data";
 
     private static GBApplication app;
@@ -1197,12 +1200,72 @@ public class GBApplication extends Application {
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }
-            if (oldVersion < 19) {
-                //remove old ble scanning prefences, now unsupported
-                editor.remove("disable_new_ble_scanning");
-            }
+        }
 
+        if (oldVersion < 19) {
+            //remove old ble scanning prefences, now unsupported
+            editor.remove("disable_new_ble_scanning");
+        }
+
+        if (oldVersion < 20) {
+            // Add the new stress tab to all devices
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+
+                    final String chartsTabsValue = deviceSharedPrefs.getString("charts_tabs", null);
+                    if (chartsTabsValue == null) {
+                        continue;
+                    }
+
+                    final String newPrefValue;
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        newPrefValue = chartsTabsValue + ",stress";
+                    } else {
+                        newPrefValue = "stress";
+                    }
+
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
             }
+        }
+
+        if (oldVersion < 21) {
+            // Add the new PAI tab to all devices
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+
+                    final String chartsTabsValue = deviceSharedPrefs.getString("charts_tabs", null);
+                    if (chartsTabsValue == null) {
+                        continue;
+                    }
+
+                    final String newPrefValue;
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        newPrefValue = chartsTabsValue + ",pai";
+                    } else {
+                        newPrefValue = "pai";
+                    }
+
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
@@ -1249,7 +1312,7 @@ public class GBApplication extends Application {
         Resources resources = context.getResources();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                selectedTheme.equals(context.getString(R.string.pref_theme_value_system))) {
+                (selectedTheme.equals(context.getString(R.string.pref_theme_value_system)) || selectedTheme.equals(context.getString(R.string.pref_theme_value_dynamic)))) {
             return (resources.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         } else {
             return selectedTheme.equals(context.getString(R.string.pref_theme_value_dark));
@@ -1260,11 +1323,21 @@ public class GBApplication extends Application {
         return prefs.getBoolean("pref_key_theme_amoled_black", false);
     }
 
+    public static boolean areDynamicColorsEnabled() {
+        String selectedTheme = prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_system));
+        return selectedTheme.equals(context.getString(R.string.pref_theme_value_dynamic));
+    }
+
     public static int getTextColor(Context context) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.textColorPrimary, typedValue, true);
-        return typedValue.data;
+        if (GBApplication.isDarkThemeEnabled()) {
+            return context.getResources().getColor(R.color.primarytext_dark);
+        } else {
+            return context.getResources().getColor(R.color.primarytext_light);
+        }
+    }
+
+    public static int getSecondaryTextColor(Context context) {
+        return context.getResources().getColor(R.color.secondarytext);
     }
 
     @Override
@@ -1305,6 +1378,10 @@ public class GBApplication extends Application {
 
     public static Locale getLanguage() {
         return language;
+    }
+
+    public static boolean isNightly() {
+        return BuildConfig.APPLICATION_ID.contains("nightly");
     }
 
     public String getVersion() {

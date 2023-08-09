@@ -20,7 +20,12 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.LauncherActivityInfo;
+import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
+import android.os.Process;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -47,11 +53,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.packageNameToPebbleMsgSender;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapter.AppBLViewHolder> implements Filterable {
+    protected static final Logger LOG = LoggerFactory.getLogger(AppBlacklistAdapter.class);
 
     public static final String STRING_EXTRA_PACKAGE_NAME = "packageName";
 
-    private List<ApplicationInfo> applicationInfoList;
+    private final List<ApplicationInfo> applicationInfoList;
     private final int mLayoutId;
     private final Context mContext;
     private final PackageManager mPm;
@@ -64,7 +74,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         mContext = context;
         mPm = context.getPackageManager();
 
-        applicationInfoList = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
+        applicationInfoList = getAllApplications();
 
         // sort the package list by label and blacklist status
         mNameMap = new IdentityHashMap<>(applicationInfoList.size());
@@ -85,7 +95,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
                 final String s1 = mNameMap.get(ai1);
                 final String s2 = mNameMap.get(ai2);
-                return s1.compareTo(s2);
+                return s1.compareToIgnoreCase(s2);
             }
         });
 
@@ -158,9 +168,50 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         });
     }
 
+    /**
+     * Returns all applications on the device, including applications in work profiles.
+     */
+    public List<ApplicationInfo> getAllApplications() {
+        final Set<String> allPackageNames = new HashSet<>();
+        final List<ApplicationInfo> ret = new LinkedList<>();
+
+        // Get apps for the current user
+        final List<ApplicationInfo> currentUserApps = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (final ApplicationInfo app : currentUserApps) {
+            allPackageNames.add(app.packageName);
+            ret.add(app);
+        }
+
+        // Add all apps from other users (eg. manager profile)
+        try {
+            final UserHandle currentUser = Process.myUserHandle();
+            final LauncherApps launcher = (LauncherApps) mContext.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            final UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
+            final List<UserHandle> userProfiles = um.getUserProfiles();
+            for (final UserHandle userProfile : userProfiles) {
+                if (userProfile.equals(currentUser)) {
+                    continue;
+                }
+
+                final List<LauncherActivityInfo> userActivityList = launcher.getActivityList(null, userProfile);
+
+                for (final LauncherActivityInfo app : userActivityList) {
+                    if (!allPackageNames.contains(app.getApplicationInfo().packageName)) {
+                        allPackageNames.add(app.getApplicationInfo().packageName);
+                        ret.add(app.getApplicationInfo());
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Failed to get apps from other users", e);
+        }
+
+        return ret;
+    }
+
     public void checkAllApplications() {
         Set<String> apps_blacklist = new HashSet<>();
-        List<ApplicationInfo> allApps = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<ApplicationInfo> allApps = getAllApplications();
         for (ApplicationInfo ai : allApps) {
             apps_blacklist.add(ai.packageName);
         }

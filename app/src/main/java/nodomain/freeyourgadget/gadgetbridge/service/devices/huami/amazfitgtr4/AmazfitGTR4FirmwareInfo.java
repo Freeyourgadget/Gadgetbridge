@@ -16,8 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -29,6 +32,7 @@ public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
         // firmware
         put(1699, "3.17.0.2");
         put(20712, "3.18.1.1 (diff from 3.17.0.2)");
+        put(49685, "3.23.3.1 (diff from 3.21.0.1)");
     }};
 
     public AmazfitGTR4FirmwareInfo(final byte[] bytes) {
@@ -38,6 +42,11 @@ public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_GTR4_NAME;
+    }
+
+    @Override
+    public Set<Integer> deviceSources() {
+        return new HashSet<>(Arrays.asList(7930112, 7930113));
     }
 
     @Override

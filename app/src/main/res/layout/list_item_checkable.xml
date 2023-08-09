@@ -5,24 +5,24 @@
     android:layout_height="48dp"
     android:orientation="horizontal">
 
+    <CheckedTextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <ImageView
         android:id="@+id/drag_handle"
         android:layout_width="36dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:contentDescription="drag handle"
+        android:contentDescription="@string/drag_handle"
         app:srcCompat="@drawable/ic_drag_handle"
         app:tint="@color/secondarytext" />
-
-    <CheckedTextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_weight="1"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </com.mobeta.android.dslv.CheckableLinearLayout>

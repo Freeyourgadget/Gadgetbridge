@@ -30,17 +30,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadata;
+import android.media.session.MediaController;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -70,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.notifications.GoogleMapsNotificationHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -80,14 +77,26 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static androidx.media.app.NotificationCompat.MediaStyle.getMediaSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_SUBMODE_ALL;
+import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.ensureNotNull;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -126,6 +135,8 @@ public class NotificationListener extends NotificationListenerService {
     private final Handler mHandler = new Handler();
     private Runnable mSetMusicInfoRunnable = null;
     private Runnable mSetMusicStateRunnable = null;
+
+    private GoogleMapsNotificationHandler googleMapsNotificationHandler = new GoogleMapsNotificationHandler();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -247,7 +258,7 @@ public class NotificationListener extends NotificationListenerService {
         // determinate Source App Name ("Label")
         PackageManager pm = getPackageManager();
         try {
-            return (String)pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0));
+            return (String) pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -262,7 +273,6 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn, RankingMap rankingMap) {
         logNotification(sbn, true);
-        LOG.debug("notificationAppListIsBlackList: " + GBApplication.getPrefs().getString("notification_list_is_blacklist","true"));
 
         notificationStack.remove(sbn.getPackageName());
         notificationStack.add(sbn.getPackageName());
@@ -275,10 +285,10 @@ public class NotificationListener extends NotificationListenerService {
         // If media notifications ignore app list, check them before
         if (mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
-        if (shouldIgnoreSource(sbn)) {
-            LOG.debug("Ignoring notification source");
-            return;
-        }
+        if (shouldIgnoreSource(sbn)) return;
+
+        /* Check for navigation notifications and ignore if we're handling them */
+        if (googleMapsNotificationHandler.handle(getApplicationContext(), sbn)) return;
 
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
@@ -293,8 +303,10 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
+            LOG.debug("Ignoring notification because of do not disturb");
             return;
         }
+
         if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
                 && prefs.getBoolean("notification_support_voip_calls", false)
                 && sbn.isOngoing()) {
@@ -303,8 +315,8 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if (shouldIgnoreNotification(sbn, false)) {
-            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // workaround to allow phone alarm notification
-                LOG.info("Ignore notification: " + sbn.getPackageName());               // need to fix
+            if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {  // workaround to allow phone alarm notification
+                LOG.info("Ignoring notification: {}", sbn.getPackageName());          // need to fix
                 return;
             }
         }
@@ -316,8 +328,7 @@ public class NotificationListener extends NotificationListenerService {
         if (notificationOldRepeatPreventionValue != null
                 && notification.when <= notificationOldRepeatPreventionValue
                 && !shouldIgnoreRepeatPrevention(sbn)
-        )
-        {
+        ) {
             LOG.info("NOT processing notification, already sent newer notifications from this source.");
             return;
         }
@@ -328,13 +339,13 @@ public class NotificationListener extends NotificationListenerService {
         if (notificationBurstPreventionValue != null) {
             long diff = curTime - notificationBurstPreventionValue;
             if (diff < TimeUnit.SECONDS.toNanos(prefs.getInt("notifications_timeout", 0))) {
-                LOG.info("Ignoring frequent notification, last one was "
-                        + TimeUnit.NANOSECONDS.toMillis(diff) + "ms ago");
+                LOG.info("Ignoring frequent notification, last one was {} ms ago", TimeUnit.NANOSECONDS.toMillis(diff));
                 return;
             }
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.when = notification.when;
 
         // determinate Source App Name ("Label")
         String name = getAppName(source);
@@ -365,14 +376,21 @@ public class NotificationListener extends NotificationListenerService {
         // Get color
         notificationSpec.pebbleColor = getPebbleColorForNotification(notificationSpec);
 
-        LOG.info("Processing notification " + notificationSpec.getId() + " age: " + (System.currentTimeMillis() - notification.when) + " from source " + source + " with flags: " + notification.flags);
+        LOG.info(
+                "Processing notification {}, age: {}, source: {}, flags: {}",
+                notificationSpec.getId(),
+                (System.currentTimeMillis() - notification.when) ,
+                source,
+                notification.flags
+        );
 
         boolean preferBigText = prefs.getBoolean("notification_prefer_long_text", true);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
-        if (notificationSpec.body != null) {
-            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.title + " " + notificationSpec.body)) {
+        if (notificationSpec.title != null || notificationSpec.body != null) {
+            final String textToCheck = ensureNotNull(notificationSpec.title) + " " + ensureNotNull(notificationSpec.body);
+            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), textToCheck)) {
                 return;
             }
         }
@@ -415,8 +433,8 @@ public class NotificationListener extends NotificationListenerService {
                 }
 
                 notificationSpec.attachedActions.add(wearableAction);
-                mActionLookup.add((notificationSpec.getId()<<4) + notificationSpec.attachedActions.size(), act);
-                LOG.info("found wearable action: " + notificationSpec.attachedActions.size() + " - "+ act.getTitle() + "  " + sbn.getTag());
+                mActionLookup.add((notificationSpec.getId() << 4) + notificationSpec.attachedActions.size(), act);
+                LOG.info("Found wearable action: {} - {}  {}", notificationSpec.attachedActions.size(), act.getTitle(), sbn.getTag());
             }
         }
 
@@ -436,9 +454,9 @@ public class NotificationListener extends NotificationListenerService {
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
         notificationBurstPrevention.put(source, curTime);
-        if(0 != notification.when) {
+        if (0 != notification.when) {
             notificationOldRepeatPrevention.put(source, notification.when);
-        }else {
+        } else {
             LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
         }
         notificationsActive.add(notificationSpec.getId());
@@ -500,7 +518,7 @@ public class NotificationListener extends NotificationListenerService {
         Notification noti = sbn.getNotification();
         dumpExtras(noti.extras);
         boolean callStarted = false;
-        if(noti.actions != null && noti.actions.length > 0) {
+        if (noti.actions != null && noti.actions.length > 0) {
             for (Notification.Action action : noti.actions) {
                 LOG.info("Found call action: " + action.title);
             }
@@ -524,9 +542,9 @@ public class NotificationListener extends NotificationListenerService {
 
         // figure out sender
         String number;
-        if(noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
+        if (noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
             number = noti.extras.getString(Notification.EXTRA_PEOPLE);
-        } else if(noti.extras.containsKey(Notification.EXTRA_TITLE)) {
+        } else if (noti.extras.containsKey(Notification.EXTRA_TITLE)) {
             number = noti.extras.getString(Notification.EXTRA_TITLE);
         } else {
             String appName = getAppName(app);
@@ -637,9 +655,9 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean handleMediaSessionNotification(StatusBarNotification sbn) {
-        MediaSessionCompat.Token mediaSession = getMediaSession(sbn.getNotification());
-        return mediaSession != null && handleMediaSessionNotification(mediaSession);
+    private boolean handleMediaSessionNotification(final StatusBarNotification sbn) {
+        final MediaSession.Token token = sbn.getNotification().extras.getParcelable(Notification.EXTRA_MEDIA_SESSION);
+        return token != null && handleMediaSessionNotification(token);
     }
 
     /**
@@ -648,49 +666,15 @@ public class NotificationListener extends NotificationListenerService {
      * @param mediaSession The mediasession to handle.
      * @return true if notification was handled, false otherwise
      */
-    public boolean handleMediaSessionNotification(MediaSessionCompat.Token mediaSession) {
-        final MusicSpec musicSpec = new MusicSpec();
-        final MusicStateSpec stateSpec = new MusicStateSpec();
-
-        MediaControllerCompat c;
+    public boolean handleMediaSessionNotification(MediaSession.Token mediaSession) {
         try {
-            c = new MediaControllerCompat(getApplicationContext(), mediaSession);
-
-            PlaybackStateCompat s = c.getPlaybackState();
-            stateSpec.position = (int) (s.getPosition() / 1000);
-            stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
-            stateSpec.repeat = 1;
-            stateSpec.shuffle = 1;
-            switch (s.getState()) {
-                case PlaybackStateCompat.STATE_PLAYING:
-                    stateSpec.state = MusicStateSpec.STATE_PLAYING;
-                    break;
-                case PlaybackStateCompat.STATE_STOPPED:
-                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
-                    break;
-                case PlaybackStateCompat.STATE_PAUSED:
-                    stateSpec.state = MusicStateSpec.STATE_PAUSED;
-                    break;
-                default:
-                    stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
-                    break;
+            final MediaController c = new MediaController(getApplicationContext(), mediaSession);
+            if (c.getMetadata() == null) {
+                return false;
             }
 
-            MediaMetadataCompat d = c.getMetadata();
-            if (d == null)
-                return false;
-            if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
-                musicSpec.artist = d.getString(MediaMetadataCompat.METADATA_KEY_ARTIST);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
-                musicSpec.album = d.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
-                musicSpec.track = d.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
-                musicSpec.duration = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) / 1000;
-            if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
-                musicSpec.trackCount = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS);
-            if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
-                musicSpec.trackNr = (int) d.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER);
+            final MusicStateSpec stateSpec = MediaManager.extractMusicStateSpec(c.getPlaybackState());
+            final MusicSpec musicSpec = MediaManager.extractMusicSpec(c.getMetadata());
 
             // finally, tell the device about it
             if (mSetMusicInfoRunnable != null) {
@@ -716,7 +700,8 @@ public class NotificationListener extends NotificationListenerService {
             mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
-        } catch (NullPointerException | RemoteException | SecurityException e) {
+        } catch (final NullPointerException | SecurityException e) {
+            LOG.error("Failed to handle media session notification", e);
             return false;
         }
     }
@@ -726,6 +711,8 @@ public class NotificationListener extends NotificationListenerService {
         logNotification(sbn, false);
 
         notificationStack.remove(sbn.getPackageName());
+
+        googleMapsNotificationHandler.handleRemove(sbn);
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
@@ -740,7 +727,7 @@ public class NotificationListener extends NotificationListenerService {
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
-        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
+        if (Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
                 && activeCallPostTime == sbn.getPostTime()) {
             activeCallPostTime = 0;
             CallSpec callSpec = new CallSpec();
@@ -755,7 +742,7 @@ public class NotificationListener extends NotificationListenerService {
         ArrayList<Integer> activeNotificationsIds = new ArrayList<Integer>();
         for (StatusBarNotification notification : getActiveNotifications()) {
             Object o = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
-            if(o != null) {
+            if (o != null) {
                 int id = (int) o;
                 activeNotificationsIds.add(id);
             }
@@ -774,8 +761,8 @@ public class NotificationListener extends NotificationListenerService {
 
         // Send notification remove request to device
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
-        for(GBDevice device : devices){
-            Prefs devicePrefs = new  Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
+        for (GBDevice device : devices) {
+            Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
             if (devicePrefs.getBoolean("autoremove_notifications", true)) {
                 for (int id : notificationsToRemove) {
                     LOG.info("Notification " + id + " removed, will ask device to delete it");
@@ -786,16 +773,14 @@ public class NotificationListener extends NotificationListenerService {
     }
 
     private void logNotification(StatusBarNotification sbn, boolean posted) {
-        String infoMsg = String.format(
-                "Notification %d %s: %s",
+        LOG.debug(
+                "Notification {} {}: packageName={}, priority={}, category={}",
                 sbn.getId(),
                 posted ? "posted" : "removed",
-                sbn.getPackageName()
+                sbn.getPackageName(),
+                sbn.getNotification().priority,
+                sbn.getNotification().category
         );
-
-        infoMsg += ": " + sbn.getNotification().category;
-
-        LOG.debug(infoMsg);
     }
 
     private void dumpExtras(Bundle bundle) {
@@ -807,7 +792,6 @@ public class NotificationListener extends NotificationListenerService {
             LOG.debug(String.format("Notification extra: %s %s (%s)", key, value.toString(), value.getClass().getName()));
         }
     }
-
 
     private boolean isServiceNotRunningAndShouldIgnoreNotifications() {
         /*
@@ -849,6 +833,7 @@ public class NotificationListener extends NotificationListenerService {
                 source.equals("com.android.messaging") ||
                 source.equals("org.smssecure.smssecure")) {
             if (!"never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
+                LOG.info("Ignoring notification, it's an sms notification");
                 return true;
             }
         }
@@ -911,7 +896,7 @@ public class NotificationListener extends NotificationListenerService {
                 type != NotificationType.WECHAT &&
                 type != NotificationType.OUTLOOK &&
                 type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
-            LOG.info("local only");
+            LOG.info("Ignoring notification, local only");
             return true;
         }
 
@@ -919,7 +904,7 @@ public class NotificationListener extends NotificationListenerService {
 
         // Check for screen on when posting the notification; for removal, the screen
         // has to be on (obviously)
-        if(!remove) {
+        if (!remove) {
             if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
                 PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
                 if (powermanager != null && powermanager.isScreenOn()) {
@@ -936,7 +921,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (shouldIgnoreOngoing(sbn)){
+        if (shouldIgnoreOngoing(sbn)) {
             return false;
         }
 

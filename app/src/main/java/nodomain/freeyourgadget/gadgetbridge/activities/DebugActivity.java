@@ -22,7 +22,6 @@ import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
@@ -63,12 +62,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,6 +118,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
@@ -270,7 +273,7 @@ public class DebugActivity extends AbstractGBActivity {
         factoryResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(DebugActivity.this)
+                new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(true)
                         .setTitle(R.string.debugactivity_really_factoryreset_title)
                         .setMessage(R.string.debugactivity_really_factoryreset)
@@ -490,7 +493,7 @@ public class DebugActivity extends AbstractGBActivity {
         removeDevicePreferencesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(DebugActivity.this)
+                new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(true)
                         .setTitle(R.string.debugactivity_confirm_remove_device_preferences_title)
                         .setMessage(R.string.debugactivity_confirm_remove_device_preferences)
@@ -568,7 +571,7 @@ public class DebugActivity extends AbstractGBActivity {
                 linearLayout.addView(deviceListSpinner);
                 linearLayout.addView(macLayout);
 
-                new AlertDialog.Builder(DebugActivity.this)
+                new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(true)
                         .setTitle(R.string.add_test_device)
                         .setView(linearLayout)
@@ -643,7 +646,7 @@ public class DebugActivity extends AbstractGBActivity {
                     companionDevicesList += "\n\n" + StringUtils.join("\n", associations.toArray(new String[0]));
                 }
 
-                new AlertDialog.Builder(DebugActivity.this)
+                new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(false)
                         .setTitle("Companion Devices")
                         .setMessage(companionDevicesList)
@@ -673,7 +676,7 @@ public class DebugActivity extends AbstractGBActivity {
 
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder fitnesStatusBuilder = new AlertDialog.Builder(DebugActivity.this);
+                final MaterialAlertDialogBuilder fitnesStatusBuilder = new MaterialAlertDialogBuilder(DebugActivity.this);
                 fitnesStatusBuilder
                         .setCancelable(false)
                         .setTitle("openTracksObserver Status")
@@ -856,7 +859,7 @@ public class DebugActivity extends AbstractGBActivity {
     }
 
     private void showLogSharingNotEnabledAlert() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.note)
                 .setPositiveButton(R.string.ok, null)
                 .setMessage(R.string.share_log_not_enabled_message)
@@ -864,7 +867,7 @@ public class DebugActivity extends AbstractGBActivity {
     }
 
     private void showLogSharingWarning() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setTitle(R.string.warning)
                 .setMessage(R.string.share_log_warning)
@@ -915,15 +918,15 @@ public class DebugActivity extends AbstractGBActivity {
         Intent notificationIntent = new Intent(getApplicationContext(), DebugActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(getApplicationContext(), 0,
+                notificationIntent, 0, false);
 
         RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_REPLY)
                 .build();
 
         Intent replyIntent = new Intent(ACTION_REPLY);
 
-        PendingIntent replyPendingIntent = PendingIntent.getBroadcast(this, 0, replyIntent, 0);
+        PendingIntent replyPendingIntent = PendingIntentUtils.getBroadcast(this, 0, replyIntent, 0, true);
 
         NotificationCompat.Action action =
                 new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, "Reply", replyPendingIntent)

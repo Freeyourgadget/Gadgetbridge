@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,27 +9,32 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
-public class WidgetConfigurationActivity extends Activity {
+public class WidgetConfigurationActivity extends Activity implements GBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(WidgetConfigurationActivity.class);
     int mAppWidgetId;
 
@@ -38,6 +42,8 @@ public class WidgetConfigurationActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        AbstractGBActivity.init(this, AbstractGBActivity.NO_ACTIONBAR);
+
         super.onCreate(savedInstanceState);
 
         setResult(RESULT_CANCELED);
@@ -59,7 +65,7 @@ public class WidgetConfigurationActivity extends Activity {
             finish();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigurationActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(WidgetConfigurationActivity.this);
         builder.setTitle(R.string.widget_settings_select_device_title);
 
         allDevices = getAllDevices(getApplicationContext());
@@ -71,12 +77,6 @@ public class WidgetConfigurationActivity extends Activity {
         String[] allDevicesString = list.toArray(new String[0]);
 
         builder.setSingleChoiceItems(allDevicesString, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ListView lw = ((AlertDialog) dialog).getListView();
@@ -94,15 +94,8 @@ public class WidgetConfigurationActivity extends Activity {
                 finish();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent resultValue; resultValue = new Intent();
-                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-                setResult(RESULT_CANCELED, resultValue);
-                finish();
-            }
-        });
+        builder.setCancelable(false);
+
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -129,5 +122,10 @@ public class WidgetConfigurationActivity extends Activity {
             LOG.error("Error getting list of all devices: " + e);
         }
         return newMap;
+    }
+
+    @Override
+    public void setLanguage(Locale language, boolean invalidateLanguage) {
+        AndroidUtils.setLanguage(this, language);
     }
 }

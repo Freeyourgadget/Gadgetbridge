@@ -21,16 +21,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -59,6 +62,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     private static final String ITEM_DETAILS = "details";
 
     private TextView fwAppInstallTextView;
+    private ImageView previewImage;
     private Button installButton;
     private Uri uri;
     private GBDevice device;
@@ -178,6 +182,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         itemAdapter = new ItemWithDetailsAdapter(this, items);
         itemListView.setAdapter(itemAdapter);
         fwAppInstallTextView = findViewById(R.id.infoTextView);
+        previewImage = findViewById(R.id.previewImage);
         installButton = findViewById(R.id.installButton);
         progressBar = findViewById(R.id.installProgressBar);
         progressText = findViewById(R.id.installProgressText);
@@ -298,6 +303,16 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     @Override
     public void setInfoText(String text) {
         fwAppInstallTextView.setText(text);
+    }
+
+    @Override
+    public void setPreview(@Nullable final Bitmap bitmap) {
+        previewImage.setImageBitmap(bitmap);
+        if (previewImage == null) {
+            previewImage.setVisibility(View.GONE);
+        } else {
+            previewImage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
