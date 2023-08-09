@@ -18,18 +18,39 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.SparseArray;
 import android.webkit.WebView;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.cketti.library.changelog.ChangeLog;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBChangeLog extends ChangeLog {
+    private static final Logger LOG = LoggerFactory.getLogger(GBChangeLog.class);
+
     public GBChangeLog(Context context, String css) {
         super(context, css);
+    }
+
+    @Override
+    protected SparseArray<ReleaseItem> getMasterChangeLog(boolean full) {
+        if (GBApplication.isNightly()) {
+            try {
+                return readChangeLogFromResource(R.xml.changelog_git, full);
+            } catch (final Exception e) {
+                // Just in case the git changelog is broken somehow..
+                LOG.error("Failed to read git changelog for nightly", e);
+            }
+        }
+
+        return super.getMasterChangeLog(full);
     }
 
     public AlertDialog getMaterialLogDialog() {

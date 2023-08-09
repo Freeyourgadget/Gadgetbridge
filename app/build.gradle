@@ -14,6 +14,7 @@ tasks.withType(Test) {
     systemProperty "logback.configurationFile", System.getProperty("user.dir", null) + "/app/src/main/assets/logback.xml"
     systemProperty "GB_LOGFILES_DIR", Files.createTempDirectory("gblog").toString()
 }
+
 def getVersionCode = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -25,6 +26,27 @@ def getVersionCode = { ->
     } catch (ignored) {
         return null
     }
+}
+
+def buildGitChangelog = {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '--pretty=format:%h %s'
+        standardOutput = stdout
+    }
+
+    def commitVersionCode = getVersionCode()
+    def changelogNode = new Node(null, 'changelog')
+
+    stdout.toString().trim().eachLine { line ->
+        def (commitHash, commitMessage) = line.split(" ", 2)
+        def releaseNode = new Node(changelogNode, 'release', [version: commitHash, versioncode: commitVersionCode--])
+        def _ = new Node(releaseNode, 'change', [:], commitMessage)
+    }
+
+    def changelogFile = new File("${project.rootDir}/app/build/generated/res/changelog/xml/changelog_git.xml")
+    changelogFile.getParentFile().mkdirs()
+    changelogFile.write(groovy.xml.XmlUtil.serialize(changelogNode))
 }
 
 def getGitHashShort = { ->
@@ -106,6 +128,12 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            res.srcDirs += "build/generated/res/changelog"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -170,6 +198,7 @@ android {
 
         applicationVariants.all { variant ->
             variant.resValue "string", "applicationId", variant.applicationId
+            buildGitChangelog()
 
             if (variant.buildType.name == 'nightly' || variant.buildType.name == 'nopebble') {
                 variant.outputs.all {

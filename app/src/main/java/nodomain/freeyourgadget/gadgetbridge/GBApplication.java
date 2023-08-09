@@ -1380,6 +1380,10 @@ public class GBApplication extends Application {
         return language;
     }
 
+    public static boolean isNightly() {
+        return BuildConfig.APPLICATION_ID.contains("nightly");
+    }
+
     public String getVersion() {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionName;
