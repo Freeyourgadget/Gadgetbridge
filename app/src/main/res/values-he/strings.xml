@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">הגדרות</string>
@@ -2338,4 +2338,10 @@
     <string name="withings_calibration_text_hours">נא להשתמש בחוגה שלהלן כדי ליישר את מחוג השעות ל־12.</string>
     <string name="activity_type_riding">רכיבת סוסים</string>
     <string name="withings_calibration_text_activity_target">ולבסוף, יש ליישר את מחוג הפעילות ל־100%. כדאי לשים לב שהמחוג הזה נע רק נגד כיוון השעון.</string>
+    <string name="pref_theme_dynamic">צבעים דינמיים</string>
+    <string name="pref_canned_message">הודעה</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">הגדרות Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">אזהרה: ההעדפות האלו חלות רק על רצועות Mi Band 1 ו־2.</string>
+    <string name="drag_handle">ידית משיכה</string>
+    <string name="find_my_phone_found_it">מצאתי אותו</string>
 </resources>
