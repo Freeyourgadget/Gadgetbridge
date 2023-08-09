@@ -2345,4 +2345,7 @@
     <string name="find_my_phone_found_it">已找到</string>
     <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">小米手环 1、2 设置</string>
     <string name="preferences_miband_1_2_warning">警告：这些偏好设置仅适用于小米手环 1 和 2。</string>
+    <string name="pref_activity_full_sync_trigger_title">完整同步</string>
+    <string name="pref_activity_full_sync_trigger_warning">这将触发设备中所有活动数据的完整同步。 可能需要几分钟才能完成。</string>
+    <string name="pref_activity_full_sync_trigger_summary">触发所有活动数据的完整同步</string>
 </resources>
