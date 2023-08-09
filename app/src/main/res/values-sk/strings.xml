@@ -496,4 +496,5 @@
     <string name="sonyswr12_settings_low_vibration_summary">Povoľte nízku intenzitu vibrácií na náramku</string>
     <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypne pravidelné automatické meranie srdcovej frekvencie, čím sa predĺži pracovná doba</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentného alarmu je interval pred nainštalovaným alarmom. V tomto intervale sa zariadenie pokúša zistiť najľahšiu fázu spánku, aby sa používateľ zobudil</string>
+    <string name="controlcenter_change_led_color">Zmena farby LED</string>
 </resources>
