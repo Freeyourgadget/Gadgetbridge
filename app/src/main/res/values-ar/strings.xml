@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_settings">الإعدادات</string>
     <string name="action_quit">انهاء</string>
     <string name="controlcenter_connect">اتصل…</string>
@@ -2328,4 +2328,11 @@
     <string name="find_my_phone_found_it">تم العثور عليها</string>
     <string name="pref_canned_message">رسالة</string>
     <string name="drag_handle">مقبض السحب</string>
+    <string name="pref_activity_full_sync_trigger_summary">قم بتشغيل مزامنة كاملة لجميع بيانات النشاط</string>
+    <string name="pref_activity_full_sync_trigger_title">مزامنة كاملة</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2 اعدادات</string>
+    <string name="preferences_miband_1_2_warning">تحذير: تنطبق هذه التفضيلات فقط على Mi Bands 1 و 2.</string>
+    <string name="pref_show_changelog">إظهار سجل التغيير عند بدء التشغيل</string>
+    <string name="pref_show_changelog_summary">اعرض سجل التغيير منذ الإصدار الأخير بعد تحديث Gadgetbridge</string>
+    <string name="pref_activity_full_sync_trigger_warning">سيؤدي هذا إلى تشغيل مزامنة كاملة لجميع بيانات النشاط من الجهاز. قد يستغرق الأمر بضع دقائق حتى يكتمل.</string>
 </resources>
