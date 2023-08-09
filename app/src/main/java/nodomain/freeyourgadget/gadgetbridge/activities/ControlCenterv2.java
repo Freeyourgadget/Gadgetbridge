@@ -63,7 +63,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.color.DynamicColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -95,7 +94,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.ChangeLog;
+import nodomain.freeyourgadget.gadgetbridge.util.GBChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -362,8 +361,8 @@ public class ControlCenterv2 extends AppCompatActivity
                 checkAndRequestPermissions();
         }
 
-        ChangeLog cl = createChangeLog();
-        if (cl.isFirstRun()) {
+        GBChangeLog cl = createChangeLog();
+        if (cl.isFirstRun() && cl.hasChanges(cl.isFirstRunEver())) {
             try {
                 cl.getMaterialLogDialog().show();
             } catch (Exception ignored) {
@@ -452,9 +451,13 @@ public class ControlCenterv2 extends AppCompatActivity
                 startActivity(i);
                 return false;
             case R.id.external_changelog:
-                ChangeLog cl = createChangeLog();
+                GBChangeLog cl = createChangeLog();
                 try {
-                    cl.getMaterialLogDialog().show();
+                    if (cl.hasChanges(false)) {
+                        cl.getMaterialLogDialog().show();
+                    } else {
+                        cl.getMaterialFullLogDialog().show();
+                    }
                 } catch (Exception ignored) {
                     GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
                 }
@@ -468,12 +471,12 @@ public class ControlCenterv2 extends AppCompatActivity
         return false;
     }
 
-    private ChangeLog createChangeLog() {
-        String css = ChangeLog.DEFAULT_CSS;
+    private GBChangeLog createChangeLog() {
+        String css = GBChangeLog.DEFAULT_CSS;
         css += "body { "
                 + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
                 + "}";
-        return new ChangeLog(this, css);
+        return new GBChangeLog(this, css);
     }
 
     private void launchDiscoveryActivity() {

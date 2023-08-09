@@ -24,10 +24,11 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class ChangeLog extends de.cketti.library.changelog.ChangeLog {
-    public ChangeLog(Context context, String css) {
+public class GBChangeLog extends ChangeLog {
+    public GBChangeLog(Context context, String css) {
         super(context, css);
     }
 
@@ -37,6 +38,13 @@ public class ChangeLog extends de.cketti.library.changelog.ChangeLog {
 
     public AlertDialog getMaterialFullLogDialog() {
         return getMaterialDialog(true);
+    }
+
+    /**
+     * Checks whether there are changes to display.
+     */
+    public boolean hasChanges(final boolean full) {
+        return !getChangeLog(full).isEmpty();
     }
 
     protected AlertDialog getMaterialDialog(boolean full) {
