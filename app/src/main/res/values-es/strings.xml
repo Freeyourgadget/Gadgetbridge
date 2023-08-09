@@ -2347,7 +2347,7 @@
     <string name="pref_theme_dynamic">Colores dinámicos</string>
     <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Ajustes de Mi Band 1/2</string>
     <string name="preferences_miband_1_2_warning">Nota: Estas preferencias solo se aplican a las Mi Bands 1 y 2.</string>
-    <string name="pref_activity_full_sync_trigger_warning">Esto activará una sincronización completa de todos los datos de la actividad del dispositivo. Puede tardar unos minutos en completarse.</string>
-    <string name="pref_activity_full_sync_trigger_summary">Activar una sincronización completa de todos los datos de la actividad</string>
+    <string name="pref_activity_full_sync_trigger_warning">Esto activará una sincronización completa de todos los datos de actividad del dispositivo. Puede tardar unos minutos en completarse.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Activar una sincronización completa de todos los datos de actividad</string>
     <string name="pref_activity_full_sync_trigger_title">Sincronización completa</string>
 </resources>
