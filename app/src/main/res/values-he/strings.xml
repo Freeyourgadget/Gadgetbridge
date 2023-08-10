@@ -2344,4 +2344,9 @@
     <string name="preferences_miband_1_2_warning">אזהרה: ההעדפות האלו חלות רק על רצועות Mi Band 1 ו־2.</string>
     <string name="drag_handle">ידית משיכה</string>
     <string name="find_my_phone_found_it">מצאתי אותו</string>
+    <string name="pref_activity_full_sync_trigger_title">סנכרון מלא</string>
+    <string name="pref_show_changelog">הצגת יומן שינויים בעלייה</string>
+    <string name="pref_show_changelog_summary">הצגת יומן השינויים מאז הגרסה האחרונה לאחר עדכון Gadgetbridge</string>
+    <string name="pref_activity_full_sync_trigger_summary">הקפצת סנכרון מלא של כל נתוני הפעילות</string>
+    <string name="pref_activity_full_sync_trigger_warning">פעולה זו תקפיץ סנכרון מלא של כל נתוני הפעילות מול המכשיר. עלול לארוך כמה דקות עד שיושלם.</string>
 </resources>
