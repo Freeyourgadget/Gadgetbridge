@@ -2348,4 +2348,6 @@
     <string name="pref_activity_full_sync_trigger_title">完整同步</string>
     <string name="pref_activity_full_sync_trigger_warning">这将触发设备中所有活动数据的完整同步。 可能需要几分钟才能完成。</string>
     <string name="pref_activity_full_sync_trigger_summary">触发所有活动数据的完整同步</string>
+    <string name="pref_show_changelog_summary">Gadgetbridge 更新后显示自上一版本以来的更新日志</string>
+    <string name="pref_show_changelog">启动时显示更新日志</string>
 </resources>
