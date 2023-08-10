@@ -1,4 +1,4 @@
-pipeline:
+steps:
   tests:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands:
