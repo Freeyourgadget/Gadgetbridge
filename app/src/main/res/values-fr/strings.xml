@@ -2352,4 +2352,6 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_activity_full_sync_trigger_summary">Déclenche une sychronisation complète de tous les données d\'activité</string>
     <string name="pref_activity_full_sync_trigger_title">Synchronisation complète</string>
     <string name="preferences_miband_1_2_warning">Avertissement : Ces réglages s\'appliquent uniquement aux Mi Band 1 et 2.</string>
+    <string name="pref_show_changelog">Afficher le journal des modifications au démarrage</string>
+    <string name="pref_show_changelog_summary">Afficher le journal des modifications depuis la dernière version après la mise à jour de GadgetBridge</string>
 </resources>
