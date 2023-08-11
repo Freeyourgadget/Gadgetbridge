@@ -1,8 +1,8 @@
-#clone:
-#   git:
-#     image: woodpeckerci/plugin-git
-#     settings:
-#       partial: false
+clone:
+   git:
+     image: woodpeckerci/plugin-git
+     settings:
+       partial: false
 
 steps:
   build-apks:
