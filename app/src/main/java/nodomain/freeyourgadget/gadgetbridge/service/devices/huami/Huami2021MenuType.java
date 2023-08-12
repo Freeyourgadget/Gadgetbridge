@@ -57,6 +57,7 @@ public class Huami2021MenuType {
         put("00000038", "pomodoro");
         put("0000003E", "todo");
         put("0000003F", "mi_ai");
+        put("00000046", "zepp_coach");
         put("00000041", "barometer");
         put("00000042", "voice_memos");
         put("00000044", "sun_moon");

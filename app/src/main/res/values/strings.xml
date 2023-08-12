@@ -1371,6 +1371,7 @@
     <string name="menuitem_total_workout">Total workout</string>
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_recommendation">Recommendation</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
     <string name="menuitem_breathing">Breathing</string>
     <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_alarm">Alarm</string>

@@ -81,6 +81,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         ONE_TAP_MEASURING("22", "1"),
         BREATHING("24", "1"),
         STOPWATCH("25", "1"),
+        ZEPP_COACH("27", "1"),
         RECOMMENDATION("28", "1"),
         ;
 

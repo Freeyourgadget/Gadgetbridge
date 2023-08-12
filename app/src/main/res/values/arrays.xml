@@ -826,6 +826,7 @@
         <item>@string/menuitem_wechat_pay</item>
         <item>@string/menuitem_cards</item>
         <item>@string/menuitem_mi_ai</item>
+        <item>@string/menuitem_zepp_coach</item>
         <!-- dummy item -->
         <item>@string/menuitem_more</item>
     </string-array>
@@ -872,6 +873,7 @@
         <item>wechat_pay</item>
         <item>cards</item>
         <item>mi_ai</item>
+        <item>zepp_coach</item>
         <!-- dummy item -->
         <item>more</item>
     </string-array>
@@ -902,6 +904,7 @@
         <item>@string/menuitem_breathing</item>
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_recommendation</item>
+        <item>@string/menuitem_zepp_coach</item>
     </string-array>
 
     <string-array name="pref_zepp_os_shortcut_cards_values">
@@ -930,6 +933,7 @@
         <item>breathing</item>
         <item>stopwatch</item>
         <item>recommendation</item>
+        <item>zepp_coach</item>
     </string-array>
 
     <string-array name="pref_huami2021_control_center">
