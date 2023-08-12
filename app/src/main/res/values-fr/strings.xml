@@ -2355,4 +2355,6 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_show_changelog">Afficher le journal des modifications au démarrage</string>
     <string name="pref_show_changelog_summary">Afficher le journal des modifications depuis la dernière version après la mise à jour de GadgetBridge</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Les coouleurs dynamiques ne sont pas disponibles sur votre appareil, seul Android 12 ou sup. le supporte. Gadgetbridge utilisera les couleurs par défaut Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Remarque : pour le thème avec des couleurs dynamiques, vous devez activer les couleurs de papier-peint ou la palette de couleurs dans les réglages d\'apparenci d\'Android 12 ou supérieur. Si vous ne le faites pas, Gadgetbridge utilisera les couleurs par défaut de Material 3.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
 </resources>
