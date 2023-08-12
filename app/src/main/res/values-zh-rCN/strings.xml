@@ -2350,4 +2350,7 @@
     <string name="pref_activity_full_sync_trigger_summary">触发所有活动数据的完整同步</string>
     <string name="pref_show_changelog_summary">Gadgetbridge 更新后显示自上一版本以来的更新日志</string>
     <string name="pref_show_changelog">启动时显示更新日志</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">您的设备不支持动态色彩，仅 Android 12+ 支持此功能。Gadgetbridge 将使用默认的 Material 3 色彩。</string>
+    <string name="pref_theme_dynamic_colors_explanation">注意：对于动态色彩主题，您需要在 Android 12+ 外观设置中启用壁纸颜色或调色板。 如果不这样做，Gadgetbridge 将使用默认的 Material 3 色彩。</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
 </resources>
