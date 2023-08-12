@@ -2335,4 +2335,7 @@
     <string name="pref_show_changelog">إظهار سجل التغيير عند بدء التشغيل</string>
     <string name="pref_show_changelog_summary">اعرض سجل التغيير منذ الإصدار الأخير بعد تحديث Gadgetbridge</string>
     <string name="pref_activity_full_sync_trigger_warning">سيؤدي هذا إلى تشغيل مزامنة كاملة لجميع بيانات النشاط من الجهاز. قد يستغرق الأمر بضع دقائق حتى يكتمل.</string>
+    <string name="menuitem_zepp_coach">مدرب زيب</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">الألوان الديناميكية ليست متاحة على جهازك فقط أندرويد 12+ يدعم هذه الوظيفة Gadgetbridge سيستخدم ألوان المواد 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">ملاحظة: بالنسبة إلى سمة الألوان الديناميكية ، تحتاج إلى تمكين ألوان الخلفية أو لوحة الألوان في إعدادات مظهر Android 12+. إذا لم تقم بذلك ، فسيستخدم Gadgetbridge الألوان الافتراضية للمواد 3.</string>
 </resources>
