@@ -47,6 +47,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
@@ -394,10 +395,7 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 amoled_black.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newVal) {
-                        // Signal activities that the theme has changed
-                        Intent intent = new Intent();
-                        intent.setAction(GBApplication.ACTION_THEME_CHANGE);
-                        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
+                        sendThemeChangeIntent();
                         return true;
                     }
                 });
@@ -414,10 +412,19 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                             else
                                 amoled_black.setEnabled(true);
                         }
-                        // Signal activities that the theme has changed
-                        Intent intent = new Intent();
-                        intent.setAction(GBApplication.ACTION_THEME_CHANGE);
-                        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
+                        // Warn user if dynamic colors are not available
+                        if (val.equals(requireContext().getString(R.string.pref_theme_value_dynamic)) && !DynamicColors.isDynamicColorAvailable()) {
+                            new MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.warning)
+                                    .setMessage(R.string.pref_theme_dynamic_colors_not_available_warning)
+                                    .setIcon(R.drawable.ic_warning)
+                                    .setPositiveButton(R.string.ok, (dialog, whichButton) -> {
+                                        sendThemeChangeIntent();
+                                    })
+                                    .show();
+                        } else {
+                            sendThemeChangeIntent();
+                        }
                         return true;
                     }
                 });
@@ -561,6 +568,15 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                     .putString("location_latitude", latitude)
                     .putString("location_longitude", longitude)
                     .apply();
+        }
+
+        /**
+         * Signal running activities that the theme has changed
+         */
+        private void sendThemeChangeIntent() {
+            Intent intent = new Intent();
+            intent.setAction(GBApplication.ACTION_THEME_CHANGE);
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
         }
     }
 }
