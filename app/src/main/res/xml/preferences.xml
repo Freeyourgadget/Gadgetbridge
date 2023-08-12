@@ -69,6 +69,12 @@
                 android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_theme_black_background"
                 app:iconSpaceReserved="false" />
+            <Preference
+                android:enabled="false"
+                android:selectable="false"
+                android:singleLineTitle="false"
+                android:title="@string/pref_theme_dynamic_colors_explanation"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen

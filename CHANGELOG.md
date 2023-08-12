@@ -1,7 +1,7 @@
 ### Changelog
 
 #### Next Version (WIP)
-* Switch UI to Material 3 and support dynamic colors
+* Upgrade UI to Material 3 and add dynamic colors theme
 * Initial support for Bohemic Smart Bracelet
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
