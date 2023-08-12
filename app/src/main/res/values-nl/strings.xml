@@ -2350,4 +2350,6 @@
     <string name="pref_show_changelog_summary">Toon na een update het overzicht van de wijzigingen sinds de vorige versie</string>
     <string name="pref_activity_full_sync_trigger_summary">Start het synchroniseren van alle activiteitsgegevens</string>
     <string name="pref_activity_full_sync_trigger_warning">Hiermee zal een volledige synchronisatie starten van alle activiteitsgegevens van het apparaat. Dit kan enkele minuten duren.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische kleuren zijn niet beschikbaar op je apparaat, alleen Android 12+ ondersteunt deze functionaliteit. Gadgetbridge zal de standaard Material 3-kleuren gebruiken.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Let op: voor het dynamische-kleurenthema moet je Achtergrond-gebaseerde Kleuren of Kleurenpalet in je Android 12+ weergaveinstellingen inschakelen. Als je dat niet doet, zal Gadgetbridge de standaard Material 3-kleuren gebruiken.</string>
 </resources>
