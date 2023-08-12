@@ -2354,4 +2354,5 @@ Temps de sommeil préféré en heures</string>
     <string name="preferences_miband_1_2_warning">Avertissement : Ces réglages s\'appliquent uniquement aux Mi Band 1 et 2.</string>
     <string name="pref_show_changelog">Afficher le journal des modifications au démarrage</string>
     <string name="pref_show_changelog_summary">Afficher le journal des modifications depuis la dernière version après la mise à jour de GadgetBridge</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Les coouleurs dynamiques ne sont pas disponibles sur votre appareil, seul Android 12 ou sup. le supporte. Gadgetbridge utilisera les couleurs par défaut Material 3.</string>
 </resources>
