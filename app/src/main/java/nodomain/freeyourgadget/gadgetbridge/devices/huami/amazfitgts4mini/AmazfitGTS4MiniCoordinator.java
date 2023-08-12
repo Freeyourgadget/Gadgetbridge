@@ -62,6 +62,11 @@ public class AmazfitGTS4MiniCoordinator extends Huami2021Coordinator {
     }
 
     @Override
+    public boolean sendAgpsAsFileTransfer() {
+        return false;
+    }
+
+    @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
     }

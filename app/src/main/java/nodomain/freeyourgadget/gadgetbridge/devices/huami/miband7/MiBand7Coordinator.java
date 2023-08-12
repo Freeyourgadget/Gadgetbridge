@@ -62,6 +62,11 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
+    public boolean supportsAgpsUpdates() {
+        return false;
+    }
+
+    @Override
     public boolean supportsScreenshots() {
         return false;
     }

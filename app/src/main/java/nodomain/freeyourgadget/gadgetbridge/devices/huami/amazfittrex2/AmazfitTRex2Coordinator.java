@@ -72,6 +72,11 @@ public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     }
 
     @Override
+    public boolean sendAgpsAsFileTransfer() {
+        return false;
+    }
+
+    @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
     }

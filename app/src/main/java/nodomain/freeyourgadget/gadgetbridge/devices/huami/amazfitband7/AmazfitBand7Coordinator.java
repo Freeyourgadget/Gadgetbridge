@@ -62,6 +62,11 @@ public class AmazfitBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
+    public boolean supportsAgpsUpdates() {
+        return false;
+    }
+
+    @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
     }
