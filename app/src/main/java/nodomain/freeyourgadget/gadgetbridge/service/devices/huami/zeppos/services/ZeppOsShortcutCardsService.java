@@ -134,7 +134,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
             case CMD_CAPABILITIES_RESPONSE:
                 version = payload[1];
                 getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_VERSION, version));
-                if (version != 3) {
+                if (version != 3 && version != 4) {
                     LOG.warn("Unsupported shortcut cards service version {}", version);
                     return;
                 }
@@ -268,6 +268,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
     }
 
     public static boolean isSupported(final Prefs devicePrefs) {
-        return devicePrefs.getInt(PREF_VERSION, 0) == 3;
+        final int version = devicePrefs.getInt(PREF_VERSION, 0);
+        return version == 3 || version == 4;
     }
 }
