@@ -8,6 +8,7 @@ steps:
   check-if-released:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands: |
+      echo "commit sha" ${CI_COMMIT_SHA}
       RELEASED_VERSION_CODE=$(curl https://freeyourgadget.codeberg.page/fdroid/repo/index-v1.json | jq '.packages."nodomain.freeyourgadget.gadgetbridge.nightly"[0].versionCode')
       CURRENT_VERSION_CODE=$(git rev-list HEAD --count)
 
@@ -117,3 +118,7 @@ steps:
     secrets: [ commit_token ]
 when:
   event: cron
+    #  evaluate:
+    #    '$PREV_SHA' != 'CI_COMMIT_SHA'
+
+
