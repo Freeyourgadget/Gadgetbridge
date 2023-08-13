@@ -118,4 +118,4 @@ steps:
 when:
   event: cron
   evaluate:
-    'CI_PREV_COMMIT_BRANCH' == 'master' and 'CI_PREV_PIPELINE_EVENT' == 'push'
+    'CI_PREV_COMMIT_BRANCH == "master" and CI_PREV_PIPELINE_EVENT' == "push"'
