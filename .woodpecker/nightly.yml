@@ -119,7 +119,7 @@ steps:
 when:
   event: cron
   evaluate:
-    '$CI_COMMIT_SHA_LAST_PUBLISH' != 'CI_COMMIT_SHA'
+    '${CI_COMMIT_SHA_LAST_PUBLISH}' != 'CI_COMMIT_SHA'
 secrets: [ ci_commit_sha_last_publish ]
 
 
