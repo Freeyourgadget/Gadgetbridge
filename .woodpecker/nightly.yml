@@ -118,4 +118,4 @@ steps:
     secrets: [ commit_token ]
 when:
   event: cron
-secrets: [ ci_commit_sha_last_publish ]
+  - evaluate: 'CI_COMMIT_SHA_LAST_PUBLISH != CI_COMMIT_SHA'
