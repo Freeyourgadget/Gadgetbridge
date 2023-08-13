@@ -8,7 +8,6 @@ steps:
   check-if-released:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands: |
-      echo "commit sha" ${CI_COMMIT_SHA}
       RELEASED_VERSION_CODE=$(curl https://freeyourgadget.codeberg.page/fdroid/repo/index-v1.json | jq '.packages."nodomain.freeyourgadget.gadgetbridge.nightly"[0].versionCode')
       CURRENT_VERSION_CODE=$(git rev-list HEAD --count)
 
@@ -20,6 +19,7 @@ steps:
         touch .do_not_build
       fi
 
+
   build-apks:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands:
@@ -29,9 +29,7 @@ steps:
       - ./gradlew assembleMainNightly -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
       - ./gradlew assembleMainNopebble -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
       - ./gradlew assembleBanglejsNightly -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
-    secrets: [ signing_key, keystorepass, keypass, ci_commit_sha_last_publish ]
-    when:
-      - evaluate: '$${CI_COMMIT_SHA_LAST_PUBLISH} != CI_COMMIT_SHA'
+    secrets: [ signing_key, keystorepass, keypass ]
 
   pull-repo-config:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
@@ -119,3 +117,5 @@ steps:
     secrets: [ commit_token ]
 when:
   event: cron
+  evaluate:
+    'CI_PREV_COMMIT_BRANCH' == 'master' and 'CI_PREV_PIPELINE_EVENT' == 'push'
