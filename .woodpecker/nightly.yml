@@ -118,7 +118,7 @@ steps:
     secrets: [ commit_token ]
 when:
   event: cron
-    #  evaluate:
-    #    '$PREV_SHA' != 'CI_COMMIT_SHA'
+#  evaluate:
+#    '$PREV_SHA' != 'CI_COMMIT_SHA'
 
 
