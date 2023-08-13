@@ -19,8 +19,6 @@ steps:
         touch .do_not_build
       fi
 
-    evaluate:
-      'CI_PREV_COMMIT_BRANCH == "master" and CI_PREV_PIPELINE_EVENT' == "push"'
 
   build-apks:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
