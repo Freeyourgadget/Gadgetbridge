@@ -172,4 +172,16 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     public boolean supportsFindDevice() {
         return false;
     }
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "de_DE",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "it_IT",
+        };
+    }
 }

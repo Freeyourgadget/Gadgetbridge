@@ -117,6 +117,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE_AUTO;
+
 public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private static final Logger logger = LoggerFactory.getLogger(WithingsSteelHRDeviceSupport.class);
@@ -215,7 +218,7 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
         mtuSize = mtu;
         if (firstTimeConnect) {
             addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.INITIAL_CONNECT));
-            addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.SET_LOCALE, new Locale("de")));
+            addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.SET_LOCALE, getLocale()));
             addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.START_HANDS_CALIBRATION));
             addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.STOP_HANDS_CALIBRATION));
             addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.SET_TIME, new Time()));
@@ -399,6 +402,9 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
             switch (config) {
                 case HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE:
                     setWorkoutActivityTypes();
+                    break;
+                case PREF_LANGUAGE:
+                    setLanguage();
                     break;
                 default:
                     logger.debug("unknown configuration setting received: " + config);
@@ -699,6 +705,35 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
         message.addDataStructure(imageData);
 
         return message;
+    }
+
+    protected void setLanguage() {
+        Locale locale = getLocale();
+
+        conversationQueue.clear();
+        addSimpleConversationToQueue(new WithingsMessage(WithingsMessageType.SET_LOCALE, locale));
+        conversationQueue.send();
+    }
+
+    private Locale getLocale() {
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())
+                .getString(PREF_LANGUAGE, PREF_LANGUAGE_AUTO);
+
+        if (localeString == null || localeString.equals(PREF_LANGUAGE_AUTO)) {
+            localeString = java.util.Locale.getDefault().getLanguage();
+        }
+
+        String language = localeString.substring(0, 2);
+        switch (language) {
+            case "de":
+            case "en":
+            case "es":
+            case "fr":
+            case "it":
+                return new Locale(language);
+            default:
+                return new Locale("en");
+        }
     }
 
     private short getTimeMode() {
