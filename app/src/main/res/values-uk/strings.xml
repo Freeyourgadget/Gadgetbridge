@@ -2358,4 +2358,7 @@
     <string name="pref_show_changelog_summary">Показ журналу змін найновішої версії після оновлення Gadgetbridge</string>
     <string name="pref_activity_full_sync_trigger_title">Повна синхронізація</string>
     <string name="pref_activity_full_sync_trigger_warning">Це ініціює повну синхронізацію всіх даних активності з пристрою. Виконання триватиме кілька хвилин.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Динамічні кольори недоступні на вашому пристрої, лише Android 12+ підтримує цю функцію. Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="pref_theme_dynamic_colors_explanation">Примітка: для використання теми динамічних кольорів вам потрібно увімкнути \"Кольори шпалер\" або \"Палітра кольорів\" у налаштуваннях зовнішнього вигляду Android 12+. Якщо ви цього не зробите, Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
 </resources>
