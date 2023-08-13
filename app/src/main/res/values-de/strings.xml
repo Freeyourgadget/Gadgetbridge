@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Einstellungen</string>
@@ -2349,4 +2349,14 @@
     <string name="pref_canned_message">Nachricht</string>
     <string name="find_my_phone_found_it">GEFUNDEN</string>
     <string name="pref_theme_dynamic">Dynamische Farben</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2 Einstellungen</string>
+    <string name="preferences_miband_1_2_warning">Warnung: Diese Einstellungen gelten nur für die Mi Bands 1 und 2.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Vollständige Synchronisation aller Aktivitätsdaten durchführen</string>
+    <string name="pref_show_changelog">Änderungsprotokoll beim Starten anzeigen</string>
+    <string name="pref_show_changelog_summary">Anzeige des Änderungsprotokolls seit der letzten Version, nachdem Gadgetbridge aktualisiert wurde</string>
+    <string name="pref_activity_full_sync_trigger_title">Vollständige Synchronisation</string>
+    <string name="pref_activity_full_sync_trigger_warning">Dadurch wird eine vollständige Synchronisation aller Aktivitätsdaten des Geräts ausgelöst. Es kann einige Minuten dauern, bis der Vorgang abgeschlossen ist.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische Farben sind auf deinem Gerät nicht verfügbar, nur Android 12+ unterstützt diese Funktion. Gadgetbridge verwendet die Standardfarben von Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Hinweis: Für das Design mit dynamischen Farben musst du Hintergrundbildfarben oder Farbpalette in deinen Android 12+ Darstellungseinstellungen aktivieren. Wenn du das nicht tust, wird Gadgetbridge die Standardfarben von Material 3 verwenden.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
 </resources>
