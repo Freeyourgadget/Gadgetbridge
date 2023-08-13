@@ -685,6 +685,7 @@
         <item>@string/menuitem_events</item>
         <item>@string/menuitem_pai</item>
         <item>@string/yesterdays_activity</item>
+        <item>@string/menuitem_zepp_coach</item>
         <item>@string/menuitem_cycles</item>
     </string-array>
     <string-array name="pref_morning_updates_categories_values">
@@ -694,6 +695,7 @@
         <item>event</item>
         <item>pai</item>
         <item>yesterdays_activity</item>
+        <item>zepp_coach</item>
         <item>cycle_tracking</item>
     </string-array>
 

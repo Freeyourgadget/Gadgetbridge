@@ -44,6 +44,7 @@ vendor's servers.
 	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-3), [GTS 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4), [GTS 4 Mini](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4-Mini) [**\[!\]**](#special-pairing-procedures) 
 	- [Neo](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Neo) [**\[!\]**](#special-pairing-procedures) 
 	- T-Rex, T-Rex Pro, [T-Rex 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-T-Rex-2) [**\[!\]**](#special-pairing-procedures)
+	- [Cheetah Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cheetah-Pro) [**\[!\]**](#special-pairing-procedures)
 	- Verge Lite [**\[!\]**](#special-pairing-procedures)
 	- [X ](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
 - [Bangle.js](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Bangle.js)
