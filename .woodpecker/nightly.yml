@@ -31,7 +31,7 @@ steps:
       - ./gradlew assembleBanglejsNightly -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
     secrets: [ signing_key, keystorepass, keypass, ci_commit_sha_last_publish ]
     when:
-      - evaluate: 'CI_COMMIT_SHA_LAST_PUBLISH != CI_COMMIT_SHA'
+      - evaluate: '${CI_COMMIT_SHA_LAST_PUBLISH} != CI_COMMIT_SHA'
 
   pull-repo-config:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
