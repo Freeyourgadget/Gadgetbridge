@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Pengaturan</string>
@@ -2328,4 +2328,18 @@
     <string name="error_no_bluetooth_scan">Akses pemindaian Bluetooth harus diberikan dan diaktifkan agar pemindaian dapat bekerja dengan baik</string>
     <string name="withings_calibration_text_hours">Silakan gunakan dial di bawah ini untuk menyelaraskan jarum penunjuk jam ke angka 12.</string>
     <string name="withings_calibration_text_minutes">Sekarang, gunakan dial untuk menyelaraskan jarum penunjuk menit ke angka 12.</string>
+    <string name="pref_theme_dynamic">Warna dinamis</string>
+    <string name="drag_handle">seret pegangan</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Pengaturan Mi Band 1/2</string>
+    <string name="find_my_phone_found_it">DITEMUKAN</string>
+    <string name="pref_activity_full_sync_trigger_summary">Picu sinkronisasi lengkap semua data aktivitas</string>
+    <string name="pref_activity_full_sync_trigger_title">Sinkronisasi lengkap</string>
+    <string name="pref_activity_full_sync_trigger_warning">Ini akan memicu sinkronisasi penuh semua data aktivitas dari perangkat. Ini mungkin memerlukan beberapa menit untuk selesai.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="pref_show_changelog">Tampilkan catatan perubahan saat aplikasi dibuka</string>
+    <string name="pref_canned_message">Pesan</string>
+    <string name="preferences_miband_1_2_warning">Peringatan: Preferensi ini hanya berlaku pada Mi Band 1 dan 2.</string>
+    <string name="pref_show_changelog_summary">Tampilkan catatan perubahan sejak versi terakhir setelah Gadgetbridge diperbarui</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Warna dinamis tidak tersedia pada perangkat Anda, hanya Android 12+ mendukung fitur ini. Gadgetbridge akan menggunakan warna Materia) 3 bawaan.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Catatan: untuk tema warna dinamis, Anda perlu mengaktifkan Warna Wallpaper atau Palet Warma di pengaturan Android 12+ Anda. Jika tidak, Gadgetbridge akan menggunakan warna Material 3 bawaan.</string>
 </resources>
