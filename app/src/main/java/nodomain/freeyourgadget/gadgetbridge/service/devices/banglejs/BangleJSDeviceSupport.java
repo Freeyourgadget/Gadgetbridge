@@ -109,6 +109,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.LocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -869,10 +870,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
         }
         //force a syncCalendar now, send missing events
-        Context context = GBApplication.getContext();
-        Intent intent = new Intent("FORCE_CALENDAR_SYNC");
-        intent.setPackage(BuildConfig.APPLICATION_ID);
-        GBApplication.getContext().sendBroadcast(intent);
+        CalendarReceiver.forceSync();
     }
 
     /**

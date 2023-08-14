@@ -34,6 +34,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -223,5 +224,11 @@ public class CalendarReceiver extends BroadcastReceiver {
                         .buildDelete().executeDeleteWithoutDetachingEntities();
             }
         }
+    }
+
+    public static void forceSync() {
+        final Intent intent = new Intent("FORCE_CALENDAR_SYNC");
+        intent.setPackage(BuildConfig.APPLICATION_ID);
+        GBApplication.getContext().sendBroadcast(intent);
     }
 }

@@ -78,7 +78,7 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
             case CMD_CAPABILITIES_RESPONSE:
                 version = payload[1];
                 getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_VERSION, version));
-                if (version != 1) {
+                if (version != 1 && version != 3) {
                     LOG.warn("Unsupported calendar service version {}", version);
                     return;
                 }
@@ -119,6 +119,11 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         }
         if (calendarEventSpec.description != null) {
             length += calendarEventSpec.description.getBytes(StandardCharsets.UTF_8).length;
+        }
+
+        if (version == 3) {
+            // Extra null byte at the end
+            length++;
         }
 
         final ByteBuffer buf = ByteBuffer.allocate(length);
@@ -162,6 +167,10 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         buf.put((byte) 0x00); // ?
         buf.put((byte) 0x00); // ?
         // TODO: Description here
+
+        if (version == 3) {
+            buf.put((byte) 0x00); // ?
+        }
 
         write("add calendar event", buf.array());
     }
