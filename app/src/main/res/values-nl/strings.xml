@@ -2352,4 +2352,5 @@
     <string name="pref_activity_full_sync_trigger_warning">Hiermee zal een volledige synchronisatie starten van alle activiteitsgegevens van het apparaat. Dit kan enkele minuten duren.</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische kleuren zijn niet beschikbaar op je apparaat, alleen Android 12+ ondersteunt deze functionaliteit. Gadgetbridge zal de standaard Material 3-kleuren gebruiken.</string>
     <string name="pref_theme_dynamic_colors_explanation">Let op: voor het dynamische-kleurenthema moet je Achtergrond-gebaseerde Kleuren of Kleurenpalet in je Android 12+ weergaveinstellingen inschakelen. Als je dat niet doet, zal Gadgetbridge de standaard Material 3-kleuren gebruiken.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
 </resources>
