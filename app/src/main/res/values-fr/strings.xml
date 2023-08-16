@@ -2357,4 +2357,12 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Les coouleurs dynamiques ne sont pas disponibles sur votre appareil, seul Android 12 ou sup. le supporte. Gadgetbridge utilisera les couleurs par défaut Material 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">Remarque : pour le thème avec des couleurs dynamiques, vous devez activer les couleurs de papier-peint ou la palette de couleurs dans les réglages d\'apparenci d\'Android 12 ou supérieur. Si vous ne le faites pas, Gadgetbridge utilisera les couleurs par défaut de Material 3.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit Bip 3 Pro.
+\n
+\nAssurez-vous d\'installer le fichier .fw, et ensuite le fichier .res. Votre montre redémarrera après l\'installation du fichier .fw.
+\n
+\nRemarque : Pas besoin d\'installer le fichier .res si c\'est exactement le même que le précédent installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
 </resources>
