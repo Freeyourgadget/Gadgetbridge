@@ -1768,7 +1768,7 @@
     <string name="watchface_dialog_widget_timezone">Fuso orario</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Nascondi testo al timeout</string>
     <string name="distance_format_meters">###m</string>
-    <string name="distance_format_kilometers">###,#km</string>
+    <string name="distance_format_kilometers">###.#km</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Ferma Listener Posizione GPS</string>
     <string name="pref_activity_recognition_mode_ask">chiedi</string>
     <string name="distance_format_feet">###ft</string>
@@ -1846,7 +1846,7 @@
     <string name="sony_automatic_power_off">Spegnimento Automatico</string>
     <string name="sony_automatic_power_off_3_hour">3 ore</string>
     <string name="pref_screen_brightness">Luminosità Schermo</string>
-    <string name="distance_format_miles">###,#mi</string>
+    <string name="distance_format_miles">###.#mi</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="sony_equalizer_band_2500">2.5k</string>
