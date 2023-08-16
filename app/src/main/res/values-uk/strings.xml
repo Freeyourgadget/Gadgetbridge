@@ -2361,4 +2361,5 @@
     <string name="pref_theme_dynamic_colors_not_available_warning">Динамічні кольори недоступні на вашому пристрої, лише Android 12+ підтримує цю функцію. Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
     <string name="pref_theme_dynamic_colors_explanation">Примітка: для використання теми динамічних кольорів вам потрібно увімкнути \"Кольори шпалер\" або \"Палітра кольорів\" у налаштуваннях зовнішнього вигляду Android 12+. Якщо ви цього не зробите, Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
 </resources>
