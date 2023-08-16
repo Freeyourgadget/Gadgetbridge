@@ -2352,4 +2352,12 @@
     <string name="menuitem_zepp_coach">Zepp Coach‎</string>
     <string name="pref_theme_dynamic_colors_explanation">לתשומת לבך: לטובת ערכת הצבעים הדינמיים יש להפעיל צבעי טפט או ערכת צבעים בהגדרות המראה ב־Android 12+‎ שלך. אם לא, Gadgetbridge ישתמש בצבעי Material 3 כברירת מחדל.</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">צבעים דינמיים לא זמינים במכשיר שלך, רק Android 12 ומעלה תומך ביכולת הזאת. Gadgetbridge ישתמש בצבעי ברירת המחדל של Material 3.</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro‎</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">פעולה זו תתקין את הקושחה %s על ה־Amazfit Bip 3 Pro שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
