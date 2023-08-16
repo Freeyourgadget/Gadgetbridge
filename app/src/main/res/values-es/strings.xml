@@ -2355,4 +2355,12 @@
     <string name="menuitem_zepp_coach">Zepp Coach</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Los colores dinámicos no están disponibles en su dispositivo, solo Android 12+ soporta esta funcionalidad. Gadgetbridge utilizará los colores por defecto de Material 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">Nota: para el tema de colores dinámicos, debe activar Colores de fondo de pantalla o Paleta de colores en los ajustes de apariencia de Android 12+. Si no lo hace, Gadgetbridge utilizará los colores por defecto de Material 3.</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Estás a punto de instalar el firmware %s en tu Amazfit Bip 3 Pro.
+\n
+\nPor favor, asegúrate de instalar el archivo .fw, y después el archivo .res. Tu reloj se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar el archivo .res si es exactamente el mismo que ya tienes instalado.
+\n
+\n¡CONTINUA BAJO TU PROPIA RESPONSABILIDAD!</string>
 </resources>
