@@ -2338,4 +2338,12 @@
     <string name="menuitem_zepp_coach">مدرب زيب</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">الألوان الديناميكية ليست متاحة على جهازك فقط أندرويد 12+ يدعم هذه الوظيفة Gadgetbridge سيستخدم ألوان المواد 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">ملاحظة: بالنسبة إلى سمة الألوان الديناميكية ، تحتاج إلى تمكين ألوان الخلفية أو لوحة الألوان في إعدادات مظهر Android 12+. إذا لم تقم بذلك ، فسيستخدم Gadgetbridge الألوان الافتراضية للمواد 3.</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">أنت على وشك تثبيت البرنامج%s الثابت على Amazfit Bip 3 Pro.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. ستتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت .res إذا كان مطابقًا تمامًا لما تم تثبيته مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
 </resources>
