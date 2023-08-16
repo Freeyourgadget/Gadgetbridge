@@ -24,12 +24,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -45,15 +45,15 @@ import java.util.Objects;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartsActivity.class);
+
+    public static final String STATE_START_DATE = "stateStartDate";
+    public static final String STATE_END_DATE = "stateEndDate";
 
     public static final String EXTRA_FRAGMENT_ID = "fragment";
     public static final int REQUEST_CODE_PREFERENCES = 1;
@@ -103,7 +103,13 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
         setContentView(R.layout.activity_charts);
         int tabFragmentToOpen = -1;
 
-        initDates();
+        if (savedInstanceState != null) {
+            setEndDate(new Date(savedInstanceState.getLong(STATE_END_DATE, System.currentTimeMillis())));
+            setStartDate(new Date(savedInstanceState.getLong(STATE_START_DATE, DateTimeUtils.shiftByDays(getEndDate(), -1).getTime())));
+        } else {
+            setEndDate(new Date());
+            setStartDate(DateTimeUtils.shiftByDays(getEndDate(), -1));
+        }
 
         final IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
@@ -165,6 +171,22 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
         mPrevMonthButton.setOnClickListener(v -> handleButtonClicked(DATE_PREV_MONTH));
         Button mNextMonthButton = findViewById(R.id.charts_next_month);
         mNextMonthButton.setOnClickListener(v -> handleButtonClicked(DATE_NEXT_MONTH));
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putLong(STATE_END_DATE, getEndDate().getTime());
+        outState.putLong(STATE_START_DATE, getStartDate().getTime());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        setEndDate(new Date(savedInstanceState.getLong(STATE_END_DATE, System.currentTimeMillis())));
+        setStartDate(new Date(savedInstanceState.getLong(STATE_START_DATE, DateTimeUtils.shiftByDays(getEndDate(), -1).getTime())));
     }
 
     protected abstract List<String> fillChartsTabsList();
