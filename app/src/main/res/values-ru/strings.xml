@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
@@ -2047,4 +2047,87 @@
     <string name="minCadence">Минимальная частота</string>
     <string name="busy_task_fetch_stress_data">Получение данных о нагрузке</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Получение данных о частоте дыхания во сне</string>
+    <string name="fossil_hr_confirm_connection">Пожалуйста, подтвердите с часов</string>
+    <string name="busy_task_fetch_sports_details">Получение подробностей спорта</string>
+    <string name="step_streaks_achievements_sharing_message">Мои дневные достижения по шагам!</string>
+    <string name="prefs_hourly_chime">Ежечасные куранты</string>
+    <string name="prefs_hourly_chime_summary">Часы будут пищать раз в час</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Позволяет контролировать соединение Bluetooth через API Intent</string>
+    <string name="ftp_server_status">Статус сервера FTP</string>
+    <string name="fossil_hr_connection_not_confirmed">Соединение не было подтверждено с часов. Будет использован режим без аутентификации</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Настройки Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Внимание: Эти настройки будут применены только к Mi Band 1 и 2.</string>
+    <string name="steps_streaks_since_date">С %s</string>
+    <string name="steps_streaks_total_steps_average_hint">Всего в среднем %d шагов в день</string>
+    <string name="wifi_hotspot_status">Статус точки доступа</string>
+    <string name="ftp_server_start_summary">Запускайте сервер с часов</string>
+    <string name="ftp_server_root_dir">Корневая папка</string>
+    <string name="ftp_server_stop_summary">Останавливайте сервер с часов</string>
+    <string name="description">Описание</string>
+    <string name="steps_streaks_streak_days">Подряд
+\nДней</string>
+    <string name="ftp_server_configuration">Конфигурация сервера FTP</string>
+    <string name="steps_streaks_total_steps_hint">Всего шагов за хождение в дни подряд</string>
+    <string name="step_streak_ongoing">Текущий</string>
+    <string name="controlcenter_connected_fraction">Подключено: %d/%d</string>
+    <string name="ftp_server">Сервер FTP</string>
+    <string name="ftp_server_summary">Контролируйте сервер FTP с часов</string>
+    <string name="address">Адрес</string>
+    <string name="fossil_hr_confirmation_timeout">Истекло время ожидания подключения. Продолжаем</string>
+    <string name="contact_missing_name">Имя контакта не заполнено</string>
+    <string name="title">Название</string>
+    <string name="steps_streaks_total_steps">Всего
+\nшагов</string>
+    <string name="step_streak_longest">Наибольший</string>
+    <string name="step_streaks_achievements_sharing_title">Достижения по шагам</string>
+    <string name="fossil_hr_pairing_successful">Сопряжение с часами успешно</string>
+    <string name="fossil_hr_pairing_failed">Сопряжение с часами не удалось</string>
+    <string name="contact_name">Имя</string>
+    <string name="contact_phone_number">Телефон</string>
+    <string name="contact_missing_number">Телефон не указан</string>
+    <string name="step_streak_average_steps_hint">Шагов в среднем за дни подряд</string>
+    <string name="busy_task_fetch_debug_logs">Получение отладочного журнала</string>
+    <string name="activity_prefs_goals">Цели</string>
+    <string name="steps_streaks_average_steps">В среднем
+\nшагов</string>
+    <string name="wifi_hotspot">Точка доступа Wi-Fi</string>
+    <string name="username">Имя пользователя</string>
+    <string name="step_streak_total">Всего</string>
+    <string name="steps_streaks_achievement_rate">Достижения
+\nрейтинг</string>
+    <string name="steps_streaks_total_steps_hint_totals">Всего зарегистрировано шагов</string>
+    <string name="wifi_hotspot_configuration">Настройки ТД Wi-Fi</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="status_icon">Значок статуса</string>
+    <string name="loyalty_cards_install">Установить Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Синхронизировать только выбранные группы</string>
+    <string name="pref_app_logs_start_summary">Начать ведение журнала из приложений часов</string>
+    <string name="pref_app_logs_stop_summary">Остановить ведение журнала</string>
+    <string name="pref_switch_controls_anc_ambient_off">Шумоподавление ←→ Тихий ←→ Выкл.</string>
+    <string name="activity_type_surfing">Сёрфинг</string>
+    <string name="activity_type_windsurfing">Виндсёрфинг</string>
+    <string name="activity_type_kitesurfing">Кайтинг</string>
+    <string name="activity_type_football">Футбол</string>
+    <string name="activity_type_rugby">Регби</string>
+    <string name="activity_type_baseball">Бейсбол</string>
+    <string name="activity_type_tennis">Теннис</string>
+    <string name="activity_type_squash">Сквош</string>
+    <string name="intent_api_allow_activity_sync_summary">Позволяет активировать синхронизацию активности через API Intent</string>
+    <string name="pref_canned_message">Сообщение</string>
+    <string name="fossil_hr_button_config_info">Не все кнопки могут быть настроены, так как их действия забиты в ПО часов.
+\n
+\nВнимание: если установлено официальное приложение Fossil, долгое зажатие верхней кнопки также будет переключать отображение виджетов.</string>
+    <string name="busy_task_fetch_sports_summaries">Получение сводки по спорту</string>
+    <string name="busy_task_fetch_pai_data">Получение данных индекса физ. активности</string>
+    <string name="busy_task_fetch_spo2_data">Получение данных о насыщеннии крови кислородом</string>
+    <string name="busy_task_fetch_hr_data">Получение данных о серцебиении</string>
+    <string name="pref_app_logs_title">Журнал приложения</string>
+    <string name="pref_app_logs_summary">Включить ведение журнала из приложений часов</string>
+    <string name="loyalty_cards_sync_groups">Синхронизируемые группы</string>
+    <string name="steps_streaks_total_days_hint_totals">Процент дней с достигнутой целью в соотношении ко всем дням с шагами</string>
+    <string name="step_streak_days_hint">Количество дней с достигнутой целью шагов подряд</string>
+    <string name="intent_api_allow_activity_sync_title">Разрешить активацию синхронизации активности по событию</string>
+    <string name="changelog_full_title">Список изменений</string>
+    <string name="changelog_ok_button">Ок</string>
+    <string name="changelog_title">Что нового</string>
 </resources>
