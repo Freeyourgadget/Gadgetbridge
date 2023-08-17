@@ -2346,4 +2346,10 @@
 \nملاحظة: ليس عليك تثبيت .res إذا كان مطابقًا تمامًا لما تم تثبيته مسبقًا.
 \n
 \nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">أنت على وشك تثبيت البرامج الثابتة %s على Amazfit Cheetah Pro.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nأستمر على مسؤوليتك الخاصة!</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
 </resources>
