@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
@@ -43,7 +44,8 @@ public class BLEScanService extends Service {
     public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
     public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
 
-    private static final String TAG = "BLEScanService";
+    // 5 minutes scan restart interval
+    private final int DELAY_SCAN_RESTART = 5 * 60 * 1000;
 
     private LocalBroadcastManager localBroadcastManager;
     private NotificationManager notificationManager;
@@ -118,6 +120,21 @@ public class BLEScanService extends Service {
         }else{
             restartScan(true);
         }
+
+        scheduleRestartScan();
+    }
+
+    private void scheduleRestartScan(){
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            LOG.debug("restarting scan...");
+            try {
+                restartScan(true);
+            }catch (Exception e){
+                LOG.error("error during scheduled scan restart", e);
+            }
+            scheduleRestartScan();
+        }, DELAY_SCAN_RESTART);
     }
 
     @Override
@@ -321,10 +338,12 @@ public class BLEScanService extends Service {
         }
         if(scanner == null){
             // at this point we should already be waiting for bluetooth to turn back on
+            LOG.debug("cannot enable scan since bluetooth seems off (scanner == null)");
             return;
         }
         if(bluetoothManager.getAdapter().getState() != BluetoothAdapter.STATE_ON){
             // again, we should be waiting for the adapter to turn on again
+            LOG.debug("Bluetooth adapter state off");
             return;
         }
         if(currentState.isDoingAnyScan()){
