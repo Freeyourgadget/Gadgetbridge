@@ -52,7 +52,7 @@
     <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge အကြောင်း</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js ဖွင့်ထားသည်</string>
     <string name="about_activity_title_banglejs_nopebble">Bangle.js Gadgetbridge အကြောင်း</string>
-    <string name="gadgetbridge_running_main_nightly">"Nightly GB  ဖွင့်ထားသည်"</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB ဖွင့်ထားသည်</string>
     <string name="sony_button_mode_right">ခလုတ်မုဒ် (ညာဘက်)</string>
     <string name="sony_button_mode_off">ပိတ်သည်</string>
     <string name="sony_button_mode_ambient_sound_control">ပတ်ဝန်းကျင် အသံထိန်းချုပ်မှု</string>
