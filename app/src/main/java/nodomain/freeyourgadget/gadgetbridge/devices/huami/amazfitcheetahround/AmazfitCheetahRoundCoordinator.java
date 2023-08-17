@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo, Raghd Hamzeh
+/*  Copyright (C) 2023 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcheetahpro;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcheetahround;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -32,8 +32,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
-public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitCheetahProCoordinator.class);
+public class AmazfitCheetahRoundCoordinator extends Huami2021Coordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitCheetahRoundCoordinator.class);
+
+    @Override
+    public boolean isExperimental() {
+        return true;
+    }
 
     @NonNull
     @Override
@@ -41,8 +46,8 @@ public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
         try {
             final BluetoothDevice device = candidate.getDevice();
             final String name = device.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_CHEETAH_PRO_NAME)) {
-                return DeviceType.AMAZFITCHEETAHPRO;
+            if (name != null && name.startsWith(HuamiConst.AMAZFIT_CHEETAH_ROUND_NAME)) {
+                return DeviceType.AMAZFITCHEETAHROUND;
             }
         } catch (final Exception e) {
             LOG.error("unable to check device support", e);
@@ -53,21 +58,16 @@ public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITCHEETAHPRO;
+        return DeviceType.AMAZFITCHEETAHROUND;
     }
 
     @Override
     public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitCheetahProFWInstallHandler(uri, context);
+        return new AmazfitCheetahRoundFWInstallHandler(uri, context);
     }
 
     @Override
     public boolean supportsContinuousFindDevice() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsControlCenter() {
         return true;
     }
 
@@ -78,6 +78,11 @@ public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
 
     @Override
     public boolean supportsGpxUploads() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsControlCenter() {
         return true;
     }
 
@@ -96,6 +101,7 @@ public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
         return true;
     }
 
+    @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return true;
     }

@@ -45,13 +45,17 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7.A
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipLiteSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip3pro.AmazfitBip3ProSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip5.AmazfitBip5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSLiteSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbipu.AmazfitBipUSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbipupro.AmazfitBipUProSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcheetahpro.AmazfitCheetahProSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcheetahround.AmazfitCheetahRoundSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcheetahsquare.AmazfitCheetahSquareSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor2.AmazfitCor2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitfalcon.AmazfitFalconSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRLiteSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2Support;
@@ -59,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.Am
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3.AmazfitGTR3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3pro.AmazfitGTR3ProSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4.AmazfitGTR4Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtrmini.AmazfitGTRMiniSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2MiniSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2Support;
@@ -72,6 +77,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpoppro.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex.AmazfitTRexSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex2.AmazfitTRex2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexpro.AmazfitTRexProSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexultra.AmazfitTRexUltraSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.AmazfitVergeLSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.AmazfitXSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
@@ -196,6 +202,18 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new MiBand6Support());
             case AMAZFITCHEETAHPRO:
                 return new ServiceDeviceSupport(new AmazfitCheetahProSupport());
+            case AMAZFITCHEETAHSQUARE:
+                return new ServiceDeviceSupport(new AmazfitCheetahSquareSupport());
+            case AMAZFITCHEETAHROUND:
+                return new ServiceDeviceSupport(new AmazfitCheetahRoundSupport());
+            case AMAZFITBIP5:
+                return new ServiceDeviceSupport(new AmazfitBip5Support());
+            case AMAZFITTREXULTRA:
+                return new ServiceDeviceSupport(new AmazfitTRexUltraSupport());
+            case AMAZFITGTRMINI:
+                return new ServiceDeviceSupport(new AmazfitGTRMiniSupport());
+            case AMAZFITFALCON:
+                return new ServiceDeviceSupport(new AmazfitFalconSupport());
             case AMAZFITGTS3:
                 return new ServiceDeviceSupport(new AmazfitGTS3Support());
             case AMAZFITGTR3:
