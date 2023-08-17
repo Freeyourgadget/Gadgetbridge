@@ -2130,4 +2130,5 @@
     <string name="changelog_full_title">Список изменений</string>
     <string name="changelog_ok_button">Ок</string>
     <string name="changelog_title">Что нового</string>
+    <string name="prefs_noise_control">Управление шумом</string>
 </resources>
