@@ -2353,4 +2353,12 @@
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische kleuren zijn niet beschikbaar op je apparaat, alleen Android 12+ ondersteunt deze functionaliteit. Gadgetbridge zal de standaard Material 3-kleuren gebruiken.</string>
     <string name="pref_theme_dynamic_colors_explanation">Let op: voor het dynamische-kleurenthema moet je Achtergrond-gebaseerde Kleuren of Kleurenpalet in je Android 12+ weergaveinstellingen inschakelen. Als je dat niet doet, zal Gadgetbridge de standaard Material 3-kleuren gebruiken.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip 3 Pro. 
+\n 
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand. 
+\n 
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd. 
+\n 
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
 </resources>
