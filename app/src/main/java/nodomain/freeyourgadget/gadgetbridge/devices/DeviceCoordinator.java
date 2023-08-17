@@ -411,6 +411,11 @@ public interface DeviceCoordinator {
     int getBondingStyle();
 
     /**
+     * Returns true if this device is in an experimental state / not tested.
+     */
+    boolean isExperimental();
+
+    /**
      * Indicates whether the device has some kind of calender we can sync to.
      * Also used for generated sunrise/sunset events
      */

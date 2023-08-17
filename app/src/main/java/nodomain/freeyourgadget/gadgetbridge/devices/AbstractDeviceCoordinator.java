@@ -259,6 +259,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean isExperimental() {
+        return false;
+    }
+
+    @Override
     public boolean supportsActivityTracks() {
         return false;
     }
