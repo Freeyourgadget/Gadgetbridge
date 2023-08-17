@@ -2362,4 +2362,17 @@
     <string name="menuitem_zepp_coach">Zepp Coach</string>
     <string name="pref_theme_dynamic_colors_explanation">Примітка: для використання теми динамічних кольорів вам потрібно увімкнути \"Кольори шпалер\" або \"Палітра кольорів\" у налаштуваннях зовнішнього вигляду Android 12+. Якщо ви цього не зробите, Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Ви збираєтесь установити мікропрограму %s на Amazfit Bip 3 Pro.
+\n
+\nСпочатку встановіть файл .fw, потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\n
+\nПримітка. Вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\n
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Ви збираєтесь установити мікропрограму %s на Amazfit Cheetah Pro.
+\n
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\n
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
 </resources>
