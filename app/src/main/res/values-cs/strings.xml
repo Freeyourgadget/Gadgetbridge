@@ -2140,4 +2140,12 @@
     <string name="pref_summary_mb_intents">Povolit, pokud ovládání médií nefunguje pro určité aplikace</string>
     <string name="title_activity_set_contacts">Konfigurace kontaktů</string>
     <string name="pref_header_navigation">Navigace</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_chart_per_month">PAI za měsíc</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Oříznout časy při stahování</string>
+    <string name="gpx_route_upload_complete">Nahrávání GPX traxy hotovo</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Ořízne časy stažených data na celé minuty. Vypněte, chcete-li zachovat čas ve vteřinách, při potížích při stahování velmi krátkých aktivit.</string>
+    <string name="gpx_route_upload_failed">Chyba při nahrávání GPX trasy</string>
+    <string name="gpx_route_upload_in_progress">Nahrávání GPX trasy</string>
 </resources>
