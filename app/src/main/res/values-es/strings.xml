@@ -2363,4 +2363,10 @@
 \nNota: No es necesario instalar el archivo .res si es exactamente el mismo que ya tienes instalado.
 \n
 \n¡CONTINUA BAJO TU PROPIA RESPONSABILIDAD!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Está a punto de instalar el firmware %s en su Amazfit Cheetah Pro.
+\n
+\nSu band se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
 </resources>
