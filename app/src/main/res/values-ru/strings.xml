@@ -2181,5 +2181,8 @@
     <string name="watchface_dialog_widget_cat_position">Позиция</string>
     <string name="watchface_widget_type_active_mins">Минуты активности</string>
     <string name="watchface_dialog_widget_cat_generic">Обычный</string>
-    <string name="prefs_dolby_summary">Dolby пресет для эквалайзера</string>
+    <string name="prefs_dolby_summary">Предустановка Dolby для эквалайзера</string>
+    <string name="prefs_touch_lock_buds2">Сенсорное управление</string>
+    <string name="prefs_seamless_connection_switch_title">Плавная смена подключения</string>
+    <string name="prefs_touch_lock_summary">Выключить события сенсора</string>
 </resources>
