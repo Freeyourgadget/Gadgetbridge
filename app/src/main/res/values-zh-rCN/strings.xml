@@ -2353,12 +2353,18 @@
     <string name="pref_theme_dynamic_colors_not_available_warning">您的设备不支持动态色彩，仅 Android 12+ 支持此功能。Gadgetbridge 将使用默认的 Material 3 色彩。</string>
     <string name="pref_theme_dynamic_colors_explanation">注意：对于动态色彩主题，您需要在 Android 12+ 外观设置中启用壁纸颜色或调色板。 如果不这样做，Gadgetbridge 将使用默认的 Material 3 色彩。</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
-    <string name="fw_upgrade_notice_amazfitbip3pro">您即将在您的华米 Bip 3 Pro 上安装安装 %s 固件。
+    <string name="fw_upgrade_notice_amazfitbip3pro">您即将在您的跃我 Bip 3 Pro 上安装安装 %s 固件。
 \n
 \n请确保先安装 .fw 文件，再安装 .res 文件。您的手表将会在安装完 .fw 文件后自动重启。
 \n
 \n注意：如果 .res 文件和之前的版本相同，您无需再安装一次。
 \n
 \n风险自担！</string>
-    <string name="devicetype_amazfit_bip3_pro">华米 Bip 3 Pro</string>
+    <string name="devicetype_amazfit_bip3_pro">跃我 Bip 3 Pro</string>
+    <string name="devicetype_amazfit_cheetah_pro">跃我 Cheetah Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">您即将在您的 跃我 Cheetah Pro 上安装 %s 固件。
+\n
+\n您的手环将在安装完 .zip 文件后自动重启。
+\n
+\n风险自担！</string>
 </resources>
