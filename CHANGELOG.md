@@ -2,10 +2,17 @@
 
 #### Next Version (WIP)
 * Upgrade UI to Material 3 and add dynamic colors theme
+* Initial support for Amazfit Bip 3 Pro
+* Initial support for Amazfit Cheetah Pro
 * Initial support for Bohemic Smart Bracelet
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
 * Initial support for Withings Steel HR
+* Experimental support for Amazfit Bip 5
+* Experimental support for Amazfit Falcon
+* Experimental support for Amazfit GTR Mini
+* Experimental support for Amazfit Cheetah (Round/Square)
+* Experimental support for Amazfit T-Rex Ultra
 * Amazfit GTS 2e: Add activate display on lift sensitivity
 * Amazfit GTR 3 / GTS 3: Enable AGPS Updates
 * Amazfit Neo: Enable PAI support
@@ -26,8 +33,15 @@
 * Sony WH-1000XM3/WF-SP800N: Add volume setting
 * Sony WH-1000XM5: Fix speak-to-chat enable/disable
 * Zepp OS: Add loyalty cards integration with Catima
+* Zepp OS: Enable AGPS updates for all devices
+* Zepp OS: Fix calendar sync on Zepp OS 2, send event location
 * Zepp OS: Fix reminder creation
+* Zepp OS: Fix shortcut cards setting on Zepp OS 2.1
+* Zepp OS: Map barcode types for ITF, PDF_417 and DATA_MATRIX
+* Add preference to display changelog on startup
+* Add Termux RUN_COMMAND permission
 * Allow filtering notifications from work profile apps
+* Build nightly changelog from git
 * Bump target SDK version to 31
 * Fix media button control for some applications
 * Fix notification filters by title if notification does not contain a body
