@@ -2156,4 +2156,26 @@
     <string name="stress_moderate">Умеренный</string>
     <string name="stress_high">Высокий</string>
     <string name="pai_total">Общий индекс физ. активности</string>
+    <string name="pref_theme_dynamic">Динамичные цвета</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="watchface_widget_type_uv_index">Индекс УФ-излучения</string>
+    <string name="pref_show_changelog">Показывать список изменений при запуске</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="activity_type_handball">Гандбол</string>
+    <string name="activity_type_weightlifting">Тяжёлая атлетика</string>
+    <string name="activity_type_dancing">Танцы</string>
+    <string name="activity_type_skiing">Лыжи</string>
+    <string name="activity_type_snowboarding">Сноубординг</string>
+    <string name="activity_type_riding">Верховая езда</string>
+    <string name="activity_type_hockey">Хоккей</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Виджет вторичного часового пояса</string>
+    <string name="activity_type_icehockey">Хоккей с шайбой</string>
+    <string name="activity_type_iceskating">Коньки</string>
+    <string name="activity_type_other">Другое</string>
+    <string name="error_no_bluetooth_connect">Для корректной работы сканирования требуется разрешение на Bluetooth-соединение</string>
+    <string name="activity_type_golf">Гольф</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="error_no_bluetooth_scan">Для корректной работы сканирования требуется разрешение на Bluetooth-сканирование</string>
+    <string name="pref_show_changelog_summary">Отображать список изменений с предыдущей версии после обновления Gadgetbridge</string>
 </resources>
