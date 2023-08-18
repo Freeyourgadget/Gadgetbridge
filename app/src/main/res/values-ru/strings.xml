@@ -2178,4 +2178,8 @@
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
     <string name="error_no_bluetooth_scan">Для корректной работы сканирования требуется разрешение на Bluetooth-сканирование</string>
     <string name="pref_show_changelog_summary">Отображать список изменений с предыдущей версии после обновления Gadgetbridge</string>
+    <string name="watchface_dialog_widget_cat_position">Позиция</string>
+    <string name="watchface_widget_type_active_mins">Минуты активности</string>
+    <string name="watchface_dialog_widget_cat_generic">Обычный</string>
+    <string name="prefs_dolby_summary">Dolby пресет для эквалайзера</string>
 </resources>
