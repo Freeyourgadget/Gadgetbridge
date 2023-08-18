@@ -2365,4 +2365,10 @@ Temps de sommeil préféré en heures</string>
 \nRemarque : Pas besoin d\'installer le fichier .res si c\'est exactement le même que le précédent installé.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit Cheetah Pro.
+\n
+\nVotre bracelet va redémarrer après l\'installation du fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
 </resources>
