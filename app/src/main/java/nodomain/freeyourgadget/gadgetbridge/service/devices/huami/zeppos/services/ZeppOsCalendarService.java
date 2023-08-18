@@ -122,6 +122,9 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         }
 
         if (version == 3) {
+            if (calendarEventSpec.location != null) {
+                length += calendarEventSpec.location.getBytes(StandardCharsets.UTF_8).length;
+            }
             // Extra null byte at the end
             length++;
         }
@@ -169,7 +172,10 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         // TODO: Description here
 
         if (version == 3) {
-            buf.put((byte) 0x00); // ?
+            if (calendarEventSpec.location != null) {
+                buf.put(calendarEventSpec.location.getBytes(StandardCharsets.UTF_8));
+            }
+            buf.put((byte) 0x00);
         }
 
         write("add calendar event", buf.array());
