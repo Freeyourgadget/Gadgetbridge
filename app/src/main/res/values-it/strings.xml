@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Impostazioni</string>
@@ -410,7 +410,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Stai per installare il firmware %s sul Amazfit Cor.
@@ -789,7 +789,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="fw_upgrade_notice_amazfitgtr">Stai per installare il firmware %s sul tuo Amazfit GTR.
@@ -911,7 +911,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="controlcenter_set_alias">Imposta Alias</string>
@@ -1216,7 +1216,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="watchface_setting_title_power_saving">Risparmio energetico</string>
@@ -2322,4 +2322,31 @@
     <string name="pref_summary_banglejs_phone_gps_enbale">Usa i dati gps del telefono per sovrascrivere i dati gps del dispositivo bangle</string>
     <string name="stress_moderate">Moderato</string>
     <string name="stress_mild">Leggero</string>
+    <string name="pref_theme_dynamic">Colori dinamici</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Impostazioni Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Attenzione: Queste preferenze si applicano solo a Mi Band 1 e 2.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Avvia una sincronizzazione completa dei dati attività</string>
+    <string name="pref_activity_full_sync_trigger_title">Sincronizzazione completa</string>
+    <string name="pref_show_changelog">Mostra il changelog all\'avvio</string>
+    <string name="pref_show_changelog_summary">Visualizza il changelog dall\'ultima versione dopo l\'aggiornamento di Gadgetbridge</string>
+    <string name="find_my_phone_found_it">TROVATO</string>
+    <string name="pref_activity_full_sync_trigger_warning">Questo avvierà una sincronizzazione completa di tutti i dati di attività sul dispositivo. Potrebbe richiedere alcuni minuti.</string>
+    <string name="pref_canned_message">Messaggio</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Stai per installare il firmware %s sul tuo Amazfit Bip 3 Pro.
+\n
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
+\n
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Stai per installare il firmware %s sul tuo Amazfit Cheetah Pro.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">I colori dinamici non sono disponibili sul tuo dispositivo, solo Android 12+ supporta questa funzionalità. Gadgetbridge userà i colori predefiniti di Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Nota: per il tema con colori dinamici è necessario attivare Colori sfondo o Tavolozza colori nelle impostazioni di aspetto di Android 12+. Altrimenti, Gadgetbridge userà i colori predefiniti di Material 3.</string>
 </resources>
