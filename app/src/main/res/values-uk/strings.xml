@@ -2375,4 +2375,16 @@
 \nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_zepp_os">Ви збираєтесь установити мікропрограму %s на %s.
+\n
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\n
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Square)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Round)</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="device_experimental">ЕКСПЕРИМЕНТАЛЬНО</string>
 </resources>
