@@ -2185,4 +2185,5 @@
     <string name="prefs_touch_lock_buds2">Сенсорное управление</string>
     <string name="prefs_seamless_connection_switch_title">Плавная смена подключения</string>
     <string name="prefs_touch_lock_summary">Выключить события сенсора</string>
+    <string name="prefs_touch_lock">Сенсорная блокировка</string>
 </resources>
