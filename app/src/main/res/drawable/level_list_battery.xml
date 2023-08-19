@@ -24,4 +24,7 @@
     <item
         android:drawable="@drawable/ic_battery_charging_full"
         android:maxLevel="200" />
+    <item
+        android:drawable="@drawable/ic_battery_unknown"
+        android:maxLevel="300" />
 </level-list>

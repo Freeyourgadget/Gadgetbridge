@@ -374,7 +374,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             } else {
                 //should be the "default" status, shown when the device is not connected
                 batteryStatusLabels[batteryIndex].setText("");
-                batteryIcons[batteryIndex].setImageLevel(50);
+                batteryIcons[batteryIndex].setImageLevel(300);
             }
             final int finalBatteryIndex = batteryIndex;
             batteryStatusBoxes[batteryIndex].setOnClickListener(new View.OnClickListener() {
