@@ -2242,4 +2242,12 @@
     <string name="pref_activity_full_sync_trigger_warning">This will trigger a full sync of all activity data from the device. It may take a few minutes to complete.</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamic colors are not available on your device, only Android 12+ supports this functionality. Gadgetbridge will use the default Material 3 colors.</string>
     <string name="pref_theme_dynamic_colors_explanation">Note: for the dynamic colors theme you need to enable Wallpaper Colors or Color Palette in your Android 12+ appearance settings. If you don\'t, Gadgetbridge will use the default Material 3 colors.</string>
+    <string name="info_menu_structure_set">Menu structure JSON set in GB</string>
+    <string name="error_invalid_menu_structure">Invalid menu structure JSON</string>
+    <string name="button_open_menu_companion">Open menu companion app</string>
+    <string name="button_reset_menu_structure">Reset menu structure</string>
+    <string name="info_menu_structure_removed">Menu structure removed</string>
+    <string name="error_menu_companion_not_installed">\'HR Menu Companion\' probably not installed</string>
+    <string name="info_menu_structure_contents">Menu structure: %s</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Please rebuild your watchface for custom menu</string>
 </resources>

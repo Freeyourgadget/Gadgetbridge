@@ -317,4 +317,20 @@ public class AndroidUtils {
             Toast.makeText(context, R.string.activity_error_share_failed, Toast.LENGTH_LONG).show();
         }
     }
+
+    public static void openWebsite(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        GBApplication.getContext().startActivity(i);
+    }
+
+    public static void openApp(String packageName) throws ClassNotFoundException {
+        Context context = GBApplication.getContext();
+
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if(launchIntent == null){
+            throw new ClassNotFoundException("App " + packageName + " cannot be found");
+        }
+        GBApplication.getContext().startActivity(launchIntent);
+    }
 }

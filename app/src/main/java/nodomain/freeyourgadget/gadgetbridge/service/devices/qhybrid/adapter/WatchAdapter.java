@@ -21,6 +21,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.net.Uri;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -163,6 +165,10 @@ public abstract class WatchAdapter {
     }
 
     public void pushConfigJson(String configJson){
+
+    }
+
+    public void handleSetMenuStructure(JSONObject menuStructure) {
 
     }
 }

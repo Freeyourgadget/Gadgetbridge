@@ -112,21 +112,53 @@
 
     <Button
         android:id="@+id/button_set_background"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_watchface_select_image" />
 
     <Button
         android:id="@+id/button_add_widget"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_watchface_add_widget" />
 
     <Button
         android:id="@+id/button_watchface_settings"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_watchface_settings" />
+
+    <Button
+        android:id="@+id/button_watchface_open_menu_companion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_open_menu_companion" />
+
+    <Button
+        android:id="@+id/button_watchface_reset_menu_structure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_reset_menu_structure" />
+
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fossil_menu_structure_hint_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/cardview_background_color"
+        app:cardElevation="3dp"
+        app:contentPadding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_watchface_menu_structure"
+            android:lines="1"
+            android:ellipsize="end" />
+    </com.google.android.material.card.MaterialCardView>
+
 
 </LinearLayout>
 </ScrollView>

@@ -1069,6 +1069,28 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
+    public void handleSetMenuStructure(JSONObject menuStructure) {
+        String serialized = menuStructure.toString();
+        getDeviceSpecificPreferences()
+                .edit()
+                .putString("MENU_STRUCTURE_JSON", serialized)
+                .apply();
+
+        try {
+            String payload = new JSONObject()
+                    .put("push", new JSONObject()
+                            .put("set", new JSONObject()
+                                    .put("customWatchFace._.config.menu_structure", menuStructure)
+                            )
+                    ).toString();
+            pushConfigJson(payload);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
     public void setWidgetContent(String widgetID, String content, boolean renderOnWatch) {
         boolean update = false;
         for (Widget widget : widgets) {
@@ -1898,16 +1920,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         queueWrite(new JsonPutRequest(responseObject, this));
                     }
                 } else if (request.optString("custom_menu").equals("request_config")) {
-                    // watchface requests custom menu data to be initialized
-                    LOG.info("Got custom_menu config request, sending intent to HR Menu Companion app...");
-                    Intent intent = new Intent();
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setClassName("d.d.hrmenucompanion", "d.d.hrmenucompanion.MainActivity");
-                    intent.putExtra("SEND_CONFIG", true);
-                    try {
-                        getContext().startActivity(intent);
-                    } catch (Exception e) {
-                        LOG.info("Couldn't send intent to Fossil-HR-Menu-Companion app, is it installed?");
+                    PackageManager manager = getContext().getPackageManager();
+                    try{
+                        // only show toast when companion app is installed
+                        manager.getApplicationInfo("d.d.hrmenucompanion", 0);
+                        GB.toast(getContext().getString(R.string.info_fossil_rebuild_watchface_custom_menu), Toast.LENGTH_SHORT, GB.INFO);
+                    }catch (PackageManager.NameNotFoundException e){
                     }
                 } else {
                     LOG.warn("Unhandled request from watch: " + requestJson.toString());
