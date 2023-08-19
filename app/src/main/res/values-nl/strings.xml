@@ -1665,7 +1665,7 @@
     <string name="pref_ambient_sound_tone_summary">Van zacht naar helder</string>
     <string name="pref_balance">Balans</string>
     <string name="pref_switch_controls_ambient_off">Omgeving ←→ Uit</string>
-    <string name="prefs_noise_control">Ruisonderdrukking</string>
+    <string name="prefs_noise_control">Ruisbeheersing</string>
     <string name="prefs_voice_detect">Spraakdetectie</string>
     <string name="prefs_double_tap_edge">Dubbeltik op rand</string>
     <string name="prefs_double_tap_edge_summary">Detecteer dubbel tikken, zelfs als er niet op het touchpad is getikt</string>
@@ -2019,7 +2019,7 @@
     <string name="menuitem_phone">Telefoon</string>
     <string name="pref_title_upper_button_long_press_action">Bovenste knop lang indrukken actie</string>
     <string name="pref_screen_auto_brightness_summary">Pas de helderheid van het scherm aan op basis van het omgevingslicht</string>
-    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM3</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
     <string name="pref_chart_sleep_lines_limit">Hoeveel slaapsessieregels moeten worden weergegeven voordat ze worden gescrolld</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WH-1000XM4</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">U staat op het punt de %s-firmware op uw Amazfit GTR 4 te installeren.
@@ -2361,4 +2361,22 @@
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">U staat op het punt de %s-firmware op uw Amazfit Cheetah Pro te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="device_experimental">EXPERIMENTEEL</string>
+    <string name="fw_upgrade_notice_zepp_os">U staat op het punt de %s-firmware op uw %s te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (vierkant)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (rond)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
 </resources>
