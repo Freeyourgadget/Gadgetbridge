@@ -2352,4 +2352,16 @@
 \n
 \nأستمر على مسؤوليتك الخاصة!</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="fw_upgrade_notice_zepp_os">أنت على وشك تثبيت البرامج الثابتة %s على%s.
+\n
+\nستتم إعادة تشغيل ساعتك بعد تثبيت ملف zip.
+\n
+\nالاستمرار على مسؤوليتك الخاصة!</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (المربعة)</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (الدائرية)</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="device_experimental">اختباري</string>
 </resources>
