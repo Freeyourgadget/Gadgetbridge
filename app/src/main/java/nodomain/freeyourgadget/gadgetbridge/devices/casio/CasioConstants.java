@@ -112,6 +112,12 @@ public final class CasioConstants {
     public static final byte CATEGORY_SNS = 4;
     public static final byte CATEGORY_VOICEMAIL = 3;
 
+    // Connection Reason - GW-B5600
+    public static final byte CONNECT_CNCT = 1;
+    public static final byte CONNECT_FIND = 2;
+    public static final byte CONNECT_AUTO = 3;
+    public static final byte CONNECT_TIME = 4;
+
     public enum Model {
         MODEL_CASIO_GENERIC,
         MODEL_CASIO_6900B,

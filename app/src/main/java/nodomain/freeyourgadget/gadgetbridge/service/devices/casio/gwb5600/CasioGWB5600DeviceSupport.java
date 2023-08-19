@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Locale;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
@@ -70,12 +74,21 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
         }
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        requestWorldClocks(builder);
+
+        // which button was pressed?
+        requestFeature(builder, new FeatureRequest(FEATURE_BLE_FEATURES), data -> {
+            if (data.length > 8 && data[8] == CasioConstants.CONNECT_FIND) {
+                setInitialized();
+            } else {
+                requestWorldClocks();
+            }
+        });
 
         return builder;
     }
 
-    private void requestWorldClocks(TransactionBuilder builder) {
+    private void requestWorldClocks() {
+        TransactionBuilder builder = createTransactionBuilder("requestWorldClocks");
         HashSet<FeatureRequest> requests = new HashSet();
 
         for (byte i = 0; i < 6; i++) {
@@ -88,6 +101,7 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
                 clockBuilder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
                 clockBuilder.queue(getQueue());
         });
+        builder.queue(getQueue());
     }
 
     private void setClocks(TransactionBuilder builder, Map<FeatureRequest, byte[]> responses) {
@@ -108,6 +122,29 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
             writeAllFeatures(builder, timezones[i].worldCityBytes(i));
         }
         writeCurrentTime(builder, ZonedDateTime.ofInstant(now, tz));
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        UUID characteristicUUID = characteristic.getUuid();
+        byte[] data = characteristic.getValue();
+        if (data.length == 0)
+            return true;
+
+        if (characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
+            if(data[0] == FEATURE_ALERT_LEVEL) {
+                GBDeviceEventFindPhone event = new GBDeviceEventFindPhone();
+                if(data[1] == 0x02) {
+                    event.event = GBDeviceEventFindPhone.Event.START_VIBRATE;
+                } else {
+                    event.event = GBDeviceEventFindPhone.Event.STOP;
+                }
+                evaluateGBDeviceEvent(event);
+                return true;
+            }
+        }
+        return super.onCharacteristicChanged(gatt, characteristic);
     }
 
 }
