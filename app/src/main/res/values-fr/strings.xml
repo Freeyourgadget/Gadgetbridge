@@ -2371,4 +2371,16 @@ Temps de sommeil préféré en heures</string>
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Square)</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Round)</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="fw_upgrade_notice_zepp_os">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre %s.
+\n
+\nVotre montre va redémarrer après l\'installation du fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="device_experimental">EXPÉRIMENTAL</string>
 </resources>
