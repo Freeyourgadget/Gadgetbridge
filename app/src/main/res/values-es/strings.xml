@@ -2369,4 +2369,9 @@
 \n
 \n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="fw_upgrade_notice_zepp_os">Está a punto de instalar el firmware %s en su %s.
+\n
+\nSu reloj se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
 </resources>
