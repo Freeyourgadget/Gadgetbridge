@@ -2360,4 +2360,25 @@
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">פעולה זו תתקין את הקושחה %s על ה־Amazfit Cheetah Pro שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="fw_upgrade_notice_zepp_os">פעולה זו תתקין את הקושחה %s על ה־%s שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (מרובע)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (מעוגל)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro‎</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5‎</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra‎</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini‎</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon‎</string>
+    <string name="device_experimental">ניסיוני</string>
+    <string name="button_reset_menu_structure">איפוס מבנה תבנית</string>
+    <string name="info_menu_structure_removed">מבנה התפריט הוסר</string>
+    <string name="info_menu_structure_contents">מבנה תפריט: %s</string>
 </resources>
