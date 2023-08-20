@@ -2364,4 +2364,12 @@
     <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (الدائرية)</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="device_experimental">اختباري</string>
+    <string name="info_menu_structure_set">بنية القائمة JSON تم تعيينها بالجيجابايت</string>
+    <string name="error_invalid_menu_structure">بنية قائمة JSON غير صالحة</string>
+    <string name="button_open_menu_companion">افتح قائمة التطبيق المصاحب</string>
+    <string name="button_reset_menu_structure">إعادة تعيين هيكل القائمة</string>
+    <string name="info_menu_structure_removed">تمت إزالة بنية القائمة</string>
+    <string name="error_menu_companion_not_installed">ربما لم يتم تثبيت \"تطبيق نبضات القلب المرافق\"</string>
+    <string name="info_menu_structure_contents">هيكل القائمة: %s</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">يرجى إعادة إنشاء خلفية شاشة الساعة للقائمة المخصصة</string>
 </resources>
