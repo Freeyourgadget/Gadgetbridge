@@ -142,7 +142,7 @@
     <string name="not_connected">Нет соединения</string>
     <string name="connecting">Соединение</string>
     <string name="connected">Соединено</string>
-    <string name="unknown_state">Непонятное состояние</string>
+    <string name="unknown_state">Неизвестное состояние</string>
     <string name="_unknown_">(неизвестно)</string>
     <string name="test">Тест</string>
     <string name="test_notification">Тестовое уведомление</string>
@@ -223,7 +223,7 @@
     <string name="control_center_find_lost_device">Поиск потерянного устройства</string>
     <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы прекратить вибрацию.</string>
     <string name="title_activity_charts">Активность и сон</string>
-    <string name="title_activity_set_alarm">Завести Будильник</string>
+    <string name="title_activity_set_alarm">Настроить будильник</string>
     <string name="controlcenter_start_configure_alarms">Настроить будильники</string>
     <string name="title_activity_alarm_details">Настройки будильника</string>
     <string name="alarm_sun_short">Вс</string>
@@ -233,9 +233,9 @@
     <string name="alarm_thu_short">Чт</string>
     <string name="alarm_fri_short">Пт</string>
     <string name="alarm_sat_short">Сб</string>
-    <string name="alarm_smart_wakeup">умное пробуждение</string>
+    <string name="alarm_smart_wakeup">\"Умное\" пробуждение</string>
     <string name="user_feedback_miband_set_alarms_failed">При настройке будильника произошла ошибка, попробуйте ещё раз.</string>
-    <string name="user_feedback_miband_set_alarms_ok">Будильник был добавлен на устройстве.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Будильники отправлены на устройство.</string>
     <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
     <string name="user_feedback_miband_activity_data_transfer">Будет передано %1$s данных, начиная с %2$s</string>
     <string name="miband_prefs_fitness_goal">Ежедневная цель шагов</string>
@@ -420,7 +420,7 @@
     <string name="pref_blacklist_calendars">Заблокированные календари</string>
     <string name="pref_header_pebble_timeline">Временной график Pebble</string>
     <string name="pref_title_pebble_enable_bgjs">Включить JS в фоновом режиме</string>
-    <string name="pref_summary_pebble_enable_bgjs">Включают, чтобы видеть погоду, заряд батарейки и т.д. на циферблате.</string>
+    <string name="pref_summary_pebble_enable_bgjs">При включении позволяет циферблатам отображать погоду, уровень заряда и прочее</string>
     <string name="activity_web_view">Веб-отчёт активности</string>
     <string name="mi2_dnd_off">Выкл.</string>
     <string name="mi2_dnd_automatic">Автоматически (определяет режим сна)</string>
@@ -694,7 +694,7 @@
     <string name="activity_prefs_activetime_minutes">Ежедневная цель: время активности в минутах</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Включить VoIP-звонки</string>
-    <string name="title_activity_device_specific_settings">Специфичные настройки устройства</string>
+    <string name="title_activity_device_specific_settings">Специфичные для устройства настройки</string>
     <string name="pref_title_authkey">Ключ авторизации</string>
     <string name="pref_summary_authkey">Измените ключ авторизации на общий ключ на всех ваших Android-устройствах, с которых вы хотели бы подключиться. Предыдущий ключ по умолчанию для всех устройств 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
@@ -1131,7 +1131,7 @@
     <string name="pref_title_upper_button_function_short">Короткое нажатие на верхнюю кнопку</string>
     <string name="menuitem_goal">Цель</string>
     <string name="menuitem_pomodoro">Трекер Pomodoro</string>
-    <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
+    <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения по Bluetooth, когда оно уже подключено</string>
     <string name="pref_title_connected_advertisement">Виден при подключении</string>
     <string name="prefs_autoremove_message">Автоматически удалять SMS-уведомления</string>
     <string name="prefs_fake_ring_duration">Поддельный непрерывный звонок</string>
@@ -1314,7 +1314,7 @@
     <string name="toast_app_must_not_be_selected">Приложение не должно быть выбрано для настройки</string>
     <string name="title_activity_notification_management">Настройки уведомлений</string>
     <string name="pref_title_message_privacy_mode">Режим конфиденциальности сообщений</string>
-    <string name="pref_message_privacy_mode_off">Отображение содержимого</string>
+    <string name="pref_message_privacy_mode_off">Отображать содержимое</string>
     <string name="pref_applications_settings">Список приложений</string>
     <string name="controlcenter_power_off">Выключить</string>
     <string name="controlcenter_power_off_confirm_title">Выключить</string>
@@ -1635,7 +1635,7 @@
     <string name="spo2_perc_85">85%</string>
     <string name="world_clock_delete_confirm_title">Удалить \'%1$s\'</string>
     <string name="pref_screen_notification_profile_schedule">Расписание</string>
-    <string name="pref_screen_vibration_patterns_title">Профили вибраций</string>
+    <string name="pref_screen_vibration_patterns_title">Профили вибрации</string>
     <string name="heartrate_bpm_40">40 уд/мин</string>
     <string name="pref_explanation_authkey">Некоторые устройства требуют специального ключа сопряжения для первой инициализации устройства. Нажмите здесь чтобы получить более подробную информацию из вики.</string>
     <string name="pref_screen_notification_profile_todo_list">Список дел</string>
