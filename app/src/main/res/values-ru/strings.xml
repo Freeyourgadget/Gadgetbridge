@@ -404,16 +404,16 @@
     <string name="title_activity_calblacklist">Заблокированные календари</string>
     <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, потом .res, и затем .gps. После установки .fw Ваши часы будут перезагружены.
 \n
-\nЕсли файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
+\nПримечание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\nПримечание: если файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_charts_swipe">Включить жесты \"провести направо и налево\" в графиках активности</string>
@@ -487,11 +487,11 @@
     <string name="whitelist_all_for_notifications">Разблокировать все</string>
     <string name="fw_upgrade_notice_miband3">Вы собираетесь установить прошивку %s на ваш Mi Band 3.
 \n
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
-\nНЕ ПРОВЕРЯЛОСЬ, ЕСТЬ ВЕРОЯТНОСТЬ СЛОМАТЬ ВАШЕ УСТРОЙСТВО. ВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_weather_location">Местоположение погоды (для провайдера погоды LineageOS)</string>
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
     <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
@@ -698,15 +698,15 @@
     <string name="pref_title_authkey">Ключ авторизации</string>
     <string name="pref_summary_authkey">Измените ключ авторизации на общий ключ на всех ваших Android-устройствах, с которых вы хотели бы подключиться. Предыдущий ключ по умолчанию для всех устройств 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Вы собираетесь установить прошивку %s на ваш Amazfit Cor 2. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">Вы собираетесь установить прошивку %s на ваш Amazfit Cor 2.
+\n
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!
 \n
-\nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО, ВОЗМОЖНО НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
+\nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО. ВОЗМОЖНО, НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
     <string name="dutch">Голландский язык</string>
     <string name="turkish">Турецкий язык</string>
     <string name="ukrainian">Украинский язык</string>
@@ -717,12 +717,12 @@
     <string name="portuguese">Португальский язык</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4.
+\n
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="prefs_hr_alarm_activity">Сигнал пульсометра в течение занятия спортом</string>
     <string name="prefs_hr_alarm_low">Нижний предел</string>
@@ -774,18 +774,18 @@
     <string name="discovery_need_to_enter_authkey">Это устройство нуждается в ключе авторизации, используйте длительное нажатие на устройство, чтобы войти в него. Читайте Wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Вы собираетесь установить прошивку %s на ваш Amazfit Bip Lite.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
 \n
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\nПримечание: если файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR.
+\n
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_chart_heartrate_color_red">Красный</string>
     <string name="pref_chart_heartrate_color_orange">Оранжевый</string>
@@ -794,12 +794,12 @@
     <string name="pref_chart_sleep_rolling_24_on">Последние 24 часа</string>
     <string name="pref_chart_sleep_rolling_24_off">С полудня до полудня</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Вы собираетесь установить прошивку %s на ваш Amazfit GTS. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgts">Вы собираетесь установить прошивку %s на ваш Amazfit GTS.
+\n
+\nБудьте внимательны: сперва установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Настройки Q Hybrid</string>
@@ -913,16 +913,16 @@
     <string name="pref_title_weather_summary">Используется для провайдера погоды LineageOS, другие версии Android должны использовать приложение типа \"Уведомление о погоде\". Дополнительную информацию можно найти в вики-проекте Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Вы собираетесь установить прошивку %s на свой Mi Band 5.
 \n
-\nПожалуйста, установите сначала .fw файл, и только потом .res файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, и только потом .res файл. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Не нужно устанавливать .res, если он ничем не отличается от установленного ранее.
+\nПримечание: не нужно устанавливать .res, если он ничем не отличается от установленного ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfit_trex">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex.
 \n
-\nПожалуйста, установите сначала .fw файл, потом .res файл, и только потом .gps файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, потом .res файл, и только потом .gps файл. После установки .fw Ваши часы будут перезагружены.
 \n
-\nПримечание: Не нужно устанавливать .res и .gps, если они ничем не отличаются от установленных ранее.
+\nПримечание: не нужно устанавливать .res и .gps, если они ничем не отличаются от установленных ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="controlcenter_set_alias">Установить псевдоним</string>
@@ -1141,9 +1141,9 @@
     <string name="discovery_entered_invalid_authkey">Введенный вами секретный ключ аутентификации недействителен! Для редактирования нажмите и удерживайте на устройстве.</string>
     <string name="fw_upgrade_notice_amazfitvergel">Вы собираетесь установить прошивку %s на свой Amazfit Verge Lite.
 \n
-\nОбязательно установите файл .fw, затем файл .res и, наконец, файл .gps. Ваши часы перезагрузятся после установки файла .fw.
+\nБудьте внимательны: сначала установите файл .fw, затем файл .res и, наконец, файл .gps. После установки .fw Ваши часы будут перезагружены.
 \n
-\nПримечание: вам не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
+\nПримечание: не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="qhybrid_calibration_align_hint">Использовать кнопки ниже, чтобы выровнять стрелки к 12:00.</string>
@@ -1174,9 +1174,9 @@
     <string name="battery_detail_activity_title">Информация о батарее</string>
     <string name="fw_upgrade_notice_amazfitx">Вы собираетесь установить прошивку %s на свой Amazfit X.
 \n
-\nОбязательно установите файл .fw, а затем файл .res. Ваш браслет перезагрузится после установки файла .fw.
+\nБудьте внимательны: обязательно установите файл .fw, а затем файл .res. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Вам не нужно устанавливать .res, если он точно такой же, как ранее установленный.
+\nПримечание: не нужно устанавливать .res, если он точно такой же, как ранее установленный.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
@@ -1203,9 +1203,9 @@
     <string name="calendar_three_months">3 месяца</string>
     <string name="fw_upgrade_notice_miband6">Вы собираетесь установить прошивку %s на свой Mi Band 6.
 \n
-\nПожалуйста, установите сначала .fw файл, и только затем .res файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, и только затем .res файл. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
+\nПримечание: не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
@@ -1248,9 +1248,9 @@
 \n%1$s
 \nВерсия %2$s от %3$s
 \n</string>
-    <string name="fw_upgrade_notice_amazfitneo">Вы собираетесь установить прошивку %s на свой Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Вы собираетесь установить прошивку %s на Ваш Amazfit Neo.
 \n
-\nПосле установки файла .fw устройство перезагрузится.
+\nПосле установки файла .fw Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="watchface_setting_wrist_flick_duration">Продолжительность (в мс)</string>
@@ -1474,7 +1474,7 @@
 \nПожалуйста, нажмите \'%2$s\' затем \'%1$s\' и включите функцию \'Доступ к уведомлениям\', затем нажмите \'Назад\' чтобы вернуться к %1$s.</string>
     <string name="fw_upgrade_notice_miband7">Вы собираетесь установить прошивку %s на свой Xiaomi Smart Band 7.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_warning_title">Предупреждение</string>
@@ -1494,7 +1494,7 @@
     <string name="open_fw_installer_info_text">Программа установки Прошивки/Часового интерфейса/Приложения/Файла позволяет загружать/устанавливать поддерживаемые файлы (прошивку, часовые интерфейсы, приложения, GPS, ресурсы, шрифты...) на устройство. Дополнительную информацию можно найти в вики: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">Вы собираетесь установить прошивку %s на свой Amazfit GTR 3.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_select_file">Выберите файл, который вы хотите загрузить на устройство: %s</string>
@@ -1503,7 +1503,7 @@
     <string name="pref_summary_banglejs_text_bitmap">Если слово не может быть отображено шрифтом часов, преобразовывать его в растровое изображение в Gadgetbridge и отобразить растровое изображение на часах</string>
     <string name="fw_upgrade_notice_amazfit_gts3">Вы собираетесь установить прошивку %s на свой Amazfit GTS 3.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_notifications_ignore_low_priority">Игнорировать уведомления с низким приоритетом</string>
@@ -1563,7 +1563,7 @@
     <string name="accuracy_first">Приоритет точности</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Вы собираетесь установить прошивку %s на свой Amazfit GTR 4.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_header_sound_vibration">Звук и вибрация</string>
@@ -1748,7 +1748,7 @@
     <string name="pref_workout_start_on_phone_title">Отслеживание фитнес-приложений</string>
     <string name="persian">Персидский</string>
     <string name="scandinavian">Скандинавский</string>
-    <string name="watchface_dialog_widget_cat_custom_widget">Кастомный виджет</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Пользовательский виджет</string>
     <string name="watchface_dialog_title_widget">Настройки виджета</string>
     <string name="nothing_prefs_inear_title">Обнаружение уха</string>
     <string name="sony_sound_position_front_left">Передний левый</string>
@@ -1801,7 +1801,7 @@
     <string name="pref_agps_header">AGPS</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
@@ -1832,12 +1832,12 @@
     <string name="pref_cover_to_mute">Накрыть для отключения звука</string>
     <string name="fw_upgrade_notice_amazfit_band7">Вы собираетесь установить прошивку %s на свой Amazfit Band 7.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfit_gts4_mini">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4 Mini.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
@@ -1884,24 +1884,24 @@
     <string name="activity_db_management_autoexport_scheduled_no">Авто-экспорт не был запланирован.</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="menuitem_wifi">Wi-Fi</string>
-    <string name="autoExport_lastTime_label">Последний авто экспорт: %1$s</string>
-    <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт (первоначально) был запланирован на %1$s</string>
+    <string name="autoExport_lastTime_label">Последний авто-экспорт: %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт был изначально запланирован на %1$s</string>
     <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
-    <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт не включен.</string>
     <string name="menuitem_bluetooth">Bluetooth</string>
     <string name="prefs_screen_timeout">Время ожидания экрана</string>
     <string name="pref_workout_detection_enabled">Обнаружение включено</string>
     <string name="fw_upgrade_notice_amazfit_trex2">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex 2.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_workout_detection_enabled_summary">Включить автоматическое обнаружение этой тренировки</string>
     <string name="pref_workout_detection_ask_first">Сначала спросите меня</string>
     <string name="pref_camera_remote_title">Удаленная фотосъемка</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Вы собираетесь установить прошивку %s на вашAmazfit GTR 3 Pro.
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Вы собираетесь установить прошивку %s на Ваш Amazfit GTR 3 Pro.
 \n
-\nПосле установки файла .zip часы перезагрузятся.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
@@ -2186,4 +2186,26 @@
     <string name="prefs_seamless_connection_switch_title">Плавная смена подключения</string>
     <string name="prefs_touch_lock_summary">Выключить события сенсора</string>
     <string name="prefs_touch_lock">Сенсорная блокировка</string>
+    <string name="prefs_double_tap_edge">Край двойного касания</string>
+    <string name="pref_media_pause">Пауза воспроизведения</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Шумоподавление, Выкл</string>
+    <string name="pref_media_playpause">Переключение воспроизведения</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Звук окружения, Выкл</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Вы собираетесь установить прошивку %s на Ваш Amazfit Cheetah Pro.
+\n
+\nПосле установки .zip Ваш браслет будет перезагружен.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_zepp_os">Вы собираетесь установить прошивку %s на Ваш %s.
+\n
+\nПосле установки файла .zip Ваши часы будут перезагружены.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Вы собираетесь установить прошивку %s на Ваш Amazfit Bip 3 Pro.
+\n
+\nБудьте внимательны: сперва установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: не нужно устанавливать этот же .res, если он уже был установлен.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
 </resources>
