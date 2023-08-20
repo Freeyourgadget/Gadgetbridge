@@ -1807,7 +1807,7 @@
     <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
     <string name="pref_balance">Баланс</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
-    <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердечного ритма</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердцебиения</string>
     <string name="pref_title_third_party_app_device_settings">Разрешить сторонним приложениям изменять настройки</string>
     <string name="sony_anc_optimize_title">Оптимизировать</string>
     <string name="prefs_active_noise_cancelling_level">Уровень шумоподавления</string>
@@ -1843,7 +1843,7 @@
     <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
     <string name="prefs_seamless_connection_switch_summary">Переключаться между устройствами автоматически</string>
     <string name="sony_sound_position_front_right">Передний правый</string>
-    <string name="pref_summary_third_party_app_device_settings">Разрешить остальным стороним приложениям утсанавливать настройки через intents.</string>
+    <string name="pref_summary_third_party_app_device_settings">Разрешить прочим сторонним приложениям устанавливать настройки устройства по intents.</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
@@ -1982,7 +1982,7 @@
     <string name="pref_workout_detection_ask_first_summary">Требовать подтверждения на часах при обнаружении тренировки</string>
     <string name="title_activity_set_contacts">Настроить контакты</string>
     <string name="contact_no_free_slots_description">На устройстве нет свободных слотов для контактов (всего слотов: %1$s)</string>
-    <string name="prefs_control_center_summary">Выберите элементы в раскрывающемся списке центра управления</string>
+    <string name="prefs_control_center_summary">Выберите элементы в выпадающем списке центра управления</string>
     <string name="activity_type_indoor_ice_skating">Катание на коньках в помещении</string>
     <string name="menuitem_aqi">Индекс качества воздуха</string>
     <string name="pref_agps_expire_time">Время истечения AGPS</string>
