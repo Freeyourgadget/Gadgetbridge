@@ -2379,4 +2379,12 @@
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
     <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="info_menu_structure_set">Menustructuur-JSON ingesteld in GB</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Update alstublieft uw wijzerplaat voor het aangepaste menu</string>
+    <string name="error_invalid_menu_structure">Ongeldige menustructuur-JSON</string>
+    <string name="button_open_menu_companion">Open begeleidende menu-app</string>
+    <string name="button_reset_menu_structure">Reset menustructuur</string>
+    <string name="info_menu_structure_removed">Menustructuur verwijderd</string>
+    <string name="error_menu_companion_not_installed">\'HR Menu Companion\' is waarschijnlijk niet geïnstalleerd</string>
+    <string name="info_menu_structure_contents">Menustructuur: %s</string>
 </resources>
