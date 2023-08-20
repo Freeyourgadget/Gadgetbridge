@@ -2221,4 +2221,5 @@
     <string name="prefs_ambient_sound">Звук окружения</string>
     <string name="pref_switch_controls_anc_ambient">Шумоподавление ←→ Эмбиент</string>
     <string name="prefs_ambient_sound_during_call_title">Звуки окружения во время звонка</string>
+    <string name="pref_switch_controls_ambient_off">Окружение ←→ Вылючено</string>
 </resources>
