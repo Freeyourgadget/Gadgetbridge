@@ -2367,4 +2367,24 @@
 \n您的手环将在安装完 .zip 文件后自动重启。
 \n
 \n风险自担！</string>
+    <string name="info_menu_structure_set">Gadgetbridge 中的菜单 JSON 结构设置</string>
+    <string name="error_invalid_menu_structure">无效的 JSON 菜单结构</string>
+    <string name="fw_upgrade_notice_zepp_os">您即将在您的 %s 上安装 %s 的固件。
+\n
+\n您的手表将会在安装了 .zip 文件后重启。
+\n
+\n风险自担！</string>
+    <string name="devicetype_amazfit_cheetah_square">跃我 Cheetah (方形)</string>
+    <string name="devicetype_amazfit_trex_ultra">跃我 T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">跃我 GTR Mini</string>
+    <string name="button_open_menu_companion">打开配套应用的菜单</string>
+    <string name="devicetype_amazfit_cheetah_round">跃我 Amazfit (圆形)</string>
+    <string name="devicetype_amazfit_bip5">跃我 Bip 5</string>
+    <string name="devicetype_amazfit_falcon">跃我 Falcon</string>
+    <string name="button_reset_menu_structure">重置菜单结构</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">请重建您的表盘以进行自定义菜单</string>
+    <string name="device_experimental">试验性</string>
+    <string name="info_menu_structure_removed">菜单结构已删除</string>
+    <string name="error_menu_companion_not_installed">“心率菜单伴侣”可能未安装</string>
+    <string name="info_menu_structure_contents">菜单结构：%s</string>
 </resources>
