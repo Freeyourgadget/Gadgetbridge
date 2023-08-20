@@ -1884,7 +1884,7 @@
     <string name="activity_db_management_autoexport_scheduled_no">Авто-экспорт не был запланирован.</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="menuitem_wifi">Wi-Fi</string>
-    <string name="autoExport_lastTime_label">Последний Авто-экспорт: %1$s</string>
+    <string name="autoExport_lastTime_label">Последний авто экспорт: %1$s</string>
     <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт (первоначально) был запланирован на %1$s</string>
     <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
     <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
@@ -1943,7 +1943,7 @@
     <string name="pref_morning_updates_summary">Отображает обновления каждое утро</string>
     <string name="pref_morning_updates_categories_title">Категории обновлений по утрам</string>
     <string name="pref_morning_updates_categories_summary">Список категорий, отображающихся каждое утро</string>
-    <string name="pref_sleep_breathing_quality_monitoring">Мониторинг качества дыхания во сне</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Отслеживание качества дыхания во сне</string>
     <string name="smart">Умный</string>
     <string name="charts_legend_stress_average">Средний уровень стресса</string>
     <string name="gpx_route_upload_complete">Загрузка GPX маршрута завершена</string>
