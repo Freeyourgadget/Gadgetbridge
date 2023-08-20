@@ -2381,4 +2381,9 @@
     <string name="button_reset_menu_structure">איפוס מבנה תבנית</string>
     <string name="info_menu_structure_removed">מבנה התפריט הוסר</string>
     <string name="info_menu_structure_contents">מבנה תפריט: %s</string>
+    <string name="button_open_menu_companion">פתיחת יישומון מלווה לתפריט</string>
+    <string name="error_menu_companion_not_installed">‚מסייע תפריט דופק’ כנראה לא מותקן</string>
+    <string name="info_menu_structure_set">JSON מבנה תפריטים שהוגדר ב־GB</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">נא לבנות את פני השעון שלך מחדש לתפריט מותאם אישית</string>
+    <string name="error_invalid_menu_structure">JSON מבנה תפריטים שגוי</string>
 </resources>
