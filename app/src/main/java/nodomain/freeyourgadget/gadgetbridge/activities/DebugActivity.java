@@ -115,7 +115,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec.Forecast;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -383,7 +382,7 @@ public class DebugActivity extends AbstractGBActivity {
             public void onClick(View v) {
                 String weatherInfo = getWeatherInfo();
 
-                new AlertDialog.Builder(DebugActivity.this)
+                new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(true)
                         .setTitle("Cached Weather Data")
                         .setMessage(weatherInfo)
