@@ -2383,4 +2383,12 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
     <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
     <string name="device_experimental">EXPÉRIMENTAL</string>
+    <string name="info_menu_structure_removed">Structure de menu enlevé</string>
+    <string name="error_menu_companion_not_installed">\'Compagnon HR\' probablement non installé</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Merci de reconstruire l\'écran de la montre pour un menu personnalisé</string>
+    <string name="info_menu_structure_set">Structure JSON définie dans GB</string>
+    <string name="info_menu_structure_contents">Structure de menu : %s</string>
+    <string name="error_invalid_menu_structure">Structure JSON invalide</string>
+    <string name="button_open_menu_companion">Ouvrir le menu de l\'app compagnon</string>
+    <string name="button_reset_menu_structure">Remettre à zéro la structure de menu</string>
 </resources>
