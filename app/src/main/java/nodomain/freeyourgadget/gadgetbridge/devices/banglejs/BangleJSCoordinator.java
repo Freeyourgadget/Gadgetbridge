@@ -211,6 +211,9 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
 
         settings.add(R.xml.devicesettings_banglejs_activity);
 
+        settings.add(R.xml.devicesettings_header_apps);
+        settings.add(R.xml.devicesettings_loyalty_cards);
+
         settings.add(R.xml.devicesettings_header_developer);
         settings.add(R.xml.devicesettings_banglejs_apploader);
         settings.add(R.xml.devicesettings_device_intents);

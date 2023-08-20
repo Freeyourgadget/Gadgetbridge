@@ -94,6 +94,8 @@ import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFormat;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -1425,6 +1427,55 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSetHeartRateMeasurementInterval(int seconds) {
         realtimeHRMInterval = seconds;
         transmitActivityStatus();
+    }
+
+    private List<LoyaltyCard> filterSupportedCards(final List<LoyaltyCard> cards) {
+        final List<LoyaltyCard> ret = new ArrayList<>();
+        for (final LoyaltyCard card : cards) {
+            // we hardcode here what is supported
+            if (card.getBarcodeFormat() == BarcodeFormat.CODE_39 ||
+                    card.getBarcodeFormat() == BarcodeFormat.CODABAR ||
+                    card.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
+                ret.add(card);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        final List<LoyaltyCard> supportedCards = filterSupportedCards(cards);
+        try {
+            JSONObject encoded_cards = new JSONObject();
+            JSONArray a = new JSONArray();
+            for (final LoyaltyCard card : supportedCards) {
+                JSONObject o = new JSONObject();
+                o.put("id", card.getId());
+                o.put("name", renderUnicodeAsImage(cropToLength(card.getName(),40)));
+                o.put("value", card.getCardId());
+                o.put("type", card.getBarcodeFormat().toString());
+                if (card.getExpiry() != null)
+                    o.put("expiration", card.getExpiry().getTime()/1000);
+                o.put("color", card.getColor());
+                // we somehow cannot distinguish no balance defined with 0 P
+                if (card.getBalance() != null && card.getBalance().signum() != 0
+                        || card.getBalanceType() != null) {
+                    // if currency is points it is not reported
+                    String balanceType = card.getBalanceType() != null ?
+                        card.getBalanceType().toString() : "P";
+                    o.put("balance", renderUnicodeAsImage(cropToLength(card.getBalance() +
+                                    " " + balanceType, 20)));
+                }
+                if (card.getNote() != "")
+                    o.put("note", renderUnicodeAsImage(cropToLength(card.getNote(),200)));
+                a.put(o);
+            }
+            encoded_cards.put("t", "cards");
+            encoded_cards.put("d", a);
+            uartTxJSON("onSetLoyaltyCards", encoded_cards);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
     }
 
     @Override
