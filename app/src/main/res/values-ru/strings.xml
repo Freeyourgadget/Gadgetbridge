@@ -2208,5 +2208,15 @@
 \nПримечание: не нужно устанавливать этот же .res, если он уже был установлен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="prefs_ambient_volume">Громкость окружающей среды</string>
+    <string name="prefs_ambient_volume">Громкость окружения</string>
+    <string name="pref_ambient_sound_tone">Тон звуков окружения</string>
+    <string name="prefs_ambient_mode">Режим слышимости окружения</string>
+    <string name="prefs_pressure_relief">Сброс давления с окружающим звуком</string>
+    <string name="pref_ambient_sound_tone_summary">От мягкого к чёткому</string>
+    <string name="prefs_ambient_volume_right">Громкость окружения Справа</string>
+    <string name="prefs_ambient_settings_title">Настройки звука окружения</string>
+    <string name="prefs_customize_ambient_sound_summary">Настроить звук окружения</string>
+    <string name="pref_title_touch_ambient">Звук окружения</string>
+    <string name="prefs_ambient_volume_left">Громкость окружения Слева</string>
+    <string name="prefs_ambient_sound">Звук окружения</string>
 </resources>
