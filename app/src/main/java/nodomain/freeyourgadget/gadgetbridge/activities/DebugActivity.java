@@ -384,13 +384,10 @@ public class DebugActivity extends AbstractGBActivity {
                 String weatherInfo = getWeatherInfo();
 
                 new AlertDialog.Builder(DebugActivity.this)
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setTitle("Cached Weather Data")
                         .setMessage(weatherInfo)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
                         })
                         .show();
             }
@@ -1052,6 +1049,8 @@ public class DebugActivity extends AbstractGBActivity {
         info += "Humidity: " + weatherSpec.currentHumidity + "\n";
         info += "Wind Speed: " + weatherSpec.windSpeed + " kmph\n";
         info += "Wind Direction: " + weatherSpec.windDirection + " deg\n";
+        info += "UV Index: " + weatherSpec.uvIndex + "\n";
+        info += "Precip Probability: " + weatherSpec.precipProbability + " %\n";
         for (int i=0;i<weatherSpec.forecasts.size();i++) {
             info += "-------------\n";
             info += "-->Day " + i +"\n";
