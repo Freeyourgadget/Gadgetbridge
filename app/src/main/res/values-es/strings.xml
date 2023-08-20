@@ -2374,4 +2374,19 @@
 \nSu reloj se reiniciará después de instalar el archivo .zip.
 \n
 \n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="info_menu_structure_set">Estructura del menú JSON en GB</string>
+    <string name="error_invalid_menu_structure">Estructura de menú JSON no válida</string>
+    <string name="button_open_menu_companion">Abrir el menú de la aplicación complementaria</string>
+    <string name="button_reset_menu_structure">Restablecer la estructura del menú</string>
+    <string name="error_menu_companion_not_installed">Es probable que \"HR Menu Companion\" no esté instalado</string>
+    <string name="info_menu_structure_contents">Estructura del menú: %s</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Por favor, reconstruya su watchface para el menú personalizado</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Cuadrado)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Redondo)</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="device_experimental">EXPERIMENTAL</string>
+    <string name="info_menu_structure_removed">Estructura de menús eliminada</string>
 </resources>
