@@ -21,6 +21,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.supercars.SuperCarsSupport;
 
 public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(SuperCarsCoordinator.class);
@@ -61,6 +63,12 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int getBatteryCount() {
         return 1;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return SuperCarsSupport.class;
     }
 
     @Override

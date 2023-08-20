@@ -30,7 +30,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3pro.AmazfitGTR3ProSupport;
 
 public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR3ProCoordinator.class);
@@ -54,6 +56,12 @@ public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.AMAZFITGTR3PRO;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitGTR3ProSupport.class;
     }
 
     @Override

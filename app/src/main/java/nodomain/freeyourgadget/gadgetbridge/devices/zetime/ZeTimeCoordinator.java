@@ -37,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 
 
 public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
@@ -169,5 +171,11 @@ public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return ZeTimeDeviceSupport.class;
     }
 }

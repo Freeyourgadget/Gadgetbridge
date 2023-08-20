@@ -21,6 +21,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.ParcelUuid;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.vesc.VescDeviceSupport;
 
 public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     public final static String UUID_SERVICE_SERIAL_HM10 = "0000ffe0-0000-1000-8000-00805f9b34fb";
@@ -56,6 +60,12 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
         return new int[]{
             R.xml.devicesettings_vesc
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return VescDeviceSupport.class;
     }
 
     @Override

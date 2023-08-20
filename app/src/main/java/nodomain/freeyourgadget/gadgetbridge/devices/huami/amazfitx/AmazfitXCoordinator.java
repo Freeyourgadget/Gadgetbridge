@@ -34,6 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXFWIns
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.AmazfitXSupport;
 
 public class AmazfitXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitXCoordinator.class);
@@ -123,6 +125,12 @@ public class AmazfitXCoordinator extends HuamiCoordinator {
                 "zh_CN",
                 "zh_TW",
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitXSupport.class;
     }
 
     @Override

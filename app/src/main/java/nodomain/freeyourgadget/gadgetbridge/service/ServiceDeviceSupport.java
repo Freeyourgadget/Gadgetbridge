@@ -50,8 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
  * Wraps another device support instance and supports busy-checking and throttling of events.
  */
 public class ServiceDeviceSupport implements DeviceSupport {
-
-    enum Flags {
+    public static enum Flags {
         THROTTLING,
         BUSY_CHECKING,
     }
@@ -65,14 +64,9 @@ public class ServiceDeviceSupport implements DeviceSupport {
     private String lastNotificationKind;
     private final EnumSet<Flags> flags;
 
-    public ServiceDeviceSupport(DeviceSupport delegate, Flags... flags) {
+    public ServiceDeviceSupport(DeviceSupport delegate, EnumSet<Flags> flags) {
         this.delegate = delegate;
-        this.flags = EnumSet.noneOf(Flags.class);
-        this.flags.addAll(Arrays.asList(flags));
-    }
-
-    public ServiceDeviceSupport(DeviceSupport delegate){
-        this(delegate, Flags.BUSY_CHECKING);
+        this.flags = flags;
     }
 
     @Override

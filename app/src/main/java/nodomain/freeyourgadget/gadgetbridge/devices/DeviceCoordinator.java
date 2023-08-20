@@ -26,6 +26,7 @@ import android.net.Uri;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 
 /**
  * This interface is implemented at least once for every supported gadget device.
@@ -555,4 +558,9 @@ public interface DeviceCoordinator {
     List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals();
 
     boolean supportsNavigation();
+
+    @NonNull
+    Class<? extends DeviceSupport> getDeviceSupportClass();
+
+    EnumSet<ServiceDeviceSupport.Flags> getInitialFlags();
 }

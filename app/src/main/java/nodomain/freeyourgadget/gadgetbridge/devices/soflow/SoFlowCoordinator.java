@@ -32,6 +32,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.soflow.SoFlowSupport;
 
 public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
@@ -149,5 +151,11 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
         return new int[]{
                 R.xml.devicesettings_lock_unlock
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return SoFlowSupport.class;
     }
 }

@@ -34,6 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.unknown.UnknownDeviceSupport;
 
 public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     private final UnknownSampleProvider sampleProvider;
@@ -209,5 +211,11 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getColorPresets() {
         return new int[0];
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return UnknownDeviceSupport.class;
     }
 }

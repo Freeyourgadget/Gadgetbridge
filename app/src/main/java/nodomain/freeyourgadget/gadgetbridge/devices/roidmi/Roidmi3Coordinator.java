@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 
 public class Roidmi3Coordinator extends RoidmiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(Roidmi3Coordinator.class);
@@ -58,5 +60,11 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
     @Override
     public boolean supportsRgbLedColor() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return RoidmiSupport.class;
     }
 }

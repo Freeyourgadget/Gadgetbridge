@@ -19,6 +19,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nothing.Ear1Support;
 
 public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
 
@@ -132,6 +134,12 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
         BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_nothing_ear_l, R.string.left_earbud);
         BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_nothing_ear_r, R.string.right_earbud);
         return new BatteryConfig[]{battery1, battery2, battery3};
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return Ear1Support.class;
     }
 
     @Override

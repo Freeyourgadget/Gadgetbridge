@@ -41,6 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
 
 public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
 
@@ -94,6 +96,12 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return CasioGWB5600DeviceSupport.class;
     }
 
     @Override
