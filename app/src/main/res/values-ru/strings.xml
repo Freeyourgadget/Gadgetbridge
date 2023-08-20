@@ -1843,7 +1843,7 @@
     <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
     <string name="prefs_seamless_connection_switch_summary">Переключаться между устройствами автоматически</string>
     <string name="sony_sound_position_front_right">Передний правый</string>
-    <string name="pref_summary_third_party_app_device_settings">Разрешить другим установленным приложениям сторонних производителей задавать параметры устройства с помощью Intent.</string>
+    <string name="pref_summary_third_party_app_device_settings">Разрешить остальным стороним приложениям утсанавливать настройки через intents.</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
