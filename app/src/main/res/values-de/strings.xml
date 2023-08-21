@@ -2359,4 +2359,30 @@
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische Farben sind auf deinem Gerät nicht verfügbar, nur Android 12+ unterstützt diese Funktion. Gadgetbridge verwendet die Standardfarben von Material 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">Hinweis: Für das Design mit dynamischen Farben musst du Hintergrundbildfarben oder Farbpalette in deinen Android 12+ Darstellungseinstellungen aktivieren. Wenn du das nicht tust, wird Gadgetbridge die Standardfarben von Material 3 verwenden.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Du bist dabei, die Firmware %s auf deine Amazfit Cheetah Pro zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="fw_upgrade_notice_zepp_os">Du bist dabei, die Firmware %s auf deine %s zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Quadratisch)</string>
+    <string name="device_experimental">EXPERIMENTELL</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Du bist dabei, die Firmware %s auf deine Amazfit Bip 3 Pro zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Rund)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
 </resources>
