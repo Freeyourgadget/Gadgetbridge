@@ -2387,4 +2387,14 @@
     <string name="info_menu_structure_removed">菜单结构已删除</string>
     <string name="error_menu_companion_not_installed">“心率菜单伴侣”可能未安装</string>
     <string name="info_menu_structure_contents">菜单结构：%s</string>
+    <string name="english_au">英文 （澳大利亚）</string>
+    <string name="english_ca">英文 （加拿大）</string>
+    <string name="english_gb">英文 （英国）</string>
+    <string name="english_in">英文 （印度）</string>
+    <string name="english_us">英文 （美国）</string>
+    <string name="spanish_es">西班牙语 （西班牙）</string>
+    <string name="spanish_mx">西班牙语 （墨西哥）</string>
+    <string name="spanish_us">西班牙语 （美国）</string>
+    <string name="french_ca">法语 （加拿大）</string>
+    <string name="french_fr">法语 （法国）</string>
 </resources>
