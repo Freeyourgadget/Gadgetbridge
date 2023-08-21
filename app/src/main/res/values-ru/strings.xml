@@ -2281,4 +2281,5 @@
     <string name="info_menu_structure_removed">Структура меню удалена</string>
     <string name="pref_switch_noise_control">Изменить уровень подавления шума</string>
     <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="prefs_noise_control_with_one_earbud">Управление шумом с одним нашником</string>
 </resources>
