@@ -16,10 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,10 +56,16 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 public class ConfigureContacts extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigureContacts.class);
 
-    private static final int REQ_CONFIGURE_CONTACT = 1;
-
     private GBContactListAdapter mGBContactListAdapter;
     private GBDevice gbDevice;
+
+    private ActivityResultLauncher<Intent> configureContactLauncher;
+    private final ActivityResultCallback<ActivityResult> configureContactCallback = result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            updateContactsFromDB();
+            sendContactsToDevice();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +74,11 @@ public class ConfigureContacts extends AbstractGBActivity {
         setContentView(R.layout.activity_configure_contacts);
 
         gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+
+        configureContactLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                configureContactCallback
+        );
 
         mGBContactListAdapter = new GBContactListAdapter(this);
 
@@ -105,16 +121,6 @@ public class ConfigureContacts extends AbstractGBActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQ_CONFIGURE_CONTACT && resultCode == 1) {
-            updateContactsFromDB();
-            sendContactsToDevice();
-        }
-    }
-
     private Contact createDefaultContact(@NonNull Device device, @NonNull User user) {
         final Contact contact = new Contact();
         contact.setName("");
@@ -151,7 +157,7 @@ public class ConfigureContacts extends AbstractGBActivity {
         final Intent startIntent = new Intent(getApplicationContext(), ContactDetails.class);
         startIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
         startIntent.putExtra(Contact.EXTRA_CONTACT, contact);
-        startActivityForResult(startIntent, REQ_CONFIGURE_CONTACT);
+        configureContactLauncher.launch(startIntent);
     }
 
     public void deleteContact(final Contact contact) {

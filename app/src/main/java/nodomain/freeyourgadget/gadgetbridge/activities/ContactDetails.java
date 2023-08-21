@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -110,7 +111,7 @@ public class ContactDetails extends AbstractGBActivity {
             }
 
             updateContact();
-            ContactDetails.this.setResult(1);
+            ContactDetails.this.setResult(Activity.RESULT_OK);
             finish();
         });
 
