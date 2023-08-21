@@ -2391,4 +2391,14 @@ Temps de sommeil préféré en heures</string>
     <string name="error_invalid_menu_structure">Structure JSON invalide</string>
     <string name="button_open_menu_companion">Ouvrir le menu de l\'app compagnon</string>
     <string name="button_reset_menu_structure">Remettre à zéro la structure de menu</string>
+    <string name="english_au">Anglais (Australien)</string>
+    <string name="english_gb">Anglais (Royaume-Uni)</string>
+    <string name="english_ca">Anglais (Canadien)</string>
+    <string name="english_in">Anglais (Indien)</string>
+    <string name="english_us">Anglais (Américain)</string>
+    <string name="spanish_es">Espagnol (Espagne)</string>
+    <string name="spanish_mx">Espagnol (Mexicain)</string>
+    <string name="spanish_us">Espagnol (Américain)</string>
+    <string name="french_ca">Français (Canadien)</string>
+    <string name="french_fr">Français (France)</string>
 </resources>
