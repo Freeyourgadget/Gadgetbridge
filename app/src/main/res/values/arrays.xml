@@ -2011,11 +2011,18 @@
         <item name="auto">@string/automatic</item>
         <item name="zh_CN">@string/simplified_chinese</item>
         <item name="zh_TW">@string/traditional_chinese</item>
-        <item name="en_US">@string/english</item>
-        <item name="es_ES">@string/spanish</item>
+        <item name="en_AU">@string/english_au</item>
+        <item name="en_CA">@string/english_ca</item>
+        <item name="en_GB">@string/english_gb</item>
+        <item name="en_IN">@string/english_in</item>
+        <item name="en_US">@string/english_us</item>
+        <item name="es_ES">@string/spanish_es</item>
+        <item name="es_MX">@string/spanish_mx</item>
+        <item name="es_US">@string/spanish_us</item>
         <item name="de_DE">@string/german</item>
         <item name="it_IT">@string/italian</item>
-        <item name="fr_FR">@string/french</item>
+        <item name="fr_CA">@string/french_ca</item>
+        <item name="fr_FR">@string/french_fr</item>
         <item name="pt_BR">@string/portuguese_br</item>
         <item name="pt_PT">@string/portuguese_pt</item>
         <item name="nl_NL">@string/dutch</item>
@@ -2038,10 +2045,17 @@
         <item>auto</item>
         <item>zh_CN</item>
         <item>zh_TW</item>
+        <item>en_AU</item>
+        <item>en_CA</item>
+        <item>en_GB</item>
+        <item>en_IN</item>
         <item>en_US</item>
         <item>es_ES</item>
+        <item>es_MX</item>
+        <item>es_US</item>
         <item>de_DE</item>
         <item>it_IT</item>
+        <item>fr_CA</item>
         <item>fr_FR</item>
         <item>pt_BR</item>
         <item>pt_PT</item>

@@ -974,8 +974,16 @@
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
+    <string name="english_au">English (Australia)</string>
+    <string name="english_ca">English (Canada)</string>
+    <string name="english_gb">English (United Kingdom)</string>
+    <string name="english_in">English (India)</string>
+    <string name="english_us">English (United States)</string>
     <string name="norwegian_bokmal">Norwegian Bokmål</string>
     <string name="spanish">Spanish</string>
+    <string name="spanish_es">Spanish (Spain)</string>
+    <string name="spanish_mx">Spanish (Mexico)</string>
+    <string name="spanish_us">Spanish (United States)</string>
     <string name="russian">Russian</string>
     <string name="georgian">Georgian</string>
     <string name="german">German</string>
@@ -991,6 +999,8 @@
     <string name="ukranian">Ukranian</string>
     <string name="italian">Italian</string>
     <string name="french">French</string>
+    <string name="french_ca">French (Canada)</string>
+    <string name="french_fr">French (France)</string>
     <string name="polish">Polish</string>
     <string name="korean">Korean</string>
     <string name="japanese">Japanese</string>
