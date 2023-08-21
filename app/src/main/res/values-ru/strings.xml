@@ -2279,6 +2279,6 @@
     <string name="info_fossil_rebuild_watchface_custom_menu">Пожалуйста, пересоберите свой циферблат для пользовательского меню</string>
     <string name="pref_activity_full_sync_trigger_warning">Запустит полную синхронизацию данных всех активностей с устройства. Это может занять несколько минут.</string>
     <string name="info_menu_structure_removed">Структура меню удалена</string>
-    <string name="pref_switch_noise_control">Переключить уровень шума</string>
+    <string name="pref_switch_noise_control">Изменить уровень подавления шума</string>
     <string name="pref_title_touch_spotify">Spotify</string>
 </resources>
