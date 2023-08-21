@@ -128,7 +128,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
-import nodomain.freeyourgadget.internethelper.INetworkService;
+import nodomain.freeyourgadget.internethelper.IFtpService;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -909,7 +909,9 @@ public class DebugActivity extends AbstractGBActivity {
                 .show();
     }
 
-    INetworkService iRemoteService;
+    IFtpService iRemoteService;
+    String client;
+    int i = 0;
 
     private void testNewFunctionality() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), "nodomain.freeyourgadget.internethelper.INTERNET") != PackageManager.PERMISSION_GRANTED) {
@@ -928,7 +930,7 @@ public class DebugActivity extends AbstractGBActivity {
 
                     // Following the preceding example for an AIDL interface,
                     // this gets an instance of the IRemoteInterface, which we can use to call on the service.
-                    iRemoteService = INetworkService.Stub.asInterface(service);
+                    iRemoteService = IFtpService.Stub.asInterface(service);
                 }
 
                 // Called when the connection with the service disconnects unexpectedly.
@@ -945,13 +947,32 @@ public class DebugActivity extends AbstractGBActivity {
             } else {
                 LOG.warn("Could not bind to NetworkService");
             }
-        } else {
+        } else if (i == 0) {
             try {
                 final int version = iRemoteService.version();
                 LOG.info("version = {}", version);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                LOG.error("cenas {} failed", i ,e);
             }
+            i++;
+        } else if (i == 1) {
+            try {
+                client = iRemoteService.createClient();
+                LOG.info("client = {}", client);
+            } catch (RemoteException e) {
+                LOG.error("cenas {} failed", i ,e);
+            }
+            i++;
+        } else if (i == 2) {
+            try {
+                iRemoteService.connect(client, "10.0.1.12", 8710);
+                LOG.info("connected");
+            } catch (RemoteException e) {
+                LOG.error("connected {} failed", i ,e);
+            }
+            i++;
+        } else {
+            LOG.info("wtf {}", i);
         }
 
         //GBApplication.deviceService().onTestNewFunction();

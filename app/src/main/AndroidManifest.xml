@@ -37,6 +37,9 @@
     <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
     <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
 
+    <!-- Internet Helper -->
+    <uses-permission android:name="nodomain.freeyourgadget.internethelper.INTERNET"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission
