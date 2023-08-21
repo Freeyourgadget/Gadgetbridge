@@ -83,6 +83,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         STOPWATCH("25", "1"),
         ZEPP_COACH("27", "1"),
         RECOMMENDATION("28", "1"),
+        ALEXA("35", "1"),
         ;
 
         private final String appNum;
