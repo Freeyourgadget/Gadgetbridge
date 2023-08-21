@@ -2282,4 +2282,5 @@
     <string name="pref_switch_noise_control">Изменить уровень подавления шума</string>
     <string name="pref_title_touch_spotify">Spotify</string>
     <string name="prefs_noise_control_with_one_earbud">Управление шумом с одним нашником</string>
+    <string name="nothing_prefs_inear_summary">Воспроизведение/пауза музыки в зависимости от того, в ушах ли наушники</string>
 </resources>
