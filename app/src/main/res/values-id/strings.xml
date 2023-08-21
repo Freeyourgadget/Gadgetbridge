@@ -2342,4 +2342,38 @@
     <string name="pref_show_changelog_summary">Tampilkan catatan perubahan sejak versi terakhir setelah Gadgetbridge diperbarui</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Warna dinamis tidak tersedia pada perangkat Anda, hanya Android 12+ mendukung fitur ini. Gadgetbridge akan menggunakan warna Materia) 3 bawaan.</string>
     <string name="pref_theme_dynamic_colors_explanation">Catatan: untuk tema warna dinamis, Anda perlu mengaktifkan Warna Wallpaper atau Palet Warma di pengaturan Android 12+ Anda. Jika tidak, Gadgetbridge akan menggunakan warna Material 3 bawaan.</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Anda akan memasang perangkat tegar %s pada Amazfit Bip 3 Pro Anda. 
+\n 
+\nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
+\n 
+\nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang. 
+\n 
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Anda akan memasang perangkat tegar %s pada Amazfit Cheetah Pro Anda.
+\n
+\nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="fw_upgrade_notice_zepp_os">Anda akan memasang perangkat tegar %s pada %s Anda.
+\n
+\nJam tangan Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="device_experimental">EKSPERIMENTAL</string>
+    <string name="info_menu_structure_set">JSON struktur menu ditetapkan dalam GB</string>
+    <string name="error_invalid_menu_structure">JSON struktur menu tidak valid</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="error_menu_companion_not_installed">\'HR Menu Companion\' mungkin belum dipasang</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Kotak)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Bulat)</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="button_open_menu_companion">Buka aplikasi pendamping menu</string>
+    <string name="info_menu_structure_removed">Struktur menu dihapus</string>
+    <string name="info_menu_structure_contents">Struktur menu: %s</string>
+    <string name="button_reset_menu_structure">Atur ulang struktur menu</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Silakan bangun ulang wajah jam tangan Anda untuk menu kustom</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
 </resources>
