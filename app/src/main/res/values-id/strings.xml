@@ -2376,4 +2376,14 @@
     <string name="info_fossil_rebuild_watchface_custom_menu">Silakan bangun ulang wajah jam tangan Anda untuk menu kustom</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
     <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="english_au">Inggris (Australia)</string>
+    <string name="english_ca">Inggris (Kanada)</string>
+    <string name="english_gb">Inggris (Britania Raya)</string>
+    <string name="english_in">Inggris (India)</string>
+    <string name="english_us">Inggris (Amerika Serikat)</string>
+    <string name="spanish_es">Spanyol (Spanyol)</string>
+    <string name="spanish_us">Spanyol (Amerika Serikat)</string>
+    <string name="spanish_mx">Spanyol (Meksiko)</string>
+    <string name="french_ca">Prancis (Kanada)</string>
+    <string name="french_fr">Prancis (Prancis)</string>
 </resources>
