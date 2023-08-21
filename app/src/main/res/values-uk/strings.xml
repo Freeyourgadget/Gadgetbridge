@@ -2387,4 +2387,22 @@
     <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="device_experimental">ЕКСПЕРИМЕНТАЛЬНО</string>
+    <string name="info_menu_structure_set">Структура меню JSON в ГБ</string>
+    <string name="french_ca">Французька (Канада)</string>
+    <string name="french_fr">Французька (Франція)</string>
+    <string name="error_invalid_menu_structure">Неправильна структура меню JSON</string>
+    <string name="button_open_menu_companion">Відкрийте застосунок-компаньйон меню</string>
+    <string name="button_reset_menu_structure">Скинути структуру меню</string>
+    <string name="info_menu_structure_removed">Структуру меню вилучено</string>
+    <string name="info_menu_structure_contents">Структура меню: %s</string>
+    <string name="error_menu_companion_not_installed">\"HR Menu Companion\", ймовірно, не встановлено</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Переробіть циферблат годинника для користувацького меню</string>
+    <string name="english_au">Англійська (Австралія)</string>
+    <string name="english_ca">Англійська (Канада)</string>
+    <string name="english_gb">Англійська (Велика Британія)</string>
+    <string name="english_in">Англійська (Індія)</string>
+    <string name="english_us">Англійська (США)</string>
+    <string name="spanish_es">Іспанська (Іспанія)</string>
+    <string name="spanish_mx">Іспанська (Мексика)</string>
+    <string name="spanish_us">Іспанська (США)</string>
 </resources>
