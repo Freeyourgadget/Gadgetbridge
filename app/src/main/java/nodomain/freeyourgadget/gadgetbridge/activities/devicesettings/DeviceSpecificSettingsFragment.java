@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureContacts;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.MusicFilesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -737,6 +738,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     startActivity(intent);
                     return true;
                 }
+            });
+        }
+
+        final Preference musicFiles = findPreference(PREF_MUSIC_FILES);
+        if (musicFiles != null) {
+            musicFiles.setOnPreferenceClickListener(preference -> {
+                final Intent intent = new Intent(getContext(), MusicFilesActivity.class);
+                intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                startActivity(intent);
+                return true;
             });
         }
 

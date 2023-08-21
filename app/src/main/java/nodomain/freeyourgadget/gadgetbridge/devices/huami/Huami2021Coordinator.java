@@ -283,6 +283,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // TODO: These should go somewhere else
         //
         settings.add(R.xml.devicesettings_header_apps);
+        if (supportsWifiHotspot(device) && supportsFtpServer(device)) {
+            settings.add(R.xml.devicesettings_music_files);
+        }
         if (ZeppOsLoyaltyCardService.isSupported(getPrefs(device))) {
             settings.add(R.xml.devicesettings_loyalty_cards);
         }
