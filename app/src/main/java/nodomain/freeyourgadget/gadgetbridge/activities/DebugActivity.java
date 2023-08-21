@@ -43,12 +43,16 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.SharedMemory;
 import android.preference.PreferenceManager;
+import android.system.ErrnoException;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -83,6 +87,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -129,6 +134,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 import nodomain.freeyourgadget.internethelper.IFtpService;
+import nodomain.freeyourgadget.internethelper.IFtpServiceCallback;
+import nodomain.freeyourgadget.internethelper.IHttpService;
+import nodomain.freeyourgadget.internethelper.IHttpServiceCallback;
+import nodomain.freeyourgadget.internethelper.IWifiService;
+import nodomain.freeyourgadget.internethelper.IWifiServiceCallback;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -910,6 +920,8 @@ public class DebugActivity extends AbstractGBActivity {
     }
 
     IFtpService iRemoteService;
+    IHttpService ihttpService;
+    IWifiService iWifiService;
     String client;
     int i = 0;
 
@@ -920,6 +932,146 @@ public class DebugActivity extends AbstractGBActivity {
             ActivityCompat.requestPermissions(this, new String[]{"nodomain.freeyourgadget.internethelper.INTERNET"}, 0);
             return;
         }
+
+        doWiFi();
+
+        //GBApplication.deviceService().onTestNewFunction();
+    }
+
+    private void doWiFi() {
+        final IWifiServiceCallback.Stub cb = new IWifiServiceCallback.Stub() {
+        };
+
+        if (iWifiService == null) {
+            LOG.info("connecting");
+            ServiceConnection mConnection = new ServiceConnection() {
+                // Called when the connection with the service is established.
+                public void onServiceConnected(ComponentName className, IBinder service) {
+                    LOG.info("onServiceConnected");
+
+                    // Following the preceding example for an AIDL interface,
+                    // this gets an instance of the IRemoteInterface, which we can use to call on the service.
+                    iWifiService = IWifiService.Stub.asInterface(service);
+                }
+
+                // Called when the connection with the service disconnects unexpectedly.
+                public void onServiceDisconnected(ComponentName className) {
+                    LOG.error("Service has unexpectedly disconnected");
+                    iWifiService = null;
+                }
+            };
+            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.WifiService");
+            intent.setPackage("nodomain.freeyourgadget.internethelper");
+            boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            if (res) {
+                LOG.info("Bound to HttpService");
+            } else {
+                LOG.warn("Could not bind to HttpService");
+            }
+        } else if (i == 0) {
+            try {
+                final int version = iWifiService.version();
+                LOG.info("version = {}", version);
+            } catch (RemoteException e) {
+                LOG.error("version {} failed", i ,e);
+            }
+            i++;
+        } else if (i == 1) {
+            try {
+                String currentSsid = iWifiService.getCurrentSsid();
+                LOG.info("currentSsid = {}", currentSsid);
+            } catch (RemoteException e) {
+                LOG.error("get {} failed", i ,e);
+            }
+            i++;
+        } else {
+            LOG.info("wtf {}", i);
+        }
+    }
+
+    private void doHttp() {
+        final IHttpServiceCallback.Stub cb = new IHttpServiceCallback.Stub() {
+
+            @Override
+            public void onGet(Bundle bundle) throws RemoteException {
+                LOG.info("cenas: {}", bundle);
+            }
+        };
+
+        if (ihttpService == null) {
+            LOG.info("connecting");
+            ServiceConnection mConnection = new ServiceConnection() {
+                // Called when the connection with the service is established.
+                public void onServiceConnected(ComponentName className, IBinder service) {
+                    LOG.info("onServiceConnected");
+
+                    // Following the preceding example for an AIDL interface,
+                    // this gets an instance of the IRemoteInterface, which we can use to call on the service.
+                    ihttpService = IHttpService.Stub.asInterface(service);
+                }
+
+                // Called when the connection with the service disconnects unexpectedly.
+                public void onServiceDisconnected(ComponentName className) {
+                    LOG.error("Service has unexpectedly disconnected");
+                    ihttpService = null;
+                }
+            };
+            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.HttpService");
+            intent.setPackage("nodomain.freeyourgadget.internethelper");
+            boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            if (res) {
+                LOG.info("Bound to HttpService");
+            } else {
+                LOG.warn("Could not bind to HttpService");
+            }
+        } else if (i == 0) {
+            try {
+                final int version = ihttpService.version();
+                LOG.info("version = {}", version);
+            } catch (RemoteException e) {
+                LOG.error("version {} failed", i ,e);
+            }
+            i++;
+        } else if (i == 1) {
+            try {
+                ihttpService.get("http://example.com", cb);
+                LOG.info("get = {}", client);
+            } catch (RemoteException e) {
+                LOG.error("get {} failed", i ,e);
+            }
+            i++;
+        } else {
+            LOG.info("wtf {}", i);
+        }
+    }
+
+    private void doFtp() {
+        final IFtpServiceCallback.Stub cb = new IFtpServiceCallback.Stub() {
+            @Override
+            public void onConnect(boolean success, String msg) throws RemoteException {
+                LOG.info("onConnect {} {}", success, msg);
+            }
+
+            @Override
+            public void onLogin(boolean success, String msg) throws RemoteException {
+                LOG.info("onLogin {} {}", success, msg);
+            }
+
+            @Override
+            public void onList(String path, List<String> directories, List<String> files) throws RemoteException {
+                LOG.info("onList {} {} {}", path, directories, files);
+            }
+
+            @Override
+            public void onUpload(String path, boolean success, String msg) throws RemoteException {
+                LOG.info("onUpload");
+            }
+
+            @Override
+            public void onDownload(String path, boolean success, String msg) throws RemoteException {
+                LOG.info("onDownload");
+            }
+        };
 
         if (iRemoteService == null) {
             LOG.info("connecting");
@@ -939,7 +1091,7 @@ public class DebugActivity extends AbstractGBActivity {
                     iRemoteService = null;
                 }
             };
-            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.NetworkService");
+            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.FtpService");
             intent.setPackage("nodomain.freeyourgadget.internethelper");
             boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
@@ -965,17 +1117,36 @@ public class DebugActivity extends AbstractGBActivity {
             i++;
         } else if (i == 2) {
             try {
-                iRemoteService.connect(client, "10.0.1.12", 8710);
+                iRemoteService.connect(client, "10.0.1.12", 8710, cb);
                 LOG.info("connected");
             } catch (RemoteException e) {
                 LOG.error("connected {} failed", i ,e);
             }
             i++;
+        } else if (i == 3) {
+            i++;
+            try {
+                iRemoteService.login(client, "gadgetbridge", "cenas123", cb);
+            } catch (RemoteException e) {
+                LOG.error("login {} failed", i ,e);
+            }
+        } else if (i == 4) {
+            i++;
+            try {
+                iRemoteService.list(client, "/", cb);
+            } catch (RemoteException e) {
+                LOG.error("disconnect {} failed", i ,e);
+            }
+        } else if (i == 5) {
+            i++;
+            try {
+                iRemoteService.disconnect(client);
+            } catch (RemoteException e) {
+                LOG.error("disconnect {} failed", i ,e);
+            }
         } else {
             LOG.info("wtf {}", i);
         }
-
-        //GBApplication.deviceService().onTestNewFunction();
     }
 
     private void shareLog() {
