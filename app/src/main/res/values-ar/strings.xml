@@ -2372,4 +2372,14 @@
     <string name="error_menu_companion_not_installed">ربما لم يتم تثبيت \"تطبيق نبضات القلب المرافق\"</string>
     <string name="info_menu_structure_contents">هيكل القائمة: %s</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">يرجى إعادة إنشاء خلفية شاشة الساعة للقائمة المخصصة</string>
+    <string name="english_au">الإنجليزية (أستراليا)</string>
+    <string name="english_ca">الإنجليزية (كندا)</string>
+    <string name="english_gb">الإنجليزية (المملكة المتحدة)</string>
+    <string name="english_in">الإنجليزية (الهند)</string>
+    <string name="english_us">الإنجليزية (الولايات المتحدة)</string>
+    <string name="spanish_es">الإسبانية (إسبانيا)</string>
+    <string name="spanish_mx">الإسبانية (المكسيك)</string>
+    <string name="spanish_us">الإسبانية (الولايات المتحدة)</string>
+    <string name="french_ca">الفرنسية (كندا)</string>
+    <string name="french_fr">الفرنسية (فرنسا)</string>
 </resources>
