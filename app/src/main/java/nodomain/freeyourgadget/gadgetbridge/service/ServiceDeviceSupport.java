@@ -303,7 +303,7 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onMusicFilesUpload(Uri[] uris) {
+    public void onMusicFilesUpload(ArrayList<Uri> uris) {
         if (checkBusy("music files upload")) {
             return;
         }

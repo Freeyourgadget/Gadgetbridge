@@ -127,12 +127,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
-//import nodomain.freeyourgadget.internethelper.IFtpService;
-//import nodomain.freeyourgadget.internethelper.IFtpServiceCallback;
-//import nodomain.freeyourgadget.internethelper.IHttpService;
-//import nodomain.freeyourgadget.internethelper.IHttpServiceCallback;
-//import nodomain.freeyourgadget.internethelper.IWifiService;
-//import nodomain.freeyourgadget.internethelper.IWifiServiceCallback;
+import nodomain.freeyourgadget.internethelper.aidl.wifi.IWifiService;
+import nodomain.freeyourgadget.internethelper.aidl.wifi.IWifiCallback;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -922,18 +918,17 @@ public class DebugActivity extends AbstractGBActivity {
             return;
         }
 
+        doWiFi();
+
         //GBApplication.deviceService().onTestNewFunction();
     }
-    /*
 
-    IFtpService iFtpService;
-    IHttpService ihttpService;
     IWifiService iWifiService;
     String client;
     int i = 0;
 
     private void doWiFi() {
-        final IWifiServiceCallback.Stub cb = new IWifiServiceCallback.Stub() {
+        final IWifiCallback.Stub cb = new IWifiCallback.Stub() {
         };
 
         if (iWifiService == null) {
@@ -982,166 +977,6 @@ public class DebugActivity extends AbstractGBActivity {
             LOG.info("wtf {}", i);
         }
     }
-
-    private void doHttp() {
-        final IHttpServiceCallback.Stub cb = new IHttpServiceCallback.Stub() {
-
-            @Override
-            public void onGet(Bundle bundle) throws RemoteException {
-                LOG.info("cenas: {}", bundle);
-            }
-        };
-
-        if (ihttpService == null) {
-            LOG.info("connecting");
-            ServiceConnection mConnection = new ServiceConnection() {
-                // Called when the connection with the service is established.
-                public void onServiceConnected(ComponentName className, IBinder service) {
-                    LOG.info("onServiceConnected");
-
-                    // Following the preceding example for an AIDL interface,
-                    // this gets an instance of the IRemoteInterface, which we can use to call on the service.
-                    ihttpService = IHttpService.Stub.asInterface(service);
-                }
-
-                // Called when the connection with the service disconnects unexpectedly.
-                public void onServiceDisconnected(ComponentName className) {
-                    LOG.error("Service has unexpectedly disconnected");
-                    ihttpService = null;
-                }
-            };
-            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.HttpService");
-            intent.setPackage("nodomain.freeyourgadget.internethelper");
-            boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            if (res) {
-                LOG.info("Bound to HttpService");
-            } else {
-                LOG.warn("Could not bind to HttpService");
-            }
-        } else if (i == 0) {
-            try {
-                final int version = ihttpService.version();
-                LOG.info("version = {}", version);
-            } catch (RemoteException e) {
-                LOG.error("version {} failed", i ,e);
-            }
-            i++;
-        } else if (i == 1) {
-            try {
-                ihttpService.get("http://example.com", cb);
-                LOG.info("get = {}", client);
-            } catch (RemoteException e) {
-                LOG.error("get {} failed", i ,e);
-            }
-            i++;
-        } else {
-            LOG.info("wtf {}", i);
-        }
-    }
-
-    private void doFtp() {
-        final IFtpServiceCallback.Stub cb = new IFtpServiceCallback.Stub() {
-            @Override
-            public void onConnect(boolean success, String msg) throws RemoteException {
-                LOG.info("onConnect {} {}", success, msg);
-            }
-
-            @Override
-            public void onLogin(boolean success, String msg) throws RemoteException {
-                LOG.info("onLogin {} {}", success, msg);
-            }
-
-            @Override
-            public void onList(String path, List<String> directories, List<String> files) throws RemoteException {
-                LOG.info("onList {} {} {}", path, directories, files);
-            }
-
-            @Override
-            public void onUpload(String path, boolean success, String msg) throws RemoteException {
-                LOG.info("onUpload");
-            }
-
-            @Override
-            public void onDownload(String path, boolean success, String msg) throws RemoteException {
-                LOG.info("onDownload");
-            }
-        };
-
-        if (iFtpService == null) {
-            LOG.info("connecting");
-            ServiceConnection mConnection = new ServiceConnection() {
-                // Called when the connection with the service is established.
-                public void onServiceConnected(ComponentName className, IBinder service) {
-                    LOG.info("onServiceConnected");
-
-                    // Following the preceding example for an AIDL interface,
-                    // this gets an instance of the IRemoteInterface, which we can use to call on the service.
-                    iFtpService = IFtpService.Stub.asInterface(service);
-                }
-
-                // Called when the connection with the service disconnects unexpectedly.
-                public void onServiceDisconnected(ComponentName className) {
-                    LOG.error("Service has unexpectedly disconnected");
-                    iFtpService = null;
-                }
-            };
-            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.ftp.FtpService");
-            intent.setPackage("nodomain.freeyourgadget.internethelper");
-            boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            if (res) {
-                LOG.info("Bound to NetworkService");
-            } else {
-                LOG.warn("Could not bind to NetworkService");
-            }
-        } else if (i == 0) {
-            try {
-                final int version = iFtpService.version();
-                LOG.info("version = {}", version);
-            } catch (RemoteException e) {
-                LOG.error("cenas {} failed", i ,e);
-            }
-            i++;
-        } else if (i == 1) {
-            try {
-                client = iFtpService.createClient();
-                LOG.info("client = {}", client);
-            } catch (RemoteException e) {
-                LOG.error("cenas {} failed", i ,e);
-            }
-            i++;
-        } else if (i == 2) {
-            try {
-                iFtpService.connect(client, "10.0.1.12", 8710, cb);
-                LOG.info("connected");
-            } catch (RemoteException e) {
-                LOG.error("connected {} failed", i ,e);
-            }
-            i++;
-        } else if (i == 3) {
-            i++;
-            try {
-                iFtpService.login(client, "gadgetbridge", "cenas123", cb);
-            } catch (RemoteException e) {
-                LOG.error("login {} failed", i ,e);
-            }
-        } else if (i == 4) {
-            i++;
-            try {
-                iFtpService.list(client, "/", cb);
-            } catch (RemoteException e) {
-                LOG.error("disconnect {} failed", i ,e);
-            }
-        } else if (i == 5) {
-            i++;
-            try {
-                iFtpService.disconnect(client);
-            } catch (RemoteException e) {
-                LOG.error("disconnect {} failed", i ,e);
-            }
-        } else {
-            LOG.info("wtf {}", i);
-        }
-    }*/
 
     private void shareLog() {
         String fileName = GBApplication.getLogPath();

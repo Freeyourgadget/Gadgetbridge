@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.musicfiles;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -48,6 +50,8 @@ public class MusicFilesActivity extends AbstractGBActivity {
     public static final String ACTION_STARTED = "nodomain.freeyourgadget.gadgetbridge.activities.musicfiles.action_started";
     public static final String ACTION_STATUS = "nodomain.freeyourgadget.gadgetbridge.activities.musicfiles.action_status";
     public static final String ACTION_STOPPED = "nodomain.freeyourgadget.gadgetbridge.activities.musicfiles.action_stopped";
+
+    private ProgressDialog activityFullSyncDialog;
 
     private GBDevice gbDevice;
 
@@ -100,7 +104,7 @@ public class MusicFilesActivity extends AbstractGBActivity {
 
         final ActivityResultLauncher<String> activityResultLauncher = this.registerForActivityResult(
                 new ActivityResultContracts.GetMultipleContents(),
-                uris -> GBApplication.deviceService(gbDevice).onMusicFilesUpload(uris.toArray(new Uri[0]))
+                uris -> GBApplication.deviceService(gbDevice).onMusicFilesUpload(new ArrayList<>(uris))
         );
 
         final FloatingActionButton fab = findViewById(R.id.fab);
@@ -110,6 +114,7 @@ public class MusicFilesActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        GBApplication.deviceService(gbDevice).onMusicFilesStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 

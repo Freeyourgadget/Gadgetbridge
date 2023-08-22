@@ -374,9 +374,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onMusicFilesUpload(Uri[] uris) {
+    public void onMusicFilesUpload(ArrayList<Uri> uris) {
         Intent intent = createIntent().setAction(ACTION_MUSIC_FILES_UPLOAD)
-                        .putExtra(EXTRA_MUSIC_FILES, uris);
+                        .putParcelableArrayListExtra(EXTRA_MUSIC_FILES, uris);
         invokeService(intent);
     }
 

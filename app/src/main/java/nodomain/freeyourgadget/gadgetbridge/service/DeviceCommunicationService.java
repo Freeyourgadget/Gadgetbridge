@@ -832,7 +832,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 deviceSupport.onMusicFilesReq();
                 break;
             case ACTION_MUSIC_FILES_UPLOAD:
-                final Uri[] uris = (Uri[]) intent.getParcelableArrayExtra(EXTRA_MUSIC_FILES);
+                final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(EXTRA_MUSIC_FILES);
                 deviceSupport.onMusicFilesUpload(uris);
                 break;
             case ACTION_MUSIC_FILES_STOP:

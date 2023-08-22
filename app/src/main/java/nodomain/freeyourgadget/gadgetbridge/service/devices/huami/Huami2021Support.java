@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import static org.apache.commons.lang3.ArrayUtils.add;
 import static org.apache.commons.lang3.ArrayUtils.subarray;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
@@ -54,6 +55,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -101,6 +103,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsMusicFilesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsGpxRouteUploadOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
@@ -569,6 +572,63 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     @Override
     protected void sendMusicStateToDevice(final MusicSpec musicSpec, final MusicStateSpec musicStateSpec) {
         musicService.sendMusicState(musicSpec, musicStateSpec);
+    }
+
+    private ZeppOsMusicFilesCoordinator musicFilesCoordinator;
+
+    @Override
+    public void onMusicFilesStart() {
+        if (musicFilesCoordinator == null) {
+            musicFilesCoordinator = new ZeppOsMusicFilesCoordinator(getContext());
+        }
+
+        wifiService.setCallback(new ZeppOsWifiService.Callback() {
+            @Override
+            public void onWifiHotspotStart() {
+                LOG.debug("onWifiHotspotStart");
+                ftpServerService.startFtpServer("/mnt/data");
+            }
+
+            @Override
+            public void onWifiHotspotStop() {
+                LOG.debug("onWifiHotspotStop");
+            }
+        });
+        final String ssid = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID, "Huami2021");
+        final String password = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD, "p4ssw0rd");
+
+        ftpServerService.setCallback(new ZeppOsFtpServerService.Callback() {
+            @Override
+            public void onFtpServerStart(final String address, final String username) {
+                LOG.debug("onFtpServerStart {} {}", address, username);
+            }
+
+            @Override
+            public void onFtpServerStop() {
+                LOG.debug("onFtpServerStop");
+            }
+        });
+
+        wifiService.startWifiHotspot(ssid, password);
+    }
+
+    @Override
+    public void onMusicFilesReq() {
+
+    }
+
+    @Override
+    public void onMusicFilesUpload(final ArrayList<Uri> uris) {
+        musicFilesCoordinator.connectFtp("192.168.43.1", "anonymous");
+        musicFilesCoordinator.uploadFiles(uris);
+    }
+
+    @Override
+    public void onMusicFilesStop() {
+        ftpServerService.stopFtpServer();
+        ftpServerService.removeCallback();
+        wifiService.stopWifiHotspot();
+        wifiService.removeCallback();
     }
 
     @Override

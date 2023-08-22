@@ -63,6 +63,12 @@ public class ZeppOsMusicFilesCoordinator {
             LOG.info("onServiceConnected: {}", className);
 
             iFtpService = IFtpService.Stub.asInterface(service);
+            try {
+                ftpClient = iFtpService.createClient(ftpCallback);
+                iFtpService.connect(ftpClient, "192.168.43.1", 5210);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         public void onServiceDisconnected(final ComponentName className) {
@@ -76,7 +82,7 @@ public class ZeppOsMusicFilesCoordinator {
         public void onConnect(boolean success, String msg) throws RemoteException {
             LOG.info("onConnect {} {}", success, msg);
             if (success) {
-                iFtpService.login(ftpClient, "gadgetbridge", "cenas123");
+                iFtpService.login(ftpClient, "anonymous", "");
             }
         }
 
@@ -107,7 +113,13 @@ public class ZeppOsMusicFilesCoordinator {
         this.internetHelper = new InternetHelper(mContext);
     }
 
-    public void initFtp() {
+    private String address;
+    private String username;
+
+    public void connectFtp(final String address, final String username) {
+        this.address = address;
+        this.username = username;
+
         final Intent intent = new Intent("nodomain.freeyourgadget.internethelper.FtpService");
         intent.setPackage(internetHelper.getPackageName());
         boolean res = mContext.bindService(intent, mFtpConnection, Context.BIND_AUTO_CREATE);
@@ -118,15 +130,15 @@ public class ZeppOsMusicFilesCoordinator {
         }
     }
 
-    public void destroy() {
+    public void destroyFtp() {
         mContext.unbindService(mFtpConnection);
     }
 
     public void uploadFiles(final List<Uri> uriList) {
-        if (iFtpService == null || ftpClient == null) {
-            LOG.error("No ftp client");
-            return;
-        }
+        //if (iFtpService == null || ftpClient == null) {
+        //    LOG.error("No ftp client");
+        //    return;
+        //}
 
         final MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
 
@@ -173,7 +185,7 @@ public class ZeppOsMusicFilesCoordinator {
 
             final String targetName = md5 + "." + FileUtils.getExtension(uri.toString());
 
-            filesToUpload.put(uri, "/" + targetName);
+            filesToUpload.put(uri, "/mnt/data/Downloads/Music/list/" + targetName);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -184,10 +196,17 @@ public class ZeppOsMusicFilesCoordinator {
     }
 
     public void uploadNextFile() {
-        //try {
-        //    iFtpService.upload(ftpClient, uri.toString(), "/cenas.mp3");
-        //} catch (RemoteException e) {
-        //    LOG.error("oops", e);
-        //}
+        if (filesToUpload.isEmpty()) {
+            LOG.info("No more files to upload");
+            return;
+        }
+
+        for (final Map.Entry<Uri, String> entry : filesToUpload.entrySet()) {
+            try {
+                iFtpService.upload(ftpClient, entry.getKey().toString(), entry.getValue());
+            } catch (RemoteException e) {
+                LOG.error("oops", e);
+            }
+        }
     }
 }

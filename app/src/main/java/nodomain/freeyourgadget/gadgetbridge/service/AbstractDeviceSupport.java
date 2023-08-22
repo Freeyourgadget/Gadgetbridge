@@ -843,7 +843,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      * Upload the music files represented by the URIs to the device.
      */
     @Override
-    public void onMusicFilesUpload(Uri[] uris) {
+    public void onMusicFilesUpload(ArrayList<Uri> uris) {
 
     }
 

@@ -97,7 +97,7 @@ public interface EventHandler {
 
     void onMusicFilesReq();
 
-    void onMusicFilesUpload(Uri[] uris);
+    void onMusicFilesUpload(ArrayList<Uri> uris);
 
     void onMusicFilesStop();
 
