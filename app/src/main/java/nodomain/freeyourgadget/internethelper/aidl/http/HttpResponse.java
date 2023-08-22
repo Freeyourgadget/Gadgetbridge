@@ -1,28 +1,23 @@
 package nodomain.freeyourgadget.internethelper.aidl.http;
 
-import android.os.Bundle;
 import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class HttpResponse implements Parcelable {
     private final int status;
-    private final Bundle headers;
-    private final byte[] body;
+    private final HttpHeaders headers;
+    private final ParcelFileDescriptor body;
 
     protected HttpResponse(final Parcel in) {
         status = in.readInt();
-        headers = in.readBundle(ClassLoader.getSystemClassLoader());
-        final int bodyLength = in.readInt();
-        body = new byte[bodyLength];
-        in.readByteArray(body);
+        headers = in.readParcelable(HttpResponse.class.getClassLoader());
+        body = in.readParcelable(HttpResponse.class.getClassLoader());
     }
 
-    public HttpResponse(final int status, final Bundle headers, final byte[] body) {
+    public HttpResponse(final int status, final HttpHeaders headers, final ParcelFileDescriptor body) {
         this.status = status;
         this.headers = headers;
         this.body = body;
@@ -48,28 +43,19 @@ public class HttpResponse implements Parcelable {
     @Override
     public void writeToParcel(@NonNull final Parcel dest, final int flags) {
         dest.writeInt(status);
-        dest.writeBundle(headers);
-        dest.writeInt(body.length);
-        dest.writeByteArray(body);
+        dest.writeParcelable(headers, 0);
+        dest.writeParcelable(body, 0);
     }
 
     public int getStatus() {
         return status;
     }
 
-    public Bundle getHeaders() {
+    public HttpHeaders getHeaders() {
         return headers;
     }
 
-    public Map<String, String> getHeadersMap() {
-        final Map<String, String> ret = new HashMap<>();
-        for (String k : headers.keySet()) {
-            ret.put(k, headers.getString(k));
-        }
-        return ret;
-    }
-
-    public byte[] getBody() {
+    public ParcelFileDescriptor getBody() {
         return body;
     }
 }

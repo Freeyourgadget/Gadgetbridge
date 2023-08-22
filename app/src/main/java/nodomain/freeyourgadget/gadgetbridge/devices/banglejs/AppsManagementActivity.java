@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -64,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.internethelper.aidl.http.HttpGetRequest;
+import nodomain.freeyourgadget.internethelper.aidl.http.HttpHeaders;
 import nodomain.freeyourgadget.internethelper.aidl.http.HttpResponse;
 import nodomain.freeyourgadget.internethelper.aidl.http.IHttpCallback;
 import nodomain.freeyourgadget.internethelper.aidl.http.IHttpService;
@@ -242,11 +245,18 @@ public class AppsManagementActivity extends AbstractGBActivity {
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                LOG.info("shouldIntercept {} {}", request.getUrl(), iHttpService != null);
+                LOG.info("shouldIntercept {} {} {}", request.getMethod(), request.getUrl(), iHttpService != null);
+                if (!request.getMethod().equalsIgnoreCase("get")) {
+                    return super.shouldInterceptRequest(view, request);
+                }
                 if (iHttpService == null) {
                     return super.shouldInterceptRequest(view, request);
                 }
-                HttpGetRequest httpGetRequest = new HttpGetRequest(request.getUrl().toString(), new Bundle());
+                final HttpHeaders httpHeaders = new HttpHeaders();
+                for (Map.Entry<String, String> header : request.getRequestHeaders().entrySet()) {
+                    httpHeaders.addHeader(header.getKey(), header.getValue());
+                }
+                final HttpGetRequest httpGetRequest = new HttpGetRequest(request.getUrl().toString(), httpHeaders);
                 CountDownLatch latch = new CountDownLatch(1);
                 final Capsule<WebResourceResponse> internetResponseCapsule = new Capsule<>();
                 try {
@@ -254,11 +264,11 @@ public class AppsManagementActivity extends AbstractGBActivity {
                         @Override
                         public void onResponse(HttpResponse response) throws RemoteException {
                             WebResourceResponse internetResponse = new WebResourceResponse(
-                                    response.getHeaders().getString("content-type"),
-                                    response.getHeaders().getString("content-encoding"),
+                                    response.getHeaders().get("content-type"),
+                                    response.getHeaders().get("content-encoding"),
                                     response.getStatus(), "OK",
-                                    response.getHeadersMap(),
-                                    new ByteArrayInputStream(response.getBody())
+                                    response.getHeaders().toMap(),
+                                    new ParcelFileDescriptor.AutoCloseInputStream(response.getBody())
                             );
                             internetResponseCapsule.set(internetResponse);
                             latch.countDown();

@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.internethelper.aidl.http;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,14 +7,14 @@ import androidx.annotation.NonNull;
 
 public class HttpGetRequest implements Parcelable {
     private final String url;
-    private final Bundle headers;
+    private final HttpHeaders headers;
 
     protected HttpGetRequest(final Parcel in) {
         url = in.readString();
-        headers = in.readBundle(ClassLoader.getSystemClassLoader());
+        headers = in.readParcelable(HttpGetRequest.class.getClassLoader());
     }
 
-    public HttpGetRequest(String url, Bundle headers) {
+    public HttpGetRequest(String url, HttpHeaders headers) {
         this.url = url;
         this.headers = headers;
     }
@@ -40,14 +39,14 @@ public class HttpGetRequest implements Parcelable {
     @Override
     public void writeToParcel(@NonNull final Parcel dest, final int flags) {
         dest.writeString(url);
-        dest.writeBundle(headers);
+        dest.writeParcelable(headers, 0);
     }
 
     public String getUrl() {
         return url;
     }
 
-    public Bundle getHeaders() {
+    public HttpHeaders getHeaders() {
         return headers;
     }
 }
