@@ -93,6 +93,14 @@ public interface EventHandler {
 
     void onAppReorder(UUID uuids[]);
 
+    void onMusicFilesStart();
+
+    void onMusicFilesReq();
+
+    void onMusicFilesUpload(Uri[] uris);
+
+    void onMusicFilesStop();
+
     void onFetchRecordedData(int dataTypes);
 
     void onReset(int flags);

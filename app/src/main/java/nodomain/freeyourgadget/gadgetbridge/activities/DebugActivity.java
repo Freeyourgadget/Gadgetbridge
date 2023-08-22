@@ -22,7 +22,6 @@ import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -43,16 +42,12 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.os.SharedMemory;
 import android.preference.PreferenceManager;
-import android.system.ErrnoException;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -87,7 +82,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -133,12 +127,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
-import nodomain.freeyourgadget.internethelper.IFtpService;
-import nodomain.freeyourgadget.internethelper.IFtpServiceCallback;
-import nodomain.freeyourgadget.internethelper.IHttpService;
-import nodomain.freeyourgadget.internethelper.IHttpServiceCallback;
-import nodomain.freeyourgadget.internethelper.IWifiService;
-import nodomain.freeyourgadget.internethelper.IWifiServiceCallback;
+//import nodomain.freeyourgadget.internethelper.IFtpService;
+//import nodomain.freeyourgadget.internethelper.IFtpServiceCallback;
+//import nodomain.freeyourgadget.internethelper.IHttpService;
+//import nodomain.freeyourgadget.internethelper.IHttpServiceCallback;
+//import nodomain.freeyourgadget.internethelper.IWifiService;
+//import nodomain.freeyourgadget.internethelper.IWifiServiceCallback;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -919,11 +913,6 @@ public class DebugActivity extends AbstractGBActivity {
                 .show();
     }
 
-    IFtpService iRemoteService;
-    IHttpService ihttpService;
-    IWifiService iWifiService;
-    String client;
-    int i = 0;
 
     private void testNewFunctionality() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), "nodomain.freeyourgadget.internethelper.INTERNET") != PackageManager.PERMISSION_GRANTED) {
@@ -933,10 +922,15 @@ public class DebugActivity extends AbstractGBActivity {
             return;
         }
 
-        doWiFi();
-
         //GBApplication.deviceService().onTestNewFunction();
     }
+    /*
+
+    IFtpService iFtpService;
+    IHttpService ihttpService;
+    IWifiService iWifiService;
+    String client;
+    int i = 0;
 
     private void doWiFi() {
         final IWifiServiceCallback.Stub cb = new IWifiServiceCallback.Stub() {
@@ -1073,7 +1067,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         };
 
-        if (iRemoteService == null) {
+        if (iFtpService == null) {
             LOG.info("connecting");
             ServiceConnection mConnection = new ServiceConnection() {
                 // Called when the connection with the service is established.
@@ -1082,16 +1076,16 @@ public class DebugActivity extends AbstractGBActivity {
 
                     // Following the preceding example for an AIDL interface,
                     // this gets an instance of the IRemoteInterface, which we can use to call on the service.
-                    iRemoteService = IFtpService.Stub.asInterface(service);
+                    iFtpService = IFtpService.Stub.asInterface(service);
                 }
 
                 // Called when the connection with the service disconnects unexpectedly.
                 public void onServiceDisconnected(ComponentName className) {
                     LOG.error("Service has unexpectedly disconnected");
-                    iRemoteService = null;
+                    iFtpService = null;
                 }
             };
-            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.FtpService");
+            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.ftp.FtpService");
             intent.setPackage("nodomain.freeyourgadget.internethelper");
             boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
@@ -1101,7 +1095,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
         } else if (i == 0) {
             try {
-                final int version = iRemoteService.version();
+                final int version = iFtpService.version();
                 LOG.info("version = {}", version);
             } catch (RemoteException e) {
                 LOG.error("cenas {} failed", i ,e);
@@ -1109,7 +1103,7 @@ public class DebugActivity extends AbstractGBActivity {
             i++;
         } else if (i == 1) {
             try {
-                client = iRemoteService.createClient();
+                client = iFtpService.createClient();
                 LOG.info("client = {}", client);
             } catch (RemoteException e) {
                 LOG.error("cenas {} failed", i ,e);
@@ -1117,7 +1111,7 @@ public class DebugActivity extends AbstractGBActivity {
             i++;
         } else if (i == 2) {
             try {
-                iRemoteService.connect(client, "10.0.1.12", 8710, cb);
+                iFtpService.connect(client, "10.0.1.12", 8710, cb);
                 LOG.info("connected");
             } catch (RemoteException e) {
                 LOG.error("connected {} failed", i ,e);
@@ -1126,28 +1120,28 @@ public class DebugActivity extends AbstractGBActivity {
         } else if (i == 3) {
             i++;
             try {
-                iRemoteService.login(client, "gadgetbridge", "cenas123", cb);
+                iFtpService.login(client, "gadgetbridge", "cenas123", cb);
             } catch (RemoteException e) {
                 LOG.error("login {} failed", i ,e);
             }
         } else if (i == 4) {
             i++;
             try {
-                iRemoteService.list(client, "/", cb);
+                iFtpService.list(client, "/", cb);
             } catch (RemoteException e) {
                 LOG.error("disconnect {} failed", i ,e);
             }
         } else if (i == 5) {
             i++;
             try {
-                iRemoteService.disconnect(client);
+                iFtpService.disconnect(client);
             } catch (RemoteException e) {
                 LOG.error("disconnect {} failed", i ,e);
             }
         } else {
             LOG.info("wtf {}", i);
         }
-    }
+    }*/
 
     private void shareLog() {
         String fileName = GBApplication.getLogPath();

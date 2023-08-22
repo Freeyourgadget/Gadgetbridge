@@ -824,6 +824,38 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     /**
+     * Music files activity has started - prepare the device (eg. start wifi, instruct user to connect to it, start FTP.
+     */
+    @Override
+    public void onMusicFilesStart() {
+
+    }
+
+    /**
+     * Requests the current list of music files on the device.
+     */
+    @Override
+    public void onMusicFilesReq() {
+
+    }
+
+    /**
+     * Upload the music files represented by the URIs to the device.
+     */
+    @Override
+    public void onMusicFilesUpload(Uri[] uris) {
+
+    }
+
+    /**
+     * Music files activity has been closed.
+     */
+    @Override
+    public void onMusicFilesStop() {
+
+    }
+
+    /**
      * If recorded data can be fetched from the device, this method
      * can be overridden and implemented by the device support class.
      * @param dataTypes which data types to fetch

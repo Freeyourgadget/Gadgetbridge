@@ -49,6 +49,10 @@ public interface DeviceService extends EventHandler {
     String ACTION_DELETEAPP = PREFIX + ".action.deleteapp";
     String ACTION_APP_CONFIGURE = PREFIX + ".action.app_configure";
     String ACTION_APP_REORDER = PREFIX + ".action.app_reorder";
+    String ACTION_MUSIC_FILES_START = PREFIX + ".action.music_files_start";
+    String ACTION_MUSIC_FILES_REQ = PREFIX + ".action.music_files_req";
+    String ACTION_MUSIC_FILES_UPLOAD = PREFIX + ".action.music_files_upload";
+    String ACTION_MUSIC_FILES_STOP = PREFIX + ".action.music_files_stop";
     String ACTION_INSTALL = PREFIX + ".action.install";
     String ACTION_RESET = PREFIX + ".action.reset";
     String ACTION_HEARTRATE_TEST = PREFIX + ".action.heartrate_test";
@@ -132,6 +136,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_INTERVAL_SECONDS = "interval_seconds";
     String EXTRA_WEATHER = "weather";
     String EXTRA_RECORDED_DATA_TYPES = "data_types";
+    String EXTRA_MUSIC_FILES = "music_files";
     String EXTRA_FM_FREQUENCY = "fm_frequency";
     String EXTRA_LED_COLOR = "led_color";
     String EXTRA_GPS_LOCATION = "gps_location";

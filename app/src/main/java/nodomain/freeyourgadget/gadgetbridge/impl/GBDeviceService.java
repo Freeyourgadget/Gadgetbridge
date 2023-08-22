@@ -362,6 +362,31 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onMusicFilesStart() {
+        Intent intent = createIntent().setAction(ACTION_MUSIC_FILES_START);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onMusicFilesReq() {
+        Intent intent = createIntent().setAction(ACTION_MUSIC_FILES_REQ);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onMusicFilesUpload(Uri[] uris) {
+        Intent intent = createIntent().setAction(ACTION_MUSIC_FILES_UPLOAD)
+                        .putExtra(EXTRA_MUSIC_FILES, uris);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onMusicFilesStop() {
+        Intent intent = createIntent().setAction(ACTION_MUSIC_FILES_STOP);
+        invokeService(intent);
+    }
+
+    @Override
     public void onFetchRecordedData(int dataTypes) {
         Intent intent = createIntent().setAction(ACTION_FETCH_RECORDED_DATA)
                 .putExtra(EXTRA_RECORDED_DATA_TYPES, dataTypes);

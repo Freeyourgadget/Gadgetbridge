@@ -578,7 +578,7 @@
             android:label="@string/pref_world_clocks_title"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
-            android:name=".activities.MusicFilesActivity"
+            android:name=".activities.musicfiles.MusicFilesActivity"
             android:label="@string/menuitem_music"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity

@@ -287,6 +287,38 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onMusicFilesStart() {
+        if (checkBusy("music files start")) {
+            return;
+        }
+        delegate.onMusicFilesStart();
+    }
+
+    @Override
+    public void onMusicFilesReq() {
+        if (checkBusy("music files req")) {
+            return;
+        }
+        delegate.onMusicFilesReq();
+    }
+
+    @Override
+    public void onMusicFilesUpload(Uri[] uris) {
+        if (checkBusy("music files upload")) {
+            return;
+        }
+        delegate.onMusicFilesUpload(uris);
+    }
+
+    @Override
+    public void onMusicFilesStop() {
+        if (checkBusy("music files stop")) {
+            return;
+        }
+        delegate.onMusicFilesStop();
+    }
+
+    @Override
     public void onAppReorder(UUID[] uuids) {
         if (checkBusy("app reorder")) {
             return;
