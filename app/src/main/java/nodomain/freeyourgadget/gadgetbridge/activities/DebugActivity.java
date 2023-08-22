@@ -1042,7 +1042,7 @@ public class DebugActivity extends AbstractGBActivity {
         info += "Timestamp: " + weatherSpec.timestamp + "\n";
         info += "Current Temp: " + weatherSpec.currentTemp + " K\n";
         info += "Max Temp: " + weatherSpec.todayMaxTemp + " K\n";
-        info += "Min Temp: " + weatherSpec.location + "\n";
+        info += "Min Temp: " + weatherSpec.todayMinTemp + " K\n";
         info += "Condition: " + weatherSpec.currentCondition + "\n";
         info += "Condition Code: " + weatherSpec.currentConditionCode + "\n";
         info += "Humidity: " + weatherSpec.currentHumidity + "\n";
