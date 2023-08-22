@@ -2389,4 +2389,14 @@
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="device_experimental">EXPERIMENTAL</string>
     <string name="info_menu_structure_removed">Estructura de menús eliminada</string>
+    <string name="spanish_us">Español (Estados Unidos)</string>
+    <string name="french_ca">Francés (Canadá)</string>
+    <string name="french_fr">Francés (Francia)</string>
+    <string name="english_ca">Inglés (Canadá)</string>
+    <string name="english_au">Inglés (Australia)</string>
+    <string name="english_gb">Inglés (Reino Unido)</string>
+    <string name="english_in">Inglés (India)</string>
+    <string name="english_us">Inglés (Estados Unidos)</string>
+    <string name="spanish_es">Español (España)</string>
+    <string name="spanish_mx">Español (México)</string>
 </resources>
