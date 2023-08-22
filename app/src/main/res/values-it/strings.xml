@@ -2349,4 +2349,29 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">I colori dinamici non sono disponibili sul tuo dispositivo, solo Android 12+ supporta questa funzionalità. Gadgetbridge userà i colori predefiniti di Material 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">Nota: per il tema con colori dinamici è necessario attivare Colori sfondo o Tavolozza colori nelle impostazioni di aspetto di Android 12+. Altrimenti, Gadgetbridge userà i colori predefiniti di Material 3.</string>
+    <string name="drag_handle">Trascina manopola</string>
+    <string name="withings_calibration_text_activity_target">Infine, allinea la lancetta delle attività al 100%. Tieni presente che questa lancetta si muove solo in senso orario.</string>
+    <string name="english_au">Inglese (Australia)</string>
+    <string name="english_in">Inglese (India)</string>
+    <string name="english_ca">Inglese (Canada)</string>
+    <string name="english_gb">Ingledd (Regno Unito)</string>
+    <string name="english_us">Inglese (Stati Uniti)</string>
+    <string name="spanish_mx">Spagnolo (Messico)</string>
+    <string name="spanish_us">Spagnolo (Stati Uniti)</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="spanish_es">Spagnolo (Spagna)</string>
+    <string name="french_ca">Francese (Canada)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Tondo)</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="french_fr">Francese (Francia)</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="withings_calibration_text_minutes">Ora, utilizzare il quadrante per allineare la lancetta dei minuti alle 12.</string>
+    <string name="withings_calibration_text_hours">Usa il quadrante sottostante per allineare la lancetta delle ore alle 12.</string>
+    <string name="fw_upgrade_notice_zepp_os">Stai per installare il firmware %s sul tuo %s.
+\n
+\nL\'orologio si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Quadrato)</string>
+    <string name="device_experimental">SPERIMENTALE</string>
 </resources>
