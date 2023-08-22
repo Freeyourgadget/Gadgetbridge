@@ -6,6 +6,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HttpResponse implements Parcelable {
     private final int status;
     private final Bundle headers;
@@ -48,5 +51,25 @@ public class HttpResponse implements Parcelable {
         dest.writeBundle(headers);
         dest.writeInt(body.length);
         dest.writeByteArray(body);
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public Bundle getHeaders() {
+        return headers;
+    }
+
+    public Map<String, String> getHeadersMap() {
+        final Map<String, String> ret = new HashMap<>();
+        for (String k : headers.keySet()) {
+            ret.put(k, headers.getString(k));
+        }
+        return ret;
+    }
+
+    public byte[] getBody() {
+        return body;
     }
 }

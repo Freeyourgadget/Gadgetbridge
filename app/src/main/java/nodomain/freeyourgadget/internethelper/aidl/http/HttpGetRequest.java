@@ -15,6 +15,11 @@ public class HttpGetRequest implements Parcelable {
         headers = in.readBundle(ClassLoader.getSystemClassLoader());
     }
 
+    public HttpGetRequest(String url, Bundle headers) {
+        this.url = url;
+        this.headers = headers;
+    }
+
     public static final Creator<HttpGetRequest> CREATOR = new Creator<HttpGetRequest>() {
         @Override
         public HttpGetRequest createFromParcel(final Parcel in) {
