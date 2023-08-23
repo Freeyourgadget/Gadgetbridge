@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2022-2023 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -20,13 +20,21 @@ import android.location.Location;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,7 +59,24 @@ public class Huami2021Weather {
     private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ") // for pubTimes
-            //.registerTypeAdapter(LocalDate.class, new LocalDateSerializer()) // Requires API 26
+            .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
+            // These serializers keep the fields in order. Not sure if this is needed, but the debug
+            // logs show some errors when deserializing the json payloads.
+            .registerTypeAdapter(ForecastResponse.class, new ForecastResponse.Serializer())
+            .registerTypeAdapter(MoonRiseSet.class, new MoonRiseSet.Serializer())
+            .registerTypeAdapter(Range.class, new Range.Serializer())
+            .registerTypeAdapter(IndexResponse.class, new IndexResponse.Serializer())
+            .registerTypeAdapter(IndexEntry.class, new IndexEntry.Serializer())
+            .registerTypeAdapter(CurrentResponse.class, new CurrentResponse.Serializer())
+            .registerTypeAdapter(CurrentWeatherModel.class, new CurrentWeatherModel.Serializer())
+            .registerTypeAdapter(AqiModel.class, new AqiModel.Serializer())
+            .registerTypeAdapter(UnitValue.class, new UnitValue.Serializer())
+            .registerTypeAdapter(HourlyResponse.class, new HourlyResponse.Serializer())
+            .registerTypeAdapter(AlertsResponse.class, new AlertsResponse.Serializer())
+            .registerTypeAdapter(TideResponse.class, new TideResponse.Serializer())
+            .registerTypeAdapter(TideDataEntry.class, new TideDataEntry.Serializer())
+            .registerTypeAdapter(TideTableEntry.class, new TideTableEntry.Serializer())
+            .registerTypeAdapter(TideHourlyEntry.class, new TideHourlyEntry.Serializer())
             .create();
 
     public static Response handleHttpRequest(final String path, final Map<String, String> query) {
@@ -73,11 +98,12 @@ public class Huami2021Weather {
                 return new CurrentResponse(weatherSpec);
             case "/weather/forecast/hourly":
                 final int hours = getQueryNum(query, "hours", 72);
-                return new HourlyResponse(hours);
+                return new HourlyResponse(weatherSpec, hours);
             case "/weather/alerts":
-                return new AlertsResponse();
-            //case "/weather/tide":
-            //    return new TideResponse(weatherSpec);
+                return new AlertsResponse(weatherSpec);
+            case "/weather/tide":
+                final int tideDays = getQueryNum(query, "days", 10);
+                return new TideResponse(weatherSpec, tideDays);
         }
 
         LOG.error("Unknown weather path {}", path);
@@ -155,7 +181,7 @@ public class Huami2021Weather {
         public List<Range> windDirection = new ArrayList<>();
         public List<Range> sunRiseSet = new ArrayList<>();
         public List<Range> windSpeed = new ArrayList<>();
-        public Object moonRiseSet = new Object(); // MoonRiseSet
+        public MoonRiseSet moonRiseSet = new MoonRiseSet();
         public List<Object> airQualities = new ArrayList<>();
 
         public ForecastResponse(final WeatherSpec weatherSpec, final int days) {
@@ -209,11 +235,38 @@ public class Huami2021Weather {
 
             return new Range(from, to);
         }
+
+        public static class Serializer implements JsonSerializer<ForecastResponse> {
+            @Override
+            public JsonElement serialize(final ForecastResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("humidity", context.serialize(obj.humidity));
+                object.add("temperature", context.serialize(obj.temperature));
+                object.add("weather", context.serialize(obj.weather));
+                object.add("windDirection", context.serialize(obj.windDirection));
+                object.add("sunRiseSet", context.serialize(obj.sunRiseSet));
+                object.add("windSpeed", context.serialize(obj.windSpeed));
+                object.add("moonRiseSet", context.serialize(obj.moonRiseSet));
+                object.add("airQualities", context.serialize(obj.airQualities));
+                return object;
+            }
+        }
     }
 
     private static class MoonRiseSet {
         public List<String> moonPhaseValue = new ArrayList<>(); // numbers? 20 21 23...
         public List<Range> moonRise = new ArrayList<>(); // yyyy-MM-dd HH:mm:ss
+
+        public static class Serializer implements JsonSerializer<MoonRiseSet> {
+            @Override
+            public JsonElement serialize(final MoonRiseSet obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("moonPhaseValue", context.serialize(obj.moonPhaseValue));
+                object.add("moonRise", context.serialize(obj.moonRise));
+                return object;
+            }
+        }
     }
 
     private static class Range {
@@ -228,6 +281,16 @@ public class Huami2021Weather {
         public Range(final int from, final int to) {
             this.from = String.valueOf(from);
             this.to = String.valueOf(to);
+        }
+
+        public static class Serializer implements JsonSerializer<Range> {
+            @Override
+            public JsonElement serialize(final Range obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("from", context.serialize(obj.from));
+                object.add("to", context.serialize(obj.to));
+                return object;
+            }
         }
     }
 
@@ -245,15 +308,39 @@ public class Huami2021Weather {
         public IndexResponse(final WeatherSpec weatherSpec, final int days) {
             pubTime = new Date(weatherSpec.timestamp * 1000L);
         }
+
+        public static class Serializer implements JsonSerializer<IndexResponse> {
+            @Override
+            public JsonElement serialize(final IndexResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("dataList", context.serialize(obj.dataList));
+                return object;
+            }
+        }
     }
 
     private static class IndexEntry {
-        public String date; // YYYY-MM-DD, but LocalDate would need API 26+
+        public LocalDate date;
         public String osi; // int
         public String uvi; // int
         public Object pai;
         public String cwi; // int
         public String fi; // int
+
+        public static class Serializer implements JsonSerializer<IndexEntry> {
+            @Override
+            public JsonElement serialize(final IndexEntry obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("date", context.serialize(obj.date));
+                object.add("osi", context.serialize(obj.osi));
+                object.add("uvi", context.serialize(obj.uvi));
+                object.add("pai", context.serialize(obj.pai));
+                object.add("cwi", context.serialize(obj.cwi));
+                object.add("fi", context.serialize(obj.fi));
+                return object;
+            }
+        }
     }
 
     // /weather/current
@@ -268,6 +355,16 @@ public class Huami2021Weather {
 
         public CurrentResponse(final WeatherSpec weatherSpec) {
             this.currentWeatherModel = new CurrentWeatherModel(weatherSpec);
+        }
+
+        public static class Serializer implements JsonSerializer<CurrentResponse> {
+            @Override
+            public JsonElement serialize(final CurrentResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("currentWeatherModel", context.serialize(obj.currentWeatherModel));
+                object.add("aqiModel", context.serialize(obj.aqiModel));
+                return object;
+            }
         }
     }
 
@@ -286,10 +383,26 @@ public class Huami2021Weather {
             pressure = new UnitValue(Unit.PRESSURE_MB, "1015"); // ?
             pubTime = new Date(weatherSpec.timestamp * 1000L);
             temperature = new UnitValue(Unit.TEMPERATURE_C, weatherSpec.currentTemp - 273);
-            uvIndex = "0";
+            uvIndex = String.valueOf(weatherSpec.uvIndex);
             visibility = new UnitValue(Unit.KM, "");
             weather = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff);
             wind = new Wind(weatherSpec.windDirection, Math.round(weatherSpec.windSpeed));
+        }
+
+        public static class Serializer implements JsonSerializer<CurrentWeatherModel> {
+            @Override
+            public JsonElement serialize(final CurrentWeatherModel obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("humidity", context.serialize(obj.humidity));
+                object.add("pressure", context.serialize(obj.pressure));
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("temperature", context.serialize(obj.temperature));
+                object.add("uvIndex", context.serialize(obj.uvIndex));
+                object.add("visibility", context.serialize(obj.visibility));
+                object.add("weather", context.serialize(obj.weather));
+                object.add("wind", context.serialize(obj.wind));
+                return object;
+            }
         }
     }
 
@@ -302,6 +415,22 @@ public class Huami2021Weather {
         public String pm25; // int
         public String pubTime; // 2023-05-14T12:00:00-0400
         public String so2; // float
+
+        public static class Serializer implements JsonSerializer<AqiModel> {
+            @Override
+            public JsonElement serialize(final AqiModel obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("aqi", context.serialize(obj.aqi));
+                object.add("co", context.serialize(obj.co));
+                object.add("no2", context.serialize(obj.no2));
+                object.add("o3", context.serialize(obj.o3));
+                object.add("pm10", context.serialize(obj.pm10));
+                object.add("pm25", context.serialize(obj.pm25));
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("so2", context.serialize(obj.so2));
+                return object;
+            }
+        }
     }
 
     // /weather/tide
@@ -318,26 +447,80 @@ public class Huami2021Weather {
         public String poiKey; // lat,lon,POI_ID
         public List<TideDataEntry> tideData = new ArrayList<>();
 
-        public TideResponse(final WeatherSpec weatherSpec) {
+        public TideResponse(final WeatherSpec weatherSpec, int tideDays) {
             pubTime = new Date(weatherSpec.timestamp * 1000L);
+
+            // Fill all entries, even if without data
+            final Calendar pubTimeDate = Calendar.getInstance();
+            pubTimeDate.setTime(pubTime);
+            LocalDate tideDate = LocalDate.of(pubTimeDate.get(Calendar.YEAR), pubTimeDate.get(Calendar.MONTH) + 1, pubTimeDate.get(Calendar.DAY_OF_MONTH));
+            for (int i = 0; i < tideDays; i++, tideDate = tideDate.plusDays(1)) {
+                final TideDataEntry tideDataEntry = new TideDataEntry();
+                tideDataEntry.date = tideDate;
+                tideData.add(tideDataEntry);
+            }
+        }
+
+        public static class Serializer implements JsonSerializer<TideResponse> {
+            @Override
+            public JsonElement serialize(final TideResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("poiName", context.serialize(obj.poiName));
+                object.add("poiKey", context.serialize(obj.poiKey));
+                object.add("tideData", context.serialize(obj.tideData));
+                return object;
+            }
         }
     }
 
     private static class TideDataEntry {
-        public String date; // YYYY-MM-DD, but LocalDate would need API 26+
+        public LocalDate date;
         public List<TideTableEntry> tideTable = new ArrayList<>();
         public List<TideHourlyEntry> tideHourly = new ArrayList<>();
+
+        public static class Serializer implements JsonSerializer<TideDataEntry> {
+            @Override
+            public JsonElement serialize(final TideDataEntry obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("date", context.serialize(obj.date));
+                object.add("tideTable", context.serialize(obj.tideTable));
+                object.add("tideHourly", context.serialize(obj.tideHourly));
+                return object;
+            }
+        }
     }
 
     private static class TideTableEntry {
         public Date fxTime; // pubTime format
         public String height; // float, x.xx
         public String type; // H / L
+
+        public static class Serializer implements JsonSerializer<TideTableEntry> {
+            @Override
+            public JsonElement serialize(final TideTableEntry obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("fxTime", context.serialize(obj.fxTime));
+                object.add("height", context.serialize(obj.height));
+                object.add("type", context.serialize(obj.type));
+                return object;
+            }
+        }
     }
 
     private static class TideHourlyEntry {
         public Date fxTime; // pubTime format
         public String height; // float, x.xx
+
+        public static class Serializer implements JsonSerializer<TideHourlyEntry> {
+            @Override
+            public JsonElement serialize(final TideHourlyEntry obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("fxTime", context.serialize(obj.fxTime));
+                object.add("height", context.serialize(obj.height));
+                return object;
+            }
+        }
     }
 
     private enum Unit {
@@ -373,6 +556,16 @@ public class Huami2021Weather {
             this.unit = unit.getValue();
             this.value = String.valueOf(value);
         }
+
+        public static class Serializer implements JsonSerializer<UnitValue> {
+            @Override
+            public JsonElement serialize(final UnitValue obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("unit", context.serialize(obj.unit));
+                object.add("value", context.serialize(obj.value));
+                return object;
+            }
+        }
     }
 
     private static class Wind {
@@ -395,16 +588,51 @@ public class Huami2021Weather {
     public static class HourlyResponse extends Response {
         public Date pubTime;
         // One entry in each list per hour
-        public List<String> weather;
-        public List<String> temperature;
-        public List<String> humidity;
-        public List<String> fxTime; // pubTime format
-        public List<String> windDirection;
-        public List<String> windSpeed;
-        public List<String> windScale; // each element in the form of 1-2
+        public List<String> weather = new ArrayList<>();
+        public List<String> temperature = new ArrayList<>();
+        public List<String> humidity = new ArrayList<>();
+        public List<Date> fxTime = new ArrayList<>(); // pubTime format
+        public List<String> windDirection = new ArrayList<>();
+        public List<String> windSpeed = new ArrayList<>();
+        public List<String> windScale = new ArrayList<>(); // each element in the form of 1-2
 
-        public HourlyResponse(final int hours) {
+        public HourlyResponse(final WeatherSpec weatherSpec, final int hours) {
+            pubTime = new Date(weatherSpec.timestamp * 1000L);
+            final Calendar fxTimeCalendar = Calendar.getInstance();
+            fxTimeCalendar.setTime(pubTime);
+            fxTimeCalendar.set(Calendar.MINUTE, 0);
+            fxTimeCalendar.set(Calendar.SECOND, 0);
+            fxTimeCalendar.set(Calendar.MILLISECOND, 0);
+            fxTimeCalendar.add(Calendar.HOUR, 1);
 
+            // We don't have hourly data, but some devices refuse to open the weather app without it
+            for (int i = 0; i < hours; i++) {
+                weather.add("0");
+                temperature.add(String.valueOf(weatherSpec.currentTemp - 273));
+                humidity.add(String.valueOf(weatherSpec.currentHumidity));
+                fxTime.add(fxTimeCalendar.getTime());
+                windDirection.add(String.valueOf(weatherSpec.windDirection));
+                windSpeed.add(String.valueOf(Math.round(weatherSpec.windSpeed)));
+                windScale.add("1-2"); // ?
+
+                fxTimeCalendar.add(Calendar.HOUR, 1);
+            }
+        }
+
+        public static class Serializer implements JsonSerializer<HourlyResponse> {
+            @Override
+            public JsonElement serialize(final HourlyResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("pubTime", context.serialize(obj.pubTime));
+                object.add("weather", context.serialize(obj.weather));
+                object.add("temperature", context.serialize(obj.temperature));
+                object.add("humidity", context.serialize(obj.humidity));
+                object.add("fxTime", context.serialize(obj.fxTime));
+                object.add("windDirection", context.serialize(obj.windDirection));
+                object.add("windSpeed", context.serialize(obj.windSpeed));
+                object.add("windScale", context.serialize(obj.windScale));
+                return object;
+            }
         }
     }
 
@@ -416,15 +644,27 @@ public class Huami2021Weather {
     // isGlobal=true
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class AlertsResponse extends Response {
-        public List<IndexEntry> alerts = new ArrayList<>();
+        public List<Object> alerts = new ArrayList<>();
+
+        public AlertsResponse(final WeatherSpec weatherSpec) {
+
+        }
+
+        public static class Serializer implements JsonSerializer<AlertsResponse> {
+            @Override
+            public JsonElement serialize(final AlertsResponse obj, final Type type, final JsonSerializationContext context) {
+                final JsonObject object = new JsonObject();
+                object.add("alerts", context.serialize(obj.alerts));
+                return object;
+            }
+        }
     }
 
-    //@RequiresApi(api = Build.VERSION_CODES.O)
-    //private static class LocalDateSerializer implements JsonSerializer<LocalDate> {
-    //    @Override
-    //    public JsonElement serialize(final LocalDate src, final Type typeOfSrc, final JsonSerializationContext context) {
-    //        // Serialize as "yyyy-MM-dd" string
-    //        return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
-    //    }
-    //}
+    private static class LocalDateSerializer implements JsonSerializer<LocalDate> {
+        @Override
+        public JsonElement serialize(final LocalDate src, final Type typeOfSrc, final JsonSerializationContext context) {
+            // Serialize as "YYYY-MM-DD" string
+            return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+    }
 }
