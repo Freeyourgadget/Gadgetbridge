@@ -108,6 +108,11 @@ public class WebViewSingleton {
             webSettings.setDomStorageEnabled(true);
             //needed for localstorage
             webSettings.setDatabaseEnabled(true);
+            //allow local js files access
+            webSettings.setAllowContentAccess(true);
+            webSettings.setAllowFileAccess(true);
+            webSettings.setAllowFileAccessFromFileURLs(true);
+            webSettings.setAllowUniversalAccessFromFileURLs(true);
         }
     }
 
@@ -201,8 +206,11 @@ public class WebViewSingleton {
                     contextWrapper.getPackageManager().getApplicationInfo(internetHelperPkg, 0);
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(internetHelperPkg, internetHelperCls));
-                    contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
                     internetHelperInstalled = true;
+
+                    final Intent intent1 = new Intent("nodomain.freeyourgadget.internethelper.HttpService");
+                    intent1.setPackage("nodomain.freeyourgadget.internethelper");
+                    contextWrapper.getApplicationContext().bindService(intent1, internetHelperConnection, Context.BIND_AUTO_CREATE);
                 }
                 catch (PackageManager.NameNotFoundException e) {
                     internetHelperInstalled = false;

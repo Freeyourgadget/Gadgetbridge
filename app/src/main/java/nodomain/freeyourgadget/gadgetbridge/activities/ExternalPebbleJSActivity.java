@@ -195,6 +195,10 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
         webSettings.setDomStorageEnabled(true);
         //needed for localstorage
         webSettings.setDatabaseEnabled(true);
+        //allow local js files access
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
 
         JSInterface gbJSInterface = new JSInterface(device, uuid);
         myWebView.addJavascriptInterface(gbJSInterface, "GBjs");
