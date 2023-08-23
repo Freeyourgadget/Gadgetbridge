@@ -432,13 +432,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
                     if (!success) {
                         GB.toast("error writing notification settings", Toast.LENGTH_SHORT, GB.ERROR);
-
-                        getDeviceSupport().getDevice().setState(GBDevice.State.NOT_CONNECTED);
-                        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                     }
-
-                    getDeviceSupport().getDevice().setState(GBDevice.State.INITIALIZED);
-                    getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                 }
             }, false);
         } catch (Exception e) {
