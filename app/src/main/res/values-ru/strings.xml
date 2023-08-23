@@ -15,8 +15,8 @@
     <string name="controlcenter_navigation_drawer_open">Открыть панель навигации</string>
     <string name="controlcenter_navigation_drawer_close">Закрыть панель навигации</string>
     <string name="controlcenter_snackbar_need_longpress">Долгое нажатие отключит устройство</string>
-    <string name="controlcenter_snackbar_disconnecting">Отключается</string>
-    <string name="controlcenter_snackbar_connecting">Подключается…</string>
+    <string name="controlcenter_snackbar_disconnecting">Разъединение</string>
+    <string name="controlcenter_snackbar_connecting">Соединение…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Делается снимок устройства</string>
     <string name="title_activity_debug">Отладка</string>
     <!--Strings related to AppManager-->
@@ -992,7 +992,7 @@
     <string name="error_exporting_device_preferences">Ошибка при экспорте специфичных настроек устройства</string>
     <string name="pref_check_permission_status_summary">Проверяйте и запрашивайте недостающие разрешения, даже если они могут не понадобиться немедленно. Отключите это, только если ваши устройства действительно не поддерживают ни одну из этих функций. Отсутствие разрешения может вызвать проблемы!</string>
     <string name="pref_check_permission_status">Проверить статус разрешения</string>
-    <string name="device_requires_key">ТРЕБУЕТСЯ КЛЮЧ</string>
+    <string name="device_requires_key">НЕОБХОДИМ КЛЮЧ, ДОЛГОЕ ЗАЖАТИЕ ДЛЯ ВХОДА</string>
     <string name="device_is_currently_bonded">УЖЕ СВЯЗАНЫ</string>
     <string name="companiondevice_pairing_details">Включает поддержку нового API CompanionDevice (работает только на Android 8 или выше), что повысит надежность, если службу необходимо перезапустить в фоновом режиме, для достижения эффекта требуется повторное сопряжение с помощью Gadgetbridge</string>
     <string name="companiondevice_pairing">Сопряжение с CompanionDevice</string>
@@ -1682,7 +1682,7 @@
     <string name="activity_type_stretching">Растяжка</string>
     <string name="activity_type_volleyball">Волейбол</string>
     <string name="activity_type_kickboxing">Кикбоксинг</string>
-    <string name="activity_type_street_dance">Уличный танец</string>
+    <string name="activity_type_street_dance">Уличные танцы</string>
     <string name="menuitem_email">Эл. почта</string>
     <string name="menuitem_countdown">Обратный отсчет</string>
     <string name="menuitem_workout_status">Состояние тренировки</string>
@@ -1692,7 +1692,7 @@
     <string name="menuitem_lockscreen">Экран блокировки</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Пароль должен состоять из 6 цифр, используя только цифры</string>
     <string name="prefs_password_summary">Блокировка браслета паролем при снятии с запястья</string>
-    <string name="activity_type_hiit">Высокоинтенсивная интервальная тренировка</string>
+    <string name="activity_type_hiit">Интенсивная интервальная тренировка</string>
     <string name="prefs_fm_presets_presets">Предустановки</string>
     <string name="note">Примечание</string>
     <string name="menuitem_screen_always_lit">Не выключать экран</string>
@@ -2173,10 +2173,10 @@
     <string name="activity_type_icehockey">Хоккей с шайбой</string>
     <string name="activity_type_iceskating">Коньки</string>
     <string name="activity_type_other">Другое</string>
-    <string name="error_no_bluetooth_connect">Для корректной работы сканирования требуется разрешение на Bluetooth-соединение</string>
+    <string name="error_no_bluetooth_connect">Для корректной работы сканирования требуется разрешение на соединение по Bluetooth</string>
     <string name="activity_type_golf">Гольф</string>
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
-    <string name="error_no_bluetooth_scan">Для корректной работы сканирования требуется разрешение на Bluetooth-сканирование</string>
+    <string name="error_no_bluetooth_scan">Для корректной работы сканирования требуется разрешение на сканирование Bluetooth</string>
     <string name="pref_show_changelog_summary">Отображать список изменений с предыдущей версии после обновления Gadgetbridge</string>
     <string name="watchface_dialog_widget_cat_position">Позиция</string>
     <string name="watchface_widget_type_active_mins">Минуты активности</string>
@@ -2333,4 +2333,28 @@
     <string name="english_au">Английский (Австралия)</string>
     <string name="english_ca">Английский (Канада)</string>
     <string name="changelog_show_full">Дальше…</string>
+    <string name="sony_button_mode_help_summary">Описание режимов каждой кнопки</string>
+    <string name="pref_header_sony_equalizer_preset_custom_2">Своя предустановка 2</string>
+    <string name="permission_request">%1$s позволяет отправлять сообщения и другую информацию с Android на Ваше устройство. Для этого ему необходимы разрешения на доступ к этой информации. Без них ничего нормально работать не будет.
+\n
+\nВам будут выведены несколько диалогов с запросами на эти разрешения.
+\n
+\nНажмите \"%2$s\", чтобы продолжить.</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="pref_device_action_broadcast">Отправить трансляцию</string>
+    <string name="prefs_ambient_sound_during_call_summary">Отчётливо слышать свой голос во время звонков</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="device_experimental">ЭКСПЕРИМЕНТАЛЬНО</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (круглые)</string>
+    <string name="watchface_setting_title_custom_events">Пользовательские события</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Концентрация на голосе</string>
+    <string name="sony_button_mode_help_title">Режимы кнопок - Помощь</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah Square (квадратные)</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="maxCadence">Максимум шагов в минуту</string>
 </resources>
