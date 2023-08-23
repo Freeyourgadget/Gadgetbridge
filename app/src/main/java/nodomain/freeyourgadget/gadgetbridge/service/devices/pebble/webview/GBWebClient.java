@@ -81,12 +81,8 @@ public class GBWebClient extends WebViewClient {
         if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
             if (GBApplication.getGBPrefs().isBackgroundJsEnabled() && WebViewSingleton.getInstance().internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
-                Bundle bundle = new Bundle();
-                bundle.putString("URL", requestedUri.toString());
-                Message webRequest = Message.obtain();
-                webRequest.setData(bundle);
                 try {
-                    return WebViewSingleton.getInstance().send(webRequest);
+                    return WebViewSingleton.getInstance().send(requestedUri);
                 } catch (RemoteException | InterruptedException e) {
                     LOG.warn("Error downloading data from " + requestedUri, e);
                 }
