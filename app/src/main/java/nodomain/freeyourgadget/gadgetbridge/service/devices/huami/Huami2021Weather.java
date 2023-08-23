@@ -198,7 +198,7 @@ public class Huami2021Weather {
 
             // First one is for the current day
             temperature.add(new Range(weatherSpec.todayMinTemp - 273, weatherSpec.todayMaxTemp - 273));
-            final String currentWeatherCode = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff);
+            final String currentWeatherCode = String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode));
             weather.add(new Range(currentWeatherCode, currentWeatherCode));
             sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
             sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
@@ -208,7 +208,7 @@ public class Huami2021Weather {
             for (int i = 0; i < actualDays; i++) {
                 final WeatherSpec.Forecast forecast = weatherSpec.forecasts.get(i);
                 temperature.add(new Range(forecast.minTemp - 273, forecast.maxTemp - 273));
-                final String weatherCode = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode) & 0xff);
+                final String weatherCode = String.valueOf(mapToZeppOsWeatherCode(forecast.conditionCode));
                 weather.add(new Range(weatherCode, weatherCode));
 
                 sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
@@ -385,7 +385,7 @@ public class Huami2021Weather {
             temperature = new UnitValue(Unit.TEMPERATURE_C, weatherSpec.currentTemp - 273);
             uvIndex = String.valueOf(weatherSpec.uvIndex);
             visibility = new UnitValue(Unit.KM, "");
-            weather = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff);
+            weather = String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode));
             wind = new Wind(weatherSpec.windDirection, Math.round(weatherSpec.windSpeed));
         }
 
@@ -665,6 +665,60 @@ public class Huami2021Weather {
         public JsonElement serialize(final LocalDate src, final Type typeOfSrc, final JsonSerializationContext context) {
             // Serialize as "YYYY-MM-DD" string
             return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        }
+    }
+
+    public static final int SUNNY = 0;
+    public static final int SOME_CLOUDS = 1;
+    public static final int CLOUDY = 2;
+    public static final int RAIN_WITH_SUN = 3;
+    public static final int THUNDERSTORM = 4;
+    public static final int HAIL = 5;
+    public static final int SLEET = 6;
+    public static final int LIGHT_RAIN = 7;
+    public static final int MODERATE_RAIN = 8;
+    public static final int HEAVY_RAIN = 9;
+    public static final int RAINSTORM = 10;
+    public static final int HEAVY_RAINSTORM = 11;
+    public static final int EXTRAORDINARY_RAINSTORM = 12;
+    public static final int SNOW_SHOWER_WITH_SOME_SUN = 13;
+    public static final int LIGHT_SNOW = 14;
+    public static final int MODERATE_SNOW = 15;
+    public static final int HEAVY_SNOW = 16;
+    public static final int SNOWSTORM = 17;
+    public static final int FOG = 18;
+    public static final int FREEZING_RAIN = 19;
+    public static final int SANDSTORM = 20;
+    public static final int LIGHT_TO_MODERATE_RAIN = 21;
+    public static final int MODERATE_TO_HEAVY_RAIN = 22;
+    public static final int HEAVY_RAIN_TO_RAINSTORM = 23;
+    public static final int RAINSTORM_TO_HEAVY_RAIN = 24;
+    public static final int HEAVY_TO_SEVERE_STORM = 25;
+    public static final int LIGHT_TO_MODERATE_SNOW = 26;
+    public static final int MODERATE_TO_HEAVY_SNOW = 27;
+    public static final int HEAVY_SNOW_TO_SNOWSTORM = 28;
+    public static final int DUST = 29;
+    public static final int SAND_BLOWING = 30;
+    public static final int STRONG_SANDSTORM = 31;
+    public static final int DENSE_FOG = 32;
+    public static final int SNOW = 33;
+
+    public static int mapToZeppOsWeatherCode(final int openWeatherMapCondition) {
+        // openweathermap.org conditions:
+        // http://openweathermap.org/weather-conditions
+        switch (openWeatherMapCondition) {
+            case 511:  //freezing rain:  //13d
+                return FREEZING_RAIN;
+            case 731:  //sand/dust whirls:  //50d
+            case 751:  //sand:  //50d
+                return SAND_BLOWING;
+            case 761:  //dust:  //50d
+            case 762:  //volcanic ash:  //50d
+                return DUST;
+            case 741:  //fog:  //50d
+                return DENSE_FOG;
+            default:
+                return HuamiWeatherConditions.mapToAmazfitBipWeatherCode(openWeatherMapCondition) & 0xff;
         }
     }
 }
