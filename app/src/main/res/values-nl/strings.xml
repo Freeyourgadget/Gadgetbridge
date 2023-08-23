@@ -2387,4 +2387,14 @@
     <string name="info_menu_structure_removed">Menustructuur verwijderd</string>
     <string name="error_menu_companion_not_installed">\'HR Menu Companion\' is waarschijnlijk niet geïnstalleerd</string>
     <string name="info_menu_structure_contents">Menustructuur: %s</string>
+    <string name="spanish_es">Spaans (Spanje)</string>
+    <string name="spanish_us">Spaans (Verenigde Staten)</string>
+    <string name="english_in">Engels (India)</string>
+    <string name="english_us">Engels (Verenigde Staten)</string>
+    <string name="spanish_mx">Spaans (Mexico)</string>
+    <string name="english_au">Engels (Australië)</string>
+    <string name="english_ca">Engels (Canada)</string>
+    <string name="english_gb">Engels (Verenigd Koninkrijk)</string>
+    <string name="french_ca">Frans (Canada)</string>
+    <string name="french_fr">Frans (Frankrijk)</string>
 </resources>
