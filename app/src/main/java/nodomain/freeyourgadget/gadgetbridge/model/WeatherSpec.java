@@ -40,10 +40,10 @@ public class WeatherSpec implements Parcelable, Serializable {
     };
     public static final int VERSION = 3;
     private static final long serialVersionUID = VERSION;
-    public int timestamp;
+    public int timestamp; // unix epoch timestamp, in seconds
     public String location;
     public int currentTemp; // kelvin
-    public int currentConditionCode = 3200;
+    public int currentConditionCode = 3200; // OpenWeatherMap condition code
     public String currentCondition;
     public int currentHumidity;
     public int todayMaxTemp; // kelvin
@@ -53,6 +53,8 @@ public class WeatherSpec implements Parcelable, Serializable {
     public float uvIndex;
     public int precipProbability; // %
 
+    // Forecasts from the next day onward, in chronological order, one entry per day.
+    // It should not include the current or previous days
     public ArrayList<Forecast> forecasts = new ArrayList<>();
 
     public WeatherSpec() {
@@ -130,9 +132,9 @@ public class WeatherSpec implements Parcelable, Serializable {
                 return new Forecast[size];
             }
         };
-        public int minTemp;
-        public int maxTemp;
-        public int conditionCode;
+        public int minTemp; // Kelvin
+        public int maxTemp; // Kelvin
+        public int conditionCode; // OpenWeatherMap condition code
         public int humidity;
 
         public Forecast() {
