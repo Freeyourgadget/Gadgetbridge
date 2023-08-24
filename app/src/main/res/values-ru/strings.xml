@@ -1770,8 +1770,8 @@
     <string name="pref_title_touch_spotify_official_app">Spotify (только официальное приложение)</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (только приожение Galaxy Wearable)</string>
     <string name="pref_header_spo2">Кислород в крови</string>
-    <string name="pref_header_sony_anc_optimizer">Оптимизация шумоподавления</string>
-    <string name="sony_anc_optimize_description">Нажмите для оптимизации шумоподавления.</string>
+    <string name="pref_header_sony_anc_optimizer">Оптимизация подавления шума</string>
+    <string name="sony_anc_optimize_description">Нажмите для оптимизации подавления шума.</string>
     <string name="sony_sound_position_rear_left">Задний левый</string>
     <string name="sony_anc_optimizer_status_not_running">Не запущено</string>
     <string name="sony_sound_position_rear_right">Задний правый</string>
@@ -1804,13 +1804,13 @@
 \nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
+    <string name="sony_anc_optimize_confirmation_title">Оптимизация подавления шума</string>
     <string name="pref_balance">Баланс</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
     <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердцебиения</string>
     <string name="pref_title_third_party_app_device_settings">Разрешить сторонним приложениям изменять настройки</string>
     <string name="sony_anc_optimize_title">Оптимизировать</string>
-    <string name="prefs_active_noise_cancelling_level">Уровень шумоподавления</string>
+    <string name="prefs_active_noise_cancelling_level">Уровень активного подавления шума</string>
     <string name="prefs_active_noise_cancelling_level_high">Высокий</string>
     <string name="prefs_active_noise_cancelling_level_low">Низкий</string>
     <string name="hrZoneFatBurn">Сжигание жира</string>
@@ -1905,7 +1905,7 @@
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
-    <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо на часах</string>
+    <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо с часов</string>
     <string name="pref_display_caller_title">Показать контактную информацию</string>
     <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
     <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
@@ -2132,10 +2132,10 @@
     <string name="changelog_title">Что нового</string>
     <string name="prefs_noise_control">Управление уровнем шума</string>
     <string name="sony_button_mode_right">Режим кнопки (правой)</string>
-    <string name="sony_equalizer_preset_custom_1">Собственный 1</string>
+    <string name="sony_equalizer_preset_custom_1">Свой 1</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Нормальная</string>
     <string name="sony_pause_when_taken_off">Пауза при снятии наушников</string>
-    <string name="sony_speak_to_chat_summary">Автоматическое отключение шумоподавления, когда Вы начинаете говорить.</string>
+    <string name="sony_speak_to_chat_summary">Автоматически отключать подавление шума, когда Вы начинаете говорить.</string>
     <string name="sony_speak_to_chat_sensitivity">Чувствительность активации по голосу</string>
     <string name="sony_speak_to_chat_timeout">Время истечения ожидания</string>
     <string name="sony_speak_to_chat_sensitivity_high">Высокая</string>
@@ -2143,7 +2143,7 @@
     <string name="sony_automatic_power_off_when_taken_off">При снятии</string>
     <string name="sony_button_mode_left">Режим кнопки (Левой)</string>
     <string name="pref_anc_optimizer_state_pressure">Атмосферное давление</string>
-    <string name="sony_equalizer_preset_custom_2">Собственный 2</string>
+    <string name="sony_equalizer_preset_custom_2">Свой 2</string>
     <string name="sony_automatic_power_off">Автовыключение</string>
     <string name="sony_automatic_power_off_off">Не выключать</string>
     <string name="sony_surround_mode_outdoor_stage">Этап на открытом воздухе</string>
@@ -2366,5 +2366,7 @@
     <string name="prefs_sleep_time_summary">Время, когда собирается информация о сне</string>
     <string name="prefs_voice_detect_duration">Завершить после тишины на протяжении:</string>
     <string name="pai_day">Дневное увеличение индекса физической активности</string>
-    <string name="sony_anc_optimize_confirmation_description">Используйте наушники, как обычно. Если условия ношения или атмосферное давление изменятся, снова запустите оптимизацию.</string>
+    <string name="sony_anc_optimize_confirmation_description">Используйте наушники по-обычному. Если условия ношения или атмосферное давление изменятся, запустите оптимизацию ещё раз.</string>
+    <string name="sony_speak_to_chat">Разговор при ношении гарнитуры</string>
+    <string name="pref_header_sony_equalizer_preset_custom_1">Своя предустановка 1</string>
 </resources>
