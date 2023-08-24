@@ -1538,7 +1538,7 @@
     <string name="pref_title_equalizer_bass_boost">Усиление басов</string>
     <string name="enable_vibrations_summary">Вибрация при поступлении звонков, сообщений, оповещений и прочего</string>
     <string name="enable_notifications_summary">Оповещение при поступлении звонков, сообщений и прочего</string>
-    <string name="prefs_autoheartrate_summary">Периодическое измерение пульса в течении дня, а также во время сна</string>
+    <string name="prefs_autoheartrate_summary">Периодическое измерение частоты сердцебиения в течение дня и во время сна</string>
     <string name="prefs_equalizer_summary">Включить или выключить эквалайзер</string>
     <string name="prefs_ambient_voice_summary">Выделить голос</string>
     <string name="prefs_active_noise_cancelling">Активное подавление шума</string>
@@ -1584,7 +1584,7 @@
     <string name="start">Начать</string>
     <string name="maxHR">Максимальный пульс</string>
     <string name="minHR">Минимальный пульс</string>
-    <string name="prefs_autoheartrate_measurement">Автоматическое измерение частоты пульса</string>
+    <string name="prefs_autoheartrate_measurement">Автоизмерение частоты сердцебиения</string>
     <string name="prefs_autoheartrate_sleep">Проводить измерения во время сна</string>
     <string name="prefs_galaxy_touch_options">Настройки касаний</string>
     <string name="discovery_bluetooth_le_scan">Сканирование Bluetooth LE устройств:</string>
@@ -2357,5 +2357,13 @@
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah Square (квадратные)</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="maxCadence">Максимум шагов в минуту</string>
-    <string name="minStride">Минимальный шаг</string>
+    <string name="minStride">Минимальная длина шага</string>
+    <string name="prefs_autoheartrate">Автоизмерение сердцебиения</string>
+    <string name="prefs_voice_detect">Активация по голосу</string>
+    <string name="sony_ambient_sound_focus_voice">Концентрация на голосе</string>
+    <string name="maxStride">Максимальная длина шага</string>
+    <string name="prefs_double_tap_edge_summary">Засчитывать двойное касание, даже если оно было по экрану</string>
+    <string name="prefs_sleep_time_summary">Время, когда собирается информация о сне</string>
+    <string name="prefs_voice_detect_duration">Завершить после тишины на протяжении:</string>
+    <string name="pai_day">Дневное увеличение индекса физической активности</string>
 </resources>
