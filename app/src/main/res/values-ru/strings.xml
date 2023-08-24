@@ -2357,4 +2357,5 @@
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah Square (квадратные)</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="maxCadence">Максимум шагов в минуту</string>
+    <string name="minStride">Минимальный шаг</string>
 </resources>
