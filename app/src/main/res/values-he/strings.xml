@@ -2386,4 +2386,14 @@
     <string name="info_menu_structure_set">JSON מבנה תפריטים שהוגדר ב־GB</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">נא לבנות את פני השעון שלך מחדש לתפריט מותאם אישית</string>
     <string name="error_invalid_menu_structure">JSON מבנה תפריטים שגוי</string>
+    <string name="english_au">אנגלית אוסטרלית</string>
+    <string name="english_ca">אנגלית קנדית</string>
+    <string name="english_gb">אנגלית בריטית</string>
+    <string name="english_in">אנגלית הודית</string>
+    <string name="spanish_mx">ספרדית מקסיקנית</string>
+    <string name="spanish_us">ספרדית אמריקאית</string>
+    <string name="french_ca">צרפתית קנדית</string>
+    <string name="french_fr">צרפתית של צרפת</string>
+    <string name="english_us">אנגלית אמריקאית</string>
+    <string name="spanish_es">ספרדית של ספרד</string>
 </resources>
