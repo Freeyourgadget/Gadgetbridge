@@ -2366,4 +2366,5 @@
     <string name="prefs_sleep_time_summary">Время, когда собирается информация о сне</string>
     <string name="prefs_voice_detect_duration">Завершить после тишины на протяжении:</string>
     <string name="pai_day">Дневное увеличение индекса физической активности</string>
+    <string name="sony_anc_optimize_confirmation_description">Используйте наушники, как обычно. Если условия ношения или атмосферное давление изменятся, снова запустите оптимизацию.</string>
 </resources>
