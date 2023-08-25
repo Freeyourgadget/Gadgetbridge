@@ -200,19 +200,19 @@ class AppMessageHandlerYWeather extends AppMessageHandler {
         pairs.add(new Pair<>(KEY_WEATHER_WIND_SPEED, (Object) (String.format(Locale.ENGLISH, "%.0f", weatherSpec.windSpeed))));
         pairs.add(new Pair<>(KEY_WEATHER_WIND_DIRECTION, (Object) (formatWindDirection(weatherSpec.windDirection))));
         if (weatherSpec.forecasts.size() > 0) {
-            WeatherSpec.Forecast day1 = weatherSpec.forecasts.get(0);
+            WeatherSpec.Daily day1 = weatherSpec.forecasts.get(0);
             pairs.add(new Pair<>(KEY_WEATHER_D1_ICON, (Object) (getIconForConditionCode(day1.conditionCode, false))));
             pairs.add(new Pair<>(KEY_WEATHER_D1_MINTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day1.minTemp - 273.15))));
             pairs.add(new Pair<>(KEY_WEATHER_D1_MAXTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day1.maxTemp - 273.15))));
         }
         if (weatherSpec.forecasts.size() > 1) {
-            WeatherSpec.Forecast day2 = weatherSpec.forecasts.get(1);
+            WeatherSpec.Daily day2 = weatherSpec.forecasts.get(1);
             pairs.add(new Pair<>(KEY_WEATHER_D2_ICON, (Object) (getIconForConditionCode(day2.conditionCode, false))));
             pairs.add(new Pair<>(KEY_WEATHER_D2_MINTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day2.minTemp - 273.15))));
             pairs.add(new Pair<>(KEY_WEATHER_D2_MAXTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day2.maxTemp - 273.15))));
         }
         if (weatherSpec.forecasts.size() > 2) {
-            WeatherSpec.Forecast day3 = weatherSpec.forecasts.get(2);
+            WeatherSpec.Daily day3 = weatherSpec.forecasts.get(2);
             pairs.add(new Pair<>(KEY_WEATHER_D3_ICON, (Object) (getIconForConditionCode(day3.conditionCode, false))));
             pairs.add(new Pair<>(KEY_WEATHER_D3_MINTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day3.minTemp - 273.15))));
             pairs.add(new Pair<>(KEY_WEATHER_D3_MAXTEMP, (Object) (String.format(Locale.ENGLISH, "%.0f°C", day3.maxTemp - 273.15))));

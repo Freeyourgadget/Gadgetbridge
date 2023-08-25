@@ -234,7 +234,7 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
             // FIXME
 
             baos.write(weather.forecasts.size());
-            for (final WeatherSpec.Forecast forecast : weather.forecasts) {
+            for (final WeatherSpec.Daily forecast : weather.forecasts) {
                 // FIXME
             }
         } catch (final IOException e) {

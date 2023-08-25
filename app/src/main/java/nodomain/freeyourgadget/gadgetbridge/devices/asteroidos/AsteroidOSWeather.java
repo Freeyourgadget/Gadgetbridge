@@ -32,7 +32,7 @@ public class AsteroidOSWeather {
          * Creates a Day from the forecast given
          * @param forecast
          */
-        public Day(WeatherSpec.Forecast forecast) {
+        public Day(WeatherSpec.Daily forecast) {
             minTemp = forecast.minTemp;
             maxTemp = forecast.maxTemp;
             condition = forecast.conditionCode;

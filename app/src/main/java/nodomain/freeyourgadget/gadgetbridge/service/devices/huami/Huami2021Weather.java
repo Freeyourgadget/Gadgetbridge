@@ -206,7 +206,7 @@ public class Huami2021Weather {
             windSpeed.add(new Range(0, 0));
 
             for (int i = 0; i < actualDays; i++) {
-                final WeatherSpec.Forecast forecast = weatherSpec.forecasts.get(i);
+                final WeatherSpec.Daily forecast = weatherSpec.forecasts.get(i);
                 temperature.add(new Range(forecast.minTemp - 273, forecast.maxTemp - 273));
                 final String weatherCode = String.valueOf(mapToZeppOsWeatherCode(forecast.conditionCode));
                 weather.add(new Range(weatherCode, weatherCode));

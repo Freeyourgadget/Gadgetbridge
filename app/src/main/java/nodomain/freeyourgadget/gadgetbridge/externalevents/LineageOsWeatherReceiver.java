@@ -189,7 +189,7 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
             List<WeatherInfo.DayForecast> forecasts = weatherInfo.getForecasts();
             for (int i = 1; i < forecasts.size(); i++) {
                 WeatherInfo.DayForecast cmForecast = forecasts.get(i);
-                WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
+                WeatherSpec.Daily gbForecast = new WeatherSpec.Daily();
                 if (weatherInfo.getTemperatureUnit() == FAHRENHEIT) {
                     gbForecast.maxTemp = (int) WeatherUtils.fahrenheitToCelsius(cmForecast.getHigh()) + 273;
                     gbForecast.minTemp = (int) WeatherUtils.fahrenheitToCelsius(cmForecast.getLow()) + 273;

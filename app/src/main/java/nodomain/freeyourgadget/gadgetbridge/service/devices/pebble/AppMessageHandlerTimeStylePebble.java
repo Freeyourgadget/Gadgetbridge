@@ -143,7 +143,7 @@ class AppMessageHandlerTimeStylePebble extends AppMessageHandler {
         pairs.add(new Pair<>(messageKeys.get("WeatherCondition"), (Object) (getIconForConditionCode(weatherSpec.currentConditionCode, isNight))));
 
         if (weatherSpec.forecasts.size() > 0) {
-            WeatherSpec.Forecast tomorrow = weatherSpec.forecasts.get(0);
+            WeatherSpec.Daily tomorrow = weatherSpec.forecasts.get(0);
             pairs.add(new Pair<>(messageKeys.get("WeatherForecastCondition"), (Object) (getIconForConditionCode(tomorrow.conditionCode, isNight))));
         }
 

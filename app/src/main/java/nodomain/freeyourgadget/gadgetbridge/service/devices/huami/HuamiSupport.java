@@ -3192,7 +3192,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             if (supportsConditionString) {
                 bytesPerDay = 5;
                 conditionsLength = weatherSpec.currentCondition.getBytes().length;
-                for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+                for (WeatherSpec.Daily forecast : weatherSpec.forecasts) {
                     conditionsLength += Weather.getConditionString(forecast.conditionCode).getBytes().length;
                 }
             }
@@ -3225,7 +3225,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 buf.put((byte) 0);
             }
 
-            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+            for (WeatherSpec.Daily forecast : weatherSpec.forecasts) {
                 condition = HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode);
                 buf.put(condition);
                 buf.put(condition);

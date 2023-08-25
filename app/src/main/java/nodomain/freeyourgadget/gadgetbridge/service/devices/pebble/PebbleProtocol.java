@@ -1142,7 +1142,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
         short tomorrowMin = 0;
         int tomorrowConditionCode = 0;
         if (weatherSpec.forecasts.size() > 0) {
-            WeatherSpec.Forecast tomorrow = weatherSpec.forecasts.get(0);
+            WeatherSpec.Daily tomorrow = weatherSpec.forecasts.get(0);
             tomorrowMax = (short) (tomorrow.maxTemp - 273);
             tomorrowMin = (short) (tomorrow.minTemp - 273);
             tomorrowConditionCode = tomorrow.conditionCode;

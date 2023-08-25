@@ -1471,7 +1471,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(weatherSpec.timestamp * 1000L);
             int i = 0;
-            for (WeatherSpec.Forecast forecast : weatherSpec.forecasts) {
+            for (WeatherSpec.Daily forecast : weatherSpec.forecasts) {
                 cal.add(Calendar.DATE, 1);
                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
                 forecastWeekArray.put(new JSONObject()
