@@ -200,10 +200,16 @@ public class Huami2021Weather {
             temperature.add(new Range(weatherSpec.todayMinTemp - 273, weatherSpec.todayMaxTemp - 273));
             final String currentWeatherCode = String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode));
             weather.add(new Range(currentWeatherCode, currentWeatherCode));
-            sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
+            if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
+                sunRiseSet.add(getSunriseSunset(new Date(weatherSpec.sunRise * 1000L), new Date(weatherSpec.sunSet * 1000L)));
+            } else {
+                sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
+            }
             sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
-            windDirection.add(new Range(0, 0));
-            windSpeed.add(new Range(0, 0));
+            windDirection.add(new Range(weatherSpec.windDirection, weatherSpec.windDirection));
+            windSpeed.add(new Range(Math.round(weatherSpec.windSpeed), Math.round(weatherSpec.windSpeed)));
+
+            moonRiseSet.add(weatherSpec.moonRise, weatherSpec.moonSet, weatherSpec.moonPhase);
 
             for (int i = 0; i < actualDays; i++) {
                 final WeatherSpec.Daily forecast = weatherSpec.forecasts.get(i);
@@ -211,18 +217,30 @@ public class Huami2021Weather {
                 final String weatherCode = String.valueOf(mapToZeppOsWeatherCode(forecast.conditionCode));
                 weather.add(new Range(weatherCode, weatherCode));
 
-                sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
+                if (forecast.sunRise != 0 && forecast.sunSet != 0) {
+                    sunRiseSet.add(getSunriseSunset(new Date(forecast.sunRise * 1000L), new Date(forecast.sunSet * 1000L)));
+                } else {
+                    sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
+                }
                 sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
 
-                windDirection.add(new Range(0, 0));
-                windSpeed.add(new Range(0, 0));
+                if (forecast.windDirection != -1) {
+                    windDirection.add(new Range(forecast.windDirection, forecast.windDirection));
+                } else {
+                    windDirection.add(new Range(0, 0));
+                }
+
+                if (forecast.windSpeed != -1) {
+                    windSpeed.add(new Range(Math.round(forecast.windSpeed), Math.round(forecast.windSpeed)));
+                } else {
+                    windSpeed.add(new Range(0, 0));
+                }
+
+                moonRiseSet.add(forecast.moonRise, forecast.moonSet, forecast.moonPhase);
             }
         }
 
         private Range getSunriseSunset(final GregorianCalendar date, final Location location) {
-            // TODO: We should send sunrise on the same location as the weather
-            final SimpleDateFormat sunRiseSetSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
-
             final GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(
                     date,
                     location.getLatitude(),
@@ -230,8 +248,14 @@ public class Huami2021Weather {
                     DeltaT.estimate(date)
             );
 
-            final String from = sunRiseSetSdf.format(sunriseTransitSet[0].getTime());
-            final String to = sunRiseSetSdf.format(sunriseTransitSet[2].getTime());
+            return getSunriseSunset(sunriseTransitSet[0].getTime(), sunriseTransitSet[2].getTime());
+        }
+
+        private Range getSunriseSunset(final Date sunRise, final Date sunSet) {
+            final SimpleDateFormat sunRiseSetSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
+
+            final String from = sunRiseSetSdf.format(sunRise);
+            final String to = sunRiseSetSdf.format(sunSet);
 
             return new Range(from, to);
         }
@@ -266,6 +290,17 @@ public class Huami2021Weather {
                 object.add("moonRise", context.serialize(obj.moonRise));
                 return object;
             }
+        }
+
+        public void add(final int rise, final int set, final int phase) {
+            moonPhaseValue.add(String.valueOf(phase));
+
+            final SimpleDateFormat moonRiseSetSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
+
+            final String from = moonRiseSetSdf.format(new Date(rise * 1000L));
+            final String to = moonRiseSetSdf.format(new Date(set * 1000L));
+
+            moonRise.add(new Range(from, to));
         }
     }
 
@@ -351,10 +386,11 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class CurrentResponse extends Response {
         public CurrentWeatherModel currentWeatherModel;
-        public AqiModel aqiModel = new AqiModel();
+        public AqiModel aqiModel;
 
         public CurrentResponse(final WeatherSpec weatherSpec) {
             this.currentWeatherModel = new CurrentWeatherModel(weatherSpec);
+            this.aqiModel = new AqiModel(weatherSpec);
         }
 
         public static class Serializer implements JsonSerializer<CurrentResponse> {
@@ -380,11 +416,11 @@ public class Huami2021Weather {
 
         public CurrentWeatherModel(final WeatherSpec weatherSpec) {
             humidity = new UnitValue(Unit.PERCENTAGE, weatherSpec.currentHumidity);
-            pressure = new UnitValue(Unit.PRESSURE_MB, "1015"); // ?
+            pressure = new UnitValue(Unit.PRESSURE_MB, Math.round(weatherSpec.pressure));
             pubTime = new Date(weatherSpec.timestamp * 1000L);
             temperature = new UnitValue(Unit.TEMPERATURE_C, weatherSpec.currentTemp - 273);
             uvIndex = String.valueOf(weatherSpec.uvIndex);
-            visibility = new UnitValue(Unit.KM, "");
+            visibility = new UnitValue(Unit.KM, Math.round(weatherSpec.visibility / 1000));
             weather = String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode));
             wind = new Wind(weatherSpec.windDirection, Math.round(weatherSpec.windSpeed));
         }
@@ -413,8 +449,23 @@ public class Huami2021Weather {
         public String o3; // float
         public String pm10; // int
         public String pm25; // int
-        public String pubTime; // 2023-05-14T12:00:00-0400
+        public Date pubTime; // 2023-05-14T12:00:00-0400
         public String so2; // float
+
+        public AqiModel(final WeatherSpec weatherSpec) {
+            if (weatherSpec.airQuality == null) {
+                return;
+            }
+
+            this.aqi = String.valueOf(weatherSpec.airQuality.aqi);
+            this.co = String.format(Locale.ROOT, "%.1f", (float) weatherSpec.airQuality.coAqi);
+            this.no2 = String.format(Locale.ROOT, "%.1f", (float) weatherSpec.airQuality.no2Aqi);
+            this.o3 = String.format(Locale.ROOT, "%.1f", (float) weatherSpec.airQuality.o3Aqi);
+            this.pm10 = String.valueOf(Math.round((float) weatherSpec.airQuality.pm10Aqi));
+            this.pm25 = String.valueOf(Math.round((float) weatherSpec.airQuality.pm25Aqi));
+            this.pubTime = new Date(weatherSpec.timestamp * 1000L);
+            this.so2 = String.format(Locale.ROOT, "%.1f", (float) weatherSpec.airQuality.so2Aqi);
+        }
 
         public static class Serializer implements JsonSerializer<AqiModel> {
             @Override
@@ -598,24 +649,48 @@ public class Huami2021Weather {
 
         public HourlyResponse(final WeatherSpec weatherSpec, final int hours) {
             pubTime = new Date(weatherSpec.timestamp * 1000L);
-            final Calendar fxTimeCalendar = Calendar.getInstance();
-            fxTimeCalendar.setTime(pubTime);
-            fxTimeCalendar.set(Calendar.MINUTE, 0);
-            fxTimeCalendar.set(Calendar.SECOND, 0);
-            fxTimeCalendar.set(Calendar.MILLISECOND, 0);
-            fxTimeCalendar.add(Calendar.HOUR, 1);
 
-            // We don't have hourly data, but some devices refuse to open the weather app without it
-            for (int i = 0; i < hours; i++) {
-                weather.add("0");
-                temperature.add(String.valueOf(weatherSpec.currentTemp - 273));
-                humidity.add(String.valueOf(weatherSpec.currentHumidity));
-                fxTime.add(fxTimeCalendar.getTime());
-                windDirection.add(String.valueOf(weatherSpec.windDirection));
-                windSpeed.add(String.valueOf(Math.round(weatherSpec.windSpeed)));
-                windScale.add("1-2"); // ?
+            if (weatherSpec.hourly == null || weatherSpec.hourly.isEmpty()) {
+                // We don't have hourly data, but some devices refuse to open the weather app without it
 
+                final Calendar fxTimeCalendar = Calendar.getInstance();
+                fxTimeCalendar.setTime(pubTime);
+                fxTimeCalendar.set(Calendar.MINUTE, 0);
+                fxTimeCalendar.set(Calendar.SECOND, 0);
+                fxTimeCalendar.set(Calendar.MILLISECOND, 0);
                 fxTimeCalendar.add(Calendar.HOUR, 1);
+
+                for (int i = 0; i < hours; i++) {
+                    weather.add(String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode)));
+                    temperature.add(String.valueOf(weatherSpec.currentTemp - 273));
+                    humidity.add(String.valueOf(weatherSpec.currentHumidity));
+                    fxTime.add(fxTimeCalendar.getTime());
+                    windDirection.add(String.valueOf(weatherSpec.windDirection));
+                    windSpeed.add(String.valueOf(Math.round(weatherSpec.windSpeed)));
+                    windScale.add("1-2");
+
+                    fxTimeCalendar.add(Calendar.HOUR, 1);
+                }
+            } else {
+                int i = 0;
+
+                for (final WeatherSpec.Hourly hourly : weatherSpec.hourly) {
+                    if (hourly.timestamp < weatherSpec.timestamp) {
+                        continue;
+                    }
+
+                    weather.add(String.valueOf(mapToZeppOsWeatherCode(hourly.conditionCode)));
+                    temperature.add(String.valueOf(hourly.temp - 273));
+                    humidity.add(String.valueOf(hourly.humidity));
+                    fxTime.add(new Date(hourly.timestamp * 1000L));
+                    windDirection.add(String.valueOf(hourly.windDirection));
+                    windSpeed.add(String.valueOf(Math.round(hourly.windSpeed)));
+                    windScale.add(hourly.windSpeedAsBeaufort() + "-" + hourly.windSpeedAsBeaufort());
+
+                    if (++i >= hours) {
+                        break;
+                    }
+                }
             }
         }
 
