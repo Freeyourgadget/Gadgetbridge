@@ -3559,14 +3559,28 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             pages = prefs.getString(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, null);
             LOG.info("Setting menu items");
         }
+        final ArrayList<String> defaultPages = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings)));
         if (pages == null) {
-            enabledList = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings)));
+            enabledList = defaultPages;
         } else {
             enabledList = new ArrayList<>(Arrays.asList(pages.split(",")));
         }
         if (forceWatchface) {
             enabledList.add(0, "watchface");
         }
+
+        if (defaultPages.contains("more")) {
+            // If the watch supports a "more" section, enforce a maximum of 16 items in the main screen,
+            // otherwise some items may get cut off
+            final int morePosition = enabledList.indexOf("more");
+            if (morePosition == -1 && enabledList.size() > 16) {
+                enabledList.add(16, "more");
+            } else if (morePosition != -1 && enabledList.size() > 17) {
+                enabledList.remove(morePosition);
+                enabledList.add(16, "more");
+            }
+        }
+
         LOG.info("enabled items" + enabledList);
         byte[] command = new byte[enabledList.size() * 4 + 1];
         command[0] = 0x1e;
