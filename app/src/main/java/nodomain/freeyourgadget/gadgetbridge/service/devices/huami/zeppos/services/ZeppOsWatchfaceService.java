@@ -54,6 +54,7 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
     public static final byte CMD_SET_ACK = 0x08;
     public static final byte CMD_CURRENT_GET = 0x09;
     public static final byte CMD_CURRENT_RET = 0x0a;
+    public static final byte CMD_WATCHFACE_CHANGED = (byte) 0xff;
 
     public enum Watchface {
         // Codes are from GTR 4, not sure if they match on other watches
@@ -132,6 +133,10 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
                 LOG.info("Got current watchface = {}", watchfaceHex);
                 getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_WATCHFACE, watchfaceHex));
                 break;
+            case CMD_WATCHFACE_CHANGED:
+                LOG.info("Watchface changed");
+                requestCurrentWatchface();
+                break;
             default:
                 LOG.warn("Unexpected watchface byte {}", String.format("0x%02x", payload[0]));
         }
@@ -162,6 +167,16 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
 
     public void requestWatchfaces(final TransactionBuilder builder) {
         write(builder, CMD_LIST_GET);
+    }
+
+    public void requestCurrentWatchface() {
+        try {
+            final TransactionBuilder builder = new TransactionBuilder("request current watchface");
+            requestCurrentWatchface(builder);
+            builder.queue(getSupport().getQueue());
+        } catch (final Exception e) {
+            LOG.error("Failed to request current watchface", e);
+        }
     }
 
     public void requestCurrentWatchface(final TransactionBuilder builder) {
