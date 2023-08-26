@@ -2386,4 +2386,5 @@
     <string name="spanish_mx">Spanyol (Meksiko)</string>
     <string name="french_ca">Prancis (Kanada)</string>
     <string name="french_fr">Prancis (Prancis)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Perangkat tidak memiliki ruang penyimpanan kosong yang cukup</string>
 </resources>
