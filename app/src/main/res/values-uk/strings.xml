@@ -2405,4 +2405,5 @@
     <string name="spanish_es">Іспанська (Іспанія)</string>
     <string name="spanish_mx">Іспанська (Мексика)</string>
     <string name="spanish_us">Іспанська (США)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">На пристрої недостатньо вільного простору</string>
 </resources>
