@@ -1443,10 +1443,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        // TODO: We should send sunrise on the same location as the weather
-        final Location lastKnownLocation = new CurrentPosition().getLastKnownLocation();
-        GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), DeltaT.estimate(new GregorianCalendar()));
-        Boolean isNight = sunrise[0].getTimeInMillis() > System.currentTimeMillis() || sunrise[2].getTimeInMillis() < System.currentTimeMillis();
+        boolean isNight;
+        if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
+            isNight = weatherSpec.sunRise * 1000L > System.currentTimeMillis() || weatherSpec.sunSet * 1000L < System.currentTimeMillis();
+        } else {
+            Location location = weatherSpec.getLocation();
+            if (location == null) {
+                location = new CurrentPosition().getLastKnownLocation();
+            }
+            GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), location.getLatitude(), location.getLongitude(), DeltaT.estimate(new GregorianCalendar()));
+            isNight = sunrise[0].getTimeInMillis() > System.currentTimeMillis() || sunrise[2].getTimeInMillis() < System.currentTimeMillis();
+        }
 
         long ts = System.currentTimeMillis();
         ts /= 1000;

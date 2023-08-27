@@ -202,11 +202,8 @@ public class Huami2021Weather {
             weather.add(new Range(currentWeatherCode, currentWeatherCode));
             if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
                 sunRiseSet.add(getSunriseSunset(new Date(weatherSpec.sunRise * 1000L), new Date(weatherSpec.sunSet * 1000L)));
-            } else if (weatherSpec.latitude != 0 && weatherSpec.longitude != 0) {
-                final Location weatherSpecLocation = new Location("weatherSpec");
-                weatherSpecLocation.setLatitude(weatherSpec.latitude);
-                weatherSpecLocation.setLatitude(weatherSpec.longitude);
-                sunRiseSet.add(getSunriseSunset(sunriseDate, weatherSpecLocation));
+            } else if (weatherSpec.getLocation() != null) {
+                sunRiseSet.add(getSunriseSunset(sunriseDate, weatherSpec.getLocation()));
             } else {
                 sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
             }

@@ -18,8 +18,11 @@
 
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -93,6 +96,17 @@ public class WeatherSpec implements Parcelable, Serializable {
 
     public int windSpeedAsBeaufort() {
         return toBeaufort(this.windSpeed);
+    }
+
+    @Nullable
+    public Location getLocation() {
+        if (latitude == 0 && longitude == 0) {
+            return null;
+        }
+        final Location location = new Location("weatherSpec");
+        location.setLatitude(latitude);
+        location.setLatitude(longitude);
+        return location;
     }
 
     protected WeatherSpec(Parcel in) {
