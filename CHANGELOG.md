@@ -23,10 +23,12 @@
 * Bangle.js: Reorganize device settings
 * Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device
 * Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
+* Fossil/Skagen: Sunrise/sunset follows weather location
 * Huami/Zepp OS: Add PAI charts
 * Huami/Zepp OS: Improve music info stability
 * Huami/Zepp OS: Improve reconnection and device initialization
 * Huami: Persist workout raw details even if gpx has no points
+* InfiniTime: Add heart rate measurement support
 * Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
 * Mi Band 6: Enable PAI and stress support
 * LeFun: Fix heart rate popup when measurement is triggered from phone
@@ -37,6 +39,7 @@
 * Zepp OS: Fix calendar sync on Zepp OS 2, send event location
 * Zepp OS: Fix reminder creation
 * Zepp OS: Fix shortcut cards setting on Zepp OS 2.1
+* Zepp OS: Fix weather, add hourly information
 * Zepp OS: Map barcode types for ITF, PDF_417 and DATA_MATRIX
 * Add preference to display changelog on startup
 * Add Termux RUN_COMMAND permission
@@ -50,6 +53,7 @@
 * Fix some security error crashes when permissions are not granted
 * Fix transliteration of emoji
 * Fix transliteration of non-ASCII accented characters
+* Introduce WeatherSpec v4
 * Make application list sorting case-insensitive
 * Introduce native app shortcuts for android > 30
 * Update device settings action bar title depending on current screen
