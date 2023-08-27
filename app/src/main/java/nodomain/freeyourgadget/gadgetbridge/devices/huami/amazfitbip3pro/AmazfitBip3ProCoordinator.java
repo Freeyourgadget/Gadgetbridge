@@ -109,17 +109,7 @@ public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsHeartRateStats() {
-        return true;
-    }
-
-    @Override
     public boolean supportsSpo2() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsSleepRespiratoryRate() {
         return true;
     }
 
