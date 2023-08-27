@@ -1138,7 +1138,7 @@
     <string name="prefs_key_vibration">Вибрация клавиш</string>
     <string name="prefs_autolight">Автоматический свет</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
-    <string name="discovery_entered_invalid_authkey">Введенный вами секретный ключ аутентификации недействителен! Для редактирования нажмите и удерживайте на устройстве.</string>
+    <string name="discovery_entered_invalid_authkey">Введённый ключ аутентификации недействителен! Удерживайте для изменения.</string>
     <string name="fw_upgrade_notice_amazfitvergel">Вы собираетесь установить прошивку %s на свой Amazfit Verge Lite.
 \n
 \nБудьте внимательны: сначала установите файл .fw, затем файл .res и, наконец, файл .gps. После установки .fw Ваши часы будут перезагружены.
@@ -1334,7 +1334,7 @@
     <string name="watchface_widget_type_custom">Пользовательский виджет</string>
     <string name="pref_media_play">Начать воспроизведение</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Показать общее количество шагов</string>
-    <string name="pref_media_next">Следующая композиция</string>
+    <string name="pref_media_next">Следующий</string>
     <string name="watchface_dialog_widget_update_timeout">Время ожидания обновления в минутах</string>
     <string name="sony_automatic_power_off_1_hour">1 час</string>
     <string name="sony_automatic_power_off_3_hour">3 часа</string>
@@ -1659,9 +1659,9 @@
     <string name="heartrate_bpm_125">125 уд/мин</string>
     <string name="appmanager_app_start">Начать</string>
     <string name="appmanager_download_started">Запущена загрузка приложения</string>
-    <string name="appmanager_downloaded_to_cache">Загружено %s в кэш</string>
+    <string name="appmanager_downloaded_to_cache">Загружено в кэш: %s</string>
     <string name="appmanager_download_app_error">Ошибка при загрузке приложения</string>
-    <string name="prefs_stress_monitoring_description">Наблюдение за уровнем напряженности во время отдыха</string>
+    <string name="prefs_stress_monitoring_description">Наблюдение за уровнем стресса при отдыхе</string>
     <string name="prefs_spo2_monitoring_description">Автоматическое наблюдение за уровнем кислорода в крови в течение дня</string>
     <string name="prefs_activity_monitoring_title">Наблюдение за активностью</string>
     <string name="prefs_activity_monitoring_description">Автоматически повышать частоту измерения пульса при обнаружении физической активности для повышения точности измерений.</string>
@@ -1701,9 +1701,9 @@
     <string name="menuitem_todo">Список дел</string>
     <string name="function_enabled">Включено</string>
     <string name="world_clock_code">Код</string>
-    <string name="prefs_stress_monitoring_title">Наблюдение за напряжённостью</string>
+    <string name="prefs_stress_monitoring_title">Наблюдение за уровнем стресса</string>
     <string name="menuitem_calendar">Календарь</string>
-    <string name="prefs_heartrate_alert_high_threshold">Порог предупреждения о высокой частоте пульса</string>
+    <string name="prefs_heartrate_alert_high_threshold">Порог оповещения о высокой частоте сердцебиения</string>
     <string name="activity_type_outdoor_cycling">Велоспорт на открытом воздухе</string>
     <string name="activity_type_core_training">Основные тренировки</string>
     <string name="activity_type_table_tennis">Настольный теннис</string>
@@ -1711,7 +1711,7 @@
     <string name="activity_type_boxing">Бокс</string>
     <string name="notification_channel_gps">GPS-отслеживание</string>
     <string name="menuitem_workout_history">История тренировок</string>
-    <string name="prefs_heartrate_alert_threshold">Порог оповещения о частоте пульса</string>
+    <string name="prefs_heartrate_alert_threshold">Порог оповещения о частоте сердцебиения</string>
     <string name="prefs_spo2_monitoring_title">Наблюдение за уровнем кислорода в крови</string>
     <string name="prefs_relaxation_reminder_title">Напоминание об отдыхе</string>
     <string name="activity_type_outdoor_running">Бег на свежем воздухе</string>
@@ -1738,7 +1738,7 @@
     <string name="world_clock_timezone">Часовой пояс</string>
     <string name="title_activity_world_clock_details">Подробности мировых часов</string>
     <string name="prefs_heartrate_alert_experimental_description">Вибрация браслета при превышении порогового значения пульса без явной физической активности в течение последних 10 минут. Эта функция является экспериментальной и не проходила тщательного тестирования.</string>
-    <string name="prefs_heartrate_alert_low_threshold">Порог предупреждения о низкой частоте пульса</string>
+    <string name="prefs_heartrate_alert_low_threshold">Порог оповещения о низкой частоте сердцебиения</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Сокращение временных меток операций выборки</string>
     <string name="seconds_15">15 секунд</string>
     <string name="seconds_25">25 секунд</string>
@@ -1787,7 +1787,7 @@
     <string name="pref_agps_update_time">Время обновления AGPS</string>
     <string name="mi2_dnd_always">Всегда</string>
     <string name="sony_anc_optimizer_status_atmospheric_pressure">Измерение атмосферного давления…</string>
-    <string name="prefs_relaxation_reminder_description">Вибрировать когда значение стресса выше 80</string>
+    <string name="prefs_relaxation_reminder_description">Браслет будет вибрировать, когда уровень стресса поднимется выше 80</string>
     <string name="hybridhr_widget_bg_dashed_circle">Пунктирный круг</string>
     <string name="pref_voice_detect_duration_15">15 секунд</string>
     <string name="activity_type_pilates">Пилатес</string>
@@ -1907,7 +1907,7 @@
     <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
     <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо с часов</string>
     <string name="pref_display_caller_title">Показать контактную информацию</string>
-    <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
+    <string name="pref_display_caller_summary">Отображать номер телефона/имя звонящего</string>
     <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Включите возможность звонков по Bluetooth ниже.</string>
     <string name="bluetooth_calls">Звонки по Bluetooth</string>
@@ -2045,7 +2045,7 @@
     <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
     <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
     <string name="minCadence">Минимальная частота</string>
-    <string name="busy_task_fetch_stress_data">Получение данных о нагрузке</string>
+    <string name="busy_task_fetch_stress_data">Получение данных о стрессе</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Получение данных о частоте дыхания во сне</string>
     <string name="fossil_hr_confirm_connection">Пожалуйста, подтвердите с часов</string>
     <string name="busy_task_fetch_sports_details">Получение подробностей спорта</string>
@@ -2369,4 +2369,11 @@
     <string name="sony_anc_optimize_confirmation_description">Используйте наушники по-обычному. Если условия ношения или атмосферное давление изменятся, запустите оптимизацию ещё раз.</string>
     <string name="sony_speak_to_chat">Разговор при ношении гарнитуры</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Своя предустановка 1</string>
+    <string name="sony_equalizer_preset_vocal">Вокал</string>
+    <string name="pref_media_forward">Пропустить вперёд</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">На устройстве недостаточно свободного места</string>
+    <string name="quick_attention">Быстрое привлечение внимания</string>
+    <string name="pref_media_rewind">Пропустить назад</string>
+    <string name="sony_equalizer_preset_relaxed">Расслабленный</string>
+    <string name="pref_media_previous">Предыдущий</string>
 </resources>
