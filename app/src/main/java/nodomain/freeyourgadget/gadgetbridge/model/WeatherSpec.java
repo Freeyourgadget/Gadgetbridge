@@ -252,13 +252,24 @@ public class WeatherSpec implements Parcelable, Serializable {
             }
         };
 
-        public int aqi = -1; // plume AQI
-        public float co = -1; // mg/m^3
-        public float no2 = -1; // ug/m^3
-        public float o3 = -1; // ug/m^3
-        public float pm10 = -1; // ug/m^3
-        public float pm25 = -1; // ug/m^3
-        public float so2 = -1; // ug/m^3
+        public int aqi = -1; // Air Quality Index - usually the max across all AQI values for pollutants
+
+        public float co = -1; // Carbon Monoxide, mg/m^3
+        public float no2 = -1; // Nitrogen Dioxide, ug/m^3
+        public float o3 = -1; // Ozone, ug/m^3
+        public float pm10 = -1; // Particulate Matter, 10 microns or less in diameter, ug/m^3
+        public float pm25 = -1; // Particulate Matter, 2.5 microns or less in diameter, ug/m^3
+        public float so2 = -1; // Sulphur Dioxide, ug/m^3
+
+        // Air Quality Index values per pollutant
+        // These are expected to be in the Plume scale (see https://plumelabs.files.wordpress.com/2023/06/plume_aqi_2023.pdf)
+        // Some apps such as Breezy Weather fallback to the WHO 2021 AQI for pollutants that are not mapped in the Plume AQI
+        // https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health
+        //
+        // Breezy Weather implementation for reference:
+        // - https://github.com/breezy-weather/breezy-weather/blob/main/app/src/main/java/org/breezyweather/common/basic/models/weather/AirQuality.kt
+        // - https://github.com/breezy-weather/breezy-weather/blob/main/app/src/main/java/org/breezyweather/common/basic/models/options/index/PollutantIndex.kt
+
         public int coAqi = -1;
         public int no2Aqi = -1;
         public int o3Aqi = -1;
