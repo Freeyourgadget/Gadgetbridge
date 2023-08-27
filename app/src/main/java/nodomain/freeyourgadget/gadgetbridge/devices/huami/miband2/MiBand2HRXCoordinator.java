@@ -44,7 +44,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.MIBAND2;
+        return DeviceType.MIBAND2_HRX;
     }
 
     @NonNull
@@ -53,18 +53,13 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase(HuamiConst.MI_BAND2_NAME_HRX) || name.equalsIgnoreCase("Mi Band 2i"))) {
-                return DeviceType.MIBAND2;
+            if (HuamiConst.MI_BAND2_NAME_HRX.equalsIgnoreCase(name) || "Mi Band 2i".equalsIgnoreCase(name)) {
+                return DeviceType.MIBAND2_HRX;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType()) && device.getName().equals("Mi Band HRX");
     }
 
     @Override

@@ -92,6 +92,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.GALAXY_BUDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.LEFUN;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2_HRX;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.PEBBLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.TLW64;
@@ -119,7 +120,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 21;
+    private static final int CURRENT_PREFS_VERSION = 22;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -741,7 +742,7 @@ public class GBApplication extends Application {
                             deviceSharedPrefsEdit.putString("disconnect_notification_start", prefs.getString("disconnect_notification_start", "8:00"));
                             deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
                         }
-                        if (deviceType == MIBAND2 || deviceType == MIBAND3) {
+                        if (deviceType == MIBAND2 || deviceType == MIBAND2_HRX || deviceType == MIBAND3) {
                             deviceSharedPrefsEdit.putString("do_not_disturb", prefs.getString("mi2_do_not_disturb", "off"));
                             deviceSharedPrefsEdit.putString("do_not_disturb_start", prefs.getString("mi2_do_not_disturb_start", "1:00"));
                             deviceSharedPrefsEdit.putString("do_not_disturb_end", prefs.getString("mi2_do_not_disturb_end", "6:00"));
@@ -763,6 +764,7 @@ public class GBApplication extends Application {
                                 displayItems = prefs.getStringSet("bip_display_items", null);
                                 break;
                             case MIBAND2:
+                            case MIBAND2_HRX:
                                 displayItems = prefs.getStringSet("mi2_display_items", null);
                                 deviceSharedPrefsEdit.putBoolean("mi2_enable_text_notifications", prefs.getBoolean("mi2_enable_text_notifications", true));
                                 deviceSharedPrefsEdit.putString("mi2_dateformat", prefs.getString("mi2_dateformat", "dateformat_time"));
@@ -854,6 +856,7 @@ public class GBApplication extends Application {
                             case AMAZFITCOR2:
                             case MIBAND:
                             case MIBAND2:
+                            case MIBAND2_HRX:
                             case MIBAND3:
                             case MIBAND4:
                                 newWearside = prefs.getString("mi_wearside", "left");
@@ -1263,6 +1266,26 @@ public class GBApplication extends Application {
                     final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
                     deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
                     deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 22) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final DeviceType deviceType = fromKey(dbDevice.getType());
+                    if (deviceType == MIBAND2) {
+                        final String name = dbDevice.getName();
+                        if ("Mi Band HRX".equalsIgnoreCase(name) || "Mi Band 2i".equalsIgnoreCase(name)) {
+                            dbDevice.setType(DeviceType.MIBAND2_HRX.getKey());
+                            daoSession.getDeviceDao().update(dbDevice);
+                        }
+                    }
                 }
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");

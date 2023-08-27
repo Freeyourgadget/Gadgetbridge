@@ -2263,4 +2263,5 @@
     <string name="error_menu_companion_not_installed">\'HR Menu Companion\' probably not installed</string>
     <string name="info_menu_structure_contents">Menu structure: %s</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">Please rebuild your watchface for custom menu</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
 </resources>
