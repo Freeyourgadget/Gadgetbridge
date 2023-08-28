@@ -31,6 +31,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
 public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
@@ -91,47 +93,47 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
     }
 
     private void requestWatchName(TransactionBuilder builder) {
-        support.writeAllFeaturesRequest(builder, new byte[]{CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")});
+        support.writeAllFeaturesRequest(builder, new byte[]{Casio2C2DSupport.FEATURE_WATCH_NAME});
     }
 
     private void requestWatchName() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_WATCH_NAME});
     }
 
     private void requestBleConfiguration() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_BLE_FEATURES")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_BLE_FEATURES});
     }
 
     private void requestBleSettings() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BLE")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_SETTING_FOR_BLE});
     }
 
     private void requestAdvertisingParameters() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_ADVERTISE_PARAMETER_MANAGER")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_ADVERTISE_PARAMETER_MANAGER});
     }
 
     private void requestConnectionParameters() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_CONNECTION_PARAMETER_MANAGER")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_CONNECTION_PARAMETER_MANAGER});
     }
 
     private void requestModuleId() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_MODULE_ID")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_MODULE_ID});
     }
 
     private void requestWatchCondition() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_WATCH_CONDITION")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_WATCH_CONDITION});
     }
 
     private void requestVersionInformation() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_VERSION_INFORMATION")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_VERSION_INFORMATION});
     }
 
     private void requestDstWatchState() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_DST_WATCH_STATE});
     }
 
     private void requestDstSetting() {
-        writeAllFeaturesRequest(new byte[]{CasioConstants.characteristicToByte.get("CASIO_DST_SETTING")});
+        writeAllFeaturesRequest(new byte[]{Casio2C2DSupport.FEATURE_DST_SETTING});
     }
 
     private void writeAppInformation() {
@@ -139,7 +141,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
         // preferences instead of hard-coding it here
         // CASIO_APP_INFORMATION:
         byte arr[] = new byte[12];
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_APP_INFORMATION");
+        arr[0] = Casio2C2DSupport.FEATURE_APP_INFORMATION;
         for(int i=0; i<10; i++)
             arr[i+1] = (byte) (i & 0xff);
         arr[11] = 2;
@@ -196,7 +198,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
         // arr[18] = advertiseParamPeriodUntilSuspensionOfAutoAdvertise >> 8 & 0xff;
 
         byte arr[] = new byte[20];
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_ADVERTISE_PARAMETER_MANAGER");
+        arr[0] = Casio2C2DSupport.FEATURE_ADVERTISE_PARAMETER_MANAGER;
         arr[1] = (byte)0x50;
         arr[2] = (byte)0x00;
         arr[3] = (byte)0x0a;
@@ -236,7 +238,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
         // arr[8] = connectionParamSupervisionTimeout >> 8 & 0xff;
 
         byte[] arr = new byte[10];
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CONNECTION_PARAMETER_MANAGER");
+        arr[0] = Casio2C2DSupport.FEATURE_CONNECTION_PARAMETER_MANAGER;
         arr[1] = (byte)0x00;
         arr[2] = (byte)0x34;
         arr[3] = (byte)0x01;
@@ -292,43 +294,43 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
         }
 
         if(characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
-            if(data[0] == CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")) {
+            if(data[0] == Casio2C2DSupport.FEATURE_WATCH_NAME) {
                 LOG.debug("Got watch name, requesting BLE features; should write CASIO_APP_INFORMATION");
                 writeAppInformation();
                 // The rest of the init sequence is not strictly needed; we keep
                 // it here for future reference.
                 if(mFirstConnect)
                     requestBleConfiguration();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_BLE_FEATURES")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_BLE_FEATURES) {
                 LOG.debug("Got BLE features, requesting BLE settings");
                 requestBleSettings();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BLE")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_BLE) {
                 LOG.debug("Got BLE settings, requesting advertisement parameters; should write BLE settings");
                 writeBleSettings(data);
                 requestAdvertisingParameters();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_ADVERTISE_PARAMETER_MANAGER")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_ADVERTISE_PARAMETER_MANAGER) {
                 LOG.debug("Got advertisement parameters, requesting connection parameters; should write advertisement parameters");
                 writeAdvertisingParameters();
                 requestConnectionParameters();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_CONNECTION_PARAMETER_MANAGER")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_CONNECTION_PARAMETER_MANAGER) {
                 LOG.debug("Got connection parameters, requesting module ID; should write connection parameters");
                 writeConnectionParameters();
                 requestModuleId();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_MODULE_ID")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_MODULE_ID) {
                 LOG.debug("Got module ID, requesting watch condition");
                 requestWatchCondition();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_WATCH_CONDITION")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_WATCH_CONDITION) {
                 LOG.debug("Got watch condition, requesting version information");
                 requestVersionInformation();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_VERSION_INFORMATION")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_VERSION_INFORMATION) {
                 LOG.debug("Got version information, requesting DST watch state");
                 requestDstWatchState();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_DST_WATCH_STATE) {
                 LOG.debug("Got DST watch state, requesting DST setting; should write DST watch state");
                 requestDstSetting();
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_SETTING")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_DST_SETTING) {
                 LOG.debug("Got DST setting, waiting...; should write DST setting and location and radio information");
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SERVICE_DISCOVERY_MANAGER")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_SERVICE_DISCOVERY_MANAGER) {
                 if(data[1] == 0x02) {
                     // The writeAllFeaturesInit request triggers bonding. However, the transaction
                     // never completes. Instead, the watch sends 0x4701 notification and we abort

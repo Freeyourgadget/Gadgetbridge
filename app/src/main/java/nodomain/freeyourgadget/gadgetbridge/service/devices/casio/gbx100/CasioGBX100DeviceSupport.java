@@ -211,14 +211,14 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             return true;
 
         if (characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
-            if(data[0] == CasioConstants.characteristicToByte.get("ALERT_LEVEL")) {
+            if(data[0] == FEATURE_ALERT_LEVEL) {
                 if(data[1] == 0x02) {
                     onReverseFindDevice(true);
                 } else {
                     onReverseFindDevice(false);
                 }
                 return true;
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME_MANAGER")) {
+            } else if(data[0] == FEATURE_CURRENT_TIME_MANAGER) {
                 if(data[1] == 0x00) {
                     try {
                         TransactionBuilder builder = performInitialized("writeCurrentTime");
@@ -509,8 +509,8 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         if(!isConnected())
             return;
 
-        data1[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_ALM");
-        data2[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_ALM2");
+        data1[0] = FEATURE_SETTING_FOR_ALM;
+        data2[0] = FEATURE_SETTING_FOR_ALM2;
 
         for(int i=0; i<alarms.size(); i++)
         {

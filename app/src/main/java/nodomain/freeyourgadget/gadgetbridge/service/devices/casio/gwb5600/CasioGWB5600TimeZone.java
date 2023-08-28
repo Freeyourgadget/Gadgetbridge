@@ -30,7 +30,8 @@ import java.time.zone.ZoneRules;
 import java.util.Arrays;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
+
 
 public class CasioGWB5600TimeZone {
 
@@ -130,13 +131,13 @@ PONTA DELGADA      E4 00  FC  04     02
     static public byte[] dstWatchStateRequest(int slot) {
     // request only even slots, the response will also contain the next odd slot
         return new byte[] {
-            CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE"),
+            Casio2C2DSupport.FEATURE_DST_WATCH_STATE,
             (byte) slot};
     }
 
     static public byte[] dstWatchStateBytes(int slotA, CasioGWB5600TimeZone zoneA, int slotB, CasioGWB5600TimeZone zoneB) {
         return new byte[] {
-            CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE"),
+            Casio2C2DSupport.FEATURE_DST_WATCH_STATE,
             (byte) slotA,
             (byte) slotB,
             zoneA.dstSetting,
@@ -150,13 +151,13 @@ PONTA DELGADA      E4 00  FC  04     02
 
     static public byte[] dstSettingRequest(int slot) {
         return new byte[] {
-            CasioConstants.characteristicToByte.get("CASIO_DST_SETTING"),
+            Casio2C2DSupport.FEATURE_DST_SETTING,
             (byte) slot};
     }
 
     public byte[] dstSettingBytes(int slot) {
         return new byte[] {
-            CasioConstants.characteristicToByte.get("CASIO_DST_SETTING"),
+            Casio2C2DSupport.FEATURE_DST_SETTING,
             (byte) slot,
             number[0],
             number[1],
@@ -167,13 +168,13 @@ PONTA DELGADA      E4 00  FC  04     02
 
     static public byte[] worldCityRequest(int slot) {
         return new byte[] {
-            CasioConstants.characteristicToByte.get("CASIO_WORLD_CITY"),
+            Casio2C2DSupport.FEATURE_WORLD_CITY,
             (byte) slot};
     }
 
     public byte[] worldCityBytes(int slot) {
         byte[] bytes = {
-            CasioConstants.characteristicToByte.get("CASIO_WORLD_CITY"),
+            Casio2C2DSupport.FEATURE_WORLD_CITY,
             (byte) slot,
             0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         System.arraycopy(name, 0, bytes, 2, Math.min(name.length, 18));
@@ -189,7 +190,7 @@ PONTA DELGADA      E4 00  FC  04     02
         byte dstSetting = 0;
 
         for (byte[] response: responses) {
-            if (response[0] == CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE") && response.length >= 9) {
+            if (response[0] == Casio2C2DSupport.FEATURE_DST_WATCH_STATE && response.length >= 9) {
                 if (response[1] == slot) {
                     dstSetting = response[3];
                     number = new byte[] {response[5], response[6]};
@@ -198,12 +199,12 @@ PONTA DELGADA      E4 00  FC  04     02
                     dstSetting = response[4];
                     number = new byte[] {response[7], response[8]};
                 }
-            } else if (response[0] == CasioConstants.characteristicToByte.get("CASIO_DST_SETTING") && response.length >= 7 && response[1] == slot) {
+            } else if (response[0] == Casio2C2DSupport.FEATURE_DST_SETTING && response.length >= 7 && response[1] == slot) {
                 number = new byte[] {response[2], response[3]};
                 offset = response[4];
                 dstOffset = response[5];
                 dstRules = response[6];
-            } else if (response[0] == CasioConstants.characteristicToByte.get("CASIO_WORLD_CITY") && response.length >= 2 && response[1] == slot) {
+            } else if (response[0] == Casio2C2DSupport.FEATURE_WORLD_CITY && response.length >= 2 && response[1] == slot) {
                 int size;
                 for (size = 0; size < response.length-2; size++) {
                     if (response[2+size] == 0) {

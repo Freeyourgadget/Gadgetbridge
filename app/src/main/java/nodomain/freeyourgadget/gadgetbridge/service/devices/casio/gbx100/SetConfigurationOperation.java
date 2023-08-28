@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
@@ -65,7 +66,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
     @Override
     protected void doPerform() throws IOException {
         byte[] command = new byte[1];
-        command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_USER_PROFILE");
+        command[0] = Casio2C2DSupport.FEATURE_SETTING_FOR_USER_PROFILE;
         TransactionBuilder builder = performInitialized("getConfiguration");
         builder.setCallback(this);
         support.writeAllFeaturesRequest(builder, command);
@@ -85,7 +86,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
             byte[] oldData = new byte[data.length];
             System.arraycopy(data, 0, oldData, 0, data.length);
 
-            if (data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_USER_PROFILE")) {
+            if (data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_USER_PROFILE) {
 
                 ActivityUser user = new ActivityUser();
                 boolean all = (option == CasioConstants.ConfigurationOption.OPTION_ALL);
@@ -158,7 +159,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                     }
                 }
                 return true;
-            } else if (data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_TARGET_VALUE")) {
+            } else if (data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_TARGET_VALUE) {
                 ActivityUser user = new ActivityUser();
                 boolean all = (option == CasioConstants.ConfigurationOption.OPTION_ALL);
 
@@ -199,7 +200,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                     }
                 }
                 return true;
-            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC")) {
+            } else if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_BASIC) {
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress())));
 
@@ -274,7 +275,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
 
     private void requestBasicSettings() {
         byte[] command = new byte[1];
-        command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC");
+        command[0] = Casio2C2DSupport.FEATURE_SETTING_FOR_BASIC;
         try {
             TransactionBuilder builder = performInitialized("getConfiguration");
             builder.setCallback(this);
@@ -287,7 +288,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
 
     private void requestTargetSettings() {
         byte[] command = new byte[1];
-        command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_TARGET_VALUE");
+        command[0] = Casio2C2DSupport.FEATURE_SETTING_FOR_TARGET_VALUE;
         try {
             TransactionBuilder builder = performInitialized("getConfiguration");
             builder.setCallback(this);
@@ -308,15 +309,15 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
             return true;
 
         if (characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
-            if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_USER_PROFILE")) {
+            if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_USER_PROFILE) {
                 requestTargetSettings();
                 return true;
             }
-            if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_TARGET_VALUE")) {
+            if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_TARGET_VALUE) {
                 requestBasicSettings();
                 return true;
             }
-            if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC")) {
+            if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_BASIC) {
                 operationFinished();
                 return true;
             }

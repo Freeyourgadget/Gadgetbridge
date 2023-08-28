@@ -69,4 +69,5 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
 
         return builder;
     }
+
 }

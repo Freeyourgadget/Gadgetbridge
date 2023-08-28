@@ -30,6 +30,29 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 
 public abstract class Casio2C2DSupport extends CasioSupport {
 
+    public static final byte FEATURE_CURRENT_TIME = 0x09;
+    public static final byte FEATURE_ALERT_LEVEL = 0x0a;
+    public static final byte FEATURE_BLE_FEATURES = 0x10;
+    public static final byte FEATURE_SETTING_FOR_BLE = 0x11;
+    public static final byte FEATURE_SETTING_FOR_BASIC = 0x13;
+    public static final byte FEATURE_SETTING_FOR_ALM = 0x15;
+    public static final byte FEATURE_SETTING_FOR_ALM2 = 0x16;
+    public static final byte FEATURE_VERSION_INFORMATION = 0x20;
+    public static final byte FEATURE_APP_INFORMATION = 0x22;
+    public static final byte FEATURE_WATCH_NAME = 0x23;
+    public static final byte FEATURE_MODULE_ID = 0x26;
+    public static final byte FEATURE_WATCH_CONDITION = 0x28;
+    public static final byte FEATURE_DST_WATCH_STATE = 0x1d;
+    public static final byte FEATURE_DST_SETTING = 0x1e;
+    public static final byte FEATURE_WORLD_CITY = 0x1f;
+    public static final byte FEATURE_CURRENT_TIME_MANAGER = 0x39;
+    public static final byte FEATURE_CONNECTION_PARAMETER_MANAGER = 0x3a;
+    public static final byte FEATURE_ADVERTISE_PARAMETER_MANAGER = 0x3b;
+    public static final byte FEATURE_SETTING_FOR_TARGET_VALUE = 0x43;
+    public static final byte FEATURE_SETTING_FOR_USER_PROFILE = 0x45;
+    public static final byte FEATURE_SERVICE_DISCOVERY_MANAGER = 0x47;
+
+
     public Casio2C2DSupport(Logger logger) {
         super(logger);
     }
@@ -44,7 +67,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
     public void writeCurrentTime(TransactionBuilder builder, ZonedDateTime time) {
         byte[] arr = new byte[11];
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME");
+        arr[0] = FEATURE_CURRENT_TIME;
         byte[] tmp = prepareCurrentTime(time);
         System.arraycopy(tmp, 0, arr, 1, 10);
 

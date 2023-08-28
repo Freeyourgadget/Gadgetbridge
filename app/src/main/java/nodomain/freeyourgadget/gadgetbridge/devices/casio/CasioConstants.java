@@ -145,29 +145,4 @@ public final class CasioConstants {
 
     public static final int CASIO_AUTOREMOVE_MESSAGE_DELAY = 10000;
 
-    public static Map<String, Byte> characteristicToByte = new HashMap<String, Byte>() {
-        {
-            put("CASIO_WATCH_NAME", (byte) 0x23);
-            put("CASIO_APP_INFORMATION", (byte) 0x22);
-            put("CASIO_BLE_FEATURES", (byte) 0x10);
-            put("CASIO_SETTING_FOR_BLE", (byte) 0x11);
-            put("CASIO_ADVERTISE_PARAMETER_MANAGER", (byte) 0x3b);
-            put("CASIO_CONNECTION_PARAMETER_MANAGER", (byte) 0x3a);
-            put("CASIO_MODULE_ID", (byte) 0x26);
-            put("CASIO_WATCH_CONDITION", (byte) 0x28);
-            put("CASIO_VERSION_INFORMATION", (byte) 0x20);
-            put("CASIO_DST_WATCH_STATE", (byte) 0x1d);
-            put("CASIO_DST_SETTING", (byte) 0x1e);
-            put("CASIO_WORLD_CITY", (byte) 0x1f);
-            put("CASIO_SERVICE_DISCOVERY_MANAGER", (byte) 0x47);
-            put("CASIO_CURRENT_TIME", (byte) 0x09);
-            put("CASIO_SETTING_FOR_USER_PROFILE", (byte) 0x45);
-            put("CASIO_SETTING_FOR_TARGET_VALUE", (byte) 0x43);
-            put("ALERT_LEVEL", (byte) 0x0a);
-            put("CASIO_SETTING_FOR_ALM", (byte) 0x15);
-            put("CASIO_SETTING_FOR_ALM2", (byte) 0x16);
-            put("CASIO_SETTING_FOR_BASIC", (byte) 0x13);
-            put("CASIO_CURRENT_TIME_MANAGER", (byte) 0x39);
-        }
-    };
 }

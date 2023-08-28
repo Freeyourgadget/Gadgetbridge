@@ -39,6 +39,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600TimeZone;
 
 public class InitOperation extends AbstractBTLEOperation<CasioGWB5600DeviceSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
@@ -79,9 +83,9 @@ public class InitOperation extends AbstractBTLEOperation<CasioGWB5600DeviceSuppo
         byte[] data = characteristic.getValue();
 
         if (characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID) && data.length > 0 &&
-            (data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE") ||
-             data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_SETTING") ||
-             data[0] == CasioConstants.characteristicToByte.get("CASIO_WORLD_CITY"))) {
+            (data[0] == Casio2C2DSupport.FEATURE_DST_WATCH_STATE ||
+             data[0] == Casio2C2DSupport.FEATURE_DST_SETTING ||
+             data[0] == Casio2C2DSupport.FEATURE_WORLD_CITY)) {
             responses.add(data);
             if (responses.size() == 13) {
                 TransactionBuilder builder = createTransactionBuilder("setClocks");
