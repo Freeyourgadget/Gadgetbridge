@@ -21,9 +21,10 @@
 * Bangle.js: Fix GB integration when watch is not programmable
 * Bangle.js: Put JSON keys in quotes
 * Bangle.js: Reorganize device settings
+* Fossil/Skagen Hybrids: Embed custom menu in watchface, fixes lost menu on reset
 * Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device
 * Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
-* Fossil/Skagen: Sunrise/sunset follows weather location
+* Fossil/Skagen Hybrids: Sunrise/sunset follows weather location
 * Huami/Zepp OS: Add PAI charts
 * Huami/Zepp OS: Improve music info stability
 * Huami/Zepp OS: Improve reconnection and device initialization
