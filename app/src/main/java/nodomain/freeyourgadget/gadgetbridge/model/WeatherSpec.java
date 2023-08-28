@@ -105,7 +105,7 @@ public class WeatherSpec implements Parcelable, Serializable {
         }
         final Location location = new Location("weatherSpec");
         location.setLatitude(latitude);
-        location.setLatitude(longitude);
+        location.setLongitude(longitude);
         return location;
     }
 
