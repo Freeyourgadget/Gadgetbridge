@@ -2397,4 +2397,5 @@
     <string name="english_gb">Engels (Verenigd Koninkrijk)</string>
     <string name="french_ca">Frans (Canada)</string>
     <string name="french_fr">Frans (Frankrijk)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Het apparaat heeft niet genoeg vrije ruimte</string>
 </resources>
