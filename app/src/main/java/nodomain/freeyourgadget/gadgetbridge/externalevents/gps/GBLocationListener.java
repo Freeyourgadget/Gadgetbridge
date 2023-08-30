@@ -54,9 +54,9 @@ public class GBLocationListener implements LocationListener {
         // Some devices report hasSpeed() as true, and yet only return a 0 value, so we have to check against a speed threshold
         boolean hasValidSpeed = location.hasSpeed() && (location.getSpeed() > SPEED_THRESHOLD);
         if (previousLocation != null && !hasValidSpeed) {
-            long timeInterval = (location.getTime() - previousLocation.getTime()) / 1000L;
+            long timeInterval = (location.getTime() - previousLocation.getTime());
             float distanceInMeters = previousLocation.distanceTo(location);
-            location.setSpeed(distanceInMeters / timeInterval);
+            location.setSpeed(distanceInMeters / timeInterval * 1000L);
         }
 
         previousLocation = location;
