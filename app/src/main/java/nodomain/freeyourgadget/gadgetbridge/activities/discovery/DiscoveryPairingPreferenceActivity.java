@@ -15,13 +15,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.activities;
+package nodomain.freeyourgadget.gadgetbridge.activities.discovery;
 
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 
 public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivityV2 {
     @Override

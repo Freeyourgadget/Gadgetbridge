@@ -16,7 +16,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.activities;
+package nodomain.freeyourgadget.gadgetbridge.activities.discovery;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
@@ -82,6 +82,8 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.DebugActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
 import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
@@ -98,6 +100,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
+@Deprecated // use DiscoveryActivityV2, this is just kept in case of bugs
 public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
     private static final long SCAN_DURATION = 30000; // 30s
@@ -812,8 +815,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
         if (!deviceCandidate.getDeviceType().isSupported()) {
             LOG.error("Unsupported device candidate");
-            LinkedHashMap<String, Pair<Long, Integer>> allDevices;
-            allDevices = DebugActivity.getAllSupportedDevices(getApplicationContext());
+            Map<String, Pair<Long, Integer>> allDevices = DebugActivity.getAllSupportedDevices(getApplicationContext());
 
             final LinearLayout linearLayout = new LinearLayout(DiscoveryActivity.this);
             linearLayout.setOrientation(LinearLayout.VERTICAL);

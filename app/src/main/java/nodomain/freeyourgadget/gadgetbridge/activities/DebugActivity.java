@@ -547,8 +547,7 @@ public class DebugActivity extends AbstractGBActivity {
         addDeviceButtonDebug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinkedHashMap<String, Pair<Long, Integer>> allDevices;
-                allDevices = getAllSupportedDevices(getApplicationContext());
+                Map<String, Pair<Long, Integer>> allDevices = getAllSupportedDevices(getApplicationContext());
 
                 final LinearLayout linearLayout = new LinearLayout(DebugActivity.this);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -1000,7 +999,7 @@ public class DebugActivity extends AbstractGBActivity {
         spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
     }
 
-    protected static void createTestDevice(Context context, long deviceKey, String deviceMac) {
+    public static void createTestDevice(Context context, long deviceKey, String deviceMac) {
         if (deviceKey == SELECT_DEVICE) {
             return;
         }
@@ -1147,7 +1146,7 @@ public class DebugActivity extends AbstractGBActivity {
         return builder.toString();
     }
 
-    public static LinkedHashMap getAllSupportedDevices(Context appContext) {
+    public static Map<String, Pair<Long, Integer>> getAllSupportedDevices(Context appContext) {
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
         GBApplication app = (GBApplication) appContext;
         for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
