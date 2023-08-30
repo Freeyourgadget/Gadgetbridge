@@ -76,7 +76,7 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
 
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null) {
             if (name.startsWith("BFH-16")) {
                 return DeviceType.BFH16;

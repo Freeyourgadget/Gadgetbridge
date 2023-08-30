@@ -18,7 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.fitpro;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 import android.os.ParcelUuid;
@@ -63,8 +62,7 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
 
             if (name != null && (
                     name.startsWith("M6") ||

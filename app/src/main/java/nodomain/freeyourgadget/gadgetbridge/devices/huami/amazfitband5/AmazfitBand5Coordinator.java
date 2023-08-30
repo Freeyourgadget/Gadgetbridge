@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband5;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -48,8 +47,7 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_BAND5_NAME)) {
                 return DeviceType.AMAZFITBAND5;
             }

@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miscale2;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
@@ -60,8 +59,7 @@ public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             if (name != null && name.equalsIgnoreCase("MIBCS")) {
                 return DeviceType.MISCALE2;
             }

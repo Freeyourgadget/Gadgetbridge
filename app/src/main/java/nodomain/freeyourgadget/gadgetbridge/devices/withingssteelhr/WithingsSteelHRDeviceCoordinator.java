@@ -53,7 +53,7 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null && (name.toLowerCase(Locale.ROOT).startsWith("steel") || name.toLowerCase(Locale.ROOT).startsWith("activite"))) {
             return DeviceType.WITHINGS_STEEL_HR;
         }

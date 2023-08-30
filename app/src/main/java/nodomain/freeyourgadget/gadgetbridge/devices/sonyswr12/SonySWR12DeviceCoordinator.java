@@ -49,7 +49,7 @@ public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            String name = candidate.getDevice().getName();
+            String name = candidate.getName();
             if (name != null && !name.isEmpty() && name.toLowerCase().contains("swr12"))
                 return getDeviceType();
         } catch (Exception exc){}

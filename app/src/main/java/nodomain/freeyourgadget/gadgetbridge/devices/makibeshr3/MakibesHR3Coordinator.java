@@ -153,7 +153,7 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
 
         List<String> deviceNames = new ArrayList<String>(){{
             add("Y808"); // Chinese version

@@ -45,7 +45,7 @@ public class ITagCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     @NonNull
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null && name.toLowerCase().startsWith("itag")) { // All four: iTAG, iTag, ITAG and ITag exist
             return DeviceType.ITAG;
         }

@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband6;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -30,8 +29,7 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND6_NAME)) {
                 return DeviceType.MIBAND6;
             }

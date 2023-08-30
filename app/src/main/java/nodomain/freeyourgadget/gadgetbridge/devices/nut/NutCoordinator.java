@@ -46,7 +46,7 @@ public class NutCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     @NonNull
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null && name.toLowerCase().startsWith("nut")) {
             return DeviceType.NUTMINI;
         }

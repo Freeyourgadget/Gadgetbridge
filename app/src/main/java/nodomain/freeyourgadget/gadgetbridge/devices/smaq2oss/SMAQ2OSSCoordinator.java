@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
@@ -47,8 +46,7 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             // TODO still match for "SMA-Q2-OSS" because of backward firmware compatibility - remove eventually
             if (name != null && (name.startsWith("SMAQ2-") || name.equalsIgnoreCase("SMA-Q2-OSS"))) {
                 return DeviceType.SMAQ2OSS;

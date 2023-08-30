@@ -30,7 +30,7 @@ public class CasioGMWB5000DeviceCoordinator extends CasioGWB5600DeviceCoordinato
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null) {
             if (name.equals("CASIO GMW-B5000")) {
                 return DeviceType.CASIOGMWB5000;

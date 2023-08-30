@@ -88,7 +88,7 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             if (isHealthWearable(device)) {
-                String name = device.getName();
+                String name = candidate.getName();
                 if (name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase())) {
                     return DeviceType.MIBAND;
                 }

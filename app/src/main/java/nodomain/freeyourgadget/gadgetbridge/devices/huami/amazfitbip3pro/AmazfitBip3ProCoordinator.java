@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip3pro;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -46,8 +45,7 @@ public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
     @Override
     public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
         try {
-            final BluetoothDevice device = candidate.getDevice();
-            final String name = device.getName();
+            final String name = candidate.getName();
             if (name != null && name.equalsIgnoreCase("Amazfit Bip 3 Pro")) {
                 return DeviceType.AMAZFITBIP3PRO;
             }

@@ -69,7 +69,7 @@ public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         /* Filter by Espruino devices to avoid getting
         the device chooser full of spam devices. */
         if (name != null && (

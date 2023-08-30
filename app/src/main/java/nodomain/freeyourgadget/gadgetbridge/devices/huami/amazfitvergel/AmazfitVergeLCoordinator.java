@@ -46,8 +46,7 @@ public class AmazfitVergeLCoordinator extends HuamiCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             if (name != null && name.equalsIgnoreCase("Amazfit Verge L")) {
                 return DeviceType.AMAZFITVERGEL;
             }

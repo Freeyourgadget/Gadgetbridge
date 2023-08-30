@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -41,8 +40,7 @@ public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     @Override
     public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
         try {
-            final BluetoothDevice device = candidate.getDevice();
-            final String name = device.getName();
+            final String name = candidate.getName();
             if (name != null && name.startsWith(HuamiConst.AMAZFIT_GTR3_PRO_NAME)) {
                 return DeviceType.AMAZFITGTR3PRO;
             }

@@ -56,7 +56,7 @@ public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null && name.startsWith("ZeTime")) {
             return DeviceType.ZETIME;
         }

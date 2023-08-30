@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -27,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
-
+z
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -51,8 +50,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
             if (HuamiConst.MI_BAND2_NAME_HRX.equalsIgnoreCase(name) || "Mi Band 2i".equalsIgnoreCase(name)) {
                 return DeviceType.MIBAND2_HRX;
             }

@@ -51,7 +51,7 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            String name = candidate.getDevice().getName();
+            String name = candidate.getName();
             if (name != null) {
                 if (name.contains("Y5")) {
                     return DeviceType.Y5;

@@ -70,7 +70,7 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
             return DeviceType.TECLASTH30;
         }
 
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null) {
             if (name.startsWith("TECLAST_H30") || name.startsWith("TECLAST_H10")) {
                 return DeviceType.TECLASTH30;

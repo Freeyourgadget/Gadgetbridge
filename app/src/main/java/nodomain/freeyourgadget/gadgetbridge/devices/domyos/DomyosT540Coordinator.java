@@ -42,7 +42,7 @@ public class DomyosT540Coordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null && name.startsWith("Domyos-TC-9610")) {
             return DeviceType.DOMYOS_T540;
         }

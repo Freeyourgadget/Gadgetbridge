@@ -49,7 +49,7 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+        String name = candidate.getName();
         if (name != null) {
             if (name.equals("CASIO GW-B5600")) {
                 return DeviceType.CASIOGWB5600;

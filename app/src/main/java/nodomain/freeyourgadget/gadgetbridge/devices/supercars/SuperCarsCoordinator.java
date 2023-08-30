@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.supercars;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -36,8 +35,7 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            String name = candidate.getName();
 
             if (name != null && name.startsWith("QCAR-")) {
                 return DeviceType.SUPER_CARS;
