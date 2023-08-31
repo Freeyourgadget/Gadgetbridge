@@ -242,6 +242,7 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
+        candidate.refreshNameIfUnknown();
         return toSupportedDevice(candidate);
     }
 

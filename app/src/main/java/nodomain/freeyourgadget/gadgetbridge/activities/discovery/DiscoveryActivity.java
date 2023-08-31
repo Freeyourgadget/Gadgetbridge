@@ -401,6 +401,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
+        candidate.refreshNameIfUnknown();
+        candidate.addUuids(device.getUuids());
         DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
         if (deviceType.isSupported() || discoverUnsupported) {
             candidate.setDeviceType(deviceType);

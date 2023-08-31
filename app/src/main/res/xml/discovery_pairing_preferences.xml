@@ -23,6 +23,13 @@
         android:summary="@string/discover_unsupported_devices_description"
         android:title="@string/discover_unsupported_devices"
         app:iconSpaceReserved="false" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="new_discover_activity"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/new_discover_activity_description"
+        android:title="@string/new_discover_activity_title"
+        app:iconSpaceReserved="false" />
     <SeekBarPreference
         android:defaultValue="1"
         android:key="scanning_intensity"

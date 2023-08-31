@@ -1614,6 +1614,8 @@
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="discover_unsupported_devices">Discover unsupported devices</string>
     <string name="discover_unsupported_devices_description">Enabling this option will display all discovered bluetooth devices when scanning. Short tap will copy device name and mac address to clipboard. Long press will launch `Add test device` dialog. Can cause potential app freezing issues.</string>
+    <string name="new_discover_activity_title">Enable new discover activity</string>
+    <string name="new_discover_activity_description">Enable the new discover activity, which should fix device discovery issues. Disable this if you face any issues while searching for or pairing with your device.</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Settings</string>
     <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>

@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,19 +43,22 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
  * Gadgetbridge. Only if a DeviceCoordinator steps up and confirms to
  * support this candidate, will the candidate be promoted to a GBDevice.
  */
-public class GBDeviceCandidate implements Parcelable {
+public class GBDeviceCandidate implements Parcelable, Cloneable {
     private static final Logger LOG = LoggerFactory.getLogger(GBDeviceCandidate.class);
 
-    private final BluetoothDevice device;
-    private final short rssi;
-    private final ParcelUuid[] serviceUuids;
+    private BluetoothDevice device;
+    private short rssi;
+    private ParcelUuid[] serviceUuids;
     private DeviceType deviceType = DeviceType.UNKNOWN;
+
+    // Cached values for device name and bond status, to avoid querying the remote bt device
     private String deviceName;
+    private Boolean isBonded = null;
 
     public GBDeviceCandidate(BluetoothDevice device, short rssi, ParcelUuid[] serviceUuids) {
         this.device = device;
         this.rssi = rssi;
-        this.serviceUuids = mergeServiceUuids(serviceUuids, device.getUuids());
+        this.serviceUuids = serviceUuids;
     }
 
     private GBDeviceCandidate(Parcel in) {
@@ -66,8 +69,13 @@ public class GBDeviceCandidate implements Parcelable {
         rssi = (short) in.readInt();
         deviceType = DeviceType.valueOf(in.readString());
 
-        ParcelUuid[] uuids = AndroidUtils.toParcelUuids(in.readParcelableArray(getClass().getClassLoader()));
-        serviceUuids = mergeServiceUuids(uuids, device.getUuids());
+        serviceUuids = AndroidUtils.toParcelUuids(in.readParcelableArray(getClass().getClassLoader()));
+
+        deviceName = in.readString();
+        final int isBondedInt = in.readInt();
+        if (isBondedInt != -1) {
+            isBonded = (isBondedInt == 1);
+        }
     }
 
     @Override
@@ -76,6 +84,12 @@ public class GBDeviceCandidate implements Parcelable {
         dest.writeInt(rssi);
         dest.writeString(deviceType.name());
         dest.writeParcelableArray(serviceUuids, 0);
+        dest.writeString(deviceName);
+        if (isBonded == null) {
+            dest.writeInt(-1);
+        } else {
+            dest.writeInt(isBonded ? 1 : 0);
+        }
     }
 
     public static final Creator<GBDeviceCandidate> CREATOR = new Creator<GBDeviceCandidate>() {
@@ -107,7 +121,7 @@ public class GBDeviceCandidate implements Parcelable {
     }
 
     private ParcelUuid[] mergeServiceUuids(ParcelUuid[] serviceUuids, ParcelUuid[] deviceUuids) {
-        Set<ParcelUuid> uuids = new HashSet<>();
+        Set<ParcelUuid> uuids = new LinkedHashSet<>();
         if (serviceUuids != null) {
             uuids.addAll(Arrays.asList(serviceUuids));
         }
@@ -115,6 +129,30 @@ public class GBDeviceCandidate implements Parcelable {
             uuids.addAll(Arrays.asList(deviceUuids));
         }
         return uuids.toArray(new ParcelUuid[0]);
+    }
+
+    public void addUuids(ParcelUuid[] newUuids) {
+        this.serviceUuids = mergeServiceUuids(serviceUuids, newUuids);
+    }
+
+    public void setRssi(short rssi) {
+        this.rssi = rssi;
+    }
+
+    public boolean isBonded() {
+        if (isBonded == null) {
+            try {
+                isBonded = device.getBondState() == BluetoothDevice.BOND_BONDED;
+            } catch (final SecurityException e) {
+                /* This should never happen because we need all the permissions
+                    to get to the point where we can even scan, but 'SecurityException' check
+                    is added to stop Android Studio errors */
+                LOG.error("SecurityException on getBonded");
+                isBonded = false;
+            }
+        }
+
+        return isBonded;
     }
 
     @NonNull
@@ -138,24 +176,37 @@ public class GBDeviceCandidate implements Parcelable {
     }
 
     public String getName() {
-        if (this.deviceName != null ) {
-            return this.deviceName;
+        if (isNameKnown()) {
+            return deviceName;
         }
+        return "(unknown)";
+    }
+
+    public void refreshNameIfUnknown() {
+        if (isNameKnown()) {
+            return;
+        }
+
         try {
-            Method method = device.getClass().getMethod("getAliasName");
-            if (method != null) {
-                deviceName = (String) method.invoke(device);
+            final Method method = device.getClass().getMethod("getAliasName");
+            deviceName = (String) method.invoke(device);
+        } catch (final NoSuchMethodException ignore) {
+            // ignored
+        } catch (final IllegalAccessException | InvocationTargetException ignore) {
+            LOG.warn("Could not get device alias for {}", device.getAddress());
+        }
+        if (deviceName == null || deviceName.isEmpty()) {
+            try {
+                deviceName = device.getName();
+            } catch (final SecurityException e) {
+                // Should never happen
+                LOG.error("SecurityException on device.getName");
             }
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
-            LOG.info("Could not get device alias for " + device.getName());
         }
-        if (deviceName == null || deviceName.length() == 0) {
-            deviceName = device.getName();
-        }
-        if (deviceName == null || deviceName.length() == 0) {
-            deviceName = "(unknown)";
-        }
-        return deviceName;
+    }
+
+    public boolean isNameKnown() {
+        return deviceName != null && !deviceName.isEmpty();
     }
 
     public short getRssi() {
@@ -188,5 +239,22 @@ public class GBDeviceCandidate implements Parcelable {
     @Override
     public String toString() {
         return getName() + ": " + getMacAddress() + " (" + getDeviceType() + ")";
+    }
+
+    @NonNull
+    @Override
+    public GBDeviceCandidate clone() {
+        try {
+            final GBDeviceCandidate clone = (GBDeviceCandidate) super.clone();
+            clone.device = this.device;
+            clone.rssi = this.rssi;
+            clone.serviceUuids = this.serviceUuids;
+            clone.deviceType = this.deviceType;
+            clone.deviceName = this.deviceName;
+            clone.isBonded = this.isBonded;
+            return clone;
+        } catch (final CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

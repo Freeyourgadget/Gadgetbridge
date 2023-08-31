@@ -68,7 +68,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         deviceImageView.setImageResource(device.getDeviceType().getIcon());
 
         final List<String> statusLines = new ArrayList<>();
-        if (device.getDevice().getBondState() == BluetoothDevice.BOND_BONDED) {
+        if (device.isBonded()) {
             statusLines.add(getContext().getString(R.string.device_is_currently_bonded));
             if (!GBApplication.getPrefs().getBoolean("ignore_bonded_devices", true)) { // This could be passed to the constructor instead
                 deviceImageView.setImageResource(device.getDeviceType().getDisabledIcon());

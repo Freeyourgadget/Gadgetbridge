@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -172,7 +173,11 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
         if (success) {
             startActivity(new Intent(this, ControlCenterv2.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else {
-            startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            if (GBApplication.useNewDiscoveryActivity()) {
+                startActivity(new Intent(this, DiscoveryActivityV2.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            } else {
+                startActivity(new Intent(this, DiscoveryActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
         }
 
         // If it's not a LE Pebble, initiate a connection when bonding is complete

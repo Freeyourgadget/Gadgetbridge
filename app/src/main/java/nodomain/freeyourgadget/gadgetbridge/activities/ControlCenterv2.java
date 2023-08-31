@@ -85,6 +85,7 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -375,7 +376,7 @@ public class ControlCenterv2 extends AppCompatActivity
         GBApplication.deviceService().start();
 
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            startActivity(new Intent(this, DiscoveryActivity.class));
+            launchDiscoveryActivity();
         } else {
             GBApplication.deviceService().requestDeviceInfo();
         }
@@ -482,7 +483,11 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     private void launchDiscoveryActivity() {
-        startActivity(new Intent(this, DiscoveryActivity.class));
+        if (GBApplication.useNewDiscoveryActivity()) {
+            startActivity(new Intent(this, DiscoveryActivityV2.class));
+        } else {
+            startActivity(new Intent(this, DiscoveryActivity.class));
+        }
     }
 
     private void refreshPairedDevices() {

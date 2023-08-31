@@ -531,6 +531,10 @@
             android:label="@string/title_activity_discovery"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.discovery.DiscoveryActivityV2"
+            android:label="@string/title_activity_discovery"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing" />
         <activity
