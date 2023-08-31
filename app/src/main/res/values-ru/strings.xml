@@ -4,7 +4,7 @@
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
     <string name="action_debug">Отладка</string>
-    <string name="action_quit">Выйти</string>
+    <string name="action_quit">Выход</string>
     <string name="controlcenter_fetch_activity_data">Синхронизировать</string>
     <string name="controlcenter_find_device">Найти устройство</string>
     <string name="controlcenter_take_screenshot">Сделать снимок экрана</string>
@@ -376,7 +376,7 @@
 \nВключить приложение погоды на вашем Pebble можно из \"Управления приложениями\".
 \n
 \nПоддерживаемые циферблаты покажут погоду автоматически.</string>
-    <string name="pref_title_setup_bt_pairing">Включить сопряжение по Bluetooth</string>
+    <string name="pref_title_setup_bt_pairing">Сопряжение по Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Отключите, если вам не удалось подключиться</string>
     <string name="unit_metric">Метрическая система мер</string>
     <string name="unit_imperial">Английская система мер</string>
@@ -399,7 +399,7 @@
     <string name="discovery_pair_question">Выберите \"Сопряжение\" для сопряжения ваших устройств. Если не получилось, попробуйте снова без сопряжения.</string>
     <string name="discovery_yes_pair">Сопряжение</string>
     <string name="discovery_dont_pair">Не выполнять сопряжение</string>
-    <string name="action_donate">Пожертвовать</string>
+    <string name="action_donate">Пожертвования</string>
     <string name="controlcenter_connect">Подключить…</string>
     <string name="title_activity_calblacklist">Заблокированные календари</string>
     <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
@@ -448,7 +448,7 @@
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
     <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
-    <string name="mi2_prefs_display_items">Что показывать на экране</string>
+    <string name="mi2_prefs_display_items">Элементы меню</string>
     <string name="mi2_prefs_display_items_summary">Выберите, что показывать на экране браслета</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Переключать информацию поворотом запястья</string>
     <string name="mi2_prefs_do_not_disturb">Не беспокоить</string>
@@ -564,8 +564,8 @@
     <string name="watch9_calibration_button">Калибровка</string>
     <string name="title_activity_watch9_pairing">Сопряжение Watch 9</string>
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
-    <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
-    <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран браслета</string>
+    <string name="mi3_prefs_band_screen_unlock">Разблокировка экрана</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх для разблокировки экрана браслета</string>
     <string name="german">Немецкий язык</string>
     <string name="italian">Итальянский язык</string>
     <string name="french">Французский язык</string>
@@ -736,8 +736,8 @@
     <string name="weeksleepchart_sleep_a_month">Сон за месяц</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_title_use_custom_font">Использовать пользовательский шрифт</string>
-    <string name="pref_summary_use_custom_font">Активируйте это для поддержки emoji, если ваше устройство имеет установленный пользовательский шрифт</string>
+    <string name="pref_title_use_custom_font">Пользовательский шрифт</string>
+    <string name="pref_summary_use_custom_font">Включите при наличии на устройстве пользовательского шрифта для поддержки эмодзи</string>
     <string name="activity_db_management_autoexport_explanation">Местоположение авто-экспорта базы данных установлено:</string>
     <string name="activity_db_management_autoexport_label">Авто-экспорт</string>
     <string name="activity_DB_ExportButton">Экспорт данных</string>
@@ -825,8 +825,8 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
-    <string name="pref_summary_sync_calendar">Позволяет выполнять оповещения календаря, даже при отключении</string>
-    <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
+    <string name="pref_summary_sync_calendar">Получение оповещений календаря даже при отсутствии подключения</string>
+    <string name="pref_title_sync_caldendar">Синхронизация событий календаря</string>
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
     <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
@@ -1427,25 +1427,25 @@
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">О Bangle.js Gadgetbridge</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="application_name_main_nightly">Gadgetbridge (ночная сборка)</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js запущен</string>
     <string name="about_description_banglejs_nopebble">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
 \n
 \nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
-    <string name="about_activity_title_main_nightly">О Gadgetbridge Nightly</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, без системы Pebble)</string>
-    <string name="about_description_main_nightly">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" версии Gadgetbridge. Ночные выпуски Gadgetbridge. Его нельзя установить, если у вас уже установлено приложение Gadgetbridge или Pebble, из-за конфликта в провайдере Pebble.</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly без Pebble</string>
-    <string name="about_description_main_nopebble">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" выпуски Gadgetbridge. В этой версии провайдер Pebble переименован для предотвращения конфликтов, поэтому некоторые из связанных с Pebble интеграции не будут работать, но его можно установить вместе с существующими установками Gadgetbridge.</string>
+    <string name="about_activity_title_main_nightly">О ночной сборке Gadgetbridge</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Ночная сборка, без провайдера Pebble)</string>
+    <string name="about_description_main_nightly">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" сборки Gadgetbridge. Ночные сборки Gadgetbridge. Их нельзя установить, если приложение Gadgetbridge или Pebble уже установлено, из-за конфликта провайдера Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Ночной без Pebble</string>
+    <string name="about_description_main_nopebble">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" сборки Gadgetbridge. В этой версии провайдер Pebble переименован для предотвращения конфликтов, так что некоторые из интеграций с Pebble работать не будут, зато её можно установить рядом с уже имеющимися установками Gadgetbridge.</string>
     <string name="about_description_banglejs_main">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
 \n
 \nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
     <string name="about_activity_title_banglejs_main">О Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js выполняется</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_main_nightly">Ночная сборка Gadgetbridge</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB запущен</string>
-    <string name="about_activity_title_main_nopebble">О Gadgetbridge Nightly без Pebble</string>
+    <string name="about_activity_title_main_nopebble">О ночной сборке Gadgetbridge без Pebble</string>
     <string name="pref_header_connection">Соединение</string>
     <string name="pref_header_display">Дисплей</string>
     <string name="pref_header_health">Здоровье</string>
@@ -1525,7 +1525,7 @@
     <string name="open_fw_installer_getting_files_text">Поскольку файлы прошивки мы не можем распространять, вам придется получить их самостоятельно. Это означает, что вам придется искать файлы в apk-файлах, в Интернете, на форумах, на Amazfitwatchfaces (для устройств Miband/Amazfit) и так далее.</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Размер растрового изображения текста</string>
     <string name="pref_summary_banglejs_txt_bitmap_size">Размер растровых изображений для отрисовки текста</string>
-    <string name="pref_blacklist_calendars_summary">Календари из черного списка не будут синхронизироваться с устройством</string>
+    <string name="pref_blacklist_calendars_summary">Календари из черного списка не будут синхронизированы с устройством</string>
     <string name="pref_title_overwrite_settings_on_connection">Перезаписывать настройки при подключении</string>
     <string name="pref_summary_overwrite_settings_on_connection">При подключении к часам перезаписывать на них все настройки.</string>
     <string name="activity_type_hiking">Пешеходный туризм</string>
@@ -1596,7 +1596,7 @@
     <string name="controlcenter_get_heartrate_measurement">Измерение частоты пульса</string>
     <string name="prefs_fm_preset_instructions">Нажмите и удерживайте кнопку для сохранения предустановки</string>
     <string name="device_unsupported">НЕ ПОДДЕРЖИВАЕТСЯ</string>
-    <string name="miband_prefs_reserve_reminder_calendar">Зарезервировать напоминания для будущих событий</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Резервирование напоминаний для предстоящих событий</string>
     <string name="prefs_reserve_reminder_calendar_summary">Количество событий календаря, которые будут синхронизированы</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Включать дисплей при подъеме устройства, когда режим \"Не беспокоить\" включен</string>
     <string name="devicetype_nothingear1">Нечего прослушивать (1)</string>
@@ -1658,9 +1658,9 @@
     <string name="heartrate_bpm_110">110 уд/мин</string>
     <string name="heartrate_bpm_125">125 уд/мин</string>
     <string name="appmanager_app_start">Начать</string>
-    <string name="appmanager_download_started">Запущена загрузка приложения</string>
-    <string name="appmanager_downloaded_to_cache">Загружено в кэш: %s</string>
-    <string name="appmanager_download_app_error">Ошибка при загрузке приложения</string>
+    <string name="appmanager_download_started">Скачивание приложения начато</string>
+    <string name="appmanager_downloaded_to_cache">Скачано в кэш: %s</string>
+    <string name="appmanager_download_app_error">Ошибка при скачивании приложения</string>
     <string name="prefs_stress_monitoring_description">Наблюдение за уровнем стресса при отдыхе</string>
     <string name="prefs_spo2_monitoring_description">Автоматическое наблюдение за уровнем кислорода в крови в течение дня</string>
     <string name="prefs_activity_monitoring_title">Наблюдение за активностью</string>
@@ -1855,7 +1855,7 @@
     <string name="error_setting_parent_folder">Ошибка задания родительской папки: %s</string>
     <string name="autoconnect_from_device_summary">Подключаться в случае когда соединение инициировано устройством, например, наушниками</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
-    <string name="info_no_devices_connected">Нет подключенных устройств</string>
+    <string name="info_no_devices_connected">нет подключенных устройств</string>
     <string name="controlcenter_set_parent_folder">Задать родительскую папку</string>
     <string name="controlcenter_set_folder_title">Укажите папку или создайте новую</string>
     <string name="autoconnect_from_device_title">Подключаться при подключении с устройства</string>
@@ -1921,7 +1921,7 @@
     <string name="pref_title_notification_cache_while_disconnected">Кэшировать когда вне радиуса</string>
     <string name="pref_summary_banglejs_webview_url">Если вы хотите использовать пользовательский загрузчик приложения, поместите сюда свою https://…/android.html ссылку. В противном случае оставьте пустым для https://banglejs.com/apps</string>
     <string name="pref_header_navigation">Навигация</string>
-    <string name="action_changelog">Список изменений</string>
+    <string name="action_changelog">Журнал изменений</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. Нажмите на кнопку ниже, чтобы начать процесс привязки.</string>
     <string name="pref_summary_notification_cache_while_disconnected">Отправлять пропущенные уведомления когда устройство переподключается после нахождения вне радиуса</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Использовать геолокацию телефона для перезаписи данных о геолокации на браслете</string>
@@ -1933,7 +1933,7 @@
     <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">Определять местоположение только по провайдеру интернета. Это позволяет снизить энергопотребление ценой снижения точности. Требуется переподключение.</string>
     <string name="pref_crown_vibration">Вибрация коронки</string>
-    <string name="pref_agps_expiry_reminder_enabled">Напоминание об истечении срока актуальности AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">Напоминание об истечении AGPS</string>
     <string name="pref_summary_notification_media_ignores_application_list">Обрабатывать медиа уведомления перед списком приложений. Если этот параметр выключен, медиа приложения должны быть разрешены в списке приложений, чтобы элементы управления мультимедиа работали на устройстве.</string>
     <string name="pref_title_notification_media_ignores_application_list">Список приложений с игнорируемыми медиа уведомлениями</string>
     <string name="offline_voice_response_during_screen_lighting">Реагировать при включенном экране</string>
@@ -2126,7 +2126,7 @@
     <string name="loyalty_cards_sync_groups">Синхронизируемые группы</string>
     <string name="steps_streaks_total_days_hint_totals">Процент дней с достигнутой целью в соотношении ко всем дням с шагами</string>
     <string name="step_streak_days_hint">Количество дней с достигнутой целью шагов подряд</string>
-    <string name="intent_api_allow_activity_sync_title">Разрешить активацию синхронизации активности по событию</string>
+    <string name="intent_api_allow_activity_sync_title">Активация синх. активности по событию</string>
     <string name="changelog_full_title">Список изменений</string>
     <string name="changelog_ok_button">Ок</string>
     <string name="changelog_title">Что нового</string>
@@ -2326,7 +2326,7 @@
     <string name="steps_streaks_hint">Беспрерывная последовательность дней с достижением цели по шагам</string>
     <string name="intent_api_broadcast_export_title">Трансляция по экспорту БД</string>
     <string name="intent_api_allow_trigger_export_summary">Позволяет активировать экспорт базы данных через API Intent</string>
-    <string name="pref_summary_navigation_forward">Направление инструкций из навигационных приложений на часы</string>
+    <string name="pref_summary_navigation_forward">Отправка указаний навигационных приложений на часы</string>
     <string name="intent_api_allow_debug_commands_title">Разрешить отладочные команды</string>
     <string name="intent_api_allow_trigger_export_title">Разрешить экспорт БД</string>
     <string name="steps_streaks">Рекорды шагов</string>
@@ -2376,4 +2376,6 @@
     <string name="pref_media_rewind">Пропустить назад</string>
     <string name="sony_equalizer_preset_relaxed">Расслабленный</string>
     <string name="pref_media_previous">Предыдущий</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="watchface_dialog_pre_setting_position">предустановка позиции на %s</string>
 </resources>
