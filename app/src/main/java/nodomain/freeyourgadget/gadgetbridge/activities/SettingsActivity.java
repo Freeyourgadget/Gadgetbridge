@@ -478,7 +478,6 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                                 SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
                                 editor.putString("opentracks_packagename", fitnessAppEditText.getText().toString());
                                 editor.apply();
-                                editor.commit();
                             })
                             .setNegativeButton(R.string.Cancel, (dialog, which) -> {})
                             .show();

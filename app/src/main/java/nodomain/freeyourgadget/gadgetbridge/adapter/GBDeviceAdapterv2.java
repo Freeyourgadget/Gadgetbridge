@@ -693,7 +693,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
                             editor.putFloat((String.format("fm_preset%s", index)), frequency);
                             editor.apply();
-                            editor.commit();
                             return true;
                         }
                     });
