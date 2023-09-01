@@ -4,72 +4,6 @@
     <issue
         id="MissingPermission"
         message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="        BluetoothClass bluetoothClass = device.getBluetoothClass();"
-        errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/AbstractDeviceCoordinator.java"
-            line="204"
-            column="41"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="        BluetoothClass bluetoothClass = device.getBluetoothClass();"
-        errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/AbstractDeviceCoordinator.java"
-            line="204"
-            column="41"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            String name = device.getName();"
-        errorLine2="                          ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/huami/amazfitband5/AmazfitBand5Coordinator.java"
-            line="52"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            String name = device.getName();"
-        errorLine2="                          ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/huami/amazfitband5/AmazfitBand5Coordinator.java"
-            line="52"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            final String name = device.getName();"
-        errorLine2="                                ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/huami/amazfitband7/AmazfitBand7Coordinator.java"
-            line="45"
-            column="33"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="            final String name = device.getName();"
-        errorLine2="                                ~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/huami/amazfitband7/AmazfitBand7Coordinator.java"
-            line="45"
-            column="33"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
         errorLine1="            final String name = device.getName();"
         errorLine2="                                ~~~~~~~~~~~~~~~~">
         <location
@@ -3440,7 +3374,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/smaq2oss/SMAQ2OSSCoordinator.java"
-            line="54"
+            line="51"
             column="27"/>
     </issue>
 
@@ -3451,7 +3385,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/devices/smaq2oss/SMAQ2OSSCoordinator.java"
-            line="54"
+            line="51"
             column="27"/>
     </issue>
 
@@ -3871,50 +3805,6 @@
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/SleepAlarmWidget.java"
             line="153"
             column="9"/>
-    </issue>
-
-    <issue
-        id="UseGetLayoutInflater"
-        message="Use of LayoutInflater.from(requireContext()) detected. Consider using getLayoutInflater() instead"
-        errorLine1="        theDialogView = onCreateView(LayoutInflater.from(requireContext()), null, savedInstanceState);"
-        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/dialogs/MaterialDialogFragment.java"
-            line="36"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="UseGetLayoutInflater"
-        message="Use of LayoutInflater.from(requireContext()) detected. Consider using getLayoutInflater() instead"
-        errorLine1="        theDialogView = onCreateView(LayoutInflater.from(requireContext()), null, savedInstanceState);"
-        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/dialogs/MaterialDialogFragment.java"
-            line="36"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="MissingClass"
-        message="Class referenced in the layout file, `androidx.support.constraint.ConstraintLayout`, was not found in the project or the libraries"
-        errorLine1="&lt;androidx.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="src/main/res/layout-land/activity_notification_filter.xml"
-            line="2"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="MissingClass"
-        message="Class referenced in the layout file, `androidx.support.constraint.ConstraintLayout`, was not found in the project or the libraries"
-        errorLine1="&lt;androidx.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="src/main/res/layout-land/activity_notification_filter.xml"
-            line="2"
-            column="1"/>
     </issue>
 
     <issue
@@ -8506,7 +8396,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/AndroidUtils.java"
-            line="107"
+            line="108"
             column="9"/>
     </issue>
 
@@ -10590,28 +10480,6 @@
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/MediaManager.java"
             line="139"
             column="13"/>
-    </issue>
-
-    <issue
-        id="UseAppTint"
-        message="Must use `app:tint` instead of `android:tint`"
-        errorLine1="                    android:tint=&quot;@color/secondarytext&quot; />"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/device_itemv2.xml"
-            line="375"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="UseAppTint"
-        message="Must use `app:tint` instead of `android:tint`"
-        errorLine1="                    android:tint=&quot;@color/secondarytext&quot; />"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/device_itemv2.xml"
-            line="375"
-            column="21"/>
     </issue>
 
     <issue
@@ -21595,7 +21463,7 @@
         errorLine2="                     ~~~~~">
         <location
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/AndroidUtils.java"
-            line="252"
+            line="255"
             column="22"/>
     </issue>
 
@@ -21606,7 +21474,7 @@
         errorLine2="                     ~~~~~">
         <location
             file="src/main/java/nodomain/freeyourgadget/gadgetbridge/util/AndroidUtils.java"
-            line="252"
+            line="255"
             column="22"/>
     </issue>
 
