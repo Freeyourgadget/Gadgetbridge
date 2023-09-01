@@ -34,7 +34,7 @@
 
     </LinearLayout>
 
-    <Space
+    <android.widget.Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 

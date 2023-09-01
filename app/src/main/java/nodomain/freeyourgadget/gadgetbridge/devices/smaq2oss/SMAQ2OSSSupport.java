@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.smaq2oss;
+package nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss;
 
 
 import android.bluetooth.BluetoothGatt;

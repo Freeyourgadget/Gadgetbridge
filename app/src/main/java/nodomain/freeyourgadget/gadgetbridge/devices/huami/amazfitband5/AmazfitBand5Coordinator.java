@@ -53,7 +53,7 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
             if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_BAND5_NAME)) {
                 return DeviceType.AMAZFITBAND5;
             }
-        } catch (Exception ex) {
+        } catch (SecurityException ex) {
             LOG.error("unable to check device support", ex);
         }
         return DeviceType.UNKNOWN;

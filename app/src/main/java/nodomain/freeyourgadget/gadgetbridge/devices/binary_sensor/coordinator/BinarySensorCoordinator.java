@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator;
+package nodomain.freeyourgadget.gadgetbridge.devices.binary_sensor.coordinator;
 
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;

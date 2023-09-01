@@ -18,6 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
@@ -62,11 +64,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
@@ -110,13 +109,13 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         }
         Prefs prefs = getPrefs();
 
-        String lastDevice = prefs.getPreferences().getString("last_device_address","");
+        String lastDevice = prefs.getPreferences().getString("last_device_address", "");
         if (gbDevice.getAddress().equals(lastDevice)) {
             LOG.debug("#1605 removing last device");
             prefs.getPreferences().edit().remove("last_device_address").apply();
         }
 
-        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS,"");
+        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
         if (gbDevice.getAddress().equals(macAddress)) {
             LOG.debug("#1605 removing devel miband");
             prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS).apply();
@@ -201,7 +200,13 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     public boolean isHealthWearable(BluetoothDevice device) {
-        BluetoothClass bluetoothClass = device.getBluetoothClass();
+        BluetoothClass bluetoothClass;
+        try {
+            bluetoothClass = device.getBluetoothClass();
+        } catch (SecurityException se) {
+            LOG.warn("missing bluetooth permission: ", se);
+            return false;
+        }
         if (bluetoothClass == null) {
             LOG.warn("unable to determine bluetooth device class of " + device);
             return false;

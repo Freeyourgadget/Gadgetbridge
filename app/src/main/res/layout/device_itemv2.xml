@@ -372,7 +372,7 @@
                     android:padding="4dp"
                     android:scaleType="fitXY"
                     card_view:srcCompat="@drawable/ic_device_set_reminders"
-                    android:tint="@color/secondarytext" />
+                    app:tint="@color/secondarytext" />
 
                 <ImageView
                     android:id="@+id/device_action_show_activity_graphs"
