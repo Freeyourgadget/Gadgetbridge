@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next Version (WIP)
+#### 0.76.0
 * Upgrade UI to Material 3 and add dynamic colors theme
 * Initial support for Amazfit Bip 3 Pro
 * Initial support for Amazfit Cheetah Pro

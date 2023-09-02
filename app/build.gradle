@@ -77,8 +77,8 @@ android {
         targetSdkVersion 31
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.75.1"
-        versionCode 224
+        versionName "0.76.0"
+        versionCode 225
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
         buildConfigField "boolean", "INTERNET_ACCESS", "false"
