@@ -92,8 +92,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         final long nextDstMillis = transition.getInstant().toEpochMilli();
         final long delayMillis = nextDstMillis - now.toEpochMilli() + 5000L;
 
-        final Intent i = new Intent(context, TimeChangeReceiver.class);
-        i.setAction(ACTION_DST_CHANGED);
+        final Intent i = new Intent(ACTION_DST_CHANGED);
         final PendingIntent pi = PendingIntentUtils.getBroadcast(context, 0, i, 0, false);
 
         final AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
