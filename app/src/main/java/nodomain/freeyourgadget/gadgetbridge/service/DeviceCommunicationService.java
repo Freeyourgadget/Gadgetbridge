@@ -1247,6 +1247,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 IntentFilter filter = new IntentFilter();
                 filter.addAction("android.intent.action.TIME_SET");
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
+                filter.addAction(TimeChangeReceiver.ACTION_DST_CHANGED);
                 registerReceiver(mTimeChangeReceiver, filter);
             }
             if (mBlueToothPairingRequestReceiver == null) {
