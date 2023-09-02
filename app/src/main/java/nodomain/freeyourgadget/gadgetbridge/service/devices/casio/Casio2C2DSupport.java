@@ -19,22 +19,60 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 import java.time.ZonedDateTime;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.widget.Toast;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.UUID;
 import java.util.Arrays;
+import java.util.List;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE_AUTO;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_12H;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT_AUTO;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT_DAY_MONTH;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT_MONTH_DAY;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_ENABLE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LIGHT_DURATION_LONGER;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_POWER_SAVING;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CONNECTION_DURATION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIME_SYNC;
 
 
 // this class is for those Casio watches which request reads on the 2C characteristic and write on the 2D characteristic
@@ -77,6 +115,12 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         return super.connect();
     }
 
+    @Override
+    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        initializeDeviceSettings(builder);
+        return builder;
+    }
+
     public void writeAllFeatures(TransactionBuilder builder, byte[] arr) {
         if (!requests.isEmpty()) {
             LOG.warn("writing while waiting for a response may lead to incorrect received responses");
@@ -92,8 +136,21 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         void handle(byte[] response);
     }
 
+    public class FeatureResponses extends HashMap<FeatureRequest, byte[]> {
+        public byte[][] get(FeatureRequest[] requests) {
+            byte[][] result = new byte[requests.length][];
+            for (int i = 0; i < requests.length; i++) {
+                byte[] response = get(requests[i]);
+                if (response == null)
+                    return null;
+                result[i] = response;
+            }
+            return result;
+        }
+    }
+
     public interface ResponsesHandler {
-        void handle(Map<FeatureRequest, byte[]> responses);
+        void handle(FeatureResponses responses);
     }
 
     public static class FeatureRequest {
@@ -105,6 +162,19 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
         public FeatureRequest(byte arg0, byte arg1) {
             data = new byte[] {arg0, arg1};
+        }
+
+        public static FeatureRequest parse(String str) {
+            byte[] data = RequestWithData.parseData(str);
+            if (data == null)
+                return null;
+            if (data.length == 1) {
+                return new FeatureRequest(data[0]);
+            } else if (data.length == 2) {
+                return new FeatureRequest(data[0], data[1]);
+            } else {
+                return null;
+            }
         }
 
         public byte[] getData() {
@@ -148,6 +218,37 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         }
     }
 
+    private static class RequestWithData {
+        public FeatureRequest request;
+        public byte[] data;
+
+        public RequestWithData(FeatureRequest request, byte[] data) {
+            this.request = request;
+            this.data = data;
+        }
+
+        public static RequestWithData parse(String str) {
+            String[] kv = str.split(";");
+            if (kv.length != 2)
+                return null;
+            FeatureRequest request = FeatureRequest.parse(kv[0]);
+            byte[] data = parseData(kv[1]);
+            if (request == null || data == null)
+                return null;
+            return new RequestWithData(request, data);
+        }
+
+        public static byte[] parseData(String str) {
+            if (!str.matches("\\A\\[[0-9]+(, [0-9]+)*\\]\\z"))
+                return null;
+            String[] strings = str.replace("[", "").replace("]", "").split(", ");
+            byte[] result = new byte[strings.length];
+            for (int i = 0; i < result.length; i++)
+                result[i] = (byte) Integer.parseInt(strings[i]);
+            return result;
+        }
+    }
+
     private static class RequestWithHandler {
         public FeatureRequest request;
         public ResponseHandler handler;
@@ -165,7 +266,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     }
 
     public void requestFeatures(TransactionBuilder builder, Set<FeatureRequest> requests, ResponsesHandler handler) {
-        HashMap<FeatureRequest, byte[]> responses = new HashMap();
+        FeatureResponses responses = new FeatureResponses();
 
         HashSet<FeatureRequest> missing = new HashSet();
         for (FeatureRequest request: requests) {
@@ -212,6 +313,437 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         System.arraycopy(tmp, 0, arr, 1, 10);
 
         writeAllFeatures(builder, arr);
+    }
+
+    FeatureCache featureCache = new FeatureCache();
+    public class FeatureCache {
+
+        Map<FeatureRequest, byte[]> values = null;
+
+        // can not be done on initialization, since the SharedPreferences are not yet available
+        void load() {
+            values = new HashMap();
+            Set<String> serialized = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getStringSet("casio_features_current_values", new HashSet());
+            if (serialized == null)
+                return;
+
+            for (String str: serialized) {
+                if (str == null)
+                    continue;
+                RequestWithData entry = RequestWithData.parse(str);
+                if (entry == null) {
+                    LOG.warn("invalid casio_features_current_values entry: " + str);
+                    continue;
+                }
+                values.put(entry.request, entry.data);
+            }
+        }
+
+        public void save(SharedPreferences.Editor editor) {
+            if (values == null)
+                return;
+
+            Set<String> serialized = new HashSet();
+
+            for (Map.Entry<FeatureRequest, byte[]> entry: values.entrySet()) {
+                serialized.add(Arrays.toString(entry.getKey().getData()) + ";" + Arrays.toString(entry.getValue()));
+            }
+
+            editor.putStringSet("casio_features_current_values", serialized);
+        }
+
+        public byte[] get(FeatureRequest request) {
+            if (values == null)
+                load();
+            return values.get(request);
+        }
+
+        public byte[][] get(FeatureRequest[] requests) {
+            byte[][] result = new byte[requests.length][];
+            for (int i = 0; i < requests.length; i++) {
+                byte[] response = get(requests[i]);
+                if (response == null)
+                    return null;
+                result[i] = response;
+            }
+            return result;
+        }
+
+        public void add(Map<FeatureRequest, byte[]> entries, SharedPreferences.Editor editor) {
+            if (values == null)
+                load();
+            for (Map.Entry<FeatureRequest, byte[]> entry: entries.entrySet()) {
+                values.put(entry.getKey(), entry.getValue());
+            }
+            save(editor);
+        }
+    }
+
+    public abstract class DeviceSetting {
+        // which features to request
+        public abstract FeatureRequest[] getFeatureRequests();
+        // compares and updates watch data, cached previous data and GB state, returns true if data was changed
+        public abstract boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor);
+    };
+
+    ArrayList<DeviceSetting> deviceSettings = new ArrayList();
+    HashMap<String, DevicePreference> devicePreferenceByName = new HashMap();
+    {
+        for (DevicePreference pref: supportedDevicePreferences()) {
+            deviceSettings.add(pref);
+            devicePreferenceByName.put(pref.getName(), pref);
+        }
+    }
+
+    void initializeDeviceSettings(TransactionBuilder builder) {
+        Set<FeatureRequest> deviceSettingFeatures = new LinkedHashSet();
+        for (DeviceSetting ds: deviceSettings)
+            deviceSettingFeatures.addAll(Arrays.asList(ds.getFeatureRequests()));
+
+        requestFeatures(builder, deviceSettingFeatures, responses -> {
+            LinkedHashSet<FeatureRequest> override = new LinkedHashSet();
+
+            SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+            for (DeviceSetting ds: deviceSettings) {
+                FeatureRequest[] requests = ds.getFeatureRequests();
+                byte[][] data = responses.get(requests);
+                if (data == null)
+                    continue;
+                byte[][] previous = featureCache.get(requests);
+                if (ds.mergeValues(data, previous, editor)) {
+                    override.addAll(Arrays.asList(requests));
+                }
+            }
+
+            featureCache.add(responses, editor);
+            editor.apply();
+
+            if (!override.isEmpty()) {
+                ArrayList<byte[]> updatedSettings = new ArrayList();
+                for (FeatureRequest fr: override) {
+                    updatedSettings.add(responses.get(fr));
+                }
+                sendSettingsToDevice(updatedSettings.toArray(new byte[][] {}));
+            }
+        });
+    }
+
+    void sendSettingsToDevice(byte[][] settings) {
+        TransactionBuilder builder = createTransactionBuilder("DeviceSetting.write");
+        for (byte[] data: settings) {
+            writeAllFeatures(builder, data);
+        }
+        builder.run((gatt) -> GB.toast(getContext(), getContext().getString(R.string.user_feedback_set_settings_ok), Toast.LENGTH_SHORT, GB.INFO));
+        builder.queue(getQueue());
+    }
+
+    public abstract class DevicePreference extends DeviceSetting {
+        byte feature;
+        public final FeatureRequest getFeatureRequest() {
+            return new FeatureRequest(feature);
+        };
+
+        @Override
+        public final FeatureRequest[] getFeatureRequests() {
+            return new FeatureRequest[] {getFeatureRequest()};
+        };
+
+        String name;
+        public final String getName() {
+            return name;
+        }
+
+        public abstract void updateValue(byte[] data);
+
+        @Override
+        public final boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor) {
+            boolean needsUpdating = false;
+            // check if GB state has changed
+            if (previous != null) {
+                byte[] copy = previous[0].clone();
+                updateValue(copy);
+                if (!Arrays.equals(previous[0], copy)) {
+                    needsUpdating = true;
+                }
+            }
+            // update GB state and check if data needs change
+            if (!needsUpdating) {
+                needsUpdating = readValue(data[0], editor);
+            }
+            // maybe update data
+            if (needsUpdating) {
+                updateValue(data[0]);
+                return true;
+            }
+            return false;
+        }
+
+        public abstract boolean readValue(byte[] data, SharedPreferences.Editor editor);
+
+        protected Prefs getPrefs() {
+            return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        }
+
+        protected GBPrefs getGBPrefs() {
+            return new GBPrefs(getPrefs());
+        }
+    };
+
+    public abstract Casio2C2DSupport.DevicePreference[] supportedDevicePreferences();
+
+    @Override
+    public void onSendConfiguration(String config) {
+        DevicePreference pref = devicePreferenceByName.get(config);
+        if (pref == null) {
+            LOG.warn("received configuration change for unsupported setting " + config);
+            return;
+        }
+        if (!isInitialized()) {
+            return;
+        }
+        byte[] currentValue = featureCache.get(pref.getFeatureRequest());
+        if (currentValue == null) {
+            LOG.error("unknown current watch value for config " + config);
+            return;
+        }
+        pref.updateValue(currentValue);
+
+        SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+        featureCache.save(editor);
+        editor.apply();
+
+        sendSettingsToDevice(new byte[][] {currentValue});
+    }
+
+    public class UnsignedByteDevicePreference extends DevicePreference {
+        int index;
+
+        @Override
+        public void updateValue(byte[] data) {
+            data[index] = (byte) getGBValue();
+        }
+
+        @Override
+        public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
+            return setGBValue(editor, data[index] & 0xff);
+        }
+
+        public int getGBValue() {
+            return getPrefs().getInt(name, -1);
+        }
+
+        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
+            if (value != getGBValue()) {
+                editor.putString(name, Integer.toString(value));
+            }
+            return false;
+        }
+    }
+
+    public class BoolDevicePreference extends DevicePreference {
+        int index;
+        byte mask;
+
+        @Override
+        public void updateValue(byte[] data) {
+            if (getGBValue()) {
+                data[index] &= ~mask;
+            } else {
+                data[index] |= mask;
+            }
+        }
+
+        @Override
+        public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
+            if ((data[index] & mask) == 0) {
+                return setGBValue(editor, true);
+            } else {
+                return setGBValue(editor, false);
+            }
+        }
+
+        public boolean getGBValue() {
+            return getPrefs().getBoolean(name, false);
+        }
+
+        public boolean setGBValue(SharedPreferences.Editor editor, boolean value) {
+            if (value != getGBValue()) {
+                editor.putBoolean(name, value);
+            }
+            return false;
+        }
+    }
+
+    public class InvertedBoolDevicePreference extends BoolDevicePreference {
+        @Override
+        public void updateValue(byte[] data) {
+            if (getGBValue()) {
+                data[index] |= mask;
+            } else {
+                data[index] &= ~mask;
+            }
+        }
+
+        @Override
+        public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
+            if ((data[index] & mask) == 0) {
+                return setGBValue(editor, false);
+            } else {
+                return setGBValue(editor, true);
+            }
+        }
+    }
+
+    interface AutoGetter {
+        public String get(GBPrefs gbPrefs);
+    }
+
+    public class AutoBoolDevicePreference extends BoolDevicePreference {
+        AutoGetter getter;
+
+        String autoValue;
+        String trueValue;
+        String falseValue;
+
+        @Override
+        public boolean getGBValue() {
+            return getter.get(getGBPrefs()).equals(trueValue);
+        }
+
+        @Override
+        public boolean setGBValue(SharedPreferences.Editor editor, boolean value) {
+            String strValue = value ? trueValue : falseValue;
+            if (!getter.get(getGBPrefs()).equals(strValue)) {
+                if (getPrefs().getString(name, autoValue).equals(autoValue)) {
+                    return true;
+                } else {
+                    editor.putString(name, strValue);
+                }
+            }
+            return false;
+        }
+    }
+
+    public class TimeSyncPreference extends BoolDevicePreference {
+        { name = PREF_TIME_SYNC; }
+        { feature = FEATURE_SETTING_FOR_BLE; }
+        { index = 12; mask = (byte) (0x80 & 0xff); }
+    }
+
+    public class ConnectionDurationPreference extends UnsignedByteDevicePreference {
+        { name = PREF_CONNECTION_DURATION; }
+        { feature = FEATURE_SETTING_FOR_BLE; }
+        { index = 14; }
+
+        @Override
+        public int getGBValue() {
+            return getPrefs().getInt(name, -1);
+        }
+
+        @Override
+        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
+            if (value != getGBValue()) {
+                editor.putString(name, Integer.toString(value));
+            }
+            return false;
+        }
+    }
+
+    public class TimeFormatPreference extends AutoBoolDevicePreference {
+        { name = PREF_TIMEFORMAT; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 1; mask = 0x01; }
+        { getter = gbPrefs -> gbPrefs.getTimeFormat(); }
+        { autoValue = PREF_TIMEFORMAT_AUTO; }
+        { trueValue = PREF_TIMEFORMAT_12H; }
+        { falseValue = PREF_TIMEFORMAT_24H; }
+    }
+
+    public class OperatingSoundPreference extends BoolDevicePreference {
+        { name = PREF_OPERATING_SOUNDS; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 1; mask = 0x02; }
+    }
+
+    public class AutoLightPreference extends BoolDevicePreference {
+        { name = PREF_AUTOLIGHT; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 1; mask = 0x04; }
+    }
+
+    public class PowerSavingPreference extends BoolDevicePreference {
+        { name = PREF_POWER_SAVING; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 1; mask = 0x10; }
+    }
+
+    public class LongerLightDurationPreference extends InvertedBoolDevicePreference {
+        { name = PREF_LIGHT_DURATION_LONGER; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 2; mask = 0x01; }
+    }
+
+    public class DayMonthOrderPreference extends AutoBoolDevicePreference {
+        { name = PREF_DATEFORMAT; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 4; mask = 0x01; }
+        { getter = gbPrefs -> gbPrefs.getDateFormatDayMonthOrder(); }
+        { autoValue = PREF_DATEFORMAT_AUTO; }
+        { trueValue = PREF_DATEFORMAT_MONTH_DAY; }
+        { falseValue = PREF_DATEFORMAT_DAY_MONTH; }
+    }
+
+    public class LanguagePreference extends UnsignedByteDevicePreference {
+        { name = PREF_LANGUAGE; }
+        { feature = FEATURE_SETTING_FOR_BASIC; }
+        { index = 5; }
+
+        String[] languages = { "en_US", "es_ES", "fr_FR"," de_DE", "it_IT", "ru_RU" };
+
+        @Override
+        public int getGBValue() {
+            String value = getPrefs().getString(name, PREF_LANGUAGE_AUTO);
+            int number = 0;
+            if (value.equals(PREF_LANGUAGE_AUTO)) {
+                String lang = Locale.getDefault().getLanguage() + "_";
+                for (int i=0; i < languages.length; i++) {
+                    if (languages[i].startsWith(lang)) {
+                        number = i;
+                        break;
+                    }
+                }
+            } else {
+                for (int i=0; i < languages.length; i++) {
+                    if (value.equals(languages[i])) {
+                        number = i;
+                        break;
+                    }
+                }
+            }
+            return number;
+        }
+
+        @Override
+        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
+            if (getGBValue() != value) {
+                if (getPrefs().getString(name, PREF_LANGUAGE_AUTO).equals(PREF_LANGUAGE_AUTO)) {
+                    return true;
+                } else {
+                    if (value < languages.length) {
+                        editor.putString(name, languages[value]);
+                    } else {
+                        editor.putString(name, "unknown");
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    public class HourlyChimePreference extends InvertedBoolDevicePreference {
+        { name = PREF_HOURLY_CHIME_ENABLE; }
+        { feature = FEATURE_SETTING_FOR_ALM; }
+        { index = 1; mask = (byte) (0x80 & 0xff); }
     }
 
 }

@@ -10,8 +10,11 @@
     <item name="p_ring" type="string">ring</item>
     <item name="p_alarm_clock" type="string">alarm_clock</item>
 
+    <item name="p_dateformat_auto" type="string">auto</item>
     <item name="p_dateformat_time" type="string">dateformat_time</item>
     <item name="p_dateformat_datetime" type="string">dateformat_datetime</item>
+    <item name="p_dateformat_day_month" type="string">day_month</item>
+    <item name="p_dateformat_month_day" type="string">month_day</item>
 
     <item name="p_clock" type="string">clock</item>
     <item name="p_steps" type="string">steps</item>

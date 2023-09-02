@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:icon="@drawable/ic_sync"
+        android:defaultValue="2"
+        android:entries="@array/pref_casio_connection_duration"
+        android:entryValues="@array/pref_casio_connection_duration_values"
+        android:key="connection_duration"
+        android:summary="%s"
+        android:title="@string/pref_app_connection_duration" />
+</androidx.preference.PreferenceScreen>

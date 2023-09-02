@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -131,6 +132,29 @@ public class GBPrefs extends Prefs {
         }
 
         return timeFormat;
+    }
+
+    public String getDateFormatDayMonthOrder() {
+        String dateFormat = getString(DeviceSettingsPreferenceConst.PREF_DATEFORMAT, DeviceSettingsPreferenceConst.PREF_DATEFORMAT_AUTO);
+        if (DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO.equals(dateFormat)) {
+            String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "dM");
+            boolean quoted = false;
+            for (char c: pattern.toCharArray()) {
+                if (c == '\'') {
+                    quoted = !quoted;
+                    continue;
+                }
+                if (quoted)
+                    continue;
+                if (c == 'd')
+                    return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_DAY_MONTH;
+                if (c == 'M' || c == 'L')
+                    return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_MONTH_DAY;
+            }
+            return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_DAY_MONTH;
+        }
+
+        return dateFormat;
     }
 
     public float[] getLongLat(Context context) {

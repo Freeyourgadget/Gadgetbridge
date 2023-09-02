@@ -340,6 +340,7 @@
     <string name="pref_summary_sunrise_sunset">Send sunrise and sunset times based on the location to the Pebble timeline</string>
     <string name="pref_title_enable_calendar_sync">Sync calendar</string>
     <string name="pref_summary_enable_calendar_sync">Send calendar events to the timeline</string>
+    <string name="pref_time_sync">Automatic time sync</string>
     <string name="pref_title_custom_deviceicon">Show device specific notification icon</string>
     <string name="pref_summary_custom_deviceicon">Show a device specific Android notification icon instead the Gadgetbridge icon when connected</string>
     <string name="pref_title_preview_message_in_title">Show a preview of the message in the title</string>
@@ -803,6 +804,7 @@
     <string name="alarm_snooze">Snooze</string>
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
+    <string name="user_feedback_set_settings_ok">Settings sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
     <string name="chart_no_active_data">No activities detected.</string>
     <string name="chart_get_active_and_synchronize">Do some activity and synchronize device.</string>
@@ -924,11 +926,28 @@
     <string name="seconds_25">25 seconds</string>
     <string name="seconds_30">30 seconds</string>
     <string name="minutes_1">1 minute</string>
+    <string name="minutes_2">2 minutes</string>
+    <string name="minutes_3">3 minutes</string>
+    <string name="minutes_4">4 minutes</string>
     <string name="minutes_5">5 minutes</string>
+    <string name="minutes_6">6 minutes</string>
+    <string name="minutes_7">7 minutes</string>
+    <string name="minutes_8">8 minutes</string>
+    <string name="minutes_9">9 minutes</string>
     <string name="minutes_10">10 minutes</string>
+    <string name="minutes_15">15 minutes</string>
     <string name="minutes_20">20 minutes</string>
     <string name="minutes_30">30 minutes</string>
+    <string name="minutes_45">45 minutes</string>
     <string name="minutes_60">60 minutes</string>
+    <string name="minutes_75">75 minutes</string>
+    <string name="minutes_90">90 minutes</string>
+    <string name="minutes_120">120 minutes</string>
+    <string name="minutes_150">150 minutes</string>
+    <string name="minutes_180">180 minutes</string>
+    <string name="minutes_210">210 minutes</string>
+    <string name="minutes_240">240 minutes</string>
+    <string name="minutes_255">255 minutes</string>
     <string name="liveactivity_live_activity">Live activity</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="lack_of_step">Lack of steps: %1$d</string>
@@ -1248,6 +1267,8 @@
     <string name="unit_imperial">Imperial</string>
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
+    <string name="dateformat_day_month">Day, Month</string>
+    <string name="dateformat_month_day">Month, Day</string>
     <string name="pref_screen_notification_profile_alarm_clock">Alarm clock</string>
     <string name="activity_web_view">Web View Activity</string>
     <string name="StringUtils_sender"> (%1$s)</string>
@@ -2245,6 +2266,7 @@
         <item quantity="other">%d hours</item>
     </plurals>
     <string name="prefs_autolight">Automatic light</string>
+    <string name="prefs_light_duration_longer">Longer light duration</string>
     <string name="prefs_key_vibration">Key Vibration</string>
     <string name="prefs_operating_sounds">Operating Sounds</string>
     <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
@@ -2821,6 +2843,7 @@
     <string name="pref_app_logs_summary">Enable logs from watch apps</string>
     <string name="pref_app_logs_start_summary">Start logging from watch apps</string>
     <string name="pref_app_logs_stop_summary">Stop logging from watch apps</string>
+    <string name="pref_app_connection_duration">App connection duration</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="preview_image">Preview image</string>

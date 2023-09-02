@@ -520,6 +520,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_BUTTON_3_FUNCTION_DOUBLE);
         addPreferenceHandlerFor(PREF_VIBRATION_STRENGH_PERCENTAGE);
         addPreferenceHandlerFor(PREF_POWER_MODE);
+        addPreferenceHandlerFor(PREF_POWER_SAVING);
+        addPreferenceHandlerFor(PREF_CONNECTION_DURATION);
         addPreferenceHandlerFor(PREF_LIFTWRIST_NOSHED);
         addPreferenceHandlerFor(PREF_DISCONNECTNOTIF_NOSHED);
         addPreferenceHandlerFor(PREF_BUTTON_BP_CALIBRATE);
@@ -569,6 +571,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_FIND_PHONE);
         addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
+        addPreferenceHandlerFor(PREF_LIGHT_DURATION_LONGER);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_PREVIEW_MESSAGE_IN_TITLE);
@@ -596,6 +599,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_BATTERY_POLLING_ENABLE);
         addPreferenceHandlerFor(PREF_BATTERY_POLLING_INTERVAL);
+        addPreferenceHandlerFor(PREF_TIME_SYNC);
 
         addPreferenceHandlerFor(PREF_BLUETOOTH_CALLS_ENABLED);
         addPreferenceHandlerFor(PREF_DISPLAY_CALLER);

@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -49,6 +50,43 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     public int getBondingStyle(){
         return BONDING_STYLE_BOND;
     }
+
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_dateformat_day_month_order,
+                R.xml.devicesettings_operating_sounds,
+                R.xml.devicesettings_hourly_chime_enable,
+                R.xml.devicesettings_autolight,
+                R.xml.devicesettings_light_duration_longer,
+                R.xml.devicesettings_power_saving,
+                R.xml.devicesettings_casio_connection_duration,
+                R.xml.devicesettings_time_sync,
+
+                // alarms
+                // timer
+                // reminder
+                // world time
+        };
+    }
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "de_DE",
+                "it_IT",
+                "ru_RU",
+        };
+    }
+
+
+    // all further methods are boring since they do nothing
 
     @Override
     public Class<? extends Activity> getPairingActivity() {

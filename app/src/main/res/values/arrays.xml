@@ -283,6 +283,17 @@
         <item>MM/DD/YYYY</item>
     </string-array>
 
+    <string-array name="dateformat_day_month_order_entries">
+        <item>@string/automatic</item>
+        <item>@string/dateformat_day_month</item>
+        <item>@string/dateformat_month_day</item>
+    </string-array>
+    <string-array name="dateformat_day_month_order_values">
+        <item>@string/p_dateformat_auto</item>
+        <item>@string/p_dateformat_day_month</item>
+        <item>@string/p_dateformat_month_day</item>
+    </string-array>
+
     <string-array name="do_not_disturb_no_auto">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_scheduled</item>
@@ -2714,6 +2725,58 @@
         <item>1800</item>
         <item>2700</item>
         <item>3600</item>
+    </string-array>
+
+    <string-array name="pref_casio_connection_duration">
+        <item name="1">@string/minutes_1</item>
+        <item name="2">@string/minutes_2</item>
+        <item name="3">@string/minutes_3</item>
+        <item name="4">@string/minutes_4</item>
+        <item name="5">@string/minutes_5</item>
+        <item name="6">@string/minutes_6</item>
+        <item name="7">@string/minutes_7</item>
+        <item name="8">@string/minutes_8</item>
+        <item name="9">@string/minutes_9</item>
+        <item name="10">@string/minutes_10</item>
+        <item name="15">@string/minutes_15</item>
+        <item name="20">@string/minutes_20</item>
+        <item name="30">@string/minutes_30</item>
+        <item name="45">@string/minutes_45</item>
+        <item name="60">@string/minutes_60</item>
+        <item name="75">@string/minutes_75</item>
+        <item name="90">@string/minutes_90</item>
+        <item name="120">@string/minutes_120</item>
+        <item name="150">@string/minutes_150</item>
+        <item name="180">@string/minutes_180</item>
+        <item name="210">@string/minutes_210</item>
+        <item name="240">@string/minutes_240</item>
+        <item name="255">@string/minutes_255</item>
+    </string-array>
+
+    <string-array name="pref_casio_connection_duration_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>75</item>
+        <item>90</item>
+        <item>120</item>
+        <item>150</item>
+        <item>180</item>
+        <item>210</item>
+        <item>240</item>
+        <item>255</item>
     </string-array>
 
     <string-array name="notifications_timeout">

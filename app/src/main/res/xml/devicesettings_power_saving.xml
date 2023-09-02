@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_power_settings_new"
+        android:key="power_saving"
+        android:title="@string/power_saving" />
+</androidx.preference.PreferenceScreen>

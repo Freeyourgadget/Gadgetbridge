@@ -50,6 +50,22 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
     }
 
     @Override
+    public DeviceSetting[] supportedDeviceSettings() {
+        return new DeviceSetting[] {
+            new LanguageSetting(),
+            new TimeFormatSetting(),
+            new DayMonthOrderSetting(),
+            new OperatingSoundSetting(),
+            new HourlyChimeSetting(),
+            new AutoLightSetting(),
+            new LongerLightDurationSetting(),
+            new PowerSavingSetting(),
+            new ConnectionDurationSetting(),
+            new TimeSyncSetting(),
+        };
+    }
+
+    @Override
     public boolean useAutoConnect() {
         return false;
     }
@@ -74,6 +90,8 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
         }
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+
+        super.initializeDevice(builder);
 
         // which button was pressed?
         requestFeature(builder, new FeatureRequest(FEATURE_BLE_FEATURES), data -> {

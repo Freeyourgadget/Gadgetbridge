@@ -62,6 +62,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DEVICE_REGION = "device_region";
     public static final String PREF_DEVICE_NAME = "pref_device_name";
     public static final String PREF_DATEFORMAT = "dateformat";
+    public static final String PREF_DATEFORMAT_AUTO = "auto";
+    public static final String PREF_DATEFORMAT_DAY_MONTH = "day_month";
+    public static final String PREF_DATEFORMAT_MONTH_DAY = "month_day";
     public static final String PREF_TIMEFORMAT = "timeformat";
     public static final String PREF_TIMEFORMAT_24H = "24h";
     public static final String PREF_TIMEFORMAT_12H = "am/pm";
@@ -79,6 +82,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_RESERVER_REMINDERS_CALENDAR = "reserve_reminders_calendar";
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
     public static final String PREF_SYNC_CALENDAR = "sync_calendar";
+    public static final String PREF_TIME_SYNC = "time_sync";
     public static final String PREF_USE_CUSTOM_DEVICEICON = "use_custom_deviceicon";
     public static final String PREF_BUTTON_1_FUNCTION_SHORT = "button_1_function_short";
     public static final String PREF_BUTTON_2_FUNCTION_SHORT = "button_2_function_short";
@@ -202,6 +206,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_AUTOHEARTRATE_END = "pref_autoheartrate_end";
 
     public static final String PREF_POWER_MODE = "power_mode";
+    public static final String PREF_CONNECTION_DURATION = "connection_duration";
     public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
     public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
@@ -257,6 +262,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_CASIO_ALERT_OTHER = "casio_alert_other";
 
     public static final String PREF_CASIO_ALERT_SMS = "casio_alert_sms";
+    public static final String PREF_LIGHT_DURATION_LONGER = "light_duration_longer";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_SEND_APP_NOTIFICATIONS = "send_app_notifications";
     public static final String PREF_NOTIFICATION_WAKE_ON_OPEN = "notification_wake_on_open";
