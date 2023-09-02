@@ -45,8 +45,6 @@
         <change>Add preference to display changelog on startup</change>
         <change>Add Termux RUN_COMMAND permission</change>
         <change>Allow filtering notifications from work profile apps</change>
-        <change>Build nightly changelog from git</change>
-        <change>Bump target SDK version to 31</change>
         <change>Fix daylight saving time not being transmitted to the watch</change>
         <change>Fix media button control for some applications</change>
         <change>Fix notification filters by title if notification does not contain a body</change>
@@ -56,7 +54,6 @@
         <change>Fix transliteration of emoji</change>
         <change>Fix transliteration of non-ASCII accented characters</change>
         <change>Force gps speed calculation on some phones that do not report it correctly</change>
-        <change>Introduce WeatherSpec v4</change>
         <change>Make application list sorting case-insensitive</change>
         <change>Introduce native app shortcuts for android > 30</change>
         <change>Update device settings action bar title depending on current screen</change>
