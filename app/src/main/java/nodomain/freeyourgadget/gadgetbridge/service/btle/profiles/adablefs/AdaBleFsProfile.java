@@ -31,8 +31,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -42,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBleProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.RemoteFileSystemCache;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
@@ -64,6 +68,9 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
 
     final byte STATUS_OK = 0x01;
 
+    private enum TriState {TRUE, FALSE, UNKNOWN};
+
+
     static final UUID UUID_SERVICE_FS = UUID.fromString("0000febb-0000-1000-8000-00805f9b34fb");
     static final UUID UUID_CHARACTERISTIC_FS_VERSION = UUID.fromString("adaf0100-4669-6c65-5472-616e73666572");
     static final public UUID UUID_CHARACTERISTIC_FS_TRANSFER = UUID.fromString("adaf0200-4669-6c65-5472-616e73666572");
@@ -76,12 +83,17 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
     int locationToWriteTo;
     int chunkSize;
 
+    private RemoteFileSystemCache remoteFs;
+
+    List<String> listingDirectory;
+
     private static final Logger LOG = LoggerFactory.getLogger(AdaBleFsProfile.class);
 
     public AdaBleFsProfile(T support) {
         super(support);
         adaBleFsQueue = new LinkedList<>();
         chunkSize = 20; // Default MTU for android, I believe?
+        remoteFs = new RemoteFileSystemCache();
     }
 
     public void loadResources(Uri uri, Context context, BtLEQueue queue) {
@@ -221,11 +233,54 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
         for(int counter = 0; counter < length; counter++) {
             stringBytes[counter] = returned[28+counter];
         }
-        // Just throwing away this path?
+        Map<String, Object> relativeRoot = directoryTree;
+        for(String path: listingDirectory) {
+            relativeRoot = (Map<String, Object>) relativeRoot.get(path);
+        }
         try {
             String path = new String(stringBytes, "UTF-8");
+            Map<String, Object> here = directoryTree; // TODO Paths returned are relative to where we requested paths from so we need to alter this
+            // TODO Remove first / ?
+            // Split path on /
+            String soFar = "";
+            final String[] paths = path.split("/");
+            for(int counter = 0; counter < paths.length; counter++) {
+                final String dir = paths[counter];
+                soFar = soFar + "/" + dir;
+                if (here.containsKey(dir)) {
+                    Object entry = here.get(dir);
+                    if (counter < (paths.length-1) || isDirectory) {
+                        // If not at last entry in paths, or if the response says this is a directory
+                        if (entry instanceof HashMap) {
+                            // All good, continue;
+                        } else {
+                            // our map doesn't list directory, but this is?
+                            LOG.warn("GadgetBridge cache thinks " + soFar + " is a file, but device thinks it's a directory.");
+                            here.put(dir, new HashMap<String, Object>());
+                        }
+                    } else {
+                        // We are at the last string in paths, and response says this isn't a file
+                        if (entry instanceof String) {
+                            // All good, continue
+                        } else {
+                            LOG.warn("GadgetBridge cache thinks " + soFar + " is a directory, but device thinks it's a file.");
+                            here.put(dir, dir);
+                        }
+                    }
+                } else {
+                    // Our cache doesn't know of soFar
+                    if (counter < (paths.length-1) || isDirectory) {
+                        here.put(dir, new HashMap<String, Object>());
+                    } else {
+                        here.put(dir, dir);
+                    }
+                }
+            }
         } catch (UnsupportedEncodingException e) {
             // Pretty sure this branch will never happen
+        }
+        if (entryNum == totalEntries) {
+            relativeRoot.put(".", ".");
         }
         return entryNum == totalEntries;
     }
@@ -307,6 +362,41 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
         builder.queue(getQueue());
     }
 
+    private void uploadFileInitialise() {
+        final AdaBleFsAction nextAction = adaBleFsQueue.getFirst();
+        // Check if nextAction.filenameorpath directory exists
+        // get directory
+        // check directory exists, including parents
+        // remove file if it already exists
+        // then uploadFileStart()
+    }
+
+    private TriState directoryExists(String[] directoryList) {
+        Map<String, Object> here = directoryTree;
+        String[] soFar;
+        String totalPath = "/";
+        for(String directory: directoryList) {
+            if (here.containsKey(directory)) {
+                Object entry = here.get(directory);
+                if (entry instanceof HashMap) {
+                    here = (Map<String, Object>) entry;
+                    totalPath += directory + "/";
+                } else {
+                    // Not a HashMap, must be a string then and so this is a file, not a directory
+                    return TriState.FALSE;
+                }
+            } else if (here.containsKey(".")) {
+                // We have listed this directory, and the requested path does not exist
+                return TriState.FALSE;
+            }
+            // Request directory listing for here
+            totalPath += directory;
+            requestListDirectory(totalPath);
+            return TriState.UNKNOWN;
+        }
+        return TriState.TRUE;
+    }
+
     private void uploadFileStart() {
         bytesOfFileWritten = 0;
         // TODO Should this be the time we upload, or should it somehow be the timestamp of the
@@ -346,15 +436,14 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
         return;
     }
 
-    private void requestListDirectory() {
-        final AdaBleFsAction nextAction = adaBleFsQueue.getFirst();
+    private void requestListDirectory(String path) {
         Vector<Byte> command = new Vector<Byte>();
         command.add(REQUEST_LIST_DIRECTORY);
         command.add(PADDING_BYTE);
-        command.add((byte) (nextAction.filenameorpath.length() & 0xFF)); // 16-bit path length
-        command.add((byte) ((nextAction.filenameorpath.length() >> 8) & 0xFF));
-        for(int count = 0; count < nextAction.filenameorpath.length(); count++) {
-            command.add((byte) nextAction.filenameorpath.charAt(count));
+        command.add((byte) (path.length() & 0xFF)); // 16-bit path length
+        command.add((byte) ((path.length() >> 8) & 0xFF));
+        for(int count = 0; count < path.length(); count++) {
+            command.add((byte) path.charAt(count));
         }
         // send command, wait for response
         // Is there a better way to construct a bytes[] ?
@@ -366,6 +455,7 @@ public class AdaBleFsProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_FS_TRANSFER), bytes);
         builder.read(getCharacteristic(UUID_CHARACTERISTIC_FS_TRANSFER));
         builder.queue(getQueue());
+        listingDirectory = Arrays.asList(path.split("/"));
         return;
     }
     private void deleteFile() {
