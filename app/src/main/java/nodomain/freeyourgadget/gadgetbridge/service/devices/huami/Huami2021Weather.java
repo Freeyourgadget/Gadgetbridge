@@ -421,7 +421,7 @@ public class Huami2021Weather {
             pressure = new UnitValue(Unit.PRESSURE_MB, Math.round(weatherSpec.pressure));
             pubTime = new Date(weatherSpec.timestamp * 1000L);
             temperature = new UnitValue(Unit.TEMPERATURE_C, weatherSpec.currentTemp - 273);
-            uvIndex = String.valueOf(weatherSpec.uvIndex);
+            uvIndex = String.valueOf(Math.round(weatherSpec.uvIndex));
             visibility = new UnitValue(Unit.KM, Math.round(weatherSpec.visibility / 1000));
             weather = String.valueOf(mapToZeppOsWeatherCode(weatherSpec.currentConditionCode));
             wind = new Wind(weatherSpec.windDirection, Math.round(weatherSpec.windSpeed));
