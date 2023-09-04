@@ -89,6 +89,11 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         final ZoneRules zoneRules = zoneId.getRules();
         final Instant now = Instant.now();
         final ZoneOffsetTransition transition = zoneRules.nextTransition(now);
+        if (transition == null) {
+            LOG.warn("No DST transition found for {}", zoneId);
+            return;
+        }
+
         final long nextDstMillis = transition.getInstant().toEpochMilli();
         final long delayMillis = nextDstMillis - now.toEpochMilli() + 5000L;
 
