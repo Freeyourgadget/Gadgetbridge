@@ -222,6 +222,7 @@ android {
         htmlOutput file("$project.buildDir/reports/lint/lint.html")
         // Ignore checks present in the snapshot
         baseline file("lint-baseline.xml")
+        abortOnError true
     }
 
     testOptions {
