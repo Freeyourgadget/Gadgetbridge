@@ -68,7 +68,7 @@ public class EntitiesTest extends TestBase {
         assertEquals(1, userDao.count());
         assertEquals(1, daoSession.loadAll(User.class).size());
 
-        assertNotNull(userAttributesDao.load(attributes.getId()));
+        assertNull(userAttributesDao.load(attributes.getId()));
         assertEquals(1, userAttributesDao.count());
         assertEquals(1, daoSession.loadAll(UserAttributes.class).size());
 

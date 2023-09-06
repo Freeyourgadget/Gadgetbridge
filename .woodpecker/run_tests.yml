@@ -5,6 +5,12 @@ steps:
       - pwd #bump
       - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
 
+  lint:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
+    commands:
+      - pwd #bump
+      - ./gradlew lint
+
 #when:
 #repo: Freeyourgadget/Gadgetbridge
 #branch: master
