@@ -13,7 +13,7 @@ steps:
     commands:
       - pwd #bump
       - ./gradlew lint
-      - if [ -f .pipeline_failure ]; then return 1; fi
+      - '[ ! -f .pipeline_failure ] || exit 1'
 
 #when:
 #repo: Freeyourgadget/Gadgetbridge
