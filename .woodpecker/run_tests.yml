@@ -4,12 +4,16 @@ steps:
     commands:
       - pwd #bump
       - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
+      # mark pipeline as failed if the tests failed, but linter will still run
+      - '[ "$CI_STEP_STATUS" == "success" ] || touch .pipeline_failure'
+    failure: ignore
 
   lint:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands:
       - pwd #bump
       - ./gradlew lint
+      - if [ -f .pipeline_failure ]; then return 1; fi
 
 #when:
 #repo: Freeyourgadget/Gadgetbridge
