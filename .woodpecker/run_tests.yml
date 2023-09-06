@@ -3,7 +3,8 @@ steps:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
     commands:
       - pwd #bump
-      - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
+      - exit 1
+      - 'echo "Pipeline status: $CI_STEP_STATUS"'
       # mark pipeline as failed if the tests failed, but linter will still run
       - '[ "$CI_STEP_STATUS" == "success" ] || touch .pipeline_failure'
     failure: ignore
