@@ -1,20 +1,28 @@
 steps:
   tests:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
-    commands:
-      - pwd #bump
-      - exit 1
-      - 'echo "Pipeline status: $CI_STEP_STATUS"'
-      # mark pipeline as failed if the tests failed, but linter will still run
-      - '[ "$CI_STEP_STATUS" == "success" ] || touch .pipeline_failure'
+    commands: |
+      pwd
+      ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
+      if [ $? -ne 0 ]; then
+        touch .pipeline_failure
+      fi
     failure: ignore
 
   lint:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
-    commands:
-      - pwd #bump
-      - ./gradlew lint
-      - '[ ! -f .pipeline_failure ] || exit 1'
+    commands: |
+      pwd
+      ./gradlew lint
+
+  failure_check:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
+    commands: |
+      pwd
+      if [ -f .pipeline_failure ]; then
+        echo "One of the previous steps failed, failing the pipeline"
+        exit 1;
+      fi
 
 #when:
 #repo: Freeyourgadget/Gadgetbridge
