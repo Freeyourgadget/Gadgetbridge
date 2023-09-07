@@ -115,5 +115,9 @@ steps:
     when:
       status: failure
     secrets: [ commit_token ]
+
 when:
-  event: cron
+  - event: cron
+  - event: deployment
+    branch: master
+    evaluate: 'CI_PIPELINE_DEPLOY_TARGET == "nightly"'
