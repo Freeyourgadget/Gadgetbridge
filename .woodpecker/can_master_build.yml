@@ -13,4 +13,4 @@ steps:
 
 when:
   event:
-    exclude: cron
+    exclude: ['cron', 'deployment']
