@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip5;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class AmazfitBip5FirmwareInfo extends Huami2021FirmwareInfo {
 
     @Override
     public Set<Integer> deviceSources() {
-        return new HashSet<>(Collections.singletonList(8454401));
+        return new HashSet<>(Arrays.asList(8454400, 8454401));
     }
 
     @Override
