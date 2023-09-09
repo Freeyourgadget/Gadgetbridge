@@ -790,6 +790,18 @@
         </activity>
 
         <activity
+            android:name=".activities.TextReceiverActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/text_receiver_activity_title"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.WakeActivity"
             android:label="WakeActivity">
         </activity>

@@ -1575,6 +1575,7 @@
     <string name="about_version">Version %s</string>
     <string name="about_hash">Commit %s</string>
     <string name="gpx_receiver_activity_title">GPX Receiver Gadgetbridge</string>
+    <string name="text_receiver_activity_title">Send text to device</string>
     <string name="gpx_receiver_files_received">GPX file(s) received:</string>
     <string name="gpx_receiver_overwrite_some_files">Some file(s) already exist. Overwrite?</string>
     <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
