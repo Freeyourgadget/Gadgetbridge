@@ -63,19 +63,28 @@ public class FetchSpo2SleepOperation extends AbstractRepeatingFetchOperation {
             // this doesn't match the spo2 value returned by FetchSpo2NormalOperation.. it's often 100 when the other is 99, but not always
             final int spo2 = buf.get() & 0xff;
 
-            // Not sure what the nextg 25 bytes mean:
-            // 40646464646464636363636363000000000000400000000000
-            //   an unknown byte, always 0x40 (64)
-            //   6 bytes with max values?
-            //   6 bytes with min values?
-            //   12 unknown bytes, always ending with 4 zeroes?
-            final byte[] unknown = new byte[25];
-
-            buf.get(unknown);
+            final int duration = buf.get() & 0xff;
+            final byte[] spo2High = new byte[6];
+            final byte[] spo2Low = new byte[6];
+            final byte[] signalQuality = new byte[8];
+            final byte[] extend = new byte[4];
+            buf.get(spo2High);
+            buf.get(spo2Low);
+            buf.get(signalQuality);
+            buf.get(extend);
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.debug("SPO2 (sleep) at {}: {} unknown={}", timestamp.getTime(), spo2, GB.hexdump(unknown));
+            LOG.debug(
+                    "SPO2 (sleep) at {}: {} duration={} high={} low={} signalQuality={}, extend={}",
+                    timestamp.getTime(),
+                    spo2,
+                    duration,
+                    spo2High,
+                    spo2Low,
+                    signalQuality,
+                    extend
+            );
             // TODO save
         }
 
