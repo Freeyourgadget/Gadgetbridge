@@ -2397,4 +2397,5 @@
     <string name="english_us">אנגלית אמריקאית</string>
     <string name="spanish_es">ספרדית של ספרד</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">אין מספיק מקום פנוי במכשיר</string>
+    <string name="text_receiver_activity_title">שליחת טקסט למכשיר</string>
 </resources>
