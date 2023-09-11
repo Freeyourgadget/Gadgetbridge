@@ -2383,4 +2383,5 @@
     <string name="french_ca">الفرنسية (كندا)</string>
     <string name="french_fr">الفرنسية (فرنسا)</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">الجهاز ليس لديه مساحة كافية</string>
+    <string name="text_receiver_activity_title">أرسل رسالة إلى الجهاز</string>
 </resources>
