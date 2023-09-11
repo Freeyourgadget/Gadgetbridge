@@ -2401,4 +2401,6 @@ Temps de sommeil préféré en heures</string>
     <string name="spanish_us">Espagnol (Américain)</string>
     <string name="french_ca">Français (Canadien)</string>
     <string name="french_fr">Français (France)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Cet appareil n\'a pas assez d\'espace libre</string>
+    <string name="text_receiver_activity_title">Envoyer un message texte à l\'appareil</string>
 </resources>
