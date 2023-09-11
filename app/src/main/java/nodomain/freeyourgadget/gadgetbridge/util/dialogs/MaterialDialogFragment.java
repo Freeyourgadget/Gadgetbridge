@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.util.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,7 @@ public class MaterialDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
-        theDialogView = onCreateView(LayoutInflater.from(requireContext()), null, savedInstanceState);
+        theDialogView = onCreateView(getLayoutInflater(), null, savedInstanceState);
         builder.setView(theDialogView);
 
         return builder.create();

@@ -7,7 +7,7 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "pmd"
 apply plugin: 'com.google.protobuf'
 
-def ABORT_ON_CHECK_FAILURE = false
+def ABORT_ON_CHECK_FAILURE = true
 
 tasks.withType(Test) {
     systemProperty "MiFirmwareDir", System.getProperty("MiFirmwareDir", null)
@@ -216,10 +216,12 @@ android {
     lintOptions {
         abortOnError ABORT_ON_CHECK_FAILURE
         lintConfig file("${project.rootDir}/config/lint/lint.xml")
-// If true, generate an HTML report (with issue explanations, sourcecode, etc)
+        // If true, generate an HTML report (with issue explanations, sourcecode, etc)
         htmlReport true
-// Optional path to report (default will be lint-results.html in the builddir)
+        // Optional path to report (default will be lint-results.html in the builddir)
         htmlOutput file("$project.buildDir/reports/lint/lint.html")
+        // Ignore checks present in the snapshot
+        baseline file("lint-baseline.xml")
     }
 
     testOptions {

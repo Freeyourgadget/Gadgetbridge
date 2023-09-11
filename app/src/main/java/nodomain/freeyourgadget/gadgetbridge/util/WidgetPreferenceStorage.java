@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class WidgetPreferenceStorage {
@@ -97,7 +96,6 @@ public class WidgetPreferenceStorage {
         }
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(PREFS_WIDGET_SETTINGS, savedWidgetsPreferencesDataArray.toString());
-        editor.commit();
         editor.apply();
     }
 
@@ -127,7 +125,6 @@ public class WidgetPreferenceStorage {
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(PREFS_WIDGET_SETTINGS, savedWidgetsPreferencesDataArray.toString());
-        editor.commit();
         editor.apply();
     }
 
@@ -139,7 +136,6 @@ public class WidgetPreferenceStorage {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(PREFS_WIDGET_SETTINGS, "");
-        editor.commit();
         editor.apply();
     }
 

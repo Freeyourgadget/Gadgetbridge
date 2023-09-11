@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -124,6 +125,7 @@ public class AndroidUtils {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
             int[] attrsToResolve = {R.attr.colorOnSurface};
+            @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
             ta.recycle();
@@ -149,6 +151,7 @@ public class AndroidUtils {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
             int[] attrsToResolve = {R.attr.colorSurface};
+            @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
             ta.recycle();

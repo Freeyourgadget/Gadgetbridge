@@ -46,7 +46,7 @@ public class AmazfitBand7Coordinator extends Huami2021Coordinator {
             if (name != null && name.startsWith(HuamiConst.AMAZFIT_BAND7_NAME)) {
                 return DeviceType.AMAZFITBAND7;
             }
-        } catch (final Exception e) {
+        } catch (SecurityException e) {
             LOG.error("unable to check device support", e);
         }
 
