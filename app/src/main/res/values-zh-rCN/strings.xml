@@ -2398,4 +2398,5 @@
     <string name="french_ca">法语 （加拿大）</string>
     <string name="french_fr">法语 （法国）</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">设备没有足够的可用空间</string>
+    <string name="text_receiver_activity_title">发送文本到设备</string>
 </resources>
