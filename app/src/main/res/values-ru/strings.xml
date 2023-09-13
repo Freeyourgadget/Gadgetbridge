@@ -2378,4 +2378,8 @@
     <string name="pref_media_previous">Предыдущий</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="watchface_dialog_pre_setting_position">предустановка позиции на %s</string>
+    <string name="devicetype_bohemic_smart_bracelet">Умный браслет Bohemic</string>
+    <string name="text_receiver_activity_title">Отправить текст на устройство</string>
+    <string name="activity_type_stepper">Степпер</string>
+    <string name="battery_case">Зарядный футляр</string>
 </resources>
