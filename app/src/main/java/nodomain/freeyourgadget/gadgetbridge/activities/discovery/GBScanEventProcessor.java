@@ -217,10 +217,12 @@ public final class GBScanEventProcessor implements Runnable {
 
         String previousName = null;
         ParcelUuid[] previousUuids = null;
+        boolean firstTime = false;
 
         if (candidate == null) {
             // First time we see this device
             LOG.debug("Found {} for the first time", address);
+            firstTime = true;
             final GBScanEvent firstEvent = events.get(0);
             events.remove(0);
             candidate = new GBDeviceCandidate(firstEvent.getDevice(), firstEvent.getRssi(), firstEvent.getServiceUuids());
@@ -248,22 +250,22 @@ public final class GBScanEventProcessor implements Runnable {
             LOG.error("SecurityException on candidate.getDevice().getUuids()");
         }
 
-        if (Objects.equals(candidate.getName(), previousName) && Arrays.equals(candidate.getServiceUuids(), previousUuids)) {
-            // Neither name nor uuids changed, do not reprocess
-            LOG.trace("Not reprocessing {} due to no changes", address);
-            return false;
+        if (!firstTime) {
+            if (Objects.equals(candidate.getName(), previousName) && Arrays.equals(candidate.getServiceUuids(), previousUuids)) {
+                // Neither name nor uuids changed, do not reprocess
+                LOG.trace("Not reprocessing {} due to no changes", address);
+                return false;
+            }
         }
 
-        if (candidate.isNameKnown()) {
-            if (processCandidate(candidate)) {
-                LOG.info(
-                        "Device {} ({}) is supported as '{}' without scanning services",
-                        candidate.getDevice(),
-                        candidate.getName(),
-                        candidate.getDeviceType()
-                );
-                return true;
-            }
+        if (processCandidate(candidate)) {
+            LOG.info(
+                    "Device {} ({}) is supported as '{}' without scanning services",
+                    candidate.getDevice(),
+                    candidate.getName(),
+                    candidate.getDeviceType()
+            );
+            return true;
         }
 
         if (candidate.getServiceUuids().length == 0 || (candidate.getServiceUuids().length == 1 && candidate.getServiceUuids()[0].equals(ZERO_UUID))) {

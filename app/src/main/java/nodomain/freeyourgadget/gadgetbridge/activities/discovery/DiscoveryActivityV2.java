@@ -104,7 +104,7 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
     private final Handler handler = new Handler();
 
     private static final long SCAN_DURATION = 30000; // 30s
-    private static final long LIST_REFRESH_THRESHOLD_MS = 2500L;
+    private static final long LIST_REFRESH_THRESHOLD_MS = 1000L;
     private long lastListRefresh = System.currentTimeMillis();
 
     private final ScanCallback bleScanCallback = new BleScanCallback();
