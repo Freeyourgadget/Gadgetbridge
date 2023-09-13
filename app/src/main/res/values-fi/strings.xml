@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_settings">Asetukset</string>
     <string name="controlcenter_fetch_activity_data">Synkronoi</string>
     <string name="controlcenter_find_device">Löydä kadonnut laite</string>
@@ -11,7 +11,7 @@
     <string name="controlcenter_disconnect">Katkaise yhteys</string>
     <string name="controlcenter_delete_device">Poista laite</string>
     <string name="controlcenter_delete_device_name">Poista %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Tämä toiminto poistaa laitteen ja kaikki siihen liittyvät tiedot!</string>
+    <string name="controlcenter_delete_device_dialogmessage">Tämä poistaa laitteen ja kaikki siihen liittyvät tiedot!</string>
     <string name="controlcenter_navigation_drawer_open">Avaa navigointivetolaatikko</string>
     <string name="controlcenter_navigation_drawer_close">Sulje navigointivetolaatikko</string>
     <string name="controlcenter_snackbar_need_longpress">Paina korttia pitkään katkaistaksesi yhteyden</string>
@@ -148,7 +148,7 @@
     <string name="title_activity_calblacklist">Mustalla listalla olevat Kalenterit</string>
     <string name="whitelist_all_for_notifications">Lisää kaikki ilmoitukset valkoiselle listalle</string>
     <string name="blacklist_all_for_notifications">Lisää kaikki ilmoitukset mustalle listalle</string>
-    <string name="debugactivity_really_factoryreset">Tehdasastetuksien palauttaminen poistaa yhdistetystä laitteesta kaikki tiedot (jos tämä on tuettu). Xiaomin ja Huamin laitteet myös muuttavat Bluetooth MAC-osoitteen, joten ne näkyvät uusina laitteina Gadgetbridgessä.</string>
+    <string name="debugactivity_really_factoryreset">Tehdasastetuksien palauttaminen poistaa yhdistetystä laitteesta kaikki tiedot (jos tuettu). Xiaomin ja Huamin laitteet myös muuttavat Bluetooth MAC -osoitteen, joten ne näkyvät uusina laitteina Gadgetbridgessä.</string>
     <string name="debugactivity_really_factoryreset_title">Tahdotko varmasti palauttaa tehdasasteukset\?</string>
     <string name="title_activity_debug">Virheenetsintä</string>
     <string name="calendar_year">Vuosi</string>
@@ -162,7 +162,7 @@
     <string name="battery_detail_activity_title">Akun tiedot</string>
     <string name="controlcenter_calibrate_device">Laitteen kalibrointi</string>
     <string name="controlcenter_set_alias">Määritä alias</string>
-    <string name="controlcenter_connect">Yhdistä…</string>
+    <string name="controlcenter_connect">Yhdistä</string>
     <string name="controlcenter_change_fm_frequency">Muuta FM-taajuutta</string>
     <string name="controlcenter_change_led_color">Muuta LED-väriä</string>
     <string name="find_lost_device_message">Etsi %1$s\?</string>
@@ -171,7 +171,7 @@
     <string name="pref_header_general">Yleiset asetukset</string>
     <string name="pref_title_language">Kieli</string>
     <string name="pref_summary_minimize_priority_off">Tilapalkin kuvake ja lukitusnäytön ilmoitus näytetään</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Yhteyden muodostaminen Gadgetbridge-laitteeseen, kun Bluetooth on päällä</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Yhdistä laitteeseen, kun Bluetooth on päällä</string>
     <string name="pref_title_audio_player">Ensisijainen äänentoisto</string>
     <string name="pref_summary_datetime_syctimeonconnect">Synkronoi aika Gadgetbridge-laitteeseen, kun muodostat yhteyden, ja kun aika tai aikavyöhyke muuttuu Android-laitteessa</string>
     <string name="pref_title_notifications_call">Puhelut</string>
@@ -191,13 +191,13 @@
     <string name="pref_title_notifications_pebblemsg">Pebble-viestit</string>
     <string name="pref_summary_notifications_pebblemsg">Tuki sovelluksille, jotka lähettävät ilmoituksia Pebbleen PebbleKitin kautta.</string>
     <string name="pref_title_notification_filter">Älä häiritse</string>
-    <string name="pref_theme_black_background">Käytä mustaa taustaa Tummassa Teemassa</string>
+    <string name="pref_theme_black_background">Käytä mustaa taustaa tummassa tyylissä</string>
     <string name="pref_title_support_voip_calls">Ota VoIP-sovelluspuhelut käyttöön</string>
     <string name="pref_title_minimize_priority">Piilota Gadgetbridge-ilmoitus</string>
     <string name="pref_theme_dark">Tumma</string>
     <string name="pref_theme_system">Järjestelmä</string>
     <string name="pref_theme_light">Vaalea</string>
-    <string name="pref_title_theme">Teema</string>
+    <string name="pref_title_theme">Tyyli</string>
     <string name="pref_title_datetime_syctimeonconnect">Synkronoi aika</string>
     <string name="pref_header_datetime">Päivämäärä ja aika</string>
     <string name="pref_default">Oletus</string>
@@ -276,7 +276,7 @@
     <string name="pref_message_privacy_mode_complete">Piilota sisältö</string>
     <string name="pref_title_message_privacy_mode">Viestien yksityisyystila</string>
     <string name="pref_title_canned_messages_set">Päivitä laitteessa</string>
-    <string name="pref_title_pebble_settings">Pebble asetukset</string>
+    <string name="pref_title_pebble_settings">Pebblen asetukset</string>
     <string name="pref_title_enable_outgoing_call">Tue lähteviä puheluita</string>
     <string name="pref_header_notifications_and_calls">Ilmoitukset ja puhelut</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">Tämä on Gadgetbridgestä lähetetty testi-ilmoitus</string>
@@ -316,7 +316,7 @@
     <string name="Delete">Poista</string>
     <string name="pref_message_privacy_mode_off">Näytä sisältö</string>
     <string name="pref_title_weather_location">Sään sijainti (LineageOS:n sään tarjoajaa varten)</string>
-    <string name="pref_header_development">Kehittäjä asetukset</string>
+    <string name="pref_header_development">Kehittäjäasetukset</string>
     <string name="pref_call_privacy_mode_number">Piilota numero, mutta näytä nimi</string>
     <string name="devicetype_pinetime_jf">PineTime (JF-laiteohjelmisto)</string>
     <string name="activity_type_elliptical_trainer">Crosstrainer</string>
@@ -485,4 +485,26 @@
     <string name="gadgetbridge_running_generic">Gadgetbridge on käynnissä</string>
     <string name="supercars_lights_label">Valot</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_charts">Aktiivisuus ja uni</string>
+    <string name="info_no_devices_connected">Ei laitteita yhteydessä</string>
+    <string name="zetime_title_settings">ZeTimen asetukset</string>
+    <string name="world_clock_delete_confirm_title">Poista \'%1$s\'</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktiivisuus</string>
+    <string name="preferences_hplus_settings">HPlusin/Makibesin asetukset</string>
+    <string name="pref_world_clocks_title">Maailmankellot</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2:n asetukset</string>
+    <string name="world_clock_delete_confirm_description">Oletko varma, että haluat poistaa tämän maailmankellon\?</string>
+    <string name="not_connected">Ei yhteydessä</string>
+    <string name="pref_theme_dynamic">Dynaamiset värit</string>
+    <string name="changelog_ok_button">Valmis</string>
+    <string name="about_contributors">Osallistujat</string>
+    <string name="controlcenter_start_activitymonitor">Aktiivisuutesi</string>
+    <string name="preferences_qhybrid_settings">Q Hybridin asetukset</string>
+    <string name="changelog_full_title">Muutosloki</string>
+    <string name="pref_write_logfiles">Kirjoita lokitiedostoja</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynaamiset värit ei ole tuettu, se vaati Android 12:sta tai uudemman. Tästä johtuen Gadgetbridge käyttää oletus Material 3 -värejä.</string>
+    <string name="changelog_show_full">Lisää…</string>
+    <string name="action_changelog">Muutosloki</string>
+    <string name="about_hash">Commit %s</string>
+    <string name="reminder_delete_confirm_description">Oletko varma, että haluat poistaa muistutuksen\?</string>
 </resources>
