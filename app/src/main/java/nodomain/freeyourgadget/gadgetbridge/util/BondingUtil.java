@@ -397,6 +397,7 @@ public class BondingUtil {
         return new CompanionDeviceManager.Callback() {
             @Override
             public void onFailure(CharSequence error) {
+                LOG.error("Bonding failed immediately: {}", error);
                 toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_bonding_failed_immediately), Toast.LENGTH_SHORT, GB.ERROR);
             }
 
