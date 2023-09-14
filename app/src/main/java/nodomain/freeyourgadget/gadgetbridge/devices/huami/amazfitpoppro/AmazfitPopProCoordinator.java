@@ -29,6 +29,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipupro.AmazfitBipUProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpoppro.AmazfitPopProSupport;
 
 public class AmazfitPopProCoordinator extends AmazfitBipUProCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitPopProCoordinator.class);
@@ -59,4 +61,9 @@ public class AmazfitPopProCoordinator extends AmazfitBipUProCoordinator {
         return handler.isValid() ? handler : null;
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitPopProSupport.class;
+    }
 }

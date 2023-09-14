@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSLiteSupport;
 
 public class AmazfitBipSLiteCoordinator extends AmazfitBipSCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSLiteCoordinator.class);
@@ -57,5 +59,11 @@ public class AmazfitBipSLiteCoordinator extends AmazfitBipSCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitBipSLiteFWInstallHandler handler = new AmazfitBipSLiteFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitBipSLiteSupport.class;
     }
 }
