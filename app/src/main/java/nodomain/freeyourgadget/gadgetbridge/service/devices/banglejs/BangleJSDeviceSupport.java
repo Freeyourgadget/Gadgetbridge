@@ -1001,7 +1001,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     i--; // back up one (because we deleted it)
                 }
             }
-            String packetStr = new String(chars);
+            String packetStr = new String(chars, StandardCharsets.ISO_8859_1);
             LOG.debug("RX: " + packetStr);
             // logging
             addReceiveHistory(packetStr);
