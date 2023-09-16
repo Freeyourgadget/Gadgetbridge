@@ -37,7 +37,7 @@ vendor's servers.
 - Amazfit
 	- [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-5), [Band 7](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-7) [**\[!\]**](#special-pairing-procedures)
 	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), [Bip S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-S), [Bip U](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-U) [**\[!\]**](#special-pairing-procedures)
+	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), [Bip S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-S), [Bip U, Bip U Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-U) [**\[!\]**](#special-pairing-procedures)
 	- [Bip 3 Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-3-Pro) [**\[!\]**](#special-pairing-procedures)
 	- [Bip 5 (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-5) [**\[!\]**](#special-pairing-procedures)
 	- [Cor](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor), [Cor 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
