@@ -50,18 +50,18 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
     }
 
     @Override
-    public DeviceSetting[] supportedDeviceSettings() {
-        return new DeviceSetting[] {
-            new LanguageSetting(),
-            new TimeFormatSetting(),
-            new DayMonthOrderSetting(),
-            new OperatingSoundSetting(),
-            new HourlyChimeSetting(),
-            new AutoLightSetting(),
-            new LongerLightDurationSetting(),
-            new PowerSavingSetting(),
-            new ConnectionDurationSetting(),
-            new TimeSyncSetting(),
+    public DevicePreference[] supportedDevicePreferences() {
+        return new DevicePreference[] {
+            new LanguagePreference(),
+            new TimeFormatPreference(),
+            new DayMonthOrderPreference(),
+            new OperatingSoundPreference(),
+            new HourlyChimePreference(),
+            new AutoLightPreference(),
+            new LongerLightDurationPreference(),
+            new PowerSavingPreference(),
+            new ConnectionDurationPreference(),
+            new TimeSyncPreference(),
         };
     }
 

@@ -50,6 +50,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -387,8 +389,11 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     };
 
     ArrayList<DeviceSetting> deviceSettings = new ArrayList();
+    DeviceAlarms deviceAlarms = new DeviceAlarms();
     HashMap<String, DevicePreference> devicePreferenceByName = new HashMap();
     {
+        deviceSettings.add(deviceAlarms);
+
         for (DevicePreference pref: supportedDevicePreferences()) {
             deviceSettings.add(pref);
             devicePreferenceByName.put(pref.getName(), pref);
@@ -435,6 +440,148 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         }
         builder.run((gatt) -> GB.toast(getContext(), getContext().getString(R.string.user_feedback_set_settings_ok), Toast.LENGTH_SHORT, GB.INFO));
         builder.queue(getQueue());
+    }
+
+    public class DeviceAlarms extends DeviceSetting {
+
+        @Override
+        public FeatureRequest[] getFeatureRequests() {
+            final int maxAlarms = gbDevice.getDeviceCoordinator().getAlarmSlotCount(gbDevice);
+
+            if (maxAlarms == 0) {
+                return new FeatureRequest[] {};
+            } else if (maxAlarms == 1) {
+                return new FeatureRequest[] {new FeatureRequest(FEATURE_SETTING_FOR_ALM)};
+            } else {
+                return new FeatureRequest[] {new FeatureRequest(FEATURE_SETTING_FOR_ALM), new FeatureRequest(FEATURE_SETTING_FOR_ALM2)};
+            }
+        };
+
+        public void updateValues(byte[][] data, List<? extends Alarm> alarms) {
+            for (Alarm alarm: alarms) {
+                updateValues(data, alarm);
+            }
+        }
+
+        public void updateValues(byte[][] data, Alarm alarm) {
+            int pos = alarm.getPosition();
+            int alm = pos == 0 ? 0 : 1;
+            int index = pos == 0 ? 1 : 1 + 4 * (pos-1);
+            if (data.length <= alm || index + 4 > data[alm].length) {
+                LOG.error("alarm data too small");
+            }
+            updateValue(data[alm], index, alarm);
+        }
+
+        public void updateValue(byte[] data, int index, Alarm alarm) {
+            if(alarm.getEnabled()) {
+                data[index] |= 0x40;
+            } else {
+                data[index] &= ~0x40;
+            }
+            //data[index+1] = 0x40;
+            data[index+2] = (byte) alarm.getHour();
+            data[index+3] = (byte) alarm.getMinute();
+        }
+
+        @Override
+        public final boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor) {
+            boolean changed = false;
+
+            LinkedHashSet<Integer> foundAlarms = new LinkedHashSet();
+            for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm: DBHelper.getAlarms(gbDevice)) {
+                foundAlarms.add(alarm.getPosition());
+                if (mergeValues(data, previous, alarm)) {
+                    changed = true;
+                }
+            }
+
+            final int maxAlarms = gbDevice.getDeviceCoordinator().getAlarmSlotCount(gbDevice);
+            for (int i = 0; i < maxAlarms; i++) {
+                if (!foundAlarms.contains(i)) {
+                    nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm = AlarmUtils.createDefaultAlarm(gbDevice, i);
+                    if (alarm == null) {
+                        continue;
+                    }
+                    readValues(data, alarm, true);
+                }
+            }
+            return changed;
+        }
+
+        public boolean mergeValues(byte[][] data, byte[][] previous, nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm) {
+            LOG.info("merge " + alarm.getPosition() + " : " + Arrays.toString(data[1]));
+            boolean needsUpdating = false;
+            // check if GB state has changed
+            if (previous != null) {
+                byte[][] copies = new byte[][] {previous[0].clone(), previous[1].clone()};
+                updateValues(copies, alarm);
+                if (!Arrays.equals(previous[0], copies[0]) || ! Arrays.equals(previous[1], copies[1])) {
+                    LOG.info("GB changed");
+                    needsUpdating = true;
+                }
+            }
+            // update GB state and check if data needs change
+            if (!needsUpdating) {
+                needsUpdating = readValues(data, alarm, false);
+                if (needsUpdating) {
+                    LOG.info("updated from watch");
+                }
+            }
+            // maybe update data
+            if (needsUpdating) {
+                updateValues(data, alarm);
+                LOG.info("updated from GB");
+                return true;
+            }
+            return false;
+        }
+
+        public boolean readValues(byte[][] data, nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm, boolean forceStore) {
+            int pos = alarm.getPosition();
+            int alm = pos == 0 ? 0 : 1;
+            int index = pos == 0 ? 1 : 1+ 4 * (pos-1);
+            if (data.length <= alm || index + 4 > data[alm].length) {
+                LOG.error("alarm data too small");
+            }
+            return readValues(data[alm], index, alarm, forceStore);
+        }
+
+        public boolean readValues(byte[] data, int index, nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm, boolean forceStore) {
+            boolean enabled = (data[index] & 0x40) == 0x40;
+            byte hour   = data[index+2];
+            byte minute = data[index+3];
+
+            if (forceStore || alarm.getEnabled() != enabled || alarm.getHour() != hour || alarm.getMinute() != minute) {
+                alarm.setEnabled(enabled);
+                alarm.setHour(hour);
+                alarm.setMinute(minute);
+                alarm.setRepetition(Alarm.ALARM_MON | Alarm.ALARM_TUE | Alarm.ALARM_WED | Alarm.ALARM_THU | Alarm.ALARM_FRI | Alarm.ALARM_SAT | Alarm.ALARM_SUN);
+                DBHelper.store(alarm);
+                Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+            }
+            return false;
+        }
+    }
+
+    @Override
+    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        if (!isInitialized()) {
+            return;
+        }
+        byte[][] currentValues = featureCache.get(deviceAlarms.getFeatureRequests());
+        if (currentValues == null) {
+            LOG.error("unknown current alarm watch values");
+            return;
+        }
+        deviceAlarms.updateValues(currentValues, alarms);
+
+        SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+        featureCache.save(editor);
+        editor.apply();
+
+        sendSettingsToDevice(currentValues);
     }
 
     public abstract class DevicePreference extends DeviceSetting {

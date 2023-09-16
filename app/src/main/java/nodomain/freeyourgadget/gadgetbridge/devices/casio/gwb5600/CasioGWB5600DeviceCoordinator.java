@@ -65,7 +65,6 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_casio_connection_duration,
                 R.xml.devicesettings_time_sync,
 
-                // alarms
                 // timer
                 // reminder
                 // world time
@@ -99,7 +98,7 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount(GBDevice device) {
-        return 0;
+        return 5;
     }
 
     @Override

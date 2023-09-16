@@ -95,8 +95,8 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     }
 
     @Override
-    public DeviceSetting[] supportedDeviceSettings() {
-        return new DeviceSetting[] {
+    public DevicePreference[] supportedDevicePreferences() {
+        return new DevicePreference[] {
         };
     }
 

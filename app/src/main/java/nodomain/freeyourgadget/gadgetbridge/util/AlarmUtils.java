@@ -56,6 +56,32 @@ public class AlarmUtils {
     }
 
     /**
+     * Creates a default Alarm
+     * @param device
+     * @param position
+     */
+    public static Alarm createDefaultAlarm(GBDevice gbDevice, int position) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            return createDefaultAlarm(daoSession, gbDevice, position);
+        } catch (Exception e) {
+            GB.log("Error accessing database", GB.ERROR, e);
+            return null;
+        }
+    }
+
+    /**
+     * Creates a default Alarm
+     * @param daoSession
+     * @param position
+     */
+    public static Alarm createDefaultAlarm(DaoSession daoSession, GBDevice gbDevice, int position) {
+        Device device = DBHelper.getDevice(gbDevice, daoSession);
+        User user = DBHelper.getUser(daoSession);
+        return new Alarm(device.getId(), user.getId(), position, false, false, null, false, 0, 6, 30, false, null, null);
+    }
+
+    /**
      * Creates  a Calendar object representing the time of the given alarm (not taking the
      * day/date into account.
      * @param alarm
