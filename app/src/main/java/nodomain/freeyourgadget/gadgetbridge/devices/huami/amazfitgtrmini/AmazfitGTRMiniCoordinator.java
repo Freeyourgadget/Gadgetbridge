@@ -37,11 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtrmini
 public class AmazfitGTRMiniCoordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTRMiniCoordinator.class);
 
-    @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
@@ -72,6 +67,12 @@ public class AmazfitGTRMiniCoordinator extends Huami2021Coordinator {
     @Override
     public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
         return new AmazfitGTRMiniFWInstallHandler(uri, context);
+    }
+
+    @Override
+    public boolean sendAgpsAsFileTransfer() {
+        // Even though it's a Zepp OS 2.0 device, it doesn't seem to support the AGPS service
+        return false;
     }
 
     @Override
