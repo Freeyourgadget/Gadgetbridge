@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.76.1" versioncode="226">
+        <change>Amazfit GTR Mini: Mark as not experimental</change>
+        <change>Bangle.js: Improve file downloads</change>
+        <change>Bangle.js: Fix app interfaces</change>
+        <change>Allow text to be shared to devices</change>
+        <change>Fix connection to some Amazfit devices </change>
+    </release>
     <release version="0.76.0" versioncode="225">
         <change>Upgrade UI to Material 3 and add dynamic colors theme</change>
         <change>Initial support for Amazfit Bip 3 Pro</change>

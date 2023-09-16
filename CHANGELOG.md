@@ -1,5 +1,12 @@
 ### Changelog
 
+#### 0.76.1
+* Amazfit GTR Mini: Mark as not experimental
+* Bangle.js: Improve file downloads
+* Bangle.js: Fix app interfaces
+* Allow text to be shared to devices
+* Fix connection to some Amazfit devices 
+
 #### 0.76.0
 * Upgrade UI to Material 3 and add dynamic colors theme
 * Initial support for Amazfit Bip 3 Pro
