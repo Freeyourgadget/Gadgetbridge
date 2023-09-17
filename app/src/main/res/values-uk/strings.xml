@@ -1887,7 +1887,7 @@
     <string name="seconds_15">15 секунд</string>
     <string name="pref_sleep_breathing_quality_monitoring">Спостереження за якістю дихання уві сні</string>
     <string name="seconds_13">13 секунд</string>
-    <string name="prefs_always_on_display">Always On Display</string>
+    <string name="prefs_always_on_display">Завжди на екрані</string>
     <string name="menuitem_female_health">Жіноче здоров\'я</string>
     <string name="prefs_always_on_display_summary">Тримати дисплей годинника завжди увімкненим</string>
     <string name="smart">Розумний</string>
@@ -2406,4 +2406,5 @@
     <string name="spanish_mx">Іспанська (Мексика)</string>
     <string name="spanish_us">Іспанська (США)</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">На пристрої недостатньо вільного простору</string>
+    <string name="text_receiver_activity_title">Надіслати текст на пристрій</string>
 </resources>
