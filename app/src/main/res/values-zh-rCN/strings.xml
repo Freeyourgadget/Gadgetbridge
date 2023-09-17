@@ -2399,4 +2399,5 @@
     <string name="french_fr">法语 （法国）</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">设备没有足够的可用空间</string>
     <string name="text_receiver_activity_title">发送文本到设备</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">%1$d 的当前 MTU 太低，请在设备设置中启用高 MTU 并断开/重新连接设备。</string>
 </resources>
