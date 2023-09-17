@@ -40,7 +40,7 @@ public class MijiaLywsd02Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getName();
-        if (name != null && name.equals("LYWSD02")) {
+        if (name != null && (name.equals("LYWSD02") || name.equals("LYWSD02MMC"))) {
             return DeviceType.MIJIA_LYWSD02;
         }
         return DeviceType.UNKNOWN;
