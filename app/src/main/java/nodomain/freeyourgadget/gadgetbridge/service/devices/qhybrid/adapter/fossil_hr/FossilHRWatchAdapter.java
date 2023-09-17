@@ -42,6 +42,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -175,8 +178,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
+import nodomain.freeyourgadget.gadgetbridge.voice.OpusCodec;
+import nodomain.freeyourgadget.gadgetbridge.voice.VoiceHelper;
 
-public class FossilHRWatchAdapter extends FossilWatchAdapter {
+public class FossilHRWatchAdapter extends FossilWatchAdapter implements VoiceHelper.Callback {
     public static final int MESSAGE_WHAT_VOICE_DATA_RECEIVED = 0;
 
     private byte[] phoneRandomNumber;
@@ -205,23 +210,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     List<ApplicationInformation> installedApplications = new ArrayList();
 
-    Messenger voiceMessenger = null;
+    private VoiceHelper voiceHelper;
+    private OpusCodec opusCodec;
+
+    private final AudioTrack audio = new AudioTrack(AudioManager.STREAM_MUSIC,
+            48000,
+            AudioFormat.CHANNEL_OUT_MONO,
+            AudioFormat.ENCODING_PCM_16BIT,
+            AudioTrack.getMinBufferSize(
+                    48000,
+                    AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT
+            ),
+            AudioTrack.MODE_STREAM
+    );
 
     private Version cleanFirmwareVersion = null;
-
-    ServiceConnection voiceServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            GB.log("attached to voice service", GB.INFO, null);
-            voiceMessenger = new Messenger(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            GB.log("detached from voice service", GB.INFO, null);
-            voiceMessenger = null;
-        }
-    };
 
     enum CONNECTION_MODE {
         NOT_INITIALIZED,
@@ -362,69 +366,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void attachToVoiceService(){
-        String servicePackage = getDeviceSpecificPreferences().getString("voice_service_package", "");
-        String servicePath = getDeviceSpecificPreferences().getString("voice_service_class", "");
-
-        if(servicePackage.isEmpty()){
-            GB.toast("voice service package is not configured", Toast.LENGTH_LONG, GB.ERROR);
-            respondToAlexa("voice service package not configured on phone", true);
-            return;
-        }
-
-        if(servicePath.isEmpty()){
-            respondToAlexa("voice service class not configured on phone", true);
-            GB.toast("voice service class is not configured", Toast.LENGTH_LONG, GB.ERROR);
-            return;
-        }
-
-        ComponentName component = new ComponentName(servicePackage, servicePath);
-
-        // extract to somewhere
-        Intent voiceIntent = new Intent("nodomain.freeyourgadget.gadgetbridge.VOICE_COMMAND");
-        voiceIntent.setComponent(component);
-
-        int flags = 0;
-
-        flags |= Service.BIND_AUTO_CREATE;
-
-        GB.log("binding to voice service...", GB.INFO, null);
-
-        getContext().bindService(
-                voiceIntent,
-                voiceServiceConnection,
-                flags
-        );
-
-        PackageManager pm = getContext().getPackageManager();
-        boolean serviceEnabled = true;
-        try {
-            int enabledState = pm.getComponentEnabledSetting(component);
-
-            if(enabledState != PackageManager.COMPONENT_ENABLED_STATE_ENABLED && enabledState != PackageManager.COMPONENT_ENABLED_STATE_DEFAULT){
-                respondToAlexa("voice service is disabled on phone", true);
-                GB.toast("voice service is disabled", Toast.LENGTH_LONG, GB.ERROR);
-                serviceEnabled = false;
-            }
-        }catch (IllegalArgumentException e){
-            serviceEnabled = false;
-            respondToAlexa("voice service not found on phone", true);
-            GB.toast("voice service not found", Toast.LENGTH_LONG, GB.ERROR);
-        }
-
-        if(!serviceEnabled){
-            detachFromVoiceService();
-        }
+        voiceHelper.connect();
     }
 
     private void detachFromVoiceService(){
-        getContext().unbindService(voiceServiceConnection);
+        // TODO
     }
 
     private void handleVoiceStatus(byte status){
         if(status == 0x00){
             attachToVoiceService();
+            audio.play();
         }else if(status == 0x01){
             detachFromVoiceService();
+            audio.stop();
         }
     }
 
@@ -434,25 +389,43 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void handleVoiceDataCharacteristic(BluetoothGattCharacteristic characteristic){
-        if(voiceMessenger == null){
+        if (opusCodec == null){
             return;
         }
-        Message message = Message.obtain(
-                null,
-                MESSAGE_WHAT_VOICE_DATA_RECEIVED
-        );
-        Bundle dataBundle = new Bundle(1);
-        dataBundle.putByteArray("VOICE_DATA", characteristic.getValue());
-        dataBundle.putString("VOICE_ENCODING", "OPUS");
-        message.setData(dataBundle);
-        try {
-            voiceMessenger.send(message);
-        } catch (RemoteException e) {
-            GB.log("error sending voice data to service", GB.ERROR, e);
-            GB.toast("error sending voice data to service", Toast.LENGTH_LONG, GB.ERROR);
-            voiceMessenger = null;
-            detachFromVoiceService();
-            respondToAlexa("error sending voice data to service", true);
+        final int CHANNELS = 1;
+        final int MAX_FRAME_SIZE = 6 * 960;
+
+        final ByteBuffer buf = ByteBuffer.wrap(characteristic.getValue());
+
+        final byte[] frame = new byte[960];
+
+        while (buf.position() < buf.limit()) {
+            buf.get(frame);
+            try {
+                final byte[] pcm = new byte[MAX_FRAME_SIZE * CHANNELS * 2];
+                int ret = opusCodec.decode(frame, frame.length, pcm, MAX_FRAME_SIZE, 0);
+                LOG.debug("Opus decode: {}", ret);
+                audio.write(pcm, 0, ret * 2 /* 16 bit */);
+            } catch (final Exception e) {
+                LOG.error("Failed to process opus frame", e);
+            }
+        }
+    }
+
+    @Override
+    public void onVoiceHelperConnection(boolean connected) {
+        if (connected) {
+            try {
+                opusCodec = voiceHelper.createOpusCodec();
+                int ret = opusCodec.decoderInit(48000, 1);
+                if (ret != 0) {
+                    LOG.error("Failed to initialize opus codec, err = {}", ret);
+                }
+            } catch (final Exception e) {
+                LOG.error("Failed to create opus codec", e);
+            }
+        } else {
+            opusCodec = null;
         }
     }
 

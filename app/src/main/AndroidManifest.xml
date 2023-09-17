@@ -40,6 +40,11 @@
     <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
     <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
 
+    <!-- GB Voice Helper -->
+    <uses-permission android:name="nodomain.freeyourgadget.voice.VOICE_HELPER"/>
+    <uses-permission android:name="nodomain.freeyourgadget.voice.debug.VOICE_HELPER"/>
+    <uses-permission android:name="nodomain.freeyourgadget.voice.nightly.VOICE_HELPER"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -137,6 +142,10 @@
         <activity
             android:name=".activities.discovery.DiscoveryPairingPreferenceActivity"
             android:label="@string/activity_prefs_discovery_pairing"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.voice.VoiceHelperSettingsActivity"
+            android:label="@string/activity_prefs_voice_helper"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".devices.miband.MiBandPreferencesActivity"

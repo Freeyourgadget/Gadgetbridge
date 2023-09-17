@@ -17,9 +17,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WATCHFACE;
 
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -44,8 +47,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.Abstrac
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.voice.OpusCodec;
+import nodomain.freeyourgadget.gadgetbridge.voice.VoiceHelper;
 
-public class ZeppOsAlexaService extends AbstractZeppOsService {
+public class ZeppOsAlexaService extends AbstractZeppOsService implements VoiceHelper.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAlexaService.class);
 
     private static final short ENDPOINT = 0x0011;
@@ -71,14 +76,35 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
     private static final byte COMPLEX_REPLY_REMINDER = 0x02;
     private static final byte COMPLEX_REPLY_RICH_TEXT = 0x06;
 
+    private static final byte ERROR_TIMEOUT = 0x01;
     private static final byte ERROR_NO_INTERNET = 0x03;
+    private static final byte ERROR_NOT_UNDERSTAND = 0x05;
     private static final byte ERROR_UNAUTHORIZED = 0x06;
+
+    private static final int CHANNELS = 1;
+    private static final int MAX_FRAME_SIZE = 6 * 960;
 
     public static final String PREF_VERSION = "zepp_os_alexa_version";
 
     private final Handler handler = new Handler();
+    private boolean pendingStartAck;
 
-    final ByteArrayOutputStream voiceBuffer = new ByteArrayOutputStream();
+    private VoiceHelper voiceHelper;
+    private OpusCodec opusCodec;
+
+    private final AudioTrack audio = new AudioTrack(AudioManager.STREAM_MUSIC,
+            16000,
+            AudioFormat.CHANNEL_OUT_MONO,
+            AudioFormat.ENCODING_PCM_16BIT,
+            AudioTrack.getMinBufferSize(
+                    16000,
+                    AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT
+            ),
+            AudioTrack.MODE_STREAM
+    );
+
+    final ByteBuffer voiceBuffer = ByteBuffer.allocate(4096);
 
     public ZeppOsAlexaService(final Huami2021Support support) {
         super(support);
@@ -349,22 +375,71 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
         final byte var4 = payload[4];
         final String params = StringUtils.untilNullTerminator(payload, 5);
 
+        // These might be relevant for the remaining connection, but not sure what they mean
+        // On the GTR 4: var1=4, var2=14, var3=2, var4=2, params={"translate":[],"countdown":1440,"thirdMusicApp":0,"ttsTextLimit":0,"suggestions":0,"news":0,"maxAlarmCount":3,"supportDeleteAlert":1,"alexaLanguage":"en-US","audioSize":4096}
         LOG.info("Alexa starting: var1={}, var2={}, var3={}, var4={}, params={}", var1, var2, var3, var4, params);
 
-        // Send the start ack with a slight delay, to give enough time for the connection to switch to fast mode
-        // I can't seem to get the callback for onConnectionUpdated working, and if we reply too soon the watch
-        // will just stay stuck "Connecting...". It seems like it takes ~350ms to switch to fast connection.
-        handler.postDelayed(this::sendStartAck, 700);
+        voiceBuffer.clear();
+
+        if (voiceHelper == null) {
+            // Lazy initialization of the voice helper
+            voiceHelper = new VoiceHelper(getContext(), this);
+        }
+
+        if (!voiceHelper.isConnected()) {
+            pendingStartAck = true;
+            voiceHelper.connect();
+        } else {
+            // Send the start ack with a slight delay, to give enough time for the connection to switch to fast mode
+            // I can't seem to get the callback for onConnectionUpdated working, and if we reply too soon the watch
+            // will just stay stuck "Connecting...". It seems like it takes ~350ms to switch to fast connection.
+            handler.postDelayed(this::sendStartAck, 700);
+        }
+        audio.play();
     }
 
     private void handleEnd(final byte[] payload) {
-        voiceBuffer.reset();
+        voiceBuffer.clear();
+        audio.stop();
         // TODO do something else?
     }
 
     private void handleVoiceData(final byte[] payload) {
         LOG.info("Got {} bytes of voice data", payload.length);
-        // TODO
+        this.voiceBuffer.put(payload, 5, payload.length - 5);
+
+        int frameSize = this.voiceBuffer.get(0) & 0xff;
+
+        while (voiceBuffer.position() > frameSize) {
+            this.voiceBuffer.flip();
+            frameSize = this.voiceBuffer.get() & 0xff;
+            final byte[] frame = new byte[frameSize];
+            this.voiceBuffer.get(frame);
+
+            LOG.debug("Voice Data Frame: {}", GB.hexdump(frame));
+
+            if (opusCodec != null) {
+                try {
+                    final byte[] pcm = new byte[MAX_FRAME_SIZE * CHANNELS * 2];
+                    int ret = opusCodec.decode(frame, frame.length, pcm, MAX_FRAME_SIZE, 0);
+                    LOG.debug("Opus decode: {}", ret);
+                    audio.write(pcm, 0, ret * 2 /* 16 bit */);
+                } catch (final Exception e) {
+                    LOG.error("Failed to process opus frame", e);
+                }
+            }
+
+            final ByteBuffer remaining = this.voiceBuffer.slice();
+            this.voiceBuffer.clear();
+
+            if (remaining.limit() > 0) {
+                LOG.debug("Got {} bytes remaining in the voice buffer", remaining.limit());
+                this.voiceBuffer.put(remaining);
+            }
+
+            frameSize = this.voiceBuffer.get(0) & 0xff;
+            LOG.debug("new frameSize: {}", frameSize);
+        }
     }
 
     private void handleLanguagesResponse(final byte[] payload) {
@@ -391,5 +466,31 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
 
     public static boolean isSupported(final Prefs devicePrefs) {
         return devicePrefs.getInt(PREF_VERSION, 0) == 3;
+    }
+
+    @Override
+    public void onVoiceHelperConnection(final boolean connected) {
+        if (connected) {
+            try {
+                opusCodec = voiceHelper.createOpusCodec();
+                int ret = opusCodec.decoderInit(16000, 1);
+                if (ret != 0) {
+                    LOG.error("Failed to initialize opus codec, err = {}", ret);
+                    if (pendingStartAck) {
+                        pendingStartAck = false;
+                        handler.postDelayed(() -> sendError(ERROR_TIMEOUT, "Failed to initialize codec"), 700);
+                    }
+                }
+            } catch (final Exception e) {
+                LOG.error("Failed to create opus codec", e);
+                handler.postDelayed(this::sendStartAck, 700);
+            }
+            if (pendingStartAck) {
+                pendingStartAck = false;
+                handler.postDelayed(this::sendStartAck, 700);
+            }
+        } else {
+            opusCodec = null;
+        }
     }
 }

@@ -2429,4 +2429,11 @@
     <string name="wake_up_time">Wake Up</string>
     <string name="pref_sleep_mode_schedule_title">Sleep Mode Schedule</string>
     <string name="pref_sleep_mode_schedule_summary">Send a reminder and enter sleep mode at bedtime. At the scheduled wake-up time, the wake-up alarm will sound.</string>
+    <string name="activity_prefs_voice_helper">Voice Helper options</string>
+    <string name="voice_helper_package">Voice Helper package name</string>
+    <string name="voice_helper_install">Install Voice Helper</string>
+    <string name="voice_helper_permissions_summary">Gadgetbridge needs permission to use the Voice Helper. Tap this button to grant them.</string>
+    <string name="voice_helper_not_installed">Voice Helper is not installed</string>
+    <string name="voice_helper_not_compatible">The installed Voice Helper version is not compatible with Gadgetbridge. Please update the Voice Helper and Gadgetbridge to the latest versions.</string>
+    <string name="voice_helper_install_fail">Failed to open app store to install Voice Helper</string>
 </resources>

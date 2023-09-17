@@ -64,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryPairingPreferenceActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.voice.VoiceHelperSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
@@ -435,6 +436,15 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
             if (pref != null) {
                 pref.setOnPreferenceClickListener(preference -> {
                     Intent enableIntent = new Intent(requireContext(), DiscoveryPairingPreferenceActivity.class);
+                    startActivity(enableIntent);
+                    return true;
+                });
+            }
+
+            pref = findPreference("pref_voice_helper");
+            if (pref != null) {
+                pref.setOnPreferenceClickListener(preference -> {
+                    Intent enableIntent = new Intent(requireContext(), VoiceHelperSettingsActivity.class);
                     startActivity(enableIntent);
                     return true;
                 });

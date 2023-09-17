@@ -360,6 +360,10 @@
             android:key="pref_discovery_pairing"
             android:title="@string/activity_prefs_discovery_pairing"
             app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_voice_helper"
+            android:title="@string/activity_prefs_voice_helper"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceScreen
