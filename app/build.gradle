@@ -36,12 +36,22 @@ def buildGitChangelog = {
     }
 
     def commitVersionCode = getVersionCode()
+    def includedCommits = 0
     def changelogNode = new Node(null, 'changelog')
 
     stdout.toString().trim().eachLine { line ->
+        if (includedCommits > 100) {
+            return true;
+        }
+
         def (commitHash, commitMessage) = line.split(" ", 2)
+        if (commitMessage.contains("Translated using Weblate")) {
+            return true;
+        }
+
         def releaseNode = new Node(changelogNode, 'release', [version: commitHash, versioncode: commitVersionCode--])
         def _ = new Node(releaseNode, 'change', [:], commitMessage)
+        includedCommits++
     }
 
     def changelogFile = new File("${project.rootDir}/app/build/generated/res/changelog/xml/changelog_git.xml")
