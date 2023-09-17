@@ -1481,7 +1481,11 @@
     <string name="about_activity_title_main_nightly">Sobre Gadgetbridge Nightly</string>
     <string name="gps_gnolass">GPS + GNOLASS</string>
     <string name="appmanager_app_share">Comparteix</string>
-    <string name="fw_upgrade_notice_amazfit_gts3"></string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Està a punt d\'instal·lar %s microprogramari al seu Amazfit GTS 3.
+\n
+\nEl seu aparell es reiniciarà després d\'instal·lar l\'arxiu .zip.
+\n
+\nPROCEDEIXI SOTA LA SEVA RESPONSABILITAT</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Sou a punt d’instal·lar el microprogramari %s a la vostra Amazfit GTS 4.
 \n
 \nLa vostra polsera es reiniciarà després d’instal·lar el fitxer .zip.
@@ -1498,4 +1502,26 @@
     <string name="gadgetbridge_running_banglejs_nightly">Bangle.js Nightly funcionant</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="action_changelog">Registre de canvis</string>
+    <string name="appmanager_download_started">Descàrrega de la App iniciada</string>
+    <string name="appmanager_item_outdated">(Obsolet)</string>
+    <string name="fw_upgrade_notice_miband7">Està a punt d\'instal·lar %s microprogramari al seu Xiaomi Smart Band 7.
+\n
+\nEl seu Band 7 es reiniciarà després d\'instal·lar l\'arxiu .zip.
+\n
+\nPROCEDEIXI SOTA LA SEVA RESPONSABILITAT</string>
+    <string name="all_satellites">Tots els satèl·lits</string>
+    <string name="accuracy_first">Precisió primer</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Està a punt d\'instal·lar %s microprogramari al seu dispositiu Amazfit Bip 3 Pro.
+\n
+\nSi us plau, asseguri\'s d\'instal·lar l\'arxiu. fw i seguidament l\'arxiu. res. El seu rellotge es reiniciarà després de l\'instal·lació de l\'arxiu. fw.
+\n
+\nNota: No és necessari instal·lar .res si és exactament igual que l\'instal·lat prèviament.
+\n
+\nPROCEDEIXI SOTA LA SEVA RESPONSABILITAT.</string>
+    <string name="appmanager_app_download">Descarregar a cache</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Això reestablirà les preferències del dispositiu per a tots els dispositius, n\'està segur\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Eliminar preferències del dispositiu\?</string>
+    <string name="appmanager_downloaded_to_cache">Descarregat %s a cache</string>
+    <string name="appmanager_download_app_error">Error descarregant la app</string>
+    <string name="speed_first">Velocitat primer</string>
 </resources>
