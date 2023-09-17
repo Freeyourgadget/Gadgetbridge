@@ -65,9 +65,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
@@ -585,6 +587,19 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
             try {
                 if (getCoordinator().sendAgpsAsFileTransfer()) {
                     LOG.info("Sending AGPS as file transfer");
+
+                    if (getMTU() == 23) {
+                        // AGPS updates without high MTU are too slow and eventually get stuck,
+                        // so let's fail right away and inform the user
+                        LOG.warn("MTU of {} is too low for AGPS file transfer", getMTU());
+                        handleGBDeviceEvent(new GBDeviceEventDisplayMessage(
+                                getContext().getString(R.string.updatefirmwareoperation_failed_low_mtu, getMTU()),
+                                Toast.LENGTH_LONG,
+                                GB.WARN
+                        ));
+                        return;
+                    }
+
                     new ZeppOsAgpsUpdateOperation(
                             this,
                             agpsHandler.getFile(),
