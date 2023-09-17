@@ -2351,4 +2351,9 @@
     <string name="prefs_wena3_vibration_siren">Siren</string>
     <string name="prefs_wena3_vibration_short">Short</string>
     <string name="prefs_wena3_led_none">No LED</string>
+
+    <string name="temperature_scale_cf">Temperature scale</string>
+    <string name="temperature_scale_cf_summary">Select whether device uses Celsius or Fahrenheit scale.</string>
+    <string name="temperature_scale_celsius">Celsius</string>
+    <string name="temperature_scale_fahrenheit">Fahrenheit</string>
 </resources>

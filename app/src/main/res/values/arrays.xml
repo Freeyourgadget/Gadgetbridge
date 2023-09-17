@@ -3394,4 +3394,13 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+
+    <string-array name="temperature_scales_cf">
+        <item>@string/temperature_scale_celsius</item>
+        <item>@string/temperature_scale_fahrenheit</item>
+    </string-array>
+    <string-array name="temperature_scales_cf_values">
+        <item>c</item>
+        <item>f</item>
+    </string-array>
 </resources>

@@ -545,6 +545,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_VOICE_SERVICE_LANGUAGE);
 
+        addPreferenceHandlerFor(PREF_TEMPERATURE_SCALE_CF);
+
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
