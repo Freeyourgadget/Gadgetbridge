@@ -169,7 +169,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         if (configGroup.getVersion() != version) {
             // Special case for HEALTH, where we actually support version 1 as well
             // TODO: Support multiple versions in a cleaner way...
-            if (!(configGroup == ConfigGroup.HEALTH && configGroup.getVersion() == 1)) {
+            if (!(configGroup == ConfigGroup.HEALTH && version == 1)) {
                 LOG.warn("Unexpected version {} for {}", String.format("0x%02x", version), configGroup);
                 return;
             }
