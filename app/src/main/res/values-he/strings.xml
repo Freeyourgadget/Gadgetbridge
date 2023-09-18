@@ -2398,4 +2398,5 @@
     <string name="spanish_es">ספרדית של ספרד</string>
     <string name="updatefirmwareoperation_updateproblem_free_space">אין מספיק מקום פנוי במכשיר</string>
     <string name="text_receiver_activity_title">שליחת טקסט למכשיר</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">הגדרת ה־MTU (יחידת העברה מרבית) הנוכחית %1$d נמוכה מדי, נא להפעיל MTU גבוה בהגדרות המכשיר ולנתק ולחבר את המכשיר שוב.</string>
 </resources>
