@@ -46,6 +46,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -219,7 +220,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 requestQueue.clear();
             }
             log("characteristic write failed: " + status);
-            GB.toast(fossilRequest.getName() + " characteristic write failed: " + status, Toast.LENGTH_SHORT, GB.ERROR);
+            if (BuildConfig.DEBUG)
+                GB.toast(fossilRequest.getName() + " characteristic write failed: " + status, Toast.LENGTH_SHORT, GB.ERROR);
             fossilRequest = null;
 
             queueNextRequest();
@@ -551,7 +553,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                     provider.addGBActivitySamples(samples);
 
                     queueWrite(new FileDeleteRequest(getHandle()));
-                    GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                    if (BuildConfig.DEBUG)
+                        GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
@@ -561,7 +564,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
-                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY && BuildConfig.DEBUG){
                     GB.toast("activity file empty", Toast.LENGTH_SHORT, GB.INFO);
                 }
             }
@@ -651,7 +654,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                             // setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
                         }else {
                             GB.log("error", GB.ERROR, e);
-                            GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
+                            if (BuildConfig.DEBUG)
+                                GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
                         }
 
                         requestFinished = true;

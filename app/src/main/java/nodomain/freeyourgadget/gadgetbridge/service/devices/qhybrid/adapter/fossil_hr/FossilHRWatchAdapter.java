@@ -82,6 +82,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
@@ -1239,7 +1240,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
-                            GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
+                            if (BuildConfig.DEBUG)
+                                GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
@@ -1252,7 +1254,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
                 if (error == FILE_LOOKUP_ERROR.FILE_EMPTY) {
-                    GB.toast("activity file empty yet", Toast.LENGTH_LONG, GB.ERROR);
+                    if (BuildConfig.DEBUG)
+                        GB.toast("activity file empty yet", Toast.LENGTH_LONG, GB.ERROR);
                 } else {
                     throw new RuntimeException("strange lookup stuff");
                 }
