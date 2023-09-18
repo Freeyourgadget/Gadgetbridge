@@ -366,7 +366,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter implements VoiceHel
     }
 
     private void attachToVoiceService(){
-        voiceHelper.connect();
+        if (voiceHelper == null) {
+            voiceHelper = new VoiceHelper(getContext(), this);
+        }
+        if (!voiceHelper.isConnected()) {
+            voiceHelper.connect();
+        }
     }
 
     private void detachFromVoiceService(){
