@@ -2385,4 +2385,17 @@
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="french_ca">Französisch (Kanada)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Das Gerät hat nicht genügend freien Speicherplatz</string>
+    <string name="spanish_es">Spanisch (Spanien)</string>
+    <string name="english_in">Englisch (Indien)</string>
+    <string name="english_au">Englisch (Australien)</string>
+    <string name="text_receiver_activity_title">Text an das Gerät senden</string>
+    <string name="french_fr">Französisch (Frankreich)</string>
+    <string name="spanish_mx">Spanisch (Mexiko)</string>
+    <string name="english_gb">Englisch (Vereinigtes Königreich)</string>
+    <string name="english_us">Englisch (USA)</string>
+    <string name="spanish_us">Spanisch (USA)</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Bitte überarbeite dein Zifferblatt für das benutzerdefinierte Menü</string>
+    <string name="english_ca">Englisch (Kanada)</string>
 </resources>
