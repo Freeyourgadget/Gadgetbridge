@@ -400,21 +400,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter implements VoiceHel
         final int CHANNELS = 1;
         final int MAX_FRAME_SIZE = 6 * 960;
 
-        final ByteBuffer buf = ByteBuffer.wrap(characteristic.getValue());
-
-        final byte[] frame = new byte[960];
-
-        while (buf.position() < buf.limit()) {
-            buf.get(frame);
-            try {
-                final byte[] pcm = new byte[MAX_FRAME_SIZE * CHANNELS * 2];
-                int ret = opusCodec.decode(frame, frame.length, pcm, MAX_FRAME_SIZE, 0);
-                LOG.debug("Opus decode: {}", ret);
-                audio.write(pcm, 0, ret * 2 /* 16 bit */);
-            } catch (final Exception e) {
-                LOG.error("Failed to process opus frame", e);
-            }
+        byte[] frame = characteristic.getValue();
+        final byte[] pcm = new byte[MAX_FRAME_SIZE * CHANNELS * 2];
+        int ret = 0;
+        try {
+            ret = opusCodec.decode(frame, frame.length, pcm, MAX_FRAME_SIZE, 0);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
+        LOG.debug("Opus decode: {}", ret);
+        audio.write(pcm, 0, ret * 2 /* 16 bit */);
     }
 
     @Override
