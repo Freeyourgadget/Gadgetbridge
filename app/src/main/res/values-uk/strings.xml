@@ -2408,4 +2408,5 @@
     <string name="updatefirmwareoperation_updateproblem_free_space">На пристрої недостатньо вільного простору</string>
     <string name="text_receiver_activity_title">Надіслати текст на пристрій</string>
     <string name="updatefirmwareoperation_failed_low_mtu">Поточний MTU %1$d занизький. Увімкніть високий MTU у налаштуваннях пристрою та від\'єднайте/під\'єднайте пристрій.</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
 </resources>
