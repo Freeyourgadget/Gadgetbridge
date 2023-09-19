@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
-z
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
