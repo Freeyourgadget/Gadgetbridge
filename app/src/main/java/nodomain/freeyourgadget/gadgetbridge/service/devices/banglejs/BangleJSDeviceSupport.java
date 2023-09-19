@@ -1452,7 +1452,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 JSONObject o = new JSONObject();
                 o.put("id", card.getId());
                 o.put("name", renderUnicodeAsImage(cropToLength(card.getName(),40)));
-                o.put("value", card.getCardId());
+                if (card.getBarcodeId() != null) {
+                    o.put("value", card.getBarcodeId());
+                } else {
+                    o.put("value", card.getCardId());
+                }
                 o.put("type", card.getBarcodeFormat().toString());
                 if (card.getExpiry() != null)
                     o.put("expiration", card.getExpiry().getTime()/1000);
