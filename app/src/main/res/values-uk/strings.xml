@@ -2409,4 +2409,6 @@
     <string name="text_receiver_activity_title">Надіслати текст на пристрій</string>
     <string name="updatefirmwareoperation_failed_low_mtu">Поточний MTU %1$d занизький. Увімкніть високий MTU у налаштуваннях пристрою та від\'єднайте/під\'єднайте пристрій.</string>
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">Увімкнути виявлення нової активності, що має усунути проблеми з виявленням пристроїв. Вимкніть цей параметр, якщо у вас виникли проблеми під час пошуку або сполучення з пристроєм.</string>
+    <string name="new_discover_activity_title">Увімкнути виявлення нової активності</string>
 </resources>
