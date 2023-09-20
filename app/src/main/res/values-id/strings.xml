@@ -2389,4 +2389,7 @@
     <string name="updatefirmwareoperation_updateproblem_free_space">Perangkat tidak memiliki ruang penyimpanan kosong yang cukup</string>
     <string name="updatefirmwareoperation_failed_low_mtu">MTU %1$d saat ini terlalu rendah, silakan aktitkan MTU yang tintgi dalan pengaturan perangkat dan putuskan/hubungkan ulang perangkat.</string>
     <string name="text_receiver_activity_title">Kirim teks ke perangkat</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">Aktifkan aktivitas penemuan baru, yang seharusnya memperbaiki masalah penemuan perangkat. Nonaktifkan ini jika Anda menghadapi masalah apa pun saat mencari atau memasangkan perangkat Anda.</string>
+    <string name="new_discover_activity_title">Aktifkan aktivitas penemuan baru</string>
 </resources>
