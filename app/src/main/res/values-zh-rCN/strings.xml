@@ -2401,4 +2401,6 @@
     <string name="text_receiver_activity_title">发送文本到设备</string>
     <string name="updatefirmwareoperation_failed_low_mtu">%1$d 的当前 MTU 太低，请在设备设置中启用高 MTU 并断开/重新连接设备。</string>
     <string name="devicetype_miband2_hrx">小米手环 HRX</string>
+    <string name="new_discover_activity_description">启用新的发现活动，这应该可以解决设备发现的问题。如果您在搜索设备或与设备配对时遇到任何问题，请禁用此功能。</string>
+    <string name="new_discover_activity_title">启用新的发现活动</string>
 </resources>
