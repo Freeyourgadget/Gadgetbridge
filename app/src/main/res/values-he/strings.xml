@@ -2399,4 +2399,7 @@
     <string name="updatefirmwareoperation_updateproblem_free_space">אין מספיק מקום פנוי במכשיר</string>
     <string name="text_receiver_activity_title">שליחת טקסט למכשיר</string>
     <string name="updatefirmwareoperation_failed_low_mtu">הגדרת ה־MTU (יחידת העברה מרבית) הנוכחית %1$d נמוכה מדי, נא להפעיל MTU גבוה בהגדרות המכשיר ולנתק ולחבר את המכשיר שוב.</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX‎</string>
+    <string name="new_discover_activity_description">הפעלת פעילות הגילוי החדשה שאמורה לפתור תקלות בגילוי התקנים. רצוי להשבית אותה אם צצות תקלות במהלך חיפוש אחר או צימוד ההתקן שלך.</string>
+    <string name="new_discover_activity_title">הפעלת פעילות גילוי חדשה</string>
 </resources>
