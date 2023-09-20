@@ -2403,4 +2403,6 @@
     <string name="text_receiver_activity_title">Enviar un texto al dispositivo</string>
     <string name="updatefirmwareoperation_failed_low_mtu">La MTU actual de %1$d es demasiado baja, por favor, active la MTU alta en la configuración del dispositivo y desconecte/conecte de nuevo el dispositivo.</string>
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">Activa una nueva actividad de detección, que debería solucionar los problemas de detección de dispositivos. Desactivela si tiene problemas al buscar o emparejar el dispositivo.</string>
+    <string name="new_discover_activity_title">Activar nueva actividad de detección</string>
 </resources>
