@@ -88,7 +88,11 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
-        setTime(builder);
+
+        if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
+            setTime(builder);
+        }
+
         getBatteryInfo(builder);
         setInitialized(builder);
         return builder;
@@ -115,7 +119,6 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
     private void setTemperatureScale(TransactionBuilder builder, String scale) {
         BluetoothGattCharacteristic scaleCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_SCALE);
         builder.write(scaleCharacteristc, new byte[]{ (byte) ("f".equals(scale) ? 0x01 : 0xff) });
-        builder.queue(getQueue());
     }
 
     private void handleBatteryInfo(byte[] value, int status) {
@@ -148,7 +151,15 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        // better only on connect for now
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Set time");
+            setTime(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error setting time on LYWSD02", e);
+            GB.toast("Error setting time on LYWSD02", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
@@ -188,9 +199,11 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
                     String temperatureScale = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_TEMPERATURE_SCALE_CF, "");
                     builder = performInitialized("Sending configuration for option: " + config);
                     setTemperatureScale(builder, temperatureScale);
+                    builder.queue(getQueue());
                     break;
             }
         } catch (IOException e) {
+            LOG.error("Error setting configuration on LYWSD02", e);
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
