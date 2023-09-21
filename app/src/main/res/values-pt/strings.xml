@@ -1621,4 +1621,8 @@
     <string name="pref_voice_detect_duration_5">5 segundos</string>
     <string name="pref_voice_detect_duration_10">10 segundos</string>
     <string name="pref_header_stress">Estresse</string>
+    <string name="accuracy">Precisão</string>
+    <string name="balanced">Equilibrado</string>
+    <string name="gps">GPS</string>
+    <string name="power_saving">Poupança de energia</string>
 </resources>
