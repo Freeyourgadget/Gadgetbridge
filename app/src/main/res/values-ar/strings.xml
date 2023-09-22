@@ -2385,4 +2385,7 @@
     <string name="updatefirmwareoperation_updateproblem_free_space">الجهاز ليس لديه مساحة كافية</string>
     <string name="text_receiver_activity_title">أرسل رسالة إلى الجهاز</string>
     <string name="updatefirmwareoperation_failed_low_mtu">وحدة MTU اصدارها %1$d منخفضة جدًا، يرجى تمكين وحدة MTU في إعدادات الجهاز وفصل/إعادة توصيل الجهاز.</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">MTU الحالي البالغ %1$قم بتمكين نشاط الاكتشاف الجديد، والذي من المفترض أن يحل مشكلات اكتشاف الجهاز. قم بتعطيل هذا إذا واجهت أي مشاكل أثناء البحث عن جهازك أو الاقتران به. مستوى الإرسال منخفض جدًا، يرجى تمكين MTU العالي في إعدادات الجهاز وفصل/إعادة توصيل الجهاز.</string>
+    <string name="new_discover_activity_title">تمكين أنشطة الاكتشاف/ططوجديدة</string>
 </resources>
