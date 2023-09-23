@@ -93,6 +93,7 @@ vendor's servers.
 	- [Band, Band 1A, Band 1S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band), [Band 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-2), [Band 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 	- [Band 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4), [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5), [Band 6](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-6) [**\[!\]**](#special-pairing-procedures)
 	- [Xiaomi Smart Band 7](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-7) [**\[!\]**](#special-pairing-procedures)
+	- Xiaomi Temperature and Humidity Monitor Clock (LYWSD02/LYWSD02MMC) (partial support)
 	- Scale 2 (Currently only displays a toast after stepping on the scale)
 - [MyKronoz ZeTime](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 - NO.1 F1
