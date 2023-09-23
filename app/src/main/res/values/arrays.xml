@@ -3114,4 +3114,284 @@
     <string-array name="pref_transliteration_languages_default">
         <!-- transliteration disabled by default -->
     </string-array>
+
+    <string-array name="prefs_wena3_vibration_strength_names_list">
+        <item>@string/prefs_wena3_vibration_strength_item_weak</item>
+        <item>@string/prefs_wena3_vibration_strength_item_medium</item>
+        <item>@string/prefs_wena3_vibration_strength_item_strong</item>
+    </string-array>
+    <string-array name="prefs_wena3_vibration_strength_values_list">
+        <item>weak</item>
+        <item>normal</item>
+        <item>strong</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_home_icons_names_list">
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/prefs_wena3_home_icon_name_clock</item>
+        <!-- <item>@string/menuitem_alexa</item> -->
+        <!-- <item>@string/prefs_wena3_home_icon_name_wena_pay</item> -->
+        <!-- <item>@string/prefs_wena3_home_icon_name_qrio</item> -->
+        <item>@string/prefs_wena3_home_icon_name_edy</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/prefs_wena3_home_icon_name_pedometer</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_vo2_max</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/prefs_wena3_home_icon_name_energy</item>
+        <item>@string/prefs_wena3_home_icon_name_suica</item>
+        <item>@string/prefs_wena3_home_icon_name_calories</item>
+        <!-- <item>@string/prefs_wena3_home_icon_name_riiiver</item> -->
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_takephoto</item>
+    </string-array>
+    <string-array name="prefs_wena3_home_icons_values_list">
+        <item>timer</item>
+        <item>alarm</item>
+        <item>clock</item>
+        <!-- <item>alexa</item> -->
+        <!-- <item>wena_pay</item> -->
+        <!-- <item>qrio_lock</item> -->
+        <item>edy</item>
+        <item>notification_count</item>
+        <item>schedule</item>
+        <item>pedometer</item>
+        <item>sleep</item>
+        <item>heart_rate</item>
+        <item>vo2max</item>
+        <item>stress</item>
+        <item>energy</item>
+        <item>suica</item>
+        <item>calories</item>
+        <!-- <item>riiiver</item> -->
+        <item>music</item>
+        <item>camera</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_menu_icons_names_list">
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_findphone</item>
+        <!-- <item>@string/menuitem_alexa</item> -->
+        <item>@string/prefs_wena3_menu_icon_name_payment</item>
+        <!-- <item>@string/prefs_wena3_home_icon_name_qrio</item> -->
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_takephoto</item>
+    </string-array>
+    <string-array name="prefs_wena3_menu_icons_values_list">
+        <item>timer</item>
+        <item>alarm</item>
+        <item>find_phone</item>
+        <!-- <item>alexa</item> -->
+        <item>payment</item>
+        <!-- <item>qrio</item> -->
+        <item>weather</item>
+        <item>music</item>
+        <item>camera</item>
+    </string-array>
+    <string-array name="prefs_wena3_menu_icons_default_list">
+        <item>alarm</item>
+        <item>find_phone</item>
+        <item>weather</item>
+        <item>camera</item>
+        <item>music</item>
+        <item>payment</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_status_pages_list">
+        <item>@string/prefs_wena3_home_icon_name_pedometer</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_vo2_max</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/prefs_wena3_home_icon_name_energy</item>
+        <item>@string/prefs_wena3_home_icon_name_calories</item>
+    </string-array>
+    <string-array name="prefs_wena3_status_page_values_list">
+        <item>pedometer</item>
+        <item>sleep</item>
+        <item>heart_rate</item>
+        <item>vo2max</item>
+        <item>stress</item>
+        <item>energy</item>
+        <item>calories</item>
+    </string-array>
+    <string-array name="prefs_wena3_status_page_default_list">
+        <item>pedometer</item>
+        <item>sleep</item>
+        <item>heart_rate</item>
+        <item>vo2max</item>
+        <item>stress</item>
+        <item>energy</item>
+        <item>calories</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_day_start_list">
+        <item>00:00</item>
+        <item>01:00</item>
+        <item>02:00</item>
+        <item>03:00</item>
+        <item>04:00</item>
+        <item>05:00</item>
+        <item>06:00</item>
+        <item>07:00</item>
+        <item>08:00</item>
+        <item>09:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
+        <item>17:00</item>
+        <item>18:00</item>
+        <item>19:00</item>
+        <item>20:00</item>
+        <item>21:00</item>
+        <item>22:00</item>
+        <item>23:00</item>
+    </string-array>
+    <string-array name="prefs_wena3_day_start_values_list">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_button_action_list">
+        <item>@string/menuitem_nothing</item>
+        <!-- <item>@string/menuitem_alexa</item> -->
+        <!-- <item>@string/prefs_wena3_home_icon_name_qrio</item> -->
+        <!-- <item>@string/prefs_wena3_button_action_name_qrio_unlock</item> -->
+        <!-- <item>@string/prefs_wena3_button_action_name_qrio_lock</item> -->
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_nfc</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/prefs_wena3_button_action_name_start_timer</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/prefs_wena3_button_action_name_activity_screen</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/prefs_wena3_home_icon_name_suica</item>
+        <item>@string/prefs_wena3_home_icon_name_edy</item>
+        <item>@string/menuitem_alarm</item>
+        <!-- <item>@string/prefs_wena3_home_icon_name_riiiver</item> -->
+        <item>@string/menuitem_music</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_media_next</item>
+        <item>@string/pref_media_previous</item>
+        <!-- <item>@string/prefs_wena3_home_icon_name_wena_pay</item> -->
+    </string-array>
+    <string-array name="prefs_wena3_button_action_values_list">
+        <item>none</item>
+        <!-- <item>alexa</item> -->
+        <!-- <item>qrio</item> -->
+        <!-- <item>qrio_unlock</item> -->
+        <!-- <item>qrio_lock</item> -->
+        <item>find_phone</item>
+        <item>toggle_nfc</item>
+        <item>toggle_silent</item>
+        <item>start_timer</item>
+        <item>timer</item>
+        <item>weather</item>
+        <item>schedule</item>
+        <item>activity_screen</item>
+        <item>notification_screen</item>
+        <item>suica</item>
+        <item>edy</item>
+        <item>alarm</item>
+        <!-- <item>riiiver</item> -->
+        <item>music</item>
+        <item>toggle_music</item>
+        <item>music_next</item>
+        <item>music_prev</item>
+        <!-- <item>wena_pay</item> -->
+    </string-array>
+
+    <string-array name="prefs_wena3_vibration_times">
+        <item>@string/prefs_wena3_notification_vibration_repetition_0</item>
+        <item>@string/prefs_wena3_notification_vibration_repetition_1</item>
+        <item>@string/prefs_wena3_notification_vibration_repetition_2</item>
+        <item>@string/prefs_wena3_notification_vibration_repetition_3</item>
+        <item>@string/prefs_wena3_notification_vibration_repetition_4</item>
+    </string-array>
+    <string-array name="prefs_wena3_vibration_times_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_vibration_patterns">
+        <item>@string/prefs_wena3_vibration_none</item>
+        <item>@string/prefs_wena3_vibration_continuous</item>
+        <item>@string/prefs_wena3_vibration_basic</item>
+        <item>@string/prefs_wena3_vibration_rapid</item>
+        <item>@string/prefs_wena3_vibration_triple</item>
+        <item>@string/prefs_wena3_vibration_step_up</item>
+        <item>@string/prefs_wena3_vibration_step_down</item>
+        <item>@string/prefs_wena3_vibration_warning</item>
+        <item>@string/prefs_wena3_vibration_siren</item>
+        <item>@string/prefs_wena3_vibration_short</item>
+    </string-array>
+    <string-array name="prefs_wena3_vibration_pattern_values">
+        <item>none</item>
+        <item>continuous</item>
+        <item>basic</item>
+        <item>rapid</item>
+        <item>triple</item>
+        <item>step_up</item>
+        <item>step_down</item>
+        <item>warning</item>
+        <item>siren</item>
+        <item>short</item>
+    </string-array>
+
+    <string-array name="prefs_wena3_led_patterns">
+        <item>@string/prefs_wena3_led_none</item>
+        <item>@string/red</item>
+        <item>@string/yellow</item>
+        <item>@string/green</item>
+        <item>@string/cyan</item>
+        <item>@string/blue</item>
+        <item>@string/purple</item>
+        <item>@string/white</item>
+    </string-array>
+    <string-array name="prefs_wena3_led_pattern_values">
+        <item>none</item>
+        <item>red</item>
+        <item>yellow</item>
+        <item>green</item>
+        <item>cyan</item>
+        <item>blue</item>
+        <item>purple</item>
+        <item>white</item>
+    </string-array>
 </resources>

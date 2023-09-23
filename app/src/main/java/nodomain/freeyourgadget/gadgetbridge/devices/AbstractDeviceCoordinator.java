@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
@@ -471,5 +472,29 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
         return EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    public boolean supportsNotificationVibrationPatterns() {
+        return false;
+    }
+
+    public boolean supportsNotificationVibrationRepetitionPatterns() {
+        return false;
+    }
+
+    public boolean supportsNotificationLedPatterns() {
+        return false;
+    }
+
+    public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
+        return new AbstractNotificationPattern[0];
+    }
+
+    public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
+        return new AbstractNotificationPattern[0];
+    }
+
+    public AbstractNotificationPattern[] getNotificationLedPatterns() {
+        return new AbstractNotificationPattern[0];
     }
 }

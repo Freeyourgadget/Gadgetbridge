@@ -396,6 +396,22 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:exported="false"
+            android:name=".activities.app_specific_notifications.AppSpecificNotificationSettingsActivity"
+            android:label="@string/prefs_wena3_notification_per_app_settings_title"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity">
+            <intent-filter>
+                <action android:name=".SonyWena3PerAppNotificationSettingsActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:exported="false"
+            android:name=".activities.app_specific_notifications.AppSpecificNotificationSettingsDetailActivity"
+            android:label="@string/prefs_wena3_notification_per_app_settings_title"
+            android:parentActivityName=".activities.app_specific_notifications.AppSpecificNotificationSettingsActivity"
+            />
 
         <service
             android:name=".externalevents.NotificationListener"

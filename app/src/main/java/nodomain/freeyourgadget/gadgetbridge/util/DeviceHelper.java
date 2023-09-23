@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.lefun.BohemicSmartBraceletDe
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.wena3.SonyWena3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.supercars.SuperCarsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
@@ -390,6 +391,7 @@ public class DeviceHelper {
         result.add(new SonyWH1000XM2Coordinator());
         result.add(new SonyWF1000XM4Coordinator());
         result.add(new SonyWH1000XM5Coordinator());
+        result.add(new SonyWena3Coordinator());
         result.add(new QC35Coordinator());
         result.add(new BinarySensorCoordinator());
         result.add(new FlipperZeroCoordinator());

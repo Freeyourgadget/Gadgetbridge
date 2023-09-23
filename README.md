@@ -103,11 +103,13 @@ vendor's servers.
 - PineTime (InfiniTime Firmware)
 - Roidmi, Roidmi 3, Mojietu 3 (Bluetooth FM Transmitters)
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
-- [Sony Headphones](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Headphones)
-	- LinkBuds S
-	- WH-1000XM2, WH-1000XM3, WH-1000XM4, WH-1000XM5
-	- WF-SP800N
-	- WF-1000XM3, WF-1000XM4
+- Sony
+	- [Headphones](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Headphones)
+		- LinkBuds S
+		- WH-1000XM2, WH-1000XM3, WH-1000XM4, WH-1000XM5
+		- WF-SP800N
+		- WF-1000XM3, WF-1000XM4
+	- Wena 3
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)

@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(51, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(59, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -94,12 +94,20 @@ public class GBDaoGenerator {
         addHybridHRActivitySample(schema, user, device);
         addVivomoveHrActivitySample(schema, user, device);
         addGarminFitFile(schema, user, device);
+        addWena3EnergySample(schema, user, device);
+        addWena3BehaviorSample(schema, user, device);
+        addWena3CaloriesSample(schema, user, device);
+        addWena3ActivitySample(schema, user, device);
+        addWena3HeartRateSample(schema, user, device);
+        addWena3Vo2Sample(schema, user, device);
+        addWena3StressSample(schema, user, device);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
         addReminders(schema, user, device);
         addWorldClocks(schema, user, device);
         addContacts(schema, user, device);
+        addAppSpecificNotificationSettings(schema, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -862,5 +870,72 @@ public class GBDaoGenerator {
         addHeartRateProperties(activitySample);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
+    }
+
+    private static Entity addWena3BehaviorSample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3BehaviorSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", activitySample, user, device);
+
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull();
+        activitySample.addLongProperty(TIMESTAMP_FROM).notNull();
+        activitySample.addLongProperty(TIMESTAMP_TO).notNull();
+        return activitySample;
+    }
+
+    private static Entity addWena3Vo2Sample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3Vo2Sample");
+        addCommonTimeSampleProperties("AbstractTimeSample", activitySample, user, device);
+        activitySample.addIntProperty("vo2").notNull();
+        activitySample.addIntProperty("datapoint").notNull().primaryKey();
+        return activitySample;
+    }
+
+    private static Entity addWena3StressSample(Schema schema, Entity user, Entity device) {
+        Entity stressSample = addEntity(schema, "Wena3StressSample");
+        addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
+        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
+        return stressSample;
+    }
+
+    private static Entity addWena3ActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3ActivitySample");
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull();
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addWena3HeartRateSample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3HeartRateSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull();
+        return activitySample;
+    }
+
+    private static Entity addWena3EnergySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3EnergySample");
+        addCommonTimeSampleProperties("AbstractTimeSample", activitySample, user, device);
+        activitySample.addIntProperty("energy").notNull();
+        return activitySample;
+    }
+
+    private static Entity addWena3CaloriesSample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "Wena3CaloriesSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", activitySample, user, device);
+        activitySample.addIntProperty("calories").notNull();
+        return activitySample;
+    }
+
+    private static Entity addAppSpecificNotificationSettings(Schema schema, Entity device) {
+        Entity perAppSetting = addEntity(schema, "AppSpecificNotificationSetting");
+        perAppSetting.addStringProperty("packageId").notNull().primaryKey();
+        Property deviceId = perAppSetting.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        perAppSetting.addToOne(device, deviceId);
+        perAppSetting.addStringProperty("ledPattern");
+        perAppSetting.addStringProperty("vibrationPattern");
+        perAppSetting.addStringProperty("vibrationRepetition");
+        return perAppSetting;
     }
 }

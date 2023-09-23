@@ -148,6 +148,7 @@ public enum DeviceType {
     ASTEROIDOS(540, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_asteroidos),
     SOFLOW_SO6(550, R.drawable.ic_device_vesc, R.drawable.ic_device_vesc_disabled, R.string.devicetype_soflow_s06),
     WITHINGS_STEEL_HR(560, R.drawable.ic_device_watchxplus, R.drawable.ic_device_watchxplus_disabled, R.string.withings_steel_hr),
+    SONY_WENA_3(570, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_sony_wena3),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

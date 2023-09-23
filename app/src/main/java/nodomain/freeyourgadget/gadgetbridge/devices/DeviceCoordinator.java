@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabi
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
@@ -563,4 +564,32 @@ public interface DeviceCoordinator {
     Class<? extends DeviceSupport> getDeviceSupportClass();
 
     EnumSet<ServiceDeviceSupport.Flags> getInitialFlags();
+
+    /**
+     * Whether the device supports a variety of vibration patterns for notifications.
+     */
+    boolean supportsNotificationVibrationPatterns();
+    /**
+     * Whether the device supports a variety of vibration pattern repetitions for notifications.
+     */
+    boolean supportsNotificationVibrationRepetitionPatterns();
+
+    /**
+     * Whether the device supports a variety of LED patterns for notifications.
+     */
+    boolean supportsNotificationLedPatterns();
+    /**
+     * What vibration pattern repetitions for notifications are supported by the device.
+     */
+     AbstractNotificationPattern[] getNotificationVibrationPatterns();
+    /**
+     * What vibration pattern repetitions for notifications are supported by the device.
+     * Technote: this is not an int or a range because some devices (e.g. Wena 3) only allow
+     * a very specific set of value combinations here.
+     */
+    AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns();
+    /**
+     * What LED patterns for notifications are supported by the device.
+     */
+    AbstractNotificationPattern[] getNotificationLedPatterns();
 }
