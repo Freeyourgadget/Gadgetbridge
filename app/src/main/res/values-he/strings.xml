@@ -2402,4 +2402,5 @@
     <string name="devicetype_miband2_hrx">Mi Band HRX‎</string>
     <string name="new_discover_activity_description">הפעלת פעילות הגילוי החדשה שאמורה לפתור תקלות בגילוי התקנים. רצוי להשבית אותה אם צצות תקלות במהלך חיפוש אחר או צימוד ההתקן שלך.</string>
     <string name="new_discover_activity_title">הפעלת פעילות גילוי חדשה</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3‎</string>
 </resources>
