@@ -109,7 +109,7 @@ vendor's servers.
 		- WH-1000XM2, WH-1000XM3, WH-1000XM4, WH-1000XM5
 		- WF-SP800N
 		- WF-1000XM3, WF-1000XM4
-	- Wena 3
+	- [Wena 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Wena-3)
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)
