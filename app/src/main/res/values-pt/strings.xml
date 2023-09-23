@@ -1625,4 +1625,12 @@
     <string name="balanced">Equilibrado</string>
     <string name="gps">GPS</string>
     <string name="power_saving">Poupança de energia</string>
+    <string name="pref_header_calendar">Calendário</string>
+    <string name="all_satellites">Todos os satélites</string>
+    <string name="controlcenter_get_heartrate_measurement">Medir batimento cardíaco</string>
+    <string name="open_fw_installer_pick_file">Selecionar ficheiro</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="custom">Personalizado</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
 </resources>
