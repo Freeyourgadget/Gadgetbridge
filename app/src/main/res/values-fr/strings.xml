@@ -2405,4 +2405,5 @@ Temps de sommeil préféré en heures</string>
     <string name="text_receiver_activity_title">Envoyer un message texte à l\'appareil</string>
     <string name="updatefirmwareoperation_failed_low_mtu">Le MTU actuel pour %1$d est trop faible, merci de régler un MTU élevé dans les réglages de l\'appareil. et puis déconnecter/reconnecter l\'appareil.</string>
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_title">Activer la découverte de nouvelles activités</string>
 </resources>
