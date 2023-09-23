@@ -2411,4 +2411,18 @@
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
     <string name="new_discover_activity_description">Увімкнути виявлення нової активності, що має усунути проблеми з виявленням пристроїв. Вимкніть цей параметр, якщо у вас виникли проблеми під час пошуку або сполучення з пристроєм.</string>
     <string name="new_discover_activity_title">Увімкнути виявлення нової активності</string>
+    <string name="prefs_home_icon_left_item">Ліворуч</string>
+    <string name="prefs_wena3_title_activity">Налаштування діяльності</string>
+    <string name="white">Білий</string>
+    <string name="prefs_wena3_item_background_sync">Синхронізація даних про фонову діяльність</string>
+    <string name="prefs_home_icon_right_item">Праворуч</string>
+    <string name="prefs_wena3_title_screen">Налаштування екрана</string>
+    <string name="green">Зелений</string>
+    <string name="yellow">Жовтий</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="red">Червоний</string>
+    <string name="cyan">Зелено-блакитний</string>
+    <string name="prefs_home_icon_center_item">По середині</string>
+    <string name="purple">Фіолетовий</string>
+    <string name="blue">Синій</string>
 </resources>
