@@ -2485,4 +2485,8 @@
     <string name="blue">蓝</string>
     <string name="prefs_wena3_button_action_name_activity_screen">活动屏幕</string>
     <string name="prefs_wena3_notification_settings_title">通知设置</string>
+    <string name="temperature_scale_celsius">摄氏度</string>
+    <string name="temperature_scale_cf">温度标识</string>
+    <string name="temperature_scale_cf_summary">选择设备是使用摄氏度还是华氏度。</string>
+    <string name="temperature_scale_fahrenheit">华氏</string>
 </resources>
