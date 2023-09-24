@@ -556,6 +556,7 @@
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
         <item quantity="other">%d horas</item>
     </plurals>
     <string name="activity_db_management_empty_db_warning">Atenção! Pressionando este botão, irá limpar o seu banco de dados e começar do zero.</string>
@@ -1474,7 +1475,7 @@
     <string name="pref_activity_recognition_mode_ask">perguntar</string>
     <string name="pref_activity_recognition_mode_auto">automático</string>
     <string name="pref_activity_recognition_mode_none">nenhum</string>
-    <string name="watchface_dialog_widget_update_timeout">Tempo de actualização em minutos:</string>
+    <string name="watchface_dialog_widget_update_timeout">Tempo de actualização em minutos</string>
     <string name="prefs_activity_in_device_card_title">Mostrar informações de atividade no cartão do dispositivo</string>
     <string name="prefs_activity_in_device_card_title_summary">Mostrar passos, distância ou sono atual no cartão do dispositivo</string>
     <string name="prefs_activity_in_device_card_sleep_title">Sono</string>
