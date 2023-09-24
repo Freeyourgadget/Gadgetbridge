@@ -1221,7 +1221,7 @@
     <string name="menuitem_calendar">Naptár</string>
     <string name="croatian">Horvát</string>
     <string name="qhybrid_title_background_image">Háttérkép</string>
-    <string name="activity_type_football"></string>
+    <string name="activity_type_football"/>
     <string name="save_configuration">Konfiguráció mentése</string>
     <string name="watchface_widget_type_active_mins">Aktív percek</string>
     <string name="pref_canned_message">Üzenet</string>
@@ -1246,4 +1246,11 @@
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="pref_workout_detection_alert_title">Riasztás</string>
     <string name="qhybrid_calibration_1_step">1 lépés</string>
+    <string name="appmanager_download_started">Az alkalmazás letöltése elindult</string>
+    <string name="power_saving">Energiatakarékos</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js jelenleg fut</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Ez a művelet az összes kapcsolt eszköz beállítását alap helyzetbe helyezi. Biztos benne\?</string>
+    <string name="gps_gnolass">GPS + GLONASS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="low_power_gps">Alacsony energiájú GPS</string>
 </resources>
