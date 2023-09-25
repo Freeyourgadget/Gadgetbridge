@@ -853,7 +853,7 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
         GenderSetting gender = user.getGender() == ActivityUser.GENDER_FEMALE ? GenderSetting.FEMALE : GenderSetting.MALE;
 
         // Maybe we need to set the full birth date?
-        BodyPropertiesSetting bodyPropertiesSetting = new BodyPropertiesSetting(gender, (short)user.getYearOfBirth(), (short)0, (short)1, (short)user.getWeightKg(), (short)user.getHeightCm());
+        BodyPropertiesSetting bodyPropertiesSetting = new BodyPropertiesSetting(gender, (short)user.getYearOfBirth(), (short)0, (short)1, (short)user.getHeightCm(), (short)user.getWeightKg());
         GoalStepsSetting stepsSetting = new GoalStepsSetting(stepsNotification, user.getStepsGoal());
 
         b.write(
