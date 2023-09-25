@@ -25,15 +25,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wena3.protocol.
 public class BodyPropertiesSetting implements Wena3Packetable {
     public final GenderSetting gender;
     public final short yearOfBirth;
-    public final short monthOfBirth;
+    public final short monthOfBirthZeroIndexed;
     public final short dayOfBirth;
     public final short height;
     public final short weight;
 
-    public BodyPropertiesSetting(GenderSetting gender, short yearOfBirth, short monthOfBirth, short dayOfBirth, short height, short weight) {
+    public BodyPropertiesSetting(GenderSetting gender, short yearOfBirth, short monthOfBirthZeroIndexed, short dayOfBirth, short height, short weight) {
         this.gender = gender;
         this.yearOfBirth = yearOfBirth;
-        this.monthOfBirth = monthOfBirth;
+        this.monthOfBirthZeroIndexed = monthOfBirthZeroIndexed;
         this.dayOfBirth = dayOfBirth;
         this.height = height;
         this.weight = weight;
@@ -46,7 +46,7 @@ public class BodyPropertiesSetting implements Wena3Packetable {
                 .put((byte) 0x1D)
                 .put((byte) gender.ordinal())
                 .putShort(yearOfBirth)
-                .put((byte) (monthOfBirth + 1)) // Java uses 0-indexed months
+                .put((byte) (monthOfBirthZeroIndexed + 1)) // Java uses 0-indexed months
                 .put((byte) dayOfBirth)
                 .putShort((short) (height * 10))
                 .putShort((short) (weight * 10))
