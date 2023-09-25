@@ -138,6 +138,7 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final int INCOMING_CALL_ID = 3939;
     private static final Logger LOG = LoggerFactory.getLogger(SonyWena3DeviceSupport.class);
     private String lastMusicInfo = null;
+    private MusicStateSpec lastMusicState = null;
     private final List<CalendarEventSpec> calendarEvents = new ArrayList<>();
     private final ActivitySyncPacketProcessor activitySyncHandler = new ActivitySyncPacketProcessor();
     private AppSpecificNotificationSettingsRepository perAppNotificationSettingsRepository = null;
@@ -206,7 +207,9 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
             NotificationServiceStatusRequest request = new NotificationServiceStatusRequest(characteristic.getValue());
             if(request.requestType == StatusRequestType.MUSIC_INFO_FETCH.value) {
                 LOG.debug("Request for music info received");
-                sendMusicInfo(lastMusicInfo);
+                if(lastMusicState != null && lastMusicState.state == MusicStateSpec.STATE_PLAYING && lastMusicInfo != null) {
+                    sendMusicInfo(lastMusicInfo);
+                }
                 return true;
             }
             else if(request.requestType == StatusRequestType.LOCATE_PHONE.value) {
@@ -425,11 +428,13 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         if(stateSpec.state == MusicStateSpec.STATE_PLAYING && lastMusicInfo != null) {
-            sendMusicInfo(lastMusicInfo);
+            if(lastMusicInfo != null) {
+                sendMusicInfo(lastMusicInfo);
+            }
         } else if (stateSpec.state == MusicStateSpec.STATE_STOPPED || stateSpec.state == MusicStateSpec.STATE_PAUSED) {
-            lastMusicInfo = "";
             sendMusicInfo("");
         }
+        lastMusicState = stateSpec;
     }
 
     @Override
