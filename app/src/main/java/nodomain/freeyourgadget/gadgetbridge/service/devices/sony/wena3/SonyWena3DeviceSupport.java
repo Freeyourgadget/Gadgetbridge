@@ -428,9 +428,7 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
         if(stateSpec.state == MusicStateSpec.STATE_PLAYING && lastMusicInfo != null) {
-            if(lastMusicInfo != null) {
-                sendMusicInfo(lastMusicInfo);
-            }
+            sendMusicInfo(lastMusicInfo);
         } else if (stateSpec.state == MusicStateSpec.STATE_STOPPED || stateSpec.state == MusicStateSpec.STATE_PAUSED) {
             sendMusicInfo("");
         }
