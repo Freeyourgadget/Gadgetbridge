@@ -29,6 +29,7 @@ import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -57,11 +58,6 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
         }
 
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGWB5600;
     }
 
     @Override
@@ -102,6 +98,11 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return CasioGWB5600DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogwb5600;
     }
 
     @Override

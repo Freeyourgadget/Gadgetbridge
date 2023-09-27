@@ -47,11 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceS
 public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WASPOS;
-    }
-
-    @Override
     public String getManufacturer() {
         return "MicroPython";
     }
@@ -178,4 +173,19 @@ public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
         return WaspOSDeviceSupport.class;
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_waspos;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
+    }
 }

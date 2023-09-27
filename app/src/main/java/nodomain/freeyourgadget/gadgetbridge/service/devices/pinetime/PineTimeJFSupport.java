@@ -578,7 +578,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     private void sendWorldClocks(List<? extends WorldClock> clocks) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         if (coordinator.getWorldClocksSlotCount() == 0) {
             return;
         }

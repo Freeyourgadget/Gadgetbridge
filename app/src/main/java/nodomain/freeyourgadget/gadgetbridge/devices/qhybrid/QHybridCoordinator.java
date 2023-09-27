@@ -78,11 +78,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("3dda0001-957f-7d4a-34a6-74696673696d")).build());
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.FOSSILQHYBRID;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -317,5 +312,22 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     private boolean isFossilHybrid(GBDevice device){
         return device.getType() == DeviceType.FOSSILQHYBRID;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_qhybrid;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_zetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_zetime_disabled;
     }
 }

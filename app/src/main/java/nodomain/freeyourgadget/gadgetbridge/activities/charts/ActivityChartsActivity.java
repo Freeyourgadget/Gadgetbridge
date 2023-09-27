@@ -53,13 +53,13 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
 
     @Override
     protected boolean supportsRefresh() {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
+        final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
         return coordinator.supportsActivityDataFetching();
     }
 
     @Override
     protected boolean allowRefresh() {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
+        final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
         return coordinator.allowFetchActivityData(getDevice()) && supportsRefresh();
     }
 
@@ -79,7 +79,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         } else {
             tabList = new ArrayList<>(Arrays.asList(myTabs.split(",")));
         }
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         if (!coordinator.supportsRealtimeData()) {
             tabList.remove("livestats");
         }

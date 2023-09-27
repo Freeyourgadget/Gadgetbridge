@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -61,11 +62,6 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
             ex.getLocalizedMessage();
         }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.Y5;
     }
 
     @Nullable
@@ -153,5 +149,22 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return Y5Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_y5;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

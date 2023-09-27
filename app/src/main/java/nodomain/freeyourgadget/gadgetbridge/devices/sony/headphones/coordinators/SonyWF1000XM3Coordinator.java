@@ -41,11 +41,6 @@ public class SonyWF1000XM3Coordinator extends SonyHeadphonesCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_WF_1000XM3;
-    }
-
-    @Override
     public BatteryConfig[] getBatteryConfig() {
         final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_case, R.string.battery_case);
         final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
@@ -69,5 +64,22 @@ public class SonyWF1000XM3Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff,
                 SonyHeadphonesCapabilities.VoiceNotifications
         );
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_wf_1000xm3;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_galaxy_buds;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_galaxy_buds_disabled;
     }
 }

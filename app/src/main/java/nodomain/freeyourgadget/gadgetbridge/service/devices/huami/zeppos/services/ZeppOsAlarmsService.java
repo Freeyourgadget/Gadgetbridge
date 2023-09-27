@@ -121,7 +121,7 @@ public class ZeppOsAlarmsService extends AbstractZeppOsService {
     }
 
     public void sendAlarm(final Alarm alarm, final TransactionBuilder builder) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getSupport().getDevice());
+        final DeviceCoordinator coordinator = getSupport().getDevice().getDeviceCoordinator();
 
         final Calendar calendar = AlarmUtils.toCalendar(alarm);
 

@@ -32,11 +32,6 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NOTHING_EAR1;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -149,4 +144,19 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
         };
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_nothingear1;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_nothingear;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_nothingear_disabled;
+    }
 }

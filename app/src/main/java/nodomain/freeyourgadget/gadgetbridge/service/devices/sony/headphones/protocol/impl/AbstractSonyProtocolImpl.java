@@ -53,7 +53,7 @@ public abstract class AbstractSonyProtocolImpl {
     }
 
     protected SonyHeadphonesCoordinator getCoordinator() {
-        return (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        return (SonyHeadphonesCoordinator) getDevice().getDeviceCoordinator();
     }
 
     public abstract Request getAmbientSoundControl();

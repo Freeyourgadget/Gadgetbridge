@@ -107,11 +107,6 @@ public class WatchXPlusDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WATCHXPLUS;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -311,5 +306,22 @@ public class WatchXPlusDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends Activity> getCalibrationActivity() {
         return LenovoWatchCalibrationActivity.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_watchxplus;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_watchxplus;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_watchxplus_disabled;
     }
 }

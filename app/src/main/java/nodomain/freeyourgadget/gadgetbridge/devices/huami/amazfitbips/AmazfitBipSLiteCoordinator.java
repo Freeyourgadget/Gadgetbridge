@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -33,11 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.Am
 
 public class AmazfitBipSLiteCoordinator extends AmazfitBipSCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipSLiteCoordinator.class);
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBIPS_LITE;
-    }
 
     @NonNull
     @Override
@@ -57,6 +53,22 @@ public class AmazfitBipSLiteCoordinator extends AmazfitBipSCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitBipSLiteFWInstallHandler handler = new AmazfitBipSLiteFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_bips_lite;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 
     @NonNull

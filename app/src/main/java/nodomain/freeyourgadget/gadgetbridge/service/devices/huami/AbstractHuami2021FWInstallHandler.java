@@ -71,7 +71,7 @@ public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFW
     }
 
     private void saveToCache(final Huami2021FirmwareInfo firmwareInfo, final GBDevice device) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final File appCacheDir;
         try {

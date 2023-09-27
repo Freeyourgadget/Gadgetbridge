@@ -403,7 +403,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
         candidate.refreshNameIfUnknown();
         candidate.addUuids(device.getUuids());
-        DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
+        DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(candidate);
         if (deviceType.isSupported() || discoverUnsupported) {
             candidate.setDeviceType(deviceType);
             LOG.info("Recognized device: " + candidate);
@@ -652,8 +652,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private List<ScanFilter> getScanFilters() {
         List<ScanFilter> allFilters = new ArrayList<>();
-        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-            allFilters.addAll(coordinator.createBLEScanFilters());
+        for (DeviceType type : DeviceType.values()) {
+            allFilters.addAll(type.getDeviceCoordinator().createBLEScanFilters());
         }
         return allFilters;
     }
@@ -769,7 +769,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
 
         stopDiscovery();
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().resolveCoordinator(deviceCandidate);
         LOG.info("Using device candidate " + deviceCandidate + " with coordinator: " + coordinator.getClass());
 
         if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
@@ -800,7 +800,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
             try {
                 this.deviceTarget = deviceCandidate;
-                BondingUtil.initiateCorrectBonding(this, deviceCandidate);
+                BondingUtil.initiateCorrectBonding(this, deviceCandidate, coordinator);
             } catch (Exception e) {
                 LOG.error("Error pairing device: " + deviceCandidate.getMacAddress());
             }
@@ -862,7 +862,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return true;
         }
 
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().resolveCoordinator(deviceCandidate);
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
         if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
             return true;

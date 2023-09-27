@@ -68,11 +68,6 @@ public class NutCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NUTMINI;
-    }
-
-    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_nutmini,
@@ -167,5 +162,22 @@ public class NutCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_nut_mini;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_itag;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_itag_disabled;
     }
 }

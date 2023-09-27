@@ -36,11 +36,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.Ama
 public class AmazfitGTSCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTSCoordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITGTS;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -113,5 +108,22 @@ public class AmazfitGTSCoordinator extends HuamiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return AmazfitGTSSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_gts;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 }

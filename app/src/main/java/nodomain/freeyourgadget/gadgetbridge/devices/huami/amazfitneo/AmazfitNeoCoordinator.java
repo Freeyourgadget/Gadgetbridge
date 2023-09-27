@@ -41,11 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.Ama
 public class AmazfitNeoCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoCoordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITNEO;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -139,5 +134,22 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return AmazfitNeoSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_neo;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 }

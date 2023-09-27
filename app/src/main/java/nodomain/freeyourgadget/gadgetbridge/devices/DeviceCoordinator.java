@@ -29,8 +29,11 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -136,14 +139,6 @@ public interface DeviceCoordinator {
     boolean supports(GBDeviceCandidate candidate);
 
     /**
-     * Checks whether this candidate handles the given device.
-     *
-     * @param device
-     * @return true if this coordinator handles the given device.
-     */
-    boolean supports(GBDevice device);
-
-    /**
      * Returns a list of scan filters that shall be used to discover devices supported
      * by this coordinator.
      * @return the list of scan filters, may be empty
@@ -151,7 +146,7 @@ public interface DeviceCoordinator {
     @NonNull
     Collection<? extends ScanFilter> createBLEScanFilters();
 
-    GBDevice createDevice(GBDeviceCandidate candidate);
+    GBDevice createDevice(GBDeviceCandidate candidate, DeviceType type);
 
     /**
      * Deletes all information, including all related database content about the
@@ -159,13 +154,6 @@ public interface DeviceCoordinator {
      * @throws GBException
      */
     void deleteDevice(GBDevice device) throws GBException;
-
-    /**
-     * Returns the kind of device type this coordinator supports.
-     *
-     * @return
-     */
-    DeviceType getDeviceType();
 
     /**
      * Returns the Activity class to be started in order to perform a pairing of a
@@ -560,10 +548,21 @@ public interface DeviceCoordinator {
 
     boolean supportsNavigation();
 
+    int getOrderPriority();
+
     @NonNull
     Class<? extends DeviceSupport> getDeviceSupportClass();
 
     EnumSet<ServiceDeviceSupport.Flags> getInitialFlags();
+
+    @StringRes
+    int getDeviceNameResource();
+
+    @DrawableRes
+    int getDefaultIconResource();
+
+    @DrawableRes
+    int getDisabledIconResource();
 
     /**
      * Whether the device supports a variety of vibration patterns for notifications.

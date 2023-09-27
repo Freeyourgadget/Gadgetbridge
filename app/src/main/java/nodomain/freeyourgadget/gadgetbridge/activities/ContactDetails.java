@@ -66,7 +66,7 @@ public class ContactDetails extends AbstractGBActivity {
         contactNumber = findViewById(R.id.contact_number);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         contactName.addTextChangedListener(new TextWatcher() {
             @Override

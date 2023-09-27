@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -52,11 +53,6 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND7;
-    }
-
-    @Override
     public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
         return new MiBand7FWInstallHandler(uri, context);
     }
@@ -80,5 +76,22 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband7;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband6;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband6_disabled;
     }
 }

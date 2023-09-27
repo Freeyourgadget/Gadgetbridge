@@ -189,8 +189,8 @@ public class BondingUtil {
     /**
      * Checks the type of bonding needed for the device and continues accordingly
      */
-    public static void initiateCorrectBonding(final BondingInterface bondingInterface, final GBDeviceCandidate deviceCandidate) {
-        int bondingStyle = DeviceHelper.getInstance().getCoordinator(deviceCandidate).getBondingStyle();
+    public static void initiateCorrectBonding(final BondingInterface bondingInterface, final GBDeviceCandidate deviceCandidate, DeviceCoordinator coordinator) {
+        int bondingStyle = coordinator.getBondingStyle();
         if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE ||
             bondingStyle == DeviceCoordinator.BONDING_STYLE_LAZY ) {
             // Do nothing

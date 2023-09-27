@@ -90,7 +90,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        mCoordinator = mGBDevice.getDeviceCoordinator();
     }
 
     private void toast(String data) {

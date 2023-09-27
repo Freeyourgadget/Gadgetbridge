@@ -864,7 +864,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         int maxAlarms = coordinator.getAlarmSlotCount(gbDevice);
 
         try {
@@ -1032,7 +1032,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     private void sendReminders(final TransactionBuilder builder, final List<? extends Reminder> reminders) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         int reservedSlots = prefs.getInt(PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);
@@ -1060,7 +1060,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             return;
         }
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         final int reminderSlotCount = coordinator.getReminderSlotCount(getDevice());
 
         if (position + 1 > reminderSlotCount) {
@@ -1147,7 +1147,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     protected void sendWorldClocks(final TransactionBuilder builder, final List<? extends WorldClock> clocks) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         if (coordinator.getWorldClocksSlotCount() == 0) {
             return;
         }
@@ -1180,7 +1180,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     private byte[] encodeWorldClock(final WorldClock clock) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
         try {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -2646,7 +2646,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
      * @param builder
      */
     protected void queueAlarm(Alarm alarm, TransactionBuilder builder) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
         Calendar calendar = AlarmUtils.toCalendar(alarm);
 
@@ -2720,7 +2720,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
      * @param builder
      */
     private HuamiSupport sendCalendarEventsAsAlarms(TransactionBuilder builder) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         int maxAlarms = coordinator.getAlarmSlotCount(gbDevice);
         int availableSlots = Math.min(prefs.getInt(PREF_RESERVER_ALARMS_CALENDAR, 0), maxAlarms);
@@ -2757,7 +2757,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if (!syncCalendar) {
             return this;
         }
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         int availableSlots = prefs.getInt(PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);
@@ -3092,7 +3092,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         if (!coordinator.supportsWeather()) {
             return;
         }
@@ -4242,7 +4242,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     protected HuamiCoordinator getCoordinator() {
-        return (HuamiCoordinator) DeviceHelper.getInstance().getCoordinator(gbDevice);
+        return (HuamiCoordinator) gbDevice.getDeviceCoordinator();
     }
 
     protected Prefs getDevicePrefs() {

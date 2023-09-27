@@ -38,11 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.A
 public class AmazfitBand5Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand5Coordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBAND5;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -169,5 +164,22 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_band5;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband2_disabled;
     }
 }

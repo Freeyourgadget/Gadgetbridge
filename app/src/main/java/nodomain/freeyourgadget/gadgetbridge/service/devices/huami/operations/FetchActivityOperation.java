@@ -103,7 +103,7 @@ public class FetchActivityOperation extends AbstractRepeatingFetchOperation {
         try (DBHandler handler = GBApplication.acquireDB()) {
             DaoSession session = handler.getDaoSession();
 
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
+            DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
             SampleProvider sampleProvider = coordinator.getSampleProvider(getDevice(), session);
             Device device = DBHelper.getDevice(getDevice(), session);
             User user = DBHelper.getUser(session);

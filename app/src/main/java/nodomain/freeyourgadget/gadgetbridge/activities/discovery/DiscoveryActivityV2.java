@@ -87,6 +87,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BondingInterface;
 import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
@@ -513,8 +514,8 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
     private List<ScanFilter> getScanFilters() {
         final List<ScanFilter> allFilters = new ArrayList<>();
-        for (final DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-            allFilters.addAll(coordinator.createBLEScanFilters());
+        for (DeviceType deviceType : DeviceType.values()) {
+            allFilters.addAll(deviceType.getDeviceCoordinator().createBLEScanFilters());
         }
         return allFilters;
     }
@@ -618,7 +619,7 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
         stopDiscovery();
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().resolveCoordinator(deviceCandidate);
         LOG.info("Using device candidate {} with coordinator {}", deviceCandidate, coordinator.getClass());
 
         if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
@@ -649,7 +650,7 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
             try {
                 this.deviceTarget = deviceCandidate;
-                BondingUtil.initiateCorrectBonding(this, deviceCandidate);
+                BondingUtil.initiateCorrectBonding(this, deviceCandidate, coordinator);
             } catch (final Exception e) {
                 LOG.error("Error pairing device {}", deviceCandidate.getMacAddress(), e);
             }
@@ -689,7 +690,7 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
             return true;
         }
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        final DeviceCoordinator coordinator = deviceCandidate.getDeviceType().getDeviceCoordinator();
         final GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
         if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
             return true;

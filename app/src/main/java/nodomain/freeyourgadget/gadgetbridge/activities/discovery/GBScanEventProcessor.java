@@ -184,7 +184,7 @@ public final class GBScanEventProcessor implements Runnable {
             }
         }
 
-        final DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
+        final DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(candidate);
 
         if (deviceType.isSupported() || discoverUnsupported) {
             candidate.setDeviceType(deviceType);

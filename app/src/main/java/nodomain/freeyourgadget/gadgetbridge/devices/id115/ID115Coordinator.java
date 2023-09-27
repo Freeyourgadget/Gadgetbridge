@@ -71,11 +71,6 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
         return BONDING_STYLE_NONE;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ID115;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -170,5 +165,22 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return ID115Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_id115;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

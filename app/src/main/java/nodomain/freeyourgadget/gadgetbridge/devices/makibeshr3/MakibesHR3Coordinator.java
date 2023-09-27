@@ -201,11 +201,6 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MAKIBESHR3;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -283,5 +278,10 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return MakibesHR3DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_makibes_hr3;
     }
 }

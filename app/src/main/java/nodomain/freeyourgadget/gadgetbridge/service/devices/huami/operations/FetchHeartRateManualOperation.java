@@ -96,7 +96,7 @@ public class FetchHeartRateManualOperation extends AbstractRepeatingFetchOperati
             final Device device = DBHelper.getDevice(getDevice(), session);
             final User user = DBHelper.getUser(session);
 
-            final HuamiCoordinator coordinator = (HuamiCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+            final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
             final HuamiHeartRateManualSampleProvider sampleProvider = coordinator.getHeartRateManualSampleProvider(getDevice(), session);
 
             for (final HuamiHeartRateManualSample sample : samples) {

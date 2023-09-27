@@ -31,6 +31,7 @@ import java.util.Collections;
 
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -46,12 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.BFH16DeviceSupp
 public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
 {
     protected static final Logger LOG = LoggerFactory.getLogger(BFH16DeviceCoordinator.class);
-
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BFH16;
-    }
 
     @Override
     public String getManufacturer() {
@@ -213,9 +208,8 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return false;
     }
 
-
-
-
-
-
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bfh16;
+    }
 }

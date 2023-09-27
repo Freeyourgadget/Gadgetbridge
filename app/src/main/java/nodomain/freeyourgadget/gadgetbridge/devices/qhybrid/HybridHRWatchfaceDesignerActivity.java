@@ -136,7 +136,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         intentFilter.addAction(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
         LocalBroadcastManager.getInstance(this).registerReceiver(fileUploadReceiver, intentFilter);
 
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        mCoordinator = mGBDevice.getDeviceCoordinator();
         calculateDisplayImageSize();
         backgroundImageView = findViewById(R.id.hybridhr_background_image);
 

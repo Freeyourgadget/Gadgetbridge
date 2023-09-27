@@ -90,7 +90,7 @@ public class ConfigureContacts extends AbstractGBActivity {
 
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
-            final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+            final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
             int deviceSlots = coordinator.getContactsSlotCount(gbDevice);
 

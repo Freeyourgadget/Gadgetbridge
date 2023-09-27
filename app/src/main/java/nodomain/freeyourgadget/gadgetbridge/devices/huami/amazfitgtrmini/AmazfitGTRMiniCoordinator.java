@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -42,6 +43,11 @@ public class AmazfitGTRMiniCoordinator extends Huami2021Coordinator {
         return AmazfitGTRMiniSupport.class;
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_gtr_mini;
+    }
+
     @NonNull
     @Override
     public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
@@ -55,11 +61,6 @@ public class AmazfitGTRMiniCoordinator extends Huami2021Coordinator {
         }
 
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITGTRMINI;
     }
 
     @Override

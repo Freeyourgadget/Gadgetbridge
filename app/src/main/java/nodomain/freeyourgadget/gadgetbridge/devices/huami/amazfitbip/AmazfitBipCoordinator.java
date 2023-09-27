@@ -37,11 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 public class AmazfitBipCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipCoordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBIP;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -104,5 +99,21 @@ public class AmazfitBipCoordinator extends HuamiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return AmazfitBipSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_bip;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 }

@@ -69,11 +69,6 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WITHINGS_STEEL_HR;
-    }
-
-    @Override
     public int getBondingStyle(){
         return BONDING_STYLE_BOND;
     }
@@ -191,5 +186,22 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return WithingsSteelHRDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.withings_steel_hr;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_watchxplus;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_watchxplus_disabled;
     }
 }

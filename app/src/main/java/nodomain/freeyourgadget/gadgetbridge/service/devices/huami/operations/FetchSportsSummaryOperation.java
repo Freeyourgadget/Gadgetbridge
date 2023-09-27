@@ -82,7 +82,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
 
         BaseActivitySummary summary = null;
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
+        final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
         final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(getDevice());
 
         boolean parseSummarySuccess = true;

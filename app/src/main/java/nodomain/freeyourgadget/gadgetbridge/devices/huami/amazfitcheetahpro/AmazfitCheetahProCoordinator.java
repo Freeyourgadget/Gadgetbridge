@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -51,15 +52,15 @@ public class AmazfitCheetahProCoordinator extends Huami2021Coordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITCHEETAHPRO;
-    }
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return AmazfitCheetahProSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_cheetah_pro;
     }
 
     @Override

@@ -1149,10 +1149,10 @@ public class DebugActivity extends AbstractGBActivity {
     public static Map<String, Pair<Long, Integer>> getAllSupportedDevices(Context appContext) {
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
         GBApplication app = (GBApplication) appContext;
-        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-            DeviceType deviceType = coordinator.getDeviceType();
-            int icon = deviceType.getIcon();
-            String name = app.getString(deviceType.getName()) + " (" + coordinator.getManufacturer() + ")";
+        for (DeviceType deviceType : DeviceType.values()) {
+            DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
+            int icon = coordinator.getDefaultIconResource();
+            String name = app.getString(coordinator.getDeviceNameResource()) + " (" + coordinator.getManufacturer() + ")";
             long deviceId = deviceType.getKey();
             newMap.put(name, new Pair(deviceId, icon));
         }

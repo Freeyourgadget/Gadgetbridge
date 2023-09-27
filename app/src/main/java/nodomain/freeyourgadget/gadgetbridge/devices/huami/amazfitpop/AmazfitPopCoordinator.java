@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -33,11 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpop.Ama
 
 public class AmazfitPopCoordinator extends AmazfitBipUCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitPopCoordinator.class);
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITPOP;
-    }
 
     @NonNull
     @Override
@@ -57,6 +53,22 @@ public class AmazfitPopCoordinator extends AmazfitBipUCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitPopFWInstallHandler handler = new AmazfitPopFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_pop;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 
     @NonNull

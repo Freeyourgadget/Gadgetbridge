@@ -1012,7 +1012,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     protected Huami2021Coordinator getCoordinator() {
-        return (Huami2021Coordinator) DeviceHelper.getInstance().getCoordinator(gbDevice);
+        return (Huami2021Coordinator) gbDevice.getDeviceCoordinator();
     }
 
     @Override

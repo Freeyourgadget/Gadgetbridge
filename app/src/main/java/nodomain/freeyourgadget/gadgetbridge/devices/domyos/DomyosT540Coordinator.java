@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -47,11 +48,6 @@ public class DomyosT540Coordinator extends AbstractBLEDeviceCoordinator {
             return DeviceType.DOMYOS_T540;
         }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.DOMYOS_T540;
     }
 
     @Override
@@ -148,5 +144,22 @@ public class DomyosT540Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_domyos_t540;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_lovetoy;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_lovetoy_disabled;
     }
 }

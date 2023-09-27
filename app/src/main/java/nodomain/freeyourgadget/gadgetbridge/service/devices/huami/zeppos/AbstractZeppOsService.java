@@ -59,7 +59,7 @@ public abstract class AbstractZeppOsService {
     }
 
     protected Huami2021Coordinator getCoordinator() {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getSupport().getDevice());
+        final DeviceCoordinator coordinator = getSupport().getDevice().getDeviceCoordinator();
         return (Huami2021Coordinator) coordinator;
     }
 

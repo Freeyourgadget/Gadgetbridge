@@ -66,7 +66,7 @@ public class AppSpecificNotificationSettingsDetailActivity extends AbstractGBAct
         mSpinnerVibrationCount = findViewById(R.id.spinnerVibraCount);
 
         mDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mDevice);
+        mCoordinator = mDevice.getDeviceCoordinator();
 
         mLedPatternValues.clear();
         for(AbstractNotificationPattern p: mCoordinator.getNotificationLedPatterns())

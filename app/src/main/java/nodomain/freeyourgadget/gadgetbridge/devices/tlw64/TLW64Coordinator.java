@@ -56,11 +56,6 @@ public class TLW64Coordinator extends AbstractBLEDeviceCoordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.TLW64;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -156,5 +151,10 @@ public class TLW64Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return TLW64Support.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_tlw64;
     }
 }

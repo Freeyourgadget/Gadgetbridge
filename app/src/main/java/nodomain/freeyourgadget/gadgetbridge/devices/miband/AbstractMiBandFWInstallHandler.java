@@ -26,9 +26,11 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType.AGPS_UIHH;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType.WATCHFACE;
@@ -68,7 +70,8 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
     protected abstract AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException;
 
     private GenericItem createInstallItem(GBDevice device) {
-        return new GenericItem(mContext.getString(R.string.installhandler_firmware_name, mContext.getString(device.getType().getName()), helper.getFirmwareKind(), helper.getHumanFirmwareVersion()));
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
+        return new GenericItem(mContext.getString(R.string.installhandler_firmware_name, mContext.getString(coordinator.getDeviceNameResource()), helper.getFirmwareKind(), helper.getHumanFirmwareVersion()));
     }
 
     protected String getFwUpgradeNotice() {
@@ -101,8 +104,10 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
+
         GenericItem fwItem = createInstallItem(device);
-        fwItem.setIcon(device.getType().getIcon());
+        fwItem.setIcon(coordinator.getDefaultIconResource());
 
         if (!helper.isFirmwareGenerallyCompatibleWith(device)) {
             fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_incompatible_version));

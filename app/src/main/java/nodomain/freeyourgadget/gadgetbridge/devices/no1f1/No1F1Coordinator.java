@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -64,11 +65,6 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
         }
 
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NO1F1;
     }
 
     @Override
@@ -168,5 +164,22 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getNo1F1ActivitySampleDao().queryBuilder();
         qb.where(No1F1ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_no1_f1;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_hplus;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_hplus_disabled;
     }
 }

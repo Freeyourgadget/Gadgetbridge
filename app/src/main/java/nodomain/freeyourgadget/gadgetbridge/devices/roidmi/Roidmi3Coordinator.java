@@ -21,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -50,11 +52,6 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ROIDMI3;
-    }
-
-    @Override
     public boolean supportsRgbLedColor() {
         return true;
     }
@@ -63,5 +60,10 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return RoidmiSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_roidmi3;
     }
 }

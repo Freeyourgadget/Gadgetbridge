@@ -62,16 +62,18 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         TextView deviceAddressLabel = view.findViewById(R.id.item_details);
         TextView deviceStatus = view.findViewById(R.id.item_status);
 
+        DeviceCoordinator coordinator = device.getDeviceType().getDeviceCoordinator();
+
         String name = formatDeviceCandidate(device);
         deviceNameLabel.setText(name);
         deviceAddressLabel.setText(device.getMacAddress());
-        deviceImageView.setImageResource(device.getDeviceType().getIcon());
+        deviceImageView.setImageResource(coordinator.getDefaultIconResource());
 
         final List<String> statusLines = new ArrayList<>();
         if (device.isBonded()) {
             statusLines.add(getContext().getString(R.string.device_is_currently_bonded));
             if (!GBApplication.getPrefs().getBoolean("ignore_bonded_devices", true)) { // This could be passed to the constructor instead
-                deviceImageView.setImageResource(device.getDeviceType().getDisabledIcon());
+                deviceImageView.setImageResource(coordinator.getDisabledIconResource());
             }
         }
 
@@ -79,7 +81,6 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
             statusLines.add(getContext().getString(R.string.device_unsupported));
         }
 
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
         if (coordinator.isExperimental()) {
             statusLines.add(getContext().getString(R.string.device_experimental));
         }

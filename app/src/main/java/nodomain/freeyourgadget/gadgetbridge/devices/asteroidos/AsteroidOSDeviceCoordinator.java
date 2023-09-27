@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -32,10 +33,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos.AsteroidO
 
 public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AsteroidOSDeviceCoordinator.class);
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ASTEROIDOS;
-    }
 
     @Override
     public String getManufacturer() {
@@ -162,5 +159,10 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return AsteroidOSDeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_asteroidos;
     }
 }

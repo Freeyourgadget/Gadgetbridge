@@ -40,11 +40,6 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND6;
-    }
-
-    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBand6FWInstallHandler handler = new MiBand6FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
@@ -179,5 +174,22 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return MiBand6Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband6;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband6;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband6_disabled;
     }
 }

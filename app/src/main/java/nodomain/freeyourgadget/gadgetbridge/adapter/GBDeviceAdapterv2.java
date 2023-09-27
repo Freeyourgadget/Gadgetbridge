@@ -279,7 +279,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             dailyTotals = deviceActivityMap.get(device.getAddress());
         }
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         holder.container.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -304,7 +304,8 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                 return true;
             }
         });
-        holder.deviceImageView.setImageResource(device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon());
+
+        holder.deviceImageView.setImageResource(device.getEnabledDisabledIconResource());
 
         holder.deviceNameLabel.setText(getUniqueDeviceName(device));
 
@@ -455,7 +456,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                  {
                                                      @Override
                                                      public void onClick(View v) {
-                                                         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                                                         DeviceCoordinator coordinator = device.getDeviceCoordinator();
                                                          Class<? extends Activity> appsManagementActivity = coordinator.getAppsManagementActivity();
                                                          if (appsManagementActivity != null) {
                                                              Intent startIntent = new Intent(context, appsManagementActivity);
@@ -820,7 +821,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     }
 
     private boolean showInstallerItem(GBDevice device) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         return coordinator.supportsAppsManagement(device) || coordinator.supportsFlashing();
     }
 
@@ -906,7 +907,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                            DeviceCoordinator coordinator = device.getDeviceCoordinator();
                             if (coordinator != null) {
                                 coordinator.deleteDevice(device);
                             }
@@ -1420,11 +1421,13 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         ShortcutManager shortcutManager = (ShortcutManager) context.getApplicationContext().getSystemService(Context.SHORTCUT_SERVICE);
 
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
+
         shortcutManager.pushDynamicShortcut(new ShortcutInfo.Builder(context, device.getAddress())
                 .setLongLived(false)
                 .setShortLabel(device.getAliasOrName())
                 .setIntent(intent)
-                .setIcon(Icon.createWithResource(context, device.getType().getIcon()))
+                .setIcon(Icon.createWithResource(context, coordinator.getDefaultIconResource()))
                 .build()
         );
     }

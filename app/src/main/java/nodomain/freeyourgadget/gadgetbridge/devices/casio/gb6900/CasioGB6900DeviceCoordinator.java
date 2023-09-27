@@ -84,11 +84,6 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGB6900;
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
@@ -160,5 +155,10 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return CasioGB6900DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogb6900;
     }
 }

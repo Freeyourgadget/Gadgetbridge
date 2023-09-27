@@ -89,11 +89,6 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGBX100;
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
@@ -174,5 +169,10 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return CasioGBX100DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogbx100;
     }
 }

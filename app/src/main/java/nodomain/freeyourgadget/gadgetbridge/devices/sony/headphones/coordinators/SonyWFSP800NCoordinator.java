@@ -40,11 +40,6 @@ public class SonyWFSP800NCoordinator extends SonyHeadphonesCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_WF_SP800N;
-    }
-
-    @Override
     public BatteryConfig[] getBatteryConfig() {
         final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_sony_wf_800n_case, R.string.battery_case);
         final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_sony_wf_800n_left, R.string.left_earbud);
@@ -67,5 +62,22 @@ public class SonyWFSP800NCoordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.VoiceNotifications,
                 SonyHeadphonesCapabilities.Volume
         );
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_wf_sp800n;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_sony_wf_800n;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_sony_wf_800n_disabled;
     }
 }

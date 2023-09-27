@@ -86,11 +86,6 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.VESC_HM10; // TODO: this limits this coordinator to NRF serial service
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
@@ -173,5 +168,22 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_vesc;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_vesc;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_vesc_disabled;
     }
 }

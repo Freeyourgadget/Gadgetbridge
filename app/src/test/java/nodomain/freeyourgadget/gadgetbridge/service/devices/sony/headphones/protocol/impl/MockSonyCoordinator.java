@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -38,8 +39,8 @@ public class MockSonyCoordinator extends SonyHeadphonesCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return deviceType;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_wh_1000xm5;
     }
 
     public void addCapability(final SonyHeadphonesCapabilities capability) {

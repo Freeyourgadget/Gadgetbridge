@@ -52,11 +52,6 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BOSE_QC35;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -149,5 +144,22 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bose_qc35;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_headphones;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_headphones_disabled;
     }
 }

@@ -414,7 +414,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        mCoordinator = mGBDevice.getDeviceCoordinator();
 
         final FloatingActionButton appListFab = ((FloatingActionButton) getActivity().findViewById(R.id.fab));
         final FloatingActionButton appListFabNew = ((FloatingActionButton) getActivity().findViewById(R.id.fab_new));

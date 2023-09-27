@@ -26,7 +26,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,11 +106,6 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getMiBandActivitySampleDao().queryBuilder();
         qb.where(MiBandActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND;
     }
 
     @Override
@@ -292,5 +289,33 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
         return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getOrderPriority(){
+        // all Coordinators have a priority of 0, thus get checked before this one
+        // PLEASE DO NOT EXTEND THE PRIORITIES
+        // PLEASE BUILD NEW COORDINATORS ORDER INDEPENDENT
+        // this ordering mechanism is a temporary hack and will hopefully be gone soon...
+        return 1;
+    }
+
+    @Override
+    @StringRes
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband;
+    }
+
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband_disabled;
     }
 }

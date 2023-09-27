@@ -41,11 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand
 public class MiBand2Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND2;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -117,5 +112,21 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @Override
     public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
         return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband2;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband2_disabled;
     }
 }

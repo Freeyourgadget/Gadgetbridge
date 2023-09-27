@@ -37,11 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppESup
 public class ZeppECoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppECoordinator.class);
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ZEPP_E;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -112,5 +107,11 @@ public class ZeppECoordinator extends HuamiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return ZeppESupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_zepp_e;
     }
 }

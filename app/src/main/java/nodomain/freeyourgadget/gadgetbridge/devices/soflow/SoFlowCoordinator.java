@@ -47,11 +47,6 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SOFLOW_SO6;
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
@@ -157,5 +152,22 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return SoFlowSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_soflow_s06;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_vesc;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_vesc_disabled;
     }
 }

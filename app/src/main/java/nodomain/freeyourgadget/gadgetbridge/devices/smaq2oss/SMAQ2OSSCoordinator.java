@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -60,11 +61,6 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getBondingStyle(){
         return BONDING_STYLE_NONE;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SMAQ2OSS;
     }
 
     @Nullable
@@ -158,5 +154,10 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return SMAQ2OSSSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_smaq2oss;
     }
 }

@@ -584,4 +584,14 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     public static Date getHourlyChimeEnd(String deviceAddress) {
         return getTimePreference(DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_END, "22:00", deviceAddress);
     }
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_zetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_zetime_disabled;
+    }
 }

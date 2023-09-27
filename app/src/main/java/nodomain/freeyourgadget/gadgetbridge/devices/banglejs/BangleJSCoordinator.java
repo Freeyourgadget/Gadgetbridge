@@ -50,11 +50,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDev
 public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BANGLEJS;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Espruino";
     }
@@ -235,5 +230,22 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return BangleJSDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_banglejs;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_banglejs;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_banglejs_disabled;
     }
 }

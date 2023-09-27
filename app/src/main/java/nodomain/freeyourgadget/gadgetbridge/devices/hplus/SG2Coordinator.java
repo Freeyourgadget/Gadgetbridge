@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 import androidx.annotation.NonNull;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -43,11 +44,6 @@ public class SG2Coordinator extends HPlusCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SG2;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Lemfo";
     }
@@ -65,5 +61,10 @@ public class SG2Coordinator extends HPlusCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_ASK;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sg2;
     }
 }

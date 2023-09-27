@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -86,11 +87,6 @@ public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getBondingStyle() {
         return super.BONDING_STYLE_NONE;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MISCALE2;
     }
 
     @Nullable
@@ -178,5 +174,22 @@ public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return MiScale2DeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miscale2;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miscale2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miscale2_disabled;
     }
 }

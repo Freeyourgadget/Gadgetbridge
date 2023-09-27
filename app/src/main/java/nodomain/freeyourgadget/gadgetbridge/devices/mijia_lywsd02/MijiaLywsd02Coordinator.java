@@ -48,11 +48,6 @@ public class MijiaLywsd02Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIJIA_LYWSD02;
-    }
-
-    @Override
     public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
@@ -153,5 +148,22 @@ public class MijiaLywsd02Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_mijia_lywsd02;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
     }
 }

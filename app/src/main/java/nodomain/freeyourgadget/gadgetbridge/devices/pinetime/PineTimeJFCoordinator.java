@@ -48,11 +48,6 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.PINETIME_JF;
-    }
-
-    @Override
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
@@ -176,5 +171,22 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_transliteration,
                 R.xml.devicesettings_world_clocks
         };
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_pinetime_jf;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pinetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pinetime_disabled;
     }
 }

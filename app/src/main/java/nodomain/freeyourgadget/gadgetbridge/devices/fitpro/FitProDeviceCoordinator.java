@@ -83,11 +83,6 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.FITPRO;
-    }
-
-    @Override
     public int getBondingStyle() {
         // different devices seem to work differently.
         // user will unfortunately need to decide
@@ -201,5 +196,10 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
         return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_fitpro;
     }
 }

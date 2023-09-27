@@ -109,9 +109,9 @@ public class WidgetConfigurationActivity extends Activity implements GBActivity 
         try (DBHandler handler = GBApplication.acquireDB()) {
             daoSession = handler.getDaoSession();
             for (GBDevice device : devices) {
-                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+                DeviceCoordinator coordinator = device.getDeviceCoordinator();
                 Device dbDevice = DBHelper.findDevice(device, daoSession);
-                int icon = device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon();
+                int icon = device.getEnabledDisabledIconResource();
                 if (dbDevice != null && coordinator != null
                         && (coordinator.supportsActivityDataFetching() || coordinator.supportsActivityTracking())
                         && !newMap.containsKey(device.getAliasOrName())) {

@@ -29,10 +29,6 @@ public class GalaxyBudsProDeviceCoordinator extends GalaxyBudsGenericCoordinator
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
         return new GalaxyBudsSettingsCustomizer(device);
     }
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.GALAXY_BUDS_PRO;
-    }
 
     @Override
     public int getBatteryCount() {
@@ -52,5 +48,22 @@ public class GalaxyBudsProDeviceCoordinator extends GalaxyBudsGenericCoordinator
         return new int[]{
                 R.xml.devicesettings_galaxy_buds_pro,
         };
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_galaxybuds_pro;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_galaxy_buds_pro;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_galaxy_buds_pro_disabled;
     }
 }

@@ -25,11 +25,6 @@ public class GalaxyBudsDeviceCoordinator extends GalaxyBudsGenericCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.GALAXY_BUDS;
-    }
-
-    @Override
     public int getBatteryCount() {
         return 2;
     }
@@ -39,6 +34,11 @@ public class GalaxyBudsDeviceCoordinator extends GalaxyBudsGenericCoordinator {
         BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
         BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_r, R.string.right_earbud);
         return new BatteryConfig[]{battery1, battery2};
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_galaxybuds;
     }
 
     @Override

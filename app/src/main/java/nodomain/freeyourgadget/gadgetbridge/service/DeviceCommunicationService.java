@@ -462,7 +462,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 DeviceStruct cachedStruct = getDeviceStructOrNull(device);
                 if(cachedStruct != null) {
                     cachedStruct.setDevice(device);
-                    DeviceCoordinator newCoordinator = DeviceHelper.getInstance().getCoordinator(device);
+                    DeviceCoordinator newCoordinator = device.getDeviceCoordinator();
                     cachedStruct.setCoordinator(newCoordinator);
                 }
                 updateReceiversState();
@@ -623,7 +623,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }else{
                     registeredStruct = new DeviceStruct();
                     registeredStruct.setDevice(gbDevice);
-                    registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(gbDevice));
+                    registeredStruct.setCoordinator(gbDevice.getDeviceCoordinator());
                     deviceStructs.add(registeredStruct);
                 }
 

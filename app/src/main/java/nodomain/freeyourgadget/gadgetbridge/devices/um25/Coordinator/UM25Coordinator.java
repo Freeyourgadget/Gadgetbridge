@@ -60,11 +60,6 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.UM25;
-    }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {
@@ -155,6 +150,11 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return UM25Support.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_um25;
     }
 
     @Override

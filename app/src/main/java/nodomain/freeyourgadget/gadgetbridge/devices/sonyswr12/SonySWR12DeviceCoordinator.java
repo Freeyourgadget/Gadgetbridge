@@ -40,18 +40,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12D
 
 public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_SWR12;
-    }
-
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
             String name = candidate.getName();
             if (name != null && !name.isEmpty() && name.toLowerCase().contains("swr12"))
-                return getDeviceType();
+                return DeviceType.SONY_SWR12;
         } catch (Exception exc){}
         return DeviceType.UNKNOWN;
     }
@@ -151,5 +146,10 @@ public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return SonySWR12DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sonyswr12;
     }
 }

@@ -21,7 +21,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,11 +64,6 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
             return DeviceType.PEBBLE;
         }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.PEBBLE;
     }
 
     @Override
@@ -244,5 +241,25 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return PebbleSupport.class;
+    }
+
+
+    @Override
+    @StringRes
+    public int getDeviceNameResource() {
+        return R.string.devicetype_pebble;
+    }
+
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
     }
 }

@@ -32,6 +32,7 @@ import java.util.EnumSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -74,11 +75,6 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
             return DeviceType.WATCH9;
         }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WATCH9;
     }
 
     @Override
@@ -176,6 +172,11 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
         return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_watch9;
     }
 
     @Nullable

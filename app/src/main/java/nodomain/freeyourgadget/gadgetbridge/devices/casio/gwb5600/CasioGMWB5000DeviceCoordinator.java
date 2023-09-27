@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600;
 
 import androidx.annotation.NonNull;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
@@ -41,7 +42,7 @@ public class CasioGMWB5000DeviceCoordinator extends CasioGWB5600DeviceCoordinato
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGMWB5000;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogmwb5000;
     }
 }

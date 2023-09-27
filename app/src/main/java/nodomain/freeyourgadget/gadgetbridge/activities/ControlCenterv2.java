@@ -667,7 +667,7 @@ public class ControlCenterv2 extends AppCompatActivity
         @Override
         protected void doInBackground(DBHandler db) {
             for (GBDevice gbDevice : deviceList) {
-                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
                 if (coordinator.supportsActivityTracking()) {
                     long[] stepsAndSleepData = getSteps(gbDevice, db);
                     deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);

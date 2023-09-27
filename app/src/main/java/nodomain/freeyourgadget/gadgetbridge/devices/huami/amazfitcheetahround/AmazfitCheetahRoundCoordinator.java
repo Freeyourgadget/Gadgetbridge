@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -47,6 +48,11 @@ public class AmazfitCheetahRoundCoordinator extends Huami2021Coordinator {
         return AmazfitCheetahRoundSupport.class;
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_cheetah_round;
+    }
+
     @NonNull
     @Override
     public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
@@ -60,11 +66,6 @@ public class AmazfitCheetahRoundCoordinator extends Huami2021Coordinator {
         }
 
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITCHEETAHROUND;
     }
 
     @Override

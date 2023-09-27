@@ -24,6 +24,7 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -56,11 +57,6 @@ public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
         final ParcelUuid garminService = new ParcelUuid(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI);
         final ScanFilter filter = new ScanFilter.Builder().setServiceUuid(garminService).build();
         return Collections.singletonList(filter);
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.VIVOMOVE_HR;
     }
 
     @Nullable
@@ -149,6 +145,11 @@ public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return VivomoveHrSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_vivomove_hr;
     }
 
     @Override

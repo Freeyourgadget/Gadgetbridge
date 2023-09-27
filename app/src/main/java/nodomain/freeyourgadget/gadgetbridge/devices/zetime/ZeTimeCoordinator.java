@@ -42,11 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceS
 
 
 public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ZETIME;
-    }
-
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
@@ -177,5 +172,22 @@ public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return ZeTimeDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_mykronoz_zetime;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_zetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_zetime_disabled;
     }
 }

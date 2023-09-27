@@ -1,24 +1,17 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.binary_sensor.coordinator;
+package nodomain.freeyourgadget.gadgetbridge.devices.test;
 
 import android.app.Activity;
-import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.ParcelUuid;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.binary_sensor.activity.DataActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -26,9 +19,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.binary_sensor.BinarySensorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.unknown.UnknownDeviceSupport;
 
-public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
+public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
@@ -36,29 +29,8 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public Collection<? extends ScanFilter> createBLEScanFilters() {
-        return Collections.singletonList(
-                new ScanFilter.Builder()
-                        .setServiceUuid(ParcelUuid.fromString(BinarySensorSupport.BINARY_SENSOR_SERVICE_UUID))
-                        .build()
-        );
-    }
-
-    @NonNull
-    @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        Log.d("coordinator", "candidate name: " + candidate.getName());
-        for(ParcelUuid service : candidate.getServiceUuids()){
-            if(service.getUuid().toString().equals(BinarySensorSupport.BINARY_SENSOR_SERVICE_UUID)){
-                return DeviceType.BINARY_SENSOR;
-            };
-        }
         return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[0];
     }
 
     @Nullable
@@ -83,11 +55,6 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
-    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
@@ -108,23 +75,18 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
+    public String getManufacturer() {
+        return null;
+    }
+
+    @Override
+    public boolean supportsAppsManagement(GBDevice device) {
         return false;
     }
 
     @Override
-    public String getManufacturer() {
-        return "DIY";
-    }
-
-    @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return true;
-    }
-
-    @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return DataActivity.class;
+        return null;
     }
 
     @Override
@@ -138,40 +100,18 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsWeather() {
+    public boolean supportsFindDevice() {
         return false;
-    }
-
-    @Override
-    public int getBatteryCount() {
-        return 0;
     }
 
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return BinarySensorSupport.class;
+        return UnknownDeviceSupport.class;
     }
-
-    @Override
-    public int getBondingStyle() {
-        return BONDING_STYLE_NONE;
-    }
-
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_binary_sensor;
-    }
-
-
-    @Override
-    public int getDefaultIconResource() {
-        return R.drawable.ic_device_unknown;
-    }
-
-    @Override
-    public int getDisabledIconResource() {
-        return R.drawable.ic_device_unknown_disabled;
+        return R.string.devicetype_test;
     }
 }

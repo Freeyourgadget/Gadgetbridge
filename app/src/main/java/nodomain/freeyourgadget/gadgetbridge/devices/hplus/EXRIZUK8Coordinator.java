@@ -22,6 +22,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 
 import androidx.annotation.NonNull;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -42,13 +44,12 @@ public class EXRIZUK8Coordinator extends HPlusCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.EXRIZUK8;
-    }
-
-    @Override
     public String getManufacturer() {
         return "EXRIZU";
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_exrizu_k8;
+    }
 }

@@ -36,11 +36,6 @@ public class BohemicSmartBraceletDeviceCoordinator extends LefunDeviceCoordinato
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BOHEMIC_SMART_BRACELET;
-    }
-
-    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_liftwrist_display_noshed,
@@ -56,5 +51,22 @@ public class BohemicSmartBraceletDeviceCoordinator extends LefunDeviceCoordinato
     @Override
     public boolean supportsRealtimeData() {
         return false;  // not supported
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bohemic_smart_bracelet;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

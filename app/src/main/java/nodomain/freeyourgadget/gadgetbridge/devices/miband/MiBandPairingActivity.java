@@ -86,7 +86,7 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
             return;
         }
 
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().resolveCoordinator(deviceCandidate);
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
 
         if (coordinator.getSupportedDeviceSpecificAuthenticationSettings() != null) { // FIXME: this will no longer be sane in the future
