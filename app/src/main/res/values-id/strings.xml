@@ -2392,4 +2392,17 @@
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
     <string name="new_discover_activity_description">Aktifkan aktivitas penemuan baru, yang seharusnya memperbaiki masalah penemuan perangkat. Nonaktifkan ini jika Anda menghadapi masalah apa pun saat mencari atau memasangkan perangkat Anda.</string>
     <string name="new_discover_activity_title">Aktifkan aktivitas penemuan baru</string>
+    <string name="prefs_home_icon_left_item">Kiri</string>
+    <string name="prefs_wena3_title_activity">Pengaturan Aktivitas</string>
+    <string name="white">Putih</string>
+    <string name="prefs_home_icon_right_item">Kanan</string>
+    <string name="prefs_wena3_title_screen">Pengaturan Tampilan</string>
+    <string name="green">Hijau</string>
+    <string name="yellow">Kuning</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="red">Merah</string>
+    <string name="cyan">Sian</string>
+    <string name="prefs_home_icon_center_item">Tengah</string>
+    <string name="purple">Ungu</string>
+    <string name="blue">Biru</string>
 </resources>
