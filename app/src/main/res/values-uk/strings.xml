@@ -42,7 +42,7 @@
     <string name="pref_title_general_autoreconnect">Автоматичне перез\'єднання</string>
     <string name="pref_title_audio_player">Бажаний музичний програвач</string>
     <string name="pref_default">Типовий</string>
-    <string name="pref_header_datetime">Дата та час</string>
+    <string name="pref_header_datetime">Дата й час</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронізація часу</string>
     <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання з Gadgetbridge, а також під час зміни часу або часового поясу в системі Android</string>
     <string name="pref_title_theme">Тема</string>
@@ -173,7 +173,7 @@
     <string name="user_feedback_miband_set_alarms_ok">Будильник надіслано на пристрій.</string>
     <string name="chart_no_data_synchronize">Дані відсутні. Синхронізувати пристрій?</string>
     <string name="user_feedback_miband_activity_data_transfer">Буде передано %1$s даних, починаючи з %2$s</string>
-    <string name="miband_prefs_fitness_goal">Щоденна ціль кроків</string>
+    <string name="miband_prefs_fitness_goal">Щоденна мета кроків</string>
     <string name="dbaccess_error_executing">Помилка виконання \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">Ваша активність</string>
     <string name="cannot_connect">Неможливо з\'єднатися: %1$s</string>
@@ -258,18 +258,18 @@
     <string name="blacklist_all_for_notifications">Заблокувати всі сповіщення</string>
     <string name="whitelist_all_for_notifications">Дозволити всі сповіщення</string>
     <string name="title_activity_calblacklist">Чорний список календарів</string>
-    <string name="fw_upgrade_notice_amazfitbip">Ви збираєтесь установити мікропрограму %s на Amazfit Bip.
+    <string name="fw_upgrade_notice_amazfitbip">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Bip.
 \n
-\nСпочатку встановіть файл .fw, потім — .res, а далі — .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати файли .res і .gps, якщо вони точно такі ж, як і раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі ж самі, як раніше встановлені.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Ви збираєтесь установити мікропрограму %s на Amazfit Cor.
+    <string name="fw_upgrade_notice_amazfitcor">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Cor.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fw_upgrade_notice_miband3">Ви маєте намір встановити %s мікропрограму на ваш Mi Band 3.
@@ -355,7 +355,7 @@
     <string name="miband_prefs_reserve_alarm_calendar">Сигнали для резервування для майбутніх подій</string>
     <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
     <string name="dateformat_time">Час</string>
-    <string name="dateformat_date_time">Дата та час</string>
+    <string name="dateformat_date_time">Дата й час</string>
     <string name="pref_title_unit_system">Одиниці вимірювання</string>
     <string name="tap_connected_device_for_vibration">Торкніться під\'єднаного пристрою для вібрації</string>
     <string name="pairing">Створення пари з %s…</string>
@@ -379,8 +379,8 @@
     <string name="dbmanagementactivity_db_deletion_failed">Не вдалося видалити базу даних.</string>
     <string name="dbmanagementactivity_overwrite">Перезаписати</string>
     <string name="ok">Гаразд</string>
-    <string name="unit_metric">Метрична</string>
-    <string name="unit_imperial">Імперська</string>
+    <string name="unit_metric">Метричні</string>
+    <string name="unit_imperial">Імперські</string>
     <string name="pref_screen_notification_profile_alarm_clock">Будильник</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Знайдено!</string>
@@ -611,7 +611,7 @@
     <string name="activity_DB_import_button">Імпортувати дані</string>
     <string name="pref_display_add_device_fab">Кнопка під\'єднання нового пристрою</string>
     <string name="pref_display_add_device_fab_on">Завжди видно</string>
-    <string name="pref_display_add_device_fab_off">Видно якщо не додано пристрій</string>
+    <string name="pref_display_add_device_fab_off">Видно, якщо не додано пристрій</string>
     <string name="preferences_makibes_hr3_settings">Налаштування Makibes HR3</string>
     <string name="prefs_find_phone">Знайти телефон</string>
     <string name="pref_chart_heartrate_color_red">Червоний</string>
@@ -718,17 +718,17 @@
     <string name="zetime_signaling_vibrate_once">Вібрування один раз</string>
     <string name="zetime_signaling_vibrate_twice">Вібрування двічі</string>
     <string name="zetime_signaling_vibrate_beep_once">Вібрування і звук один раз</string>
-    <string name="activity_prefs_calories_burnt">Щоденна ціль: спалені калорії</string>
-    <string name="activity_prefs_distance_meters">Щоденна ціль: відстань у метрах</string>
-    <string name="activity_prefs_activetime_minutes">Щоденна ціль: активний час у хвилинах</string>
+    <string name="activity_prefs_calories_burnt">Щоденна мета: спалені калорії</string>
+    <string name="activity_prefs_distance_meters">Щоденна мета: відстань у метрах</string>
+    <string name="activity_prefs_activetime_minutes">Щоденна мета: активний час у хвилинах</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_summary_authkey">Змініть ключ автентифікації на загальний ключ на всіх ваших пристроях Android, з якими потрібно з\'єднатися. Попередній стандартний ключ для всіх пристроїв 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Ви збираєтесь установити мікропрограму %s на Amazfit Cor 2.
+    <string name="fw_upgrade_notice_amazfitcor2">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Cor 2.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!
 \n
@@ -777,27 +777,27 @@
     <string name="prefs_find_phone_duration">Тривалість виклику в секундах</string>
     <string name="maximum_duration">Тривалість</string>
     <string name="discovery_need_to_enter_authkey">Цей пристрій потребує ключа автентифікації, затисніть для переходу в меню введення ключа. Прочитайте Вікі.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь установити мікропрограму %s на Amazfit Bip Lite.
+    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Bip Lite.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Ви збираєтесь установити мікропрограму %s на Amazfit GTR.
+    <string name="fw_upgrade_notice_amazfitgtr">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTR.
 \n
-\nСпочатку встановіть файл .fw, потім — .res, а далі — .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати файли .res і .gps, якщо вони точно такі ж, як і раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі самі, як раніше встановлені.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Ви збираєтесь установити мікропрограму %s на Amazfit GTS.
+    <string name="fw_upgrade_notice_amazfitgts">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTS.
 \n
-\nСпочатку встановіть файл .fw, потім — .res, а далі — .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати файли .res і .gps, якщо вони точно такі ж, як і раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі самі, як раніше встановлені.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
@@ -846,7 +846,7 @@
     <string name="pref_header_notifications_and_calls">Сповіщення і виклики</string>
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus калібрування</string>
     <string name="pref_title_vibration_strength">Сила вібрації</string>
-    <string name="pref_title_relax_firmware_checks">Увімкніть, якщо хочете встановити прошивку не призначену для вашого пристрою (на власний ризик)</string>
+    <string name="pref_title_relax_firmware_checks">Увімкніть, якщо ви хочете встановити мікропрограму не призначену для вашого пристрою (на власний ризик)</string>
     <string name="pref_summary_relax_firmware_checks">Вимкнути перепровірку мікропрограми</string>
     <string name="pref_title_sync_caldendar">Синхронізувати події календаря</string>
     <string name="pref_summary_sync_calendar">Сповіщення календаря надходитимуть навіть коли пристрій від\'єднано</string>
@@ -1020,7 +1020,7 @@
     <string name="menuitem_stress">Напруженість</string>
     <string name="menuitem_cycles">Відстеження циклу</string>
     <string name="menuitem_breathing">Дихання</string>
-    <string name="devicetype_pinetime_jf">PineTime (Прошивка JF)</string>
+    <string name="devicetype_pinetime_jf">PineTime (Мікропрограма JF)</string>
     <string name="devicetype_tlw64">TLW64</string>
     <string name="activity_summary_yesterday">Вчора</string>
     <string name="activity_summary_today">Сьогодні</string>
@@ -1142,7 +1142,7 @@
     <string name="battery_detail_activity_title">Інформація про батарею</string>
     <string name="activity_prefs_chart_min_steps_per_minute">Мінімальна кількість кроків на хвилину для визначення активності</string>
     <string name="activity_prefs_chart_min_steps_per_minute_for_run">Мінімальна кількість кроків на хвилину для визначення бігу</string>
-    <string name="activity_prefs_step_length_cm">Довжина кроку (см.)</string>
+    <string name="activity_prefs_step_length_cm">Довжина кроку в см</string>
     <string name="lefun_prefs_interface_language_title">Мова інтерфейсу</string>
     <string name="lefun_prefs_antilost_summary">Годинник завібрує, якщо телефон від\'єднається від годинника</string>
     <string name="lefun_prefs_antilost_title">Противтрата</string>
@@ -1195,13 +1195,13 @@
 \nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_amazfitvergel">Ви обрали встановлення прошивки %s на Amazfit Verge Lite.
+    <string name="fw_upgrade_notice_amazfitvergel">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Verge Lite.
 \n
-\nПам\'ятайте, що спочатку треба встановити .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nПам\'ятайте, що спочатку треба встановити файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати .res і .gps, якщо ці файли точно такі ж, як раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі ж самі, як раніше встановлені.
 \n
-\nВИ ДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="calendar_year">Рік</string>
     <string name="calendar_six_months">6 місяців</string>
     <string name="calendar_three_months">3 місяці</string>
@@ -1877,9 +1877,9 @@
     <string name="pref_header_time">Час</string>
     <string name="pref_header_workout">Тренування</string>
     <string name="pref_header_display">Дисплей</string>
-    <string name="pref_cache_weather_summary">Дані про погоду кешуватимуться під час перезапусків застосунку.</string>
+    <string name="pref_cache_weather_summary">Погодні дані кешуватимуться при кожному перезапуску застосунку.</string>
     <string name="mi2_dnd_always">Завжди</string>
-    <string name="pref_cache_weather">Кешувати дані про погоду</string>
+    <string name="pref_cache_weather">Кешувати погодні дані</string>
     <string name="heartrate_bpm_45">45 уд/хв</string>
     <string name="prefs_relaxation_reminder_description">Вібрація годинника для повідомлення вас, якщо значення напруженості понад 80</string>
     <string name="prefs_spo2_alert_threshold">Поріг сповіщення SPO2</string>
@@ -2355,18 +2355,18 @@
     <string name="drag_handle">ручка перетягування</string>
     <string name="pref_activity_full_sync_trigger_summary">Ініціювати повну синхронізацію всіх даних активності</string>
     <string name="pref_show_changelog">Показувати журнал змін під час запуску</string>
-    <string name="pref_show_changelog_summary">Показ журналу змін найновішої версії після оновлення Gadgetbridge</string>
+    <string name="pref_show_changelog_summary">Відображати журнал змін найновішої версії після оновлення Gadgetbridge</string>
     <string name="pref_activity_full_sync_trigger_title">Повна синхронізація</string>
     <string name="pref_activity_full_sync_trigger_warning">Це ініціює повну синхронізацію всіх даних активності з пристрою. Виконання триватиме кілька хвилин.</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Динамічні кольори недоступні на вашому пристрої, лише Android 12+ підтримує цю функцію. Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
     <string name="pref_theme_dynamic_colors_explanation">Примітка: для використання теми динамічних кольорів вам потрібно увімкнути \"Кольори шпалер\" або \"Палітра кольорів\" у налаштуваннях зовнішнього вигляду Android 12+. Якщо ви цього не зробите, Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
-    <string name="fw_upgrade_notice_amazfitbip3pro">Ви збираєтесь установити мікропрограму %s на Amazfit Bip 3 Pro.
+    <string name="fw_upgrade_notice_amazfitbip3pro">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Bip 3 Pro.
 \n
-\nСпочатку встановіть файл .fw, потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
