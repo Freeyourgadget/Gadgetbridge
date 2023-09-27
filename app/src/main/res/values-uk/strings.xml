@@ -1877,7 +1877,7 @@
     <string name="pref_header_time">Час</string>
     <string name="pref_header_workout">Тренування</string>
     <string name="pref_header_display">Дисплей</string>
-    <string name="pref_cache_weather_summary">Погодні дані кешуватимуться при кожному перезапуску застосунку.</string>
+    <string name="pref_cache_weather_summary">Погодні дані кешуватимуться за кожного перезапуску застосунку.</string>
     <string name="mi2_dnd_always">Завжди</string>
     <string name="pref_cache_weather">Кешувати погодні дані</string>
     <string name="heartrate_bpm_45">45 уд/хв</string>
@@ -2355,7 +2355,7 @@
     <string name="drag_handle">ручка перетягування</string>
     <string name="pref_activity_full_sync_trigger_summary">Ініціювати повну синхронізацію всіх даних активності</string>
     <string name="pref_show_changelog">Показувати журнал змін під час запуску</string>
-    <string name="pref_show_changelog_summary">Відображати журнал змін найновішої версії після оновлення Gadgetbridge</string>
+    <string name="pref_show_changelog_summary">Показувати журнал змін найновішої версії після оновлення Gadgetbridge</string>
     <string name="pref_activity_full_sync_trigger_title">Повна синхронізація</string>
     <string name="pref_activity_full_sync_trigger_warning">Це ініціює повну синхронізацію всіх даних активності з пристрою. Виконання триватиме кілька хвилин.</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Динамічні кольори недоступні на вашому пристрої, лише Android 12+ підтримує цю функцію. Gadgetbridge використовуватиме стандартні кольори Material 3.</string>
