@@ -122,6 +122,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM4Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWFSP800NCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM3Coordinator;
@@ -254,6 +255,7 @@ public enum DeviceType {
     SONY_WF_1000XM4(435, SonyWF1000XM4Coordinator.class),
     SONY_LINKBUDS_S(436, SonyLinkBudsSCoordinator.class),
     SONY_WH_1000XM5(437, SonyWH1000XM5Coordinator.class),
+    SONY_WF_1000XM5(438, SonyWF1000XM5Coordinator.class),
     BOSE_QC35(440, QC35Coordinator.class),
     VESC_NRF(500, VescCoordinator.class),
     VESC_HM10(501, VescCoordinator.class),
