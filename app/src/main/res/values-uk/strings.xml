@@ -272,13 +272,13 @@
 \nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_miband3">Ви маєте намір встановити %s мікропрограму на ваш Mi Band 3.
+    <string name="fw_upgrade_notice_miband3">Ви збираєтесь установити мікропрограму %s на ваш Mi Band 3.
 \n
-\nБудь ласка, не забудьте встановити файл .fw, а після нього – .res файл. Ваш годинник буде перезавантаження після установки файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати .res, якщо він точно такий же, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати .res, якщо він такий самий, як раніше встановлений.
 \n
-\nВИ ДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_charts_swipe">Увімкнути бокові рухи у діаграмах активності</string>
     <string name="pref_title_minimize_priority">Сховати сповіщення Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">Піктограма в рядку стану та сповіщення на екрані блокування відображаються</string>
@@ -735,11 +735,11 @@
 \nПОВНІСТЮ НЕ ПРОТЕСТОВАНО, ІМОВІРНО ВАМ ПОТРІБНО ВСТАНОВИТИ МІКРОПРОГРАМУ BEATS_W ЯКЩО ВАШ ПРИСТРІЙ \"Amazfit Band 2\"</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Smart Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Ви збираєтесь установити мікропрограму %s на Mi Smart Band 4.
+    <string name="fw_upgrade_notice_miband4">Ви збираєтесь установити мікропрограму %s на ваш Mi Band 4.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_charts_average">Показувати середнє значення в діаграмі</string>
@@ -1038,18 +1038,18 @@
     <string name="activity_type_indoor_cycling">Велосипед у приміщенні</string>
     <string name="activity_type_swimming_openwater">Плавання (відкрита вода)</string>
     <string name="bip_prefs_shotcuts_summary">Виберіть ярлики для екрана годинника</string>
-    <string name="fw_upgrade_notice_miband5">Ви збираєтесь установити мікропрограму %s на Mi Band 5.
+    <string name="fw_upgrade_notice_miband5">Ви збираєтесь установити мікропрограму %s на ваш Mi Band 5.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Ви збираєтесь установити мікропрограму %s на Amazfit T-Rex.
+    <string name="fw_upgrade_notice_amazfit_trex">Ви збираєтесь установити мікропрограму %s на ваш Amazfit T-Rex.
 \n
-\nСпочатку встановіть файл .fw, потім — .res, а далі — .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка. Вам не потрібно встановлювати файли .res і .gps, якщо вони точно такі ж, як і раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі самі, як раніше встановлені.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="sonyswr12_settings_title">Sony SWR12 налаштування</string>
@@ -1183,23 +1183,23 @@
     <string name="discovery_entered_invalid_authkey">Введений ключ автентифікації недійсний! Затисніть для редагування.</string>
     <string name="pref_summary_connected_advertisement">Уможливлює пошук пристрою по Bluetooth, навіть коли він під\'єднаний</string>
     <string name="pref_title_connected_advertisement">Видимий коли під\'єднано</string>
-    <string name="fw_upgrade_notice_amazfitneo">Ви збираєтесь установити мікропрограму %s на Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Neo.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .fw ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_amazfitx">Ви збираєтесь встановити мікропрограму %s на Amazfit X.
+    <string name="fw_upgrade_notice_amazfitx">Ви збираєтесь встановити мікропрограму %s на ваш Amazfit X.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fw_upgrade_notice_amazfitvergel">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Verge Lite.
 \n
-\nПам\'ятайте, що спочатку треба встановити файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку треба встановити файл .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі ж самі, як раніше встановлені.
+\nПримітка: вам не потрібно встановлювати файли .res і .gps, якщо вони такі самі, як раніше встановлені.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="calendar_year">Рік</string>
@@ -1211,11 +1211,11 @@
     <string name="calendar_day">День</string>
     <string name="battery_level">Рівень заряду</string>
     <string name="find_lost_device_message">Шукати %1$s\?</string>
-    <string name="fw_upgrade_notice_miband6">Ви збираєтесь установити мікропрограму %s на Mi Band 6.
+    <string name="fw_upgrade_notice_miband6">Ви збираєтесь установити мікропрограму %s на ваш Mi Band 6.
 \n
-\nСпочатку встановіть файл .fw, а потім — .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
 \n
-\nПримітка: вам не потрібно встановлювати файл .res, якщо він точно такий, як і раніше встановлений.
+\nПримітка: вам не потрібно встановлювати файл .res, якщо він такий самий, як раніше встановлений.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fossil_hr_commute_actions_explanation">Дії налаштовані тут буде показано у застосунку Commute на годиннику. У вікі ви знайдете відомості як обробляти наміри створені цими діями.</string>
@@ -1866,9 +1866,9 @@
     <string name="pref_header_spo2">Кисень у крові</string>
     <string name="pref_screen_brightness">Яскравість екрана</string>
     <string name="pref_header_heartrate_alerts">Попередження про пульс</string>
-    <string name="fw_upgrade_notice_miband7">Ви збираєтесь установити мікропрограму %s на Xiaomi Smart Band 7.
+    <string name="fw_upgrade_notice_miband7">Ви збираєтесь установити мікропрограму %s на ваш Xiaomi Smart Band 7.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_header_connection">З\'єднання</string>
@@ -1902,9 +1902,9 @@
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з\'єднанням Bluetooth через Intent API</string>
-    <string name="fw_upgrade_notice_amazfit_gts3">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 3.
+    <string name="fw_upgrade_notice_amazfit_gts3">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTS 3.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
@@ -1916,9 +1916,9 @@
     <string name="pref_summary_overwrite_settings_on_connection">Під час під\'єднання до годинника перезаписувати всі налаштування на ньому.</string>
     <string name="dismiss">Відхилити</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3">Ви збираєтесь установити мікропрограму %s на Amazfit GTR 3.
+    <string name="fw_upgrade_notice_amazfit_gtr3">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTR 3.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_third_party_app_device_settings">Дозволити стороннім застосункам змінювати налаштування</string>
@@ -1995,9 +1995,9 @@
     <string name="pref_screen_auto_brightness_title">Автояскравість</string>
     <string name="menuitem_screen_always_lit">Екран завжди світиться</string>
     <string name="pref_title_upper_button_long_press_action">Затискання верхньої кнопки</string>
-    <string name="fw_upgrade_notice_amazfit_gtr4">Ви збираєтесь установити мікропрограму %s на Amazfit GTR 4.
+    <string name="fw_upgrade_notice_amazfit_gtr4">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTR 4.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_gps_satellite_search">Пошук супутників</string>
@@ -2063,9 +2063,9 @@
     <string name="debugactivity_confirm_remove_device_preferences_title">Вилучити налаштування пристрою\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Це призведе до скидання налаштувань пристрою для всіх під\'єднаних пристроїв. Ви впевнені\?</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
-    <string name="fw_upgrade_notice_amazfit_band7">Ви збираєтесь установити мікропрограму %s на Amazfit Band 7.
+    <string name="fw_upgrade_notice_amazfit_band7">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Band 7.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="function_enabled">Увімкнено</string>
@@ -2075,14 +2075,14 @@
     <string name="prefs_touch_lock_buds2">Сенсорне керування</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
-    <string name="fw_upgrade_notice_amazfit_gts4">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 4.
+    <string name="fw_upgrade_notice_amazfit_gts4">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTS 4.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_amazfit_gts4_mini">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 4 Mini.
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTS 4 Mini.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
@@ -2112,9 +2112,9 @@
     <string name="appmanager_download_app_error">Помилка під час завантаження застосунку</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
-    <string name="fw_upgrade_notice_amazfit_trex2">Ви збираєтесь установити мікропрограму %s на Amazfit T-Rex 2.
+    <string name="fw_upgrade_notice_amazfit_trex2">Ви збираєтесь установити мікропрограму %s на ваш Amazfit T-Rex 2.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="activity_type_rowing">Веслування</string>
@@ -2203,9 +2203,9 @@
     <string name="zepp_os_watchface_emerald_moonlight">Смарагдове місячне сяйво</string>
     <string name="menuitem_aqi">Індекс якості повітря</string>
     <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Ви збираєтесь установити мікропрограму %s на Amazfit GTR 3 Pro.
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Ви збираєтесь установити мікропрограму %s на ваш Amazfit GTR 3 Pro.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
@@ -2370,14 +2370,14 @@
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
-    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Ви збираєтесь установити мікропрограму %s на Amazfit Cheetah Pro.
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Ви збираєтесь установити мікропрограму %s на ваш Amazfit Cheetah Pro.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
-    <string name="fw_upgrade_notice_zepp_os">Ви збираєтесь установити мікропрограму %s на %s.
+    <string name="fw_upgrade_notice_zepp_os">Ви збираєтесь установити мікропрограму %s на ваш %s.
 \n
-\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\nПісля встановлення файлу .zip ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Square)</string>
