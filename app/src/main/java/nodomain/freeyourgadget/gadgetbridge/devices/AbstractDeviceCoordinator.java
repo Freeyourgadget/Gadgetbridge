@@ -24,6 +24,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
+import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -59,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -157,6 +160,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public SampleProvider<? extends ActivitySample> getSampleProvider(final GBDevice device, final DaoSession session) {
+        return null;
+    }
+
+    @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
@@ -248,9 +256,41 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsFlashing() { return false; }
 
+    @Nullable
+    @Override
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        return null;
+    }
+
+    @Override
+    public boolean supportsScreenshots() {
+        return false;
+    }
+
+    @Override
+    public int getAlarmSlotCount(final GBDevice device) {
+        return 0;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(final GBDevice device) {
+        return false;
+    }
+
     @Override
     public boolean supportsAppReordering() {
         return false;
+    }
+
+    @Override
+    public boolean supportsAppsManagement(final GBDevice device) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
     }
 
     @Nullable
@@ -266,6 +306,21 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean isExperimental() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsActivityTracking() {
         return false;
     }
 
@@ -371,12 +426,22 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
+
+    @Override
     public boolean supportsRemSleep() {
         return false;
     }
 
     @Override
     public boolean supportsWeather() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
         return false;
     }
 
@@ -421,6 +486,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public String[] getSupportedLanguageSettings(GBDevice device) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Class<? extends Activity> getPairingActivity() {
         return null;
     }
 
