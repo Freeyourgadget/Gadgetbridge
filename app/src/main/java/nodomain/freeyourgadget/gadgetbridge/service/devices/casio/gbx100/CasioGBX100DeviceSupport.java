@@ -256,6 +256,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     }
 
     private void showNotification(byte icon, String sender, String title, String message, int id, boolean delete) {
+        title = title + "-" + message;
+        title = title.substring(0, Math.min(title.length(), 30));
+        title = title + "..";
         byte[] titleBytes = new byte[0];
         if(title != null)
             titleBytes = title.getBytes(StandardCharsets.UTF_8);
@@ -342,20 +345,23 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     public void onNotification(final NotificationSpec notificationSpec) {
         byte icon;
         boolean autoremove = false;
-        switch (notificationSpec.type.getGenericType()) {
-            case "generic_calendar":
+        switch (notificationSpec.type) {
+            case GENERIC_CALENDAR:
                 icon = CasioConstants.CATEGORY_SCHEDULE_AND_ALARM;
                 break;
-            case "generic_email":
+            case GENERIC_EMAIL:
                 icon = CasioConstants.CATEGORY_EMAIL;
                 break;
-            case "generic_sms":
+            case GENERIC_SMS:
                 icon = CasioConstants.CATEGORY_SNS;
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 autoremove = sharedPreferences.getBoolean(PREF_AUTOREMOVE_MESSAGE, false);
                 break;
+            case GENERIC_PHONE:
+                icon = CasioConstants.CATEGORY_INCOMING_CALL;
+                break;
             default:
-                icon = CasioConstants.CATEGORY_SNS;
+                icon = CasioConstants.CATEGORY_OTHER;
                 break;
         }
         LOG.info("onNotification id=" + notificationSpec.getId());

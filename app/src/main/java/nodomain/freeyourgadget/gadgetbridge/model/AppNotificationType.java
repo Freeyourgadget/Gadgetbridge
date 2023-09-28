@@ -61,6 +61,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.google.android.talk", NotificationType.GOOGLE_HANGOUTS);
         put("com.google.android.apps.maps", NotificationType.GOOGLE_MAPS);
         put("com.google.android.apps.photos", NotificationType.GOOGLE_PHOTOS);
+        put("com.google.android.apps.googlevoice", NotificationType.GENERIC_SMS);
 
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
