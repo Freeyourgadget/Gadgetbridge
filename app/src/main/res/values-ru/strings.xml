@@ -2468,4 +2468,14 @@
     <string name="prefs_wena3_vibration_strength_item_strong">Сильно</string>
     <string name="blue">Синий</string>
     <string name="prefs_wena3_button_action_name_activity_screen">Отображение активности</string>
+    <string name="pref_device_action_fitness_app_control_start">Начало отслеживания фитнес-приложением</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX (без датчика ЧСС)</string>
+    <string name="new_discover_activity_description">Включение или отключение может помочь с обнаружением устройств.</string>
+    <string name="drag_handle">перетаскивание элементов</string>
+    <string name="new_discover_activity_title">Включить новое обнаружение активности</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="watchface_setting_power_saving_hands">Выключить движения рук при снятом ремешке</string>
+    <string name="pref_device_action_fitness_app_control_stop">Остановка отслеживания фитнес-приложением</string>
+    <string name="pref_header_sony_equalizer_bands">Диапазоны</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
 </resources>
