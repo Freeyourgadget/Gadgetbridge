@@ -17,12 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.id115;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import java.util.Collection;
@@ -59,11 +57,11 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if (candidate.supportsService(ID115Constants.UUID_SERVICE_ID115)) {
-            return DeviceType.ID115;
+            return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

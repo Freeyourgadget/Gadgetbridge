@@ -25,11 +25,12 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -39,21 +40,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.Amazf
 public class AmazfitXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitXCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_X)) {
-                return DeviceType.AMAZFITX;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_X, Pattern.CASE_INSENSITIVE);
     }
-
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {

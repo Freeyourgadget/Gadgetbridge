@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -43,19 +44,9 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            // TODO still match for "SMA-Q2-OSS" because of backward firmware compatibility - remove eventually
-            if (name != null && (name.startsWith("SMAQ2-") || name.equalsIgnoreCase("SMA-Q2-OSS"))) {
-                return DeviceType.SMAQ2OSS;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("SMAQ2-.*|SMA-Q2-OSS", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

@@ -31,16 +31,16 @@ public class SG2Coordinator extends HPlusCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String name = candidate.getName();
         if (name != null && name.startsWith("SG2")) {
             HPlusCoordinator.setNotificationLinesNumber(candidate.getDevice().getAddress(), 9);
             HPlusCoordinator.setUnicodeSupport(candidate.getDevice().getAddress(), true);
             HPlusCoordinator.setDisplayIncomingMessageIcon(candidate.getDevice().getAddress(), false);
-            return DeviceType.SG2;
+            return true;
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

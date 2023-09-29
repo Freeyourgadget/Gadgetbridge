@@ -25,6 +25,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -38,21 +40,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.A
 public class AmazfitBand5Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand5Coordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_BAND5_NAME)) {
-                return DeviceType.AMAZFITBAND5;
-            }
-        } catch (SecurityException ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_BAND5_NAME, Pattern.CASE_INSENSITIVE);
     }
-
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {

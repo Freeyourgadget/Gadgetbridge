@@ -20,7 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.fitpro;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -58,28 +58,9 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         qb.where(FitProActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-
-            if (name != null && (
-                    name.startsWith("M6") ||
-                            name.startsWith("M4") ||
-                            name.equals("LH716") ||
-                            name.equals("Sunset 6") ||
-                            name.equals("Watch7") ||
-                            name.equals("Fit1900"))
-            ) {
-                return DeviceType.FITPRO;
-            }
-
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("M6.*|M4.*|LH716|Sunset 6|Watch7|Fit1900");
     }
 
     @Override

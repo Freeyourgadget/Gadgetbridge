@@ -23,6 +23,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -37,14 +39,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime.PineTimeJFSupport;
 
 public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        if (name != null && (name.startsWith("Pinetime-JF") || name.startsWith("InfiniTime"))) {
-            return DeviceType.PINETIME_JF;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Pinetime-JF.*|InfiniTime.*");
     }
 
     @Override

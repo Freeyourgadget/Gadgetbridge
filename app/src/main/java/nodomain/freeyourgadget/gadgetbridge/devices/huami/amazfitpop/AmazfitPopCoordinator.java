@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUCoordinator;
@@ -35,18 +37,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpop.Ama
 public class AmazfitPopCoordinator extends AmazfitBipUCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitPopCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && (name.equalsIgnoreCase("Amazfit Pop"))) {
-                return DeviceType.AMAZFITPOP;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Amazfit Pop", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

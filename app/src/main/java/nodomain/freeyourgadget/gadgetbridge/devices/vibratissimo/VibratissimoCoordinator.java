@@ -24,6 +24,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
@@ -40,14 +41,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 
 public class VibratissimoCoordinator extends AbstractBLEDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        if (name != null && name.startsWith("Vibratissimo")) {
-            return DeviceType.VIBRATISSIMO;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Vibratissimo.*");
     }
 
     @Override

@@ -31,11 +31,11 @@ public class FlipperZeroCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if(candidate.supportsService(UUID.fromString("00003082-0000-1000-8000-00805f9b34fb"))){
-            return DeviceType.FLIPPER_ZERO; // need to filter for flipper here
+            return true; // need to filter for flipper here
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Nullable

@@ -17,12 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.watch9;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import java.util.Collection;
@@ -62,19 +60,19 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         String deviceName = candidate.getName().toUpperCase();
         if (candidate.supportsService(Watch9Constants.UUID_SERVICE_WATCH9)) {
-            return DeviceType.WATCH9;
+            return true;
             // add support for Watch X non-plus (same MAC address)
             // add support for Watch X Plus (same MAC address)
         } else if ((macAddress.startsWith("1C:87:79")) && ((!deviceName.equalsIgnoreCase("WATCH X")) && (!deviceName.equalsIgnoreCase("WATCH XPLUS")))) {
-            return DeviceType.WATCH9;
+            return true;
         } else if (deviceName.equals("WATCH 9")) {
-            return DeviceType.WATCH9;
+            return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

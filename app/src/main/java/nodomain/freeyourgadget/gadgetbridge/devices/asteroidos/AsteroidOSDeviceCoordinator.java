@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Parcel;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -67,16 +66,16 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if (candidate.supportsService(AsteroidOSConstants.SERVICE_UUID)) {
-            return DeviceType.ASTEROIDOS;
+            return true;
         }
         for (String name : AsteroidOSConstants.SUPPORTED_DEVICE_CODENAMES) {
             if (candidate.getName().equals(name)) {
-                return DeviceType.ASTEROIDOS;
+                return true;
             }
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

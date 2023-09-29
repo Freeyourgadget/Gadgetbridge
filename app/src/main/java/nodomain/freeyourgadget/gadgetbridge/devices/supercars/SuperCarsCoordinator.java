@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -32,21 +34,9 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
 
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-
-            if (name != null && name.startsWith("QCAR-")) {
-                return DeviceType.SUPER_CARS;
-            }
-
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("QCAR-.*");
     }
 
     @Override

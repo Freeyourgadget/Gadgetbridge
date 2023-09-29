@@ -17,17 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.nut;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
@@ -44,13 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.nut.NutSupport;
 
 public class NutCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
-    @NonNull
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        if (name != null && name.toLowerCase().startsWith("nut")) {
-            return DeviceType.NUTMINI;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("nut.*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

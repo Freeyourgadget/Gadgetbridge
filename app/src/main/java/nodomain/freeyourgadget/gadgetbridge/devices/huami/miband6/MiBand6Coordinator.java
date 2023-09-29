@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -25,18 +26,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband6.MiBand
 
 public class MiBand6Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand6Coordinator.class);
-    @NonNull
+
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND6_NAME)) {
-                return DeviceType.MIBAND6;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.MI_BAND6_NAME, Pattern.CASE_INSENSITIVE);
     }
 
     @Override

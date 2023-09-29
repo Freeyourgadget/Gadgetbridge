@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -126,15 +127,10 @@ public class SonyWena3Coordinator extends AbstractBLEDeviceCoordinator {
         qb.where(Wena3StressSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if(SonyWena3Constants.BT_DEVICE_NAME.equals(candidate.getName())) {
-            return DeviceType.SONY_WENA_3;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(SonyWena3Constants.BT_DEVICE_NAME);
     }
-
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_BOND;

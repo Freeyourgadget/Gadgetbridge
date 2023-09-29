@@ -58,7 +58,7 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         // There's a bunch of other names other than "Lefun", but let's just focus on one for now.
         if (ADVERTISEMENT_NAME.equals(candidate.getName())) {
             // The device does not advertise service UUIDs, so can't check whether it supports
@@ -67,11 +67,11 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
             // manufacturer specific data, which consists of the device's MAC address and said
             // string. But we're not being given it, so *shrug*.
             if (candidate.getServiceUuids().length == 0) {
-                return DeviceType.LEFUN;
+                return true;
             }
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Nullable

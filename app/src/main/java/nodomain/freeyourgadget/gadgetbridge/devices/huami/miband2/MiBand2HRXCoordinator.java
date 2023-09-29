@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -41,18 +42,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand
 public class MiBand2HRXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2HRXCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (HuamiConst.MI_BAND2_NAME_HRX.equalsIgnoreCase(name) || "Mi Band 2i".equalsIgnoreCase(name)) {
-                return DeviceType.MIBAND2_HRX;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(
+                HuamiConst.MI_BAND2_NAME_HRX + "|Mi Band 2i",
+                Pattern.CASE_INSENSITIVE
+        );
     }
 
     @Override

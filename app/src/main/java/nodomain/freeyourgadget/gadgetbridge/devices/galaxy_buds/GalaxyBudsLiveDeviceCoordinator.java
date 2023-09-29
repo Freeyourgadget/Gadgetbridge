@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -9,19 +11,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GalaxyBudsLiveDeviceCoordinator extends GalaxyBudsGenericCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-
-        String name = candidate.getName();
-
-        if (name != null && (
-                name.startsWith("Galaxy Buds Live (")
-        )) {
-            return DeviceType.GALAXY_BUDS_LIVE;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Galaxy Buds Live \\(.*");
     }
 
     @Override

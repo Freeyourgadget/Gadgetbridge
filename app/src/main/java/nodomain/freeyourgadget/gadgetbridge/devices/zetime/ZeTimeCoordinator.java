@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
@@ -48,16 +49,10 @@ public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
         return super.createBLEScanFilters();
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        if (name != null && name.startsWith("ZeTime")) {
-            return DeviceType.ZETIME;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("ZeTime.*");
     }
-
     @Nullable
     @Override
     public Class<? extends Activity> getPairingActivity() {

@@ -46,14 +46,13 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        Log.d("coordinator", "candidate name: " + candidate.getName());
+    public boolean supports(GBDeviceCandidate candidate) {
         for(ParcelUuid service : candidate.getServiceUuids()){
             if(service.getUuid().toString().equals(BinarySensorSupport.BINARY_SENSOR_SERVICE_UUID)){
-                return DeviceType.BINARY_SENSOR;
+                return true;
             };
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

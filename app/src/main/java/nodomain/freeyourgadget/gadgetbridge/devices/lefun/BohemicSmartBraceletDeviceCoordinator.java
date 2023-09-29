@@ -19,20 +19,17 @@ package nodomain.freeyourgadget.gadgetbridge.devices.lefun;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class BohemicSmartBraceletDeviceCoordinator extends LefunDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (".bohemic".equals(candidate.getName())) {
-            return DeviceType.BOHEMIC_SMART_BRACELET;
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("\\.bohemic");
     }
 
     @Override

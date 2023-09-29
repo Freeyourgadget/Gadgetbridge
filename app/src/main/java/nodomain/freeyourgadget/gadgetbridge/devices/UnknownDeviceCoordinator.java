@@ -108,8 +108,8 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        return DeviceType.UNKNOWN;
+    public boolean supports(GBDeviceCandidate candidate) {
+        return false;
     }
 
     @Override

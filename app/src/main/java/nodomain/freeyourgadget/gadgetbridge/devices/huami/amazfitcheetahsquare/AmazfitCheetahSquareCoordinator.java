@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -48,19 +50,9 @@ public class AmazfitCheetahSquareCoordinator extends Huami2021Coordinator {
         return AmazfitCheetahSquareSupport.class;
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final String name = candidate.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_CHEETAH_SQUARE_NAME)) {
-                return DeviceType.AMAZFITCHEETAHSQUARE;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_CHEETAH_SQUARE_NAME + ".*");
     }
 
     @Override

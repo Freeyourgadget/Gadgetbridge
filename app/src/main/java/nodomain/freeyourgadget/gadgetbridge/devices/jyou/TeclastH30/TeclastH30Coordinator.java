@@ -17,12 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import org.slf4j.Logger;
@@ -53,9 +51,6 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
 
     protected static final Logger LOG = LoggerFactory.getLogger(TeclastH30Coordinator.class);
 
-    // e.g. H3-B20F
-    private Pattern deviceNamePattern = Pattern.compile("^H[13]-[ABCDEF0123456789]{4}$");
-
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
@@ -66,22 +61,17 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if (candidate.supportsService(JYouConstants.UUID_SERVICE_JYOU)) {
-            return DeviceType.TECLASTH30;
+            return true;
         }
 
-        String name = candidate.getName();
-        if (name != null) {
-            if (name.startsWith("TECLAST_H30") || name.startsWith("TECLAST_H10")) {
-                return DeviceType.TECLASTH30;
-            }
-            Matcher deviceNameMatcher = deviceNamePattern.matcher(name);
-            if (deviceNameMatcher.matches()) {
-                return DeviceType.TECLASTH30;
-            }
-        }
-        return DeviceType.UNKNOWN;
+        return super.supports(candidate);
+    }
+
+    @Override
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("TECLAST_H[13]0.*|H[13]-[ABCDEF0123456789]{4}");
     }
 
     @Override

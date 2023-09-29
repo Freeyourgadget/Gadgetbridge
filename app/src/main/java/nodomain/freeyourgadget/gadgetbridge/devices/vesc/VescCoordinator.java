@@ -69,20 +69,16 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         ParcelUuid[] uuids = candidate.getServiceUuids();
-        Logger logger = LoggerFactory.getLogger(getClass());
-        for(ParcelUuid uuid: uuids){
-            logger.debug("service: {}", uuid.toString());
-        }
         for(ParcelUuid uuid : uuids){
             if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_NRF)){
-                return DeviceType.VESC_NRF;
+                return true;
             }else if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_HM10)){
-                return DeviceType.VESC_HM10;
+                return true;
             }
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

@@ -34,8 +34,8 @@ public class MockSonyCoordinator extends SonyHeadphonesCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        return deviceType;
+    public boolean supports(final GBDeviceCandidate candidate) {
+        return true;
     }
 
     @Override

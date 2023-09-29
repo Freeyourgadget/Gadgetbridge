@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -64,21 +65,9 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        /* Filter by Espruino devices to avoid getting
-        the device chooser full of spam devices. */
-        if (name != null && (
-              name.startsWith("Bangle.js") ||
-              name.startsWith("Pixl.js") ||
-              name.startsWith("Puck.js") ||
-              name.startsWith("MDBT42Q") ||
-              name.startsWith("Espruino"))) 
-            return DeviceType.BANGLEJS;
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Bangle\\.js.*|Pixl\\.js.*|Puck\\.js.*|MDBT42Q.*|Espruino.*");
     }
 
     @Override

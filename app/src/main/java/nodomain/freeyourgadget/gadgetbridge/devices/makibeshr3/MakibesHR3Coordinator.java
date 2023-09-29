@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.greenrobot.dao.query.QueryBuilder;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -150,23 +150,9 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
         }
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-
-        List<String> deviceNames = new ArrayList<String>(){{
-            add("Y808"); // Chinese version
-            add("MAKIBES HR3"); // English version
-        }};
-
-        if (name != null) {
-            if (deviceNames.contains(name)) {
-                return DeviceType.MAKIBESHR3;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Y808|MAKIBES HR3");
     }
 
     @Override

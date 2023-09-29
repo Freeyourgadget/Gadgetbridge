@@ -17,13 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.DrawableRes;
@@ -76,15 +74,15 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         if (macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
                 || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
-            return DeviceType.MIBAND;
+            return true;
         }
         if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)
                 && !candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return DeviceType.MIBAND;
+            return true;
         }
         // and a heuristic
         try {
@@ -92,13 +90,13 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
             if (isHealthWearable(device)) {
                 String name = candidate.getName();
                 if (name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase())) {
-                    return DeviceType.MIBAND;
+                    return true;
                 }
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

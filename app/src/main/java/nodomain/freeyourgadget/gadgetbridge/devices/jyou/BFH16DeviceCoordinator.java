@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -67,19 +68,9 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-
-        String name = candidate.getName();
-        if (name != null) {
-            if (name.startsWith("BFH-16")) {
-                return DeviceType.BFH16;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("BFH-16.*");
     }
 
     @Override

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -41,19 +42,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.Ama
 public class AmazfitNeoCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_NEO_NAME)) {
-                return DeviceType.AMAZFITNEO;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_NEO_NAME, Pattern.CASE_INSENSITIVE);
     }
 
     @Override

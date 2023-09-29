@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -37,19 +39,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex2.A
 public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRex2Coordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final String name = candidate.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_TREX_2_NAME)) {
-                return DeviceType.AMAZFITTREX2;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_TREX_2_NAME + ".*");
     }
 
     @NonNull

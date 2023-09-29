@@ -45,12 +45,12 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if(!"UM25C".equals(candidate.getName())) return DeviceType.UNKNOWN;
+    public boolean supports(GBDeviceCandidate candidate) {
+        if(!"UM25C".equals(candidate.getName())) return false;
         for(ParcelUuid service : candidate.getServiceUuids()){
-            if(service.getUuid().toString().equals(UM25Support.UUID_SERVICE)) return DeviceType.UM25;
+            if(service.getUuid().toString().equals(UM25Support.UUID_SERVICE)) return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

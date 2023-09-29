@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -76,9 +77,29 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
 
+    private Pattern supportedDeviceName = null;
+    /**
+     * This method should return a ReGexp pattern that will matched against a found device
+     * to check whether this coordinator supports that device.
+     * If more sophisticated logic is needed to determine device support, the supports(GBDeviceCandidate)
+     * should be overridden.
+     *
+     * @return Pattern
+     * */
+    protected Pattern getSupportedDeviceName(){
+        return null;
+    }
+
     @Override
-    public final boolean supports(GBDeviceCandidate candidate) {
-        return getSupportedType(candidate).isSupported();
+    public boolean supports(GBDeviceCandidate candidate) {
+        if(supportedDeviceName == null){
+            supportedDeviceName = getSupportedDeviceName();
+        }
+        if(supportedDeviceName == null){
+            throw new RuntimeException(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
+        }
+
+        return supportedDeviceName.matcher(candidate.getName()).matches();
     }
 
     @Override

@@ -39,17 +39,17 @@ public class AmazfitGTS4Coordinator extends Huami2021Coordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
+    public boolean supports(final GBDeviceCandidate candidate) {
         try {
             final String name = candidate.getName();
             if (name != null && name.startsWith(HuamiConst.AMAZFIT_GTS4_NAME) && !name.contains("Mini")) {
-                return DeviceType.AMAZFITGTS4;
+                return true;
             }
         } catch (final Exception e) {
             LOG.error("unable to check device support", e);
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @NonNull

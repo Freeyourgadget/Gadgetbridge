@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -37,21 +39,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7.A
 public class AmazfitBand7Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand7Coordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final String name = candidate.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_BAND7_NAME)) {
-                return DeviceType.AMAZFITBAND7;
-            }
-        } catch (SecurityException e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_BAND7_NAME + ".*", Pattern.CASE_INSENSITIVE);
     }
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {

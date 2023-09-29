@@ -28,6 +28,7 @@ import androidx.annotation.StringRes;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,14 +57,9 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     public PebbleCoordinator() {
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getName();
-        if (name != null && name.startsWith("Pebble")) {
-            return DeviceType.PEBBLE;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Pebble.*");
     }
 
     @Override

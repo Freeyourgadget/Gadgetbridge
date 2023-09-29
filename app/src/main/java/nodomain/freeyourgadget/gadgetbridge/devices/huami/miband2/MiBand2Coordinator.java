@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -41,21 +42,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand
 public class MiBand2Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND2_NAME)) {
-                return DeviceType.MIBAND2;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.MI_BAND2_NAME, Pattern.CASE_INSENSITIVE);
     }
-
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         MiBand2FWInstallHandler handler = new MiBand2FWInstallHandler(uri, context);

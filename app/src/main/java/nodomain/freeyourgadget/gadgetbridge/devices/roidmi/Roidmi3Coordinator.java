@@ -33,22 +33,22 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
+    public boolean supports(final GBDeviceCandidate candidate) {
         try {
             final String name = candidate.getName();
 
             if (name == null) {
-                return DeviceType.UNKNOWN;
+                return false;
             }
 
             if (name.contains("Roidmi Music Blue C") || name.contains("Roidmi C BLE") || name.contains("Mojietu Music Blue C")) {
-                return DeviceType.ROIDMI3;
+                return true;
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

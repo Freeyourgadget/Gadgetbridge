@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -36,18 +38,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip3pro
 public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBip3ProCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final String name = candidate.getName();
-            if (name != null && name.equalsIgnoreCase("Amazfit Bip 3 Pro")) {
-                return DeviceType.AMAZFITBIP3PRO;
-            }
-        } catch (final Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Amazfit Bip 3 Pro", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

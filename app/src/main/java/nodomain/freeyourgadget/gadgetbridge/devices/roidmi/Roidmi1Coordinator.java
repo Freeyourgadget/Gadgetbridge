@@ -33,18 +33,18 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
+    public boolean supports(final GBDeviceCandidate candidate) {
         try {
             final String name = candidate.getName();
 
             if (name != null && name.contains("睿米车载蓝牙播放器")) {
-                return DeviceType.ROIDMI;
+                return true;
             }
         } catch (final Exception ex) {
             LOG.error("unable to check device support", ex);
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override

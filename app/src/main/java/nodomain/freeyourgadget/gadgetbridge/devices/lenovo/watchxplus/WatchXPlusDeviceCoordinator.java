@@ -18,13 +18,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -90,21 +88,21 @@ public class WatchXPlusDeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         String deviceName = candidate.getName().toUpperCase();
         if (candidate.supportsService(WatchXPlusConstants.UUID_SERVICE_WATCHXPLUS)) {
-            return DeviceType.WATCHXPLUS;
+            return true;
         } else if (macAddress.startsWith("DC:41:E5")) {
-            return DeviceType.WATCHXPLUS;
+            return true;
         } else if (deviceName.equalsIgnoreCase("WATCH XPLUS")) {
-            return DeviceType.WATCHXPLUS;
+            return true;
             // add initial support for Watch X non-plus (forces Watch X to be recognized as Watch XPlus)
             // Watch X non-plus have same MAC address as Watch 9 (starts with "1C:87:79")
         } else if (deviceName.equalsIgnoreCase("WATCH X")) {
-            return DeviceType.WATCHXPLUS;
+            return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Nullable

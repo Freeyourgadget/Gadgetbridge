@@ -113,17 +113,6 @@ public interface DeviceCoordinator {
     }
 
     /**
-     * Checks whether this coordinator handles the given candidate.
-     * Returns the supported device type for the given candidate or
-     * DeviceType.UNKNOWN
-     *
-     * @param candidate
-     * @return the supported device type for the given candidate.
-     */
-    @NonNull
-    DeviceType getSupportedType(GBDeviceCandidate candidate);
-
-    /**
      * Returns the type of connection, Classic of BLE
      *
      * @return ConnectionType
