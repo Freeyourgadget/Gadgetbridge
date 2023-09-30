@@ -2273,7 +2273,7 @@
     <string name="status_icon">Піктограма стану</string>
     <string name="changelog_full_title">Журнал змін</string>
     <string name="changelog_show_full">Більше…</string>
-    <string name="changelog_ok_button">ГАРАЗД</string>
+    <string name="changelog_ok_button">Гаразд</string>
     <string name="changelog_title">Що нового</string>
     <string name="pai_chart_per_week">PAI на тиждень</string>
     <string name="pai_chart_per_month">PAI на місяць</string>
