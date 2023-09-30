@@ -27,6 +27,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
@@ -279,23 +280,34 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         arr[4] = delete ? (byte) 0x02 : (byte) 0x00;
         arr[5] = (byte) 0x01; // Set to 0x00 to not vibrate/ring for this notification
         arr[6] = icon;
-        // These bytes contain a timestamp, not yet decoded / implemented
-        // ASCII Codes:
-        /*arr[7] = (byte) 0x32; // 2
-        arr[8] = (byte) 0x30;   // 0
-        arr[9] = (byte) 0x32;   // 2
-        arr[10] = (byte) 0x30;  // 0
-        arr[11] = (byte) 0x31;  // 1
-        arr[12] = (byte) 0x31;  // 1
-        arr[13] = (byte) 0x31;  // 1
-        arr[14] = (byte) 0x33;  // 3
-        arr[15] = (byte) 0x54;  // T
-        arr[16] = (byte) 0x30;  // 0
-        arr[17] = (byte) 0x39;  // 9
-        arr[18] = (byte) 0x33;  // 3
-        arr[19] = (byte) 0x31;  // 1
-        arr[20] = (byte) 0x35;  // 5
-        arr[21] = (byte) 0x33;*/// 3
+
+        // Unknonwn what these bytes are for
+        arr[7] = (byte) 0x00;
+        arr[8] = (byte) 0x00;
+        arr[9] = (byte) 0x00;
+        arr[10] = (byte) 0x00;
+
+        ZonedDateTime timestamp = ZonedDateTime.now();
+        // Bytes 11 - 19 are timestamp
+        // Encode the timestamp of the notification
+        // Month
+        arr[11] = (byte) (timestamp.getMonthValue() / 10 + 3); // Tens digit, but offset by 3 for some reason
+        arr[12] = (byte) (timestamp.getMonthValue() % 10);
+        // Day
+        arr[13] = (byte) (timestamp.getDayOfMonth() / 10 + 3); // Tens digit, but offset by 3 for some reason
+        arr[14] = (byte) (timestamp.getDayOfMonth() % 10);
+        // ??
+        arr[15] = (byte) 0; // Not sure what this byte is for?
+        // Hour
+        arr[16] = (byte) (timestamp.getHour() / 10 + 3); // Tens digit, but offset by 3 for some reason
+        arr[17] = (byte) (timestamp.getHour() % 10);
+        // Minute
+        arr[18] = (byte) (timestamp.getMinute() / 10 + 3);// Tens digit, but offset by 3 for some reason
+        arr[19] = (byte) (timestamp.getMinute() % 10);
+
+        arr[20] = (byte) 0x00;
+        arr[21] = (byte) 0x00;
+
         byte[] copy = Arrays.copyOf(arr, arr.length + 2);
         copy[copy.length-2] = 0;
         copy[copy.length-1] = 0;
