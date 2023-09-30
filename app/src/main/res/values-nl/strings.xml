@@ -2489,4 +2489,5 @@
     <string name="blue">Blauw</string>
     <string name="prefs_wena3_button_action_name_activity_screen">Activiteitenscherm</string>
     <string name="prefs_wena3_notification_settings_title">Meldingsinstellingen</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
 </resources>
