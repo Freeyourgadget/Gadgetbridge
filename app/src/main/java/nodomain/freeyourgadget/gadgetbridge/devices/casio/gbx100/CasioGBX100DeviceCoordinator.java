@@ -152,7 +152,8 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_operating_sounds,
                 R.xml.devicesettings_fake_ring_duration,
                 R.xml.devicesettings_autoremove_message,
-                R.xml.devicesettings_transliteration
+                R.xml.devicesettings_transliteration,
+                R.xml.devicesettings_preview_message_in_title
         };
     }
 

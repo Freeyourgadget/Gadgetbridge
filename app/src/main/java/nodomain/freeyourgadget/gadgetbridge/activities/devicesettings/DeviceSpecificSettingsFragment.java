@@ -398,6 +398,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
+        addPreferenceHandlerFor(PREF_PREVIEW_MESSAGE_IN_TITLE);
         addPreferenceHandlerFor(PREF_SCREEN_ON_ON_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_WORKOUT_KEEP_SCREEN_ON);
         addPreferenceHandlerFor(PREF_KEY_VIBRATION);

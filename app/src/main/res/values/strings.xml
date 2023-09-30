@@ -332,6 +332,8 @@
     <string name="pref_summary_enable_calendar_sync">Send calendar events to the timeline</string>
     <string name="pref_title_custom_deviceicon">Show device specific notification icon</string>
     <string name="pref_summary_custom_deviceicon">Show a device specific Android notification icon instead the Gadgetbridge icon when connected</string>
+    <string name="pref_title_preview_message_in_title">Show a preview of the message in the title</string>
+    <string name="pref_summary_preview_message_in_title">Shows a preview of the message in the title of a notification as allowed by the device</string>
     <string name="pref_title_autoremove_notifications">Autoremove dismissed notifications</string>
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the device when dismissed from the phone</string>
     <string name="pref_title_screen_on_on_notifications">Screen On on Notifications</string>

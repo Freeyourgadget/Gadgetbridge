@@ -219,6 +219,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_AUTOLIGHT = "autolight";
+
+    public static final String PREF_PREVIEW_MESSAGE_IN_TITLE = "preview_message_in_title";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
     public static final String PREF_SCREEN_ON_ON_NOTIFICATIONS = "screen_on_on_notifications";

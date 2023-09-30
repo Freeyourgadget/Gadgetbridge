@@ -274,8 +274,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             context.startActivity(intent);
             LOG.debug("CompanionDeviceManager associations were found, starting intent");
         } else {
+            LOG.warn("CompanionDeviceManager associations were not found, going to try to start intent anyway");
             GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
-            LOG.warn("CompanionDeviceManager associations were not found, can't start intent");
+            // Originally the Phone Find activity wasn't being started if no companion associations.
+            // Casio GDB-200 doesn't register companion but this still seems to work, so keeping
+            // warning but starting activity anyway
+            context.startActivity(intent);
         }
     }
 

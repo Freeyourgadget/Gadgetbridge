@@ -78,6 +78,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_KEY_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_PREVIEW_MESSAGE_IN_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
@@ -257,9 +258,13 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     }
 
     private void showNotification(byte icon, String sender, String title, String message, int id, boolean delete) {
-        title = title + "-" + message;
-        title = title.substring(0, Math.min(title.length(), 30));
-        title = title + "..";
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        boolean showMessagePreview = sharedPreferences.getBoolean(PREF_PREVIEW_MESSAGE_IN_TITLE, true);
+        if (showMessagePreview) {
+            title = title + "-" + message;
+            title = title.substring(0, Math.min(title.length(), 30));
+            title = title + "..";
+        }
         byte[] titleBytes = new byte[0];
         if(title != null)
             titleBytes = title.getBytes(StandardCharsets.UTF_8);
@@ -417,7 +422,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
             evaluateGBDeviceEvent(findPhoneEvent);
 
-            if(!findPhone.equals(getContext().getString(R.string.p_on))) {
+            if(findPhone.equals(getContext().getString(R.string.p_on))) {
                 String duration = sharedPreferences.getString(PREF_FIND_PHONE_DURATION, "0");
 
                 try {
@@ -433,7 +438,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                         this.mFindPhoneHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onReverseFindDevice(false);
+                                GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+                                findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                                evaluateGBDeviceEvent(findPhoneEvent);
                             }
                         }, iDuration * 1000);
                     }
@@ -634,6 +641,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                 case PREF_FIND_PHONE:
                 case PREF_FIND_PHONE_DURATION:
                     // No action, we check the shared preferences when the device tries to ring the phone.
+                    break;
+                case PREF_PREVIEW_MESSAGE_IN_TITLE:
+                    // No action, we check it when message is received
                     break;
                 default:
             }
