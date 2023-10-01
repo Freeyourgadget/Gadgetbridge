@@ -473,7 +473,9 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
-        onSetTime();
+        if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
+            onSetTime();
+        }
         setWorldClocks();
         builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_EVENT), true);
         BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
