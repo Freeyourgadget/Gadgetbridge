@@ -2478,4 +2478,13 @@
     <string name="pref_device_action_fitness_app_control_stop">Остановка отслеживания фитнес-приложением</string>
     <string name="pref_header_sony_equalizer_bands">Диапазоны</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="sony_equalizer_preset_mellow">Мягкий</string>
+    <string name="sony_equalizer_preset_excited">Взволнованный</string>
+    <string name="pref_title_lock_unlock">Заблокировать</string>
+    <string name="sony_equalizer_preset_treble_boost">Повышение высоких частот</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Переключить отслеживание фитнес-приложения</string>
+    <string name="prefs_switch_control_right">Переключить управление справа</string>
+    <string name="prefs_switch_control_left">Переключить управление слева</string>
+    <string name="watchface_setting_button_move_hands">Движение рук</string>
+    <string name="pref_title_touch_quick_ambient">Быстрый окружающий звук</string>
 </resources>
