@@ -476,66 +476,76 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_CONNECT:
                 start(); // ensure started
-                GBDevice gbDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                String btDeviceAddress = null;
-                if (gbDevice == null) {
-                    if (prefs != null) { // may be null in test cases
-                        btDeviceAddress = prefs.getString("last_device_address", null);
-                        if (btDeviceAddress != null) {
-                            gbDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
-                        }
-                    }
+                List<GBDevice> gbDevs = null;
+                boolean fromExtra = false;
+
+                GBDevice extraDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                if (extraDevice != null) {
+                    gbDevs = new ArrayList<>();
+                    gbDevs.add(extraDevice);
+                    fromExtra = true;
                 } else {
-                    btDeviceAddress = gbDevice.getAddress();
+                    gbDevs = GBApplication.app().getDeviceManager().getDevices();
                 }
 
-                if(gbDevice == null){
+                if(gbDevs == null || gbDevs.size() == 0) {
                     return START_NOT_STICKY;
                 }
 
-                boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
-                if (prefs != null && prefs.getPreferences() != null) {
-                    prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
-                    autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
-                }
+                for(GBDevice gbDevice : gbDevs) {
+                    String btDeviceAddress = gbDevice.getAddress();
 
-                DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
-                if(registeredStruct != null){
-                    boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
-                    if(deviceAlreadyConnected){
-                        break;
-                    }
-                    try {
-                        removeDeviceSupport(gbDevice);
-                    } catch (DeviceNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    registeredStruct = new DeviceStruct();
-                    registeredStruct.setDevice(gbDevice);
-                    registeredStruct.setCoordinator(gbDevice.getDeviceCoordinator());
-                    deviceStructs.add(registeredStruct);
-                }
-
-                try {
-                    DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
-                    if (deviceSupport != null) {
-                        setDeviceSupport(gbDevice, deviceSupport);
-                        if (firstTime) {
-                            deviceSupport.connectFirstTime();
-                        } else {
-                            deviceSupport.setAutoReconnect(autoReconnect);
-                            deviceSupport.connect();
+                    boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+                    if (prefs != null && prefs.getPreferences() != null) {
+                        autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
+                        if(!fromExtra && !autoReconnect) {
+                            continue;
                         }
-                    } else {
-                        GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
+                        prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
                     }
-                } catch (Exception e) {
-                    GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
-                }
 
-                for(DeviceStruct struct2 : deviceStructs){
-                    struct2.getDevice().sendDeviceUpdateIntent(this);
+                    if(!fromExtra && !autoReconnect) {
+                        continue;
+                    }
+
+                    DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
+                    if(registeredStruct != null){
+                        boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
+                        if(deviceAlreadyConnected){
+                            break;
+                        }
+                        try {
+                            removeDeviceSupport(gbDevice);
+                        } catch (DeviceNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        registeredStruct = new DeviceStruct();
+                        registeredStruct.setDevice(gbDevice);
+                        registeredStruct.setCoordinator(gbDevice.getDeviceCoordinator());
+                        deviceStructs.add(registeredStruct);
+                    }
+
+                    try {
+                        DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
+                        if (deviceSupport != null) {
+                            setDeviceSupport(gbDevice, deviceSupport);
+                            if (firstTime) {
+                                deviceSupport.connectFirstTime();
+                            } else {
+                                deviceSupport.setAutoReconnect(autoReconnect);
+                                deviceSupport.connect();
+                            }
+                        } else {
+                            GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
+                        }
+                    } catch (Exception e) {
+                        GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
+                    }
+
+                    for(DeviceStruct struct2 : deviceStructs){
+                        struct2.getDevice().sendDeviceUpdateIntent(this);
+                    }
                 }
                 break;
             default:
