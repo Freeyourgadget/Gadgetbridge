@@ -2488,4 +2488,5 @@
     <string name="prefs_wena3_vibration_triple">משולש</string>
     <string name="prefs_wena3_button_action_name_activity_screen">מסך פעילות</string>
     <string name="prefs_wena3_notification_settings_title">הגדרות התראה</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5‎</string>
 </resources>
