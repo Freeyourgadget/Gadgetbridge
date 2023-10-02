@@ -2379,4 +2379,8 @@
     <string name="loyalty_cards_catima_not_installed">Program Catima je vyžadován pro správu věrnostních karet</string>
     <string name="loyalty_cards_sync_options">Možnosti synchronizace</string>
     <string name="loyalty_cards_catima_permissions_summary">Pro synchronizaci karet potřebuje Gadgetbridge oprávnění pro čtení karet z Catima. Klikněte pro povolení přístupu.</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">V zařízení není k dispozici dostatek paměti</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">Aktuální MTU %1$d je příliš nízké, povolte, prosím, větší MTU v nastavení zařízení. Následně se odpojte a znovu připojte.</string>
+    <string name="english_au">Angličtina (Austrálie)</string>
+    <string name="english_ca">Angličtina (Kanada)</string>
 </resources>
