@@ -1296,6 +1296,7 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_miband6">Mi Band 6</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="devicetype_miband8">Xiaomi Smart Band 8</string>
     <string name="devicetype_amazfit_balance">Amazfit Balance</string>
     <string name="devicetype_amazfit_active">Amazfit Active</string>
     <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
@@ -2390,6 +2391,7 @@
     <string name="temperature_scale_cf_summary">Select whether device uses Celsius or Fahrenheit scale.</string>
     <string name="temperature_scale_celsius">Celsius</string>
     <string name="temperature_scale_fahrenheit">Fahrenheit</string>
+
     <string name="fossil_hr_nav_app_not_installed_notify_title">Navigation app not installed on watch</string>
     <string name="fossil_hr_nav_app_not_installed_notify_text">Navigation started but navigationApp not installed on watch. Please install it from the App Manager.</string>
     <string name="call_rejection_method_reject">Reject</string>
@@ -2404,4 +2406,5 @@
     <string name="pref_title_navigation_apps">Navigation apps</string>
     <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
     <string name="pref_navigation_app_gmaps">Google Maps</string>
+    <string name="serial_number">Serial Number</string>
 </resources>

@@ -1,0 +1,625 @@
+syntax = "proto2"; // we must use proto2 to serialize default values on the wire
+
+package xiaomi;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.xiaomi";
+option java_outer_classname = "XiaomiProto";
+
+message Command {
+  required uint32 type = 1;
+  optional uint32 subtype = 2;
+
+  optional Auth auth = 3;
+  optional System system = 4;
+  optional Health health = 10;
+  optional Music music = 20;
+  optional Notification notification = 9;
+  optional Weather weather = 12;
+  optional Schedule schedule = 19;
+
+  optional uint32 status = 100; // 0 on success on some
+}
+
+//
+// Auth
+//
+
+message Auth {
+  // 1, 26
+  optional PhoneNonce phoneNonce = 30;
+  optional WatchNonce watchNonce = 31;
+  // 1, 27
+  optional AuthStep3 authStep3 = 32;
+  optional AuthStep4 authStep4 = 33;
+}
+
+message PhoneNonce {
+  required bytes nonce = 1;
+}
+
+message WatchNonce {
+  required bytes nonce = 1;
+  required bytes hmac = 2;
+}
+
+message AuthStep3 {
+  required bytes encryptedNonces = 1;
+  required bytes encryptedDeviceInfo = 2;  // AuthDeviceInfo
+}
+
+message AuthStep4 {
+  required uint32 unknown1 = 1;
+  required uint32 unknown2 = 2;
+}
+
+message AuthDeviceInfo {
+  required uint32 unknown1 = 1; // 0 - needs to be serialized explicitly
+  required float phoneApiLevel = 2;
+  required string phoneName = 3; // phone model
+  required uint32 unknown3 = 4; // 224
+  required string region = 5; // 2-letter, upper case
+}
+
+//
+// System
+//
+
+message System {
+  // 2, 1
+  optional Power power = 2;
+  // 2, 2
+  optional DeviceInfo deviceInfo = 3;
+  // 2, 3
+  optional Clock clock = 4;
+
+  // 2, 18
+  optional uint32 findDevice = 5; // 0
+
+  // 2, 29
+  optional DisplayItems displayItems = 10;
+
+  // 2, 34
+  optional DoNotDisturb dndStatus = 11;
+
+  // 2, 9 get | 2, 21 set
+  optional Password password = 19;
+
+  // 2, 7 get | 2, 8 set
+  optional Camera camera = 15;
+
+  // 2, 51
+  optional Widgets widgets = 28;
+  // 2, 53
+  optional WidgetsSingle widgetsSingle = 29;
+
+  // 2, 14
+  optional DoNotDisturb dnd2 = 34;
+  // 2, 15
+  optional DndSync dndSync = 35;
+
+  // 2, 46
+  optional VibrationPatterns vibrationPatterns = 38;
+
+  // 2, 47
+  optional VibrationNotificationType vibrationSetPreset = 39;
+
+  // 2, 58
+  optional CustomVibrationPattern vibrationPatternCreate = 40;
+
+  // 2, 59
+  optional VibrationTest vibrationTestCustom = 41;
+
+  // 2, 47
+  optional VibrationPatternAck vibrationPatternAck = 43;
+
+  // 2, 79
+  optional Charger charger = 49;
+}
+
+message Power {
+  optional Battery battery = 1;
+}
+
+message Battery {
+  optional uint32 level = 1;
+  optional uint32 state = 2;
+  optional LastCharge lastCharge = 3;
+}
+
+message LastCharge {
+  optional uint32 state = 1; // 2
+  optional uint32 timestampSeconds = 2;
+}
+
+message DeviceInfo {
+  required string serialNumber = 1;
+  required string firmware = 2;
+  optional string unknown3 = 3; // "" ?
+  required string model = 4;
+}
+
+message Clock {
+  required Date date = 1;
+  required Time time = 2;
+  required TimeZone timezone = 3;
+  required bool isNot24hour = 4;
+}
+
+message Date {
+  required uint32 year = 1;
+  required uint32 month = 2;
+  required uint32 day = 3;
+}
+
+message Time {
+  required uint32 hour = 1;
+  required uint32 minute = 2;
+  optional uint32 second = 3;
+  optional uint32 millisecond = 4;
+}
+
+message TimeZone {
+  // offsets are in blocks of 15 min
+  optional sint32 zoneOffset = 1;
+  optional sint32 dstOffset = 2;
+  required string name = 3;
+}
+
+message DisplayItems {
+  repeated DisplayItem displayItem = 1;
+}
+
+message DisplayItem {
+  optional string code = 1;
+  optional string name = 2;
+  optional bool disabled = 3;
+  optional uint32 isSettings = 4;
+  optional uint32 unknown5 = 5; // 1
+  optional bool rarelyUsed = 6;
+}
+
+message Camera {
+  required bool enabled = 1;
+}
+
+message Widgets {
+  repeated Widget widget = 1;
+}
+
+message Widget {
+  optional uint32 unknown1 = 1;
+  optional uint32 unknown2 = 2;
+  repeated WidgetPart widgetPart = 3;
+}
+
+message WidgetPart {
+  optional uint32 unknown1 = 1;
+  optional uint32 unknown2 = 2;
+  optional uint32 unknown3 = 3;
+}
+
+message WidgetsSingle {
+  repeated SingleWidget widget = 1;
+}
+
+message SingleWidget {
+  optional uint32 unknown1 = 1;
+  optional uint32 unknown2 = 2;
+  optional uint32 unknown3 = 3;
+  optional string title = 4;
+  optional uint32 unknown5 = 5;
+}
+
+message DoNotDisturb {
+  optional uint32 status = 1; // 0 enabled, 2 disabled
+}
+
+message DoNotDisturb2 {
+}
+
+message DndSync {
+}
+
+message Password {
+  optional uint32 state = 1; // 1 disabled, 2 enabled
+  optional string password = 2;
+}
+
+message VibrationPatterns {
+  repeated VibrationNotificationType notificationType = 1;
+  optional uint32 unknown2 = 2; // 50, max patterns?
+  repeated CustomVibrationPattern customVibrationPattern = 3;
+}
+
+message CustomVibrationPattern {
+  optional uint32 id = 1;
+  optional string name = 2;
+  repeated Vibration vibration = 3;
+  optional uint32 unknown4 = 4; // 1 on creation
+}
+
+message VibrationNotificationType {
+  // 1 incoming calls
+  // 2 events
+  // 3 alarms
+  // 4 notifications
+  // 5 standing reminder
+  // 6 sms
+  // 7 goal
+  // 8 events
+  optional uint32 notificationType = 1;
+  optional uint32 preset = 2;
+}
+
+message VibrationTest {
+  repeated Vibration vibration = 1;
+}
+
+message VibrationPatternAck {
+  optional uint32 status = 1; // 0
+}
+
+message Vibration {
+  optional uint32 vibrate = 1; // 0/1
+  optional uint32 ms = 2;
+}
+
+message Charger {
+  optional uint32 state = 1; // 1 charging, 2 not charging
+}
+
+//
+// Health
+//
+
+message Health {
+  optional UserInfo userInfo = 1;
+  optional SpO2 spo2 = 7;
+  optional HeartRate heartRate = 8;
+  // 8, 12 get | 8, 13 set
+  optional StandingReminder standingReminder = 9;
+  optional Stress stress = 10;
+  optional AchievementReminders achievementReminders = 13;
+
+  // 8, 35 get | 8, 36 set
+  optional VitalityScore vitalityScore = 14;
+
+  // 8, 26
+  optional WorkoutStatusWatch workoutStatusWatch = 20;
+
+  // 8, 30
+  optional WorkoutOpenWatch workoutOpenWatch = 25;
+  optional WorkoutOpenReply workoutOpenReply = 26;
+
+  // 7, 48
+  optional WorkoutLocation workoutLocation = 40;
+
+  // 8,45 enable | 8, 46 disable | 8, 47 periodic
+  optional RealTimeStats realTimeStats = 39;
+}
+
+message UserInfo {
+  optional uint32 height = 1; // cm
+  optional float weight = 2; // kg
+  optional uint32 birthday = 3; // YYYYMMDD
+  optional uint32 gender = 4; // 1 male, 2 female
+  optional uint32 maxHeartRate = 5;
+  optional uint32 goalCalories = 6;
+  optional uint32 goalSteps = 7;
+  optional uint32 goalStanding = 9; // hours
+  optional uint32 goalMoving = 11; // minutes
+}
+
+message SpO2 {
+  optional uint32 unknown1 = 1; // 1
+  optional bool allDayTracking = 2;
+  optional Spo2AlarmLow alarmLow = 4;
+}
+
+message Spo2AlarmLow {
+  optional bool alarmLowEnabled = 1;
+  optional uint32 alarmLowThreshold = 2; // 90, 85, 80
+}
+
+message HeartRate {
+  optional bool disabled = 1; // 0 enabled 1 disabled
+  optional uint32 interval = 2; // 0 smart 1 10 30
+  optional bool alarmHighEnabled = 3;
+  optional uint32 alarmHighThreshold = 4; // 100, 110, ... 150
+  optional AdvancedMonitoring advancedMonitoring = 5;
+  optional uint32 unknown7 = 7; // 1
+  optional HeartRateAlarmLow heartRateAlarmLow = 8;
+  required uint32 breathingScore = 9; // 1 on, 2 off
+}
+
+message AdvancedMonitoring {
+  required bool enabled = 1;
+}
+
+message HeartRateAlarmLow {
+  optional bool alarmLowEnabled = 1;
+  optional uint32 alarmLowThreshold = 2; // 40, 45, 50
+}
+
+message StandingReminder {
+  optional bool enabled = 1;
+  optional HourMinute start = 2;
+  optional HourMinute end = 3;
+  optional bool dnd = 4;
+  optional HourMinute dndStart = 6;
+  optional HourMinute dndEnd = 7;
+}
+
+message Stress {
+  optional bool allDayTracking = 1;
+  optional RelaxReminder relaxReminder = 2;
+}
+
+message AchievementReminders {
+  optional bool enabled = 1;
+  optional uint32 suggested = 2; // 0 moving, 1 standing
+}
+
+message RelaxReminder {
+  optional bool enabled = 1;
+  optional uint32 unknown2 = 2; // 0
+}
+
+message VitalityScore {
+  optional bool sevenDay = 1;
+  optional bool dailyProgress = 2;
+}
+
+message WorkoutStatusWatch {
+  optional uint32 timestamp = 1; // seconds
+  optional uint32 unknown2 = 2;
+}
+
+message WorkoutOpenWatch {
+  optional uint32 unknown1 = 1; // 2
+  optional uint32 unknown2 = 2; // 2
+}
+
+message WorkoutOpenReply {
+  // 3 2 10
+  // ...
+  // 0 2 10
+  // 0 2 2
+  optional uint32 unknown1 = 1;
+  optional uint32 unknown2 = 2;
+  optional uint32 unknown3 = 3;
+}
+
+message WorkoutLocation {
+  optional uint32 unknown1 = 1; // 10, sometimes 2
+  optional uint32 timestamp = 2; // seconds
+  optional double longitude = 3;
+  optional double latitude = 4;
+  optional float unknown6 = 6; // ?
+  optional float unknown7 = 7; // altitude?
+  optional float unknown8 = 8; // ?
+  optional float unknown9 = 9; // ?
+}
+
+message RealTimeStats {
+  optional uint32 steps = 1;
+  optional uint32 calories = 2;
+  optional uint32 unknown3 = 3; // increases during activity
+  optional uint32 heartRate = 4;
+  optional uint32 unknown5 = 5; // 0 probably moving time
+  optional uint32 standingHours = 6;
+}
+
+//
+// Music
+//
+
+message Music {
+  // 18, 1
+  optional MusicInfo musicInfo = 1;
+  // 18, 2
+  optional MediaKey mediaKey = 2;
+}
+
+message MusicInfo {
+  required uint32 state = 1; // 0 not playing, 1 playing, 2 paused
+  optional uint32 volume = 2;
+  optional string track = 4;
+  optional string artist = 5;
+  optional uint32 position = 6;
+  optional uint32 duration = 7;
+}
+
+message MediaKey {
+  required uint32 key = 1; // 0 play, 1 pause, 3 prev, 4 next, 5 vol
+  optional uint32 volume = 2; // 100 vol+, 0 vol-
+}
+
+//
+// Notification
+//
+
+message Notification {
+  optional Notification2 notification2 = 3;
+  optional Notification4 notification4 = 4;
+  // 7, 12
+  optional CannedReplies cannedReplies = 9;
+}
+
+message Notification2 {
+  optional Notification3 notification3 = 1;
+}
+
+message Notification3 {
+  optional string package = 1;
+  optional string appName = 2;
+  optional string title = 3;
+  optional string timestamp = 6;
+  optional string unknown4 = 4;
+  optional string body = 5;
+  optional uint32 id = 7;
+  optional string unknown12 = 12;
+  optional uint32 hasReply = 13;
+}
+
+message Notification4 {
+  optional Notification5 notification5 = 1;
+}
+
+message CannedReplies {
+  optional uint32 minReplies = 1;
+  repeated string reply = 2;
+  optional uint32 maxReplies = 3;
+}
+
+message Notification5 {
+  optional uint32 id = 1;
+  optional string package = 2;
+  optional string unknown4 = 4;
+}
+
+//
+// Weather
+//
+
+message Weather {
+  optional WeatherCurrent current = 1;
+  optional WeatherDaily daily = 2;
+
+  // 10, 6 request without payload?
+
+  // 10, 5 set current | 10, 7 create | 10, 8 delete
+  optional WeatherCurrentLocation currentLocation = 4;
+  // 10, 7 create
+  optional WeatherLocation create = 5;
+
+  // 10, 10
+  optional WeatherTemperatureUnit temperatureUnit = 6;
+}
+
+message WeatherCurrent {
+}
+
+message WeatherDaily {
+}
+
+message WeatherCurrentLocation {
+  optional WeatherLocation location = 1;
+}
+
+message WeatherLocation {
+  optional string code = 1;
+  optional string name = 2;
+}
+
+message WeatherUnknown1 {
+  optional float unknown12 = 12;
+}
+
+message WeatherTemperatureUnit {
+  optional uint32 unit = 1; // 1 celsius 2 fahrenheit
+}
+
+//
+// Schedule
+//
+
+message Schedule {
+  // 17, 0 get
+  optional Alarms alarms = 1;
+  // 17, 1
+  optional AlarmDetails createAlarm = 2;
+  // 17, 3 -> returns 17, 5
+  optional Alarm editAlarm = 3;
+
+  optional uint32 ackId = 4; // id of created or edited alarm and event
+
+  // 17, 4
+  optional AlarmDelete deleteAlarm = 5;
+
+  // 17, 8 get | 17, 9 set
+  optional SleepMode sleepMode = 9;
+
+  // 17, 14 get: 10 -> 2: 50 // max events?
+  optional Events events = 10;
+
+  // 17,10 get/ret | 17,11 create | 17,13 delete
+  optional WorldClocks worldClocks = 11;
+
+  optional uint32 worldClockStatus = 13; // 0 on edit and create
+
+  // 17, 15
+  optional EventDetails createEvent = 14;
+
+  // 17, 17
+  optional Event editEvent = 15;
+
+  // 17, 18
+  optional EventDelete deleteEvent = 17;
+}
+
+message Alarms {
+  optional uint32 maxAlarms = 2; // 10
+  optional uint32 unknown3 = 3; // 0
+  optional uint32 unknown4 = 4; // 1
+  repeated Alarm alarm = 1;
+}
+
+message Alarm {
+  optional uint32 id = 1; // starts at 1
+  optional AlarmDetails alarmDetails = 2;
+}
+
+message AlarmDetails {
+  optional HourMinute time = 2;
+  optional uint32 repeatMode = 3; // 0 once, 1 daily, 5 weekly
+  optional uint32 repeatFlags = 4; // only if weekly: 31 during week, 1 monday, 2 tuesday, 3 mon tue
+  optional bool enabled = 5;
+  optional uint32 smart = 7; // 1 smart, 2 normal
+}
+
+message AlarmDelete {
+  repeated uint32 id = 1;
+}
+
+message SleepMode {
+  required bool enabled = 1;
+  optional SleepModeSchedule schedule = 2;
+}
+
+message SleepModeSchedule {
+  optional HourMinute start = 1;
+  optional HourMinute end = 2;
+  optional uint32 unknown3 = 3; // 0
+}
+
+message Events {
+  repeated Event event = 1;
+  optional uint32 unknown2 = 2; // 50, max events?
+}
+
+message Event {
+  optional uint32 id = 1;
+  optional EventDetails eventDetails = 2;
+}
+
+message EventDetails {
+  optional Date date = 1;
+  optional Time time = 2;
+  optional uint32 repeatMode = 3; // 0 once, 1 daily, weekly (every monday), 7 monthly, 8 yearly
+  optional uint32 repeatFlags = 4; // 64 for unset, day flags on weekly
+  optional string title = 5;
+}
+
+message EventDelete {
+  repeated uint32 id = 1;
+}
+
+message WorldClocks {
+  repeated string worldClock = 1;
+}
+
+message HourMinute {
+  required uint32 hour = 1;
+  required uint32 minute = 2;
+}

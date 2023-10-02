@@ -44,6 +44,7 @@ public class ActivityUser {
     private int activityUserCaloriesBurntGoal;
     private int activityUserDistanceGoalMeters;
     private int activityUserActiveTimeGoalMinutes;
+    private int activityUserStandingTimeGoalHours;
     private int activityUserStepLengthCm;
 
     private static final String defaultUserName = "gadgetbridge-user";
@@ -167,6 +168,7 @@ public class ActivityUser {
         activityUserCaloriesBurntGoal = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurntGoal);
         activityUserDistanceGoalMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceGoalMeters);
         activityUserActiveTimeGoalMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeGoalMinutes);
+        activityUserStandingTimeGoalHours = prefs.getInt(PREF_USER_GOAL_STANDING_TIME_HOURS, defaultUserGoalStandingTimeHours);
         activityUserStepLengthCm = prefs.getInt(PREF_USER_STEP_LENGTH_CM, defaultUserStepLengthCm);
     }
 
@@ -198,5 +200,13 @@ public class ActivityUser {
             activityUserActiveTimeGoalMinutes = defaultUserActiveTimeGoalMinutes;
         }
         return activityUserActiveTimeGoalMinutes;
+    }
+
+    public int getStandingTimeGoalHours()
+    {
+        if (activityUserStandingTimeGoalHours < 1) {
+            activityUserStandingTimeGoalHours = defaultUserGoalStandingTimeHours;
+        }
+        return activityUserStandingTimeGoalHours;
     }
 }

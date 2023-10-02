@@ -140,6 +140,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveHrCoordin
 import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.MiBand8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 
@@ -192,6 +193,7 @@ public enum DeviceType {
     AMAZFITPOP(AmazfitPopCoordinator.class),
     AMAZFITPOPPRO(AmazfitPopProCoordinator.class),
     MIBAND7(MiBand7Coordinator.class),
+    MIBAND8(MiBand8Coordinator.class),
     AMAZFITGTS3(AmazfitGTS3Coordinator.class),
     AMAZFITGTR3(AmazfitGTR3Coordinator.class),
     AMAZFITGTR4(AmazfitGTR4Coordinator.class),

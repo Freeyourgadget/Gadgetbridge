@@ -33,6 +33,8 @@ public interface Alarm extends Serializable {
     byte ALARM_SAT = 32;
     byte ALARM_SUN = 64;
 
+    byte ALARM_DAILY = Alarm.ALARM_MON | Alarm.ALARM_TUE | Alarm.ALARM_WED | Alarm.ALARM_THU | Alarm.ALARM_FRI | Alarm.ALARM_SAT | Alarm.ALARM_SUN;
+
     int getPosition();
 
     boolean getEnabled();
