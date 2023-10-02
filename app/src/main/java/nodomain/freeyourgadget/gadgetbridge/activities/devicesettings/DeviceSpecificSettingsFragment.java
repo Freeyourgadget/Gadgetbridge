@@ -549,6 +549,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_TEMPERATURE_SCALE_CF);
 
+        addPreferenceHandlerFor(PREF_PREFIX_NOTIFICATION_WITH_APP);
+
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);

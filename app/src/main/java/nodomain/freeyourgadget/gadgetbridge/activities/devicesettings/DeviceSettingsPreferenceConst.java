@@ -364,4 +364,6 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_TEMPERATURE_SCALE_CF = "temperature_scale_cf";
     public static final String PREF_FEMOMETER_MEASUREMENT_MODE = "femometer_measurement_mode";
+
+    public static final String PREF_PREFIX_NOTIFICATION_WITH_APP = "pref_prefix_notification_with_app";
 }

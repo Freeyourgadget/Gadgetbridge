@@ -91,6 +91,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -118,6 +119,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private final BatteryInfoProfile<PineTimeJFSupport> batteryInfoProfile;
 
     private final int MaxNotificationLength = 100;
+    private final int CutNotificationTitleMinAt = 25;
     private int firmwareVersionMajor = 0;
     private int firmwareVersionMinor = 0;
     private int firmwareVersionPatch = 0;
@@ -306,15 +308,35 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         TransactionBuilder builder = new TransactionBuilder("notification");
 
         String message;
-        if (notificationSpec.body == null) {
-            notificationSpec.body = "";
+        String source = null;
+        String bodyOrSubject = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.getFirstOf(notificationSpec.body, notificationSpec.subject);
+        String senderOrTitle = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        if (!nodomain.freeyourgadget.gadgetbridge.util.StringUtils.isNullOrEmpty(notificationSpec.sourceName)) {
+            source = notificationSpec.sourceName;
+        } else if (notificationSpec.type == NotificationType.GENERIC_SMS) {
+            source = getContext().getString(R.string.pref_title_notifications_sms);
         }
 
-        if (isFirmwareAtLeastVersion0_15()) {
-            String senderOrTitle = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
-            message = senderOrTitle + "\0" + notificationSpec.body;
+        if (bodyOrSubject.length() > 0){
+            if (isFirmwareAtLeastVersion0_15()) {
+                if (!GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_PREFIX_NOTIFICATION_WITH_APP, true)) {
+                    source = null;
+                }
+                int cutLength = Math.max(CutNotificationTitleMinAt, MaxNotificationLength - 3 - bodyOrSubject.length() - (source != null ? source.length() + 2 : 0));
+                if (cutLength < senderOrTitle.length() - 1) {
+                    for (; cutLength > 0 && senderOrTitle.charAt(cutLength - 1) == ' '; cutLength--);
+                    senderOrTitle = senderOrTitle.substring(0, cutLength) + ">";
+                }
+                message = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.join(": ", source, senderOrTitle) + "\0" + bodyOrSubject;
+            } else {
+                message = bodyOrSubject;
+            }
         } else {
-            message = notificationSpec.body;
+            if (isFirmwareAtLeastVersion0_15()) {
+                message = (source != null ? source : "") + "\0" + senderOrTitle;
+            } else {
+                message = senderOrTitle;
+            }
         }
 
         NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, message);

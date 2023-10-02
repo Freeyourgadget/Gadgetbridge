@@ -2397,4 +2397,7 @@
     <string name="call_rejection_method_ignore">Ignore (silence)</string>
     <string name="pref_call_rejection_method_title">Call rejection method</string>
     <string name="pref_call_rejection_method_summary">Which action is taken when an incoming call is rejected from the watch</string>
+
+    <string name="pref_title_prefix_notification_with_app">App name in notification</string>
+    <string name="pref_summary_prefix_notification_with_app">Prefix notification title with name of source application</string>
 </resources>

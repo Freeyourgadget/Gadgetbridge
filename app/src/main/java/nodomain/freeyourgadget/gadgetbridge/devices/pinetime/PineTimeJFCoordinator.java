@@ -166,7 +166,8 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_transliteration,
-                R.xml.devicesettings_world_clocks
+                R.xml.devicesettings_world_clocks,
+                R.xml.devicesettings_prefix_notification_with_app
         };
     }
 
