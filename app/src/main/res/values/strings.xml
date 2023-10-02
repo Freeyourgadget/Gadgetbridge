@@ -293,8 +293,9 @@
     <string name="pref_call_privacy_mode_number">Hide number but display name</string>
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
     <string name="pref_title_message_privacy_mode">Message privacy mode</string>
-    <string name="pref_message_privacy_mode_off">Display content</string>
-    <string name="pref_message_privacy_mode_complete">Hide content</string>
+    <string name="pref_message_privacy_mode_off">Display all content</string>
+    <string name="pref_message_privacy_mode_complete">Hide all content</string>
+    <string name="pref_message_privacy_mode_bodyonly">Hide only body</string>
     <string name="pref_title_weather">Weather</string>
     <string name="pref_title_weather_location">Weather location (for LineageOS weather provider)</string>
     <string name="pref_title_weather_summary">Used for the LineageOS weather provider, other Android versions need to use an app like \"Weather notification\". Find more information in the Gadgetbridge wiki.</string>

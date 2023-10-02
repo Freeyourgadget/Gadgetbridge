@@ -108,6 +108,7 @@
 
     <item name="p_message_privacy_mode_off" type="string">off</item>
     <item name="p_message_privacy_mode_complete" type="string">complete</item>
+    <item name="p_message_privacy_mode_bodyonly" type="string">bodyonly</item>
 
     <item name="pref_button_action_disabled_value" translatable="false" type="string">UNKNOWN</item>
     <item name="pref_media_play_value" translatable="false" type="string">PLAY</item>
