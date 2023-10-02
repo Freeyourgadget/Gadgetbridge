@@ -1769,7 +1769,7 @@
     <string name="pref_explanation_authkey">Niektóre urządzenia wymagają specjalnego klucza parowania przy pierwszej inicjalizacji urządzenia. Naciśnij tutaj, aby uzyskać więcej szczegółów w wiki.</string>
     <string name="appmanager_item_outdated">(nieaktualne)</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Rozmiar Bitmapy Tekstu</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Jeśli \'Tekst jako bitmapy\' jest włączony, jaki rozmiar powinien mieć generowany tekst\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Rozmiar używany do renderowania tekstu bitmapowego</string>
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
     <string name="controlcenter_set_preferences">Ustaw preferencje</string>
@@ -2203,4 +2203,45 @@
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Square)</string>
     <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Round)</string>
     <string name="device_experimental">EKSPERYMENTALNE</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Użyj danych GPS telefonu, aby nadpisać dane GPS urządzenia bangle</string>
+    <string name="pref_summary_mb_intents">Włącz, jeśli kontrola nośników urządzenia nie działa dla niektórych aplikacji</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Aby odbierać połączenia Bluetooth, należy sparować telefon z drugą instancją zegarka.</string>
+    <string name="pref_pair_bluetooth_calls_summary">Naciśnij tu, aby rozpocząć proces parowania</string>
+    <string name="pref_display_caller_summary">Wyświetl numer telefonu lub imię dla połączeń przychodzących</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Naciśnij poniższy przycisk, aby rozpocząć proces parowania.</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Korzystanie z danych GPS telefonu</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">OSTRZEŻENIE: Jeśli włączysz połączenia Bluetooth bez parowania z drugą instancją, powiadomienia o połączeniach mogą nie działać zgodnie z oczekiwaniami.</string>
+    <string name="pref_theme_dynamic">Dynamiczne kolory</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Włącz poniższe ustawienie połączeń Bluetooth.</string>
+    <string name="pref_pair_bluetooth_calls_title">Paruj dla połączeń bluetooth</string>
+    <string name="pref_title_mb_intents">Bezpośrednie nadawanie intencji przycisków multimedialnych</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Częstotliwość aktualizacji pozycji GPS, w ms</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Bip 3 Pro.
+\n
+\nProszę upewnić się, że zainstalowany został plik .fw, następnie plik .res i na końcu plik .gps. Po zainstalowaniu pliku .fw Twój zegarek zostanie ponownie uruchomiony.
+\n
+\nUwaga: Nie musisz instalować plików .res i .gps, jeśli te pliki są dokładnie takie same jak te, które zostały wcześniej zainstalowane.
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Używaj sieci tylko do określania lokalizacji</string>
+    <string name="pref_camera_remote_summary">Umożliwia zegarkowi wyzwalanie aparatu telefonu</string>
+    <string name="bluetooth_calls_settings">Ustawienia połączeń Bluetooth</string>
+    <string name="bluetooth_calls_pairing">Parowanie połączeń Bluetooth</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Cheetah Pro
+\n
+\nTwój zegarek zostanie ponownie uruchomiony po instalacji pliku .zip
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_title_notification_cache_while_disconnected">Pamięć podręczna poza zasięgiem</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Do określenia lokalizacji używaj tylko dostawcy sieci. Zmniejsza to zużycie energii kosztem dokładności. Konieczne jest ponowne połączenie.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interwał aktualizacji danych GPS</string>
+    <string name="fw_upgrade_notice_zepp_os">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim %s.
+\n
+\nTwój zegarek zostanie ponownie uruchomiony po instalacji pliki .zip.
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Wysyłanie nieodebranych powiadomień, gdy urządzenie połączy się ponownie po utracie zasięgu</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Przejdź do ustawień bluetooth telefonu i sparuj z nowym urządzeniem, które się pojawi (nazwa podobna do obecnego zegarka, ale z przyrostkiem, np. \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_canned_message">Wiadomość</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Jak odbierać połączenia bluetooth</string>
 </resources>
