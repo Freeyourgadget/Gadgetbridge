@@ -1309,12 +1309,12 @@
     <string name="pref_title_ping_tone">Звуковой сигнал</string>
     <string name="pref_header_notification_application_settings">Настройки для каждого приложения</string>
     <string name="pref_title_notification_use_as_allow">Разрешить уведомления от выбранных приложений</string>
-    <string name="pref_message_privacy_mode_complete">Скрыть содержимое</string>
+    <string name="pref_message_privacy_mode_complete">Скрыть всё содержимое</string>
     <string name="pref_summary_huami_force_new_protocol">Включите, если устройство перестало подключаться после обновления прошивки</string>
     <string name="toast_app_must_not_be_selected">Приложение не должно быть выбрано для настройки</string>
     <string name="title_activity_notification_management">Настройки уведомлений</string>
     <string name="pref_title_message_privacy_mode">Режим конфиденциальности сообщений</string>
-    <string name="pref_message_privacy_mode_off">Отображать содержимое</string>
+    <string name="pref_message_privacy_mode_off">Отображать всё содержимое</string>
     <string name="pref_applications_settings">Список приложений</string>
     <string name="controlcenter_power_off">Выключить</string>
     <string name="controlcenter_power_off_confirm_title">Выключить</string>
@@ -2007,7 +2007,7 @@
     <string name="aerobicTrainingEffect">Аэробный эффект</string>
     <string name="elevationGain">Увеличение высоты</string>
     <string name="hrZoneAerobic">Аэробная</string>
-    <string name="zepp_os_watchface_rush">Rush</string>
+    <string name="zepp_os_watchface_rush">Спешка</string>
     <string name="descentDistance">Расстояние с горы</string>
     <string name="elevationLoss">Уменьшение высоты</string>
     <string name="HeartRateZones">Зоны сердечного ритма</string>
@@ -2122,7 +2122,7 @@
     <string name="busy_task_fetch_spo2_data">Получение данных о насыщеннии крови кислородом</string>
     <string name="busy_task_fetch_hr_data">Получение данных о серцебиении</string>
     <string name="pref_app_logs_title">Журнал приложения</string>
-    <string name="pref_app_logs_summary">Включить ведение журнала из приложений часов</string>
+    <string name="pref_app_logs_summary">Включить ведение журнала из приложения часов</string>
     <string name="loyalty_cards_sync_groups">Синхронизируемые группы</string>
     <string name="steps_streaks_total_days_hint_totals">Процент дней с достигнутой целью в соотношении ко всем дням с шагами</string>
     <string name="step_streak_days_hint">Количество дней с достигнутой целью шагов подряд</string>
@@ -2137,7 +2137,7 @@
     <string name="sony_pause_when_taken_off">Пауза при снятии наушников</string>
     <string name="sony_speak_to_chat_summary">Автоматически отключать подавление шума, когда Вы начинаете говорить.</string>
     <string name="sony_speak_to_chat_sensitivity">Чувствительность активации по голосу</string>
-    <string name="sony_speak_to_chat_timeout">Время истечения ожидания</string>
+    <string name="sony_speak_to_chat_timeout">Ограничение времени</string>
     <string name="sony_speak_to_chat_sensitivity_high">Высокая</string>
     <string name="sony_speak_to_chat_sensitivity_low">Низкая</string>
     <string name="sony_automatic_power_off_when_taken_off">При снятии</string>
@@ -2226,7 +2226,7 @@
     <string name="find_my_phone_found_it">НАШЁЛ ЕГО</string>
     <string name="voice_service_package_title">Набор голосовой службы</string>
     <string name="voice_service_package_summary">Приложение со службой обработки голосовых команд</string>
-    <string name="voice_service_class_title">Разряд голосовой службы</string>
+    <string name="voice_service_class_title">Класс голосовой службы</string>
     <string name="prefs_voice_detect_summary">Автоматически включить звуки окружения и снизить громкость воспроизведения после обнаружения голоса</string>
     <string name="supercars_lights_label">Огни</string>
     <string name="debug_companion_show_associated">Отображать связанные устройства-спутники</string>
@@ -2268,8 +2268,8 @@
     <string name="withings_calibration_text_activity_target">Наконец, установите стрелку активности на 100%. Пожалуйста, учтите, что она движется только в одном направлении.</string>
     <string name="withings_bt_calibration_next">Следующая</string>
     <string name="pref_activity_full_sync_trigger_title">Полная синхронизация</string>
-    <string name="info_menu_structure_set">Структура меню JSON, заданная в GB</string>
-    <string name="button_open_menu_companion">Открыть меню приложения спутника</string>
+    <string name="info_menu_structure_set">Структура меню JSON, заданная в ГБ</string>
+    <string name="button_open_menu_companion">Открыть меню приложения-спутника</string>
     <string name="error_menu_companion_not_installed">Скорее всего, «Спутник меню HR»‎ не установлено</string>
     <string name="loyalty_cards_catima_not_installed">Для управления бонусными картами требуется Catima</string>
     <string name="loyalty_cards_catima_permissions_title">Отсутствующие разрешения</string>
@@ -2324,7 +2324,7 @@
     <string name="pref_device_action_phone_gps_location_listener_stop">Остановка службы расположения GPS</string>
     <string name="distance_format_miles">###,# миль</string>
     <string name="steps_streaks_hint">Беспрерывная последовательность дней с достижением цели по шагам</string>
-    <string name="intent_api_broadcast_export_title">Трансляция по экспорту БД</string>
+    <string name="intent_api_broadcast_export_title">Трансляция по экспорту базы данных</string>
     <string name="intent_api_allow_trigger_export_summary">Позволяет активировать экспорт базы данных через API Intent</string>
     <string name="pref_summary_navigation_forward">Отправка указаний навигационных приложений на часы</string>
     <string name="intent_api_allow_debug_commands_title">Разрешить отладочные команды</string>
@@ -2470,7 +2470,7 @@
     <string name="prefs_wena3_button_action_name_activity_screen">Отображение активности</string>
     <string name="pref_device_action_fitness_app_control_start">Начало отслеживания фитнес-приложением</string>
     <string name="devicetype_miband2_hrx">Mi Band HRX (без датчика ЧСС)</string>
-    <string name="new_discover_activity_description">Включение или отключение может помочь с обнаружением устройств.</string>
+    <string name="new_discover_activity_description">Включить новое действие обнаружения, которое должно устранить проблемы с обнаружением устройств. Отключите эту функцию, если у вас возникнут какие-либо проблемы при поиске или сопряжении с вашим устройством.</string>
     <string name="drag_handle">перетаскивание элементов</string>
     <string name="new_discover_activity_title">Включить новое обнаружение активности</string>
     <string name="devicetype_sony_wena3">Sony Wena 3</string>
@@ -2487,4 +2487,5 @@
     <string name="prefs_switch_control_left">Переключить управление слева</string>
     <string name="watchface_setting_button_move_hands">Движение рук</string>
     <string name="pref_title_touch_quick_ambient">Быстрый окружающий звук</string>
+    <string name="pref_message_privacy_mode_bodyonly">Скрыть только тело</string>
 </resources>
