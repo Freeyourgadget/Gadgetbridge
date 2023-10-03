@@ -150,6 +150,21 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateLatvian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("latvian");
+
+        String input = "ā č ē ģ ī ķ ļ ņ š ū ž Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž";
+        String output = transliterator.transliterate(input);
+        String expected = "a c e g i k l n s u z A C E G I K L N S U Z";
+        assertEquals("latvian translation failed", expected, output);
+
+        input = "aāa cčc eēe gģg iīi kķk lļl nņn sšs uūu zžz AĀA CČC EĒE GĢG IĪI KĶK LĻL NŅN SŠS UŪU ZŽZ";
+        output = transliterator.transliterate(input);
+        expected = "aaa ccc eee ggg iii kkk lll nnn sss uuu zzz AAA CCC EEE GGG III KKK LLL NNN SSS UUU ZZZ";
+        assertEquals("latvian translation failed", expected, output);
+    }
+
+    @Test
     public void testStringTransliterateLithuanian() {
         final Transliterator transliterator = LanguageUtils.getTransliterator("lithuanian");
 

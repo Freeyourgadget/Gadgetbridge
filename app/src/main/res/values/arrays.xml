@@ -3081,6 +3081,7 @@
         <item>@string/hebrew</item>
         <item>@string/icelandic</item>
         <item>@string/korean</item>
+        <item>@string/latvian</item>
         <item>@string/lithuanian</item>
         <item>@string/persian</item>
         <item>@string/polish</item>
@@ -3104,6 +3105,7 @@
         <item>hebrew</item>
         <item>icelandic</item>
         <item>korean</item>
+        <item>latvian</item>
         <item>lithuanian</item>
         <item>persian</item>
         <item>polish</item>
