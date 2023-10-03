@@ -40,15 +40,9 @@ public class XiaomiConstants {
     public static final UUID UUID_CHARACTERISTIC_XIAOMI_UNKNOWN_0003 = UUID.fromString((String.format(BASE_UUID, "0003")));
 
     public static final int CMD_TYPE_AUTH = 1;
-    public static final int CMD_TYPE_SYSTEM = 2;
 
     public static final int CMD_AUTH_NONCE = 26;
     public static final int CMD_AUTH_AUTH = 27;
-
-    public static final int CMD_SYSTEM_BATTERY = 1;
-    public static final int CMD_SYSTEM_DEVICE_INFO = 2;
-    public static final int CMD_SYSTEM_CLOCK = 3;
-    public static final int CMD_SYSTEM_CHARGER = 79;
 
     // TODO not like this
     public static final byte[] PAYLOAD_ACK = new byte[]{0, 0, 3, 0};

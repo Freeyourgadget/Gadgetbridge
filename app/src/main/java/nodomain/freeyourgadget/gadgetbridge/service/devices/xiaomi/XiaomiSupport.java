@@ -236,58 +236,14 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
             LOG.error("Failed to initialize transaction builder", e);
             return;
         }
-        setCurrentTime(builder);
+        systemService.setCurrentTime(builder);
         builder.queue(getQueue());
-    }
-
-    public void setCurrentTime(final TransactionBuilder builder) {
-        final Calendar now = GregorianCalendar.getInstance();
-        final TimeZone tz = TimeZone.getDefault();
-
-        final GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
-        final String timeFormat = gbPrefs.getTimeFormat();
-        final boolean is24hour = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H.equals(timeFormat);
-
-        final XiaomiProto.Clock clock = XiaomiProto.Clock.newBuilder()
-                .setTime(XiaomiProto.Time.newBuilder()
-                        .setHour(now.get(Calendar.HOUR_OF_DAY))
-                        .setMinute(now.get(Calendar.MINUTE))
-                        .setSecond(now.get(Calendar.SECOND))
-                        .setMillisecond(now.get(Calendar.MILLISECOND))
-                        .build())
-                .setDate(XiaomiProto.Date.newBuilder()
-                        .setYear(now.get(Calendar.YEAR))
-                        .setMonth(now.get(Calendar.MONTH) + 1)
-                        .setDay(now.get(Calendar.DATE))
-                        .build())
-                .setTimezone(XiaomiProto.TimeZone.newBuilder()
-                        .setZoneOffset(((now.get(Calendar.ZONE_OFFSET) / 1000) / 60) / 15)
-                        .setDstOffset(((now.get(Calendar.DST_OFFSET) / 1000) / 60) / 15)
-                        .setName(tz.getID())
-                        .build())
-                .setIsNot24Hour(!is24hour)
-                .build();
-
-        sendCommand(
-                builder,
-                XiaomiProto.Command.newBuilder()
-                        .setType(CMD_TYPE_SYSTEM)
-                        .setSubtype(CMD_SYSTEM_CLOCK)
-                        .setSystem(XiaomiProto.System.newBuilder().setClock(clock).build())
-                        .build()
-        );
     }
 
     @Override
     public void onTestNewFunction() {
         final TransactionBuilder builder = createTransactionBuilder("test new function");
-        sendCommand(
-                builder,
-                XiaomiProto.Command.newBuilder()
-                        .setType(CMD_TYPE_SYSTEM)
-                        .setSubtype(CMD_SYSTEM_DEVICE_INFO)
-                        .build()
-        );
+
         builder.queue(getQueue());
     }
 
@@ -466,70 +422,18 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         encryptedIndex = 1; // TODO not here
 
         if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
-            setCurrentTime(builder);
+            systemService.setCurrentTime(builder);
         }
 
         for (final AbstractXiaomiService service : mServiceMap.values()) {
             service.initialize(builder);
         }
-
-        // request device info
-        sendCommand(builder, CMD_TYPE_SYSTEM, CMD_SYSTEM_DEVICE_INFO);
-
-        // request battery status
-        sendCommand(builder, CMD_TYPE_SYSTEM, CMD_SYSTEM_BATTERY);
     }
 
     private void sendAck(final BluetoothGattCharacteristic characteristic) {
         final TransactionBuilder builder = createTransactionBuilder("send ack");
         builder.write(characteristic, PAYLOAD_ACK);
         builder.queue(getQueue());
-    }
-
-    protected void handleConfigCommand(final XiaomiProto.Command cmd) {
-        switch (cmd.getSubtype()) {
-            case CMD_SYSTEM_DEVICE_INFO:
-                final XiaomiProto.DeviceInfo deviceInfo = cmd.getSystem().getDeviceInfo();
-                final GBDeviceEventVersionInfo gbDeviceEventVersionInfo = new GBDeviceEventVersionInfo();
-                gbDeviceEventVersionInfo.fwVersion = deviceInfo.getFirmware();
-                //gbDeviceEventVersionInfo.fwVersion2 = "N/A";
-                gbDeviceEventVersionInfo.hwVersion = deviceInfo.getModel();
-                final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", deviceInfo.getSerialNumber());
-
-                evaluateGBDeviceEvent(gbDeviceEventVersionInfo);
-                evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
-                return;
-            case CMD_SYSTEM_BATTERY:
-                final XiaomiProto.Battery battery = cmd.getSystem().getPower().getBattery();
-                final GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
-                batteryInfo.batteryIndex = 0;
-                batteryInfo.level = battery.getLevel();
-                switch (battery.getState()) {
-                    case 1:
-                        batteryInfo.state = BatteryState.BATTERY_CHARGING;
-                        break;
-                    case 2:
-                        batteryInfo.state = BatteryState.BATTERY_NORMAL;
-                        break;
-                    default:
-                        batteryInfo.state = BatteryState.UNKNOWN;
-                        LOG.warn("Unknown battery state {}", battery.getState());
-                }
-                evaluateGBDeviceEvent(batteryInfo);
-                return;
-            case CMD_SYSTEM_CHARGER:
-                // charger event, request battery state
-                sendCommand(
-                        "request battery state",
-                        XiaomiProto.Command.newBuilder()
-                                .setType(CMD_TYPE_SYSTEM)
-                                .setSubtype(CMD_SYSTEM_BATTERY)
-                                .build()
-                );
-                return;
-            default:
-                LOG.warn("Unknown config command {}", cmd.getSubtype());
-        }
     }
 
     private short encryptedIndex = 0;
