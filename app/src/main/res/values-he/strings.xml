@@ -1331,12 +1331,12 @@
     <string name="pref_header_notification_application_settings">הגדרות נפרדות לכל יישומון</string>
     <string name="toast_app_must_not_be_selected">יישומון צריך להיות לא מסומן כדי שיוגדר</string>
     <string name="toast_app_must_be_selected">יישומון חייב להיות מסומן כדי שיוגדר</string>
-    <string name="pref_message_privacy_mode_complete">הסתרת תוכן</string>
+    <string name="pref_message_privacy_mode_complete">הסתרת כל התוכן</string>
     <string name="pref_applications_settings">רשימת יישומונים</string>
     <string name="check_all_applications">סימון כל היישומונים</string>
     <string name="pref_title_notification_use_as">להשתמש ברשימת היישומונים כדי…</string>
     <string name="pref_title_notification_use_as_deny">לדחות התראות מהיישומונים הנבחרים</string>
-    <string name="pref_message_privacy_mode_off">הצגת תוכן</string>
+    <string name="pref_message_privacy_mode_off">הצגת כל התוכן</string>
     <string name="prefs_ambient_voice_summary">הדגשת הקול משאר הצלילים</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_equalizer_preset">ערכה של אקוולייזר</string>
@@ -2489,4 +2489,5 @@
     <string name="prefs_wena3_button_action_name_activity_screen">מסך פעילות</string>
     <string name="prefs_wena3_notification_settings_title">הגדרות התראה</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5‎</string>
+    <string name="pref_message_privacy_mode_bodyonly">הסתרת הגוף בלבד</string>
 </resources>
