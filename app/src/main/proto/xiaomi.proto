@@ -458,6 +458,8 @@ message Notification3 {
   optional string unknown4 = 4;
   optional string body = 5;
   optional uint32 id = 7;
+  optional string unknown8 = 8;
+  optional string unknown11 = 11;
   optional string unknown12 = 12;
   optional uint32 hasReply = 13;
 }
