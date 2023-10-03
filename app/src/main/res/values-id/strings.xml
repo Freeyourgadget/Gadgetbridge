@@ -1178,7 +1178,7 @@
     <string name="pref_call_privacy_mode_name">Sembunyikan nama tapi tampilkan nomor</string>
     <string name="pref_call_privacy_mode_number">Sembunyikan nomor tapi tampilkan nama</string>
     <string name="pref_call_privacy_mode_complete">Sembunyikan nama dan nomor</string>
-    <string name="pref_message_privacy_mode_complete">Sembunyikan konten</string>
+    <string name="pref_message_privacy_mode_complete">Sembunyikan semua konten</string>
     <string name="pref_title_weather_location">Lokasi cuaca (untuk penyedia cuaca LineageOS)</string>
     <string name="pref_blacklist_calendars_summary">Kalender yang di daftar hitam tidak akan disinkronkan ke perangkat</string>
     <string name="pref_header_cannned_messages">Pesan kalengan</string>
@@ -1515,7 +1515,7 @@
     <string name="pref_summary_transliteration">Aktifkan ini jika perangkat Anda tidak memiliki dukungan untuk fon bahasa Anda</string>
     <string name="pref_rtl_max_line_length_summary">Memanjangkan atau memendekkan baris teks Kanan ke Kiri yang dipisah</string>
     <string name="pref_title_message_privacy_mode">Mode privasi pesan</string>
-    <string name="pref_message_privacy_mode_off">Tampilkan konten</string>
+    <string name="pref_message_privacy_mode_off">Tampilkan semua konten</string>
     <string name="pref_applications_settings">Daftar aplikasi</string>
     <string name="pref_summary_expose_hr">Perbolehkan aplikasi lain untuk mengakses data detak jantung saat Gadgetbridge sedang terhubung</string>
     <string name="pref_title_connected_advertisement">Terlihat saat sedang terhubung</string>
@@ -2479,4 +2479,5 @@
     <string name="prefs_wena3_button_action_name_activity_screen">Layar Aktivitas</string>
     <string name="prefs_wena3_notification_settings_title">Pengaturan Pemberitahuan</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">Sembunyikan bodi saja</string>
 </resources>
