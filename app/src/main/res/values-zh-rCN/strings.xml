@@ -1329,7 +1329,7 @@
     <string name="uncheck_all_applications">取消选择所有的应用</string>
     <string name="pref_title_notification_use_as">使用应用列表至…</string>
     <string name="pref_title_message_privacy_mode">消息隐私模式</string>
-    <string name="pref_message_privacy_mode_off">显示内容</string>
+    <string name="pref_message_privacy_mode_off">显示全部内容</string>
     <string name="pref_applications_settings">应用列表</string>
     <string name="toast_app_must_be_selected">应用必须被选中才能被配置</string>
     <string name="toast_app_must_not_be_selected">应用必须未被选中才能被配置</string>
@@ -1337,7 +1337,7 @@
     <string name="pref_header_notification_application_settings">单个应用设定</string>
     <string name="pref_title_notification_use_as_deny">拒绝选中应用的通知</string>
     <string name="pref_title_notification_use_as_allow">允许选中应用的通知</string>
-    <string name="pref_message_privacy_mode_complete">隐藏内容</string>
+    <string name="pref_message_privacy_mode_complete">隐藏全部内容</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="pref_title_equalizer_bass_boost">低音增强</string>
     <string name="pref_title_equalizer_soft">软</string>
@@ -2490,4 +2490,5 @@
     <string name="temperature_scale_cf_summary">选择设备是使用摄氏度还是华氏度。</string>
     <string name="temperature_scale_fahrenheit">华氏</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">仅隐藏主体</string>
 </resources>
