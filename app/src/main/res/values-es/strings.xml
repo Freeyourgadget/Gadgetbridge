@@ -1334,8 +1334,8 @@
     <string name="check_all_applications">Marcar todas las aplicaciones</string>
     <string name="pref_title_notification_use_as_deny">Denegar las notificaciones de las aplicaciones seleccionadas</string>
     <string name="pref_title_message_privacy_mode">Modo de privacidad de los mensajes</string>
-    <string name="pref_message_privacy_mode_complete">Ocultar contenido</string>
-    <string name="pref_message_privacy_mode_off">Mostrar contenido</string>
+    <string name="pref_message_privacy_mode_complete">Ocultar todo el contenido</string>
+    <string name="pref_message_privacy_mode_off">Mostrar todo el contenido</string>
     <string name="pref_applications_settings">Lista de aplicaciones</string>
     <string name="title_activity_notification_management">Ajustes de las notificaciones</string>
     <string name="pref_header_notification_application_settings">Por ajustes de la aplicación</string>
@@ -2492,4 +2492,5 @@
     <string name="prefs_wena3_button_action_name_activity_screen">Pantalla de actividad</string>
     <string name="prefs_wena3_notification_settings_title">Ajustes de notificación</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">Ocultar sólo el cuerpo del mensaje</string>
 </resources>
