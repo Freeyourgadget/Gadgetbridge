@@ -104,7 +104,7 @@
     <string name="pref_title_weather_location">موقع الطقس (لمزود الطقس في LineageOS)</string>
     <string name="watchface_dialog_widget_type">النوع</string>
     <string name="pref_title_message_privacy_mode">وضع خصوصية الرسائل</string>
-    <string name="pref_message_privacy_mode_complete">إخفاء المحتوى</string>
+    <string name="pref_message_privacy_mode_complete">إخفاء كل المحتوى</string>
     <string name="pref_title_sync_caldendar">مزامنة أحداث التقويم</string>
     <string name="pref_title_vibration_strength">قوة الاهتزاز</string>
     <string name="pref_display_add_device_fab_off">مرئي فقط في حالة عدم إضافة أي جهاز</string>
@@ -120,7 +120,7 @@
     <string name="when_screen_off">عندما تكون الشاشة مغلقة</string>
     <string name="never">أبدا</string>
     <string name="pref_call_privacy_mode_complete">إخفاء الاسم والرقم</string>
-    <string name="pref_message_privacy_mode_off">عرض المحتوى</string>
+    <string name="pref_message_privacy_mode_off">عرض كل المحتوى</string>
     <string name="pref_title_timeformat">تنسيق الوقت</string>
     <string name="watchface_dialog_widget_color_black">أسود</string>
     <string name="ascentSeconds">تصاعدي</string>
@@ -2475,4 +2475,5 @@
     <string name="prefs_wena3_button_action_name_activity_screen">شاشة النشاط</string>
     <string name="prefs_wena3_notification_settings_title">إعدادات الإشعارات</string>
     <string name="devicetype_sony_wf_1000xm5">سوني WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">إخفاء الجسم فقط</string>
 </resources>
