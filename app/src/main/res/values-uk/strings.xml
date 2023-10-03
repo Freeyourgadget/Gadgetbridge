@@ -289,9 +289,9 @@
     <string name="pref_summary_transliteration">Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови</string>
     <string name="pref_title_call_privacy_mode">Режим приватності викликів</string>
     <string name="pref_call_privacy_mode_off">Показувати ім\'я та номер</string>
-    <string name="pref_call_privacy_mode_name">Приховати ім\'я, але показати номер</string>
-    <string name="pref_call_privacy_mode_number">Приховати номер, але показати ім\'я</string>
-    <string name="pref_call_privacy_mode_complete">Приховати ім\'я та номер</string>
+    <string name="pref_call_privacy_mode_name">Приховувати ім\'я, але показувати номер</string>
+    <string name="pref_call_privacy_mode_number">Приховувати номер, але показувати ім\'я</string>
+    <string name="pref_call_privacy_mode_complete">Приховувати ім\'я та номер</string>
     <string name="pref_title_weather">Погода</string>
     <string name="pref_title_weather_location">Розташування погоди (LineageOS)</string>
     <string name="pref_blacklist_calendars">Заблоковані календарі</string>
@@ -1340,8 +1340,8 @@
     <string name="pref_title_notification_use_as">Використати список застосунків для…</string>
     <string name="pref_title_notification_use_as_deny">Заборонити сповіщення з вибраних застосунків</string>
     <string name="pref_title_message_privacy_mode">Режим приватності повідомлень</string>
-    <string name="pref_message_privacy_mode_off">Показ вмісту</string>
-    <string name="pref_message_privacy_mode_complete">Сховати вміст</string>
+    <string name="pref_message_privacy_mode_off">Показувати увесь вміст</string>
+    <string name="pref_message_privacy_mode_complete">Приховувати увесь вміст</string>
     <string name="pref_applications_settings">Список застосунків</string>
     <string name="toast_app_must_not_be_selected">Застосунок не повинен бути вибираним для налаштування</string>
     <string name="toast_app_must_be_selected">Потрібно вибрати застосунок для налаштування</string>
@@ -2498,4 +2498,5 @@
     <string name="prefs_wena3_button_action_name_activity_screen">Екран діяльності</string>
     <string name="prefs_wena3_notification_settings_title">Налаштування сповіщень</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">Приховувати лише тіло</string>
 </resources>
