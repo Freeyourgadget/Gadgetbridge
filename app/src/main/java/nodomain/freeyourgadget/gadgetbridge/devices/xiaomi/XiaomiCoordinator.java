@@ -16,10 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
-import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
-import android.content.Context;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,10 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -373,11 +368,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         final List<String> allLanguages = new ArrayList<>(HuamiLanguageType.idLookup.keySet());
         allLanguages.add(0, "auto");
         return allLanguages.toArray(new String[0]);
-    }
-
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return MiBandPairingActivity.class;
     }
 
     @Override
