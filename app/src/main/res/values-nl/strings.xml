@@ -1334,8 +1334,8 @@
     <string name="pref_title_message_privacy_mode">Privacymodus berichten</string>
     <string name="uncheck_all_applications">Deselecteer alle apps</string>
     <string name="pref_title_notification_use_as">Gebruik de app-lijst voor…</string>
-    <string name="pref_message_privacy_mode_off">Toon inhoud</string>
-    <string name="pref_message_privacy_mode_complete">Verberg inhoud</string>
+    <string name="pref_message_privacy_mode_off">Toon alle inhoud</string>
+    <string name="pref_message_privacy_mode_complete">Verberg alle inhoud</string>
     <string name="pref_applications_settings">App-lijst</string>
     <string name="toast_app_must_be_selected">App moet geselecteerd zijn om ingesteld te worden</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
@@ -2490,4 +2490,6 @@
     <string name="prefs_wena3_button_action_name_activity_screen">Activiteitenscherm</string>
     <string name="prefs_wena3_notification_settings_title">Meldingsinstellingen</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">Verberg alleen tekst</string>
+    <string name="latvian">Lets</string>
 </resources>
