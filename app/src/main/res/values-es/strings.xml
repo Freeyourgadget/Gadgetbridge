@@ -2493,4 +2493,5 @@
     <string name="prefs_wena3_notification_settings_title">Ajustes de notificación</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="pref_message_privacy_mode_bodyonly">Ocultar sólo el cuerpo del mensaje</string>
+    <string name="latvian">Letón</string>
 </resources>
