@@ -76,7 +76,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return null;
+        return "Test";
     }
 
     @Override
@@ -109,6 +109,8 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return UnknownDeviceSupport.class;
     }
+
+
 
     @Override
     public int getDeviceNameResource() {

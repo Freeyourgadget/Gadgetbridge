@@ -25,7 +25,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DeviceTypeTest {
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+
+public class DeviceTypeTest extends TestBase {
     @Test
     public void ensureNoDuplicateKeys() {
         final Set<Integer> knownKeys = new HashSet<>();
@@ -36,5 +39,17 @@ public class DeviceTypeTest {
                 .collect(Collectors.toList());
 
         Assert.assertTrue("There are duplicated device keys: " + duplicateKeys, duplicateKeys.isEmpty());
+    }
+
+    @Test
+    public void ensureNoMissingDeviceInfo() {
+        // Check that all coordinators for all device types declare valid device names, icons and manufacturer
+        for (final DeviceType deviceType : DeviceType.values()) {
+            final DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
+            Assert.assertNotEquals("Device name for " + deviceType + " is 0", 0, coordinator.getDeviceNameResource());
+            Assert.assertNotEquals("Device icon for " + deviceType + " is 0", 0, coordinator.getDefaultIconResource());
+            Assert.assertNotEquals("Disabled device icon for " + deviceType + " is 0", 0, coordinator.getDisabledIconResource());
+            Assert.assertNotEquals("Manufacturer for " + deviceType + " is null", null, coordinator.getManufacturer());
+        }
     }
 }
