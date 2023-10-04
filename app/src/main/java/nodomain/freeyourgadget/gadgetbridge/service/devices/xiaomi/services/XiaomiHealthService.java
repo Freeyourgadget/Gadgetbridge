@@ -16,6 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
+import android.content.Intent;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +27,19 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
@@ -34,9 +50,16 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 8;
 
     private static final int CMD_SET_USER_INFO = 0;
+    private static final int CMD_REALTIME_STATS_START = 45;
+    private static final int CMD_REALTIME_STATS_STOP = 46;
+    private static final int CMD_REALTIME_STATS_EVENT = 47;
 
     private static final int GENDER_MALE = 1;
     private static final int GENDER_FEMALE = 2;
+
+    private boolean realtimeStarted = false;
+    private boolean realtimeOneShot = false;
+    private int previousSteps = -1;
 
     public XiaomiHealthService(final XiaomiSupport support) {
         super(support);
@@ -44,6 +67,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
 
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
+        switch (cmd.getSubtype()) {
+            case CMD_REALTIME_STATS_EVENT:
+                handleRealtimeStats(cmd.getHealth().getRealTimeStats());
+                return;
+        }
+
         // TODO
         LOG.warn("Unhandled health command");
     }
@@ -97,14 +126,75 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     public void onHeartRateTest() {
-        // TODO
+        realtimeStarted = true;
+        realtimeOneShot = true;
+
+        getSupport().sendCommand(
+                "heart rate test",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_REALTIME_STATS_START)
+                        .build()
+        );
     }
 
-    public void onEnableRealtimeHeartRateMeasurement(final boolean enable) {
-        // TODO
+    public void enableRealtimeStats(final boolean enable) {
+        if (realtimeStarted == enable) {
+            // same state, ignore
+            return;
+        }
+
+        realtimeStarted = enable;
+        realtimeOneShot = false;
+        previousSteps = -1;
+
+        getSupport().sendCommand(
+                "realtime data",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(enable ? CMD_REALTIME_STATS_START : CMD_REALTIME_STATS_STOP)
+                        .build()
+        );
     }
 
-    public void onEnableRealtimeSteps(final boolean enable) {
-        // TODO
+    private void handleRealtimeStats(final XiaomiProto.RealTimeStats realTimeStats) {
+        if (realtimeOneShot) {
+            enableRealtimeStats(false);
+        }
+
+        if (previousSteps == -1) {
+            previousSteps = realTimeStats.getSteps();
+        }
+
+        final HuamiExtendedActivitySample sample;
+        try (final DBHandler dbHandler = GBApplication.acquireDB()) {
+            final DaoSession session = dbHandler.getDaoSession();
+
+            final GBDevice gbDevice = getSupport().getDevice();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+            final int ts = (int) (System.currentTimeMillis() / 1000);
+            final XiaomiSampleProvider provider = new XiaomiSampleProvider(gbDevice, session);
+            sample = provider.createActivitySample();
+
+            sample.setDeviceId(device.getId());
+            sample.setUserId(user.getId());
+            sample.setTimestamp(ts);
+            sample.setHeartRate(realTimeStats.getHeartRate());
+            sample.setSteps(realTimeStats.getSteps() - previousSteps);
+            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setHeartRate(realTimeStats.getHeartRate());
+            sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+        } catch (final Exception e) {
+            LOG.error("Error creating activity sample", e);
+            return;
+        }
+
+        previousSteps = realTimeStats.getSteps();
+
+        final Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+        LocalBroadcastManager.getInstance(getSupport().getContext()).sendBroadcast(intent);
     }
 }

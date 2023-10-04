@@ -29,7 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 // TODO s/HuamiExtendedActivitySample/XiaomiActivitySample/g
 public class XiaomiSampleProvider extends AbstractSampleProvider<HuamiExtendedActivitySample> {
-    protected XiaomiSampleProvider(final GBDevice device, final DaoSession session) {
+    public XiaomiSampleProvider(final GBDevice device, final DaoSession session) {
         super(device, session);
     }
 
