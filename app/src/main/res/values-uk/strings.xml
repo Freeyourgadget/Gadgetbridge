@@ -535,7 +535,7 @@
     <string name="korean">Корейська</string>
     <string name="japanese">Японська</string>
     <string name="you_slept">Ви спали з %1$s до %2$s</string>
-    <string name="norwegian_bokmal">Норвезький літературний</string>
+    <string name="norwegian_bokmal">Норвезька (Букмол)</string>
     <string name="mi3_prefs_night_mode">Нічний режим</string>
     <string name="activity_prefs_charts">Налаштування графіків</string>
     <string name="activity_prefs_chart_max_heart_rate">Найшвидше серцебиття</string>
