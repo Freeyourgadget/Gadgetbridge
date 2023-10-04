@@ -16,7 +16,8 @@ public class AsteroidOSConstants {
             "dory", "firefish", "harmony", "inharmony",
             "narwhal", "ray", "sawfish", "sawshark",
             "skipjack", "tunny", "mooneye", "swift",
-            "minnow", "sprat", "tetra"
+            "minnow", "sprat", "tetra", "pike", "hoki",
+            "koi", "ayu"
     };
 
     /**

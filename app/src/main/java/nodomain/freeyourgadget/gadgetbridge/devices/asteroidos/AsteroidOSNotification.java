@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import java.util.Locale;
@@ -16,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
  */
 public class AsteroidOSNotification {
     private String packageName = null;
-    private Integer id = null;
+    private Integer id;
     private String applicationName = null;
     private String body = null;
     private String summary = null;
@@ -65,6 +63,13 @@ public class AsteroidOSNotification {
                 this.vibrationStrength = VibrationStrength.RINGTONE;
                 this.id = (callSpec.name + callSpec.number).hashCode();
                 break;
+            case CallSpec.CALL_OUTGOING:
+                break;
+            case CallSpec.CALL_REJECT:
+            case CallSpec.CALL_ACCEPT:
+            case CallSpec.CALL_END:
+            case CallSpec.CALL_START:
+            case CallSpec.CALL_UNDEFINED:
             default:
                 this.id = (callSpec.name + callSpec.number).hashCode();
                 this.remove = true;
@@ -80,15 +85,16 @@ public class AsteroidOSNotification {
         this.remove = true;
     }
 
-    @Override
     /**
      * Converts the notification to a string to be sent to the device
      */
+    @NonNull
+    @Override
     public String toString() {
         if (remove) {
-            return "<remove><id>" + this.id + "</id></remove>";
+            return "<removed><id>" + this.id + "</id></removed>";
         }
-        String retString = new String();
+        String retString = "";
         retString += "<insert>";
         if (id != null)
             retString += "<id>" + id + "</id>";
