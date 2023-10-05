@@ -239,8 +239,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindPhone(final boolean start) {
-        // TODO possible to notify watch?
-        super.onFindPhone(start);
+        systemService.onFindPhone(start);
     }
 
     @Override

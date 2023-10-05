@@ -26,6 +26,7 @@ import java.util.TimeZone;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -43,6 +44,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_BATTERY = 1;
     public static final int CMD_DEVICE_INFO = 2;
     public static final int CMD_CLOCK = 3;
+    public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_CHARGER = 79;
 
     public XiaomiSystemService(final XiaomiSupport support) {
@@ -90,6 +92,15 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                         LOG.warn("Unknown battery state {}", battery.getState());
                 }
                 getSupport().evaluateGBDeviceEvent(batteryInfo);
+                return;
+            case CMD_FIND_PHONE:
+                final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+                if (cmd.getSystem().getFindDevice() == 0) {
+                    findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+                } else {
+                    findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                }
+                getSupport().evaluateGBDeviceEvent(findPhoneEvent);
                 return;
             case CMD_CHARGER:
                 // charger event, request battery state
@@ -142,5 +153,19 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                         .setSystem(XiaomiProto.System.newBuilder().setClock(clock).build())
                         .build()
         );
+    }
+
+    public void onFindPhone(final boolean start) {
+        if (!start) {
+            // Stop on watch
+            getSupport().sendCommand(
+                "find phone stop",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_FIND_PHONE)
+                        .setSystem(XiaomiProto.System.newBuilder().setFindDevice(1).build())
+                        .build()
+            );
+        }
     }
 }
