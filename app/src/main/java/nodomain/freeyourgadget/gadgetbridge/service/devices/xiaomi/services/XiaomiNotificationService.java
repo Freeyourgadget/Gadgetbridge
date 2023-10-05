@@ -25,10 +25,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -40,14 +42,29 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 7;
 
     public static final int CMD_NOTIFICATION_SEND = 0;
+    public static final int CMD_CANNED_MESSAGES_GET = 9;
+    public static final int CMD_CANNED_MESSAGES_SET = 12;
 
     public XiaomiNotificationService(final XiaomiSupport support) {
         super(support);
     }
 
     @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestCannedMessages(builder);
+    }
+
+    @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
+        switch (cmd.getSubtype()) {
+            case CMD_CANNED_MESSAGES_GET:
+                handleCannedMessages(cmd.getNotification().getCannedMessages());
+                break;
+        }
+
         // TODO
+
+        LOG.warn("Unhandled notification command {}", cmd.getSubtype());
     }
 
     public void onNotification(final NotificationSpec notificationSpec) {
@@ -116,6 +133,48 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     }
 
     public void onSetCannedMessages(final CannedMessagesSpec cannedMessagesSpec) {
-        // TODO
+        if (cannedMessagesSpec.type != CannedMessagesSpec.TYPE_GENERIC) {
+            LOG.warn("Got unsupported canned messages type: {}", cannedMessagesSpec.type);
+            return;
+        }
+
+        final XiaomiProto.CannedMessages.Builder cannedMessagesBuilder = XiaomiProto.CannedMessages.newBuilder()
+                // TODO get those from wathc
+                // TODO enforce these
+                .setMinReplies(1)
+                .setMaxReplies(10);
+        for (final String cannedMessage : cannedMessagesSpec.cannedMessages) {
+            cannedMessagesBuilder.addReply(cannedMessage);
+        }
+
+        final XiaomiProto.Notification.Builder notificationBuilder = XiaomiProto.Notification.newBuilder()
+                .setCannedMessages(cannedMessagesBuilder);
+
+        getSupport().sendCommand(
+                "set canned messages",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CANNED_MESSAGES_SET)
+                        .setNotification(notificationBuilder)
+                        .build()
+        );
+    }
+
+    public void requestCannedMessages(final TransactionBuilder builder) {
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CANNED_MESSAGES_GET)
+                        .setNotification(XiaomiProto.Notification.newBuilder().setUnknown8(1))
+                        .build()
+        );
+    }
+
+    public void handleCannedMessages(final XiaomiProto.CannedMessages cannedMessages) {
+        // TODO save them
+        //final GBDeviceEventUpdatePreferences gbDeviceEventUpdatePreferences = new GBDeviceEventUpdatePreferences();
+        //gbDeviceEventUpdatePreferences.withPreference("canned_reply_" + i, message);
+        //getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdatePreferences);
     }
 }

@@ -442,8 +442,10 @@ message MediaKey {
 message Notification {
   optional Notification2 notification2 = 3;
   optional Notification4 notification4 = 4;
-  // 7, 12
-  optional CannedReplies cannedReplies = 9;
+
+  optional uint32 unknown8 = 8; // 1 on canned replies request?
+  // 7, 9 get | 7, 12 set
+  optional CannedMessages cannedMessages = 9;
 }
 
 message Notification2 {
@@ -468,7 +470,7 @@ message Notification4 {
   optional Notification5 notification5 = 1;
 }
 
-message CannedReplies {
+message CannedMessages {
   optional uint32 minReplies = 1;
   repeated string reply = 2;
   optional uint32 maxReplies = 3;
