@@ -292,9 +292,9 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
     implementation 'com.android.volley:volley:1.2.1'
 
-    // TODO pull just the needed classes into GB?
-    implementation 'org.bouncycastle:bcpkix-jdk15to18:1.71'
-    implementation 'org.bouncycastle:bcprov-jdk15to18:1.71'
+    // Bouncy Castle is included directly in GB, to avoid pulling the entire dependency
+    //implementation 'org.bouncycastle:bcpkix-jdk15to18:1.76'
+    //implementation 'org.bouncycastle:bcprov-jdk15to18:1.76'
 
 // NON-FOSS dependencies
 //    implementation('androidx.core:core-google-shortcuts:1.0.1') {
