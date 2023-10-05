@@ -159,6 +159,9 @@ public class XiaomiHealthService extends AbstractXiaomiService {
 
     private void handleRealtimeStats(final XiaomiProto.RealTimeStats realTimeStats) {
         if (realtimeOneShot) {
+            if (realTimeStats.getHeartRate() <= 10) {
+                return;
+            }
             enableRealtimeStats(false);
         }
 
