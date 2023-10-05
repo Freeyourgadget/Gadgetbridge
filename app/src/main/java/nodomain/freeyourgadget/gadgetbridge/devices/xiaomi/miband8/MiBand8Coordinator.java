@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.regex.Pattern;
@@ -27,20 +26,11 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class MiBand8Coordinator extends XiaomiCoordinator {
-    private final Pattern NAME_PATTTERN = Pattern.compile("^Xiaomi Smart Band 8 [A-Z0-9]{4}$");
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (NAME_PATTTERN.matcher(candidate.getName()).matches()) {
-            return DeviceType.MIBAND8;
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("^Xiaomi Smart Band 8 [A-Z0-9]{4}$");
     }
 
     @Nullable
