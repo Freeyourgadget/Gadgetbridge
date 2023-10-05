@@ -125,6 +125,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private final int DAY_SECONDS = (24 * 60 * 60);
     private int quarantinedSteps = 0;
 
+    private final int WEATHER_GRACE_TIME = 10;
+
     /**
      * These are used to keep track when long strings haven't changed,
      * thus avoiding unnecessary transfers that are (potentially) very slow.
@@ -717,7 +719,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Location.value)
                             .put("Location", weatherSpec.location)
                             .put("Altitude", 0)
@@ -750,7 +752,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h this should be the weather provider's interval, really
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
                             .put("EventType", WeatherData.EventType.Humidity.value)
                             .put("Humidity", (int) weatherSpec.currentHumidity)
                             .end()
@@ -775,7 +777,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h this should be the weather provider's interval, really
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
                             .put("EventType", WeatherData.EventType.Temperature.value)
                             .put("Temperature", (int) ((weatherSpec.currentTemp - 273.15) * 100))
                             .put("DewPoint", (int) (-32768))
@@ -795,6 +797,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             }
 
             // 24h temperature forecast
+            // TODO: This is disabled until WeatherSpec contains how often this data is pushed
+            /*
             if (weatherSpec.todayMinTemp >= -273.15 &&
                     weatherSpec.todayMaxTemp >= -273.15) { // Some sanity checking, should really be nullable
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -820,6 +824,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
                 builder.queue(getQueue());
             }
+            */
 
             // Wind speed
             if (weatherSpec.windSpeed != 0.0f) {
@@ -828,7 +833,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Wind.value)
                             .put("SpeedMin", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
                             .put("SpeedMax", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
@@ -856,7 +861,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Precipitation.value)
                             .put("Type", (int) mapOpenWeatherConditionToPineTimePrecipitation(weatherSpec.currentConditionCode).value)
                             .put("Amount", (int) 0)
@@ -881,7 +886,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Obscuration.value)
                             .put("Type", (int) mapOpenWeatherConditionToPineTimeObscuration(weatherSpec.currentConditionCode).value)
                             .put("Amount", (int) 65535)
@@ -906,7 +911,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Special.value)
                             .put("Type", mapOpenWeatherConditionToPineTimeSpecial(weatherSpec.currentConditionCode).value)
                             .end()
@@ -930,7 +935,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     new CborEncoder(baos).encode(new CborBuilder()
                             .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 6) // 6h
+                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
                             .put("EventType", WeatherData.EventType.Clouds.value)
                             .put("Amount", (int) (mapOpenWeatherConditionToCloudCover(weatherSpec.currentConditionCode)))
                             .end()
