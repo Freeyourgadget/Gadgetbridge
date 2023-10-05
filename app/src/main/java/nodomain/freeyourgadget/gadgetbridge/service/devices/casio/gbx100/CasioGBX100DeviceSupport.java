@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySample;
@@ -286,32 +287,59 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         arr[5] = (byte) 0x01; // Set to 0x00 to not vibrate/ring for this notification
         arr[6] = icon;
 
-        // Unknonwn what these bytes are for
-        arr[7] = (byte) 0x00;
-        arr[8] = (byte) 0x00;
-        arr[9] = (byte) 0x00;
-        arr[10] = (byte) 0x00;
-
         ZonedDateTime timestamp = ZonedDateTime.now();
-        // Bytes 11 - 19 are timestamp
-        // Encode the timestamp of the notification
-        // Month
-        arr[11] = (byte) (timestamp.getMonthValue() / 10 + 3); // Tens digit, but offset by 3 for some reason
-        arr[12] = (byte) (timestamp.getMonthValue() % 10);
-        // Day
-        arr[13] = (byte) (timestamp.getDayOfMonth() / 10 + 3); // Tens digit, but offset by 3 for some reason
-        arr[14] = (byte) (timestamp.getDayOfMonth() % 10);
-        // ??
-        arr[15] = (byte) 0; // Not sure what this byte is for?
-        // Hour
-        arr[16] = (byte) (timestamp.getHour() / 10 + 3); // Tens digit, but offset by 3 for some reason
-        arr[17] = (byte) (timestamp.getHour() % 10);
-        // Minute
-        arr[18] = (byte) (timestamp.getMinute() / 10 + 3);// Tens digit, but offset by 3 for some reason
-        arr[19] = (byte) (timestamp.getMinute() % 10);
+        String deviceName = getDevice().getName();
 
-        arr[20] = (byte) 0x00;
-        arr[21] = (byte) 0x00;
+        // It seems that GBD-200 has a different timestamp format than other variants.
+        if (deviceName.endsWith(CasioGBX100DeviceCoordinator.GBD_200_SUB_MODEL)) {
+            // These bytes are likely for designating year, but GBD-200 does not display them
+            // For now leave as 0's until exact encoding can be verified
+            arr[7] = (byte) 0x00;
+            arr[8] = (byte) 0x00;
+            arr[9] = (byte) 0x00;
+            arr[10] = (byte) 0x00;
+
+            // Bytes 11 - 19 are timestamp
+            // Encode the timestamp of the notification
+            // Month
+            arr[11] = (byte) (timestamp.getMonthValue() / 10 + 3); // Tens digit, but offset by 3 for some reason
+            arr[12] = (byte) (timestamp.getMonthValue() % 10);
+            // Day
+            arr[13] = (byte) (timestamp.getDayOfMonth() / 10 + 3); // Tens digit, but offset by 3 for some reason
+            arr[14] = (byte) (timestamp.getDayOfMonth() % 10);
+            // ??
+            arr[15] = (byte) 0; // Not sure what this byte is for?
+            // Hour
+            arr[16] = (byte) (timestamp.getHour() / 10 + 3); // Tens digit, but offset by 3 for some reason
+            arr[17] = (byte) (timestamp.getHour() % 10);
+            // Minute
+            arr[18] = (byte) (timestamp.getMinute() / 10 + 3);// Tens digit, but offset by 3 for some reason
+            arr[19] = (byte) (timestamp.getMinute() % 10);
+
+            // Thes bytes are likely for designating seconds, but GBD-200 does not display them.
+            // For now leave as 0's until exact encoding can be verified.
+            arr[20] = (byte) 0x00;
+            arr[21] = (byte) 0x00;
+        } else {
+            // Other devices appear to use ASCII from initial investigation, information below
+            // These bytes contain a timestamp, not yet decoded / implemented
+            // ASCII Codes:
+            /*arr[7] = (byte) 0x32; // 2
+            arr[8] = (byte) 0x30;   // 0
+            arr[9] = (byte) 0x32;   // 2
+            arr[10] = (byte) 0x30;  // 0
+            arr[11] = (byte) 0x31;  // 1
+            arr[12] = (byte) 0x31;  // 1
+            arr[13] = (byte) 0x31;  // 1
+            arr[14] = (byte) 0x33;  // 3
+            arr[15] = (byte) 0x54;  // T
+            arr[16] = (byte) 0x30;  // 0
+            arr[17] = (byte) 0x39;  // 9
+            arr[18] = (byte) 0x33;  // 3
+            arr[19] = (byte) 0x31;  // 1
+            arr[20] = (byte) 0x35;  // 5
+            arr[21] = (byte) 0x33;*/// 3
+        }
 
         byte[] copy = Arrays.copyOf(arr, arr.length + 2);
         copy[copy.length-2] = 0;

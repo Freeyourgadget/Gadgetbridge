@@ -47,11 +47,23 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
 public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
+    /** CASIO brand identifier in GB Device name */
+    public static final String CASIO_IDENTIFIER = "CASIO";
+
+    /** Sub-model string for GBX-100 in GB Device name */
+    public static final String GBX_100_SUB_MODEL = "GBX-100";
+    /** Sub-model string for GBD-200 in GB Device name */
+    public static final String GBD_200_SUB_MODEL = "GBD-200";
+    /** Sub-model string for GBD-100 in GB Device name */
+    public static final String GBD_100_SUB_MODEL = "GBD-100";
+    /** Sub-model string for GBD-H1000 in GB Device name */
+    public static final String GBD_H1000_SUB_MODEL = "GBD-H1000";
+
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("CASIO.*(GBX-100|GBD-100|GBD-200|GBD-H1000)");
+        return Pattern.compile("CASIO.*(" + GBX_100_SUB_MODEL + "|" + GBD_100_SUB_MODEL + "|" + GBD_200_SUB_MODEL + "|" + GBD_H1000_SUB_MODEL + ")");
     }
 
     @Override
