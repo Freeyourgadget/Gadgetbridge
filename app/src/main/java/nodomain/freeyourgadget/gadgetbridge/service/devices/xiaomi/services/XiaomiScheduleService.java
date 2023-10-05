@@ -47,6 +47,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     private static final int CMD_ALARMS_CREATE = 1;
     private static final int CMD_ALARMS_EDIT = 3;
     private static final int CMD_ALARMS_DELETE = 4;
+    private static final int CMD_WORLD_CLOCKS_GET = 10;
+    private static final int CMD_WORLD_CLOCKS_SET = 11;
 
     private static final int REPETITION_ONCE = 0;
     private static final int REPETITION_DAILY = 1;
@@ -56,6 +58,12 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
     private static final int ALARM_SMART = 1;
     private static final int ALARM_NORMAL = 2;
+
+    private static final Map<String, String> WORLD_CLOCK_CODES = new HashMap<String, String>() {{
+        put("Europe/Lisbon", "C173");
+        put("Australia/Sydney", "C151");
+        // TODO map everything
+    }};
 
     // Map of alarm position to Alarm, as returned by the band
     private final Map<Integer, Alarm> watchAlarms = new HashMap<>();
@@ -70,12 +78,16 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
             case CMD_ALARMS_GET:
                 handleAlarms(cmd.getSchedule().getAlarms());
                 break;
+            case CMD_WORLD_CLOCKS_GET:
+                handleWorldClocks(cmd.getSchedule().getWorldClocks());
+                break;
         }
     }
 
     @Override
     public void initialize(final TransactionBuilder builder) {
         requestAlarms(builder);
+        requestWorldClocks(builder);
     }
 
     public void onSetReminders(final ArrayList<? extends Reminder> reminders) {
@@ -83,7 +95,38 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     }
 
     public void onSetWorldClocks(final ArrayList<? extends WorldClock> clocks) {
-        // TODO
+        final XiaomiProto.WorldClocks.Builder worldClocksBuilder = XiaomiProto.WorldClocks.newBuilder();
+
+        for (final WorldClock clock : clocks) {
+            final String clockCode = WORLD_CLOCK_CODES.get(clock.getTimeZoneId());
+            if (clockCode != null) {
+                worldClocksBuilder.addWorldClock(clockCode);
+            } else {
+                LOG.warn("Unknown timezone code for {}", clock.getTimeZoneId());
+            }
+        }
+
+        final XiaomiProto.Schedule schedule = XiaomiProto.Schedule.newBuilder()
+                .setWorldClocks(worldClocksBuilder.build())
+                .build();
+
+        getSupport().sendCommand(
+                "send world clocks",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_WORLD_CLOCKS_SET)
+                        .setSchedule(schedule)
+                        .build()
+        );
+    }
+
+    public void requestWorldClocks(final TransactionBuilder builder) {
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_WORLD_CLOCKS_GET);
+    }
+
+    public void handleWorldClocks(final XiaomiProto.WorldClocks worldClocks) {
+        LOG.info("Got {} world clocks: {}", worldClocks.getWorldClockCount(), worldClocks.getWorldClockList());
+        // TODO map the world clock codes
     }
 
     public void onSetAlarms(final ArrayList<? extends Alarm> alarms) {

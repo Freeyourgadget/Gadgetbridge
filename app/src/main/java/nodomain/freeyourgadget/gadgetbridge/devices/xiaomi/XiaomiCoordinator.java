@@ -230,7 +230,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getWorldClocksLabelLength() {
-        // TODO how much?
+        // TODO no labels
+        // TODO list of supported timezones
         return 5;
     }
 
