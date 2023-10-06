@@ -49,6 +49,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_PASSWORD_SET = 21;
+    public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_CHARGER = 79;
 
     public XiaomiSystemService(final XiaomiSupport support) {
@@ -61,6 +62,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DEVICE_INFO);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_BATTERY);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_PASSWORD_GET);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
     }
 
     @Override
@@ -85,6 +87,9 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                     findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
                 }
                 getSupport().evaluateGBDeviceEvent(findPhoneEvent);
+                return;
+            case CMD_DISPLAY_ITEMS_GET:
+                handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
             case CMD_CHARGER:
                 // charger event, request battery state
@@ -226,6 +231,10 @@ public class XiaomiSystemService extends AbstractXiaomiService {
             );
         }
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void handleDisplayItems(final XiaomiProto.DisplayItems displayItems) {
+        LOG.debug("Got {} display items", displayItems.getDisplayItemCount());
     }
 
     public void onFindPhone(final boolean start) {
