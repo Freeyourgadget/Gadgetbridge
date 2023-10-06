@@ -223,6 +223,7 @@ message DndSync {
 message Password {
   optional uint32 state = 1; // 1 disabled, 2 enabled
   optional string password = 2;
+  optional uint32 unknown3 = 3; // 0 when set on ret
 }
 
 message VibrationPatterns {

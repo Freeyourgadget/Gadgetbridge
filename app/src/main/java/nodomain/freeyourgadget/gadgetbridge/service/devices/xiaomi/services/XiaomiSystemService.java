@@ -25,10 +25,13 @@ import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -44,7 +47,9 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_BATTERY = 1;
     public static final int CMD_DEVICE_INFO = 2;
     public static final int CMD_CLOCK = 3;
+    public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
+    public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_CHARGER = 79;
 
     public XiaomiSystemService(final XiaomiSupport support) {
@@ -53,11 +58,10 @@ public class XiaomiSystemService extends AbstractXiaomiService {
 
     @Override
     public void initialize(final TransactionBuilder builder) {
-        // request device info
+        // Request device info and configs
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DEVICE_INFO);
-
-        // request battery status
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_BATTERY);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_PASSWORD_GET);
     }
 
     @Override
@@ -69,6 +73,9 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 return;
             case CMD_BATTERY:
                 handleBattery(cmd.getSystem().getPower().getBattery());
+                return;
+            case CMD_PASSWORD_GET:
+                handlePassword(cmd.getSystem().getPassword());
                 return;
             case CMD_FIND_PHONE:
                 LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
@@ -91,11 +98,16 @@ public class XiaomiSystemService extends AbstractXiaomiService {
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
+
         switch (config) {
             case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
-                final TransactionBuilder builder = getSupport().createTransactionBuilder("set time format");
                 setCurrentTime(builder);
                 builder.queue(getSupport().getQueue());
+                return true;
+            case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
+            case PasswordCapabilityImpl.PREF_PASSWORD:
+                setPassword(builder);
                 return true;
         }
 
@@ -175,18 +187,58 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(batteryInfo);
     }
 
+    private void setPassword(final TransactionBuilder builder) {
+        final boolean passwordEnabled = HuamiCoordinator.getPasswordEnabled(getSupport().getDevice().getAddress());
+        final String password = HuamiCoordinator.getPassword(getSupport().getDevice().getAddress());
+
+        LOG.info("Setting password: {}, {}", passwordEnabled, password);
+
+        if (password == null || password.isEmpty()) {
+            LOG.warn("Invalid password: {}", password);
+            return;
+        }
+
+        final XiaomiProto.Password.Builder passwordBuilder = XiaomiProto.Password.newBuilder()
+                .setState(passwordEnabled ? 2 : 1)
+                .setPassword(password);
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_PASSWORD_SET)
+                        .setSystem(XiaomiProto.System.newBuilder().setPassword(passwordBuilder).build())
+                        .build()
+        );
+    }
+
+    private void handlePassword(final XiaomiProto.Password password) {
+        LOG.debug("Got device password");
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(
+                PasswordCapabilityImpl.PREF_PASSWORD_ENABLED,
+                password.getState() == 2
+        );
+        if (password.hasPassword()) {
+            eventUpdatePreferences.withPreference(
+                    PasswordCapabilityImpl.PREF_PASSWORD,
+                    password.getPassword()
+            );
+        }
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
     public void onFindPhone(final boolean start) {
         LOG.debug("Find phone: {}", start);
 
         if (!start) {
             // Stop on watch
             getSupport().sendCommand(
-                "find phone stop",
-                XiaomiProto.Command.newBuilder()
-                        .setType(COMMAND_TYPE)
-                        .setSubtype(CMD_FIND_PHONE)
-                        .setSystem(XiaomiProto.System.newBuilder().setFindDevice(1).build())
-                        .build()
+                    "find phone stop",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_FIND_PHONE)
+                            .setSystem(XiaomiProto.System.newBuilder().setFindDevice(1).build())
+                            .build()
             );
         }
     }
