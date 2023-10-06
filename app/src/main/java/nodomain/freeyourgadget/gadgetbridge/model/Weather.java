@@ -994,14 +994,12 @@ public class Weather {
             LOG.info("Setting weather cache file to {}", cacheFile.getPath());
 
             if (cacheFile.isFile() && weatherSpec == null) {
-                try {
-                    final FileInputStream f = new FileInputStream(cacheFile);
+                try (final FileInputStream f = new FileInputStream(cacheFile)) {
                     final ObjectInputStream o = new ObjectInputStream(f);
 
                     weatherSpec = (WeatherSpec) o.readObject();
 
                     o.close();
-                    f.close();
                 } catch (final Throwable e) {
                     LOG.error("Failed to read weather from cache", e);
                     weatherSpec = null;

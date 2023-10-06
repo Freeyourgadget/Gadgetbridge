@@ -156,7 +156,7 @@ public class GBApplication extends Application {
     private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
 
     private OpenTracksContentObserver openTracksObserver;
-    
+
     private long lastAutoExportTimestamp = 0;
     private long autoExportScheduledTimestamp = 0;
 
@@ -171,6 +171,18 @@ public class GBApplication extends Application {
     public GBApplication() {
         context = this;
         // don't do anything here, add it to onCreate instead
+
+        //if (BuildConfig.DEBUG) {
+        //    // detect everything
+        //    //StrictMode.enableDefaults();
+        //    // detect closeable objects
+        //    //StrictMode.setVmPolicy(
+        //    //        new StrictMode.VmPolicy.Builder()
+        //    //                .detectLeakedClosableObjects()
+        //    //                .penaltyLog()
+        //    //                .build()
+        //    //);
+        //}
     }
 
     public static Logging getLogging() {
