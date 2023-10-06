@@ -442,7 +442,7 @@ message MediaKey {
 
 message Notification {
   optional Notification2 notification2 = 3;
-  optional Notification4 notification4 = 4;
+  optional NotificationDismiss notification4 = 4;
 
   optional uint32 unknown8 = 8; // 1 on canned replies request?
   // 7, 9 get | 7, 12 set
@@ -457,30 +457,30 @@ message Notification3 {
   optional string package = 1;
   optional string appName = 2;
   optional string title = 3;
-  optional string timestamp = 6;
   optional string unknown4 = 4;
   optional string body = 5;
+  optional string timestamp = 6;
   optional uint32 id = 7;
-  optional string unknown8 = 8;
-  optional string unknown11 = 11;
-  optional string unknown12 = 12;
-  optional uint32 hasReply = 13;
+  optional bool isCall = 8;
+  optional bool repliesAllowed = 11; // only for calls?
+  optional string unknown12 = 12; // "0|<package>|<id 2 complement>|null|12345"
+  optional uint32 openOnPhone = 13; // 1 to show "Open on phone", needs unknown12
 }
 
-message Notification4 {
-  optional Notification5 notification5 = 1;
+message NotificationDismiss {
+  optional NotificationId notificationId = 1;
+}
+
+message NotificationId {
+  optional uint32 id = 1;
+  optional string package = 2; // truncated
+  optional string unknown4 = 4; // ""
 }
 
 message CannedMessages {
   optional uint32 minReplies = 1;
   repeated string reply = 2;
   optional uint32 maxReplies = 3;
-}
-
-message Notification5 {
-  optional uint32 id = 1;
-  optional string package = 2;
-  optional string unknown4 = 4;
 }
 
 //

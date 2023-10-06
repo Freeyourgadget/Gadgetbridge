@@ -16,16 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -42,8 +44,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 7;
 
     public static final int CMD_NOTIFICATION_SEND = 0;
+    public static final int CMD_CALL_REJECT = 2;
+    public static final int CMD_CALL_IGNORE = 5;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
-    public static final int CMD_CANNED_MESSAGES_SET = 12;
+    public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
 
     public XiaomiNotificationService(final XiaomiSupport support) {
         super(support);
@@ -56,10 +60,22 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
 
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
+        final GBDeviceEventCallControl deviceEvtCallControl = new GBDeviceEventCallControl();
+
         switch (cmd.getSubtype()) {
+            case CMD_CALL_REJECT:
+                LOG.debug("Reject call");
+                deviceEvtCallControl.event = GBDeviceEventCallControl.Event.REJECT;
+                getSupport().evaluateGBDeviceEvent(deviceEvtCallControl);
+                return;
+            case CMD_CALL_IGNORE:
+                LOG.debug("Ignore call");
+                deviceEvtCallControl.event = GBDeviceEventCallControl.Event.IGNORE;
+                getSupport().evaluateGBDeviceEvent(deviceEvtCallControl);
+                return;
             case CMD_CANNED_MESSAGES_GET:
                 handleCannedMessages(cmd.getNotification().getCannedMessages());
-                break;
+                return;
         }
 
         // TODO
@@ -68,14 +84,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     }
 
     public void onNotification(final NotificationSpec notificationSpec) {
-        // TODO this is not working
-        if (true) {
-            LOG.warn("Notifications disabled, they're not working");
-            return;
-        }
-
         final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
                 .setId(notificationSpec.getId())
+                .setUnknown4("") // ?
                 .setTimestamp(TIMESTAMP_SDF.format(new Date(notificationSpec.when)));
 
         if (notificationSpec.sourceAppId != null) {
@@ -97,14 +108,15 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
             notification3.setAppName(notificationSpec.sourceName);
         }
 
-        // TODO what is this?
-        final String unknown12 = String.format(
-                Locale.ROOT,
-                "0|%s|%d|null|12345",
-                notification3.getPackage(),
-                notification3.getId() // i think this needs to be converted to unsigned
-        );
-        notification3.setUnknown12(unknown12);
+        // TODO Open on phone
+        //final String unknown12 = String.format(
+        //        Locale.ROOT,
+        //        "0|%s|%d|null|12345",
+        //        notification3.getPackage(),
+        //        notification3.getId() // i think this needs to be converted to unsigned
+        //);
+        //notification3.setUnknown12(unknown12);
+        //notification3.setOpenOnPhone(1);
 
         final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
                 .setNotification3(notification3)
@@ -129,7 +141,50 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     }
 
     public void onSetCallState(final CallSpec callSpec) {
-        // TODO
+        // TODO handle callSpec.command
+        if (callSpec.command != CallSpec.CALL_INCOMING) {
+            return;
+        }
+
+        final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
+                .setId(12345) // ?
+                .setUnknown4("") // ?
+                .setIsCall(true)
+                .setRepliesAllowed(canSendSms())
+                .setTimestamp(TIMESTAMP_SDF.format(new Date()));
+
+        notification3.setPackage(BuildConfig.APPLICATION_ID);
+        notification3.setAppName("Phone");
+
+        if (callSpec.name != null) {
+            notification3.setTitle(callSpec.name);
+        } else {
+            notification3.setTitle("?");
+        }
+        if (callSpec.number != null) {
+            notification3.setBody(callSpec.number);
+        } else {
+            notification3.setBody("?");
+        }
+
+        // TODO unknown caller i18n
+
+        final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
+                .setNotification3(notification3)
+                .build();
+
+        final XiaomiProto.Notification notification = XiaomiProto.Notification.newBuilder()
+                .setNotification2(notification2)
+                .build();
+
+        getSupport().sendCommand(
+                "send call",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_NOTIFICATION_SEND)
+                        .setNotification(notification)
+                        .build()
+        );
     }
 
     public void onSetCannedMessages(final CannedMessagesSpec cannedMessagesSpec) {
@@ -176,5 +231,13 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
         //final GBDeviceEventUpdatePreferences gbDeviceEventUpdatePreferences = new GBDeviceEventUpdatePreferences();
         //gbDeviceEventUpdatePreferences.withPreference("canned_reply_" + i, message);
         //getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdatePreferences);
+    }
+
+    public boolean canSendSms() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            return getSupport().getContext().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return true;
+        }
     }
 }
