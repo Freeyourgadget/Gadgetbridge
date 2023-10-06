@@ -63,6 +63,7 @@
                 android:id="@+id/incomingCallButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="incoming call" />
 
@@ -70,6 +71,7 @@
                 android:id="@+id/outgoingCallButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="outgoing call" />
 
@@ -77,6 +79,7 @@
                 android:id="@+id/startCallButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="start call" />
 
@@ -84,6 +87,7 @@
                 android:id="@+id/endCallButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="end call" />
 
@@ -91,6 +95,7 @@
                 android:id="@+id/setTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="set time" />
 
@@ -98,6 +103,7 @@
                 android:id="@+id/setMusicInfoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="set music info" />
 
@@ -105,6 +111,7 @@
                 android:id="@+id/HeartRateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="Heart Rate Test" />
 
@@ -112,6 +119,7 @@
                 android:id="@+id/rebootButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
                 grid:layout_gravity="fill_horizontal"
                 android:text="reboot" />
 
