@@ -55,6 +55,7 @@ public class Huami2021MenuType {
         put("00000026", "events");
         put("00000033", "breathing");
         put("00000038", "pomodoro");
+        put("00000039", "alexa2");
         put("0000003E", "todo");
         put("0000003F", "mi_ai");
         put("00000046", "zepp_coach");
@@ -96,6 +97,7 @@ public class Huami2021MenuType {
         put("00000020", "activity");
         put("00000021", "eventreminder");
         put("00000023", "mi_ai");
+        put("00000025", "alexa");
     }};
 
     public static final Map<String, String> controlCenterNameLookup = new HashMap<String, String>() {{

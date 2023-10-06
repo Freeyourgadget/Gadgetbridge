@@ -790,6 +790,7 @@
         <item>@string/menuitem_activity</item>
         <item>@string/menuitem_alarm</item>
         <item>@string/menuitem_alexa</item>
+        <item>@string/menuitem_alexa</item>
         <item>@string/menuitem_barometer</item>
         <item>@string/menuitem_breathing</item>
         <item>@string/menuitem_calendar</item>
@@ -837,6 +838,7 @@
         <item>activity</item>
         <item>alarm</item>
         <item>alexa</item>
+        <item>alexa2</item>
         <item>barometer</item>
         <item>breathing</item>
         <item>calendar</item>
