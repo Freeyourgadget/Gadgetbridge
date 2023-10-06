@@ -81,6 +81,9 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
         switch (cmd.getSubtype()) {
+            case CMD_SET_USER_INFO:
+                LOG.debug("Got user info set ack, status={}", cmd.getStatus());
+                return;
             case CMD_CONFIG_SPO2_GET:
                 handleSpo2Config(cmd.getHealth().getSpo2());
                 return;
