@@ -87,10 +87,10 @@ message System {
   // 2, 7 get | 2, 8 set
   optional Camera camera = 15;
 
-  // 2, 51
+  // 2, 51 get | 2, 52 create
   optional Widgets widgets = 28;
   // 2, 53
-  optional WidgetsSingle widgetsSingle = 29;
+  optional WidgetParts widgetsSingle = 29;
 
   // 2, 14
   optional DoNotDisturb dnd2 = 34;
@@ -184,30 +184,32 @@ message Camera {
 
 message Widgets {
   repeated Widget widget = 1;
+  optional uint32 unknown2 = 2; // 1
+  optional WidgetsCapabilities widget3 = 3;
+}
+
+message WidgetsCapabilities {
+  optional uint32 minWidgets = 1; // 1
+  optional uint32 maxWidgets = 2; // 7
+  optional uint32 unknown3 = 3; // 768
 }
 
 message Widget {
-  optional uint32 unknown1 = 1;
-  optional uint32 unknown2 = 2;
+  optional uint32 id = 1; // starts at 1
+  optional uint32 type = 2; // 256 for split, 512 for tall
   repeated WidgetPart widgetPart = 3;
 }
 
+message WidgetParts {
+  repeated WidgetPart widgetPart = 1;
+}
+
 message WidgetPart {
-  optional uint32 unknown1 = 1;
-  optional uint32 unknown2 = 2;
-  optional uint32 unknown3 = 3;
-}
-
-message WidgetsSingle {
-  repeated SingleWidget widget = 1;
-}
-
-message SingleWidget {
-  optional uint32 unknown1 = 1;
-  optional uint32 unknown2 = 2;
-  optional uint32 unknown3 = 3;
-  optional string title = 4;
-  optional uint32 unknown5 = 5;
+  optional uint32 partType = 1; // 1 for small, 3 for tall
+  optional uint32 app = 2; // matches command type
+  optional uint32 partId = 3; // they all seem unique
+  optional string title = 4; // not set on create
+  optional uint32 unknown5 = 5; // 0, not set on create
 }
 
 message DoNotDisturb {
@@ -275,6 +277,8 @@ message Charger {
 
 message Health {
   optional UserInfo userInfo = 1;
+  // 8, 1 get | 8, 3 set
+  optional bytes unknownActivity2 = 2;
   optional SpO2 spo2 = 7;
   optional HeartRate heartRate = 8;
   // 8, 12 get | 8, 13 set
