@@ -70,6 +70,9 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
+        if(!candidate.getName().toLowerCase().contains("vesc")){
+            return false;
+        }
         ParcelUuid[] uuids = candidate.getServiceUuids();
         for(ParcelUuid uuid : uuids){
             if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_NRF)){
