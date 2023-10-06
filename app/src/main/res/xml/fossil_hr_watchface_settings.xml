@@ -29,7 +29,7 @@
             android:singleLineTitle="false"
             android:title="@string/watchface_setting_desc_wrist_flick"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_wrist_flick_relative"
             android:persistent="false"
             android:singleLineTitle="false"
@@ -91,19 +91,19 @@
         android:title="@string/watchface_setting_title_power_saving"
         app:iconSpaceReserved="false">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_power_saving_display"
             android:persistent="false"
             android:singleLineTitle="false"
             android:title="@string/watchface_setting_power_saving_display"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_power_saving_hands"
             android:persistent="false"
             android:singleLineTitle="false"
             android:title="@string/watchface_setting_power_saving_hands"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_light_up_on_notification"
             android:persistent="false"
             android:singleLineTitle="false"

@@ -92,13 +92,13 @@
             android:persistent="false"
             android:title="@string/watchface_dialog_widget_update_timeout"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_widget_custom_hide_text"
             android:persistent="false"
             android:singleLineTitle="false"
             android:title="@string/watchface_dialog_widget_timeout_hide_text"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_hybridhr_widget_custom_show_circle"
             android:persistent="false"
             android:singleLineTitle="false"

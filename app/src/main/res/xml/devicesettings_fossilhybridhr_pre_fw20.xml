@@ -11,13 +11,13 @@
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity" />
     </Preference>
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_filter_b_and_w"
         android:key="force_white_color_scheme"
         android:summary="@string/pref_summary_force_white_color_scheme"
         android:title="@string/pref_title_force_white_color_scheme" />
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_circle"
         android:key="widget_draw_circles"

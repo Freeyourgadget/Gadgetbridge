@@ -54,7 +54,7 @@
         android:key="pref_key_header_loyalty_cards_sync_options"
         android:title="@string/loyalty_cards_sync_options">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_list_numbered"
             android:key="loyalty_cards_sync_groups_only"
@@ -71,13 +71,13 @@
             android:summary=""
             android:title="@string/loyalty_cards_sync_groups" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_archive"
             android:key="loyalty_cards_sync_archived"
             android:title="@string/loyalty_cards_sync_archived" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_star_gray"
             android:key="loyalty_cards_sync_starred"

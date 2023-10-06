@@ -26,7 +26,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import java.util.LinkedHashMap;
 import java.util.TimeZone;
@@ -173,11 +173,11 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivityV2 
             customWidgetTimeout.setSummary(Integer.toString(widget.getExtraConfigInt("update_timeout", WIDGET_CUSTOM_DEFAULT_TIMEOUT)));
             setInputTypeFor("pref_hybridhr_widget_custom_timeout", InputType.TYPE_CLASS_NUMBER);
 
-            SwitchPreference customWidgetHideText = findPreference("pref_hybridhr_widget_custom_hide_text");
+            SwitchPreferenceCompat customWidgetHideText = findPreference("pref_hybridhr_widget_custom_hide_text");
             customWidgetHideText.setOnPreferenceChangeListener(this);
             customWidgetHideText.setChecked(widget.getExtraConfigBoolean("timeout_hide_text", WIDGET_CUSTOM_DEFAULT_HIDE_TEXT));
 
-            SwitchPreference customWidgetShowCircle = findPreference("pref_hybridhr_widget_custom_show_circle");
+            SwitchPreferenceCompat customWidgetShowCircle = findPreference("pref_hybridhr_widget_custom_show_circle");
             customWidgetShowCircle.setOnPreferenceChangeListener(this);
             customWidgetShowCircle.setChecked(widget.getExtraConfigBoolean("timeout_show_circle", WIDGET_CUSTOM_DEFAULT_SHOW_CIRCLE));
         }

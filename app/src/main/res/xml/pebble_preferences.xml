@@ -4,14 +4,14 @@
     <PreferenceCategory
         android:title="@string/pref_header_general"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pebble_enable_outgoing_call"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_enable_outgoing_call"
             android:title="@string/pref_title_enable_outgoing_call"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_enable_pebblekit"
             android:layout="@layout/preference_checkbox"
@@ -38,7 +38,7 @@
     <PreferenceCategory
         android:title="@string/pref_header_pebble_timeline"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="send_sunrise_sunset"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_sunrise_sunset"
@@ -56,13 +56,13 @@
             android:summary="%s"
             android:title="@string/pref_title_pebble_activitytracker"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pebble_sync_health"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_pebble_sync_health"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="pebble_sync_health"
             android:key="pebble_health_store_raw"
@@ -70,13 +70,13 @@
             android:summary="@string/pref_summary_pebble_health_store_raw"
             android:title="@string/pref_title_pebble_health_store_raw"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pebble_sync_misfit"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_pebble_sync_misfit"
             app:iconSpaceReserved="false" />>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pebble_sync_morpheuz"
             android:layout="@layout/preference_checkbox"
@@ -86,21 +86,21 @@
     <PreferenceCategory
         android:title="@string/pref_header_development"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_force_protocol"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_pebble_forceprotocol"
             android:title="@string/pref_title_pebble_forceprotocol"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_force_untested"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_pebble_forceuntested"
             android:title="@string/pref_title_pebble_forceuntested"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_force_le"
             android:layout="@layout/preference_checkbox"
@@ -115,28 +115,28 @@
             android:summary="@string/pref_summary_pebble_mtu_limit"
             android:title="@string/pref_title_pebble_mtu_limit"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_gatt_clientonly"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_pebble_gatt_clientonly"
             android:title="@string/pref_title_pebble_gatt_clientonly"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_enable_applogs"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_pebble_enable_applogs"
             android:title="@string/pref_title_pebble_enable_applogs"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pebble_always_ack_pebblekit"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
             android:title="@string/pref_title_pebble_always_ack_pebblekit"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="pebble_force_untested"
             android:key="pebble_enable_background_javascript"

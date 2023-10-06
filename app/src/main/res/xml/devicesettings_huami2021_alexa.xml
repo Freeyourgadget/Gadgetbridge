@@ -56,7 +56,7 @@
                 android:title="Reply Text"
                 app:useSimpleSummaryProvider="true" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="zepp_os_alexa_ask_more_input"
                 android:summary="Continue listening after sending the reply"

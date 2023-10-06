@@ -15,7 +15,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="zetime_activity_tracking"
             android:summary="@string/zetime_activity_tracking_summary"
@@ -77,7 +77,7 @@
                 android:title="@string/mi2_prefs_inactivity_warnings"
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="inactivity_warnings_enable"
                 android:summary="@string/mi2_prefs_inactivity_warnings_summary"
@@ -113,37 +113,37 @@
                 android:dependency="inactivity_warnings_enable"
                 android:title="@string/zetime_prefs_inactivity_repetitions"
                 app:iconSpaceReserved="false">
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_mo"
                     android:title="@string/zetime_prefs_inactivity_mo"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_tu"
                     android:title="@string/zetime_prefs_inactivity_tu"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_we"
                     android:title="@string/zetime_prefs_inactivity_we"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_th"
                     android:title="@string/zetime_prefs_inactivity_th"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_fr"
                     android:title="@string/zetime_prefs_inactivity_fr"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_sa"
                     android:title="@string/zetime_prefs_inactivity_sa"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_su"
                     android:title="@string/zetime_prefs_inactivity_su"
@@ -160,7 +160,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="zetime_handmove_display"
             android:summary="@string/zetime_handmove_display_summary"
@@ -185,7 +185,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="zetime_dont_del_actdata"
             android:summary="@string/pref_summary_keep_data_on_device"
@@ -252,7 +252,7 @@
 
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="zetime_heartrate_alarm_enable"
                 android:summary="@string/zetime_title_heart_rate_alarm_summary"

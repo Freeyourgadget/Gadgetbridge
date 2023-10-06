@@ -28,7 +28,7 @@ import android.content.Context;
 
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import java.util.List;
 
@@ -109,9 +109,9 @@ public class HeartRateCapability {
             heartrateMeasurementInterval.setEntries(entries);
             heartrateMeasurementInterval.setEntryValues(values);
 
-            final SwitchPreference activityMonitoring = handler.findPreference(PREF_HEARTRATE_ACTIVITY_MONITORING);
-            final SwitchPreference heartrateAlertEnabled = handler.findPreference(PREF_HEARTRATE_ALERT_ENABLED);
-            final SwitchPreference stressMonitoring = handler.findPreference(PREF_HEARTRATE_STRESS_MONITORING);
+            final SwitchPreferenceCompat activityMonitoring = handler.findPreference(PREF_HEARTRATE_ACTIVITY_MONITORING);
+            final SwitchPreferenceCompat heartrateAlertEnabled = handler.findPreference(PREF_HEARTRATE_ALERT_ENABLED);
+            final SwitchPreferenceCompat stressMonitoring = handler.findPreference(PREF_HEARTRATE_STRESS_MONITORING);
 
             heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(final Preference preference, final Object newVal) {

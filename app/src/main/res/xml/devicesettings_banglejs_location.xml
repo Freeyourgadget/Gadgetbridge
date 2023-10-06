@@ -3,7 +3,7 @@
     <PreferenceCategory
         android:key="pref_header_location"
         android:title="@string/pref_header_location">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_gps_location"
             android:key="banglejs_gps_update"
@@ -17,7 +17,7 @@
             android:key="banglejs_gps_update_interval"
             android:summary="@string/pref_summary_banglejs_phone_gps_update_interval"
             android:title="@string/pref_title_banglejs_phone_gps_update_interval" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="banglejs_gps_update"
             android:icon="@drawable/ic_gps_location"

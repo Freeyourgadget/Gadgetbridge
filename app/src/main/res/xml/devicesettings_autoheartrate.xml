@@ -10,12 +10,12 @@
         <!-- workaround for missing toolbar -->
         <PreferenceCategory android:title="@string/prefs_autoheartrate_summary" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_autoheartrate_switch"
             android:title="@string/prefs_autoheartrate_measurement" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="pref_autoheartrate_switch"
             android:key="pref_autoheartrate_sleep"

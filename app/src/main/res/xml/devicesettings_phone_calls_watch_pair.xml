@@ -45,14 +45,14 @@
             android:key="pref_bluetooth_calls_settings_header"
             android:title="@string/bluetooth_calls_settings">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_voice"
                 android:key="bluetooth_calls_enabled"
                 android:summary="@string/pref_summary_receive_calls_watch"
                 android:title="@string/bluetooth_calls" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:icon="@drawable/ic_person"
                 android:key="display_caller"

@@ -11,13 +11,13 @@
         <PreferenceCategory
             android:key="pref_workout_detection_running"
             android:title="@string/activity_type_running">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_running_enabled"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_running"/>
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_running_ask_first"
                 android:title="@string/pref_workout_detection_ask_first"
@@ -37,13 +37,13 @@
         <PreferenceCategory
             android:key="pref_workout_detection_biking"
             android:title="@string/activity_type_biking">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_biking_enabled"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_biking"/>
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_biking_ask_first"
                 android:title="@string/pref_workout_detection_ask_first"
@@ -63,13 +63,13 @@
         <PreferenceCategory
             android:key="pref_workout_detection_walking"
             android:title="@string/activity_type_walking">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_walking_enabled"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_walking"/>
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_walking_ask_first"
                 android:title="@string/pref_workout_detection_ask_first"
@@ -89,13 +89,13 @@
         <PreferenceCategory
             android:key="pref_workout_detection_rowing"
             android:title="@string/activity_type_rowing">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_rowing_enabled"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_rowing"/>
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_rowing_ask_first"
                 android:title="@string/pref_workout_detection_ask_first"
@@ -146,12 +146,12 @@
         android:title="@string/pref_title_developer_settings"
         android:summary="@string/pref_summary_developer_settings">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="save_raw_activity_files"
             android:title="@string/pref_qhybrid_save_raw_activity_files" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="dangerous_external_intents"
             android:title="@string/qhybrid_pref_title_external_intents"
@@ -165,7 +165,7 @@
                 android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
         </Preference>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="enable_on_device_confirmation"
             android:title="@string/qhybrid_title_on_device_confirmation"

@@ -7,7 +7,7 @@
         android:summary="@string/device_card_activity_card_title_summary"
         android:title="@string/device_card_activity_card_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:icon="@drawable/ic_activity_unknown_small"
             android:key="prefs_activity_in_device_card"
@@ -15,7 +15,7 @@
             android:summary="@string/prefs_activity_in_device_card_title_summary"
             android:title="@string/prefs_activity_in_device_card_title" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="prefs_activity_in_device_card"
             android:icon="@drawable/ic_shoe_prints_many"
@@ -24,7 +24,7 @@
             android:summary="@string/prefs_activity_in_device_card_steps_title_summary"
             android:title="@string/Steps" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="prefs_activity_in_device_card"
             android:icon="@drawable/ic_distance_total"
@@ -33,7 +33,7 @@
             android:summary="@string/prefs_activity_in_device_card_distance_title_summary"
             android:title="@string/Distance" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="prefs_activity_in_device_card"
             android:icon="@drawable/ic_activity_sleep"

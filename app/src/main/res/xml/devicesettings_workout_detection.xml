@@ -17,7 +17,7 @@
             android:summary="@string/pref_workout_detection_categories_summary"
             android:title="@string/pref_workout_detection_categories_title" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_notifications"
             android:key="workout_detection_alert"

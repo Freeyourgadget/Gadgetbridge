@@ -7,7 +7,7 @@
         android:summary="@string/mi2_prefs_heart_rate_monitoring_summary"
         android:title="@string/mi2_prefs_heart_rate_monitoring">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_sleep"
             android:key="heartrate_sleep_detection"
@@ -24,7 +24,7 @@
 
         <!-- Activity Monitoring -->
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_unknown_small"
             android:key="heartrate_activity_monitoring"

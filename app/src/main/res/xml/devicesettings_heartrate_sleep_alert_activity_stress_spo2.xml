@@ -11,13 +11,13 @@
             android:key="pref_key_header_heartrate_sleep"
             android:title="@string/pref_header_heartrate_sleep">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_activity_sleep"
                 android:key="heartrate_sleep_detection"
                 android:title="@string/miband_prefs_hr_sleep_detection" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_activity_sleep"
                 android:key="heartrate_sleep_breathing_quality_monitoring"
@@ -40,7 +40,7 @@
 
         <!-- Activity Monitoring -->
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_unknown_small"
             android:key="heartrate_activity_monitoring"
@@ -78,14 +78,14 @@
             android:key="pref_key_header_stress"
             android:title="@string/pref_header_stress">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_mood_bad"
                 android:key="heartrate_stress_monitoring"
                 android:summary="@string/prefs_stress_monitoring_description"
                 android:title="@string/prefs_stress_monitoring_title" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:dependency="heartrate_stress_monitoring"
                 android:key="heartrate_stress_relaxation_reminder"
@@ -98,7 +98,7 @@
             android:key="pref_key_header_spo2"
             android:title="@string/pref_header_spo2">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="spo2_all_day_monitoring_enabled"
                 android:summary="@string/prefs_spo2_monitoring_description"

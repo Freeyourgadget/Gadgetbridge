@@ -13,7 +13,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="hplus_alldayhr"
             android:layout="@layout/preference_checkbox"

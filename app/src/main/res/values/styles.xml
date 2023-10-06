@@ -18,6 +18,7 @@
         <item name="drawerArrowStyle">@style/GadgetbridgeTheme.DrawerButtonStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
         <item name="actionOverflowButtonStyle">@style/GadgetbridgeTheme.OverflowMenuButton</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="drawer_title_color">@android:color/white</item>
@@ -51,6 +52,7 @@
         <item name="drawerArrowStyle">@style/GadgetbridgeTheme.DrawerButtonStyle</item>
         <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
         <item name="actionOverflowButtonStyle">@style/GadgetbridgeTheme.OverflowMenuButton</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
 
         <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="drawer_title_color">@android:color/white</item>
@@ -84,6 +86,7 @@
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
@@ -97,6 +100,7 @@
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
         <item name="android:windowBackground">@android:color/black</item>
@@ -159,5 +163,13 @@
         <item name="android:statusBarColor">@color/primarydark_dark</item>
         <item name="android:navigationBarColor">@color/primarydark_dark</item>
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <!-- preferences screens -->
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
+    </style>
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
 </resources>

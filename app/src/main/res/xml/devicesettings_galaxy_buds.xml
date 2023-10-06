@@ -8,13 +8,13 @@
         android:title="@string/prefs_ambient_mode">
 
         <PreferenceCategory android:title="@string/prefs_ambient_mode">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_hearing"
                 android:key="pref_galaxy_buds_ambient_mode"
                 android:summary="Hear surrounding sounds"
                 android:title="@string/prefs_ambient_sound" />
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:dependency="pref_galaxy_buds_ambient_mode"
                 android:icon="@drawable/ic_voice"
@@ -39,13 +39,13 @@
         android:persistent="false"
         android:title="@string/prefs_equalizer">
         <PreferenceCategory android:title="@string/prefs_equalizer">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_graphic_eq"
                 android:key="pref_galaxy_buds_equalizer"
                 android:summary="@string/prefs_equalizer_summary"
                 android:title="@string/prefs_equalizer" />
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:dependency="pref_galaxy_buds_equalizer"
                 android:icon="@drawable/ic_music_note"
@@ -69,7 +69,7 @@
         android:persistent="false"
         android:title="@string/prefs_galaxy_touch_options">
         <PreferenceCategory android:title="@string/prefs_galaxy_touch_options">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:disableDependentsState="true"
                 android:icon="@drawable/ic_lock_open"
@@ -95,7 +95,7 @@
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceCategory android:title="@string/prefs_galaxy_buds_experimental">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_videogame"
             android:key="pref_galaxy_buds_game_mode"

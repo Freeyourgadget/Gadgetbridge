@@ -7,7 +7,7 @@
         android:summary="@string/pref_morning_updates_summary"
         android:title="@string/pref_morning_updates_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_wb_sunny"
             android:key="morning_updates_enabled"

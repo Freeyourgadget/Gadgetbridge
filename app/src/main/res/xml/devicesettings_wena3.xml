@@ -3,7 +3,7 @@
     <!-- Not including PREF_LANGUAGE here since GadgetBridge seems to add it for us -->
     <PreferenceCategory
         android:title="@string/prefs_wena3_title_activity">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_wena3_background_sync"
             android:icon="@drawable/ic_access_time"
@@ -53,7 +53,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/prefs_wena3_receive_calls_title">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_receive_calls_item"
             android:key="pref_wena3_receive_calls"
             android:icon="@drawable/ic_phone"
@@ -96,26 +96,26 @@
             android:icon="@drawable/ic_hourglass_empty"
             android:summary="%s"
             android:title="@string/prefs_screen_timeout" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/mi2_prefs_activate_display_on_lift"
             android:key="pref_screen_lift_wrist"
             android:icon="@drawable/ic_watch"
             android:summary="@string/prefs_wena3_hint_lift_wrist"
             android:defaultValue="false"
             />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_item_weather_statusbar"
             android:icon="@drawable/ic_wb_sunny"
             android:key="pref_wena3_weather_in_statusbar"
             android:summary="@string/prefs_wena3_hint_weather_statusbar"
             android:defaultValue="true" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_item_rich_design"
             android:icon="@drawable/ic_auto_awesome"
             android:key="pref_wena3_rich_design_mode"
             android:summary="@string/prefs_wena3_hint_rich_design"
             android:defaultValue="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_item_large_font"
             android:icon="@drawable/ic_font_size"
             android:key="pref_wena3_large_font_size"
@@ -190,7 +190,7 @@
             android:entries="@array/prefs_wena3_vibration_strength_names_list"
             android:entryValues="@array/prefs_wena3_vibration_strength_values_list"
             android:summary="%s" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_vibration_smart_item"
             android:key="pref_wena3_vibration_smart"
             android:defaultValue="true" />

@@ -6,19 +6,19 @@
         android:key="pref_key_general"
         android:title="@string/pref_header_general"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="general_autostartonboot"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_general_autostartonboot"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_general_autoconnectonbluetooth"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:enabled="false"
             android:key="general_autocreconnect"
@@ -26,7 +26,7 @@
             android:summary="setting has been moved to device specific settings"
             android:title="@string/pref_title_general_autoreconnect"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="display_add_device_fab"
             android:layout="@layout/preference_checkbox"
@@ -35,7 +35,7 @@
             android:title="@string/pref_display_add_device_fab"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="mb_intents"
             android:layout="@layout/preference_checkbox"
@@ -63,7 +63,7 @@
                 android:summary="%s"
                 android:title="@string/pref_title_theme"
                 app:iconSpaceReserved="false" />
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_key_theme_amoled_black"
                 android:layout="@layout/preference_checkbox"
@@ -101,14 +101,14 @@
                 android:key="pref_screen_rtl"
                 android:title="@string/preferences_rtl_settings"
                 app:iconSpaceReserved="false">
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="rtl"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_rtl"
                     android:title="@string/pref_title_rtl"
                     app:iconSpaceReserved="false" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="contextualArabic"
                     android:layout="@layout/preference_checkbox"
@@ -156,7 +156,7 @@
         android:key="pref_key_datetime"
         android:title="@string/pref_header_datetime"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="datetime_synconconnect"
             android:layout="@layout/preference_checkbox"
@@ -187,7 +187,7 @@
             android:title="@string/pref_title_location_longitude"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="location_aquire"
             android:key="use_updated_location_if_available"
@@ -204,14 +204,14 @@
     <PreferenceCategory
         android:title="@string/pref_header_navigation"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="navigation_forward"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_navigation_forward"
             android:title="@string/pref_title_navigation_forward"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="navigation_forward"
             android:key="nagivation_screen_on"
@@ -257,7 +257,7 @@
             android:summary="%s"
             android:title="@string/pref_title_auto_export_location"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="auto_export_enabled"
             android:layout="@layout/preference_checkbox"
@@ -277,7 +277,7 @@
     <PreferenceCategory
         android:title="@string/pref_header_auto_fetch"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
             android:layout="@layout/preference_checkbox"
@@ -299,27 +299,27 @@
         android:key="pref_key_development"
         android:title="@string/pref_header_development"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="log_to_file"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_write_logfiles"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="permission_pestering"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_check_permission_status_summary"
             android:title="@string/pref_check_permission_status"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="show_changelog"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_show_changelog_summary"
             android:title="@string/pref_show_changelog"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="cache_weather"
             android:layout="@layout/preference_checkbox"
@@ -342,31 +342,31 @@
             android:title="@string/pref_header_intent_api"
             app:iconSpaceReserved="false">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:key="prefs_key_allow_bluetooth_intent_api"
                 android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api"
                 android:title="@string/activity_prefs_allow_bluetooth_intent_api"
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:key="intent_api_allow_activity_sync"
                 android:summary="@string/intent_api_allow_activity_sync_summary"
                 android:title="@string/intent_api_allow_activity_sync_title"
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:key="intent_api_allow_trigger_export"
                 android:summary="@string/intent_api_allow_trigger_export_summary"
                 android:title="@string/intent_api_allow_trigger_export_title"
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:key="intent_api_broadcast_export"
                 android:summary="@string/intent_api_broadcast_export_summary"
                 android:title="@string/intent_api_broadcast_export_title"
                 app:iconSpaceReserved="false" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:key="intent_api_allow_debug_commands"
                 android:summary="@string/intent_api_allow_debug_commands_summary"
                 android:title="@string/intent_api_allow_debug_commands_title"

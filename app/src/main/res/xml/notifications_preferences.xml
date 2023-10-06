@@ -15,14 +15,14 @@
             android:title="@string/pref_title_notifications_generic"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_whenscreenon"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notifications_ignore_low_priority"
             android:layout="@layout/preference_checkbox"
@@ -30,7 +30,7 @@
             android:title="@string/pref_title_notifications_ignore_low_priority"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notification_prefer_long_text"
             android:layout="@layout/preference_checkbox"
@@ -38,7 +38,7 @@
             android:title="@string/pref_title_notification_prefer_long_text"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="notification_cache_while_disconnected"
             android:layout="@layout/preference_checkbox"
@@ -46,7 +46,7 @@
             android:title="@string/pref_title_notification_cache_while_disconnected"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="minimize_priority"
             android:layout="@layout/preference_checkbox"
@@ -71,7 +71,7 @@
             android:title="@string/pref_title_notifications_call"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="notification_support_voip_calls"
             android:layout="@layout/preference_checkbox"
@@ -115,7 +115,7 @@
             android:title="@string/pref_title_notifications_timeout"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="notification_filter"
             android:layout="@layout/preference_checkbox"
@@ -137,7 +137,7 @@
             android:title="@string/pref_title_notification_use_as"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="notification_media_ignores_application_list"
             android:layout="@layout/preference_checkbox"

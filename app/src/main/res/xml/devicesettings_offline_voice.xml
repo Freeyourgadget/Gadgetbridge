@@ -15,19 +15,19 @@
             android:summary="%s"
             android:title="@string/pref_title_language" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_rotate_left"
             android:key="offline_voice_respond_turn_wrist"
             android:title="@string/offline_voice_respond_turn_wrist" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_always_on_display"
             android:key="offline_voice_respond_screen_on"
             android:title="@string/offline_voice_respond_screen_on" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_always_on_display"
             android:key="offline_voice_response_during_screen_lighting"
