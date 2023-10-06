@@ -472,36 +472,12 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
     }
 
     private static ScanSettings getScanSettings() {
-        final Prefs prefs = GBApplication.getPrefs();
-        final int level = prefs.getInt("scanning_intensity", 1);
-
         final ScanSettings.Builder builder = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
 
-        LOG.debug("Device discovery - scanning level: {}", level);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            switch (level) {
-                case 0:
-                    builder.setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH);
-                    builder.setMatchMode(ScanSettings.MATCH_MODE_STICKY);
-                    break;
-                case 1:
-                    builder.setCallbackType(ScanSettings.CALLBACK_TYPE_FIRST_MATCH);
-                    builder.setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE);
-                    break;
-                case 2:
-                    builder.setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES);
-                    builder.setMatchMode(ScanSettings.MATCH_MODE_STICKY);
-                    break;
-                case 3:
-                    builder.setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES);
-                    builder.setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE);
-                    break;
-                default:
-                    LOG.warn("Unknown intensity level {}", level);
-            }
-
+            builder.setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES);
+            builder.setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE);
             builder.setNumOfMatches(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT);
         }
 

@@ -1401,10 +1401,6 @@ public class GBApplication extends Application {
         return prefs;
     }
 
-    public static boolean useNewDiscoveryActivity() {
-        return prefs.getBoolean("new_discover_activity", true);
-    }
-
     public static GBPrefs getGBPrefs() {
         return gbPrefs;
     }
