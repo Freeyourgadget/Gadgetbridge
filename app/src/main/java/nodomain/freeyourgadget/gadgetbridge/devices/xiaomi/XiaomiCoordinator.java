@@ -303,7 +303,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // Display
         //
         settings.add(R.xml.devicesettings_header_display);
-        settings.add(R.xml.devicesettings_huami2021_displayitems);
+        settings.add(R.xml.devicesettings_xiaomi_displayitems);
         settings.add(R.xml.devicesettings_password);
 
         //

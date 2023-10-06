@@ -2407,4 +2407,8 @@
     <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
     <string name="pref_navigation_app_gmaps">Google Maps</string>
     <string name="serial_number">Serial Number</string>
+    <string name="menuitem_stats">Stats</string>
+    <string name="menuitem_running">Running</string>
+    <string name="menuitem_alerts">Alerts</string>
+    <string name="menuitem_focus">Focus</string>
 </resources>

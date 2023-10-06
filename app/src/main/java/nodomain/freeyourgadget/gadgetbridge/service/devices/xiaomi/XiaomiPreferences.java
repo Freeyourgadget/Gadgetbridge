@@ -41,4 +41,11 @@ public final class XiaomiPreferences {
                 .setMinute(calendar.get(Calendar.MINUTE))
                 .build();
     }
+
+    /**
+     * Returns the preference key where to save the list of possible value for a preference, comma-separated.
+     */
+    public static String getPrefPossibleValuesKey(final String key) {
+        return String.format(Locale.ROOT, "%s_possible_values", key);
+    }
 }

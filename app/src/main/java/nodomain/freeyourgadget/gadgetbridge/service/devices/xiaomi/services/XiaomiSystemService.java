@@ -19,8 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -31,12 +34,16 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class XiaomiSystemService extends AbstractXiaomiService {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSystemService.class);
@@ -62,7 +69,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DEVICE_INFO);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_BATTERY);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_PASSWORD_GET);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
+        // FIXME i think this needs chunked getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
     }
 
     @Override
@@ -97,7 +104,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 return;
         }
 
-        LOG.warn("Unknown config command {}", cmd.getSubtype());
+        LOG.warn("Unknown system command {}", cmd.getSubtype());
     }
 
     @Override
@@ -233,8 +240,50 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
+    private void setDisplayItems(final TransactionBuilder builder) {
+        final Prefs prefs = getDevicePrefs();
+        final ArrayList<String> allScreens = new ArrayList<>(prefs.getList(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
+        final ArrayList<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
+        if (allScreens.isEmpty()) {
+            LOG.warn("No list of all screens");
+            return;
+        }
+        if (!enabledScreens.contains("setting")) {
+            enabledScreens.add("setting");
+        }
+        // TODO i think this needs chunked
+    }
+
     private void handleDisplayItems(final XiaomiProto.DisplayItems displayItems) {
         LOG.debug("Got {} display items", displayItems.getDisplayItemCount());
+        final List<String> allScreens = new ArrayList<>();
+        final List<String> mainScreens = new ArrayList<>();
+        final List<String> moreScreens = new ArrayList<>();
+        for (final XiaomiProto.DisplayItem displayItem : displayItems.getDisplayItemList()) {
+            allScreens.add(displayItem.getCode());
+            if (!displayItem.getDisabled()) {
+                if (displayItem.getInMoreSection()) {
+                    moreScreens.add(displayItem.getCode());
+                } else {
+                    mainScreens.add(displayItem.getCode());
+                }
+            }
+        }
+
+        final List<String> enabledScreens = new ArrayList<>(mainScreens);
+        if (!moreScreens.isEmpty()) {
+            enabledScreens.add("more");
+            enabledScreens.addAll(moreScreens);
+        }
+
+        final String allScreensPrefValue = StringUtils.join(",", allScreens.toArray(new String[0])).toString();
+        final String prefValue = StringUtils.join(",", enabledScreens.toArray(new String[0])).toString();
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensPrefValue)
+                .withPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, prefValue);
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
     public void onFindPhone(final boolean start) {

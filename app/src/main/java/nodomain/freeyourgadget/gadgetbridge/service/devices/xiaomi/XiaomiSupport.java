@@ -239,7 +239,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         final TransactionBuilder builder = createTransactionBuilder("test new function");
-
+        sendCommand(builder, 2, 29);
         builder.queue(getQueue());
     }
 
