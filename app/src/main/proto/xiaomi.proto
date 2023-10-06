@@ -75,7 +75,7 @@ message System {
   // 2, 18
   optional uint32 findDevice = 5; // 0
 
-  // 2, 29
+  // 2, 29 get | 2, 39 set
   optional DisplayItems displayItems = 10;
 
   // 2, 34
@@ -175,7 +175,7 @@ message DisplayItem {
   optional bool disabled = 3;
   optional uint32 isSettings = 4;
   optional uint32 unknown5 = 5; // 1
-  optional bool rarelyUsed = 6;
+  optional bool inMoreSection = 6; // rarely used in official app
 }
 
 message Camera {
