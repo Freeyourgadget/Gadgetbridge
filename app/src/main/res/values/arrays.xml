@@ -3072,6 +3072,7 @@
     <string-array name="pref_transliteration_languages">
         <item>@string/arabic</item>
         <item>@string/bengali</item>
+        <item>@string/common_symbols</item>
         <item>@string/croatian</item>
         <item>@string/czech</item>
         <item>@string/estonian</item>
@@ -3096,6 +3097,7 @@
     <string-array name="pref_transliteration_languages_values">
         <item>arabic</item>
         <item>bengali</item>
+        <item>common_symbols</item>
         <item>croatian</item>
         <item>czech</item>
         <item>estonian</item>

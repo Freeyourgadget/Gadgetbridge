@@ -190,6 +190,21 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateCommonSymbols() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("common_symbols");
+
+        String input = "© ® ™ ° « – » “ ” 〜 ² ³ ₅";
+        String output = transliterator.transliterate(input);
+        String expected = "(c) (r) (tm) * < - > \" \" ~ 2 3 5";
+        assertEquals("common symbols translation failed", expected, output);
+
+        input = "a©a b®b c™c d°d e«e f–f g»g h“h i”i j〜j k²k l³l m₅m";
+        output = transliterator.transliterate(input);
+        expected = "a(c)a b(r)b c(tm)c d*d e<e f-f g>g h\"h i\"i j~j k2k l3l m5m";
+        assertEquals("common symbols translation failed", expected, output);
+    }
+
+    @Test
     public void testStringTransliterateCroatian() {
         final Transliterator transliterator = LanguageUtils.getTransliterator("croatian");
 

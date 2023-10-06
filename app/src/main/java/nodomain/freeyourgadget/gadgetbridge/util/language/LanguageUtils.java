@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ArabicTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.BengaliTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CommonSymbolsTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CroatianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CzechTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.EstonianTransliterator;
@@ -63,6 +64,7 @@ public class LanguageUtils {
     private static final Map<String, Transliterator> TRANSLITERATORS_MAP = new HashMap<String, Transliterator>() {{
         put("arabic", new ArabicTransliterator());
         put("bengali", new BengaliTransliterator());
+        put("common_symbols", new CommonSymbolsTransliterator());
         put("croatian", new CroatianTransliterator());
         put("czech", new CzechTransliterator());
         put("estonian", new EstonianTransliterator());
