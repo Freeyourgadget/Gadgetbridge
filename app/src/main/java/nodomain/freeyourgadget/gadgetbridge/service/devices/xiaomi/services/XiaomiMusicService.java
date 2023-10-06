@@ -35,7 +35,7 @@ public class XiaomiMusicService extends AbstractXiaomiService {
 
     private static final int CMD_MUSIC_GET = 0;
     private static final int CMD_MUSIC_SEND = 1;
-    private static final int CMD_MUSIC_BUTTON = 1;
+    private static final int CMD_MUSIC_BUTTON = 2;
 
     private static final byte BUTTON_PLAY = 0x00;
     private static final byte BUTTON_PAUSE = 0x01;
@@ -48,7 +48,6 @@ public class XiaomiMusicService extends AbstractXiaomiService {
     private static final byte STATE_PAUSED = 0x02;
 
     protected MediaManager mediaManager = null;
-    protected boolean isMusicAppStarted = false;
 
     public XiaomiMusicService(final XiaomiSupport support) {
         super(support);
@@ -97,7 +96,6 @@ public class XiaomiMusicService extends AbstractXiaomiService {
                         LOG.warn("Unexpected media button key {}", music.getMediaKey().getKey());
                         return;
                 }
-                // FIXME sometimes this is not triggering a device update?
                 getSupport().evaluateGBDeviceEvent(deviceEventMusicControl);
                 return;
         }
@@ -106,7 +104,7 @@ public class XiaomiMusicService extends AbstractXiaomiService {
     }
 
     public void onSetMusicState(final MusicStateSpec stateSpec) {
-        if (mediaManager.onSetMusicState(stateSpec) && isMusicAppStarted) {
+        if (mediaManager.onSetMusicState(stateSpec)) {
             sendMusicStateToDevice();
         }
     }
@@ -116,7 +114,7 @@ public class XiaomiMusicService extends AbstractXiaomiService {
     }
 
     public void onSetMusicInfo(final MusicSpec musicSpec) {
-        if (mediaManager.onSetMusicInfo(musicSpec) && isMusicAppStarted) {
+        if (mediaManager.onSetMusicInfo(musicSpec)) {
             sendMusicStateToDevice();
         }
     }
