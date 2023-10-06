@@ -304,13 +304,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         //
         settings.add(R.xml.devicesettings_header_display);
         settings.add(R.xml.devicesettings_huami2021_displayitems);
-        settings.add(R.xml.devicesettings_huami2021_shortcuts);
-        settings.add(R.xml.devicesettings_nightmode);
-        settings.add(R.xml.devicesettings_sleep_mode);
-        settings.add(R.xml.devicesettings_liftwrist_display_sensitivity_with_smart);
         settings.add(R.xml.devicesettings_password);
-        settings.add(R.xml.devicesettings_always_on_display);
-        settings.add(R.xml.devicesettings_screen_timeout);
 
         //
         // Health

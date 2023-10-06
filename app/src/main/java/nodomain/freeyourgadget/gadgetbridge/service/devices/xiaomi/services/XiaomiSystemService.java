@@ -31,7 +31,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -188,8 +187,10 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     }
 
     private void setPassword(final TransactionBuilder builder) {
-        final boolean passwordEnabled = HuamiCoordinator.getPasswordEnabled(getSupport().getDevice().getAddress());
-        final String password = HuamiCoordinator.getPassword(getSupport().getDevice().getAddress());
+        final Prefs prefs = getDevicePrefs();
+
+        final boolean passwordEnabled = prefs.getBoolean(PasswordCapabilityImpl.PREF_PASSWORD_ENABLED, false);
+        final String password = prefs.getString(PasswordCapabilityImpl.PREF_PASSWORD, null);
 
         LOG.info("Setting password: {}, {}", passwordEnabled, password);
 

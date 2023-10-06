@@ -24,12 +24,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -42,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -51,6 +55,14 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 8;
 
     private static final int CMD_SET_USER_INFO = 0;
+    private static final int CMD_CONFIG_SPO2_GET = 8;
+    private static final int CMD_CONFIG_SPO2_SET = 9;
+    private static final int CMD_CONFIG_HEART_RATE_GET = 10;
+    private static final int CMD_CONFIG_HEART_RATE_SET = 11;
+    private static final int CMD_CONFIG_STANDING_REMINDER_GET = 12;
+    private static final int CMD_CONFIG_STANDING_REMINDER_SET = 13;
+    private static final int CMD_CONFIG_STRESS_GET = 14;
+    private static final int CMD_CONFIG_STRESS_SET = 15;
     private static final int CMD_REALTIME_STATS_START = 45;
     private static final int CMD_REALTIME_STATS_STOP = 46;
     private static final int CMD_REALTIME_STATS_EVENT = 47;
@@ -69,6 +81,18 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
         switch (cmd.getSubtype()) {
+            case CMD_CONFIG_SPO2_GET:
+                handleSpo2Config(cmd.getHealth().getSpo2());
+                return;
+            case CMD_CONFIG_HEART_RATE_GET:
+                handleHeartRateConfig(cmd.getHealth().getHeartRate());
+                return;
+            case CMD_CONFIG_STANDING_REMINDER_GET:
+                handleStandingReminderConfig(cmd.getHealth().getStandingReminder());
+                return;
+            case CMD_CONFIG_STRESS_GET:
+                handleStressConfig(cmd.getHealth().getStress());
+                return;
             case CMD_REALTIME_STATS_EVENT:
                 handleRealtimeStats(cmd.getHealth().getRealTimeStats());
                 return;
@@ -78,12 +102,18 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(TransactionBuilder builder) {
+    public void initialize(final TransactionBuilder builder) {
         setUserInfo(builder);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_SPO2_GET);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_HEART_RATE_GET);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_STANDING_REMINDER_GET);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_STRESS_GET);
     }
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
+
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
             case ActivityUser.PREF_USER_WEIGHT_KG:
@@ -93,9 +123,32 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case ActivityUser.PREF_USER_STEPS_GOAL:
             case ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS:
             case ActivityUser.PREF_USER_ACTIVETIME_MINUTES:
-                final TransactionBuilder builder = getSupport().createTransactionBuilder("set user info");
                 setUserInfo(builder);
                 builder.queue(getSupport().getQueue());
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD:
+                setHeartRateConfig(builder);
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING:
+            case DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD:
+                setSpo2Config(builder);
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END:
+                setStandingReminderConfig(builder);
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING:
+            case DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER:
+                setStressConfig(builder);
                 return true;
         }
 
@@ -143,6 +196,189 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_SET_USER_INFO)
                         .setHealth(health)
+                        .build()
+        );
+    }
+
+    private void handleSpo2Config(final XiaomiProto.SpO2 spo2) {
+        LOG.debug("Got SpO2 config");
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING, spo2.getAllDayTracking())
+                .withPreference(
+                        DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD,
+                        spo2.getAlarmLow().getAlarmLowEnabled() ? spo2.getAlarmLow().getAlarmLowThreshold() : 0
+                );
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setSpo2Config(final TransactionBuilder builder) {
+        LOG.debug("Set SpO2 config");
+
+        final Prefs prefs = getDevicePrefs();
+        final boolean allDayMonitoring = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING, false);
+        final int lowAlertThreshold = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD, 0);
+
+        final XiaomiProto.Spo2AlarmLow.Builder spo2alarmLowBuilder = XiaomiProto.Spo2AlarmLow.newBuilder()
+                .setAlarmLowEnabled(lowAlertThreshold != 0);
+
+        if (lowAlertThreshold != 0) {
+            spo2alarmLowBuilder.setAlarmLowThreshold(lowAlertThreshold);
+        }
+
+        final XiaomiProto.SpO2.Builder spo2 = XiaomiProto.SpO2.newBuilder()
+                .setUnknown1(1)
+                .setAllDayTracking(allDayMonitoring)
+                .setAlarmLow(spo2alarmLowBuilder);
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_SPO2_SET)
+                        .setHealth(XiaomiProto.Health.newBuilder().setSpo2(spo2))
+                        .build()
+        );
+    }
+
+    private void handleHeartRateConfig(final XiaomiProto.HeartRate heartRate) {
+        LOG.debug("Got heart rate config");
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences();
+        if (heartRate.getDisabled()) {
+            eventUpdatePreferences.withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0);
+        } else if (heartRate.getInterval() == 0) {
+            // smart
+            eventUpdatePreferences.withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, -1);
+        } else {
+            eventUpdatePreferences.withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, heartRate.getInterval());
+        }
+
+        eventUpdatePreferences.withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION, heartRate.getAdvancedMonitoring().getEnabled());
+        eventUpdatePreferences.withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING, heartRate.getBreathingScore() == 1);
+
+        eventUpdatePreferences.withPreference(
+                DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD,
+                heartRate.getAlarmHighEnabled() ? heartRate.getAlarmHighThreshold() : 0
+        );
+
+        eventUpdatePreferences.withPreference(
+                DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD,
+                heartRate.getHeartRateAlarmLow().getAlarmLowEnabled() ? heartRate.getHeartRateAlarmLow().getAlarmLowThreshold() : 0
+        );
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setHeartRateConfig(final TransactionBuilder builder) {
+        final Prefs prefs = getDevicePrefs();
+
+        final boolean sleepDetection = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION, false);
+        final boolean sleepBreathingQuality = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING, false);
+        final int intervalMin = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0);
+        final int alertHigh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD, 0);
+        final int alertLow = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD, 0);
+
+        final XiaomiProto.HeartRate.Builder heartRate = XiaomiProto.HeartRate.newBuilder()
+                .setDisabled(intervalMin == 0)
+                .setInterval(Math.max(intervalMin, 0)) // smart will be -1 from pref
+                .setAdvancedMonitoring(XiaomiProto.AdvancedMonitoring.newBuilder()
+                        .setEnabled(sleepDetection))
+                .setBreathingScore(sleepBreathingQuality ? 1 : 2)
+                .setAlarmHighEnabled(alertHigh > 0)
+                .setAlarmHighThreshold(alertHigh)
+                .setHeartRateAlarmLow(XiaomiProto.HeartRateAlarmLow.newBuilder()
+                        .setAlarmLowEnabled(alertLow > 0)
+                        .setAlarmLowThreshold(alertLow))
+                .setUnknown7(1);
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_HEART_RATE_SET)
+                        .setHealth(XiaomiProto.Health.newBuilder().setHeartRate(heartRate))
+                        .build()
+        );
+    }
+
+    private void handleStandingReminderConfig(final XiaomiProto.StandingReminder standingReminder) {
+        LOG.debug("Got standing reminder config");
+
+        final String start = XiaomiPreferences.prefFromHourMin(standingReminder.getStart());
+        final String end = XiaomiPreferences.prefFromHourMin(standingReminder.getEnd());
+        final String dndStart = XiaomiPreferences.prefFromHourMin(standingReminder.getDndStart());
+        final String dndEnd = XiaomiPreferences.prefFromHourMin(standingReminder.getDndEnd());
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, standingReminder.getEnabled())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, start)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, end)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, standingReminder.getDnd())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, dndStart)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, dndEnd);
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setStandingReminderConfig(final TransactionBuilder builder) {
+        LOG.debug("Set standing reminder config");
+
+        final Prefs prefs = getDevicePrefs();
+        final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
+        final Date start = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+        final Date end = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
+        final boolean dnd = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, false);
+        final Date dndStart = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00");
+        final Date dndEnd = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00");
+
+        final XiaomiProto.StandingReminder standingReminder = XiaomiProto.StandingReminder.newBuilder()
+                .setEnabled(enabled)
+                .setStart(XiaomiPreferences.prefToHourMin(start))
+                .setEnd(XiaomiPreferences.prefToHourMin(end))
+                .setDnd(dnd)
+                .setDndStart(XiaomiPreferences.prefToHourMin(dndStart))
+                .setDndEnd(XiaomiPreferences.prefToHourMin(dndEnd))
+                .build();
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_STANDING_REMINDER_SET)
+                        .setHealth(XiaomiProto.Health.newBuilder().setStandingReminder(standingReminder))
+                        .build()
+        );
+    }
+
+    private void handleStressConfig(final XiaomiProto.Stress stress) {
+        LOG.debug("Got stress config");
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, stress.getAllDayTracking())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER, stress.getRelaxReminder());
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setStressConfig(final TransactionBuilder builder) {
+        LOG.debug("Set stress config");
+
+        final Prefs prefs = getDevicePrefs();
+        final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, false);
+        final boolean relaxReminder = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER, false);
+
+        final XiaomiProto.Stress.Builder stress = XiaomiProto.Stress.newBuilder()
+                .setAllDayTracking(enabled)
+                .setRelaxReminder(XiaomiProto.RelaxReminder.newBuilder().setEnabled(relaxReminder).setUnknown2(0));
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_STRESS_SET)
+                        .setHealth(XiaomiProto.Health.newBuilder().setStress(stress))
                         .build()
         );
     }

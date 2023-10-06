@@ -23,6 +23,7 @@ import androidx.preference.Preference;
 import java.util.Collections;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -34,6 +35,10 @@ public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomize
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+        final Preference activityMonitoringPref = handler.findPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING);
+        if (activityMonitoringPref != null) {
+            activityMonitoringPref.setVisible(false);
+        }
     }
 
     @Override
