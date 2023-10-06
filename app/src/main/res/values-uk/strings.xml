@@ -7,7 +7,7 @@
     <string name="action_quit">Вийти</string>
     <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
     <string name="controlcenter_find_device">Знайти загублений пристрій</string>
-    <string name="controlcenter_take_screenshot">Зробити знімок екрану</string>
+    <string name="controlcenter_take_screenshot">Зробити знімок екрана</string>
     <string name="controlcenter_disconnect">Від\'єднатися</string>
     <string name="controlcenter_delete_device">Видалити пристрій</string>
     <string name="controlcenter_delete_device_name">Видалити %1$s</string>
@@ -248,7 +248,7 @@
     <string name="controlcenter_navigation_drawer_close">Закрити навігаційну панель</string>
     <string name="controlcenter_snackbar_disconnecting">Від\'єднання</string>
     <string name="controlcenter_snackbar_need_longpress">Натисніть і утримуйте щоб від\'єднати</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Робимо знімок екрану пристрою</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Робимо знімок екрана пристрою</string>
     <string name="appmanager_cached_watchapps_watchfaces">Кешовані застосунки</string>
     <string name="appmanager_installed_watchfaces">Встановлені циферблати</string>
     <string name="appmanager_weather_activate">Увімкнути системний застосунок погоди</string>
@@ -303,7 +303,7 @@
     <string name="pref_header_pebble_timeline">Шкала часу Pebble</string>
     <string name="pref_title_enable_calendar_sync">Синхронізувати календар</string>
     <string name="pref_summary_enable_calendar_sync">Надіслати події календаря до часової шкали</string>
-    <string name="pref_auto_fetch_summary">Отримання відбувається під час розблокування екрану. Працює лише якщо налаштоване блокування!</string>
+    <string name="pref_auto_fetch_summary">Отримання відбувається під час розблокування екрана. Працює лише якщо налаштоване блокування!</string>
     <string name="notif_export_failed_title">Не вдалося експортувати базу даних! Будь ласка, перевірте налаштування.</string>
     <string name="miband2_prefs_dateformat">Формат дати</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
@@ -323,7 +323,7 @@
     <string name="pref_title_pebble_enable_applogs">Увімкнути логування застосунку</string>
     <string name="pref_title_pebble_enable_bgjs">Увімкнути фоновий JS</string>
     <string name="prefs_title_all_day_heart_rate">Вимірювання пульсу протягом дня</string>
-    <string name="prefs_screen_orientation">Орієнтація екрану</string>
+    <string name="prefs_screen_orientation">Орієнтація екрана</string>
     <string name="pref_title_auto_export_enabled">Автоматичний експорт увімкнено</string>
     <string name="tap_a_device_to_connect">Торкніться пристрою для з\'єднання</string>
     <string name="horizontal">Горизонтально</string>
@@ -369,7 +369,7 @@
     <string name="controlcenter_change_fm_frequency">Змінити частоту FM</string>
     <string name="debugactivity_really_factoryreset_title">Дійсно скинути налаштування\?</string>
     <string name="pref_title_rtl">Справа наліво</string>
-    <string name="pref_pebble_privacy_mode_content">Перенесення тексту сповіщення, який виходить за межі екрану</string>
+    <string name="pref_pebble_privacy_mode_content">Перенесення тексту сповіщення, який виходить за межі екрана</string>
     <string name="dbmanagementactivity_import_data_title">Імпортувати дані\?</string>
     <string name="dbmanagementactivity_import_successful">Імпортовано.</string>
     <string name="dbmanagementactivity_error_importing_db">Помилка імпорту бази даних: %1$s</string>
@@ -457,11 +457,11 @@
     <string name="filter_mode">Режим фільтрації</string>
     <string name="save_configuration">Зберегти конфігурацію</string>
     <string name="pref_title_pebble_forcele">Завжди надавати перевагу BLE</string>
-    <string name="pref_title_screentime">Тривалість роботи екрану</string>
+    <string name="pref_title_screentime">Тривалість роботи екрана</string>
     <string name="preferences_hplus_settings">Налаштування HPlus/Makibes</string>
     <string name="zetime_title_settings">Налаштування ZeTime</string>
     <string name="zetime_title_heartrate">Налаштування пульсу</string>
-    <string name="zetime_title_screentime">Тривалість роботи екрану в секундах</string>
+    <string name="zetime_title_screentime">Тривалість роботи екрана в секундах</string>
     <string name="activity_prefs_alarm_max_heart_rate">Найвищий пульс</string>
     <string name="activity_prefs_alarm_min_heart_rate">Найнижчий пульс</string>
     <string name="zetime_analog_mode">Аналоговий режим</string>
@@ -626,7 +626,7 @@
     <string name="discovery_connected_devices_hint">Зробіть ваш пристрій виявним. Недавно під\'єднані пристрої, імовірно, не будуть виявлені. Активуйте розташування (GPS) на Android 6+. Вимкніть захист приватності для Gadgetbridge, оскільки це може призвести до збою і перезавантаження телефону. Якщо за кілька хвилин не буде виявлено жодного пристрою, повторіть спробу після перезавантаження мобільного пристрою.</string>
     <string name="pref_title_low_latency_fw_update">Увімкнути режим низької затримки для встановлення мікропрограми</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет вібруватиме за досягнення щоденної цілі кількості кроків</string>
-    <string name="mi2_prefs_display_items_summary">Виберіть пункти меню для відображення на екрані браслета</string>
+    <string name="mi2_prefs_display_items_summary">Виберіть пункти меню для показу на екрані браслета</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Оберніть руку, щоб змінити відомості</string>
     <string name="mi2_prefs_do_not_disturb_summary">Якщо ввімкнути, годинник не отримуватиме сповіщень</string>
     <string name="mi2_prefs_inactivity_warnings_summary">Браслет вібруватиме, якщо ви були неактивні протягом певного часу</string>
@@ -697,9 +697,9 @@
     <string name="watch9_calibration_hint">Налаштувати поточний час пристрою.</string>
     <string name="title_activity_watch9_pairing">Watch 9 створення з\'єднання</string>
     <string name="title_activity_watch9_calibration">Watch 9 калібрування</string>
-    <string name="mi3_prefs_band_screen_unlock">Розблокування екрану браслета</string>
-    <string name="mi3_prefs_band_screen_unlock_summary">Посуньте вгору для розблокування екрану браслета</string>
-    <string name="mi3_prefs_night_mode_summary">Автозниження яскравості екрану вночі</string>
+    <string name="mi3_prefs_band_screen_unlock">Розблокування екрана браслета</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Посуньте вгору для розблокування екрана браслета</string>
+    <string name="mi3_prefs_night_mode_summary">Автозниження яскравості екрана вночі</string>
     <string name="share_log_warning">Пам\'ятайте, що файли журналів Gadgetbridge можуть містити багато персональних даних, включно з, але не обмежуючись, даними про здоров\'я, унікальними ідентифікаторами (як-от MAC адреса), музичні вподобання тощо. Відредагуйте файл та вилучіть ці дані перед надсиланням.</string>
     <string name="pref_title_contextual_arabic">Контекстна арабська мова</string>
     <string name="pref_summary_contextual_arabic">Увімкнути підтримку контекстної арабської мови</string>
@@ -1037,7 +1037,7 @@
     <string name="activity_type_elliptical_trainer">Еліптичний тренажер</string>
     <string name="activity_type_indoor_cycling">Велотренажер</string>
     <string name="activity_type_swimming_openwater">Плавання (відкрита вода)</string>
-    <string name="bip_prefs_shotcuts_summary">Виберіть ярлики для екрану браслета</string>
+    <string name="bip_prefs_shotcuts_summary">Виберіть ярлики для екрана браслета</string>
     <string name="fw_upgrade_notice_miband5">Ви збираєтесь установити мікропрограму %s на ваш Mi Band 5.
 \n
 \nСпочатку встановіть файл .fw, а потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
@@ -1061,7 +1061,7 @@
     <string name="sonyswr12_settings_alarm_interval_summary">Інтервал інтелектуальної тривоги - це інтервал до встановленої сигналізації. У цей інтервал пристрій намагається виявити найлегшу фазу сну для пробудження користувача</string>
     <string name="prefs_key_vibration">Вібрація клавіш</string>
     <string name="activity_db_management_clean_export_directory_text">Експортовані файли в каталозі Експорту/Імпорту доступні застосункам з вашого пристрою. Можливо ви захочете видалити ці файли після синхронізації чи створення запасної копії. Перед видаленням переконайтесь, що створено запасну копію. Файли GPX, підкаталоги та автоекспортовані файли бази даних (якщо існують) не будуть видалені. Шлях до каталогу Експорту/Імпорту:</string>
-    <string name="activity_error_no_app_for_png">Щоб поділитись цим знімком екрану, встановіть застосунок, який підтримує файли зображень.</string>
+    <string name="activity_error_no_app_for_png">Щоб поділитись цим знімком екрана, встановіть застосунок, який підтримує файли зображень.</string>
     <string name="prefs_fake_ring_duration">Несправжній безперервний дзвінок</string>
     <string name="prefs_autoremove_message">Автоматично видаляти СМС-повідомлення</string>
     <string name="fossil_hr_commute_processing">Обробка запиту…</string>
@@ -1269,7 +1269,7 @@
     <string name="watchface_setting_title_wrist_flick">Рух зап\'ястя</string>
     <string name="watchface_setting_display_refresh_partial">Часткове оновлення (у хвилинах)</string>
     <string name="watchface_setting_display_refresh_full">Повне оновлення (у хвилинах)</string>
-    <string name="watchface_setting_title_display_refresh_timeout">Час оновлення екрану</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Час оновлення екрана</string>
     <string name="watchface_dialog_title_settings">Налаштування циферблата</string>
     <string name="watchface_dialog_widget_color_black">Чорний</string>
     <string name="watchface_dialog_widget_color_white">Білий</string>
@@ -1303,8 +1303,8 @@
     <string name="heart_rate_result">Результати вимірювань</string>
     <string name="getting_heart_rate">Вимірювання</string>
     <string name="blood_pressure">Артеріальний тиск</string>
-    <string name="watchface_setting_power_saving_hands">Вимкніть рух рук, коли годинник не одягнено</string>
-    <string name="watchface_setting_power_saving_display">Вимкнути оновлення екрану, коли годинник не одягнено</string>
+    <string name="watchface_setting_power_saving_hands">Вимкніть рух рук, коли браслет не одягнено</string>
+    <string name="watchface_setting_power_saving_display">Вимкнути оновлення екрана, коли браслет не одягнено</string>
     <string name="watchface_setting_title_power_saving">Заощадження енергії</string>
     <string name="watchface_widget_type_chance_rain">Імовірність дощу</string>
     <string name="watchface_widget_type_active_mins">Хвилини активності</string>
@@ -1627,7 +1627,7 @@
     <string name="world_clock_label">Мітка</string>
     <string name="mi5_prefs_workout_activity_types">Типи тренувань</string>
     <string name="activity_type_outdoor_running">Біг надворі</string>
-    <string name="mi5_prefs_workout_activity_types_summary">Виберіть типи активності для відображення на екрані тренувань</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Виберіть типи активності для показу на екрані тренувань</string>
     <string name="activity_type_freestyle">Фристайл</string>
     <string name="activity_type_outdoor_cycling">Велоїзда надворі</string>
     <string name="activity_type_elliptical">Еліптичний тренажер</string>
@@ -1690,7 +1690,7 @@
     <string name="heartrate_bpm_125">125 уд/хв</string>
     <string name="heartrate_bpm_135">135 уд/хв</string>
     <string name="prefs_stress_monitoring_description">Спостерігати рівень напруженості під час відпочинку</string>
-    <string name="prefs_heartrate_alert_experimental_description">Браслет вібруватиме, коли пульс перевищує обмеження, без будь-якої очевидної фізичної активності протягом останніх 10 хвилин. Ця функція є експериментальною й не була достатньо випробувана.</string>
+    <string name="prefs_heartrate_alert_experimental_description">Браслет вібруватиме, коли пульс перевищить обмеження, без явної фізичної активності протягом останніх 10 хвилин. Ця функція експериментальна й недостатньо випробувана.</string>
     <string name="prefs_stress_monitoring_title">Спостереження за напруженістю</string>
     <string name="prefs_activity_monitoring_title">Спостереження за діяльністю</string>
     <string name="prefs_activity_monitoring_description">Автоматично збільшувати частоту перевірки пульсу, коли годинник виявляє фізичні вправи, щоб підвищити точність охоплення пульсу.</string>
@@ -1858,13 +1858,13 @@
     <string name="seconds_9">9 секунд</string>
     <string name="seconds_11">11 секунд</string>
     <string name="seconds_12">12 секунд</string>
-    <string name="prefs_screen_timeout">Час очікування екрану</string>
+    <string name="prefs_screen_timeout">Час очікування екрана</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="pref_header_heartrate_sleep">Сон</string>
     <string name="pref_header_heartrate_allday">Цілодобове спостереження</string>
     <string name="pref_header_stress">Напруженість</string>
     <string name="pref_header_spo2">Кисень у крові</string>
-    <string name="pref_screen_brightness">Яскравість екрану</string>
+    <string name="pref_screen_brightness">Яскравість екрана</string>
     <string name="pref_header_heartrate_alerts">Попередження про пульс</string>
     <string name="fw_upgrade_notice_miband7">Ви збираєтесь установити мікропрограму %s на ваш Xiaomi Smart Band 7.
 \n
@@ -2030,7 +2030,7 @@
     <string name="pref_agps_expiry_reminder_enabled">Нагадування про закінчення терміну дії AGPS</string>
     <string name="pref_workout_detection_categories_summary">Категорії тренувань для автоматичного виявлення</string>
     <string name="pref_workout_detection_alert_title">Оповіщення</string>
-    <string name="pref_sleep_mode_sleep_screen_summary">Показ екрану сну під час пробудження екрана з режиму сну, щоб зменшити відволікання</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Показ екрана сну під час пробудження екрана з режиму сну, щоб знизити відвертання уваги</string>
     <string name="buttons_on_left">Кнопки зліва</string>
     <string name="buttons_on_right">Кнопки справа</string>
     <string name="prefs_weardirection">Напрямок носіння</string>
@@ -2052,7 +2052,7 @@
     <string name="menuitem_lockscreen">Екран блокування</string>
     <string name="menuitem_unsupported">[НЕ ПІДТРИМУЄТЬСЯ] %s</string>
     <string name="pref_title_lower_button_short_press_action">Дія короткого натискання нижньої кнопки</string>
-    <string name="pref_screen_auto_brightness_summary">Регулювання яскравості екрану залежно від навколишнього освітлення</string>
+    <string name="pref_screen_auto_brightness_summary">Регулювання яскравості екрана залежно від навколишнього освітлення</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Стандартна</string>
     <string name="pref_agps_expiry_reminder_time">Час нагадування про закінчення терміну дії AGPS</string>
     <string name="menuitem_eject_water">Виведення води</string>
@@ -2252,8 +2252,8 @@
     <string name="pref_app_logs_stop_summary">Припинити запис журналу із застосунків годинника</string>
     <string name="pref_app_logs_title">Журнали застосунків</string>
     <string name="fwapp_install_device_not_supported">Неможливо встановити файл, пристрій не підтримується.</string>
-    <string name="screenshot_taken">Знімок екрану зроблено</string>
-    <string name="share_screenshot">Поділитися знімком екрану</string>
+    <string name="screenshot_taken">Знімок екрана зроблено</string>
+    <string name="share_screenshot">Поділитися знімком екрана</string>
     <string name="stress_mild">Легкий</string>
     <string name="stress_moderate">Помірний</string>
     <string name="charts_legend_stress_average">Середній рівень стресу</string>
@@ -2416,7 +2416,7 @@
     <string name="white">Білий</string>
     <string name="prefs_wena3_item_background_sync">Синхронізація даних про фонову діяльність</string>
     <string name="prefs_home_icon_right_item">Праворуч</string>
-    <string name="prefs_wena3_title_screen">Налаштування екрану</string>
+    <string name="prefs_wena3_title_screen">Налаштування екрана</string>
     <string name="green">Зелений</string>
     <string name="yellow">Жовтий</string>
     <string name="devicetype_sony_wena3">Sony Wena 3</string>
@@ -2445,7 +2445,7 @@
     <string name="prefs_wena3_home_icon_name_qrio">Qrio</string>
     <string name="prefs_wena3_home_icon_name_clock">Поточний час</string>
     <string name="prefs_wena3_vibration_strength_item_weak">Слабка</string>
-    <string name="prefs_wena3_home_icon_title">Піктограми домашнього екрану</string>
+    <string name="prefs_wena3_home_icon_title">Піктограми домашнього екрана</string>
     <string name="prefs_wena3_item_weather_statusbar">Погода у панелі стану</string>
     <string name="temperature_scale_celsius">За Цельсієм</string>
     <string name="prefs_wena3_vibration_step_up">Посилювана</string>
@@ -2462,7 +2462,7 @@
     <string name="temperature_scale_cf">Шкала температури</string>
     <string name="prefs_wena3_notification_vibration_repetition_1">Один раз</string>
     <string name="prefs_wena3_receive_calls_item">Отримувати сповіщення про виклики</string>
-    <string name="prefs_wena3_hint_weather_statusbar">Показувати значок поточних умов у верхньому лівому кутку головного екрану</string>
+    <string name="prefs_wena3_hint_weather_statusbar">Показувати значок поточних умов у верхньому лівому кутку головного екрана</string>
     <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay</string>
     <string name="prefs_wena3_button_action_item">Кнопка дії</string>
     <string name="prefs_wena3_auto_power_off_turn_on_time_item">Час відновлення</string>
@@ -2483,7 +2483,7 @@
     <string name="prefs_wena3_status_page_title">Сторінка стану замовлення</string>
     <string name="prefs_wena3_title_alarm">Налаштування будильника</string>
     <string name="prefs_wena3_notification_default_vibration_repetition">Повторення вібрації сповіщень</string>
-    <string name="prefs_wena3_hint_rich_design">Додає заокруглені прямокутники навколо піктограм домашнього екрану</string>
+    <string name="prefs_wena3_hint_rich_design">Додає заокруглені прямокутники навколо піктограм домашнього екрана</string>
     <string name="prefs_wena3_notification_default_led">Колір світлодіода сповіщення</string>
     <string name="prefs_wena3_auto_power_off_item">Автовимкнення</string>
     <string name="prefs_wena3_home_icon_name_edy">Баланс Edy</string>
