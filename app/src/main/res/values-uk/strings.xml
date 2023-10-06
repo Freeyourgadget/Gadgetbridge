@@ -1258,7 +1258,7 @@
     <string name="pref_theme_black_background">Застосувати чорне тло для темної теми</string>
     <string name="qhybrid_summary_calibration">Калібрування стрілок годинника</string>
     <string name="qhybrid_summary_file_management">Відправка та завантаження файлів</string>
-    <string name="pref_summary_physical_buttons">Налаштувати функції фізичних кнопок годинника</string>
+    <string name="pref_summary_physical_buttons">Налаштуйте функції фізичних кнопок годинника</string>
     <string name="pref_title_physical_buttons">Фізичні кнопки</string>
     <string name="qhybrid_title_watchface">Налаштування циферблата</string>
     <string name="watchface_setting_wrist_flick_duration">Тривалість (у мс)</string>
@@ -1704,9 +1704,9 @@
     <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
     <string name="pref_summary_banglejs_text_bitmap">Якщо слово не може бути відтворено шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge і показувати растрове зображення на годиннику</string>
     <string name="pref_workout_start_on_phone_title">Відстеження фітнес-застосунку</string>
-    <string name="pref_workout_start_on_phone_summary">Запускати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на годиннику</string>
+    <string name="pref_workout_start_on_phone_summary">Запускати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
     <string name="pref_workout_send_gps_title">Надсилати GPS під час тренування</string>
-    <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на годинник під час тренування</string>
+    <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на браслет під час тренування</string>
     <string name="notification_channel_gps">GPS-стеження</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
