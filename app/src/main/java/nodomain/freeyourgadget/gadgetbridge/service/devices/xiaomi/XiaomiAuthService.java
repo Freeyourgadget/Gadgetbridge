@@ -53,12 +53,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class XiaomiCipher {
-    private static final Logger LOG = LoggerFactory.getLogger(XiaomiCipher.class);
+public class XiaomiAuthService extends AbstractXiaomiService {
+    private static final Logger LOG = LoggerFactory.getLogger(XiaomiAuthService.class);
 
-    private final XiaomiSupport mSupport;
+    public static final int COMMAND_TYPE = 1;
+
+    public static final int CMD_NONCE = 26;
+    public static final int CMD_AUTH = 27;
 
     private final byte[] secretKey = new byte[16];
     private final byte[] nonce = new byte[16];
@@ -67,55 +71,56 @@ public class XiaomiCipher {
     private final byte[] encryptionNonce = new byte[4];
     private final byte[] decryptionNonce = new byte[4];
 
-    public XiaomiCipher(final XiaomiSupport support) {
-        this.mSupport = support;
+    public XiaomiAuthService(final XiaomiSupport support) {
+        super(support);
     }
 
     protected void startAuthentication(final TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(mSupport.getDevice(), GBDevice.State.AUTHENTICATING, mSupport.getContext()));
+        builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
-        System.arraycopy(getSecretKey(mSupport.getDevice()), 0, secretKey, 0, 16);
+        System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
 
         builder.write(
-                mSupport.getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
+                getSupport().getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
                 ArrayUtils.addAll(XiaomiConstants.PAYLOAD_HEADER_AUTH, buildNonceCommand(nonce))
         );
     }
 
-    protected void handleAuthCommand(final XiaomiProto.Command cmd) {
-        if (cmd.getType() != XiaomiConstants.CMD_TYPE_AUTH) {
+    @Override
+    public void handleCommand(final XiaomiProto.Command cmd) {
+        if (cmd.getType() != COMMAND_TYPE) {
             throw new IllegalArgumentException("Not an auth command");
         }
 
         switch (cmd.getSubtype()) {
-            case XiaomiConstants.CMD_AUTH_NONCE: {
+            case CMD_NONCE: {
                 LOG.debug("Got watch nonce");
 
                 // Watch nonce
                 final XiaomiProto.Command reply = handleWatchNonce(cmd.getAuth().getWatchNonce());
                 if (reply == null) {
-                    mSupport.disconnect();
+                    getSupport().disconnect();
                     return;
                 }
 
-                final TransactionBuilder builder = mSupport.createTransactionBuilder("auth step 2");
+                final TransactionBuilder builder = getSupport().createTransactionBuilder("auth step 2");
                 // TODO maybe move these writes to support class?
                 builder.write(
-                        mSupport.getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
+                        getSupport().getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
                         ArrayUtils.addAll(XiaomiConstants.PAYLOAD_HEADER_AUTH, reply.toByteArray())
                 );
-                builder.queue(mSupport.getQueue());
+                builder.queue(getSupport().getQueue());
                 break;
             }
 
-            case XiaomiConstants.CMD_AUTH_AUTH: {
+            case CMD_AUTH: {
                 LOG.info("Authenticated!");
 
-                final TransactionBuilder builder = mSupport.createTransactionBuilder("phase 2 initialize");
-                builder.add(new SetDeviceStateAction(mSupport.getDevice(), GBDevice.State.INITIALIZED, mSupport.getContext()));
-                mSupport.phase2Initialize(builder);
-                builder.queue(mSupport.getQueue());
+                final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
+                builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
+                getSupport().phase2Initialize(builder);
+                builder.queue(getSupport().getQueue());
                 break;
             }
 
@@ -190,8 +195,8 @@ public class XiaomiCipher {
                 .build();
 
         final XiaomiProto.Command.Builder cmd = XiaomiProto.Command.newBuilder();
-        cmd.setType(XiaomiConstants.CMD_TYPE_AUTH);
-        cmd.setSubtype(XiaomiConstants.CMD_AUTH_AUTH);
+        cmd.setType(COMMAND_TYPE);
+        cmd.setSubtype(CMD_AUTH);
 
         final XiaomiProto.Auth.Builder auth = XiaomiProto.Auth.newBuilder();
         auth.setAuthStep3(authStep3);
@@ -207,8 +212,8 @@ public class XiaomiCipher {
         auth.setPhoneNonce(phoneNonce.build());
 
         final XiaomiProto.Command.Builder command = XiaomiProto.Command.newBuilder();
-        command.setType(XiaomiConstants.CMD_TYPE_AUTH);
-        command.setSubtype(XiaomiConstants.CMD_AUTH_NONCE);
+        command.setType(COMMAND_TYPE);
+        command.setSubtype(CMD_NONCE);
         command.setAuth(auth.build());
         return command.build().toByteArray();
     }

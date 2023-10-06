@@ -69,8 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSupport.class);
 
-    private final XiaomiCipher cipher = new XiaomiCipher(this);
-
+    private final XiaomiAuthService authService = new XiaomiAuthService(this);
     private final XiaomiMusicService musicService = new XiaomiMusicService(this);
     private final XiaomiHealthService healthService = new XiaomiHealthService(this);
     private final XiaomiNotificationService notificationService = new XiaomiNotificationService(this);
@@ -79,6 +78,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private final XiaomiSystemService systemService = new XiaomiSystemService(this);
 
     private final Map<Integer, AbstractXiaomiService> mServiceMap = new LinkedHashMap<Integer, AbstractXiaomiService>() {{
+        put(XiaomiAuthService.COMMAND_TYPE, authService);
         put(XiaomiMusicService.COMMAND_TYPE, musicService);
         put(XiaomiHealthService.COMMAND_TYPE, healthService);
         put(XiaomiNotificationService.COMMAND_TYPE, notificationService);
@@ -133,7 +133,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ), true);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE), true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        cipher.startAuthentication(builder);
+        authService.startAuthentication(builder);
 
         return builder;
     }
@@ -168,6 +168,9 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
                 LOG.warn("Non-zero header not supported");
                 return true;
             }
+            if (type == 0) {
+                // Chunked
+            }
             if (type != 2) {
                 LOG.warn("Unsupported type {}", type);
                 return true;
@@ -175,7 +178,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
             final byte[] plainValue;
             if (encryption == 1) {
-                plainValue = cipher.decrypt(ArrayUtils.subarray(value, 4, value.length));
+                plainValue = authService.decrypt(ArrayUtils.subarray(value, 4, value.length));
             } else {
                 plainValue = ArrayUtils.subarray(value, 4, value.length);
             }
@@ -193,11 +196,6 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
             final AbstractXiaomiService service = mServiceMap.get(cmd.getType());
             if (service != null) {
                 service.handleCommand(cmd);
-                return true;
-            }
-
-            if (cmd.getType() == CMD_TYPE_AUTH) {
-                cipher.handleAuthCommand(cmd);
                 return true;
             }
 
@@ -441,7 +439,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
         final byte[] commandBytes = command.toByteArray();
-        final byte[] encryptedCommandBytes = cipher.encrypt(commandBytes, encryptedIndex);
+        final byte[] encryptedCommandBytes = authService.encrypt(commandBytes, encryptedIndex);
         final ByteBuffer buf = ByteBuffer.allocate(6 + encryptedCommandBytes.length).order(ByteOrder.LITTLE_ENDIAN);
         buf.putShort((short) 0);
         buf.put((byte) 2); // 2 for command

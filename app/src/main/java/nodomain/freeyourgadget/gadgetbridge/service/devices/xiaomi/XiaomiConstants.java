@@ -39,12 +39,11 @@ public class XiaomiConstants {
     public static final UUID UUID_CHARACTERISTIC_XIAOMI_UNKNOWN_0002 = UUID.fromString((String.format(BASE_UUID, "0002")));
     public static final UUID UUID_CHARACTERISTIC_XIAOMI_UNKNOWN_0003 = UUID.fromString((String.format(BASE_UUID, "0003")));
 
-    public static final int CMD_TYPE_AUTH = 1;
-
-    public static final int CMD_AUTH_NONCE = 26;
-    public static final int CMD_AUTH_AUTH = 27;
-
     // TODO not like this
-    public static final byte[] PAYLOAD_ACK = new byte[]{0, 0, 3, 0};
-    public static final byte[] PAYLOAD_HEADER_AUTH = new byte[]{0, 0, 2, 2};
+    public static final byte[] PAYLOAD_CHUNKED_START =     new byte[]{0, 0, 0, 1};
+    public static final byte[] PAYLOAD_CHUNKED_START_ACK = new byte[]{0, 0, 1, 1};
+    public static final byte[] PAYLOAD_CHUNKED_END_ACK =   new byte[]{0, 0, 1, 0};
+    public static final byte[] PAYLOAD_HEADER_AUTH =       new byte[]{0, 0, 2, 2};
+    public static final byte[] PAYLOAD_HEADER_CMD =        new byte[]{0, 0, 2, 1};
+    public static final byte[] PAYLOAD_ACK =               new byte[]{0, 0, 3, 0};
 }
