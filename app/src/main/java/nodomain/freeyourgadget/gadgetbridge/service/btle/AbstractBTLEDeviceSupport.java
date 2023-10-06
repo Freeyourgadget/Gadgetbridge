@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback, GattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
 
+    private int mMTU = 0;
     private BtLEQueue mQueue;
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
@@ -380,7 +381,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
-
+        this.mMTU = mtu;
     }
 
     @Override
@@ -406,5 +407,13 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
         return false;
+    }
+
+    /**
+     * Gets the current MTU, or 0 if unknown
+     * @return the current MTU, 0 if unknown
+     */
+    public int getMTU() {
+        return mMTU;
     }
 }

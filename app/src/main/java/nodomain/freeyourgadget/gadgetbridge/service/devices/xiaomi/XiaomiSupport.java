@@ -25,7 +25,6 @@ import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -52,7 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -138,6 +137,8 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
+    private final Map<UUID, XiaomiChunkedHandler> mChunkedHandlers = new HashMap<>();
+
     @Override
     public boolean onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
         if (super.onCharacteristicChanged(gatt, characteristic)) {
@@ -146,6 +147,10 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
         final UUID characteristicUUID = characteristic.getUuid();
         final byte[] value = characteristic.getValue();
+
+        if (Arrays.equals(value, PAYLOAD_ACK)) {
+
+        }
 
         if (UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE.equals(characteristicUUID)) {
             if (Arrays.equals(value, PAYLOAD_ACK)) {
@@ -158,53 +163,103 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         }
 
         if (UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ.equals(characteristicUUID)) {
-            sendAck(characteristic);
+            final ByteBuffer buf = ByteBuffer.wrap(characteristic.getValue())
+                    .order(ByteOrder.LITTLE_ENDIAN);
 
-            final int header = BLETypeConversions.toUint16(value, 0);
-            final int type = BLETypeConversions.toUnsigned(value, 2);
-            final int encryption = BLETypeConversions.toUnsigned(value, 3);
+            final int chunk = buf.getShort();
+            if (chunk != 0) {
+                // Chunked packet
+                final XiaomiChunkedHandler chunkedHandler = mChunkedHandlers.get(characteristicUUID);
+                if (chunkedHandler == null) {
+                    LOG.warn("No chunked handler initialized for {}", characteristicUUID);
+                    return true;
+                }
+                final byte[] chunkBytes = new byte[buf.limit() - buf.position()];
+                buf.get(chunkBytes);
+                chunkedHandler.addChunk(chunkBytes);
+                if (chunk == chunkedHandler.getNumChunks()) {
+                    // TODO handle reassembled chunk
+                    final byte[] plainValue = authService.decrypt(chunkedHandler.getArray());
+                    handleCommandBytes(plainValue);
+                }
 
-            if (header != 0) {
-                LOG.warn("Non-zero header not supported");
                 return true;
-            }
-            if (type == 0) {
-                // Chunked
-            }
-            if (type != 2) {
-                LOG.warn("Unsupported type {}", type);
-                return true;
-            }
-
-            final byte[] plainValue;
-            if (encryption == 1) {
-                plainValue = authService.decrypt(ArrayUtils.subarray(value, 4, value.length));
             } else {
-                plainValue = ArrayUtils.subarray(value, 4, value.length);
+                // Not a chunk / single-packet
+                final byte type = buf.get();
+
+                switch (type) {
+                    case 0:
+                        // Chunked start request
+                        final byte one = buf.get(); // ?
+                        if (one != 1) {
+                            LOG.warn("Chunked start request: expected 1, got {}", one);
+                            return true;
+                        }
+                        final short numChunks = buf.getShort();
+                        LOG.debug("Got chunked start request for {} chunks", numChunks);
+                        XiaomiChunkedHandler chunkedHandler = mChunkedHandlers.get(characteristicUUID);
+                        if (chunkedHandler == null) {
+                            chunkedHandler = new XiaomiChunkedHandler();
+                            mChunkedHandlers.put(UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ, chunkedHandler);
+                        }
+                        chunkedHandler.setNumChunks(numChunks);
+                        sendChunkStartAck(characteristic);
+                        return true;
+                    case 1:
+                        // Chunked start ack
+                        LOG.debug("Got chunked start ack");
+                        return true;
+                    case 2:
+                        // Single command
+                        sendAck(characteristic);
+
+                        final byte encryption = buf.get();
+                        final byte[] plainValue;
+                        if (encryption == 1) {
+                            final byte[] encryptedValue = new byte[buf.limit() - buf.position()];
+                            buf.get(encryptedValue);
+                            plainValue = authService.decrypt(encryptedValue);
+                        } else {
+                            plainValue = new byte[buf.limit() - buf.position()];
+                            buf.get(plainValue);
+                        }
+
+                        handleCommandBytes(plainValue);
+
+                        return true;
+                    case 3:
+                        // ack
+                        LOG.debug("Got ack");
+                        return true;
+                }
             }
 
-            LOG.debug("Got command: {}", GB.hexdump(plainValue));
-
-            final XiaomiProto.Command cmd;
-            try {
-                cmd = XiaomiProto.Command.parseFrom(plainValue);
-            } catch (final Exception e) {
-                LOG.error("Failed to parse bytes as protobuf command payload", e);
-                return true;
-            }
-
-            final AbstractXiaomiService service = mServiceMap.get(cmd.getType());
-            if (service != null) {
-                service.handleCommand(cmd);
-                return true;
-            }
-
-            LOG.warn("Unexpected watch command type {}", cmd.getType());
             return true;
         }
 
         LOG.warn("Unhandled characteristic changed: {} {}", characteristicUUID, GB.hexdump(value));
         return false;
+    }
+
+    public void handleCommandBytes(final byte[] plainValue) {
+        LOG.debug("Got command: {}", GB.hexdump(plainValue));
+
+        final XiaomiProto.Command cmd;
+        try {
+            cmd = XiaomiProto.Command.parseFrom(plainValue);
+        } catch (final Exception e) {
+            LOG.error("Failed to parse bytes as protobuf command payload", e);
+            return;
+        }
+
+        final AbstractXiaomiService service = mServiceMap.get(cmd.getType());
+        if (service != null) {
+            service.handleCommand(cmd);
+            return;
+        }
+
+        LOG.warn("Unexpected watch command type {}", cmd.getType());
     }
 
     @Override
@@ -426,6 +481,18 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private void sendAck(final BluetoothGattCharacteristic characteristic) {
         final TransactionBuilder builder = createTransactionBuilder("send ack");
         builder.write(characteristic, PAYLOAD_ACK);
+        builder.queue(getQueue());
+    }
+
+    private void sendChunkStartAck(final BluetoothGattCharacteristic characteristic) {
+        final TransactionBuilder builder = createTransactionBuilder("send chunked start ack");
+        builder.write(characteristic, PAYLOAD_CHUNKED_START_ACK);
+        builder.queue(getQueue());
+    }
+
+    private void sendChunkEndAck(final BluetoothGattCharacteristic characteristic) {
+        final TransactionBuilder builder = createTransactionBuilder("send chunked end ack");
+        builder.write(characteristic, PAYLOAD_CHUNKED_END_ACK);
         builder.queue(getQueue());
     }
 
