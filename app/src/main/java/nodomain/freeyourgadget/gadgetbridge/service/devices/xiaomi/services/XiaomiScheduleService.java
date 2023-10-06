@@ -75,6 +75,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     // Map of alarm position to Alarm, as returned by the band
     private final Map<Integer, Alarm> watchAlarms = new HashMap<>();
 
+    private int pendingAlarmAcks = 0;
+
     public XiaomiScheduleService(final XiaomiSupport support) {
         super(support);
     }
@@ -84,6 +86,14 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         switch (cmd.getSubtype()) {
             case CMD_ALARMS_GET:
                 handleAlarms(cmd.getSchedule().getAlarms());
+                break;
+            case CMD_ALARMS_CREATE:
+                pendingAlarmAcks--;
+                if (pendingAlarmAcks <= 0) {
+                    final TransactionBuilder builder = getSupport().createTransactionBuilder("request alarms after all acks");
+                    requestAlarms(builder);
+                    builder.queue(getSupport().getQueue());
+                }
                 break;
             case CMD_WORLD_CLOCKS_GET:
                 handleWorldClocks(cmd.getSchedule().getWorldClocks());
@@ -208,6 +218,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                                 .build()
                 );
             } else {
+                pendingAlarmAcks++;
                 schedule.setCreateAlarm(alarmDetails);
             }
 
