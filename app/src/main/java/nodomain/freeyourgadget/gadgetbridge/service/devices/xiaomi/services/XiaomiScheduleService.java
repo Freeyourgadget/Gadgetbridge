@@ -24,11 +24,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -36,7 +39,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiScheduleService extends AbstractXiaomiService {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiScheduleService.class);
@@ -47,6 +52,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     private static final int CMD_ALARMS_CREATE = 1;
     private static final int CMD_ALARMS_EDIT = 3;
     private static final int CMD_ALARMS_DELETE = 4;
+    private static final int CMD_SLEEP_MODE_GET = 8;
+    private static final int CMD_SLEEP_MODE_SET = 9;
     private static final int CMD_WORLD_CLOCKS_GET = 10;
     private static final int CMD_WORLD_CLOCKS_SET = 11;
 
@@ -81,6 +88,9 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
             case CMD_WORLD_CLOCKS_GET:
                 handleWorldClocks(cmd.getSchedule().getWorldClocks());
                 break;
+            case CMD_SLEEP_MODE_GET:
+                handleSleepModeConfig(cmd.getSchedule().getSleepMode());
+                break;
         }
     }
 
@@ -88,6 +98,22 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     public void initialize(final TransactionBuilder builder) {
         requestAlarms(builder);
         requestWorldClocks(builder);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_SLEEP_MODE_GET);
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
+
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME:
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START:
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END:
+                setSleepModeConfig(builder);
+                return true;
+        }
+
+        return false;
     }
 
     public void onSetReminders(final ArrayList<? extends Reminder> reminders) {
@@ -279,6 +305,46 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
             final Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
             LocalBroadcastManager.getInstance(getSupport().getContext()).sendBroadcast(intent);
         }
+    }
+
+    private void handleSleepModeConfig(final XiaomiProto.SleepMode sleepMode) {
+        LOG.debug("Got sleep mode config");
+
+        final String start = XiaomiPreferences.prefFromHourMin(sleepMode.getSchedule().getStart());
+        final String end = XiaomiPreferences.prefFromHourMin(sleepMode.getSchedule().getEnd());
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME, sleepMode.getEnabled())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START, start)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END, end);
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setSleepModeConfig(final TransactionBuilder builder) {
+        LOG.debug("Set sleep mode config");
+
+        final Prefs prefs = getDevicePrefs();
+        final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME, false);
+        final Date start = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START, "22:00");
+        final Date end = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END, "06:00");
+
+        final XiaomiProto.SleepMode sleepMode = XiaomiProto.SleepMode.newBuilder()
+                .setEnabled(enabled)
+                .setSchedule(XiaomiProto.SleepModeSchedule.newBuilder()
+                        .setUnknown3(0)
+                        .setStart(XiaomiPreferences.prefToHourMin(start))
+                        .setEnd(XiaomiPreferences.prefToHourMin(end)))
+                .build();
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_SLEEP_MODE_SET)
+                        .setSchedule(XiaomiProto.Schedule.newBuilder().setSleepMode(sleepMode))
+                        .build()
+        );
     }
 
     public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
