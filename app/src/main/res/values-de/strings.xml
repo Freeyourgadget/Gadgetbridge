@@ -2460,4 +2460,16 @@
     <string name="blue">Blau</string>
     <string name="prefs_wena3_notification_settings_title">Benachrichtigungseinstellungen</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="prefs_wena3_receive_calls_title">Einstellungen für eingehende Anrufe</string>
+    <string name="error_invalid_menu_structure">Ungültiges JSON für Menüstruktur</string>
+    <string name="prefs_wena3_item_large_font">Größere Schriftgröße</string>
+    <string name="button_reset_menu_structure">Menüstruktur zurücksetzen</string>
+    <string name="prefs_wena3_hint_large_font">Schriftgröße in Kalender, Benachrichtigungen, etc. vergrößern</string>
+    <string name="prefs_wena3_receive_calls_item">Anrufbenachrichtigungen empfangen</string>
+    <string name="prefs_wena3_notification_default_call_vibration">Eingehende Anrufvibration</string>
+    <string name="prefs_wena3_notification_default_call_led">LED-Farbe bei eingehendem Anruf</string>
+    <string name="prefs_wena3_notification_default_call_vibration_repetition">Wiederholung von eingehender Anrufvibration</string>
+    <string name="prefs_wena3_receive_calls_hint">Falls abgeschaltet, wirst du nicht über eingehende Anrufe auf der Wena benachrichtigt</string>
+    <string name="latvian">Lettisch</string>
+    <string name="info_menu_structure_removed">Menüstruktur entfernt</string>
 </resources>
