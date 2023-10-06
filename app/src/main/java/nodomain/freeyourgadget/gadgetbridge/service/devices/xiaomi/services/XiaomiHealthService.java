@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiHealthService extends AbstractXiaomiService {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiHealthService.class);
@@ -73,8 +74,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 return;
         }
 
-        // TODO
-        LOG.warn("Unhandled health command");
+        LOG.warn("Unknown health command {}", cmd.getSubtype());
     }
 
     @Override
@@ -82,7 +82,29 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         setUserInfo(builder);
     }
 
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case ActivityUser.PREF_USER_HEIGHT_CM:
+            case ActivityUser.PREF_USER_WEIGHT_KG:
+            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_GENDER:
+            case ActivityUser.PREF_USER_CALORIES_BURNT:
+            case ActivityUser.PREF_USER_STEPS_GOAL:
+            case ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS:
+            case ActivityUser.PREF_USER_ACTIVETIME_MINUTES:
+                final TransactionBuilder builder = getSupport().createTransactionBuilder("set user info");
+                setUserInfo(builder);
+                builder.queue(getSupport().getQueue());
+                return true;
+        }
+
+        return false;
+    }
+
     public void setUserInfo(final TransactionBuilder builder) {
+        LOG.debug("Setting user info");
+
         final ActivityUser activityUser = new ActivityUser();
         final int birthYear = activityUser.getYearOfBirth();
         final byte birthMonth = 7; // not in user attributes
@@ -126,6 +148,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     public void onHeartRateTest() {
+        LOG.debug("Trigger heart rate one-shot test");
+
         realtimeStarted = true;
         realtimeOneShot = true;
 
@@ -139,6 +163,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     public void enableRealtimeStats(final boolean enable) {
+        LOG.debug("Enable realtime stats: {}", enable);
+
         if (realtimeStarted == enable) {
             // same state, ignore
             return;
@@ -158,6 +184,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     private void handleRealtimeStats(final XiaomiProto.RealTimeStats realTimeStats) {
+        LOG.debug("Got realtime stats");
+
         if (realtimeOneShot) {
             if (realTimeStats.getHeartRate() <= 10) {
                 return;

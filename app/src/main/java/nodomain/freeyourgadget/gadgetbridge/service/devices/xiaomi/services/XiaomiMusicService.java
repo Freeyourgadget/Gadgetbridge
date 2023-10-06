@@ -66,10 +66,12 @@ public class XiaomiMusicService extends AbstractXiaomiService {
 
         switch (cmd.getSubtype()) {
             case CMD_MUSIC_GET:
+                LOG.debug("Got music request from watch");
                 mediaManager.refresh();
                 sendMusicStateToDevice();
-                break;
+                return;
             case CMD_MUSIC_BUTTON:
+                LOG.debug("Got music button from watch: {}", music.getMediaKey().getKey());
                 final GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
                 switch (music.getMediaKey().getKey()) {
                     case BUTTON_PLAY:
@@ -97,10 +99,10 @@ public class XiaomiMusicService extends AbstractXiaomiService {
                 }
                 // FIXME sometimes this is not triggering a device update?
                 getSupport().evaluateGBDeviceEvent(deviceEventMusicControl);
-                break;
-            default:
-                LOG.warn("Unhandled music command {}", cmd.getSubtype());
+                return;
         }
+
+        LOG.warn("Unknown music command {}", cmd.getSubtype());
     }
 
     public void onSetMusicState(final MusicStateSpec stateSpec) {

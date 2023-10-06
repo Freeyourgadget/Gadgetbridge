@@ -65,35 +65,13 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         // TODO
         switch (cmd.getSubtype()) {
             case CMD_DEVICE_INFO:
-                final XiaomiProto.DeviceInfo deviceInfo = cmd.getSystem().getDeviceInfo();
-                final GBDeviceEventVersionInfo gbDeviceEventVersionInfo = new GBDeviceEventVersionInfo();
-                gbDeviceEventVersionInfo.fwVersion = deviceInfo.getFirmware();
-                //gbDeviceEventVersionInfo.fwVersion2 = "N/A";
-                gbDeviceEventVersionInfo.hwVersion = deviceInfo.getModel();
-                final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", deviceInfo.getSerialNumber());
-
-                getSupport().evaluateGBDeviceEvent(gbDeviceEventVersionInfo);
-                getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
+                handleDeviceInfo(cmd.getSystem().getDeviceInfo());
                 return;
             case CMD_BATTERY:
-                final XiaomiProto.Battery battery = cmd.getSystem().getPower().getBattery();
-                final GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
-                batteryInfo.batteryIndex = 0;
-                batteryInfo.level = battery.getLevel();
-                switch (battery.getState()) {
-                    case 1:
-                        batteryInfo.state = BatteryState.BATTERY_CHARGING;
-                        break;
-                    case 2:
-                        batteryInfo.state = BatteryState.BATTERY_NORMAL;
-                        break;
-                    default:
-                        batteryInfo.state = BatteryState.UNKNOWN;
-                        LOG.warn("Unknown battery state {}", battery.getState());
-                }
-                getSupport().evaluateGBDeviceEvent(batteryInfo);
+                handleBattery(cmd.getSystem().getPower().getBattery());
                 return;
             case CMD_FIND_PHONE:
+                LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
                 final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
                 if (cmd.getSystem().getFindDevice() == 0) {
                     findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
@@ -104,20 +82,29 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 return;
             case CMD_CHARGER:
                 // charger event, request battery state
-                getSupport().sendCommand(
-                        "request battery state",
-                        XiaomiProto.Command.newBuilder()
-                                .setType(COMMAND_TYPE)
-                                .setSubtype(CMD_BATTERY)
-                                .build()
-                );
+                getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
                 return;
-            default:
-                LOG.warn("Unknown config command {}", cmd.getSubtype());
         }
+
+        LOG.warn("Unknown config command {}", cmd.getSubtype());
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
+                final TransactionBuilder builder = getSupport().createTransactionBuilder("set time format");
+                setCurrentTime(builder);
+                builder.queue(getSupport().getQueue());
+                return true;
+        }
+
+        return super.onSendConfiguration(config, prefs);
     }
 
     public void setCurrentTime(final TransactionBuilder builder) {
+        LOG.debug("Setting current time");
+
         final Calendar now = GregorianCalendar.getInstance();
         final TimeZone tz = TimeZone.getDefault();
 
@@ -155,7 +142,42 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         );
     }
 
+    private void handleDeviceInfo(final XiaomiProto.DeviceInfo deviceInfo) {
+        LOG.debug("Got device info: fw={} hw={} sn={}", deviceInfo.getFirmware(), deviceInfo.getModel(), deviceInfo.getSerialNumber());
+
+        final GBDeviceEventVersionInfo gbDeviceEventVersionInfo = new GBDeviceEventVersionInfo();
+        gbDeviceEventVersionInfo.fwVersion = deviceInfo.getFirmware();
+        //gbDeviceEventVersionInfo.fwVersion2 = "N/A";
+        gbDeviceEventVersionInfo.hwVersion = deviceInfo.getModel();
+        final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", deviceInfo.getSerialNumber());
+
+        getSupport().evaluateGBDeviceEvent(gbDeviceEventVersionInfo);
+        getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
+    }
+
+    private void handleBattery(final XiaomiProto.Battery battery) {
+        LOG.debug("Got battery: {}", battery.getLevel());
+
+        final GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+        batteryInfo.batteryIndex = 0;
+        batteryInfo.level = battery.getLevel();
+        switch (battery.getState()) {
+            case 1:
+                batteryInfo.state = BatteryState.BATTERY_CHARGING;
+                break;
+            case 2:
+                batteryInfo.state = BatteryState.BATTERY_NORMAL;
+                break;
+            default:
+                batteryInfo.state = BatteryState.UNKNOWN;
+                LOG.warn("Unknown battery state {}", battery.getState());
+        }
+        getSupport().evaluateGBDeviceEvent(batteryInfo);
+    }
+
     public void onFindPhone(final boolean start) {
+        LOG.debug("Find phone: {}", start);
+
         if (!start) {
             // Stop on watch
             getSupport().sendCommand(

@@ -97,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlRecei
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
@@ -558,6 +559,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
     }
 
+    protected Prefs getDevicePrefs() {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+    }
+
+    @Override
     public String customStringFilter(String inputString) {
         return inputString;
     }

@@ -24,7 +24,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -65,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiSystemService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWeatherService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSupport.class);
@@ -211,10 +211,16 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(final String config) {
-        // TODO
-        // TODO user info
-        // TODO 24h
-        GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR);
+        final Prefs prefs = getDevicePrefs();
+
+        // Check if any of the services handles this config
+        for (final AbstractXiaomiService service : mServiceMap.values()) {
+            if (service.onSendConfiguration(config, prefs)) {
+                return;
+            }
+        }
+
+        LOG.warn("Unhandled config changed: {}", config);
     }
 
     @Override
@@ -449,6 +455,16 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     public void sendCommand(final TransactionBuilder builder, final int type, final int subtype) {
         sendCommand(
                 builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(type)
+                        .setSubtype(subtype)
+                        .build()
+        );
+    }
+
+    public void sendCommand(final String taskName, final int type, final int subtype) {
+        sendCommand(
+                taskName,
                 XiaomiProto.Command.newBuilder()
                         .setType(type)
                         .setSubtype(subtype)

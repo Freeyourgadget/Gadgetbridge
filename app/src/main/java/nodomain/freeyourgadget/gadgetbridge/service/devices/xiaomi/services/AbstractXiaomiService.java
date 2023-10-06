@@ -42,6 +42,16 @@ public abstract class AbstractXiaomiService {
 
     }
 
+    /**
+     * Handle a preference change.
+     * @param config the preference key
+     * @param prefs the device preferences
+     * @return true if the preference was handled, false otherwise
+     */
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        return false;
+    }
+
     protected XiaomiSupport getSupport() {
         return mSupport;
     }
