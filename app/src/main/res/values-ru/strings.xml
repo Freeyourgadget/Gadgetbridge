@@ -1759,7 +1759,7 @@
     <string name="pref_enable_unsupported_settings_title">Включить неподдерживаемые настройки</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Настроить отслеживание сердечного ритма</string>
     <string name="prefs_always_on_display">Всегда на экране</string>
-    <string name="prefs_always_on_display_summary">Оставлять экран часов постоянно включенным</string>
+    <string name="prefs_always_on_display_summary">Всегда держать экран устройства включенным</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Чувствительность</string>
     <string name="activity_type_zumba">Зумба</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
@@ -1886,7 +1886,7 @@
     <string name="menuitem_wifi">Wi-Fi</string>
     <string name="autoExport_lastTime_label">Последний авто-экспорт: %1$s</string>
     <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт был изначально запланирован на %1$s</string>
-    <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
+    <string name="activity_db_management_autoexport_location">Не удалось определить местоположение. Возможно, эта проблема связана с новой системой разрешений в Android. Скорее всего, автоэкспорт сейчас не работает.</string>
     <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт не включен.</string>
     <string name="menuitem_bluetooth">Bluetooth</string>
     <string name="prefs_screen_timeout">Время ожидания экрана</string>
@@ -1904,7 +1904,7 @@
 \nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Фаза БДГ</string>
     <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо с часов</string>
     <string name="pref_display_caller_title">Показать контактную информацию</string>
     <string name="pref_display_caller_summary">Отображать номер телефона/имя звонящего</string>
@@ -1997,7 +1997,7 @@
     <string name="menuitem_cards">Карточки</string>
     <string name="menuitem_personal_activity_intelligence">Персональный Индекс Активности</string>
     <string name="menuitem_mi_ai">MI AI</string>
-    <string name="menuitem_eject_water">Вытряхнуть воду</string>
+    <string name="menuitem_eject_water">Вытолкнуть воду</string>
     <string name="menuitem_membership_cards">Членские карточки</string>
     <string name="sensitive">Чувствительный</string>
     <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>
