@@ -2486,7 +2486,7 @@
     <string name="prefs_switch_control_right">Переключить управление справа</string>
     <string name="prefs_switch_control_left">Переключить управление слева</string>
     <string name="watchface_setting_button_move_hands">Движение рук</string>
-    <string name="pref_title_touch_quick_ambient">Быстрый окружающий звук</string>
+    <string name="pref_title_touch_quick_ambient">Быстрые настройки звуков окружения</string>
     <string name="pref_message_privacy_mode_bodyonly">Скрыть только тело</string>
     <string name="latvian">Латышский</string>
 </resources>
