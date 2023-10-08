@@ -653,6 +653,12 @@ public class NotificationListener extends NotificationListenerService {
             notificationSpec.body = sanitizeUnicode(contentCS.toString());
         }
 
+        if (notificationSpec.type == NotificationType.COL_REMINDER
+                && notificationSpec.body == null
+                && notificationSpec.title != null) {
+            notificationSpec.body = notificationSpec.title;
+            notificationSpec.title = null;
+        }
     }
 
     private boolean isServiceRunning() {
@@ -883,8 +889,11 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean shouldIgnoreOngoing(StatusBarNotification sbn) {
+    private boolean shouldIgnoreOngoing(StatusBarNotification sbn, NotificationType type) {
         if (isFitnessApp(sbn)) {
+            return true;
+        }
+        if (type == NotificationType.COL_REMINDER) {
             return true;
         }
         return false;
@@ -932,6 +941,7 @@ public class NotificationListener extends NotificationListenerService {
                 type != NotificationType.WECHAT &&
                 type != NotificationType.TELEGRAM &&
                 type != NotificationType.OUTLOOK &&
+                type != NotificationType.COL_REMINDER &&
                 type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
             LOG.info("Ignoring notification, local only");
             return true;
@@ -958,7 +968,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (shouldIgnoreOngoing(sbn)) {
+        if (shouldIgnoreOngoing(sbn, type)) {
             return false;
         }
 

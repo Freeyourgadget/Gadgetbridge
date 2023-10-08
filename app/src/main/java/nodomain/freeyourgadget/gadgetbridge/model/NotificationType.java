@@ -72,7 +72,8 @@ public enum NotificationType {
     VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
     WECHAT(PebbleIconID.NOTIFICATION_WECHAT, PebbleColor.KellyGreen),
     WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.IslamicGreen),
-    YAHOO_MAIL(PebbleIconID.NOTIFICATION_YAHOO_MAIL, PebbleColor.Indigo);
+    YAHOO_MAIL(PebbleIconID.NOTIFICATION_YAHOO_MAIL, PebbleColor.Indigo),
+    COL_REMINDER(PebbleIconID.NOTIFICATION_REMINDER, PebbleColor.IslamicGreen);
 
     // Note: if you add any more constants, update all clients as well
 
@@ -134,6 +135,7 @@ public enum NotificationType {
             case OUTLOOK:
             case YAHOO_MAIL:
                 return "generic_email";
+            case COL_REMINDER:
             case UNKNOWN:
             default:
                 return "generic";

@@ -174,6 +174,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Discord
         put("com.discord", NotificationType.DISCORD);
+
+        // COL Reminder
+        put("com.colapps.reminder", NotificationType.COL_REMINDER);
     }
 
 }
