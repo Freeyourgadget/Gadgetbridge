@@ -358,12 +358,4 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                         .build()
         );
     }
-
-    public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
-        // TODO
-    }
-
-    public void onDeleteCalendarEvent(final byte type, long id) {
-        // TODO
-    }
 }

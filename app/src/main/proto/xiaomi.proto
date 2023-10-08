@@ -12,6 +12,7 @@ message Command {
   optional Auth auth = 3;
   optional System system = 4;
   optional Health health = 10;
+  optional Calendar calendar = 14;
   optional Music music = 20;
   optional Notification notification = 9;
   optional Weather weather = 12;
@@ -145,7 +146,7 @@ message Clock {
   required Date date = 1;
   required Time time = 2;
   required TimeZone timezone = 3;
-  required bool isNot24hour = 4;
+  optional bool isNot24hour = 4;
 }
 
 message Date {
@@ -419,6 +420,29 @@ message RealTimeStats {
 }
 
 //
+// Calendar
+//
+
+message Calendar {
+  optional CalendarSync calendarSync = 2;
+}
+
+message CalendarSync {
+  repeated CalendarEvent event = 1;
+  optional bool disabled = 2;
+}
+
+message CalendarEvent {
+  optional string title = 1;
+  optional string description = 2;
+  optional string location = 3;
+  optional uint32 start = 4; // unix epoch sec
+  optional uint32 end = 5; // unix epoch sec
+  optional bool allDay = 6;
+  optional uint32 notifyMinutesBefore = 7;
+}
+
+//
 // Music
 //
 
@@ -544,7 +568,7 @@ message Schedule {
   // 17, 3 -> returns 17, 5
   optional Alarm editAlarm = 3;
 
-  optional uint32 ackId = 4; // id of created or edited alarm and event
+  optional uint32 ackId = 4; // id of created or edited alarm and reminder
 
   // 17, 4
   optional AlarmDelete deleteAlarm = 5;
@@ -552,8 +576,8 @@ message Schedule {
   // 17, 8 get | 17, 9 set
   optional SleepMode sleepMode = 9;
 
-  // 17, 14 get: 10 -> 2: 50 // max events?
-  optional Events events = 10;
+  // 17, 14 get: 10 -> 2: 50 // max reminders?
+  optional Reminders reminders = 10;
 
   // 17,10 get/ret | 17,11 create | 17,13 delete
   optional WorldClocks worldClocks = 11;
@@ -561,13 +585,13 @@ message Schedule {
   optional uint32 worldClockStatus = 13; // 0 on edit and create
 
   // 17, 15
-  optional EventDetails createEvent = 14;
+  optional ReminderDetails createReminder = 14;
 
   // 17, 17
-  optional Event editEvent = 15;
+  optional Reminder editReminder = 15;
 
   // 17, 18
-  optional EventDelete deleteEvent = 17;
+  optional ReminderDelete deleteReminder = 17;
 }
 
 message Alarms {
@@ -605,17 +629,17 @@ message SleepModeSchedule {
   optional uint32 unknown3 = 3; // 0
 }
 
-message Events {
-  repeated Event event = 1;
-  optional uint32 unknown2 = 2; // 50, max events?
+message Reminders {
+  repeated Reminder reminder = 1;
+  optional uint32 unknown2 = 2; // 50, max reminder?
 }
 
-message Event {
+message Reminder {
   optional uint32 id = 1;
-  optional EventDetails eventDetails = 2;
+  optional ReminderDetails reminderDetails = 2;
 }
 
-message EventDetails {
+message ReminderDetails {
   optional Date date = 1;
   optional Time time = 2;
   optional uint32 repeatMode = 3; // 0 once, 1 daily, weekly (every monday), 7 monthly, 8 yearly
@@ -623,7 +647,7 @@ message EventDetails {
   optional string title = 5;
 }
 
-message EventDelete {
+message ReminderDelete {
   repeated uint32 id = 1;
 }
 

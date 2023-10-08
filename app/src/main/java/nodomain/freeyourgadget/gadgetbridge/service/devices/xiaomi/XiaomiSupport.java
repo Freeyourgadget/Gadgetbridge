@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiMusicService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiNotificationService;
@@ -75,6 +76,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private final XiaomiScheduleService scheduleService = new XiaomiScheduleService(this);
     private final XiaomiWeatherService weatherService = new XiaomiWeatherService(this);
     private final XiaomiSystemService systemService = new XiaomiSystemService(this);
+    private final XiaomiCalendarService calendarService = new XiaomiCalendarService(this);
 
     private final Map<Integer, AbstractXiaomiService> mServiceMap = new LinkedHashMap<Integer, AbstractXiaomiService>() {{
         put(XiaomiAuthService.COMMAND_TYPE, authService);
@@ -84,6 +86,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         put(XiaomiScheduleService.COMMAND_TYPE, scheduleService);
         put(XiaomiWeatherService.COMMAND_TYPE, weatherService);
         put(XiaomiSystemService.COMMAND_TYPE, systemService);
+        put(XiaomiCalendarService.COMMAND_TYPE, calendarService);
     }};
 
     public XiaomiSupport() {
@@ -286,6 +289,10 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
         systemService.setCurrentTime(builder);
+
+        // TODO this should not be done here
+        calendarService.syncCalendar(builder);
+
         builder.queue(getQueue());
     }
 
@@ -451,12 +458,12 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
-        scheduleService.onAddCalendarEvent(calendarEventSpec);
+        calendarService.onAddCalendarEvent(calendarEventSpec);
     }
 
     @Override
     public void onDeleteCalendarEvent(final byte type, long id) {
-        scheduleService.onDeleteCalendarEvent(type, id);
+        calendarService.onDeleteCalendarEvent(type, id);
     }
 
     @Override
