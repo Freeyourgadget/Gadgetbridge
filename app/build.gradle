@@ -225,7 +225,7 @@ android {
 
     lintOptions {
         abortOnError ABORT_ON_CHECK_FAILURE
-        lintConfig file("${project.rootDir}/config/lint/lint.xml")
+        lintConfig file("${project.rootDir}/app/src/main/lint.xml")
         // If true, generate an HTML report (with issue explanations, sourcecode, etc)
         htmlReport true
         // Optional path to report (default will be lint-results.html in the builddir)
