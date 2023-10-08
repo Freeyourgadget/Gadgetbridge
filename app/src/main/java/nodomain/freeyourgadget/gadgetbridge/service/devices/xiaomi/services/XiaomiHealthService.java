@@ -425,6 +425,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     private void handleRealtimeStats(final XiaomiProto.RealTimeStats realTimeStats) {
         LOG.debug("Got realtime stats");
 
+        if (!realtimeOneShot && !realtimeStarted) {
+            // Failsafe in case it gets out of sync, stop it
+            enableRealtimeStats(false);
+            return;
+        }
+
         if (realtimeOneShot) {
             if (realTimeStats.getHeartRate() <= 10) {
                 return;
