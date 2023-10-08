@@ -1,6 +1,6 @@
 steps:
   build:
-    image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
     commands:
       - pwd #bump
       - ./gradlew assembleDebug --stacktrace
