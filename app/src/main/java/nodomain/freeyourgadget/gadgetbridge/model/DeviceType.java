@@ -143,6 +143,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsStee
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.MiBand8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miwatch.MiWatchLiteCoordinator;
 
 /**
  * For every supported device, a device type constant must exist.
@@ -194,6 +195,7 @@ public enum DeviceType {
     AMAZFITPOPPRO(AmazfitPopProCoordinator.class),
     MIBAND7(MiBand7Coordinator.class),
     MIBAND8(MiBand8Coordinator.class),
+    MIWATCHLITE(MiWatchLiteCoordinator.class),
     AMAZFITGTS3(AmazfitGTS3Coordinator.class),
     AMAZFITGTR3(AmazfitGTR3Coordinator.class),
     AMAZFITGTR4(AmazfitGTR4Coordinator.class),

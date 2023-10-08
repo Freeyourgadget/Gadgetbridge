@@ -1386,6 +1386,7 @@
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
