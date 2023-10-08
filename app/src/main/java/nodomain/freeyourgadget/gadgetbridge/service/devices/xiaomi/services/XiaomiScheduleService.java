@@ -33,7 +33,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
@@ -50,7 +49,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
     private static final int CMD_ALARMS_GET = 0;
     private static final int CMD_ALARMS_CREATE = 1;
-    private static final int CMD_ALARMS_EDIT = 3;
+    private static final int CMD_ALARMS_EDIT = 2;
     private static final int CMD_ALARMS_DELETE = 4;
     private static final int CMD_SLEEP_MODE_GET = 8;
     private static final int CMD_SLEEP_MODE_SET = 9;
@@ -72,7 +71,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         // TODO map everything
     }};
 
-    // Map of alarm position to Alarm, as returned by the band
+    // Map of alarm position to Alarm, as returned by the band, indexed by GB watch position (0-indexed),
+    // does NOT match watch ID
     private final Map<Integer, Alarm> watchAlarms = new HashMap<>();
 
     private int pendingAlarmAcks = 0;
@@ -168,19 +168,27 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     public void onSetAlarms(final ArrayList<? extends Alarm> alarms) {
         final List<Integer> alarmsToDelete = new ArrayList<>();
 
-        // TODO this is flaky, since it's the watch that defines the IDs...
+        pendingAlarmAcks = 0;
 
         for (final Alarm alarm : alarms) {
             final Alarm watchAlarm = watchAlarms.get(alarm.getPosition());
 
             if (alarm.getUnused() && watchAlarm == null) {
                 // Disabled on both
+                //LOG.debug("Alarm {} is unused on both", alarm.getPosition());
                 continue;
             }
 
             if (alarm.getUnused() && watchAlarm != null) {
                 // Delete from watch
-                alarmsToDelete.add(watchAlarm.getPosition() + 1);
+                alarmsToDelete.add(watchAlarm.getPosition() + 1); // watch positions, not GB
+                watchAlarms.remove(alarm.getPosition());
+                LOG.debug("Delete alarm {} from watch", alarm.getPosition());
+                continue;
+            }
+
+            if (watchAlarm != null && alarmsEqual(alarm, watchAlarm)) {
+                //LOG.debug("Alarm {} is already up-to-date on watch", alarm.getPosition());
                 continue;
             }
 
@@ -211,6 +219,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
             if (watchAlarm != null) {
                 // update existing alarm
+                LOG.debug("Update alarm {}", alarm.getPosition());
+                watchAlarms.put(alarm.getPosition(), alarm);
                 schedule.setEditAlarm(
                         XiaomiProto.Alarm.newBuilder()
                                 .setId(alarm.getPosition() + 1)
@@ -218,6 +228,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                                 .build()
                 );
             } else {
+                LOG.debug("Create alarm {}", alarm.getPosition());
+                // watchAlarms will be updated later, since we don't know the correct ID here
                 pendingAlarmAcks++;
                 schedule.setCreateAlarm(alarmDetails);
             }
@@ -242,7 +254,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                     .build();
 
             getSupport().sendCommand(
-                    "delete unused alarms",
+                    "delete " + alarmsToDelete.size() + " unused alarms",
                     XiaomiProto.Command.newBuilder()
                             .setType(COMMAND_TYPE)
                             .setSubtype(CMD_ALARMS_DELETE)
@@ -257,7 +269,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     }
 
     public void handleAlarms(final XiaomiProto.Alarms alarms) {
-        LOG.debug("Got {} alarms", alarms.getAlarmCount());
+        LOG.debug("Got {} alarms from the watch", alarms.getAlarmCount());
 
         watchAlarms.clear();
         for (final XiaomiProto.Alarm alarm : alarms.getAlarmList()) {
@@ -289,14 +301,13 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : dbAlarms) {
             final int pos = alarm.getPosition();
             final Alarm updatedAlarm = watchAlarms.get(pos);
-            final boolean alarmNeedsUpdate = updatedAlarm == null ||
-                    alarm.getUnused() != updatedAlarm.getUnused() ||
-                    alarm.getEnabled() != updatedAlarm.getEnabled() ||
-                    alarm.getSmartWakeup() != updatedAlarm.getSmartWakeup() ||
-                    alarm.getHour() != updatedAlarm.getHour() ||
-                    alarm.getMinute() != updatedAlarm.getMinute() ||
-                    alarm.getRepetition() != updatedAlarm.getRepetition();
 
+            final boolean alarmNeedsUpdate;
+            if (updatedAlarm == null) {
+                alarmNeedsUpdate = !alarm.getUnused();
+            } else {
+                alarmNeedsUpdate = !alarmsEqual(alarm, updatedAlarm);
+            }
             if (alarmNeedsUpdate) {
                 numUpdatedAlarms++;
                 LOG.info("Updating alarm index={}, unused={}", pos, updatedAlarm == null);
@@ -316,6 +327,15 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
             final Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
             LocalBroadcastManager.getInstance(getSupport().getContext()).sendBroadcast(intent);
         }
+    }
+
+    private boolean alarmsEqual(final Alarm alarm1, final Alarm alarm2) {
+        return alarm1.getUnused() == alarm2.getUnused() &&
+                alarm1.getEnabled() == alarm2.getEnabled() &&
+                alarm1.getSmartWakeup() == alarm2.getSmartWakeup() &&
+                alarm1.getHour() == alarm2.getHour() &&
+                alarm1.getMinute() == alarm2.getMinute() &&
+                alarm1.getRepetition() == alarm2.getRepetition();
     }
 
     private void handleSleepModeConfig(final XiaomiProto.SleepMode sleepMode) {
