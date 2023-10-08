@@ -221,6 +221,16 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_AUTOLIGHT = "autolight";
 
     public static final String PREF_PREVIEW_MESSAGE_IN_TITLE = "preview_message_in_title";
+
+    public static final String PREF_CASIO_ALERT_CALENDAR = "casio_alert_calendar";
+
+    public static final String PREF_CASIO_ALERT_CALL = "casio_alert_call";
+
+    public static final String PREF_CASIO_ALERT_EMAIL = "casio_alert_email";
+
+    public static final String PREF_CASIO_ALERT_OTHER = "casio_alert_other";
+
+    public static final String PREF_CASIO_ALERT_SMS = "casio_alert_sms";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
     public static final String PREF_SCREEN_ON_ON_NOTIFICATIONS = "screen_on_on_notifications";

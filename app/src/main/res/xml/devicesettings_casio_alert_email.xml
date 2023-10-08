@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:key="casio_alert_email"
+        android:summary="@string/pref_summary_casio_alert_email"
+        android:title="@string/pref_title_casio_alert_email" />
+</androidx.preference.PreferenceScreen>

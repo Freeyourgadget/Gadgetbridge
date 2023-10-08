@@ -399,6 +399,11 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_PREVIEW_MESSAGE_IN_TITLE);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_EMAIL);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_SMS);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_CALL);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_CALENDAR);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_OTHER);
         addPreferenceHandlerFor(PREF_SCREEN_ON_ON_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_WORKOUT_KEEP_SCREEN_ON);
         addPreferenceHandlerFor(PREF_KEY_VIBRATION);

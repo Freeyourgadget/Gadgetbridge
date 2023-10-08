@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_message_outline"
+        android:key="casio_alert_other"
+        android:summary="@string/pref_summary_casio_alert_other"
+        android:title="@string/pref_title_casio_alert_other" />
+</androidx.preference.PreferenceScreen>
