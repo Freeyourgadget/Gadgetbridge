@@ -325,9 +325,10 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         final String end = XiaomiPreferences.prefFromHourMin(sleepMode.getSchedule().getEnd());
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
-                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME, sleepMode.getEnabled())
-                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START, start)
-                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END, end);
+                .withPreference("prefs_enable_sleep_time", null)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_ENABLED, sleepMode.getEnabled())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_START, start)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_END, end);
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
@@ -336,9 +337,9 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         LOG.debug("Set sleep mode config");
 
         final Prefs prefs = getDevicePrefs();
-        final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME, false);
-        final Date start = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START, "22:00");
-        final Date end = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END, "06:00");
+        final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_ENABLED, false);
+        final Date start = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_START, "22:00");
+        final Date end = prefs.getTimePreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_END, "06:00");
 
         final XiaomiProto.SleepMode sleepMode = XiaomiProto.SleepMode.newBuilder()
                 .setEnabled(enabled)

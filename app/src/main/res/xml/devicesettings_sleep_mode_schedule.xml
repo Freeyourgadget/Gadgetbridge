@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_sleep"
+        android:key="prefs_sleep_mode_schedule"
+        android:persistent="false"
+        android:title="@string/pref_sleep_mode_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_activity_sleep"
+            android:key="sleep_mode_schedule_enabled"
+            android:summary="@string/pref_sleep_mode_schedule_summary"
+            android:title="@string/pref_sleep_mode_schedule_title" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:key="sleep_mode_schedule_start"
+            android:title="@string/bedtime" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:key="sleep_mode_schedule_end"
+            android:title="@string/wake_up_time" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

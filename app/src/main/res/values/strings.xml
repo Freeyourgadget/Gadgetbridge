@@ -2411,4 +2411,8 @@
     <string name="menuitem_running">Running</string>
     <string name="menuitem_alerts">Alerts</string>
     <string name="menuitem_focus">Focus</string>
+    <string name="bedtime">Bedtime</string>
+    <string name="wake_up_time">Wake Up</string>
+    <string name="pref_sleep_mode_schedule_title">Sleep Mode Schedule</string>
+    <string name="pref_sleep_mode_schedule_summary">Send a reminder and enter sleep mode at bedtime. At the scheduled wake-up time, the wake-up alarm will sound.</string>
 </resources>

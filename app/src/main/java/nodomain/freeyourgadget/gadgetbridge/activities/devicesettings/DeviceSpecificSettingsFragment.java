@@ -551,6 +551,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_PREFIX_NOTIFICATION_WITH_APP);
 
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_ENABLED);
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_START);
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_END);
+
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);

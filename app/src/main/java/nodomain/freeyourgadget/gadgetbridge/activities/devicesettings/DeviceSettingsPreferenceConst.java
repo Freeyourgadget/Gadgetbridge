@@ -141,6 +141,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SLEEP_TIME = "prefs_enable_sleep_time";
     public static final String PREF_SLEEP_TIME_START = "prefs_sleep_time_start";
     public static final String PREF_SLEEP_TIME_END = "prefs_sleep_time_end";
+    public static final String PREF_SLEEP_MODE_SCHEDULE_ENABLED = "sleep_mode_schedule_enabled";
+    public static final String PREF_SLEEP_MODE_SCHEDULE_START = "sleep_mode_schedule_start";
+    public static final String PREF_SLEEP_MODE_SCHEDULE_END = "sleep_mode_schedule_end";
     public static final String PREF_SLEEP_MODE_SLEEP_SCREEN = "pref_sleep_mode_sleep_screen";
     public static final String PREF_SLEEP_MODE_SMART_ENABLE = "pref_sleep_mode_smart_enable";
 
