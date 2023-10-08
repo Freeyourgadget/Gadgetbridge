@@ -406,7 +406,14 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             TransactionBuilder builder = new TransactionBuilder("incomingcall");
-            String message = (byte) 0x01 + callSpec.name;
+
+            String message;
+            if (isFirmwareAtLeastVersion0_15() && callSpec.sourceName != null) {
+                message = (byte) 0x01 + callSpec.sourceName + "\0" + callSpec.name;
+            } else {
+                message = (byte) 0x01 + callSpec.name;
+            }
+
             NewAlert alert = new NewAlert(AlertCategory.IncomingCall, 1, message);
             AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
             profile.setMaxLength(MaxNotificationLength);
