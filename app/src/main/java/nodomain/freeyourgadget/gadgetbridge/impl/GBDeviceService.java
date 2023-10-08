@@ -67,6 +67,7 @@ public class GBDeviceService implements DeviceService {
             EXTRA_NOTIFICATION_BODY,
             EXTRA_NOTIFICATION_SOURCENAME,
             EXTRA_CALL_DISPLAYNAME,
+            EXTRA_CALL_SOURCENAME,
             EXTRA_MUSIC_ARTIST,
             EXTRA_MUSIC_ALBUM,
             EXTRA_MUSIC_TRACK,
@@ -227,6 +228,8 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
+                .putExtra(EXTRA_CALL_SOURCENAME, callSpec.sourceName)
+                .putExtra(EXTRA_CALL_SOURCEAPPID, callSpec.sourceAppId)
                 .putExtra(EXTRA_CALL_COMMAND, callSpec.command)
                 .putExtra(EXTRA_CALL_DNDSUPPRESSED, callSpec.dndSuppressed);
         invokeService(intent);

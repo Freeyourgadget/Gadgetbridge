@@ -162,6 +162,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_COLOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DISPLAYNAME;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_SOURCENAME;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_SOURCEAPPID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DNDSUPPRESSED;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
@@ -855,6 +857,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
                 callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
+                callSpec.sourceName = intent.getStringExtra(EXTRA_CALL_SOURCENAME);
+                callSpec.sourceAppId = intent.getStringExtra(EXTRA_CALL_SOURCEAPPID);
                 callSpec.dndSuppressed = intent.getIntExtra(EXTRA_CALL_DNDSUPPRESSED, 0);
                 deviceSupport.onSetCallState(callSpec);
                 break;

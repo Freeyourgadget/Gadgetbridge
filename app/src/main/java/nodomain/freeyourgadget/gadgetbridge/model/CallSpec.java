@@ -27,6 +27,14 @@ public class CallSpec {
 
     public String number;
     public String name;
+
+    public String sourceName;
+
+    /**
+     * The application that generated the notification.
+     */
+    public String sourceAppId;
+
     public int command;
     public int dndSuppressed;
 }

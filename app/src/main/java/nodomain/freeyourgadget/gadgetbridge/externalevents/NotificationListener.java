@@ -551,17 +551,21 @@ public class NotificationListener extends NotificationListenerService {
 
         // figure out sender
         String number;
+        String appName = getAppName(app);
         if (noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
             number = noti.extras.getString(Notification.EXTRA_PEOPLE);
         } else if (noti.extras.containsKey(Notification.EXTRA_TITLE)) {
             number = noti.extras.getString(Notification.EXTRA_TITLE);
         } else {
-            String appName = getAppName(app);
             number = appName != null ? appName : app;
         }
         activeCallPostTime = sbn.getPostTime();
         CallSpec callSpec = new CallSpec();
         callSpec.number = number;
+        callSpec.sourceAppId = app;
+        if (appName != null) {
+            callSpec.sourceName = appName;
+        }
         callSpec.command = callStarted ? CallSpec.CALL_START : CallSpec.CALL_INCOMING;
         mLastCallCommand = callSpec.command;
         GBApplication.deviceService().onSetCallState(callSpec);

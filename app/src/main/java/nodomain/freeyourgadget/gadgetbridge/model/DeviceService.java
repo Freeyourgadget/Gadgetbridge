@@ -97,6 +97,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALL_COMMAND = "call_command";
     String EXTRA_CALL_PHONENUMBER = "call_phonenumber";
     String EXTRA_CALL_DISPLAYNAME = "call_displayname";
+    String EXTRA_CALL_SOURCENAME = "call_sourcename";
+    String EXTRA_CALL_SOURCEAPPID = "call_sourceappid";
     String EXTRA_CALL_DNDSUPPRESSED = "call_dndsuppressed";
     String EXTRA_CANNEDMESSAGES = "cannedmessages";
     String EXTRA_CANNEDMESSAGES_TYPE = "cannedmessages_type";
