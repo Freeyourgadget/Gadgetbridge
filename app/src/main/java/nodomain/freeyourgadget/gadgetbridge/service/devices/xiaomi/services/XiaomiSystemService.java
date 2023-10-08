@@ -55,6 +55,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_CLOCK = 3;
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
+    public static final int CMD_FIND_WATCH = 18;
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_CHARGER = 79;
@@ -300,5 +301,18 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                             .build()
             );
         }
+    }
+
+    public void onFindWatch(final boolean start) {
+        LOG.debug("Find watch: {}", start);
+
+        getSupport().sendCommand(
+                "find watch " + start,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_FIND_WATCH)
+                        .setSystem(XiaomiProto.System.newBuilder().setFindDevice(start ? 0 : 1).build())
+                        .build()
+        );
     }
 }

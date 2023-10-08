@@ -303,8 +303,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(final boolean start) {
-        // TODO onFindDevice
-        super.onFindDevice(start);
+        systemService.onFindWatch(start);
     }
 
     @Override
