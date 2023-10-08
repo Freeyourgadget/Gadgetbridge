@@ -513,7 +513,12 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
         final byte[] commandBytes = command.toByteArray();
         final byte[] encryptedCommandBytes = authService.encrypt(commandBytes, encryptedIndex);
-        final ByteBuffer buf = ByteBuffer.allocate(6 + encryptedCommandBytes.length).order(ByteOrder.LITTLE_ENDIAN);
+        final int commandLength = 6 + encryptedCommandBytes.length;
+        if (commandLength > getMTU()) {
+            LOG.warn("Command with {} bytes is too large for MTU of {}", commandLength, getMTU());
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(commandLength).order(ByteOrder.LITTLE_ENDIAN);
         buf.putShort((short) 0);
         buf.put((byte) 2); // 2 for command
         buf.put((byte) 1); // 1 for encrypted
