@@ -58,7 +58,7 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
     public GBDeviceCandidate(BluetoothDevice device, short rssi, ParcelUuid[] serviceUuids) {
         this.device = device;
         this.rssi = rssi;
-        this.serviceUuids = serviceUuids;
+        this.serviceUuids = serviceUuids != null ? serviceUuids : new ParcelUuid[0];
     }
 
     private GBDeviceCandidate(Parcel in) {
