@@ -17,6 +17,9 @@ message Command {
   optional Weather weather = 12;
   optional Schedule schedule = 19;
 
+  // type 22
+  optional DataUpload dataUpload = 24;
+
   optional uint32 status = 100; // 0 on success on some
 }
 
@@ -631,4 +634,26 @@ message WorldClocks {
 message HourMinute {
   required uint32 hour = 1;
   required uint32 minute = 2;
+}
+
+//
+// Data Upload (watchface, notification icons, firmware)
+//
+
+message DataUpload {
+  // 22, 0
+  optional DataUploadRequest dataUploadRequest = 1;
+  optional DataUploadAck dataUploadAck = 2;
+}
+
+message DataUploadRequest {
+  optional uint32 unknown1 = 1; // 16 for watchface, 50 for notification icons, 32 for firmware?
+  optional bytes md5sum = 2;
+  optional uint32 size = 3;
+}
+
+message DataUploadAck {
+  optional bytes md5sum = 1;
+  optional uint32 unknown2 = 2; // 0
+  optional uint32 unknown4 = 4; // 0
 }
