@@ -162,7 +162,7 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
 
     public boolean supportsService(UUID aService) {
         ParcelUuid[] uuids = getServiceUuids();
-        if (uuids.length == 0) {
+        if (uuids == null || uuids.length == 0) {
             LOG.warn("no cached services available for " + this);
             return false;
         }
