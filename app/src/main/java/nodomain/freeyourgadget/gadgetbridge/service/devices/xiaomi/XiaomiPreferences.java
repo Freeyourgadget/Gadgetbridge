@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 
@@ -40,6 +41,18 @@ public final class XiaomiPreferences {
                 .setHour(calendar.get(Calendar.HOUR_OF_DAY))
                 .setMinute(calendar.get(Calendar.MINUTE))
                 .build();
+    }
+
+    public static Date toDate(final XiaomiProto.Date date, final XiaomiProto.Time time) {
+        // For some reason, the watch expects those in UTC...
+        // TODO double-check with official app, this does not make sense
+        final Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(
+                date.getYear(), date.getMonth() - 1, date.getDay(),
+                time.getHour(), time.getMinute(), time.getSecond()
+        );
+
+        return calendar.getTime();
     }
 
     /**

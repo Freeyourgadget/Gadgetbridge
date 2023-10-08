@@ -213,13 +213,13 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getMaximumReminderMessageLength() {
         // TODO does it?
-        return 0;
+        return 20;
     }
 
     @Override
     public int getReminderSlotCount(final GBDevice device) {
-        // TODO Does it?
-        return 0;
+        // TODO fetch from watch
+        return 50;
     }
 
     @Override
