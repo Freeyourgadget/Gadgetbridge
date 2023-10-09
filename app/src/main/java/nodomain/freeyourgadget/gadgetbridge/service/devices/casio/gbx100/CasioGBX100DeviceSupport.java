@@ -301,13 +301,13 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                 shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_OTHER, true);
                 break;
             case CasioConstants.CATEGORY_SNS:
-                sharedPreferences.getBoolean(PREF_CASIO_ALERT_SMS, true);
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_SMS, true);
                 break;
             case CasioConstants.CATEGORY_INCOMING_CALL:
-                sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALL, true);
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALL, true);
                 break;
             case CasioConstants.CATEGORY_SCHEDULE_AND_ALARM:
-                sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALENDAR, true);
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALENDAR, true);
                 break;
         }
 
