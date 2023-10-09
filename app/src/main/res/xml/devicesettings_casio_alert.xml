@@ -28,6 +28,6 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_message_outline"
         android:key="casio_alert_sms"
-        android:summary="@string/pref_summary_casio_alert_other"
-        android:title="@string/pref_title_casio_alert_other" />
+        android:summary="@string/pref_summary_casio_alert_sms"
+        android:title="@string/pref_title_casio_alert_sms" />
 </androidx.preference.PreferenceScreen>
