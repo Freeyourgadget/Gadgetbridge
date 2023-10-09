@@ -318,7 +318,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
                 && prefs.getBoolean("notification_support_voip_calls", false)
-                && sbn.isOngoing()) {
+                && (sbn.isOngoing() || shouldDisplayNonOngoingCallNotification(sbn))) {
             handleCallNotification(sbn);
             return;
         }
@@ -910,6 +910,17 @@ public class NotificationListener extends NotificationListenerService {
         return !sbn.getUser().equals(currentUser);
     }
 
+    private boolean shouldDisplayNonOngoingCallNotification(StatusBarNotification sbn) {
+        String source = sbn.getPackageName();
+        NotificationType type = AppNotificationType.getInstance().get(source);
+
+        if (type == NotificationType.TELEGRAM) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean shouldIgnoreNotification(StatusBarNotification sbn, boolean remove) {
         Notification notification = sbn.getNotification();
         String source = sbn.getPackageName();
@@ -919,6 +930,7 @@ public class NotificationListener extends NotificationListenerService {
         //some Apps always mark their notifcations as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
+                type != NotificationType.TELEGRAM &&
                 type != NotificationType.OUTLOOK &&
                 type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
             LOG.info("Ignoring notification, local only");
