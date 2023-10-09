@@ -40,9 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDa
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
@@ -59,11 +57,25 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     /** Sub-model string for GBD-H1000 in GB Device name */
     public static final String GBD_H1000_SUB_MODEL = "GBD-H1000";
 
+    public static final String[] VARIANTS = {
+            GBX_100_SUB_MODEL,
+            GBD_200_SUB_MODEL,
+            GBD_100_SUB_MODEL,
+            GBD_H1000_SUB_MODEL};
+
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("CASIO.*(" + GBX_100_SUB_MODEL + "|" + GBD_100_SUB_MODEL + "|" + GBD_200_SUB_MODEL + "|" + GBD_H1000_SUB_MODEL + ")");
+        String pattern = CASIO_IDENTIFIER + ".*(";
+        for (int i = 0; i < VARIANTS.length; i++) {
+            pattern += VARIANTS[i];
+            if (i < VARIANTS.length - 1) {
+                pattern += "|";
+            }
+        }
+        pattern += ")";
+        return Pattern.compile(pattern);
     }
 
     @Override
@@ -166,11 +178,7 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_autoremove_message,
                 R.xml.devicesettings_transliteration,
                 R.xml.devicesettings_preview_message_in_title,
-                R.xml.devicesettings_casio_alert_calendar,
-                R.xml.devicesettings_casio_alert_call,
-                R.xml.devicesettings_casio_alert_email,
-                R.xml.devicesettings_casio_alert_other,
-                R.xml.devicesettings_casio_alert_sms
+                R.xml.devicesettings_casio_alert
         };
     }
 
