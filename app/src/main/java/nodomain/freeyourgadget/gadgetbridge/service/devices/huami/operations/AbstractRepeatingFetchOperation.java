@@ -81,6 +81,8 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
         LOG.info("{} has finished round {}: {}, got {} bytes in buffer", getName(), fetchCount, success, byteStreamBuffer.size());
 
         if (!success) {
+            // We need to explicitly ack this, or the next operation will fail fetch will become stuck
+            sendAck2021(true);
             super.handleActivityFetchFinish(false);
             return false;
         }
