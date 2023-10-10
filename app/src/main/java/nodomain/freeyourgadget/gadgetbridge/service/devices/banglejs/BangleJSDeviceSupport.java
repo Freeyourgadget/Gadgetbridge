@@ -1528,7 +1528,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("uv", Math.round(weatherSpec.uvIndex*10)/10);
             o.put("code", weatherSpec.currentConditionCode);
             o.put("txt", weatherSpec.currentCondition);
-            o.put("wind", weatherSpec.windSpeed);
+            o.put("wind", Math.round(weatherSpec.windSpeed*100)/100.0);
             o.put("wdir", weatherSpec.windDirection);
             o.put("loc", weatherSpec.location);
             uartTxJSON("onSendWeather", o);
