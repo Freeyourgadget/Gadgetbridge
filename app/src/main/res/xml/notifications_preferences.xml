@@ -31,6 +31,14 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="notifications_ignore_work_profile"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notifications_ignore_work_profile"
+            android:title="@string/pref_title_notifications_ignore_work_profile"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="notification_prefer_long_text"
             android:layout="@layout/preference_checkbox"

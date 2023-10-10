@@ -35,6 +35,8 @@ import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.Process;
+import android.os.UserHandle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
@@ -280,6 +282,13 @@ public class NotificationListener extends NotificationListenerService {
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
         final Prefs prefs = GBApplication.getPrefs();
+
+        final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
+        if (ignoreWorkProfile && isWorkProfile(sbn)) {
+            LOG.debug("Ignoring notification from work profile");
+            return;
+        }
+
         final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
 
         // If media notifications ignore app list, check them before
@@ -717,6 +726,13 @@ public class NotificationListener extends NotificationListenerService {
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
         final Prefs prefs = GBApplication.getPrefs();
+
+        final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
+        if (ignoreWorkProfile && isWorkProfile(sbn)) {
+            LOG.debug("Ignoring notification removal from work profile");
+            return;
+        }
+
         final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
 
         // If media notifications ignore app list, check them before
@@ -883,6 +899,11 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         return false;
+    }
+
+    private boolean isWorkProfile(StatusBarNotification sbn) {
+        final UserHandle currentUser = Process.myUserHandle();
+        return !sbn.getUser().equals(currentUser);
     }
 
     private boolean shouldIgnoreNotification(StatusBarNotification sbn, boolean remove) {

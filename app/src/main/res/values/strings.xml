@@ -253,6 +253,8 @@
     <string name="pref_title_whenscreenon">…also when screen is on</string>
     <string name="pref_title_notifications_ignore_low_priority">Ignore low priority notifications</string>
     <string name="pref_summary_notifications_ignore_low_priority">Do not send low and minimum priority notifications to the watch</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignore work profile notifications</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Do not send notifications from apps in the work profile to the watch</string>
     <string name="pref_title_notification_prefer_long_text">Prefer long notification text</string>
     <string name="pref_summary_notification_prefer_long_text">If available, send the long notification text to the device</string>
     <string name="pref_title_notification_cache_while_disconnected">Cache while out of range</string>
