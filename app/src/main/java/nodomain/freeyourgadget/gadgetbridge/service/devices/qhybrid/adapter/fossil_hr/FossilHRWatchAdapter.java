@@ -23,6 +23,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.reque
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.shortenPackageName;
 
 import android.app.Service;
@@ -49,6 +50,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -96,6 +98,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilHRInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
@@ -106,6 +109,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -164,6 +168,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.workout.WorkoutRequestHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -193,6 +198,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private boolean saveRawActivityFiles = false;
+    private boolean notifiedAboutMissingNavigationApp = false;
 
     HashMap<String, Bitmap> appIconCache = new HashMap<>();
     String lastPostedApp = null;
@@ -479,6 +485,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         loadWidgets();
         // renderWidgets();
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
+
+        updateBuiltinAppsInCache();
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
@@ -2066,5 +2074,52 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             return "workoutApp";
         }
         return null;
+    }
+
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        String installedAppsJson = getDeviceSupport().getDevice().getDeviceInfo("INSTALLED_APPS").getDetails();
+        if (installedAppsJson == null || !installedAppsJson.contains("navigationApp")) {
+            if (!notifiedAboutMissingNavigationApp) {
+                notifiedAboutMissingNavigationApp = true;
+                NotificationCompat.Builder ncomp = new NotificationCompat.Builder(getContext(), NOTIFICATION_CHANNEL_ID)
+                        .setContentTitle(getContext().getString(R.string.fossil_hr_nav_app_not_installed_notify_title))
+                        .setContentText(getContext().getString(R.string.fossil_hr_nav_app_not_installed_notify_text))
+                        .setTicker(getContext().getString(R.string.fossil_hr_nav_app_not_installed_notify_text))
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setAutoCancel(true);
+                GB.notify((int) System.currentTimeMillis(), ncomp.build(), getContext());
+                GB.toast(getContext().getString(R.string.fossil_hr_nav_app_not_installed_notify_text), Toast.LENGTH_LONG, GB.WARN);
+            }
+            return;
+        }
+        try {
+            JSONObject navJson = new JSONObject()
+                    .put("push", new JSONObject()
+                            .put("set", new JSONObject()
+                                    .put("navigationApp._.config.info", new JSONObject()
+                                            .put("distance", navigationInfoSpec.distanceToTurn)
+                                            .put("eta", navigationInfoSpec.ETA)
+                                            .put("instruction", navigationInfoSpec.instruction)
+                                            .put("nextAction", navigationInfoSpec.nextAction)
+                                    )
+                            )
+                    );
+
+            queueWrite(new JsonPutRequest(navJson, this));
+        } catch (JSONException e) {
+            LOG.error("JSON exception: ", e);
+        }
+    }
+
+    private void updateBuiltinAppsInCache() {
+        FossilFileReader fileReader;
+        try {
+            fileReader = new FossilFileReader(FileUtils.getUriForAsset("fossil_hr/navigationApp.wapp", getContext()), getContext());
+            if (FossilHRInstallHandler.saveAppInCache(fileReader, fileReader.getBackground(), fileReader.getPreview(), getDeviceSupport().getDevice().getDeviceCoordinator(), getContext())) {
+                LOG.info("Successfully copied navigationApp for Fossil Hybrids to cache");
+            }
+        } catch (IOException e) {
+            LOG.warn("Could not copy navigationApp to cache", e);
+        }
     }
 }

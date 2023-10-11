@@ -310,12 +310,10 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         return device.getType() == DeviceType.FOSSILQHYBRID;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_qhybrid;
     }
-
 
     @Override
     public int getDefaultIconResource() {
@@ -325,5 +323,10 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getDisabledIconResource() {
         return R.drawable.ic_device_zetime_disabled;
+    }
+
+    @Override
+    public boolean supportsNavigation() {
+        return isHybridHR();
     }
 }

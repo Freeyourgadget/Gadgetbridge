@@ -22,6 +22,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 
+import androidx.annotation.NonNull;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -39,7 +41,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 
@@ -337,6 +338,7 @@ public class FileUtils {
     public static String makeValidFileName(String name) {
         return name.replaceAll("[\0/:\\r\\n\\\\]", "_");
     }
+
     /**
      *Returns extension of a file
      * @param file string filename
@@ -348,5 +350,26 @@ public class FileUtils {
             extension = file.substring(i + 1);
         }
         return extension;
+    }
+
+    /**
+     * Returns a Uri referencing a temporary file with the contents of the given asset
+     * @param assetPath relative path to the assets file
+     * @param context current context for getting AssetManager
+     * @return Uri that points to the created temporary file
+     * @throws IOException thrown when a file could not be created or opened
+     */
+    public static Uri getUriForAsset(String assetPath, Context context) throws IOException {
+        File tempFile = File.createTempFile("tmpfile" + System.currentTimeMillis(), null);
+        tempFile.deleteOnExit();
+        FileOutputStream fos = new FileOutputStream(tempFile);
+        InputStream asset = context.getAssets().open(assetPath);
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = asset.read(buffer)) != -1) {
+            fos.write(buffer, 0, read);
+        }
+        fos.close();
+        return Uri.fromFile(tempFile);
     }
 }

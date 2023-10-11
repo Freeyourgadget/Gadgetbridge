@@ -74,7 +74,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GridAutoFitLayoutManager;
@@ -543,6 +542,9 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         }
         if ((mGBDevice.getType() != DeviceType.FOSSILQHYBRID) || (!selectedApp.isOnDevice()) || ((selectedApp.getType() != GBDeviceApp.Type.WATCHFACE) && (selectedApp.getType() != GBDeviceApp.Type.APP_GENERIC))) {
             menu.removeItem(R.id.appmanager_app_download);
+        }
+        if (mGBDevice.getType() == DeviceType.FOSSILQHYBRID && selectedApp.getName().equals("workoutApp")) {
+            menu.removeItem(R.id.appmanager_app_delete);
         }
 
         if (mGBDevice.getType() == DeviceType.PEBBLE) {

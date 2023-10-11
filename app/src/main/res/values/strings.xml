@@ -2386,4 +2386,6 @@
     <string name="temperature_scale_cf_summary">Select whether device uses Celsius or Fahrenheit scale.</string>
     <string name="temperature_scale_celsius">Celsius</string>
     <string name="temperature_scale_fahrenheit">Fahrenheit</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Navigation app not installed on watch</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Navigation started but navigationApp not installed on watch. Please install it from the App Manager.</string>
 </resources>

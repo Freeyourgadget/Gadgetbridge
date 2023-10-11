@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -839,5 +840,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                 watchAdapter.uninstallApp(appName);
             }
         }
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        ((FossilHRWatchAdapter) watchAdapter).onSetNavigationInfo(navigationInfoSpec);
     }
 }
