@@ -2501,4 +2501,7 @@
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="continue_pressing">Ciągłe naciskanie</string>
     <string name="triple_tap">Potrójne dotknięcie</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignoruj powiadomienia z profilu służbowego</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Nie wysyłaj powiadomień z profilu służbowego do zegarka</string>
+    <string name="common_symbols">Znaki wspólne</string>
 </resources>
