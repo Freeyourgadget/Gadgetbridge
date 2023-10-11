@@ -1,5 +1,35 @@
 ### Changelog
 
+#### Next release (WIP)
+* Initial support for Mijia LYWSD02MMC variant
+* Initial support for Sony Wena 3
+* Experimental support for Sony WF-1000XM5
+* Amazfit Band 7: Add alexa menu entries
+* Amazfit GTR 3 Pro: Fix firmware and watchface upload
+* Amazfit T-Rex: Fix activity summary parsing
+* AsteroidOS: Add more supported watch models
+* AsteroidOS: Fix media info
+* AsteroidOS: Fix notification dismissal
+* Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Lower threshold for low battery warning
+* Casio GBX100/GBD-200: Fix first connect
+* Fossil/Skagen Hybrids: Reduce toasts on release builds
+* Message privacy: Add mode Hide only body
+* Mijia LYWSD02: Add battery
+* Mijia LYWSD02: Set temperature unit
+* PineTime: Display app name for VoIP app calls
+* PineTime: Reduce weather memory usage
+* Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Fix health settings on older Zepp OS versions
+* Zepp OS: Fix setting of unknown button press apps
+* Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
+* Add transliteration for Latvian and Common Symbols
+* Allow ignore notifications from work profile apps
+* Fix emoji when a transliterator is enabled
+* Improve device discovery stability and fix freezes
+* Improve Telegram and COL Reminder notifications
+* Replace old-style preference switch with Material 3 switch
+
 #### 0.76.1
 * Amazfit GTR Mini: Mark as not experimental
 * Bangle.js: Improve file downloads
