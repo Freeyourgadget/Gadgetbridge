@@ -2482,4 +2482,6 @@
     <string name="pref_message_privacy_mode_bodyonly">Sembunyikan bodi saja</string>
     <string name="latvian">Latvia</string>
     <string name="common_symbols">Simbol Umum</string>
+    <string name="pref_title_notifications_ignore_work_profile">Abaikan notifikasi profil kerja</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Jangan kirimkan notifikasi dari aplikasi dalam profil kerja ke jam tangan</string>
 </resources>
