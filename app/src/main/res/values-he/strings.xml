@@ -2492,4 +2492,6 @@
     <string name="pref_message_privacy_mode_bodyonly">הסתרת הגוף בלבד</string>
     <string name="latvian">לטבית</string>
     <string name="common_symbols">סימנים נפוצים</string>
+    <string name="pref_title_notifications_ignore_work_profile">התעלמות מהתראות פרופיל עבודה</string>
+    <string name="pref_summary_notifications_ignore_work_profile">לא לשלוח התראות מיישומונים בפרופיל העבודה של השעון</string>
 </resources>
