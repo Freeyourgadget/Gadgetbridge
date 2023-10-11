@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ArabicTransliterator;
@@ -109,6 +110,7 @@ public class LanguageUtils {
      */
     @Nullable
     public static Transliterator getTransliterator(final GBDevice device) {
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
         final String transliterateLanguagesPref = devicePrefs.getString(PREF_TRANSLITERATION_LANGUAGES, "");
 
@@ -128,7 +130,14 @@ public class LanguageUtils {
             transliterators.add(TRANSLITERATORS_MAP.get(language));
         }
 
-        transliterators.add(new FlattenToAsciiTransliterator());
+        if (!coordinator.supportsUnicodeEmojis()) {
+            // For now, assume that if the device does not support unicode emoji, it also doesn't
+            // support utf, so flatten to ASCII. This allows for devices that support unicode
+            // characters to still use transliterators for languages not supported by the device,
+            // and still get emoji
+            // TODO: Maybe this should be configurable, or at least separate from the emoji setting
+            transliterators.add(new FlattenToAsciiTransliterator());
+        }
 
         return new MultiTransliterator(transliterators);
     }
