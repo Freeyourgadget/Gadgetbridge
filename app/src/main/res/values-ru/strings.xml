@@ -2490,4 +2490,6 @@
     <string name="pref_message_privacy_mode_bodyonly">Скрыть только тело</string>
     <string name="latvian">Латышский</string>
     <string name="common_symbols">Обычные символы</string>
+    <string name="pref_title_notifications_ignore_work_profile">Игнорировать уведомления рабочего профиля</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Не отправлять уведомления приложений из рабочего профиля на часы</string>
 </resources>
