@@ -2493,4 +2493,6 @@
     <string name="pref_message_privacy_mode_bodyonly">仅隐藏主体</string>
     <string name="latvian">拉脱维亚语</string>
     <string name="common_symbols">常用符号</string>
+    <string name="pref_title_notifications_ignore_work_profile">忽略工作资料通知</string>
+    <string name="pref_summary_notifications_ignore_work_profile">不要将工作配置文件中的应用程序的通知发送到手表</string>
 </resources>
