@@ -2492,4 +2492,7 @@
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="pref_message_privacy_mode_bodyonly">Verberg alleen tekst</string>
     <string name="latvian">Lets</string>
+    <string name="pref_title_notifications_ignore_work_profile">Negeer meldingen uit het werkprofiel</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Stuur geen meldingen van apps in het werkprofiel naar het apparaat</string>
+    <string name="common_symbols">Algemene symbolen</string>
 </resources>
