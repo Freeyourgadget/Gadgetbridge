@@ -2497,4 +2497,6 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_wena3_notification_settings_title">Réglages de notification</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="common_symbols">Symboles communs</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignorer les notifications en profil travail</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Ne pas envoyer les notifications des apps dans le profil travail à la montre</string>
 </resources>
