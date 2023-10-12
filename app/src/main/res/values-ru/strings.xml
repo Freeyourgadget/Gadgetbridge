@@ -315,7 +315,7 @@
     <string name="activity_prefs_gender">Пол</string>
     <string name="activity_prefs_height_cm">Рост в см</string>
     <string name="activity_prefs_weight_kg">Вес в кг</string>
-    <string name="authenticating">Авторизация</string>
+    <string name="authenticating">Аутентификация</string>
     <string name="authentication_required">Требуется авторизация</string>
     <string name="appwidget_text">Хрр</string>
     <string name="add_widget">Добавить виджет</string>
@@ -1481,7 +1481,7 @@
     <string name="open_fw_installer_warning_text">Эта функция может привести к поломке вашего устройства. Однако такого никогда не случалось ни с одним из разработчиков из-за перепрошивки, но помните, что вы делаете это на свой страх и риск.</string>
     <string name="pref_header_calendar">Календарь</string>
     <string name="pref_title_screen_on_on_notifications">Включение экрана при уведомлении</string>
-    <string name="pref_header_authentication">Авторизация</string>
+    <string name="pref_header_authentication">Аутентификация</string>
     <string name="pref_summary_screen_on_on_notifications">Включать экран часов, когда поступает оповещение</string>
     <string name="dismiss">Отклонить</string>
     <string name="pref_title_notification_use_as_deny">Запретить выбранным приложениям показывать уведомления</string>
@@ -2083,7 +2083,7 @@
     <string name="fossil_hr_pairing_successful">Сопряжение с часами успешно</string>
     <string name="fossil_hr_pairing_failed">Сопряжение с часами не удалось</string>
     <string name="contact_name">Имя</string>
-    <string name="contact_phone_number">Телефон</string>
+    <string name="contact_phone_number">Номер телефона</string>
     <string name="contact_missing_number">Телефон не указан</string>
     <string name="step_streak_average_steps_hint">Шагов в среднем за дни подряд</string>
     <string name="busy_task_fetch_debug_logs">Получение отладочного журнала</string>
@@ -2209,7 +2209,7 @@
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="prefs_ambient_volume">Громкость окружения</string>
-    <string name="pref_ambient_sound_tone">Тон звуков окружения</string>
+    <string name="pref_ambient_sound_tone">Тональность звуков окружения</string>
     <string name="prefs_ambient_mode">Режим слышимости окружения</string>
     <string name="prefs_pressure_relief">Сброс давления с окружающим звуком</string>
     <string name="pref_ambient_sound_tone_summary">От мягкого к чёткому</string>
