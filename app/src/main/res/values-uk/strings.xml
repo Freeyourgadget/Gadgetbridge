@@ -2501,4 +2501,6 @@
     <string name="pref_message_privacy_mode_bodyonly">Приховувати лише тіло</string>
     <string name="latvian">Латиська</string>
     <string name="common_symbols">Часті символи</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ігнорувати сповіщення робочого профілю</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Не надсилати сповіщення із застосунків з робочого профілю на годинник</string>
 </resources>
