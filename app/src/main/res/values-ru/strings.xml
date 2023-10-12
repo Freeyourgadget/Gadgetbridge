@@ -1933,7 +1933,7 @@
     <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">Определять местоположение только по провайдеру интернета. Это позволяет снизить энергопотребление ценой снижения точности. Требуется переподключение.</string>
     <string name="pref_crown_vibration">Вибрация коронки</string>
-    <string name="pref_agps_expiry_reminder_enabled">Напоминание об истечении AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">Напоминание об истечении срока действия AGPS</string>
     <string name="pref_summary_notification_media_ignores_application_list">Обрабатывать медиа уведомления перед списком приложений. Если этот параметр выключен, медиа приложения должны быть разрешены в списке приложений, чтобы элементы управления мультимедиа работали на устройстве.</string>
     <string name="pref_title_notification_media_ignores_application_list">Список приложений с игнорируемыми медиа уведомлениями</string>
     <string name="offline_voice_response_during_screen_lighting">Реагировать при включенном экране</string>
@@ -2039,7 +2039,7 @@
     <string name="activity_detail_share_raw_summary">Поделиться Необработанной Сводкой</string>
     <string name="activity_detail_share_raw_details">Поделиться Необработанными Деталями</string>
     <string name="dev_tools">Инструменты Разработчика</string>
-    <string name="prefs_always_on_display_follow_watchface">Стиль следует циферблату</string>
+    <string name="prefs_always_on_display_follow_watchface">Стиль повторяет циферблат часов</string>
     <string name="sports_activity_confirm_delete_description">Вы уверены, что хотите удалить %d активностей\?</string>
     <string name="menuitem_offline_voice">Оффлайн голос</string>
     <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
@@ -2146,7 +2146,7 @@
     <string name="sony_equalizer_preset_custom_2">Свой 2</string>
     <string name="sony_automatic_power_off">Автоматическое выключение</string>
     <string name="sony_automatic_power_off_off">Не выключать</string>
-    <string name="sony_surround_mode_outdoor_stage">Этап на открытом воздухе</string>
+    <string name="sony_surround_mode_outdoor_stage">Открытая сцена</string>
     <string name="stress_mild">Небольшой</string>
     <string name="sony_anc_optimizer_status_wearing_condition">Измерение условий ношения…</string>
     <string name="sony_anc_optimizer_status_finished">Завершение…</string>
@@ -2184,7 +2184,7 @@
     <string name="prefs_dolby_summary">Предустановка Dolby для эквалайзера</string>
     <string name="prefs_touch_lock_buds2">Сенсорное управление</string>
     <string name="prefs_seamless_connection_switch_title">Плавная смена подключения</string>
-    <string name="prefs_touch_lock_summary">Выключить события сенсора</string>
+    <string name="prefs_touch_lock_summary">Отключить касания</string>
     <string name="prefs_touch_lock">Сенсорная блокировка</string>
     <string name="prefs_double_tap_edge">Край двойного касания</string>
     <string name="pref_media_pause">Пауза воспроизведения</string>
