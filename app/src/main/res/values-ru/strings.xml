@@ -465,9 +465,9 @@
     <string name="english">Английский язык</string>
     <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение дня</string>
     <string name="interval_one_minute">раз в минуту</string>
-    <string name="interval_five_minutes">раз в 5 минут</string>
-    <string name="interval_ten_minutes">раз в 10 минут</string>
-    <string name="interval_thirty_minutes">раз в полчаса</string>
+    <string name="interval_five_minutes">каждые 5 минут</string>
+    <string name="interval_ten_minutes">каждые 10 минут</string>
+    <string name="interval_thirty_minutes">каждые 30 минут</string>
     <string name="interval_one_hour">раз в час</string>
     <string name="pref_title_weather">Погода</string>
     <string name="notif_export_failed_title">Ошибка экспорта базы данных! Пожалуйста, проверьте настройки.</string>
@@ -815,7 +815,7 @@
     <string name="qhybrid_buttons_overwrite_error">Ошибка перезаписи кнопок</string>
     <string name="qhybrid_offset_timezone">смещение часового пояса на</string>
     <string name="qhybrid_changes_delay_prompt">изменения могут занять несколько секунд…</string>
-    <string name="qhybrid_offset_time_by">смещение часового пояса на</string>
+    <string name="qhybrid_offset_time_by">смещение времени на</string>
     <string name="pref_disable_new_ble_scanning">Отключить новое BLE сканирование</string>
     <string name="pref_summary_disable_new_ble_scanning">Включите, если устройство не видно как доступное</string>
     <string name="devicetype_banglejs">Bangle.js</string>
@@ -1870,7 +1870,7 @@
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">О Bangle.js Gadgetbridge (Nightly)</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js запущен</string>
-    <string name="connection_over_bt_classic">Подключение по Bluetooth classic</string>
+    <string name="connection_over_bt_classic">Подключение через обычный Bluetooth</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="info_connected_count">%d устройств подключено</string>
@@ -2144,7 +2144,7 @@
     <string name="sony_button_mode_left">Режим кнопки (Левой)</string>
     <string name="pref_anc_optimizer_state_pressure">Атмосферное давление</string>
     <string name="sony_equalizer_preset_custom_2">Свой 2</string>
-    <string name="sony_automatic_power_off">Автовыключение</string>
+    <string name="sony_automatic_power_off">Автоматическое выключение</string>
     <string name="sony_automatic_power_off_off">Не выключать</string>
     <string name="sony_surround_mode_outdoor_stage">Этап на открытом воздухе</string>
     <string name="stress_mild">Небольшой</string>
