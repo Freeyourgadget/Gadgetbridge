@@ -23,6 +23,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -47,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiHealthService extends AbstractXiaomiService {
@@ -55,6 +58,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 8;
 
     private static final int CMD_SET_USER_INFO = 0;
+    private static final int CMD_ACTIVITY_FETCH_1 = 1;
+    private static final int CMD_ACTIVITY_FETCH_2 = 2;
     private static final int CMD_CONFIG_SPO2_GET = 8;
     private static final int CMD_CONFIG_SPO2_SET = 9;
     private static final int CMD_CONFIG_HEART_RATE_GET = 10;
@@ -83,6 +88,10 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         switch (cmd.getSubtype()) {
             case CMD_SET_USER_INFO:
                 LOG.debug("Got user info set ack, status={}", cmd.getStatus());
+                return;
+            case CMD_ACTIVITY_FETCH_1:
+            case CMD_ACTIVITY_FETCH_2:
+                handleActivityFetchResponse(cmd.getHealth().getActivityRecordIds().toByteArray());
                 return;
             case CMD_CONFIG_SPO2_GET:
                 handleSpo2Config(cmd.getHealth().getSpo2());
@@ -174,7 +183,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         // TODO max heart rate should be input by the user
         int maxHeartRate = (int) Math.round(age <= 40 ? 220 - age : 207 - 0.7 * age);
         if (maxHeartRate < 100 || maxHeartRate > 220) {
-            maxHeartRate  = 175;
+            maxHeartRate = 175;
         }
 
         final XiaomiProto.UserInfo userInfo = XiaomiProto.UserInfo.newBuilder()
@@ -384,6 +393,65 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                         .setHealth(XiaomiProto.Health.newBuilder().setStress(stress))
                         .build()
         );
+    }
+
+    public void onFetchRecordedData(final int dataTypes) {
+        LOG.debug("Fetch recorded data: {}", dataTypes);
+        final TransactionBuilder builder = getSupport().createTransactionBuilder("fetch recorded data step 1");
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_ACTIVITY_FETCH_1)
+                        .setHealth(XiaomiProto.Health.newBuilder().setActivitySyncRequest1(
+                                // TODO official app sends 0, but doesn't work every time?
+                                XiaomiProto.ActivitySyncRequest1.newBuilder().setUnknown1(1)
+                        ))
+                        .build()
+        );
+
+        // TODO we need to wait for the reply from the previous before sending this one?
+        //getSupport().sendCommand(
+        //        builder,
+        //        XiaomiProto.Command.newBuilder()
+        //                .setType(COMMAND_TYPE)
+        //                .setSubtype(CMD_ACTIVITY_FETCH_2)
+        //                .build()
+        //);
+
+        builder.queue(getSupport().getQueue());
+    }
+
+    public void handleActivityFetchResponse(final byte[] recordIds) {
+        if ((recordIds.length % 7) != 0) {
+            LOG.warn("recordIds {} length = {}, not a multiple of 7, can't parse", GB.hexdump(recordIds), recordIds.length);
+            return;
+
+        }
+
+        LOG.debug("Got {} record IDs", recordIds.length / 7);
+
+        final ByteBuffer buf = ByteBuffer.wrap(recordIds).order(ByteOrder.LITTLE_ENDIAN);
+
+        while (buf.position() < buf.limit()) {
+            final int ts = buf.getInt();
+            final int tz = buf.get(); // 15 min blocks
+            final int version = buf.get();
+            final int flags = buf.get();
+            // bit 0 is type - 0 activity, 1 sports
+            final int type = (flags >> 7) & 1;
+            // bit 1 to 6 bits are subtype
+            //   for activity: activity, sleep, measurements, etc
+            //   for workout: workout type (8 freestyle)
+            final int subtype = (flags & 127) >> 2;
+            // bit 6 and 7 - 0/1 - summary vs details
+            final int detailType = flags & 3;
+            LOG.debug(
+                    "Activity Record: ts = {}, tz = {}, flags = {}, type = {}, subtype = {}, detailType = {}, version = {}",
+                    ts, tz, String.format("0x%02X", flags), type, subtype, detailType, version
+            );
+        }
     }
 
     public void onHeartRateTest() {

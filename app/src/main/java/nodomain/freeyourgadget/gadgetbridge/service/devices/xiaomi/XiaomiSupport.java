@@ -413,8 +413,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(final int dataTypes) {
-        // TODO
-        super.onFetchRecordedData(dataTypes);
+        healthService.onFetchRecordedData(dataTypes);
     }
 
     @Override
@@ -514,7 +513,8 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         final byte[] commandBytes = command.toByteArray();
         final byte[] encryptedCommandBytes = authService.encrypt(commandBytes, encryptedIndex);
         final int commandLength = 6 + encryptedCommandBytes.length;
-        if (commandLength > getMTU()) {
+        if (getMTU() != 0 && commandLength > getMTU()) {
+            // TODO MTU is 0 sometimes?
             LOG.warn("Command with {} bytes is too large for MTU of {}", commandLength, getMTU());
         }
 
@@ -524,7 +524,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         buf.put((byte) 1); // 1 for encrypted
         buf.putShort(encryptedIndex++);
         buf.put(encryptedCommandBytes);
-        LOG.debug("Sending command {} as {}", GB.hexdump(commandBytes), GB.hexdump(buf.array()));
+        LOG.debug("Sending command {}", GB.hexdump(commandBytes));
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE), buf.array());
     }
 

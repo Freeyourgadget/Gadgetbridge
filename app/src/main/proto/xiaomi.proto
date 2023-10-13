@@ -281,8 +281,10 @@ message Charger {
 
 message Health {
   optional UserInfo userInfo = 1;
-  // 8, 1 get | 8, 3 set
-  optional bytes unknownActivity2 = 2;
+
+  optional bytes activityRecordIds = 2;
+  optional ActivitySyncRequest1 activitySyncRequest1 = 5;
+
   optional SpO2 spo2 = 7;
   optional HeartRate heartRate = 8;
   // 8, 12 get | 8, 13 set
@@ -317,6 +319,10 @@ message UserInfo {
   optional uint32 goalSteps = 7;
   optional uint32 goalStanding = 9; // hours
   optional uint32 goalMoving = 11; // minutes
+}
+
+message ActivitySyncRequest1 {
+  optional uint32 unknown1 = 1; // 0/1
 }
 
 message SpO2 {
@@ -385,17 +391,21 @@ message WorkoutStatusWatch {
 }
 
 message WorkoutOpenWatch {
-  optional uint32 unknown1 = 1; // 2
+  // This is only called when gps is needed?
+  // 1 outdoor running, 2 walking, 3 hiking, 4 trekking, 5 trail run, 6 outdoor cycling
+  optional uint32 sport = 1;
   optional uint32 unknown2 = 2; // 2
 }
 
 message WorkoutOpenReply {
-  // 3 2 10
+  // 3 2 10 when no gps permissions at all
+  // 5 2 10 when no background permissions?
   // ...
+  // 0 * * when phone gps is working fine
   // 0 2 10
   // 0 2 2
   optional uint32 unknown1 = 1;
-  optional uint32 unknown2 = 2;
+  optional uint32 unknown2 = 2; // always 2?
   optional uint32 unknown3 = 3;
 }
 
