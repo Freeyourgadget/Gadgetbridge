@@ -336,7 +336,7 @@
     <string name="pref_summary_preview_message_in_title">Shows a preview of the message in the title of a notification as allowed by the device</string>
     <string name="pref_title_casio_alert_calendar">Alert for calendar notifications</string>
     <string name="pref_summary_casio_alert_calendar">Alert (vibrate/beep) for calendar notifications</string>
-    <string name="pref_title_casio_alert_call">Alert for calendar calls</string>
+    <string name="pref_title_casio_alert_call">Alert for incoming calls</string>
     <string name="pref_summary_casio_alert_call">Alert (vibrate/beep) for incoming calls</string>
     <string name="pref_title_casio_alert_email">Alert for email notifications</string>
     <string name="pref_summary_casio_alert_email">Alert (vibrate/beep) for email notifications</string>
