@@ -316,7 +316,7 @@
     <string name="activity_prefs_height_cm">Рост в см</string>
     <string name="activity_prefs_weight_kg">Вес в кг</string>
     <string name="authenticating">Аутентификация</string>
-    <string name="authentication_required">Требуется авторизация</string>
+    <string name="authentication_required">Требуется аутентификация</string>
     <string name="appwidget_text">Хрр</string>
     <string name="add_widget">Добавить виджет</string>
     <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
@@ -820,7 +820,7 @@
     <string name="pref_summary_disable_new_ble_scanning">Включите, если устройство не видно как доступное</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="alarm_snooze">Короткий сон</string>
+    <string name="alarm_snooze">Откладывание будильника</string>
     <string name="error_no_location_access">Доступ к местоположению должен быть разрешен и включен для корректной работы поиска</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
@@ -1955,7 +1955,7 @@
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
     <string name="pref_contacts_title">Контакты</string>
     <string name="contact_delete_confirm_title">Удалить контакт</string>
-    <string name="activity_prefs_goal_standing_time_minutes">Ежедневная цель: время стоячего положения в минутах</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Ежедневная цель: время стояния в минутах</string>
     <string name="prefs_always_on_display_style">Стиль</string>
     <string name="croatian">Хорватский</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Ежедневная цель: время сжигания жира в минутах</string>
