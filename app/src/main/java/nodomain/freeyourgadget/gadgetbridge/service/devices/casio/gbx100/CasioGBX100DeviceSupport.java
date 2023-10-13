@@ -324,21 +324,32 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             }
         }
 
+        // Make sure title and sender are less than 32 characters
         byte[] titleBytes = new byte[0];
-        if(title != null)
+        if(title != null) {
+            if (title.length() > 32) {
+                title = title.substring(0, 30) + "..";
+            }
             titleBytes = title.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] messageBytes = new byte[0];
-        if(message != null)
+        if(message != null) {
             messageBytes = message.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] senderBytes = new byte[0];
-        if(sender != null)
+        if(sender != null) {
+            if (sender.length() > 32) {
+                sender = sender.substring(0, 30) + "..";
+            }
             senderBytes = sender.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] subtitleBytes = new byte[0];
-        if (subtitle != null)
+        if (subtitle != null) {
             subtitleBytes = subtitle.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] arr = new byte[22];
         arr[0] = (byte)(id & 0xff);
