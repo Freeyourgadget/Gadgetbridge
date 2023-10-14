@@ -2472,4 +2472,6 @@
     <string name="prefs_wena3_receive_calls_hint">Falls abgeschaltet, wirst du nicht über eingehende Anrufe auf der Wena benachrichtigt</string>
     <string name="latvian">Lettisch</string>
     <string name="info_menu_structure_removed">Menüstruktur entfernt</string>
+    <string name="prefs_wena3_home_icon_title">Startbildschirm-Symbole</string>
+    <string name="prefs_wena3_item_weather_statusbar">Wetter in Statusleiste</string>
 </resources>
