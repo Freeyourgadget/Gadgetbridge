@@ -119,7 +119,7 @@
         android:icon="@drawable/ic_pending_actions"
         android:summary="@string/qhybrid_pref_summary_actions">
         <intent
-            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetPackage="@string/applicationId"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity" />
     </Preference>
 
@@ -161,7 +161,7 @@
             android:title="@string/qhybrid_title_file_management"
             android:summary="@string/qhybrid_summary_file_management">
             <intent
-                android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+                android:targetPackage="@string/applicationId"
                 android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
         </Preference>
 

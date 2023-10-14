@@ -150,7 +150,9 @@ public class CalibrationActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        localBroadcastManager.sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_SAVE_CALIBRATION));
-        localBroadcastManager.sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UNCONTROL));
+        if (localBroadcastManager != null) {
+            localBroadcastManager.sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_SAVE_CALIBRATION));
+            localBroadcastManager.sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UNCONTROL));
+        }
     }
 }

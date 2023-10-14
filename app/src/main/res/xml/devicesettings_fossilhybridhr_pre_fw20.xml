@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_watch"
         android:summary="@string/qhybrid_watchface_configuration_old_firmware">
         <intent
-            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetPackage="@string/applicationId"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity" />
     </Preference>
 
