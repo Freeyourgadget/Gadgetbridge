@@ -16,7 +16,7 @@
         android:summary="@string/qhybrid_summary_calibration"
         android:key="hands_calibration">
         <intent
-            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetPackage="@string/applicationId"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsCalibrationActivity" />
     </Preference>
 </androidx.preference.PreferenceScreen>
