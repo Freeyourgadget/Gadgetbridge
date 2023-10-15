@@ -31,8 +31,10 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiAuthService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -46,7 +48,6 @@ public class MiWatchLiteSupport extends XiaomiSupport {
     private static final UUID UUID_CHARACTERISTIC_UNK2 = UUID.fromString("16186f03-0000-1000-8000-00807f9b34fb");
     private static final UUID UUID_CHARACTERISTIC_UNK3 = UUID.fromString("16186f04-0000-1000-8000-00807f9b34fb");
     private static final UUID UUID_CHARACTERISTIC_UNK4 = UUID.fromString("16186f05-0000-1000-8000-00807f9b34fb");
-    private static boolean sendUserIdDone = false;
 
     public MiWatchLiteSupport() {
         super(); // FIXME: no we do not want to do this!! This adds supported characteristics which we do not have - but we have to.
@@ -62,9 +63,18 @@ public class MiWatchLiteSupport extends XiaomiSupport {
         enableNotifications(builder, true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         builder.requestMtu(247);
-        byte[] command = new byte[]{0, 0, 0, 0, 1, 0};
-        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_MAIN);
-        builder.write(characteristic, command);
+        String userId = getUserId(gbDevice);
+
+        final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
+                .setUserId(userId)
+                .build();
+
+        final XiaomiProto.Command command = XiaomiProto.Command.newBuilder()
+                .setType(XiaomiAuthService.COMMAND_TYPE)
+                .setSubtype(XiaomiAuthService.CMD_SEND_USERID)
+                .setAuth(auth)
+                .build();
+        sendCommand("send user id", command);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -80,26 +90,15 @@ public class MiWatchLiteSupport extends XiaomiSupport {
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_UNK4), enable);
     }
 
-    protected static byte[] getUserId(final GBDevice device) {
-        final byte[] userId = new byte[10];
-
+    protected static String getUserId(final GBDevice device) {
         final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
 
         final String authKey = sharedPrefs.getString("authkey", null);
         if (StringUtils.isNotBlank(authKey)) {
-            final byte[] srcBytes;
-            // Allow both with and without 0x, to avoid user mistakes
-            if (authKey.length() == 22 && authKey.startsWith("0x")) {
-                srcBytes = GB.hexStringToByteArray(authKey.trim().substring(2));
-            } else if (authKey.length() == 10) {
-                srcBytes = authKey.getBytes();
-            } else {
-                return null;
-            }
-            System.arraycopy(srcBytes, 0, userId, 0, 10);
+            return authKey;
         }
 
-        return userId;
+        return "0000000000";
     }
 
     @Override
@@ -131,20 +130,7 @@ public class MiWatchLiteSupport extends XiaomiSupport {
 
         final byte[] success_bytes = new byte[]{0x00, 0x00, 0x01, 0x01, 0x00, 0x00};
         final byte[] ping_request = new byte[]{0x00, 0x00, 0x00, 0x00, 0x01, 0x00};
-        if (characteristicUUID.equals(UUID_CHARACTERISTIC_MAIN)) {
-            if (Arrays.equals(success_bytes, characteristic.getValue()) && !sendUserIdDone) {
-                byte[] userId = getUserId(gbDevice);
-                if (userId == null) {
-                    LOG.warn("no user id, sending 0000000000, this won't work");
-                    userId = new byte[] {0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30};
-                }
-                sendUserIdDone = true;
-                TransactionBuilder builder = new TransactionBuilder("send user id");
-                builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), org.apache.commons.lang3.ArrayUtils.addAll(new byte[]{0x01, 0x00, 0x08, 0x01, 0x10, 0x05, 0x1a, 0x0c, 0x3a, 0x0a}, userId));
-                builder.queue(getQueue());
-                return true;
-            }
-        } else if (characteristicUUID.equals(UUID_CHARACTERISTIC_UNK1)) {
+        if (characteristicUUID.equals(UUID_CHARACTERISTIC_UNK1)) {
             if (Arrays.equals(ping_request, characteristic.getValue())) {
                 TransactionBuilder builder = new TransactionBuilder("reply ping");
                 builder.write(getCharacteristic(UUID_CHARACTERISTIC_UNK1), new byte[]{0x00, 0x00, 0x01, 0x01});
