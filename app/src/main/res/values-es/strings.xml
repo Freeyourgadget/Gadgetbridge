@@ -2497,4 +2497,9 @@
     <string name="common_symbols">Símbolos frecuentes</string>
     <string name="pref_title_notifications_ignore_work_profile">Ignorar las notificaciones del perfil de trabajo</string>
     <string name="pref_summary_notifications_ignore_work_profile">No enviar las notificaciones de las aplicaciones del perfil al reloj</string>
+    <string name="femometer_measurement_mode_normal">Modo Normal (entre 60 o 90 segundos)</string>
+    <string name="femometer_measurement_mode_quick">Modo Rápido (30s)</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="femometer_measurement_mode_title">Modo de medición</string>
+    <string name="femometer_measurement_mode_precise">Modo Preciso (3min)</string>
 </resources>
