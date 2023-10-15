@@ -2495,4 +2495,10 @@
     <string name="common_symbols">常用符号</string>
     <string name="pref_title_notifications_ignore_work_profile">忽略工作资料通知</string>
     <string name="pref_summary_notifications_ignore_work_profile">不要将工作配置文件中的应用程序的通知发送到手表</string>
+    <string name="femometer_measurement_mode_normal">普通模式（60至90秒）</string>
+    <string name="femometer_measurement_mode_quick">快速模式（30秒）</string>
+    <string name="devicetype_amazfit_balance">跃我 Balance</string>
+    <string name="femometer_measurement_mode_title">测量模式</string>
+    <string name="femometer_measurement_mode_precise">精确模式（3分钟）</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
 </resources>
