@@ -1293,6 +1293,7 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_miband6">Mi Band 6</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Square)</string>
     <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Round)</string>
     <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>

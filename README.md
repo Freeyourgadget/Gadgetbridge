@@ -35,6 +35,7 @@ vendor's servers.
 **(WARNING: Some of them WIP and some of them without maintainer)**
 
 - Amazfit
+	- [Balance](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Balance) [**\[!\]**](#special-pairing-procedures)
 	- [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-5), [Band 7](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-7) [**\[!\]**](#special-pairing-procedures)
 	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), [Bip S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-S), [Bip U, Bip U Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-U) [**\[!\]**](#special-pairing-procedures)
@@ -44,8 +45,8 @@ vendor's servers.
 	- [Falcon (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Falcon) [**\[!\]**](#special-pairing-procedures)
 	- [GTR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR-3), [GTR 3 Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR-3-Pro), [GTR 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR-4) [**\[!\]**](#special-pairing-procedures)
 	- [GTR Mini](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR-Mini) [**\[!\]**](#special-pairing-procedures)
-	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-3), [GTS 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4), [GTS 4 Mini](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4-Mini) [**\[!\]**](#special-pairing-procedures) 
-	- [Neo](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Neo) [**\[!\]**](#special-pairing-procedures) 
+	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-3), [GTS 4](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4), [GTS 4 Mini](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-4-Mini) [**\[!\]**](#special-pairing-procedures)
+	- [Neo](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Neo) [**\[!\]**](#special-pairing-procedures)
 	- T-Rex, T-Rex Pro, [T-Rex 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-T-Rex-2) [**\[!\]**](#special-pairing-procedures)
 	- [T-Rex Ultra (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-T-Rex-Ultra) [**\[!\]**](#special-pairing-procedures)
 	- [Cheetah (Round/Square) (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cheetah) [**\[!\]**](#special-pairing-procedures)
@@ -120,7 +121,7 @@ vendor's servers.
 - [Shell Racing cars](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SuperCars) (BLE RC car models)
 - [Flipper Zero](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Flipper-Zero) (Multi-tool Device for Geeks)
 - VESC (BLDC controller VESC)
-- UM25 (USB Voltage meter) 
+- UM25 (USB Voltage meter)
 
 
 
