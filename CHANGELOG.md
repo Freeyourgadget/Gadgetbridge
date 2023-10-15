@@ -1,6 +1,8 @@
 ### Changelog
 
 #### Next release (WIP)
+* Initial support for Amazfit Balance
+* Initial support for Femometer Vinca II
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
 * Experimental support for Sony WF-1000XM5
@@ -13,12 +15,14 @@
 * Bangle.js: Add loyalty cards integration with Catima
 * Bangle.js: Lower threshold for low battery warning
 * Casio GBX100/GBD-200: Fix first connect
+* Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
 * Fossil/Skagen Hybrids: Reduce toasts on release builds
 * Message privacy: Add mode Hide only body
 * Mijia LYWSD02: Add battery
 * Mijia LYWSD02: Set temperature unit
 * PineTime: Display app name for VoIP app calls
 * PineTime: Reduce weather memory usage
+* Withings Steel HR: Fix crash when calibrating hands on the nightly
 * Zepp OS: Add workout codes for hiking and outdoor swimming
 * Zepp OS: Fix health settings on older Zepp OS versions
 * Zepp OS: Fix setting of unknown button press apps

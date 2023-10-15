@@ -432,7 +432,7 @@
     <string name="femometer_measurement_mode_title">Measurement mode</string>
     <string name="femometer_measurement_mode_quick">Quick Mode (30s)</string>
     <string name="femometer_measurement_mode_normal">Normal Mode (60s-90s)</string>
-    <string name="femometer_measurement_mode_precise"> Precise Mode (3min) </string>
+    <string name="femometer_measurement_mode_precise">Precise Mode (3min)</string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
