@@ -69,6 +69,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         PHONE("9", "1"),
         EVENTS("10", "1"),
         STRESS("11", "1"),
+        THERMOMETER("12", "1"),
         WORLDCLOCK("13", "1"),
         TODO("17", "1"),
         COUNTDOWN("18", "1"),
@@ -83,7 +84,10 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         STOPWATCH("25", "1"),
         ZEPP_COACH("27", "1"),
         RECOMMENDATION("28", "1"),
+        BODY_COMPOSITION("33", "1"),
+        READINESS("34", "1"),
         ALEXA("35", "1"),
+        ZEPP_PAY("37", "1"),
         ;
 
         private final String appNum;

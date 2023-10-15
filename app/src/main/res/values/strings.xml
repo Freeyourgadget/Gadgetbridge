@@ -1406,6 +1406,12 @@
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_recommendation">Recommendation</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="menuitem_thermometer">Thermometer</string>
+    <string name="menuitem_readiness">Readiness</string>
+    <string name="menuitem_body_composition">Body composition</string>
+    <string name="menuitem_workout_shortcuts">Workout shortcuts</string>
+    <string name="menuitem_apps_shortcuts">Apps shortcuts</string>
     <string name="menuitem_breathing">Breathing</string>
     <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_alarm">Alarm</string>
@@ -1464,6 +1470,7 @@
     <string name='menuitem_wifi'>Wi-Fi</string>
     <string name='menuitem_lockscreen'>Lockscreen</string>
     <string name='menuitem_eject_water'>Eject Water</string>
+    <string name='menuitem_headphone'>Headphone</string>
     <string name="menuitem_unknown_app">Unknown (%s)</string>
     <string name="menuitem_unsupported">[UNSUPPORTED] %s</string>
     <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>
@@ -1476,6 +1483,14 @@
     <string name="zepp_os_watchface_emerald_moonlight">Emerald Moonlight</string>
     <string name="zepp_os_watchface_rotating_earth">Rotating Earth</string>
     <string name="zepp_os_watchface_superposition">superposition</string>
+    <string name="zepp_os_watchface_vast_sky">Vast Sky</string>
+    <string name="zepp_os_watchface_lightning_flash">Lightning flash</string>
+    <string name="zepp_os_watchface_free_combination">Free combination</string>
+    <string name="zepp_os_watchface_pure_white">Pure white</string>
+    <string name="zepp_os_watchface_guider">Guider</string>
+    <string name="zepp_os_watchface_city_of_speed">City of speed</string>
+    <string name="zepp_os_watchface_starry_sky">Starry sky</string>
+    <string name="zepp_os_watchface_the_ultima">The ultima</string>
     <string name="yesterdays_activity">Yesterday\'s Activity</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>

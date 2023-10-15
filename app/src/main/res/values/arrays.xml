@@ -770,6 +770,16 @@
         <item>@string/zepp_os_watchface_emerald_moonlight</item>
         <item>@string/zepp_os_watchface_rotating_earth</item>
         <item>@string/zepp_os_watchface_superposition</item>
+        <!-- Balance -->
+        <item>@string/zepp_os_watchface_vast_sky</item>
+        <item>@string/zepp_os_watchface_lightning_flash</item>
+        <item>@string/zepp_os_watchface_free_combination</item>
+        <item>@string/zepp_os_watchface_pure_white</item>
+        <item>@string/zepp_os_watchface_guider</item>
+        <item>@string/zepp_os_watchface_city_of_speed</item>
+        <item>@string/zepp_os_watchface_starry_sky</item>
+        <item>@string/zepp_os_watchface_the_ultima</item>
+
     </string-array>
 
     <string-array name="pref_zepp_os_watchfaces_values">
@@ -784,6 +794,14 @@
         <item>emerald_moonlight</item>
         <item>rotating_earth</item>
         <item>superposition</item>
+        <item>vast_sky</item>
+        <item>lightning_flash</item>
+        <item>free_combination</item>
+        <item>pure_white</item>
+        <item>guider</item>
+        <item>city_of_speed</item>
+        <item>starry_sky</item>
+        <item>the_ultima</item>
     </string-array>
 
     <string-array name="pref_zepp_os_apps">
@@ -830,6 +848,12 @@
         <item>@string/menuitem_cards</item>
         <item>@string/menuitem_mi_ai</item>
         <item>@string/menuitem_zepp_coach</item>
+        <item>@string/menuitem_zepp_pay</item>
+        <item>@string/menuitem_readiness</item>
+        <item>@string/menuitem_body_composition</item>
+        <item>@string/menuitem_thermometer</item>
+        <item>@string/menuitem_workout_shortcuts</item>
+        <item>@string/menuitem_apps_shortcuts</item>
         <!-- dummy item -->
         <item>@string/menuitem_more</item>
     </string-array>
@@ -878,6 +902,12 @@
         <item>cards</item>
         <item>mi_ai</item>
         <item>zepp_coach</item>
+        <item>zepp_pay</item>
+        <item>readiness</item>
+        <item>body_composition</item>
+        <item>thermometer</item>
+        <item>workout_shortcuts</item>
+        <item>apps_shortcuts</item>
         <!-- dummy item -->
         <item>more</item>
     </string-array>
@@ -909,6 +939,12 @@
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_recommendation</item>
         <item>@string/menuitem_zepp_coach</item>
+        <item>@string/menuitem_zepp_pay</item>
+        <item>@string/menuitem_readiness</item>
+        <item>@string/menuitem_body_composition</item>
+        <item>@string/menuitem_thermometer</item>
+        <item>@string/menuitem_workout_shortcuts</item>
+        <item>@string/menuitem_apps_shortcuts</item>
         <item>@string/menuitem_alexa</item>
     </string-array>
 
@@ -939,6 +975,12 @@
         <item>stopwatch</item>
         <item>recommendation</item>
         <item>zepp_coach</item>
+        <item>zepp_pay</item>
+        <item>readiness</item>
+        <item>body_composition</item>
+        <item>thermometer</item>
+        <item>workout_shortcuts</item>
+        <item>apps_shortcuts</item>
         <item>alexa</item>
     </string-array>
 
@@ -958,6 +1000,7 @@
         <item>@string/menuitem_lockscreen</item>
         <item>@string/menuitem_findphone</item>
         <item>@string/menuitem_eject_water</item>
+        <item>@string/menuitem_headphone</item>
     </string-array>
 
     <string-array name="pref_huami2021_control_center_values">
@@ -976,6 +1019,7 @@
         <item>lockscreen</item>
         <item>findphone</item>
         <item>eject_water</item>
+        <item>headphone</item>
     </string-array>
 
     <string-array name="pref_miband5_workout_activity_types">

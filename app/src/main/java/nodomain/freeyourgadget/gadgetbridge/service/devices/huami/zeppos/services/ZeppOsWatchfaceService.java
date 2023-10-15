@@ -68,6 +68,16 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
         EMERALD_MOONLIGHT(0x00002D0A, R.string.zepp_os_watchface_emerald_moonlight),
         ROTATING_EARTH(0x00002D0F, R.string.zepp_os_watchface_rotating_earth),
         SUPERPOSITION(0x00002D0C, R.string.zepp_os_watchface_superposition),
+
+        // Codes are from Balance, not sure if they match on other watches
+        VAST_SKY(0x00002DB6, R.string.zepp_os_watchface_vast_sky),
+        LIGHTNING_FLASH(0x00002DB7, R.string.zepp_os_watchface_lightning_flash),
+        FREE_COMBINATION(0x00002DB9, R.string.zepp_os_watchface_free_combination),
+        PURE_WHITE(0x00002DBA, R.string.zepp_os_watchface_pure_white),
+        GUIDER(0x00002DBB, R.string.zepp_os_watchface_guider),
+        CITY_OF_SPEED(0x00002DBC, R.string.zepp_os_watchface_city_of_speed),
+        STARRY_SKY(0x00002DBD, R.string.zepp_os_watchface_starry_sky),
+        THE_ULTIMA(0x00002DBE, R.string.zepp_os_watchface_the_ultima),
         ;
 
         private final int code;

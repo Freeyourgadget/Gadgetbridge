@@ -56,9 +56,13 @@ public class Huami2021MenuType {
         put("00000033", "breathing");
         put("00000038", "pomodoro");
         put("00000039", "alexa2");
+        put("0000003B", "thermometer");
         put("0000003E", "todo");
         put("0000003F", "mi_ai");
         put("00000046", "zepp_coach");
+        put("00000049", "body_composition");
+        put("0000004A", "readiness");
+        put("0000004C", "zepp_pay");
         put("00000041", "barometer");
         put("00000042", "voice_memos");
         put("00000044", "sun_moon");
@@ -86,6 +90,7 @@ public class Huami2021MenuType {
         put("00000011", "female_health");
         put("00000012", "breathing");
         put("00000013", "spo2");
+        put("00000015", "thermometer");
         put("00000016", "alarm");
         put("00000017", "calendar");
         put("00000018", "events");
@@ -98,6 +103,11 @@ public class Huami2021MenuType {
         put("00000021", "eventreminder");
         put("00000023", "mi_ai");
         put("00000025", "alexa");
+        put("00000027", "workout_shortcuts");
+        put("00000028", "apps_shortcuts");
+        put("00000029", "body_composition");
+        put("0000002A", "readiness");
+        put("0000002B", "zepp_pay");
     }};
 
     public static final Map<String, String> controlCenterNameLookup = new HashMap<String, String>() {{
@@ -116,5 +126,6 @@ public class Huami2021MenuType {
         put("00000002", "lockscreen");
         put("00000005", "findphone");
         put("00000019", "eject_water");
+        put("0000001A", "headphone");
     }};
 }
