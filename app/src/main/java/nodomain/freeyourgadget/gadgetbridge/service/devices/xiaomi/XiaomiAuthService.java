@@ -61,6 +61,8 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
     public static final int COMMAND_TYPE = 1;
 
+    public static final int CMD_SEND_USERID = 5;
+
     public static final int CMD_NONCE = 26;
     public static final int CMD_AUTH = 27;
 

@@ -29,6 +29,7 @@ message Command {
 //
 
 message Auth {
+  optional string userId = 7;
   // 1, 26
   optional PhoneNonce phoneNonce = 30;
   optional WatchNonce watchNonce = 31;
