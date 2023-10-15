@@ -74,7 +74,7 @@ public class MiWatchLiteSupport extends XiaomiSupport {
                 .setSubtype(XiaomiAuthService.CMD_SEND_USERID)
                 .setAuth(auth)
                 .build();
-        sendCommand("send user id", command);
+        sendCommand(builder, command);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
