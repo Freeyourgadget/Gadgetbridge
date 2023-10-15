@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattDescriptor.UUID_DESCRIPTOR_GATT_CLIENT_CHARACTERISTIC_CONFIGURATION;
-
 /**
  * Enables or disables notifications for a given GATT characteristic.
  * The result will be made available asynchronously through the
@@ -53,15 +52,16 @@ public class NotifyAction extends BtLEAction {
             if (notifyDescriptor != null) {
                 int properties = getCharacteristic().getProperties();
                 if ((properties & BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-                    LOG.debug("use NOTIFICATION");
+                    LOG.debug("use NOTIFICATION for Characteristic " + getCharacteristic().getUuid());
                     notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                     result = gatt.writeDescriptor(notifyDescriptor);
                 } else if ((properties & BluetoothGattCharacteristic.PROPERTY_INDICATE) > 0) {
-                    LOG.debug("use INDICATION");
+                    LOG.debug("use INDICATION for Characteristic " + getCharacteristic().getUuid());
                     notifyDescriptor.setValue(enableFlag ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                     result = gatt.writeDescriptor(notifyDescriptor);
                     hasWrittenDescriptor = true;
                 } else {
+                    LOG.debug("use neither NOTIFICATION nor INDICATION for Characteristic " + getCharacteristic().getUuid());
                     hasWrittenDescriptor = false;
                 }
             } else {

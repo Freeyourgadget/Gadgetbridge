@@ -38,12 +38,14 @@ public class GBDaoGenerator {
     private static final String SAMPLE_STEPS = "steps";
     private static final String SAMPLE_RAW_KIND = "rawKind";
     private static final String SAMPLE_HEART_RATE = "heartRate";
+    private static final String SAMPLE_TEMPERATURE = "temperature";
+    private static final String SAMPLE_TEMPERATURE_TYPE = "temperatureType";
     private static final String TIMESTAMP_FROM = "timestampFrom";
     private static final String TIMESTAMP_TO = "timestampTo";
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(59, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(60, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -101,6 +103,7 @@ public class GBDaoGenerator {
         addWena3HeartRateSample(schema, user, device);
         addWena3Vo2Sample(schema, user, device);
         addWena3StressSample(schema, user, device);
+        addFemometerVinca2TemperatureSample(schema, user, device);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -938,4 +941,17 @@ public class GBDaoGenerator {
         perAppSetting.addStringProperty("vibrationRepetition");
         return perAppSetting;
     }
+
+    private static void addTemperatureProperties(Entity activitySample) {
+        activitySample.addFloatProperty(SAMPLE_TEMPERATURE).notNull().codeBeforeGetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_TEMPERATURE_TYPE).notNull().codeBeforeGetter(OVERRIDE);
+    }
+
+    private static Entity addFemometerVinca2TemperatureSample(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "FemometerVinca2TemperatureSample");
+        addCommonTimeSampleProperties("AbstractTemperatureSample", sample, user, device);
+        addTemperatureProperties(sample);
+        return sample;
+    }
+
 }

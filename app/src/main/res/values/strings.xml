@@ -428,6 +428,11 @@
     <string name="power_mode_normal">Normal</string>
     <string name="power_mode_saving">Power saving</string>
     <string name="power_mode_watch">Only watch</string>
+    <!-- Femometer Preferences -->
+    <string name="femometer_measurement_mode_title">Measurement mode</string>
+    <string name="femometer_measurement_mode_quick">Quick Mode (30s)</string>
+    <string name="femometer_measurement_mode_normal">Normal Mode (60s-90s)</string>
+    <string name="femometer_measurement_mode_precise"> Precise Mode (3min) </string>
     <!-- Makibes HR3 Preferences -->
     <string name="preferences_makibes_hr3_settings">Makibes HR3 settings</string>
     <!-- ID115 Preferences -->
@@ -1373,6 +1378,7 @@
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>

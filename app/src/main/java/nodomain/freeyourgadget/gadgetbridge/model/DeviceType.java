@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100Devi
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.femometer.FemometerVinca2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2DeviceCoordinator;
@@ -265,6 +266,8 @@ public enum DeviceType {
     SOFLOW_SO6(550, SoFlowCoordinator.class),
     WITHINGS_STEEL_HR(560, WithingsSteelHRDeviceCoordinator.class),
     SONY_WENA_3(570, SonyWena3Coordinator.class),
+
+    FEMOMETER_VINCA2(580, FemometerVinca2DeviceCoordinator.class),
     TEST(1000, TestDeviceCoordinator.class);
 
     private final int key;

@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 
@@ -234,6 +235,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for stress data, for the device being supported.
      */
     TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for temperature data, for the device being supported.
+     */
+    TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the sample provider for SpO2 data, for the device being supported.

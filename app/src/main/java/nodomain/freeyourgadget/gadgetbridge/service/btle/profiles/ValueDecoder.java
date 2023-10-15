@@ -26,6 +26,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 public class ValueDecoder {
     private static final Logger LOG = LoggerFactory.getLogger(ValueDecoder.class);
 
+    public static int decodeInt(BluetoothGattCharacteristic characteristic) {
+        return characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+    }
+
     public static int decodePercent(BluetoothGattCharacteristic characteristic) {
         int percent = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
         if (percent > 100 || percent < 0) {

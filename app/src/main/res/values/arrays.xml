@@ -3411,4 +3411,16 @@
         <item>c</item>
         <item>f</item>
     </string-array>
+
+    <string-array name="femometer_measurement_mode">
+        <item>@string/femometer_measurement_mode_quick</item>
+        <item>@string/femometer_measurement_mode_normal</item>
+        <item>@string/femometer_measurement_mode_precise</item>
+    </string-array>
+    <string-array name="femometer_measurement_mode_values">
+        <item>quick</item>
+        <item>normal</item>
+        <item>precise</item>
+    </string-array>
+
 </resources>
