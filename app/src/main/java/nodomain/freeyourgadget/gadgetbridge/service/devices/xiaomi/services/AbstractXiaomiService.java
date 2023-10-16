@@ -52,7 +52,7 @@ public abstract class AbstractXiaomiService {
         return false;
     }
 
-    protected XiaomiSupport getSupport() {
+    public XiaomiSupport getSupport() {
         return mSupport;
     }
 

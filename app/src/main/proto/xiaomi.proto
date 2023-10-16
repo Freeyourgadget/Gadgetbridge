@@ -282,8 +282,11 @@ message Charger {
 message Health {
   optional UserInfo userInfo = 1;
 
-  optional bytes activityRecordIds = 2;
-  optional ActivitySyncRequest1 activitySyncRequest1 = 5;
+  // 8, 2 get today | 8, 3 get past
+  optional bytes activityRequestFileIds = 2;
+  //
+  optional bytes activitySyncAckFileIds = 3;
+  optional ActivitySyncRequestToday activitySyncRequestToday = 5;
 
   optional SpO2 spo2 = 7;
   optional HeartRate heartRate = 8;
@@ -321,8 +324,8 @@ message UserInfo {
   optional uint32 goalMoving = 11; // minutes
 }
 
-message ActivitySyncRequest1 {
-  optional uint32 unknown1 = 1; // 0/1
+message ActivitySyncRequestToday {
+  optional uint32 unknown1 = 1; // 0 most of the time, sometimes 1
 }
 
 message SpO2 {

@@ -80,6 +80,7 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
         this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
         this.characteristicCommandRead.setEncrypted(true);
         this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
+        this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
         this.characteristicCommandRead.setEncrypted(true);
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
         this.characteristicCommandRead.setEncrypted(true);
