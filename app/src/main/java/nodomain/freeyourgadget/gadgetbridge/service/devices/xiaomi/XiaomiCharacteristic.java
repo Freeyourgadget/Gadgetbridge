@@ -148,6 +148,9 @@ public class XiaomiCharacteristic {
                 } else {
                     handler.handle(chunkBuffer.toByteArray());
                 }
+
+                currentChunk = 0;
+                chunkBuffer.reset();
             }
         } else {
             // Not a chunk / single-packet
@@ -162,6 +165,8 @@ public class XiaomiCharacteristic {
                         return;
                     }
                     numChunks = buf.getShort();
+                    currentChunk = 0;
+                    chunkBuffer.reset();
                     LOG.debug("Got chunked start request for {} chunks", numChunks);
                     sendChunkStartAck();
                     return;
