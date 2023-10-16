@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiConstants.UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE;
-
 import android.content.SharedPreferences;
 import android.os.Build;
 
@@ -59,6 +57,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class XiaomiAuthService extends AbstractXiaomiService {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiAuthService.class);
 
+    public static final byte[] PAYLOAD_HEADER_AUTH = new byte[]{0, 0, 2, 2};
+
     public static final int COMMAND_TYPE = 1;
 
     public static final int CMD_NONCE = 26;
@@ -75,15 +75,16 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         super(support);
     }
 
-    protected void startAuthentication(final TransactionBuilder builder) {
+    protected void startEncryptedHandshake(final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
 
+        // TODO use sendCommand
         builder.write(
-                getSupport().getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
-                ArrayUtils.addAll(XiaomiConstants.PAYLOAD_HEADER_AUTH, buildNonceCommand(nonce))
+                getSupport().getCharacteristic(XiaomiEncryptedSupport.UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
+                ArrayUtils.addAll(PAYLOAD_HEADER_AUTH, buildNonceCommand(nonce))
         );
     }
 
@@ -105,10 +106,10 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 }
 
                 final TransactionBuilder builder = getSupport().createTransactionBuilder("auth step 2");
-                // TODO maybe move these writes to support class?
+                // TODO use sendCommand
                 builder.write(
-                        getSupport().getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
-                        ArrayUtils.addAll(XiaomiConstants.PAYLOAD_HEADER_AUTH, reply.toByteArray())
+                        getSupport().getCharacteristic(XiaomiEncryptedSupport.UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
+                        ArrayUtils.addAll(PAYLOAD_HEADER_AUTH, reply.toByteArray())
                 );
                 builder.queue(getSupport().getQueue());
                 break;

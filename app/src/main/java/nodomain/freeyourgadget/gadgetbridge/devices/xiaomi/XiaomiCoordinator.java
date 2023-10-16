@@ -47,9 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
@@ -414,11 +412,5 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public AbstractNotificationPattern[] getNotificationLedPatterns() {
         return new AbstractNotificationPattern[0];
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return XiaomiSupport.class;
     }
 }
