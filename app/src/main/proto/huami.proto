@@ -10,6 +10,7 @@ message WorkoutSummary {
     Distance distance = 4;
     Steps steps = 11;
     Time time = 7;
+    SwimmingData swimmingData = 9;
     Pace pace = 10;
     Altitude altitude = 13;
     HeartRate heartRate = 19;
@@ -95,4 +96,16 @@ message TrainingEffect {
     float anaerobicTrainingEffect = 5;
     int32 currentWorkoutLoad = 6;
     int32 maximumOxygenUptake = 7; // ml/kg/min
+}
+
+message SwimmingData {
+    uint32 style = 1; // 1: breaststroke, 2: freestyle
+    uint32 laps = 2;
+    uint32 strokes = 3;
+    uint32 avgDps = 4; // cm
+    uint32 swolf = 5;
+    uint32 avgStrokeRate = 6;  // stroke/min
+    uint32 maxStrokeRate = 7;  // stroke/min
+    uint32 laneLength = 8;
+    uint32 laneLengthUnit = 9; // 0: meter, 1: yard
 }

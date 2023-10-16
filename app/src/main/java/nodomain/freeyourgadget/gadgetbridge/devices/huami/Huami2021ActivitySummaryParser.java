@@ -145,5 +145,30 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
             addSummaryData("ascentSeconds", summaryProto.getElevation().getUphillTime(), "seconds");
             addSummaryData("descentSeconds", summaryProto.getElevation().getDownhillTime(), "seconds");
         }
+
+        if (summaryProto.hasSwimmingData()) {
+            addSummaryData("laps", summaryProto.getSwimmingData().getLaps(), "laps_unit");
+            switch (summaryProto.getSwimmingData().getLaneLengthUnit()) {
+                case 0:
+                    addSummaryData("laneLength", summaryProto.getSwimmingData().getLaneLength(), "meters");
+                    break;
+                case 1:
+                    addSummaryData("laneLength", summaryProto.getSwimmingData().getLaneLength(), "yard");
+                    break;
+            }
+            switch (summaryProto.getSwimmingData().getStyle()) {
+                case 1:
+                    addSummaryData("swimStyle", "breaststroke");
+                    break;
+                case 2:
+                    addSummaryData("swimStyle", "freestyle");
+                    break;
+            }
+            addSummaryData("strokes", summaryProto.getSwimmingData().getStrokes(), "strokes_unit");
+            addSummaryData("avgStrokeRate", summaryProto.getSwimmingData().getAvgStrokeRate(), "strokes_minute");
+            addSummaryData("maxStrokeRate", summaryProto.getSwimmingData().getMaxStrokeRate(), "strokes_minute");
+            addSummaryData("averageStrokeDistance", summaryProto.getSwimmingData().getAvgDps(), "cm");
+            addSummaryData("swolfIndex", summaryProto.getSwimmingData().getSwolf(), "");
+        }
     }
 }

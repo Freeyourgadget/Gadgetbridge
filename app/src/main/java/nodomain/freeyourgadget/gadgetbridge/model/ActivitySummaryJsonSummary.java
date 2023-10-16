@@ -153,7 +153,8 @@ public class ActivitySummaryJsonSummary {
     private JSONObject createActivitySummaryGroups(){
         final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
             put("Strokes", Arrays.asList(
-                    "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
+                    "averageStrokeDistance", "averageStrokesPerSecond", "strokes",
+                    "avgStrokeRate", "maxStrokeRate"
             ));
             put("Swimming", Arrays.asList(
                     "swolfIndex", "swimStyle"
@@ -179,8 +180,8 @@ public class ActivitySummaryJsonSummary {
                     "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
                     "maximumOxygenUptake"
             ));
-            put("Laps", Arrays.asList(
-                    "averageLapPace", "laps"
+            put("laps", Arrays.asList(
+                    "averageLapPace", "laps", "laneLength"
             ));
         }};
 

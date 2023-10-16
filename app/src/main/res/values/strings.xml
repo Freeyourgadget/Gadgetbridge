@@ -1691,9 +1691,13 @@
     <string name="minCadence">Min Cadence</string>
     <string name="averageStrokeDistance">Average Stroke Distance</string>
     <string name="averageStrokesPerSecond">Average Strokes</string>
+    <string name="avgStrokeRate">Average Stroke Rate</string>
+    <string name="maxStrokeRate">Max Stroke Rate</string>
+    <string name="strokes">Total Strokes</string>
     <string name="averageLapPace">Average Lap Pace</string>
-    <string name="swolfIndex">swolfIndex</string>
-    <string name="swimStyle">swimStyle</string>
+    <string name="swolfIndex">SWOLF</string>
+    <string name="swimStyle">Swim Style</string>
+    <string name="laneLength">Lane Length</string>
     <string name="laps">Laps</string>
     <string name="ascentSeconds">Ascending</string>
     <string name="descentSeconds">Descending</string>
@@ -1703,6 +1707,7 @@
     <!-- activity summary units-->
     <string name="meters">m</string>
     <string name="cm">cm</string>
+    <string name="yard">yard</string>
     <string name="ft">ft</string>
     <string name="steps_unit">steps</string>
     <string name="meters_second">m/s</string>
@@ -1710,6 +1715,7 @@
     <string name="mi_h">mi/h</string>
     <string name="minutes_mi">min/mi</string>
     <string name="strokes_second">str/s</string>
+    <string name="strokes_minute">str/min</string>
     <string name="strokes_unit">str</string>
     <string name="seconds">sec</string>
     <string name="swolf_index">swolf index</string>
