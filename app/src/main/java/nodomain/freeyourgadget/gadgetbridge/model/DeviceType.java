@@ -143,7 +143,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsStee
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.MiBand8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.miwatch.MiWatchLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatch.MiWatchLiteCoordinator;
 
 /**
  * For every supported device, a device type constant must exist.

@@ -38,8 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 public class XiaomiCharacteristic {
     public static final byte[] PAYLOAD_ACK = new byte[]{0, 0, 3, 0};
-    public static final byte[] PAYLOAD_CHUNKED_START_ACK = new byte[]{0, 0, 1, 1};
-    public static final byte[] PAYLOAD_CHUNKED_END_ACK = new byte[]{0, 0, 1, 0};
 
     private final Logger LOG;
 
@@ -301,13 +299,13 @@ public class XiaomiCharacteristic {
 
     private void sendChunkStartAck() {
         final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start ack");
-        builder.write(bluetoothGattCharacteristic, PAYLOAD_CHUNKED_START_ACK);
+        builder.write(bluetoothGattCharacteristic, new byte[]{0x00, 0x00, 0x01, 0x01});
         builder.queue(mSupport.getQueue());
     }
 
     private void sendChunkEndAck() {
         final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked end ack");
-        builder.write(bluetoothGattCharacteristic, PAYLOAD_CHUNKED_END_ACK);
+        builder.write(bluetoothGattCharacteristic, new byte[]{0x00, 0x00, 0x01, 0x00});
         builder.queue(mSupport.getQueue());
     }
 

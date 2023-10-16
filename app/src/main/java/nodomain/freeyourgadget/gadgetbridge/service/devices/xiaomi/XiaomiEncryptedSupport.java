@@ -68,12 +68,13 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
         final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_ACTIVITY_DATA);
         final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_DATA_UPLOAD);
 
-        if (btCharacteristicCommandRead == null || btCharacteristicCommandWrite == null || btCharacteristicActivityData == null || btCharacteristicDataUpload == null) {
+        if (btCharacteristicCommandRead == null || btCharacteristicCommandWrite == null) {
             LOG.warn("Characteristics are null, will attempt to reconnect");
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.WAITING_FOR_RECONNECT, getContext()));
             return builder;
         }
 
+        // TODO move this initialization to upstream class
         this.characteristicCommandRead = new XiaomiCharacteristic(this, btCharacteristicCommandRead, authService);
         this.characteristicCommandRead.setEncrypted(true);
         this.characteristicCommandRead.setHandler(this::handleCommandBytes);
@@ -96,6 +97,7 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE), true);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_ACTIVITY_DATA), true);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_DATA_UPLOAD), true);
+
         authService.startEncryptedHandshake(builder);
 
         return builder;

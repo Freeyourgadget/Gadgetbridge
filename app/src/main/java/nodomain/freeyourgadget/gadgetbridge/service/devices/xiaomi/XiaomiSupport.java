@@ -394,12 +394,14 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
+        // FIXME builder is ignored
         final byte[] commandBytes = command.toByteArray();
         LOG.debug("Sending command {}", GB.hexdump(commandBytes));
         this.characteristicCommandWrite.write(commandBytes);
     }
 
     public void sendCommand(final TransactionBuilder builder, final byte[] commandBytes) {
+        // FIXME builder is ignored
         this.characteristicCommandWrite.write(commandBytes);
     }
 

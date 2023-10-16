@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.miwatch;
+package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatch;
 
 import android.content.Context;
 import android.net.Uri;
@@ -28,8 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miwatch.MiWatchLiteSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPlaintextSupport;
 
 public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     @Override
@@ -62,6 +61,6 @@ public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return MiWatchLiteSupport.class;
+        return XiaomiPlaintextSupport.class;
     }
 }
