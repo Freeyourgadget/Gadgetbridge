@@ -183,7 +183,7 @@ public class XiaomiCharacteristic {
                         case 1:
                             LOG.debug("Got chunked ack start");
                             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunks");
-                            for (int i = 0; i * 242 < currentSending.length; i ++) {
+                            for (int i = 0; i * 242 < currentSending.length; i++) {
                                 final int startIndex = i * 242;
                                 final int endIndex = Math.min((i + 1) * 242, currentSending.length);
                                 LOG.debug("Sending chunk {} from {} to {}", i, startIndex, endIndex);
@@ -244,12 +244,13 @@ public class XiaomiCharacteristic {
         }
 
         if (shouldWriteChunked(currentSending)) {
+            // Prepend encrypted index
+            currentSending = ByteBuffer.allocate(2 + currentSending.length).order(ByteOrder.LITTLE_ENDIAN)
+                    .putShort(encryptedIndex++)
+                    .put(currentSending)
+                    .array();
+
             LOG.debug("Sending next - chunked");
-            // FIXME this is not efficient - re-encrypt with the correct key for chunked (assumes
-            //  final encrypted size is the same - need to check)
-            if (isEncrypted) {
-                currentSending = authService.encrypt(payload, (short) 0);
-            }
 
             sendingChunked = true;
 
