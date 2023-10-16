@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -58,6 +60,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_FIND_WATCH = 18;
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
+    public static final int CMD_DISPLAY_ITEMS_SET = 30;
     public static final int CMD_CHARGER = 79;
 
     public XiaomiSystemService(final XiaomiSupport support) {
@@ -70,7 +73,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DEVICE_INFO);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_BATTERY);
         getSupport().sendCommand(builder, COMMAND_TYPE, CMD_PASSWORD_GET);
-        // FIXME i think this needs chunked getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
+        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
     }
 
     @Override
@@ -120,6 +123,8 @@ public class XiaomiSystemService extends AbstractXiaomiService {
             case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
             case PasswordCapabilityImpl.PREF_PASSWORD:
                 setPassword(builder);
+            case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
+                setDisplayItems(builder);
                 return true;
         }
 
@@ -243,16 +248,65 @@ public class XiaomiSystemService extends AbstractXiaomiService {
 
     private void setDisplayItems(final TransactionBuilder builder) {
         final Prefs prefs = getDevicePrefs();
-        final ArrayList<String> allScreens = new ArrayList<>(prefs.getList(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
-        final ArrayList<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
+        final List<String> allScreens = new ArrayList<>(prefs.getList(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
+        final List<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
         if (allScreens.isEmpty()) {
             LOG.warn("No list of all screens");
             return;
         }
+
+        LOG.debug("Setting display items: {}", enabledScreens);
+
         if (!enabledScreens.contains("setting")) {
             enabledScreens.add("setting");
         }
-        // TODO i think this needs chunked
+
+        boolean inMoreSection = false;
+        final XiaomiProto.DisplayItems.Builder displayItems = XiaomiProto.DisplayItems.newBuilder();
+        for (final String enabledScreen : enabledScreens) {
+            if (enabledScreen.equals("more")) {
+                inMoreSection = true;
+                continue;
+            }
+
+            final XiaomiProto.DisplayItem.Builder displayItem = XiaomiProto.DisplayItem.newBuilder()
+                    .setCode(enabledScreen)
+                    .setName(DISPLAY_ITEM_NAMES.get(enabledScreen))
+                    .setUnknown5(1);
+
+            if (inMoreSection) {
+                displayItem.setInMoreSection(true);
+            }
+
+            if ("setting".equals(enabledScreen)) {
+                displayItem.setIsSettings(1);
+            }
+
+            displayItems.addDisplayItem(displayItem);
+        }
+
+        for (final String screen : allScreens) {
+            if (enabledScreens.contains(screen)) {
+                continue;
+            }
+
+            final XiaomiProto.DisplayItem.Builder displayItem = XiaomiProto.DisplayItem.newBuilder()
+                    .setCode(screen)
+                    .setName(DISPLAY_ITEM_NAMES.get(screen))
+                    .setDisabled(true)
+                    .setUnknown5(1);
+
+            displayItems.addDisplayItem(displayItem);
+        }
+
+        getSupport().sendCommand(
+                builder,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_DISPLAY_ITEMS_SET)
+                        .setSystem(XiaomiProto.System.newBuilder().setDisplayItems(displayItems))
+                        .build()
+        );
     }
 
     private void handleDisplayItems(final XiaomiProto.DisplayItems displayItems) {
@@ -315,4 +369,33 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                         .build()
         );
     }
+
+    private static final Map<String, String> DISPLAY_ITEM_NAMES = new HashMap<String, String>() {{
+        put("today_act", "Stats");
+        put("sport", "Workout");
+        put("sport_record", "Activity");
+        put("sport_course", "Running");
+        put("sport_state", "Status");
+        put("heart", "Heart rate");
+        put("pai", "Vitality");
+        put("blood_ox", "SpO₂");
+        put("sleep", "Sleep");
+        put("press", "Stress");
+        put("weather", "Weather");
+        put("alarm", "Alarm");
+        put("setting", "Settings");
+        put("event_reminder", "Alerts");
+        put("schedule", "Events");
+        put("breath", "Breathing");
+        put("stopwatch", "Stopwatch");
+        put("music", "Music");
+        put("find_phone", "Find phone");
+        put("world_clock", "World clock");
+        put("phone_mute", "Silence phone");
+        put("phone_remote", "Camera");
+        put("count_down", "Timer");
+        put("focus", "Focus");
+        put("flash_light", "Flashlight");
+        put("fm_health", "Cycles");
+    }};
 }
