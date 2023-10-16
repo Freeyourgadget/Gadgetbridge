@@ -2492,4 +2492,25 @@
     <string name="common_symbols">Обычные символы</string>
     <string name="pref_title_notifications_ignore_work_profile">Игнорировать уведомления рабочего профиля</string>
     <string name="pref_summary_notifications_ignore_work_profile">Не отправлять уведомления приложений из рабочего профиля на часы</string>
+    <string name="zepp_os_watchface_pure_white">Ярко-белый</string>
+    <string name="zepp_os_watchface_the_ultima">Ультима</string>
+    <string name="zepp_os_watchface_city_of_speed">Город Скорости</string>
+    <string name="menuitem_headphone">Наушник</string>
+    <string name="femometer_measurement_mode_normal">Нормальный (60-90 сек.)</string>
+    <string name="zepp_os_watchface_free_combination">Free combination</string>
+    <string name="menuitem_body_composition">Состав тела</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="femometer_measurement_mode_quick">Быстрый (30 сек.)</string>
+    <string name="zepp_os_watchface_starry_sky">Звёздное небо</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="femometer_measurement_mode_title">Режим измерения</string>
+    <string name="femometer_measurement_mode_precise">Точный (3 мин.)</string>
+    <string name="zepp_os_watchface_vast_sky">Необъятное небо</string>
+    <string name="menuitem_workout_shortcuts">Ярлыки тренировок</string>
+    <string name="zepp_os_watchface_lightning_flash">Сверкание молнии</string>
+    <string name="menuitem_apps_shortcuts">Ярлыки приложений</string>
+    <string name="zepp_os_watchface_guider">Руководство</string>
+    <string name="menuitem_readiness">Готовность</string>
+    <string name="menuitem_thermometer">Термометр</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
 </resources>
