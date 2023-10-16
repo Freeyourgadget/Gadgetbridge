@@ -2474,4 +2474,24 @@
     <string name="info_menu_structure_removed">Menüstruktur entfernt</string>
     <string name="prefs_wena3_home_icon_title">Startbildschirm-Symbole</string>
     <string name="prefs_wena3_item_weather_statusbar">Wetter in Statusleiste</string>
+    <string name="avgStrokeRate">Durchschnittliche Schlagrate</string>
+    <string name="menuitem_headphone">Kopfhörer</string>
+    <string name="femometer_measurement_mode_normal">Normaler Modus (60s-90s)</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="femometer_measurement_mode_quick">Schneller Modus (30s)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Arbeitsprofilbenachrichtigungen ignorieren</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="yard">yd</string>
+    <string name="strokes_minute">Züge/min</string>
+    <string name="femometer_measurement_mode_title">Messmodus</string>
+    <string name="femometer_measurement_mode_precise">Präziser Modus (3min)</string>
+    <string name="menuitem_workout_shortcuts">Trainingsverknüpfungen</string>
+    <string name="maxStrokeRate">Maximale Schlagrate</string>
+    <string name="laneLength">Bahnlänge</string>
+    <string name="strokes">Anzahl Züge</string>
+    <string name="menuitem_apps_shortcuts">Apps-Verknüpfungen</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Benachrichtigungen von Apps im Arbeitsprofil nicht an die Uhr senden</string>
+    <string name="menuitem_thermometer">Thermometer</string>
+    <string name="common_symbols">Gebräuchliche Symbole</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
 </resources>
