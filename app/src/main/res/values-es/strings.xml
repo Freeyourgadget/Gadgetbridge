@@ -2502,4 +2502,19 @@
     <string name="devicetype_amazfit_balance">Amazfit Balance</string>
     <string name="femometer_measurement_mode_title">Modo de medición</string>
     <string name="femometer_measurement_mode_precise">Modo Preciso (3min)</string>
+    <string name="zepp_os_watchface_pure_white">Blanco puro</string>
+    <string name="zepp_os_watchface_the_ultima">El último</string>
+    <string name="menuitem_headphone">Auriculares</string>
+    <string name="zepp_os_watchface_free_combination">Combinación libre</string>
+    <string name="menuitem_body_composition">Forma física</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="zepp_os_watchface_starry_sky">Cielo estrellado</string>
+    <string name="zepp_os_watchface_vast_sky">Cielo vasto</string>
+    <string name="menuitem_workout_shortcuts">Atajos para el entrenamiento</string>
+    <string name="zepp_os_watchface_lightning_flash">Relámpago</string>
+    <string name="menuitem_apps_shortcuts">Atajos de las aplicaciones</string>
+    <string name="zepp_os_watchface_guider">Guía</string>
+    <string name="menuitem_readiness">Preparación</string>
+    <string name="menuitem_thermometer">Termómetro</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
 </resources>
