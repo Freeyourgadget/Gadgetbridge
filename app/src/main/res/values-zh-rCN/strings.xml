@@ -2501,4 +2501,19 @@
     <string name="femometer_measurement_mode_title">测量模式</string>
     <string name="femometer_measurement_mode_precise">精确模式（3分钟）</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="zepp_os_watchface_pure_white">纯白</string>
+    <string name="zepp_os_watchface_the_ultima">最后通牒</string>
+    <string name="zepp_os_watchface_city_of_speed">速度之城</string>
+    <string name="menuitem_headphone">耳机</string>
+    <string name="zepp_os_watchface_free_combination">自由组合</string>
+    <string name="menuitem_body_composition">身体构成</string>
+    <string name="menuitem_zepp_pay">Zepp 支付</string>
+    <string name="zepp_os_watchface_starry_sky">星空</string>
+    <string name="zepp_os_watchface_vast_sky">浩瀚的天空</string>
+    <string name="menuitem_workout_shortcuts">锻炼快捷方式</string>
+    <string name="zepp_os_watchface_lightning_flash">闪电</string>
+    <string name="menuitem_apps_shortcuts">应用快捷方式</string>
+    <string name="zepp_os_watchface_guider">指导</string>
+    <string name="menuitem_readiness">准备状态</string>
+    <string name="menuitem_thermometer">温度计</string>
 </resources>
