@@ -140,7 +140,7 @@ public class XiaomiCharacteristic {
             if (chunk == numChunks) {
                 sendChunkEndAck();
 
-                if (authService != null) {
+                if (isEncrypted) {
                     // chunks are always encrypted if an auth service is available
                     handler.handle(authService.decrypt(chunkBuffer.toByteArray()));
                 } else {
@@ -157,9 +157,10 @@ public class XiaomiCharacteristic {
             switch (type) {
                 case 0:
                     // Chunked start request
-                    final byte one = buf.get(); // ?
-                    if (one != 1) {
-                        LOG.warn("Chunked start request: expected 1, got {}", one);
+                    final byte messageEncrypted = buf.get();
+                    byte expectedResult = (byte) (isEncrypted ? 1 : 0);
+                    if (messageEncrypted != expectedResult) {
+                        LOG.warn("Chunked start request: expected {}, got {}", expectedResult, messageEncrypted);
                         return;
                     }
                     numChunks = buf.getShort();
@@ -258,7 +259,7 @@ public class XiaomiCharacteristic {
             buf.putShort((short) 0);
             buf.put((byte) 0);
             buf.put((byte) (isEncrypted ? 1 : 0));
-            buf.putShort((short) Math.max(1,Math.round(currentSending.length / 247.0)));
+            buf.putShort((short) Math.max(1, Math.round(currentSending.length / 247.0)));
 
             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start");
             builder.write(bluetoothGattCharacteristic, buf.array());
