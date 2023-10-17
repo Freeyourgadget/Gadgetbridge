@@ -30,6 +30,7 @@ message Command {
 
 message Auth {
   optional string userId = 7;
+  optional uint32 status = 8;
   // 1, 26
   optional PhoneNonce phoneNonce = 30;
   optional WatchNonce watchNonce = 31;

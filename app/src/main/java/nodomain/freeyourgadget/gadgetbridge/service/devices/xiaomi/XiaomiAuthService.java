@@ -90,6 +90,22 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         );
     }
 
+    protected void startClearTextHandshake(final TransactionBuilder builder, String userId) {
+        builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
+
+        final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
+                .setUserId(userId)
+                .build();
+
+        final XiaomiProto.Command command = XiaomiProto.Command.newBuilder()
+                .setType(XiaomiAuthService.COMMAND_TYPE)
+                .setSubtype(XiaomiAuthService.CMD_SEND_USERID)
+                .setAuth(auth)
+                .build();
+
+        getSupport().sendCommand(builder, command);
+    }
+
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
         if (cmd.getType() != COMMAND_TYPE) {
@@ -117,16 +133,20 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 break;
             }
 
-            case CMD_AUTH: {
-                LOG.info("Authenticated!");
+            case CMD_AUTH:
+            case CMD_SEND_USERID: {
+                if (cmd.getSubtype() == CMD_AUTH || cmd.getAuth().getStatus() == 1) {
+                    LOG.info("Authenticated!");
 
-                final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
-                builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
-                getSupport().phase2Initialize(builder);
-                builder.queue(getSupport().getQueue());
+                    final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
+                    builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
+                    getSupport().phase2Initialize(builder);
+                    builder.queue(getSupport().getQueue());
+                } else {
+                    LOG.warn("could not authenticate");
+                }
                 break;
             }
-
             default:
                 LOG.warn("Unknown auth payload subtype {}", cmd.getSubtype());
         }

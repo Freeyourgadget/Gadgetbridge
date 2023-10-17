@@ -78,25 +78,12 @@ public class XiaomiPlaintextSupport extends XiaomiSupport {
         getDevice().setFirmwareVersion("...");
         //getDevice().setFirmwareVersion2("...");
 
-        enableNotifications(builder, true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        enableNotifications(builder, true);
         builder.requestMtu(247);
+
         String userId = getUserId(gbDevice);
-
-        final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
-                .setUserId(userId)
-                .build();
-
-        final XiaomiProto.Command command = XiaomiProto.Command.newBuilder()
-                .setType(XiaomiAuthService.COMMAND_TYPE)
-                .setSubtype(XiaomiAuthService.CMD_SEND_USERID)
-                .setAuth(auth)
-                .build();
-
-        sendCommand(builder, command);
-
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-
+        authService.startClearTextHandshake(builder, userId);
 
         return builder;
     }
