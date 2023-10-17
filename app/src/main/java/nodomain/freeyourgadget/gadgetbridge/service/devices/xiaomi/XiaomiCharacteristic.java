@@ -194,6 +194,12 @@ public class XiaomiCharacteristic {
 
                             builder.queue(mSupport.getQueue());
                             return;
+                        case 2:
+                            LOG.warn("Got chunked nack");
+                            currentSending = null;
+                            sendingChunked = false;
+                            sendNext();
+                            return;
                     }
 
                     LOG.warn("Unknown chunked ack subtype {}", subtype);
