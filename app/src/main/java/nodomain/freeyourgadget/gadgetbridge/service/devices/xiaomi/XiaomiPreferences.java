@@ -22,7 +22,10 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public final class XiaomiPreferences {
     private XiaomiPreferences() {
@@ -60,5 +63,10 @@ public final class XiaomiPreferences {
      */
     public static String getPrefPossibleValuesKey(final String key) {
         return String.format(Locale.ROOT, "%s_possible_values", key);
+    }
+
+    public static boolean keepActivityDataOnDevice(final GBDevice gbDevice) {
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        return prefs.getBoolean("keep_activity_data_on_device", false);
     }
 }

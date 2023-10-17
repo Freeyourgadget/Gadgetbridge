@@ -343,6 +343,12 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_header_other);
         settings.add(R.xml.devicesettings_camera_remote);
 
+        //
+        // Developer
+        //
+        settings.add(R.xml.devicesettings_header_developer);
+        settings.add(R.xml.devicesettings_keep_activity_data_on_device);
+
         return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
     }
 

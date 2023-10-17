@@ -410,7 +410,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     public void onFetchRecordedData(final int dataTypes) {
-        LOG.debug("Fetch recorded data: {}", dataTypes);
+        LOG.debug("Fetch recorded data: {}", String.format("0x%08X", dataTypes));
 
         fetchRecordedDataToday();
     }
@@ -439,19 +439,14 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         );
     }
 
-    public void requestRecordedData(final List<XiaomiActivityFileId> fileIds) {
-        final ByteBuffer buf = ByteBuffer.allocate(7 * fileIds.size()).order(ByteOrder.LITTLE_ENDIAN);
-        for (final XiaomiActivityFileId fileId : fileIds) {
-            buf.put(fileId.toBytes());
-        }
-
+    public void requestRecordedData(final XiaomiActivityFileId fileId) {
         getSupport().sendCommand(
                 "request recorded data",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_ACTIVITY_FETCH_REQUEST)
                         .setHealth(XiaomiProto.Health.newBuilder().setActivityRequestFileIds(
-                                ByteString.copyFrom(buf.array())
+                                ByteString.copyFrom(fileId.toBytes())
                         ))
                         .build()
         );
@@ -476,26 +471,19 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             return;
         }
 
-        LOG.debug("Got {} record IDs", recordIds.length / 7);
+        LOG.debug("Got {} activity file IDs", recordIds.length / 7);
 
         final ByteBuffer buf = ByteBuffer.wrap(recordIds).order(ByteOrder.LITTLE_ENDIAN);
-
-        final List<XiaomiActivityFileId> fileIds = new ArrayList<>();
 
         while (buf.position() < buf.limit()) {
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
             LOG.debug("Got activity to fetch: {}", fileId);
-            fileIds.add(fileId);
-        }
-
-        if (!fileIds.isEmpty()) {
-            LOG.debug("Fetching {} files", fileIds.size());
-            activityFetcher.fetch(fileIds);
+            activityFetcher.fetch(fileId);
         }
 
         if (subtype == CMD_ACTIVITY_FETCH_TODAY) {
             LOG.debug("Fetch recorded data from the past");
-            // FIXME fix scheduling fetchRecordedDataPast();
+            fetchRecordedDataPast();
         }
     }
 

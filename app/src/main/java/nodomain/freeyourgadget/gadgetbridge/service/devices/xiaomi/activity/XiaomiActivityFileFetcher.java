@@ -33,6 +33,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
@@ -43,9 +44,8 @@ public class XiaomiActivityFileFetcher {
 
     private final XiaomiHealthService mHealthService;
 
-    private final Queue<List<XiaomiActivityFileId>> mFetchQueue = new LinkedList<>();
-    private ByteArrayOutputStream mBuffer = null;
-    private Set<XiaomiActivityFileId> pendingFiles = new HashSet<>();
+    private final Queue<XiaomiActivityFileId> mFetchQueue = new LinkedList<>();
+    private ByteArrayOutputStream mBuffer = new ByteArrayOutputStream();
     private boolean isFetching = false;
 
     public XiaomiActivityFileFetcher(final XiaomiHealthService healthService) {
@@ -58,18 +58,11 @@ public class XiaomiActivityFileFetcher {
 
         LOG.debug("Got activity chunk {}/{}", num, total);
 
-        if (num == 1) {
-            if (mBuffer == null) {
-                mBuffer = new ByteArrayOutputStream();
-            }
-            mBuffer.reset();
-            mBuffer.write(chunk, 4, chunk.length - 4);
-        }
+        mBuffer.write(chunk, 4, chunk.length - 4);
 
         if (num == total) {
             final byte[] data = mBuffer.toByteArray();
-            mBuffer.reset();
-            mBuffer = null;
+            mBuffer = new ByteArrayOutputStream();
 
             if (data.length < 13) {
                 LOG.warn("Activity data length of {} is too short", data.length);
@@ -78,8 +71,15 @@ public class XiaomiActivityFileFetcher {
                 return;
             }
 
-            if (!validChecksum(data)) {
-                LOG.warn("Invalid activity data checksum");
+            final int arrCrc32 = CheckSums.getCRC32(data, 0, data.length - 4);
+            final int expectedCrc32 = BLETypeConversions.toUint32(data, data.length - 4);
+
+            if (arrCrc32 != expectedCrc32) {
+                LOG.warn(
+                        "Invalid activity data checksum: got {}, expected {}",
+                        String.format("%08X", arrCrc32),
+                        String.format("%08X", expectedCrc32)
+                );
                 // FIXME this may mess up the order.. maybe we should just abort
                 triggerNextFetch();
                 return;
@@ -104,18 +104,21 @@ public class XiaomiActivityFileFetcher {
             }
 
             if (activityParser.parse(fileId, activityData)) {
-                LOG.debug("Acking recorded data {}", fileId);
-                //mHealthService.ackRecordedData(fileId);
+                if (!XiaomiPreferences.keepActivityDataOnDevice(mHealthService.getSupport().getDevice())) {
+                    LOG.debug("Acking recorded data {}", fileId);
+                    mHealthService.ackRecordedData(fileId);
+                }
             }
 
-            // FIXME only after receiving everything triggerNextFetch();
+            triggerNextFetch();
         }
     }
 
-    public void fetch(final List<XiaomiActivityFileId> fileIds) {
-        mFetchQueue.add(fileIds);
+    public void fetch(final XiaomiActivityFileId fileId) {
+        mFetchQueue.add(fileId);
         if (!isFetching) {
             // Currently not fetching anything, fetch the next
+            isFetching = true;
             final XiaomiSupport support = mHealthService.getSupport();
             final Context context = support.getContext();
             GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data),"", true, 0, context);
@@ -125,21 +128,18 @@ public class XiaomiActivityFileFetcher {
     }
 
     private void triggerNextFetch() {
-        final List<XiaomiActivityFileId> fileIds = mFetchQueue.poll();
+        final XiaomiActivityFileId fileId = mFetchQueue.poll();
 
-        if (fileIds == null || fileIds.isEmpty()) {
+        if (fileId == null) {
+            LOG.debug("Nothing more to fetch");
+            isFetching = false;
             mHealthService.getSupport().getDevice().unsetBusyTask();
             GB.updateTransferNotification(null, "", false, 100, mHealthService.getSupport().getContext());
             return;
         }
 
-        mHealthService.requestRecordedData(fileIds);
-    }
+        LOG.debug("Triggering next fetch for: {}", fileId);
 
-    public boolean validChecksum(final byte[] arr) {
-        final int arrCrc32 = CheckSums.getCRC32(arr, 0, arr.length - 4);
-        final int expectedCrc32 = BLETypeConversions.toUint32(arr, arr.length - 4);
-
-        return arrCrc32 == expectedCrc32;
+        mHealthService.requestRecordedData(fileId);
     }
 }
