@@ -16,18 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiActivityFileIdTest {
     @Test
     public void testEncode() {
-        final byte[] bytes = GB.hexStringToByteArray("21F328650403A0");
+        final byte[] expectedEncoding = GB.hexStringToByteArray("21F3286504008C");
         final XiaomiActivityFileId xiaomiActivityFileId = new XiaomiActivityFileId(
                 new Date(1697182497000L),
                 4,
@@ -37,19 +42,42 @@ public class XiaomiActivityFileIdTest {
                 0
         );
 
-        assertArrayEquals(bytes, xiaomiActivityFileId.toBytes());
+        assertArrayEquals(expectedEncoding, xiaomiActivityFileId.toBytes());
     }
 
     @Test
     public void testDecode() {
         final byte[] bytes = GB.hexStringToByteArray("21F328650403A0");
-        final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(bytes);
+        final XiaomiActivityFileId expectedFileId = XiaomiActivityFileId.from(bytes);
 
-        assertEquals(1697182497000L, fileId.getTimestamp().getTime());
-        assertEquals(4, fileId.getTimezone());
-        assertEquals(3, fileId.getVersion());
-        assertEquals(1, fileId.getType());
-        assertEquals(8, fileId.getSubtype());
-        assertEquals(0, fileId.getDetailType());
+        assertEquals(1697182497000L, expectedFileId.getTimestamp().getTime());
+        assertEquals(4, expectedFileId.getTimezone());
+        assertEquals(3, expectedFileId.getVersion());
+        assertEquals(1, expectedFileId.getType());
+        assertEquals(8, expectedFileId.getSubtype());
+        assertEquals(0, expectedFileId.getDetailType());
+    }
+
+    @Test
+    public void testDecodeEncode() {
+        final byte[] bytes = GB.hexStringToByteArray("21F328650403A021F3286504008C");
+
+        final ByteBuffer bufDecode = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+
+        final List<XiaomiActivityFileId> fileIds = new ArrayList<>();
+
+        while (bufDecode.position() < bufDecode.limit()) {
+            final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(bufDecode);
+            fileIds.add(fileId);
+            System.out.println(fileId);
+        }
+
+        final ByteBuffer bufEncode = ByteBuffer.allocate(fileIds.size() * 7).order(ByteOrder.LITTLE_ENDIAN);
+
+        for (final XiaomiActivityFileId fileId : fileIds) {
+            bufEncode.put(fileId.toBytes());
+        }
+
+        assertArrayEquals(bytes, bufEncode.array());
     }
 }

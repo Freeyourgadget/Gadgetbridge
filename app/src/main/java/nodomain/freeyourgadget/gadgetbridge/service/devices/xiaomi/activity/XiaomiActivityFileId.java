@@ -107,7 +107,7 @@ public class XiaomiActivityFileId {
         // bit 6 and 7 - 0 details, 1 summary
         final int detailType = flags & 3;
 
-        return new XiaomiActivityFileId(new Date(ts * 1000L), tz, version, type, subtype, detailType);
+        return new XiaomiActivityFileId(new Date(ts * 1000L), tz, type, subtype, detailType, version);
     }
 
     @NonNull
