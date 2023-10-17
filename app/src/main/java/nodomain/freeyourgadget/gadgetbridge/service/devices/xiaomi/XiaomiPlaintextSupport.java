@@ -67,12 +67,12 @@ public class XiaomiPlaintextSupport extends XiaomiSupport {
         this.characteristicCommandRead.setEncrypted(false);
         this.characteristicCommandRead.setHandler(this::handleCommandBytes);
         this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
-        this.characteristicCommandRead.setEncrypted(false);
+        this.characteristicCommandWrite.setEncrypted(false);
         this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
         this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
-        this.characteristicCommandRead.setEncrypted(false);
+        this.characteristicActivityData.setEncrypted(false);
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
-        this.characteristicCommandRead.setEncrypted(false);
+        this.characteristicDataUpload.setEncrypted(false);
 
         // FIXME why is this needed?
         getDevice().setFirmwareVersion("...");

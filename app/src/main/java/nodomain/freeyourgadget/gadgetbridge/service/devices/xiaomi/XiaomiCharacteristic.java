@@ -258,7 +258,7 @@ public class XiaomiCharacteristic {
             buf.putShort((short) 0);
             buf.put((byte) 0);
             buf.put((byte) (isEncrypted ? 1 : 0));
-            buf.putShort((short) Math.round(currentSending.length / 247.0));
+            buf.putShort((short) Math.max(1,Math.round(currentSending.length / 247.0)));
 
             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start");
             builder.write(bluetoothGattCharacteristic, buf.array());
