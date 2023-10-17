@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
@@ -90,6 +91,51 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     public XiaomiSupport() {
         super(LOG);
+    }
+
+    protected abstract boolean isEncrypted();
+    protected abstract UUID getCharacteristicCommandRead();
+    protected abstract UUID getCharacteristicCommandWrite();
+    protected abstract UUID getCharacteristicActivityData();
+    protected abstract UUID getCharacteristicDataUpload();
+    protected abstract void startAuthentication(TransactionBuilder builder);
+
+    @Override
+    protected final TransactionBuilder initializeDevice(final TransactionBuilder builder) {
+        final BluetoothGattCharacteristic btCharacteristicCommandRead = getCharacteristic(getCharacteristicCommandRead());
+        final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(getCharacteristicCommandWrite());
+        final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(getCharacteristicActivityData());
+        final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(getCharacteristicDataUpload());
+
+        if (btCharacteristicCommandRead == null || btCharacteristicCommandWrite == null) {
+            LOG.warn("Characteristics are null, will attempt to reconnect");
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.WAITING_FOR_RECONNECT, getContext()));
+            return builder;
+        }
+
+        this.characteristicCommandRead = new XiaomiCharacteristic(this, btCharacteristicCommandRead, authService);
+        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicCommandRead.setHandler(this::handleCommandBytes);
+        this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
+        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
+        this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
+        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
+        this.characteristicCommandRead.setEncrypted(isEncrypted());
+
+        builder.requestMtu(247);
+
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+
+        builder.notify(btCharacteristicCommandRead, true);
+        builder.notify(btCharacteristicCommandWrite, true);
+        builder.notify(btCharacteristicActivityData, true);
+        builder.notify(btCharacteristicDataUpload, true);
+
+        startAuthentication(builder);
+
+        return builder;
     }
 
     @Override

@@ -62,44 +62,32 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
     }
 
     @Override
-    protected TransactionBuilder initializeDevice(final TransactionBuilder builder) {
-        final BluetoothGattCharacteristic btCharacteristicCommandRead = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ);
-        final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE);
-        final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_ACTIVITY_DATA);
-        final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_DATA_UPLOAD);
+    protected boolean isEncrypted() {
+        return true;
+    }
 
-        if (btCharacteristicCommandRead == null || btCharacteristicCommandWrite == null) {
-            LOG.warn("Characteristics are null, will attempt to reconnect");
-            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.WAITING_FOR_RECONNECT, getContext()));
-            return builder;
-        }
+    @Override
+    protected UUID getCharacteristicCommandRead() {
+        return UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ;
+    }
 
-        // TODO move this initialization to upstream class
-        this.characteristicCommandRead = new XiaomiCharacteristic(this, btCharacteristicCommandRead, authService);
-        this.characteristicCommandRead.setEncrypted(true);
-        this.characteristicCommandRead.setHandler(this::handleCommandBytes);
-        this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
-        this.characteristicCommandRead.setEncrypted(true);
-        this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
-        this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
-        this.characteristicCommandRead.setEncrypted(true);
-        this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
-        this.characteristicCommandRead.setEncrypted(true);
+    @Override
+    protected UUID getCharacteristicCommandWrite() {
+        return UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE;
+    }
 
-        // FIXME why is this needed?
-        getDevice().setFirmwareVersion("...");
-        //getDevice().setFirmwareVersion2("...");
+    @Override
+    protected UUID getCharacteristicActivityData() {
+        return UUID_CHARACTERISTIC_XIAOMI_ACTIVITY_DATA;
+    }
 
-        builder.requestMtu(247);
+    @Override
+    protected UUID getCharacteristicDataUpload() {
+        return UUID_CHARACTERISTIC_XIAOMI_DATA_UPLOAD;
+    }
 
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_READ), true);
-        builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE), true);
-        builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_ACTIVITY_DATA), true);
-        builder.notify(getCharacteristic(UUID_CHARACTERISTIC_XIAOMI_DATA_UPLOAD), true);
-
+    @Override
+    protected void startAuthentication(TransactionBuilder builder) {
         authService.startEncryptedHandshake(builder);
-
-        return builder;
     }
 }
