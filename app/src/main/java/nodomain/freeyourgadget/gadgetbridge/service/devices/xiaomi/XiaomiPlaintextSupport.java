@@ -74,10 +74,6 @@ public class XiaomiPlaintextSupport extends XiaomiSupport {
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
         this.characteristicDataUpload.setEncrypted(false);
 
-        // FIXME why is this needed?
-        getDevice().setFirmwareVersion("...");
-        //getDevice().setFirmwareVersion2("...");
-
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         enableNotifications(builder, true);
         builder.requestMtu(247);
