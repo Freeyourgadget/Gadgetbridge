@@ -242,11 +242,13 @@ public class XiaomiCharacteristic {
         }
 
         if (shouldWriteChunked(currentSending)) {
-            // Prepend encrypted index
-            currentSending = ByteBuffer.allocate(2 + currentSending.length).order(ByteOrder.LITTLE_ENDIAN)
-                    .putShort(encryptedIndex++)
-                    .put(currentSending)
-                    .array();
+            if (isEncrypted) {
+                // Prepend encrypted index for the nonce
+                currentSending = ByteBuffer.allocate(2 + currentSending.length).order(ByteOrder.LITTLE_ENDIAN)
+                        .putShort(encryptedIndex++)
+                        .put(currentSending)
+                        .array();
+            }
 
             LOG.debug("Sending next - chunked");
 
@@ -255,7 +257,7 @@ public class XiaomiCharacteristic {
             final ByteBuffer buf = ByteBuffer.allocate(6).order(ByteOrder.LITTLE_ENDIAN);
             buf.putShort((short) 0);
             buf.put((byte) 0);
-            buf.put((byte) 1);
+            buf.put((byte) (isEncrypted ? 1 : 0));
             buf.putShort((short) Math.round(currentSending.length / 247.0));
 
             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start");
