@@ -970,7 +970,7 @@
     <string name="flatSeconds">平</string>
     <string name="laps">圈</string>
     <string name="swimStyle">泳式</string>
-    <string name="swolfIndex">SWOLF 索引</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="averageLapPace">平均每圈步伐</string>
     <string name="averageStrokesPerSecond">平均步伐</string>
     <string name="averageStrokeDistance">平均行程距离</string>
@@ -2516,4 +2516,10 @@
     <string name="zepp_os_watchface_guider">指导</string>
     <string name="menuitem_readiness">准备状态</string>
     <string name="menuitem_thermometer">温度计</string>
+    <string name="avgStrokeRate">平均击球距离</string>
+    <string name="yard">码</string>
+    <string name="strokes_minute">直线/分钟</string>
+    <string name="maxStrokeRate">最大击球距离</string>
+    <string name="laneLength">道路长度</string>
+    <string name="strokes">总计击球</string>
 </resources>
