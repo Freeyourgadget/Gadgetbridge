@@ -109,6 +109,12 @@ public class XiaomiActivityFileFetcher {
                 dumpBytesToExternalStorage(fileId, data);
             }
 
+            if (!XiaomiPreferences.keepActivityDataOnDevice(mHealthService.getSupport().getDevice())) {
+                LOG.debug("Acking recorded data {}", fileId);
+                // TODO is this too early?
+                mHealthService.ackRecordedData(fileId);
+            }
+
             final XiaomiActivityParser activityParser = XiaomiActivityParser.create(fileId);
             if (activityParser == null) {
                 LOG.warn("Failed to find activity parser for {}", fileId);
@@ -116,11 +122,8 @@ public class XiaomiActivityFileFetcher {
                 return;
             }
 
-            if (activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
-                if (!XiaomiPreferences.keepActivityDataOnDevice(mHealthService.getSupport().getDevice())) {
-                    LOG.debug("Acking recorded data {}", fileId);
-                    mHealthService.ackRecordedData(fileId);
-                }
+            if (!activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
+                LOG.warn("Failed to parse {}", fileId);
             }
 
             triggerNextFetch();
