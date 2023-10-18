@@ -1982,11 +1982,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void handleCallRequest(byte[] value) {
+        SharedPreferences prefs = getDeviceSpecificPreferences();
+        String rejectMethodPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_CALL_REJECT_METHOD, "reject");
+        GBDeviceEventCallControl.Event rejectMethod = GBDeviceEventCallControl.Event.REJECT;
+        if (rejectMethodPref.equals("ignore")) rejectMethod = GBDeviceEventCallControl.Event.IGNORE;
+
         boolean acceptCall = value[7] == (byte) 0x00;
         queueWrite(new PlayCallNotificationRequest("", false, false, 0,this));
 
         GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
-        callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : GBDeviceEventCallControl.Event.REJECT;
+        callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : rejectMethod;
 
         getDeviceSupport().evaluateGBDeviceEvent(callControlEvent);
     }

@@ -246,6 +246,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_fossilhybridhr_all_fw,
                 R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_dismisscall_16,
+                R.xml.devicesettings_reject_call_method,
                 R.xml.devicesettings_transliteration,
                 R.xml.devicesettings_fossilhybridhr_dev
         };

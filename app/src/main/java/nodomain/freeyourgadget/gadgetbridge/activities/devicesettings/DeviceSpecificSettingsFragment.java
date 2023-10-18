@@ -415,6 +415,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_BLUETOOTH_CALLS_ENABLED);
         addPreferenceHandlerFor(PREF_DISPLAY_CALLER);
         addPreferenceHandlerFor(PREF_NOTIFICATION_DELAY_CALLS);
+        addPreferenceHandlerFor(PREF_CALL_REJECT_METHOD);
 
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);

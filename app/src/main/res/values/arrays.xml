@@ -3466,5 +3466,13 @@
         <item>normal</item>
         <item>precise</item>
     </string-array>
+    <string-array name="call_rejection_methods">
+        <item>@string/call_rejection_method_reject</item>
+        <item>@string/call_rejection_method_ignore</item>
+    </string-array>
+    <string-array name="call_rejection_methods_values">
+        <item>reject</item>
+        <item>ignore</item>
+    </string-array>
 
 </resources>

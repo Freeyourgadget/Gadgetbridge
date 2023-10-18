@@ -2390,4 +2390,8 @@
     <string name="temperature_scale_fahrenheit">Fahrenheit</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">Navigation app not installed on watch</string>
     <string name="fossil_hr_nav_app_not_installed_notify_text">Navigation started but navigationApp not installed on watch. Please install it from the App Manager.</string>
+    <string name="call_rejection_method_reject">Reject</string>
+    <string name="call_rejection_method_ignore">Ignore (silence)</string>
+    <string name="pref_call_rejection_method_title">Call rejection method</string>
+    <string name="pref_call_rejection_method_summary">Which action is taken when an incoming call is rejected from the watch</string>
 </resources>

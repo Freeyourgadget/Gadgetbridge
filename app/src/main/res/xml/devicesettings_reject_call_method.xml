@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="reject"
+        android:key="call_reject_method"
+        android:title="@string/pref_call_rejection_method_title"
+        android:summary="@string/pref_call_rejection_method_summary"
+        android:icon="@drawable/ic_phone_missed_outline"
+        android:entries="@array/call_rejection_methods"
+        android:entryValues="@array/call_rejection_methods_values"/>
+
+</PreferenceScreen>

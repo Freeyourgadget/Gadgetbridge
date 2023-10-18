@@ -243,6 +243,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_BLUETOOTH_CALLS_ENABLED = "bluetooth_calls_enabled";
     public static final String PREF_DISPLAY_CALLER = "display_caller";
     public static final String PREF_NOTIFICATION_DELAY_CALLS = "notification_delay_calls";
+    public static final String PREF_CALL_REJECT_METHOD = "call_reject_method";
 
     public static final String WIFI_HOTSPOT_SSID = "wifi_hotspot_ssid";
     public static final String WIFI_HOTSPOT_PASSWORD = "wifi_hotspot_password";
