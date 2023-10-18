@@ -2517,4 +2517,6 @@
     <string name="menuitem_readiness">Preparación</string>
     <string name="menuitem_thermometer">Termómetro</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="busy_task_fetch_statistics">Obtener las estadísticas</string>
+    <string name="busy_task_fetch_temperature">Obtener los datos de la temperatura</string>
 </resources>
