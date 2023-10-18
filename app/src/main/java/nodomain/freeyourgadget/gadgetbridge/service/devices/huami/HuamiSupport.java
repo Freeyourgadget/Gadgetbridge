@@ -122,6 +122,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchTemperatureOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateRestingOperation;
@@ -174,7 +175,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -1698,7 +1698,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
             if ((dataTypes & RecordedDataTypes.TYPE_SLEEP_RESPIRATORY_RATE) != 0 && coordinator.supportsSleepRespiratoryRate()) {
                 this.fetchOperationQueue.add(new FetchSleepRespiratoryRateOperation(this));
-            } 
+            }
+
+            if ((dataTypes & RecordedDataTypes.TYPE_TEMPERATURE) != 0) {
+                this.fetchOperationQueue.add(new FetchTemperatureOperation(this));
+            }
         }
 
         final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();
