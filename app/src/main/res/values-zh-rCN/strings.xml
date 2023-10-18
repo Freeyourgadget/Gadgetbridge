@@ -2522,4 +2522,6 @@
     <string name="maxStrokeRate">最大击球距离</string>
     <string name="laneLength">道路长度</string>
     <string name="strokes">总计击球</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">导航已启动，但手表上未安装导航应用程序。请从应用程序管理器安装它。</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">手表上未安装导航应用</string>
 </resources>
