@@ -242,20 +242,21 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         }
         //Settings applicable to all firmware versions
         int[] supportedSettings = new int[]{
-                R.xml.devicesettings_fossilhybridhr,
                 R.xml.devicesettings_inactivity,
+                R.xml.devicesettings_fossilhybridhr_all_fw,
                 R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_dismisscall_16,
-                R.xml.devicesettings_transliteration
+                R.xml.devicesettings_transliteration,
+                R.xml.devicesettings_fossilhybridhr_dev
         };
-        //Firmware specific settings
+        // Firmware version specific settings
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("3.0"))) {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration_pre_fw30);
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw300);
         } else {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration);
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_post_fw300);
         }
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
-            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw20);
+            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw220);
         }
         return supportedSettings;
     }

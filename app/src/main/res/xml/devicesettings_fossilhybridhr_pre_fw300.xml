@@ -54,5 +54,14 @@
             android:key="button_1_function_long_warning"
             android:summary="@string/fossil_hr_button_config_info" />
     </PreferenceScreen>
-	
+
+    <Preference
+            android:title="@string/qhybrid_pref_title_actions"
+            android:icon="@drawable/ic_pending_actions"
+            android:summary="@string/qhybrid_pref_summary_actions">
+                <intent
+                    android:targetPackage="@string/applicationId"
+                    android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity" />
+    </Preference>
+
 </androidx.preference.PreferenceScreen>

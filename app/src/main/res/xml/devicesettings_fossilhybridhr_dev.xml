@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen
+        android:key="developer_settings"
+        android:icon="@drawable/ic_developer_mode"
+        android:title="@string/pref_title_developer_settings"
+        android:summary="@string/pref_summary_developer_settings">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="save_raw_activity_files"
+            android:title="@string/pref_qhybrid_save_raw_activity_files" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="dangerous_external_intents"
+            android:title="@string/qhybrid_pref_title_external_intents"
+            android:summary="@string/qhybrid_pref_summary_external_intents" />
+
+        <Preference
+            android:title="@string/qhybrid_title_file_management"
+            android:summary="@string/qhybrid_summary_file_management">
+            <intent
+                android:targetPackage="@string/applicationId"
+                android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
+        </Preference>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="enable_on_device_confirmation"
+            android:title="@string/qhybrid_title_on_device_confirmation"
+            android:summary="@string/qhybrid_summary_on_device_confirmation" />
+
+        <EditTextPreference
+            android:key="voice_service_package"
+            android:title="@string/voice_service_package_title"
+            android:summary="@string/voice_service_package_summary"
+            app:useSimpleSummaryProvider="true"/>
+
+        <EditTextPreference
+            android:key="voice_service_class"
+            android:title="@string/voice_service_class_title"
+            android:summary="@string/voice_service_class_summary"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>
