@@ -78,6 +78,8 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     protected final XiaomiSystemService systemService = new XiaomiSystemService(this);
     protected final XiaomiCalendarService calendarService = new XiaomiCalendarService(this);
 
+    private String mFirmwareVersion = null;
+
     private final Map<Integer, AbstractXiaomiService> mServiceMap = new LinkedHashMap<Integer, AbstractXiaomiService>() {{
         put(XiaomiAuthService.COMMAND_TYPE, authService);
         put(XiaomiMusicService.COMMAND_TYPE, musicService);
@@ -106,6 +108,11 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(getCharacteristicCommandWrite());
         final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(getCharacteristicActivityData());
         final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(getCharacteristicDataUpload());
+
+        // FIXME unsetDynamicState unsets the fw version, which causes problems..
+        if (getDevice().getFirmwareVersion() == null && mFirmwareVersion != null) {
+            getDevice().setFirmwareVersion(mFirmwareVersion);
+        }
 
         if (btCharacteristicCommandRead == null || btCharacteristicCommandWrite == null) {
             LOG.warn("Characteristics are null, will attempt to reconnect");
@@ -150,6 +157,11 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void setContext(final GBDevice gbDevice, final BluetoothAdapter btAdapter, final Context context) {
+        // FIXME unsetDynamicState unsets the fw version, which causes problems..
+        if (mFirmwareVersion == null && gbDevice.getFirmwareVersion() != null) {
+            mFirmwareVersion = gbDevice.getFirmwareVersion();
+        }
+
         super.setContext(gbDevice, btAdapter, context);
         for (final AbstractXiaomiService service : mServiceMap.values()) {
             service.setContext(context);

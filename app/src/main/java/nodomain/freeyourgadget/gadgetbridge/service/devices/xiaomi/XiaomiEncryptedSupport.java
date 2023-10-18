@@ -88,10 +88,6 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
 
     @Override
     protected void startAuthentication(final TransactionBuilder builder) {
-        // FIXME why is this needed? We get an NPE without it
-        getDevice().setFirmwareVersion("...");
-        //getDevice().setFirmwareVersion2("...");
-
         authService.startEncryptedHandshake(builder);
     }
 }
