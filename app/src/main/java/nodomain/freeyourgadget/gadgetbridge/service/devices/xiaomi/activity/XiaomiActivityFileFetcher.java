@@ -136,6 +136,7 @@ public class XiaomiActivityFileFetcher {
             final Context context = support.getContext();
             GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data),"", true, 0, context);
             support.getDevice().setBusyTask(context.getString(R.string.busy_task_fetch_activity_data));
+            support.getDevice().sendDeviceUpdateIntent(support.getContext());
             triggerNextFetch();
         }
     }
@@ -148,6 +149,7 @@ public class XiaomiActivityFileFetcher {
             isFetching = false;
             mHealthService.getSupport().getDevice().unsetBusyTask();
             GB.updateTransferNotification(null, "", false, 100, mHealthService.getSupport().getContext());
+            mHealthService.getSupport().getDevice().sendDeviceUpdateIntent(mHealthService.getSupport().getContext());
             return;
         }
 
