@@ -122,6 +122,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStatisticsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchTemperatureOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
@@ -1703,6 +1704,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             if ((dataTypes & RecordedDataTypes.TYPE_TEMPERATURE) != 0) {
                 this.fetchOperationQueue.add(new FetchTemperatureOperation(this));
             }
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_HUAMI_STATISTICS) != 0) {
+            this.fetchOperationQueue.add(new FetchStatisticsOperation(this));
         }
 
         final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();

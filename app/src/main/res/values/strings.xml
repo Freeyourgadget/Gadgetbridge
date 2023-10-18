@@ -631,6 +631,7 @@
     <string name="busy_task_fetch_hr_data">Fetching heart rate data</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Fetching sleep respiratory rate data</string>
     <string name="busy_task_fetch_temperature">Fetching temperature data</string>
+    <string name="busy_task_fetch_statistics">Fetching statistics</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="prefs_wearside">Wearing left or right?</string>
     <string name="prefs_weardirection">Wearing direction</string>
