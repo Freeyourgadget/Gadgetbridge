@@ -22,21 +22,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiActivityFileFetcher {
@@ -96,6 +104,11 @@ public class XiaomiActivityFileFetcher {
             final byte[] activityData = Arrays.copyOfRange(data, 8, data.length - 4);
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(fileIdBytes);
 
+            if (BuildConfig.DEBUG) {
+                // FIXME comment this out
+                dumpBytesToExternalStorage(fileId, data);
+            }
+
             final XiaomiActivityParser activityParser = XiaomiActivityParser.create(fileId);
             if (activityParser == null) {
                 LOG.warn("Failed to find activity parser for {}", fileId);
@@ -141,5 +154,23 @@ public class XiaomiActivityFileFetcher {
         LOG.debug("Triggering next fetch for: {}", fileId);
 
         mHealthService.requestRecordedData(fileId);
+    }
+
+    protected void dumpBytesToExternalStorage(final XiaomiActivityFileId fileId, final byte[] bytes) {
+        try {
+            final File externalFilesDir = FileUtils.getExternalFilesDir();
+            final File targetDir = new File(externalFilesDir, "rawFetchOperations");
+            targetDir.mkdirs();
+
+            final String filename = "xiaomi_" + GB.hexdump(fileId.toBytes()) + ".bin";
+
+            final File outputFile = new File(targetDir, filename);
+
+            final OutputStream outputStream = new FileOutputStream(outputFile);
+            outputStream.write(bytes);
+            outputStream.close();
+        } catch (final Exception e) {
+            LOG.error("Failed to dump bytes to storage", e);
+        }
     }
 }
