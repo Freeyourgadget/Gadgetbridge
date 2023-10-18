@@ -116,7 +116,7 @@ public class XiaomiActivityFileFetcher {
                 return;
             }
 
-            if (activityParser.parse(fileId, activityData)) {
+            if (activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
                 if (!XiaomiPreferences.keepActivityDataOnDevice(mHealthService.getSupport().getDevice())) {
                     LOG.debug("Acking recorded data {}", fileId);
                     mHealthService.ackRecordedData(fileId);

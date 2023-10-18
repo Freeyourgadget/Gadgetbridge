@@ -26,24 +26,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport
 public abstract class XiaomiActivityParser {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiActivityParser.class);
 
-    private final XiaomiSupport mSupport;
-
-    public XiaomiActivityParser(final XiaomiSupport support) {
-        this.mSupport = support;
-    }
-
-    public abstract boolean parse(final XiaomiActivityFileId fileId, final byte[] bytes);
-
-    public XiaomiSupport getSupport() {
-        return mSupport;
-    }
+    public abstract boolean parse(final XiaomiSupport support, final XiaomiActivityFileId fileId, final byte[] bytes);
 
     @Nullable
     public static XiaomiActivityParser create(final XiaomiActivityFileId fileId) {
         switch (fileId.getType()) {
-            case XiaomiActivityFileId.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return createForActivity(fileId);
-            case XiaomiActivityFileId.TYPE_SPORTS:
+            case SPORTS:
                 return createForSports(fileId);
         }
 
@@ -51,14 +41,30 @@ public abstract class XiaomiActivityParser {
         return null;
     }
 
-    public static XiaomiActivityParser createForActivity(final XiaomiActivityFileId fileId) {
-        assert fileId.getType() == XiaomiActivityFileId.TYPE_ACTIVITY;
+    private static XiaomiActivityParser createForActivity(final XiaomiActivityFileId fileId) {
+        assert fileId.getType() == XiaomiActivityFileId.Type.ACTIVITY;
+
+        switch (fileId.getSubtype()) {
+            case ACTIVITY_DAILY:
+                switch (fileId.getDetailType()) {
+                    case DETAILS:
+                        return null;
+                    case SUMMARY:
+                        return null;
+                }
+
+                break;
+        }
+
+        LOG.warn("No parser for activity subtype in {}", fileId);
 
         return null;
     }
 
-    public static XiaomiActivityParser createForSports(final XiaomiActivityFileId fileId) {
-        assert fileId.getType() == XiaomiActivityFileId.TYPE_SPORTS;
+    private static XiaomiActivityParser createForSports(final XiaomiActivityFileId fileId) {
+        assert fileId.getType() == XiaomiActivityFileId.Type.SPORTS;
+
+        LOG.warn("No parser for sports subtype in {}", fileId);
 
         return null;
     }

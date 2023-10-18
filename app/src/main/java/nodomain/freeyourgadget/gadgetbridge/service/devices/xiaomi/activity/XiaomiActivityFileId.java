@@ -25,12 +25,6 @@ import java.util.Date;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class XiaomiActivityFileId {
-    public static final int TYPE_ACTIVITY = 0;
-    public static final int TYPE_SPORTS = 1;
-
-    public static final int TYPE_DETAILS = 0;
-    public static final int TYPE_SUMMARY = 1;
-
     private final Date timestamp;
     private final int timezone;
     private final int type;
@@ -60,16 +54,16 @@ public class XiaomiActivityFileId {
         return timezone;
     }
 
-    public int getType() {
-        return type;
+    public Type getType() {
+        return Type.fromCode(type);
     }
 
-    public int getSubtype() {
-        return subtype;
+    public Subtype getSubtype() {
+        return Subtype.fromCode(getType(), subtype);
     }
 
-    public int getDetailType() {
-        return detailType;
+    public DetailType getDetailType() {
+        return DetailType.fromCode(detailType);
     }
 
     public int getVersion() {
@@ -113,13 +107,98 @@ public class XiaomiActivityFileId {
     @NonNull
     @Override
     public String toString() {
+        final Type typeName = Type.fromCode(type);
+        final Subtype subtypeName = Subtype.fromCode(typeName, subtype);
+        final DetailType detailTypeName = DetailType.fromCode(detailType);
+
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatIso8601(timestamp) +
                 ", timezone=" + timezone +
-                ", type=" + type +
-                ", subtype=" + subtype +
-                ", detailType=" + detailType +
+                ", type=" + (typeName != Type.UNKNOWN ? typeName : "UNKNOWN(" + type + ")") +
+                ", subtype=" + (subtypeName != Subtype.UNKNOWN ? subtypeName : "UNKNOWN(" + subtype + ")") +
+                ", detailType=" + (detailTypeName != DetailType.UNKNOWN ? detailTypeName : "UNKNOWN(" + detailType + ")") +
                 ", version=" + version +
                 "}";
+    }
+
+    public enum Type {
+        UNKNOWN(-1),
+        ACTIVITY(0),
+        SPORTS(1),
+        ;
+
+        private final int code;
+
+        Type(final int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static Type fromCode(final int code) {
+            for (final Type type : values()) {
+                if (type.getCode() == code) {
+                    return type;
+                }
+            }
+            return UNKNOWN;
+        }
+    }
+
+    public enum Subtype {
+        UNKNOWN(Type.UNKNOWN, -1),
+        ACTIVITY_DAILY(Type.ACTIVITY, 0),
+        ACTIVITY_SLEEP(Type.ACTIVITY,8),
+        SPORTS_FREESTYLE(Type.SPORTS, 8),
+        ;
+
+        private final Type type;
+        private final int code;
+
+        Subtype(final Type type, final int code) {
+            this.type = type;
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static Subtype fromCode(final Type type, final int code) {
+            for (final Subtype subtype : values()) {
+                if (subtype.type == type && subtype.getCode() == code) {
+                    return subtype;
+                }
+            }
+            return UNKNOWN;
+        }
+    }
+
+    public enum DetailType {
+        UNKNOWN(-1),
+        DETAILS(0),
+        SUMMARY(1),
+        ;
+
+        private final int code;
+
+        DetailType(final int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static DetailType fromCode(final int code) {
+            for (final DetailType detailType : values()) {
+                if (detailType.getCode() == code) {
+                    return detailType;
+                }
+            }
+            return UNKNOWN;
+        }
     }
 }
