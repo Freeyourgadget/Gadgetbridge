@@ -2513,4 +2513,6 @@
     <string name="menuitem_readiness">Готовность</string>
     <string name="menuitem_thermometer">Термометр</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Навигация была начата, но navigationApp не установлено на часах. Пожалуйста, установите его в менеджере приложений.</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Приложение навигации не установлено на часах</string>
 </resources>
