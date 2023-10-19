@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailyDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.SleepDetailsParser;
 
 public abstract class XiaomiActivityParser {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiActivityParser.class);
@@ -53,7 +54,10 @@ public abstract class XiaomiActivityParser {
 
                 break;
             case ACTIVITY_SLEEP:
-                // TODO
+                if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
+                    return new SleepDetailsParser();
+                }
+
                 break;
         }
 
