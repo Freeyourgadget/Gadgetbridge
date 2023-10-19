@@ -2507,4 +2507,8 @@
     <string name="menuitem_readiness">القراءة</string>
     <string name="menuitem_thermometer">مقياس الحرارة</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="busy_task_fetch_statistics">‮جارٍ جلب الإحصائيات</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">بدأ التنقل ولكن تطبيق التنقل غير مثبت على الساعة. يرجى تثبيته من مدير التطبيقات.</string>
+    <string name="busy_task_fetch_temperature">جارٍ جلب بيانات درجة الحرارة</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">تطبيق نظام الملاحة لم يم تثبيته في الساعة</string>
 </resources>
