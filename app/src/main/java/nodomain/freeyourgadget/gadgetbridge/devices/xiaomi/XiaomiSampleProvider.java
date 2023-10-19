@@ -23,37 +23,36 @@ import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-// TODO s/HuamiExtendedActivitySample/XiaomiActivitySample/g
-public class XiaomiSampleProvider extends AbstractSampleProvider<HuamiExtendedActivitySample> {
+public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivitySample> {
     public XiaomiSampleProvider(final GBDevice device, final DaoSession session) {
         super(device, session);
     }
 
     @Override
-    public AbstractDao<HuamiExtendedActivitySample, ?> getSampleDao() {
-        return getSession().getHuamiExtendedActivitySampleDao();
+    public AbstractDao<XiaomiActivitySample, ?> getSampleDao() {
+        return getSession().getXiaomiActivitySampleDao();
     }
 
     @Nullable
     @Override
     protected Property getRawKindSampleProperty() {
-        return HuamiExtendedActivitySampleDao.Properties.RawKind;
+        return XiaomiActivitySampleDao.Properties.RawKind;
     }
 
     @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
-        return HuamiExtendedActivitySampleDao.Properties.Timestamp;
+        return XiaomiActivitySampleDao.Properties.Timestamp;
     }
 
     @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
-        return HuamiExtendedActivitySampleDao.Properties.DeviceId;
+        return XiaomiActivitySampleDao.Properties.DeviceId;
     }
 
     @Override
@@ -64,16 +63,18 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<HuamiExtendedAc
 
     @Override
     public int toRawActivityKind(final int activityKind) {
+        // TODO
         return activityKind;
     }
 
     @Override
     public float normalizeIntensity(final int rawIntensity) {
+        // TODO
         return rawIntensity;
     }
 
     @Override
-    public HuamiExtendedActivitySample createActivitySample() {
-        return new HuamiExtendedActivitySample();
+    public XiaomiActivitySample createActivitySample() {
+        return new XiaomiActivitySample();
     }
 }

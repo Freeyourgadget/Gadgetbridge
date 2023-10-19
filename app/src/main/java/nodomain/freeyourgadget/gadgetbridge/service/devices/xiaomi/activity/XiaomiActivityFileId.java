@@ -114,9 +114,9 @@ public class XiaomiActivityFileId {
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatIso8601(timestamp) +
                 ", timezone=" + timezone +
-                ", type=" + (typeName != Type.UNKNOWN ? typeName : "UNKNOWN(" + type + ")") +
-                ", subtype=" + (subtypeName != Subtype.UNKNOWN ? subtypeName : "UNKNOWN(" + subtype + ")") +
-                ", detailType=" + (detailTypeName != DetailType.UNKNOWN ? detailTypeName : "UNKNOWN(" + detailType + ")") +
+                ", type=" + (typeName + "(" + type + ")") +
+                ", subtype=" + (subtypeName + "(" + subtype + ")") +
+                ", detailType=" + (detailTypeName + "(" + detailType + ")") +
                 ", version=" + version +
                 "}";
     }

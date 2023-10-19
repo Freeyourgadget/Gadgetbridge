@@ -70,8 +70,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO XiaomiStressSampleProvider
-        return super.getStressSampleProvider(device, session);
+        return new XiaomiStressSampleProvider(device, session);
     }
 
     @Override
@@ -182,7 +181,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsPai() {
         // TODO does it?
-        return true;
+        return false;
     }
 
     @Override

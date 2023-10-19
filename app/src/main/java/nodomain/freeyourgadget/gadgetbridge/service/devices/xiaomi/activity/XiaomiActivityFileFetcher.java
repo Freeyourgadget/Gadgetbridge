@@ -117,7 +117,7 @@ public class XiaomiActivityFileFetcher {
 
             final XiaomiActivityParser activityParser = XiaomiActivityParser.create(fileId);
             if (activityParser == null) {
-                LOG.warn("Failed to find activity parser for {}", fileId);
+                LOG.warn("Failed to find parser for {}", fileId);
                 triggerNextFetch();
                 return;
             }

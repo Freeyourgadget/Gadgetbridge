@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailyDetailsParser;
 
 public abstract class XiaomiActivityParser {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiActivityParser.class);
@@ -46,25 +47,21 @@ public abstract class XiaomiActivityParser {
 
         switch (fileId.getSubtype()) {
             case ACTIVITY_DAILY:
-                switch (fileId.getDetailType()) {
-                    case DETAILS:
-                        return null;
-                    case SUMMARY:
-                        return null;
+                if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
+                    return new DailyDetailsParser();
                 }
 
                 break;
+            case ACTIVITY_SLEEP:
+                // TODO
+                break;
         }
-
-        LOG.warn("No parser for activity subtype in {}", fileId);
 
         return null;
     }
 
     private static XiaomiActivityParser createForSports(final XiaomiActivityFileId fileId) {
         assert fileId.getType() == XiaomiActivityFileId.Type.SPORTS;
-
-        LOG.warn("No parser for sports subtype in {}", fileId);
 
         return null;
     }
