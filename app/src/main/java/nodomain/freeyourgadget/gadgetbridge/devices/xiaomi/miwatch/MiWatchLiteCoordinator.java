@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPlaintextSupport;
 
@@ -56,6 +57,35 @@ public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     @Override
     public int getDisabledIconResource() {
         return R.drawable.ic_device_amazfit_bip_disabled;
+    }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsStressMeasurement() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsSpo2() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
+
+    @Override
+    public int getAlarmSlotCount(final GBDevice device) {
+        return 0;
+    }
+    @Override
+    public int getReminderSlotCount(final GBDevice device) {
+        return 0;
     }
 
     @NonNull
