@@ -493,6 +493,11 @@ message Notification {
   optional uint32 unknown8 = 8; // 1 on canned replies request?
   // 7, 9 get | 7, 12 set
   optional CannedMessages cannedMessages = 9;
+  // 7, 16
+  optional NotificationIconRequest notificationIconRequest = 14;
+  // 7, 15
+  optional NotificationIconRequest notificationIconProperties = 15;
+  optional NotificationIconRequest notificationIconConfirm = 16;
 }
 
 message Notification2 {
@@ -527,6 +532,16 @@ message CannedMessages {
   optional uint32 minReplies = 1;
   repeated string reply = 2;
   optional uint32 maxReplies = 3;
+}
+
+message NotificationIconProperties {
+  optional string package = 1;
+}
+
+message NotificationIconRequest {
+  optional uint32 unknown1 = 1; // 0
+  optional uint32 unknown2 = 2; // 3
+  optional uint32 unknown3 = 3; // 28, 44, 80, size?
 }
 
 //
