@@ -1008,7 +1008,7 @@
     <string name="prefs_events_forwarding_broadcast_title">Трансляционное сообщение</string>
     <string name="Elevation">Возвышенность</string>
     <string name="flatSeconds">Плоские</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="activity_filter_apply_filter">Применить фильтр</string>
     <string name="activity_filter_filter_title">Фильтр</string>
     <string name="activity_filter_reset_filter">Сбросить фильтр</string>
@@ -2515,4 +2515,12 @@
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="fossil_hr_nav_app_not_installed_notify_text">Навигация была начата, но navigationApp не установлено на часах. Пожалуйста, установите его в менеджере приложений.</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">Приложение навигации не установлено на часах</string>
+    <string name="call_rejection_method_ignore">Игнорировать (прекратить уведомление)</string>
+    <string name="call_rejection_method_reject">Отклонить</string>
+    <string name="pref_call_rejection_method_title">Способ отклонения вызова</string>
+    <string name="busy_task_fetch_statistics">Получение статистики</string>
+    <string name="yard">площадка</string>
+    <string name="pref_call_rejection_method_summary">Какое действие необходимо совершить при отклонении вызова с часов</string>
+    <string name="busy_task_fetch_temperature">Получение температуры</string>
+    <string name="laneLength">Длина полосы</string>
 </resources>
