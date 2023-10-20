@@ -135,8 +135,8 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
-        builder.notify(btCharacteristicCommandRead, true);
         builder.notify(btCharacteristicCommandWrite, true);
+        builder.notify(btCharacteristicCommandRead, true);
         builder.notify(btCharacteristicActivityData, true);
         builder.notify(btCharacteristicDataUpload, true);
 
