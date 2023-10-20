@@ -2524,4 +2524,10 @@
     <string name="strokes">总计击球</string>
     <string name="fossil_hr_nav_app_not_installed_notify_text">导航已启动，但手表上未安装导航应用程序。请从应用程序管理器安装它。</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">手表上未安装导航应用</string>
+    <string name="call_rejection_method_ignore">忽略 （静音）</string>
+    <string name="call_rejection_method_reject">拒绝</string>
+    <string name="pref_call_rejection_method_title">来电拒接方法</string>
+    <string name="busy_task_fetch_statistics">正在获取统计数据</string>
+    <string name="pref_call_rejection_method_summary">拒接手表来电时采取什么操作</string>
+    <string name="busy_task_fetch_temperature">正在获取温度数据</string>
 </resources>
