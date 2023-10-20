@@ -124,12 +124,12 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         this.characteristicCommandRead.setEncrypted(isEncrypted());
         this.characteristicCommandRead.setHandler(this::handleCommandBytes);
         this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
-        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicCommandWrite.setEncrypted(isEncrypted());
         this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
         this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
-        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicActivityData.setEncrypted(isEncrypted());
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
-        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicDataUpload.setEncrypted(isEncrypted());
 
         builder.requestMtu(247);
 
