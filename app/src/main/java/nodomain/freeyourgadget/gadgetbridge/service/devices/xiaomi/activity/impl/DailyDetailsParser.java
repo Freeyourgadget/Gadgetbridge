@@ -49,16 +49,16 @@ public class DailyDetailsParser extends XiaomiActivityParser {
     public boolean parse(final XiaomiSupport support, final XiaomiActivityFileId fileId, final byte[] bytes) {
         final int version = fileId.getVersion();
         final int headerSize;
-        final int recordSize;
+        final int sampleSize;
         switch (version) {
             case 1:
             case 2:
                 headerSize = 4;
-                recordSize = 10;
+                sampleSize = 7;
                 break;
             case 3:
                 headerSize = 5;
-                recordSize = 12;
+                sampleSize = 12;
                 break;
             default:
                 LOG.warn("Unable to parse daily details version {}", fileId.getVersion());
@@ -69,8 +69,8 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         final byte[] header = new byte[headerSize];
         buf.get(header);
 
-        if ((buf.limit() - buf.position()) % recordSize != 0) {
-            LOG.warn("Remaining data in the buffer is not a multiple of {}", recordSize);
+        if ((buf.limit() - buf.position()) % sampleSize != 0) {
+            LOG.warn("Remaining data in the buffer is not a multiple of {}", sampleSize);
             return false;
         }
 
@@ -86,10 +86,10 @@ public class DailyDetailsParser extends XiaomiActivityParser {
 
             sample.setHeartRate(buf.get() & 0xff);
 
-            final byte[] unknown2 = new byte[3];
-            buf.get(unknown2);  // TODO intensity and kind?
-
             if (version == 3) {
+                final byte[] unknown2 = new byte[3];
+                buf.get(unknown2);  // TODO intensity and kind?
+
                 sample.setSpo2(buf.get() & 0xff);
                 sample.setStress(buf.get() & 0xff);
             }
