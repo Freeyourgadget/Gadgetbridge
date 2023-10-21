@@ -44,6 +44,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     public static final int COMMAND_TYPE = 7;
 
     public static final int CMD_NOTIFICATION_SEND = 0;
+    public static final int CMD_NOTIFICATION_DISMISS = 1;
     public static final int CMD_CALL_REJECT = 2;
     public static final int CMD_CALL_IGNORE = 5;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
@@ -142,12 +143,31 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
 
     public void onSetCallState(final CallSpec callSpec) {
         // TODO handle callSpec.command
+        if (callSpec.command == CallSpec.CALL_OUTGOING) {
+            return;
+        }
+
         if (callSpec.command != CallSpec.CALL_INCOMING) {
+            final XiaomiProto.NotificationDismiss.Builder notification4 = XiaomiProto.NotificationDismiss.newBuilder()
+                    .setNotificationId(XiaomiProto.NotificationId.newBuilder().setId(0).setPackage("phone"));
+
+            final XiaomiProto.Notification notification = XiaomiProto.Notification.newBuilder()
+                    .setNotification4(notification4)
+                    .build();
+
+            getSupport().sendCommand(
+                    "send call end",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_NOTIFICATION_DISMISS)
+                            .setNotification(notification)
+                            .build()
+            );
             return;
         }
 
         final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
-                .setId(12345) // ?
+                .setId(0) // ?
                 .setUnknown4("") // ?
                 .setIsCall(true)
                 .setRepliesAllowed(canSendSms())
