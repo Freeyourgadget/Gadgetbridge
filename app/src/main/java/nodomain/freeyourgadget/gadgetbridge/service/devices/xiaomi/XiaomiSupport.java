@@ -274,8 +274,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetGpsLocation(final Location location) {
-        // TODO onSetGpsLocation
-        super.onSetGpsLocation(location);
+        healthService.onSetGpsLocation(location);
     }
 
     @Override

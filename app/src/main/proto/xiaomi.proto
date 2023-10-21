@@ -392,7 +392,11 @@ message VitalityScore {
 
 message WorkoutStatusWatch {
   optional uint32 timestamp = 1; // seconds
-  optional uint32 unknown2 = 2;
+  optional uint32 sport = 3;
+  optional uint32 status = 4; // 0 started, 1 resumed, 2 paused, 3 finished
+  optional bytes activityFileIds = 5;
+  optional uint32 unknown6 = 6; // 2
+  optional uint32 unknown10 = 10; // 0
 }
 
 message WorkoutOpenWatch {
@@ -404,7 +408,7 @@ message WorkoutOpenWatch {
 
 message WorkoutOpenReply {
   // 3 2 10 when no gps permissions at all
-  // 5 2 10 when no background permissions?
+  // 5 2 10 when no all time gps permission
   // ...
   // 0 * * when phone gps is working fine
   // 0 2 10
@@ -415,14 +419,15 @@ message WorkoutOpenReply {
 }
 
 message WorkoutLocation {
-  optional uint32 unknown1 = 1; // 10, sometimes 2
+  optional uint32 numSatellites = 1; // 10, sometimes 2?
   optional uint32 timestamp = 2; // seconds
   optional double longitude = 3;
   optional double latitude = 4;
-  optional float unknown6 = 6; // ?
-  optional float unknown7 = 7; // altitude?
-  optional float unknown8 = 8; // ?
-  optional float unknown9 = 9; // ?
+  optional double altitude = 5;
+  optional float speed = 6;
+  optional float bearing = 7;
+  optional float horizontalAccuracy = 8;
+  optional float verticalAccuracy = 9;
 }
 
 message RealTimeStats {

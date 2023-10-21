@@ -17,6 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
 import android.content.Intent;
+import android.location.Location;
+import android.os.Build;
+import android.os.Handler;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -27,11 +30,9 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -42,9 +43,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -77,6 +79,9 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     private static final int CMD_CONFIG_STANDING_REMINDER_SET = 13;
     private static final int CMD_CONFIG_STRESS_GET = 14;
     private static final int CMD_CONFIG_STRESS_SET = 15;
+    private static final int CMD_WORKOUT_WATCH_STATUS = 26;
+    private static final int CMD_WORKOUT_WATCH_OPEN = 30;
+    private static final int CMD_WORKOUT_LOCATION = 48;
     private static final int CMD_REALTIME_STATS_START = 45;
     private static final int CMD_REALTIME_STATS_STOP = 46;
     private static final int CMD_REALTIME_STATS_EVENT = 47;
@@ -84,9 +89,19 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     private static final int GENDER_MALE = 1;
     private static final int GENDER_FEMALE = 2;
 
+    private static final int WORKOUT_STARTED = 0;
+    private static final int WORKOUT_RESUMED = 1;
+    private static final int WORKOUT_PAUSED = 2;
+    private static final int WORKOUT_FINISHED = 3;
+
     private boolean realtimeStarted = false;
     private boolean realtimeOneShot = false;
     private int previousSteps = -1;
+
+    private boolean gpsStarted = false;
+    private boolean gpsFixAcquired = false;
+    private boolean workoutStarted = false;
+    private final Handler gpsTimeoutHandler = new Handler();
 
     private final XiaomiActivityFileFetcher activityFetcher = new XiaomiActivityFileFetcher(this);
 
@@ -115,6 +130,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 return;
             case CMD_CONFIG_STRESS_GET:
                 handleStressConfig(cmd.getHealth().getStress());
+                return;
+            case CMD_WORKOUT_WATCH_STATUS:
+                handleWorkoutStatus(cmd.getHealth().getWorkoutStatusWatch());
+                return;
+            case CMD_WORKOUT_WATCH_OPEN:
+                handleWorkoutOpen(cmd.getHealth().getWorkoutOpenWatch());
                 return;
             case CMD_REALTIME_STATS_EVENT:
                 handleRealtimeStats(cmd.getHealth().getRealTimeStats());
@@ -404,6 +425,128 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                         .setHealth(XiaomiProto.Health.newBuilder().setStress(stress))
                         .build()
         );
+    }
+
+    private void handleWorkoutOpen(final XiaomiProto.WorkoutOpenWatch workoutOpenWatch) {
+        LOG.debug("Workout open on watch: {}", workoutOpenWatch.getSport());
+
+        workoutStarted = false;
+
+        final boolean sendGpsToBand = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false);
+        if (!sendGpsToBand) {
+            getSupport().sendCommand(
+                    "send location disabled",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_WORKOUT_WATCH_OPEN)
+                            .setHealth(XiaomiProto.Health.newBuilder().setWorkoutOpenReply(
+                                    XiaomiProto.WorkoutOpenReply.newBuilder()
+                                            .setUnknown1(3)
+                                            .setUnknown2(2)
+                                            .setUnknown3(10)
+                            ))
+                            .build()
+            );
+            return;
+        }
+
+        if (!gpsStarted) {
+            gpsStarted = true;
+            gpsFixAcquired = false;
+            GBLocationManager.start(getSupport().getContext(), getSupport());
+        }
+
+        gpsTimeoutHandler.removeCallbacksAndMessages(null);
+        // Timeout if the watch stops sending workout open
+        gpsTimeoutHandler.postDelayed(() -> GBLocationManager.stop(getSupport().getContext(), getSupport()), 5000);
+    }
+
+    private void handleWorkoutStatus(final XiaomiProto.WorkoutStatusWatch workoutStatus) {
+        LOG.debug("Got workout status: {}", workoutStatus.getStatus());
+
+        final boolean startOnPhone = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_START_ON_PHONE, false);
+
+        switch (workoutStatus.getStatus()) {
+            case WORKOUT_STARTED:
+                workoutStarted = true;
+                gpsTimeoutHandler.removeCallbacksAndMessages(null);
+                if (startOnPhone) {
+                    OpenTracksController.startRecording(getSupport().getContext(), sportToActivityKind(workoutStatus.getSport()));
+                }
+                break;
+            case WORKOUT_RESUMED:
+            case WORKOUT_PAUSED:
+                break;
+            case WORKOUT_FINISHED:
+                GBLocationManager.stop(getSupport().getContext(), getSupport());
+                if (startOnPhone) {
+                    OpenTracksController.stopRecording(getSupport().getContext());
+                }
+                break;
+        }
+    }
+
+    public void onSetGpsLocation(final Location location) {
+        if (!gpsFixAcquired) {
+            gpsFixAcquired = true;
+            getSupport().sendCommand(
+                    "send gps fix",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_WORKOUT_WATCH_OPEN)
+                            .setHealth(XiaomiProto.Health.newBuilder().setWorkoutOpenReply(
+                                    XiaomiProto.WorkoutOpenReply.newBuilder()
+                                            .setUnknown1(0)
+                                            .setUnknown2(2)
+                                            .setUnknown3(10)
+                            ))
+                            .build()
+            );
+        }
+        
+        if (workoutStarted) {
+            final XiaomiProto.WorkoutLocation.Builder workoutLocation = XiaomiProto.WorkoutLocation.newBuilder()
+                    .setNumSatellites(10)
+                    .setTimestamp((int) (location.getTime() / 1000L))
+                    .setLongitude(location.getLongitude())
+                    .setLatitude(location.getLatitude())
+                    .setAltitude(location.getAltitude())
+                    .setSpeed(location.getSpeed())
+                    .setBearing(location.getBearing())
+                    .setHorizontalAccuracy(location.getAccuracy());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                workoutLocation.setVerticalAccuracy(location.getVerticalAccuracyMeters());
+            }
+
+            getSupport().sendCommand(
+                    "send gps location",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_WORKOUT_LOCATION)
+                            .setHealth(XiaomiProto.Health.newBuilder().setWorkoutLocation(workoutLocation))
+                            .build()
+            );
+        }
+    }
+
+    private int sportToActivityKind(final int sport) {
+        switch (sport) {
+            case 1: // outdoor run
+            case 5: // trail run
+                return ActivityKind.TYPE_RUNNING;
+            case 2:
+                return ActivityKind.TYPE_WALKING;
+            case 3: // hiking
+            case 4: // trekking
+                return ActivityKind.TYPE_HIKING;
+            case 6:
+                return ActivityKind.TYPE_CYCLING;
+        }
+
+        LOG.warn("Unknown sport {}", sport);
+
+        return ActivityKind.TYPE_UNKNOWN;
     }
 
     public XiaomiActivityFileFetcher getActivityFetcher() {

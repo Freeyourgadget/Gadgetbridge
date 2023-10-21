@@ -333,8 +333,10 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         //
         // Calendar
         //
-        settings.add(R.xml.devicesettings_header_calendar);
-        settings.add(R.xml.devicesettings_sync_calendar);
+        if (supportsCalendarEvents()) {
+            settings.add(R.xml.devicesettings_header_calendar);
+            settings.add(R.xml.devicesettings_sync_calendar);
+        }
 
         //
         // Other
