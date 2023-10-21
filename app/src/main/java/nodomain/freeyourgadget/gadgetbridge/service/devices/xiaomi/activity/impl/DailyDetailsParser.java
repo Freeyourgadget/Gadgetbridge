@@ -74,10 +74,14 @@ public class DailyDetailsParser extends XiaomiActivityParser {
             return false;
         }
 
+        final Calendar timestamp = Calendar.getInstance();
+        timestamp.setTime(fileId.getTimestamp());
+
         final List<XiaomiActivitySample> samples = new ArrayList<>();
 
         while (buf.position() < buf.limit()) {
             final XiaomiActivitySample sample = new XiaomiActivitySample();
+            sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000));
 
             sample.setSteps(buf.getShort());
 
@@ -95,12 +99,11 @@ public class DailyDetailsParser extends XiaomiActivityParser {
             }
 
             samples.add(sample);
+
+            timestamp.add(Calendar.MINUTE, 1);
         }
 
         // save all the samples that we got
-        final Calendar timestamp = Calendar.getInstance();
-        timestamp.setTime(fileId.getTimestamp());
-
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
 
@@ -113,14 +116,9 @@ public class DailyDetailsParser extends XiaomiActivityParser {
             for (final XiaomiActivitySample sample : samples) {
                 sample.setDevice(device);
                 sample.setUser(user);
-                sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000));
                 sample.setProvider(sampleProvider);
-
-                timestamp.add(Calendar.MINUTE, 1);
             }
             sampleProvider.addGBActivitySamples(samples.toArray(new XiaomiActivitySample[0]));
-
-            timestamp.add(Calendar.MINUTE, -1);
 
             return true;
         } catch (final Exception e) {
