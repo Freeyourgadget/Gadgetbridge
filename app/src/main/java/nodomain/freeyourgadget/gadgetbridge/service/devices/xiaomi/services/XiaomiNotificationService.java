@@ -153,8 +153,8 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
                 .setRepliesAllowed(canSendSms())
                 .setTimestamp(TIMESTAMP_SDF.format(new Date()));
 
-        notification3.setPackage(BuildConfig.APPLICATION_ID);
-        notification3.setAppName("Phone");
+        notification3.setPackage("phone");
+        notification3.setAppName("phone");
 
         if (callSpec.name != null) {
             notification3.setTitle(callSpec.name);
