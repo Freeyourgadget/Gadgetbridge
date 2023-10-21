@@ -19,19 +19,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatch;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiPlaintextCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPlaintextSupport;
 
-public class MiWatchLiteCoordinator extends XiaomiCoordinator {
+public class MiWatchLiteCoordinator extends XiaomiPlaintextCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Mi Watch Lite_[A-Z0-9]{4}$");
@@ -86,11 +83,5 @@ public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     @Override
     public int getReminderSlotCount(final GBDevice device) {
         return 0;
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return XiaomiPlaintextSupport.class;
     }
 }

@@ -55,13 +55,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageT
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
-    @NonNull
-    @Override
-    public Collection<? extends ScanFilter> createBLEScanFilters() {
-        // TODO
-        return super.createBLEScanFilters();
-    }
-
     @Override
     protected void deleteDevice(@NonNull final GBDevice gbDevice,
                                 @NonNull final Device device,

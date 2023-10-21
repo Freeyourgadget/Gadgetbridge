@@ -29,9 +29,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 
 public class XiaomiPlaintextSupport extends XiaomiSupport {
-
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiPlaintextSupport.class);
 
+    public static final UUID UUID_SERVICE = UUID.fromString("16186f00-0000-1000-8000-00807f9b34fb");
     private static final UUID UUID_CHARACTERISTIC_MAIN_READ = UUID.fromString("16186f01-0000-1000-8000-00807f9b34fb");
     private static final UUID UUID_CHARACTERISTIC_MAIN_WRITE = UUID.fromString("16186f02-0000-1000-8000-00807f9b34fb");
     private static final UUID UUID_CHARACTERISTIC_ACTIVITY_DATA = UUID.fromString("16186f03-0000-1000-8000-00807f9b34fb");
@@ -40,7 +40,7 @@ public class XiaomiPlaintextSupport extends XiaomiSupport {
 
     public XiaomiPlaintextSupport() {
         super();
-        addSupportedService(UUID.fromString("16186f00-0000-1000-8000-00807f9b34fb"));
+        addSupportedService(UUID_SERVICE);
     }
 
     @Override

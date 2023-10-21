@@ -19,19 +19,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiEncryptedCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiEncryptedSupport;
 
-public class MiBand8Coordinator extends XiaomiCoordinator {
+public class MiBand8Coordinator extends XiaomiEncryptedCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Xiaomi Smart Band 8 [A-Z0-9]{4}$");
@@ -57,11 +54,5 @@ public class MiBand8Coordinator extends XiaomiCoordinator {
     @Override
     public int getDisabledIconResource() {
         return R.drawable.ic_device_miband6_disabled;
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return XiaomiEncryptedSupport.class;
     }
 }
