@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(60, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(62, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -203,7 +203,8 @@ public class GBDaoGenerator {
         device.addStringProperty("name").notNull();
         device.addStringProperty("manufacturer").notNull();
         device.addStringProperty("identifier").notNull().unique().javaDocGetterAndSetter("The fixed identifier, i.e. MAC address of the device.");
-        device.addIntProperty("type").notNull().javaDocGetterAndSetter("The DeviceType key, i.e. the GBDevice's type.");
+        device.addIntProperty("type").notNull().javaDocGetterAndSetter("The DeviceType key, i.e. the GBDevice's type.").codeBeforeGetterAndSetter("@Deprecated");
+        device.addStringProperty("typeName").notNull().javaDocGetterAndSetter("The DeviceType enum name, for example SONY_WH_1000XM3");
         device.addStringProperty("model").javaDocGetterAndSetter("An optional model, further specifying the kind of device.");
         device.addStringProperty("alias");
         device.addStringProperty("parentFolder").javaDocGetterAndSetter("Folder name containing this device.");

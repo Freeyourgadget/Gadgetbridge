@@ -171,7 +171,7 @@ public class DeviceHelper {
      * @return
      */
     public GBDevice toGBDevice(Device dbDevice) {
-        DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
+        DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), dbDevice.getParentFolder(), deviceType);
         DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {

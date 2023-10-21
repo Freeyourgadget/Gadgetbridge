@@ -157,7 +157,7 @@ public class DebugActivity extends AbstractGBActivity {
     };
     private Spinner sendTypeSpinner;
     private EditText editContent;
-    public static final long SELECT_DEVICE = 999L;
+    public static final long SELECT_DEVICE = -1;
     private long selectedTestDeviceKey = SELECT_DEVICE;
     private String selectedTestDeviceMAC;
 
@@ -1003,7 +1003,7 @@ public class DebugActivity extends AbstractGBActivity {
         if (deviceKey == SELECT_DEVICE) {
             return;
         }
-        DeviceType deviceType = DeviceType.fromKey((int) deviceKey);
+        DeviceType deviceType = DeviceType.values()[(int) deviceKey];
         try (
             DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
@@ -1153,7 +1153,7 @@ public class DebugActivity extends AbstractGBActivity {
             DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
             int icon = coordinator.getDefaultIconResource();
             String name = app.getString(coordinator.getDeviceNameResource()) + " (" + coordinator.getManufacturer() + ")";
-            long deviceId = deviceType.getKey();
+            long deviceId = deviceType.ordinal();
             newMap.put(name, new Pair(deviceId, icon));
         }
         TreeMap <String, Pair<Long, Integer>> sortedMap = new TreeMap<>(newMap);
