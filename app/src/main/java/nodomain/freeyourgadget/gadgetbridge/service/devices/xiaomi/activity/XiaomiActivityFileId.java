@@ -151,6 +151,7 @@ public class XiaomiActivityFileId {
         UNKNOWN(Type.UNKNOWN, -1),
         ACTIVITY_DAILY(Type.ACTIVITY, 0),
         ACTIVITY_SLEEP(Type.ACTIVITY,8),
+        SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 1),
         SPORTS_FREESTYLE(Type.SPORTS, 8),
         SPORTS_ELLIPTICAL(Type.SPORTS, 11),
         ;
