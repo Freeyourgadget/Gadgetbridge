@@ -11,6 +11,7 @@ message Command {
 
   optional Auth auth = 3;
   optional System system = 4;
+  optional Watchface watchface = 6;
   optional Health health = 10;
   optional Calendar calendar = 14;
   optional Music music = 20;
@@ -275,6 +276,49 @@ message Vibration {
 
 message Charger {
   optional uint32 state = 1; // 1 charging, 2 not charging
+}
+
+//
+// Watchface
+//
+
+message Watchface {
+  optional WatchfaceList watchfaceList = 1;
+
+  // 4, 2 delete | 4, 1 set
+  optional string watchfaceId = 2;
+  optional uint32 ack = 4; // 1
+
+  // 4, 4
+  optional uint32 installStatus = 5; // 0 not installed, 2 already installed
+  optional WatchfaceInstallStart watchfaceInstallStart = 6;
+  optional WatchfaceInstallFinish watchfaceInstallFinish = 7;
+}
+
+message WatchfaceList {
+  repeated WatchfaceInfo watchface = 1;
+}
+
+message WatchfaceInfo {
+  optional string id = 1;
+  optional string name = 2;
+  optional bool active = 3;
+  optional bool canDelete = 4;
+  optional uint32 unknown5 = 5; // 0
+  optional uint32 unknown6 = 6; // 0
+  optional uint32 unknown11 = 11; // 0
+}
+
+message WatchfaceInstallStart {
+  optional string id = 1;
+  optional uint32 size = 2;
+}
+
+message WatchfaceInstallFinish {
+  optional string id = 1;
+  optional uint32 unknown2 = 2; // 2
+  optional uint32 unknown3 = 3; // 0
+  optional uint32 unknown4 = 4; // 0
 }
 
 //
@@ -706,7 +750,7 @@ message DataUpload {
 }
 
 message DataUploadRequest {
-  optional uint32 unknown1 = 1; // 16 for watchface, 50 for notification icons, 32 for firmware?
+  optional uint32 type = 1; // 16 for watchface, 50 for notification icons, 32 for firmware?
   optional bytes md5sum = 2;
   optional uint32 size = 3;
 }

@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiEncryptedSupport;
 
@@ -39,8 +40,8 @@ public class MiBand8Coordinator extends XiaomiCoordinator {
     @Nullable
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        // TODO implement this
-        return super.findInstallHandler(uri, context);
+        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

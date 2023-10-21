@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiNotificationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiScheduleService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiSystemService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWeatherService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -77,6 +78,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     protected final XiaomiWeatherService weatherService = new XiaomiWeatherService(this);
     protected final XiaomiSystemService systemService = new XiaomiSystemService(this);
     protected final XiaomiCalendarService calendarService = new XiaomiCalendarService(this);
+    protected final XiaomiWatchfaceService watchfaceService = new XiaomiWatchfaceService(this);
 
     private String mFirmwareVersion = null;
 
@@ -89,6 +91,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         put(XiaomiWeatherService.COMMAND_TYPE, weatherService);
         put(XiaomiSystemService.COMMAND_TYPE, systemService);
         put(XiaomiCalendarService.COMMAND_TYPE, calendarService);
+        put(XiaomiWatchfaceService.COMMAND_TYPE, watchfaceService);
     }};
 
     public XiaomiSupport() {
@@ -324,55 +327,29 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(final Uri uri) {
-        // TODO
-        super.onInstallApp(uri);
+        watchfaceService.installWatchface(uri);
     }
 
     @Override
     public void onAppInfoReq() {
-        // TODO
-        super.onAppInfoReq();
+        watchfaceService.requestWatchfaceList();
     }
 
     @Override
     public void onAppStart(final UUID uuid, boolean start) {
-        // TODO
-        super.onAppStart(uuid, start);
-    }
-
-    @Override
-    public void onAppDownload(final UUID uuid) {
-        // TODO
-        super.onAppDownload(uuid);
+        if (start) {
+            watchfaceService.setWatchface(uuid);
+        }
     }
 
     @Override
     public void onAppDelete(final UUID uuid) {
-        // TODO
-        super.onAppDelete(uuid);
-    }
-
-    @Override
-    public void onAppConfiguration(final UUID appUuid, String config, Integer id) {
-        // TODO
-        super.onAppConfiguration(appUuid, config, id);
-    }
-
-    @Override
-    public void onAppReorder(final UUID[] uuids) {
-        // TODO
-        super.onAppReorder(uuids);
+        watchfaceService.deleteWatchface(uuid);
     }
 
     @Override
     public void onFetchRecordedData(final int dataTypes) {
         healthService.onFetchRecordedData(dataTypes);
-    }
-
-    @Override
-    public void onReset(final int flags) {
-        // TODO
-        super.onReset(flags);
     }
 
     @Override

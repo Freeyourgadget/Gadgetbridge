@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
+import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +33,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -48,11 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
+        // TODO
         return super.createBLEScanFilters();
     }
 
@@ -131,10 +137,41 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
-    @Override
     public boolean supportsAppsManagement(final GBDevice device) {
-        // TODO maybe for watchfaces or widgets?
-        return super.supportsAppsManagement(device);
+        return true;
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return AppManagerActivity.class;
+    }
+
+    @Override
+    public File getAppCacheDir() throws IOException {
+        // TODO we don't need this
+        return new File(FileUtils.getExternalFilesDir(), "xiaomi-app-cache");
+    }
+
+    @Override
+    public String getAppCacheSortFilename() {
+        // TODO we don't need this
+        return "xiaomi-app-cache-order.txt";
+    }
+
+    @Override
+    public String getAppFileExtension() {
+        // TODO we don't need this
+        return ".bin";
+    }
+
+    @Override
+    public boolean supportsAppListFetching() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAppReordering() {
+        return false;
     }
 
     @Override
