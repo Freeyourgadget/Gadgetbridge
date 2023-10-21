@@ -152,6 +152,7 @@ public class XiaomiActivityFileId {
         ACTIVITY_DAILY(Type.ACTIVITY, 0),
         ACTIVITY_SLEEP(Type.ACTIVITY,8),
         SPORTS_FREESTYLE(Type.SPORTS, 8),
+        SPORTS_ELLIPTICAL(Type.SPORTS, 11),
         ;
 
         private final Type type;
