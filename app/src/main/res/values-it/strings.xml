@@ -963,7 +963,7 @@
     <string name="meters">m</string>
     <string name="flatSeconds">Piano</string>
     <string name="laps">Giri</string>
-    <string name="swimStyle">Stile di nuoto</string>
+    <string name="swimStyle">Stile Nuoto</string>
     <string name="averageStride">Camminata media</string>
     <string name="averageKMPaceSeconds">Ritmo</string>
     <string name="averageHR">Battito cardiaco</string>
@@ -1230,7 +1230,7 @@
     <string name="pref_summary_huami_force_new_protocol">Abilita se il tuo dispositivo non si riesce più a connettere dopo un aggiornamento del firmware</string>
     <string name="pref_title_notification_use_as_deny">Nega le notifiche dalle applicazioni selezionate</string>
     <string name="title_activity_notification_management">Impostazioni Notifiche</string>
-    <string name="pref_message_privacy_mode_complete">Nascondi contenuto</string>
+    <string name="pref_message_privacy_mode_complete">Nascondi tutto il contenuto</string>
     <string name="menuitem_barometer">Barometro</string>
     <string name="menuitem_flashlight">Torcia</string>
     <string name="gpx_receiver_overwrite_some_files">Alcuni file(s) esistono già. Sovrascrivere\?</string>
@@ -1271,7 +1271,7 @@
     <string name="pref_header_equalizer">Equalizzatore</string>
     <string name="pref_title_notification_use_as">Utilizza la lista delle applicazioni per…</string>
     <string name="pref_title_message_privacy_mode">Modalità privacy per i messaggi</string>
-    <string name="pref_message_privacy_mode_off">Mostra contenuto</string>
+    <string name="pref_message_privacy_mode_off">Mostra tutto il contenuto</string>
     <string name="controlcenter_start_configure_reminders">Configura promemoria</string>
     <string name="reminder_no_free_slots_title">Spazio esaurito</string>
     <string name="reminder_no_free_slots_description">Il dispositivo non ha spazio libero per aggiungere altri promemoria (totali: %1$s)</string>
@@ -2374,4 +2374,35 @@
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Quadrato)</string>
     <string name="device_experimental">SPERIMENTALE</string>
+    <string name="zepp_os_watchface_pure_white">Bianco puro</string>
+    <string name="menuitem_headphone">Auricolari</string>
+    <string name="femometer_measurement_mode_normal">Modalità normale (60s-90s)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Il dispositivo non dispone di spazio libero sufficiente</string>
+    <string name="prefs_home_icon_left_item">Sinistra</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">L\'MTU attuale di %1$d è troppo basso, attiva un MTU elevato nelle impostazioni del dispositivo e scollega/ricollega il dispositivo.</string>
+    <string name="prefs_wena3_title_activity">Impostazioni Attività</string>
+    <string name="white">Bianco</string>
+    <string name="femometer_measurement_mode_quick">Modalità rapida (30s)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignora notifiche del profilo di lavoro</string>
+    <string name="prefs_home_icon_right_item">Destra</string>
+    <string name="prefs_wena3_title_screen">Impostazioni Schermo</string>
+    <string name="femometer_measurement_mode_title">Modalità di misurazione</string>
+    <string name="prefs_wena3_item_large_font">Dimensione Carattere più grande</string>
+    <string name="prefs_wena3_hint_large_font">Aumenta la dimensione dei caratteri nel calendario, notifiche, ecc.</string>
+    <string name="text_receiver_activity_title">Invia testo al dispositivo</string>
+    <string name="femometer_measurement_mode_precise">Modalità precisa (3min)</string>
+    <string name="green">Verde</string>
+    <string name="yellow">Giallo</string>
+    <string name="menuitem_workout_shortcuts">Scorciatoie allenamento</string>
+    <string name="red">Rosso</string>
+    <string name="cyan">Ciano</string>
+    <string name="menuitem_apps_shortcuts">Scorciatoie app</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Non inviare all\'orologio le notifiche delle app del profilo di lavoro</string>
+    <string name="latvian">Lettone</string>
+    <string name="prefs_home_icon_center_item">Centro</string>
+    <string name="menuitem_thermometer">Termometro</string>
+    <string name="prefs_wena3_item_rich_design">Utilizzare Design Ricco</string>
+    <string name="common_symbols">Simboli Comuni</string>
+    <string name="purple">Viola</string>
+    <string name="blue">Blu</string>
 </resources>
