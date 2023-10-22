@@ -50,8 +50,8 @@ public class XiaomiCharacteristic {
     private final UUID characteristicUUID;
 
     // Encryption
-    private XiaomiAuthService authService = null;
-    private boolean isEncrypted = false;
+    private final XiaomiAuthService authService;
+    private boolean isEncrypted;
     private short encryptedIndex = 0;
 
     // Chunking
@@ -61,10 +61,10 @@ public class XiaomiCharacteristic {
 
     // Scheduling
     // TODO timeouts
-    private final Queue<byte[]> payloadQueue = new LinkedList<>();
+    private final Queue<Payload> payloadQueue = new LinkedList<>();
     private boolean waitingAck = false;
     private boolean sendingChunked = false;
-    private byte[] currentSending = null;
+    private Payload currentPayload = null;
 
     private Handler handler = null;
 
@@ -99,30 +99,35 @@ public class XiaomiCharacteristic {
         this.payloadQueue.clear();
         this.waitingAck = false;
         this.sendingChunked = false;
-        this.currentSending = null;
+        this.currentPayload = null;
     }
 
     /**
      * Write bytes to this characteristic, encrypting and splitting it into chunks if necessary.
      */
-    public void write(final byte[] value) {
-        payloadQueue.add(value);
-        sendNext();
+    public void write(final String taskName, final byte[] value) {
+        write(null, new Payload(taskName, value));
     }
 
     /**
-     * Write bytes to this characteristic directly.
+     * Write bytes to this characteristic, encrypting and splitting it into chunks if necessary. Uses
+     * the provided if we need to schedule something, otherwise it will be queued as other commands.
      */
-    public void writeDirect(final TransactionBuilder builder, final byte[] value) {
-        builder.write(bluetoothGattCharacteristic, value);
+    public void write(final TransactionBuilder builder, final byte[] value) {
+        write(builder, new Payload(builder.getTaskName(), value));
+    }
+
+    private void write(final TransactionBuilder builder, final Payload payload) {
+        payloadQueue.add(payload);
+        sendNext(builder);
     }
 
     public void onCharacteristicChanged(final byte[] value) {
         if (Arrays.equals(value, PAYLOAD_ACK)) {
             LOG.debug("Got ack");
-            currentSending = null;
+            currentPayload = null;
             waitingAck = false;
-            sendNext();
+            sendNext(null);
             return;
         }
 
@@ -178,34 +183,35 @@ public class XiaomiCharacteristic {
                     switch (subtype) {
                         case 0:
                             LOG.debug("Got chunked ack end");
-                            currentSending = null;
+                            currentPayload = null;
                             sendingChunked = false;
-                            sendNext();
+                            sendNext(null);
                             return;
                         case 1:
                             LOG.debug("Got chunked ack start");
-                            final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunks");
-                            for (int i = 0; i * MAX_WRITE_SIZE < currentSending.length; i++) {
+                            final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunks for " + currentPayload.getTaskName());
+                            final byte[] payload = currentPayload.getBytesToSend();
+                            for (int i = 0; i * MAX_WRITE_SIZE < payload.length; i++) {
                                 final int startIndex = i * MAX_WRITE_SIZE;
-                                final int endIndex = Math.min((i + 1) * MAX_WRITE_SIZE, currentSending.length);
-                                LOG.debug("Sending chunk {} from {} to {}", i, startIndex, endIndex);
+                                final int endIndex = Math.min((i + 1) * MAX_WRITE_SIZE, payload.length);
+                                LOG.debug("Sending chunk {} from {} to {} for {}", i, startIndex, endIndex, currentPayload.getTaskName());
                                 final byte[] chunkToSend = new byte[2 + endIndex - startIndex];
                                 BLETypeConversions.writeUint16(chunkToSend, 0, i + 1);
-                                System.arraycopy(currentSending, startIndex, chunkToSend, 2, endIndex - startIndex);
+                                System.arraycopy(payload, startIndex, chunkToSend, 2, endIndex - startIndex);
                                 builder.write(bluetoothGattCharacteristic, chunkToSend);
                             }
 
                             builder.queue(mSupport.getQueue());
                             return;
                         case 2:
-                            LOG.warn("Got chunked nack");
-                            currentSending = null;
+                            LOG.warn("Got chunked nack for {}", currentPayload.getTaskName());
+                            currentPayload = null;
                             sendingChunked = false;
-                            sendNext();
+                            sendNext(null);
                             return;
                     }
 
-                    LOG.warn("Unknown chunked ack subtype {}", subtype);
+                    LOG.warn("Unknown chunked ack subtype {} for {}", subtype, currentPayload.getTaskName());
 
                     return;
                 case 2:
@@ -233,66 +239,72 @@ public class XiaomiCharacteristic {
         }
     }
 
-    private void sendNext() {
+    private void sendNext(@Nullable final TransactionBuilder b) {
         if (waitingAck || sendingChunked) {
             LOG.debug("Already sending something");
             return;
         }
 
-        final byte[] payload = payloadQueue.poll();
-        if (payload == null) {
+        currentPayload = payloadQueue.poll();
+        if (currentPayload == null) {
             LOG.debug("Nothing to send");
             return;
         }
 
-        if (isEncrypted) {
-            currentSending = authService.encrypt(payload, encryptedIndex);
-        } else {
-            currentSending = payload;
+        final boolean encrypt = isEncrypted && authService.isEncryptionInitialized();
+
+        if (encrypt) {
+            currentPayload.setBytesToSend(authService.encrypt(currentPayload.getBytesToSend(), encryptedIndex));
         }
 
-        if (shouldWriteChunked(currentSending)) {
-            if (isEncrypted) {
+        if (shouldWriteChunked(currentPayload.getBytesToSend())) {
+            if (encrypt) {
                 // Prepend encrypted index for the nonce
-                currentSending = ByteBuffer.allocate(2 + currentSending.length).order(ByteOrder.LITTLE_ENDIAN)
-                        .putShort(encryptedIndex++)
-                        .put(currentSending)
-                        .array();
+                currentPayload.setBytesToSend(
+                        ByteBuffer.allocate(2 + currentPayload.getBytesToSend().length).order(ByteOrder.LITTLE_ENDIAN)
+                                .putShort(encryptedIndex++)
+                                .put(currentPayload.getBytesToSend())
+                                .array()
+                );
             }
 
-            LOG.debug("Sending next - chunked");
+            LOG.debug("Sending {} - chunked", currentPayload.getTaskName());
 
             sendingChunked = true;
 
             final ByteBuffer buf = ByteBuffer.allocate(6).order(ByteOrder.LITTLE_ENDIAN);
             buf.putShort((short) 0);
             buf.put((byte) 0);
-            buf.put((byte) (isEncrypted ? 1 : 0));
-            buf.putShort((short) Math.ceil(currentSending.length / (float) MAX_WRITE_SIZE));
+            buf.put((byte) (encrypt ? 1 : 0));
+            buf.putShort((short) Math.ceil(currentPayload.getBytesToSend().length / (float) MAX_WRITE_SIZE));
 
-            final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start");
+            final TransactionBuilder builder = b == null ? mSupport.createTransactionBuilder("send chunked start for " + currentPayload.getTaskName()) : b;
             builder.write(bluetoothGattCharacteristic, buf.array());
-            builder.queue(mSupport.getQueue());
+            if (b == null) {
+                builder.queue(mSupport.getQueue());
+            }
         } else {
-            LOG.debug("Sending next - single");
+            LOG.debug("Sending {} - single", currentPayload.getTaskName());
 
             // Encrypt single command
-            final int commandLength = (isEncrypted ? 6 : 4) + currentSending.length;
+            final int commandLength = (encrypt ? 6 : 4) + currentPayload.getBytesToSend().length;
 
             final ByteBuffer buf = ByteBuffer.allocate(commandLength).order(ByteOrder.LITTLE_ENDIAN);
             buf.putShort((short) 0);
             buf.put((byte) 2); // 2 for command
-            buf.put((byte) (isEncrypted ? 1 : 2));
-            if (isEncrypted) {
+            buf.put((byte) (encrypt ? 1 : 2));
+            if (encrypt) {
                 buf.putShort(encryptedIndex++);
             }
-            buf.put(currentSending); // it's already encrypted
+            buf.put(currentPayload.getBytesToSend()); // it's already encrypted
 
             waitingAck = true;
 
-            final TransactionBuilder builder = mSupport.createTransactionBuilder("send single command");
+            final TransactionBuilder builder = b == null ? mSupport.createTransactionBuilder("send single command for " + currentPayload.getTaskName()) : b;
             builder.write(bluetoothGattCharacteristic, buf.array());
-            builder.queue(mSupport.getQueue());
+            if (b == null) {
+                builder.queue(mSupport.getQueue());
+            }
         }
     }
 
@@ -326,5 +338,30 @@ public class XiaomiCharacteristic {
 
     public interface Handler {
         void handle(final byte[] payload);
+    }
+
+    private static class Payload {
+        private final String taskName;
+        private final byte[] bytes;
+
+        // Bytes that will actually be sent (might be encrypted)
+        private byte[] bytesToSend;
+
+        public Payload(final String taskName, final byte[] bytes) {
+            this.taskName = taskName;
+            this.bytes = bytes;
+        }
+
+        public String getTaskName() {
+            return taskName;
+        }
+
+        public void setBytesToSend(final byte[] bytesToSend) {
+            this.bytesToSend = bytesToSend;
+        }
+
+        public byte[] getBytesToSend() {
+            return bytesToSend != null ? bytesToSend : bytes;
+        }
     }
 }

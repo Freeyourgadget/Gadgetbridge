@@ -66,6 +66,8 @@ public class XiaomiAuthService extends AbstractXiaomiService {
     public static final int CMD_NONCE = 26;
     public static final int CMD_AUTH = 27;
 
+    private boolean encryptionInitialized = false;
+
     private final byte[] secretKey = new byte[16];
     private final byte[] nonce = new byte[16];
     private final byte[] encryptionKey = new byte[16];
@@ -77,17 +79,19 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         super(support);
     }
 
+    public boolean isEncryptionInitialized() {
+        return encryptionInitialized;
+    }
+
     protected void startEncryptedHandshake(final TransactionBuilder builder) {
+        encryptionInitialized = false;
+
         builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
 
-        // TODO use sendCommand
-        builder.write(
-                getSupport().getCharacteristic(XiaomiEncryptedSupport.UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
-                ArrayUtils.addAll(PAYLOAD_HEADER_AUTH, buildNonceCommand(nonce))
-        );
+        getSupport().sendCommand(builder, buildNonceCommand(nonce));
     }
 
     protected void startClearTextHandshake(final TransactionBuilder builder, String userId) {
@@ -103,7 +107,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .setAuth(auth)
                 .build();
 
-        getSupport().sendCommand("start clear text handshake", command);
+        getSupport().sendCommand(builder, command);
     }
 
     @Override
@@ -137,6 +141,8 @@ public class XiaomiAuthService extends AbstractXiaomiService {
             case CMD_SEND_USERID: {
                 if (cmd.getSubtype() == CMD_AUTH || cmd.getAuth().getStatus() == 1) {
                     LOG.info("Authenticated!");
+
+                    encryptionInitialized = cmd.getSubtype() == CMD_AUTH;
 
                     final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
                     builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
@@ -227,7 +233,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         return cmd.setAuth(auth.build()).build();
     }
 
-    public static byte[] buildNonceCommand(final byte[] nonce) {
+    public static XiaomiProto.Command buildNonceCommand(final byte[] nonce) {
         final XiaomiProto.PhoneNonce.Builder phoneNonce = XiaomiProto.PhoneNonce.newBuilder();
         phoneNonce.setNonce(ByteString.copyFrom(nonce));
 
@@ -238,7 +244,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         command.setType(COMMAND_TYPE);
         command.setSubtype(CMD_NONCE);
         command.setAuth(auth.build());
-        return command.build().toByteArray();
+        return command.build();
     }
 
     public static byte[] computeAuthStep3Hmac(final byte[] secretKey,

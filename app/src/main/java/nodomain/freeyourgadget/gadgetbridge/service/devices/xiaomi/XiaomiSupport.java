@@ -415,10 +415,22 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        // FIXME builder is ignored
-        final byte[] commandBytes = command.toByteArray();
-        LOG.debug("Sending command {}", GB.hexdump(commandBytes));
-        this.characteristicCommandWrite.write(commandBytes);
+        this.characteristicCommandWrite.write(taskName, command.toByteArray());
+    }
+
+    /**
+     * Realistically, this function should only be used during auth, as we must schedule the command after
+     * notifications were enabled on the characteristics, and for that we need the builder to guarantee the
+     * order.
+     */
+    public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
+        if (this.characteristicCommandWrite == null) {
+            // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
+            LOG.warn("characteristicCommandWrite is null!");
+            return;
+        }
+
+        this.characteristicCommandWrite.write(builder, command.toByteArray());
     }
 
     public void sendCommand(final String taskName, final int type, final int subtype) {
