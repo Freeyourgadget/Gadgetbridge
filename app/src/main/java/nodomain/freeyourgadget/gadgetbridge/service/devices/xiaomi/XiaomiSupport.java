@@ -428,6 +428,12 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
+        if (this.characteristicCommandWrite == null) {
+            // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
+            LOG.warn("characteristicCommandWrite is null!");
+            return;
+        }
+
         // FIXME builder is ignored
         final byte[] commandBytes = command.toByteArray();
         LOG.debug("Sending command {}", GB.hexdump(commandBytes));
@@ -435,6 +441,12 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public void sendCommand(final TransactionBuilder builder, final byte[] commandBytes) {
+        if (this.characteristicCommandWrite == null) {
+            // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
+            LOG.warn("characteristicCommandWrite is null!");
+            return;
+        }
+
         // FIXME builder is ignored
         this.characteristicCommandWrite.write(commandBytes);
     }
