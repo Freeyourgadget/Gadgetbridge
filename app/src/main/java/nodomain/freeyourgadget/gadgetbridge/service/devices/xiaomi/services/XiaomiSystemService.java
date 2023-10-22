@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -36,11 +37,9 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -55,6 +54,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_BATTERY = 1;
     public static final int CMD_DEVICE_INFO = 2;
     public static final int CMD_CLOCK = 3;
+    public static final int CMD_LANGUAGE = 6;
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_FIND_WATCH = 18;
@@ -114,6 +114,9 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
+                setLanguage();
+                return true;
             case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                 setCurrentTime();
                 return true;
@@ -126,6 +129,35 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         }
 
         return super.onSendConfiguration(config, prefs);
+    }
+
+    public void setLanguage() {
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress()).getString(
+                DeviceSettingsPreferenceConst.PREF_LANGUAGE, DeviceSettingsPreferenceConst.PREF_LANGUAGE_AUTO
+        );
+        if (DeviceSettingsPreferenceConst.PREF_LANGUAGE_AUTO.equals(localeString)) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (StringUtils.isNullOrEmpty(country)) {
+                // sometimes country is null, no idea why, guess it.
+                country = language;
+            }
+            localeString = language + "_" + country.toUpperCase();
+        }
+
+        LOG.info("Set language: {}", localeString);
+
+        getSupport().sendCommand(
+                "set language",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_LANGUAGE)
+                        .setSystem(XiaomiProto.System.newBuilder().setLanguage(
+                                XiaomiProto.Language.newBuilder().setCode(localeString.toLowerCase(Locale.ROOT))
+                        ))
+                        .build()
+        );
     }
 
     public void setCurrentTime() {

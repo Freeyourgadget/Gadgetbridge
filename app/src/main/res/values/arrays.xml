@@ -2210,6 +2210,10 @@
         <item name="ja_JP">@string/japanese</item>
         <item name="ko_KO">@string/korean</item>
         <item name="he_IL">@string/hebrew</item>
+        <item name="da_DK">@string/danish</item>
+        <item name="nb_NO">@string/norwegian_bokmal</item>
+        <item name="ro_RO">@string/romanian</item>
+        <item name="sv_SE">@string/swedish</item>
     </string-array>
 
     <string-array name="pref_language_all_values">
@@ -2244,6 +2248,10 @@
         <item>ja_JP</item>
         <item>ko_KO</item>
         <item>he_IL</item>
+        <item>da_DK</item>
+        <item>nb_NO</item>
+        <item>ro_RO</item>
+        <item>sv_SE</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language">

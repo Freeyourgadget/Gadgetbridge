@@ -410,10 +410,36 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String[] getSupportedLanguageSettings(final GBDevice device) {
-        // TODO check which are supported
-        final List<String> allLanguages = new ArrayList<>(HuamiLanguageType.idLookup.keySet());
-        allLanguages.add(0, "auto");
-        return allLanguages.toArray(new String[0]);
+        return new String[]{
+                "auto",
+                "ar_SA",
+                "cs_CZ",
+                "da_DK",
+                "de_DE",
+                "el_GR",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "he_IL",
+                "id_ID",
+                "it_IT",
+                "ja_JP",
+                "ko_KO",
+                "nl_NL",
+                "nb_NO",
+                "pl_PL",
+                "pt_BR",
+                "pt_PT",
+                "ro_RO",
+                "ru_RU",
+                "sv_SE",
+                "th_TH",
+                "tr_TR",
+                "uk_UA",
+                "vi_VN",
+                "zh_CN",
+                "zh_TW",
+        };
     }
 
     @Override

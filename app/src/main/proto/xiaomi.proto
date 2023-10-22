@@ -94,6 +94,9 @@ message System {
   // 2, 7 get | 2, 8 set
   optional Camera camera = 15;
 
+  // 2, 6
+  optional Language language = 20;
+
   // 2, 51 get | 2, 52 create
   optional Widgets widgets = 28;
   // 2, 53
@@ -187,6 +190,10 @@ message DisplayItem {
 
 message Camera {
   required bool enabled = 1;
+}
+
+message Language {
+  optional string code = 1; // pt_pt, en_us
 }
 
 message Widgets {
