@@ -55,8 +55,8 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
-        requestCannedMessages(builder);
+    public void initialize() {
+        requestCannedMessages();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand(
-                "send notification",
+                "send notification " + notificationSpec.getId(),
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_NOTIFICATION_SEND)
@@ -235,9 +235,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
         );
     }
 
-    public void requestCannedMessages(final TransactionBuilder builder) {
+    public void requestCannedMessages() {
         getSupport().sendCommand(
-                builder,
+                "get canned messages",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CANNED_MESSAGES_GET)

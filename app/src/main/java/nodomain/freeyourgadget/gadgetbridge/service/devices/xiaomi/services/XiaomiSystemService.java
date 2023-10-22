@@ -68,12 +68,12 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
+    public void initialize() {
         // Request device info and configs
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DEVICE_INFO);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_BATTERY);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_PASSWORD_GET);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
+        getSupport().sendCommand("get device info", COMMAND_TYPE, CMD_DEVICE_INFO);
+        getSupport().sendCommand("get battery", COMMAND_TYPE, CMD_BATTERY);
+        getSupport().sendCommand("get password", COMMAND_TYPE, CMD_PASSWORD_GET);
+        getSupport().sendCommand("get display items", COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
     }
 
     @Override
@@ -113,25 +113,22 @@ public class XiaomiSystemService extends AbstractXiaomiService {
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
-        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
-
         switch (config) {
             case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
-                setCurrentTime(builder);
-                builder.queue(getSupport().getQueue());
+                setCurrentTime();
                 return true;
             case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
             case PasswordCapabilityImpl.PREF_PASSWORD:
-                setPassword(builder);
+                setPassword();
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
-                setDisplayItems(builder);
+                setDisplayItems();
                 return true;
         }
 
         return super.onSendConfiguration(config, prefs);
     }
 
-    public void setCurrentTime(final TransactionBuilder builder) {
+    public void setCurrentTime() {
         LOG.debug("Setting current time");
 
         final Calendar now = GregorianCalendar.getInstance();
@@ -162,7 +159,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand(
-                builder,
+                "set time",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CLOCK)
@@ -204,7 +201,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(batteryInfo);
     }
 
-    private void setPassword(final TransactionBuilder builder) {
+    private void setPassword() {
         final Prefs prefs = getDevicePrefs();
 
         final boolean passwordEnabled = prefs.getBoolean(PasswordCapabilityImpl.PREF_PASSWORD_ENABLED, false);
@@ -222,7 +219,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 .setPassword(password);
 
         getSupport().sendCommand(
-                builder,
+                "set password",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_PASSWORD_SET)
@@ -246,7 +243,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setDisplayItems(final TransactionBuilder builder) {
+    private void setDisplayItems() {
         final Prefs prefs = getDevicePrefs();
         final List<String> allScreens = new ArrayList<>(prefs.getList(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
         final List<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
@@ -300,7 +297,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
         }
 
         getSupport().sendCommand(
-                builder,
+                "set display items",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_DISPLAY_ITEMS_SET)
@@ -311,6 +308,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
 
     private void handleDisplayItems(final XiaomiProto.DisplayItems displayItems) {
         LOG.debug("Got {} display items", displayItems.getDisplayItemCount());
+
         final List<String> allScreens = new ArrayList<>();
         final List<String> mainScreens = new ArrayList<>();
         final List<String> moreScreens = new ArrayList<>();

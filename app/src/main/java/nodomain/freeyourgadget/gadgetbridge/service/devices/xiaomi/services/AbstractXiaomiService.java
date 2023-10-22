@@ -38,7 +38,7 @@ public abstract class AbstractXiaomiService {
 
     public abstract void handleCommand(final XiaomiProto.Command cmd);
 
-    public void initialize(final TransactionBuilder builder) {
+    public void initialize() {
 
     }
 

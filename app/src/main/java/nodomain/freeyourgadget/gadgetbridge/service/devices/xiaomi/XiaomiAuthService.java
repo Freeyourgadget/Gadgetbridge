@@ -103,7 +103,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .setAuth(auth)
                 .build();
 
-        getSupport().sendCommand(builder, command);
+        getSupport().sendCommand("start clear text handshake", command);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
                     final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
                     builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
-                    getSupport().phase2Initialize(builder);
+                    getSupport().phase2Initialize();
                     builder.queue(getSupport().getQueue());
                 } else {
                     LOG.warn("could not authenticate");

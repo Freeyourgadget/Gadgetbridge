@@ -109,10 +109,10 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                 break;
             case CMD_ALARMS_CREATE:
                 pendingAlarmAcks--;
+                LOG.debug("Got alarms create ack, remaining {}", pendingAlarmAcks);
                 if (pendingAlarmAcks <= 0) {
-                    final TransactionBuilder builder = getSupport().createTransactionBuilder("request alarms after all acks");
-                    requestAlarms(builder);
-                    builder.queue(getSupport().getQueue());
+                    LOG.debug("Requesting alarms after all acks");
+                    requestAlarms();
                 }
                 break;
             case CMD_WORLD_CLOCKS_GET:
@@ -126,10 +126,10 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                 break;
             case CMD_REMINDERS_CREATE:
                 pendingReminderAcks--;
+                LOG.debug("Got alarms create ack, remaining {}", pendingReminderAcks);
                 if (pendingReminderAcks <= 0) {
-                    final TransactionBuilder builder = getSupport().createTransactionBuilder("request reminders after all acks");
-                    requestReminders(builder);
-                    builder.queue(getSupport().getQueue());
+                    LOG.debug("Requesting reminders after all acks");
+                    requestReminders();
                 }
                 break;
         }
@@ -138,30 +138,28 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
-        requestAlarms(builder);
-        requestReminders(builder);
-        requestWorldClocks(builder);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_SLEEP_MODE_GET);
+    public void initialize() {
+        requestAlarms();
+        requestReminders();
+        requestWorldClocks();
+        getSupport().sendCommand("get sleep mode", COMMAND_TYPE, CMD_SLEEP_MODE_GET);
     }
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
-        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
-
         switch (config) {
             case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME:
             case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START:
             case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END:
-                setSleepModeConfig(builder);
+                setSleepModeConfig();
                 return true;
         }
 
         return false;
     }
 
-    public void requestReminders(final TransactionBuilder builder) {
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_REMINDERS_GET);
+    public void requestReminders() {
+        getSupport().sendCommand("request reminders", COMMAND_TYPE, CMD_REMINDERS_GET);
     }
 
     public void handleReminders(final XiaomiProto.Reminders reminders) {
@@ -386,8 +384,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         );
     }
 
-    public void requestWorldClocks(final TransactionBuilder builder) {
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_WORLD_CLOCKS_GET);
+    public void requestWorldClocks() {
+        getSupport().sendCommand("get world clocks", COMMAND_TYPE, CMD_WORLD_CLOCKS_GET);
     }
 
     public void handleWorldClocks(final XiaomiProto.WorldClocks worldClocks) {
@@ -494,8 +492,8 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         }
     }
 
-    public void requestAlarms(final TransactionBuilder builder) {
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_ALARMS_GET);
+    public void requestAlarms() {
+        getSupport().sendCommand("get alarms", COMMAND_TYPE, CMD_ALARMS_GET);
     }
 
     public void handleAlarms(final XiaomiProto.Alarms alarms) {
@@ -589,7 +587,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setSleepModeConfig(final TransactionBuilder builder) {
+    private void setSleepModeConfig() {
         LOG.debug("Set sleep mode config");
 
         final Prefs prefs = getDevicePrefs();
@@ -606,7 +604,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand(
-                builder,
+                "set sleep mode",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_SLEEP_MODE_SET)

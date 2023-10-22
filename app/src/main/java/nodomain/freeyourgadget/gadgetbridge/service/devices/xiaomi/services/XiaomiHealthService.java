@@ -146,18 +146,16 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
-        setUserInfo(builder);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_SPO2_GET);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_HEART_RATE_GET);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_STANDING_REMINDER_GET);
-        getSupport().sendCommand(builder, COMMAND_TYPE, CMD_CONFIG_STRESS_GET);
+    public void initialize() {
+        setUserInfo();
+        getSupport().sendCommand("get spo2 config", COMMAND_TYPE, CMD_CONFIG_SPO2_GET);
+        getSupport().sendCommand("get heart rate config", COMMAND_TYPE, CMD_CONFIG_HEART_RATE_GET);
+        getSupport().sendCommand("get standing reminders config", COMMAND_TYPE, CMD_CONFIG_STANDING_REMINDER_GET);
+        getSupport().sendCommand("get stress config", COMMAND_TYPE, CMD_CONFIG_STRESS_GET);
     }
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
-        final TransactionBuilder builder = getSupport().createTransactionBuilder("set " + config);
-
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
             case ActivityUser.PREF_USER_WEIGHT_KG:
@@ -167,8 +165,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case ActivityUser.PREF_USER_STEPS_GOAL:
             case ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS:
             case ActivityUser.PREF_USER_ACTIVETIME_MINUTES:
-                setUserInfo(builder);
-                builder.queue(getSupport().getQueue());
+                setUserInfo();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING:
@@ -176,11 +173,11 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD:
-                setHeartRateConfig(builder);
+                setHeartRateConfig();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING:
             case DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD:
-                setSpo2Config(builder);
+                setSpo2Config();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
             case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
@@ -188,18 +185,18 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND:
             case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START:
             case DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END:
-                setStandingReminderConfig(builder);
+                setStandingReminderConfig();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER:
-                setStressConfig(builder);
+                setStressConfig();
                 return true;
         }
 
         return false;
     }
 
-    public void setUserInfo(final TransactionBuilder builder) {
+    public void setUserInfo() {
         LOG.debug("Setting user info");
 
         final ActivityUser activityUser = new ActivityUser();
@@ -235,7 +232,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand(
-                builder,
+                "set user info",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_SET_USER_INFO)
@@ -257,7 +254,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setSpo2Config(final TransactionBuilder builder) {
+    private void setSpo2Config() {
         LOG.debug("Set SpO2 config");
 
         final Prefs prefs = getDevicePrefs();
@@ -277,7 +274,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 .setAlarmLow(spo2alarmLowBuilder);
 
         getSupport().sendCommand(
-                builder,
+                "set spo2 config",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CONFIG_SPO2_SET)
@@ -315,7 +312,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setHeartRateConfig(final TransactionBuilder builder) {
+    private void setHeartRateConfig() {
         final Prefs prefs = getDevicePrefs();
 
         final boolean sleepDetection = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION, false);
@@ -338,7 +335,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 .setUnknown7(1);
 
         getSupport().sendCommand(
-                builder,
+                "set heart rate config",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CONFIG_HEART_RATE_SET)
@@ -366,7 +363,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setStandingReminderConfig(final TransactionBuilder builder) {
+    private void setStandingReminderConfig() {
         LOG.debug("Set standing reminder config");
 
         final Prefs prefs = getDevicePrefs();
@@ -387,7 +384,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand(
-                builder,
+                "set standing reminder config",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CONFIG_STANDING_REMINDER_SET)
@@ -406,7 +403,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setStressConfig(final TransactionBuilder builder) {
+    private void setStressConfig() {
         LOG.debug("Set stress config");
 
         final Prefs prefs = getDevicePrefs();
@@ -418,7 +415,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 .setRelaxReminder(XiaomiProto.RelaxReminder.newBuilder().setEnabled(relaxReminder).setUnknown2(0));
 
         getSupport().sendCommand(
-                builder,
+                "set stress config",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CONFIG_STRESS_SET)

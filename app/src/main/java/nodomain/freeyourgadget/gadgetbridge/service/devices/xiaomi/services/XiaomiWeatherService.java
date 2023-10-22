@@ -48,7 +48,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
+    public void initialize() {
         // TODO setMeasurementSystem();, or request
     }
 

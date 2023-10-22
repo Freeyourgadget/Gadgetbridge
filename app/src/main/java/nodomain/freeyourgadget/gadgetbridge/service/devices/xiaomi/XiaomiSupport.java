@@ -103,7 +103,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     protected abstract UUID getCharacteristicCommandWrite();
     protected abstract UUID getCharacteristicActivityData();
     protected abstract UUID getCharacteristicDataUpload();
-    protected abstract void startAuthentication(TransactionBuilder builder);
+    protected abstract void startAuthentication(final TransactionBuilder builder);
 
     @Override
     protected final TransactionBuilder initializeDevice(final TransactionBuilder builder) {
@@ -234,30 +234,17 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        final TransactionBuilder builder;
-        try {
-            builder = performInitialized("set time");
-        } catch (final IOException e) {
-            LOG.error("Failed to initialize transaction builder", e);
-            return;
-        }
-        systemService.setCurrentTime(builder);
+        systemService.setCurrentTime();
 
-        final XiaomiCoordinator coordinator = getCoordinator();
-
-        if (coordinator.supportsCalendarEvents()) {
+        if (getCoordinator().supportsCalendarEvents()) {
             // TODO this should not be done here
-            calendarService.syncCalendar(builder);
+            calendarService.syncCalendar();
         }
-
-        builder.queue(getQueue());
     }
 
     @Override
     public void onTestNewFunction() {
-        final TransactionBuilder builder = createTransactionBuilder("test new function");
-        sendCommand(builder, 2, 29);
-        builder.queue(getQueue());
+        sendCommand("test new function", 2, 29);
     }
 
     @Override
@@ -404,7 +391,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         return (XiaomiCoordinator) gbDevice.getDeviceCoordinator();
     }
 
-    protected void phase2Initialize(final TransactionBuilder builder) {
+    protected void phase2Initialize() {
         LOG.info("phase2Initialize");
 
         characteristicCommandRead.reset();
@@ -413,21 +400,15 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         characteristicDataUpload.reset();
 
         if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
-            systemService.setCurrentTime(builder);
+            systemService.setCurrentTime();
         }
 
         for (final AbstractXiaomiService service : mServiceMap.values()) {
-            service.initialize(builder);
+            service.initialize();
         }
     }
 
     public void sendCommand(final String taskName, final XiaomiProto.Command command) {
-        final TransactionBuilder builder = createTransactionBuilder(taskName);
-        sendCommand(builder, command);
-        builder.queue(getQueue());
-    }
-
-    public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
         if (this.characteristicCommandWrite == null) {
             // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
             LOG.warn("characteristicCommandWrite is null!");
@@ -438,27 +419,6 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         final byte[] commandBytes = command.toByteArray();
         LOG.debug("Sending command {}", GB.hexdump(commandBytes));
         this.characteristicCommandWrite.write(commandBytes);
-    }
-
-    public void sendCommand(final TransactionBuilder builder, final byte[] commandBytes) {
-        if (this.characteristicCommandWrite == null) {
-            // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
-            LOG.warn("characteristicCommandWrite is null!");
-            return;
-        }
-
-        // FIXME builder is ignored
-        this.characteristicCommandWrite.write(commandBytes);
-    }
-
-    public void sendCommand(final TransactionBuilder builder, final int type, final int subtype) {
-        sendCommand(
-                builder,
-                XiaomiProto.Command.newBuilder()
-                        .setType(type)
-                        .setSubtype(subtype)
-                        .build()
-        );
     }
 
     public void sendCommand(final String taskName, final int type, final int subtype) {

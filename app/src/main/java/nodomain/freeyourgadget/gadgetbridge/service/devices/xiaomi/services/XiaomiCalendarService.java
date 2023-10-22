@@ -57,8 +57,8 @@ public class XiaomiCalendarService extends AbstractXiaomiService {
     }
 
     @Override
-    public void initialize(final TransactionBuilder builder) {
-        syncCalendar(builder);
+    public void initialize() {
+        syncCalendar();
     }
 
     @Override
@@ -83,12 +83,6 @@ public class XiaomiCalendarService extends AbstractXiaomiService {
     }
 
     public void syncCalendar() {
-        final TransactionBuilder builder = getSupport().createTransactionBuilder("sync calendar");
-        syncCalendar(builder);
-        builder.queue(getSupport().getQueue());
-    }
-
-    public void syncCalendar(final TransactionBuilder builder) {
         final boolean syncEnabled = GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress())
                 .getBoolean(PREF_SYNC_CALENDAR, false);
 
@@ -138,7 +132,7 @@ public class XiaomiCalendarService extends AbstractXiaomiService {
         LOG.debug("Syncing {} calendar events", lastSync.size());
 
         getSupport().sendCommand(
-                builder,
+                "sync calendar",
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CALENDAR_SET)
