@@ -46,6 +46,7 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
 
     private final Set<UUID> allWatchfaces = new HashSet<>();
     private final Set<UUID> userWatchfaces = new HashSet<>();
+    private UUID activeWatchface = null;
 
     public XiaomiWatchfaceService(final XiaomiSupport support) {
         super(support);
@@ -89,6 +90,7 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
 
         allWatchfaces.clear();
         userWatchfaces.clear();
+        activeWatchface = null;
 
         final List<GBDeviceApp> gbDeviceApps = new ArrayList<>();
 
@@ -97,6 +99,9 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
             allWatchfaces.add(uuid);
             if (watchface.getCanDelete()) {
                 userWatchfaces.add(uuid);
+            }
+            if (watchface.getActive()) {
+                activeWatchface = uuid;
             }
 
             GBDeviceApp gbDeviceApp = new GBDeviceApp(
@@ -119,6 +124,8 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
             LOG.warn("Unknown watchface {}", uuid);
             return;
         }
+
+        activeWatchface = uuid;
 
         LOG.debug("Set watchface to {}", uuid);
 
@@ -144,6 +151,11 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
 
         if (!allWatchfaces.contains(uuid)) {
             LOG.warn("Refusing to delete unknown watchface {}", uuid);
+            return;
+        }
+
+        if (uuid.equals(activeWatchface)) {
+            LOG.warn("Refusing to delete active watchface {}", uuid);
             return;
         }
 
