@@ -39,6 +39,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 public class XiaomiCharacteristic {
     public static final byte[] PAYLOAD_ACK = new byte[]{0, 0, 3, 0};
 
+    // max chunk size, including headers
+    public static final int MAX_WRITE_SIZE = 242;
+
     private final Logger LOG;
 
     private final XiaomiSupport mSupport;
@@ -182,9 +185,9 @@ public class XiaomiCharacteristic {
                         case 1:
                             LOG.debug("Got chunked ack start");
                             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunks");
-                            for (int i = 0; i * 242 < currentSending.length; i++) {
-                                final int startIndex = i * 242;
-                                final int endIndex = Math.min((i + 1) * 242, currentSending.length);
+                            for (int i = 0; i * MAX_WRITE_SIZE < currentSending.length; i++) {
+                                final int startIndex = i * MAX_WRITE_SIZE;
+                                final int endIndex = Math.min((i + 1) * MAX_WRITE_SIZE, currentSending.length);
                                 LOG.debug("Sending chunk {} from {} to {}", i, startIndex, endIndex);
                                 final byte[] chunkToSend = new byte[2 + endIndex - startIndex];
                                 BLETypeConversions.writeUint16(chunkToSend, 0, i + 1);
@@ -265,7 +268,7 @@ public class XiaomiCharacteristic {
             buf.putShort((short) 0);
             buf.put((byte) 0);
             buf.put((byte) (isEncrypted ? 1 : 0));
-            buf.putShort((short) Math.max(1, Math.round(currentSending.length / 247.0)));
+            buf.putShort((short) Math.ceil(currentSending.length / (float) MAX_WRITE_SIZE));
 
             final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked start");
             builder.write(bluetoothGattCharacteristic, buf.array());
@@ -274,13 +277,15 @@ public class XiaomiCharacteristic {
             LOG.debug("Sending next - single");
 
             // Encrypt single command
-            final int commandLength = 6 + currentSending.length;
+            final int commandLength = (isEncrypted ? 6 : 4) + currentSending.length;
 
             final ByteBuffer buf = ByteBuffer.allocate(commandLength).order(ByteOrder.LITTLE_ENDIAN);
             buf.putShort((short) 0);
             buf.put((byte) 2); // 2 for command
-            buf.put((byte) 1); // 1 for encrypted
-            buf.putShort(encryptedIndex++);
+            buf.put((byte) (isEncrypted ? 1 : 2));
+            if (isEncrypted) {
+                buf.putShort(encryptedIndex++);
+            }
             buf.put(currentSending); // it's already encrypted
 
             waitingAck = true;
@@ -297,7 +302,8 @@ public class XiaomiCharacteristic {
             return true;
         }
 
-        return payload.length + 6 > 244;
+        // payload + 6 bytes at the start with the encryption stuff
+        return payload.length + 6 > MAX_WRITE_SIZE;
     }
 
     private void sendAck() {
