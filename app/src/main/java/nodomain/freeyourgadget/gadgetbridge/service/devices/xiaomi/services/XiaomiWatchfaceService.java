@@ -27,14 +27,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.XiaomiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class XiaomiWatchfaceService extends AbstractXiaomiService {
+public class XiaomiWatchfaceService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiWatchfaceService.class);
 
     public static final int COMMAND_TYPE = 4;
@@ -47,6 +51,9 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
     private final Set<UUID> allWatchfaces = new HashSet<>();
     private final Set<UUID> userWatchfaces = new HashSet<>();
     private UUID activeWatchface = null;
+
+    // Not null if we're installing a firmware
+    private XiaomiFWHelper fwHelper = null;
 
     public XiaomiWatchfaceService(final XiaomiSupport support) {
         super(support);
@@ -69,16 +76,20 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
                 requestWatchfaceList();
                 return;
             case CMD_WATCHFACE_INSTALL:
+                final int installStatus = cmd.getWatchface().getInstallStatus();
+                if (installStatus != 0) {
+                    LOG.warn("Invalid watchface install status {} for {}", installStatus, fwHelper.getId());
+                    return;
+                }
+
+                LOG.debug("Watchface install status 0, uploading");
+                setDeviceBusy();
+                getSupport().getDataUploader().setCallback(this);
+                getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_WATCHFACE, fwHelper.getBytes());
                 return;
         }
 
         LOG.warn("Unknown watchface command {}", cmd.getSubtype());
-    }
-
-    @Override
-    public boolean onSendConfiguration(final String config, final Prefs prefs) {
-        // TODO set watchface
-        return super.onSendConfiguration(config, prefs);
     }
 
     public void requestWatchfaceList() {
@@ -120,21 +131,24 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
     }
 
     public void setWatchface(final UUID uuid) {
-        if (!allWatchfaces.contains(uuid)) {
-            LOG.warn("Unknown watchface {}", uuid);
-            return;
-        }
+        final String id = toWatchfaceId(uuid);
+
+        // TODO for now we need to allow when installing a watchface
+        //if (!allWatchfaces.contains(uuid)) {
+        //    LOG.warn("Unknown watchface {}", uuid);
+        //    return;
+        //}
 
         activeWatchface = uuid;
 
-        LOG.debug("Set watchface to {}", uuid);
+        LOG.debug("Set watchface to {}", id);
 
         getSupport().sendCommand(
                 "set watchface to " + uuid,
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_WATCHFACE_SET)
-                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(toWatchfaceId(uuid)))
+                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(id))
                         .build()
         );
     }
@@ -144,42 +158,58 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
     }
 
     public void deleteWatchface(final UUID uuid) {
+        final String id = toWatchfaceId(uuid);
+
         if (!userWatchfaces.contains(uuid)) {
-            LOG.warn("Refusing to delete non-user watchface {}", uuid);
+            LOG.warn("Refusing to delete non-user watchface {}", id);
             return;
         }
 
         if (!allWatchfaces.contains(uuid)) {
-            LOG.warn("Refusing to delete unknown watchface {}", uuid);
+            LOG.warn("Refusing to delete unknown watchface {}", id);
             return;
         }
 
         if (uuid.equals(activeWatchface)) {
-            LOG.warn("Refusing to delete active watchface {}", uuid);
+            LOG.warn("Refusing to delete active watchface {}", id);
             return;
         }
 
-        LOG.debug("Delete watchface {}", uuid);
+        LOG.debug("Delete watchface {}", id);
 
         allWatchfaces.remove(uuid);
         userWatchfaces.remove(uuid);
 
         getSupport().sendCommand(
-                "delete watchface " + uuid,
+                "delete watchface " + id,
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_WATCHFACE_DELETE)
-                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(toWatchfaceId(uuid)))
+                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(id))
                         .build()
         );
     }
 
-    public void deleteWatchface(final String watchfaceId) {
-        deleteWatchface(toWatchfaceUUID(watchfaceId));
-    }
-
     public void installWatchface(final Uri uri) {
-        // TODO
+        fwHelper = new XiaomiFWHelper(uri, getSupport().getContext());
+        if (!fwHelper.isValid()) {
+            fwHelper = null;
+            LOG.warn("watchface is not valid");
+            return;
+        }
+
+        getSupport().sendCommand(
+                "install watchface " + fwHelper.getId(),
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_WATCHFACE_INSTALL)
+                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceInstallStart(
+                                XiaomiProto.WatchfaceInstallStart.newBuilder()
+                                        .setId(fwHelper.getId())
+                                        .setSize(fwHelper.getBytes().length)
+                        ))
+                        .build()
+        );
     }
 
     public static UUID toWatchfaceUUID(final String id) {
@@ -200,5 +230,59 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
                 .replaceAll("-", "")
                 .replaceAll("f", "")
                 .replaceAll("F", "");
+    }
+
+    @Override
+    public void onUploadFinish(final boolean success) {
+        LOG.debug("Watchface upload finished: {}", success);
+
+        getSupport().getDataUploader().setCallback(null);
+
+        final String notificationMessage = success ?
+                getSupport().getContext().getString(R.string.updatefirmwareoperation_update_complete) :
+                getSupport().getContext().getString(R.string.updatefirmwareoperation_write_failed);
+
+        GB.updateInstallNotification(notificationMessage, false, 100, getSupport().getContext());
+
+        unsetDeviceBusy();
+
+        if (success) {
+            setWatchface(fwHelper.getId());
+        }
+
+        fwHelper = null;
+    }
+
+    @Override
+    public void onUploadProgress(final int progressPercent) {
+        try {
+            final TransactionBuilder builder = getSupport().createTransactionBuilder("send data upload progress");
+            builder.add(new SetProgressAction(
+                    getSupport().getContext().getString(R.string.updatefirmwareoperation_update_in_progress),
+                    true,
+                    progressPercent,
+                    getSupport().getContext()
+            ));
+            builder.queue(getSupport().getQueue());
+        } catch (final Exception e) {
+            LOG.error("Failed to update progress notification", e);
+        }
+    }
+
+    private void setDeviceBusy() {
+        final GBDevice device = getSupport().getDevice();
+        device.setBusyTask(getSupport().getContext().getString(R.string.updating_firmware));
+        device.sendDeviceUpdateIntent(getSupport().getContext());
+    }
+
+    private void unsetDeviceBusy() {
+        final GBDevice device = getSupport().getDevice();
+        if (device != null && device.isConnected()) {
+            if (device.isBusy()) {
+                device.unsetBusyTask();
+                device.sendDeviceUpdateIntent(getSupport().getContext());
+            }
+            device.sendDeviceUpdateIntent(getSupport().getContext());
+        }
     }
 }

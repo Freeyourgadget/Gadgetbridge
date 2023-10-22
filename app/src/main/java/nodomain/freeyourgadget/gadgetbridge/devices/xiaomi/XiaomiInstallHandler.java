@@ -16,40 +16,64 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType.AGPS_UIHH;
-
 import android.content.Context;
 import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.XiaomiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 
 public class XiaomiInstallHandler implements InstallHandler {
     protected final Uri mUri;
     protected final Context mContext;
+    protected final XiaomiFWHelper helper;
 
     public XiaomiInstallHandler(final Uri uri, final Context context) {
         this.mUri = uri;
         this.mContext = context;
+        this.helper = new XiaomiFWHelper(uri, context);
     }
 
     @Override
     public boolean isValid() {
-        // TODO
-        return false;
+        return helper.isValid();
     }
 
     @Override
     public void validateInstallation(final InstallActivity installActivity, final GBDevice device) {
-        // TODO
+        if (device.isBusy()) {
+            installActivity.setInfoText(device.getBusyTask());
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
+        if (!device.isInitialized()) {
+            installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_ready));
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
+        if (!helper.isValid()) {
+            installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
+            installActivity.setInstallEnabled(false);
+            return;
+        }
+
+        final GenericItem installItem = new GenericItem();
+        installItem.setIcon(R.drawable.ic_watchface);
+        installItem.setName(mContext.getString(R.string.kind_watchface));
+        installItem.setDetails(helper.getDetails());
+
+        installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));
+        installActivity.setInstallItem(installItem);
+        installActivity.setInstallEnabled(true);
     }
 
     @Override
     public void onStartInstall(final GBDevice device) {
-        // nothing to do
+        helper.unsetFwBytes(); // free up memory
     }
 }

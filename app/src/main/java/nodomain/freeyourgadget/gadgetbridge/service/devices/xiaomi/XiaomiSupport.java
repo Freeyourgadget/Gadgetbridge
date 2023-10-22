@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiCalendarService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiDataUploadService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiMusicService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiNotificationService;
@@ -79,6 +80,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     protected final XiaomiSystemService systemService = new XiaomiSystemService(this);
     protected final XiaomiCalendarService calendarService = new XiaomiCalendarService(this);
     protected final XiaomiWatchfaceService watchfaceService = new XiaomiWatchfaceService(this);
+    protected final XiaomiDataUploadService dataUploadService = new XiaomiDataUploadService(this);
 
     private String mFirmwareVersion = null;
 
@@ -92,6 +94,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         put(XiaomiSystemService.COMMAND_TYPE, systemService);
         put(XiaomiCalendarService.COMMAND_TYPE, calendarService);
         put(XiaomiWatchfaceService.COMMAND_TYPE, watchfaceService);
+        put(XiaomiDataUploadService.COMMAND_TYPE, dataUploadService);
     }};
 
     public XiaomiSupport() {
@@ -133,6 +136,8 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         this.characteristicActivityData.setEncrypted(isEncrypted());
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
         this.characteristicDataUpload.setEncrypted(isEncrypted());
+        this.characteristicDataUpload.setIncrementNonce(false);
+        this.dataUploadService.setDataUploadCharacteristic(this.characteristicDataUpload);
 
         builder.requestMtu(247);
 
@@ -314,6 +319,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(final Uri uri) {
+        // TODO distinguish between fw and watchface
         watchfaceService.installWatchface(uri);
     }
 
@@ -441,5 +447,9 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
                         .setSubtype(subtype)
                         .build()
         );
+    }
+
+    public XiaomiDataUploadService getDataUploader() {
+        return this.dataUploadService;
     }
 }

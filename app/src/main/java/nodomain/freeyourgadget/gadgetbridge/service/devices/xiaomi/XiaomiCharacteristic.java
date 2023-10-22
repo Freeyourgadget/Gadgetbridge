@@ -35,14 +35,15 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiCharacteristic {
+    private final Logger LOG = LoggerFactory.getLogger(XiaomiCharacteristic.class);
+
     public static final byte[] PAYLOAD_ACK = new byte[]{0, 0, 3, 0};
 
     // max chunk size, including headers
     public static final int MAX_WRITE_SIZE = 242;
-
-    private final Logger LOG;
 
     private final XiaomiSupport mSupport;
 
@@ -52,6 +53,7 @@ public class XiaomiCharacteristic {
     // Encryption
     private final XiaomiAuthService authService;
     private boolean isEncrypted;
+    public boolean incrementNonce = true;
     private short encryptedIndex = 0;
 
     // Chunking
@@ -68,6 +70,8 @@ public class XiaomiCharacteristic {
 
     private Handler handler = null;
 
+    private SendCallback callback;
+
     public XiaomiCharacteristic(final XiaomiSupport support,
                                 final BluetoothGattCharacteristic bluetoothGattCharacteristic,
                                 @Nullable final XiaomiAuthService authService) {
@@ -75,7 +79,6 @@ public class XiaomiCharacteristic {
         this.bluetoothGattCharacteristic = bluetoothGattCharacteristic;
         this.authService = authService;
         this.isEncrypted = authService != null;
-        this.LOG = LoggerFactory.getLogger("XiaomiCharacteristic [" + bluetoothGattCharacteristic.getUuid().toString() + "]");
         this.characteristicUUID = bluetoothGattCharacteristic.getUuid();
     }
 
@@ -87,8 +90,16 @@ public class XiaomiCharacteristic {
         this.handler = handler;
     }
 
+    public void setCallback(final SendCallback callback) {
+        this.callback = callback;
+    }
+
     public void setEncrypted(final boolean encrypted) {
         this.isEncrypted = encrypted;
+    }
+
+    public void setIncrementNonce(final boolean incrementNonce) {
+        this.incrementNonce = incrementNonce;
     }
 
     public void reset() {
@@ -127,6 +138,9 @@ public class XiaomiCharacteristic {
             LOG.debug("Got ack");
             currentPayload = null;
             waitingAck = false;
+            if (callback != null) {
+                callback.onSend(payloadQueue.size());
+            }
             sendNext(null);
             return;
         }
@@ -185,6 +199,9 @@ public class XiaomiCharacteristic {
                             LOG.debug("Got chunked ack end");
                             currentPayload = null;
                             sendingChunked = false;
+                            if (callback != null) {
+                                callback.onSend(payloadQueue.size());
+                            }
                             sendNext(null);
                             return;
                         case 1:
@@ -207,6 +224,9 @@ public class XiaomiCharacteristic {
                             LOG.warn("Got chunked nack for {}", currentPayload.getTaskName());
                             currentPayload = null;
                             sendingChunked = false;
+                            if (callback != null) {
+                                callback.onSend(payloadQueue.size());
+                            }
                             sendNext(null);
                             return;
                     }
@@ -251,6 +271,8 @@ public class XiaomiCharacteristic {
             return;
         }
 
+        LOG.debug("Will send {}", GB.hexdump(currentPayload.getBytesToSend()));
+
         final boolean encrypt = isEncrypted && authService.isEncryptionInitialized();
 
         if (encrypt) {
@@ -262,10 +284,13 @@ public class XiaomiCharacteristic {
                 // Prepend encrypted index for the nonce
                 currentPayload.setBytesToSend(
                         ByteBuffer.allocate(2 + currentPayload.getBytesToSend().length).order(ByteOrder.LITTLE_ENDIAN)
-                                .putShort(encryptedIndex++)
+                                .putShort(encryptedIndex)
                                 .put(currentPayload.getBytesToSend())
                                 .array()
                 );
+                if (incrementNonce) {
+                    encryptedIndex++;
+                }
             }
 
             LOG.debug("Sending {} - chunked", currentPayload.getTaskName());
@@ -294,7 +319,10 @@ public class XiaomiCharacteristic {
             buf.put((byte) 2); // 2 for command
             buf.put((byte) (encrypt ? 1 : 2));
             if (encrypt) {
-                buf.putShort(encryptedIndex++);
+                buf.putShort(encryptedIndex);
+                if (incrementNonce) {
+                    encryptedIndex++;
+                }
             }
             buf.put(currentPayload.getBytesToSend()); // it's already encrypted
 
@@ -363,5 +391,9 @@ public class XiaomiCharacteristic {
         public byte[] getBytesToSend() {
             return bytesToSend != null ? bytesToSend : bytes;
         }
+    }
+
+    public interface SendCallback {
+        void onSend(int remaining);
     }
 }

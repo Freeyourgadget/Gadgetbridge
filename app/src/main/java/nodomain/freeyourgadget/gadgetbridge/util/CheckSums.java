@@ -16,13 +16,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import androidx.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.zip.CRC32;
 
 public class CheckSums {
+    private static final Logger LOG = LoggerFactory.getLogger(CheckSums.class);
+
     public static int getCRC8(byte[] seq) {
         int len = seq.length;
         int i = 0;
@@ -151,5 +160,18 @@ public class CheckSums {
             i2 = Crc16Tab[((i2 >> 8) ^ data[i3]) & 255] ^ (i2 << 8);
 
         return 65535 & i2;
+    }
+
+    @Nullable
+    public static byte[] md5(final byte[] data) {
+        final MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (final NoSuchAlgorithmException e) {
+            LOG.error("Failed to get md5 digest", e);
+            return null;
+        }
+        md.update(data);
+        return md.digest();
     }
 }
