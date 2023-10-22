@@ -16,11 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -91,102 +90,188 @@ public class XiaomiEncryptedSupport extends XiaomiSupport {
 
     @Override
     public String customStringFilter(final String inputString) {
-        // TODO: Do this more efficiently - it iterates the input string 88 times...
-        String customString = inputString;
-        for (Map.Entry<String, String> emoji : EMOJI_MAP.entrySet()) {
-            customString = customString.replaceAll(emoji.getKey(), emoji.getValue());
-        }
-        return customString;
+        return StringUtils.replaceEach(inputString, EMOJI_SOURCE, EMOJI_TARGET);
     }
 
-    private static final Map<String, String> EMOJI_MAP = new LinkedHashMap<String, String>() {{
-        put("\uD83D\uDE0D", "ꀂ"); // 😍
-        put("\uD83D\uDE18", "ꀃ"); // 😘
-        put("\uD83D\uDE02", "ꀄ"); // 😂
-        put("\uD83D\uDE0A", "ꀅ"); // 😊
-        put("\uD83D\uDE0E", "ꀆ"); // 😎
-        put("\uD83D\uDE09", "ꀇ"); // 😉
-        put("\uD83D\uDC8B", "ꀈ"); // 💋
-        put("\uD83D\uDC4D", "ꀉ"); // 👍
-        put("\uD83E\uDD23", "ꀊ"); // 🤣
-        put("\uD83D\uDC95", "ꀋ"); // 💕
-        put("\uD83D\uDE00", "ꀌ"); // 😀
-        put("\uD83D\uDE04", "ꀍ"); // 😄
-        put("\uD83D\uDE2D", "ꀎ"); // 😭
-        put("\uD83E\uDD7A", "ꀏ"); // 🥺
-        put("\uD83D\uDE4F", "ꀑ"); // 🙏
-        put("\uD83E\uDD70", "ꀒ"); // 🥰
-        put("\uD83E\uDD14", "ꀓ"); // 🤔
-        put("\uD83D\uDD25", "ꀔ"); // 🔥
-        put("\uD83D\uDE29", "ꀗ"); // 😩
-        put("\uD83D\uDE14", "ꀘ"); // 😔
-        put("\uD83D\uDE01", "ꀙ"); // 😁
-        put("\uD83D\uDC4C", "ꀚ"); // 👌
-        put("\uD83D\uDE0F", "ꀛ"); // 😏
-        put("\uD83D\uDE05", "ꀜ"); // 😅
-        put("\uD83E\uDD0D", "ꀝ"); // 🤍
-        put("\uD83D\uDC94", "ꀞ"); // 💔
-        put("\uD83D\uDE0C", "ꀟ"); // 😌
-        put("\uD83D\uDE22", "ꀠ"); // 😢
-        put("\uD83D\uDC99", "ꀡ"); // 💙
-        put("\uD83D\uDC9C", "ꀢ"); // 💜
-        put("\uD83C\uDFB6", "ꀤ"); // 🎶
-        put("\uD83D\uDE33", "ꀥ"); // 😳
-        put("\uD83D\uDC96", "ꀦ"); // 💖
-        put("\uD83D\uDE4C", "ꀧ"); // 🙌
-        put("\uD83D\uDCAF", "ꀨ"); // 💯
-        put("\uD83D\uDE48", "ꀩ"); // 🙈
-        put("\uD83D\uDE0B", "ꀫ"); // 😋
-        put("\uD83D\uDE11", "ꀬ"); // 😑
-        put("\uD83D\uDE34", "ꀭ"); // 😴
-        put("\uD83D\uDE2A", "ꀮ"); // 😪
-        put("\uD83D\uDE1C", "ꀯ"); // 😜
-        put("\uD83D\uDE1B", "ꀰ"); // 😛
-        put("\uD83D\uDE1D", "ꀱ"); // 😝
-        put("\uD83D\uDE1E", "ꀲ"); // 😞
-        put("\uD83D\uDE15", "ꀳ"); // 😕
-        put("\uD83D\uDC97", "ꀴ"); // 💗
-        put("\uD83D\uDC4F", "ꀵ"); // 👏
-        put("\uD83D\uDE10", "ꀶ"); // 😐
-        put("\uD83D\uDC49", "ꀷ"); // 👉
-        put("\uD83D\uDC9B", "ꀸ"); // 💛
-        put("\uD83D\uDC9E", "ꀹ"); // 💞
-        put("\uD83D\uDCAA", "ꀺ"); // 💪
-        put("\uD83C\uDF39", "ꀻ"); // 🌹
-        put("\uD83D\uDC80", "ꀼ"); // 💀
-        put("\uD83D\uDE31", "ꀽ"); // 😱
-        put("\uD83D\uDC98", "ꀾ"); // 💘
-        put("\uD83E\uDD1F", "ꀿ"); // 🤟
-        put("\uD83D\uDE21", "ꁀ"); // 😡
-        put("\uD83D\uDCF7", "ꁁ"); // 📷
-        put("\uD83C\uDF38", "ꁂ"); // 🌸
-        put("\uD83D\uDE08", "ꁃ"); // 😈
-        put("\uD83D\uDC48", "ꁄ"); // 👈
-        put("\uD83C\uDF89", "ꁅ"); // 🎉
-        put("\uD83D\uDC81", "ꁆ"); // 💁
-        put("\uD83D\uDE4A", "ꁇ"); // 🙊
-        put("\uD83D\uDC9A", "ꁈ"); // 💚
-        put("\uD83D\uDE2B", "ꁉ"); // 😫
-        put("\uD83D\uDE24", "ꁊ"); // 😤
-        put("\uD83D\uDC93", "ꁍ"); // 💓
-        put("\uD83C\uDF1A", "ꁎ"); // 🌚
-        put("\uD83D\uDC47", "ꁏ"); // 👇
-        put("\uD83D\uDE07", "ꁒ"); // 😇
-        put("\uD83D\uDC4A", "ꁓ"); // 👊
-        put("\uD83D\uDC51", "ꁔ"); // 👑
-        put("\uD83D\uDE13", "ꁕ"); // 😓
-        put("\uD83D\uDE3B", "ꁖ"); // 😻
-        put("\uD83D\uDD34", "ꁗ"); // 🔴
-        put("\uD83D\uDE25", "ꁘ"); // 😥
-        put("\uD83E\uDD29", "ꁙ"); // 🤩
-        put("\uD83D\uDE1A", "ꁚ"); // 😚
-        put("\uD83D\uDE37", "ꁜ"); // 😷
-        put("\uD83D\uDC4B", "ꁝ"); // 👋
-        put("\uD83D\uDCA5", "ꁞ"); // 💥
-        put("\uD83E\uDD2D", "ꁠ"); // 🤭
-        put("\uD83C\uDF1F", "ꁡ"); // 🌟
-        put("\uD83E\uDD71", "ꁢ"); // 🥱
-        put("\uD83D\uDCA9", "ꁣ"); // 💩
-        put("\uD83D\uDE80", "ꁤ"); // 🚀
-    }};
+    private static final String[] EMOJI_SOURCE = new String[] {
+            "\uD83D\uDE0D", // 😍
+            "\uD83D\uDE18", // 😘
+            "\uD83D\uDE02", // 😂
+            "\uD83D\uDE0A", // 😊
+            "\uD83D\uDE0E", // 😎
+            "\uD83D\uDE09", // 😉
+            "\uD83D\uDC8B", // 💋
+            "\uD83D\uDC4D", // 👍
+            "\uD83E\uDD23", // 🤣
+            "\uD83D\uDC95", // 💕
+            "\uD83D\uDE00", // 😀
+            "\uD83D\uDE04", // 😄
+            "\uD83D\uDE2D", // 😭
+            "\uD83E\uDD7A", // 🥺
+            "\uD83D\uDE4F", // 🙏
+            "\uD83E\uDD70", // 🥰
+            "\uD83E\uDD14", // 🤔
+            "\uD83D\uDD25", // 🔥
+            "\uD83D\uDE29", // 😩
+            "\uD83D\uDE14", // 😔
+            "\uD83D\uDE01", // 😁
+            "\uD83D\uDC4C", // 👌
+            "\uD83D\uDE0F", // 😏
+            "\uD83D\uDE05", // 😅
+            "\uD83E\uDD0D", // 🤍
+            "\uD83D\uDC94", // 💔
+            "\uD83D\uDE0C", // 😌
+            "\uD83D\uDE22", // 😢
+            "\uD83D\uDC99", // 💙
+            "\uD83D\uDC9C", // 💜
+            "\uD83C\uDFB6", // 🎶
+            "\uD83D\uDE33", // 😳
+            "\uD83D\uDC96", // 💖
+            "\uD83D\uDE4C", // 🙌
+            "\uD83D\uDCAF", // 💯
+            "\uD83D\uDE48", // 🙈
+            "\uD83D\uDE0B", // 😋
+            "\uD83D\uDE11", // 😑
+            "\uD83D\uDE34", // 😴
+            "\uD83D\uDE2A", // 😪
+            "\uD83D\uDE1C", // 😜
+            "\uD83D\uDE1B", // 😛
+            "\uD83D\uDE1D", // 😝
+            "\uD83D\uDE1E", // 😞
+            "\uD83D\uDE15", // 😕
+            "\uD83D\uDC97", // 💗
+            "\uD83D\uDC4F", // 👏
+            "\uD83D\uDE10", // 😐
+            "\uD83D\uDC49", // 👉
+            "\uD83D\uDC9B", // 💛
+            "\uD83D\uDC9E", // 💞
+            "\uD83D\uDCAA", // 💪
+            "\uD83C\uDF39", // 🌹
+            "\uD83D\uDC80", // 💀
+            "\uD83D\uDE31", // 😱
+            "\uD83D\uDC98", // 💘
+            "\uD83E\uDD1F", // 🤟
+            "\uD83D\uDE21", // 😡
+            "\uD83D\uDCF7", // 📷
+            "\uD83C\uDF38", // 🌸
+            "\uD83D\uDE08", // 😈
+            "\uD83D\uDC48", // 👈
+            "\uD83C\uDF89", // 🎉
+            "\uD83D\uDC81", // 💁
+            "\uD83D\uDE4A", // 🙊
+            "\uD83D\uDC9A", // 💚
+            "\uD83D\uDE2B", // 😫
+            "\uD83D\uDE24", // 😤
+            "\uD83D\uDC93", // 💓
+            "\uD83C\uDF1A", // 🌚
+            "\uD83D\uDC47", // 👇
+            "\uD83D\uDE07", // 😇
+            "\uD83D\uDC4A", // 👊
+            "\uD83D\uDC51", // 👑
+            "\uD83D\uDE13", // 😓
+            "\uD83D\uDE3B", // 😻
+            "\uD83D\uDD34", // 🔴
+            "\uD83D\uDE25", // 😥
+            "\uD83E\uDD29", // 🤩
+            "\uD83D\uDE1A", // 😚
+            "\uD83D\uDE37", // 😷
+            "\uD83D\uDC4B", // 👋
+            "\uD83D\uDCA5", // 💥
+            "\uD83E\uDD2D", // 🤭
+            "\uD83C\uDF1F", // 🌟
+            "\uD83E\uDD71", // 🥱
+            "\uD83D\uDCA9", // 💩
+            "\uD83D\uDE80", // 🚀
+    };
+
+    private static final String[] EMOJI_TARGET = new String[] {
+            "ꀂ", // 😍
+            "ꀃ", // 😘
+            "ꀄ", // 😂
+            "ꀅ", // 😊
+            "ꀆ", // 😎
+            "ꀇ", // 😉
+            "ꀈ", // 💋
+            "ꀉ", // 👍
+            "ꀊ", // 🤣
+            "ꀋ", // 💕
+            "ꀌ", // 😀
+            "ꀍ", // 😄
+            "ꀎ", // 😭
+            "ꀏ", // 🥺
+            "ꀑ", // 🙏
+            "ꀒ", // 🥰
+            "ꀓ", // 🤔
+            "ꀔ", // 🔥
+            "ꀗ", // 😩
+            "ꀘ", // 😔
+            "ꀙ", // 😁
+            "ꀚ", // 👌
+            "ꀛ", // 😏
+            "ꀜ", // 😅
+            "ꀝ", // 🤍
+            "ꀞ", // 💔
+            "ꀟ", // 😌
+            "ꀠ", // 😢
+            "ꀡ", // 💙
+            "ꀢ", // 💜
+            "ꀤ", // 🎶
+            "ꀥ", // 😳
+            "ꀦ", // 💖
+            "ꀧ", // 🙌
+            "ꀨ", // 💯
+            "ꀩ", // 🙈
+            "ꀫ", // 😋
+            "ꀬ", // 😑
+            "ꀭ", // 😴
+            "ꀮ", // 😪
+            "ꀯ", // 😜
+            "ꀰ", // 😛
+            "ꀱ", // 😝
+            "ꀲ", // 😞
+            "ꀳ", // 😕
+            "ꀴ", // 💗
+            "ꀵ", // 👏
+            "ꀶ", // 😐
+            "ꀷ", // 👉
+            "ꀸ", // 💛
+            "ꀹ", // 💞
+            "ꀺ", // 💪
+            "ꀻ", // 🌹
+            "ꀼ", // 💀
+            "ꀽ", // 😱
+            "ꀾ", // 💘
+            "ꀿ", // 🤟
+            "ꁀ", // 😡
+            "ꁁ", // 📷
+            "ꁂ", // 🌸
+            "ꁃ", // 😈
+            "ꁄ", // 👈
+            "ꁅ", // 🎉
+            "ꁆ", // 💁
+            "ꁇ", // 🙊
+            "ꁈ", // 💚
+            "ꁉ", // 😫
+            "ꁊ", // 😤
+            "ꁍ", // 💓
+            "ꁎ", // 🌚
+            "ꁏ", // 👇
+            "ꁒ", // 😇
+            "ꁓ", // 👊
+            "ꁔ", // 👑
+            "ꁕ", // 😓
+            "ꁖ", // 😻
+            "ꁗ", // 🔴
+            "ꁘ", // 😥
+            "ꁙ", // 🤩
+            "ꁚ", // 😚
+            "ꁜ", // 😷
+            "ꁝ", // 👋
+            "ꁞ", // 💥
+            "ꁠ", // 🤭
+            "ꁡ", // 🌟
+            "ꁢ", // 🥱
+            "ꁣ", // 💩
+            "ꁤ", // 🚀
+    };
 }
