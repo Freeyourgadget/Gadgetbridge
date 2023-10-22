@@ -22,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
@@ -39,16 +41,14 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
 
     public static final int CMD_WATCHFACE_LIST = 0;
     public static final int CMD_WATCHFACE_SET = 1;
+    public static final int CMD_WATCHFACE_DELETE = 2;
     public static final int CMD_WATCHFACE_INSTALL = 4;
 
+    private final Set<UUID> allWatchfaces = new HashSet<>();
+    private final Set<UUID> userWatchfaces = new HashSet<>();
 
     public XiaomiWatchfaceService(final XiaomiSupport support) {
         super(support);
-    }
-
-    @Override
-    public void initialize(final TransactionBuilder builder) {
-        //getSupport().sendCommand(builder, COMMAND_TYPE, CMD_WATCHFACE_LIST);
     }
 
     @Override
@@ -60,7 +60,12 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
                 // TODO handle
                 return;
             case CMD_WATCHFACE_SET:
-                // watchface set ack
+                LOG.debug("Got watchface set response, ack={}", cmd.getWatchface().getAck());
+                //requestWatchfaceList();
+                return;
+            case CMD_WATCHFACE_DELETE:
+                LOG.debug("Got watchface delete response, ack={}", cmd.getWatchface().getAck());
+                requestWatchfaceList();
                 return;
             case CMD_WATCHFACE_INSTALL:
                 return;
@@ -82,11 +87,20 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
     private void handleWatchfaceList(final XiaomiProto.WatchfaceList watchfaceList) {
         LOG.debug("Got {} watchfaces", watchfaceList.getWatchfaceCount());
 
+        allWatchfaces.clear();
+        userWatchfaces.clear();
+
         final List<GBDeviceApp> gbDeviceApps = new ArrayList<>();
 
         for (final XiaomiProto.WatchfaceInfo watchface : watchfaceList.getWatchfaceList()) {
+            final UUID uuid = toWatchfaceUUID(watchface.getId());
+            allWatchfaces.add(uuid);
+            if (watchface.getCanDelete()) {
+                userWatchfaces.add(uuid);
+            }
+
             GBDeviceApp gbDeviceApp = new GBDeviceApp(
-                    UUID.randomUUID(),
+                    uuid,
                     watchface.getName(),
                     "",
                     "",
@@ -101,23 +115,78 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService {
     }
 
     public void setWatchface(final UUID uuid) {
-        // TODO
+        if (!allWatchfaces.contains(uuid)) {
+            LOG.warn("Unknown watchface {}", uuid);
+            return;
+        }
+
+        LOG.debug("Set watchface to {}", uuid);
+
+        getSupport().sendCommand(
+                "set watchface to " + uuid,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_WATCHFACE_SET)
+                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(toWatchfaceId(uuid)))
+                        .build()
+        );
     }
 
     public void setWatchface(final String watchfaceId) {
-        // TODO
+        setWatchface(toWatchfaceUUID(watchfaceId));
     }
 
     public void deleteWatchface(final UUID uuid) {
-        // TODO
+        if (!userWatchfaces.contains(uuid)) {
+            LOG.warn("Refusing to delete non-user watchface {}", uuid);
+            return;
+        }
+
+        if (!allWatchfaces.contains(uuid)) {
+            LOG.warn("Refusing to delete unknown watchface {}", uuid);
+            return;
+        }
+
+        LOG.debug("Delete watchface {}", uuid);
+
+        allWatchfaces.remove(uuid);
+        userWatchfaces.remove(uuid);
+
+        getSupport().sendCommand(
+                "delete watchface " + uuid,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_WATCHFACE_DELETE)
+                        .setWatchface(XiaomiProto.Watchface.newBuilder().setWatchfaceId(toWatchfaceId(uuid)))
+                        .build()
+        );
     }
 
     public void deleteWatchface(final String watchfaceId) {
-        // TODO
-        // TODO prevent uninstall of non-uninstallable watchface
+        deleteWatchface(toWatchfaceUUID(watchfaceId));
     }
 
     public void installWatchface(final Uri uri) {
         // TODO
+    }
+
+    public static UUID toWatchfaceUUID(final String id) {
+        // Watchface IDs are numbers as strings - pad them to the right with F
+        // and encode as UUID
+        final String padded = String.format("%-32s", id).replace(' ', 'F');
+        return UUID.fromString(
+                padded.substring(0, 8) + "-" +
+                        padded.substring(8, 12) + "-" +
+                        padded.substring(12, 16) + "-" +
+                        padded.substring(16, 20) + "-" +
+                        padded.substring(20, 32)
+        );
+    }
+
+    public static String toWatchfaceId(final UUID uuid) {
+        return uuid.toString()
+                .replaceAll("-", "")
+                .replaceAll("f", "")
+                .replaceAll("F", "");
     }
 }
