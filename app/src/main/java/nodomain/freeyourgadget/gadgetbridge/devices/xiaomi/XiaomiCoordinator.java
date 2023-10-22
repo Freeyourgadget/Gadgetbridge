@@ -135,6 +135,21 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsCachedAppManagement(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public boolean supportsInstalledAppManagement(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public boolean supportsWatchfaceManagement(GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
+    @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return AppManagerActivity.class;
     }

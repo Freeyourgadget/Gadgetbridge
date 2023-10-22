@@ -353,6 +353,10 @@ public interface DeviceCoordinator {
      */
     boolean supportsAppsManagement(GBDevice device);
 
+    boolean supportsCachedAppManagement(GBDevice device);
+    boolean supportsInstalledAppManagement(GBDevice device);
+    boolean supportsWatchfaceManagement(GBDevice device);
+
     /**
      * Returns the Activity class that will be used to manage device apps.
      *

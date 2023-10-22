@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -55,6 +56,8 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
     private int READ_REQUEST_CODE = 42;
 
     private GBDevice mGBDevice = null;
+
+    private List<String> enabledTabsList;
 
     public GBDevice getGBDevice() {
         return mGBDevice;
@@ -73,6 +76,20 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         }
         if (mGBDevice == null) {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
+
+        final DeviceCoordinator coordinator = mGBDevice.getDeviceCoordinator();
+
+        enabledTabsList = new ArrayList<>();
+
+        if (coordinator.supportsCachedAppManagement(mGBDevice)) {
+            enabledTabsList.add("cache");
+        }
+        if (coordinator.supportsInstalledAppManagement(mGBDevice)) {
+            enabledTabsList.add("apps");
+        }
+        if (coordinator.supportsWatchfaceManagement(mGBDevice)) {
+            enabledTabsList.add("watchfaces");
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -114,12 +131,12 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            switch (position) {
-                case 0:
+            switch (enabledTabsList.get(position)) {
+                case "cache":
                     return new AppManagerFragmentCache();
-                case 1:
+                case "apps":
                     return new AppManagerFragmentInstalledApps();
-                case 2:
+                case "watchfaces":
                     return new AppManagerFragmentInstalledWatchfaces();
             }
             return null;
@@ -127,19 +144,18 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return enabledTabsList.toArray().length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
+            switch (enabledTabsList.get(position)) {
+                case "cache":
                     return getString(R.string.appmanager_cached_watchapps_watchfaces);
-                case 1:
+                case "apps":
                     return getString(R.string.appmanager_installed_watchapps);
-                case 2:
+                case "watchfaces":
                     return getString(R.string.appmanager_installed_watchfaces);
-                case 3:
             }
             return super.getPageTitle(position);
         }

@@ -314,6 +314,27 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return false;
     }
 
+    @Override
+    public boolean supportsCachedAppManagement(final GBDevice device) {
+        try {
+            return supportsAppsManagement(device) && getAppCacheDir() != null;
+        } catch (final Exception e) {
+            // we failed, but still tried, so it's supported..
+            LOG.error("Failed to get app cache dir", e);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean supportsInstalledAppManagement(final GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsWatchfaceManagement(final GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
     @Nullable
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
