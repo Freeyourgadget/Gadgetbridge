@@ -24,6 +24,7 @@ import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,10 +103,15 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected abstract boolean isEncrypted();
+
     protected abstract UUID getCharacteristicCommandRead();
+
     protected abstract UUID getCharacteristicCommandWrite();
+
     protected abstract UUID getCharacteristicActivityData();
+
     protected abstract UUID getCharacteristicDataUpload();
+
     protected abstract void startAuthentication(final TransactionBuilder builder);
 
     @Override
@@ -464,4 +470,191 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     public XiaomiDataUploadService getDataUploader() {
         return this.dataUploadService;
     }
+
+    @Override
+    public String customStringFilter(final String inputString) {
+        return StringUtils.replaceEach(inputString, EMOJI_SOURCE, EMOJI_TARGET);
+    }
+
+    private static final String[] EMOJI_SOURCE = new String[]{
+            "\uD83D\uDE0D", // 😍
+            "\uD83D\uDE18", // 😘
+            "\uD83D\uDE02", // 😂
+            "\uD83D\uDE0A", // 😊
+            "\uD83D\uDE0E", // 😎
+            "\uD83D\uDE09", // 😉
+            "\uD83D\uDC8B", // 💋
+            "\uD83D\uDC4D", // 👍
+            "\uD83E\uDD23", // 🤣
+            "\uD83D\uDC95", // 💕
+            "\uD83D\uDE00", // 😀
+            "\uD83D\uDE04", // 😄
+            "\uD83D\uDE2D", // 😭
+            "\uD83E\uDD7A", // 🥺
+            "\uD83D\uDE4F", // 🙏
+            "\uD83E\uDD70", // 🥰
+            "\uD83E\uDD14", // 🤔
+            "\uD83D\uDD25", // 🔥
+            "\uD83D\uDE29", // 😩
+            "\uD83D\uDE14", // 😔
+            "\uD83D\uDE01", // 😁
+            "\uD83D\uDC4C", // 👌
+            "\uD83D\uDE0F", // 😏
+            "\uD83D\uDE05", // 😅
+            "\uD83E\uDD0D", // 🤍
+            "\uD83D\uDC94", // 💔
+            "\uD83D\uDE0C", // 😌
+            "\uD83D\uDE22", // 😢
+            "\uD83D\uDC99", // 💙
+            "\uD83D\uDC9C", // 💜
+            "\uD83C\uDFB6", // 🎶
+            "\uD83D\uDE33", // 😳
+            "\uD83D\uDC96", // 💖
+            "\uD83D\uDE4C", // 🙌
+            "\uD83D\uDCAF", // 💯
+            "\uD83D\uDE48", // 🙈
+            "\uD83D\uDE0B", // 😋
+            "\uD83D\uDE11", // 😑
+            "\uD83D\uDE34", // 😴
+            "\uD83D\uDE2A", // 😪
+            "\uD83D\uDE1C", // 😜
+            "\uD83D\uDE1B", // 😛
+            "\uD83D\uDE1D", // 😝
+            "\uD83D\uDE1E", // 😞
+            "\uD83D\uDE15", // 😕
+            "\uD83D\uDC97", // 💗
+            "\uD83D\uDC4F", // 👏
+            "\uD83D\uDE10", // 😐
+            "\uD83D\uDC49", // 👉
+            "\uD83D\uDC9B", // 💛
+            "\uD83D\uDC9E", // 💞
+            "\uD83D\uDCAA", // 💪
+            "\uD83C\uDF39", // 🌹
+            "\uD83D\uDC80", // 💀
+            "\uD83D\uDE31", // 😱
+            "\uD83D\uDC98", // 💘
+            "\uD83E\uDD1F", // 🤟
+            "\uD83D\uDE21", // 😡
+            "\uD83D\uDCF7", // 📷
+            "\uD83C\uDF38", // 🌸
+            "\uD83D\uDE08", // 😈
+            "\uD83D\uDC48", // 👈
+            "\uD83C\uDF89", // 🎉
+            "\uD83D\uDC81", // 💁
+            "\uD83D\uDE4A", // 🙊
+            "\uD83D\uDC9A", // 💚
+            "\uD83D\uDE2B", // 😫
+            "\uD83D\uDE24", // 😤
+            "\uD83D\uDC93", // 💓
+            "\uD83C\uDF1A", // 🌚
+            "\uD83D\uDC47", // 👇
+            "\uD83D\uDE07", // 😇
+            "\uD83D\uDC4A", // 👊
+            "\uD83D\uDC51", // 👑
+            "\uD83D\uDE13", // 😓
+            "\uD83D\uDE3B", // 😻
+            "\uD83D\uDD34", // 🔴
+            "\uD83D\uDE25", // 😥
+            "\uD83E\uDD29", // 🤩
+            "\uD83D\uDE1A", // 😚
+            "\uD83D\uDE37", // 😷
+            "\uD83D\uDC4B", // 👋
+            "\uD83D\uDCA5", // 💥
+            "\uD83E\uDD2D", // 🤭
+            "\uD83C\uDF1F", // 🌟
+            "\uD83E\uDD71", // 🥱
+            "\uD83D\uDCA9", // 💩
+            "\uD83D\uDE80", // 🚀
+    };
+
+    private static final String[] EMOJI_TARGET = new String[]{
+            "ꀂ", // 😍
+            "ꀃ", // 😘
+            "ꀄ", // 😂
+            "ꀅ", // 😊
+            "ꀆ", // 😎
+            "ꀇ", // 😉
+            "ꀈ", // 💋
+            "ꀉ", // 👍
+            "ꀊ", // 🤣
+            "ꀋ", // 💕
+            "ꀌ", // 😀
+            "ꀍ", // 😄
+            "ꀎ", // 😭
+            "ꀏ", // 🥺
+            "ꀑ", // 🙏
+            "ꀒ", // 🥰
+            "ꀓ", // 🤔
+            "ꀔ", // 🔥
+            "ꀗ", // 😩
+            "ꀘ", // 😔
+            "ꀙ", // 😁
+            "ꀚ", // 👌
+            "ꀛ", // 😏
+            "ꀜ", // 😅
+            "ꀝ", // 🤍
+            "ꀞ", // 💔
+            "ꀟ", // 😌
+            "ꀠ", // 😢
+            "ꀡ", // 💙
+            "ꀢ", // 💜
+            "ꀤ", // 🎶
+            "ꀥ", // 😳
+            "ꀦ", // 💖
+            "ꀧ", // 🙌
+            "ꀨ", // 💯
+            "ꀩ", // 🙈
+            "ꀫ", // 😋
+            "ꀬ", // 😑
+            "ꀭ", // 😴
+            "ꀮ", // 😪
+            "ꀯ", // 😜
+            "ꀰ", // 😛
+            "ꀱ", // 😝
+            "ꀲ", // 😞
+            "ꀳ", // 😕
+            "ꀴ", // 💗
+            "ꀵ", // 👏
+            "ꀶ", // 😐
+            "ꀷ", // 👉
+            "ꀸ", // 💛
+            "ꀹ", // 💞
+            "ꀺ", // 💪
+            "ꀻ", // 🌹
+            "ꀼ", // 💀
+            "ꀽ", // 😱
+            "ꀾ", // 💘
+            "ꀿ", // 🤟
+            "ꁀ", // 😡
+            "ꁁ", // 📷
+            "ꁂ", // 🌸
+            "ꁃ", // 😈
+            "ꁄ", // 👈
+            "ꁅ", // 🎉
+            "ꁆ", // 💁
+            "ꁇ", // 🙊
+            "ꁈ", // 💚
+            "ꁉ", // 😫
+            "ꁊ", // 😤
+            "ꁍ", // 💓
+            "ꁎ", // 🌚
+            "ꁏ", // 👇
+            "ꁒ", // 😇
+            "ꁓ", // 👊
+            "ꁔ", // 👑
+            "ꁕ", // 😓
+            "ꁖ", // 😻
+            "ꁗ", // 🔴
+            "ꁘ", // 😥
+            "ꁙ", // 🤩
+            "ꁚ", // 😚
+            "ꁜ", // 😷
+            "ꁝ", // 👋
+            "ꁞ", // 💥
+            "ꁠ", // 🤭
+            "ꁡ", // 🌟
+            "ꁢ", // 🥱
+            "ꁣ", // 💩
+            "ꁤ", // 🚀
+    };
 }
