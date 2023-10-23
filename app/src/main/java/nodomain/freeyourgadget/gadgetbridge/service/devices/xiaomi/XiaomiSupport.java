@@ -27,7 +27,6 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,6 +34,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -319,8 +319,20 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onInstallApp(final Uri uri) {
-        // TODO distinguish between fw and watchface
-        watchfaceService.installWatchface(uri);
+        final XiaomiFWHelper fwHelper = new XiaomiFWHelper(uri, getContext());
+
+        if (!fwHelper.isValid()) {
+            LOG.warn("Uri {} is not valid", uri);
+            return;
+        }
+
+        if (fwHelper.isFirmware()) {
+            systemService.installFirmware(fwHelper);
+        } else if (fwHelper.isWatchface()) {
+            watchfaceService.installWatchface(fwHelper);
+        } else {
+            LOG.warn("Unknown fwhelper for {}", uri);
+        }
     }
 
     @Override

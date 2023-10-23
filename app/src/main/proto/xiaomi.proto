@@ -88,6 +88,10 @@ message System {
   // 2, 34
   optional DoNotDisturb dndStatus = 11;
 
+  // 2, 5
+  optional FirmwareInstallRequest firmwareInstallRequest = 16;
+  optional FirmwareInstallResponse firmwareInstallResponse = 17;
+
   // 2, 9 get | 2, 21 set
   optional Password password = 19;
 
@@ -234,6 +238,17 @@ message DoNotDisturb2 {
 }
 
 message DndSync {
+}
+
+message FirmwareInstallRequest {
+  optional uint32 unknown1 = 1; // 0
+  optional uint32 unknown2 = 2; // 0
+  optional string version = 3;
+  optional string md5 = 4;
+}
+
+message FirmwareInstallResponse {
+  optional uint32 status = 1; // 0
 }
 
 message Password {

@@ -22,7 +22,6 @@ import android.net.Uri;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.XiaomiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 
@@ -63,8 +62,17 @@ public class XiaomiInstallHandler implements InstallHandler {
         }
 
         final GenericItem installItem = new GenericItem();
-        installItem.setIcon(R.drawable.ic_watchface);
-        installItem.setName(mContext.getString(R.string.kind_watchface));
+        if (helper.isWatchface()) {
+            installItem.setIcon(R.drawable.ic_watchface);
+            installItem.setName(mContext.getString(R.string.kind_watchface));
+        } else if (helper.isFirmware()) {
+            installItem.setIcon(R.drawable.ic_firmware);
+            installItem.setName(mContext.getString(R.string.kind_firmware));
+        } else {
+            installItem.setIcon(R.drawable.ic_device_unknown);
+            installItem.setName(mContext.getString(R.string.kind_invalid));
+        }
+
         installItem.setDetails(helper.getDetails());
 
         installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));

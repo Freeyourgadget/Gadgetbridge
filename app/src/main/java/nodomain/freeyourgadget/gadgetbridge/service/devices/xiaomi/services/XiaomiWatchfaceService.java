@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
-import android.net.Uri;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +27,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.XiaomiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
@@ -190,13 +188,11 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
         );
     }
 
-    public void installWatchface(final Uri uri) {
-        fwHelper = new XiaomiFWHelper(uri, getSupport().getContext());
-        if (!fwHelper.isValid()) {
-            fwHelper = null;
-            LOG.warn("watchface is not valid");
-            return;
-        }
+    public void installWatchface(final XiaomiFWHelper fwHelper) {
+        assert fwHelper.isValid();
+        assert fwHelper.isWatchface();
+
+        this.fwHelper = fwHelper;
 
         getSupport().sendCommand(
                 "install watchface " + fwHelper.getId(),

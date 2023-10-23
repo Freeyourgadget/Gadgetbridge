@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -38,15 +39,21 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDevi
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class XiaomiSystemService extends AbstractXiaomiService {
+public class XiaomiSystemService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSystemService.class);
 
     public static final int COMMAND_TYPE = 2;
@@ -54,6 +61,7 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_BATTERY = 1;
     public static final int CMD_DEVICE_INFO = 2;
     public static final int CMD_CLOCK = 3;
+    public static final int CMD_FIRMWARE_INSTALL = 5;
     public static final int CMD_LANGUAGE = 6;
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
@@ -62,6 +70,9 @@ public class XiaomiSystemService extends AbstractXiaomiService {
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
     public static final int CMD_CHARGER = 79;
+
+    // Not null if we're installing a firmware
+    private XiaomiFWHelper fwHelper = null;
 
     public XiaomiSystemService(final XiaomiSupport support) {
         super(support);
@@ -85,6 +96,18 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                 return;
             case CMD_BATTERY:
                 handleBattery(cmd.getSystem().getPower().getBattery());
+                return;
+            case CMD_FIRMWARE_INSTALL:
+                final int installStatus = cmd.getSystem().getFirmwareInstallResponse().getStatus();
+                if (installStatus != 0) {
+                    LOG.warn("Invalid firmware install status {} for {}", installStatus, fwHelper.getId());
+                    return;
+                }
+
+                LOG.debug("Firmware install status 0, uploading");
+                setDeviceBusy();
+                getSupport().getDataUploader().setCallback(this);
+                getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_FIRMWARE, fwHelper.getBytes());
                 return;
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
@@ -398,6 +421,82 @@ public class XiaomiSystemService extends AbstractXiaomiService {
                         .setSystem(XiaomiProto.System.newBuilder().setFindDevice(start ? 0 : 1).build())
                         .build()
         );
+    }
+
+    public void installFirmware(final XiaomiFWHelper fwHelper) {
+        assert fwHelper.isValid();
+        assert fwHelper.isFirmware();
+
+        this.fwHelper = fwHelper;
+
+        getSupport().sendCommand(
+                "install firmware " + fwHelper.getVersion(),
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_FIRMWARE_INSTALL)
+                        .setSystem(XiaomiProto.System.newBuilder().setFirmwareInstallRequest(
+                                XiaomiProto.FirmwareInstallRequest.newBuilder()
+                                        .setUnknown1(0)
+                                        .setUnknown2(0)
+                                        .setVersion(fwHelper.getVersion())
+                                        .setMd5(GB.hexdump(CheckSums.md5(fwHelper.getBytes())).toLowerCase(Locale.ROOT))
+                        ))
+                        .build()
+        );
+    }
+
+    private void setDeviceBusy() {
+        final GBDevice device = getSupport().getDevice();
+        device.setBusyTask(getSupport().getContext().getString(R.string.updating_firmware));
+        device.sendDeviceUpdateIntent(getSupport().getContext());
+    }
+
+    private void unsetDeviceBusy() {
+        final GBDevice device = getSupport().getDevice();
+        if (device != null && device.isConnected()) {
+            if (device.isBusy()) {
+                device.unsetBusyTask();
+                device.sendDeviceUpdateIntent(getSupport().getContext());
+            }
+            device.sendDeviceUpdateIntent(getSupport().getContext());
+        }
+    }
+
+    @Override
+    public void onUploadFinish(final boolean success) {
+        LOG.debug("Firmware upload finished: {}", success);
+
+        getSupport().getDataUploader().setCallback(null);
+
+        final String notificationMessage = success ?
+                getSupport().getContext().getString(R.string.updatefirmwareoperation_update_complete) :
+                getSupport().getContext().getString(R.string.updatefirmwareoperation_write_failed);
+
+        GB.updateInstallNotification(notificationMessage, false, 100, getSupport().getContext());
+
+        unsetDeviceBusy();
+
+        if (success) {
+            // TODO do we need to reboot?
+        }
+
+        fwHelper = null;
+    }
+
+    @Override
+    public void onUploadProgress(final int progressPercent) {
+        try {
+            final TransactionBuilder builder = getSupport().createTransactionBuilder("send data upload progress");
+            builder.add(new SetProgressAction(
+                    getSupport().getContext().getString(R.string.updatefirmwareoperation_update_in_progress),
+                    true,
+                    progressPercent,
+                    getSupport().getContext()
+            ));
+            builder.queue(getSupport().getQueue());
+        } catch (final Exception e) {
+            LOG.error("Failed to update progress notification", e);
+        }
     }
 
     private static final Map<String, String> DISPLAY_ITEM_NAMES = new HashMap<String, String>() {{

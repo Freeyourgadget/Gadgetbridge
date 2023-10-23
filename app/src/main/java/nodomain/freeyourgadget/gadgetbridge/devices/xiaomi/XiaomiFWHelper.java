@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8;
+package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
 import android.content.Context;
 import android.net.Uri;
@@ -36,9 +36,12 @@ public class XiaomiFWHelper {
     private final Uri uri;
     private byte[] fw;
     private boolean valid;
+    private boolean typeFirmware;
+    private boolean typeWatchface;
 
     private String id;
     private String name;
+    private String version;
 
     public XiaomiFWHelper(final Uri uri, final Context context) {
         this.uri = uri;
@@ -65,15 +68,23 @@ public class XiaomiFWHelper {
             return;
         }
 
-        valid = parseFirmware();
+        parseBytes();
     }
 
     public boolean isValid() {
         return valid;
     }
 
+    public boolean isWatchface() {
+        return typeWatchface;
+    }
+
+    public boolean isFirmware() {
+        return typeFirmware;
+    }
+
     public String getDetails() {
-        return name != null ? name : "UNKNOWN WATCHFACE";
+        return name != null ? name : (version != null ? version : "UNKNOWN");
     }
 
     public byte[] getBytes() {
@@ -88,11 +99,29 @@ public class XiaomiFWHelper {
         return name;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
     public void unsetFwBytes() {
         this.fw = null;
     }
 
-    private boolean parseFirmware() {
+    private void parseBytes() {
+        if (parseAsWatchface()) {
+            assert id != null;
+            valid = true;
+            typeWatchface = true;
+        } else if (parseAsFirmware()) {
+            assert version != null;
+            valid = true;
+            typeFirmware = true;
+        } else {
+            valid = false;
+        }
+    }
+
+    private boolean parseAsWatchface() {
         if (fw[0] != (byte) 0x5A || fw[1] != (byte) 0xA5) {
             LOG.warn("File header not a watchface");
             return false;
@@ -119,5 +148,10 @@ public class XiaomiFWHelper {
         }
 
         return true;
+    }
+
+    private boolean parseAsFirmware() {
+        // TODO parse and set version
+        return false;
     }
 }
