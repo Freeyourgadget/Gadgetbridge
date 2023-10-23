@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiPlaintextCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -37,8 +38,8 @@ public class MiWatchLiteCoordinator extends XiaomiPlaintextCoordinator {
     @Nullable
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        // TODO implement this
-        return super.findInstallHandler(uri, context);
+        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override
