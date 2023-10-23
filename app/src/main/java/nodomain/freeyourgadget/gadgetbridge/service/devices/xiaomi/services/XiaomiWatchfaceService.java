@@ -244,6 +244,7 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
 
         if (success) {
             setWatchface(fwHelper.getId());
+            requestWatchfaceList();
         }
 
         fwHelper = null;

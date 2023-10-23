@@ -276,21 +276,18 @@ public class XiaomiCharacteristic {
         final boolean encrypt = isEncrypted && authService.isEncryptionInitialized();
 
         if (encrypt) {
-            currentPayload.setBytesToSend(authService.encrypt(currentPayload.getBytesToSend(), encryptedIndex));
+            currentPayload.setBytesToSend(authService.encrypt(currentPayload.getBytesToSend(), incrementNonce ? encryptedIndex : 0));
         }
 
         if (shouldWriteChunked(currentPayload.getBytesToSend())) {
-            if (encrypt) {
+            if (encrypt && incrementNonce) {
                 // Prepend encrypted index for the nonce
                 currentPayload.setBytesToSend(
                         ByteBuffer.allocate(2 + currentPayload.getBytesToSend().length).order(ByteOrder.LITTLE_ENDIAN)
-                                .putShort(encryptedIndex)
+                                .putShort(encryptedIndex++)
                                 .put(currentPayload.getBytesToSend())
                                 .array()
                 );
-                if (incrementNonce) {
-                    encryptedIndex++;
-                }
             }
 
             LOG.debug("Sending {} - chunked", currentPayload.getTaskName());
@@ -319,9 +316,10 @@ public class XiaomiCharacteristic {
             buf.put((byte) 2); // 2 for command
             buf.put((byte) (encrypt ? 1 : 2));
             if (encrypt) {
-                buf.putShort(encryptedIndex);
                 if (incrementNonce) {
-                    encryptedIndex++;
+                    buf.putShort(encryptedIndex++);
+                } else {
+                    buf.putShort((short) 0);
                 }
             }
             buf.put(currentPayload.getBytesToSend()); // it's already encrypted
