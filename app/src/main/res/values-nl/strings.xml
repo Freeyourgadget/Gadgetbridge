@@ -996,8 +996,8 @@
     <string name="descentSeconds">Dalend</string>
     <string name="ascentSeconds">Stijgend</string>
     <string name="laps">Rondes</string>
-    <string name="swimStyle">swimStyle</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swimStyle">Zwemstijl</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="fw_upgrade_notice_amazfitvergel">Je staat op het punt om de %s -firmware op je Amazfit Verge Lite te installeren.
 \n
 \nZorg ervoor dat je het .fw-bestand installeert, vervolgens het .res-bestand en tenslotte het .gps-bestand. Je horloge zal opnieuw opstarten nadat je het .fw-bestand hebt geïnstalleerd.
@@ -2495,4 +2495,39 @@
     <string name="pref_title_notifications_ignore_work_profile">Negeer meldingen uit het werkprofiel</string>
     <string name="pref_summary_notifications_ignore_work_profile">Stuur geen meldingen van apps in het werkprofiel naar het apparaat</string>
     <string name="common_symbols">Algemene symbolen</string>
+    <string name="zepp_os_watchface_pure_white">Puur wit</string>
+    <string name="call_rejection_method_ignore">Negeren (dempen)</string>
+    <string name="avgStrokeRate">Gemiddelde slagsnelheid</string>
+    <string name="zepp_os_watchface_the_ultima">Het uiterste</string>
+    <string name="zepp_os_watchface_city_of_speed">Stad van snelheid</string>
+    <string name="menuitem_headphone">Koptelefoon</string>
+    <string name="femometer_measurement_mode_normal">Normaal (60s-90s)</string>
+    <string name="call_rejection_method_reject">Afwijzen</string>
+    <string name="zepp_os_watchface_free_combination">Vrije combinatie</string>
+    <string name="menuitem_body_composition">Lichaamssamenstelling</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="pref_call_rejection_method_title">Telefoongesprek-afwijsmethode</string>
+    <string name="busy_task_fetch_statistics">Bezig met ophalen statistieken</string>
+    <string name="femometer_measurement_mode_quick">Snel (30s)</string>
+    <string name="zepp_os_watchface_starry_sky">Sterrenhemel</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Navigatie gestart maar navigationApp is niet op het horloge geïnstalleerd. Installeer het via de App-beheerder.</string>
+    <string name="yard">yard</string>
+    <string name="strokes_minute">slagen/min</string>
+    <string name="femometer_measurement_mode_title">Meetmodus</string>
+    <string name="pref_call_rejection_method_summary">Welke actie wordt genomen wanneer een inkomend telefoongesprek wordt geweigerd op het horloge</string>
+    <string name="busy_task_fetch_temperature">Bezig met ophalen temperatuurgegevens</string>
+    <string name="femometer_measurement_mode_precise">Precies (3min)</string>
+    <string name="zepp_os_watchface_vast_sky">Enorme hemel</string>
+    <string name="menuitem_workout_shortcuts">Trainingssnelkoppelingen</string>
+    <string name="maxStrokeRate">Maximale slagsnelheid</string>
+    <string name="zepp_os_watchface_lightning_flash">Bliksemschicht</string>
+    <string name="laneLength">Baanlengte</string>
+    <string name="strokes">Totaal aantal slagen</string>
+    <string name="menuitem_apps_shortcuts">App-snelkoppelingen</string>
+    <string name="zepp_os_watchface_guider">Gids</string>
+    <string name="menuitem_readiness">Gereedheid</string>
+    <string name="menuitem_thermometer">Thermometer</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Navigatie-app niet geïnstalleerd op horloge</string>
 </resources>
