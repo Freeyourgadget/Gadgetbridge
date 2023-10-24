@@ -649,6 +649,8 @@ message WeatherCurrentTimeLocation {
   optional string timestamp = 1;
   optional string unk2 = 2;
   optional string currentLocationString = 3;
+  optional string currentLocationCode = 4;
+  optional bool unk5 = 5; // default location?
 }
 
 message WeatherCurrentTemperature {

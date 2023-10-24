@@ -83,6 +83,8 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                                 .setTimestamp(timestamp)
                                                 .setUnk2("")
                                                 .setCurrentLocationString(weatherSpec.location)
+                                                .setCurrentLocationCode("accu:123456") // FIXME:AccuWeather code (we do not have it here)
+                                                .setUnk5(true)
                                         )
                                         .setWeatherCondition(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode)) // *SEEMS* to work
                                         .setTemperature(XiaomiProto.WeatherCurrentTemperature.newBuilder()
