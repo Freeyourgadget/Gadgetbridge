@@ -635,7 +635,56 @@ message Weather {
 }
 
 message WeatherCurrent {
+  optional WeatherCurrentTimeLocation timeLocation = 1;
+  optional uint32 weatherCondition = 2;
+  optional WeatherCurrentTemperature temperature = 3;
+  optional WeatherCurrentHumidity humidity= 4;
+  optional WeatherCurrentUnk5 unk5 = 5;
+  optional WeatherCurrentUnk6 unk6 = 6;
+  optional WeatherCurrentUnk7 unk7 = 7;
+  optional WeatherCurrentWarning warning = 8; // Seems to be an array?
+  optional float pressure = 9;
 }
+message WeatherCurrentTimeLocation {
+  optional string timestamp = 1;
+  optional string unk2 = 2;
+  optional string currentLocationString = 3;
+}
+
+message WeatherCurrentTemperature {
+  optional string symbol = 1;
+  optional sint32 degrees = 2;
+}
+
+message WeatherCurrentHumidity {
+  optional string symbol = 1;
+  optional sint32 humidity = 2;
+}
+
+message WeatherCurrentUnk5 {
+  optional string unk1 = 1;
+  optional uint32 unk2 = 2;
+}
+
+message WeatherCurrentUnk6 {
+  optional string unk1 = 1;
+  optional uint32 unk2 = 2;
+}
+
+message WeatherCurrentUnk7 {
+  optional string unk1 = 1;
+  optional uint32 unk2 = 2;
+}
+
+message WeatherCurrentWarning {
+  optional WeatherCurrentWarning1 currentWarning1 = 1; // FIXME: this is probably an array
+}
+
+message WeatherCurrentWarning1 {
+  optional string currentWarningText = 1;
+  optional string currentWarningSeverityText = 2;
+}
+
 
 message WeatherDaily {
 }
