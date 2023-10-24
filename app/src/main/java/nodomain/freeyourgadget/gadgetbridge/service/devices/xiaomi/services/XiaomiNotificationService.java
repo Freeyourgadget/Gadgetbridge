@@ -18,10 +18,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,11 +38,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class XiaomiNotificationService extends AbstractXiaomiService {
+public class XiaomiNotificationService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiNotificationService.class);
 
     private static final SimpleDateFormat TIMESTAMP_SDF = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.ROOT);
@@ -49,6 +56,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
     public static final int CMD_CALL_IGNORE = 5;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
     public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
+    public static final int CMD_NOTIFICATION_ICON_REQUEST = 15;
+    public static final int CMD_NOTIFICATION_ICON_QUERY = 16;
+
+    private String iconPackageName;
 
     public XiaomiNotificationService(final XiaomiSupport support) {
         super(support);
@@ -77,12 +88,30 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
             case CMD_CANNED_MESSAGES_GET:
                 handleCannedMessages(cmd.getNotification().getCannedMessages());
                 return;
-        }
+            case CMD_NOTIFICATION_ICON_REQUEST:
+                handleNotificationIconRequest(cmd.getNotification().getNotificationIconRequest());
+                return;
+            case CMD_NOTIFICATION_ICON_QUERY:
+                this.iconPackageName = cmd.getNotification().getNotificationIconQuery().getPackage();
+                LOG.debug("Watch querying notification icon for {}", iconPackageName);
 
-        // TODO
+                // TODO should we confirm that we have the icon before replying?
+                getSupport().sendCommand(
+                        "send notification reply for " + iconPackageName,
+                        XiaomiProto.Command.newBuilder()
+                                .setType(COMMAND_TYPE)
+                                .setSubtype(CMD_NOTIFICATION_ICON_REQUEST)
+                                .setNotification(XiaomiProto.Notification.newBuilder()
+                                        .setNotificationIconReply(cmd.getNotification().getNotificationIconQuery())
+                                ).build()
+                );
+                return;
+        }
 
         LOG.warn("Unhandled notification command {}", cmd.getSubtype());
     }
+
+
 
     public void onNotification(final NotificationSpec notificationSpec) {
         final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
@@ -259,5 +288,54 @@ public class XiaomiNotificationService extends AbstractXiaomiService {
         } else {
             return true;
         }
+    }
+
+    private void handleNotificationIconRequest(final XiaomiProto.NotificationIconRequest notificationIconRequest) {
+        if (iconPackageName == null) {
+            LOG.warn("No icon package name");
+            return;
+        }
+
+        int unk1 = notificationIconRequest.getUnknown1();
+        int unk2 = notificationIconRequest.getUnknown2();
+
+        final int size = notificationIconRequest.getSize();
+        LOG.debug("Got notification icon request for size {} for {}, unk1={}, unk2={}", size, iconPackageName, unk1, unk2);
+
+        final Drawable icon = NotificationUtils.getAppIcon(getSupport().getContext(), iconPackageName);
+        if (icon == null) {
+            LOG.warn("Failed to get icon for {}", iconPackageName);
+            return;
+        }
+
+        // TODO avoid resize?
+        final Bitmap bmp = BitmapUtil.toBitmap(icon);
+        final Bitmap bmpResized = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmpResized);
+        final Rect rect = new Rect(0, 0, size, size);
+        canvas.drawBitmap(bmp, null, rect, null);
+
+        // convert from RGBA To ABGR
+        final ByteBuffer buf = ByteBuffer.allocate(size * size * 4).order(ByteOrder.LITTLE_ENDIAN);
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                buf.putInt(bmpResized.getPixel(x, y));
+            }
+        }
+
+        getSupport().getDataUploader().setCallback(this);
+        getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_NOTIFICATION_ICON, buf.array());
+    }
+
+    @Override
+    public void onUploadFinish(final boolean success) {
+        LOG.debug("Notification icon upload finished: {}", success);
+
+        getSupport().getDataUploader().setCallback(null);
+    }
+
+    @Override
+    public void onUploadProgress(final int progressPercent) {
+        LOG.debug("Notification icon upload progress: {}", progressPercent);
     }
 }

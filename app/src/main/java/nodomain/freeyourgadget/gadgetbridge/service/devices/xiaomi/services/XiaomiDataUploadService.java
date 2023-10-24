@@ -75,10 +75,20 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
     }
 
     public void setCallback(@Nullable final Callback callback) {
+        if (callback != null && currentBytes != null) {
+            LOG.warn("Already uploading {} for another callback, refusing new callback", currentType);
+            return;
+        }
+
         this.callback = callback;
     }
 
     public void requestUpload(final byte type, final byte[] bytes) {
+        if (this.currentBytes != null) {
+            LOG.warn("Already uploading {}, refusing upload of {}", currentType, type);
+            return;
+        }
+
         LOG.debug("Requesting upload for {} bytes of type {}", bytes.length, type);
 
         this.currentType = type;
