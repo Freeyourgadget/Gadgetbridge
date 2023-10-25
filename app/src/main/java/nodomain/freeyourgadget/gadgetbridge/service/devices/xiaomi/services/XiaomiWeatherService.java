@@ -31,13 +31,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiWeatherService extends AbstractXiaomiService {
-    private static final Logger LOG = LoggerFactory.getLogger(XiaomiWeatherService.class);
-
     public static final int COMMAND_TYPE = 10;
-
+    private static final Logger LOG = LoggerFactory.getLogger(XiaomiWeatherService.class);
     private static final int CMD_TEMPERATURE_UNIT_GET = 9;
     private static final int CMD_TEMPERATURE_UNIT_SET = 10;
     private static final int CMD_SET_CURRENT_WEATHER = 0;
+    private static final int CMD_SET_DAILY_WEATHER = 1;
 
     public XiaomiWeatherService(final XiaomiSupport support) {
         super(support);
@@ -65,12 +64,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
     }
 
     public void onSendWeather(final WeatherSpec weatherSpec) {
-        String timestamp = new StringBuilder(
-                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
-                        .format(new Date(weatherSpec.timestamp * 1000L)))
-                .insert(22, ':') // FIXME: I bet this fails for some, but all this java date craps sucks
-                .toString();
-
+        String timestamp = unixTimetstampToISOWithColons(weatherSpec.timestamp);
 
         getSupport().sendCommand(
                 "set current weather",
@@ -105,7 +99,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                         )
                                         .setAQI(XiaomiProto.WeatherCurrentAQI.newBuilder()
                                                 .setAQIText("Unknown") // some string like "Moderate"
-                                                .setAQI(weatherSpec.airQuality != null && weatherSpec.airQuality.aqi >=0 ? weatherSpec.airQuality.aqi : 0)
+                                                .setAQI(weatherSpec.airQuality != null && weatherSpec.airQuality.aqi >= 0 ? weatherSpec.airQuality.aqi : 0)
                                         )
                                         .setWarning(XiaomiProto.WeatherCurrentWarning.newBuilder()
                                                 .setCurrentWarning1(XiaomiProto.WeatherCurrentWarning1.newBuilder()
@@ -114,10 +108,55 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                                 )
                                         )
                                         .setPressure(weatherSpec.pressure)
-
                         ))
                         .build()
         );
+
+
+        if (weatherSpec.forecasts != null) {
+            XiaomiProto.WeatherDailyList.Builder dailyListBuilder = XiaomiProto.WeatherDailyList.newBuilder();
+            int daysToSend = Math.min(7, weatherSpec.forecasts.size());
+            for (int i = 0; i < daysToSend; i++) {
+                dailyListBuilder.addForecastDay(XiaomiProto.WeatherDailyForecastDay.newBuilder()
+                        .setUnk1(XiaomiProto.DailyUnk1.newBuilder()
+                                .setUnk1("")
+                                .setUnk2(0)
+                        )
+                        .setUnk2(XiaomiProto.DailyUnk2.newBuilder()
+                                .setUnk1(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.forecasts.get(i).conditionCode)) // TODO: verify
+                                .setUnk2(0)
+                        )
+                        .setHighLowTemp(XiaomiProto.DailyHighLowTemp.newBuilder()
+                                .setHigh(weatherSpec.forecasts.get(i).maxTemp - 273)
+                                .setLow(weatherSpec.forecasts.get(i).minTemp - 273)
+                        )
+                        .setTemperatureSymbol("℃")
+                        .setSunriseSunset(XiaomiProto.DailySunriseSunset.newBuilder()
+                                .setSunrise(weatherSpec.forecasts.get(i).sunRise != 0 ? unixTimetstampToISOWithColons(weatherSpec.forecasts.get(i).sunRise) : "")
+                                .setSunset(weatherSpec.forecasts.get(i).sunSet != 0 ? unixTimetstampToISOWithColons(weatherSpec.forecasts.get(i).sunSet) : "")
+                        )
+                );
+            }
+
+            getSupport().sendCommand(
+                    "set daily forecast",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_SET_DAILY_WEATHER)
+                            .setWeather(XiaomiProto.Weather.newBuilder().setDaily(
+                                    XiaomiProto.WeatherDaily.newBuilder()
+                                            .setTimeLocation(XiaomiProto.WeatherCurrentTimeLocation.newBuilder()
+                                                    .setTimestamp(timestamp)
+                                                    .setUnk2("")
+                                                    .setCurrentLocationString(weatherSpec.location)
+                                                    .setCurrentLocationCode("accu:123456") // FIXME:AccuWeather code (we do not have it here)
+                                                    .setUnk5(true)
+                                            )
+                                            .setDailyList(dailyListBuilder)
+                            ))
+                            .build()
+            );
+        }
     }
 
     private void setMeasurementSystem() {
@@ -137,5 +176,14 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                         ))
                         .build()
         );
+    }
+
+    private String unixTimetstampToISOWithColons(int timestamp) {
+        return new StringBuilder(
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
+                        .format(new Date(timestamp * 1000L)))
+                .insert(22, ':') // FIXME: I bet this fails for some, but all this java date craps sucks
+                .toString();
+
     }
 }

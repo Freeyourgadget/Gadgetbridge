@@ -689,12 +689,45 @@ message WeatherCurrentWarning1 {
   optional string currentWarningSeverityText = 2;
 }
 
-
-message WeatherDaily {
-}
-
 message WeatherCurrentLocation {
   optional WeatherLocation location = 1;
+}
+
+message WeatherDaily {
+  required WeatherCurrentTimeLocation timeLocation = 1;
+  required WeatherDailyList dailyList = 2;
+}
+
+message WeatherDailyList {
+  repeated WeatherDailyForecastDay forecastDay = 1;
+}
+
+message WeatherDailyForecastDay {
+  optional DailyUnk1 unk1 = 1;
+  optional DailyUnk2 unk2 = 2;
+  optional DailyHighLowTemp highLowTemp = 3;
+  optional string temperatureSymbol = 4;
+  optional DailySunriseSunset sunriseSunset = 5;
+}
+
+message DailyUnk1 {
+  optional string unk1 = 1;
+  optional uint32 unk2 = 2;
+}
+
+message DailyUnk2 {
+  optional uint32 unk1 = 1;
+  optional uint32 unk2 = 2;
+}
+
+message DailyHighLowTemp {
+  optional sint32 low = 1;
+  optional sint32 high = 2;
+}
+
+message DailySunriseSunset {
+  optional string sunrise = 1;
+  optional string sunset = 2;
 }
 
 message WeatherLocation {
