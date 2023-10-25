@@ -105,7 +105,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                         )
                                         .setAQI(XiaomiProto.WeatherCurrentAQI.newBuilder()
                                                 .setAQIText("Unknown") // some string like "Moderate"
-                                                .setAQI(weatherSpec.airQuality.aqi)
+                                                .setAQI(weatherSpec.airQuality != null && weatherSpec.airQuality.aqi >=0 ? weatherSpec.airQuality.aqi : 0)
                                         )
                                         .setWarning(XiaomiProto.WeatherCurrentWarning.newBuilder()
                                                 .setCurrentWarning1(XiaomiProto.WeatherCurrentWarning1.newBuilder()
