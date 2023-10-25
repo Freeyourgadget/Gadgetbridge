@@ -103,9 +103,9 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                                 .setUnk1("")
                                                 .setUnk2(0)
                                         )
-                                        .setUnk7(XiaomiProto.WeatherCurrentUnk7.newBuilder()
-                                                .setUnk1("")
-                                                .setUnk2(0)
+                                        .setAQI(XiaomiProto.WeatherCurrentAQI.newBuilder()
+                                                .setAQIText("Unknown") // some string like "Moderate"
+                                                .setAQI(weatherSpec.airQuality.aqi)
                                         )
                                         .setWarning(XiaomiProto.WeatherCurrentWarning.newBuilder()
                                                 .setCurrentWarning1(XiaomiProto.WeatherCurrentWarning1.newBuilder()
