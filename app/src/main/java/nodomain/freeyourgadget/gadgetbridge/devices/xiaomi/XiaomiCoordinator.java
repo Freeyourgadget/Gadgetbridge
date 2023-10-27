@@ -491,4 +491,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public AbstractNotificationPattern[] getNotificationLedPatterns() {
         return new AbstractNotificationPattern[0];
     }
+
+    public boolean supportsMultipleWeatherLocations() {
+        return false;
+    }
 }

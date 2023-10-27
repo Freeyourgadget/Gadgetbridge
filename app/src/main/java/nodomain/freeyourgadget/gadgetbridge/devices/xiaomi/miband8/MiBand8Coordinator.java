@@ -55,4 +55,9 @@ public class MiBand8Coordinator extends XiaomiEncryptedCoordinator {
     public int getDisabledIconResource() {
         return R.drawable.ic_device_miband6_disabled;
     }
+
+    @Override
+    public boolean supportsMultipleWeatherLocations() {
+        return true;
+    }
 }

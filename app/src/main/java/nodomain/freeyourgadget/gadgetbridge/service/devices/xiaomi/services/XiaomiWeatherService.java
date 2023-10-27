@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiWeatherConditions;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
@@ -37,6 +38,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
     private static final int CMD_TEMPERATURE_UNIT_SET = 10;
     private static final int CMD_SET_CURRENT_WEATHER = 0;
     private static final int CMD_SET_DAILY_WEATHER = 1;
+    private static final int CMD_SET_CURRENT_LOCATION = 6;
 
     public XiaomiWeatherService(final XiaomiSupport support) {
         super(support);
@@ -65,6 +67,26 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
 
     public void onSendWeather(final WeatherSpec weatherSpec) {
         String timestamp = unixTimetstampToISOWithColons(weatherSpec.timestamp);
+
+        final XiaomiCoordinator coordinator = getSupport().getCoordinator();
+
+        if (coordinator.supportsMultipleWeatherLocations()) {
+            // TODO actually support multiple locations
+            getSupport().sendCommand(
+                    "set current location",
+                    XiaomiProto.Command.newBuilder()
+                            .setType(COMMAND_TYPE)
+                            .setSubtype(CMD_SET_CURRENT_LOCATION)
+                            .setWeather(XiaomiProto.Weather.newBuilder().setCurrentLocation(
+                                    XiaomiProto.WeatherCurrentLocation.newBuilder()
+                                            .setLocation(XiaomiProto.WeatherLocation.newBuilder()
+                                                    .setCode("accu:123456") // FIXME:AccuWeather code (we do not have it here)
+                                                    .setName(weatherSpec.location)
+                                            )
+                            ))
+                            .build()
+            );
+        }
 
         getSupport().sendCommand(
                 "set current weather",
