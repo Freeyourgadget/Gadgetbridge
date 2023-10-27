@@ -226,6 +226,10 @@ public class GBApplication extends Application {
             migratePrefs(getPrefsFileVersion());
         }
 
+        // Uncomment the line below to force a device key migration, after you updated
+        // the devicetype.json file
+        //migrateDeviceTypes();
+
         setupExceptionHandler();
 
         Weather.getInstance().setCacheFile(getCacheDir(), prefs.getBoolean("cache_weather", true));
@@ -680,36 +684,40 @@ public class GBApplication extends Application {
         }
     }
 
+    private void migrateDeviceTypes() {
+        try (DBHandler db = acquireDB()) {
+            final InputStream inputStream = getAssets().open("migrations/devicetype.json");
+            final byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            final JSONObject deviceMapping = new JSONObject(new String(buffer));
+            final JSONObject deviceIdNameMapping = deviceMapping.getJSONObject("by-id");
+
+            final DaoSession daoSession = db.getDaoSession();
+            final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+            for (Device dbDevice : activeDevices) {
+                String deviceTypeName = dbDevice.getTypeName();
+                if(deviceTypeName.isEmpty() || deviceTypeName.equals("UNKNOWN")){
+                    deviceTypeName = deviceIdNameMapping.optString(
+                            String.valueOf(dbDevice.getType()),
+                            "UNKNOWN"
+                    );
+                    dbDevice.setTypeName(deviceTypeName);
+                    daoSession.getDeviceDao().update(dbDevice);
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "error acquiring DB lock");
+        }
+    }
+
     private void migratePrefs(int oldVersion) {
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         // this comes before all other migrations since the new column DeviceTypeName was added as non-null
         if (oldVersion < 25){
-            try (DBHandler db = acquireDB()) {
-                final InputStream inputStream = getAssets().open("migrations/devicetype.json");
-                final byte[] buffer = new byte[inputStream.available()];
-                inputStream.read(buffer);
-                inputStream.close();
-                final JSONObject deviceMapping = new JSONObject(new String(buffer));
-                final JSONObject deviceIdNameMapping = deviceMapping.getJSONObject("by-id");
-
-                final DaoSession daoSession = db.getDaoSession();
-                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
-
-                for (Device dbDevice : activeDevices) {
-                    String deviceTypeName = dbDevice.getTypeName();
-                    if(deviceTypeName.isEmpty()){
-                        deviceTypeName = deviceIdNameMapping.optString(
-                                String.valueOf(dbDevice.getType()),
-                                "UNKNOWN"
-                        );
-                        dbDevice.setTypeName(deviceTypeName);
-                        daoSession.getDeviceDao().update(dbDevice);
-                    }
-                }
-            } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
-            }
+            migrateDeviceTypes();
         }
 
         if (oldVersion == 0) {

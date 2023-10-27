@@ -21,10 +21,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
-
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSDeviceCoordinator;
@@ -147,9 +143,16 @@ import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 
 /**
  * For every supported device, a device type constant must exist.
- *
+ * <p>
  * Note: they name of the enum is stored in the DB, so it is fixed forever,
  * and may not be changed.
+ * <p>
+ * Migration note: As of <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/3347">#3347</a>,
+ * the numeric device id is not used anymore. If your database has development devices that still used
+ * the numeric ID, you need to update assets/migrations/devicetype.json before installing Gadgetbridge
+ * after rebasing, in order for your device to be migrated correctly. If you failed to do this and the
+ * device is now not being displayed, please update the file and uncomment the call to migrateDeviceTypes
+ * in GBApplication.
  */
 public enum DeviceType {
     UNKNOWN(UnknownDeviceCoordinator.class),
