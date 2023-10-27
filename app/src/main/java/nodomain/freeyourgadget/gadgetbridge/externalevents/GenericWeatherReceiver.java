@@ -96,8 +96,8 @@ public class GenericWeatherReceiver extends BroadcastReceiver {
                             forecast.minTemp = safelyGet(forecastJson, Integer.class, "minTemp", 0);
                             forecast.windSpeed = safelyGet(forecastJson, Number.class, "windSpeed", 0).floatValue();
                             forecast.windDirection = safelyGet(forecastJson, Integer.class, "windDirection", 0);
-                            forecast.uvIndex = safelyGet(weatherJson, Number.class, "uvIndex", 0d).floatValue();
-                            forecast.precipProbability = safelyGet(weatherJson, Integer.class, "precipProbability", 0);
+                            forecast.uvIndex = safelyGet(forecastJson, Number.class, "uvIndex", 0d).floatValue();
+                            forecast.precipProbability = safelyGet(forecastJson, Integer.class, "precipProbability", 0);
                             forecast.sunRise = safelyGet(forecastJson, Integer.class, "sunRise", 0);
                             forecast.sunSet = safelyGet(forecastJson, Integer.class, "sunSet", 0);
                             forecast.moonRise = safelyGet(forecastJson, Integer.class, "moonRise", 0);
@@ -127,8 +127,8 @@ public class GenericWeatherReceiver extends BroadcastReceiver {
                             forecast.humidity = safelyGet(forecastJson, Integer.class, "humidity", 0);
                             forecast.windSpeed = safelyGet(forecastJson, Number.class, "windSpeed", 0).floatValue();
                             forecast.windDirection = safelyGet(forecastJson, Integer.class, "windDirection", 0);
-                            forecast.uvIndex = safelyGet(weatherJson, Number.class, "uvIndex", 0d).floatValue();
-                            forecast.precipProbability = safelyGet(weatherJson, Integer.class, "precipProbability", 0);
+                            forecast.uvIndex = safelyGet(forecastJson, Number.class, "uvIndex", 0d).floatValue();
+                            forecast.precipProbability = safelyGet(forecastJson, Integer.class, "precipProbability", 0);
 
                             weatherSpec.hourly.add(forecast);
                         }
