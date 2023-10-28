@@ -34,6 +34,7 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -73,8 +74,16 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
         final GBDeviceEventCallControl deviceEvtCallControl = new GBDeviceEventCallControl();
+        final GBDeviceEventNotificationControl deviceEvtNotificationControl = new GBDeviceEventNotificationControl();
 
         switch (cmd.getSubtype()) {
+            case CMD_NOTIFICATION_DISMISS:
+                final int dismissNotificationId = cmd.getNotification().getNotification4().getNotificationId().getId();
+                LOG.info("Watch dismiss notification {}", dismissNotificationId);
+                deviceEvtNotificationControl.handle = dismissNotificationId;
+                deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
+                return;
             case CMD_CALL_REJECT:
                 LOG.debug("Reject call");
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.REJECT;
@@ -304,6 +313,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         final Drawable icon = NotificationUtils.getAppIcon(getSupport().getContext(), iconPackageName);
         if (icon == null) {
+            // FIXME the packageName is sometimes truncated
             LOG.warn("Failed to get icon for {}", iconPackageName);
             return;
         }

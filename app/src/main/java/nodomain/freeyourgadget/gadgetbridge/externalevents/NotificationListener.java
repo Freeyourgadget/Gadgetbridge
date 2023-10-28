@@ -785,6 +785,9 @@ public class NotificationListener extends NotificationListenerService {
         // Clean up removed notifications from internal list
         notificationsActive.removeAll(notificationsToRemove);
 
+        // TODO prevent this from being called multiple times for the same ID
+        // TODO prevent thins from being called form notifications removed from the device
+
         // Send notification remove request to device
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         for (GBDevice device : devices) {
