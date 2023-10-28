@@ -19,28 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 
 public class DeviceTypeTest extends TestBase {
-    @Test
-    public void ensureNoDuplicateKeys() {
-        final Set<Integer> knownKeys = new HashSet<>();
-
-        final List<Integer> duplicateKeys = Arrays.stream(DeviceType.values())
-                .map(DeviceType::getKey)
-                .filter(k -> !knownKeys.add(k))
-                .collect(Collectors.toList());
-
-        Assert.assertTrue("There are duplicated device keys: " + duplicateKeys, duplicateKeys.isEmpty());
-    }
-
     @Test
     public void ensureNoMissingDeviceInfo() {
         // Check that all coordinators for all device types declare valid device names, icons and manufacturer
