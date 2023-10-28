@@ -30,7 +30,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
@@ -59,6 +61,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
     public static final int CMD_NOTIFICATION_ICON_REQUEST = 15;
     public static final int CMD_NOTIFICATION_ICON_QUERY = 16;
+
+    // Maintain a queue of the last seen package names, since the band will send
+    // requests with the package name truncated, and without an ID
+    private final Queue<String> mPackages = new LinkedList<>();
 
     private String iconPackageName;
 
@@ -101,19 +107,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 handleNotificationIconRequest(cmd.getNotification().getNotificationIconRequest());
                 return;
             case CMD_NOTIFICATION_ICON_QUERY:
-                this.iconPackageName = cmd.getNotification().getNotificationIconQuery().getPackage();
-                LOG.debug("Watch querying notification icon for {}", iconPackageName);
-
-                // TODO should we confirm that we have the icon before replying?
-                getSupport().sendCommand(
-                        "send notification reply for " + iconPackageName,
-                        XiaomiProto.Command.newBuilder()
-                                .setType(COMMAND_TYPE)
-                                .setSubtype(CMD_NOTIFICATION_ICON_REQUEST)
-                                .setNotification(XiaomiProto.Notification.newBuilder()
-                                        .setNotificationIconReply(cmd.getNotification().getNotificationIconQuery())
-                                ).build()
-                );
+                handleNotificationIconQuery(cmd.getNotification().getNotificationIconQuery());
                 return;
         }
 
@@ -132,6 +126,11 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             notification3.setPackage(notificationSpec.sourceAppId);
         } else {
             notification3.setPackage(BuildConfig.APPLICATION_ID);
+        }
+
+        mPackages.add(notification3.getPackage());
+        if (mPackages.size() > 32) {
+            mPackages.poll();
         }
 
         final String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
@@ -297,6 +296,42 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         } else {
             return true;
         }
+    }
+
+    private void handleNotificationIconQuery(final XiaomiProto.NotificationIconPackage notificationIconPackage) {
+        LOG.debug("Watch querying notification icon for {}", notificationIconPackage.getPackage());
+
+        iconPackageName = notificationIconPackage.getPackage();
+
+        if (NotificationUtils.getAppIcon(getSupport().getContext(), iconPackageName) == null) {
+            // Attempt to find truncated package name
+            for (final String fullPackage : mPackages) {
+                if (fullPackage.startsWith(iconPackageName)) {
+                    iconPackageName = fullPackage;
+                    break;
+                }
+            }
+
+            if (iconPackageName.equals(notificationIconPackage.getPackage())) {
+                LOG.warn("Failed to match a full package for {}", iconPackageName);
+                return;
+            }
+
+            if (NotificationUtils.getAppIcon(getSupport().getContext(), iconPackageName) == null) {
+                LOG.warn("Failed to find icon for {} and {}", notificationIconPackage.getPackage(), iconPackageName);
+                return;
+            }
+        }
+
+        getSupport().sendCommand(
+                "send notification reply for " + iconPackageName,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_NOTIFICATION_ICON_REQUEST)
+                        .setNotification(XiaomiProto.Notification.newBuilder()
+                                .setNotificationIconReply(notificationIconPackage)
+                        ).build()
+        );
     }
 
     private void handleNotificationIconRequest(final XiaomiProto.NotificationIconRequest notificationIconRequest) {
