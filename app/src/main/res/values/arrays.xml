@@ -2685,6 +2685,7 @@
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>
         <item>@string/liveactivity_live_activity</item>
+        <item>@string/pref_header_spo2</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_values">
@@ -2697,6 +2698,7 @@
         <item>@string/p_pai</item>
         <item>@string/p_speed_zones</item>
         <item>@string/p_live_stats</item>
+        <item>@string/p_spo2</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">
@@ -2709,6 +2711,7 @@
         <item>@string/p_pai</item>
         <item>@string/p_speed_zones</item>
         <item>@string/p_live_stats</item>
+        <item>@string/p_spo2</item>
     </string-array>
 
 

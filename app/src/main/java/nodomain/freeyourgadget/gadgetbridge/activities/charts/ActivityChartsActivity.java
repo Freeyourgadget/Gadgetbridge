@@ -34,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -89,6 +88,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsPai()) {
             tabList.remove("pai");
         }
+        if (!coordinator.supportsSpo2()) {
+            tabList.remove("spo2");
+        }
         return tabList;
     }
 
@@ -128,6 +130,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new SpeedZonesFragment();
                 case "livestats":
                     return new LiveActivityFragment();
+                case "spo2":
+                    return new Spo2ChartFragment();
             }
             return null;
         }
@@ -174,6 +178,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.stats_title);
                 case "livestats":
                     return getString(R.string.liveactivity_live_activity);
+                case "spo2":
+                    return getString(R.string.pref_header_spo2);
             }
             return super.getPageTitle(position);
         }
