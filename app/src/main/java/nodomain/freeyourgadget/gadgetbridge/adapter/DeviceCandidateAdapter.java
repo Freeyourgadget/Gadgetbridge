@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -62,7 +63,9 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         TextView deviceAddressLabel = view.findViewById(R.id.item_details);
         TextView deviceStatus = view.findViewById(R.id.item_status);
 
-        DeviceCoordinator coordinator = device.getDeviceType().getDeviceCoordinator();
+        DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(device);
+
+        DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
 
         String name = formatDeviceCandidate(device);
         deviceNameLabel.setText(name);
@@ -77,7 +80,7 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
             }
         }
 
-        if (!device.getDeviceType().isSupported()) {
+        if (!deviceType.isSupported()) {
             statusLines.add(getContext().getString(R.string.device_unsupported));
         }
 

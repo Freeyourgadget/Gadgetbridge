@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,8 @@ public class DeviceHelper {
     public static DeviceHelper getInstance() {
         return instance;
     }
+
+    private final HashMap<String, DeviceType> deviceTypeCache = new HashMap<>();
 
     public GBDevice findAvailableDevice(String deviceAddress, Context context) {
         Set<GBDevice> availableDevices = getAvailableDevices(context);
@@ -130,14 +133,27 @@ public class DeviceHelper {
 
         return orderedDeviceTypes;
     }
+    public DeviceType resolveDeviceType(GBDeviceCandidate deviceCandidate) {
+        return resolveDeviceType(deviceCandidate, true);
+    }
 
-    public DeviceType resolveDeviceType(GBDeviceCandidate deviceCandidate){
+    public DeviceType resolveDeviceType(GBDeviceCandidate deviceCandidate, boolean useCache){
         synchronized (this) {
+            if(useCache) {
+                DeviceType cachedType =
+                        deviceTypeCache.get(deviceCandidate.getMacAddress().toLowerCase());
+                if (cachedType != null) {
+                    return cachedType;
+                }
+            }
+
             for (DeviceType type : getOrderedDeviceTypes()) {
                 if (type.getDeviceCoordinator().supports(deviceCandidate)) {
+                    deviceTypeCache.put(deviceCandidate.getMacAddress().toLowerCase(), type);
                     return type;
                 }
             }
+            deviceTypeCache.put(deviceCandidate.getMacAddress().toLowerCase(), DeviceType.UNKNOWN);
         }
         return DeviceType.UNKNOWN;
     }

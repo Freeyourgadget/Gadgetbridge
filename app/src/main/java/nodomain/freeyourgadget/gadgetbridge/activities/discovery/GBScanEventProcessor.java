@@ -184,10 +184,9 @@ public final class GBScanEventProcessor implements Runnable {
             }
         }
 
-        final DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(candidate);
+        final DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(candidate, false);
 
         if (deviceType.isSupported() || discoverUnsupported) {
-            candidate.setDeviceType(deviceType);
             synchronized (candidatesByAddress) {
                 candidatesByAddress.put(candidate.getMacAddress(), candidate);
             }
@@ -263,7 +262,7 @@ public final class GBScanEventProcessor implements Runnable {
                     "Device {} ({}) is supported as '{}' without scanning services",
                     candidate.getDevice(),
                     candidate.getName(),
-                    candidate.getDeviceType()
+                    DeviceHelper.getInstance().resolveDeviceType(candidate, false)
             );
             return true;
         }

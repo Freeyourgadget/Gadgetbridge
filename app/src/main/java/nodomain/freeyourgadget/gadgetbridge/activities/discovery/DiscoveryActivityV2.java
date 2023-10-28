@@ -587,7 +587,9 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
             return;
         }
 
-        if (!deviceCandidate.getDeviceType().isSupported()) {
+        DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(deviceCandidate);
+
+        if (!deviceType.isSupported()) {
             LOG.warn("Unsupported device candidate {}", deviceCandidate);
             copyDetailsToClipboard(deviceCandidate);
             return;
@@ -595,7 +597,7 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
         stopDiscovery();
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().resolveCoordinator(deviceCandidate);
+        final DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
         LOG.info("Using device candidate {} with coordinator {}", deviceCandidate, coordinator.getClass());
 
         if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
@@ -661,12 +663,14 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
             return true;
         }
 
-        if (!deviceCandidate.getDeviceType().isSupported()) {
+        DeviceType deviceType = DeviceHelper.getInstance().resolveDeviceType(deviceCandidate);
+
+        if (!deviceType.isSupported()) {
             showUnsupportedDeviceDialog(deviceCandidate);
             return true;
         }
 
-        final DeviceCoordinator coordinator = deviceCandidate.getDeviceType().getDeviceCoordinator();
+        final DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
         final GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
         if (coordinator.getSupportedDeviceSpecificSettings(device) == null) {
             return true;

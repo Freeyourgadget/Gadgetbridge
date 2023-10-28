@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 /**
  * A device candidate is a Bluetooth device that is not yet managed by
@@ -49,8 +50,6 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
     private BluetoothDevice device;
     private short rssi;
     private ParcelUuid[] serviceUuids;
-    private DeviceType deviceType = DeviceType.UNKNOWN;
-
     // Cached values for device name and bond status, to avoid querying the remote bt device
     private String deviceName;
     private Boolean isBonded = null;
@@ -67,7 +66,6 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
             throw new IllegalStateException("Unable to read state from Parcel");
         }
         rssi = (short) in.readInt();
-        deviceType = DeviceType.valueOf(in.readString());
 
         serviceUuids = AndroidUtils.toParcelUuids(in.readParcelableArray(getClass().getClassLoader()));
 
@@ -82,7 +80,6 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(device, 0);
         dest.writeInt(rssi);
-        dest.writeString(deviceType.name());
         dest.writeParcelableArray(serviceUuids, 0);
         dest.writeString(deviceName);
         if (isBonded == null) {
@@ -106,14 +103,6 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
 
     public BluetoothDevice getDevice() {
         return device;
-    }
-
-    public void setDeviceType(DeviceType type) {
-        deviceType = type;
-    }
-
-    public DeviceType getDeviceType() {
-        return deviceType;
     }
 
     public String getMacAddress() {
@@ -238,7 +227,7 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
 
     @Override
     public String toString() {
-        return getName() + ": " + getMacAddress() + " (" + getDeviceType() + ")";
+        return getName() + ": " + getMacAddress();
     }
 
     @NonNull
@@ -249,7 +238,6 @@ public class GBDeviceCandidate implements Parcelable, Cloneable {
             clone.device = this.device;
             clone.rssi = this.rssi;
             clone.serviceUuids = this.serviceUuids;
-            clone.deviceType = this.deviceType;
             clone.deviceName = this.deviceName;
             clone.isBonded = this.isBonded;
             return clone;
