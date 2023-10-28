@@ -677,16 +677,19 @@ message WeatherCurrentUnk6 {
 
 message WeatherCurrentAQI {
   optional string AQIText = 1;
-  optional uint32 AQI = 2;
+  optional sint32 AQI = 2;
 }
 
 message WeatherCurrentWarning {
-  optional WeatherCurrentWarning1 currentWarning1 = 1; // FIXME: this is probably an array
+  repeated WeatherCurrentWarning1 currentWarning1 = 1;
 }
 
 message WeatherCurrentWarning1 {
   optional string currentWarningText = 1;
   optional string currentWarningSeverityText = 2;
+  optional string currentWarningTitle = 3;
+  optional string currentWarningDescription = 4;
+  optional string unk5 = 5;
 }
 
 message WeatherCurrentLocation {

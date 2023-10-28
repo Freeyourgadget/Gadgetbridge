@@ -71,7 +71,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
         final XiaomiCoordinator coordinator = getSupport().getCoordinator();
 
         if (coordinator.supportsMultipleWeatherLocations()) {
-            // TODO actually support multiple locations
+            // TODO actually support multiple locations (primary + 4 secondary)
             getSupport().sendCommand(
                     "set current location",
                     XiaomiProto.Command.newBuilder()
@@ -124,7 +124,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                                 .setAQI(weatherSpec.airQuality != null && weatherSpec.airQuality.aqi >= 0 ? weatherSpec.airQuality.aqi : 0)
                                         )
                                         .setWarning(XiaomiProto.WeatherCurrentWarning.newBuilder()
-                                                .setCurrentWarning1(XiaomiProto.WeatherCurrentWarning1.newBuilder()
+                                                .addCurrentWarning1(XiaomiProto.WeatherCurrentWarning1.newBuilder()
                                                         .setCurrentWarningText("")
                                                         .setCurrentWarningSeverityText("")
                                                 )
