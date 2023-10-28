@@ -329,7 +329,8 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         final ByteBuffer buf = ByteBuffer.allocate(size * size * 4).order(ByteOrder.LITTLE_ENDIAN);
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
-                buf.putInt(bmpResized.getPixel(x, y));
+                //noinspection SuspiciousNameCombination x and y are flipped on purpose
+                buf.putInt(bmpResized.getPixel(y, x));
             }
         }
 
