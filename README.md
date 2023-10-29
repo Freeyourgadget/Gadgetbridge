@@ -35,6 +35,7 @@ vendor's servers.
 **(WARNING: Some of them WIP and some of them without maintainer)**
 
 - Amazfit
+	- [Amazfit Active](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Active), [Amazfit Active Edge](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Active-Edge) [**\[!\]**](#special-pairing-procedures)
 	- [Balance](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Balance) [**\[!\]**](#special-pairing-procedures)
 	- [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-5), [Band 7](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Band-7) [**\[!\]**](#special-pairing-procedures)
 	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)

@@ -21,9 +21,6 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -35,8 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbalance.AmazfitBalanceSupport;
 
 public class AmazfitBalanceCoordinator extends Huami2021Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBalanceCoordinator.class);
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
