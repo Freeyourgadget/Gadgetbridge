@@ -78,7 +78,7 @@ public class ZeppOsGpxRouteInstallHandler implements InstallHandler {
             return;
         }
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         if (!(coordinator instanceof Huami2021Coordinator)) {
             LOG.warn("Coordinator is not a Huami2021Coordinator: {}", coordinator.getClass());
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
@@ -99,7 +99,7 @@ public class ZeppOsGpxRouteInstallHandler implements InstallHandler {
         }
 
         final GenericItem fwItem = createInstallItem(device);
-        fwItem.setIcon(device.getType().getIcon());
+        fwItem.setIcon(coordinator.getDefaultIconResource());
 
         if (file == null) {
             fwItem.setDetails(mContext.getString(R.string.miband_fwinstaller_incompatible_version));
@@ -125,9 +125,10 @@ public class ZeppOsGpxRouteInstallHandler implements InstallHandler {
     }
 
     private GenericItem createInstallItem(final GBDevice device) {
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final String firmwareName = mContext.getString(
                 R.string.installhandler_firmware_name,
-                mContext.getString(device.getType().getName()),
+                mContext.getString(coordinator.getDeviceNameResource()),
                 mContext.getString(R.string.kind_gpx_route),
                 file.getName()
         );

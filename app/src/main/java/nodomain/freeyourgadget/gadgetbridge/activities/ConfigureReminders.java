@@ -81,7 +81,7 @@ public class ConfigureReminders extends AbstractGBActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
                 final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
                 int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);

@@ -419,7 +419,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void makeSummaryContent(BaseActivitySummary item) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice);
 
         //make view of data from summaryData of item

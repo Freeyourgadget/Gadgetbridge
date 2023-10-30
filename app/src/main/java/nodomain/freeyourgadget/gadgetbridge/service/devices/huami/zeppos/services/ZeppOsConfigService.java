@@ -169,7 +169,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         if (configGroup.getVersion() != version) {
             // Special case for HEALTH, where we actually support version 1 as well
             // TODO: Support multiple versions in a cleaner way...
-            if (!(configGroup == ConfigGroup.HEALTH && configGroup.getVersion() == 1)) {
+            if (!(configGroup == ConfigGroup.HEALTH && version == 1)) {
                 LOG.warn("Unexpected version {} for {}", String.format("0x%02x", version), configGroup);
                 return;
             }
@@ -574,7 +574,21 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         switch (configArg) {
             case UPPER_BUTTON_LONG_PRESS:
             case LOWER_BUTTON_PRESS:
-                return MapUtils.reverse(Huami2021MenuType.displayItemNameLookup).get(value);
+                final String itemHex = MapUtils.reverse(Huami2021MenuType.displayItemNameLookup).get(value);
+                if (itemHex != null) {
+                    return itemHex;
+                }
+
+                // Unknown button press value - attempt to parse it as hex
+                final Matcher matcher = Pattern.compile("^([0-9A-F]{8})$").matcher(value);
+                if (matcher.matches()) {
+                    LOG.debug("Sending unknown button press item {} as hex", value);
+                    return value;
+                }
+
+                LOG.warn("Failed to map button press value {}", value);
+
+                return null;
             case DATE_FORMAT:
                 return value.replace("/", ".");
         }

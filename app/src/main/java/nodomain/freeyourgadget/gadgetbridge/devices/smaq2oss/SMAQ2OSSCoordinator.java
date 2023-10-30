@@ -1,24 +1,23 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -28,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 
 public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(SMAQ2OSSCoordinator.class);
@@ -44,30 +44,14 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            // TODO still match for "SMA-Q2-OSS" because of backward firmware compatibility - remove eventually
-            if (name != null && (name.startsWith("SMAQ2-") || name.equalsIgnoreCase("SMA-Q2-OSS"))) {
-                return DeviceType.SMAQ2OSS;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("SMAQ2-.*|SMA-Q2-OSS", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
     public int getBondingStyle(){
         return BONDING_STYLE_NONE;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SMAQ2OSS;
     }
 
     @Nullable
@@ -155,5 +139,16 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsMusicInfo() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return SMAQ2OSSSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_smaq2oss;
     }
 }

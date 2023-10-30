@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.os.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,15 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
     private final TransactionBuilder builder;
     private final CasioGBX100DeviceSupport support;
     private final boolean mFirstConnect;
+    private final boolean mNeedsGetConfiguration;
     private boolean mWriteAllFeaturesInitPending = false;
 
-    public InitOperation(CasioGBX100DeviceSupport support, TransactionBuilder builder, boolean firstConnect) {
+    public InitOperation(CasioGBX100DeviceSupport support, TransactionBuilder builder, boolean firstConnect, boolean needsGetConfiguration) {
         super(support);
         this.builder = builder;
         this.support = support;
         this.mFirstConnect = firstConnect;
+        this.mNeedsGetConfiguration = needsGetConfiguration;
         LOG.info("mFirstConnect: " + mFirstConnect);
         builder.setCallback(this);
     }
@@ -348,22 +351,21 @@ public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSuppor
                         LOG.error("Error setting device to initialized: " + e.getMessage());
                     }
                 } else if(data[1] == 0x01) {
-                    // The writeAllFeaturesInit request triggers encryption (again). However, the transaction
-                    // never completes. Instead, the watch reports with 0x3d and we abort the current
-                    // transaction.
-                    // This write is only required for the first connect, for later reconnections,
-                    // it's not required and the watch does not respond with 0x3d. Thus, we set
-                    // it directly to initialized.
-                    if(mFirstConnect)
-                        writeAllFeaturesInit();
-                    else
-                        support.setInitialized();
+                    support.setInitialized();
                 }
             } else if(data[0] == 0x3d) {
                 LOG.info("Init operation done.");
                 // Finally, we set the state to initialized here!
+                // If it's the first connection attempt, disconnect the watch and
+                // reconnect delayed. This is required on Android 13 since it's no longer
+                // possible to cancel a dangling write request.
+                // Upon first reconnection, a "getConfiguration" request is required. On further
+                // reconnections, we just sync the profile.
                 support.setInitialized();
                 if(mFirstConnect) {
+                    support.disconnect();
+                    support.reconnectDelayed();
+                } else if(mNeedsGetConfiguration) {
                     support.onReadConfiguration(null);
                 } else {
                     // on first connect, this is called by onReadConfiguration

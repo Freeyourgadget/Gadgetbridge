@@ -127,7 +127,7 @@ public class OmniJawsObserver extends ContentObserver {
                             weatherSpec.todayMaxTemp = toKelvin(c.getFloat(6));
                         } else {
 
-                            WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
+                            WeatherSpec.Daily gbForecast = new WeatherSpec.Daily();
                             gbForecast.minTemp = toKelvin(c.getFloat(5));
                             gbForecast.maxTemp = toKelvin(c.getFloat(6));
                             gbForecast.conditionCode = Weather.mapToOpenWeatherMapCondition(c.getInt(8));

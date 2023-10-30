@@ -753,6 +753,7 @@
     <string name="pref_display_add_device_fab_off">Visível apenas se nenhum dispositivo estiver adicionado</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
         <item quantity="other">%d horas</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale um aplicativo que consegue manipular arquivos GPX.</string>
@@ -1504,4 +1505,18 @@
     <string name="world_clock_delete_confirm_title">Excluir \'%1$s\'</string>
     <string name="world_clock_delete_confirm_description">Tem certeza que deseja excluir o relógio mundial\?</string>
     <string name="world_clock_label">Etiqueta</string>
+    <string name="accuracy">Precisão</string>
+    <string name="balanced">Equilibrado</string>
+    <string name="about_description_banglejs_nightly">Aplicativo companheiro Android para Bangle.js construído em cima do projeto Gadgetbridge, com acesso adicional à Internet.
+\n
+\nDevido às políticas Google Play Store, não somos permitidos ter um link de doação no próprio aplicativo, mas se você gosta deste aplicativo, por favor, considere doar através da página inicial do Gadgetbridge abaixo.</string>
+    <string name="single_band">Banda única</string>
+    <string name="about_activity_title_banglejs_nightly">Sobre o Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="power_saving">Economia de energia</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js em execução</string>
+    <string name="controlcenter_get_heartrate_measurement">Obter medição da frequência cardíaca</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="action_changelog">Registro de mudanças</string>
+    <string name="custom">Personalizado</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
 </resources>

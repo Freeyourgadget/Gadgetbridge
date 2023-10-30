@@ -60,6 +60,7 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
          put((byte) 0x06, "event");
          put((byte) 0x07, "pai");
          put((byte) 0x08, "yesterdays_activity");
+         put((byte) 0x09, "zepp_coach");
          put((byte) 0x0a, "cycle_tracking");
     }};
 

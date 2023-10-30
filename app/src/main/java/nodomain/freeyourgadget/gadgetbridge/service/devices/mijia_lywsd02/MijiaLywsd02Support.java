@@ -1,5 +1,5 @@
 /*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Sebastian
-    Kranz
+    Kranz, Davis Mosenkovs
 
     This file is part of Gadgetbridge.
 
@@ -21,15 +21,19 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -48,10 +52,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(MijiaLywsd02Support.class);
+    private static final UUID UUID_TIME = UUID.fromString("ebe0ccb7-7a0a-4b0c-8a1a-6ff2997da3a6");
+    private static final UUID UUID_BATTERY = UUID.fromString("ebe0ccc4-7a0a-4b0c-8a1a-6ff2997da3a6");
+    private static final UUID UUID_SCALE = UUID.fromString("ebe0ccbe-7a0a-4b0c-8a1a-6ff2997da3a6");
     private final DeviceInfoProfile<MijiaLywsd02Support> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
@@ -80,13 +88,18 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
-        setTime(builder);
+
+        if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
+            setTime(builder);
+        }
+
+        getBatteryInfo(builder);
         setInitialized(builder);
         return builder;
     }
 
     private void setTime(TransactionBuilder builder) {
-        BluetoothGattCharacteristic timeCharacteristc = getCharacteristic(UUID.fromString("ebe0ccb7-7a0a-4b0c-8a1a-6ff2997da3a6"));
+        BluetoothGattCharacteristic timeCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_TIME);
         long ts = System.currentTimeMillis();
         byte offsetHours = (byte) (SimpleTimeZone.getDefault().getOffset(ts) / (1000 * 60 * 60));
         ts /= 1000;
@@ -96,6 +109,23 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
                 (byte) ((ts >> 16) & 0xff),
                 (byte) ((ts >> 24) & 0xff),
                 offsetHours});
+    }
+
+    private void getBatteryInfo(TransactionBuilder builder) {
+        BluetoothGattCharacteristic batteryCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_BATTERY);
+        builder.read(batteryCharacteristc);
+    }
+
+    private void setTemperatureScale(TransactionBuilder builder, String scale) {
+        BluetoothGattCharacteristic scaleCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_SCALE);
+        builder.write(scaleCharacteristc, new byte[]{ (byte) ("f".equals(scale) ? 0x01 : 0xff) });
+    }
+
+    private void handleBatteryInfo(byte[] value, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            batteryCmd.level = ((short) value[0]);
+            handleGBDeviceEvent(batteryCmd);
+        }
     }
 
     private void requestDeviceInfo(TransactionBuilder builder) {
@@ -121,7 +151,15 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetTime() {
-        // better only on connect for now
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Set time");
+            setTime(builder);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error setting time on LYWSD02", e);
+            GB.toast("Error setting time on LYWSD02", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
@@ -144,7 +182,29 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
         }
         UUID characteristicUUID = characteristic.getUuid();
 
+        if(MijiaLywsd02Support.UUID_BATTERY.equals(characteristicUUID)) {
+            handleBatteryInfo(characteristic.getValue(), status);
+            return true;
+        }
         LOG.info("Unhandled characteristic read: " + characteristicUUID);
         return false;
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        TransactionBuilder builder;
+        try {
+            switch (config) {
+                case DeviceSettingsPreferenceConst.PREF_TEMPERATURE_SCALE_CF:
+                    String temperatureScale = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_TEMPERATURE_SCALE_CF, "");
+                    builder = performInitialized("Sending configuration for option: " + config);
+                    setTemperatureScale(builder, temperatureScale);
+                    builder.queue(getQueue());
+                    break;
+            }
+        } catch (IOException e) {
+            LOG.error("Error setting configuration on LYWSD02", e);
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 }

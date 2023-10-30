@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureContacts;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.app_specific_notifications.AppSpecificNotificationSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -49,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.wena3.SonyWena3SettingKeys;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -187,7 +189,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
     }
 
     private void setChangeListener() {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
         String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
@@ -407,10 +409,13 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
         addPreferenceHandlerFor(PREF_SOUNDS);
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
+        addPreferenceHandlerFor(PREF_SCREEN_LIFT_WRIST);
+        addPreferenceHandlerFor(PREF_SYNC_CALENDAR);
 
         addPreferenceHandlerFor(PREF_BLUETOOTH_CALLS_ENABLED);
         addPreferenceHandlerFor(PREF_DISPLAY_CALLER);
         addPreferenceHandlerFor(PREF_NOTIFICATION_DELAY_CALLS);
+        addPreferenceHandlerFor(PREF_CALL_REJECT_METHOD);
 
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
@@ -502,6 +507,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE);
         addPreferenceHandlerFor(PREF_SONY_SPEAK_TO_CHAT_TIMEOUT);
         addPreferenceHandlerFor(PREF_SONY_CONNECT_TWO_DEVICES);
+        addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL);
@@ -540,6 +546,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_OFFLINE_VOICE_LANGUAGE);
 
         addPreferenceHandlerFor(PREF_VOICE_SERVICE_LANGUAGE);
+
+        addPreferenceHandlerFor(PREF_TEMPERATURE_SCALE_CF);
 
         addPreferenceHandlerFor("lock");
 
@@ -900,13 +908,23 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             });
         }
 
+        final Preference notificationSettings = findPreference(PREFS_PER_APP_NOTIFICATION_SETTINGS);
+        if(notificationSettings != null) {
+            notificationSettings.setOnPreferenceClickListener(preference -> {
+                final Intent intent = new Intent(getContext(), AppSpecificNotificationSettingsActivity.class);
+                intent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());
+                startActivity(intent);
+                return true;
+            });
+        }
+
         if (deviceSpecificSettingsCustomizer != null) {
             deviceSpecificSettingsCustomizer.customizeSettings(this, prefs);
         }
     }
 
     static DeviceSpecificSettingsFragment newInstance(GBDevice device, DeviceSettingsActivity.MENU_ENTRY_POINTS applicationSpecificSettings) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         int[] supportedSettings = new int[0];
         String[] supportedLanguages = null;
 
@@ -921,7 +939,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         } else if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
             supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_pairingkey_explanation);
-            if (coordinator.getDeviceType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
+            if (device.getType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_protocol);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_auth_protocol_explanation);
             }

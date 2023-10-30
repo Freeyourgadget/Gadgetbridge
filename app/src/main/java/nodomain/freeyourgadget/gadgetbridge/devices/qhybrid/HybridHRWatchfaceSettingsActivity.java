@@ -25,7 +25,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
@@ -99,7 +99,7 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
             refresh_partial.setSummary(Integer.toString(settings.getDisplayTimeoutPartial()));
             setInputTypeFor("pref_hybridhr_watchface_refresh_partial", InputType.TYPE_CLASS_NUMBER);
 
-            SwitchPreference wrist_flick_relative = findPreference("pref_hybridhr_watchface_wrist_flick_relative");
+            SwitchPreferenceCompat wrist_flick_relative = findPreference("pref_hybridhr_watchface_wrist_flick_relative");
             wrist_flick_relative.setOnPreferenceChangeListener(this);
             wrist_flick_relative.setChecked(settings.isWristFlickHandsMoveRelative());
 
@@ -136,15 +136,15 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
             move_hands.setValue(settings.getMoveHandsEvent());
             move_hands.setSummary(move_hands.getEntry());
 
-            SwitchPreference power_saving_display = findPreference("pref_hybridhr_watchface_power_saving_display");
+            SwitchPreferenceCompat power_saving_display = findPreference("pref_hybridhr_watchface_power_saving_display");
             power_saving_display.setOnPreferenceChangeListener(this);
             power_saving_display.setChecked(settings.getPowersaveDisplay());
 
-            SwitchPreference power_saving_hands = findPreference("pref_hybridhr_watchface_power_saving_hands");
+            SwitchPreferenceCompat power_saving_hands = findPreference("pref_hybridhr_watchface_power_saving_hands");
             power_saving_hands.setOnPreferenceChangeListener(this);
             power_saving_hands.setChecked(settings.getPowersaveHands());
 
-            SwitchPreference light_up_on_notification = findPreference("pref_hybridhr_watchface_light_up_on_notification");
+            SwitchPreferenceCompat light_up_on_notification = findPreference("pref_hybridhr_watchface_light_up_on_notification");
             light_up_on_notification.setOnPreferenceChangeListener(this);
             light_up_on_notification.setChecked(settings.getLightUpOnNotification());
         }

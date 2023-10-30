@@ -165,6 +165,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CAL
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALENDAREVENT_COLOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_COMMAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DISPLAYNAME;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_SOURCENAME;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_SOURCEAPPID;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_DNDSUPPRESSED;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CALL_PHONENUMBER;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CANNEDMESSAGES;
@@ -466,7 +468,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 DeviceStruct cachedStruct = getDeviceStructOrNull(device);
                 if(cachedStruct != null) {
                     cachedStruct.setDevice(device);
-                    DeviceCoordinator newCoordinator = DeviceHelper.getInstance().getCoordinator(device);
+                    DeviceCoordinator newCoordinator = device.getDeviceCoordinator();
                     cachedStruct.setCoordinator(newCoordinator);
                 }
                 updateReceiversState();
@@ -920,6 +922,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
                 callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
+                callSpec.sourceName = intent.getStringExtra(EXTRA_CALL_SOURCENAME);
+                callSpec.sourceAppId = intent.getStringExtra(EXTRA_CALL_SOURCEAPPID);
                 callSpec.dndSuppressed = intent.getIntExtra(EXTRA_CALL_DNDSUPPRESSED, 0);
                 deviceSupport.onSetCallState(callSpec);
                 break;
@@ -1280,6 +1284,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 IntentFilter filter = new IntentFilter();
                 filter.addAction("android.intent.action.TIME_SET");
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
+                filter.addAction(TimeChangeReceiver.ACTION_DST_CHANGED);
                 registerReceiver(mTimeChangeReceiver, filter);
             }
             if (mBlueToothPairingRequestReceiver == null) {

@@ -99,7 +99,9 @@ public enum Huami2021WorkoutTrackActivityType {
     ModernDance(0xb9),
     MuayThai(0x65),
     OutdoorCycling(0x04),
+    OutdoorHiking(0x0f),
     OutdoorRunning(0x01),
+    OutdoorSwimming(0x07),
     ParallelBars(0x96),
     Parkour(0x81),
     Pilates(0x3d),
@@ -176,14 +178,22 @@ public enum Huami2021WorkoutTrackActivityType {
                 return ActivityKind.TYPE_JUMP_ROPING;
             case OutdoorCycling:
                 return ActivityKind.TYPE_CYCLING;
+            case OutdoorHiking:
+                return ActivityKind.TYPE_HIKING;
             case OutdoorRunning:
                 return ActivityKind.TYPE_RUNNING;
+            case OutdoorSwimming:
+                return ActivityKind.TYPE_SWIMMING_OPENWATER;
             case PoolSwimming:
                 return ActivityKind.TYPE_SWIMMING;
+            case RockClimbing:
+                return ActivityKind.TYPE_CLIMBING;
             case Rowing:
                 return ActivityKind.TYPE_ROWING_MACHINE;
             case Soccer:
                 return ActivityKind.TYPE_SOCCER;
+            case TableTennis:
+                return ActivityKind.TYPE_PINGPONG;
             case Treadmill:
                 return ActivityKind.TYPE_TREADMILL;
             case Walking:

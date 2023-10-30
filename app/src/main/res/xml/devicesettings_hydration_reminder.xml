@@ -7,7 +7,7 @@
         android:summary="@string/lefun_prefs_hydration_reminder_summary"
         android:title="@string/lefun_prefs_hydration_reminder_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_hydration_switch"
             android:title="@string/lefun_prefs_hydration_reminder_title" />

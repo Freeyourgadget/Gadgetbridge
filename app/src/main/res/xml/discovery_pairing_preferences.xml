@@ -2,38 +2,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="ignore_bonded_devices"
         android:layout="@layout/preference_checkbox"
         android:summary="@string/ignore_bonded_devices_description"
         android:title="@string/ignore_bonded_devices"
         app:iconSpaceReserved="false" />
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="enable_companiondevice_pairing"
         android:layout="@layout/preference_checkbox"
         android:summary="@string/companiondevice_pairing_details"
         android:title="@string/companiondevice_pairing"
         app:iconSpaceReserved="false" />
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="discover_unsupported_devices"
         android:layout="@layout/preference_checkbox"
         android:summary="@string/discover_unsupported_devices_description"
         android:title="@string/discover_unsupported_devices"
-        app:iconSpaceReserved="false" />
-    <SeekBarPreference
-        android:defaultValue="1"
-        android:key="scanning_intensity"
-        android:max="3"
-        android:min="0"
-        android:title="@string/discovery_scanning_intensity"
-        app:iconSpaceReserved="false"
-        app:showSeekBarValue="true" />
-    <Preference
-        android:persistent="false"
-        android:selectable="false"
-        android:summary="@string/discovery_scanning_intensity_warning"
         app:iconSpaceReserved="false" />
 </PreferenceScreen>

@@ -3,7 +3,7 @@
     <PreferenceCategory
         android:title="@string/connection_over_bt_classic" />
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:icon="@drawable/ic_bluetooth"
         android:key="prefs_key_device_reconnect_on_acl"
         android:title="@string/autoconnect_from_device_title"

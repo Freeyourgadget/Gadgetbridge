@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -261,13 +262,16 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
     private List<DeviceCoordinator> getAllCoordinatorsConnectedFirst() {
         DeviceManager deviceManager = ((GBApplication) getApplicationContext()).getDeviceManager();
         List<DeviceCoordinator> connectedCoordinators = new ArrayList<>();
-        List<DeviceCoordinator> allCoordinators = DeviceHelper.getInstance().getAllCoordinators();
+        List<DeviceCoordinator> allCoordinators = new ArrayList<>(DeviceType.values().length);
+        for(DeviceType type : DeviceType.values()){
+            allCoordinators.add(type.getDeviceCoordinator());
+        }
         List<DeviceCoordinator> sortedCoordinators = new ArrayList<>(allCoordinators.size());
 
         List<GBDevice> devices = deviceManager.getSelectedDevices();
         for(GBDevice connectedDevice : devices){
             if (connectedDevice.isConnected()) {
-                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
+                DeviceCoordinator coordinator = connectedDevice.getDeviceCoordinator();
                 if (coordinator != null) {
                     connectedCoordinators.add(coordinator);
                 }

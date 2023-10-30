@@ -29,7 +29,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
-import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
@@ -183,8 +183,8 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
             if (preference instanceof SeekBarPreference) {
                 final SeekBarPreference seekBarPreference = (SeekBarPreference) preference;
                 seekBarPreference.setValue(prefs.getInt(key, seekBarPreference.getValue()));
-            } else if (preference instanceof SwitchPreference) {
-                final SwitchPreference switchPreference = (SwitchPreference) preference;
+            } else if (preference instanceof SwitchPreferenceCompat) {
+                final SwitchPreferenceCompat switchPreference = (SwitchPreferenceCompat) preference;
                 switchPreference.setChecked(prefs.getBoolean(key, switchPreference.isChecked()));
             } else if (preference instanceof ListPreference) {
                 final ListPreference listPreference = (ListPreference) preference;

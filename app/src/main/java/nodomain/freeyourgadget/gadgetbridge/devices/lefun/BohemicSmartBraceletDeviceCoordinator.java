@@ -17,27 +17,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.lefun;
 
-import androidx.annotation.NonNull;
-
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class BohemicSmartBraceletDeviceCoordinator extends LefunDeviceCoordinator {
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (".bohemic".equals(candidate.getName())) {
-            return DeviceType.BOHEMIC_SMART_BRACELET;
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BOHEMIC_SMART_BRACELET;
+    public boolean supports(GBDeviceCandidate candidate) {
+        // Since the Lefun coordinator overrides supports, we also need to
+        return ".bohemic".equals(candidate.getName());
     }
 
     @Override
@@ -56,5 +43,22 @@ public class BohemicSmartBraceletDeviceCoordinator extends LefunDeviceCoordinato
     @Override
     public boolean supportsRealtimeData() {
         return false;  // not supported
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bohemic_smart_bracelet;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

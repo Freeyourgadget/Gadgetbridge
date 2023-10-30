@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -44,13 +45,10 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
 
 public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BANGLEJS;
-    }
 
     @Override
     public String getManufacturer() {
@@ -67,21 +65,9 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        /* Filter by Espruino devices to avoid getting
-        the device chooser full of spam devices. */
-        if (name != null && (
-              name.startsWith("Bangle.js") ||
-              name.startsWith("Pixl.js") ||
-              name.startsWith("Puck.js") ||
-              name.startsWith("MDBT42Q") ||
-              name.startsWith("Espruino"))) 
-            return DeviceType.BANGLEJS;
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Bangle\\.js.*|Pixl\\.js.*|Puck\\.js.*|MDBT42Q.*|Espruino.*");
     }
 
     @Override
@@ -209,6 +195,9 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
 
         settings.add(R.xml.devicesettings_banglejs_activity);
 
+        settings.add(R.xml.devicesettings_header_apps);
+        settings.add(R.xml.devicesettings_loyalty_cards);
+
         settings.add(R.xml.devicesettings_header_developer);
         settings.add(R.xml.devicesettings_banglejs_apploader);
         settings.add(R.xml.devicesettings_device_intents);
@@ -224,5 +213,28 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsNavigation() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return BangleJSDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_banglejs;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_banglejs;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_banglejs_disabled;
     }
 }

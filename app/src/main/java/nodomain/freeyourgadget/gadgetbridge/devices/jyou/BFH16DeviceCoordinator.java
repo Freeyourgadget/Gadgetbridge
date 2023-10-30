@@ -28,9 +28,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -40,16 +42,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.BFH16DeviceSupport;
 
 public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
 {
     protected static final Logger LOG = LoggerFactory.getLogger(BFH16DeviceCoordinator.class);
-
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BFH16;
-    }
 
     @Override
     public String getManufacturer() {
@@ -70,19 +68,9 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-
-        String name = candidate.getDevice().getName();
-        if (name != null) {
-            if (name.startsWith("BFH-16")) {
-                return DeviceType.BFH16;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("BFH-16.*");
     }
 
     @Override
@@ -188,6 +176,12 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return false;
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return BFH16DeviceSupport.class;
+    }
+
     @Override
     public boolean supportsScreenshots() {
         return false;
@@ -205,9 +199,8 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return false;
     }
 
-
-
-
-
-
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bfh16;
+    }
 }

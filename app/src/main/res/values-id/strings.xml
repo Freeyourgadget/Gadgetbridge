@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Pengaturan</string>
@@ -1178,7 +1178,7 @@
     <string name="pref_call_privacy_mode_name">Sembunyikan nama tapi tampilkan nomor</string>
     <string name="pref_call_privacy_mode_number">Sembunyikan nomor tapi tampilkan nama</string>
     <string name="pref_call_privacy_mode_complete">Sembunyikan nama dan nomor</string>
-    <string name="pref_message_privacy_mode_complete">Sembunyikan konten</string>
+    <string name="pref_message_privacy_mode_complete">Sembunyikan semua konten</string>
     <string name="pref_title_weather_location">Lokasi cuaca (untuk penyedia cuaca LineageOS)</string>
     <string name="pref_blacklist_calendars_summary">Kalender yang di daftar hitam tidak akan disinkronkan ke perangkat</string>
     <string name="pref_header_cannned_messages">Pesan kalengan</string>
@@ -1515,7 +1515,7 @@
     <string name="pref_summary_transliteration">Aktifkan ini jika perangkat Anda tidak memiliki dukungan untuk fon bahasa Anda</string>
     <string name="pref_rtl_max_line_length_summary">Memanjangkan atau memendekkan baris teks Kanan ke Kiri yang dipisah</string>
     <string name="pref_title_message_privacy_mode">Mode privasi pesan</string>
-    <string name="pref_message_privacy_mode_off">Tampilkan konten</string>
+    <string name="pref_message_privacy_mode_off">Tampilkan semua konten</string>
     <string name="pref_applications_settings">Daftar aplikasi</string>
     <string name="pref_summary_expose_hr">Perbolehkan aplikasi lain untuk mengakses data detak jantung saat Gadgetbridge sedang terhubung</string>
     <string name="pref_title_connected_advertisement">Terlihat saat sedang terhubung</string>
@@ -1929,7 +1929,7 @@
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Ukuran Teks Bitmap</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Jika \'Teks sebagai Bitmap\' diaktifkan, ukuran apa teks seharusnya ditampilkan\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Ukuran yang digunakan untuk rendering teks bitmap</string>
     <string name="pref_summary_banglejs_webview_url">Jika Anda ingin pemuat aplikasi kustom letakkan URL https://…/android.html di sini. Jika tidak tinggalkan kosong untuk https://banglejs.com/apps</string>
     <string name="pref_title_pebble_sync_health">Sinkron Kesehatan Pebble</string>
     <string name="pref_summary_enable_pebblekit">Aktifkan dukungan eksperimental untuk aplikasi Android menggunakan PebbleKit</string>
@@ -2245,7 +2245,7 @@
     <string name="title">Judul</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Gunakan data GPS ponsel</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Gunakan data GPS ponsel untuk menimpa data GPS dari perangkat Bangle</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Interval pembaruan data GPS dalam milidetik</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interval pembaruan data GPS</string>
     <string name="description">Deskripsi</string>
     <string name="preview_image">Pratinjau gambar</string>
     <string name="status_icon">Ikon status</string>
@@ -2253,7 +2253,235 @@
     <string name="changelog_show_full">Lainnya…</string>
     <string name="changelog_ok_button">Oke</string>
     <string name="changelog_title">Apa Yang Baru</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Pilihan ini hanya aktif, jika data GPS ponsel sedang digunakan. Pilihan ini dapat digunakan untuk hanya menggunakan penyedia jaringan untuk menentukan lokasi. Hal ini mengurangi konsumsi daya untuk biaya akurasi. Diperlukan penyambungan ulang perangkat.</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Opsi ini hanya aktif, jika data GPS ponsel sedang digunakan. Opsi ini mengatur interval dalam milidetik seberapa sering posisi GPS diperbarui</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Hanya gunakan penyedia jaringan untuk menentukan lokasi. Hal ini akan mengurangi konsumsi daya dengan mengorbankan keakuratan. Diperlukan koneksi ulang.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Interval seberapa sering posisi gps diperbarui, dalam ms</string>
     <string name="action_changelog">Catatan Perubahan</string>
+    <string name="pai_chart_per_month">PAI per bulan</string>
+    <string name="pai_day">Pemambahan PAI hari</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_total">Jumlah PAI</string>
+    <string name="pai_chart_per_week">PAI per minggu</string>
+    <string name="num_min">%d mnt</string>
+    <string name="loyalty_cards_catima_package">Nama paket Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Hanya sinkronkan grup spesifik</string>
+    <string name="loyalty_cards_sync_groups">Grup untuk Disinkronkan</string>
+    <string name="loyalty_cards_sync_archived">Sinkronkan kartu yang terarsip</string>
+    <string name="loyalty_cards_install_catima_fail">Gagal membuka toko aplikasi untuk memasang Catima</string>
+    <string name="loyalty_cards_sync_title">Sinkronkan Kartu Loyalitas</string>
+    <string name="loyalty_cards_sync_summary">Ketuk untuk menyinkronkan kartu ke jam tangan</string>
+    <string name="loyalty_cards_catima_not_installed">Catima dibutuhkan untuk mengelola kartu loyalitas</string>
+    <string name="loyalty_cards_catima_not_compatible">Versi Catima yang terpasang tidak kompatibel dengan Gadgetbridge. Silakan perbarui Catima dan Gadgetbridge ke versi yang terbaru.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge perlu izin membaca pada kartu Catima untuk disinkronkan. Ketuk tombol ini untuk mengizinkan.</string>
+    <string name="loyalty_cards">Kartu Loyalitas</string>
+    <string name="loyalty_cards_install">Pasang Catima</string>
+    <string name="loyalty_cards_open_catima">Buka Catima</string>
+    <string name="loyalty_cards_sync_starred">Hanya sinkronkan kartu yang dibintangi</string>
+    <string name="loyalty_cards_syncing">Menyinkronkan %d kartu loyalitas ke perangkat</string>
+    <string name="loyalty_cards_sync">Sinkronkan</string>
+    <string name="loyalty_cards_sync_options">Opsi Sinkronisasi</string>
+    <string name="loyalty_cards_catima_permissions_title">Izin dibutuhkan</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
+    <string name="pref_title_mb_intents">Intent Tombol Media Siaran Secara Langsung</string>
+    <string name="pref_summary_mb_intents">Aktifkan jika kontrol media perangkat tidak berfungsi untuk aplikasi tertentu</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="busy_task_fetch_sports_summaries">Mendapatkan rangkuman olahraga</string>
+    <string name="busy_task_fetch_sports_details">Mendapatkan detail olahraga</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Mendapatkan data tingkat pernapasan saat tidur</string>
+    <string name="busy_task_fetch_debug_logs">Mendapatkan catatan pengawakutu</string>
+    <string name="busy_task_fetch_spo2_data">Mendapatkan data SpO2</string>
+    <string name="busy_task_fetch_stress_data">Mendapatkan data stres</string>
+    <string name="busy_task_fetch_hr_data">Mendapatkan data detak jantung</string>
+    <string name="busy_task_fetch_pai_data">Mendapatkan data PAI</string>
+    <string name="activity_prefs_goals">Sasaran</string>
+    <string name="error_no_bluetooth_connect">Akses koneksi Bluetooth harus diberikan dan diaktifkan agar pemindaian dapat bekerja dengan baik</string>
+    <string name="permission_request">%1$s memungkinkan Anda untuk mengirim pesan dan data lain dari Android ke perangkat Anda. Untuk melakukan hal ini, diperlukan izin untuk mengakses data tersebut dan tanpa izin, aplikasi ini tidak akan berfungsi dengan baik.
+\n
+\nSekarang Anda akan dihadapkan pada beberapa dialog Android yang meminta izin tersebut.
+\n
+\nSilakan ketuk \'%2$s\' untuk melanjutkan.</string>
+    <string name="activity_type_windsurfing">Selancar angin</string>
+    <string name="activity_type_football">Sepak bola</string>
+    <string name="activity_type_baseball">Bisbol</string>
+    <string name="activity_type_handball">Bola tangan</string>
+    <string name="activity_type_tennis">Tenis</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_rugby">Rugbi</string>
+    <string name="activity_type_weightlifting">Angkat Berat</string>
+    <string name="activity_type_dancing">Menari</string>
+    <string name="activity_type_skiing">Ski</string>
+    <string name="activity_type_snowboarding">Seluncur salju</string>
+    <string name="activity_type_riding">Menunggang Kuda</string>
+    <string name="activity_type_hockey">Hoki</string>
+    <string name="activity_type_icehockey">Hoki es</string>
+    <string name="activity_type_iceskating">Seluncur Es</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="activity_type_other">Lainnya</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="withings_calibration_text_activity_target">Terakhir, sejajarkan jarum penunjuk aktivitas ke 100%. Perlu diketahui bahwa jarum penunjuk ini hanya bergerak searah jarum jam.</string>
+    <string name="withings_bt_calibration_previous">Sebelumnya</string>
+    <string name="withings_bt_calibration_next">Lanjutkan</string>
+    <string name="activity_type_surfing">Berselancar</string>
+    <string name="activity_type_kitesurfing">Berselancar layang-layang</string>
+    <string name="error_no_bluetooth_scan">Akses pemindaian Bluetooth harus diberikan dan diaktifkan agar pemindaian dapat bekerja dengan baik</string>
+    <string name="withings_calibration_text_hours">Silakan gunakan dial di bawah ini untuk menyelaraskan jarum penunjuk jam ke angka 12.</string>
+    <string name="withings_calibration_text_minutes">Sekarang, gunakan dial untuk menyelaraskan jarum penunjuk menit ke angka 12.</string>
+    <string name="pref_theme_dynamic">Warna dinamis</string>
+    <string name="drag_handle">seret pegangan</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Pengaturan Mi Band 1/2</string>
+    <string name="find_my_phone_found_it">DITEMUKAN</string>
+    <string name="pref_activity_full_sync_trigger_summary">Picu sinkronisasi lengkap semua data aktivitas</string>
+    <string name="pref_activity_full_sync_trigger_title">Sinkronisasi lengkap</string>
+    <string name="pref_activity_full_sync_trigger_warning">Ini akan memicu sinkronisasi penuh semua data aktivitas dari perangkat. Ini mungkin memerlukan beberapa menit untuk selesai.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="pref_show_changelog">Tampilkan catatan perubahan saat aplikasi dibuka</string>
+    <string name="pref_canned_message">Pesan</string>
+    <string name="preferences_miband_1_2_warning">Peringatan: Preferensi ini hanya berlaku pada Mi Band 1 dan 2.</string>
+    <string name="pref_show_changelog_summary">Tampilkan catatan perubahan sejak versi terakhir setelah Gadgetbridge diperbarui</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Warna dinamis tidak tersedia pada perangkat Anda, hanya Android 12+ mendukung fitur ini. Gadgetbridge akan menggunakan warna Materia) 3 bawaan.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Catatan: untuk tema warna dinamis, Anda perlu mengaktifkan Warna Wallpaper atau Palet Warma di pengaturan Android 12+ Anda. Jika tidak, Gadgetbridge akan menggunakan warna Material 3 bawaan.</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Anda akan memasang perangkat tegar %s pada Amazfit Bip 3 Pro Anda. 
+\n 
+\nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
+\n 
+\nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang. 
+\n 
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Anda akan memasang perangkat tegar %s pada Amazfit Cheetah Pro Anda.
+\n
+\nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="fw_upgrade_notice_zepp_os">Anda akan memasang perangkat tegar %s pada %s Anda.
+\n
+\nJam tangan Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="device_experimental">EKSPERIMENTAL</string>
+    <string name="info_menu_structure_set">JSON struktur menu ditetapkan dalam GB</string>
+    <string name="error_invalid_menu_structure">JSON struktur menu tidak valid</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="error_menu_companion_not_installed">\'HR Menu Companion\' mungkin belum dipasang</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Kotak)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Bulat)</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="button_open_menu_companion">Buka aplikasi pendamping menu</string>
+    <string name="info_menu_structure_removed">Struktur menu dihapus</string>
+    <string name="info_menu_structure_contents">Struktur menu: %s</string>
+    <string name="button_reset_menu_structure">Atur ulang struktur menu</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Silakan bangun ulang wajah jam tangan Anda untuk menu kustom</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="english_au">Inggris (Australia)</string>
+    <string name="english_ca">Inggris (Kanada)</string>
+    <string name="english_gb">Inggris (Britania Raya)</string>
+    <string name="english_in">Inggris (India)</string>
+    <string name="english_us">Inggris (Amerika Serikat)</string>
+    <string name="spanish_es">Spanyol (Spanyol)</string>
+    <string name="spanish_us">Spanyol (Amerika Serikat)</string>
+    <string name="spanish_mx">Spanyol (Meksiko)</string>
+    <string name="french_ca">Prancis (Kanada)</string>
+    <string name="french_fr">Prancis (Prancis)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Perangkat tidak memiliki ruang penyimpanan kosong yang cukup</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">MTU %1$d saat ini terlalu rendah, silakan aktitkan MTU yang tintgi dalan pengaturan perangkat dan putuskan/hubungkan ulang perangkat.</string>
+    <string name="text_receiver_activity_title">Kirim teks ke perangkat</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">Aktifkan aktivitas penemuan baru, yang seharusnya memperbaiki masalah penemuan perangkat. Nonaktifkan ini jika Anda menghadapi masalah apa pun saat mencari atau memasangkan perangkat Anda.</string>
+    <string name="new_discover_activity_title">Aktifkan aktivitas penemuan baru</string>
+    <string name="prefs_home_icon_left_item">Kiri</string>
+    <string name="prefs_wena3_title_activity">Pengaturan Aktivitas</string>
+    <string name="white">Putih</string>
+    <string name="prefs_home_icon_right_item">Kanan</string>
+    <string name="prefs_wena3_title_screen">Pengaturan Tampilan</string>
+    <string name="green">Hijau</string>
+    <string name="yellow">Kuning</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="red">Merah</string>
+    <string name="cyan">Sian</string>
+    <string name="prefs_home_icon_center_item">Tengah</string>
+    <string name="purple">Ungu</string>
+    <string name="blue">Biru</string>
+    <string name="prefs_wena3_receive_calls_title">Pengaturan Panggilan Masuk</string>
+    <string name="prefs_wena3_button_action_name_start_timer">Mulai pewaktu aktif</string>
+    <string name="prefs_wena3_menu_icon_hint">Ikon Pengaturan selalu ditampilkan pada akhir</string>
+    <string name="prefs_wena3_notification_vibration_repetition_3">Tiga kali</string>
+    <string name="prefs_wena3_button_action_name_qrio_lock">Kunci Qrio</string>
+    <string name="prefs_wena3_auto_power_off_turn_off_time_item">Waktu daya mati</string>
+    <string name="prefs_wena3_vibration_short">Pendek</string>
+    <string name="prefs_wena3_home_icon_name_calories">Kalori</string>
+    <string name="prefs_wena3_led_none">Tanpa LED</string>
+    <string name="prefs_wena3_vibration_step_down">Melangkah Bawah</string>
+    <string name="prefs_wena3_vibration_smart_item">Getaran Pintar</string>
+    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
+    <string name="prefs_wena3_hint_background_sync">Perbolehkan Wena untuk meminta Gadgetbridge mengunduh data aktivitas dari perangkat</string>
+    <string name="prefs_wena3_home_icon_name_suica">Saldo Suica</string>
+    <string name="prefs_wena3_vibration_strength_item_medium">Sedang</string>
+    <string name="prefs_wena3_vibration_continuous">Berkelanjutan</string>
+    <string name="prefs_wena3_home_icon_name_pedometer">Hitungan Langkah</string>
+    <string name="prefs_wena3_home_icon_name_qrio">Qrio</string>
+    <string name="prefs_wena3_home_icon_name_clock">Waktu Saat Ini</string>
+    <string name="prefs_wena3_item_background_sync">Sinkronisasi Data Aktivitas Latar Belakang</string>
+    <string name="prefs_wena3_vibration_strength_item_weak">Lemah</string>
+    <string name="prefs_wena3_home_icon_title">Ikon Layar Beranda</string>
+    <string name="prefs_wena3_item_weather_statusbar">Cuaca Dalam Bilah Status</string>
+    <string name="temperature_scale_celsius">Celsius</string>
+    <string name="prefs_wena3_vibration_step_up">Melangkah Atas</string>
+    <string name="prefs_wena3_vibration_basic">Dasaran</string>
+    <string name="prefs_wena3_item_large_font">Ukuran Fon Lebih Besar</string>
+    <string name="prefs_wena3_home_icon_name_energy">Energi Badan</string>
+    <string name="prefs_wena3_notification_vibration_repetition_2">Dua kali</string>
+    <string name="prefs_wena3_auto_power_off_hint">Perangkat akan dimatikan dan dinyalakan secara otomatis berdasarkan jadwal yang ditentukan</string>
+    <string name="prefs_wena3_hint_lift_wrist">Nyalakan layar ketika Anda melihat pergelangan tangan Anda</string>
+    <string name="prefs_wena3_hint_large_font">Perbesar ukuran fon dalam kalender, notifikasi, dll.</string>
+    <string name="prefs_wena3_button_action_item_double">Tekan Ganda</string>
+    <string name="prefs_wena3_vibration_rapid">Cepat</string>
+    <string name="prefs_wena3_button_action_name_qrio_unlock">Buka Kunci Qrio</string>
+    <string name="temperature_scale_cf">Skala suhu</string>
+    <string name="prefs_wena3_notification_vibration_repetition_1">Sekali</string>
+    <string name="prefs_wena3_receive_calls_item">Terima Pemberitahuan Panggilan</string>
+    <string name="prefs_wena3_hint_weather_statusbar">Tampilkan ikon kondisi saat ini di sudut kiri atas layar beranda</string>
+    <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay</string>
+    <string name="prefs_wena3_button_action_item">Tindakan Tombol</string>
+    <string name="prefs_wena3_auto_power_off_turn_on_time_item">Waktu daya nyala</string>
+    <string name="prefs_wena3_notification_default_call_vibration">Getaran Panggilan Masuk</string>
+    <string name="prefs_wena3_notification_default_call_led">Warna LED Panggilan Masuk</string>
+    <string name="prefs_wena3_vibration_siren">Sirene</string>
+    <string name="temperature_scale_cf_summary">Pilih apakah perangkat menggunakan skala Celsius atau Fahrenheit.</string>
+    <string name="prefs_wena3_menu_icon_title">Ikon Menu</string>
+    <string name="prefs_wena3_notification_default_call_vibration_repetition">Pengulangan Getaran Panggilan Masuk</string>
+    <string name="prefs_wena3_notification_default_vibration">Getaran Pemberitahuan</string>
+    <string name="prefs_wena3_notification_vibration_repetition_0">Tidak terbatas</string>
+    <string name="prefs_wena3_notification_vibration_repetition_4">Empat kali</string>
+    <string name="temperature_scale_fahrenheit">Fahrenheit</string>
+    <string name="prefs_wena3_vibration_strength_item">Kekuatan Getaran</string>
+    <string name="prefs_wena3_receive_calls_hint">Jika dimatikan, Anda tidak akan diberi tahu tentang panggilan masuk di Wena</string>
+    <string name="prefs_wena3_button_action_item_long">Tekan Lama</string>
+    <string name="prefs_wena3_menu_icon_name_payment">Pembayaran</string>
+    <string name="prefs_wena3_status_page_title">Pengurutan Halaman Status</string>
+    <string name="prefs_wena3_title_alarm">Pengaturan Alarm</string>
+    <string name="prefs_wena3_notification_default_vibration_repetition">Pengulangan Getaran Pemberitahuan</string>
+    <string name="prefs_wena3_hint_rich_design">Menambahkan persegi panjang bulat di sekitar ikon layar beranda</string>
+    <string name="prefs_wena3_notification_default_led">Warna LED Pemberitahuan</string>
+    <string name="prefs_wena3_auto_power_off_item">Daya Mati Otomatis</string>
+    <string name="prefs_wena3_home_icon_name_edy">Saldo Edy</string>
+    <string name="prefs_wena3_vibration_warning">Peringatan</string>
+    <string name="prefs_wena3_smart_alarm_margin_item">Margin Alarm Pintar</string>
+    <string name="prefs_wena3_item_rich_design">Gunakan Desain Kaya</string>
+    <string name="prefs_wena3_day_start_hour_item">Hari Dimulai Pada</string>
+    <string name="prefs_wena3_notification_per_app_settings_title">Pengaturan Pemberitahuan Per Aplikasi</string>
+    <string name="prefs_wena3_vibration_none">Tidak Ada Getaran</string>
+    <string name="prefs_wena3_vibration_strength_item_strong">Kuat</string>
+    <string name="prefs_wena3_vibration_triple">Tiga Kali</string>
+    <string name="prefs_wena3_button_action_name_activity_screen">Layar Aktivitas</string>
+    <string name="prefs_wena3_notification_settings_title">Pengaturan Pemberitahuan</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="pref_message_privacy_mode_bodyonly">Sembunyikan bodi saja</string>
+    <string name="latvian">Latvia</string>
+    <string name="common_symbols">Simbol Umum</string>
+    <string name="pref_title_notifications_ignore_work_profile">Abaikan notifikasi profil kerja</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Jangan kirimkan notifikasi dari aplikasi dalam profil kerja ke jam tangan</string>
 </resources>

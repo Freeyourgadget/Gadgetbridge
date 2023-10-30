@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.smaq2oss;
+package nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss;
 
 
 import android.bluetooth.BluetoothGatt;
@@ -258,7 +258,7 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
             setWeather.setTemperatureMax(weatherSpec.todayMaxTemp-273);
             setWeather.setHumidity(weatherSpec.currentHumidity);
 
-            for (WeatherSpec.Forecast f:weatherSpec.forecasts) {
+            for (WeatherSpec.Daily f:weatherSpec.forecasts) {
 
                 SMAQ2OSSProtos.Forecast.Builder fproto = SMAQ2OSSProtos.Forecast.newBuilder();
 

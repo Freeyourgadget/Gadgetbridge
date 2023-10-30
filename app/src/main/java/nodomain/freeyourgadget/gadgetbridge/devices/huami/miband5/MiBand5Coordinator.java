@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband5;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -37,29 +37,15 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 
 public class MiBand5Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand5Coordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND5;
-    }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.MI_BAND5_NAME)) {
-                return DeviceType.MIBAND5;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.MI_BAND5_NAME, Pattern.CASE_INSENSITIVE);
     }
 
 
@@ -181,5 +167,28 @@ public class MiBand5Coordinator extends HuamiCoordinator {
                 HeartRateCapability.MeasurementInterval.MINUTES_10,
                 HeartRateCapability.MeasurementInterval.MINUTES_30
         );
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MiBand5Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband5;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband2_disabled;
     }
 }

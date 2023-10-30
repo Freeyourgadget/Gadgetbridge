@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:icon="@drawable/ic_bolt"
         android:key="stamina_preference"
         android:title="@string/sonyswr12_settings_stamina"
         android:defaultValue="false"
         android:summary="@string/sonyswr12_settings_stamina_summary" />
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:icon="@drawable/ic_vibration"
         android:key="vibration_preference"
         android:title="@string/sonyswr12_settings_low_vibration"

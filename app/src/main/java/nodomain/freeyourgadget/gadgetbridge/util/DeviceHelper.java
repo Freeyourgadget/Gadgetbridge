@@ -27,13 +27,14 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveHrCoordinator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,111 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro.AmazfitGTR3ProCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4mini.AmazfitGTS4MiniCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2.AmazfitTRex2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.lefun.BohemicSmartBraceletDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM5Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.supercars.SuperCarsCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2ProDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.hplus.SG2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband5.AmazfitBand5Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband7.AmazfitBand7Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSLiteCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2MiniCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2eCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipupro.AmazfitBipUProCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor2.AmazfitCor2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitpop.AmazfitPopCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitpoppro.AmazfitPopProCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexpro.AmazfitTRexProCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband6.MiBand6Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7.MiBand7Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts3.AmazfitGTS3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3.AmazfitGTR3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4.AmazfitGTR4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppe.ZeppECoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2eCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel.AmazfitVergeLCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband4.MiBand4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband5.MiBand5Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30.TeclastH30Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5.Y5Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd02.MijiaLywsd02Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear1Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.nut.NutCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.qc35.QC35Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM2Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sonyswr12.SonySWR12DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.BinarySensorCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.vesc.VescCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWFSP800NCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM3Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -160,31 +57,14 @@ public class DeviceHelper {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceHelper.class);
 
     private static final DeviceHelper instance = new DeviceHelper();
-    // lazily created
-    private List<DeviceCoordinator> coordinators;
+
+    private DeviceType[] orderedDeviceTypes = null;
 
     public static DeviceHelper getInstance() {
         return instance;
     }
 
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        for (DeviceCoordinator coordinator : getAllCoordinators()) {
-            DeviceType deviceType = coordinator.getSupportedType(candidate);
-            if (deviceType.isSupported()) {
-                return deviceType;
-            }
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    public boolean getSupportedType(GBDevice device) {
-        for (DeviceCoordinator coordinator : getAllCoordinators()) {
-            if (coordinator.supports(device)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private final HashMap<String, DeviceType> deviceTypeCache = new HashMap<>();
 
     public GBDevice findAvailableDevice(String deviceAddress, Context context) {
         Set<GBDevice> availableDevices = getAvailableDevices(context);
@@ -234,154 +114,52 @@ public class DeviceHelper {
 
     public GBDevice toSupportedDevice(BluetoothDevice device) {
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, GBDevice.RSSI_UNKNOWN, device.getUuids());
+        candidate.refreshNameIfUnknown();
         return toSupportedDevice(candidate);
     }
 
     public GBDevice toSupportedDevice(GBDeviceCandidate candidate) {
-        for (DeviceCoordinator coordinator : getAllCoordinators()) {
-            if (coordinator.supports(candidate)) {
-                return coordinator.createDevice(candidate);
-            }
-        }
-        return null;
+        DeviceType resolvedType = resolveDeviceType(candidate);
+        return resolvedType.getDeviceCoordinator().createDevice(candidate, resolvedType);
     }
 
-    public DeviceCoordinator getCoordinator(GBDeviceCandidate device) {
+    private DeviceType[] getOrderedDeviceTypes(){
+        if(orderedDeviceTypes == null){
+            ArrayList<DeviceType> orderedDevices = new ArrayList<>(Arrays.asList(DeviceType.values()));
+            Collections.sort(orderedDevices, (dc1, dc2) -> dc1.getDeviceCoordinator().getOrderPriority() -
+                    dc2.getDeviceCoordinator().getOrderPriority());
+            orderedDeviceTypes = orderedDevices.toArray(new DeviceType[0]);
+        }
+
+        return orderedDeviceTypes;
+    }
+    public DeviceType resolveDeviceType(GBDeviceCandidate deviceCandidate) {
+        return resolveDeviceType(deviceCandidate, true);
+    }
+
+    public DeviceType resolveDeviceType(GBDeviceCandidate deviceCandidate, boolean useCache){
         synchronized (this) {
-            for (DeviceCoordinator coord : getAllCoordinators()) {
-                if (coord.supports(device)) {
-                    return coord;
+            if(useCache) {
+                DeviceType cachedType =
+                        deviceTypeCache.get(deviceCandidate.getMacAddress().toLowerCase());
+                if (cachedType != null) {
+                    return cachedType;
                 }
             }
-        }
-        return new UnknownDeviceCoordinator();
-    }
 
-    public DeviceCoordinator getCoordinator(GBDevice device) {
-        synchronized (this) {
-            for (DeviceCoordinator coord : getAllCoordinators()) {
-                if (coord.supports(device)) {
-                    return coord;
+            for (DeviceType type : getOrderedDeviceTypes()) {
+                if (type.getDeviceCoordinator().supports(deviceCandidate)) {
+                    deviceTypeCache.put(deviceCandidate.getMacAddress().toLowerCase(), type);
+                    return type;
                 }
             }
+            deviceTypeCache.put(deviceCandidate.getMacAddress().toLowerCase(), DeviceType.UNKNOWN);
         }
-        return new UnknownDeviceCoordinator();
+        return DeviceType.UNKNOWN;
     }
 
-    public synchronized List<DeviceCoordinator> getAllCoordinators() {
-        if (coordinators == null) {
-            coordinators = createCoordinators();
-        }
-        return coordinators;
-    }
-
-    private List<DeviceCoordinator> createCoordinators() {
-        List<DeviceCoordinator> result = new ArrayList<>();
-        result.add(new MiScale2DeviceCoordinator());
-        result.add(new AmazfitXCoordinator());
-        result.add(new AmazfitBipCoordinator());
-        result.add(new AmazfitBipLiteCoordinator());
-        result.add(new AmazfitCorCoordinator());
-        result.add(new AmazfitCor2Coordinator());
-        result.add(new AmazfitGTRCoordinator());
-        result.add(new AmazfitGTRLiteCoordinator());
-        result.add(new AmazfitGTR2Coordinator());
-        result.add(new ZeppECoordinator());
-        result.add(new AmazfitGTR2eCoordinator());
-        result.add(new AmazfitTRexCoordinator());
-        result.add(new AmazfitTRexProCoordinator());
-        result.add(new AmazfitGTSCoordinator());
-        result.add(new AmazfitGTS2Coordinator());
-        result.add(new AmazfitGTS2eCoordinator());
-        result.add(new AmazfitGTS2MiniCoordinator());
-        result.add(new AmazfitVergeLCoordinator());
-        result.add(new AmazfitBipSCoordinator());
-        result.add(new AmazfitBipSLiteCoordinator());
-        result.add(new AmazfitBipUCoordinator());
-        result.add(new AmazfitBipUProCoordinator());
-        result.add(new AmazfitPopCoordinator());
-        result.add(new AmazfitPopProCoordinator());
-        result.add(new AmazfitBand5Coordinator());
-        result.add(new AmazfitBand7Coordinator());
-        result.add(new AmazfitNeoCoordinator());
-        result.add(new MiBand3Coordinator());
-        result.add(new MiBand4Coordinator());
-        result.add(new MiBand5Coordinator());
-        result.add(new MiBand6Coordinator());
-        result.add(new MiBand7Coordinator());
-        result.add(new AmazfitGTS3Coordinator());
-        result.add(new AmazfitGTS4Coordinator());
-        result.add(new AmazfitGTS4MiniCoordinator());
-        result.add(new AmazfitGTR3Coordinator());
-        result.add(new AmazfitGTR4Coordinator());
-        result.add(new AmazfitTRex2Coordinator());
-        result.add(new AmazfitGTR3ProCoordinator());
-        result.add(new MiBand2HRXCoordinator());
-        result.add(new MiBand2Coordinator()); // Note: MiBand2 and all of the above  must come before MiBand because detection is hacky, atm
-        result.add(new MiBandCoordinator());
-        result.add(new PebbleCoordinator());
-        result.add(new VibratissimoCoordinator());
-        result.add(new LiveviewCoordinator());
-        result.add(new HPlusCoordinator());
-        result.add(new No1F1Coordinator());
-        result.add(new MakibesF68Coordinator());
-        result.add(new Q8Coordinator());
-        result.add(new EXRIZUK8Coordinator());
-        result.add(new TeclastH30Coordinator());
-        result.add(new XWatchCoordinator());
-        result.add(new QHybridCoordinator());
-        result.add(new ZeTimeCoordinator());
-        result.add(new ID115Coordinator());
-        result.add(new Watch9DeviceCoordinator());
-        result.add(new WatchXPlusDeviceCoordinator());
-        result.add(new Roidmi1Coordinator());
-        result.add(new Roidmi3Coordinator());
-        result.add(new Y5Coordinator());
-        result.add(new CasioGB6900DeviceCoordinator());
-        result.add(new CasioGBX100DeviceCoordinator());
-        result.add(new CasioGWB5600DeviceCoordinator());
-        result.add(new CasioGMWB5000DeviceCoordinator());
-        result.add(new BFH16DeviceCoordinator());
-        result.add(new MijiaLywsd02Coordinator());
-        result.add(new ITagCoordinator());
-        result.add(new NutCoordinator());
-        result.add(new MakibesHR3Coordinator());
-        result.add(new BangleJSCoordinator());
-        result.add(new TLW64Coordinator());
-        result.add(new PineTimeJFCoordinator());
-        result.add(new SG2Coordinator());
-        result.add(new LefunDeviceCoordinator());
-        result.add(new BohemicSmartBraceletDeviceCoordinator());
-        result.add(new SonySWR12DeviceCoordinator());
-        result.add(new WaspOSCoordinator());
-        result.add(new SMAQ2OSSCoordinator());
-        result.add(new UM25Coordinator());
-        result.add(new DomyosT540Coordinator());
-        result.add(new FitProDeviceCoordinator());
-        result.add(new Ear1Coordinator());
-        result.add(new GalaxyBudsDeviceCoordinator());
-        result.add(new GalaxyBudsLiveDeviceCoordinator());
-        result.add(new GalaxyBudsProDeviceCoordinator());
-        result.add(new GalaxyBuds2DeviceCoordinator());
-        result.add(new GalaxyBuds2ProDeviceCoordinator());
-        result.add(new VescCoordinator());
-        result.add(new SonyLinkBudsSCoordinator());
-        result.add(new SonyWH1000XM3Coordinator());
-        result.add(new SonyWH1000XM4Coordinator());
-        result.add(new SonyWFSP800NCoordinator());
-        result.add(new SonyWF1000XM3Coordinator());
-        result.add(new SonyWH1000XM2Coordinator());
-        result.add(new SonyWF1000XM4Coordinator());
-        result.add(new SonyWH1000XM5Coordinator());
-        result.add(new QC35Coordinator());
-        result.add(new BinarySensorCoordinator());
-        result.add(new FlipperZeroCoordinator());
-        result.add(new SuperCarsCoordinator());
-        result.add(new AsteroidOSDeviceCoordinator());
-        result.add(new SoFlowCoordinator());
-        result.add(new VivomoveHrCoordinator());
-        result.add(new WithingsSteelHRDeviceCoordinator());
-        return result;
+    public DeviceCoordinator resolveCoordinator(GBDeviceCandidate device) {
+        return resolveDeviceType(device).getDeviceCoordinator();
     }
 
     private List<GBDevice> getDatabaseDevices() {
@@ -390,7 +168,7 @@ public class DeviceHelper {
             List<Device> activeDevices = DBHelper.getActiveDevices(lockHandler.getDaoSession());
             for (Device dbDevice : activeDevices) {
                 GBDevice gbDevice = toGBDevice(dbDevice);
-                if (gbDevice != null && DeviceHelper.getInstance().getSupportedType(gbDevice)) {
+                if (gbDevice != null && gbDevice.getType().isSupported()) {
                     result.add(gbDevice);
                 }
             }
@@ -409,9 +187,9 @@ public class DeviceHelper {
      * @return
      */
     public GBDevice toGBDevice(Device dbDevice) {
-        DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
+        DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), dbDevice.getParentFolder(), deviceType);
-        DeviceCoordinator coordinator = getCoordinator(gbDevice);
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
             gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
             gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());

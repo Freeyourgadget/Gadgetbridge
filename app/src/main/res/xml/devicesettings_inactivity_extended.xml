@@ -10,7 +10,7 @@
         <!-- workaround for missing toolbar -->
         <PreferenceCategory android:title="@string/mi2_prefs_inactivity_warnings_summary" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"

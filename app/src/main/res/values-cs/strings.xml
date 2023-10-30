@@ -219,7 +219,7 @@
     <string name="pref_screen_notification_profile_generic_chat">Konverzace</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigace</string>
     <string name="pref_screen_notification_profile_generic_social">Sociální sítě</string>
-    <string name="control_center_find_lost_device">Najit ztracené zařízení</string>
+    <string name="control_center_find_lost_device">Najít zařízení</string>
     <string name="control_center_cancel_to_stop_vibration">Zastavit vibrací.</string>
     <string name="title_activity_charts">Aktivita</string>
     <string name="title_activity_set_alarm">Nastavit buzení</string>
@@ -430,7 +430,7 @@
 \n
 \nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="controlcenter_connect">Připojit…</string>
     <string name="fw_upgrade_notice_amazfitcor">Chystáte se nainstalovat firmvér %s do vašeho Amazfit Cor.
 \n
@@ -765,15 +765,15 @@
 \n
 \nPoznámka: Nemusíte instalovat soubory .res , pokud je tento soubor přesně stejný jako ten, který byl nainstalován dříve.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR. 
-\n 
-\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují. 
-\n 
-\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
-\n 
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR.
+\n
+\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_chart_heartrate_color_red">Červená</string>
     <string name="pref_chart_heartrate_color_orange">Oranžová</string>
     <string name="pref_title_chart_heartrate_color">Barva tepové frekvence</string>
@@ -886,13 +886,13 @@
     <string name="hungarian">Maďarsky</string>
     <string name="romanian">Rumunsky</string>
     <string name="pref_theme_system">Systém</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex. 
-\n 
-\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují. 
-\n 
-\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve. 
-\n 
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex.
+\n
+\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="hr_widget_last_notification">Poslední oznámení</string>
     <string name="menuitem_unknown">Neznámé</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
@@ -976,7 +976,7 @@
     <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
     <string name="require_location_provider">Poloha musí být povolena</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Cyklus</string>
+    <string name="menuitem_cycles">Menstruační kalendář</string>
     <string name="menuitem_breathing">Dýchání</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1104,7 +1104,7 @@
     <string name="menuitem_dnd">Nerušit</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_takephoto">Pořízení fotografie</string>
-    <string name="menuitem_mutephone">Zamutovat telefon</string>
+    <string name="menuitem_mutephone">Ztišit telefon</string>
     <string name="menuitem_findphone">Najít telefon</string>
     <string name="menuitem_spo2">SpO2</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
@@ -1139,7 +1139,7 @@
 \n
 \nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="activity_DB_ShowContentButton">Zobrazit obsah složky pro export/import</string>
     <string name="activity_data_management_directory_content_title">Obsah složky export/import</string>
     <string name="widget_settings_select_device_title">Vyberte zařízení</string>
@@ -1196,7 +1196,7 @@
 \n
 \nVaše hodinky se po instalaci souboru .fw restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fossil_hr_warning_firmware_too_new">Některé funkce jsou vypnuté, protože firmware hodinek je příliš nový</string>
     <string name="prefs_sounds_summary">Nakonfigurujte, kdy bude zařízení pípat</string>
     <string name="prefs_sounds">Zvuky</string>
@@ -1678,7 +1678,7 @@
     <string name="prefs_ambient_volume_left">Okolní hlasitost Vlevo</string>
     <string name="prefs_ambient_volume_right">Okolní hlasitost Vpravo</string>
     <string name="prefs_customize_ambient_sound_summary">Přizpůsobení nastavení okolního zvuku</string>
-    <string name="prefs_ambient_sound_during_call_summary">Během hovoru slyšet vlastní hlas</string>
+    <string name="prefs_ambient_sound_during_call_summary">Během hovoru slyšet jasně vlastní hlas</string>
     <string name="prefs_ambient_settings_title">Možnosti okolního zvuku</string>
     <string name="prefs_active_noise_cancelling_level">Úroveň aktivního potlačení hluku</string>
     <string name="prefs_active_noise_cancelling_level_high">Vysoká</string>
@@ -1798,7 +1798,7 @@
     <string name="steps_streaks_total_steps_hint">Celkový počet kroků v sérii</string>
     <string name="hybridhr_widget_bg_thin_circle">Tenký kruh</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Velikost Textu Bitmapy</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Velikost textu při použití \'Text jako Bitmapa\'</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Velikost fontu při vykreslování textu</string>
     <string name="watchface_dialog_widget_cat_generic">Obecný</string>
     <string name="watchface_dialog_widget_cat_position">Pozice</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Widget 2. časového pásma</string>
@@ -1854,7 +1854,7 @@
 \n
 \nVaše hodinky se po instalaci .zip souboru restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_header_display">Displej</string>
     <string name="pref_title_screen_on_on_notifications">Rozsvítit displej při notifikacích</string>
     <string name="spo2_off">Vypnuto</string>
@@ -1877,11 +1877,15 @@
     <string name="menuitem_workout_history">Historie cvičení</string>
     <string name="menuitem_female_health">Ženské zdraví</string>
     <string name="menuitem_workout_status">Stav cvičení</string>
-    <string name="permission_display_over_other_apps">%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
+    <string name="permission_display_over_other_apps">"%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
 \n
 \nToho lze využít ke spouštění hudební aplikace pro přehrání skladby a mnoha dalších věcí.
 \n
-\nKlepněte na \'%2$s\' a poté na \'%1$s\' a povolte \'Povolit zobrazení nad jinými aplikacemi\' a poté se klepnutím na \'Zpět\' vraťte na %1$s.</string>
+\nKlepněte na \'%2$s\' a poté na \'%1$s\' a povolte \'Povolit zobrazení nad jinými aplikacemi\' a poté se klepnutím na \'Zpět\' vraťte na %1$s.
+\n
+\nPro zrušení opakovaného dotazování %1$s o povolení, jděte do \'Nastavení\' vypněte \'Ověřovat stav oprávnění\'.
+\n
+\nUjistěte se, že jste  %1$s poskytli požadovaná oprávnění pro funkce dle vašich očekáváni."</string>
     <string name="pref_header_heartrate_alerts">Upozornění na tepovou frekvenci</string>
     <string name="pref_header_stress">Stres</string>
     <string name="pref_header_spo2">Krevní kyslík</string>
@@ -1891,7 +1895,7 @@
 \n
 \nVaše hodinky se po instalaci .zip souboru restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_notifications_ignore_low_priority">Ignorovat oznámení s nízkou prioritou</string>
     <string name="pref_summary_notifications_ignore_low_priority">Neposílat hodinkám oznámení s nízkou a minimální prioritou</string>
     <string name="pref_title_notification_prefer_long_text">Upřednostňovat dlouhý text oznámení</string>
@@ -1967,7 +1971,7 @@
     <string name="all_satellites">Všechny satelity</string>
     <string name="pref_display_caller_title">Zobrazit informace o kontaktu</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Používat data GPS z telefonu</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Interval aktualizace GPS dat v ms</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interval aktualizace GPS dat</string>
     <string name="pref_camera_remote_summary">Umožní hodinkám ovládat fotoaparát telefonu</string>
     <string name="pref_workout_keep_screen_on_summary">Obrazovka zůstane při cvičení zapnutá a jas bude automaticky upravován pro zobrazení</string>
     <string name="menuitem_vo2_max">VO₂ Max</string>
@@ -1975,7 +1979,7 @@
     <string name="abstract_chart_fragment_kind_rem_sleep">Spánek REM</string>
     <string name="activity_type_table_tennis">Ping pong</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
-    <string name="pref_summary_third_party_app_device_settings">Povolit ostatním nainstalovaným aplikacím třetích stran měnit nastavení přes ...</string>
+    <string name="pref_summary_third_party_app_device_settings">Povolit ostatním nainstalovaným aplikacím třetích stran měnit nastavení přes intenty.</string>
     <string name="pref_title_third_party_app_device_settings">Povolit aplikacím třetích stran měnit nastavení</string>
     <string name="share_screenshot">Sdílet snímek obrazovky</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
@@ -2019,7 +2023,7 @@
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_header_offline_voice">Hlasové ovládání offline</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. Klepnutím na tlačítko níže zahájíte proces párování.</string>
     <string name="pref_title_notification_cache_while_disconnected">Mezipaměť, když je telefon mimo dosah</string>
@@ -2028,17 +2032,17 @@
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTS 4.
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fw_upgrade_notice_amazfit_gts4_mini">Chystáte se nainstalovat firmvér %s na vašem GTS 4 Mini.
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Přejděte do nastavení bluetooth telefonu a spárujte se s novým zařízením, které se zobrazí (podobný název jako vaše aktuální hodinky, ale s příponou, např. \"Amazfit GTR 4 - AFC8\".</string>
     <string name="pref_summary_notification_cache_while_disconnected">Odesílání zmeškaných oznámení, když se zařízení znovu připojí poté, co bylo mimo dosah telefonu</string>
     <string name="pref_summary_notification_media_ignores_application_list">Zpracovávat oznámení multimediálních aplikací před běžným seznamem aplikací. Pokud není tato předvolba zaškrtnuta, musí být mediální aplikace povoleny v seznamu aplikací, aby fungovalo ovládání médií ze zařízení.</string>
@@ -2054,20 +2058,329 @@
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 4.
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fw_upgrade_notice_amazfit_band7">Chystáte se nainstalovat firmvér %s na vašem Amazfit Band 7.
 \n
 \nVaše hodinky se po instalaci souboru .zip restartují.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_summary_receive_calls_watch">Provádění a přijímání hovorů přímo na hodinkách</string>
     <string name="pref_pair_bluetooth_calls_title">Párování pro hovory přes Bluetooth</string>
     <string name="pref_pair_bluetooth_calls_help_summary">Chcete-li přijímat hovory přes Bluetooth, musíte telefon spárovat s druhou instancí hodinek.</string>
     <string name="pref_pair_bluetooth_calls_help_warning">UPOZORNĚNÍ: Pokud povolíte volání Bluetooth bez spárování s druhou instancí hodinek, oznámení o hovorech nemusí fungovat podle očekávání.</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Využít gps telefonu k přepsání gps dat bangle hodinek</string>
+    <string name="activity_type_stretching">Protahování</string>
+    <string name="activity_type_street_dance">Pouliční tanec</string>
+    <string name="activity_type_pool_swimming">Bazénové plavání</string>
+    <string name="activity_type_hiit">HIIT</string>
+    <string name="activity_type_indoor_walking">Chůze vevnitř</string>
+    <string name="activity_type_kickboxing">Kickbox</string>
+    <string name="activity_type_indoor_ice_skating">Bruslení na ledě vevnitř</string>
+    <string name="activity_type_rowing">Veslování</string>
+    <string name="buttons_on_right">Tlačítka vpravo</string>
+    <string name="pref_header_intent_api">Intent API</string>
+    <string name="offline_voice_respond_turn_wrist">Odpovědět při pootočení zápěstím</string>
+    <string name="pref_theme_dynamic">Dynamické barvy</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Používat pouze poskytovatele sítě pro určení polohy. To snižuje spotřebu energie za cenu přesnosti. Je potřeba znovupřipojení.</string>
+    <string name="pref_header_authentication">Ověření</string>
+    <string name="pref_cover_to_mute">Umlčet Zakrytím</string>
+    <string name="pref_morning_updates_categories_title">Kategorie ranních aktualizací</string>
+    <string name="pref_workout_detection_alert_title">Upozornění</string>
+    <string name="pref_workout_detection_alert_summary">Upozornit při detekování aktivity</string>
+    <string name="busy_task_fetch_stress_data">Stahování dat stresu</string>
+    <string name="busy_task_fetch_pai_data">Stahování dat PAI</string>
+    <string name="pref_screen_notification_profile_schedule">Plán</string>
+    <string name="pref_screen_notification_profile_todo_list">Seznam úkolů</string>
+    <string name="pai_chart_per_week">PAI za týden</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Nastavení pro Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Upozornění: Tato nastavení se vztahují pouze na Mi Band 1 a 2.</string>
+    <string name="buttons_on_left">Tlačítka vlevo</string>
+    <string name="busy_task_fetch_debug_logs">Stahování protokolu ladění</string>
+    <string name="pref_workout_detection_enabled_summary">Zapnout automatickou detekci této aktivity</string>
+    <string name="pref_workout_detection_time">Doba aktivity před detekcí</string>
+    <string name="pref_gps_header">GPS</string>
+    <string name="pref_alert_tone">Tón Upozornění</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">Připomenutí Vypršení AGPS</string>
+    <string name="pref_agps_expiry_reminder_time">Doba Připomenutí Vypršení dat AGPS</string>
+    <string name="prefs_weardirection">Směr nošení</string>
+    <string name="world_clock_code">Kód</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Interval, jak často je gps pozice aktualizována, v ms</string>
+    <string name="pref_vibrate_for_alert">Vibrovat pro upozornění</string>
+    <string name="offline_voice_response_during_screen_lighting">Odpovědět při osvětlené obrazovce</string>
+    <string name="pref_agps_update_time">Čas aktualizace AGPS</string>
+    <string name="pref_workout_detection_enabled">Detekce aktivní</string>
+    <string name="vibration_profile_default">Výchozí</string>
+    <string name="pref_canned_message">Zpráva</string>
+    <string name="pref_text_to_speech">Text na řeč</string>
+    <string name="pref_agps_expire_time">Čas vypršení dat AGPS</string>
+    <string name="pref_morning_updates_title">Ranní aktualizace</string>
+    <string name="pref_morning_updates_summary">Zobrazit aktualizace každé ráno</string>
+    <string name="pref_morning_updates_categories_summary">Seznam kategorií k zobrazení každé ráno</string>
+    <string name="pref_workout_detection_ask_first">Nejprve se zeptat</string>
+    <string name="pref_workout_detection_categories_summary">Detekovat kategorie aktivit automaticky</string>
+    <string name="pref_workout_detection_ask_first_summary">Při detekci této aktivity vyžadovat potvrzení na hodinkách</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Stahování dat dechové frekvence spánku</string>
+    <string name="pref_workout_detection_time_summary">Kolik minut aktivity je potřeba pro automatickou detekci</string>
+    <string name="pref_sleep_mode_title">Režim spánku</string>
+    <string name="pref_sleep_mode_sleep_screen_title">Spánková Obrazovka</string>
+    <string name="contact_delete_confirm_description">Opravdu chcete odstranit \'%1$s\'\?</string>
+    <string name="contact_no_free_slots_description">Zařízení nemá žádné volné místo pro kontakty (celkem míst: %1$s)</string>
+    <string name="pref_sleep_mode_smart_enable_title">Chytré Zapnutí</string>
+    <string name="pref_sleep_mode_smart_enable_summary">Povolit režim spánku automaticky během spánku</string>
+    <string name="busy_task_fetch_sports_summaries">Stahování data sportovních aktivit</string>
+    <string name="busy_task_fetch_sports_details">Stahování detailů sportovních aktivit</string>
+    <string name="busy_task_fetch_spo2_data">Stahování dat SpO2</string>
+    <string name="busy_task_fetch_hr_data">Stahování dat srdečního tepu</string>
+    <string name="pref_gps_combination">GPS kombinace</string>
+    <string name="offline_voice_respond_screen_on">Odpovědět při aktivní obrazovce</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Zobrazit Spánkovou Obrazovku při probuzení obrazovky během režimu spánku, ke snížení rozptylů</string>
+    <string name="pref_title_mb_intents">Posílat přímo intenty media tlačítek</string>
+    <string name="pref_summary_mb_intents">Povolit, pokud ovládání médií nefunguje pro určité aplikace</string>
+    <string name="title_activity_set_contacts">Konfigurace kontaktů</string>
+    <string name="pref_header_navigation">Navigace</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_chart_per_month">PAI za měsíc</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Oříznout časy při stahování</string>
+    <string name="gpx_route_upload_complete">Nahrávání GPX traxy hotovo</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Ořízne časy stažených data na celé minuty. Vypněte, chcete-li zachovat čas ve vteřinách, při potížích při stahování velmi krátkých aktivit.</string>
+    <string name="gpx_route_upload_failed">Chyba při nahrávání GPX trasy</string>
+    <string name="gpx_route_upload_in_progress">Nahrávání GPX trasy</string>
+    <string name="pref_app_logs_stop_summary">Vypnout zaznamenávání ladících informací aplikaci</string>
+    <string name="prefs_control_center">Ovládací Centrum</string>
+    <string name="dismiss">Zamítnout</string>
+    <string name="contact_missing_number">Kontaktní číslo není vyplněno</string>
+    <string name="prefs_always_on_display_style">Styl</string>
+    <string name="prefs_shortcut_cards_summary">Karty zobrazené při tahu (swipe) vpravo přes ciferník. Pokud běží aplikace, auto-generované karty nejsou tímto nastavením ovlivněny.</string>
+    <string name="activity_prefs_goals">Cíle</string>
+    <string name="activity_type_surfing">Surfování</string>
+    <string name="activity_type_windsurfing">Windsurfing</string>
+    <string name="activity_type_kitesurfing">Kitesurfing</string>
+    <string name="activity_type_icehockey">Lední hokej</string>
+    <string name="activity_type_iceskating">Bruslení</string>
+    <string name="error_no_bluetooth_scan">Musí být povoleno Bluetooth skenování pro správnou funkci</string>
+    <string name="error_no_bluetooth_connect">Musí být povoleno Bluetooth připojení pro správnou funkci</string>
+    <string name="permission_request">%1$s umožňuje posílání zpráv a dalších dat z Android do zařízení. Přístup k datům je pro tuto funkci nutný.
+\n
+\nBudou následovat Android obrazovky požadující oprávnění.
+\n
+\nZvolte \'%2$s\' pro pokračování.</string>
+    <string name="hrZoneAerobic">Aerobní</string>
+    <string name="hrZoneNa">Není k dispozici</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Standardní</string>
+    <string name="withings_bt_calibration_previous">Předchozí</string>
+    <string name="activity_type_core_training">Cvičení břicha a core</string>
+    <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>
+    <string name="pref_title_upper_button_long_press_action">Akce dlouhého držení Horního Tlačítka</string>
+    <string name="elevationLoss">Ztráta nadmořské výšky</string>
+    <string name="HeartRateZones">Zóny srdečního tepu</string>
+    <string name="activity_detail_share_gps_label">Sdílet GPS Trasu</string>
+    <string name="intent_api_allow_trigger_export_title">Povolit export databáze</string>
+    <string name="address">Adresa</string>
+    <string name="fossil_hr_confirm_connection">Prosíme o potvrzení na hodinkách</string>
+    <string name="debug_companion_show_associated">Zobrazit zařízení asociovaní v módu doprovodných zařízení</string>
+    <string name="contact_missing_name">Jméno není vyplněno</string>
+    <string name="voice_service_package_title">Balíček hlasové služby</string>
+    <string name="title">Název</string>
+    <string name="description">Popis</string>
+    <string name="preview_image">Náhled</string>
+    <string name="activity_type_baseball">Baseball</string>
+    <string name="activity_type_handball">Házená</string>
+    <string name="activity_type_tennis">Tenis</string>
+    <string name="activity_type_dancing">Tanec</string>
+    <string name="activity_type_skiing">Lyžování</string>
+    <string name="activity_type_snowboarding">Snowboarding</string>
+    <string name="activity_type_riding">Jízda na koni</string>
+    <string name="activity_type_hockey">Hokej</string>
+    <string name="voice_service_package_summary">Aplikace obsluhující hlasové příkazy</string>
+    <string name="loyalty_cards_sync">Synchronizace</string>
+    <string name="loyalty_cards_catima_permissions_title">Schází oprávnění</string>
+    <string name="withings_calibration_text_hours">Použijte ciferník níže pro zarovnání hodinové ručičky na 12.</string>
+    <string name="withings_calibration_text_minutes">Nyní zarovnejte minutovou ručičku na 12.</string>
+    <string name="withings_calibration_text_activity_target">Zarovnejte ručičku aktivity na 100%. Tato ručička se pohybuje pouze jedním směrem.</string>
+    <string name="withings_bt_calibration_next">Následující</string>
+    <string name="drag_handle">posunout</string>
+    <string name="find_my_phone_found_it">NALEZENO</string>
+    <string name="aerobicTrainingEffect">Aerobický účinek</string>
+    <string name="TrainingEffect">Tréninkový efekt</string>
+    <string name="ftp_server_start_summary">Spustit FTP server na hodinkách</string>
+    <string name="fossil_hr_pairing_failed">Párování selhalo</string>
+    <string name="pref_activity_full_sync_trigger_warning">Vyvolá plnou synchronizaci všech dat aktivit ze zařízení. Může trvat několik minut.</string>
+    <string name="elevationGain">Převýšení</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="menuitem_todo">Úkoly</string>
+    <string name="zepp_os_watchface_minimalist">Minimalista</string>
+    <string name="zepp_os_watchface_simplicity_data">Jednoduchá Data</string>
+    <string name="sports_activity_confirm_delete_description">Opravdu chcete odstranit %d aktivity\?</string>
+    <string name="watchface_widget_type_uv_index">UV Index</string>
+    <string name="pref_switch_controls_anc_ambient_off">Potlačení Hluku ←→ Zvuky Okolí ←→ Vypnuto</string>
+    <string name="sony_quick_access_double_tap">Rychlý Přístup (dvojité ťuknutí)</string>
+    <string name="continue_pressing">Dlouhý Stisk</string>
+    <string name="quick_attention">Rychlá pozornost</string>
+    <string name="changelog_show_full">Více…</string>
+    <string name="pref_show_changelog">Zobrazit seznam změn při startu aplikace</string>
+    <string name="pref_show_changelog_summary">Zobrazí seznam změn od poslední aktualizace Gadgetbridge</string>
+    <string name="activity_detail_share_raw_summary">Sdílet Souhrn Nezpracovaných Dat</string>
+    <string name="activity_detail_share_raw_details">Sdílet Detaily Nezpracovaných Dat</string>
+    <string name="stress_relaxed">Uvolněný/á</string>
+    <string name="stress_mild">Mírný</string>
+    <string name="ftp_server_root_dir">Kořenový adresář</string>
+    <string name="username">Uživatelské jméno</string>
+    <string name="fossil_hr_connection_not_confirmed">Připojení na hodinkách nepotvrzeno, využit neověřený mód</string>
+    <string name="contact_name">Jméno</string>
+    <string name="voice_service_class_title">Třída hlasové služby</string>
+    <string name="voice_service_class_summary">Plná servisní cesta k obsloužení hlasových příkazů</string>
+    <string name="voice_service">Hlasová služba</string>
+    <string name="loyalty_cards">Věrnostní Karty</string>
+    <string name="pref_activity_full_sync_trigger_summary">Vyvolat plnou synchronizaci dat aktivit</string>
+    <string name="pref_activity_full_sync_trigger_title">Plná synchronizace</string>
+    <string name="loyalty_cards_catima_package">Název balíčku aplikace Catima</string>
+    <string name="loyalty_cards_install_catima_fail">Při instalaci Catima došlo k chybě</string>
+    <string name="loyalty_cards_sync_starred">Synchronizovat pouze oblíbení karty</string>
+    <string name="loyalty_cards_sync_title">Synchronizace Věrnostních Karet</string>
+    <string name="loyalty_cards_open_catima">Otevřít Catima</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_syncing">Synchronizace %d věrnostních karet do hodinek</string>
+    <string name="prefs_always_on_display_follow_watchface">Styl podle ciferníku</string>
+    <string name="menuitem_screen_always_lit">Obrazovka Vždy Rozsvícena</string>
+    <string name="menuitem_eject_water">Odstranit Vodu</string>
+    <string name="stress_moderate">Střední</string>
+    <string name="loyalty_cards_sync_summary">Klepněte pro synchronizaci karet do hodinek</string>
+    <string name="pref_title_lower_button_short_press_action">Akce stisku Dolního Tlačítka</string>
+    <string name="wifi_hotspot_stop_summary">Zastavit Wi-Fi hotspot na hodinkách</string>
+    <string name="contact_phone_number">Telefonní číslo</string>
+    <string name="pref_enable_unsupported_settings_summary">To umožní přístup ke všem dostupným nastavením, i když tato nejsou zařízením podporována. To může způsobit nestabilitu a restary zařízení.</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="pai_day">PAI Denní přírůstek</string>
+    <string name="loyalty_cards_install">Instalace Catima</string>
+    <string name="croatian">Chorvatština</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (pouze s Galaxy Wearable aplikací)</string>
+    <string name="supercars_lights_blinking_label">Blikání</string>
+    <string name="zepp_os_watchface_superposition">superpozice</string>
+    <string name="intent_api_allow_debug_commands_title">Povolit příkazy ladění</string>
+    <string name="intent_api_allow_debug_commands_summary">Povolit vyvolání příkazů menu Ladění prostřednictvím Intent API</string>
+    <string name="ftp_server_stop_summary">Zastavit FTP server na hodinkách</string>
+    <string name="ftp_server_status">Status FTP serveru</string>
+    <string name="ftp_server_configuration">Nastavení FTP serveru</string>
+    <string name="pref_app_logs_start_summary">Zapnout zaznamenávání ladících informací aplikací</string>
+    <string name="changelog_title">Co je nového</string>
+    <string name="loyalty_cards_sync_groups">Skupiny k synchronizaci</string>
+    <string name="loyalty_cards_catima_not_compatible">Instalovaná verze Catima není kompatibilní s Gadgetbridge. Aktualizujte Catima a Gadgetbridge na poslední verzi.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamické barvy nejsou ve vašem Androidu k dispozici , tato funkce je dostupná od Androidu 12+. Gadgetbridge použije výchozí barvy tématu Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Poznámka: pro využití barev dynamického tématu je nutno povolit barvy tapety nebo barevné tapety v nastavení zobrazení Androidu 12+. V opačném případě použije Gadgetbridge výchozí barvy tématu Material 3.</string>
+    <string name="georgian">Gruzíjština</string>
+    <string name="menuitem_one_tap_measuring">Měření jednotapů</string>
+    <string name="activity_type_weightlifting">Vzpírání</string>
+    <string name="stress_high">Vysoký</string>
+    <string name="pai_total">PAI Celkový</string>
+    <string name="sony_speak_to_chat_summary">Automaticky vypnut potlačení hluku při promluvení.</string>
+    <string name="screenshot_taken">Screenshot pořízen</string>
+    <string name="menuitem_total_workout">Celkový trénink</string>
+    <string name="menuitem_voice_memos">Hlasové poznámky</string>
+    <string name="sony_button_mode_help_title">Módy Tlačítek - Nápověda</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Potlačení Hluku, Zvuky Okolí</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Potlačení Hluku, Vypnuto</string>
+    <string name="intent_api_allow_activity_sync_title">Povolit vyvolání synchronizace aktivit</string>
+    <string name="pref_title_lock_unlock">Zámek</string>
+    <string name="wifi_hotspot_configuration">Nastavení Wi-Fi hotspotu</string>
+    <string name="wifi_hotspot_status">Status Wi-Fi hotspotu</string>
+    <string name="fossil_hr_pairing_successful">Párování úspěšné</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="menuitem_unsupported">[NEPODPOROVÁNO] %s</string>
+    <string name="currentWorkoutLoad">Cvičící zátěž</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Chystáte se nainstalovat firmvér %s na vašem Amazfit Bip Pro.
+\n
+\nProsím nezapomeňte nainstalovat soubor .fw a poté soubor .res . Vaše hodinky se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat .res a pokud je tento soubor přesně stejné jako ten, který byl nainstalován dříve.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="zepp_os_watchface_rotating_earth">Rotating Earth</string>
+    <string name="intent_api_allow_activity_sync_summary">Povolit vyvolání synchronizace aktivit prostřednictvím Intent API</string>
+    <string name="intent_api_allow_trigger_export_summary">Povolit vyvolání exportu databáze prostřednictvím Intent API</string>
+    <string name="intent_api_broadcast_export_title">Vysílat broadcast zprávu při exportu databáze</string>
+    <string name="intent_api_broadcast_export_summary">Vyslat broadcastový intent po dokončení exportu databáze</string>
+    <string name="supercars_turbo_speed_label">Turbo Rychlost</string>
+    <string name="supercars_lights_label">Reflektory</string>
+    <string name="wifi_hotspot_summary">Nastavení Wi-Fi hotspotu na hodinkách</string>
+    <string name="wifi_hotspot_start_summary">Spustit Wi-Fi hotspot na hodinkách</string>
+    <string name="loyalty_cards_sync_groups_only">Synchronizovat pouze specifické skupiny</string>
+    <string name="loyalty_cards_sync_archived">Synchronizovat archivované karty</string>
+    <string name="pref_chart_sleep_lines_limit">Kolik detekovaných skupin spánku zobrazit před skrolováním</string>
+    <string name="hrZoneWarmUp">Zahřívání</string>
+    <string name="hrZoneFatBurn">Pálení tuku</string>
+    <string name="hrZoneAnaerobic">Anaerobní</string>
+    <string name="hrZoneExtreme">Extrémní</string>
+    <string name="anaerobicTrainingEffect">Anaerobický účinek</string>
+    <string name="maximumOxygenUptake">Maximální příjem kyslíku</string>
+    <string name="status_icon">Ikona stavu</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Chystáte se nainstalovat firmvér %s na vašem Amazfit Cheetah Pro.
+\n
+\nVaše hodinky se po instalaci .zip souboru restartují.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="kind_gpx_route">GPX Trasa</string>
+    <string name="zepp_os_watchface_multiple_data">Vícenásobná data</string>
+    <string name="zepp_os_watchface_rush">Rush</string>
+    <string name="zepp_os_watchface_vibrant">Vibrant</string>
+    <string name="ftp_server_summary">Nastavení FTP serveru na hodinkách</string>
+    <string name="changelog_full_title">Změnový soubor</string>
+    <string name="fw_upgrade_notice_zepp_os">Chystáte se nainstalovat firmvér %s na vašem %s.
+\n
+\nVaše hodinky se po instalaci .zip souboru restartují.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="stop">Stop</string>
+    <string name="prefs_shortcut_cards">Přístupné Karty</string>
+    <string name="prefs_control_center_summary">Vyberte položky v rozbalovacím menu ovládacího centra</string>
+    <string name="activity_type_football">Fotbal</string>
+    <string name="activity_type_rugby">Ragby</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_indoor_fitness">Posilovna</string>
+    <string name="activity_type_stepper">Chodící trenažér</string>
+    <string name="activity_type_other">Ostatní</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (hranatý)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (kulatý)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="zepp_os_watchface_business_style">Business Styl</string>
+    <string name="device_experimental">EXPERIMENTÁLNÍ</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Emerald Moonlight</string>
+    <string name="menuitem_offline_voice">Hlasové ovládání offline</string>
+    <string name="watchface_setting_button_move_hands">Nastavit ručičky</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Potlačení Hluku, Zvuky Okolí, Vypnuto</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Zvuky Okolí, Vypnuto</string>
+    <string name="pref_summary_navigation_forward">Předávat instrukce z navigačních aplikací do hodinek</string>
+    <string name="sony_quick_access_triple_tap">Rychlý Přístup (trojté ťuknutí)</string>
+    <string name="pref_title_navigation_forward">Posílat navigaci do hodinek</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="sony_button_mode_help_summary">Popis módů tlačítek</string>
+    <string name="sony_ambient_sound_control_button_modes">Režimy ovládání okolního zvuku</string>
+    <string name="fossil_hr_confirmation_skipped">Přeskočit potvrzení na hodinkách</string>
+    <string name="fossil_hr_confirmation_timeout">Čas vypršení potvrzení, pokračování</string>
+    <string name="debug_companion_pair_current">Spárovat aktuální zařízení v módu doprovodného zařízení</string>
+    <string name="pref_app_logs_title">Ladící záznamy</string>
+    <string name="pref_app_logs_summary">Povolit záznamy ladění aplikací hodinek</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="loyalty_cards_catima_not_installed">Program Catima je vyžadován pro správu věrnostních karet</string>
+    <string name="loyalty_cards_sync_options">Možnosti synchronizace</string>
+    <string name="loyalty_cards_catima_permissions_summary">Pro synchronizaci karet potřebuje Gadgetbridge oprávnění pro čtení karet z Catima. Klikněte pro povolení přístupu.</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">V zařízení není k dispozici dostatek paměti</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">Aktuální MTU %1$d je příliš nízké, povolte, prosím, větší MTU v nastavení zařízení. Následně se odpojte a znovu připojte.</string>
+    <string name="english_au">Angličtina (Austrálie)</string>
+    <string name="english_ca">Angličtina (Kanada)</string>
 </resources>

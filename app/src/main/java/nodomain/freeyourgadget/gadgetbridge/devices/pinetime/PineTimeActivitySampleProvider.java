@@ -9,6 +9,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
+
+import java.util.List;
 
 public class PineTimeActivitySampleProvider extends AbstractSampleProvider<PineTimeActivitySample> {
     private GBDevice mDevice;
@@ -67,5 +71,13 @@ public class PineTimeActivitySampleProvider extends AbstractSampleProvider<PineT
     @Override
     public PineTimeActivitySample createActivitySample() {
         return new PineTimeActivitySample();
+    }
+
+    public Optional<PineTimeActivitySample> getSampleForTimestamp(int timestamp) {
+        List<PineTimeActivitySample> foundSamples = this.getGBActivitySamples(timestamp, timestamp, ActivityKind.TYPE_ALL);
+        if (foundSamples.size() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(foundSamples.get(0));
     }
 }

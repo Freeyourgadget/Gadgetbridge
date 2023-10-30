@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
@@ -36,29 +36,15 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.AmazfitNeoSupport;
 
 public class AmazfitNeoCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoCoordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITNEO;
-    }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_NEO_NAME)) {
-                return DeviceType.AMAZFITNEO;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_NEO_NAME, Pattern.CASE_INSENSITIVE);
     }
 
     @Override
@@ -133,5 +119,28 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
                 HeartRateCapability.MeasurementInterval.MINUTES_10,
                 HeartRateCapability.MeasurementInterval.MINUTES_30
         );
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitNeoSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_neo;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 }

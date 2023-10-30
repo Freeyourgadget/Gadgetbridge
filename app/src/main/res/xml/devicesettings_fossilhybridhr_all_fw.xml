@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:title="@string/pref_workout_detection_title"
+        android:summary="@string/pref_workout_detection_summary"
+        android:key="workout_detection_settings">
+
+        <PreferenceCategory
+            android:key="pref_workout_detection_running"
+            android:title="@string/activity_type_running">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_running_enabled"
+                android:title="@string/pref_workout_detection_enabled"
+                android:summary="@string/pref_workout_detection_summary"
+                android:icon="@drawable/ic_activity_running"/>
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_running_ask_first"
+                android:title="@string/pref_workout_detection_ask_first"
+                android:summary="@string/pref_workout_detection_ask_first_summary"
+                android:icon="@drawable/ic_warning_gray"
+                android:dependency="activity_recognize_running_enabled"/>
+            <EditTextPreference
+                android:defaultValue="3"
+                android:inputType="number"
+                android:icon="@drawable/ic_timer"
+                android:key="activity_recognize_running_minutes"
+                android:title="@string/pref_workout_detection_time"
+                android:summary="@string/pref_workout_detection_time_summary"
+                android:dependency="activity_recognize_running_enabled"/>
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_workout_detection_biking"
+            android:title="@string/activity_type_biking">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_biking_enabled"
+                android:title="@string/pref_workout_detection_enabled"
+                android:summary="@string/pref_workout_detection_summary"
+                android:icon="@drawable/ic_activity_biking"/>
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_biking_ask_first"
+                android:title="@string/pref_workout_detection_ask_first"
+                android:summary="@string/pref_workout_detection_ask_first_summary"
+                android:icon="@drawable/ic_warning_gray"
+                android:dependency="activity_recognize_biking_enabled"/>
+            <EditTextPreference
+                android:defaultValue="5"
+                android:inputType="number"
+                android:icon="@drawable/ic_timer"
+                android:key="activity_recognize_biking_minutes"
+                android:title="@string/pref_workout_detection_time"
+                android:summary="@string/pref_workout_detection_time_summary"
+                android:dependency="activity_recognize_biking_enabled"/>
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_workout_detection_walking"
+            android:title="@string/activity_type_walking">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_walking_enabled"
+                android:title="@string/pref_workout_detection_enabled"
+                android:summary="@string/pref_workout_detection_summary"
+                android:icon="@drawable/ic_activity_walking"/>
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_walking_ask_first"
+                android:title="@string/pref_workout_detection_ask_first"
+                android:summary="@string/pref_workout_detection_ask_first_summary"
+                android:icon="@drawable/ic_warning_gray"
+                android:dependency="activity_recognize_walking_enabled"/>
+            <EditTextPreference
+                android:defaultValue="10"
+                android:inputType="number"
+                android:icon="@drawable/ic_timer"
+                android:key="activity_recognize_walking_minutes"
+                android:title="@string/pref_workout_detection_time"
+                android:summary="@string/pref_workout_detection_time_summary"
+                android:dependency="activity_recognize_walking_enabled"/>
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_workout_detection_rowing"
+            android:title="@string/activity_type_rowing">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_rowing_enabled"
+                android:title="@string/pref_workout_detection_enabled"
+                android:summary="@string/pref_workout_detection_summary"
+                android:icon="@drawable/ic_activity_rowing"/>
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="activity_recognize_rowing_ask_first"
+                android:title="@string/pref_workout_detection_ask_first"
+                android:summary="@string/pref_workout_detection_ask_first_summary"
+                android:icon="@drawable/ic_warning_gray"
+                android:dependency="activity_recognize_rowing_enabled"/>
+            <EditTextPreference
+                android:defaultValue="3"
+                android:inputType="number"
+                android:icon="@drawable/ic_timer"
+                android:key="activity_recognize_rowing_minutes"
+                android:title="@string/pref_workout_detection_time"
+                android:summary="@string/pref_workout_detection_time_summary"
+                android:dependency="activity_recognize_rowing_enabled"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+    <SeekBarPreference
+        android:defaultValue="2"
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_strength"
+        android:max="3"
+        android:title="@string/pref_title_vibration_strength"
+        app:showSeekBarValue="true" />
+
+    <Preference
+        android:title="@string/qhybrid_title_calibration"
+        android:icon="@drawable/ic_sensor_calibration"
+        android:summary="@string/qhybrid_summary_calibration">
+        <intent
+            android:targetPackage="@string/applicationId"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CalibrationActivity" />
+    </Preference>
+
+</androidx.preference.PreferenceScreen>

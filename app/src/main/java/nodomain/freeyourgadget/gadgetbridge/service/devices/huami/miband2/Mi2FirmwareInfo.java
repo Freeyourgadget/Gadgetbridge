@@ -93,7 +93,7 @@ public class Mi2FirmwareInfo extends HuamiFirmwareInfo {
     }
 
     public boolean isGenerallyCompatibleWith(GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.MIBAND2;
+        return isHeaderValid() && (device.getType() == DeviceType.MIBAND2 || device.getType() == DeviceType.MIBAND2_HRX);
     }
 
     protected Map<Integer, String> getCrcMap() {

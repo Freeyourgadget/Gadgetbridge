@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Einstellungen</string>
@@ -976,7 +976,7 @@
     <string name="minAltitude">Minimale Höhe</string>
     <string name="maxAltitude">Maximale Höhe</string>
     <string name="descentMeters">Höhenverlust</string>
-    <string name="ascentMeters">Höhengewinn</string>
+    <string name="ascentMeters">Bergauf</string>
     <string name="distanceMeters">Strecke</string>
     <string name="activity_summary_detail">Detail der Sportaktivität</string>
     <string name="maxSpeed">Maximum</string>
@@ -1337,12 +1337,12 @@
     <string name="title_activity_notification_management">Benachrichtigungseinstellungen</string>
     <string name="pref_header_notification_application_settings">Pro App einstellen</string>
     <string name="uncheck_all_applications">Alle Apps abwählen</string>
-    <string name="pref_message_privacy_mode_complete">Inhalt ausblenden</string>
+    <string name="pref_message_privacy_mode_complete">Alle Inhalte ausblenden</string>
     <string name="pref_title_notification_use_as">Verwende die App-Liste, um…</string>
     <string name="pref_title_notification_use_as_deny">Benachrichtigungen von ausgewählten Apps ablehnen</string>
     <string name="pref_title_notification_use_as_allow">Benachrichtigungen von ausgewählten Apps zulassen</string>
     <string name="pref_title_message_privacy_mode">Datenschutzmodus für Nachrichten</string>
-    <string name="pref_message_privacy_mode_off">Inhalt anzeigen</string>
+    <string name="pref_message_privacy_mode_off">Alle Inhalte anzeigen</string>
     <string name="check_all_applications">Alle Apps auswählen</string>
     <string name="pref_applications_settings">Liste der Apps</string>
     <string name="pref_header_other">Andere</string>
@@ -1779,7 +1779,7 @@
     <string name="open_fw_installer_getting_files_text">Da wir die Firmware-Dateien nicht verteilen dürfen, musst du dir die Dateien selbst beschaffen. Das bedeutet, dass du nach den Dateien in apk-Dateien, online, in Foren, auf Amazfitwatchfaces (für Miband/Amazfit-Geräte) und so weiter suchen musst.</string>
     <string name="appmanager_item_outdated">(veraltet)</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Größe der Text-Bitmaps</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Wenn \"Text als Bitmap\" aktiviert ist, in welcher Größe soll der Text gerendert werden\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Größe, die für das Rendern von Text als Bitmap verwendet werden soll</string>
     <string name="watchface_dialog_widget_cat_generic">Allgemein</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Benutzerdefiniertes Widget</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2. Zeitzonen-Widget</string>
@@ -2156,7 +2156,7 @@
     <string name="pref_morning_updates_categories_title">Morgendliche Kategorie-Updates</string>
     <string name="yesterdays_activity">Gestrige Aktivität</string>
     <string name="pref_morning_updates_categories_summary">Liste der Kategorien, die jeden Morgen angezeigt werden</string>
-    <string name="pref_pair_bluetooth_calls_help_warning">WARNUNG: Wenn du Bluetooth-Anrufe aktivierst, ohne sich mit der zweiten Instanz zu koppeln, funktionieren die Anrufbenachrichtigungen möglicherweise nicht wie erwartet.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">WARNUNG: Wenn du Bluetooth-Anrufe aktivierst, ohne dich mit der zweiten Instanz zu koppeln, funktionieren die Anrufbenachrichtigungen möglicherweise nicht wie erwartet.</string>
     <string name="pref_summary_receive_calls_watch">Führen und empfangen von Anrufen direkt auf der Uhr</string>
     <string name="bluetooth_calls">Bluetooth-Anrufe</string>
     <string name="bluetooth_calls_settings">Einstellungen für Bluetooth-Anrufe</string>
@@ -2168,7 +2168,7 @@
     <string name="pref_display_caller_title">Kontaktinformationen anzeigen</string>
     <string name="pref_pair_bluetooth_calls_title">Koppeln für Bluetooth-Anrufe</string>
     <string name="pref_pair_bluetooth_calls_help_title">Wie man Bluetooth-Anrufe empfängt</string>
-    <string name="pref_pair_bluetooth_calls_help_2">2. Gehen Sie zu den Bluetooth-Einstellungen deines Telefons und koppel es mit dem neuen Gerät, das angezeigt wird (ähnlicher Name wie deine aktuelle Uhr, aber mit einem Suffix, z. B. \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Gehe zu den Bluetooth-Einstellungen deines Telefons und verbinde es mit dem neuen Gerät, das angezeigt wird (ähnlicher Name wie deine aktuelle Uhr, aber mit einem Suffix, z. B. \"Amazfit GTR 4 - AFC8\".</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Aktiviere die nachstehende Einstellung für Bluetooth-Anrufe.</string>
     <string name="pref_title_notification_cache_while_disconnected">Cache außerhalb der Reichweite</string>
     <string name="pref_summary_notification_cache_while_disconnected">Verpasste Benachrichtigungen senden, wenn sich ein Gerät wieder verbindet, nachdem es sich außerhalb der Reichweite befand</string>
@@ -2265,13 +2265,233 @@
     <string name="description">Beschreibung</string>
     <string name="status_icon">Statussymbol</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Verwende die GPS-Daten des Telefons, um die GPS-Daten des Armbands zu überschreiben</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option kann verwendet werden, um nur den Netzbetreiber für die Standortbestimmung zu verwenden. Dadurch wird der Stromverbrauch auf Kosten der Genauigkeit reduziert. Eine erneute Verbindung mit dem Gerät ist erforderlich.</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Verwende nur den Netzbetreiber, um den Standort zu bestimmen. Dies reduziert den Stromverbrauch auf Kosten der Genauigkeit. Eine erneute Verbindung ist erforderlich.</string>
     <string name="watchface_widget_type_uv_index">UV-Index</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option legt das Intervall in ms fest, wie oft die GPS-Position aktualisiert wird</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Das Intervall in ms, in dem die GPS-Position aktualisiert wird</string>
     <string name="preview_image">Vorschaubild</string>
     <string name="changelog_full_title">Änderungsprotokoll</string>
     <string name="changelog_show_full">Mehr…</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Aktualisierungsintervall der GPS-Daten in ms</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Aktualisierungsintervall der GPS-Daten</string>
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_title">Was gibt\'s Neues</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_chart_per_week">PAI pro Woche</string>
+    <string name="pai_chart_per_month">PAI pro Monat</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_total">PAI Gesamt</string>
+    <string name="loyalty_cards_sync_groups">Zu synchronisierende Gruppen</string>
+    <string name="loyalty_cards_sync_archived">Archivierte Karten synchronisieren</string>
+    <string name="loyalty_cards_catima_package">Catima Paketname</string>
+    <string name="loyalty_cards_install">Catima installieren</string>
+    <string name="loyalty_cards_sync_groups_only">Nur bestimmte Gruppen synchronisieren</string>
+    <string name="loyalty_cards_sync_summary">Tippe, um die Karten mit der Uhr zu synchronisieren</string>
+    <string name="loyalty_cards_sync_title">Kundenkarten synchronisieren</string>
+    <string name="loyalty_cards_catima_not_compatible">Die installierte Catima-Version ist nicht mit Gadgetbridge kompatibel. Bitte aktualisiere Catima und Gadgetbridge auf die neuesten Versionen.</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge benötigt Leseberechtigungen für Catima-Karten, um diese zu synchronisieren. Tippe auf diese Schaltfläche, um sie zu erteilen.</string>
+    <string name="pref_title_mb_intents">Direktes Übertragen von Medienschaltflächen-Intents</string>
+    <string name="pref_summary_mb_intents">Aktivieren, wenn die Mediensteuerung des Geräts für bestimmte Anwendungen nicht funktioniert</string>
+    <string name="pai_day">Erhöhung des Tages-PAI</string>
+    <string name="loyalty_cards_install_catima_fail">App Store konnte nicht geöffnet werden, um Catima zu installieren</string>
+    <string name="loyalty_cards_sync_starred">Nur markierte Karten synchronisieren</string>
+    <string name="loyalty_cards_catima_not_installed">Catima wird für die Verwaltung der Kundenkarten benötigt</string>
+    <string name="loyalty_cards_sync_options">Synchronisationsoptionen</string>
+    <string name="loyalty_cards_sync">Synchronisieren</string>
+    <string name="loyalty_cards_open_catima">Catima öffnen</string>
+    <string name="loyalty_cards_catima_permissions_title">Fehlende Berechtigungen</string>
+    <string name="loyalty_cards">Kundenkarten</string>
+    <string name="loyalty_cards_syncing">Synchronisieren der %d Kundenkarten mit dem Gerät</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="busy_task_fetch_sports_details">Abrufen von Sportdaten</string>
+    <string name="busy_task_fetch_sports_summaries">Abrufen von Sportübersichten</string>
+    <string name="busy_task_fetch_debug_logs">Abrufen von Debug-Protokollen</string>
+    <string name="busy_task_fetch_stress_data">Abrufen von Stressdaten</string>
+    <string name="busy_task_fetch_pai_data">Abrufen von PAI-Daten</string>
+    <string name="busy_task_fetch_spo2_data">Abrufen von SpO2-Daten</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Abruf von Daten zur Atemfrequenz im Schlaf</string>
+    <string name="error_no_bluetooth_scan">Zugriff auf den Bluetooth-Scan muss gewährt und aktiviert sein, damit der Scanvorgang ordnungsgemäß funktioniert</string>
+    <string name="error_no_bluetooth_connect">Zugriff auf die Bluetooth-Verbindung muss gewährt und aktiviert sein, damit der Scanvorgang ordnungsgemäß funktioniert</string>
+    <string name="permission_request">Mit %1$s kannst du Nachrichten und andere Daten von Android an dein Gerät senden. Dazu ist die Berechtigung für den Zugriff auf diese Daten erforderlich, und ohne diese Berechtigung funktioniert sie möglicherweise nicht richtig.
+\n
+\nEs werden nun einige Android-Dialogfelder angezeigt, in denen diese Berechtigungen angefordert werden.
+\n
+\nBitte tippe auf \'%2$s\', um fortzufahren.</string>
+    <string name="busy_task_fetch_hr_data">Abrufen von Herzfrequenzdaten</string>
+    <string name="activity_prefs_goals">Ziele</string>
+    <string name="activity_type_surfing">Surfen</string>
+    <string name="activity_type_windsurfing">Windsurfen</string>
+    <string name="activity_type_football">Fußball</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_baseball">Baseball</string>
+    <string name="activity_type_handball">Handball</string>
+    <string name="activity_type_tennis">Tennis</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_weightlifting">Gewichtheben</string>
+    <string name="activity_type_skiing">Skifahren</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="activity_type_icehockey">Eishockey</string>
+    <string name="activity_type_iceskating">Schlittschuhlaufen</string>
+    <string name="activity_type_golf">Golfen</string>
+    <string name="withings_calibration_text_hours">Bitte verwende das Zifferblatt unten, um den Stundenzeiger auf die 12 auszurichten.</string>
+    <string name="withings_calibration_text_minutes">Verwende nun das Zifferblatt, um den Minutenzeiger auf die 12 auszurichten.</string>
+    <string name="withings_calibration_text_activity_target">Zum Schluss richte den Aktivitätszeiger auf 100% aus. Bitte beachte, dass sich dieser Zeiger nur im Uhrzeigersinn bewegt.</string>
+    <string name="withings_bt_calibration_previous">Vorherige</string>
+    <string name="withings_bt_calibration_next">Nächste</string>
+    <string name="activity_type_kitesurfing">Kitesurfen</string>
+    <string name="activity_type_snowboarding">Snowboarden</string>
+    <string name="activity_type_dancing">Tanzen</string>
+    <string name="activity_type_riding">Reiten</string>
+    <string name="activity_type_other">Andere</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="pref_canned_message">Nachricht</string>
+    <string name="find_my_phone_found_it">GEFUNDEN</string>
+    <string name="pref_theme_dynamic">Dynamische Farben</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2 Einstellungen</string>
+    <string name="preferences_miband_1_2_warning">Warnung: Diese Einstellungen gelten nur für die Mi Bands 1 und 2.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Vollständige Synchronisation aller Aktivitätsdaten durchführen</string>
+    <string name="pref_show_changelog">Änderungsprotokoll beim Starten anzeigen</string>
+    <string name="pref_show_changelog_summary">Anzeige des Änderungsprotokolls seit der letzten Version, nachdem Gadgetbridge aktualisiert wurde</string>
+    <string name="pref_activity_full_sync_trigger_title">Vollständige Synchronisation</string>
+    <string name="pref_activity_full_sync_trigger_warning">Dadurch wird eine vollständige Synchronisation aller Aktivitätsdaten des Geräts ausgelöst. Es kann einige Minuten dauern, bis der Vorgang abgeschlossen ist.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische Farben sind auf deinem Gerät nicht verfügbar, nur Android 12+ unterstützt diese Funktion. Gadgetbridge verwendet die Standardfarben von Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Hinweis: Für das Design mit dynamischen Farben musst du Hintergrundbildfarben oder Farbpalette in deinen Android 12+ Darstellungseinstellungen aktivieren. Wenn du das nicht tust, wird Gadgetbridge die Standardfarben von Material 3 verwenden.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Du bist dabei, die Firmware %s auf deine Amazfit Cheetah Pro zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="fw_upgrade_notice_zepp_os">Du bist dabei, die Firmware %s auf deine %s zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Quadratisch)</string>
+    <string name="device_experimental">EXPERIMENTELL</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Du bist dabei, die Firmware %s auf deine Amazfit Bip 3 Pro zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau das gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Rund)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="french_ca">Französisch (Kanada)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Das Gerät hat nicht genügend freien Speicherplatz</string>
+    <string name="spanish_es">Spanisch (Spanien)</string>
+    <string name="english_in">Englisch (Indien)</string>
+    <string name="english_au">Englisch (Australien)</string>
+    <string name="text_receiver_activity_title">Text an das Gerät senden</string>
+    <string name="french_fr">Französisch (Frankreich)</string>
+    <string name="spanish_mx">Spanisch (Mexiko)</string>
+    <string name="english_gb">Englisch (Vereinigtes Königreich)</string>
+    <string name="english_us">Englisch (USA)</string>
+    <string name="spanish_us">Spanisch (USA)</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Bitte überarbeite dein Zifferblatt für das benutzerdefinierte Menü</string>
+    <string name="english_ca">Englisch (Kanada)</string>
+    <string name="prefs_wena3_menu_icon_hint">Das Einstellungssymbol wird immer am Ende angezeigt</string>
+    <string name="prefs_wena3_notification_vibration_repetition_3">3 Mal</string>
+    <string name="prefs_wena3_button_action_name_qrio_lock">Qrio abschließen</string>
+    <string name="prefs_wena3_vibration_short">Kurz</string>
+    <string name="info_menu_structure_contents">Menüstruktur: %s</string>
+    <string name="prefs_wena3_home_icon_name_calories">Kalorien</string>
+    <string name="prefs_home_icon_left_item">Links</string>
+    <string name="prefs_wena3_led_none">Keine LED</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">Die aktuelle MTU von %1$d ist zu niedrig,bitte aktiviere eine hohe MTU in den Geräteeinstellungen und trenne/schließe das Gerät neu an.</string>
+    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
+    <string name="pref_message_privacy_mode_bodyonly">Nur Nachrichtentext ausblenden</string>
+    <string name="prefs_wena3_home_icon_name_suica">Suica Kontostand</string>
+    <string name="prefs_wena3_vibration_strength_item_medium">Mittel</string>
+    <string name="prefs_wena3_title_activity">Aktivitätseinstellungen</string>
+    <string name="prefs_wena3_vibration_continuous">Durchgehend</string>
+    <string name="prefs_wena3_home_icon_name_pedometer">Schrittzähler</string>
+    <string name="prefs_wena3_home_icon_name_qrio">Qrio</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="new_discover_activity_description">Aktiviere die neue Erkennungsaktivität, die Probleme bei der Geräteerkennung beheben sollte. Deaktiviere diese Funktion, wenn du bei der Suche nach deinem Gerät oder der Kopplung mit diesem Probleme hast.</string>
+    <string name="white">Weiß</string>
+    <string name="prefs_wena3_home_icon_name_clock">Aktuelle Zeit</string>
+    <string name="prefs_wena3_vibration_strength_item_weak">Schwach</string>
+    <string name="temperature_scale_celsius">Celsius</string>
+    <string name="prefs_home_icon_right_item">Rechts</string>
+    <string name="prefs_wena3_vibration_basic">Einfach</string>
+    <string name="prefs_wena3_title_screen">Anzeigeeinstellungen</string>
+    <string name="prefs_wena3_home_icon_name_energy">Körperenergie</string>
+    <string name="prefs_wena3_notification_vibration_repetition_2">Zweimal</string>
+    <string name="prefs_wena3_auto_power_off_hint">Das Gerät schaltet sich automatisch nach dem festgelegten Zeitplan aus und wieder ein</string>
+    <string name="prefs_wena3_hint_lift_wrist">Display einschalten, wenn du auf dein Handgelenk schaust</string>
+    <string name="prefs_wena3_vibration_rapid">Schnell</string>
+    <string name="prefs_wena3_button_action_name_qrio_unlock">Qrio öffnen</string>
+    <string name="temperature_scale_cf">Temperaturskala</string>
+    <string name="prefs_wena3_notification_vibration_repetition_1">Einmal</string>
+    <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay</string>
+    <string name="new_discover_activity_title">Neue Entdeckungsaktivität aktivieren</string>
+    <string name="green">Grün</string>
+    <string name="yellow">Gelb</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="red">Rot</string>
+    <string name="cyan">Türkis</string>
+    <string name="prefs_wena3_vibration_siren">Sirene</string>
+    <string name="temperature_scale_cf_summary">Wähle aus, ob das Gerät die Celsius- oder die Fahrenheitskala verwendet.</string>
+    <string name="prefs_wena3_menu_icon_title">Menü-Symbole</string>
+    <string name="prefs_wena3_notification_default_vibration">Vibration bei Benachrichtigung</string>
+    <string name="prefs_wena3_notification_vibration_repetition_0">Unbegrenzt</string>
+    <string name="prefs_wena3_notification_vibration_repetition_4">4 Mal</string>
+    <string name="temperature_scale_fahrenheit">Fahrenheit</string>
+    <string name="prefs_wena3_vibration_strength_item">Vibrationsstärke</string>
+    <string name="prefs_wena3_menu_icon_name_payment">Bezahlen</string>
+    <string name="prefs_wena3_notification_default_vibration_repetition">Wiederholung der Vibration bei Benachrichtigung</string>
+    <string name="prefs_home_icon_center_item">Mitte</string>
+    <string name="prefs_wena3_notification_default_led">Farbe der Benachrichtigungs-LED</string>
+    <string name="prefs_wena3_home_icon_name_edy">Edy Kontostand</string>
+    <string name="prefs_wena3_vibration_warning">Warnung</string>
+    <string name="prefs_wena3_vibration_none">Keine Vibration</string>
+    <string name="purple">Lila</string>
+    <string name="prefs_wena3_vibration_strength_item_strong">Stark</string>
+    <string name="prefs_wena3_vibration_triple">Dreifach</string>
+    <string name="blue">Blau</string>
+    <string name="prefs_wena3_notification_settings_title">Benachrichtigungseinstellungen</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="prefs_wena3_receive_calls_title">Einstellungen für eingehende Anrufe</string>
+    <string name="error_invalid_menu_structure">Ungültiges JSON für Menüstruktur</string>
+    <string name="prefs_wena3_item_large_font">Größere Schriftgröße</string>
+    <string name="button_reset_menu_structure">Menüstruktur zurücksetzen</string>
+    <string name="prefs_wena3_hint_large_font">Schriftgröße in Kalender, Benachrichtigungen, etc. vergrößern</string>
+    <string name="prefs_wena3_receive_calls_item">Anrufbenachrichtigungen empfangen</string>
+    <string name="prefs_wena3_notification_default_call_vibration">Eingehende Anrufvibration</string>
+    <string name="prefs_wena3_notification_default_call_led">LED-Farbe bei eingehendem Anruf</string>
+    <string name="prefs_wena3_notification_default_call_vibration_repetition">Wiederholung von eingehender Anrufvibration</string>
+    <string name="prefs_wena3_receive_calls_hint">Falls abgeschaltet, wirst du nicht über eingehende Anrufe auf der Wena benachrichtigt</string>
+    <string name="latvian">Lettisch</string>
+    <string name="info_menu_structure_removed">Menüstruktur entfernt</string>
+    <string name="prefs_wena3_home_icon_title">Startbildschirm-Symbole</string>
+    <string name="prefs_wena3_item_weather_statusbar">Wetter in Statusleiste</string>
+    <string name="avgStrokeRate">Durchschnittliche Schlagrate</string>
+    <string name="menuitem_headphone">Kopfhörer</string>
+    <string name="femometer_measurement_mode_normal">Normaler Modus (60s-90s)</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="femometer_measurement_mode_quick">Schneller Modus (30s)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Arbeitsprofilbenachrichtigungen ignorieren</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="yard">yd</string>
+    <string name="strokes_minute">Züge/min</string>
+    <string name="femometer_measurement_mode_title">Messmodus</string>
+    <string name="femometer_measurement_mode_precise">Präziser Modus (3min)</string>
+    <string name="menuitem_workout_shortcuts">Trainingsverknüpfungen</string>
+    <string name="maxStrokeRate">Maximale Schlagrate</string>
+    <string name="laneLength">Bahnlänge</string>
+    <string name="strokes">Anzahl Züge</string>
+    <string name="menuitem_apps_shortcuts">Apps-Verknüpfungen</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Benachrichtigungen von Apps im Arbeitsprofil nicht an die Uhr senden</string>
+    <string name="menuitem_thermometer">Thermometer</string>
+    <string name="common_symbols">Gebräuchliche Symbole</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
 </resources>

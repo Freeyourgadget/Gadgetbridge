@@ -21,11 +21,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -45,6 +48,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -52,19 +57,9 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     public PebbleCoordinator() {
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("Pebble")) {
-            return DeviceType.PEBBLE;
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.PEBBLE;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Pebble.*");
     }
 
     @Override
@@ -236,5 +231,31 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return PebbleSupport.class;
+    }
+
+
+    @Override
+    @StringRes
+    public int getDeviceNameResource() {
+        return R.string.devicetype_pebble;
+    }
+
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
     }
 }

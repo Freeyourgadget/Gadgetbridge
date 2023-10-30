@@ -1,11 +1,59 @@
 ### Changelog
 
-#### Next Version (WIP)
-* Switch UI to Material 3 and support dynamic colors
+#### Next release (WIP)
+* Initial support for Amazfit Balance
+* Initial support for Femometer Vinca II
+* Initial support for Mijia LYWSD02MMC variant
+* Initial support for Sony Wena 3
+* Experimental support for Sony WF-1000XM5
+* Amazfit Band 7: Add alexa menu entries
+* Amazfit GTR 3 Pro: Fix firmware and watchface upload
+* Amazfit T-Rex: Fix activity summary parsing
+* AsteroidOS: Add more supported watch models
+* AsteroidOS: Fix media info
+* AsteroidOS: Fix notification dismissal
+* Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Lower threshold for low battery warning
+* Casio GBX100/GBD-200: Fix first connect
+* Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
+* Fossil/Skagen Hybrids: Reduce toasts on release builds
+* Message privacy: Add mode Hide only body
+* Mijia LYWSD02: Add battery
+* Mijia LYWSD02: Set temperature unit
+* PineTime: Display app name for VoIP app calls
+* PineTime: Reduce weather memory usage
+* Withings Steel HR: Fix crash when calibrating hands on the nightly
+* Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Fix health settings on older Zepp OS versions
+* Zepp OS: Fix setting of unknown button press apps
+* Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
+* Add transliteration for Latvian and Common Symbols
+* Allow ignore notifications from work profile apps
+* Fix emoji when a transliterator is enabled
+* Improve device discovery stability and fix freezes
+* Improve Telegram and COL Reminder notifications
+* Replace old-style preference switch with Material 3 switch
+
+#### 0.76.1
+* Amazfit GTR Mini: Mark as not experimental
+* Bangle.js: Improve file downloads
+* Bangle.js: Fix app interfaces
+* Allow text to be shared to devices
+* Fix connection to some Amazfit devices 
+
+#### 0.76.0
+* Upgrade UI to Material 3 and add dynamic colors theme
+* Initial support for Amazfit Bip 3 Pro
+* Initial support for Amazfit Cheetah Pro
 * Initial support for Bohemic Smart Bracelet
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
 * Initial support for Withings Steel HR
+* Experimental support for Amazfit Bip 5
+* Experimental support for Amazfit Falcon
+* Experimental support for Amazfit GTR Mini
+* Experimental support for Amazfit Cheetah (Round/Square)
+* Experimental support for Amazfit T-Rex Ultra
 * Amazfit GTS 2e: Add activate display on lift sensitivity
 * Amazfit GTR 3 / GTS 3: Enable AGPS Updates
 * Amazfit Neo: Enable PAI support
@@ -14,21 +62,31 @@
 * Bangle.js: Fix GB integration when watch is not programmable
 * Bangle.js: Put JSON keys in quotes
 * Bangle.js: Reorganize device settings
+* Fossil/Skagen Hybrids: Embed custom menu in watchface, fixes lost menu on reset
 * Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device
 * Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
+* Fossil/Skagen Hybrids: Sunrise/sunset follows weather location
 * Huami/Zepp OS: Add PAI charts
 * Huami/Zepp OS: Improve music info stability
 * Huami/Zepp OS: Improve reconnection and device initialization
 * Huami: Persist workout raw details even if gpx has no points
+* InfiniTime: Add heart rate measurement support
 * Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
 * Mi Band 6: Enable PAI and stress support
 * LeFun: Fix heart rate popup when measurement is triggered from phone
 * Sony WH-1000XM3/WF-SP800N: Add volume setting
 * Sony WH-1000XM5: Fix speak-to-chat enable/disable
 * Zepp OS: Add loyalty cards integration with Catima
+* Zepp OS: Enable AGPS updates for all devices
+* Zepp OS: Fix calendar sync on Zepp OS 2, send event location
 * Zepp OS: Fix reminder creation
+* Zepp OS: Fix shortcut cards setting on Zepp OS 2.1
+* Zepp OS: Fix weather, add hourly information
+* Zepp OS: Map barcode types for ITF, PDF_417 and DATA_MATRIX
+* Add preference to display changelog on startup
+* Add Termux RUN_COMMAND permission
 * Allow filtering notifications from work profile apps
-* Bump target SDK version to 31
+* Fix daylight saving time not being transmitted to the watch
 * Fix media button control for some applications
 * Fix notification filters by title if notification does not contain a body
 * Fix opening screenshots from notification on external apps
@@ -36,6 +94,7 @@
 * Fix some security error crashes when permissions are not granted
 * Fix transliteration of emoji
 * Fix transliteration of non-ASCII accented characters
+* Force gps speed calculation on some phones that do not report it correctly
 * Make application list sorting case-insensitive
 * Introduce native app shortcuts for android > 30
 * Update device settings action bar title depending on current screen

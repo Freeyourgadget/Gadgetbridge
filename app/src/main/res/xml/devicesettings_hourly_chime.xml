@@ -7,7 +7,7 @@
         android:summary="@string/prefs_hourly_chime_summary"
         android:title="@string/prefs_hourly_chime">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="hourly_chime_enable"
             android:title="@string/prefs_hourly_chime"

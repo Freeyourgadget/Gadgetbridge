@@ -18,11 +18,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
+import android.content.Context;
+import android.net.Uri;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -35,7 +40,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -54,33 +61,51 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
+import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
 
+    private Pattern supportedDeviceName = null;
+    /**
+     * This method should return a ReGexp pattern that will matched against a found device
+     * to check whether this coordinator supports that device.
+     * If more sophisticated logic is needed to determine device support, the supports(GBDeviceCandidate)
+     * should be overridden.
+     *
+     * @return Pattern
+     * */
+    protected Pattern getSupportedDeviceName(){
+        return null;
+    }
+
     @Override
-    public final boolean supports(GBDeviceCandidate candidate) {
-        return getSupportedType(candidate).isSupported();
+    public boolean supports(GBDeviceCandidate candidate) {
+        if(supportedDeviceName == null){
+            supportedDeviceName = getSupportedDeviceName();
+        }
+        if(supportedDeviceName == null){
+            throw new RuntimeException(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
+        }
+
+        return supportedDeviceName.matcher(candidate.getName()).matches();
     }
 
     @Override
     public ConnectionType getConnectionType() {
         return ConnectionType.BOTH;
-    }
-
-    @Override
-    public boolean supports(GBDevice device) {
-        return getDeviceType().equals(device.getType());
     }
 
     @NonNull
@@ -90,8 +115,8 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public GBDevice createDevice(GBDeviceCandidate candidate) {
-        GBDevice gbDevice = new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), null, null, getDeviceType());
+    public GBDevice createDevice(GBDeviceCandidate candidate, DeviceType deviceType) {
+        GBDevice gbDevice = new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), null, null, deviceType);
         for (BatteryConfig batteryConfig : getBatteryConfig()) {
             gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
             gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());
@@ -107,13 +132,13 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         }
         Prefs prefs = getPrefs();
 
-        String lastDevice = prefs.getPreferences().getString("last_device_address","");
+        String lastDevice = prefs.getPreferences().getString("last_device_address", "");
         if (gbDevice.getAddress().equals(lastDevice)) {
             LOG.debug("#1605 removing last device");
             prefs.getPreferences().edit().remove("last_device_address").apply();
         }
 
-        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS,"");
+        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
         if (gbDevice.getAddress().equals(macAddress)) {
             LOG.debug("#1605 removing devel miband");
             prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS).apply();
@@ -157,7 +182,17 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public SampleProvider<? extends ActivitySample> getSampleProvider(final GBDevice device, final DaoSession session) {
+        return null;
+    }
+
+    @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
+        return null;
+    }
+
+    @Override
+    public TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
 
@@ -198,7 +233,13 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     public boolean isHealthWearable(BluetoothDevice device) {
-        BluetoothClass bluetoothClass = device.getBluetoothClass();
+        BluetoothClass bluetoothClass;
+        try {
+            bluetoothClass = device.getBluetoothClass();
+        } catch (SecurityException se) {
+            LOG.warn("missing bluetooth permission: ", se);
+            return false;
+        }
         if (bluetoothClass == null) {
             LOG.warn("unable to determine bluetooth device class of " + device);
             return false;
@@ -242,9 +283,41 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsFlashing() { return false; }
 
+    @Nullable
+    @Override
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        return null;
+    }
+
+    @Override
+    public boolean supportsScreenshots() {
+        return false;
+    }
+
+    @Override
+    public int getAlarmSlotCount(final GBDevice device) {
+        return 0;
+    }
+
+    @Override
+    public boolean supportsSmartWakeup(final GBDevice device) {
+        return false;
+    }
+
     @Override
     public boolean supportsAppReordering() {
         return false;
+    }
+
+    @Override
+    public boolean supportsAppsManagement(final GBDevice device) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return null;
     }
 
     @Nullable
@@ -256,6 +329,26 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_ASK;
+    }
+
+    @Override
+    public boolean isExperimental() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsCalendarEvents() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsActivityDataFetching() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsActivityTracking() {
+        return false;
     }
 
     @Override
@@ -360,12 +453,22 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRealtimeData() {
+        return false;
+    }
+
+    @Override
     public boolean supportsRemSleep() {
         return false;
     }
 
     @Override
     public boolean supportsWeather() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
         return false;
     }
 
@@ -415,6 +518,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Nullable
     @Override
+    public Class<? extends Activity> getPairingActivity() {
+        return null;
+    }
+
+    @Nullable
+    @Override
     public Class<? extends Activity> getCalibrationActivity() {
         return null;
     }
@@ -453,5 +562,51 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     public boolean supportsNavigation() {
         return false;
+    }
+
+    @Override
+    public int getOrderPriority(){
+        return 0;
+    }
+
+    @Override
+    public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
+        return EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_default;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_default_disabled;
+    }
+
+    public boolean supportsNotificationVibrationPatterns() {
+        return false;
+    }
+
+    public boolean supportsNotificationVibrationRepetitionPatterns() {
+        return false;
+    }
+
+    public boolean supportsNotificationLedPatterns() {
+        return false;
+    }
+
+    public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
+        return new AbstractNotificationPattern[0];
+    }
+
+    public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
+        return new AbstractNotificationPattern[0];
+    }
+
+    public AbstractNotificationPattern[] getNotificationLedPatterns() {
+        return new AbstractNotificationPattern[0];
     }
 }

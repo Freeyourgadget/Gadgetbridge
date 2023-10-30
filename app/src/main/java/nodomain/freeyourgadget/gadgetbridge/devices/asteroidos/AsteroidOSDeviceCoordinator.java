@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Parcel;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -27,14 +27,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos.AsteroidOSDeviceSupport;
 
 public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AsteroidOSDeviceCoordinator.class);
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ASTEROIDOS;
-    }
 
     @Override
     public String getManufacturer() {
@@ -69,16 +66,16 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if (candidate.supportsService(AsteroidOSConstants.SERVICE_UUID)) {
-            return DeviceType.ASTEROIDOS;
+            return true;
         }
         for (String name : AsteroidOSConstants.SUPPORTED_DEVICE_CODENAMES) {
             if (candidate.getName().equals(name)) {
-                return DeviceType.ASTEROIDOS;
+                return true;
             }
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override
@@ -155,5 +152,16 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsMusicInfo() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AsteroidOSDeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_asteroidos;
     }
 }

@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -124,6 +125,7 @@ public class AndroidUtils {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
             int[] attrsToResolve = {R.attr.colorOnSurface};
+            @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
             ta.recycle();
@@ -149,6 +151,7 @@ public class AndroidUtils {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
             int[] attrsToResolve = {R.attr.colorSurface};
+            @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
             ta.recycle();
@@ -316,5 +319,21 @@ public class AndroidUtils {
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, R.string.activity_error_share_failed, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void openWebsite(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        GBApplication.getContext().startActivity(i);
+    }
+
+    public static void openApp(String packageName) throws ClassNotFoundException {
+        Context context = GBApplication.getContext();
+
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if(launchIntent == null){
+            throw new ClassNotFoundException("App " + packageName + " cannot be found");
+        }
+        GBApplication.getContext().startActivity(launchIntent);
     }
 }

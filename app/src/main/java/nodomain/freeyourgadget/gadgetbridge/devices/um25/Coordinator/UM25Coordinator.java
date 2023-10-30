@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
 
 public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
@@ -44,12 +45,12 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if(!"UM25C".equals(candidate.getName())) return DeviceType.UNKNOWN;
+    public boolean supports(GBDeviceCandidate candidate) {
+        if(!"UM25C".equals(candidate.getName())) return false;
         for(ParcelUuid service : candidate.getServiceUuids()){
-            if(service.getUuid().toString().equals(UM25Support.UUID_SERVICE)) return DeviceType.UM25;
+            if(service.getUuid().toString().equals(UM25Support.UUID_SERVICE)) return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override
@@ -57,11 +58,6 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
         return new int[]{
                 R.xml.devicesettings_um25
         };
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.UM25;
     }
 
     @Nullable
@@ -148,6 +144,17 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getBatteryCount() {
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return UM25Support.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_um25;
     }
 
     @Override

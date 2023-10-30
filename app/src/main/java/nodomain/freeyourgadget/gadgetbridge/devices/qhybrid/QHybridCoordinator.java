@@ -17,12 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -37,8 +35,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -53,6 +49,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -61,24 +59,19 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         for(ParcelUuid uuid : candidate.getServiceUuids()){
             if(uuid.getUuid().toString().equals("3dda0001-957f-7d4a-34a6-74696673696d")){
-                return DeviceType.FOSSILQHYBRID;
+                return true;
             }
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("3dda0001-957f-7d4a-34a6-74696673696d")).build());
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.FOSSILQHYBRID;
     }
 
     @Nullable
@@ -249,22 +242,30 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         }
         //Settings applicable to all firmware versions
         int[] supportedSettings = new int[]{
-                R.xml.devicesettings_fossilhybridhr,
                 R.xml.devicesettings_inactivity,
+                R.xml.devicesettings_fossilhybridhr_all_fw,
                 R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_dismisscall_16,
-                R.xml.devicesettings_transliteration
+                R.xml.devicesettings_reject_call_method,
+                R.xml.devicesettings_transliteration,
+                R.xml.devicesettings_fossilhybridhr_dev
         };
-        //Firmware specific settings
+        // Firmware version specific settings
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("3.0"))) {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration_pre_fw30);
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw300);
         } else {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration);
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_post_fw300);
         }
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
-            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw20);
+            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw220);
         }
         return supportedSettings;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return QHybridSupport.class;
     }
 
     @Override
@@ -309,5 +310,25 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     private boolean isFossilHybrid(GBDevice device){
         return device.getType() == DeviceType.FOSSILQHYBRID;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_qhybrid;
+    }
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_zetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_zetime_disabled;
+    }
+
+    @Override
+    public boolean supportsNavigation() {
+        return isHybridHR();
     }
 }

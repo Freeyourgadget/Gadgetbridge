@@ -18,16 +18,17 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.fitpro;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.EnumSet;
+import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -42,6 +43,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 
 public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(FitProDeviceCoordinator.class);
@@ -54,34 +58,9 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         qb.where(FitProActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-
-            if (name != null && (
-                    name.startsWith("M6") ||
-                            name.startsWith("M4") ||
-                            name.equals("LH716") ||
-                            name.equals("Sunset 6") ||
-                            name.equals("Watch7") ||
-                            name.equals("Fit1900"))
-            ) {
-                return DeviceType.FITPRO;
-            }
-
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.FITPRO;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("M6.*|M4.*|LH716|Sunset 6|Watch7|Fit1900");
     }
 
     @Override
@@ -187,5 +166,21 @@ public class FitProDeviceCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_fitpro,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return FitProDeviceSupport.class;
+    }
+
+    @Override
+    public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
+        return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_fitpro;
     }
 }

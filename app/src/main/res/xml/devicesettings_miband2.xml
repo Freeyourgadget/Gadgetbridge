@@ -10,7 +10,7 @@
         android:summary="@string/mi2_prefs_display_items_summary"
         android:title="@string/mi2_prefs_display_items" />
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@drawable/ic_font_download"
         android:key="mi2_enable_text_notifications"

@@ -34,7 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants.ADVERTISEMENT_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants.MANUFACTURER_NAME;
@@ -54,9 +55,8 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         return BONDING_STYLE_NONE;
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         // There's a bunch of other names other than "Lefun", but let's just focus on one for now.
         if (ADVERTISEMENT_NAME.equals(candidate.getName())) {
             // The device does not advertise service UUIDs, so can't check whether it supports
@@ -65,16 +65,11 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
             // manufacturer specific data, which consists of the device's MAC address and said
             // string. But we're not being given it, so *shrug*.
             if (candidate.getServiceUuids().length == 0) {
-                return DeviceType.LEFUN;
+                return true;
             }
         }
 
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.LEFUN;
+        return false;
     }
 
     @Nullable
@@ -169,5 +164,28 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_lefun_interface_language,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return LefunDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_lefun;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

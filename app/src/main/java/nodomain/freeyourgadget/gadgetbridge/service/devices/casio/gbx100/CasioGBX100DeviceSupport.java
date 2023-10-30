@@ -90,7 +90,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceSupport.class);
 
-
     private boolean mGetConfigurationPending = false;
     private boolean mRingNotificationPending = false;
     private final ArrayList<Integer> mSyncedNotificationIDs = new ArrayList<>();
@@ -99,6 +98,8 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     private final Handler mFindPhoneHandler = new Handler();
     private final Handler mFakeRingDurationHandler = new Handler();
     private final Handler mAutoRemoveMessageHandler = new Handler();
+    private final Handler mReconnectHandler = new Handler();
+    private boolean mNeedsGetConfiguration = false;
 
     public CasioGBX100DeviceSupport() {
         super(LOG);
@@ -113,7 +114,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
 
         try {
-            new InitOperation(this, builder, mFirstConnect).perform();
+            new InitOperation(this, builder, mFirstConnect, mNeedsGetConfiguration).perform();
         } catch (IOException e) {
             GB.toast(getContext(), "Initializing Casio watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
@@ -538,6 +539,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         if(config == null) {
             try {
                 mGetConfigurationPending = true;
+                mNeedsGetConfiguration = false;
                 new GetConfigurationOperation(this, true).perform();
             } catch (IOException e) {
                 mGetConfigurationPending = false;
@@ -620,5 +622,16 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         } catch (IOException e) {
             LOG.info("Error sending configuration change to watch");
         }
+    }
+
+    public void reconnectDelayed() {
+        setAutoReconnect(true);
+        mNeedsGetConfiguration = true;
+        mReconnectHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                connect();
+            }
+        }, CasioConstants.CASIO_FAKE_RING_SLEEP_DURATION);
     }
 }

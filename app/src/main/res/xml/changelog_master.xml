@@ -1,5 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.76.1" versioncode="226">
+        <change>Amazfit GTR Mini: Mark as not experimental</change>
+        <change>Bangle.js: Improve file downloads</change>
+        <change>Bangle.js: Fix app interfaces</change>
+        <change>Allow text to be shared to devices</change>
+        <change>Fix connection to some Amazfit devices </change>
+    </release>
+    <release version="0.76.0" versioncode="225">
+        <change>Upgrade UI to Material 3 and add dynamic colors theme</change>
+        <change>Initial support for Amazfit Bip 3 Pro</change>
+        <change>Initial support for Amazfit Cheetah Pro</change>
+        <change>Initial support for Bohemic Smart Bracelet</change>
+        <change>Initial support for Casio GW-B5600</change>
+        <change>Initial support for Garmin Vivomove HR</change>
+        <change>Initial support for Withings Steel HR</change>
+        <change>Experimental support for Amazfit Bip 5</change>
+        <change>Experimental support for Amazfit Falcon</change>
+        <change>Experimental support for Amazfit GTR Mini</change>
+        <change>Experimental support for Amazfit Cheetah (Round/Square)</change>
+        <change>Experimental support for Amazfit T-Rex Ultra</change>
+        <change>Amazfit GTS 2e: Add activate display on lift sensitivity</change>
+        <change>Amazfit GTR 3 / GTS 3: Enable AGPS Updates</change>
+        <change>Amazfit Neo: Enable PAI support</change>
+        <change>Bangle.js: Allow enable/disable of alarms</change>
+        <change>Bangle.js: Fetch activity data</change>
+        <change>Bangle.js: Fix GB integration when watch is not programmable</change>
+        <change>Bangle.js: Put JSON keys in quotes</change>
+        <change>Bangle.js: Reorganize device settings</change>
+        <change>Fossil/Skagen Hybrids: Embed custom menu in watchface, fixes lost menu on reset</change>
+        <change>Fossil/Skagen Hybrids: Fix unused alarms being pushed to the device</change>
+        <change>Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display</change>
+        <change>Fossil/Skagen Hybrids: Sunrise/sunset follows weather location</change>
+        <change>Huami/Zepp OS: Add PAI charts</change>
+        <change>Huami/Zepp OS: Improve music info stability</change>
+        <change>Huami/Zepp OS: Improve reconnection and device initialization</change>
+        <change>Huami: Persist workout raw details even if gpx has no points</change>
+        <change>InfiniTime: Add heart rate measurement support</change>
+        <change>Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled</change>
+        <change>Mi Band 6: Enable PAI and stress support</change>
+        <change>LeFun: Fix heart rate popup when measurement is triggered from phone</change>
+        <change>Sony WH-1000XM3/WF-SP800N: Add volume setting</change>
+        <change>Sony WH-1000XM5: Fix speak-to-chat enable/disable</change>
+        <change>Zepp OS: Add loyalty cards integration with Catima</change>
+        <change>Zepp OS: Enable AGPS updates for all devices</change>
+        <change>Zepp OS: Fix calendar sync on Zepp OS 2, send event location</change>
+        <change>Zepp OS: Fix reminder creation</change>
+        <change>Zepp OS: Fix shortcut cards setting on Zepp OS 2.1</change>
+        <change>Zepp OS: Fix weather, add hourly information</change>
+        <change>Zepp OS: Map barcode types for ITF, PDF_417 and DATA_MATRIX</change>
+        <change>Add preference to display changelog on startup</change>
+        <change>Add Termux RUN_COMMAND permission</change>
+        <change>Allow filtering notifications from work profile apps</change>
+        <change>Fix daylight saving time not being transmitted to the watch</change>
+        <change>Fix media button control for some applications</change>
+        <change>Fix notification filters by title if notification does not contain a body</change>
+        <change>Fix opening screenshots from notification on external apps</change>
+        <change>Fix reconnect delay reset after all devices are initialized</change>
+        <change>Fix some security error crashes when permissions are not granted</change>
+        <change>Fix transliteration of emoji</change>
+        <change>Fix transliteration of non-ASCII accented characters</change>
+        <change>Force gps speed calculation on some phones that do not report it correctly</change>
+        <change>Make application list sorting case-insensitive</change>
+        <change>Introduce native app shortcuts for android > 30</change>
+        <change>Update device settings action bar title depending on current screen</change>
+    </release>
     <release version="0.75.1" versioncode="224">
         <change>Fix Weather Notification integration</change>
     </release>

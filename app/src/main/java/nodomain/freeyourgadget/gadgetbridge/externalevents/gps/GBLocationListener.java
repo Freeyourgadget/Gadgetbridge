@@ -36,6 +36,8 @@ public class GBLocationListener implements LocationListener {
     private final EventHandler eventHandler;
 
     private Location previousLocation;
+    // divide by 3.6 to get km/h to m/s
+    private static final double SPEED_THRESHOLD = 1.0 / 3.6;
 
     public GBLocationListener(final EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -49,10 +51,12 @@ public class GBLocationListener implements LocationListener {
         location.setTime(getLocationTimestamp(location));
 
         // The location usually doesn't contain speed, compute it from the previous location
-        if (previousLocation != null && !location.hasSpeed()) {
-            long timeInterval = (location.getTime() - previousLocation.getTime()) / 1000L;
+        // Some devices report hasSpeed() as true, and yet only return a 0 value, so we have to check against a speed threshold
+        boolean hasValidSpeed = location.hasSpeed() && (location.getSpeed() > SPEED_THRESHOLD);
+        if (previousLocation != null && !hasValidSpeed) {
+            long timeInterval = (location.getTime() - previousLocation.getTime());
             float distanceInMeters = previousLocation.distanceTo(location);
-            location.setSpeed(distanceInMeters / timeInterval);
+            location.setSpeed(distanceInMeters / timeInterval * 1000L);
         }
 
         previousLocation = location;

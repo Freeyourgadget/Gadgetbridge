@@ -20,28 +20,20 @@ package nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
-
 public class CasioGMWB5000DeviceCoordinator extends CasioGWB5600DeviceCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null) {
-            if (name.equals("CASIO GMW-B5000")) {
-                return DeviceType.CASIOGMWB5000;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("CASIO GMW-B5000");
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGMWB5000;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogmwb5000;
     }
 }

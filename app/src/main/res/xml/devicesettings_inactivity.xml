@@ -7,7 +7,7 @@
         android:summary="@string/mi2_prefs_inactivity_warnings_summary"
         android:title="@string/mi2_prefs_inactivity_warnings">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
             android:title="@string/mi2_prefs_inactivity_warnings"

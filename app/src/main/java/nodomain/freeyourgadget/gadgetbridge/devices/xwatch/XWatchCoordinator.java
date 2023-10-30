@@ -23,7 +23,11 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -33,26 +37,18 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 
 public class XWatchCoordinator extends AbstractBLEDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("XWatch")) {
-            return DeviceType.XWATCH;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("XWatch.*");
     }
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.XWATCH;
     }
 
     @Nullable
@@ -134,5 +130,17 @@ public class XWatchCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return XWatchSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_xwatch;
     }
 }

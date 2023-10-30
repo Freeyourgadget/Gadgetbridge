@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -26,39 +25,25 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.AmazfitXSupport;
 
 public class AmazfitXCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitXCoordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITX;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_X, Pattern.CASE_INSENSITIVE);
     }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            if (name != null && name.equalsIgnoreCase(HuamiConst.AMAZFIT_X)) {
-                return DeviceType.AMAZFITX;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
-    }
-
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
@@ -125,8 +110,31 @@ public class AmazfitXCoordinator extends HuamiCoordinator {
         };
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitXSupport.class;
+    }
+
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_x;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband2_disabled;
     }
 }

@@ -17,12 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.id115;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import java.util.Collection;
@@ -41,6 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 
 public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
@@ -57,21 +57,16 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         if (candidate.supportsService(ID115Constants.UUID_SERVICE_ID115)) {
-            return DeviceType.ID115;
+            return true;
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override
     public int getBondingStyle(){
         return BONDING_STYLE_NONE;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.ID115;
     }
 
     @Nullable
@@ -162,5 +157,28 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_screenorientation,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return ID115Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_id115;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_h30_h10;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_h30_h10_disabled;
     }
 }

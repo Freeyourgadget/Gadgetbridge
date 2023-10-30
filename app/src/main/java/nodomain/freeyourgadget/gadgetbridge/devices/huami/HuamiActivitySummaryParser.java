@@ -148,6 +148,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 minHR  = buffer.getShort();
                 // hack that skips data on yet unknown summary version 519 data
                 buffer.position(0x8c);
+            } else if (version == 516) {
+                // hack that skips data on yet unknown summary version 516 data
+                buffer.position(buffer.position() + 4);
             }
             steps = buffer.getInt();
             activeSeconds = buffer.getInt();
@@ -156,10 +159,10 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             minLatitude = buffer.getInt();
             maxLongitude = buffer.getInt();
             minLongitude = buffer.getInt();
-            
+
             caloriesBurnt = buffer.getFloat();
             distanceMeters = buffer.getFloat();
-            
+
             ascentMeters = buffer.getFloat();
             descentMeters = buffer.getFloat();
             maxAltitude = buffer.getFloat();
@@ -172,7 +175,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             minPace = buffer.getFloat(); // in seconds/meter
             maxPace = buffer.getFloat();
             averagePace = buffer.getFloat();
-            
+
             maxCadence = Math.round(buffer.getFloat() * 60);
             minCadence = Math.round(buffer.getFloat() * 60);
             averageCadence = Math.round(buffer.getFloat() * 60);
@@ -180,7 +183,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             maxStride = Math.round(buffer.getFloat() * 100);
             minStride = Math.round(buffer.getFloat() * 100);
             averageStride2 = Math.round(buffer.getFloat() * 100);
-            
+
             distanceMeters2 = buffer.getFloat(); // this distance is 87-97% of distanceMeters, so probably length of the GPS track (difference is larger, when GPS took longer to get a precise position)
             buffer.getInt();
             averageHR = buffer.getShort();

@@ -1,8 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 
 /**
  * An adapter class for the media commands sent by AsteroidOS
@@ -14,7 +12,7 @@ public class AsteroidOSMediaCommand {
     public static final byte COMMAND_PAUSE = 0x3;
     public static final byte COMMAND_VOLUME = 0x4;
 
-    public byte command = 0x0;
+    public byte command;
     public AsteroidOSMediaCommand(byte value) {
         command = value;
     }

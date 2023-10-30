@@ -400,7 +400,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
     private Optional<? extends PaiSample> getSamplePaiForDay(final DBHandler db, final GBDevice device, final Calendar day) {
         final Date dayStart = DateTimeUtils.dayStart(day.getTime());
         final Date dayEnd = DateTimeUtils.dayEnd(day.getTime());
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final TimeSampleProvider<? extends PaiSample> sampleProvider = coordinator.getPaiSampleProvider(device, db.getDaoSession());
         final List<? extends PaiSample> daySamples = sampleProvider.getAllSamples(dayStart.getTime(), dayEnd.getTime());
         return Optional.ofNullable(daySamples.isEmpty() ? null : daySamples.get(daySamples.size() - 1));

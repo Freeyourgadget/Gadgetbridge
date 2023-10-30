@@ -1,0 +1,123 @@
+clone:
+   git:
+     image: woodpeckerci/plugin-git
+     settings:
+       partial: false
+
+steps:
+  check-if-released:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands: |
+      RELEASED_VERSION_CODE=$(curl https://freeyourgadget.codeberg.page/fdroid/repo/index-v1.json | jq '.packages."nodomain.freeyourgadget.gadgetbridge.nightly"[0].versionCode')
+      CURRENT_VERSION_CODE=$(git rev-list HEAD --count)
+
+      echo $CURRENT_VERSION_CODE
+      echo $RELEASED_VERSION_CODE
+      if [ "$RELEASED_VERSION_CODE" = "$CURRENT_VERSION_CODE" ]
+      then
+        echo "This version is already released, we quit!"
+        touch .do_not_build
+      fi
+
+
+  build-apks:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - if [ -f .do_not_build ]; then return 0; fi
+      # build the apks
+      - echo "$${SIGNING_KEY}" | base64 -d > app/keystore.p12
+      - ./gradlew assembleMainNightly -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
+      - ./gradlew assembleMainNopebble -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
+      - ./gradlew assembleBanglejsNightly -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
+    secrets: [ signing_key, keystorepass, keypass ]
+
+  pull-repo-config:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - if [ -f .do_not_build ]; then return 0; fi
+      - cd ..
+      - pwd
+      - mkdir repoconfig
+      - cd repoconfig
+      - pwd
+      - git clone --depth 1 https://codeberg.org/Freeyourgadget/fdroid-repo-config.git
+      - ./fdroid-repo-config/repoconfig/copy_files_to_repo_config.sh
+    secrets: [ commit_token ]
+
+  pull-pages:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - if [ -f .do_not_build ]; then return 0; fi
+      # prepare the pages repo, so fdroidclient can push files into it later
+      - cd ..
+      - pwd
+      - mkdir pages
+      - cd pages
+      - pwd
+      - git clone --depth 2 https://codeberg.org/Freeyourgadget/pages.git
+      - cd pages
+      - git config user.name "CODEBERG CI"
+      - git config user.email "noreply@nodomain.nodomain"
+        # reset and remove, later force push, to keep repo size small
+      - git reset --soft HEAD~1
+      - git status
+        #- rm -f fdroid/repo/*apk
+
+  update-fdroid-data:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - if [ -f .do_not_build ]; then return 0; fi
+      - pwd
+      - ../repoconfig/fdroid-repo-config/repoconfig/prepare_changelog.sh
+      - cd ../repoconfig/fdroid-repo-config/repoconfig
+      # get secrets from storage  
+      - echo "$${SIGNING_KEY}" | base64 -d > keystore.p12
+      - sed -i "s#KEYSTOREPASS_PLACEHOLDER#$${KEYSTOREPASS}#g" config.yml
+      - sed -i "s#KEYPASS_PLACEHOLDER#$${KEYPASS}#g" config.yml
+      - fdroid update
+      - cp ./repo/nodomain.freeyourgadget.gadgetbridge.nightly/en-US/icon.png ./repo/icons/icon.png
+      - python3 repo_listing.py > listing.html
+      - sed -i "s#</body>#LISTING\n</body>#" ./repo/index.html
+      - sed -i -e "/LISTING/r listing.html" -e '//d' ./repo/index.html
+      - fdroid deploy
+      - ls -laR repo
+    secrets: [ signing_key, keystorepass, keypass ]
+
+  push-pages-update-repo:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - if [ -f .do_not_build ]; then return 0; fi
+      - cd ../pages/pages/
+      - git add -A
+      - git status
+      - git diff
+      - ls -lsR fdroid/repo
+      - git commit -m "autodeploy, $${DRONE_COMMIT_MESSAGE}"
+      - git remote remove origin
+      - git remote add origin https://"$${COMMIT_TOKEN}"@codeberg.org/Freeyourgadget/pages.git
+        # force push as we removed all data
+      - git push -f origin master
+      - cd ../../
+      - pwd
+      - ls -la
+      - ./repoconfig/fdroid-repo-config/repoconfig/hyperlink.sh https://freeyourgadget.codeberg.page/fdroid/repo/
+        # bump
+    secrets: [ commit_token ]
+
+  on-error:
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
+    commands:
+      - cd ..
+      - mkdir -p repoconfig
+      - cd repoconfig
+      - git clone --depth 1 https://codeberg.org/Freeyourgadget/fdroid-repo-config.git || true
+      - ./fdroid-repo-config/repoconfig/create_issue_comment.sh "CI failed"
+    when:
+      status: failure
+    secrets: [ commit_token ]
+
+when:
+  - event: cron
+  - event: deployment
+    branch: master
+    evaluate: 'CI_PIPELINE_DEPLOY_TARGET == "nightly"'

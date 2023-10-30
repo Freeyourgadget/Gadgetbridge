@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -27,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -37,30 +37,19 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class MiBand3Coordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Coordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND3;
-    }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME) || name.equalsIgnoreCase(HuamiConst.MI_BAND3_NAME_2))) {
-                return DeviceType.MIBAND3;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
-
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(
+                HuamiConst.MI_BAND3_NAME + "|" + HuamiConst.MI_BAND3_NAME_2,
+                Pattern.CASE_INSENSITIVE
+        );
     }
 
     @Override
@@ -148,5 +137,28 @@ public class MiBand3Coordinator extends HuamiCoordinator {
                 "zh_CN",
                 "zh_TW",
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MiBand3Support.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband3;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband2;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband2_disabled;
     }
 }

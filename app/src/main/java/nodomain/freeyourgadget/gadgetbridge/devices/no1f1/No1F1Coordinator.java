@@ -17,21 +17,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.no1f1;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -42,6 +42,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
 
 public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
 
@@ -53,22 +55,10 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && (name.startsWith("X-RUN") || name.startsWith("MH30"))) {
-            return DeviceType.NO1F1;
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("X-RUN.*|MH30.*");
     }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NO1F1;
-    }
-
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_NONE;
@@ -155,10 +145,33 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return No1F1Support.class;
+    }
+
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getNo1F1ActivitySampleDao().queryBuilder();
         qb.where(No1F1ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_no1_f1;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_hplus;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_hplus_disabled;
     }
 }

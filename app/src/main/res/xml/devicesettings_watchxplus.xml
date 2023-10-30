@@ -14,13 +14,13 @@
                     android:max="10"
                     android:title="@string/pref_title_notifications_and_calls_repeat_on_call"
                     app:showSeekBarValue="true" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="notification_enable_continious_ring"
                     android:title="@string/prefs_notifications_and_calls_continious_ring" />
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_missed_call"/>
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="notification_enable_missed_call"
                     android:title="@string/pref_notifications_and_calls_enable_misscall"
@@ -35,12 +35,12 @@
                     app:showSeekBarValue="true" />
             <PreferenceCategory
                 android:title="@string/pref_header_notifications_and_calls_callhandling"/>
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="notification_button_reject"
                     android:summary="@string/pref_summary_notifications_and_calls_title_reject"
                     android:title="@string/prefs_notifications_and_calls_reject" />
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="notification_shake_reject"
                     android:summary="@string/pref_summary_notifications_and_calls_title_shake_reject"
@@ -59,13 +59,13 @@
             android:entryValues="@array/language_only_EN_CH_values"
             android:key="language"
             android:summary="%s" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:icon="@drawable/ic_access_time"
             android:defaultValue="false"
             android:key="pref_device_spec_settings_force_time"
             android:summary="@string/pref_summary_device_spec_settings_title_force_time"
             android:title="@string/pref_title_device_spec_settings_force_time" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="show_raw_graph"
             android:title="@string/pref_title_device_spec_settings_show_raw_graph" />

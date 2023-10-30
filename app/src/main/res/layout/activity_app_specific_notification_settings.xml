@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.app_specific_notifications.AppSpecificNotificationSettingsActivity">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/appListViewSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
+    </androidx.appcompat.widget.SearchView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appListViewSearch"
+        android:layout_centerHorizontal="true"
+        android:divider="@null" />
+
+</RelativeLayout>

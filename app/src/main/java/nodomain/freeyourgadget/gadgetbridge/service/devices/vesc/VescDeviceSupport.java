@@ -67,12 +67,8 @@ public class VescDeviceSupport extends VescBaseDeviceSupport {
         responseBuffer.order(ByteOrder.BIG_ENDIAN);
 
         deviceType = type;
-
-        if (type == DeviceType.VESC_NRF) {
-            addSupportedService(UUID.fromString(VescCoordinator.UUID_SERVICE_SERIAL_NRF));
-        } else if (type == DeviceType.VESC_HM10) {
-            addSupportedService(UUID.fromString(VescCoordinator.UUID_SERVICE_SERIAL_HM10));
-        }
+        addSupportedService(UUID.fromString(VescCoordinator.UUID_SERVICE_SERIAL_NRF));
+        addSupportedService(UUID.fromString(VescCoordinator.UUID_SERVICE_SERIAL_HM10));
     }
 
     @Override
@@ -89,10 +85,10 @@ public class VescDeviceSupport extends VescBaseDeviceSupport {
 
         initBroadcast();
 
-        if (deviceType == DeviceType.VESC_NRF) {
-            this.serialWriteCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_TX_NRF));
-            this.serialReadCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_RX_NRF));
-        } else if (deviceType == DeviceType.VESC_HM10) {
+
+        this.serialWriteCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_TX_NRF));
+        this.serialReadCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_RX_NRF));
+        if(this.serialWriteCharacteristic == null || this.serialReadCharacteristic == null){
             this.serialWriteCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_TX_HM10));
             this.serialReadCharacteristic = getCharacteristic(UUID.fromString(VescCoordinator.UUID_CHARACTERISTIC_SERIAL_RX_HM10));
         }

@@ -236,7 +236,10 @@ public class ZeppOsLoyaltyCardService extends AbstractZeppOsService {
     private static final Map<BarcodeFormat, Byte> BARCODE_FORMAT_CODES = new HashMap<BarcodeFormat, Byte>() {{
         put(BarcodeFormat.CODE_128, (byte) 0x00);
         put(BarcodeFormat.CODE_39, (byte) 0x01);
+        put(BarcodeFormat.ITF, (byte) 0x02);
         put(BarcodeFormat.QR_CODE, (byte) 0x03);
+        put(BarcodeFormat.PDF_417, (byte) 0x04);
+        put(BarcodeFormat.DATA_MATRIX, (byte) 0x05);
         put(BarcodeFormat.UPC_A, (byte) 0x06);
         put(BarcodeFormat.EAN_13, (byte) 0x07);
         put(BarcodeFormat.EAN_8, (byte) 0x08);

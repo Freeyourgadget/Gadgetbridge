@@ -33,7 +33,6 @@ import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -72,7 +71,7 @@ public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFW
     }
 
     private void saveToCache(final Huami2021FirmwareInfo firmwareInfo, final GBDevice device) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final File appCacheDir;
         try {

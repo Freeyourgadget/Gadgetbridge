@@ -169,13 +169,14 @@ public class BatteryInfoActivity extends AbstractGBActivity {
 
         battery_status_time_span_seekbar.setProgress(2);
 
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
+
         ImageView battery_status_device_icon = findViewById(R.id.battery_status_device_icon);
-        battery_status_device_icon.setImageResource(gbDevice.isInitialized() ? gbDevice.getType().getIcon() : gbDevice.getType().getDisabledIcon());
+        battery_status_device_icon.setImageResource(gbDevice.getEnabledDisabledIconResource());
         battery_status_battery_level_text = (TextView) findViewById(R.id.battery_status_battery_level);
         battery_status_device_name_text.setText(gbDevice.getAliasOrName());
 
         setBatteryLabels();
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
             if (batteryConfig.getBatteryIndex() == batteryIndex) {
                 battery_status_extra_name.setText(batteryConfig.getBatteryLabel());

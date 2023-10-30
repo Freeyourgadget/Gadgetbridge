@@ -69,6 +69,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         PHONE("9", "1"),
         EVENTS("10", "1"),
         STRESS("11", "1"),
+        THERMOMETER("12", "1"),
         WORLDCLOCK("13", "1"),
         TODO("17", "1"),
         COUNTDOWN("18", "1"),
@@ -81,7 +82,12 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         ONE_TAP_MEASURING("22", "1"),
         BREATHING("24", "1"),
         STOPWATCH("25", "1"),
+        ZEPP_COACH("27", "1"),
         RECOMMENDATION("28", "1"),
+        BODY_COMPOSITION("33", "1"),
+        READINESS("34", "1"),
+        ALEXA("35", "1"),
+        ZEPP_PAY("37", "1"),
         ;
 
         private final String appNum;
@@ -134,7 +140,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
             case CMD_CAPABILITIES_RESPONSE:
                 version = payload[1];
                 getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_VERSION, version));
-                if (version != 3) {
+                if (version != 3 && version != 4) {
                     LOG.warn("Unsupported shortcut cards service version {}", version);
                     return;
                 }
@@ -268,6 +274,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
     }
 
     public static boolean isSupported(final Prefs devicePrefs) {
-        return devicePrefs.getInt(PREF_VERSION, 0) == 3;
+        final int version = devicePrefs.getInt(PREF_VERSION, 0);
+        return version == 3 || version == 4;
     }
 }

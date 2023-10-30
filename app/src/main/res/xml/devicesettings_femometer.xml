@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:entries="@array/femometer_measurement_mode"
+        android:entryValues="@array/femometer_measurement_mode_values"
+        android:defaultValue="normal"
+        android:icon="@drawable/ic_checklist"
+        android:key="femometer_measurement_mode"
+        android:summary="%s"
+        android:title="@string/femometer_measurement_mode_title" />
+</androidx.preference.PreferenceScreen>

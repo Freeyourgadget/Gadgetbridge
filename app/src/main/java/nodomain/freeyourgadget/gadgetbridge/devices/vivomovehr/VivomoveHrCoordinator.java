@@ -24,8 +24,8 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -34,6 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.VivomoveHrSupport;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -41,11 +43,11 @@ import java.util.Collections;
 public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if ("vívomove HR".equals(candidate.getName())) return DeviceType.VIVOMOVE_HR;
+    public boolean supports(GBDeviceCandidate candidate) {
+        if ("vívomove HR".equals(candidate.getName())) return true;
 
         final boolean hasServiceUuids = candidate.getServiceUuids().length > 0;
-        return hasServiceUuids && candidate.supportsService(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI) ? DeviceType.VIVOMOVE_HR : DeviceType.UNKNOWN;
+        return hasServiceUuids && candidate.supportsService(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI);
     }
 
     @NonNull
@@ -54,11 +56,6 @@ public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
         final ParcelUuid garminService = new ParcelUuid(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI);
         final ScanFilter filter = new ScanFilter.Builder().setServiceUuid(garminService).build();
         return Collections.singletonList(filter);
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.VIVOMOVE_HR;
     }
 
     @Nullable
@@ -141,6 +138,17 @@ public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         // no device-specific settings yet
         return null;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return VivomoveHrSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_vivomove_hr;
     }
 
     @Override

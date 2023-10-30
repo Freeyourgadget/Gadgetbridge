@@ -23,6 +23,8 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
@@ -34,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qc35.QC35BaseSupport;
 
 public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
@@ -41,18 +45,9 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
 
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.getName().startsWith("Bose QC 35")) {
-            return DeviceType.BOSE_QC35;
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.BOSE_QC35;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Bose QC 35.*");
     }
 
     @Nullable
@@ -66,6 +61,12 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
         return new int[]{
                 R.xml.devicesettings_qc35
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return QC35BaseSupport.class;
     }
 
     @Override
@@ -141,5 +142,22 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_bose_qc35;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_headphones;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_headphones_disabled;
     }
 }

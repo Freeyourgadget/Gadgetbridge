@@ -105,7 +105,7 @@ public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
             final Device device = DBHelper.getDevice(getDevice(), session);
             final User user = DBHelper.getUser(session);
 
-            final HuamiCoordinator coordinator = (HuamiCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+            final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
             final HuamiSpo2SampleProvider sampleProvider = coordinator.getSpo2SampleProvider(getDevice(), session);
 
             for (final HuamiSpo2Sample sample : samples) {

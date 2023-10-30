@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import java.util.UUID;
 
 public class PineTimeJFConstants {
@@ -54,5 +55,8 @@ public class PineTimeJFConstants {
 
     // since https://github.com/InfiniTimeOrg/InfiniTime/pull/1454
     public static final UUID UUID_CHARACTERISTIC_WORLD_TIME = UUID.fromString("00050001-78fc-48fe-8e23-433b3a1942d0");
+
+    public static final UUID UUID_SERVICE_HEART_RATE = GattService.UUID_SERVICE_HEART_RATE;
+    public static final UUID UUID_CHARACTERISTIC_HEART_RATE_MEASUREMENT = UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb");
 
 }

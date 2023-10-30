@@ -1,6 +1,6 @@
-pipeline:
+steps:
   build:
-    image: codeberg.org/freeyourgadget/android-fdroid-tools:latest
+    image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
     commands:
       - pwd #bump
       - ./gradlew assembleDebug --stacktrace
@@ -11,3 +11,6 @@ pipeline:
 #this doesn't work yet:
 #https://github.com/woodpecker-ci/woodpecker/issues/687
 
+when:
+  event:
+    exclude: ['cron', 'deployment']

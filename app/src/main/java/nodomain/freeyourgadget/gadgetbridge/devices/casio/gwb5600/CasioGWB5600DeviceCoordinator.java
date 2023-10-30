@@ -18,18 +18,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.bluetooth.le.ScanFilter;
-import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -39,27 +36,14 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
 
 public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null) {
-            if (name.equals("CASIO GW-B5600")) {
-                return DeviceType.CASIOGWB5600;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGWB5600;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("CASIO GW-B5600");
     }
 
     @Override
@@ -94,6 +78,17 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return CasioGWB5600DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogwb5600;
     }
 
     @Override

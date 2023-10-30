@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
@@ -29,20 +30,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class SonyWF1000XM4Coordinator extends SonyHeadphonesCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.getName().contains("WF-1000XM4")) {
-            return DeviceType.SONY_WF_1000XM4;
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_WF_1000XM4;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(".*WF-1000XM4.*");
     }
 
     @Override
@@ -67,5 +57,21 @@ public class SonyWF1000XM4Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.PauseWhenTakenOff,
                 SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff
         );
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_wf_1000xm4;
+    }
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_galaxy_buds;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_galaxy_buds_disabled;
     }
 }

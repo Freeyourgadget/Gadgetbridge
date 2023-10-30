@@ -36,14 +36,14 @@
         android:title="@string/prefs_ambient_settings_title">
 
         <PreferenceCategory android:title="@string/prefs_ambient_sound">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_phone"
                 android:key="pref_galaxy_buds_ambient_mode_during_call"
                 android:summary="@string/prefs_ambient_sound_during_call_summary"
                 android:title="@string/prefs_ambient_sound_during_call_title" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_hearing"
                 android:key="pref_galaxy_buds_ambient_sound"
@@ -97,7 +97,7 @@
         android:persistent="false"
         android:title="@string/prefs_galaxy_touch_options">
         <PreferenceCategory android:title="@string/prefs_galaxy_touch_options">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:icon="@drawable/ic_touch"
                 android:key="pref_galaxy_buds_lock_touch"
@@ -139,7 +139,7 @@
                 android:summary="%s"
                 android:title="@string/prefs_switch_control_right" />
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:dependency="pref_galaxy_buds_lock_touch"
                 android:icon="@drawable/ic_touch"
@@ -154,20 +154,20 @@
         android:key="prefs_settings"
         android:persistent="false"
         android:title="@string/title_activity_settings">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_hearing"
             android:key="pref_galaxy_buds_pro_in_ear_detection"
             android:summary="@string/prefs_in_ear_detection_summary"
             android:title="@string/nothing_prefs_inear_title" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_auto_awesome"
             android:key="prefs_galaxy_buds_seamless_connection"
             android:summary="@string/prefs_seamless_connection_switch_summary"
             android:title="@string/prefs_seamless_connection_switch_title" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_hearing"
             android:key="pref_galaxy_buds_noise_controls_with_one_earbud"
@@ -185,7 +185,7 @@
             app:showSeekBarValue="true" />
 
         <PreferenceCategory android:title="@string/prefs_galaxy_buds_experimental">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_videogame"
                 android:key="pref_galaxy_buds_game_mode"
@@ -193,7 +193,7 @@
                 android:title="@string/prefs_game_mode" />
         </PreferenceCategory>
 
-        <!-- <SwitchPreference
+        <!-- <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_graphic_eq"
             android:key="pref_galaxy_buds_pro_read_notifications_outloud"

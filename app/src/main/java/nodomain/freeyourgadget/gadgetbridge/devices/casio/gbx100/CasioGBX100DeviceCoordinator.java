@@ -28,13 +28,14 @@ import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -42,23 +43,15 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
 public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null) {
-            if (name.startsWith("CASIO") && (name.endsWith("GBX-100") ||
-                    name.endsWith("GBD-200") || name.endsWith("GBD-100") ||
-                    name.endsWith("GBD-H1000"))) {
-                return DeviceType.CASIOGBX100;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("CASIO.*(GBX-100|GBD-100|GBD-200|GBD-H1000)");
     }
 
     @Override
@@ -84,11 +77,6 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGBX100;
     }
 
     @Override
@@ -166,5 +154,16 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_autoremove_message,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return CasioGBX100DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogbx100;
     }
 }

@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -98,6 +101,8 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public static final String QHYBRID_COMMAND_DOWNLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOAD_FILE";
     public static final String QHYBRID_COMMAND_UPLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOAD_FILE";
+
+    public static final String QHYBRID_COMMAND_SET_MENU_STRUCTURE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_MENU_STRUCTURE";
 
     public static final String QHYBRID_ACTION_DOWNLOADED_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOADED_FILE";
     public static final String QHYBRID_ACTION_UPLOADED_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOADED_FILE";
@@ -305,6 +310,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         globalFilter.addAction(QHYBRID_COMMAND_PUSH_CONFIG);
         globalFilter.addAction(QHYBRID_COMMAND_SWITCH_WATCHFACE);
+        globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_STRUCTURE);
         globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -380,6 +386,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                         handleSwitchWatchfaceIntent(intent);
                         break;
                     }
+                    case QHYBRID_COMMAND_SET_MENU_STRUCTURE:{
+                        handleSetMenuStructure(intent);
+                        break;
+                    }
                 }
             }
         };
@@ -395,6 +405,30 @@ public class QHybridSupport extends QHybridBaseSupport {
         String watchfaceName = intent.getExtras().getString("WATCHFACE_NAME", "");
         if (watchfaceName != "") {
             ((FossilHRWatchAdapter) watchAdapter).activateWatchface(watchfaceName);
+        }
+    }
+
+    private void handleSetMenuStructure(Intent intent){
+        if(intent == null){
+            logger.error("intent null");
+            return;
+        }
+        String menuStructureJson = intent.getStringExtra("EXTRA_MENU_STRUCTURE_JSON");
+        if(menuStructureJson == null){
+            logger.error("Menu structure json null");
+            return;
+        }
+        if(menuStructureJson.isEmpty()){
+            logger.error("Menu structure json empty");
+            return;
+        }
+        try {
+            JSONObject menuStructure = new JSONObject(menuStructureJson);
+            watchAdapter.handleSetMenuStructure(menuStructure);
+            GB.toast(getContext().getString(R.string.info_menu_structure_set), Toast.LENGTH_SHORT, GB.INFO);
+        } catch (JSONException e) {
+            logger.error("Menu structure json empty");
+            GB.toast(getContext().getString(R.string.error_invalid_menu_structure), Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
 
@@ -806,5 +840,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                 watchAdapter.uninstallApp(appName);
             }
         }
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        ((FossilHRWatchAdapter) watchAdapter).onSetNavigationInfo(navigationInfoSpec);
     }
 }

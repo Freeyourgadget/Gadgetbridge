@@ -47,6 +47,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -91,17 +93,18 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.GALAXY_BUDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.LEFUN;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2_HRX;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.PEBBLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.TLW64;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.WATCHXPLUS;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -118,7 +121,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 21;
+    private static final int CURRENT_PREFS_VERSION = 26;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -154,7 +157,7 @@ public class GBApplication extends Application {
     private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
 
     private OpenTracksContentObserver openTracksObserver;
-    
+
     private long lastAutoExportTimestamp = 0;
     private long autoExportScheduledTimestamp = 0;
 
@@ -169,6 +172,18 @@ public class GBApplication extends Application {
     public GBApplication() {
         context = this;
         // don't do anything here, add it to onCreate instead
+
+        //if (BuildConfig.DEBUG) {
+        //    // detect everything
+        //    //StrictMode.enableDefaults();
+        //    // detect closeable objects
+        //    //StrictMode.setVmPolicy(
+        //    //        new StrictMode.VmPolicy.Builder()
+        //    //                .detectLeakedClosableObjects()
+        //    //                .penaltyLog()
+        //    //                .build()
+        //    //);
+        //}
     }
 
     public static Logging getLogging() {
@@ -211,6 +226,10 @@ public class GBApplication extends Application {
             migratePrefs(getPrefsFileVersion());
         }
 
+        // Uncomment the line below to force a device key migration, after you updated
+        // the devicetype.json file
+        //migrateDeviceTypes();
+
         setupExceptionHandler();
 
         Weather.getInstance().setCacheFile(getCacheDir(), prefs.getBoolean("cache_weather", true));
@@ -224,6 +243,7 @@ public class GBApplication extends Application {
         loadAppsPebbleBlackList();
 
         PeriodicExporter.enablePeriodicExport(context);
+        TimeChangeReceiver.scheduleNextDstChange(context);
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -622,7 +642,7 @@ public class GBApplication extends Application {
                 SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                 if (deviceSpecificSharedPrefs != null) {
                     SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
-                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceTypes.contains(deviceType)) {
                         Log.i(TAG, "migrating global string preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier() );
@@ -648,7 +668,7 @@ public class GBApplication extends Application {
                 SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                 if (deviceSpecificSharedPrefs != null) {
                     SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
-                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceTypes.contains(deviceType)) {
                         Log.i(TAG, "migrating global boolean preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier() );
@@ -664,8 +684,42 @@ public class GBApplication extends Application {
         }
     }
 
+    private void migrateDeviceTypes() {
+        try (DBHandler db = acquireDB()) {
+            final InputStream inputStream = getAssets().open("migrations/devicetype.json");
+            final byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            final JSONObject deviceMapping = new JSONObject(new String(buffer));
+            final JSONObject deviceIdNameMapping = deviceMapping.getJSONObject("by-id");
+
+            final DaoSession daoSession = db.getDaoSession();
+            final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+            for (Device dbDevice : activeDevices) {
+                String deviceTypeName = dbDevice.getTypeName();
+                if(deviceTypeName.isEmpty() || deviceTypeName.equals("UNKNOWN")){
+                    deviceTypeName = deviceIdNameMapping.optString(
+                            String.valueOf(dbDevice.getType()),
+                            "UNKNOWN"
+                    );
+                    dbDevice.setTypeName(deviceTypeName);
+                    daoSession.getDeviceDao().update(dbDevice);
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "error acquiring DB lock");
+        }
+    }
+
     private void migratePrefs(int oldVersion) {
         SharedPreferences.Editor editor = sharedPrefs.edit();
+
+        // this comes before all other migrations since the new column DeviceTypeName was added as non-null
+        if (oldVersion < 25){
+            migrateDeviceTypes();
+        }
+
         if (oldVersion == 0) {
             String legacyGender = sharedPrefs.getString("mi_user_gender", null);
             String legacyHeight = sharedPrefs.getString("mi_user_height_cm", null);
@@ -723,7 +777,7 @@ public class GBApplication extends Application {
                         String newLanguage = null;
                         Set<String> displayItems = null;
 
-                        DeviceType deviceType = fromKey(dbDevice.getType());
+                        DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                         if (deviceType == AMAZFITBIP || deviceType == AMAZFITCOR || deviceType == AMAZFITCOR2) {
                             int oldLanguage = prefs.getInt("amazfitbip_language", -1);
@@ -739,7 +793,7 @@ public class GBApplication extends Application {
                             deviceSharedPrefsEdit.putString("disconnect_notification_start", prefs.getString("disconnect_notification_start", "8:00"));
                             deviceSharedPrefsEdit.putString("disconnect_notification_end", prefs.getString("disconnect_notification_end", "22:00"));
                         }
-                        if (deviceType == MIBAND2 || deviceType == MIBAND3) {
+                        if (deviceType == MIBAND2 || deviceType == MIBAND2_HRX || deviceType == MIBAND3) {
                             deviceSharedPrefsEdit.putString("do_not_disturb", prefs.getString("mi2_do_not_disturb", "off"));
                             deviceSharedPrefsEdit.putString("do_not_disturb_start", prefs.getString("mi2_do_not_disturb_start", "1:00"));
                             deviceSharedPrefsEdit.putString("do_not_disturb_end", prefs.getString("mi2_do_not_disturb_end", "6:00"));
@@ -761,6 +815,7 @@ public class GBApplication extends Application {
                                 displayItems = prefs.getStringSet("bip_display_items", null);
                                 break;
                             case MIBAND2:
+                            case MIBAND2_HRX:
                                 displayItems = prefs.getStringSet("mi2_display_items", null);
                                 deviceSharedPrefsEdit.putBoolean("mi2_enable_text_notifications", prefs.getBoolean("mi2_enable_text_notifications", true));
                                 deviceSharedPrefsEdit.putString("mi2_dateformat", prefs.getString("mi2_dateformat", "dateformat_time"));
@@ -820,7 +875,7 @@ public class GBApplication extends Application {
                 for (Device dbDevice : activeDevices) {
                     SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                     SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
-                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceType == MIBAND) {
                         int deviceTimeOffsetHours = deviceSharedPrefs.getInt("device_time_offset_hours",0);
@@ -841,7 +896,7 @@ public class GBApplication extends Application {
                     SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                     if (deviceSpecificSharedPrefs != null) {
                         SharedPreferences.Editor deviceSharedPrefsEdit = deviceSpecificSharedPrefs.edit();
-                        DeviceType deviceType = fromKey(dbDevice.getType());
+                        DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                         String newWearside = null;
                         String newOrientation = null;
@@ -852,6 +907,7 @@ public class GBApplication extends Application {
                             case AMAZFITCOR2:
                             case MIBAND:
                             case MIBAND2:
+                            case MIBAND2_HRX:
                             case MIBAND3:
                             case MIBAND4:
                                 newWearside = prefs.getString("mi_wearside", "left");
@@ -940,7 +996,7 @@ public class GBApplication extends Application {
                 for (Device dbDevice : activeDevices) {
                     SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                     SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
-                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceType == GALAXY_BUDS) {
                         GB.log("migrating Galaxy Buds volume", GB.INFO, null);
@@ -960,7 +1016,7 @@ public class GBApplication extends Application {
                 for (Device dbDevice : activeDevices) {
                     SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                     SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
-                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
                     if (deviceType == WATCHXPLUS || deviceType == FITPRO || deviceType == LEFUN) {
                         deviceSharedPrefsEdit.putBoolean("inactivity_warnings_enable", deviceSharedPrefs.getBoolean("pref_longsit_switch", false));
                         deviceSharedPrefsEdit.remove("pref_longsit_switch");
@@ -1130,7 +1186,7 @@ public class GBApplication extends Application {
 
         if (oldVersion < 16) {
             // If transliteration was enabled for a device, migrate it to the per-language setting
-            final String defaultLanguagesIfEnabled = "extended_ascii,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean";
+            final String defaultLanguagesIfEnabled = "extended_ascii,common_symbols,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,latvian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean";
             try (DBHandler db = acquireDB()) {
                 final DaoSession daoSession = db.getDaoSession();
                 final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
@@ -1256,6 +1312,55 @@ public class GBApplication extends Application {
                         newPrefValue = chartsTabsValue + ",pai";
                     } else {
                         newPrefValue = "pai";
+                    }
+
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 22) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
+                    if (deviceType == MIBAND2) {
+                        final String name = dbDevice.getName();
+                        if ("Mi Band HRX".equalsIgnoreCase(name) || "Mi Band 2i".equalsIgnoreCase(name)) {
+                            dbDevice.setTypeName(DeviceType.MIBAND2_HRX.name());
+                            daoSession.getDeviceDao().update(dbDevice);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 26) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+
+                    final String chartsTabsValue = deviceSharedPrefs.getString("charts_tabs", null);
+                    if (chartsTabsValue == null) {
+                        continue;
+                    }
+
+                    final String newPrefValue;
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        newPrefValue = chartsTabsValue + ",spo2";
+                    } else {
+                        newPrefValue = "spo2";
                     }
 
                     final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();

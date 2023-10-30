@@ -26,10 +26,16 @@
 -keepclassmembers class nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic {
     public static *;
 }
+# Keep constructors for support classes, as they're called by reflection in DeviceSupportFactory#createServiceDeviceSupport
+-keep public class * extends nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport
+-keepclassmembers class * extends nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport {
+    public <init>(nodomain.freeyourgadget.gadgetbridge.model.DeviceType);
+    public <init>();
+}
 -keepattributes JavascriptInterface
 
 # https://github.com/tony19/logback-android/issues/29
--dontwarn javax.mail.**, javax.naming.Context, javax.naming.InitialContext
+-dontwarn javax.mail.**
 
 # To avoid any stacktrace ambiguity
 -keepattributes SourceFile,LineNumberTable

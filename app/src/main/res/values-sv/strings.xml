@@ -54,7 +54,7 @@
     <string name="sonyswr12_settings_low_vibration_summary">Aktivera låg vibrationsintensitet på armbandet</string>
     <string name="sonyswr12_settings_stamina_summary">Energisparläget stänger av periodisk automatisk mätning av hjärtfrekvensen, vilket ökar arbetstiden</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall är intervall före installerat larm. I detta intervall försöker enheten att upptäcka den lättaste fasen av sömn för att vakna användare</string>
-    <string name="devicetype_galaxybuds_2"></string>
+    <string name="devicetype_galaxybuds_2"/>
     <string name="about_activity_title_generic">Om Gadgetbridge</string>
     <string name="about_activity_title_main_nightly">Om Gadgetbridge Nightly</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js körs</string>
@@ -271,4 +271,100 @@
 \nDitt band kommer att starta om efter installation av .zip-filen.
 \n
 \nFORTSÄTT PÅ EGEN RISK!</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Anslut MINST EN enhet som du vill skicka filen till.</string>
+    <string name="pref_default">Standard</string>
+    <string name="pref_header_time">Tid</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, Ingen Pebble-leverantör)</string>
+    <string name="pref_title_general_autoreconnect">Återanslut automatiskt</string>
+    <string name="pref_summary_minimize_priority_off">Ikonen i statusfältet och på låsskärmen visas</string>
+    <string name="pref_title_notifications_call">Telefonsamtal</string>
+    <string name="pref_title_datetime_syctimeonconnect">Synkronisera tid</string>
+    <string name="pref_theme_dark">Mörk</string>
+    <string name="pref_summary_mb_intents">Aktivera om enhetens mediakontroll inte fungerar för vissa appar</string>
+    <string name="pref_title_notifications_repetitions">Upprepningar</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="pref_title_theme">Tema</string>
+    <string name="prefs_wena3_led_none">Ingen LED</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="open_fw_installer_info_text_title">Filinstallerare</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">För att kunna ta emot bluetooth-samtal måste du para ihop din telefon med en andra instans av klockan.</string>
+    <string name="pref_header_calendar">Kalender</string>
+    <string name="pref_pair_bluetooth_calls_summary">Klicka här för att starta ihopparningsprocessen</string>
+    <string name="pref_blacklist_calendars">Svartlista kalendrar</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Anslut ENDAST EN enhet som du vill skicka filen till.</string>
+    <string name="open_fw_installer_getting_files_text">Eftersom vi inte alltid kan distribuera mjukvarufilerna måste du skaffa filerna själv. Det betyder att du kommer att behöva söka efter filerna i apk-filer, online, på forum, på Amazfitwatchfaces (för Miband/Amazfit-enheter) och så vidare.</string>
+    <string name="pref_header_system">System</string>
+    <string name="pref_title_notification_delay_calls">Fördröjning av samtalsaviseringar</string>
+    <string name="pref_display_caller_summary">Visa telefonnummer eller namn för inkommande samtal</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Tryck på knappen nedan för att starta ihopparningsprocessen.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Utan Pebble</string>
+    <string name="pref_header_cannned_messages">Förfyllda meddelanden</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="pref_theme_light">Ljus</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">VARNING: Om du aktiverar bluetooth-samtal utan att para ihop med den andra instansen kanske samtalsaviseringar inte fungerar som förväntat.</string>
+    <string name="pref_theme_dynamic">Dynamiska färger</string>
+    <string name="pref_title_audio_player">Föredragen Audioplayer</string>
+    <string name="open_fw_installer_warning_title">Varning</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synkronisera tid till Gadgetbridge-enhet vid anslutning, och när tid eller tidszon ändras på Android-enheten</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Aktivera inställningen för Bluetooth-samtal nedan.</string>
+    <string name="pref_header_other">Annat</string>
+    <string name="gps">GPS</string>
+    <string name="pref_pair_bluetooth_calls_title">Para ihop för bluetooth-samtal</string>
+    <string name="pref_title_mb_intents">Broadcast Media knappen uppstår direkt</string>
+    <string name="pref_theme_black_background">Använd svart bakgrund i mörkt tema</string>
+    <string name="pref_header_workout">Träning</string>
+    <string name="open_fw_installer_getting_files_title">Hämtar firmware/app filen</string>
+    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Du är på väg att installera mjukvaran %s på din Amazfit Bip 3 Pro.
+\n
+\nSe till att installera .fw-filen och efter det .res-filen. Din klocka kommer att starta om efter installationen av .fw-filen.
+\n
+\nObs: Du behöver inte installera .res om exakt samma var installerad tidigare.
+\n
+\nFORTSÄTT PÅ EGEN RISK!</string>
+    <string name="pref_header_sound_vibration">Ljud &amp; Vibration</string>
+    <string name="pref_header_health">Hälsa</string>
+    <string name="bluetooth_calls_settings">Bluetooth-samtalsinställningar</string>
+    <string name="pref_header_connection">Anslutning</string>
+    <string name="bluetooth_calls_pairing">Bluetooth-samtalsparning</string>
+    <string name="pref_header_general">Allmänna Inställningar</string>
+    <string name="pref_summary_receive_calls_watch">Utför och ta emot samtal direkt på klockan</string>
+    <string name="pref_header_notifications">Aviseringar</string>
+    <string name="pref_title_minimize_priority">Dölj Gadgetbridge-avisering</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Du är på väg att installera mjukvaran %s på din Amazfit Cheetah Pro.
+\n
+\nDitt armband kommer att starta om efter installationen av .zip-filen.
+\n
+\nFORTSÄTT PÅ EGEN RISK!</string>
+    <string name="pref_blacklist_calendars_summary">Svartlistade kalendrar synkroniseras inte med enheten</string>
+    <string name="pref_theme_system">System</string>
+    <string name="title_activity_settings">Inställningar</string>
+    <string name="open_fw_installer_pick_file">Välj fil</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="pref_summary_notification_delay_calls">Fördröj innan aviseringar skickas om inkommande samtal till enheten, i sekunder.</string>
+    <string name="open_fw_installer_warning_text">Denna funktion kan potentiellt orsaka att din enhet inte kan starta. Med det sagt, detta har aldrig hänt någon av utvecklarna vid flashning, kom ihåg att detta är på egen risk.</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="fw_upgrade_notice_zepp_os">Du är på väg att installera mjukvaran %s på din %s.
+\n
+\nDitt klocka kommer att starta om efter installationen av .zip-filen.
+\n
+\nFORTSÄTT PÅ EGEN RISK!</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Anslut till Gadgetbridge-enheten när Bluetooth aktiveras</string>
+    <string name="pref_title_general_autostartonboot">Starta automatiskt</string>
+    <string name="pref_title_language">Språk</string>
+    <string name="open_fw_installer_select_file">Välj filen som ska överföras till enheten: %s</string>
+    <string name="pref_summary_minimize_priority_on">Ikonen i statusfältet och på låsskärmen är döljd</string>
+    <string name="pref_display_caller_title">Visa kontaktinformation</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="action_changelog">Ändringslogg</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Gå till telefonens bluetooth-inställningar och koppla ihop med den nya enheten som dyker upp (liknande namn på din nuvarande klocka, men med ett suffix, t.ex. \"Amazfit GTR 4 - AFC8\".</string>
+    <string name="open_fw_installer_ensure_device_connected">Se till att enheten %s är ansluten</string>
+    <string name="bluetooth_calls">Bluetooth-samtal</string>
+    <string name="pref_header_display">Skärm</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Hur man tar emot bluetooth-samtal</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge Nightly</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="pref_header_datetime">Datum och Tid</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
 </resources>

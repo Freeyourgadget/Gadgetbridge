@@ -47,6 +47,7 @@ public class HybridHRWatchfaceFactory {
     private static final int PREVIEW_WIDTH = 192;
     private static final int PREVIEW_HEIGHT = 192;
     private ArrayList<JSONObject> widgets = new ArrayList<>();
+    private JSONObject menuStructure = new JSONObject();
 
     public HybridHRWatchfaceFactory(String name) {
         watchfaceName = name.replaceAll("[^-A-Za-z0-9]", "");
@@ -128,6 +129,10 @@ public class HybridHRWatchfaceFactory {
         } catch (JSONException e) {
             LOG.warn("JSON error", e);
         }
+    }
+
+    public void setMenuStructure(JSONObject menuStructure){
+        this.menuStructure = menuStructure;
     }
 
     public void addWidgets(ArrayList<HybridHRWatchfaceWidget> widgets) {
@@ -310,6 +315,8 @@ public class HybridHRWatchfaceFactory {
         config.put("powersave_hands", settings.getPowersaveHands());
         config.put("light_up_on_notification", settings.getLightUpOnNotification());
         configuration.put("config", config);
+
+        configuration.put("menu_structure", menuStructure);
 
         return configuration.toString();
     }

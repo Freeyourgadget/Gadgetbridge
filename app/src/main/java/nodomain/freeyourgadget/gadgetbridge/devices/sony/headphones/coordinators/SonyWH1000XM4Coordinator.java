@@ -20,26 +20,23 @@ import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (candidate.getName().contains("WH-1000XM4")) {
-            return DeviceType.SONY_WH_1000XM4;
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(".*WH-1000XM4.*");
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_WH_1000XM4;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_wh_1000xm4;
     }
 
     @Override

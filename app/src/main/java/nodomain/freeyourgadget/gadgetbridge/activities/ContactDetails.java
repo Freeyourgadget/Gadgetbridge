@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -65,7 +66,7 @@ public class ContactDetails extends AbstractGBActivity {
         contactNumber = findViewById(R.id.contact_number);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         contactName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,7 +111,7 @@ public class ContactDetails extends AbstractGBActivity {
             }
 
             updateContact();
-            ContactDetails.this.setResult(1);
+            ContactDetails.this.setResult(Activity.RESULT_OK);
             finish();
         });
 

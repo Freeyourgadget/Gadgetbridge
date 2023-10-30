@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -25,35 +24,35 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4.AmazfitGTR4Support;
 
 public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR4Coordinator.class);
 
+    @Override
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_GTR4_NAME + ".*");
+    }
+
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final BluetoothDevice device = candidate.getDevice();
-            final String name = device.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_GTR4_NAME)) {
-                return DeviceType.AMAZFITGTR4;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitGTR4Support.class;
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITGTR4;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_gtr4;
     }
 
     @Override
@@ -63,11 +62,6 @@ public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
 
     @Override
     public boolean supportsContinuousFindDevice() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsAgpsUpdates() {
         return true;
     }
 

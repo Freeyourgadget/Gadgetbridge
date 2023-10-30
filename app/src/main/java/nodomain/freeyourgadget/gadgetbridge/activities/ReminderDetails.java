@@ -89,7 +89,7 @@ public class ReminderDetails extends AbstractGBActivity implements TimePickerDia
         reminderText = findViewById(R.id.reminder_message);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final String[] repeatStrings = getResources().getStringArray(R.array.reminder_repeat);
         repeatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, repeatStrings);

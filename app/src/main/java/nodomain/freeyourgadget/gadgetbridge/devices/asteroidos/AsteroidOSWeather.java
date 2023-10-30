@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -14,7 +13,7 @@ public class AsteroidOSWeather {
     /**
      * Provides a day's worth of weather
      */
-    public class Day {
+    public static class Day {
         /**
          * The minimum temp of the day
          */
@@ -30,9 +29,9 @@ public class AsteroidOSWeather {
 
         /**
          * Creates a Day from the forecast given
-         * @param forecast
+         * @param forecast A day in the weather forecast
          */
-        public Day(WeatherSpec.Forecast forecast) {
+        public Day(WeatherSpec.Daily forecast) {
             minTemp = forecast.minTemp;
             maxTemp = forecast.maxTemp;
             condition = forecast.conditionCode;
@@ -40,7 +39,7 @@ public class AsteroidOSWeather {
 
         /**
          * Creates a Day from the WeatherSpec given
-         * @param spec
+         * @param spec The weather spec itself
          */
         public Day(WeatherSpec spec) {
             minTemp = spec.todayMinTemp;
@@ -56,12 +55,12 @@ public class AsteroidOSWeather {
     /**
      * The city name of the weather
      */
-    public String cityName = "";
+    public String cityName;
 
 
     /**
      * Creates an AsteroidOSWeather from the WeatherSpec given
-     * @param spec
+     * @param spec The WeatherSpec given to the device support class
      */
     public AsteroidOSWeather(WeatherSpec spec) {
         cityName = spec.location;

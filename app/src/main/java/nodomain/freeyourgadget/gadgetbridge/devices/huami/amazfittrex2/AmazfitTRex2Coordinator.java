@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -25,35 +24,35 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex2.AmazfitTRex2Support;
 
 public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRex2Coordinator.class);
 
+    @Override
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.AMAZFIT_TREX_2_NAME + ".*");
+    }
+
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final BluetoothDevice device = candidate.getDevice();
-            final String name = device.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_TREX_2_NAME)) {
-                return DeviceType.AMAZFITTREX2;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitTRex2Support.class;
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITTREX2;
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_trex_2;
     }
 
     @Override
@@ -69,6 +68,11 @@ public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     @Override
     public boolean supportsToDoList() {
         return true;
+    }
+
+    @Override
+    public boolean sendAgpsAsFileTransfer() {
+        return false;
     }
 
     @Override

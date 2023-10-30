@@ -100,7 +100,7 @@ public class FetchStressManualOperation extends AbstractRepeatingFetchOperation 
             final Device device = DBHelper.getDevice(getDevice(), session);
             final User user = DBHelper.getUser(session);
 
-            final HuamiCoordinator coordinator = (HuamiCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+            final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
             final HuamiStressSampleProvider sampleProvider = coordinator.getStressSampleProvider(getDevice(), session);
 
             for (final HuamiStressSample sample : samples) {

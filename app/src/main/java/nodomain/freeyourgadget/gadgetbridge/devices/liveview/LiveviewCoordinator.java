@@ -22,7 +22,11 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -32,21 +36,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.liveview.LiveviewSupport;
 
 public class LiveviewCoordinator extends AbstractBLClassicDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && name.startsWith("LiveView")) {
-            return DeviceType.LIVEVIEW;
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.LIVEVIEW;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("LiveView.*");
     }
 
     @Override
@@ -127,6 +123,17 @@ public class LiveviewCoordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return LiveviewSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_liveview;
     }
 
     @Override

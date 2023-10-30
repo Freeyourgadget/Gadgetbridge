@@ -3,12 +3,15 @@ package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -64,6 +68,12 @@ public class AppsManagementActivity extends AbstractGBActivity {
     private int deviceRxSeq = -1;
     /// When a file chooser has been opened in the WebView, this is what should get called
     private ValueCallback<Uri[]> fileChooserCallback;
+    /// used by showSaveFileDialog for file data
+    private byte[] fileSaveData;
+
+    // Request code for creating a PDF document.
+    private static final int CHOOSE_FILE = 0;
+    private static final int CREATE_FILE = 1;
 
     public AppsManagementActivity() {
     }
@@ -80,7 +90,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        mCoordinator = mGBDevice.getDeviceCoordinator();
     }
 
     private void toast(String data) {
@@ -145,8 +155,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
             LOG.info("WebView RX: " + data);
             bangleTxData(data);
         }
-
-    }
+     }
 
     // Called when data received from Bangle.js - push data to the WebView
     public void bangleRxData(String data) {
@@ -169,6 +178,16 @@ public class AppsManagementActivity extends AbstractGBActivity {
         Intent intent = new Intent(BangleJSDeviceSupport.BANGLEJS_COMMAND_TX);
         intent.putExtra("DATA", data);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    public void showSaveFileDialog(String fileName, String mimeType, byte data[]) {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        if (mimeType!=null) intent.setType(mimeType);
+        if (fileName!=null) intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        fileSaveData = data;
+        startActivityForResult(intent, CREATE_FILE);
+        // see onActivityResult
     }
 
     private void initViews() {
@@ -232,8 +251,8 @@ public class AppsManagementActivity extends AbstractGBActivity {
 
                 Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
                 chooserIntent.putExtra(Intent.EXTRA_INTENT, selectionIntent);
-                startActivityForResult(chooserIntent, 0);
-
+                startActivityForResult(chooserIntent, CHOOSE_FILE);
+                // see onActivityResult
                 return true;
             }
 
@@ -244,16 +263,26 @@ public class AppsManagementActivity extends AbstractGBActivity {
                                         String contentDisposition, String mimetype,
                                         long contentLength) {
                 if (url == null) return;
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url.replaceFirst("^blob:", "")));
-                startActivity(i);
-
-                /*DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url)); //  fails with java.lang.IllegalArgumentException: Can not handle uri::
-                request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "download");
-                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(request);*/
+                // FIXME: When we get to this point we have no idea what the filename is
+                // maybe we should just add 'Android.downloadFile' and call that from the App Loader
+                if(url.startsWith("blob:")) {
+                    LOG.error("WebView blob: download requested, but not supported");
+                    // This should be possible with https://stackoverflow.com/a/48954970/1215872
+                    // but having tried the XMLHttpRequest can't find the blob - I think because the blob ends
+                    // up being created inside an iframe, and the data isn't accessible from the
+                    // external one
+                } else if(url.startsWith("data:") && url.contains(";base64,")) {
+                    int commaIdx = url.indexOf(";base64,");
+                    if (commaIdx>=0) {
+                        String b64 = url.substring(commaIdx + 8);
+                        byte data[] = Base64.decode(b64, Base64.DEFAULT);
+                        showSaveFileDialog(null, mimetype, data);
+                    } else LOG.error("WebView data: download requested, but not base64");
+                } else { // just view in the web browser
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
             }
         });
     }
@@ -261,13 +290,30 @@ public class AppsManagementActivity extends AbstractGBActivity {
     @Override // for file chooser results
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
-        if (fileChooserCallback==null) return;
-        Uri[] results = null;
-        if (resultCode == Activity.RESULT_OK)
-            results = new Uri[]{Uri.parse(intent.getDataString())};
-        fileChooserCallback.onReceiveValue(results);
-        fileChooserCallback = null;
+        if (requestCode == CHOOSE_FILE) { // onShowFileChooser
+            if (fileChooserCallback == null) return;
+            Uri[] results = null;
+            if (resultCode == Activity.RESULT_OK)
+                results = new Uri[]{Uri.parse(intent.getDataString())};
+            fileChooserCallback.onReceiveValue(results);
+            fileChooserCallback = null;
+        }
+        if (requestCode == CREATE_FILE) { // showSaveFileDialog
+            OutputStream os = null;
+            try {
+                os = getContentResolver().openOutputStream(intent.getData());
+                os.write(fileSaveData);
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
+            fileSaveData = null;
+        }
     }
 
 }

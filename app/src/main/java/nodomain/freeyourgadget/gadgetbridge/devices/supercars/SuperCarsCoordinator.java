@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.supercars;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -11,7 +10,10 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -21,6 +23,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.supercars.SuperCarsSupport;
 
 public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(SuperCarsCoordinator.class);
@@ -30,27 +34,9 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
 
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-
-            if (name != null && name.startsWith("QCAR-")) {
-                return DeviceType.SUPER_CARS;
-            }
-
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SUPER_CARS;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("QCAR-.*");
     }
 
     @Override
@@ -61,6 +47,12 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int getBatteryCount() {
         return 1;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return SuperCarsSupport.class;
     }
 
     @Override
@@ -132,5 +124,22 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_super_cars;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_supercars;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_supercars_disabled;
     }
 }

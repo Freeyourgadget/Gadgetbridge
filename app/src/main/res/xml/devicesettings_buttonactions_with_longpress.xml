@@ -12,14 +12,14 @@
 
         public static final String PREF_BUTTON_ACTION_PRESS_DELAY = "button_action_press_count_delay";
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_smart_button"
             android:key="button_action_enable"
             android:summary="@string/mi2_prefs_button_action_summary"
             android:title="@string/mi2_prefs_button_action" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_vibration"
             android:dependency="button_action_enable"

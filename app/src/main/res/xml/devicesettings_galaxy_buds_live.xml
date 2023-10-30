@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_hearing"
         android:key="pref_galaxy_buds_live_anc"
@@ -23,7 +23,7 @@
         android:persistent="false"
         android:title="@string/prefs_galaxy_touch_options">
         <PreferenceCategory android:title="@string/prefs_galaxy_touch_options">
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:disableDependentsState="true"
                 android:icon="@drawable/ic_lock_open"
@@ -49,14 +49,14 @@
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceCategory android:title="@string/prefs_galaxy_buds_experimental">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_videogame"
             android:key="pref_galaxy_buds_game_mode"
             android:summary="@string/prefs_game_mode_summary"
             android:title="@string/prefs_game_mode" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_engineering"
             android:key="pref_galaxy_buds_live_pressure_relief"

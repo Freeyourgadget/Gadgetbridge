@@ -13,31 +13,31 @@
             android:max="100"
             android:title="@string/menuitem_volume" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_rotate_left"
             android:key="crown_vibration"
             android:title="@string/pref_crown_vibration" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_warning_gray"
             android:key="alert_tone"
             android:title="@string/pref_alert_tone" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_volume_off"
             android:key="cover_to_mute"
             android:title="@string/pref_cover_to_mute" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_vibration"
             android:key="vibrate_for_alert"
             android:title="@string/pref_vibrate_for_alert" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_voice"
             android:key="text_to_speech"

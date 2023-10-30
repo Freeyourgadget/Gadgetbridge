@@ -27,6 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
+
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -38,22 +41,15 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900DeviceSupport;
 
 public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceCoordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null) {
-            if (name.startsWith("CASIO") && (name.contains("6900B") || name.contains("5600B") ||
-                    name.contains("STB-1000"))) {
-                return DeviceType.CASIOGB6900;
-            }
-        }
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("CASIO.*(6900B|5600B|STB-1000).*");
     }
 
     @Override
@@ -79,11 +75,6 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return true;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.CASIOGB6900;
     }
 
     @Override
@@ -152,5 +143,16 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_disconnectnotification_noshed,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return CasioGB6900DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_casiogb6900;
     }
 }

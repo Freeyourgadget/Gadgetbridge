@@ -150,6 +150,21 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateLatvian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("latvian");
+
+        String input = "ā č ē ģ ī ķ ļ ņ š ū ž Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž";
+        String output = transliterator.transliterate(input);
+        String expected = "a c e g i k l n s u z A C E G I K L N S U Z";
+        assertEquals("latvian translation failed", expected, output);
+
+        input = "aāa cčc eēe gģg iīi kķk lļl nņn sšs uūu zžz AĀA CČC EĒE GĢG IĪI KĶK LĻL NŅN SŠS UŪU ZŽZ";
+        output = transliterator.transliterate(input);
+        expected = "aaa ccc eee ggg iii kkk lll nnn sss uuu zzz AAA CCC EEE GGG III KKK LLL NNN SSS UUU ZZZ";
+        assertEquals("latvian translation failed", expected, output);
+    }
+
+    @Test
     public void testStringTransliterateLithuanian() {
         final Transliterator transliterator = LanguageUtils.getTransliterator("lithuanian");
 
@@ -172,6 +187,21 @@ public class LanguageUtilsTest extends TestBase {
         String output = transliterator.transliterate(input);
         String expected = "a b t T J y w W h";
         assertEquals("georgian transliteration failed", expected, output);
+    }
+
+    @Test
+    public void testStringTransliterateCommonSymbols() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("common_symbols");
+
+        String input = "© ® ™ ° « – » “ ” 〜 ² ³ ₅";
+        String output = transliterator.transliterate(input);
+        String expected = "(c) (r) (tm) * < - > \" \" ~ 2 3 5";
+        assertEquals("common symbols translation failed", expected, output);
+
+        input = "a©a b®b c™c d°d e«e f–f g»g h“h i”i j〜j k²k l³l m₅m";
+        output = transliterator.transliterate(input);
+        expected = "a(c)a b(r)b c(tm)c d*d e<e f-f g>g h\"h i\"i j~j k2k l3l m5m";
+        assertEquals("common symbols translation failed", expected, output);
     }
 
     @Test

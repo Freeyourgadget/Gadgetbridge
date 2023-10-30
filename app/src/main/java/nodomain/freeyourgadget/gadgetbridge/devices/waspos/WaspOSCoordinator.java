@@ -17,37 +17,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.waspos;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSConstants;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 
 public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WASPOS;
-    }
 
     @Override
     public String getManufacturer() {
@@ -64,20 +59,9 @@ public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
         return Collections.singletonList(filter);
     }
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        /* Filter by Espruino devices to avoid getting
-        the device chooser full of spam devices. */
-        if (name != null && (
-              name.startsWith("DS-D6") ||
-              name.startsWith("K9") ||
-              name.startsWith("PineTime") ||
-              name.startsWith("P8")))
-            return DeviceType.WASPOS;
-
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("DS-D6.*|K9.*|PineTime.*|P8.*");
     }
 
     @Override
@@ -170,4 +154,25 @@ public class WaspOSCoordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return WaspOSDeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_waspos;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
+    }
 }

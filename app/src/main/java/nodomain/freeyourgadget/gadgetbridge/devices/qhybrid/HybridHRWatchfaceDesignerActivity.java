@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +40,7 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,6 +75,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -133,7 +136,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         intentFilter.addAction(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
         LocalBroadcastManager.getInstance(this).registerReceiver(fileUploadReceiver, intentFilter);
 
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        mCoordinator = mGBDevice.getDeviceCoordinator();
         calculateDisplayImageSize();
         backgroundImageView = findViewById(R.id.hybridhr_background_image);
 
@@ -154,6 +157,14 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         findViewById(R.id.watchface_rotate_left).setOnClickListener(this);
         findViewById(R.id.watchface_rotate_right).setOnClickListener(this);
         findViewById(R.id.watchface_remove_image).setOnClickListener(this);
+        findViewById(R.id.button_watchface_open_menu_companion).setOnClickListener(this);
+        findViewById(R.id.button_watchface_reset_menu_structure).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadMenuStructureIndicator();
     }
 
     @Override
@@ -207,7 +218,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.button_edit_name) {
+        int buttonId = v.getId();
+        if (buttonId == R.id.button_edit_name) {
             final EditText input = new EditText(this);
             input.setText(watchfaceName);
             input.setId(0);
@@ -226,7 +238,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     })
                     .setTitle(R.string.watchface_dialog_title_set_name)
                     .show();
-        } else if (v.getId() == R.id.watchface_invert_colors) {
+        } else if (buttonId == R.id.watchface_invert_colors) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.invertBitmapColors(selectedBackgroundImage);
                 for (int i=0; i<widgets.size(); i++) {
@@ -241,28 +253,57 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_WHITE;
                 }
             }
-        } else if (v.getId() == R.id.button_set_background) {
+        } else if (buttonId == R.id.button_set_background) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
             startActivityForResult(intent, CHILD_ACTIVITY_IMAGE_CHOOSER);
-        } else if (v.getId() == R.id.button_add_widget) {
+        } else if (buttonId == R.id.button_add_widget) {
             showWidgetEditPopup(-1);
-        } else if (v.getId() == R.id.button_watchface_settings) {
+        } else if (buttonId == R.id.button_watchface_settings) {
             showWatchfaceSettingsPopup();
-        } else if (v.getId() == R.id.watchface_rotate_left) {
+        } else if (buttonId == R.id.watchface_rotate_left) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, -90);
                 renderWatchfacePreview();
             }
-        } else if (v.getId() == R.id.watchface_rotate_right) {
+        } else if (buttonId== R.id.watchface_rotate_right) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, 90);
                 renderWatchfacePreview();
             }
-        } else if (v.getId() == R.id.watchface_remove_image) {
+        } else if (buttonId == R.id.watchface_remove_image) {
             deleteWatchfaceBackground();
             renderWatchfacePreview();
+        } else if(buttonId == R.id.button_watchface_open_menu_companion){
+            try {
+                AndroidUtils.openApp("d.d.hrmenucompanion");
+            } catch (Exception e) {
+                GB.toast(getString(R.string.error_menu_companion_not_installed), Toast.LENGTH_SHORT, GB.INFO);
+
+                AndroidUtils.openWebsite("https://github.com/dakhnod/Fossil-HR-Menu-Companion/releases/latest");
+            }
+        } else if(buttonId == R.id.button_watchface_reset_menu_structure) {
+            SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress());
+            prefs.edit().remove("MENU_STRUCTURE_JSON").apply();
+            GB.toast(getString(R.string.info_menu_structure_removed), Toast.LENGTH_SHORT, GB.INFO);
+            reloadMenuStructureIndicator();
+        }
+    }
+
+    private void reloadMenuStructureIndicator(){
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress());
+        String menuStructureJson = prefs.getString("MENU_STRUCTURE_JSON", "");
+
+        boolean active = !menuStructureJson.isEmpty();
+
+        ((Button) findViewById(R.id.button_watchface_reset_menu_structure))
+                .setEnabled(active);
+        findViewById(R.id.fossil_menu_structure_hint_container).setVisibility(active ? View.VISIBLE : View.GONE);
+
+        if(active){
+            ((TextView)findViewById(R.id.text_watchface_menu_structure))
+                    .setText(getString(R.string.info_menu_structure_contents, menuStructureJson));
         }
     }
 
@@ -572,6 +613,18 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         wfFactory.setSettings(watchfaceSettings);
         wfFactory.setBackground(selectedBackgroundImage);
         wfFactory.addWidgets(widgets);
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress());
+        String menuStructureJson = prefs.getString("MENU_STRUCTURE_JSON", "");
+        if(!menuStructureJson.isEmpty()){
+            try {
+                JSONObject menuStructure = new JSONObject(menuStructureJson);
+                wfFactory.setMenuStructure(menuStructure);
+            } catch (JSONException e) {
+                LOG.error("Error loading menu structure", e);
+            }
+        }
+
         try {
             File tempFile = File.createTempFile("tmpWatchfaceFile", null);
             tempFile.deleteOnExit();

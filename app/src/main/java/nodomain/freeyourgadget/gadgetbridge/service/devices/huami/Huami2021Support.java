@@ -65,9 +65,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
@@ -81,6 +83,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsGpxRouteI
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -94,7 +97,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -335,6 +337,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     @Override
     protected Huami2021Support sendCalendarEvents(final TransactionBuilder builder) {
         // We have native calendar sync
+        CalendarReceiver.forceSync();
         return this;
     }
 
@@ -584,6 +587,19 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
             try {
                 if (getCoordinator().sendAgpsAsFileTransfer()) {
                     LOG.info("Sending AGPS as file transfer");
+
+                    if (getMTU() == 23) {
+                        // AGPS updates without high MTU are too slow and eventually get stuck,
+                        // so let's fail right away and inform the user
+                        LOG.warn("MTU of {} is too low for AGPS file transfer", getMTU());
+                        handleGBDeviceEvent(new GBDeviceEventDisplayMessage(
+                                getContext().getString(R.string.updatefirmwareoperation_failed_low_mtu, getMTU()),
+                                Toast.LENGTH_LONG,
+                                GB.WARN
+                        ));
+                        return;
+                    }
+
                     new ZeppOsAgpsUpdateOperation(
                             this,
                             agpsHandler.getFile(),
@@ -996,7 +1012,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     protected Huami2021Coordinator getCoordinator() {
-        return (Huami2021Coordinator) DeviceHelper.getInstance().getCoordinator(gbDevice);
+        return (Huami2021Coordinator) gbDevice.getDeviceCoordinator();
     }
 
     @Override

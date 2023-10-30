@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.servic
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WATCHFACE;
 
+import android.os.Handler;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -74,6 +75,8 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
     private static final byte ERROR_UNAUTHORIZED = 0x06;
 
     public static final String PREF_VERSION = "zepp_os_alexa_version";
+
+    private final Handler handler = new Handler();
 
     final ByteArrayOutputStream voiceBuffer = new ByteArrayOutputStream();
 
@@ -234,7 +237,7 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
             // FIXME
 
             baos.write(weather.forecasts.size());
-            for (final WeatherSpec.Forecast forecast : weather.forecasts) {
+            for (final WeatherSpec.Daily forecast : weather.forecasts) {
                 // FIXME
             }
         } catch (final IOException e) {
@@ -348,7 +351,10 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
 
         LOG.info("Alexa starting: var1={}, var2={}, var3={}, var4={}, params={}", var1, var2, var3, var4, params);
 
-        sendStartAck();
+        // Send the start ack with a slight delay, to give enough time for the connection to switch to fast mode
+        // I can't seem to get the callback for onConnectionUpdated working, and if we reply too soon the watch
+        // will just stay stuck "Connecting...". It seems like it takes ~350ms to switch to fast connection.
+        handler.postDelayed(this::sendStartAck, 700);
     }
 
     private void handleEnd(final byte[] payload) {

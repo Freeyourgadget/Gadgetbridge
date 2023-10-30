@@ -440,7 +440,7 @@
 \n
 \nNON PROBADO, PODERÍA BLOQUEAR O TEU DISPOSITIVO, PROCEDE BAIXO A TÚA PROPIA RESPONSABILIDADE!</string>
     <string name="pref_title_pebble_enable_bgjs">Habilitar JS de fondo</string>
-    <string name="pref_summary_pebble_enable_bgjs">"Permite ás  watchfaces amosar o tempo, información de batería, etc."</string>
+    <string name="pref_summary_pebble_enable_bgjs">Permite ás watchfaces amosar o tempo, información de batería, etc.</string>
     <string name="activity_web_view">Actividade Vista Web</string>
     <string name="pref_title_charts_swipe">Permitir deslizar a esquerda/dereita nas gráficas de actividade</string>
     <string name="automatic">Automático</string>

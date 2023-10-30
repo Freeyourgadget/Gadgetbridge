@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Impostazioni</string>
@@ -51,7 +51,7 @@
     <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli compatibili.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Impostazioni</string>
-    <string name="pref_header_general">Impostazioni</string>
+    <string name="pref_header_general">Impostazioni generali</string>
     <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo Gadgetbridge quando il Bluetooth viene acceso</string>
     <string name="pref_title_general_autostartonboot">Avvio automatico</string>
     <string name="pref_title_general_autoreconnect">Riconnessione automatica</string>
@@ -410,7 +410,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="fw_upgrade_notice_amazfitcor">Stai per installare il firmware %s sul Amazfit Cor.
@@ -789,7 +789,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="fw_upgrade_notice_amazfitgtr">Stai per installare il firmware %s sul tuo Amazfit GTR.
@@ -911,7 +911,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="controlcenter_set_alias">Imposta Alias</string>
@@ -963,7 +963,7 @@
     <string name="meters">m</string>
     <string name="flatSeconds">Piano</string>
     <string name="laps">Giri</string>
-    <string name="swimStyle">Stile di nuoto</string>
+    <string name="swimStyle">Stile Nuoto</string>
     <string name="averageStride">Camminata media</string>
     <string name="averageKMPaceSeconds">Ritmo</string>
     <string name="averageHR">Battito cardiaco</string>
@@ -1216,7 +1216,7 @@
 \n
 \nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
 \n
-\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
     <string name="watchface_setting_title_power_saving">Risparmio energetico</string>
@@ -1230,7 +1230,7 @@
     <string name="pref_summary_huami_force_new_protocol">Abilita se il tuo dispositivo non si riesce più a connettere dopo un aggiornamento del firmware</string>
     <string name="pref_title_notification_use_as_deny">Nega le notifiche dalle applicazioni selezionate</string>
     <string name="title_activity_notification_management">Impostazioni Notifiche</string>
-    <string name="pref_message_privacy_mode_complete">Nascondi contenuto</string>
+    <string name="pref_message_privacy_mode_complete">Nascondi tutto il contenuto</string>
     <string name="menuitem_barometer">Barometro</string>
     <string name="menuitem_flashlight">Torcia</string>
     <string name="gpx_receiver_overwrite_some_files">Alcuni file(s) esistono già. Sovrascrivere\?</string>
@@ -1271,7 +1271,7 @@
     <string name="pref_header_equalizer">Equalizzatore</string>
     <string name="pref_title_notification_use_as">Utilizza la lista delle applicazioni per…</string>
     <string name="pref_title_message_privacy_mode">Modalità privacy per i messaggi</string>
-    <string name="pref_message_privacy_mode_off">Mostra contenuto</string>
+    <string name="pref_message_privacy_mode_off">Mostra tutto il contenuto</string>
     <string name="controlcenter_start_configure_reminders">Configura promemoria</string>
     <string name="reminder_no_free_slots_title">Spazio esaurito</string>
     <string name="reminder_no_free_slots_description">Il dispositivo non ha spazio libero per aggiungere altri promemoria (totali: %1$s)</string>
@@ -1585,7 +1585,7 @@
     <string name="normal">Normale</string>
     <string name="pref_title_notification_prefer_long_text">Preferisci testo di notifica lungo</string>
     <string name="pref_summary_notification_prefer_long_text">Se disponibile, invia il testo di notifica lungo al dispositivo</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Se l\'opzione \"Testo come bitmap\" è attiva, che dimensione deve avere il testo\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Dimensione del testo convertito in bitmap</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Dimensione testo bitmap</string>
     <string name="pref_summary_canned_replies">Rispondi dall\'orologio con messaggi preimpostati</string>
     <string name="pref_cache_weather">Cache dei dati meteo</string>
@@ -1768,7 +1768,7 @@
     <string name="watchface_dialog_widget_timezone">Fuso orario</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Nascondi testo al timeout</string>
     <string name="distance_format_meters">###m</string>
-    <string name="distance_format_kilometers">###,#km</string>
+    <string name="distance_format_kilometers">###.#km</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Ferma Listener Posizione GPS</string>
     <string name="pref_activity_recognition_mode_ask">chiedi</string>
     <string name="distance_format_feet">###ft</string>
@@ -1846,7 +1846,7 @@
     <string name="sony_automatic_power_off">Spegnimento Automatico</string>
     <string name="sony_automatic_power_off_3_hour">3 ore</string>
     <string name="pref_screen_brightness">Luminosità Schermo</string>
-    <string name="distance_format_miles">###,#mi</string>
+    <string name="distance_format_miles">###.#mi</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="sony_equalizer_band_2500">2.5k</string>
@@ -2227,4 +2227,182 @@
     <string name="kind_gpx_route">Traccia GPX</string>
     <string name="pref_title_navigation_forward">Invia navigazione all\'orologio</string>
     <string name="pref_summary_navigation_forward">Inoltra istruzioni da app di navigazione all\'orologio</string>
+    <string name="action_changelog">Changelog</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="withings_bt_calibration_previous">Precedente</string>
+    <string name="withings_bt_calibration_next">Successivo</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="watchface_widget_type_uv_index">Indice UV</string>
+    <string name="stress_relaxed">Rilassato</string>
+    <string name="stress_high">Elevato</string>
+    <string name="loyalty_cards_catima_package">Nome pacchetto Catima</string>
+    <string name="loyalty_cards_install_catima_fail">Non siamo riusciti ad aprire l\'app store per installare Catima</string>
+    <string name="loyalty_cards_catima_not_installed">Catima è necessario per gestire le carte fedeltà</string>
+    <string name="loyalty_cards_catima_permissions_title">Permessi mancanti</string>
+    <string name="loyalty_cards_open_catima">Apri Catima</string>
+    <string name="loyalty_cards_syncing">Sincronizzando %d carte con il dispositivo</string>
+    <string name="title">Titolo</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Usa solo il fornitore di rete per determinare la posizione. Questo riduce il consumo di energia al costo della precisione. È necessaria una riconnessione.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Intervallo di aggiornamento dati GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Intervallo per quanto frequentemente aggiornare la posizione, in ms</string>
+    <string name="busy_task_fetch_sports_details">Recuperando i dettagli degli sport</string>
+    <string name="busy_task_fetch_sports_summaries">Recuperando i riepiloghi degli sport</string>
+    <string name="busy_task_fetch_debug_logs">Recuperando log di debug</string>
+    <string name="busy_task_fetch_stress_data">Recuperando dati sullo stress</string>
+    <string name="busy_task_fetch_spo2_data">Recuperando dati SpO2</string>
+    <string name="busy_task_fetch_hr_data">Recuperando dati frequenza cardiaca</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Recuperando dati della frequenza respiratoria nel sonno</string>
+    <string name="fwapp_install_device_not_supported">Installazione file fallita, dispositivo non supportato.</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="status_icon">Icona stato</string>
+    <string name="changelog_full_title">Changelog</string>
+    <string name="loyalty_cards_install">Installa Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge ha bisogno del permesso per leggere le carte Catima per sincronizzarle. Toccare questo pulsante per concederlo.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards">Carte Fedeltà</string>
+    <string name="changelog_show_full">Altro…</string>
+    <string name="changelog_title">Novità</string>
+    <string name="voice_service_class_title">Classe servizi vocali</string>
+    <string name="voice_service_package_summary">Applicazione contenente i servizi per gestire i comandi vocali</string>
+    <string name="voice_service_class_summary">Percorso completo del servizio che gestisce i comandi vocali</string>
+    <string name="pref_app_logs_start_summary">Inizia i log per le applicazioni dell\'orologio</string>
+    <string name="pref_app_logs_summary">Abilita i log per le applicazioni dell\'orologio</string>
+    <string name="loyalty_cards_sync_groups_only">Sincronizza solo alcuni gruppi</string>
+    <string name="loyalty_cards_sync_groups">Gruppi da Sincronizzare</string>
+    <string name="pref_title_mb_intents">Trasmetti Direttamente Intenti Pulsanti Media</string>
+    <string name="pref_summary_mb_intents">Attiva se i controlli multimediali del dispositivo non funzionano correttamente con alcune applicazioni</string>
+    <string name="loyalty_cards_sync_summary">Tocca per sincronizzare le carte con l\'orologio</string>
+    <string name="loyalty_cards_sync_options">Opzioni Sincronizzazione</string>
+    <string name="loyalty_cards_sync">Sincronizza</string>
+    <string name="loyalty_cards_catima_not_compatible">La versione di Catima installata non è compatibile con Gadgetbridge. Aggiorna Catima e Gadgetbridge alle ultime versioni.</string>
+    <string name="activity_prefs_goals">Obiettivi</string>
+    <string name="charts_legend_stress_average">Stress medio</string>
+    <string name="error_no_bluetooth_scan">L\'accesso alla scansione Bluetooth deve essere consentito e abilitato perché la scansione funzioni correttamente</string>
+    <string name="error_no_bluetooth_connect">L\'accesso alla connessione Bluetooth deve essere consentito e abilitato perché la scansione funzioni correttamente</string>
+    <string name="activity_type_surfing">Surf</string>
+    <string name="activity_type_windsurfing">Windsurf</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_football">Football americano</string>
+    <string name="activity_type_kitesurfing">Kite</string>
+    <string name="activity_type_baseball">Baseball</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_handball">Pallamano</string>
+    <string name="activity_type_tennis">Tennis</string>
+    <string name="activity_type_weightlifting">Sollevamento pesi</string>
+    <string name="activity_type_dancing">Danza</string>
+    <string name="activity_type_skiing">Sci</string>
+    <string name="activity_type_snowboarding">Snowboard</string>
+    <string name="activity_type_riding">Equitazione</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="activity_type_icehockey">Hockey su ghiaccio</string>
+    <string name="activity_type_iceskating">Pattinaggio su ghiaccio</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="activity_type_other">Altro</string>
+    <string name="share_screenshot">Condividi schermata</string>
+    <string name="screenshot_taken">Schermata acquisita</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="permission_request">%1$s consente di inviare messaggi e altri dati da Android al dispositivo. Per fare questo richiede il permesso di accedere a tali dati e senza, potrebbe non funzionare correttamente.
+\n
+\nOra vedrai alcune finestre di dialogo Android che richiedono queste autorizzazioni.
+\n
+\nPremi %2$s per continuare.</string>
+    <string name="voice_service">Servizi Vocali</string>
+    <string name="pref_app_logs_stop_summary">Termina i log per le applicazioni dell\'orologio</string>
+    <string name="description">Descrizione</string>
+    <string name="preview_image">Immagine anteprima</string>
+    <string name="loyalty_cards_sync_archived">Sincronizza carte archiviate</string>
+    <string name="loyalty_cards_sync_title">Sincronizza Carte Fedeltà</string>
+    <string name="voice_service_package_title">Pacchetto servizi vocali</string>
+    <string name="pref_app_logs_title">Registri app</string>
+    <string name="loyalty_cards_sync_starred">Sincronizza solo carte preferite</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Usa solo la rete per determinare la posizione</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Usa dati gps del telefono</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Usa i dati gps del telefono per sovrascrivere i dati gps del dispositivo bangle</string>
+    <string name="stress_moderate">Moderato</string>
+    <string name="stress_mild">Leggero</string>
+    <string name="pref_theme_dynamic">Colori dinamici</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Impostazioni Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Attenzione: Queste preferenze si applicano solo a Mi Band 1 e 2.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Avvia una sincronizzazione completa dei dati attività</string>
+    <string name="pref_activity_full_sync_trigger_title">Sincronizzazione completa</string>
+    <string name="pref_show_changelog">Mostra il changelog all\'avvio</string>
+    <string name="pref_show_changelog_summary">Visualizza il changelog dall\'ultima versione dopo l\'aggiornamento di Gadgetbridge</string>
+    <string name="find_my_phone_found_it">TROVATO</string>
+    <string name="pref_activity_full_sync_trigger_warning">Questo avvierà una sincronizzazione completa di tutti i dati di attività sul dispositivo. Potrebbe richiedere alcuni minuti.</string>
+    <string name="pref_canned_message">Messaggio</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Stai per installare il firmware %s sul tuo Amazfit Bip 3 Pro.
+\n
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
+\n
+\nNota: non è necessario installare il file .res se è uguale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Stai per installare il firmware %s sul tuo Amazfit Cheetah Pro.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">I colori dinamici non sono disponibili sul tuo dispositivo, solo Android 12+ supporta questa funzionalità. Gadgetbridge userà i colori predefiniti di Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Nota: per il tema con colori dinamici è necessario attivare Colori sfondo o Tavolozza colori nelle impostazioni di aspetto di Android 12+. Altrimenti, Gadgetbridge userà i colori predefiniti di Material 3.</string>
+    <string name="drag_handle">Trascina manopola</string>
+    <string name="withings_calibration_text_activity_target">Infine, allinea la lancetta delle attività al 100%. Tieni presente che questa lancetta si muove solo in senso orario.</string>
+    <string name="english_au">Inglese (Australia)</string>
+    <string name="english_in">Inglese (India)</string>
+    <string name="english_ca">Inglese (Canada)</string>
+    <string name="english_gb">Ingledd (Regno Unito)</string>
+    <string name="english_us">Inglese (Stati Uniti)</string>
+    <string name="spanish_mx">Spagnolo (Messico)</string>
+    <string name="spanish_us">Spagnolo (Stati Uniti)</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="spanish_es">Spagnolo (Spagna)</string>
+    <string name="french_ca">Francese (Canada)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Tondo)</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="french_fr">Francese (Francia)</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="withings_calibration_text_minutes">Ora, utilizzare il quadrante per allineare la lancetta dei minuti alle 12.</string>
+    <string name="withings_calibration_text_hours">Usa il quadrante sottostante per allineare la lancetta delle ore alle 12.</string>
+    <string name="fw_upgrade_notice_zepp_os">Stai per installare il firmware %s sul tuo %s.
+\n
+\nL\'orologio si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (Quadrato)</string>
+    <string name="device_experimental">SPERIMENTALE</string>
+    <string name="zepp_os_watchface_pure_white">Bianco puro</string>
+    <string name="menuitem_headphone">Auricolari</string>
+    <string name="femometer_measurement_mode_normal">Modalità normale (60s-90s)</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Il dispositivo non dispone di spazio libero sufficiente</string>
+    <string name="prefs_home_icon_left_item">Sinistra</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">L\'MTU attuale di %1$d è troppo basso, attiva un MTU elevato nelle impostazioni del dispositivo e scollega/ricollega il dispositivo.</string>
+    <string name="prefs_wena3_title_activity">Impostazioni Attività</string>
+    <string name="white">Bianco</string>
+    <string name="femometer_measurement_mode_quick">Modalità rapida (30s)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignora notifiche del profilo di lavoro</string>
+    <string name="prefs_home_icon_right_item">Destra</string>
+    <string name="prefs_wena3_title_screen">Impostazioni Schermo</string>
+    <string name="femometer_measurement_mode_title">Modalità di misurazione</string>
+    <string name="prefs_wena3_item_large_font">Dimensione Carattere più grande</string>
+    <string name="prefs_wena3_hint_large_font">Aumenta la dimensione dei caratteri nel calendario, notifiche, ecc.</string>
+    <string name="text_receiver_activity_title">Invia testo al dispositivo</string>
+    <string name="femometer_measurement_mode_precise">Modalità precisa (3min)</string>
+    <string name="green">Verde</string>
+    <string name="yellow">Giallo</string>
+    <string name="menuitem_workout_shortcuts">Scorciatoie allenamento</string>
+    <string name="red">Rosso</string>
+    <string name="cyan">Ciano</string>
+    <string name="menuitem_apps_shortcuts">Scorciatoie app</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Non inviare all\'orologio le notifiche delle app del profilo di lavoro</string>
+    <string name="latvian">Lettone</string>
+    <string name="prefs_home_icon_center_item">Centro</string>
+    <string name="menuitem_thermometer">Termometro</string>
+    <string name="prefs_wena3_item_rich_design">Utilizzare Design Ricco</string>
+    <string name="common_symbols">Simboli Comuni</string>
+    <string name="purple">Viola</string>
+    <string name="blue">Blu</string>
 </resources>

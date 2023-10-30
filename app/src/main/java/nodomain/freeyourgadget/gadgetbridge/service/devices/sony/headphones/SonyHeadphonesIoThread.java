@@ -152,6 +152,6 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
     }
 
     private SonyHeadphonesCoordinator getCoordinator() {
-        return (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        return (SonyHeadphonesCoordinator) getDevice().getDeviceCoordinator();
     }
 }

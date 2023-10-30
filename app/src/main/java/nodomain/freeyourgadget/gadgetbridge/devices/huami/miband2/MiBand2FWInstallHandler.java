@@ -117,6 +117,6 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected boolean isSupportedDeviceType(GBDevice device) {
-        return device.getType() == DeviceType.MIBAND2;
+        return device.getType() == DeviceType.MIBAND2 || device.getType() == DeviceType.MIBAND2_HRX;
     }
 }

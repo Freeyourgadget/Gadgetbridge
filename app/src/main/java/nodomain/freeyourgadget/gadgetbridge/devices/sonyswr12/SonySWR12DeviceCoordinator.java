@@ -24,6 +24,8 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
@@ -35,23 +37,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12DeviceSupport;
 
 public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
-
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_SWR12;
-    }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getDevice().getName();
-            if (name != null && !name.isEmpty() && name.toLowerCase().contains("swr12"))
-                return getDeviceType();
-        } catch (Exception exc){}
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(".*swr12.*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
@@ -143,5 +135,16 @@ public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{R.xml.devicesettings_sonyswr12};
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return SonySWR12DeviceSupport.class;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sonyswr12;
     }
 }

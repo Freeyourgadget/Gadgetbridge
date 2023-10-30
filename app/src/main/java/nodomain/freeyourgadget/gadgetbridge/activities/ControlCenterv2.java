@@ -84,6 +84,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -374,7 +375,7 @@ public class ControlCenterv2 extends AppCompatActivity
         GBApplication.deviceService().start();
 
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            startActivity(new Intent(this, DiscoveryActivity.class));
+            launchDiscoveryActivity();
         } else {
             GBApplication.deviceService().requestDeviceInfo();
         }
@@ -481,7 +482,7 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     private void launchDiscoveryActivity() {
-        startActivity(new Intent(this, DiscoveryActivity.class));
+        startActivity(new Intent(this, DiscoveryActivityV2.class));
     }
 
     private void refreshPairedDevices() {
@@ -555,6 +556,15 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            }
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.QUERY_ALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
                 wantedPermissions.add(Manifest.permission.QUERY_ALL_PACKAGES);
@@ -567,6 +577,12 @@ public class ControlCenterv2 extends AppCompatActivity
             }
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
                 wantedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
 
@@ -661,7 +677,7 @@ public class ControlCenterv2 extends AppCompatActivity
         @Override
         protected void doInBackground(DBHandler db) {
             for (GBDevice gbDevice : deviceList) {
-                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
                 if (coordinator.supportsActivityTracking()) {
                     long[] stepsAndSleepData = getSteps(gbDevice, db);
                     deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);

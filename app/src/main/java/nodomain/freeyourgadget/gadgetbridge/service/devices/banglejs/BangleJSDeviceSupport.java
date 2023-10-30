@@ -94,6 +94,8 @@ import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFormat;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -109,6 +111,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.LocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -311,7 +314,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
-        gbDevice.setBatteryThresholdPercent((short) 30);
+        gbDevice.setBatteryThresholdPercent((short) 15);
 
         rxCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
@@ -869,10 +872,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
         }
         //force a syncCalendar now, send missing events
-        Context context = GBApplication.getContext();
-        Intent intent = new Intent("FORCE_CALENDAR_SYNC");
-        intent.setPackage(BuildConfig.APPLICATION_ID);
-        GBApplication.getContext().sendBroadcast(intent);
+        CalendarReceiver.forceSync();
     }
 
     /**
@@ -1003,7 +1003,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     i--; // back up one (because we deleted it)
                 }
             }
-            String packetStr = new String(chars);
+            String packetStr = new String(chars, StandardCharsets.ISO_8859_1);
             LOG.debug("RX: " + packetStr);
             // logging
             addReceiveHistory(packetStr);
@@ -1090,7 +1090,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("alt", location.getAltitude());
             o.put("speed", location.getSpeed());
             if (location.hasBearing()) o.put("course", location.getBearing());
-            o.put("time", new Date().getTime());
+            o.put("time", location.getTime());
             if (location.getExtras() != null) {
                 LOG.debug("Found number of satellites: " + location.getExtras().getInt("satellites", -1));
                 o.put("satellites",location.getExtras().getInt("satellites"));
@@ -1429,6 +1429,59 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         transmitActivityStatus();
     }
 
+    private List<LoyaltyCard> filterSupportedCards(final List<LoyaltyCard> cards) {
+        final List<LoyaltyCard> ret = new ArrayList<>();
+        for (final LoyaltyCard card : cards) {
+            // we hardcode here what is supported
+            if (card.getBarcodeFormat() == BarcodeFormat.CODE_39 ||
+                    card.getBarcodeFormat() == BarcodeFormat.CODABAR ||
+                    card.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
+                ret.add(card);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        final List<LoyaltyCard> supportedCards = filterSupportedCards(cards);
+        try {
+            JSONObject encoded_cards = new JSONObject();
+            JSONArray a = new JSONArray();
+            for (final LoyaltyCard card : supportedCards) {
+                JSONObject o = new JSONObject();
+                o.put("id", card.getId());
+                o.put("name", renderUnicodeAsImage(cropToLength(card.getName(),40)));
+                if (card.getBarcodeId() != null) {
+                    o.put("value", card.getBarcodeId());
+                } else {
+                    o.put("value", card.getCardId());
+                }
+                o.put("type", card.getBarcodeFormat().toString());
+                if (card.getExpiry() != null)
+                    o.put("expiration", card.getExpiry().getTime()/1000);
+                o.put("color", card.getColor());
+                // we somehow cannot distinguish no balance defined with 0 P
+                if (card.getBalance() != null && card.getBalance().signum() != 0
+                        || card.getBalanceType() != null) {
+                    // if currency is points it is not reported
+                    String balanceType = card.getBalanceType() != null ?
+                        card.getBalanceType().toString() : "P";
+                    o.put("balance", renderUnicodeAsImage(cropToLength(card.getBalance() +
+                                    " " + balanceType, 20)));
+                }
+                if (card.getNote() != "")
+                    o.put("note", renderUnicodeAsImage(cropToLength(card.getNote(),200)));
+                a.put(o);
+            }
+            encoded_cards.put("t", "cards");
+            encoded_cards.put("d", a);
+            uartTxJSON("onSetLoyaltyCards", encoded_cards);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         try {
@@ -1475,7 +1528,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("uv", Math.round(weatherSpec.uvIndex*10)/10);
             o.put("code", weatherSpec.currentConditionCode);
             o.put("txt", weatherSpec.currentCondition);
-            o.put("wind", weatherSpec.windSpeed);
+            o.put("wind", Math.round(weatherSpec.windSpeed*100)/100.0);
             o.put("wdir", weatherSpec.windDirection);
             o.put("loc", weatherSpec.location);
             uartTxJSON("onSendWeather", o);

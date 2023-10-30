@@ -230,7 +230,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
     private List<? extends StressSample> getSamples(final DBHandler db, final GBDevice device) {
         final int tsStart = getTSStart();
         final int tsEnd = getTSEnd();
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final TimeSampleProvider<? extends StressSample> sampleProvider = coordinator.getStressSampleProvider(device, db.getDaoSession());
         return sampleProvider.getAllSamples(tsStart * 1000L, tsEnd * 1000L);
     }

@@ -143,7 +143,7 @@
     <string name="pref_title_pebble_forceuntested">Povoliť netestované funkcie</string>
     <string name="pref_summary_pebble_forceuntested">Povolí funkcie, ktoré neboli testované. ZAPNITE IBA AK VIETE, ČO ROBÍTE!</string>
     <string name="pref_title_pebble_forcele">Vždy preferovať BLE</string>
-    <string name="pref_summary_pebble_forcele">"Použiť experimentálnu podporu Pebble LE pre všetky Pebble zariadenia namiesto klasického BT. Vyžaduje spárovanie  Pebble LE \" po pripojení bez LE"</string>
+    <string name="pref_summary_pebble_forcele">Použiť experimentálnu podporu Pebble LE pre všetky Pebble zariadenia namiesto klasického BT. Vyžaduje spárovanie Pebble LE \" po pripojení bez LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU ohraničenie</string>
     <string name="pref_summary_pebble_mtu_limit">Ak vaše Pebble 2/Pebble LE nepracuje správne, skúste toto nastavenie pre omezenie MTU (povolený rozsah 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnúť logovanie Watch App</string>
@@ -496,4 +496,5 @@
     <string name="sonyswr12_settings_low_vibration_summary">Povoľte nízku intenzitu vibrácií na náramku</string>
     <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypne pravidelné automatické meranie srdcovej frekvencie, čím sa predĺži pracovná doba</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentného alarmu je interval pred nainštalovaným alarmom. V tomto intervale sa zariadenie pokúša zistiť najľahšiu fázu spánku, aby sa používateľ zobudil</string>
+    <string name="controlcenter_change_led_color">Zmena farby LED</string>
 </resources>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
     <string name="action_debug">Отладка</string>
-    <string name="action_quit">Выйти</string>
+    <string name="action_quit">Выход</string>
     <string name="controlcenter_fetch_activity_data">Синхронизировать</string>
     <string name="controlcenter_find_device">Найти устройство</string>
     <string name="controlcenter_take_screenshot">Сделать снимок экрана</string>
@@ -15,8 +15,8 @@
     <string name="controlcenter_navigation_drawer_open">Открыть панель навигации</string>
     <string name="controlcenter_navigation_drawer_close">Закрыть панель навигации</string>
     <string name="controlcenter_snackbar_need_longpress">Долгое нажатие отключит устройство</string>
-    <string name="controlcenter_snackbar_disconnecting">Отключается</string>
-    <string name="controlcenter_snackbar_connecting">Подключается…</string>
+    <string name="controlcenter_snackbar_disconnecting">Разъединение</string>
+    <string name="controlcenter_snackbar_connecting">Соединение…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Делается снимок устройства</string>
     <string name="title_activity_debug">Отладка</string>
     <!--Strings related to AppManager-->
@@ -142,7 +142,7 @@
     <string name="not_connected">Нет соединения</string>
     <string name="connecting">Соединение</string>
     <string name="connected">Соединено</string>
-    <string name="unknown_state">Непонятное состояние</string>
+    <string name="unknown_state">Неизвестное состояние</string>
     <string name="_unknown_">(неизвестно)</string>
     <string name="test">Тест</string>
     <string name="test_notification">Тестовое уведомление</string>
@@ -199,7 +199,7 @@
     <string name="title_activity_sleepmonitor">Анализ фаз сна</string>
     <string name="pref_write_logfiles">Сохранять файлы журнала</string>
     <string name="initializing">Запускается</string>
-    <string name="busy_task_fetch_activity_data">Передаёт данные активности</string>
+    <string name="busy_task_fetch_activity_data">Получение данных активности</string>
     <string name="sleep_activity_date_range">От %1$s до %2$s</string>
     <string name="prefs_wearside">Носите на левой или правой руке?</string>
     <string name="pref_screen_vibration_profile">Профиль настроек вибрации</string>
@@ -221,9 +221,9 @@
     <string name="pref_screen_notification_profile_generic_navigation">Навигация</string>
     <string name="pref_screen_notification_profile_generic_social">Социальные сети</string>
     <string name="control_center_find_lost_device">Поиск потерянного устройства</string>
-    <string name="control_center_cancel_to_stop_vibration">Отмените, чтобы прекратить вибрацию.</string>
+    <string name="control_center_cancel_to_stop_vibration">Отмените для прекращения вибрации.</string>
     <string name="title_activity_charts">Активность и сон</string>
-    <string name="title_activity_set_alarm">Завести Будильник</string>
+    <string name="title_activity_set_alarm">Настроить будильник</string>
     <string name="controlcenter_start_configure_alarms">Настроить будильники</string>
     <string name="title_activity_alarm_details">Настройки будильника</string>
     <string name="alarm_sun_short">Вс</string>
@@ -233,9 +233,9 @@
     <string name="alarm_thu_short">Чт</string>
     <string name="alarm_fri_short">Пт</string>
     <string name="alarm_sat_short">Сб</string>
-    <string name="alarm_smart_wakeup">умное пробуждение</string>
+    <string name="alarm_smart_wakeup">\"Умное\" пробуждение</string>
     <string name="user_feedback_miband_set_alarms_failed">При настройке будильника произошла ошибка, попробуйте ещё раз.</string>
-    <string name="user_feedback_miband_set_alarms_ok">Будильник был добавлен на устройстве.</string>
+    <string name="user_feedback_miband_set_alarms_ok">Будильники отправлены на устройство.</string>
     <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
     <string name="user_feedback_miband_activity_data_transfer">Будет передано %1$s данных, начиная с %2$s</string>
     <string name="miband_prefs_fitness_goal">Ежедневная цель шагов</string>
@@ -315,8 +315,8 @@
     <string name="activity_prefs_gender">Пол</string>
     <string name="activity_prefs_height_cm">Рост в см</string>
     <string name="activity_prefs_weight_kg">Вес в кг</string>
-    <string name="authenticating">Авторизация</string>
-    <string name="authentication_required">Требуется авторизация</string>
+    <string name="authenticating">Аутентификация</string>
+    <string name="authentication_required">Требуется аутентификация</string>
     <string name="appwidget_text">Хрр</string>
     <string name="add_widget">Добавить виджет</string>
     <string name="activity_prefs_sleep_duration">Желаемая продолжительность сна</string>
@@ -376,7 +376,7 @@
 \nВключить приложение погоды на вашем Pebble можно из \"Управления приложениями\".
 \n
 \nПоддерживаемые циферблаты покажут погоду автоматически.</string>
-    <string name="pref_title_setup_bt_pairing">Включить сопряжение по Bluetooth</string>
+    <string name="pref_title_setup_bt_pairing">Сопряжение по Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Отключите, если вам не удалось подключиться</string>
     <string name="unit_metric">Метрическая система мер</string>
     <string name="unit_imperial">Английская система мер</string>
@@ -399,28 +399,28 @@
     <string name="discovery_pair_question">Выберите \"Сопряжение\" для сопряжения ваших устройств. Если не получилось, попробуйте снова без сопряжения.</string>
     <string name="discovery_yes_pair">Сопряжение</string>
     <string name="discovery_dont_pair">Не выполнять сопряжение</string>
-    <string name="action_donate">Пожертвовать</string>
+    <string name="action_donate">Пожертвования</string>
     <string name="controlcenter_connect">Подключить…</string>
     <string name="title_activity_calblacklist">Заблокированные календари</string>
     <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, потом .res, и затем .gps. После установки .fw Ваши часы будут перезагружены.
 \n
-\nЕсли файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
+\nПримечание: если файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\nПримечание: если файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_charts_swipe">Включить жесты \"провести направо и налево\" в графиках активности</string>
     <string name="pref_blacklist_calendars">Заблокированные календари</string>
     <string name="pref_header_pebble_timeline">Временной график Pebble</string>
     <string name="pref_title_pebble_enable_bgjs">Включить JS в фоновом режиме</string>
-    <string name="pref_summary_pebble_enable_bgjs">Включают, чтобы видеть погоду, заряд батарейки и т.д. на циферблате.</string>
+    <string name="pref_summary_pebble_enable_bgjs">При включении позволяет циферблатам отображать погоду, уровень заряда и прочее</string>
     <string name="activity_web_view">Веб-отчёт активности</string>
     <string name="mi2_dnd_off">Выкл.</string>
     <string name="mi2_dnd_automatic">Автоматически (определяет режим сна)</string>
@@ -448,7 +448,7 @@
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
     <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
-    <string name="mi2_prefs_display_items">Что показывать на экране</string>
+    <string name="mi2_prefs_display_items">Элементы меню</string>
     <string name="mi2_prefs_display_items_summary">Выберите, что показывать на экране браслета</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Переключать информацию поворотом запястья</string>
     <string name="mi2_prefs_do_not_disturb">Не беспокоить</string>
@@ -465,9 +465,9 @@
     <string name="english">Английский язык</string>
     <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение дня</string>
     <string name="interval_one_minute">раз в минуту</string>
-    <string name="interval_five_minutes">раз в 5 минут</string>
-    <string name="interval_ten_minutes">раз в 10 минут</string>
-    <string name="interval_thirty_minutes">раз в полчаса</string>
+    <string name="interval_five_minutes">каждые 5 минут</string>
+    <string name="interval_ten_minutes">каждые 10 минут</string>
+    <string name="interval_thirty_minutes">каждые 30 минут</string>
     <string name="interval_one_hour">раз в час</string>
     <string name="pref_title_weather">Погода</string>
     <string name="notif_export_failed_title">Ошибка экспорта базы данных! Пожалуйста, проверьте настройки.</string>
@@ -487,11 +487,11 @@
     <string name="whitelist_all_for_notifications">Разблокировать все</string>
     <string name="fw_upgrade_notice_miband3">Вы собираетесь установить прошивку %s на ваш Mi Band 3.
 \n
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
-\nНЕ ПРОВЕРЯЛОСЬ, ЕСТЬ ВЕРОЯТНОСТЬ СЛОМАТЬ ВАШЕ УСТРОЙСТВО. ВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_weather_location">Местоположение погоды (для провайдера погоды LineageOS)</string>
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
     <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
@@ -564,8 +564,8 @@
     <string name="watch9_calibration_button">Калибровка</string>
     <string name="title_activity_watch9_pairing">Сопряжение Watch 9</string>
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
-    <string name="mi3_prefs_band_screen_unlock">Разблокировать экран устройства</string>
-    <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх, чтобы разблокировать экран устройства</string>
+    <string name="mi3_prefs_band_screen_unlock">Разблокировка экрана</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх для разблокировки экрана браслета</string>
     <string name="german">Немецкий язык</string>
     <string name="italian">Итальянский язык</string>
     <string name="french">Французский язык</string>
@@ -670,7 +670,7 @@
     <string name="zetime_activity_tracking">Отслеживание активности</string>
     <string name="zetime_activity_tracking_summary">Включение отслеживания активности, будет считать ваши шаги и так далее.</string>
     <string name="zetime_handmove_display">Движение руки</string>
-    <string name="zetime_handmove_display_summary">Поверните запястье, чтобы активировать или деактивировать дисплей.</string>
+    <string name="zetime_handmove_display_summary">Поверните запястье, чтобы активировать или выключить экран.</string>
     <string name="zetime_calories_type">Тип калорий</string>
     <string name="zetime_calories_type_active">Только активные сжигаемые калории</string>
     <string name="zetime_calories_type_all">Активные и неактивные сжигаемые калории</string>
@@ -694,19 +694,19 @@
     <string name="activity_prefs_activetime_minutes">Ежедневная цель: время активности в минутах</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Включить VoIP-звонки</string>
-    <string name="title_activity_device_specific_settings">Специфичные настройки устройства</string>
+    <string name="title_activity_device_specific_settings">Специфичные для устройства настройки</string>
     <string name="pref_title_authkey">Ключ авторизации</string>
     <string name="pref_summary_authkey">Измените ключ авторизации на общий ключ на всех ваших Android-устройствах, с которых вы хотели бы подключиться. Предыдущий ключ по умолчанию для всех устройств 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Вы собираетесь установить прошивку %s на ваш Amazfit Cor 2. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">Вы собираетесь установить прошивку %s на ваш Amazfit Cor 2.
+\n
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!
 \n
-\nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО, ВОЗМОЖНО НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
+\nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО. ВОЗМОЖНО, НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
     <string name="dutch">Голландский язык</string>
     <string name="turkish">Турецкий язык</string>
     <string name="ukrainian">Украинский язык</string>
@@ -717,12 +717,12 @@
     <string name="portuguese">Португальский язык</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4.
+\n
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваш браслет будет перезагружен.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="prefs_hr_alarm_activity">Сигнал пульсометра в течение занятия спортом</string>
     <string name="prefs_hr_alarm_low">Нижний предел</string>
@@ -736,8 +736,8 @@
     <string name="weeksleepchart_sleep_a_month">Сон за месяц</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_title_use_custom_font">Использовать пользовательский шрифт</string>
-    <string name="pref_summary_use_custom_font">Активируйте это для поддержки emoji, если ваше устройство имеет установленный пользовательский шрифт</string>
+    <string name="pref_title_use_custom_font">Пользовательский шрифт</string>
+    <string name="pref_summary_use_custom_font">Включите при наличии на устройстве пользовательского шрифта для поддержки эмодзи</string>
     <string name="activity_db_management_autoexport_explanation">Местоположение авто-экспорта базы данных установлено:</string>
     <string name="activity_db_management_autoexport_label">Авто-экспорт</string>
     <string name="activity_DB_ExportButton">Экспорт данных</string>
@@ -771,21 +771,21 @@
     <string name="prefs_find_phone_summary">Использовать ваш браслет для проигрывания рингтонов.</string>
     <string name="prefs_find_phone_duration">Продолжительность звонка в секундах</string>
     <string name="maximum_duration">Продолжительность</string>
-    <string name="discovery_need_to_enter_authkey">Это устройство нуждается в ключе авторизации, используйте длительное нажатие на устройство, чтобы войти в него. Читайте Wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Для этого устройства требуется ключ авторизации. Используйте длительное нажатие для входа в устройство. Читайте об этом в Вики.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Вы собираетесь установить прошивку %s на ваш Amazfit Bip Lite.
 \n
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
 \n
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\nПримечание: если файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR.
+\n
+\nБудьте внимательны: вначале установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_chart_heartrate_color_red">Красный</string>
     <string name="pref_chart_heartrate_color_orange">Оранжевый</string>
@@ -794,12 +794,12 @@
     <string name="pref_chart_sleep_rolling_24_on">Последние 24 часа</string>
     <string name="pref_chart_sleep_rolling_24_off">С полудня до полудня</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Вы собираетесь установить прошивку %s на ваш Amazfit GTS. 
-\n 
-\nСоблюдайте последовательность: вначале установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nОбратите внимание: если версия файла .res совпадает с установленной, его не нужно переустанавливать. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgts">Вы собираетесь установить прошивку %s на ваш Amazfit GTS.
+\n
+\nБудьте внимательны: сперва установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: если версия файла .res совпадает с установленной, его не нужно переустанавливать.
+\n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Настройки Q Hybrid</string>
@@ -815,18 +815,18 @@
     <string name="qhybrid_buttons_overwrite_error">Ошибка перезаписи кнопок</string>
     <string name="qhybrid_offset_timezone">смещение часового пояса на</string>
     <string name="qhybrid_changes_delay_prompt">изменения могут занять несколько секунд…</string>
-    <string name="qhybrid_offset_time_by">смещение часового пояса на</string>
+    <string name="qhybrid_offset_time_by">смещение времени на</string>
     <string name="pref_disable_new_ble_scanning">Отключить новое BLE сканирование</string>
     <string name="pref_summary_disable_new_ble_scanning">Включите, если устройство не видно как доступное</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
-    <string name="alarm_snooze">Короткий сон</string>
+    <string name="alarm_snooze">Откладывание будильника</string>
     <string name="error_no_location_access">Доступ к местоположению должен быть разрешен и включен для корректной работы поиска</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
-    <string name="pref_summary_sync_calendar">Позволяет выполнять оповещения календаря, даже при отключении</string>
-    <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
+    <string name="pref_summary_sync_calendar">Получение оповещений календаря даже при отсутствии подключения</string>
+    <string name="pref_title_sync_caldendar">Синхронизация событий календаря</string>
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
     <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
@@ -901,7 +901,7 @@
     <string name="pref_title_device_spec_settings_force_time">Принудительно синхронизировать время</string>
     <string name="pref_header_device_spec_settings">Параметры устройства</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Дублирует действие кнопки часов</string>
-    <string name="prefs_notifications_and_calls_shake_reject">Встряхнуть запястье чтобы игнорировать или отклонить вызов</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Игнорировать/отклонить вызов по встряхиванию</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Выключить - игнорировать, Вкл - отклонять</string>
     <string name="prefs_notifications_and_calls_reject">Кнопка игнорирования/сброса входящего вызова</string>
     <string name="pref_header_notifications_and_calls_callhandling">Удержание вызова</string>
@@ -913,16 +913,16 @@
     <string name="pref_title_weather_summary">Используется для провайдера погоды LineageOS, другие версии Android должны использовать приложение типа \"Уведомление о погоде\". Дополнительную информацию можно найти в вики-проекте Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Вы собираетесь установить прошивку %s на свой Mi Band 5.
 \n
-\nПожалуйста, установите сначала .fw файл, и только потом .res файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, и только потом .res файл. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Не нужно устанавливать .res, если он ничем не отличается от установленного ранее.
+\nПримечание: не нужно устанавливать .res, если он ничем не отличается от установленного ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfit_trex">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex.
 \n
-\nПожалуйста, установите сначала .fw файл, потом .res файл, и только потом .gps файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, потом .res файл, и только потом .gps файл. После установки .fw Ваши часы будут перезагружены.
 \n
-\nПримечание: Не нужно устанавливать .res и .gps, если они ничем не отличаются от установленных ранее.
+\nПримечание: не нужно устанавливать .res и .gps, если они ничем не отличаются от установленных ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="controlcenter_set_alias">Установить псевдоним</string>
@@ -992,7 +992,7 @@
     <string name="error_exporting_device_preferences">Ошибка при экспорте специфичных настроек устройства</string>
     <string name="pref_check_permission_status_summary">Проверяйте и запрашивайте недостающие разрешения, даже если они могут не понадобиться немедленно. Отключите это, только если ваши устройства действительно не поддерживают ни одну из этих функций. Отсутствие разрешения может вызвать проблемы!</string>
     <string name="pref_check_permission_status">Проверить статус разрешения</string>
-    <string name="device_requires_key">ТРЕБУЕТСЯ КЛЮЧ</string>
+    <string name="device_requires_key">НЕОБХОДИМ КЛЮЧ, ДОЛГОЕ ЗАЖАТИЕ ДЛЯ ВХОДА</string>
     <string name="device_is_currently_bonded">УЖЕ СВЯЗАНЫ</string>
     <string name="companiondevice_pairing_details">Включает поддержку нового API CompanionDevice (работает только на Android 8 или выше), что повысит надежность, если службу необходимо перезапустить в фоновом режиме, для достижения эффекта требуется повторное сопряжение с помощью Gadgetbridge</string>
     <string name="companiondevice_pairing">Сопряжение с CompanionDevice</string>
@@ -1008,7 +1008,7 @@
     <string name="prefs_events_forwarding_broadcast_title">Трансляционное сообщение</string>
     <string name="Elevation">Возвышенность</string>
     <string name="flatSeconds">Плоские</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="activity_filter_apply_filter">Применить фильтр</string>
     <string name="activity_filter_filter_title">Фильтр</string>
     <string name="activity_filter_reset_filter">Сбросить фильтр</string>
@@ -1074,7 +1074,7 @@
     <string name="sonyswr12_settings_stamina_summary">Режим энергосбережения отключает периодическое автоматическое измерение пульса, что увеличивает время работы</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Интервал умного будильника - это интервал до установленного будильника. В этом интервале устройство пытается определить самую легкую фазу сна, чтобы разбудить пользователя</string>
     <string name="devicetype_nut_mini">Nut mini</string>
-    <string name="activity_error_no_app_for_png">Чтобы поделиться этим скриншотом, установите приложение, которое может обрабатывать файлы изображений.</string>
+    <string name="activity_error_no_app_for_png">Чтобы поделиться этим снимком, установите приложение, способное обрабатывать файлы изображений.</string>
     <string name="descentSeconds">По убыванию</string>
     <string name="gps_track">GPS-трек</string>
     <string name="about_version">Версия %s</string>
@@ -1131,22 +1131,22 @@
     <string name="pref_title_upper_button_function_short">Короткое нажатие на верхнюю кнопку</string>
     <string name="menuitem_goal">Цель</string>
     <string name="menuitem_pomodoro">Трекер Pomodoro</string>
-    <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
+    <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения по Bluetooth, когда оно уже подключено</string>
     <string name="pref_title_connected_advertisement">Виден при подключении</string>
     <string name="prefs_autoremove_message">Автоматически удалять SMS-уведомления</string>
     <string name="prefs_fake_ring_duration">Поддельный непрерывный звонок</string>
     <string name="prefs_key_vibration">Вибрация клавиш</string>
     <string name="prefs_autolight">Автоматический свет</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
-    <string name="discovery_entered_invalid_authkey">Введенный вами секретный ключ аутентификации недействителен! Для редактирования нажмите и удерживайте на устройстве.</string>
+    <string name="discovery_entered_invalid_authkey">Введённый ключ аутентификации недействителен! Удерживайте для изменения.</string>
     <string name="fw_upgrade_notice_amazfitvergel">Вы собираетесь установить прошивку %s на свой Amazfit Verge Lite.
 \n
-\nОбязательно установите файл .fw, затем файл .res и, наконец, файл .gps. Ваши часы перезагрузятся после установки файла .fw.
+\nБудьте внимательны: сначала установите файл .fw, затем файл .res и, наконец, файл .gps. После установки .fw Ваши часы будут перезагружены.
 \n
-\nПримечание: вам не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
+\nПримечание: не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="qhybrid_calibration_align_hint">Использовать кнопки ниже, чтобы выровнять стрелки к 12:00.</string>
+    <string name="qhybrid_calibration_align_hint">Используйте кнопки ниже, чтобы установить стрелки на 12:00.</string>
     <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
     <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
     <string name="prefs_operating_sounds">Рабочие звуки</string>
@@ -1174,9 +1174,9 @@
     <string name="battery_detail_activity_title">Информация о батарее</string>
     <string name="fw_upgrade_notice_amazfitx">Вы собираетесь установить прошивку %s на свой Amazfit X.
 \n
-\nОбязательно установите файл .fw, а затем файл .res. Ваш браслет перезагрузится после установки файла .fw.
+\nБудьте внимательны: обязательно установите файл .fw, а затем файл .res. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Вам не нужно устанавливать .res, если он точно такой же, как ранее установленный.
+\nПримечание: не нужно устанавливать .res, если он точно такой же, как ранее установленный.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
@@ -1203,9 +1203,9 @@
     <string name="calendar_three_months">3 месяца</string>
     <string name="fw_upgrade_notice_miband6">Вы собираетесь установить прошивку %s на свой Mi Band 6.
 \n
-\nПожалуйста, установите сначала .fw файл, и только затем .res файл. Устройство перезагрузится после установки .fw файла.
+\nБудьте внимательны: сначала установите .fw файл, и только затем .res файл. После установки .fw Ваш браслет будет перезагружен.
 \n
-\nПримечание: Не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
+\nПримечание: не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
@@ -1248,16 +1248,16 @@
 \n%1$s
 \nВерсия %2$s от %3$s
 \n</string>
-    <string name="fw_upgrade_notice_amazfitneo">Вы собираетесь установить прошивку %s на свой Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Вы собираетесь установить прошивку %s на Ваш Amazfit Neo.
 \n
-\nПосле установки файла .fw устройство перезагрузится.
+\nПосле установки файла .fw Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="watchface_setting_wrist_flick_duration">Продолжительность (в мс)</string>
     <string name="watchface_setting_wrist_flick_minute">Минутная стрелка (от -360 до 360)</string>
     <string name="watchface_setting_wrist_flick_hour">Часовая стрелка (от -360 до 360)</string>
     <string name="watchface_setting_wrist_flick_move_relative">Перемещение стрелок относительно времени</string>
-    <string name="watchface_setting_desc_wrist_flick">(чтобы полностью отключить, включите относительное движение и установите все значения на 0)</string>
+    <string name="watchface_setting_desc_wrist_flick">(чтобы отключить полностью, включите относительное движение и установите все значения на 0)</string>
     <string name="watchface_setting_title_wrist_flick">Движение запястьем</string>
     <string name="watchface_setting_display_refresh_partial">Частичное обновление (в минутах)</string>
     <string name="watchface_setting_display_refresh_full">Полное обновление (в минутах)</string>
@@ -1309,12 +1309,12 @@
     <string name="pref_title_ping_tone">Звуковой сигнал</string>
     <string name="pref_header_notification_application_settings">Настройки для каждого приложения</string>
     <string name="pref_title_notification_use_as_allow">Разрешить уведомления от выбранных приложений</string>
-    <string name="pref_message_privacy_mode_complete">Скрыть содержимое</string>
+    <string name="pref_message_privacy_mode_complete">Скрыть всё содержимое</string>
     <string name="pref_summary_huami_force_new_protocol">Включите, если устройство перестало подключаться после обновления прошивки</string>
     <string name="toast_app_must_not_be_selected">Приложение не должно быть выбрано для настройки</string>
     <string name="title_activity_notification_management">Настройки уведомлений</string>
     <string name="pref_title_message_privacy_mode">Режим конфиденциальности сообщений</string>
-    <string name="pref_message_privacy_mode_off">Отображение содержимого</string>
+    <string name="pref_message_privacy_mode_off">Отображать всё содержимое</string>
     <string name="pref_applications_settings">Список приложений</string>
     <string name="controlcenter_power_off">Выключить</string>
     <string name="controlcenter_power_off_confirm_title">Выключить</string>
@@ -1334,7 +1334,7 @@
     <string name="watchface_widget_type_custom">Пользовательский виджет</string>
     <string name="pref_media_play">Начать воспроизведение</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Показать общее количество шагов</string>
-    <string name="pref_media_next">Следующая композиция</string>
+    <string name="pref_media_next">Следующий</string>
     <string name="watchface_dialog_widget_update_timeout">Время ожидания обновления в минутах</string>
     <string name="sony_automatic_power_off_1_hour">1 час</string>
     <string name="sony_automatic_power_off_3_hour">3 часа</string>
@@ -1348,7 +1348,7 @@
     <string name="controlcenter_start_configure_reminders">Настроить напоминания</string>
     <string name="title_activity_reminder_details">Настройки напоминания</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Расстояние вычисляется по количеству шагов и ширине шага (настраивается в разделе Настройки - About you)</string>
-    <string name="pref_title_notification_use_as">Используйте список приложения для того чтобы…</string>
+    <string name="pref_title_notification_use_as">Используйте список приложений, чтобы…</string>
     <string name="reminder_repeat">Повтор</string>
     <string name="reminder_date">Дата</string>
     <string name="reminder_time">Время</string>
@@ -1386,7 +1386,7 @@
     <string name="sony_anc_optimizer_status_analyzing">Анализ…</string>
     <string name="sony_surround_mode_club">Клуб</string>
     <string name="sony_surround_mode_arena">Арена</string>
-    <string name="sony_ambient_sound_noise_cancelling">Шумоподавление</string>
+    <string name="sony_ambient_sound_noise_cancelling">Подавление шума</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_autoheartrate_interval">Частота измерений</string>
     <string name="prefs_notifications_enable">Включить уведомления</string>
@@ -1427,25 +1427,25 @@
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">О Bangle.js Gadgetbridge</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="application_name_main_nightly">Gadgetbridge (ночная сборка)</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js запущен</string>
     <string name="about_description_banglejs_nopebble">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
 \n
 \nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
-    <string name="about_activity_title_main_nightly">О Gadgetbridge Nightly</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, без системы Pebble)</string>
-    <string name="about_description_main_nightly">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" версии Gadgetbridge. Ночные выпуски Gadgetbridge. Его нельзя установить, если у вас уже установлено приложение Gadgetbridge или Pebble, из-за конфликта в провайдере Pebble.</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly без Pebble</string>
-    <string name="about_description_main_nopebble">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" выпуски Gadgetbridge. В этой версии провайдер Pebble переименован для предотвращения конфликтов, поэтому некоторые из связанных с Pebble интеграции не будут работать, но его можно установить вместе с существующими установками Gadgetbridge.</string>
+    <string name="about_activity_title_main_nightly">О ночной сборке Gadgetbridge</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Ночная сборка, без провайдера Pebble)</string>
+    <string name="about_description_main_nightly">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" сборки Gadgetbridge. Ночные сборки Gadgetbridge. Их нельзя установить, если приложение Gadgetbridge или Pebble уже установлено, из-за конфликта провайдера Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Ночной без Pebble</string>
+    <string name="about_description_main_nopebble">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" сборки Gadgetbridge. В этой версии провайдер Pebble переименован для предотвращения конфликтов, так что некоторые из интеграций с Pebble работать не будут, зато её можно установить рядом с уже имеющимися установками Gadgetbridge.</string>
     <string name="about_description_banglejs_main">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
 \n
 \nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
     <string name="about_activity_title_banglejs_main">О Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js выполняется</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_main_nightly">Ночная сборка Gadgetbridge</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB запущен</string>
-    <string name="about_activity_title_main_nopebble">О Gadgetbridge Nightly без Pebble</string>
+    <string name="about_activity_title_main_nopebble">О ночной сборке Gadgetbridge без Pebble</string>
     <string name="pref_header_connection">Соединение</string>
     <string name="pref_header_display">Дисплей</string>
     <string name="pref_header_health">Здоровье</string>
@@ -1474,14 +1474,14 @@
 \nПожалуйста, нажмите \'%2$s\' затем \'%1$s\' и включите функцию \'Доступ к уведомлениям\', затем нажмите \'Назад\' чтобы вернуться к %1$s.</string>
     <string name="fw_upgrade_notice_miband7">Вы собираетесь установить прошивку %s на свой Xiaomi Smart Band 7.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_warning_title">Предупреждение</string>
     <string name="open_fw_installer_warning_text">Эта функция может привести к поломке вашего устройства. Однако такого никогда не случалось ни с одним из разработчиков из-за перепрошивки, но помните, что вы делаете это на свой страх и риск.</string>
     <string name="pref_header_calendar">Календарь</string>
     <string name="pref_title_screen_on_on_notifications">Включение экрана при уведомлении</string>
-    <string name="pref_header_authentication">Авторизация</string>
+    <string name="pref_header_authentication">Аутентификация</string>
     <string name="pref_summary_screen_on_on_notifications">Включать экран часов, когда поступает оповещение</string>
     <string name="dismiss">Отклонить</string>
     <string name="pref_title_notification_use_as_deny">Запретить выбранным приложениям показывать уведомления</string>
@@ -1494,7 +1494,7 @@
     <string name="open_fw_installer_info_text">Программа установки Прошивки/Часового интерфейса/Приложения/Файла позволяет загружать/устанавливать поддерживаемые файлы (прошивку, часовые интерфейсы, приложения, GPS, ресурсы, шрифты...) на устройство. Дополнительную информацию можно найти в вики: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">Вы собираетесь установить прошивку %s на свой Amazfit GTR 3.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_select_file">Выберите файл, который вы хотите загрузить на устройство: %s</string>
@@ -1503,7 +1503,7 @@
     <string name="pref_summary_banglejs_text_bitmap">Если слово не может быть отображено шрифтом часов, преобразовывать его в растровое изображение в Gadgetbridge и отобразить растровое изображение на часах</string>
     <string name="fw_upgrade_notice_amazfit_gts3">Вы собираетесь установить прошивку %s на свой Amazfit GTS 3.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_notifications_ignore_low_priority">Игнорировать уведомления с низким приоритетом</string>
@@ -1524,8 +1524,8 @@
     <string name="pref_summary_notification_delay_calls">Задержка перед отправкой уведомлений о входящих вызовах на устройство, в секундах.</string>
     <string name="open_fw_installer_getting_files_text">Поскольку файлы прошивки мы не можем распространять, вам придется получить их самостоятельно. Это означает, что вам придется искать файлы в apk-файлах, в Интернете, на форумах, на Amazfitwatchfaces (для устройств Miband/Amazfit) и так далее.</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Размер растрового изображения текста</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Если включена функция \"Текст в виде растровых изображений\", какого размера должен быть текст\?</string>
-    <string name="pref_blacklist_calendars_summary">Календари из черного списка не будут синхронизироваться с устройством</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Размер растровых изображений для отрисовки текста</string>
+    <string name="pref_blacklist_calendars_summary">Календари из черного списка не будут синхронизированы с устройством</string>
     <string name="pref_title_overwrite_settings_on_connection">Перезаписывать настройки при подключении</string>
     <string name="pref_summary_overwrite_settings_on_connection">При подключении к часам перезаписывать на них все настройки.</string>
     <string name="activity_type_hiking">Пешеходный туризм</string>
@@ -1538,10 +1538,10 @@
     <string name="pref_title_equalizer_bass_boost">Усиление басов</string>
     <string name="enable_vibrations_summary">Вибрация при поступлении звонков, сообщений, оповещений и прочего</string>
     <string name="enable_notifications_summary">Оповещение при поступлении звонков, сообщений и прочего</string>
-    <string name="prefs_autoheartrate_summary">Периодическое измерение пульса в течении дня, а также во время сна</string>
+    <string name="prefs_autoheartrate_summary">Периодическое измерение частоты сердцебиения в течение дня и во время сна</string>
     <string name="prefs_equalizer_summary">Включить или выключить эквалайзер</string>
     <string name="prefs_ambient_voice_summary">Выделить голос</string>
-    <string name="prefs_active_noise_cancelling">Активное шумоподавление</string>
+    <string name="prefs_active_noise_cancelling">Активное подавление шума</string>
     <string name="prefs_left">Левый</string>
     <string name="prefs_active_noise_cancelling_summary">Подавлять шум окружающей среды</string>
     <string name="right_earbud">Правый наушник</string>
@@ -1563,7 +1563,7 @@
     <string name="accuracy_first">Приоритет точности</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Вы собираетесь установить прошивку %s на свой Amazfit GTR 4.
 \n
-\nПосле установки файла .zip ваш браслет перезагрузится.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_header_sound_vibration">Звук и вибрация</string>
@@ -1584,7 +1584,7 @@
     <string name="start">Начать</string>
     <string name="maxHR">Максимальный пульс</string>
     <string name="minHR">Минимальный пульс</string>
-    <string name="prefs_autoheartrate_measurement">Автоматическое измерение частоты пульса</string>
+    <string name="prefs_autoheartrate_measurement">Автоизмерение частоты сердцебиения</string>
     <string name="prefs_autoheartrate_sleep">Проводить измерения во время сна</string>
     <string name="prefs_galaxy_touch_options">Настройки касаний</string>
     <string name="discovery_bluetooth_le_scan">Сканирование Bluetooth LE устройств:</string>
@@ -1592,11 +1592,11 @@
     <string name="averageAltitude">Среднее</string>
     <string name="prefs_game_mode_summary">Только если ваш телефон поддерживает игровой режим</string>
     <string name="prefs_galaxy_buds_experimental">Экспериментальные</string>
-    <string name="sony_ambient_sound_wind_noise_reduction">Подавление шума вызванного ветром</string>
+    <string name="sony_ambient_sound_wind_noise_reduction">Снижение шума от ветра</string>
     <string name="controlcenter_get_heartrate_measurement">Измерение частоты пульса</string>
-    <string name="prefs_fm_preset_instructions">Нажмите и удерживайте кнопку, чтобы сохранить предустановку</string>
+    <string name="prefs_fm_preset_instructions">Нажмите и удерживайте кнопку для сохранения предустановки</string>
     <string name="device_unsupported">НЕ ПОДДЕРЖИВАЕТСЯ</string>
-    <string name="miband_prefs_reserve_reminder_calendar">Зарезервировать напоминания для будущих событий</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Резервирование напоминаний для предстоящих событий</string>
     <string name="prefs_reserve_reminder_calendar_summary">Количество событий календаря, которые будут синхронизированы</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Включать дисплей при подъеме устройства, когда режим \"Не беспокоить\" включен</string>
     <string name="devicetype_nothingear1">Нечего прослушивать (1)</string>
@@ -1635,18 +1635,18 @@
     <string name="spo2_perc_85">85%</string>
     <string name="world_clock_delete_confirm_title">Удалить \'%1$s\'</string>
     <string name="pref_screen_notification_profile_schedule">Расписание</string>
-    <string name="pref_screen_vibration_patterns_title">Профили вибраций</string>
+    <string name="pref_screen_vibration_patterns_title">Профили вибрации</string>
     <string name="heartrate_bpm_40">40 уд/мин</string>
-    <string name="pref_explanation_authkey">Некоторые устройства требуют специального ключа сопряжения для первой инициализации устройства. Нажмите здесь чтобы получить более подробную информацию из вики.</string>
+    <string name="pref_explanation_authkey">Некоторые устройства требуют специального ключа сопряжения для первой инициализации устройства. Нажмите здесь, чтобы узнать подробности на вики.</string>
     <string name="pref_screen_notification_profile_todo_list">Список дел</string>
     <string name="spo2_perc_90">90%</string>
-    <string name="pref_explanation_authkey_new_protocol">Если вы на браслете получаете сообщение \"Обновить приложение до последней версии\", убедитесь, что проверили \"Новый протокол авторизации\" выше. Нажмите здесь чтобы получить более подробную информацию из вики.</string>
+    <string name="pref_explanation_authkey_new_protocol">Если вы на браслете получаете сообщение \"Обновить приложение до последней версии\", убедитесь, что проверили \"Новый протокол авторизации\" выше. Нажмите здесь, чтобы узнать подробности на вики.</string>
     <string name="pref_screen_notification_profile_find_device">Поиск устройства</string>
     <string name="pref_workout_detection_alert_summary">Уведомление при обнаружении тренировки</string>
     <string name="heartrate_bpm_120">120 уд/мин</string>
     <string name="pref_screen_notification_profile_event_reminder">Напоминание о событии</string>
     <string name="heartrate_bpm_115">115 уд/мин</string>
-    <string name="pref_sleep_mode_sleep_screen_summary">Показ экрана сна во время пробуждения экрана из спящего режима, чтобы снизить внимание во время сна</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Показывать Спящий экран при пробуждении в режиме сна для снижения отвлечения</string>
     <string name="heartrate_bpm_100">100 уд/мин</string>
     <string name="heartrate_bpm_105">105 уд/мин</string>
     <string name="world_clock_delete_confirm_description">Вы уверены, что хотите удалить мировые часы\?</string>
@@ -1658,13 +1658,13 @@
     <string name="heartrate_bpm_110">110 уд/мин</string>
     <string name="heartrate_bpm_125">125 уд/мин</string>
     <string name="appmanager_app_start">Начать</string>
-    <string name="appmanager_download_started">Запущена загрузка приложения</string>
-    <string name="appmanager_downloaded_to_cache">Загружено %s в кэш</string>
-    <string name="appmanager_download_app_error">Ошибка при загрузке приложения</string>
-    <string name="prefs_stress_monitoring_description">Наблюдение за уровнем напряженности во время отдыха</string>
+    <string name="appmanager_download_started">Скачивание приложения начато</string>
+    <string name="appmanager_downloaded_to_cache">Скачано в кэш: %s</string>
+    <string name="appmanager_download_app_error">Ошибка при скачивании приложения</string>
+    <string name="prefs_stress_monitoring_description">Наблюдение за уровнем стресса при отдыхе</string>
     <string name="prefs_spo2_monitoring_description">Автоматическое наблюдение за уровнем кислорода в крови в течение дня</string>
     <string name="prefs_activity_monitoring_title">Наблюдение за активностью</string>
-    <string name="prefs_activity_monitoring_description">Автоматически увеличивать частоту проверки пульса при обнаружении физической нагрузки, чтобы повысить точность определения пульса.</string>
+    <string name="prefs_activity_monitoring_description">Автоматически повышать частоту измерения пульса при обнаружении физической активности для повышения точности измерений.</string>
     <string name="seconds_6">6 секунд</string>
     <string name="prefs_control_center">Центр управления</string>
     <string name="prefs_password_4_digits_1_to_4_summary">Пароль должен состоять из 4 цифр, от 1 до 4</string>
@@ -1682,7 +1682,7 @@
     <string name="activity_type_stretching">Растяжка</string>
     <string name="activity_type_volleyball">Волейбол</string>
     <string name="activity_type_kickboxing">Кикбоксинг</string>
-    <string name="activity_type_street_dance">Уличный танец</string>
+    <string name="activity_type_street_dance">Уличные танцы</string>
     <string name="menuitem_email">Эл. почта</string>
     <string name="menuitem_countdown">Обратный отсчет</string>
     <string name="menuitem_workout_status">Состояние тренировки</string>
@@ -1692,7 +1692,7 @@
     <string name="menuitem_lockscreen">Экран блокировки</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Пароль должен состоять из 6 цифр, используя только цифры</string>
     <string name="prefs_password_summary">Блокировка браслета паролем при снятии с запястья</string>
-    <string name="activity_type_hiit">Высокоинтенсивная интервальная тренировка</string>
+    <string name="activity_type_hiit">Интенсивная интервальная тренировка</string>
     <string name="prefs_fm_presets_presets">Предустановки</string>
     <string name="note">Примечание</string>
     <string name="menuitem_screen_always_lit">Не выключать экран</string>
@@ -1701,9 +1701,9 @@
     <string name="menuitem_todo">Список дел</string>
     <string name="function_enabled">Включено</string>
     <string name="world_clock_code">Код</string>
-    <string name="prefs_stress_monitoring_title">Наблюдение за напряжённостью</string>
+    <string name="prefs_stress_monitoring_title">Наблюдение за уровнем стресса</string>
     <string name="menuitem_calendar">Календарь</string>
-    <string name="prefs_heartrate_alert_high_threshold">Порог предупреждения о высокой частоте пульса</string>
+    <string name="prefs_heartrate_alert_high_threshold">Порог оповещения о высокой частоте сердцебиения</string>
     <string name="activity_type_outdoor_cycling">Велоспорт на открытом воздухе</string>
     <string name="activity_type_core_training">Основные тренировки</string>
     <string name="activity_type_table_tennis">Настольный теннис</string>
@@ -1711,7 +1711,7 @@
     <string name="activity_type_boxing">Бокс</string>
     <string name="notification_channel_gps">GPS-отслеживание</string>
     <string name="menuitem_workout_history">История тренировок</string>
-    <string name="prefs_heartrate_alert_threshold">Порог оповещения о частоте пульса</string>
+    <string name="prefs_heartrate_alert_threshold">Порог оповещения о частоте сердцебиения</string>
     <string name="prefs_spo2_monitoring_title">Наблюдение за уровнем кислорода в крови</string>
     <string name="prefs_relaxation_reminder_title">Напоминание об отдыхе</string>
     <string name="activity_type_outdoor_running">Бег на свежем воздухе</string>
@@ -1738,7 +1738,7 @@
     <string name="world_clock_timezone">Часовой пояс</string>
     <string name="title_activity_world_clock_details">Подробности мировых часов</string>
     <string name="prefs_heartrate_alert_experimental_description">Вибрация браслета при превышении порогового значения пульса без явной физической активности в течение последних 10 минут. Эта функция является экспериментальной и не проходила тщательного тестирования.</string>
-    <string name="prefs_heartrate_alert_low_threshold">Порог предупреждения о низкой частоте пульса</string>
+    <string name="prefs_heartrate_alert_low_threshold">Порог оповещения о низкой частоте сердцебиения</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Сокращение временных меток операций выборки</string>
     <string name="seconds_15">15 секунд</string>
     <string name="seconds_25">25 секунд</string>
@@ -1748,7 +1748,7 @@
     <string name="pref_workout_start_on_phone_title">Отслеживание фитнес-приложений</string>
     <string name="persian">Персидский</string>
     <string name="scandinavian">Скандинавский</string>
-    <string name="watchface_dialog_widget_cat_custom_widget">Кастомный виджет</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Пользовательский виджет</string>
     <string name="watchface_dialog_title_widget">Настройки виджета</string>
     <string name="nothing_prefs_inear_title">Обнаружение уха</string>
     <string name="sony_sound_position_front_left">Передний левый</string>
@@ -1759,7 +1759,7 @@
     <string name="pref_enable_unsupported_settings_title">Включить неподдерживаемые настройки</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Настроить отслеживание сердечного ритма</string>
     <string name="prefs_always_on_display">Всегда на экране</string>
-    <string name="prefs_always_on_display_summary">Оставлять экран часов постоянно включенным</string>
+    <string name="prefs_always_on_display_summary">Всегда держать экран устройства включенным</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Чувствительность</string>
     <string name="activity_type_zumba">Зумба</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
@@ -1770,8 +1770,8 @@
     <string name="pref_title_touch_spotify_official_app">Spotify (только официальное приложение)</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (только приожение Galaxy Wearable)</string>
     <string name="pref_header_spo2">Кислород в крови</string>
-    <string name="pref_header_sony_anc_optimizer">Оптимизация шумоподавления</string>
-    <string name="sony_anc_optimize_description">Нажмите для оптимизации шумоподавления.</string>
+    <string name="pref_header_sony_anc_optimizer">Оптимизация подавления шума</string>
+    <string name="sony_anc_optimize_description">Нажмите для оптимизации подавления шума.</string>
     <string name="sony_sound_position_rear_left">Задний левый</string>
     <string name="sony_anc_optimizer_status_not_running">Не запущено</string>
     <string name="sony_sound_position_rear_right">Задний правый</string>
@@ -1783,11 +1783,11 @@
     <string name="pref_header_heartrate_allday">Отслеживание в течение всего дня</string>
     <string name="pref_voice_detect_duration_10">10 секунд</string>
     <string name="pref_header_heartrate_sleep">Сон</string>
-    <string name="pref_switch_controls_anc_off">Шумоподавление ←→ Выключено</string>
+    <string name="pref_switch_controls_anc_off">Подавление ←→ Выключено</string>
     <string name="pref_agps_update_time">Время обновления AGPS</string>
     <string name="mi2_dnd_always">Всегда</string>
     <string name="sony_anc_optimizer_status_atmospheric_pressure">Измерение атмосферного давления…</string>
-    <string name="prefs_relaxation_reminder_description">Вибрировать когда значение стресса выше 80</string>
+    <string name="prefs_relaxation_reminder_description">Браслет будет вибрировать, когда уровень стресса поднимется выше 80</string>
     <string name="hybridhr_widget_bg_dashed_circle">Пунктирный круг</string>
     <string name="pref_voice_detect_duration_15">15 секунд</string>
     <string name="activity_type_pilates">Пилатес</string>
@@ -1801,20 +1801,20 @@
     <string name="pref_agps_header">AGPS</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
+    <string name="sony_anc_optimize_confirmation_title">Оптимизация подавления шума</string>
     <string name="pref_balance">Баланс</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
-    <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердечного ритма</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердцебиения</string>
     <string name="pref_title_third_party_app_device_settings">Разрешить сторонним приложениям изменять настройки</string>
     <string name="sony_anc_optimize_title">Оптимизировать</string>
-    <string name="prefs_active_noise_cancelling_level">Уровень шумоподавления</string>
+    <string name="prefs_active_noise_cancelling_level">Уровень активного подавления шума</string>
     <string name="prefs_active_noise_cancelling_level_high">Высокий</string>
     <string name="prefs_active_noise_cancelling_level_low">Низкий</string>
     <string name="hrZoneFatBurn">Сжигание жира</string>
-    <string name="pref_title_touch_anc">Шумоподавление</string>
+    <string name="pref_title_touch_anc">Активное подавление шума</string>
     <string name="pref_title_touch_voice_assistant">Голосовой ассистент</string>
     <string name="pref_header_stress">Стресс</string>
     <string name="pref_header_heartrate_alerts">Оповещения о частоте сердцебиения</string>
@@ -1832,18 +1832,18 @@
     <string name="pref_cover_to_mute">Накрыть для отключения звука</string>
     <string name="fw_upgrade_notice_amazfit_band7">Вы собираетесь установить прошивку %s на свой Amazfit Band 7.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfit_gts4_mini">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4 Mini.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
     <string name="prefs_seamless_connection_switch_summary">Переключаться между устройствами автоматически</string>
     <string name="sony_sound_position_front_right">Передний правый</string>
-    <string name="pref_summary_third_party_app_device_settings">Разрешить другим установленным приложениям сторонних производителей задавать параметры устройства с помощью Intent.</string>
+    <string name="pref_summary_third_party_app_device_settings">Разрешить прочим сторонним приложениям устанавливать настройки устройства по intents.</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
@@ -1855,7 +1855,7 @@
     <string name="error_setting_parent_folder">Ошибка задания родительской папки: %s</string>
     <string name="autoconnect_from_device_summary">Подключаться в случае когда соединение инициировано устройством, например, наушниками</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
-    <string name="info_no_devices_connected">Нет подключенных устройств</string>
+    <string name="info_no_devices_connected">нет подключенных устройств</string>
     <string name="controlcenter_set_parent_folder">Задать родительскую папку</string>
     <string name="controlcenter_set_folder_title">Укажите папку или создайте новую</string>
     <string name="autoconnect_from_device_title">Подключаться при подключении с устройства</string>
@@ -1870,7 +1870,7 @@
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">О Bangle.js Gadgetbridge (Nightly)</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js запущен</string>
-    <string name="connection_over_bt_classic">Подключение по Bluetooth classic</string>
+    <string name="connection_over_bt_classic">Подключение через обычный Bluetooth</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="info_connected_count">%d устройств подключено</string>
@@ -1884,29 +1884,643 @@
     <string name="activity_db_management_autoexport_scheduled_no">Авто-экспорт не был запланирован.</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="menuitem_wifi">Wi-Fi</string>
-    <string name="autoExport_lastTime_label">Последний Авто-экспорт: %1$s</string>
-    <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт (первоначально) был запланирован на %1$s</string>
-    <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
-    <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
+    <string name="autoExport_lastTime_label">Последний авто-экспорт: %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт был изначально запланирован на %1$s</string>
+    <string name="activity_db_management_autoexport_location">Не удалось определить местоположение. Возможно, эта проблема связана с новой системой разрешений в Android. Скорее всего, автоэкспорт сейчас не работает.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт не включен.</string>
     <string name="menuitem_bluetooth">Bluetooth</string>
     <string name="prefs_screen_timeout">Время ожидания экрана</string>
     <string name="pref_workout_detection_enabled">Обнаружение включено</string>
     <string name="fw_upgrade_notice_amazfit_trex2">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex 2.
 \n
-\nВаши часы перезагрузятся после установки .zip файла.
+\nПосле установки .zip файла Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_workout_detection_enabled_summary">Включить автоматическое обнаружение этой тренировки</string>
     <string name="pref_workout_detection_ask_first">Сначала спросите меня</string>
     <string name="pref_camera_remote_title">Удаленная фотосъемка</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Вы собираетесь установить прошивку %s на вашAmazfit GTR 3 Pro.
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Вы собираетесь установить прошивку %s на Ваш Amazfit GTR 3 Pro.
 \n
-\nПосле установки файла .zip часы перезагрузятся.
+\nПосле установки файла .zip Ваш браслет будет перезагружен.
 \n
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
-    <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо на часах</string>
-    <string name="pref_display_caller_title">Показать контакт</string>
-    <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Фаза БДГ</string>
+    <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо с часов</string>
+    <string name="pref_display_caller_title">Показать контактную информацию</string>
+    <string name="pref_display_caller_summary">Отображать номер телефона/имя звонящего</string>
     <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Включите возможность звонков по Bluetooth ниже.</string>
+    <string name="bluetooth_calls">Звонки по Bluetooth</string>
+    <string name="bluetooth_calls_pairing">Привязка Bluetooth звонков</string>
+    <string name="pref_pair_bluetooth_calls_title">Привязать для звонков по Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_summary">Нажмите сюда, чтобы начать процесс привязки</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Чтобы получать звонки по Bluetooth, вам требуется привязать ваш телефон к второму экземпляру часов.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Зайдите в настройки Bluetooth на вашем телефоне и выполните сопряжение с новым устройством который появится в списке(похожее название как у ваших текущих часов, но с суффиксом, например \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">ВНИМАНИЕ: Если вы включите звонки по Bluetooth без сопряжения второго экземпляра, уведомления о звонках могут работать не так, как обычно.</string>
+    <string name="pref_summary_device_intents">Разрешить Bangle.js приложениям отправлять Интенты Android, и разрешить другим приложениям на Android(как Tasker) отправлять данные на Bangle.js через интент com.banglejs.uart.tx. Требует разрешение на отображение поверх других приложений для работы в фоне.</string>
+    <string name="pref_title_notification_cache_while_disconnected">Кэшировать когда вне радиуса</string>
+    <string name="pref_summary_banglejs_webview_url">Если вы хотите использовать пользовательский загрузчик приложения, поместите сюда свою https://…/android.html ссылку. В противном случае оставьте пустым для https://banglejs.com/apps</string>
+    <string name="pref_header_navigation">Навигация</string>
+    <string name="action_changelog">Журнал изменений</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Нажмите на кнопку ниже, чтобы начать процесс привязки.</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Отправлять пропущенные уведомления когда устройство переподключается после нахождения вне радиуса</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Использовать геолокацию телефона для перезаписи данных о геолокации на браслете</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Использовать интернет только для определения местоположения</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Частота обновления данных GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Частота обновления положения GPS в мс</string>
+    <string name="bluetooth_calls_settings">Настройки звонков по Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Как получать звонки по Bluetooth</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Определять местоположение только по провайдеру интернета. Это позволяет снизить энергопотребление ценой снижения точности. Требуется переподключение.</string>
+    <string name="pref_crown_vibration">Вибрация коронки</string>
+    <string name="pref_agps_expiry_reminder_enabled">Напоминание об истечении срока действия AGPS</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Обрабатывать медиа уведомления перед списком приложений. Если этот параметр выключен, медиа приложения должны быть разрешены в списке приложений, чтобы элементы управления мультимедиа работали на устройстве.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Список приложений с игнорируемыми медиа уведомлениями</string>
+    <string name="offline_voice_response_during_screen_lighting">Реагировать при включенном экране</string>
+    <string name="pref_agps_expiry_reminder_time">Время напоминания об истечении срока актуальности AGPS</string>
+    <string name="pref_camera_remote_summary">Позволяет часам включать камеру телефона</string>
+    <string name="pref_morning_updates_title">Обновления по утрам</string>
+    <string name="pref_morning_updates_summary">Отображает обновления каждое утро</string>
+    <string name="pref_morning_updates_categories_title">Категории обновлений по утрам</string>
+    <string name="pref_morning_updates_categories_summary">Список категорий, отображающихся каждое утро</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Отслеживание качества дыхания во сне</string>
+    <string name="smart">Умный</string>
+    <string name="charts_legend_stress_average">Средний уровень стресса</string>
+    <string name="gpx_route_upload_complete">Загрузка GPX маршрута завершена</string>
+    <string name="gpx_route_upload_in_progress">Загрузка GPX маршрута</string>
+    <string name="gpx_route_upload_failed">Не удалось загрузить GPX маршрут</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="pref_workout_keep_screen_on_title">Оставлять экран включенным во время тренировки</string>
+    <string name="georgian">Грузинский</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="pref_contacts_title">Контакты</string>
+    <string name="contact_delete_confirm_title">Удалить контакт</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Ежедневная цель: время стояния в минутах</string>
+    <string name="prefs_always_on_display_style">Стиль</string>
+    <string name="croatian">Хорватский</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Ежедневная цель: время сжигания жира в минутах</string>
+    <string name="status">Статус</string>
+    <string name="normal">Нормальный</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="menuitem_forecast">Прогноз</string>
+    <string name="menuitem_last_workout">Последняя тренировка</string>
+    <string name="mi5_prefs_workout_activity_types">Типы тренировок</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Выберите типы активностей для отображения на экране тренировок</string>
+    <string name="stop">Стоп</string>
+    <string name="pref_workout_keep_screen_on_summary">Экран будет оставаться включённым во время тренировки, а яркость будет настроена для отображения данных о тренировке в режиме реального времени</string>
+    <string name="pref_workout_detection_time">Минуты активности перед обнаружением</string>
+    <string name="pref_workout_detection_time_summary">Количество минут, в течение которых тренировка должна продолжаться, прежде чем она будет обнаружена</string>
+    <string name="pref_contacts_summary">Настроить контакты на часах</string>
+    <string name="contact_delete_confirm_description">Вы уверены что хотите удалить контакт \'%1$s\'\?</string>
+    <string name="title_activity_contact_details">Контактная информация</string>
+    <string name="fwapp_install_device_not_supported">Файл не может быть установлен, устройство не поддерживается.</string>
+    <string name="activity_error_share_failed">Не удалось поделиться файлом.</string>
+    <string name="share_screenshot">Поделиться снимком экрана</string>
+    <string name="screenshot_taken">Скриншот сделан</string>
+    <string name="menuitem_vo2_max">Макс. VO₂</string>
+    <string name="menuitem_recommendation">Рекомендация</string>
+    <string name="pref_workout_detection_ask_first_summary">Требовать подтверждения на часах при обнаружении тренировки</string>
+    <string name="title_activity_set_contacts">Настроить контакты</string>
+    <string name="contact_no_free_slots_description">На устройстве нет свободных слотов для контактов (всего слотов: %1$s)</string>
+    <string name="prefs_control_center_summary">Выберите элементы в выпадающем списке центра управления</string>
+    <string name="activity_type_indoor_ice_skating">Катание на коньках в помещении</string>
+    <string name="menuitem_aqi">Индекс качества воздуха</string>
+    <string name="pref_agps_expire_time">Время истечения AGPS</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">Отправка GPS местоположения на устройства %1$d</string>
+    <string name="prefs_shortcut_cards">Карточки быстрого доступа</string>
+    <string name="kind_gpx_route">GPX Маршрут</string>
+    <string name="activity_type_rowing">Гребля</string>
+    <string name="menuitem_female_health">Женское здоровье</string>
+    <string name="menuitem_total_workout">Общая тренировка</string>
+    <string name="menuitem_cards">Карточки</string>
+    <string name="menuitem_personal_activity_intelligence">Персональный Индекс Активности</string>
+    <string name="menuitem_mi_ai">MI AI</string>
+    <string name="menuitem_eject_water">Вытолкнуть воду</string>
+    <string name="menuitem_membership_cards">Членские карточки</string>
+    <string name="sensitive">Чувствительный</string>
+    <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>
+    <string name="ascentDistance">Расстояние в гору</string>
+    <string name="hrZoneNa">Н/Д</string>
+    <string name="hrZoneExtreme">Экстремальная</string>
+    <string name="aerobicTrainingEffect">Аэробный эффект</string>
+    <string name="elevationGain">Увеличение высоты</string>
+    <string name="hrZoneAerobic">Аэробная</string>
+    <string name="zepp_os_watchface_rush">Спешка</string>
+    <string name="descentDistance">Расстояние с горы</string>
+    <string name="elevationLoss">Уменьшение высоты</string>
+    <string name="HeartRateZones">Зоны сердечного ритма</string>
+    <string name="hrZoneAnaerobic">Анаэробная</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Сократите временные метки операции выборки до минут. Отключите этот параметр, чтобы сохранить временные метки в секундах, если у вас возникнут проблемы при получении очень коротких тренировок.</string>
+    <string name="zepp_os_watchface_multiple_data">Несколько данных</string>
+    <string name="zepp_os_watchface_minimalist">Минималистичный</string>
+    <string name="zepp_os_watchface_simplicity_data">Простые данные</string>
+    <string name="zepp_os_watchface_business_style">Деловой</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Свет луны Изумрудный</string>
+    <string name="zepp_os_watchface_rotating_earth">Земля крутится</string>
+    <string name="zepp_os_watchface_superposition">Суперпозиция</string>
+    <string name="yesterdays_activity">Вчерашняя активность</string>
+    <string name="anaerobicTrainingEffect">Анаэробный эффект</string>
+    <string name="currentWorkoutLoad">Тренировочная нагрузка</string>
+    <string name="maximumOxygenUptake">Максимальное поглощение кислорода</string>
+    <string name="zepp_os_watchface_vibrant">Яркий</string>
+    <string name="TrainingEffect">Эффект тренировки</string>
+    <string name="quick_alarm">Быстрое оповещение</string>
+    <string name="quick_alarm_description">Оповещение из виджета</string>
+    <string name="hrZoneWarmUp">Разминка</string>
+    <string name="sports_activity_confirm_delete_title">Удалить %d активностей</string>
+    <string name="pai_chart_per_month">PAI в месяц</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d мин.</string>
+    <string name="pai_chart_per_week">PAI в неделю</string>
+    <string name="prefs_shortcut_cards_summary">Карточки ярлыков видны при свайпе вправо на циферблате. Когда приложение запущено, авто-сгенерированные карточки не затронуты данной настройкой.</string>
+    <string name="activity_detail_share_gps_label">Поделиться GPS-треком</string>
+    <string name="activity_detail_share_raw_summary">Поделиться Необработанной Сводкой</string>
+    <string name="activity_detail_share_raw_details">Поделиться Необработанными Деталями</string>
+    <string name="dev_tools">Инструменты Разработчика</string>
+    <string name="prefs_always_on_display_follow_watchface">Стиль повторяет циферблат часов</string>
+    <string name="sports_activity_confirm_delete_description">Вы уверены, что хотите удалить %d активностей\?</string>
+    <string name="menuitem_offline_voice">Оффлайн голос</string>
+    <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
+    <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
+    <string name="minCadence">Минимальная частота</string>
+    <string name="busy_task_fetch_stress_data">Получение данных о стрессе</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Получение данных о частоте дыхания во сне</string>
+    <string name="fossil_hr_confirm_connection">Пожалуйста, подтвердите с часов</string>
+    <string name="busy_task_fetch_sports_details">Получение подробностей спорта</string>
+    <string name="step_streaks_achievements_sharing_message">Мои дневные достижения по шагам!</string>
+    <string name="prefs_hourly_chime">Ежечасные куранты</string>
+    <string name="prefs_hourly_chime_summary">Часы будут пищать раз в час</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Позволяет контролировать соединение Bluetooth через API Intent</string>
+    <string name="ftp_server_status">Статус сервера FTP</string>
+    <string name="fossil_hr_connection_not_confirmed">Соединение не было подтверждено с часов. Будет использован режим без аутентификации</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Настройки Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">Внимание: Эти настройки будут применены только к Mi Band 1 и 2.</string>
+    <string name="steps_streaks_since_date">С %s</string>
+    <string name="steps_streaks_total_steps_average_hint">Всего в среднем %d шагов в день</string>
+    <string name="wifi_hotspot_status">Статус точки доступа</string>
+    <string name="ftp_server_start_summary">Запускайте сервер с часов</string>
+    <string name="ftp_server_root_dir">Корневая папка</string>
+    <string name="ftp_server_stop_summary">Останавливайте сервер с часов</string>
+    <string name="description">Описание</string>
+    <string name="steps_streaks_streak_days">Подряд
+\nДней</string>
+    <string name="ftp_server_configuration">Конфигурация сервера FTP</string>
+    <string name="steps_streaks_total_steps_hint">Всего шагов за хождение в дни подряд</string>
+    <string name="step_streak_ongoing">Текущий</string>
+    <string name="controlcenter_connected_fraction">Подключено: %d/%d</string>
+    <string name="ftp_server">Сервер FTP</string>
+    <string name="ftp_server_summary">Контролируйте сервер FTP с часов</string>
+    <string name="address">Адрес</string>
+    <string name="fossil_hr_confirmation_timeout">Истекло время ожидания подключения. Продолжаем</string>
+    <string name="contact_missing_name">Имя контакта не заполнено</string>
+    <string name="title">Название</string>
+    <string name="steps_streaks_total_steps">Всего
+\nшагов</string>
+    <string name="step_streak_longest">Наибольший</string>
+    <string name="step_streaks_achievements_sharing_title">Достижения по шагам</string>
+    <string name="fossil_hr_pairing_successful">Сопряжение с часами успешно</string>
+    <string name="fossil_hr_pairing_failed">Сопряжение с часами не удалось</string>
+    <string name="contact_name">Имя</string>
+    <string name="contact_phone_number">Номер телефона</string>
+    <string name="contact_missing_number">Телефон не указан</string>
+    <string name="step_streak_average_steps_hint">Шагов в среднем за дни подряд</string>
+    <string name="busy_task_fetch_debug_logs">Получение отладочного журнала</string>
+    <string name="activity_prefs_goals">Цели</string>
+    <string name="steps_streaks_average_steps">В среднем
+\nшагов</string>
+    <string name="wifi_hotspot">Точка доступа Wi-Fi</string>
+    <string name="username">Имя пользователя</string>
+    <string name="step_streak_total">Всего</string>
+    <string name="steps_streaks_achievement_rate">Достижения
+\nрейтинг</string>
+    <string name="steps_streaks_total_steps_hint_totals">Всего зарегистрировано шагов</string>
+    <string name="wifi_hotspot_configuration">Настройки ТД Wi-Fi</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="status_icon">Значок статуса</string>
+    <string name="loyalty_cards_install">Установить Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Синхронизировать только выбранные группы</string>
+    <string name="pref_app_logs_start_summary">Начать ведение журнала из приложений часов</string>
+    <string name="pref_app_logs_stop_summary">Остановить ведение журнала</string>
+    <string name="pref_switch_controls_anc_ambient_off">Подавление ←→ Звук окружения ←→ Выкл</string>
+    <string name="activity_type_surfing">Сёрфинг</string>
+    <string name="activity_type_windsurfing">Виндсёрфинг</string>
+    <string name="activity_type_kitesurfing">Кайтинг</string>
+    <string name="activity_type_football">Футбол</string>
+    <string name="activity_type_rugby">Регби</string>
+    <string name="activity_type_baseball">Бейсбол</string>
+    <string name="activity_type_tennis">Теннис</string>
+    <string name="activity_type_squash">Сквош</string>
+    <string name="intent_api_allow_activity_sync_summary">Позволяет активировать синхронизацию активности через API Intent</string>
+    <string name="pref_canned_message">Сообщение</string>
+    <string name="fossil_hr_button_config_info">Не все кнопки могут быть настроены, так как их действия забиты в ПО часов.
+\n
+\nВнимание: если установлено официальное приложение Fossil, долгое зажатие верхней кнопки также будет переключать отображение виджетов.</string>
+    <string name="busy_task_fetch_sports_summaries">Получение сводки по спорту</string>
+    <string name="busy_task_fetch_pai_data">Получение данных индекса физ. активности</string>
+    <string name="busy_task_fetch_spo2_data">Получение данных о насыщеннии крови кислородом</string>
+    <string name="busy_task_fetch_hr_data">Получение данных о серцебиении</string>
+    <string name="pref_app_logs_title">Журнал приложения</string>
+    <string name="pref_app_logs_summary">Включить ведение журнала из приложения часов</string>
+    <string name="loyalty_cards_sync_groups">Синхронизируемые группы</string>
+    <string name="steps_streaks_total_days_hint_totals">Процент дней с достигнутой целью в соотношении ко всем дням с шагами</string>
+    <string name="step_streak_days_hint">Количество дней с достигнутой целью шагов подряд</string>
+    <string name="intent_api_allow_activity_sync_title">Активация синх. активности по событию</string>
+    <string name="changelog_full_title">Список изменений</string>
+    <string name="changelog_ok_button">Ок</string>
+    <string name="changelog_title">Что нового</string>
+    <string name="prefs_noise_control">Управление уровнем шума</string>
+    <string name="sony_button_mode_right">Режим кнопки (правой)</string>
+    <string name="sony_equalizer_preset_custom_1">Свой 1</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Нормальная</string>
+    <string name="sony_pause_when_taken_off">Пауза при снятии наушников</string>
+    <string name="sony_speak_to_chat_summary">Автоматически отключать подавление шума, когда Вы начинаете говорить.</string>
+    <string name="sony_speak_to_chat_sensitivity">Чувствительность активации по голосу</string>
+    <string name="sony_speak_to_chat_timeout">Ограничение времени</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Высокая</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Низкая</string>
+    <string name="sony_automatic_power_off_when_taken_off">При снятии</string>
+    <string name="sony_button_mode_left">Режим кнопки (Левой)</string>
+    <string name="pref_anc_optimizer_state_pressure">Атмосферное давление</string>
+    <string name="sony_equalizer_preset_custom_2">Свой 2</string>
+    <string name="sony_automatic_power_off">Автоматическое выключение</string>
+    <string name="sony_automatic_power_off_off">Не выключать</string>
+    <string name="sony_surround_mode_outdoor_stage">Открытая сцена</string>
+    <string name="stress_mild">Небольшой</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Измерение условий ношения…</string>
+    <string name="sony_anc_optimizer_status_finished">Завершение…</string>
+    <string name="sony_equalizer_preset_speech">Речь</string>
+    <string name="sony_equalizer_preset_manual">Вручную</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Автоматически</string>
+    <string name="stress_moderate">Умеренный</string>
+    <string name="stress_high">Высокий</string>
+    <string name="pai_total">Общий индекс физ. активности</string>
+    <string name="pref_theme_dynamic">Адаптивные цвета</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="watchface_widget_type_uv_index">Индекс УФ-излучения</string>
+    <string name="pref_show_changelog">Показывать список изменений при запуске</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="activity_type_handball">Гандбол</string>
+    <string name="activity_type_weightlifting">Тяжёлая атлетика</string>
+    <string name="activity_type_dancing">Танцы</string>
+    <string name="activity_type_skiing">Лыжи</string>
+    <string name="activity_type_snowboarding">Сноубординг</string>
+    <string name="activity_type_riding">Верховая езда</string>
+    <string name="activity_type_hockey">Хоккей</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Виджет вторичного часового пояса</string>
+    <string name="activity_type_icehockey">Хоккей с шайбой</string>
+    <string name="activity_type_iceskating">Коньки</string>
+    <string name="activity_type_other">Другое</string>
+    <string name="error_no_bluetooth_connect">Для корректной работы сканирования требуется разрешение на соединение по Bluetooth</string>
+    <string name="activity_type_golf">Гольф</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="error_no_bluetooth_scan">Для корректной работы сканирования требуется разрешение на сканирование Bluetooth</string>
+    <string name="pref_show_changelog_summary">Отображать список изменений с предыдущей версии после обновления Gadgetbridge</string>
+    <string name="watchface_dialog_widget_cat_position">Позиция</string>
+    <string name="watchface_widget_type_active_mins">Минуты активности</string>
+    <string name="watchface_dialog_widget_cat_generic">Обычный</string>
+    <string name="prefs_dolby_summary">Предустановка Dolby для эквалайзера</string>
+    <string name="prefs_touch_lock_buds2">Сенсорное управление</string>
+    <string name="prefs_seamless_connection_switch_title">Плавная смена подключения</string>
+    <string name="prefs_touch_lock_summary">Отключить касания</string>
+    <string name="prefs_touch_lock">Сенсорная блокировка</string>
+    <string name="prefs_double_tap_edge">Край двойного касания</string>
+    <string name="pref_media_pause">Пауза воспроизведения</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Подавление, Выкл</string>
+    <string name="pref_media_playpause">Переключение воспроизведения</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Звук окружения, Выкл</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Вы собираетесь установить прошивку %s на Ваш Amazfit Cheetah Pro.
+\n
+\nПосле установки .zip Ваш браслет будет перезагружен.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_zepp_os">Вы собираетесь установить прошивку %s на Ваш %s.
+\n
+\nПосле установки файла .zip Ваши часы будут перезагружены.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Вы собираетесь установить прошивку %s на Ваш Amazfit Bip 3 Pro.
+\n
+\nБудьте внимательны: сперва установите файл .fw, затем .res. После установки .fw Ваши часы будут перезагружены.
+\n
+\nПримечание: не нужно устанавливать этот же .res, если он уже был установлен.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="prefs_ambient_volume">Громкость окружения</string>
+    <string name="pref_ambient_sound_tone">Тональность звуков окружения</string>
+    <string name="prefs_ambient_mode">Режим слышимости окружения</string>
+    <string name="prefs_pressure_relief">Сброс давления с окружающим звуком</string>
+    <string name="pref_ambient_sound_tone_summary">От мягкого к чёткому</string>
+    <string name="prefs_ambient_volume_right">Громкость окружения Справа</string>
+    <string name="prefs_ambient_settings_title">Настройки звука окружения</string>
+    <string name="prefs_customize_ambient_sound_summary">Настроить звук окружения</string>
+    <string name="pref_title_touch_ambient">Звук окружения</string>
+    <string name="prefs_ambient_volume_left">Громкость окружения Слева</string>
+    <string name="prefs_ambient_sound">Звук окружения</string>
+    <string name="pref_switch_controls_anc_ambient">Подавление ←→ Звук окружения</string>
+    <string name="prefs_ambient_sound_during_call_title">Звуки окружения во время звонка</string>
+    <string name="pref_switch_controls_ambient_off">Звук окружения ←→ Выкл</string>
+    <string name="sony_button_mode_ambient_sound_control">Управление звуком окружения</string>
+    <string name="find_my_phone_found_it">НАШЁЛ ЕГО</string>
+    <string name="voice_service_package_title">Набор голосовой службы</string>
+    <string name="voice_service_package_summary">Приложение со службой обработки голосовых команд</string>
+    <string name="voice_service_class_title">Класс голосовой службы</string>
+    <string name="prefs_voice_detect_summary">Автоматически включить звуки окружения и снизить громкость воспроизведения после обнаружения голоса</string>
+    <string name="supercars_lights_label">Огни</string>
+    <string name="debug_companion_show_associated">Отображать связанные устройства-спутники</string>
+    <string name="sony_ambient_sound_ambient_sound">Звук окружения</string>
+    <string name="loyalty_cards_sync_archived">Синхронизировать активированные карты</string>
+    <string name="loyalty_cards_sync_summary">Нажмите для синхронизации карт с часами</string>
+    <string name="loyalty_cards_catima_package">Имя набора Catima</string>
+    <string name="loyalty_cards_install_catima_fail">Не удалось открыть магазин приложений для установки Catima</string>
+    <string name="loyalty_cards_sync_title">Синхронизировать бонусные карты</string>
+    <string name="loyalty_cards_sync_options">Настройки синхронизации</string>
+    <string name="loyalty_cards_sync">Синхронизация</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="supercars_lights_blinking_label">Мигание</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Подавление, Звук окружения</string>
+    <string name="wifi_hotspot_summary">Управляйте точкой доступа Wi-Fi с часов</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Подавление, Звук окружения, Выкл</string>
+    <string name="wifi_hotspot_start_summary">Запускайте точку доступа с часов</string>
+    <string name="voice_service_class_summary">Полный путь до службы обработки голосовых команд</string>
+    <string name="loyalty_cards_catima_permissions_summary">Для синхронизации карт Catima, Gadgetbridge требуются разрешения на их чтение. Нажмите эту кнопку, чтобы выдать их.</string>
+    <string name="withings_calibration_text_minutes">Теперь используйте циферблат для установки минутной стрелки на 12.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Адаптивные цвета недоступны на Вашем устройстве. Этот функционал поддерживается на Android 12 и выше. Gadgetbridge будет использовать цвета Material 3 по умолчанию.</string>
+    <string name="pref_header_sony_ambient_sound_control">Управление звуком окружения</string>
+    <string name="sony_ambient_sound_level">Уровень звука окружения</string>
+    <string name="sony_ambient_sound_control_button_modes">Режимы кнопок управления звуком окружения</string>
+    <string name="wifi_hotspot_stop_summary">Останавливайте точку доступа с часов</string>
+    <string name="fossil_hr_confirmation_skipped">Пропуск конфигурации устройства</string>
+    <string name="debug_companion_pair_current">Привязать текущее устройство как спутник</string>
+    <string name="preview_image">Миниатюра</string>
+    <string name="withings_bt_calibration_previous">Предыдущая</string>
+    <string name="pref_theme_dynamic_colors_explanation">Примечание: чтобы использовать тему адаптивных цветов, Вам необходимо включить Цвет обоев или Палитру обоев в настройках внешнего вида на Android 12+. Если оно будет выключено, Gadgetbridge будет использовать цвета Material 3 по умолчанию.</string>
+    <string name="pref_activity_full_sync_trigger_summary">Запустить полную синхронизацию данных о всех активностях</string>
+    <string name="voice_service">Служба голоса</string>
+    <string name="loyalty_cards_sync_starred">Синхронизировать только карты в избранном</string>
+    <string name="loyalty_cards_catima_not_compatible">Установленная версия Catima несовместима с Gadgetbridge. Пожалуйста, обновите оба приложения до последних версий.</string>
+    <string name="loyalty_cards_open_catima">Открыть Catima</string>
+    <string name="loyalty_cards">Бонусные карты</string>
+    <string name="loyalty_cards_syncing">Синхронизация %d бонусных карт на устройство</string>
+    <string name="withings_calibration_text_hours">Пожалуйста, используйте циферблат ниже для установки часовой стрелки на 12.</string>
+    <string name="withings_calibration_text_activity_target">Наконец, установите стрелку активности на 100%. Пожалуйста, учтите, что она движется только в одном направлении.</string>
+    <string name="withings_bt_calibration_next">Следующая</string>
+    <string name="pref_activity_full_sync_trigger_title">Полная синхронизация</string>
+    <string name="info_menu_structure_set">Структура меню JSON, заданная в ГБ</string>
+    <string name="button_open_menu_companion">Открыть меню приложения-спутника</string>
+    <string name="error_menu_companion_not_installed">Скорее всего, «Спутник меню HR»‎ не установлено</string>
+    <string name="loyalty_cards_catima_not_installed">Для управления бонусными картами требуется Catima</string>
+    <string name="loyalty_cards_catima_permissions_title">Отсутствующие разрешения</string>
+    <string name="error_invalid_menu_structure">Некорректная структура меню JSON</string>
+    <string name="button_reset_menu_structure">Сбросить структуру меню</string>
+    <string name="info_menu_structure_contents">Структура меню: %s</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Пожалуйста, пересоберите свой циферблат для пользовательского меню</string>
+    <string name="pref_activity_full_sync_trigger_warning">Запустит полную синхронизацию данных всех активностей с устройства. Это может занять несколько минут.</string>
+    <string name="info_menu_structure_removed">Структура меню удалена</string>
+    <string name="pref_switch_noise_control">Изменить уровень подавления шума</string>
+    <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="prefs_noise_control_with_one_earbud">Подавление шума с одним наушником</string>
+    <string name="nothing_prefs_inear_summary">Пауза/воспр. музыки в зависимости от присутствия в ушах наушников</string>
+    <string name="prefs_noise_control_with_one_earbud_summary">Позволяет использовать подавление шума с одним наушником</string>
+    <string name="sony_notification_voice_guide">Уведомления и Голосовое Сопровождение</string>
+    <string name="pressure_relief_summary">Предотвращение ощущения давления в ушах без использования активного подавления шума</string>
+    <string name="stress_relaxed">Расслабленный</string>
+    <string name="sony_connect_two_devices">Подключение к 2 устройствам одновременно</string>
+    <string name="sony_audio_upsampling">Повышение частоты дискретизации</string>
+    <string name="long_press">Долгое зажатие</string>
+    <string name="continue_pressing">Продолжайте нажимать</string>
+    <string name="sony_quick_access_double_tap">Быстрый доступ (двойное нажатие)</string>
+    <string name="pref_screen_auto_brightness_title">Автоподстройка яркости</string>
+    <string name="pref_screen_auto_brightness_summary">Автоматическая подстройка яркости к освещённости окружения</string>
+    <string name="qhybrid_summary_on_device_confirmation">Подтверждения сопряжения на устройстве могут быть раздражающими. Их выключение может привести к потере функционала.</string>
+    <string name="watchface_dialog_widget_timezone_duration">Время отображения часов (в секундах)</string>
+    <string name="qhybrid_title_on_device_confirmation">Включить подтверждение сопряжения на устройстве</string>
+    <string name="pref_screen_brightness">Яркость экрана</string>
+    <string name="single_tap">Одно нажатие</string>
+    <string name="double_tap">Двойное нажатие</string>
+    <string name="triple_tap">Тройное нажатие</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Отображать круг по истечению</string>
+    <string name="sony_quick_access_triple_tap">Быстрый доступ (тройное нажатие)</string>
+    <string name="prefs_ambient_voice_focus">Концентрация на голосе</string>
+    <string name="sony_sound_position">Расположение звука</string>
+    <string name="sony_equalizer_preset_bass_boost">Усиление баса</string>
+    <string name="sony_touch_sensor">Сенсорное управление</string>
+    <string name="sony_button_mode_playback_control">Управление воспроизведением</string>
+    <string name="watchface_setting_light_up_on_notification">Подсвечивать при новом уведомлении</string>
+    <string name="intent_api_broadcast_export_summary">Транслировать intent по завершению экспорта базы данных</string>
+    <string name="pref_title_navigation_forward">Отправить навигацию на часы</string>
+    <string name="intent_api_allow_debug_commands_summary">Позволяет активировать команды отладочного меню через API Intent</string>
+    <string name="supercars_turbo_speed_label">Турбо-скорость</string>
+    <string name="english_gb">Английский (Великобритания)</string>
+    <string name="english_in">Английский (Индия)</string>
+    <string name="english_us">Английский (США)</string>
+    <string name="spanish_es">Испанский (Испания)</string>
+    <string name="spanish_us">Испанский (США)</string>
+    <string name="spanish_mx">Испанский (Мексика)</string>
+    <string name="french_ca">Французский (Канада)</string>
+    <string name="french_fr">Французский (Франция)</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Остановка службы расположения GPS</string>
+    <string name="distance_format_miles">###,# миль</string>
+    <string name="steps_streaks_hint">Беспрерывная последовательность дней с достижением цели по шагам</string>
+    <string name="intent_api_broadcast_export_title">Трансляция по экспорту базы данных</string>
+    <string name="intent_api_allow_trigger_export_summary">Позволяет активировать экспорт базы данных через API Intent</string>
+    <string name="pref_summary_navigation_forward">Отправка указаний навигационных приложений на часы</string>
+    <string name="intent_api_allow_debug_commands_title">Разрешить отладочные команды</string>
+    <string name="intent_api_allow_trigger_export_title">Разрешить экспорт БД</string>
+    <string name="steps_streaks">Рекорды шагов</string>
+    <string name="english_au">Английский (Австралия)</string>
+    <string name="english_ca">Английский (Канада)</string>
+    <string name="changelog_show_full">Дальше…</string>
+    <string name="sony_button_mode_help_summary">Описание режимов каждой кнопки</string>
+    <string name="pref_header_sony_equalizer_preset_custom_2">Своя предустановка 2</string>
+    <string name="permission_request">%1$s позволяет отправлять сообщения и другую информацию с Android на Ваше устройство. Для этого ему необходимы разрешения на доступ к этой информации. Без них ничего нормально работать не будет.
+\n
+\nВам будут выведены несколько диалогов с запросами на эти разрешения.
+\n
+\nНажмите \"%2$s\", чтобы продолжить.</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="pref_device_action_broadcast">Отправить трансляцию</string>
+    <string name="prefs_ambient_sound_during_call_summary">Отчётливо слышать свой голос во время звонков</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
+    <string name="device_experimental">ЭКСПЕРИМЕНТАЛЬНО</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (круглые)</string>
+    <string name="watchface_setting_title_custom_events">Пользовательские события</string>
+    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Концентрация на голосе</string>
+    <string name="sony_button_mode_help_title">Режимы кнопок - Помощь</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah Square (квадратные)</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
+    <string name="maxCadence">Максимум шагов в минуту</string>
+    <string name="minStride">Минимальная длина шага</string>
+    <string name="prefs_autoheartrate">Автоизмерение сердцебиения</string>
+    <string name="prefs_voice_detect">Активация по голосу</string>
+    <string name="sony_ambient_sound_focus_voice">Концентрация на голосе</string>
+    <string name="maxStride">Максимальная длина шага</string>
+    <string name="prefs_double_tap_edge_summary">Засчитывать двойное касание, даже если оно было по экрану</string>
+    <string name="prefs_sleep_time_summary">Время, когда собирается информация о сне</string>
+    <string name="prefs_voice_detect_duration">Завершить после тишины на протяжении:</string>
+    <string name="pai_day">Дневное увеличение индекса физической активности</string>
+    <string name="sony_anc_optimize_confirmation_description">Используйте наушники по-обычному. Если условия ношения или атмосферное давление изменятся, запустите оптимизацию ещё раз.</string>
+    <string name="sony_speak_to_chat">Разговор при ношении гарнитуры</string>
+    <string name="pref_header_sony_equalizer_preset_custom_1">Своя предустановка 1</string>
+    <string name="sony_equalizer_preset_vocal">Вокал</string>
+    <string name="pref_media_forward">Пропустить вперёд</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">На устройстве недостаточно свободного места</string>
+    <string name="quick_attention">Быстрое привлечение внимания</string>
+    <string name="pref_media_rewind">Пропустить назад</string>
+    <string name="sony_equalizer_preset_relaxed">Расслабленный</string>
+    <string name="pref_media_previous">Предыдущий</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="watchface_dialog_pre_setting_position">предустановка позиции на %s</string>
+    <string name="devicetype_bohemic_smart_bracelet">Умный браслет Bohemic</string>
+    <string name="text_receiver_activity_title">Отправить текст на устройство</string>
+    <string name="activity_type_stepper">Степпер</string>
+    <string name="battery_case">Зарядный футляр</string>
+    <string name="prefs_wena3_notification_vibration_repetition_3">Трижды</string>
+    <string name="prefs_wena3_auto_power_off_turn_off_time_item">Время выключения</string>
+    <string name="prefs_wena3_vibration_short">Короткая</string>
+    <string name="prefs_wena3_home_icon_name_calories">Калории</string>
+    <string name="prefs_wena3_led_none">Без индикатора</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">Текущая MTU %1$d слишком низкая. Пожалуйста, включите высокую MTU в настройках устройства и переподключите его.</string>
+    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
+    <string name="prefs_wena3_vibration_continuous">Продолжительная</string>
+    <string name="prefs_wena3_home_icon_name_pedometer">Кол-во шагов</string>
+    <string name="temperature_scale_celsius">По Цельсию</string>
+    <string name="prefs_wena3_vibration_basic">Простая</string>
+    <string name="prefs_wena3_notification_vibration_repetition_2">Дважды</string>
+    <string name="prefs_wena3_vibration_rapid">Быстрая</string>
+    <string name="temperature_scale_cf">Единица измерения температуры</string>
+    <string name="prefs_wena3_notification_vibration_repetition_1">Единожды</string>
+    <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay</string>
+    <string name="prefs_wena3_button_action_item">Действие кнопки</string>
+    <string name="prefs_wena3_notification_default_call_vibration">Вибрация при входящих звонках</string>
+    <string name="prefs_wena3_notification_default_call_led">Цвет индикатора при входящем звонке</string>
+    <string name="prefs_wena3_vibration_siren">Сирена</string>
+    <string name="temperature_scale_cf_summary">Шкала измерения температуры, используемая устройством.</string>
+    <string name="prefs_wena3_notification_default_call_vibration_repetition">Повторения вибрации при входящих</string>
+    <string name="prefs_wena3_notification_vibration_repetition_0">Постоянно</string>
+    <string name="prefs_wena3_notification_vibration_repetition_4">Четырежды</string>
+    <string name="temperature_scale_fahrenheit">По Фаренгейту</string>
+    <string name="prefs_wena3_menu_icon_name_payment">Карты оплаты</string>
+    <string name="prefs_wena3_notification_default_led">Цвет индикатора уведомлений</string>
+    <string name="prefs_wena3_auto_power_off_item">Автовыключение</string>
+    <string name="prefs_wena3_vibration_warning">Предупреждение</string>
+    <string name="prefs_wena3_notification_per_app_settings_title">Настройки уведомлений от приложений</string>
+    <string name="prefs_wena3_vibration_none">Без вибрации</string>
+    <string name="prefs_wena3_vibration_triple">Тройная</string>
+    <string name="prefs_wena3_notification_settings_title">Настройки уведомлений</string>
+    <string name="prefs_wena3_receive_calls_title">Настройки входящих звонков</string>
+    <string name="prefs_wena3_button_action_name_start_timer">Запустить таймер</string>
+    <string name="prefs_wena3_menu_icon_hint">Иконка \"Настройки\" всегда отображается в конце меню</string>
+    <string name="prefs_wena3_button_action_name_qrio_lock">Закрыть замок Qrio</string>
+    <string name="prefs_home_icon_left_item">Левый</string>
+    <string name="prefs_wena3_vibration_step_down">Нисходящая</string>
+    <string name="prefs_wena3_vibration_smart_item">Смарт-вибрация</string>
+    <string name="prefs_wena3_hint_background_sync">Разрешить Wena периодически просить Gadgetbridge скачать накопленную историю активности с устройства</string>
+    <string name="prefs_wena3_home_icon_name_suica">Баланс на Suica</string>
+    <string name="prefs_wena3_vibration_strength_item_medium">Средне</string>
+    <string name="prefs_wena3_title_activity">Настройки активности</string>
+    <string name="prefs_wena3_home_icon_name_qrio">Qrio</string>
+    <string name="white">Белый</string>
+    <string name="prefs_wena3_home_icon_name_clock">Текущее время</string>
+    <string name="prefs_wena3_item_background_sync">Синхронизация активности в фоне</string>
+    <string name="prefs_wena3_vibration_strength_item_weak">Слабо</string>
+    <string name="prefs_wena3_home_icon_title">Значки на главном экране</string>
+    <string name="prefs_wena3_item_weather_statusbar">Погода в статус-баре</string>
+    <string name="prefs_wena3_vibration_step_up">Восходящая</string>
+    <string name="prefs_home_icon_right_item">Правый</string>
+    <string name="prefs_wena3_title_screen">Настройки отображения</string>
+    <string name="prefs_wena3_item_large_font">Крупный шрифт</string>
+    <string name="prefs_wena3_home_icon_name_energy">Энергия</string>
+    <string name="prefs_wena3_auto_power_off_hint">Устройство будет выключаться и включаться автоматически в заданное время</string>
+    <string name="prefs_wena3_hint_lift_wrist">Включать экран при повороте запястья</string>
+    <string name="prefs_wena3_hint_large_font">Увеличивает размер текста в календаре, уведомлениях, и т.д.</string>
+    <string name="prefs_wena3_button_action_item_double">Двойное нажатие</string>
+    <string name="prefs_wena3_button_action_name_qrio_unlock">Открыть замок Qrio</string>
+    <string name="prefs_wena3_receive_calls_item">Принимать входящие звонки</string>
+    <string name="prefs_wena3_hint_weather_statusbar">Показывать иконку текущей погоды в левом верхнем углу главного экрана</string>
+    <string name="prefs_wena3_auto_power_off_turn_on_time_item">Время включения</string>
+    <string name="green">Зелёный</string>
+    <string name="yellow">Жёлтый</string>
+    <string name="red">Красный</string>
+    <string name="cyan">Бирюзовый</string>
+    <string name="prefs_wena3_menu_icon_title">Значки меню</string>
+    <string name="prefs_wena3_notification_default_vibration">Вибрация для уведомлений</string>
+    <string name="prefs_wena3_vibration_strength_item">Сила вибрации</string>
+    <string name="prefs_wena3_receive_calls_hint">Если выключено, то входящие звонки не будут отображаться на Wena</string>
+    <string name="prefs_wena3_button_action_item_long">Нажатие с удержанием</string>
+    <string name="prefs_wena3_status_page_title">Порядок страниц статуса</string>
+    <string name="prefs_wena3_title_alarm">Настройки будильника</string>
+    <string name="prefs_wena3_notification_default_vibration_repetition">Повтор вибрации при уведомлениях</string>
+    <string name="prefs_home_icon_center_item">Средний</string>
+    <string name="prefs_wena3_hint_rich_design">Добавляет прямоугольный фон вокруг иконок на главном экране</string>
+    <string name="prefs_wena3_home_icon_name_edy">Баланс на Edy</string>
+    <string name="prefs_wena3_smart_alarm_margin_item">Запас для умного пробуждения</string>
+    <string name="prefs_wena3_item_rich_design">Альтернативный дизайн</string>
+    <string name="prefs_wena3_day_start_hour_item">Начинать день в</string>
+    <string name="purple">Фиолетовый</string>
+    <string name="prefs_wena3_vibration_strength_item_strong">Сильно</string>
+    <string name="blue">Синий</string>
+    <string name="prefs_wena3_button_action_name_activity_screen">Отображение активности</string>
+    <string name="pref_device_action_fitness_app_control_start">Начало отслеживания фитнес-приложением</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX (без датчика ЧСС)</string>
+    <string name="new_discover_activity_description">Включить новое действие обнаружения, которое должно устранить проблемы с обнаружением устройств. Отключите эту функцию, если у вас возникнут какие-либо проблемы при поиске или сопряжении с вашим устройством.</string>
+    <string name="drag_handle">перетаскивание элементов</string>
+    <string name="new_discover_activity_title">Включить новое обнаружение активности</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="watchface_setting_power_saving_hands">Выключить движения рук при снятом ремешке</string>
+    <string name="pref_device_action_fitness_app_control_stop">Остановка отслеживания фитнес-приложением</string>
+    <string name="pref_header_sony_equalizer_bands">Диапазоны</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="sony_equalizer_preset_mellow">Мягкий</string>
+    <string name="sony_equalizer_preset_excited">Взволнованный</string>
+    <string name="pref_title_lock_unlock">Заблокировать</string>
+    <string name="sony_equalizer_preset_treble_boost">Повышение высоких частот</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Переключить отслеживание фитнес-приложения</string>
+    <string name="prefs_switch_control_right">Переключить управление справа</string>
+    <string name="prefs_switch_control_left">Переключить управление слева</string>
+    <string name="watchface_setting_button_move_hands">Движение рук</string>
+    <string name="pref_title_touch_quick_ambient">Быстрые настройки звука окружения</string>
+    <string name="pref_message_privacy_mode_bodyonly">Скрыть только тело</string>
+    <string name="latvian">Латышский</string>
+    <string name="common_symbols">Обычные символы</string>
+    <string name="pref_title_notifications_ignore_work_profile">Игнорировать уведомления рабочего профиля</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Не отправлять уведомления приложений из рабочего профиля на часы</string>
+    <string name="zepp_os_watchface_pure_white">Ярко-белый</string>
+    <string name="zepp_os_watchface_the_ultima">Ультима</string>
+    <string name="zepp_os_watchface_city_of_speed">Город Скорости</string>
+    <string name="menuitem_headphone">Наушник</string>
+    <string name="femometer_measurement_mode_normal">Нормальный (60-90 сек.)</string>
+    <string name="zepp_os_watchface_free_combination">Free combination</string>
+    <string name="menuitem_body_composition">Состав тела</string>
+    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="femometer_measurement_mode_quick">Быстрый (30 сек.)</string>
+    <string name="zepp_os_watchface_starry_sky">Звёздное небо</string>
+    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="femometer_measurement_mode_title">Режим измерения</string>
+    <string name="femometer_measurement_mode_precise">Точный (3 мин.)</string>
+    <string name="zepp_os_watchface_vast_sky">Необъятное небо</string>
+    <string name="menuitem_workout_shortcuts">Ярлыки тренировок</string>
+    <string name="zepp_os_watchface_lightning_flash">Сверкание молнии</string>
+    <string name="menuitem_apps_shortcuts">Ярлыки приложений</string>
+    <string name="zepp_os_watchface_guider">Руководство</string>
+    <string name="menuitem_readiness">Готовность</string>
+    <string name="menuitem_thermometer">Термометр</string>
+    <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Навигация была начата, но navigationApp не установлено на часах. Пожалуйста, установите его в менеджере приложений.</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Приложение навигации не установлено на часах</string>
+    <string name="call_rejection_method_ignore">Игнорировать (прекратить уведомление)</string>
+    <string name="call_rejection_method_reject">Отклонить</string>
+    <string name="pref_call_rejection_method_title">Способ отклонения вызова</string>
+    <string name="busy_task_fetch_statistics">Получение статистики</string>
+    <string name="yard">площадка</string>
+    <string name="pref_call_rejection_method_summary">Какое действие необходимо совершить при отклонении вызова с часов</string>
+    <string name="busy_task_fetch_temperature">Получение температуры</string>
+    <string name="laneLength">Длина полосы</string>
 </resources>

@@ -88,7 +88,7 @@ public class EntitiesTest extends TestBase {
         assertEquals("00:00:00:00:01", device.getIdentifier());
         assertEquals("Testie", device.getName());
         assertEquals("4.0", device.getModel());
-        assertEquals(DeviceType.TEST.getKey(), device.getType());
+        assertEquals(DeviceType.TEST.name(), device.getTypeName());
         DeviceAttributes attributes = device.getDeviceAttributesList().get(0);
         assertNotNull(attributes);
         assertEquals("1.2.3", attributes.getFirmwareVersion1());

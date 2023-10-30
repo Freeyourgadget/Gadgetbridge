@@ -47,7 +47,7 @@
             android:key="pref_header_agps"
             android:title="@string/pref_agps_header">
 
-            <SwitchPreference
+            <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_agps_expiry_reminder_enabled"
                 android:title="@string/pref_agps_expiry_reminder_enabled" />

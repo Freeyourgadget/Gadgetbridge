@@ -17,22 +17,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -50,6 +51,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
@@ -70,29 +74,29 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         if (macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1_1A)
                 || macAddress.startsWith(MiBandService.MAC_ADDRESS_FILTER_1S)) {
-            return DeviceType.MIBAND;
+            return true;
         }
         if (candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND_SERVICE)
                 && !candidate.supportsService(MiBandService.UUID_SERVICE_MIBAND2_SERVICE)) {
-            return DeviceType.MIBAND;
+            return true;
         }
         // and a heuristic
         try {
             BluetoothDevice device = candidate.getDevice();
             if (isHealthWearable(device)) {
-                String name = device.getName();
+                String name = candidate.getName();
                 if (name != null && name.toUpperCase().startsWith(MiBandConst.MI_GENERAL_NAME_PREFIX.toUpperCase())) {
-                    return DeviceType.MIBAND;
+                    return true;
                 }
             }
         } catch (Exception ex) {
             LOG.error("unable to check device support", ex);
         }
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override
@@ -100,11 +104,6 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getMiBandActivitySampleDao().queryBuilder();
         qb.where(MiBandActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND;
     }
 
     @Override
@@ -271,11 +270,50 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MiBandSupport.class;
+    }
+
     private boolean isMi1S(String hardwareVersion) {
         return MiBandConst.MI_1S.equals(hardwareVersion);
     }
 
     private boolean isMiPro(String hardwareVersion) {
         return MiBandConst.MI_PRO.equals(hardwareVersion);
+    }
+
+    @Override
+    public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
+        return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getOrderPriority(){
+        // all Coordinators have a priority of 0, thus get checked before this one
+        // PLEASE DO NOT EXTEND THE PRIORITIES
+        // PLEASE BUILD NEW COORDINATORS ORDER INDEPENDENT
+        // this ordering mechanism is a temporary hack and will hopefully be gone soon...
+        return 1;
+    }
+
+    @Override
+    @StringRes
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband;
+    }
+
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband_disabled;
     }
 }

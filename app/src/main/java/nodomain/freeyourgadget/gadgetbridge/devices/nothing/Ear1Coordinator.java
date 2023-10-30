@@ -7,6 +7,8 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
@@ -19,20 +21,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nothing.Ear1Support;
 
 public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if(candidate.getName().equals("Nothing ear (1)"))
-            return DeviceType.NOTHING_EAR1;
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NOTHING_EAR1;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Nothing ear (1)", Pattern.LITERAL);
     }
 
     @Nullable
@@ -134,6 +129,12 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
         return new BatteryConfig[]{battery1, battery2, battery3};
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return Ear1Support.class;
+    }
+
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[] {
@@ -141,4 +142,19 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
         };
     }
 
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_nothingear1;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_nothingear;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_nothingear_disabled;
+    }
 }

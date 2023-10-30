@@ -21,6 +21,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.ParcelUuid;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.vesc.VescDeviceSupport;
 
 public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     public final static String UUID_SERVICE_SERIAL_HM10 = "0000ffe0-0000-1000-8000-00805f9b34fb";
@@ -58,26 +62,26 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
+    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        ParcelUuid[] uuids = candidate.getServiceUuids();
-        Logger logger = LoggerFactory.getLogger(getClass());
-        for(ParcelUuid uuid: uuids){
-            logger.debug("service: {}", uuid.toString());
-        }
-        for(ParcelUuid uuid : uuids){
-            if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_NRF)){
-                return DeviceType.VESC_NRF;
-            }else if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_HM10)){
-                return DeviceType.VESC_HM10;
-            }
-        }
-        return DeviceType.UNKNOWN;
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return VescDeviceSupport.class;
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.VESC_HM10; // TODO: this limits this coordinator to NRF serial service
+    public boolean supports(GBDeviceCandidate candidate) {
+        if(!candidate.getName().toLowerCase().contains("vesc")){
+            return false;
+        }
+        ParcelUuid[] uuids = candidate.getServiceUuids();
+        for(ParcelUuid uuid : uuids){
+            if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_NRF)){
+                return true;
+            }else if(uuid.getUuid().toString().equals(UUID_SERVICE_SERIAL_HM10)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -163,5 +167,22 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_vesc;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_vesc;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_vesc_disabled;
     }
 }

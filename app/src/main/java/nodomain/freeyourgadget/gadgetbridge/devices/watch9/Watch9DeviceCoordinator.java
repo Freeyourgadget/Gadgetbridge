@@ -17,20 +17,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.watch9;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -40,6 +40,9 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 
 public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
@@ -57,24 +60,19 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public boolean supports(GBDeviceCandidate candidate) {
         String macAddress = candidate.getMacAddress().toUpperCase();
         String deviceName = candidate.getName().toUpperCase();
         if (candidate.supportsService(Watch9Constants.UUID_SERVICE_WATCH9)) {
-            return DeviceType.WATCH9;
+            return true;
             // add support for Watch X non-plus (same MAC address)
             // add support for Watch X Plus (same MAC address)
         } else if ((macAddress.startsWith("1C:87:79")) && ((!deviceName.equalsIgnoreCase("WATCH X")) && (!deviceName.equalsIgnoreCase("WATCH XPLUS")))) {
-            return DeviceType.WATCH9;
+            return true;
         } else if (deviceName.equals("WATCH 9")) {
-            return DeviceType.WATCH9;
+            return true;
         }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WATCH9;
+        return false;
     }
 
     @Override
@@ -161,6 +159,22 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return Watch9DeviceSupport.class;
+    }
+
+    @Override
+    public EnumSet<ServiceDeviceSupport.Flags> getInitialFlags() {
+        return EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_watch9;
     }
 
     @Nullable

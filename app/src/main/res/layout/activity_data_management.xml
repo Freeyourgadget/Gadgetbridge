@@ -52,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
                     android:text="@string/activity_DB_ExportButton" />
 
                 <Button
@@ -59,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="2dp"
                     android:text="@string/activity_DB_import_button" />
             </LinearLayout>
 

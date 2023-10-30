@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="temperature_scale_cf"
+        android:title="@string/temperature_scale_cf"
+        android:entries="@array/temperature_scales_cf"
+        android:entryValues="@array/temperature_scales_cf_values"
+        android:summary="@string/temperature_scale_cf_summary" />
+</PreferenceScreen>

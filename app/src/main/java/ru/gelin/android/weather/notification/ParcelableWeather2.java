@@ -89,7 +89,12 @@ public class ParcelableWeather2 implements Parcelable {
                 int forecastLowTemp = forecastBundle.getInt("weather_low_temp");
                 int forecastHighTemp = forecastBundle.getInt("weather_high_temp");
                 int forecastHumidity = forecastBundle.getInt("weather_humidity_value");
-                weatherSpec.forecasts.add(new WeatherSpec.Forecast(forecastLowTemp, forecastHighTemp, forecastConditionCode, forecastHumidity));
+                WeatherSpec.Daily daily = new WeatherSpec.Daily();
+                daily.minTemp = forecastLowTemp;
+                daily.maxTemp = forecastHighTemp;
+                daily.conditionCode = forecastConditionCode;
+                daily.humidity = forecastHumidity;
+                weatherSpec.forecasts.add(daily);
                 try {
                     condition.put("id", forecastConditionCode);
                     condition.put("main", forecastBundle.getString("weather_condition_text"));

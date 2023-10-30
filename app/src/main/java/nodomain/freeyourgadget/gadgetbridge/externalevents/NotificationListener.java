@@ -35,6 +35,8 @@ import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.Process;
+import android.os.UserHandle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
@@ -280,6 +282,13 @@ public class NotificationListener extends NotificationListenerService {
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
         final Prefs prefs = GBApplication.getPrefs();
+
+        final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
+        if (ignoreWorkProfile && isWorkProfile(sbn)) {
+            LOG.debug("Ignoring notification from work profile");
+            return;
+        }
+
         final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
 
         // If media notifications ignore app list, check them before
@@ -309,7 +318,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
                 && prefs.getBoolean("notification_support_voip_calls", false)
-                && sbn.isOngoing()) {
+                && (sbn.isOngoing() || shouldDisplayNonOngoingCallNotification(sbn))) {
             handleCallNotification(sbn);
             return;
         }
@@ -542,17 +551,21 @@ public class NotificationListener extends NotificationListenerService {
 
         // figure out sender
         String number;
+        String appName = getAppName(app);
         if (noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
             number = noti.extras.getString(Notification.EXTRA_PEOPLE);
         } else if (noti.extras.containsKey(Notification.EXTRA_TITLE)) {
             number = noti.extras.getString(Notification.EXTRA_TITLE);
         } else {
-            String appName = getAppName(app);
             number = appName != null ? appName : app;
         }
         activeCallPostTime = sbn.getPostTime();
         CallSpec callSpec = new CallSpec();
         callSpec.number = number;
+        callSpec.sourceAppId = app;
+        if (appName != null) {
+            callSpec.sourceName = appName;
+        }
         callSpec.command = callStarted ? CallSpec.CALL_START : CallSpec.CALL_INCOMING;
         mLastCallCommand = callSpec.command;
         GBApplication.deviceService().onSetCallState(callSpec);
@@ -640,6 +653,12 @@ public class NotificationListener extends NotificationListenerService {
             notificationSpec.body = sanitizeUnicode(contentCS.toString());
         }
 
+        if (notificationSpec.type == NotificationType.COL_REMINDER
+                && notificationSpec.body == null
+                && notificationSpec.title != null) {
+            notificationSpec.body = notificationSpec.title;
+            notificationSpec.title = null;
+        }
     }
 
     private boolean isServiceRunning() {
@@ -717,6 +736,13 @@ public class NotificationListener extends NotificationListenerService {
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
         final Prefs prefs = GBApplication.getPrefs();
+
+        final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
+        if (ignoreWorkProfile && isWorkProfile(sbn)) {
+            LOG.debug("Ignoring notification removal from work profile");
+            return;
+        }
+
         final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
 
         // If media notifications ignore app list, check them before
@@ -863,8 +889,11 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean shouldIgnoreOngoing(StatusBarNotification sbn) {
+    private boolean shouldIgnoreOngoing(StatusBarNotification sbn, NotificationType type) {
         if (isFitnessApp(sbn)) {
+            return true;
+        }
+        if (type == NotificationType.COL_REMINDER) {
             return true;
         }
         return false;
@@ -885,6 +914,22 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
+    private boolean isWorkProfile(StatusBarNotification sbn) {
+        final UserHandle currentUser = Process.myUserHandle();
+        return !sbn.getUser().equals(currentUser);
+    }
+
+    private boolean shouldDisplayNonOngoingCallNotification(StatusBarNotification sbn) {
+        String source = sbn.getPackageName();
+        NotificationType type = AppNotificationType.getInstance().get(source);
+
+        if (type == NotificationType.TELEGRAM) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean shouldIgnoreNotification(StatusBarNotification sbn, boolean remove) {
         Notification notification = sbn.getNotification();
         String source = sbn.getPackageName();
@@ -894,7 +939,9 @@ public class NotificationListener extends NotificationListenerService {
         //some Apps always mark their notifcations as read-only
         if (NotificationCompat.getLocalOnly(notification) &&
                 type != NotificationType.WECHAT &&
+                type != NotificationType.TELEGRAM &&
                 type != NotificationType.OUTLOOK &&
+                type != NotificationType.COL_REMINDER &&
                 type != NotificationType.SKYPE) { //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1109
             LOG.info("Ignoring notification, local only");
             return true;
@@ -921,7 +968,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (shouldIgnoreOngoing(sbn)) {
+        if (shouldIgnoreOngoing(sbn, type)) {
             return false;
         }
 

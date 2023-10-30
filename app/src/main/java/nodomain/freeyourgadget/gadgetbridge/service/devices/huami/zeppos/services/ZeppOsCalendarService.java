@@ -23,8 +23,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -43,6 +45,10 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
     public static final byte CMD_DELETE_EVENT = 0x09;
     public static final byte CMD_DELETE_EVENT_ACK = 0x0a;
 
+    public static final String PREF_VERSION = "zepp_os_calendar_version";
+
+    private int version = -1;
+
     public ZeppOsCalendarService(final Huami2021Support support) {
         super(support);
     }
@@ -58,8 +64,26 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
     }
 
     @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestCapabilities(builder);
+    }
+
+    public void requestCapabilities(final TransactionBuilder builder) {
+        write(builder, CMD_CAPABILITIES_REQUEST);
+    }
+
+    @Override
     public void handlePayload(final byte[] payload) {
         switch (payload[0]) {
+            case CMD_CAPABILITIES_RESPONSE:
+                version = payload[1];
+                getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_VERSION, version));
+                if (version != 1 && version != 3) {
+                    LOG.warn("Unsupported calendar service version {}", version);
+                    return;
+                }
+                LOG.info("Calendar service version={}", version);
+                break;
             case CMD_EVENTS_RESPONSE:
                 LOG.info("Got calendar events from band");
                 decodeAndUpdateCalendarEvents(payload);
@@ -95,6 +119,14 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         }
         if (calendarEventSpec.description != null) {
             length += calendarEventSpec.description.getBytes(StandardCharsets.UTF_8).length;
+        }
+
+        if (version == 3) {
+            if (calendarEventSpec.location != null) {
+                length += calendarEventSpec.location.getBytes(StandardCharsets.UTF_8).length;
+            }
+            // Extra null byte at the end
+            length++;
         }
 
         final ByteBuffer buf = ByteBuffer.allocate(length);
@@ -138,6 +170,13 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         buf.put((byte) 0x00); // ?
         buf.put((byte) 0x00); // ?
         // TODO: Description here
+
+        if (version == 3) {
+            if (calendarEventSpec.location != null) {
+                buf.put(calendarEventSpec.location.getBytes(StandardCharsets.UTF_8));
+            }
+            buf.put((byte) 0x00);
+        }
 
         write("add calendar event", buf.array());
     }

@@ -23,6 +23,9 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -32,21 +35,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.mijia_lywsd02.MijiaLywsd02Support;
 
 public class MijiaLywsd02Coordinator extends AbstractBLEDeviceCoordinator {
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && name.equals("LYWSD02")) {
-            return DeviceType.MIJIA_LYWSD02;
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIJIA_LYWSD02;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("LYWSD02|LYWSD02MMC");
     }
 
     @Override
@@ -134,8 +129,38 @@ public class MijiaLywsd02Coordinator extends AbstractBLEDeviceCoordinator {
         return false;
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MijiaLywsd02Support.class;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_temperature_scale_cf,
+        };
+    }
+
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_mijia_lywsd02;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_pebble;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_pebble_disabled;
     }
 }

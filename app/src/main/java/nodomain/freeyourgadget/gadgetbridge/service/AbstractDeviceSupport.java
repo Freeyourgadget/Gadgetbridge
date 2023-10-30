@@ -320,7 +320,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         if (gbDevice == null) {
             return;
         }
-        gbDevice.setFirmwareVersion(infoEvent.fwVersion);
+        if (infoEvent.fwVersion != null) {
+            gbDevice.setFirmwareVersion(infoEvent.fwVersion);
+        }
         if (infoEvent.fwVersion2 != null) {
             gbDevice.setFirmwareVersion2(infoEvent.fwVersion2);
         }
@@ -330,7 +332,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     protected void handleGBDeviceEvent(GBDeviceEventLEDColor colorEvent) {
         Context context = getContext();
-        LOG.info("Got event for LED Color: #" + Integer.toHexString(colorEvent.color).toUpperCase());
+        LOG.info("Got event for LED Color: #" + Integer.toHexString(colorEvent.color).toUpperCase(Locale.ROOT));
         if (gbDevice == null) {
             return;
         }

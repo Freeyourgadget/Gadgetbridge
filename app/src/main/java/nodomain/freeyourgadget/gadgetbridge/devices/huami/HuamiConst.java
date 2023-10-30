@@ -52,17 +52,27 @@ public class HuamiConst {
     public static final String MI_BAND4_NAME = "Mi Smart Band 4";
     public static final String MI_BAND5_NAME = "Mi Smart Band 5";
     public static final String MI_BAND6_NAME = "Mi Smart Band 6";
+    public static final String AMAZFIT_ACTIVE_NAME = "Amazfit Active";
+    public static final String AMAZFIT_ACTIVE_EDGE_NAME = "Amazfit Active Edge";
+    public static final String AMAZFIT_BALANCE_NAME = "Amazfit Balance";
     public static final String AMAZFIT_BAND5_NAME = "Amazfit Band 5";
     public static final String AMAZFIT_BAND7_NAME = "Amazfit Band 7";
     public static final String AMAZFIT_NEO_NAME = "Amazfit Neo";
     public static final String AMAZFIT_X = "Amazfit X";
+    public static final String AMAZFIT_BIP5_NAME = "Amazfit Bip 5";
     public static final String AMAZFIT_GTS3_NAME = "Amazfit GTS 3";
     public static final String AMAZFIT_GTS4_NAME = "Amazfit GTS 4";
     public static final String AMAZFIT_GTS4_MINI_NAME = "Amazfit GTS 4 Mini";
     public static final String AMAZFIT_GTR3_NAME = "Amazfit GTR 3";
     public static final String AMAZFIT_GTR3_PRO_NAME = "Amazfit GTR 3 Pro";
     public static final String AMAZFIT_GTR4_NAME = "Amazfit GTR 4";
+    public static final String AMAZFIT_GTR_MINI_NAME = "Amazfit GTR Mini";
     public static final String AMAZFIT_TREX_2_NAME = "Amazfit T-Rex 2";
+    public static final String AMAZFIT_TREX_ULTRA = "Amazfit T-Rex Ultra";
+    public static final String AMAZFIT_CHEETAH_PRO_NAME = "Amazfit Cheetah Pro";
+    public static final String AMAZFIT_CHEETAH_SQUARE_NAME = "Amazfit Cheetah S";
+    public static final String AMAZFIT_CHEETAH_ROUND_NAME = "Amazfit Cheetah R";
+    public static final String AMAZFIT_FALCON_NAME = "Amazfit Falcon";
 
     public static final String XIAOMI_SMART_BAND7_NAME = "Xiaomi Smart Band 7";
 

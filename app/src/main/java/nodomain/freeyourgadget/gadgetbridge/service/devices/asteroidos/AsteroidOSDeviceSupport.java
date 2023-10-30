@@ -3,20 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSConstants;
@@ -24,10 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSMediaCo
 import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSNotification;
 import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSWeather;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -80,7 +73,6 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         super.onCharacteristicChanged(gatt, characteristic);
 
         UUID characteristicUUID = characteristic.getUuid();
-        byte[] value = characteristic.getValue();
 
         if (characteristicUUID.equals(AsteroidOSConstants.MEDIA_COMMANDS_CHAR)) {
             handleMediaCommand(gatt, characteristic);
@@ -88,7 +80,7 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         LOG.info("Characteristic changed UUID: " + characteristicUUID);
-        LOG.info("Characteristic changed value: " + characteristic.getValue());
+        LOG.info("Characteristic changed value: " + characteristic.getValue().toString());
         return false;
     }
 
@@ -104,9 +96,6 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder, true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.requestMtu(256);
-        }
         return builder;
     }
 
@@ -129,14 +118,13 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetTime() {
         GregorianCalendar now = BLETypeConversions.createCalendar();
-        Date nowTime = now.getTime();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write((byte) nowTime.getYear());
-        baos.write((byte) nowTime.getMonth());
-        baos.write((byte) nowTime.getDay() + 1);
-        baos.write((byte) nowTime.getHours());
-        baos.write((byte) nowTime.getMinutes());
-        baos.write((byte) nowTime.getSeconds());
+        baos.write((byte) now.get(Calendar.YEAR) - 1900);
+        baos.write((byte) now.get(Calendar.MONTH));
+        baos.write((byte) now.get(Calendar.DAY_OF_MONTH));
+        baos.write((byte) now.get(Calendar.HOUR_OF_DAY));
+        baos.write((byte) now.get(Calendar.MINUTE));
+        baos.write((byte) now.get(Calendar.SECOND));
         TransactionBuilder builder = new TransactionBuilder("set time");
         safeWriteToCharacteristic(builder, AsteroidOSConstants.TIME_SET_CHAR, baos.toByteArray());
         builder.queue(getQueue());
@@ -166,11 +154,40 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSetMusicInfo(MusicSpec musicSpec) {
         TransactionBuilder builder = new TransactionBuilder("send music information");
         // Send title
-        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_TITLE_CHAR, musicSpec.track.getBytes(StandardCharsets.UTF_8));
+        {
+            byte[] track_bytes;
+            if (musicSpec.track != null)
+                track_bytes = musicSpec.track.getBytes(StandardCharsets.UTF_8);
+            else
+                track_bytes = "\"\"".getBytes(StandardCharsets.UTF_8);
+            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_TITLE_CHAR, track_bytes);
+        }
         // Send album
-        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ALBUM_CHAR, musicSpec.album.getBytes(StandardCharsets.UTF_8));
+        {
+            byte[] album_bytes;
+            if (musicSpec.album != null)
+                album_bytes = musicSpec.album.getBytes(StandardCharsets.UTF_8);
+            else
+                album_bytes = "\"\"".getBytes(StandardCharsets.UTF_8);
+            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ALBUM_CHAR, album_bytes);
+        }
         // Send artist
-        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ARTIST_CHAR, musicSpec.artist.getBytes(StandardCharsets.UTF_8));
+        {
+            byte[] artist_bytes;
+            if (musicSpec.artist != null)
+                artist_bytes = musicSpec.artist.getBytes(StandardCharsets.UTF_8);
+            else
+                artist_bytes = "\"\"".getBytes(StandardCharsets.UTF_8);
+            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ARTIST_CHAR, artist_bytes);
+        }
+        builder.queue(getQueue());
+    }
+
+    @Override
+    public void onSetPhoneVolume(float volume) {
+        TransactionBuilder builder = new TransactionBuilder("send volume information");
+        byte volByte = (byte) Math.round(volume);
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_VOLUME_CHAR, new byte[]{volByte});
         builder.queue(getQueue());
     }
 

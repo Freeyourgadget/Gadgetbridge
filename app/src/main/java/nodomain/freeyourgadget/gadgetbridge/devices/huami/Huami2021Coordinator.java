@@ -462,9 +462,12 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     public boolean supportsAgpsUpdates() {
-        return false;
+        return true;
     }
 
+    /**
+     * true for Zepp OS 2.0+, false for Zepp OS 1
+     */
     public boolean sendAgpsAsFileTransfer() {
         return true;
     }

@@ -1,6 +1,6 @@
-[submodule "fossil-hr-watchface"]
-	path = external/fossil-hr-watchface
-	url = https://codeberg.org/Freeyourgadget/fossil-hr-watchface
 [submodule "jerryscript"]
 	path = external/jerryscript
 	url = https://github.com/jerryscript-project/jerryscript
+[submodule "fossil-hr-gbapps"]
+	path = external/fossil-hr-gbapps
+	url = https://codeberg.org/Freeyourgadget/fossil-hr-gbapps

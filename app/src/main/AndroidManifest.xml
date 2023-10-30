@@ -33,11 +33,15 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- Schedule exact alarms (eg. for DST changes) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <!-- Read loyalty cards from Catima -->
     <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
     <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
@@ -71,12 +75,15 @@
     <!--
     SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
     services from other packages via intents, when targeting Android API level 30 or later
-    (e.g. Bangle.js build variant) on devices running Android 11 or later.
+    on devices running Android 11 or later.
     https://developer.android.com/training/package-visibility
     https://support.google.com/googleplay/android-developer/answer/10158779?hl=en#zippy=%2Cpermitted-uses-of-the-query-all-packages-permission%2Cexceptions
     -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Needed to show notification with targetSdkVersion 33 with Android 13 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -128,7 +135,7 @@
             android:label="@string/activity_prefs_charts"
             android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />
         <activity
-            android:name=".activities.DiscoveryPairingPreferenceActivity"
+            android:name=".activities.discovery.DiscoveryPairingPreferenceActivity"
             android:label="@string/activity_prefs_discovery_pairing"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
@@ -393,6 +400,22 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:exported="false"
+            android:name=".activities.app_specific_notifications.AppSpecificNotificationSettingsActivity"
+            android:label="@string/prefs_wena3_notification_per_app_settings_title"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity">
+            <intent-filter>
+                <action android:name=".SonyWena3PerAppNotificationSettingsActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:exported="false"
+            android:name=".activities.app_specific_notifications.AppSpecificNotificationSettingsDetailActivity"
+            android:label="@string/prefs_wena3_notification_per_app_settings_title"
+            android:parentActivityName=".activities.app_specific_notifications.AppSpecificNotificationSettingsActivity"
+            />
 
         <service
             android:name=".externalevents.NotificationListener"
@@ -531,7 +554,7 @@
             android:parentActivityName=".activities.ControlCenterv2"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.DiscoveryActivity"
+            android:name=".activities.discovery.DiscoveryActivityV2"
             android:label="@string/title_activity_discovery"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
@@ -790,6 +813,18 @@
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.TextReceiverActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/text_receiver_activity_title"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 

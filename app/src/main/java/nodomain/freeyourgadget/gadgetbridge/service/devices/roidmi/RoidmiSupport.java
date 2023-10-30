@@ -99,7 +99,7 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
             case ROIDMI3:
                 return new Roidmi3Protocol(getDevice());
             default:
-                LOG.error("Unsupported device type {} with key = {}", deviceType, deviceType.getKey());
+                LOG.error("Unsupported device type {} with key = {}", deviceType, deviceType.name());
         }
 
         return null;

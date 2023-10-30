@@ -17,17 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.nut;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
@@ -39,16 +38,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nut.NutSupport;
 
 public class NutCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
-    @NonNull
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
-        if (name != null && name.toLowerCase().startsWith("nut")) {
-            return DeviceType.NUTMINI;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("nut.*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
@@ -66,15 +62,16 @@ public class NutCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.NUTMINI;
-    }
-
-    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_nutmini,
         };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return NutSupport.class;
     }
 
     @Override
@@ -159,5 +156,22 @@ public class NutCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_nut_mini;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_itag;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_itag_disabled;
     }
 }

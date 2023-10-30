@@ -6,7 +6,7 @@
         android:persistent="false"
         android:title="@string/pref_screen_brightness">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:icon="@drawable/ic_wb_sunny"
             android:key="screen_auto_brightness"

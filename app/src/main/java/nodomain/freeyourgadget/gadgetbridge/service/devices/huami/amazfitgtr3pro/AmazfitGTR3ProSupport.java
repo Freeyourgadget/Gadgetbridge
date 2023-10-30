@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3.AmazfitGTR3FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro.AmazfitGTR3ProFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 
 public class AmazfitGTR3ProSupport extends Huami2021Support {
@@ -33,6 +33,6 @@ public class AmazfitGTR3ProSupport extends Huami2021Support {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitGTR3FWHelper(uri, context);
+        return new AmazfitGTR3ProFWHelper(uri, context);
     }
 }

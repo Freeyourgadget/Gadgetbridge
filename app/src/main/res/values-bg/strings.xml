@@ -299,7 +299,7 @@
     <!-- Device Settings - Device Settings - Used in devicesettings_watchxplus.xml -->
     <string name="pref_header_device_spec_settings">Настройки на устройството</string>
     <string name="pref_title_device_spec_settings_force_time">Принудително синхронизирай часа</string>
-    <string name="pref_summary_device_spec_settings_title_force_time">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време.</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Принудително синхронизирай дата и час при свързване. Стрелките може да показват грешно време!</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">Покажи графика в суров вид</string>
     <!-- Device Settings - Calibration - Used in devicesettings_watchxplus.xml -->
     <string name="pref_header_sensors_calibration">Калибриране на сензорите</string>

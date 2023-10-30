@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds;
 
 import androidx.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -10,28 +12,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GalaxyBuds2ProDeviceCoordinator extends GalaxyBudsGenericCoordinator {
-
-    @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-
-        String name = candidate.getName();
-
-        if (name != null && (
-                name.startsWith("Galaxy Buds2 Pro")
-        )) {
-            return DeviceType.GALAXY_BUDS2_PRO;
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Galaxy Buds2 Pro.*");
     }
 
     @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
         return new GalaxyBudsSettingsCustomizer(device);
-    }
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.GALAXY_BUDS2_PRO;
     }
 
     @Override
@@ -52,5 +40,22 @@ public class GalaxyBuds2ProDeviceCoordinator extends GalaxyBudsGenericCoordinato
         return new int[]{
                 R.xml.devicesettings_galaxy_buds_2_pro,
         };
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_galaxybuds_2_pro;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_galaxy_buds_pro;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_galaxy_buds_pro_disabled;
     }
 }

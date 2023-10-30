@@ -210,7 +210,7 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
     }
 
     SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
         return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 

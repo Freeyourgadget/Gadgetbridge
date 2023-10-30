@@ -80,7 +80,7 @@ public class WorldClockDetails extends AbstractGBActivity {
         worldClockCode = findViewById(R.id.world_clock_code);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final String[] timezoneIDs = TimeZone.getAvailableIDs();
         timezoneAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, timezoneIDs);
@@ -182,7 +182,7 @@ public class WorldClockDetails extends AbstractGBActivity {
     }
 
     public void updateUiFromWorldClock() {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final int maxLabelLength = coordinator.getWorldClocksLabelLength();
 
         worldClockEnabled.setChecked(worldClock.getEnabled() == null || worldClock.getEnabled());

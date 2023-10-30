@@ -119,7 +119,7 @@ public class ConfigureAlarms extends AbstractGBActivity {
     }
 
     private void addMissingAlarms(List<Alarm> alarms) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getGbDevice());
+        DeviceCoordinator coordinator = getGbDevice().getDeviceCoordinator();
         int supportedNumAlarms = coordinator.getAlarmSlotCount(getGbDevice());
         if (supportedNumAlarms > alarms.size()) {
             try (DBHandler db = GBApplication.acquireDB()) {

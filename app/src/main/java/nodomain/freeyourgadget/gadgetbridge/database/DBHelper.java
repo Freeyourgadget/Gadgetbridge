@@ -435,9 +435,9 @@ public class DBHelper {
             device.setIdentifier(gbDevice.getAddress());
             device.setName(gbDevice.getName());
             device.setAlias(gbDevice.getAlias());
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+            DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
             device.setManufacturer(coordinator.getManufacturer());
-            device.setType(gbDevice.getType().getKey());
+            device.setTypeName(gbDevice.getType().name());
             device.setModel(gbDevice.getModel());
 
             if (device.getId() == null) {
@@ -458,11 +458,11 @@ public class DBHelper {
         if (!Objects.equals(device.getAlias(), gbDevice.getAlias())) {
             return false;
         }
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         if (!Objects.equals(device.getManufacturer(), coordinator.getManufacturer())) {
             return false;
         }
-        if (device.getType() != gbDevice.getType().getKey()) {
+        if(!gbDevice.getType().name().equals(device.getTypeName())){
             return false;
         }
         if (!Objects.equals(device.getModel(), gbDevice.getModel())) {
@@ -592,7 +592,7 @@ public class DBHelper {
      */
     @NonNull
     public static List<Alarm> getAlarms(@NonNull GBDevice gbDevice) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
 
         int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
@@ -635,7 +635,7 @@ public class DBHelper {
      */
     @NonNull
     public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
 
         int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);

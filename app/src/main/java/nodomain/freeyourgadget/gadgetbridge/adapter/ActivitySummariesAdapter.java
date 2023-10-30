@@ -187,7 +187,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
         ImageView activityIconView = view.findViewById(R.id.summary_dashboard_layout_activity_icon);
         ImageView activityIconBigView = view.findViewById(R.id.summary_dashboard_layout_big_activity_icon);
 
-        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         for (BaseActivitySummary sportitem : getItems()) {
             if (sportitem.getStartTime() == null) continue; //first item is empty, for dashboard

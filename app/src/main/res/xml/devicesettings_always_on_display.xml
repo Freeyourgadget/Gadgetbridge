@@ -28,7 +28,7 @@
             android:key="always_on_display_end"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="always_on_display_follow_watchface"
             android:title="@string/prefs_always_on_display_follow_watchface" />

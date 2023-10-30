@@ -53,12 +53,12 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     private static final Logger LOG = LoggerFactory.getLogger(AbstractActivityChartFragment.class);
 
     public boolean supportsHeartrate(GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
         return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
     }
 
     public boolean supportsRemSleep(GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
         return coordinator != null && coordinator.supportsRemSleep();
     }
 
@@ -145,7 +145,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     }
 
     protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
         return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 

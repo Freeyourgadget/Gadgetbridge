@@ -54,6 +54,7 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
     public static final byte CMD_SET_ACK = 0x08;
     public static final byte CMD_CURRENT_GET = 0x09;
     public static final byte CMD_CURRENT_RET = 0x0a;
+    public static final byte CMD_WATCHFACE_CHANGED = (byte) 0xff;
 
     public enum Watchface {
         // Codes are from GTR 4, not sure if they match on other watches
@@ -67,6 +68,16 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
         EMERALD_MOONLIGHT(0x00002D0A, R.string.zepp_os_watchface_emerald_moonlight),
         ROTATING_EARTH(0x00002D0F, R.string.zepp_os_watchface_rotating_earth),
         SUPERPOSITION(0x00002D0C, R.string.zepp_os_watchface_superposition),
+
+        // Codes are from Balance, not sure if they match on other watches
+        VAST_SKY(0x00002DB6, R.string.zepp_os_watchface_vast_sky),
+        LIGHTNING_FLASH(0x00002DB7, R.string.zepp_os_watchface_lightning_flash),
+        FREE_COMBINATION(0x00002DB9, R.string.zepp_os_watchface_free_combination),
+        PURE_WHITE(0x00002DBA, R.string.zepp_os_watchface_pure_white),
+        GUIDER(0x00002DBB, R.string.zepp_os_watchface_guider),
+        CITY_OF_SPEED(0x00002DBC, R.string.zepp_os_watchface_city_of_speed),
+        STARRY_SKY(0x00002DBD, R.string.zepp_os_watchface_starry_sky),
+        THE_ULTIMA(0x00002DBE, R.string.zepp_os_watchface_the_ultima),
         ;
 
         private final int code;
@@ -132,6 +143,10 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
                 LOG.info("Got current watchface = {}", watchfaceHex);
                 getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_WATCHFACE, watchfaceHex));
                 break;
+            case CMD_WATCHFACE_CHANGED:
+                LOG.info("Watchface changed");
+                requestCurrentWatchface();
+                break;
             default:
                 LOG.warn("Unexpected watchface byte {}", String.format("0x%02x", payload[0]));
         }
@@ -162,6 +177,16 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
 
     public void requestWatchfaces(final TransactionBuilder builder) {
         write(builder, CMD_LIST_GET);
+    }
+
+    public void requestCurrentWatchface() {
+        try {
+            final TransactionBuilder builder = new TransactionBuilder("request current watchface");
+            requestCurrentWatchface(builder);
+            builder.queue(getSupport().getQueue());
+        } catch (final Exception e) {
+            LOG.error("Failed to request current watchface", e);
+        }
     }
 
     public void requestCurrentWatchface(final TransactionBuilder builder) {

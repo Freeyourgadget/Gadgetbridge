@@ -18,7 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipupro;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -27,34 +26,23 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbipupro.AmazfitBipUProSupport;
 
 public class AmazfitBipUProCoordinator extends HuamiCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBipUProCoordinator.class);
 
     @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.AMAZFITBIPUPRO;
-    }
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Amazfit Bip U Pro"))) {
-                return DeviceType.AMAZFITBIPUPRO;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return DeviceType.UNKNOWN;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("Amazfit Bip U Pro", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
@@ -155,8 +143,31 @@ public class AmazfitBipUProCoordinator extends HuamiCoordinator {
         };
     }
 
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return AmazfitBipUProSupport.class;
+    }
+
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_amazfit_bipupro;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_amazfit_bip;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_amazfit_bip_disabled;
     }
 }

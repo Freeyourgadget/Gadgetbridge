@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
 
@@ -25,35 +24,24 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7.MiBand7Support;
 
 public class MiBand7Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand7Coordinator.class);
 
-    @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        try {
-            final BluetoothDevice device = candidate.getDevice();
-            final String name = device.getName();
-            if (name != null && name.startsWith(HuamiConst.XIAOMI_SMART_BAND7_NAME)) {
-                return DeviceType.MIBAND7;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.MIBAND7;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuamiConst.XIAOMI_SMART_BAND7_NAME + ".*");
     }
 
     @Override
@@ -62,12 +50,40 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
+    public boolean supportsAgpsUpdates() {
+        return false;
+    }
+
+    @Override
     public boolean supportsScreenshots() {
         return false;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MiBand7Support.class;
     }
 
     @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_miband7;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miband6;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miband6_disabled;
     }
 }

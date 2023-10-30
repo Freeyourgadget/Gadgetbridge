@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">הגדרות</string>
@@ -1331,12 +1331,12 @@
     <string name="pref_header_notification_application_settings">הגדרות נפרדות לכל יישומון</string>
     <string name="toast_app_must_not_be_selected">יישומון צריך להיות לא מסומן כדי שיוגדר</string>
     <string name="toast_app_must_be_selected">יישומון חייב להיות מסומן כדי שיוגדר</string>
-    <string name="pref_message_privacy_mode_complete">הסתרת תוכן</string>
+    <string name="pref_message_privacy_mode_complete">הסתרת כל התוכן</string>
     <string name="pref_applications_settings">רשימת יישומונים</string>
     <string name="check_all_applications">סימון כל היישומונים</string>
     <string name="pref_title_notification_use_as">להשתמש ברשימת היישומונים כדי…</string>
     <string name="pref_title_notification_use_as_deny">לדחות התראות מהיישומונים הנבחרים</string>
-    <string name="pref_message_privacy_mode_off">הצגת תוכן</string>
+    <string name="pref_message_privacy_mode_off">הצגת כל התוכן</string>
     <string name="prefs_ambient_voice_summary">הדגשת הקול משאר הצלילים</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_equalizer_preset">ערכה של אקוולייזר</string>
@@ -1780,7 +1780,7 @@
     <string name="watchface_dialog_widget_cat_custom_widget">וידג׳ט משלך</string>
     <string name="watchface_dialog_title_widget">הגדרות וידג׳ט</string>
     <string name="pref_title_banglejs_txt_bitmap_size">גודל מפות סיביות של כתב</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">אם ‚כתב כמפות סיביות’ מופעל, באיזה גודל יוצג הכתב\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">הגודל לשימוש לעיבוד מפות סיביות של טקסט</string>
     <string name="steps_streaks_achievement_rate">קצב
 \nהישגיות</string>
     <string name="share_log_not_enabled_message">עליך להפעיל תיעוד ליומנים תחילה דרך הגדרות - כתיבת קובצי יומן</string>
@@ -1997,7 +1997,7 @@
     <string name="menuitem_volume">עצמת שמע</string>
     <string name="menuitem_theater_mode">מצב תיאטרון</string>
     <string name="menuitem_phone">טלפון</string>
-    <string name="menuitem_membership_cards">כרטיסי מועדון</string>
+    <string name="menuitem_membership_cards">כרטיסי חברות</string>
     <string name="menuitem_offline_voice">קול בלתי מקוון</string>
     <string name="menuitem_lockscreen">מסך נעילה</string>
     <string name="menuitem_brightness">בהירות</string>
@@ -2251,9 +2251,9 @@
     <string name="stress_high">גבוה</string>
     <string name="stress_relaxed">רגוע</string>
     <string name="watchface_widget_type_uv_index">מדד קרינה אולטרה סגולה</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">הפרש בין עדכוני נתוני נווטן במילישניות</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">האפשרות הזאת פעילה בלבד אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשר להשתמש באפשרות הזאת כדי להשתמש רק ברשת כדי לזהות את המיקום. מפחית את צריכת הסוללה בתמורה לדיוק. נדרש חיבור מחדש למכשיר.</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">האפשרות הזאת פעילה רק אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשרות זו מגדיר את ההפרש במילישניות לעדכון מיקום הנווטן</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">הפרש בין עדכוני נתוני נווטן</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">אפשר להשתמש באפשרות הזאת כדי להשתמש רק ברשת כדי לזהות את המיקום. מפחית את צריכת הסוללה בתמורה לדיוק. נדרש חיבור מחדש.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">ההפרש לעדכון מיקום הנווטן, במילישניות</string>
     <string name="pref_title_banglejs_phone_gps_enbale">להשתמש בנתוני הנווטן של הטלפון</string>
     <string name="changelog_show_full">עוד…</string>
     <string name="preview_image">תמונת תצוגה מקדימה</string>
@@ -2266,4 +2266,232 @@
     <string name="changelog_full_title">יומן שינויים</string>
     <string name="changelog_ok_button">אישור</string>
     <string name="changelog_title">מה חדש</string>
+    <string name="num_min">%d דק׳</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_chart_per_month">PAI בחודש</string>
+    <string name="pai_chart_per_week">PAI בשבוע</string>
+    <string name="loyalty_cards_install">התקנת Catima</string>
+    <string name="loyalty_cards_sync_groups_only">סנכרון קבוצות מסוימות בלבד</string>
+    <string name="loyalty_cards_sync_archived">סנכרון כרטיסים בארכיון</string>
+    <string name="loyalty_cards_install_catima_fail">פתיחת החנות להתקנת Catima נכשלה</string>
+    <string name="loyalty_cards_sync_starred">לסנכרן כרטיסים בכוכב בלבד</string>
+    <string name="loyalty_cards_catima_not_compatible">גרסת ה־Catima המותקנת לא תואמת ל־Gadgetbridge. נא לעדכן את Catima ואת Gadgetbridge לגרסאות העדכניות ביותר.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_open_catima">פתיחת Catima</string>
+    <string name="pai_total">PAI כולל</string>
+    <string name="pai_day">צמיחת PAI יומית</string>
+    <string name="loyalty_cards_sync_groups">קבוצות לסנכרון</string>
+    <string name="loyalty_cards_sync_title">סנכרון כרטיסי מועדון</string>
+    <string name="loyalty_cards_catima_package">שם חבילת Catima</string>
+    <string name="loyalty_cards_sync_summary">יש ללחוץ כדי לסנכרן את הכרטיסים לשעון</string>
+    <string name="loyalty_cards_catima_not_installed">צריך Catima כדי לנהל את כרטיסי המועדון</string>
+    <string name="loyalty_cards_catima_permissions_title">חסרות הרשאות</string>
+    <string name="loyalty_cards_sync_options">אפשרויות סנכרון</string>
+    <string name="loyalty_cards_sync">סנכרון</string>
+    <string name="loyalty_cards_catima_permissions_summary">ל־Gadgetbridge דרושות הרשאות לקרוא כרטיסים מ־Catima כדי סלנכרן אותם. נגיעה בכפתור הזה תאשר את הגישה.</string>
+    <string name="loyalty_cards">כרטיסי מועדון</string>
+    <string name="loyalty_cards_syncing">%d כרטיסי מועדון מסונכרנים למכשיר</string>
+    <string name="pref_title_mb_intents">שידור Intents של כפתורי מדיה ישירות</string>
+    <string name="pref_summary_mb_intents">יש להפעיל אם בקרת המדיה של המכשיר לא עובדת ביישומים מסוימים</string>
+    <string name="devicetype_bohemic_smart_bracelet">צמיד חכם של Bohemic</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR‎</string>
+    <string name="busy_task_fetch_sports_summaries">תקצירי הספורט מעודכנים</string>
+    <string name="busy_task_fetch_sports_details">פרטי הספורט מתעדכנים</string>
+    <string name="busy_task_fetch_debug_logs">יומני ניפוי התקלות מעודכנים</string>
+    <string name="busy_task_fetch_pai_data">נתוני PAI מעודכנים</string>
+    <string name="busy_task_fetch_spo2_data">נתוני חמצן בדם מעודכנים</string>
+    <string name="busy_task_fetch_hr_data">נתוני דופק מעודכנים</string>
+    <string name="busy_task_fetch_stress_data">נתוני הלחץ מעודכנים</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">נתוני קצב נשימות בשינה מעודכנים</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600‎</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000‎</string>
+    <string name="activity_prefs_goals">יעדים</string>
+    <string name="error_no_bluetooth_scan">יש להעניק גישה לסריקת Bluetooth ולהפעיל אותה כדי שזה יעבוד כראוי</string>
+    <string name="error_no_bluetooth_connect">יש להעניק גישה לחיבור Bluetooth ולהפעיל אותו כדי שהסריקה תעבוד כראוי</string>
+    <string name="permission_request">%1$s מאפשר לך לשלוח הודעות ונתונים נוספים מ־Android למכשיר שלך. כדי לעשות זאת נדרשת גישה לנתונים האלה ובלעדיה, כנראה שזה לא יעבוד כראוי.
+\n
+\nעכשיו יוצגו בפניך מספר חלוניות של Android שמבקשות את ההרשאות האלה.
+\n
+\nנא לגעת ב־‚%2$s’ כדי להמשיך.</string>
+    <string name="activity_type_surfing">גלישה</string>
+    <string name="activity_type_windsurfing">גלישת רוח</string>
+    <string name="activity_type_rugby">רוגבי</string>
+    <string name="activity_type_baseball">בייסבול</string>
+    <string name="activity_type_handball">כדור־יד</string>
+    <string name="activity_type_tennis">טניס</string>
+    <string name="activity_type_squash">סקווש</string>
+    <string name="activity_type_weightlifting">הרמת משקולות</string>
+    <string name="activity_type_dancing">ריקוד</string>
+    <string name="activity_type_hockey">הוקי</string>
+    <string name="activity_type_icehockey">הוקי קרח</string>
+    <string name="activity_type_iceskating">החלקה על קרח</string>
+    <string name="activity_type_football">פוטבול</string>
+    <string name="activity_type_kitesurfing">קייטסרפינג</string>
+    <string name="activity_type_snowboarding">גלישת שלג</string>
+    <string name="activity_type_other">אחר</string>
+    <string name="withings_steel_hr">Withings Steel HR‎</string>
+    <string name="withings_bt_calibration_previous">הקודם</string>
+    <string name="withings_calibration_text_minutes">כעת יש להשתמש בחוגה כדי ליישר את מחוג הדקות ל־12.</string>
+    <string name="withings_bt_calibration_next">הבא</string>
+    <string name="activity_type_skiing">סקי</string>
+    <string name="activity_type_golf">גולף</string>
+    <string name="withings_calibration_text_hours">נא להשתמש בחוגה שלהלן כדי ליישר את מחוג השעות ל־12.</string>
+    <string name="activity_type_riding">רכיבת סוסים</string>
+    <string name="withings_calibration_text_activity_target">ולבסוף, יש ליישר את מחוג הפעילות ל־100%. כדאי לשים לב שהמחוג הזה נע רק נגד כיוון השעון.</string>
+    <string name="pref_theme_dynamic">צבעים דינמיים</string>
+    <string name="pref_canned_message">הודעה</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">הגדרות Mi Band 1/2</string>
+    <string name="preferences_miband_1_2_warning">אזהרה: ההעדפות האלו חלות רק על רצועות Mi Band 1 ו־2.</string>
+    <string name="drag_handle">ידית משיכה</string>
+    <string name="find_my_phone_found_it">מצאתי אותו</string>
+    <string name="pref_activity_full_sync_trigger_title">סנכרון מלא</string>
+    <string name="pref_show_changelog">הצגת יומן שינויים בעלייה</string>
+    <string name="pref_show_changelog_summary">הצגת יומן השינויים מאז הגרסה האחרונה לאחר עדכון Gadgetbridge</string>
+    <string name="pref_activity_full_sync_trigger_summary">הקפצת סנכרון מלא של כל נתוני הפעילות</string>
+    <string name="pref_activity_full_sync_trigger_warning">פעולה זו תקפיץ סנכרון מלא של כל נתוני הפעילות מול המכשיר. עלול לארוך כמה דקות עד שיושלם.</string>
+    <string name="menuitem_zepp_coach">Zepp Coach‎</string>
+    <string name="pref_theme_dynamic_colors_explanation">לתשומת לבך: לטובת ערכת הצבעים הדינמיים יש להפעיל צבעי טפט או ערכת צבעים בהגדרות המראה ב־Android 12+‎ שלך. אם לא, Gadgetbridge ישתמש בצבעי Material 3 כברירת מחדל.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">צבעים דינמיים לא זמינים במכשיר שלך, רק Android 12 ומעלה תומך ביכולת הזאת. Gadgetbridge ישתמש בצבעי ברירת המחדל של Material 3.</string>
+    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro‎</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">פעולה זו תתקין את הקושחה %s על ה־Amazfit Bip 3 Pro שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">פעולה זו תתקין את הקושחה %s על ה־Amazfit Cheetah Pro שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="fw_upgrade_notice_zepp_os">פעולה זו תתקין את הקושחה %s על ה־%s שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="devicetype_amazfit_cheetah_square">Amazfit Cheetah (מרובע)</string>
+    <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (מעוגל)</string>
+    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro‎</string>
+    <string name="devicetype_amazfit_bip5">Amazfit Bip 5‎</string>
+    <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra‎</string>
+    <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini‎</string>
+    <string name="devicetype_amazfit_falcon">Amazfit Falcon‎</string>
+    <string name="device_experimental">ניסיוני</string>
+    <string name="button_reset_menu_structure">איפוס מבנה תבנית</string>
+    <string name="info_menu_structure_removed">מבנה התפריט הוסר</string>
+    <string name="info_menu_structure_contents">מבנה תפריט: %s</string>
+    <string name="button_open_menu_companion">פתיחת יישומון מלווה לתפריט</string>
+    <string name="error_menu_companion_not_installed">‚מסייע תפריט דופק’ כנראה לא מותקן</string>
+    <string name="info_menu_structure_set">JSON מבנה תפריטים שהוגדר ב־GB</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">נא לבנות את פני השעון שלך מחדש לתפריט מותאם אישית</string>
+    <string name="error_invalid_menu_structure">JSON מבנה תפריטים שגוי</string>
+    <string name="english_au">אנגלית אוסטרלית</string>
+    <string name="english_ca">אנגלית קנדית</string>
+    <string name="english_gb">אנגלית בריטית</string>
+    <string name="english_in">אנגלית הודית</string>
+    <string name="spanish_mx">ספרדית מקסיקנית</string>
+    <string name="spanish_us">ספרדית אמריקאית</string>
+    <string name="french_ca">צרפתית קנדית</string>
+    <string name="french_fr">צרפתית של צרפת</string>
+    <string name="english_us">אנגלית אמריקאית</string>
+    <string name="spanish_es">ספרדית של ספרד</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">אין מספיק מקום פנוי במכשיר</string>
+    <string name="text_receiver_activity_title">שליחת טקסט למכשיר</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">הגדרת ה־MTU (יחידת העברה מרבית) הנוכחית %1$d נמוכה מדי, נא להפעיל MTU גבוה בהגדרות המכשיר ולנתק ולחבר את המכשיר שוב.</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX‎</string>
+    <string name="new_discover_activity_description">הפעלת פעילות הגילוי החדשה שאמורה לפתור תקלות בגילוי התקנים. רצוי להשבית אותה אם צצות תקלות במהלך חיפוש אחר או צימוד ההתקן שלך.</string>
+    <string name="new_discover_activity_title">הפעלת פעילות גילוי חדשה</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3‎</string>
+    <string name="prefs_home_icon_left_item">שמאל</string>
+    <string name="white">לבן</string>
+    <string name="prefs_home_icon_right_item">ימין</string>
+    <string name="prefs_wena3_title_screen">הגדרות תצוגה</string>
+    <string name="green">ירוק</string>
+    <string name="yellow">צהוב</string>
+    <string name="red">אדום</string>
+    <string name="cyan">ציאן</string>
+    <string name="prefs_home_icon_center_item">מרכז</string>
+    <string name="purple">סגול</string>
+    <string name="blue">כחול</string>
+    <string name="prefs_wena3_receive_calls_title">הגדרות שיחות נכנסות</string>
+    <string name="prefs_wena3_button_action_name_start_timer">הפעלת מתזמן פעיל</string>
+    <string name="prefs_wena3_menu_icon_hint">סמל ההגדרות תמיד מופיע בסוף</string>
+    <string name="prefs_wena3_notification_vibration_repetition_3">3 פעמים</string>
+    <string name="prefs_wena3_button_action_name_qrio_lock">נעילה עם Qrio</string>
+    <string name="prefs_wena3_auto_power_off_turn_off_time_item">שעת כיבוי</string>
+    <string name="prefs_wena3_vibration_short">קצר</string>
+    <string name="prefs_wena3_home_icon_name_calories">קלוריות</string>
+    <string name="prefs_wena3_led_none">בלי נורית</string>
+    <string name="prefs_wena3_vibration_step_down">הולך ונחלש</string>
+    <string name="prefs_wena3_vibration_smart_item">רטט חכם</string>
+    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver‎</string>
+    <string name="prefs_wena3_hint_background_sync">לאפשר ל־Wena לבקש מ־Gadgetbridge להוריד נתוני פעילות מהמכשיר מדי פעם בפעם</string>
+    <string name="prefs_wena3_home_icon_name_suica">יתרה ב־Suica</string>
+    <string name="prefs_wena3_vibration_strength_item_medium">בינונית</string>
+    <string name="prefs_wena3_title_activity">הגדרות פעילות</string>
+    <string name="prefs_wena3_vibration_continuous">רציף</string>
+    <string name="prefs_wena3_home_icon_name_pedometer">מד צעדים</string>
+    <string name="prefs_wena3_home_icon_name_qrio">Qrio‎</string>
+    <string name="prefs_wena3_home_icon_name_clock">השעה כרגע</string>
+    <string name="prefs_wena3_item_background_sync">סנכרון נתונים בפעילות רקע</string>
+    <string name="prefs_wena3_vibration_strength_item_weak">חלשה</string>
+    <string name="prefs_wena3_home_icon_title">סמלי מסך הבית</string>
+    <string name="prefs_wena3_item_weather_statusbar">מזג אוויר בשורת המצב</string>
+    <string name="temperature_scale_celsius">צלזיוס</string>
+    <string name="prefs_wena3_vibration_step_up">הולך ומתגבר</string>
+    <string name="prefs_wena3_vibration_basic">בסיסי</string>
+    <string name="prefs_wena3_item_large_font">כתב גדול יותר</string>
+    <string name="prefs_wena3_home_icon_name_energy">אנרגיית גוף</string>
+    <string name="prefs_wena3_notification_vibration_repetition_2">פעמיים</string>
+    <string name="prefs_wena3_auto_power_off_hint">המכשיר ייכבה ויידלק אוטומטית לפי תזמון מוגדר</string>
+    <string name="prefs_wena3_hint_lift_wrist">להפעיל את התצוגה בעת הסתכלות על פרק כף היד שלך</string>
+    <string name="prefs_wena3_hint_large_font">להגדיל את הכתב בלוח השנה, התראות ועוד.</string>
+    <string name="prefs_wena3_button_action_item_double">לחיצה כפולה</string>
+    <string name="prefs_wena3_vibration_rapid">מהיר</string>
+    <string name="prefs_wena3_button_action_name_qrio_unlock">שחרור עם Qrio</string>
+    <string name="temperature_scale_cf">סולם טמפרטורה</string>
+    <string name="prefs_wena3_notification_vibration_repetition_1">פעם אחת</string>
+    <string name="prefs_wena3_receive_calls_item">קבלת התראות על שיחות</string>
+    <string name="prefs_wena3_hint_weather_statusbar">הצגת סמל התנאים הנוכחיים בפינה השמאלית העליונה של מסך הבית</string>
+    <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay‎</string>
+    <string name="prefs_wena3_button_action_item">פעולת כפתור</string>
+    <string name="prefs_wena3_auto_power_off_turn_on_time_item">שעת התאוששות</string>
+    <string name="prefs_wena3_notification_default_call_vibration">רטט בשיחה נכנסת</string>
+    <string name="prefs_wena3_notification_default_call_led">צבע נורית שיחה נכנסת</string>
+    <string name="prefs_wena3_vibration_siren">צפירה</string>
+    <string name="temperature_scale_cf_summary">נא לבחור האם המכשיר ישתמש בסולם צלזיוס או פרנהייט.</string>
+    <string name="prefs_wena3_menu_icon_title">סמלים בתפריט</string>
+    <string name="prefs_wena3_notification_default_call_vibration_repetition">חזרה על רטט בשיחה נכנסת</string>
+    <string name="prefs_wena3_notification_default_vibration">רטט התראה</string>
+    <string name="prefs_wena3_notification_vibration_repetition_0">ללא הפסקה</string>
+    <string name="prefs_wena3_notification_vibration_repetition_4">4 פעמים</string>
+    <string name="temperature_scale_fahrenheit">פרנהייט</string>
+    <string name="prefs_wena3_vibration_strength_item">עוצמת רטט</string>
+    <string name="prefs_wena3_receive_calls_hint">אם האפשרות כבויה, לא תופענה התראות על שיחות נכנסות ב־Wena</string>
+    <string name="prefs_wena3_button_action_item_long">לחיצה ארוכה</string>
+    <string name="prefs_wena3_menu_icon_name_payment">תשלום</string>
+    <string name="prefs_wena3_status_page_title">סדר עמוד מצב</string>
+    <string name="prefs_wena3_title_alarm">הגדרות שעון מעורר</string>
+    <string name="prefs_wena3_notification_default_vibration_repetition">חזרה על רטט התראה</string>
+    <string name="prefs_wena3_hint_rich_design">הוספת ריבועים מעוגלים מסביב לסמלי מסך הבית</string>
+    <string name="prefs_wena3_notification_default_led">צבע נורית התראה</string>
+    <string name="prefs_wena3_auto_power_off_item">כיבוי אוטומטי</string>
+    <string name="prefs_wena3_home_icon_name_edy">יתרה ב־Edy</string>
+    <string name="prefs_wena3_vibration_warning">אזהרה</string>
+    <string name="prefs_wena3_smart_alarm_margin_item">טווח שעון מעורר חכם</string>
+    <string name="prefs_wena3_item_rich_design">להשתמש בעיצוב עשיר</string>
+    <string name="prefs_wena3_day_start_hour_item">היום מתחיל ב־</string>
+    <string name="prefs_wena3_notification_per_app_settings_title">הגדרות התראה לפי יישומון</string>
+    <string name="prefs_wena3_vibration_none">בלי רטט</string>
+    <string name="prefs_wena3_vibration_strength_item_strong">חזקה</string>
+    <string name="prefs_wena3_vibration_triple">משולש</string>
+    <string name="prefs_wena3_button_action_name_activity_screen">מסך פעילות</string>
+    <string name="prefs_wena3_notification_settings_title">הגדרות התראה</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5‎</string>
+    <string name="pref_message_privacy_mode_bodyonly">הסתרת הגוף בלבד</string>
+    <string name="latvian">לטבית</string>
+    <string name="common_symbols">סימנים נפוצים</string>
+    <string name="pref_title_notifications_ignore_work_profile">התעלמות מהתראות פרופיל עבודה</string>
+    <string name="pref_summary_notifications_ignore_work_profile">לא לשלוח התראות מיישומונים בפרופיל העבודה של השעון</string>
 </resources>

@@ -1526,12 +1526,12 @@
     <string name="activity_type_hiking">Doğa Yürüyüşü</string>
     <string name="activity_type_climbing">Tırmanma</string>
     <string name="distance_format_meters">###m</string>
-    <string name="distance_format_miles">###,#mil</string>
+    <string name="distance_format_miles">###.#mil</string>
     <string name="pref_activity_recognize_running">koşmayı tanı</string>
     <string name="pref_activity_recognize_rowing">kürek çekmeyi tanı</string>
     <string name="prefs_activity_recognition">Etkinlik tanıma ayarları</string>
     <string name="pref_activity_recognize_walking">yürümeyi tanı</string>
-    <string name="distance_format_kilometers">###,#km</string>
+    <string name="distance_format_kilometers">###.#km</string>
     <string name="pref_activity_recognize_biking">bisiklet sürmeyi tanı</string>
     <string name="pref_activity_recognition_mode_auto">otomatik</string>
     <string name="fossil_hr_button_config_info">Bazı düğmeler, işlevleri saatin ürün yazılımında kodlanmış olduğundan yapılandırılamaz.
@@ -2177,4 +2177,15 @@
     <string name="pref_pair_bluetooth_calls_help_title">Bluetooth aramaları nasıl alınır</string>
     <string name="bluetooth_calls">Bluetooth aramaları</string>
     <string name="pref_pair_bluetooth_calls_summary">Eşleştirme işlemini başlatmak için buraya tıklayın</string>
+    <string name="french_ca">Fransızca (Kanada)</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Amazfit Bip 3 Pro cihazınıza %s yazılım dosyasını yüklemek üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, ardından .res dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlayacaktır.
+\n
+\nNot: Eğer aynı .res dosyası zaten yüklü ise bir daha yüklemenize gerek yoktur.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="french_fr">Fransızca (Fransa)</string>
+    <string name="fwapp_install_device_not_supported">Dosya yüklenemedi, aygıt desteklenmiyor.</string>
+    <string name="action_changelog">Yenilikler</string>
 </resources>

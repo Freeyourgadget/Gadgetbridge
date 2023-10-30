@@ -38,6 +38,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.WithingsSteelHRDeviceSupport;
 
 public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator {
 
@@ -50,13 +52,13 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        String name = candidate.getDevice().getName();
+    public boolean supports(GBDeviceCandidate candidate) {
+        String name = candidate.getName();
         if (name != null && (name.toLowerCase(Locale.ROOT).startsWith("steel") || name.toLowerCase(Locale.ROOT).startsWith("activite"))) {
-            return DeviceType.WITHINGS_STEEL_HR;
+            return true;
         }
 
-        return DeviceType.UNKNOWN;
+        return false;
     }
 
     @Override
@@ -64,11 +66,6 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
         return new int[]{
                 R.xml.devicesettings_withingssteelhr
         };
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.WITHINGS_STEEL_HR;
     }
 
     @Override
@@ -171,5 +168,40 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "de_DE",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "it_IT",
+        };
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return WithingsSteelHRDeviceSupport.class;
+    }
+
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.withings_steel_hr;
+    }
+
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_watchxplus;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_watchxplus_disabled;
     }
 }

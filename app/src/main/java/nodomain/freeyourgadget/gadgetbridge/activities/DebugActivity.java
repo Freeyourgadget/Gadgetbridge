@@ -31,6 +31,8 @@ import android.companion.AssociationRequest;
 import android.companion.BluetoothDeviceFilter;
 import android.companion.CompanionDeviceManager;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -77,9 +79,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -153,7 +157,7 @@ public class DebugActivity extends AbstractGBActivity {
     };
     private Spinner sendTypeSpinner;
     private EditText editContent;
-    public static final long SELECT_DEVICE = 999L;
+    public static final long SELECT_DEVICE = -1;
     private long selectedTestDeviceKey = SELECT_DEVICE;
     private String selectedTestDeviceMAC;
 
@@ -361,7 +365,7 @@ public class DebugActivity extends AbstractGBActivity {
                     weatherSpec.todayMaxTemp = 25 + 273;
 
                     for (int i = 0; i < 5; i++) {
-                        final WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
+                        final WeatherSpec.Daily gbForecast = new WeatherSpec.Daily();
                         gbForecast.minTemp = 10 + i + 273;
                         gbForecast.maxTemp = 25 + i + 273;
 
@@ -373,6 +377,27 @@ public class DebugActivity extends AbstractGBActivity {
                 }
 
                 GBApplication.deviceService().onSendWeather(Weather.getInstance().getWeatherSpec());
+            }
+        });
+
+        Button showCachedWeatherButton = findViewById(R.id.showCachedWeatherButton);
+        showCachedWeatherButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final String weatherInfo = getWeatherInfo();
+
+                new MaterialAlertDialogBuilder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle("Cached Weather Data")
+                        .setMessage(weatherInfo)
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                        })
+                        .setNeutralButton(android.R.string.copy, (dialog, which) -> {
+                            final ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("Weather Info", weatherInfo);
+                            clipboard.setPrimaryClip(clip);
+                        })
+                        .show();
             }
         });
 
@@ -522,8 +547,7 @@ public class DebugActivity extends AbstractGBActivity {
         addDeviceButtonDebug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinkedHashMap<String, Pair<Long, Integer>> allDevices;
-                allDevices = getAllSupportedDevices(getApplicationContext());
+                Map<String, Pair<Long, Integer>> allDevices = getAllSupportedDevices(getApplicationContext());
 
                 final LinearLayout linearLayout = new LinearLayout(DebugActivity.this);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -975,11 +999,11 @@ public class DebugActivity extends AbstractGBActivity {
         spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
     }
 
-    protected static void createTestDevice(Context context, long deviceKey, String deviceMac) {
+    public static void createTestDevice(Context context, long deviceKey, String deviceMac) {
         if (deviceKey == SELECT_DEVICE) {
             return;
         }
-        DeviceType deviceType = DeviceType.fromKey((int) deviceKey);
+        DeviceType deviceType = DeviceType.values()[(int) deviceKey];
         try (
             DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
@@ -1015,14 +1039,121 @@ public class DebugActivity extends AbstractGBActivity {
         return TextUtils.join(separator, mac).toUpperCase(Locale.ROOT);
     }
 
-    public static LinkedHashMap getAllSupportedDevices(Context appContext) {
+    private String getWeatherInfo() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT);
+
+        final StringBuilder builder = new StringBuilder();
+        WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+
+        if (weatherSpec == null)
+            return "Weather cache is empty...";
+
+        builder.append("Location: ").append(weatherSpec.location).append("\n");
+        builder.append("Timestamp: ").append(weatherSpec.timestamp).append("\n");
+        builder.append("Current Temp: ").append(weatherSpec.currentTemp).append(" K\n");
+        builder.append("Max Temp: ").append(weatherSpec.todayMaxTemp).append(" K\n");
+        builder.append("Min Temp: ").append(weatherSpec.todayMinTemp).append(" K\n");
+        builder.append("Condition: ").append(weatherSpec.currentCondition).append("\n");
+        builder.append("Condition Code: ").append(weatherSpec.currentConditionCode).append("\n");
+        builder.append("Humidity: ").append(weatherSpec.currentHumidity).append("\n");
+        builder.append("Wind Speed: ").append(weatherSpec.windSpeed).append(" kmph\n");
+        builder.append("Wind Direction: ").append(weatherSpec.windDirection).append(" deg\n");
+        builder.append("UV Index: ").append(weatherSpec.uvIndex).append("\n");
+        builder.append("Precip Probability: ").append(weatherSpec.precipProbability).append(" %\n");
+        builder.append("Dew Point: ").append(weatherSpec.dewPoint).append(" K\n");
+        builder.append("Pressure: ").append(weatherSpec.pressure).append(" mb\n");
+        builder.append("Cloud Cover: ").append(weatherSpec.cloudCover).append(" %\n");
+        builder.append("Visibility: ").append(weatherSpec.visibility).append(" m\n");
+        builder.append("Sun Rise: ").append(sdf.format(new Date(weatherSpec.sunRise * 1000L))).append("\n");
+        builder.append("Sun Set: ").append(sdf.format(new Date(weatherSpec.sunSet * 1000L))).append("\n");
+        builder.append("Moon Rise: ").append(sdf.format(new Date(weatherSpec.moonRise * 1000L))).append("\n");
+        builder.append("Moon Set: ").append(sdf.format(new Date(weatherSpec.moonSet * 1000L))).append("\n");
+        builder.append("Moon Phase: ").append(weatherSpec.moonPhase).append(" deg\n");
+        builder.append("Latitude: ").append(weatherSpec.latitude).append("\n");
+        builder.append("Longitude: ").append(weatherSpec.longitude).append("\n");
+        builder.append("Feels Like Temp: ").append(weatherSpec.feelsLikeTemp).append(" K\n");
+        builder.append("Is Current Location: ").append(weatherSpec.isCurrentLocation).append("\n");
+
+        if (weatherSpec.airQuality != null) {
+            builder.append("Air Quality aqi: ").append(weatherSpec.airQuality.aqi).append("\n");
+            builder.append("Air Quality co: ").append(weatherSpec.airQuality.co).append("\n");
+            builder.append("Air Quality no2: ").append(weatherSpec.airQuality.no2).append("\n");
+            builder.append("Air Quality o3: ").append(weatherSpec.airQuality.o3).append("\n");
+            builder.append("Air Quality pm10: ").append(weatherSpec.airQuality.pm10).append("\n");
+            builder.append("Air Quality pm25: ").append(weatherSpec.airQuality.pm25).append("\n");
+            builder.append("Air Quality so2: ").append(weatherSpec.airQuality.so2).append("\n");
+            builder.append("Air Quality coAqi: ").append(weatherSpec.airQuality.coAqi).append("\n");
+            builder.append("Air Quality no2Aqi: ").append(weatherSpec.airQuality.no2Aqi).append("\n");
+            builder.append("Air Quality o3Aqi: ").append(weatherSpec.airQuality.o3Aqi).append("\n");
+            builder.append("Air Quality pm10Aqi: ").append(weatherSpec.airQuality.pm10Aqi).append("\n");
+            builder.append("Air Quality pm25Aqi: ").append(weatherSpec.airQuality.pm25Aqi).append("\n");
+            builder.append("Air Quality so2Aqi: ").append(weatherSpec.airQuality.so2Aqi).append("\n");
+        } else {
+            builder.append("Air Quality: null\n");
+        }
+
+        int i = 0;
+        for (final WeatherSpec.Daily daily : weatherSpec.forecasts) {
+            builder.append("-------------\n");
+            builder.append("-->Day ").append(i++).append("\n");
+            builder.append("Max Temp: ").append(daily.maxTemp).append(" K\n");
+            builder.append("Min Temp: ").append(daily.minTemp).append(" K\n");
+            builder.append("Condition Code: ").append(daily.conditionCode).append("\n");
+            builder.append("Humidity: ").append(daily.humidity).append("\n");
+            builder.append("Wind Speed: ").append(daily.windSpeed).append(" kmph\n");
+            builder.append("Wind Direction: ").append(daily.windDirection).append(" deg\n");
+            builder.append("UV Index: ").append(daily.uvIndex).append("\n");
+            builder.append("Precip Probability: ").append(daily.precipProbability).append(" %\n");
+            builder.append("Sun Rise: ").append(sdf.format(new Date(daily.sunRise * 1000L))).append("\n");
+            builder.append("Sun Set: ").append(sdf.format(new Date(daily.sunSet * 1000L))).append("\n");
+            builder.append("Moon Rise: ").append(sdf.format(new Date(daily.moonRise * 1000L))).append("\n");
+            builder.append("Moon Set: ").append(sdf.format(new Date(daily.moonSet * 1000L))).append("\n");
+            builder.append("Moon Phase: ").append(daily.moonPhase).append(" deg\n");
+
+            if (daily.airQuality != null) {
+                builder.append("Air Quality aqi: ").append(daily.airQuality.aqi).append("\n");
+                builder.append("Air Quality co: ").append(daily.airQuality.co).append("\n");
+                builder.append("Air Quality no2: ").append(daily.airQuality.no2).append("\n");
+                builder.append("Air Quality o3: ").append(daily.airQuality.o3).append("\n");
+                builder.append("Air Quality pm10: ").append(daily.airQuality.pm10).append("\n");
+                builder.append("Air Quality pm25: ").append(daily.airQuality.pm25).append("\n");
+                builder.append("Air Quality so2: ").append(daily.airQuality.so2).append("\n");
+                builder.append("Air Quality coAqi: ").append(daily.airQuality.coAqi).append("\n");
+                builder.append("Air Quality no2Aqi: ").append(daily.airQuality.no2Aqi).append("\n");
+                builder.append("Air Quality o3Aqi: ").append(daily.airQuality.o3Aqi).append("\n");
+                builder.append("Air Quality pm10Aqi: ").append(daily.airQuality.pm10Aqi).append("\n");
+                builder.append("Air Quality pm25Aqi: ").append(daily.airQuality.pm25Aqi).append("\n");
+                builder.append("Air Quality so2Aqi: ").append(daily.airQuality.so2Aqi).append("\n");
+            } else {
+                builder.append("Air Quality: null\n");
+            }
+        }
+
+        builder.append("=============\n");
+
+        for (final WeatherSpec.Hourly hourly : weatherSpec.hourly) {
+            builder.append("-------------\n");
+            builder.append("-->Hour: ").append(sdf.format(new Date(hourly.timestamp * 1000L))).append("\n");
+            builder.append("Max Temp: ").append(hourly.temp).append(" K\n");
+            builder.append("Condition Code: ").append(hourly.conditionCode).append("\n");
+            builder.append("Humidity: ").append(hourly.humidity).append("\n");
+            builder.append("Wind Speed: ").append(hourly.windSpeed).append(" kmph\n");
+            builder.append("Wind Direction: ").append(hourly.windDirection).append(" deg\n");
+            builder.append("UV Index: ").append(hourly.uvIndex).append("\n");
+            builder.append("Precip Probability: ").append(hourly.precipProbability).append(" %\n");
+        }
+
+        return builder.toString();
+    }
+
+    public static Map<String, Pair<Long, Integer>> getAllSupportedDevices(Context appContext) {
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
         GBApplication app = (GBApplication) appContext;
-        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
-            DeviceType deviceType = coordinator.getDeviceType();
-            int icon = deviceType.getIcon();
-            String name = app.getString(deviceType.getName()) + " (" + coordinator.getManufacturer() + ")";
-            long deviceId = deviceType.getKey();
+        for (DeviceType deviceType : DeviceType.values()) {
+            DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
+            int icon = coordinator.getDefaultIconResource();
+            String name = app.getString(coordinator.getDeviceNameResource()) + " (" + coordinator.getManufacturer() + ")";
+            long deviceId = deviceType.ordinal();
             newMap.put(name, new Pair(deviceId, icon));
         }
         TreeMap <String, Pair<Long, Integer>> sortedMap = new TreeMap<>(newMap);

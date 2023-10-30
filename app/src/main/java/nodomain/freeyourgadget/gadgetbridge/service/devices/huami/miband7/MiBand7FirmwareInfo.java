@@ -36,6 +36,7 @@ public class MiBand7FirmwareInfo extends Huami2021FirmwareInfo {
         put(26036, "1.20.3.1");
         put(55449, "1.27.0.4");
         put(14502, "2.0.0.2");
+        put(25658, "2.1.0.1");
     }};
 
     public MiBand7FirmwareInfo(final byte[] bytes) {

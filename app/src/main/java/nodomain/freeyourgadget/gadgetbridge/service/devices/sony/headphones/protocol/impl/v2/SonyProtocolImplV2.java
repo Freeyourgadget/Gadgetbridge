@@ -460,7 +460,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
 
         final AmbientSoundControl ambientSoundControl = new AmbientSoundControl(mode, focusOnVoice, ambientSound);
 
-        LOG.warn("Ambient sound control: {}", ambientSoundControl);
+        LOG.debug("Ambient sound control: {}", ambientSoundControl);
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
                 .withPreferences(ambientSoundControl.toPreferences());

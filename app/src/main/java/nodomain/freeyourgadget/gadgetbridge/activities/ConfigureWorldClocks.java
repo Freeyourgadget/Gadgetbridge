@@ -85,7 +85,7 @@ public class ConfigureWorldClocks extends AbstractGBActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
                 int deviceSlots = coordinator.getWorldClocksSlotCount();
 
