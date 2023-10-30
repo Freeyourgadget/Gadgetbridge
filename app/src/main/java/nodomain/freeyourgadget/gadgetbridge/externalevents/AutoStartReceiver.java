@@ -24,7 +24,6 @@ import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 
 public class AutoStartReceiver extends BroadcastReceiver {
     private static final String TAG = AutoStartReceiver.class.getName();
