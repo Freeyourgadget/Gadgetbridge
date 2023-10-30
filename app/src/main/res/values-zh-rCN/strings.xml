@@ -2530,4 +2530,7 @@
     <string name="busy_task_fetch_statistics">正在获取统计数据</string>
     <string name="pref_call_rejection_method_summary">拒接手表来电时采取什么操作</string>
     <string name="busy_task_fetch_temperature">正在获取温度数据</string>
+    <string name="devicetype_amazfit_active_edge">跃我活动边界</string>
+    <string name="charts_legend_spo2_average">血氧平均值</string>
+    <string name="devicetype_amazfit_active">跃我活动</string>
 </resources>
