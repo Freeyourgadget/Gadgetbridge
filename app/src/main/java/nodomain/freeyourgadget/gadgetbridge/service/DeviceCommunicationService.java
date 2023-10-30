@@ -625,7 +625,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private void createDeviceStruct(GBDevice target){
         DeviceStruct registeredStruct = new DeviceStruct();
         registeredStruct.setDevice(target);
-        registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(target));
+        registeredStruct.setCoordinator(target.getDeviceCoordinator());
         deviceStructs.add(registeredStruct);
     }
 
