@@ -358,7 +358,6 @@ public final class BtLEQueue {
             if(scanReconnect){
                 LOG.info("Waiting for BLE scan before attempting reconnection...");
                 setDeviceConnectionState(State.WAITING_FOR_SCAN);
-                // TODO: here we need to start scanning for the device
                 return true;
             }
 
