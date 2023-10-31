@@ -43,10 +43,10 @@ public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivity
     public static class DiscoveryPairingPreferenceFragment extends AbstractPreferenceFragment {
         static final String FRAGMENT_TAG = "DISCOVERY_PAIRING_PREFERENCES_FRAGMENT";
 
+        @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.discovery_pairing_preferences, rootKey);
 
-            TODO make this preference appear
             findPreference("prefs_general_key_auto_reconnect_scan").setOnPreferenceChangeListener((preference, newValue) -> {
                 GB.toast("Please restart GB in order to take effect.", Toast.LENGTH_LONG, GB.INFO);
                 return true;
