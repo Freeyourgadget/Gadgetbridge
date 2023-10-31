@@ -23,4 +23,11 @@
         android:summary="@string/discover_unsupported_devices_description"
         android:title="@string/discover_unsupported_devices"
         app:iconSpaceReserved="false" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="prefs_general_key_auto_reconnect_scan"
+        android:title="@string/auto_reconnect_ble_scan_title"
+        android:summary="@string/auto_reconnect_ble_scan_summary"
+        android:layout="@layout/preference_checkbox"
+        app:iconSpaceReserved="false" />
 </PreferenceScreen>
