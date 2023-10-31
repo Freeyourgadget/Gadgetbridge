@@ -1042,7 +1042,7 @@
     <string name="calories_unit">kcal</string>
     <string name="laps_unit">vueltas</string>
     <string name="swim_style">estilo de natación</string>
-    <string name="swolfIndex">índice swolf</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="swolf_index">índice swolf</string>
     <string name="seconds">seg</string>
     <string name="strokes_unit">p</string>
@@ -1053,7 +1053,7 @@
     <string name="cm">cm</string>
     <string name="meters">m</string>
     <string name="laps">Vueltas</string>
-    <string name="swimStyle">estilo de natación</string>
+    <string name="swimStyle">Estilo de natación</string>
     <string name="maxPace">Ritmo más rápido</string>
     <string name="minPace">Ritmo más lento</string>
     <string name="maxSpeed">Máximo</string>
@@ -2519,4 +2519,17 @@
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="busy_task_fetch_statistics">Obtener las estadísticas</string>
     <string name="busy_task_fetch_temperature">Obtener los datos de la temperatura</string>
+    <string name="call_rejection_method_ignore">Ignorar (silencio)</string>
+    <string name="avgStrokeRate">Tasa media de carrera</string>
+    <string name="zepp_os_watchface_city_of_speed">Velocidad en ciudad</string>
+    <string name="call_rejection_method_reject">Rechazar</string>
+    <string name="pref_call_rejection_method_title">Método de rechazo de llamadas</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Se ha iniciado la navegación pero la aplicación de navegación no está instalada en el reloj. Por favor, instálela desde App Manager.</string>
+    <string name="yard">yarda</string>
+    <string name="strokes_minute">serie/min</string>
+    <string name="pref_call_rejection_method_summary">Qué acción se realiza cuando se rechaza una llamada entrante desde el reloj</string>
+    <string name="maxStrokeRate">Frecuencia máxima de carrera</string>
+    <string name="laneLength">Longitud de la pista</string>
+    <string name="strokes">Total de carreras</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">La aplicación de navegación no está instalada en el reloj</string>
 </resources>
