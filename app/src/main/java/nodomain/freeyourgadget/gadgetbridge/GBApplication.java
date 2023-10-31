@@ -1186,7 +1186,7 @@ public class GBApplication extends Application {
 
         if (oldVersion < 16) {
             // If transliteration was enabled for a device, migrate it to the per-language setting
-            final String defaultLanguagesIfEnabled = "extended_ascii,common_symbols,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,latvian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean";
+            final String defaultLanguagesIfEnabled = "extended_ascii,common_symbols,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,latvian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean,hungarian";
             try (DBHandler db = acquireDB()) {
                 final DaoSession daoSession = db.getDaoSession();
                 final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);

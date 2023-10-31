@@ -189,6 +189,16 @@ public class LanguageUtilsTest extends TestBase {
         assertEquals("georgian transliteration failed", expected, output);
     }
 
+        @Test
+    public void testStringTransliterateHungarian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("hungarian");
+
+        String input = "á é í ó ö ő ü ű";
+        String output = transliterator.transliterate(input);
+        String expected = "a e i o o u u";
+        assertEquals("hungarian transliteration failed", expected, output);
+    }
+
     @Test
     public void testStringTransliterateCommonSymbols() {
         final Transliterator transliterator = LanguageUtils.getTransliterator("common_symbols");
