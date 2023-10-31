@@ -2532,4 +2532,7 @@
     <string name="laneLength">Longitud de la pista</string>
     <string name="strokes">Total de carreras</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">La aplicación de navegación no está instalada en el reloj</string>
+    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
+    <string name="charts_legend_spo2_average">Promedio de oxígeno en sangre</string>
+    <string name="devicetype_amazfit_active">Amazfit Active</string>
 </resources>
