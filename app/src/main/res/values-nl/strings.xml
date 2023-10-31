@@ -2530,4 +2530,7 @@
     <string name="menuitem_thermometer">Thermometer</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">Navigatie-app niet geïnstalleerd op horloge</string>
+    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
+    <string name="charts_legend_spo2_average">Zuurstofsaturatie</string>
+    <string name="devicetype_amazfit_active">Amazfit Active</string>
 </resources>
