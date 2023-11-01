@@ -2515,4 +2515,7 @@
     <string name="call_rejection_method_reject">رفض</string>
     <string name="pref_call_rejection_method_title">طريقة رفض المكالمات</string>
     <string name="pref_call_rejection_method_summary">ما هو الإجراء الذي يتم اتخاذه عند رفض مكالمة واردة من الساعة</string>
+    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
+    <string name="charts_legend_spo2_average">متوسط أكسجين الدم</string>
+    <string name="devicetype_amazfit_active">Amazfit Active</string>
 </resources>
