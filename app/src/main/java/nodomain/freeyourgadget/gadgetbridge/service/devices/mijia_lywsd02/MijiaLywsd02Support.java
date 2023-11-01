@@ -60,6 +60,7 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
     private static final UUID UUID_TIME = UUID.fromString("ebe0ccb7-7a0a-4b0c-8a1a-6ff2997da3a6");
     private static final UUID UUID_BATTERY = UUID.fromString("ebe0ccc4-7a0a-4b0c-8a1a-6ff2997da3a6");
     private static final UUID UUID_SCALE = UUID.fromString("ebe0ccbe-7a0a-4b0c-8a1a-6ff2997da3a6");
+    private static final UUID UUID_CONN_INTERVAL = UUID.fromString("ebe0ccd8-7a0a-4b0c-8a1a-6ff2997da3a6");
     private final DeviceInfoProfile<MijiaLywsd02Support> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
@@ -94,6 +95,7 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
         }
 
         getBatteryInfo(builder);
+        setConnectionInterval(builder);
         setInitialized(builder);
         return builder;
     }
@@ -102,13 +104,18 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
         BluetoothGattCharacteristic timeCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_TIME);
         long ts = System.currentTimeMillis();
         byte offsetHours = (byte) (SimpleTimeZone.getDefault().getOffset(ts) / (1000 * 60 * 60));
-        ts /= 1000;
+        ts = ( ts + 250 + 500 ) / 1000; // round to seconds with +250 ms to compensate for BLE connection interval
         builder.write(timeCharacteristc, new byte[]{
                 (byte) (ts & 0xff),
                 (byte) ((ts >> 8) & 0xff),
                 (byte) ((ts >> 16) & 0xff),
                 (byte) ((ts >> 24) & 0xff),
                 offsetHours});
+    }
+
+    private void setConnectionInterval(TransactionBuilder builder) {
+        BluetoothGattCharacteristic intervalCharacteristc = getCharacteristic(MijiaLywsd02Support.UUID_CONN_INTERVAL);
+        builder.write(intervalCharacteristc, new byte[]{ (byte) 0xf4, (byte) 0x01 }); // maximum interval of 500 ms
     }
 
     private void getBatteryInfo(TransactionBuilder builder) {
