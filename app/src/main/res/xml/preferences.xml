@@ -218,6 +218,14 @@
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_whenscreenon"
             app:iconSpaceReserved="false" />
+        <ListPreference
+            android:defaultValue="autodetect"
+            android:entries="@array/osmand_package_names"
+            android:entryValues="@array/osmand_package_names_values"
+            android:key="pref_key_osmand_packagename"
+            android:summary="@string/pref_summary_osmand_packagename"
+            android:title="@string/pref_title_osmand_packagename"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/preferences_category_device_specific_settings"

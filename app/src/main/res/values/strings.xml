@@ -2386,7 +2386,6 @@
     <string name="prefs_wena3_vibration_siren">Siren</string>
     <string name="prefs_wena3_vibration_short">Short</string>
     <string name="prefs_wena3_led_none">No LED</string>
-
     <string name="temperature_scale_cf">Temperature scale</string>
     <string name="temperature_scale_cf_summary">Select whether device uses Celsius or Fahrenheit scale.</string>
     <string name="temperature_scale_celsius">Celsius</string>
@@ -2397,7 +2396,8 @@
     <string name="call_rejection_method_ignore">Ignore (silence)</string>
     <string name="pref_call_rejection_method_title">Call rejection method</string>
     <string name="pref_call_rejection_method_summary">Which action is taken when an incoming call is rejected from the watch</string>
-
     <string name="pref_title_prefix_notification_with_app">App name in notification</string>
     <string name="pref_summary_prefix_notification_with_app">Prefix notification title with name of source application</string>
+    <string name="pref_title_osmand_packagename">OsmAnd package name</string>
+    <string name="pref_summary_osmand_packagename">Used for selecting the version of OsmAnd to connect to</string>
 </resources>

@@ -3116,6 +3116,19 @@
         <item>de.dennisguse.opentracks.nightly</item>
     </string-array>
 
+    <string-array name="osmand_package_names">
+        <item>@string/automatic</item>
+        <item>net.osmand.plus</item>
+        <item>net.osmand</item>
+        <item>net.osmand.dev</item>
+    </string-array>
+    <string-array name="osmand_package_names_values">
+        <item>autodetect</item>
+        <item>net.osmand.plus</item>
+        <item>net.osmand</item>
+        <item>net.osmand.dev</item>
+    </string-array>
+
     <string-array name="pref_transliteration_languages">
         <item>@string/arabic</item>
         <item>@string/bengali</item>
