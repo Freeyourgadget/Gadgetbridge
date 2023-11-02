@@ -19,6 +19,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sqrt;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP_SIZE;
@@ -70,7 +72,6 @@ import org.xml.sax.InputSource;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -113,7 +114,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
@@ -798,6 +798,32 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 LOG.info("storedLogObject:\n" + storedLogObject);
 
+                // Calculate and store analytical data (distance, speed, cadence, etc.)
+                JSONObject analyticalDataObject = new JSONObject();
+                JSONArray valueArray2 = new JSONArray();
+                JSONArray calculatedArray = new JSONArray();
+                if (storedLogObject.has("Latitude")) {
+                    valueArray = storedLogObject.getJSONArray("Latitude");
+                    valueArray2 = storedLogObject.getJSONArray("Longitude");
+                    for (int i = 0; i < valueArray.length(); i++) {
+                        if (i==0) {
+                            calculatedArray.put("0");
+                        } else {
+                            String distance = distanceFromCoordinatePairs(
+                                    (String) valueArray.get(i-1),
+                                    (String) valueArray2.get(i-1),
+                                    (String) valueArray.get(i),
+                                    (String) valueArray2.get(i)
+                            );
+                            calculatedArray.put(distance);
+                        }
+                    }
+                    valueArray = new JSONArray();
+                    valueArray2 = new JSONArray();
+                    calculatedArray = new JSONArray();
+                }
+
+
                 BaseActivitySummary summary = null;
 
                 Date startTime = new Date(Long.parseLong(storedLogArray2[1][0])*1000L);
@@ -811,6 +837,86 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 JSONObject summaryData = new JSONObject();
                 summaryData = addSummaryData(summaryData,"test",3,"mm");
+
+       //            private JSONObject createActivitySummaryGroups(){
+       // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
+       //     put("Strokes", Arrays.asList(
+       //             "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
+       //     ));
+
+       //     put("Swimming", Arrays.asList(
+       //             "swolfIndex", "swimStyle"
+       //     ));
+
+       //     put("Elevation", Arrays.asList(
+       //             "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
+       //             "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
+       //             "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
+       //     ));
+                summaryData = addSummaryData(summaryData,"ascentMeters",3,"mm");
+                summaryData = addSummaryData(summaryData,"descentMeters",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxAltitude",3,"mm");
+                summaryData = addSummaryData(summaryData,"minAltitude",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageAltitude",3,"mm");
+                summaryData = addSummaryData(summaryData,"baseAltitude",3,"mm");
+                summaryData = addSummaryData(summaryData,"ascentSeconds",3,"mm");
+                summaryData = addSummaryData(summaryData,"descentSeconds",3,"mm");
+                summaryData = addSummaryData(summaryData,"flatSeconds",3,"mm");
+                summaryData = addSummaryData(summaryData,"ascentDistance",3,"mm");
+                summaryData = addSummaryData(summaryData,"descentDistance",3,"mm");
+                summaryData = addSummaryData(summaryData,"flatDistance",3,"mm");
+                summaryData = addSummaryData(summaryData,"elevationGain",3,"mm");
+                summaryData = addSummaryData(summaryData,"elevationLoss",3,"mm");
+       //     put("Speed", Arrays.asList(
+       //             "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
+       //             "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
+       //     ));
+                //summaryData = addSummaryData(summaryData,"averageSpeed",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxSpeed",3,"mm");
+                summaryData = addSummaryData(summaryData,"minSpeed",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageKMPaceSeconds",3,"mm");
+                summaryData = addSummaryData(summaryData,"minPace",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxPace",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageCadence",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxCadence",3,"mm");
+                summaryData = addSummaryData(summaryData,"minCadence",3,"mm");
+       //     put("Activity", Arrays.asList(
+       //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
+       //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
+       //     ));
+                summaryData = addSummaryData(summaryData,"distanceMeters",3,"m");
+                summaryData = addSummaryData(summaryData,"steps",3,"mm");
+                summaryData = addSummaryData(summaryData,"activeSeconds",3,"mm");
+                summaryData = addSummaryData(summaryData,"caloriesBurnt",3,"mm");
+                summaryData = addSummaryData(summaryData,"totalStride",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageHR",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxHR",3,"mm");
+                summaryData = addSummaryData(summaryData,"minHR",3,"mm");
+                summaryData = addSummaryData(summaryData,"averageStride",3,"mm");
+                summaryData = addSummaryData(summaryData,"maxStride",3,"mm");
+                summaryData = addSummaryData(summaryData,"minStride",3,"mm");
+       //     put("HeartRateZones", Arrays.asList(
+       //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
+       //             "hrZoneExtreme"
+       //     ));
+                summaryData = addSummaryData(summaryData,"hrZoneNa",3,"mm");
+                summaryData = addSummaryData(summaryData,"hrZoneWarmUp",3,"mm");
+                summaryData = addSummaryData(summaryData,"hrZoneFatBurn",3,"mm");
+                summaryData = addSummaryData(summaryData,"hrZoneAerobic",3,"mm");
+                summaryData = addSummaryData(summaryData,"hrZoneAnaerobic",3,"mm");
+                summaryData = addSummaryData(summaryData,"hrZoneExtreme",3,"mm");
+       //     put("TrainingEffect", Arrays.asList(
+       //             "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
+       //             "maximumOxygenUptake"
+       //     ));
+
+       //     put("Laps", Arrays.asList(
+       //             "averageLapPace", "laps"
+       //     ));
+                summaryData = addSummaryData(summaryData,"averageLapPace",3,"mm");
+                summaryData = addSummaryData(summaryData,"laps",3,"mm");
+       // }};
                 summary.setSummaryData(summaryData.toString());
 
                 ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
@@ -2121,5 +2227,27 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
         return summaryData;
+    }
+
+    public String distanceFromCoordinatePairs(String latA, String lonA, String latB, String lonB) {
+        // https://en.wikipedia.org/wiki/Geographic_coordinate_system#Length_of_a_degree
+        //phi = latitude
+        //lambda = longitude
+        //length of 1 degree lat:
+        //111132.92 - 559.82*cos(2*phi) + 1.175*cos(4*phi) - 0.0023*cos(6*phi)
+        //length of 1 degree lon:
+        //111412.84*cos(phi) - 93.5*cos(3*phi) + 0.118*cos(5*phi)
+        double latADouble = Double.parseDouble(latA);
+        double latBDouble = Double.parseDouble(latB);
+        double lonADouble = Double.parseDouble(lonA);
+        double lonBDouble = Double.parseDouble(lonB);
+
+        double lengthPerDegreeLat = 111132.92 - 559.82*cos(2*latADouble) + 1.175*cos(4*latADouble) - 0.0023*cos(6*latADouble);
+        double lengthPerDegreeLon = 111412.84*cos(latADouble) - 93.5*cos(3*latADouble) + 0.118*cos(5*latADouble);
+
+        double latDist = (latBDouble-latADouble)*lengthPerDegreeLat;
+        double lonDist = (lonBDouble-lonADouble)*lengthPerDegreeLon;
+
+        return String.valueOf(sqrt(latDist*latDist+lonDist*lonDist));
     }
 }
