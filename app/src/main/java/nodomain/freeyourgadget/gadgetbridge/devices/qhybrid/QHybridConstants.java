@@ -39,6 +39,7 @@ public final class QHybridConstants {
             put("weatherApp", "3.11");
             put("wellnessApp", "3.16");
             put("AlexaApp", "3.11");
+            put("navigationApp", "1.0");
         }
     };
 
