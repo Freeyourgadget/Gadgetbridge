@@ -39,11 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip5.Am
 public class AmazfitBip5Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBip5Coordinator.class);
 
-    @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
