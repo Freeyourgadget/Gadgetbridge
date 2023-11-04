@@ -6,6 +6,8 @@
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
 * Experimental support for Sony WF-1000XM5
+* Experimental support for Amazfit Active
+* Experimental support for Amazfit Active Edge
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
@@ -15,21 +17,29 @@
 * Bangle.js: Add loyalty cards integration with Catima
 * Bangle.js: Lower threshold for low battery warning
 * Casio GBX100/GBD-200: Fix first connect
+* Fossil/Skagen Hybrids: Add new navigation app
+* Fossil/Skagen Hybrids: Allow configuring call rejection method
 * Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
 * Fossil/Skagen Hybrids: Reduce toasts on release builds
+* Fossil/Skagen Hybrids: Show device specific settings in more logical order
 * Message privacy: Add mode Hide only body
 * Mijia LYWSD02: Add battery
 * Mijia LYWSD02: Set temperature unit
+* Mijia LYWSD02: Fix battery drain while connected
 * PineTime: Display app name for VoIP app calls
 * PineTime: Reduce weather memory usage
 * Withings Steel HR: Fix crash when calibrating hands on the nightly
+* Zepp OS: Add blood oxygen graph
 * Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Display swimming activity data
 * Zepp OS: Fix health settings on older Zepp OS versions
 * Zepp OS: Fix setting of unknown button press apps
+* Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
 * Add transliteration for Latvian and Common Symbols
 * Allow ignore notifications from work profile apps
 * Fix emoji when a transliterator is enabled
+* Fix UV Index and rain probability for some weather apps
 * Improve device discovery stability and fix freezes
 * Improve Telegram and COL Reminder notifications
 * Replace old-style preference switch with Material 3 switch
