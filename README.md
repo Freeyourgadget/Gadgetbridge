@@ -21,7 +21,7 @@ vendor's servers.
 
 ## Code Licenses
 
-* Gadgetbrige is licensed under the AGPLv3
+* Gadgetbridge is licensed under the AGPLv3
 * Files in app/src/main/java/net/osmand/ and app/src/main/aidl/net/osmand/ are licensed under the GPLv3 by OsmAnd BV
 
 
