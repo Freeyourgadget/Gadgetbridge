@@ -485,7 +485,7 @@ message WorkoutOpenReply {
 }
 
 message WorkoutLocation {
-  optional uint32 numSatellites = 1; // 10, sometimes 2?
+  optional uint32 unknown1 = 1; // 10, sometimes 2?
   optional uint32 timestamp = 2; // seconds
   optional double longitude = 3;
   optional double latitude = 4;

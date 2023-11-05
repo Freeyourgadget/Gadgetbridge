@@ -425,7 +425,13 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     private void handleWorkoutOpen(final XiaomiProto.WorkoutOpenWatch workoutOpenWatch) {
-        LOG.debug("Workout open on watch: {}", workoutOpenWatch.getSport());
+        LOG.debug(
+                "Workout open on watch: {}, workoutStarted={}, gpsStarted={}, gpsFixAcquired={}",
+                workoutOpenWatch.getSport(),
+                workoutStarted,
+                gpsStarted,
+                gpsFixAcquired
+        );
 
         workoutStarted = false;
 
@@ -455,7 +461,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
 
         gpsTimeoutHandler.removeCallbacksAndMessages(null);
         // Timeout if the watch stops sending workout open
-        gpsTimeoutHandler.postDelayed(() -> GBLocationManager.stop(getSupport().getContext(), getSupport()), 5000);
+        gpsTimeoutHandler.postDelayed(() -> {
+            LOG.debug("Timed out waiting for workout");
+            gpsStarted = false;
+            gpsFixAcquired = false;
+            GBLocationManager.stop(getSupport().getContext(), getSupport());
+        }, 5000);
     }
 
     private void handleWorkoutStatus(final XiaomiProto.WorkoutStatusWatch workoutStatus) {
@@ -475,6 +486,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case WORKOUT_PAUSED:
                 break;
             case WORKOUT_FINISHED:
+                gpsStarted = false;
+                gpsFixAcquired = false;
                 GBLocationManager.stop(getSupport().getContext(), getSupport());
                 if (startOnPhone) {
                     OpenTracksController.stopRecording(getSupport().getContext());
@@ -495,26 +508,29 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                                     XiaomiProto.WorkoutOpenReply.newBuilder()
                                             .setUnknown1(0)
                                             .setUnknown2(2)
-                                            .setUnknown3(10)
+                                            .setUnknown3(2)
                             ))
                             .build()
             );
         }
-        
+
         if (workoutStarted) {
             final XiaomiProto.WorkoutLocation.Builder workoutLocation = XiaomiProto.WorkoutLocation.newBuilder()
-                    .setNumSatellites(10)
+                    .setUnknown1(2)
                     .setTimestamp((int) (location.getTime() / 1000L))
                     .setLongitude(location.getLongitude())
                     .setLatitude(location.getLatitude())
                     .setAltitude(location.getAltitude())
                     .setSpeed(location.getSpeed())
-                    .setBearing(location.getBearing())
-                    .setHorizontalAccuracy(location.getAccuracy());
+                    .setBearing(location.getBearing());
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                workoutLocation.setVerticalAccuracy(location.getVerticalAccuracyMeters());
-            }
+            // FIXME: Check the value for these during actual workouts, but it seems to work without them
+            //if (location.hasAccuracy() && location.getAccuracy() != 100) {
+            //    workoutLocation.setHorizontalAccuracy(location.getAccuracy());
+            //}
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && location.hasVerticalAccuracy() && location.getVerticalAccuracyMeters() != 100) {
+            //    workoutLocation.setVerticalAccuracy(location.getVerticalAccuracyMeters());
+            //}
 
             getSupport().sendCommand(
                     "send gps location",
