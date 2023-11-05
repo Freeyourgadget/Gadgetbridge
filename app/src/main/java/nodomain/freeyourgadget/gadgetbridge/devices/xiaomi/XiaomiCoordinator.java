@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
@@ -111,7 +112,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Nullable
     @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
-        return new XiaomiActivitySummaryParser();
+        return new WorkoutSummaryParser();
     }
 
     @Override

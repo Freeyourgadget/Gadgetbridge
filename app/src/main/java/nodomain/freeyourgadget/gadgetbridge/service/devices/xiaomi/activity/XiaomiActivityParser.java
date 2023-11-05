@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailyDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.SleepDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
 
 public abstract class XiaomiActivityParser {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiActivityParser.class);
@@ -66,6 +67,11 @@ public abstract class XiaomiActivityParser {
 
     private static XiaomiActivityParser createForSports(final XiaomiActivityFileId fileId) {
         assert fileId.getType() == XiaomiActivityFileId.Type.SPORTS;
+
+        switch (fileId.getDetailType()) {
+            case SUMMARY:
+                return new WorkoutSummaryParser();
+        }
 
         return null;
     }

@@ -154,6 +154,7 @@ public class XiaomiActivityFileId {
         SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 1),
         SPORTS_FREESTYLE(Type.SPORTS, 8),
         SPORTS_ELLIPTICAL(Type.SPORTS, 11),
+        SPORTS_OUTDOOR_CYCLING(Type.SPORTS, 23),
         ;
 
         private final Type type;
@@ -182,6 +183,7 @@ public class XiaomiActivityFileId {
         UNKNOWN(-1),
         DETAILS(0),
         SUMMARY(1),
+        GPS_TRACK(2),
         ;
 
         private final int code;
