@@ -972,9 +972,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 summaryData = addSummaryData(summaryData,"averageHR",3,"mm");
                 summaryData = addSummaryData(summaryData,"maxHR",3,"mm");
                 summaryData = addSummaryData(summaryData,"minHR",3,"mm");
-                summaryData = addSummaryData(summaryData,"averageStride",3,"mm");
-                summaryData = addSummaryData(summaryData,"maxStride",3,"mm");
-                summaryData = addSummaryData(summaryData,"minStride",3,"mm");
+                if (storedLogObject.has("Latitude") && storedLogObject.has("Steps")) {
+                    summaryData = addSummaryData(summaryData, "averageStride", 3, "mm");
+                    summaryData = addSummaryData(summaryData, "maxStride", 3, "mm");
+                    summaryData = addSummaryData(summaryData, "minStride", 3, "mm");
+                }
        //     put("HeartRateZones", Arrays.asList(
        //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
        //             "hrZoneExtreme"
