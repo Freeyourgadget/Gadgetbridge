@@ -798,29 +798,108 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 LOG.info("storedLogObject:\n" + storedLogObject);
 
-                // Calculate and store analytical data (distance, speed, cadence, etc.)
-                JSONObject analyticalDataObject = new JSONObject();
+                // Calculate and store analytical data (distance, speed, cadence, etc.).
+                JSONObject analyticsObject = new JSONObject();
+                JSONArray calculationsArray = new JSONArray();
+
+                // Add elapsed time since first reading (seconds).
+                valueArray = storedLogObject.getJSONArray("Time");
+                for (int i = 0; i < valueArray.length(); i++) {
+                    calculationsArray.put(valueArray.getDouble(i)-valueArray.getDouble(0));
+                }
+                analyticsObject.put("Elapsed Time", calculationsArray);
+
+                valueArray = new JSONArray();
+                calculationsArray = new JSONArray();
+
                 JSONArray valueArray2 = new JSONArray();
-                JSONArray calculatedArray = new JSONArray();
+
+                // Add analytics based on GPS coordinates.
                 if (storedLogObject.has("Latitude")) {
+                    // Add distance between last and current reading.
                     valueArray = storedLogObject.getJSONArray("Latitude");
                     valueArray2 = storedLogObject.getJSONArray("Longitude");
                     for (int i = 0; i < valueArray.length(); i++) {
-                        if (i==0) {
-                            calculatedArray.put("0");
+                        if (i == 0) {
+                            calculationsArray.put("0");
                         } else {
                             String distance = distanceFromCoordinatePairs(
-                                    (String) valueArray.get(i-1),
-                                    (String) valueArray2.get(i-1),
+                                    (String) valueArray.get(i - 1),
+                                    (String) valueArray2.get(i - 1),
                                     (String) valueArray.get(i),
                                     (String) valueArray2.get(i)
                             );
-                            calculatedArray.put(distance);
+                            calculationsArray.put(distance);
                         }
                     }
+                    analyticsObject.put("Intermediate Distance", calculationsArray);
+
                     valueArray = new JSONArray();
                     valueArray2 = new JSONArray();
-                    calculatedArray = new JSONArray();
+                    calculationsArray = new JSONArray();
+
+                } else if (storedLogObject.has("Steps")) {
+                    for (int i = 0; i < storedLogObject.getJSONArray("Steps").length(); i++) {
+                        if (i==0) {
+                            calculationsArray.put(0);
+                        } else {
+                            double stride = 0.85; // FIXME: Depend on user defined stride length?
+                            double calculation = stride * (storedLogObject.getJSONArray("Steps").getDouble(i));
+                            if (calculation == 0) calculation = 0.001; // To avoid potential division by zero later on.
+                            calculationsArray.put(calculation);
+                        }
+                    }
+                    analyticsObject.put("Intermediate Distance", calculationsArray);
+
+                    calculationsArray = new JSONArray();
+
+                }
+
+                if (analyticsObject.has("Intermediate Distance")) {
+                    // Add total distance from start of activity up to each reading.
+                    for (int i = 0; i < analyticsObject.getJSONArray("Intermediate Distance").length(); i++) {
+                       if (i==0) {
+                           calculationsArray.put(0);
+                       } else {
+                           double calculation = calculationsArray.getDouble(i-1) + analyticsObject.getJSONArray("Intermediate Distance").getDouble(i);
+                           calculationsArray.put(calculation);
+                       }
+                    }
+                    analyticsObject.put("Total Distance", calculationsArray);
+
+                    calculationsArray = new JSONArray();
+
+                    // Add average speed between last and current reading (m/s).
+                    for (int i = 0; i < analyticsObject.getJSONArray("Intermediate Distance").length(); i++) {
+                        if (i==0) {
+                            calculationsArray.put(0);
+                        } else {
+                            double calculation =
+                                    analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) /
+                                            (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
+                                                    analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1)
+                                            )
+                                    ;
+                            calculationsArray.put(calculation);
+                        }
+                    }
+                    analyticsObject.put("Speed", calculationsArray);
+
+                    calculationsArray = new JSONArray();
+
+                    // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seem to expect s/km).
+                    for (int i = 0; i < analyticsObject.getJSONArray("Speed").length(); i++) {
+                        if (i==0) {
+                            calculationsArray.put(0);
+                        } else {
+                            double calculation = (1000.0) * 1/analyticsObject.getJSONArray("Speed").getDouble(i);
+                            calculationsArray.put(calculation);
+                        }
+                    }
+                    analyticsObject.put("Pace", calculationsArray);
+
+                    calculationsArray = new JSONArray();
+
                 }
 
 
