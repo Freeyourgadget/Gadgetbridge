@@ -1146,6 +1146,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // Special cases where we can just use a built-in character...
             // Based on https://op.europa.eu/en/web/eu-vocabularies/formex/physical-specifications/character-encoding
             if (ch=='–' || ch=='‐' || ch=='—') ch='-';
+            else if (ch =='‚' || ch=='，') ch=',';
+            else if (ch =='。') ch='.';
             else if (ch=='‘' || ch=='’' || ch =='‚' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
             else if (ch=='“' || ch=='”' || ch =='„' || ch=='‟' || ch=='″') ch='"';
             // chars which break words up
