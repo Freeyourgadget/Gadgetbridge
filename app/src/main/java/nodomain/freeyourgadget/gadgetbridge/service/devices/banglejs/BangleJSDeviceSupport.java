@@ -824,12 +824,20 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (i == 0) {
                             calculationsArray.put("0");
                         } else {
-                            String distance = distanceFromCoordinatePairs(
-                                    (String) valueArray.get(i - 1),
-                                    (String) valueArray2.get(i - 1),
-                                    (String) valueArray.get(i),
-                                    (String) valueArray2.get(i)
-                            );
+                            String distance;
+                            if (Objects.equals(valueArray.getString(i), "") || Objects.equals(valueArray.getString(i - 1), "")) {
+                                // FIXME: GPS data can be missing for some entries which is handled here.
+                                // Should use more complex logic to be more accurate. Use interpolation.
+                                // Should distances be done via the GPX file we generate instead?
+                                distance = "0.001";
+                            } else {
+                                distance = distanceFromCoordinatePairs(
+                                        (String) valueArray.get(i - 1),
+                                        (String) valueArray2.get(i - 1),
+                                        (String) valueArray.get(i),
+                                        (String) valueArray2.get(i)
+                                );
+                            }
                             calculationsArray.put(distance);
                         }
                     }
@@ -843,11 +851,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     if (storedLogObject.has("Steps")) {
                         for (int i = 0; i < logLength; i++) {
                             if (i == 0) {
-                                calculationsArray.put(null);
+                                calculationsArray.put("-");
                             } else {
+                                double steps = storedLogObject.getJSONArray("Steps").getDouble(i);
+                                if (steps==0) steps=0.001;
                                 double calculation =
-                                        2 * analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) /
-                                                storedLogObject.getJSONArray("Steps").getDouble(i);
+                                        2 * analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / steps;
                                 calculationsArray.put(calculation);
                             }
                         }
@@ -892,12 +901,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (i==0) {
                             calculationsArray.put(0);
                         } else {
+                            double timeDiff =
+                                    (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
+                                    analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
+                            if (timeDiff==0) timeDiff = 1;
                             double calculation =
-                                    analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) /
-                                            (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
-                                                    analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1)
-                                            )
-                                    ;
+                                    analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / timeDiff;
                             calculationsArray.put(calculation);
                         }
                     }
@@ -910,7 +919,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (i==0) {
                             calculationsArray.put(0);
                         } else {
-                            double calculation = (1000.0) * 1/analyticsObject.getJSONArray("Speed").getDouble(i);
+                            double speed = analyticsObject.getJSONArray("Speed").getDouble(i);
+                            if (speed==0) speed = 0.001;
+                            double calculation = (1000.0) * 1/speed;
                             calculationsArray.put(calculation);
                         }
                     }
@@ -924,12 +935,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (i==0) {
                             calculationsArray.put(0);
                         } else {
-                            double calculation = 60 *
-                                    (storedLogObject.getJSONArray("Steps").getDouble(i) /
-                                            (storedLogObject.getJSONArray("Time").getDouble(i) -
-                                                    storedLogObject.getJSONArray("Time").getDouble(i-1)
-                                            )
-                                    );// Should cadence be steps/min or half that? https://www.polar.com/blog/what-is-running-cadence/
+                            // FIXME: Should cadence be steps/min or half that? https://www.polar.com/blog/what-is-running-cadence/
+                            // The Bangle.js App Loader has Cadence = (steps/min)/2,  https://github.com/espruino/BangleApps/blob/master/apps/recorder/interface.html#L103,
+                            // as discussed here: https://github.com/espruino/BangleApps/pull/3068#issuecomment-1790293879 .
+                            double timeDiff =
+                                    (storedLogObject.getJSONArray("Time").getDouble(i) -
+                                            storedLogObject.getJSONArray("Time").getDouble(i-1));
+                            if (timeDiff==0) timeDiff = 1;
+                            double calculation = 0.5 * 60 *
+                                    (storedLogObject.getJSONArray("Steps").getDouble(i) / timeDiff);
                             calculationsArray.put(calculation);
                         }
                     }
@@ -1033,8 +1047,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 if (analyticsObject.has("Stride")) {
                     summaryData = addSummaryData(summaryData, "averageStride",
-                            2 * (float) analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1) /
-                                    sumOfJSONArray(storedLogObject.getJSONArray("Steps")),
+                            (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1) /
+                                    (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
                             "m/stride"); // FIXME: Is this meant to be stride length as I've assumed?
                     summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
                     summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
