@@ -478,7 +478,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("UART RX LINE: " + line);
         if (line.length()==0) return;
         if (">Uncaught ReferenceError: \"GB\" is not defined".equals(line))
-          GB.toast(getContext(), "Gadgetbridge plugin not installed on Bangle.js", Toast.LENGTH_LONG, GB.ERROR);
+          GB.toast(getContext(), "'Android Integration' plugin not installed on Bangle.js", Toast.LENGTH_LONG, GB.ERROR);
         else if (line.charAt(0)=='{') {
             // JSON - we hope!
             try {
@@ -1146,12 +1146,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // Special cases where we can just use a built-in character...
             // Based on https://op.europa.eu/en/web/eu-vocabularies/formex/physical-specifications/character-encoding
             if (ch=='–' || ch=='‐' || ch=='—') ch='-';
-            else if (ch =='‚' || ch=='，') ch=',';
+            else if (ch =='‚' || ch=='，' || ch=='、') ch=',';
             else if (ch =='。') ch='.';
+            else if (ch =='【') ch='[';
+            else if (ch =='】') ch=']';
             else if (ch=='‘' || ch=='’' || ch =='‚' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
             else if (ch=='“' || ch=='”' || ch =='„' || ch=='‟' || ch=='″') ch='"';
             // chars which break words up
-            if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
+            if (" -_/:.,?!'\"&*()[]".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
                     LOG.info("renderUnicodeAsImage converting " + word);
