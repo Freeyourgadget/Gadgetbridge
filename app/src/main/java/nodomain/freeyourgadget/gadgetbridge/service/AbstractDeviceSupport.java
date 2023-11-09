@@ -487,9 +487,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
             // no level available, just "high" or "low"
             if (BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getName()),
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getAliasOrName()),
                         deviceEvent.extendedInfoAvailable() ?
-                                context.getString(R.string.notif_battery_low_extended, gbDevice.getName(),
+                                context.getString(R.string.notif_battery_low_extended, gbDevice.getAliasOrName(),
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges)))
                                 : ""
@@ -505,9 +505,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
                             BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
                     ) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)),
                         deviceEvent.extendedInfoAvailable() ?
-                                context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
+                                context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)) + "\n" +
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                                 : ""
