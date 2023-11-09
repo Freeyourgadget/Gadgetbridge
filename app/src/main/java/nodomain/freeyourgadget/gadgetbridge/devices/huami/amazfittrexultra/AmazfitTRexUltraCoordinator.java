@@ -39,11 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexult
 public class AmazfitTRexUltraCoordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRexUltraCoordinator.class);
 
-    @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
