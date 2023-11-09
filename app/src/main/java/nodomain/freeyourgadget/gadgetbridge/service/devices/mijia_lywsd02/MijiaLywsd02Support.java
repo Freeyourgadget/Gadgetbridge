@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -131,6 +132,7 @@ public class MijiaLywsd02Support extends AbstractBTLEDeviceSupport {
     private void handleBatteryInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             batteryCmd.level = ((short) value[0]);
+            batteryCmd.state = (batteryCmd.level > 20) ? BatteryState.BATTERY_NORMAL : BatteryState.BATTERY_LOW;
             handleGBDeviceEvent(batteryCmd);
         }
     }
