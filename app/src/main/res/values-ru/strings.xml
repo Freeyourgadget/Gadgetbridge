@@ -2523,4 +2523,7 @@
     <string name="pref_call_rejection_method_summary">Какое действие необходимо совершить при отклонении вызова с часов</string>
     <string name="busy_task_fetch_temperature">Получение температуры</string>
     <string name="laneLength">Длина полосы</string>
+    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
+    <string name="charts_legend_spo2_average">Средний уровень кислорода в крови</string>
+    <string name="devicetype_amazfit_active">Amazfit Active</string>
 </resources>
