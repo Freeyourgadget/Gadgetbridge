@@ -1114,18 +1114,42 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
-    private String renderUnicodeWordAsImage(String word) {
+    private String renderUnicodeWordPartAsImage(String word) {
         // check for emoji
         boolean hasEmoji = false;
-        if (EmojiUtils.getAllEmojis()==null)
+        if (EmojiUtils.getAllEmojis() == null)
             EmojiManager.initEmojiData(GBApplication.getContext());
-        for(Emoji emoji : EmojiUtils.getAllEmojis())
+        for (Emoji emoji : EmojiUtils.getAllEmojis())
             if (word.contains(emoji.getEmoji())) {
                 hasEmoji = true;
                 break;
             }
         // if we had emoji, ensure we create 3 bit color (not 1 bit B&W)
-        return "\0"+bitmapToEspruinoString(textToBitmap(word), hasEmoji ? BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT : BangleJSBitmapStyle.MONOCHROME_TRANSPARENT);
+        BangleJSBitmapStyle style = hasEmoji ? BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT : BangleJSBitmapStyle.MONOCHROME_TRANSPARENT;
+        return "\0"+bitmapToEspruinoString(textToBitmap(word), style);
+    }
+
+    private String renderUnicodeWordAsImage(String word) {
+        // if we have Chinese/Japanese/Korean chars, split into 2 char chunks to allow easier text wrapping
+        // it's not perfect but better than nothing
+        boolean hasCJK = false;
+        for (int i=0;i<word.length();i++) {
+            char ch = word.charAt(i);
+            hasCJK |= ch>=0x4E00 && ch<=0x9FFF; // "CJK Unified Ideographs" block
+        }
+        if (hasCJK) {
+            // split every 2 chars
+            String result = "";
+            for (int i=0;i<word.length();i+=2) {
+                int len = 2;
+                if (i+len > word.length())
+                    len = word.length()-i;
+                result += renderUnicodeWordPartAsImage(word.substring(i, i+len));
+            }
+            return result;
+        }
+        // else just render the word as-is
+        return renderUnicodeWordPartAsImage(word);
     }
 
     public String renderUnicodeAsImage(String txt) {
@@ -1596,6 +1620,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public static byte[] bitmapToEspruinoArray(Bitmap bitmap, BangleJSBitmapStyle style) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        if (width>255) {
+            LOG.warn("bitmapToEspruinoArray width of "+width+" > 255 (Espruino max) - cropping");
+            width = 255;
+        }
+        if (height>255) {
+            LOG.warn("bitmapToEspruinoArray height of "+height+" > 255 (Espruino max) - cropping");
+            height = 255;
+        }
         int bpp = (style==BangleJSBitmapStyle.RGB_3BPP ||
                    style==BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT) ? 3 : 1;
         byte[] pixels = new byte[width * height];
