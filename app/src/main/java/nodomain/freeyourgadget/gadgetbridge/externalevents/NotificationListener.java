@@ -731,8 +731,6 @@ public class NotificationListener extends NotificationListenerService {
 
         notificationStack.remove(sbn.getPackageName());
 
-        googleMapsNotificationHandler.handleRemove(sbn);
-
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
         final Prefs prefs = GBApplication.getPrefs();
@@ -749,6 +747,8 @@ public class NotificationListener extends NotificationListenerService {
         if (mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
         if (shouldIgnoreSource(sbn)) return;
+
+        googleMapsNotificationHandler.handleRemove(sbn);
 
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.os.PowerManager;
 import android.service.notification.StatusBarNotification;
 
 import androidx.core.app.NotificationCompat;
@@ -18,10 +19,13 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GoogleMapsNotificationHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GoogleMapsNotificationHandler.class);
+
+    private boolean shouldSendNavigation = false;
 
     static class IconType {
         int[] icon;
@@ -891,6 +895,8 @@ public class GoogleMapsNotificationHandler {
 
     public boolean handle(Context context, StatusBarNotification sbn) {
         if (sbn.getPackageName().equals("com.google.android.apps.maps")) {
+            checkShouldSendNavigation(context);
+            if (!shouldSendNavigation) return false;
             Notification notification = sbn.getNotification();
             if (!NotificationCompat.getLocalOnly(notification))
                 return false; // ignore non-local notifications
@@ -971,6 +977,7 @@ public class GoogleMapsNotificationHandler {
 
     public boolean handleRemove(StatusBarNotification sbn) {
         if (sbn.getPackageName().equals("com.google.android.apps.maps")) {
+            if (!shouldSendNavigation) return false;
             Notification notification = sbn.getNotification();
             if (!NotificationCompat.getLocalOnly(notification))
                 return false; // ignore non-local notifications
@@ -979,5 +986,27 @@ public class GoogleMapsNotificationHandler {
             return true;
         }
         return false;
+    }
+
+    private void checkShouldSendNavigation(Context context) {
+        Prefs prefs = GBApplication.getPrefs();
+
+        boolean navigationForward = prefs.getBoolean("navigation_forward", true);
+        if (!navigationForward) {
+            shouldSendNavigation = false;
+            return;
+        }
+
+        boolean navigationScreenOn = prefs.getBoolean("nagivation_screen_on", true);
+        if (!navigationScreenOn) {
+            PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (powermanager != null && powermanager.isScreenOn()) {
+                LOG.info("Not forwarding navigation instructions, screen seems to be on and settings do not allow this");
+                shouldSendNavigation = false;
+                return;
+            }
+        }
+
+        shouldSendNavigation = true;
     }
 }
