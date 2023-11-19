@@ -992,7 +992,8 @@ public class GoogleMapsNotificationHandler {
         Prefs prefs = GBApplication.getPrefs();
 
         boolean navigationForward = prefs.getBoolean("navigation_forward", true);
-        if (!navigationForward) {
+        boolean navigationGMaps = prefs.getBoolean("navigation_app_gmaps", true);
+        if (!navigationForward || !navigationGMaps) {
             shouldSendNavigation = false;
             return;
         }

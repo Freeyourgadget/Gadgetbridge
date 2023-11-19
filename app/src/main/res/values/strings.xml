@@ -2400,4 +2400,8 @@
     <string name="pref_summary_prefix_notification_with_app">Prefix notification title with name of source application</string>
     <string name="pref_title_osmand_packagename">OsmAnd package name</string>
     <string name="pref_summary_osmand_packagename">Used for selecting the version of OsmAnd to connect to</string>
+    <string name="pref_title_navigation_prefs">Navigation preferences</string>
+    <string name="pref_title_navigation_apps">Navigation apps</string>
+    <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
+    <string name="pref_navigation_app_gmaps">Google Maps</string>
 </resources>

@@ -160,16 +160,17 @@ public class OsmandEventReceiver {
     }
 
     private boolean shouldSendNavigation() {
-        final Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = GBApplication.getPrefs();
 
-        final boolean navigationForward = prefs.getBoolean("navigation_forward", true);
-        if (!navigationForward) {
+        boolean navigationForward = prefs.getBoolean("navigation_forward", true);
+        boolean navigationOsmAnd = prefs.getBoolean("navigation_app_osmand", true);
+        if (!navigationForward || !navigationOsmAnd) {
             return false;
         }
 
-        final boolean navigationScreenOn = prefs.getBoolean("nagivation_screen_on", true);
+        boolean navigationScreenOn = prefs.getBoolean("nagivation_screen_on", true);
         if (!navigationScreenOn) {
-            final PowerManager powermanager = (PowerManager) app.getSystemService(Context.POWER_SERVICE);
+            PowerManager powermanager = (PowerManager) app.getSystemService(Context.POWER_SERVICE);
             if (powermanager != null && powermanager.isScreenOn()) {
                 LOG.info("Not forwarding navigation instructions, screen seems to be on and settings do not allow this");
                 return false;
