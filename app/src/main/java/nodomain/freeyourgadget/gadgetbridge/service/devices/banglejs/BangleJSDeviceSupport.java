@@ -131,6 +131,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -318,6 +319,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         rxCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
+        if (rxCharacteristic==null || txCharacteristic==null) {
+            // https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/2996 - sometimes we get
+            // initializeDevice called but no characteristics have been fetched - try and reconnect in that case
+            LOG.warn("RX/TX characteristics are null, will attempt to reconnect");
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.WAITING_FOR_RECONNECT, getContext()));
+        }
         builder.setCallback(this);
         builder.notify(rxCharacteristic, true);
 
