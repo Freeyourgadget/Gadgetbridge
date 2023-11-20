@@ -306,7 +306,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
         };
-        GBApplication.getContext().registerReceiver(globalUartReceiver, commandFilter);
+        GBApplication.getContext().registerReceiver(globalUartReceiver, commandFilter); // should be RECEIVER_EXPORTED
     }
 
     @Override
@@ -374,7 +374,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (v instanceof String) {
             /* Convert a string, escaping chars we can't send over out UART connection */
             String s = (String)v;
-            String json = "\"";
+            StringBuilder json = new StringBuilder("\"");
             //String rawString = "";
             for (int i=0;i<s.length();i++) {
                 int ch = (int)s.charAt(i); // 0..255
@@ -383,21 +383,21 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (ch<8) {
                     // if the next character is a digit, it'd be interpreted
                     // as a 2 digit octal character, so we can't use `\0` to escape it
-                    if (nextCh>='0' && nextCh<='7') json += "\\x0" + ch;
-                    else json += "\\" + ch;
-                } else if (ch==8) json += "\\b";
-                else if (ch==9) json += "\\t";
-                else if (ch==10) json += "\\n";
-                else if (ch==11) json += "\\v";
-                else if (ch==12) json += "\\f";
-                else if (ch==34) json += "\\\""; // quote
-                else if (ch==92) json += "\\\\"; // slash
+                    if (nextCh>='0' && nextCh<='7') json.append("\\x0").append(ch);
+                    else json.append("\\").append(ch);
+                } else if (ch==8) json.append("\\b");
+                else if (ch==9) json.append("\\t");
+                else if (ch==10) json.append("\\n");
+                else if (ch==11) json.append("\\v");
+                else if (ch==12) json.append("\\f");
+                else if (ch==34) json.append("\\\""); // quote
+                else if (ch==92) json.append("\\\\"); // slash
                 else if (ch<32 || ch==127 || ch==173 ||
                          ((ch>=0xC2) && (ch<=0xF4))) // unicode start char range
-                    json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
+                    json.append("\\x").append(Integer.toHexString((ch & 255) | 256).substring(1));
                 else if (ch>255)
-                    json += "\\u"+Integer.toHexString((ch&65535)|65536).substring(1);
-                else json += s.charAt(i);
+                    json.append("\\u").append(Integer.toHexString((ch & 65535) | 65536).substring(1));
+                else json.append(s.charAt(i));
             }
             // if it was less characters to send base64, do that!
             if (json.length() > 5+(s.length()*4/3)) {
@@ -406,24 +406,24 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             // for debugging...
             //addReceiveHistory("\n---------------------\n"+rawString+"\n---------------------\n");
-            return json + "\"";
+            return json.append("\"").toString();
         } else if (v instanceof JSONArray) {
             JSONArray a = (JSONArray)v;
-            String json = "[";
+            StringBuilder json = new StringBuilder("[");
             for (int i=0;i<a.length();i++) {
-                if (i>0) json += ",";
+                if (i>0) json.append(",");
                 Object o = null;
                 try {
                     o = a.get(i);
                 } catch (JSONException e) {
                     LOG.warn("jsonToString array error: " + e.getLocalizedMessage());
                 }
-                json += jsonToStringInternal(o);
+                json.append(jsonToStringInternal(o));
             }
-            return json+"]";
+            return json.append("]").toString();
         } else if (v instanceof JSONObject) {
             JSONObject obj = (JSONObject)v;
-            String json = "{";
+            StringBuilder json = new StringBuilder("{");
             Iterator<String> iter = obj.keys();
             while (iter.hasNext()) {
                 String key = iter.next();
@@ -433,10 +433,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } catch (JSONException e) {
                     LOG.warn("jsonToString object error: " + e.getLocalizedMessage());
                 }
-                json += "\""+key+"\":"+jsonToStringInternal(o);
-                if (iter.hasNext()) json+=",";
+                json.append("\"").append(key).append("\":").append(jsonToStringInternal(o));
+                if (iter.hasNext()) json.append(",");
             }
-            return json+"}";
+            return json.append("}").toString();
         } else if (v==null) {
             // else int/double/null
             return "null";
@@ -652,7 +652,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     /**
      * Handle "act" packet, used to send activity reports
      */
-    private void handleActivity(JSONObject json) throws JSONException {
+    private void handleActivity(JSONObject json) {
         BangleJSActivitySample sample = new BangleJSActivitySample();
         int timestamp = (int) (json.optLong("ts", System.currentTimeMillis()) / 1000);
         int hrm = json.optInt("hrm", 0);
@@ -1146,14 +1146,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         if (hasCJK) {
             // split every 2 chars
-            String result = "";
+            StringBuilder result = new StringBuilder();
             for (int i=0;i<word.length();i+=2) {
                 int len = 2;
                 if (i+len > word.length())
                     len = word.length()-i;
-                result += renderUnicodeWordPartAsImage(word.substring(i, i+len));
+                result.append(renderUnicodeWordPartAsImage(word.substring(i, i + len)));
             }
-            return result;
+            return result.toString();
         }
         // else just render the word as-is
         return renderUnicodeWordPartAsImage(word);
@@ -1170,7 +1170,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (!devicePrefs.getBoolean(PREF_BANGLEJS_TEXT_BITMAP, false))
             return EmojiConverter.convertUnicodeEmojiToAscii(txt, GBApplication.getContext());
          // Otherwise split up and check each word
-        String word = "", result = "";
+        String word = "";
+        StringBuilder result = new StringBuilder();
         boolean needsTranslate = false;
         for (int i=0;i<txt.length();i++) {
             char ch = txt.charAt(i);
@@ -1181,16 +1182,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             else if (ch =='。') ch='.';
             else if (ch =='【') ch='[';
             else if (ch =='】') ch=']';
-            else if (ch=='‘' || ch=='’' || ch =='‚' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
+            else if (ch=='‘' || ch=='’' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
             else if (ch=='“' || ch=='”' || ch =='„' || ch=='‟' || ch=='″') ch='"';
             // chars which break words up
             if (" -_/:.,?!'\"&*()[]".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
                     LOG.info("renderUnicodeAsImage converting " + word);
-                    result += renderUnicodeWordAsImage(word)+ch;
+                    result.append(renderUnicodeWordAsImage(word)).append(ch);
                 } else { // or just copy across
-                    result += word+ch;
+                    result.append(word).append(ch);
                 }
                 word = "";
                 needsTranslate = false;
@@ -1202,11 +1203,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         if (needsTranslate) { // convert word
             LOG.info("renderUnicodeAsImage converting " + word);
-            result += renderUnicodeWordAsImage(word);
+            result.append(renderUnicodeWordAsImage(word));
         } else { // or just copy across
-            result += word;
+            result.append(word);
         }
-        return result;
+        return result.toString();
     }
 
     /// Crop a text string to ensure it's not longer than requested
@@ -1492,7 +1493,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } else {
                     o.put("value", card.getCardId());
                 }
-                o.put("type", card.getBarcodeFormat().toString());
+                if (card.getBarcodeFormat() != null)
+                    o.put("type", card.getBarcodeFormat().toString());
                 if (card.getExpiry() != null)
                     o.put("expiration", card.getExpiry().getTime()/1000);
                 o.put("color", card.getColor());
@@ -1505,7 +1507,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     o.put("balance", renderUnicodeAsImage(cropToLength(card.getBalance() +
                                     " " + balanceType, 20)));
                 }
-                if (card.getNote() != "")
+                if (card.getNote() != null)
                     o.put("note", renderUnicodeAsImage(cropToLength(card.getNote(),200)));
                 a.put(o);
             }
