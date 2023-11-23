@@ -2539,4 +2539,8 @@
     <string name="pref_summary_osmand_packagename">Permite seleccionar la versión de OsmAnd a la que conectarse</string>
     <string name="pref_title_prefix_notification_with_app">Nombre de la aplicación en la notificación</string>
     <string name="pref_title_osmand_packagename">Nombre del paquete OsmAnd</string>
+    <string name="pref_title_navigation_apps">Aplicaciones de navegación</string>
+    <string name="pref_title_navigation_prefs">Preferencias de navegación</string>
+    <string name="pref_navigation_app_gmaps">Google Maps</string>
+    <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
 </resources>
