@@ -2518,4 +2518,12 @@
     <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
     <string name="charts_legend_spo2_average">متوسط أكسجين الدم</string>
     <string name="devicetype_amazfit_active">Amazfit Active</string>
+    <string name="pref_title_navigation_apps">تطبيقات الملاحة</string>
+    <string name="pref_title_navigation_prefs">تفضيلات الملاحة</string>
+    <string name="pref_navigation_app_gmaps">خرائط قوقل</string>
+    <string name="pref_summary_prefix_notification_with_app">عنوان الإشعار المدمج مع اسم التطبيق الأساسي</string>
+    <string name="pref_summary_osmand_packagename">يستخدم لتحديد إصدار OsmAnd للاتصال به</string>
+    <string name="pref_title_prefix_notification_with_app">اسم التطبيق في الإشعار</string>
+    <string name="pref_title_osmand_packagename">اسم الحزمة OsmAnd</string>
+    <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
 </resources>
