@@ -89,7 +89,6 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
-        // TODO
         switch (cmd.getSubtype()) {
             case CMD_DEVICE_INFO:
                 handleDeviceInfo(cmd.getSystem().getDeviceInfo());
@@ -476,10 +475,6 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
         unsetDeviceBusy();
 
-        if (success) {
-            // TODO do we need to reboot?
-        }
-
         fwHelper = null;
     }
 
@@ -499,6 +494,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         }
     }
 
+    // TODO do we even need this? also prevent NPE when unknown
     private static final Map<String, String> DISPLAY_ITEM_NAMES = new HashMap<String, String>() {{
         put("today_act", "Stats");
         put("sport", "Workout");

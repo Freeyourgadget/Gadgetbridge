@@ -44,6 +44,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         final int wakeupTime = buf.getInt();
         LOG.info("Bed time: {}, wake up time: {}", bedTime, wakeupTime);
 
+        // TODO save timestamps and overlay on activity
         // TODO everything else...
 
         return false;

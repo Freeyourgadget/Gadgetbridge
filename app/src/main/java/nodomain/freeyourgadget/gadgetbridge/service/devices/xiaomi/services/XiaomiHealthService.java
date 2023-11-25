@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
 import android.content.Intent;
 import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;

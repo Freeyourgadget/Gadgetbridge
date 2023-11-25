@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
@@ -205,7 +206,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracks() {
-        return true;
+        // TODO It does, but not yet fully working
+        return BuildConfig.DEBUG;
     }
 
     @Override
@@ -215,13 +217,14 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsSpo2() {
-        return true;
+        // TODO it does, but not yet implemented, so let's not crash
+        return false;
     }
 
     @Override
     public boolean supportsHeartRateStats() {
         // TODO does it?
-        return true;
+        return false;
     }
 
     @Override
@@ -233,12 +236,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsSleepRespiratoryRate() {
         // TODO does it?
-        return true;
+        return false;
     }
 
     @Override
     public boolean supportsAlarmSnoozing() {
-        // TODO does it?
         return false;
     }
 
@@ -267,8 +269,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getWorldClocksSlotCount() {
-        // TODO how many?
-        return 5;
+        // TODO how many? also, map world clocks
+        return 0;
     }
 
     @Override
@@ -291,7 +293,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsManualHeartRateMeasurement(final GBDevice device) {
-        // TODO orchestrate
         return true;
     }
 
@@ -302,7 +303,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
-        // TODO supports steps?
         return true;
     }
 
@@ -461,13 +461,13 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsNotificationVibrationPatterns() {
-        // TODO maybe can used this
+        // TODO maybe can use this
         return true;
     }
 
     @Override
     public boolean supportsNotificationVibrationRepetitionPatterns() {
-        // TODO maybe can used this
+        // TODO maybe can use this
         return true;
     }
 
@@ -478,13 +478,13 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
-        // TODO maybe can used this
+        // TODO maybe can use this
         return new AbstractNotificationPattern[0];
     }
 
     @Override
     public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
-        // TODO maybe can used this
+        // TODO maybe can use this
         return new AbstractNotificationPattern[0];
     }
 

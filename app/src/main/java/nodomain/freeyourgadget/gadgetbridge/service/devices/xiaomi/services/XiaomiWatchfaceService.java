@@ -59,11 +59,9 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
 
     @Override
     public void handleCommand(final XiaomiProto.Command cmd) {
-        // TODO
         switch (cmd.getSubtype()) {
             case CMD_WATCHFACE_LIST:
                 handleWatchfaceList(cmd.getWatchface().getWatchfaceList());
-                // TODO handle
                 return;
             case CMD_WATCHFACE_SET:
                 LOG.debug("Got watchface set response, ack={}", cmd.getWatchface().getAck());

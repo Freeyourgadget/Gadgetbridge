@@ -379,14 +379,8 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onScreenshotReq() {
-        // TODO
-        super.onScreenshotReq();
-    }
-
-    @Override
     public void onEnableHeartRateSleepSupport(final boolean enable) {
-        // TODO
+        // TODO onEnableHeartRateSleepSupport
         super.onEnableHeartRateSleepSupport(enable);
     }
 

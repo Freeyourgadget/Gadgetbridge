@@ -114,8 +114,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         LOG.warn("Unhandled notification command {}", cmd.getSubtype());
     }
 
-
-
     public void onNotification(final NotificationSpec notificationSpec) {
         final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
                 .setId(notificationSpec.getId())
@@ -179,7 +177,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void onSetCallState(final CallSpec callSpec) {
-        // TODO handle callSpec.command
         if (callSpec.command == CallSpec.CALL_OUTGOING) {
             return;
         }

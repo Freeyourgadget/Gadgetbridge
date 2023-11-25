@@ -206,6 +206,5 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                         .format(new Date(timestamp * 1000L)))
                 .insert(22, ':') // FIXME: I bet this fails for some, but all this java date craps sucks
                 .toString();
-
     }
 }

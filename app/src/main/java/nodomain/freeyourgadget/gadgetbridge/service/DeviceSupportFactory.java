@@ -22,7 +22,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
-import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.util.Log;
