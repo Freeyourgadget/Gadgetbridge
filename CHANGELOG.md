@@ -22,6 +22,11 @@
 * Bangle.js: Lower threshold for low battery warning
 * Bangle.js: Recover from device initialization failure
 * Casio GBX100/GBD-200: Fix first connect
+* Casio GB5600/6900/STB-1000: Fix pairing
+* Casio GDB-200: Fix notification timestamp
+* Casio GDB-200: Fixed notification categories and default category
+* Casio GDB-200: Allow preview of notification message alongside title
+* Casio GDB-200: Fixed find my phone feature
 * Fossil/Skagen Hybrids: Add new navigation app
 * Fossil/Skagen Hybrids: Allow configuring call rejection method
 * Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
