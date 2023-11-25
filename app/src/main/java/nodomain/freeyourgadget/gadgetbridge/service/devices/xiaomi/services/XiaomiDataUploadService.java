@@ -50,6 +50,8 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
     private byte currentType;
     private byte[] currentBytes;
 
+    private int chunkSize;
+
     public XiaomiDataUploadService(final XiaomiSupport support) {
         super(support);
     }
@@ -59,14 +61,21 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
         switch (cmd.getSubtype()) {
             case CMD_UPLOAD_START:
                 final XiaomiProto.DataUploadAck dataUploadAck = cmd.getDataUpload().getDataUploadAck();
-                LOG.debug("Got upload start, unknown2={}, unknown4={}", dataUploadAck.getUnknown2(), dataUploadAck.getUnknown4());
+                LOG.debug("Got upload start, unknown2={}, resumePosition={}", dataUploadAck.getUnknown2(), dataUploadAck.getResumePosition());
 
-                if (dataUploadAck.getUnknown2() != 0 || dataUploadAck.getUnknown4() != 0) {
+                if (dataUploadAck.getUnknown2() != 0 || dataUploadAck.getResumePosition() != 0) {
                     LOG.warn("Unexpected response");
                     this.currentType = 0;
                     this.currentBytes = null;
                     return;
                 }
+
+                if (dataUploadAck.hasChunkSize()) {
+                    chunkSize = dataUploadAck.getChunkSize();
+                } else {
+                    chunkSize = 2048;
+                }
+
                 doUpload(currentType, currentBytes);
                 return;
         }
@@ -131,7 +140,7 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
         buf2.putInt(CheckSums.getCRC32(buf1.array()));
 
         final byte[] payload = buf2.array();
-        final int partSize = 2044; // 2 + 2 at beginning of each for total and progress
+        final int partSize = chunkSize - 4; // 2 + 2 at beginning of each for total and progress
         final int totalParts = (int) Math.ceil(payload.length / (float) partSize);
 
         characteristic.setCallback(remainingParts -> {

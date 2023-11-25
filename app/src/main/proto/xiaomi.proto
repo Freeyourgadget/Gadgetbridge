@@ -869,5 +869,6 @@ message DataUploadRequest {
 message DataUploadAck {
   optional bytes md5sum = 1;
   optional uint32 unknown2 = 2; // 0
-  optional uint32 unknown4 = 4; // 0
+  optional uint32 resumePosition = 4;
+  optional uint32 chunkSize = 5; // 4096 on Redmi Watch 3 Active, Nonexistent on Mi Band 8
 }
