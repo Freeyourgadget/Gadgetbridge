@@ -144,6 +144,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.MiBand8Coordi
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatch.MiWatchLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch3active.RedmiWatch3ActiveCoordinator;
 
 /**
  * For every supported device, a device type constant must exist.
@@ -196,6 +197,7 @@ public enum DeviceType {
     MIBAND7(MiBand7Coordinator.class),
     MIBAND8(MiBand8Coordinator.class),
     MIWATCHLITE(MiWatchLiteCoordinator.class),
+    REDMIWATCH3ACTIVE(RedmiWatch3ActiveCoordinator.class),
     AMAZFITGTS3(AmazfitGTS3Coordinator.class),
     AMAZFITGTR3(AmazfitGTR3Coordinator.class),
     AMAZFITGTR4(AmazfitGTR4Coordinator.class),
