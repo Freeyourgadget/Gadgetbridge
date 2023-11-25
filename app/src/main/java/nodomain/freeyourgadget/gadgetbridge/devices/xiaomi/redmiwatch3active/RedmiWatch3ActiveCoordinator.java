@@ -30,6 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class RedmiWatch3ActiveCoordinator extends XiaomiEncryptedCoordinator {
     @Override
+    public boolean isExperimental() {
+        return true;
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Redmi Watch 3 Active [A-Z0-9]{4}$");
     }

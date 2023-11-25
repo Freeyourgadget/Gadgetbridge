@@ -31,6 +31,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class MiWatchLiteCoordinator extends XiaomiPlaintextCoordinator {
     @Override
+    public boolean isExperimental() {
+        return true;
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Mi Watch Lite_[A-Z0-9]{4}$");
     }
@@ -81,6 +86,7 @@ public class MiWatchLiteCoordinator extends XiaomiPlaintextCoordinator {
     public int getAlarmSlotCount(final GBDevice device) {
         return 0;
     }
+
     @Override
     public int getReminderSlotCount(final GBDevice device) {
         return 0;

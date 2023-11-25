@@ -30,6 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class MiBand8Coordinator extends XiaomiEncryptedCoordinator {
     @Override
+    public boolean isExperimental() {
+        return true;
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Xiaomi Smart Band 8 [A-Z0-9]{4}$");
     }
