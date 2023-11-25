@@ -25,11 +25,11 @@ import com.google.protobuf.ByteString;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bouncycastle.crypto.CryptoException;
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.modes.CCMBlockCipher;
-import org.bouncycastle.crypto.params.AEADParameters;
-import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.shaded.crypto.CryptoException;
+import org.bouncycastle.shaded.crypto.engines.AESEngine;
+import org.bouncycastle.shaded.crypto.modes.CCMBlockCipher;
+import org.bouncycastle.shaded.crypto.params.AEADParameters;
+import org.bouncycastle.shaded.crypto.params.KeyParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
