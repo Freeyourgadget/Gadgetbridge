@@ -32,6 +32,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitactiveedge.AmazfitActiveEdgeSupport;
 
 public class AmazfitActiveEdgeCoordinator extends Huami2021Coordinator {
+    @Override
+    public boolean isExperimental() {
+        return true;
+    }
+
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {

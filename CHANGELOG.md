@@ -2,12 +2,15 @@
 
 #### Next release (WIP)
 * Initial support for Amazfit Balance
+* Initial support for Amazfit Active
 * Initial support for Femometer Vinca II
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
 * Experimental support for Sony WF-1000XM5
-* Experimental support for Amazfit Active
 * Experimental support for Amazfit Active Edge
+* Experimental support for Mi Band 8
+* Experimental support for Mi Watch Lite
+* Experimental support for Redmi Watch 3 Lite
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
@@ -15,7 +18,9 @@
 * AsteroidOS: Fix media info
 * AsteroidOS: Fix notification dismissal
 * Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Improve handling of chinese characters
 * Bangle.js: Lower threshold for low battery warning
+* Bangle.js: Recover from device initialization failure
 * Casio GBX100/GBD-200: Fix first connect
 * Fossil/Skagen Hybrids: Add new navigation app
 * Fossil/Skagen Hybrids: Allow configuring call rejection method
@@ -24,20 +29,28 @@
 * Fossil/Skagen Hybrids: Show device specific settings in more logical order
 * Message privacy: Add mode Hide only body
 * Mijia LYWSD02: Add battery
+* Mijia LYWSD02: Add low battery notification
 * Mijia LYWSD02: Set temperature unit
 * Mijia LYWSD02: Fix battery drain while connected
 * PineTime: Display app name for VoIP app calls
+* PineTime: Honor Sync time setting on connect
+* PineTime: Improve notification handling
 * PineTime: Reduce weather memory usage
 * Withings Steel HR: Fix crash when calibrating hands on the nightly
 * Zepp OS: Add blood oxygen graph
 * Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Attempt to fix activity fetch operation getting stuck
 * Zepp OS: Display swimming activity data
 * Zepp OS: Fix health settings on older Zepp OS versions
 * Zepp OS: Fix setting of unknown button press apps
 * Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
 * Add transliteration for Latvian and Common Symbols
+* Autodetect OsmAnd package name and make it configurable
+* Make GMaps navigation handler follow the "navigation forwarding" setting
+* Support selecting enabled navigation apps
 * Allow ignore notifications from work profile apps
+* Display alias in low battery notification
 * Fix emoji when a transliterator is enabled
 * Fix UV Index and rain probability for some weather apps
 * Improve device discovery stability and fix freezes
