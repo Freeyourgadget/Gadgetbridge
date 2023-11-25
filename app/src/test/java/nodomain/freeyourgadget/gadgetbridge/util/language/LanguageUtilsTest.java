@@ -195,7 +195,7 @@ public class LanguageUtilsTest extends TestBase {
 
         String input = "á é í ó ö ő ü ű";
         String output = transliterator.transliterate(input);
-        String expected = "a e i o o u u";
+        String expected = "a e i o o o u u";
         assertEquals("hungarian transliteration failed", expected, output);
     }
 

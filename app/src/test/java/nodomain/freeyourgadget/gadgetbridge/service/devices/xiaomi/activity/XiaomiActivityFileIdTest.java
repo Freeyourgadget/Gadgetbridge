@@ -53,9 +53,9 @@ public class XiaomiActivityFileIdTest {
         assertEquals(1697182497000L, expectedFileId.getTimestamp().getTime());
         assertEquals(4, expectedFileId.getTimezone());
         assertEquals(3, expectedFileId.getVersion());
-        assertEquals(1, expectedFileId.getType());
-        assertEquals(8, expectedFileId.getSubtype());
-        assertEquals(0, expectedFileId.getDetailType());
+        assertEquals(XiaomiActivityFileId.Type.SPORTS, expectedFileId.getType());
+        assertEquals(XiaomiActivityFileId.Subtype.SPORTS_FREESTYLE, expectedFileId.getSubtype());
+        assertEquals(XiaomiActivityFileId.DetailType.DETAILS, expectedFileId.getDetailType());
     }
 
     @Test
