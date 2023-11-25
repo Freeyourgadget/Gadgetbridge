@@ -76,7 +76,7 @@ public class LanguageUtils {
         put("german", new GermanTransliterator());
         put("greek", new GreekTransliterator());
         put("hebrew", new HebrewTransliterator());
-        put("hungarian", new HungarianTransliterator())
+        put("hungarian", new HungarianTransliterator());
         put("icelandic", new IcelandicTransliterator());
         put("korean", new KoreanTransliterator());
         put("latvian", new LatvianTransliterator());
