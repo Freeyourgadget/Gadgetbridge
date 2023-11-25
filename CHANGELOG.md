@@ -50,7 +50,7 @@
 * Zepp OS: Fix setting of unknown button press apps
 * Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
-* Add transliteration for Latvian and Common Symbols
+* Add transliteration for Latvian, Hungarian, Common Symbols
 * Autodetect OsmAnd package name and make it configurable
 * Make GMaps navigation handler follow the "navigation forwarding" setting
 * Support selecting enabled navigation apps
