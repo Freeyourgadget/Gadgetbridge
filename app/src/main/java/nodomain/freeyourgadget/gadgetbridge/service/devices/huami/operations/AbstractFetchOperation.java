@@ -153,6 +153,8 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
             }
         }
 
+        LOG.debug("All operations finished");
+
         GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();
@@ -324,6 +326,8 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         if (!(getSupport() instanceof Huami2021Support)) {
             return;
         }
+
+        LOG.debug("Sending ack 2021, keepDataOnDevice = {}", keepDataOnDevice);
 
         // 0x01 to ACK, mark as saved on phone (drop from band)
         // 0x09 to ACK, but keep it marked as not saved
