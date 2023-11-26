@@ -17,18 +17,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
 import android.app.Activity;
-import android.bluetooth.le.ScanFilter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
@@ -43,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -52,16 +49,18 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull final GBDevice gbDevice,
                                 @NonNull final Device device,
                                 @NonNull final DaoSession session) throws GBException {
-        // TODO, and fix on zepp
+        final Long deviceId = device.getId();
+
+        session.getXiaomiActivitySampleDao().queryBuilder()
+                .where(XiaomiActivitySampleDao.Properties.DeviceId.eq(deviceId))
+                .buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
@@ -311,7 +310,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         final List<Integer> settings = new ArrayList<>();
 
         // TODO review this
-        
+
         //
         // Time
         //
