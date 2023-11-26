@@ -10,7 +10,7 @@
 * Experimental support for Amazfit Active Edge
 * Experimental support for Mi Band 8
 * Experimental support for Mi Watch Lite
-* Experimental support for Redmi Watch 3 Lite
+* Experimental support for Redmi Watch 3 Active
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
