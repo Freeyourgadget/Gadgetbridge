@@ -29,6 +29,10 @@ public class XiaomiStressSampleProvider extends AbstractSampleToTimeSampleProvid
 
     @Override
     protected StressSample convertSample(final XiaomiActivitySample sample) {
+        if (sample.getStress() == 0) {
+            return null;
+        }
+
         return new XiaomiStressSample(
                 sample.getTimestamp() * 1000L,
                 sample.getStress()
