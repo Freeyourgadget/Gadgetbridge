@@ -41,6 +41,7 @@ public abstract class AbstractSampleToTimeSampleProvider<T extends TimeSample, S
         mSession = session;
     }
 
+    @Nullable
     protected abstract T convertSample(final S sample);
 
     public GBDevice getDevice() {
@@ -57,7 +58,10 @@ public abstract class AbstractSampleToTimeSampleProvider<T extends TimeSample, S
         final List<S> upstreamSamples = mSampleProvider.getAllActivitySamples((int) (timestampFrom / 1000L), (int) (timestampTo / 1000L));
         final List<T> ret = new ArrayList<>();
         for (final S sample : upstreamSamples) {
-            ret.add(convertSample(sample));
+            final T converted = convertSample(sample);
+            if (converted != null) {
+                ret.add(converted);
+            }
         }
         return ret;
     }

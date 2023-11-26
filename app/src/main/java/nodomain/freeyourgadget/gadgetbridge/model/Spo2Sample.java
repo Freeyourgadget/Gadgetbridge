@@ -20,6 +20,7 @@ public interface Spo2Sample extends TimeSample {
     enum Type {
         MANUAL(0),
         AUTOMATIC(1),
+        UNKNOWN(2),
         ;
 
         private final int num;

@@ -76,8 +76,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO XiaomiSpo2SampleProvider
-        return super.getSpo2SampleProvider(device, session);
+        return new XiaomiSpo2SampleProvider(device, session);
     }
 
     @Override
@@ -157,24 +156,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public File getAppCacheDir() throws IOException {
-        // TODO we don't need this
-        return new File(FileUtils.getExternalFilesDir(), "xiaomi-app-cache");
-    }
-
-    @Override
-    public String getAppCacheSortFilename() {
-        // TODO we don't need this
-        return "xiaomi-app-cache-order.txt";
-    }
-
-    @Override
-    public String getAppFileExtension() {
-        // TODO we don't need this
-        return ".bin";
-    }
-
-    @Override
     public boolean supportsAppListFetching() {
         return true;
     }
@@ -217,8 +198,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsSpo2() {
-        // TODO it does, but not yet implemented, so let's not crash
-        return false;
+        return true;
     }
 
     @Override
