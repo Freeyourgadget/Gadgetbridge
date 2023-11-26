@@ -56,7 +56,7 @@ message AuthStep3 {
 
 message AuthStep4 {
   required uint32 unknown1 = 1;
-  required uint32 unknown2 = 2;
+  optional uint32 unknown2 = 2;
 }
 
 message AuthDeviceInfo {
@@ -415,7 +415,7 @@ message HeartRate {
   optional AdvancedMonitoring advancedMonitoring = 5;
   optional uint32 unknown7 = 7; // 1
   optional HeartRateAlarmLow heartRateAlarmLow = 8;
-  required uint32 breathingScore = 9; // 1 on, 2 off
+  optional uint32 breathingScore = 9; // 1 on, 2 off
 }
 
 message AdvancedMonitoring {
