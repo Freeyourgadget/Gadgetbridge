@@ -460,8 +460,8 @@
     <string name="mi2_prefs_do_not_disturb_start">Начальное время</string>
     <string name="mi2_prefs_do_not_disturb_end">Время окончания</string>
     <string name="automatic">Автоматически</string>
-    <string name="simplified_chinese">Упрощённый китайский язык</string>
-    <string name="traditional_chinese">Традиционный китайский язык</string>
+    <string name="simplified_chinese">Китайский упрощённый</string>
+    <string name="traditional_chinese">Китайский традиционный</string>
     <string name="english">Английский язык</string>
     <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение дня</string>
     <string name="interval_one_minute">раз в минуту</string>
@@ -566,12 +566,12 @@
     <string name="title_activity_watch9_calibration">Калибровка Watch 9</string>
     <string name="mi3_prefs_band_screen_unlock">Разблокировка экрана</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Смахните вверх для разблокировки экрана браслета</string>
-    <string name="german">Немецкий язык</string>
-    <string name="italian">Итальянский язык</string>
-    <string name="french">Французский язык</string>
-    <string name="polish">Польский язык</string>
-    <string name="korean">Корейский язык</string>
-    <string name="japanese">Японский язык</string>
+    <string name="german">Немецкий</string>
+    <string name="italian">Итальянский</string>
+    <string name="french">Французский</string>
+    <string name="polish">Польский</string>
+    <string name="korean">Корейский</string>
+    <string name="japanese">Японский</string>
     <string name="norwegian_bokmal">Норвежский (литературный)</string>
     <string name="share_log">Поделиться лог-файлом</string>
     <string name="share_log_warning">Файлы журнала (log-файлы) Gadgetbridge могут содержать различную личную информацию, такую как уникальные идентификаторы (например, MAC-адрес устройства), информацию о музыкальных предпочтениях и т.д. Рекомендуется редактирование файла журнала и удаление личной информации перед отправкой в публичном отчете о проблеме.</string>
@@ -707,14 +707,14 @@
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!
 \n
 \nПОЛНОСТЬЮ НЕ ПРОТЕСТИРОВАНО. ВОЗМОЖНО, НУЖНО ПРОШИТЬ ПРОШИВКУ BEATS_W, ЕСЛИ ИМЯ ВАШЕГО УСТРОЙСТВА \"Amazfit Band 2\"</string>
-    <string name="dutch">Голландский язык</string>
-    <string name="turkish">Турецкий язык</string>
-    <string name="ukrainian">Украинский язык</string>
-    <string name="arabic">Арабский язык</string>
-    <string name="indonesian">Индонезийский язык</string>
-    <string name="thai">Тайский язык</string>
-    <string name="vietnamese">Вьетнамский язык</string>
-    <string name="portuguese">Португальский язык</string>
+    <string name="dutch">Голландский</string>
+    <string name="turkish">Турецкий</string>
+    <string name="ukrainian">Украинский</string>
+    <string name="arabic">Арабский</string>
+    <string name="indonesian">Индонезийский</string>
+    <string name="thai">Тайский</string>
+    <string name="vietnamese">Вьетнамский</string>
+    <string name="portuguese">Португальский</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
     <string name="fw_upgrade_notice_miband4">Вы собираетесь установить прошивку %s на ваш Mi Band 4.
@@ -2534,4 +2534,29 @@
     <string name="pref_title_prefix_notification_with_app">Название приложения в уведомлении</string>
     <string name="pref_title_osmand_packagename">Имя пакета OsmAnd</string>
     <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
+    <string name="pref_title_casio_alert_other">Оповещения прочих уведомлений</string>
+    <string name="pref_title_casio_alert_calendar">Оповещения календаря</string>
+    <string name="pref_summary_casio_alert_call">Оповещать о входящих звонках вибрацией/пищанием</string>
+    <string name="devicetype_miband8">Xiaomi Smart Band 8</string>
+    <string name="menuitem_running">Бег</string>
+    <string name="pref_sleep_mode_schedule_title">Расписание режима сна</string>
+    <string name="pref_title_casio_alert_call">Оповещения о входящих</string>
+    <string name="bedtime">Начало сна</string>
+    <string name="pref_title_casio_alert_email">Оповещения эл. почты</string>
+    <string name="pref_summary_casio_alert_email">Оповещать о новых письмах вибрацией/пищанием</string>
+    <string name="menuitem_focus">Концентрация</string>
+    <string name="pref_summary_casio_alert_sms">Оповещать о полученных SMS (текстовых) сообщениях вибрацией/пищанием</string>
+    <string name="pref_title_preview_message_in_title">Показывать сообщение в заголовке</string>
+    <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
+    <string name="pref_summary_casio_alert_calendar">Оповещать о событиях календаря вибрацией/пищанием</string>
+    <string name="serial_number">Серийный номер</string>
+    <string name="danish">Датский</string>
+    <string name="wake_up_time">Пробуждение</string>
+    <string name="menuitem_stats">Статистика</string>
+    <string name="pref_summary_casio_alert_other">Оповещать при прочих уведомлениях вибрацией/пищанием</string>
+    <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
+    <string name="pref_summary_preview_message_in_title">Показывать сообщение в заголовке уведомления в соответствии с настройками конфиденциальности устройства</string>
+    <string name="pref_sleep_mode_schedule_summary">Отправить напоминание и войти в режим сна во время начала сна. Активировать будильник при заданном времени пробуждения.</string>
+    <string name="pref_title_casio_alert_sms">Оповещения SMS-сообщений</string>
+    <string name="menuitem_alerts">Оповещения</string>
 </resources>
