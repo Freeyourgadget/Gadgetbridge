@@ -27,6 +27,7 @@ public class CzechTransliterator extends SimpleTransliterator {
         super(new HashMap<Character, String>() {{
             put('ř',"r"); put('ě',"e"); put('ý',"y"); put('á',"a"); put('í',"i"); put('é',"e");
             put('ó',"o"); put('ú',"u"); put('ů',"u"); put('ď',"d"); put('ť',"t"); put('ň',"n");
+            put('„', "\""); put('“', "\""); put('‚', "'"); put('‘', "'");
         }});
     }
 }
