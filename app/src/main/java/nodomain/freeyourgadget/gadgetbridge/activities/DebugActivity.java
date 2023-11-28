@@ -63,6 +63,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -778,7 +779,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         final GBDevice device = devices.get(0);
 
-        final CompanionDeviceManager manager = (CompanionDeviceManager) GBApplication.getContext().getSystemService(Context.COMPANION_DEVICE_SERVICE);
+        final CompanionDeviceManager manager = (CompanionDeviceManager) getSystemService(Context.COMPANION_DEVICE_SERVICE);
 
         if (manager.getAssociations().contains(device.getAddress())) {
             GB.toast(device.getAliasOrName() + " already paired as companion", Toast.LENGTH_LONG, GB.INFO);
@@ -801,7 +802,7 @@ public class DebugActivity extends AbstractGBActivity {
             }
 
             @Override
-            public void onDeviceFound(final IntentSender chooserLauncher) {
+            public void onDeviceFound(@NonNull final IntentSender chooserLauncher) {
                 GB.toast("Found device", Toast.LENGTH_SHORT, GB.INFO);
 
                 try {
