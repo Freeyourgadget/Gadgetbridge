@@ -2568,4 +2568,5 @@
     <string name="pref_sleep_mode_schedule_summary">Envía un recordatorio y entra en modo reposo a la hora de acostarte. A la hora programada para despertarse, sonará la alarma del despertador.</string>
     <string name="pref_title_casio_alert_sms">Alerta de notificaciones por SMS</string>
     <string name="menuitem_alerts">Alertas</string>
+    <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
 </resources>
