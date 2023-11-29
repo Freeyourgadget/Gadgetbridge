@@ -279,6 +279,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             return cachedAppList;
         }
 
+        if (cachePath == null) {
+            LOG.warn("Cached apps path is null");
+            return Collections.emptyList();
+        }
+
         File[] files;
         if (uuids == null) {
             files = cachePath.listFiles();
