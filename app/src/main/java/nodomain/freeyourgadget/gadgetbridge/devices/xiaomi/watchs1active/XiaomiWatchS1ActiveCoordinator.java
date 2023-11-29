@@ -55,12 +55,12 @@ public class XiaomiWatchS1ActiveCoordinator extends XiaomiEncryptedCoordinator {
 
     @Override
     public int getDefaultIconResource() {
-        return R.drawable.ic_device_watchxplus;
+        return R.drawable.ic_device_miwatch;
     }
 
     @Override
     public int getDisabledIconResource() {
-        return R.drawable.ic_device_watchxplus_disabled;
+        return R.drawable.ic_device_miwatch_disabled;
     }
 
     @Override
