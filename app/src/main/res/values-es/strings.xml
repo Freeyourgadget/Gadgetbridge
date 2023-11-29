@@ -2569,4 +2569,5 @@
     <string name="pref_title_casio_alert_sms">Alerta de notificaciones por SMS</string>
     <string name="menuitem_alerts">Alertas</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
+    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro</string>
 </resources>
