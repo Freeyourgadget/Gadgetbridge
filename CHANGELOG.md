@@ -8,9 +8,11 @@
 * Initial support for Sony Wena 3
 * Experimental support for Sony WF-1000XM5
 * Experimental support for Amazfit Active Edge
-* Experimental support for Mi Band 8
+* Experimental support for Mi Band 7 Pro (Xiaomi Smart Band 7 Pro)
+* Experimental support for Mi Band 8 (Xiaomi Smart Band 8)
 * Experimental support for Mi Watch Lite
 * Experimental support for Redmi Watch 3 Active
+* Experimental support for Xiaomi Watch S1 Active
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
@@ -18,6 +20,7 @@
 * AsteroidOS: Fix media info
 * AsteroidOS: Fix notification dismissal
 * Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Fix GPS speed
 * Bangle.js: Improve handling of chinese characters
 * Bangle.js: Lower threshold for low battery warning
 * Bangle.js: Recover from device initialization failure
@@ -52,10 +55,12 @@
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
 * Add transliteration for Latvian, Hungarian, Common Symbols
 * Autodetect OsmAnd package name and make it configurable
+* Improve ASCII transliterator
 * Make GMaps navigation handler follow the "navigation forwarding" setting
 * Support selecting enabled navigation apps
 * Allow ignore notifications from work profile apps
 * Display alias in low battery notification
+* Fix crash when pairing current device as companion
 * Fix emoji when a transliterator is enabled
 * Fix UV Index and rain probability for some weather apps
 * Improve device discovery stability and fix freezes
