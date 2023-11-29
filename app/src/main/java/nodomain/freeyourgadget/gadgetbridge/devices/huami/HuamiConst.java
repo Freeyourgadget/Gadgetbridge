@@ -75,6 +75,7 @@ public class HuamiConst {
     public static final String AMAZFIT_FALCON_NAME = "Amazfit Falcon";
 
     public static final String XIAOMI_SMART_BAND7_NAME = "Xiaomi Smart Band 7";
+    public static final String XIAOMI_SMART_BAND7_PRO_NAME = "Xiaomi Smart Band 7 Pro";
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
     public static final String PREF_DISPLAY_ITEMS_SORTABLE = "display_items_sortable";

@@ -1309,6 +1309,7 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_miband6">Mi Band 6</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro</string>
     <string name="devicetype_miband8">Xiaomi Smart Band 8</string>
     <string name="devicetype_amazfit_balance">Amazfit Balance</string>
     <string name="devicetype_amazfit_active">Amazfit Active</string>
