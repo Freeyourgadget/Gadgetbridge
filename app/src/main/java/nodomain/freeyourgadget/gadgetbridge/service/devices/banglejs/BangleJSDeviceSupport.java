@@ -1095,7 +1095,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("lat", location.getLatitude());
             o.put("lon", location.getLongitude());
             o.put("alt", location.getAltitude());
-            o.put("speed", location.getSpeed());
+            o.put("speed", location.getSpeed()*3.6); // m/s to kph
             if (location.hasBearing()) o.put("course", location.getBearing());
             o.put("time", location.getTime());
             if (location.getExtras() != null) {
