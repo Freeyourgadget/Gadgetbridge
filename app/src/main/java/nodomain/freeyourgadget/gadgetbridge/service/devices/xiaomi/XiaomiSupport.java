@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiMusicService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiNotificationService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiPhonebookService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiScheduleService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiSystemService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWatchfaceService;
@@ -82,6 +83,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     protected final XiaomiCalendarService calendarService = new XiaomiCalendarService(this);
     protected final XiaomiWatchfaceService watchfaceService = new XiaomiWatchfaceService(this);
     protected final XiaomiDataUploadService dataUploadService = new XiaomiDataUploadService(this);
+    protected final XiaomiPhonebookService phonebookService = new XiaomiPhonebookService(this);
 
     private String mFirmwareVersion = null;
 
@@ -96,6 +98,7 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         put(XiaomiCalendarService.COMMAND_TYPE, calendarService);
         put(XiaomiWatchfaceService.COMMAND_TYPE, watchfaceService);
         put(XiaomiDataUploadService.COMMAND_TYPE, dataUploadService);
+        put(XiaomiPhonebookService.COMMAND_TYPE, phonebookService);
     }};
 
     public XiaomiSupport() {

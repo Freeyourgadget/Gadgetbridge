@@ -19,6 +19,9 @@ message Command {
   optional Weather weather = 12;
   optional Schedule schedule = 19;
 
+  // command type 21
+  optional Phonebook phonebook = 23;
+
   // type 22
   optional DataUpload dataUpload = 24;
 
@@ -871,4 +874,14 @@ message DataUploadAck {
   optional uint32 unknown2 = 2; // 0
   optional uint32 resumePosition = 4;
   optional uint32 chunkSize = 5; // 4096 on Redmi Watch 3 Active, Nonexistent on Mi Band 8
+}
+
+message ContactInfo {
+  optional string displayName = 1;
+  optional string phoneNumber = 2;
+}
+
+message Phonebook {
+  optional string requestedPhoneNumber = 2;
+  optional ContactInfo contactInfo = 3;
 }
