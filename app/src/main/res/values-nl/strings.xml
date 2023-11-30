@@ -2566,4 +2566,6 @@
     <string name="pref_sleep_mode_schedule_summary">Stuur een melding en start slaapmodus op de ingestelde bedtijd. Op de ingestelde wektijd klinkt een alarmsignaal.</string>
     <string name="pref_title_casio_alert_sms">Melding voor SMS</string>
     <string name="menuitem_alerts">Meldingen</string>
+    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro</string>
+    <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
 </resources>
