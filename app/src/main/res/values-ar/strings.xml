@@ -2551,4 +2551,6 @@
     <string name="pref_sleep_mode_schedule_summary">أرسل تذكيرًا وادخل إلى وضع السكون في وقت النوم. في وقت الاستيقاظ المحدد، سيصدر منبه الاستيقاظ صوتًا.</string>
     <string name="pref_title_casio_alert_sms">تنبيه لإشعارات الرسائل القصيرة</string>
     <string name="menuitem_alerts">تنبيهات</string>
+    <string name="devicetype_miband7pro">سوار شاومي الذكي 7 برو</string>
+    <string name="devicetype_xiaomi_watch_s1_active">ساعة شاوميS1 النشطة</string>
 </resources>
