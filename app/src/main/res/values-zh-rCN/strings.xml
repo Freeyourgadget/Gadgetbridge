@@ -2566,4 +2566,6 @@
     <string name="pref_sleep_mode_schedule_summary">发出一个提醒并在就寝时间进入睡眠模式。 在预定的起床时间，起床闹钟将会响起。</string>
     <string name="pref_title_casio_alert_sms">短信通知提醒</string>
     <string name="menuitem_alerts">提醒</string>
+    <string name="devicetype_miband7pro">小米智能手环 7 Pro</string>
+    <string name="devicetype_xiaomi_watch_s1_active">小米手表 S1 运动版</string>
 </resources>
