@@ -125,6 +125,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -1225,11 +1226,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY)
                     mNotificationReplyAction.add(notificationSpec.getId(), ((long) notificationSpec.getId() << 4) + i + 1);
             }
+        // sourceName isn't set for SMS messages
+        String src = notificationSpec.sourceName;
+        if (notificationSpec.type == NotificationType.GENERIC_SMS)
+            src = "SMS Message";
+        // Send JSON to Bangle.js
         try {
             JSONObject o = new JSONObject();
             o.put("t", "notify");
             o.put("id", notificationSpec.getId());
-            o.put("src", notificationSpec.sourceName);
+            o.put("src", src);
             o.put("title", renderUnicodeAsImage(cropToLength(notificationSpec.title,80)));
             o.put("subject", renderUnicodeAsImage(cropToLength(notificationSpec.subject,80)));
             o.put("body", renderUnicodeAsImage(cropToLength(notificationSpec.body, 400)));
