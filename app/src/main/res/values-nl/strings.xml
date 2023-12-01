@@ -141,7 +141,7 @@
 \nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
-    <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiek schermen</string>
+    <string name="pref_title_charts_swipe">Activeer links/rechts vegen in grafiekschermen</string>
     <string name="pref_title_weather">Weer</string>
     <string name="pref_title_weather_location">Weerlocatie (voor LinageOS-weeraanbieder)</string>
     <string name="pref_title_autoremove_notifications">Verwijder automatisch verworpen meldingen</string>
@@ -580,7 +580,7 @@
     <string name="live_activity_max_heart_rate">Huidige / Max hartslag: %1$d / %2$d</string>
     <string name="mi3_prefs_night_mode">Nacht modus</string>
     <string name="mi3_prefs_night_mode_summary">Verlaag \'s nachts automatisch de scherm helderheid</string>
-    <string name="activity_prefs_charts">Grafiek instellingen</string>
+    <string name="activity_prefs_charts">Grafiekinstellingen</string>
     <string name="activity_prefs_chart_max_heart_rate">Maximum hartslag</string>
     <string name="activity_prefs_chart_min_heart_rate">Minimum hartslag</string>
     <string name="ok">OK</string>
@@ -712,7 +712,7 @@
     <string name="prefs_hr_alarm_low">Ondergrens</string>
     <string name="prefs_hr_alarm_high">Bovengrens</string>
     <string name="average">Gemiddelde: %1$s</string>
-    <string name="pref_header_charts">Grafiek instellingen</string>
+    <string name="pref_header_charts">Grafiekinstellingen</string>
     <string name="pref_title_charts_average">Toon gemiddelden in de grafieken</string>
     <string name="pref_title_charts_range">Grafiekbereik</string>
     <string name="pref_charts_range_on">Grafiekbereik ingesteld op 1 maand</string>
