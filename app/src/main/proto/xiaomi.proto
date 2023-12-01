@@ -882,7 +882,13 @@ message ContactInfo {
   optional string phoneNumber = 2;
 }
 
+message ContactList {
+  repeated ContactInfo contactInfo = 1;
+  optional string phoneNumber = 2;
+}
+
 message Phonebook {
   optional string requestedPhoneNumber = 2;
   optional ContactInfo contactInfo = 3;
+  optional ContactList contactList = 4;
 }

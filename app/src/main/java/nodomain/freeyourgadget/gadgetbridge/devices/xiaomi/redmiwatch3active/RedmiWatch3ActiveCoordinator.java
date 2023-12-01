@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiEncryptedCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class RedmiWatch3ActiveCoordinator extends XiaomiEncryptedCoordinator {
     @Override
@@ -64,5 +65,10 @@ public class RedmiWatch3ActiveCoordinator extends XiaomiEncryptedCoordinator {
     @Override
     public boolean supportsMultipleWeatherLocations() {
         return true;
+    }
+
+    @Override
+    public int getContactsSlotCount(final GBDevice device) {
+        return 10; // TODO:verify
     }
 }

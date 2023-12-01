@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023 José Rebelo, Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -406,6 +408,11 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendWeather(final WeatherSpec weatherSpec) {
         weatherService.onSendWeather(weatherSpec);
+    }
+
+    @Override
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        phonebookService.setContacts((List<Contact>) contacts);
     }
 
     public XiaomiCoordinator getCoordinator() {

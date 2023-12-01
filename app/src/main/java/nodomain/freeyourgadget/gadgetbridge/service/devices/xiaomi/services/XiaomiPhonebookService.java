@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 Yoran Vulker
+/*  Copyright (C) 2023 Yoran Vulker, Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -25,10 +25,15 @@ import android.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class XiaomiPhonebookService extends AbstractXiaomiService {
 
@@ -37,6 +42,7 @@ public class XiaomiPhonebookService extends AbstractXiaomiService {
 
     private static final int CMD_GET_CONTACT = 2;
     private static final int CMD_GET_CONTACT_RESPONSE = 3;
+    private static final int CMD_SET_CONTACT_LIST = 5;
 
     public XiaomiPhonebookService(final XiaomiSupport support) {
         super(support);
@@ -132,5 +138,27 @@ public class XiaomiPhonebookService extends AbstractXiaomiService {
         contactInfoBuilder.setPhoneNumber(number);
         contactInfoBuilder.setDisplayName(name);
         return contactInfoBuilder.build();
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        final XiaomiProto.ContactList.Builder contactList = XiaomiProto.ContactList.newBuilder();
+        int maxContacts = 10; // TODO:verify, do not copy and paste
+        int numContacts = Math.min(contacts.size(), maxContacts);
+
+        for (int i = 0; i < numContacts; i++) {
+            final Contact contact = contacts.get(i);
+            if (!StringUtils.isNullOrEmpty(contact.getName()) && !StringUtils.isNullOrEmpty(contact.getNumber())) {
+                contactList.addContactInfo(XiaomiProto.ContactInfo.newBuilder().setDisplayName(contact.getName()).setPhoneNumber(contact.getNumber()));
+            }
+        }
+
+        getSupport().sendCommand(
+                "send contact list",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_SET_CONTACT_LIST)
+                        .setPhonebook(XiaomiProto.Phonebook.newBuilder().setContactList(contactList))
+                        .build()
+        );
     }
 }
