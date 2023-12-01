@@ -564,6 +564,7 @@ message Notification {
   optional Notification2 notification2 = 3;
   optional NotificationDismiss notification4 = 4;
 
+  optional bool screenOnOnNotifications = 7;
   optional uint32 unknown8 = 8; // 1 on canned replies request?
   // 7, 9 get | 7, 12 set
   optional CannedMessages cannedMessages = 9;

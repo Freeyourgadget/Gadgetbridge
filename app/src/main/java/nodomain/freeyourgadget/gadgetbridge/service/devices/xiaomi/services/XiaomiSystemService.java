@@ -63,6 +63,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_CLOCK = 3;
     public static final int CMD_FIRMWARE_INSTALL = 5;
     public static final int CMD_LANGUAGE = 6;
+    public static final int CMD_SCREEN_ON_ON_NOTIFICAIONS = 7;
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_FIND_WATCH = 18;
@@ -145,8 +146,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
             case PasswordCapabilityImpl.PREF_PASSWORD:
                 setPassword();
+                return true;
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
                 setDisplayItems();
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS:
+                setScreenOnOnNotifications();
                 return true;
         }
 
@@ -278,6 +283,23 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_PASSWORD_SET)
                         .setSystem(XiaomiProto.System.newBuilder().setPassword(passwordBuilder).build())
+                        .build()
+        );
+    }
+
+    private void setScreenOnOnNotifications() {
+        final Prefs prefs = getDevicePrefs();
+
+        final boolean screenOnOnNotificationsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS, true);
+
+        LOG.info("Setting screen on on notification: {}", screenOnOnNotificationsEnabled);
+
+        getSupport().sendCommand(
+                "set password",
+                XiaomiProto.Command.newBuilder()
+                        .setType(CMD_SCREEN_ON_ON_NOTIFICAIONS) // Why? Would also expect COMMAND_TYPE here
+                        .setSubtype(CMD_SCREEN_ON_ON_NOTIFICAIONS)
+                        .setNotification(XiaomiProto.Notification.newBuilder().setScreenOnOnNotifications(screenOnOnNotificationsEnabled).build())
                         .build()
         );
     }
