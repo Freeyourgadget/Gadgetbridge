@@ -884,7 +884,6 @@ message ContactInfo {
 
 message ContactList {
   repeated ContactInfo contactInfo = 1;
-  optional string phoneNumber = 2;
 }
 
 message Phonebook {

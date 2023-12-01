@@ -42,7 +42,8 @@ public class XiaomiPhonebookService extends AbstractXiaomiService {
 
     private static final int CMD_GET_CONTACT = 2;
     private static final int CMD_GET_CONTACT_RESPONSE = 3;
-    private static final int CMD_SET_CONTACT_LIST = 5;
+    private static final int CMD_ADD_CONTACT_LIST = 5;
+    private static final int CMD_SET_CONTACT_LIST = 7;
 
     public XiaomiPhonebookService(final XiaomiSupport support) {
         super(support);
