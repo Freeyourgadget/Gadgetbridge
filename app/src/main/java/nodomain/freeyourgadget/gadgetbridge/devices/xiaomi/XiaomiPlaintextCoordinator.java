@@ -23,11 +23,15 @@ import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPlaintextSupport;
 
 public abstract class XiaomiPlaintextCoordinator extends XiaomiCoordinator {
+    // user id is used as auth key - numeric
+    private static final Pattern AUTH_KEY_PATTERN = Pattern.compile("^[0-9]+$");
+
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
@@ -40,5 +44,10 @@ public abstract class XiaomiPlaintextCoordinator extends XiaomiCoordinator {
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return XiaomiPlaintextSupport.class;
+    }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        return AUTH_KEY_PATTERN.matcher(authKey.trim()).matches();
     }
 }

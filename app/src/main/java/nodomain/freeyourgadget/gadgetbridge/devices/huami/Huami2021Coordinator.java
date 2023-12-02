@@ -581,4 +581,10 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     public static boolean experimentalFeatures(final GBDevice device) {
         return getPrefs(device).getBoolean("zepp_os_experimental_features", false);
     }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        final byte[] authKeyBytes = authKey.trim().getBytes();
+        return authKeyBytes.length == 32 || (authKey.trim().startsWith("0x") && authKeyBytes.length == 34);
+    }
 }

@@ -41,4 +41,10 @@ public abstract class XiaomiEncryptedCoordinator extends XiaomiCoordinator {
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return XiaomiEncryptedSupport.class;
     }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        final byte[] authKeyBytes = authKey.trim().getBytes();
+        return authKeyBytes.length == 32 || (authKey.startsWith("0x") && authKeyBytes.length == 34);
+    }
 }

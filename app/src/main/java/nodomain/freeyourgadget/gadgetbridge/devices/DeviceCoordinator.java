@@ -590,4 +590,6 @@ public interface DeviceCoordinator {
      * What LED patterns for notifications are supported by the device.
      */
     AbstractNotificationPattern[] getNotificationLedPatterns();
+
+    boolean validateAuthKey(String authKey);
 }

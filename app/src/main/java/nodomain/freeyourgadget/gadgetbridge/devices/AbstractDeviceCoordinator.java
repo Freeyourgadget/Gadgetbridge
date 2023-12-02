@@ -607,27 +607,38 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return R.drawable.ic_device_default_disabled;
     }
 
+    @Override
     public boolean supportsNotificationVibrationPatterns() {
         return false;
     }
 
+    @Override
     public boolean supportsNotificationVibrationRepetitionPatterns() {
         return false;
     }
 
+    @Override
     public boolean supportsNotificationLedPatterns() {
         return false;
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
         return new AbstractNotificationPattern[0];
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
         return new AbstractNotificationPattern[0];
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationLedPatterns() {
         return new AbstractNotificationPattern[0];
+    }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        return !(authKey.getBytes().length < 34 || !authKey.startsWith("0x"));
     }
 }

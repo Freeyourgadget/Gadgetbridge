@@ -95,7 +95,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         String authKey = sharedPrefs.getString("authkey", null);
         if (authKey != null && !authKey.isEmpty()) {
             byte[] srcBytes = authKey.trim().getBytes();
-            if (authKey.length() == 34 && authKey.substring(0, 2).equals("0x")) {
+            if (authKey.length() == 34 && authKey.startsWith("0x")) {
                 srcBytes = GB.hexStringToByteArray(authKey.substring(2));
             }
             System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));

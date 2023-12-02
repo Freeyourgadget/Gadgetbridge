@@ -286,7 +286,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
         final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
 
-        final String authKey = sharedPrefs.getString("authkey", null);
+        final String authKey = sharedPrefs.getString("authkey", "").trim();
         if (StringUtils.isNotBlank(authKey)) {
             final byte[] srcBytes;
             // Allow both with and without 0x, to avoid user mistakes
