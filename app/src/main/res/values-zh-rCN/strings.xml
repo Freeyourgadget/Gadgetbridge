@@ -2568,4 +2568,5 @@
     <string name="menuitem_alerts">提醒</string>
     <string name="devicetype_miband7pro">小米智能手环 7 Pro</string>
     <string name="devicetype_xiaomi_watch_s1_active">小米手表 S1 运动版</string>
+    <string name="devicetype_mi_watch_color_sport">小米手表彩色运动版</string>
 </resources>
