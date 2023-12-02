@@ -98,6 +98,7 @@ vendor's servers.
 	- Xiaomi Smart Band 7 Pro (experimental) [**\[!\]**](#special-pairing-procedures)
 	- [Xiaomi Smart Band 7](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-7) [**\[!\]**](#special-pairing-procedures)
 	- [Xiaomi Smart Band 8 (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-8) [**\[!\]**](#special-pairing-procedures)
+	- Mi Watch Color Sport (experimental)
     - Mi Watch Lite (experimental)
     - Redmi Watch 3 Active (experimental) [**\[!\]**](#special-pairing-procedures)
 	- Watch S1 Active (experimental) [**\[!\]**](#special-pairing-procedures)
