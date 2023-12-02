@@ -94,11 +94,11 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         getSupport().sendCommand(builder, buildNonceCommand(nonce));
     }
 
-    protected void startClearTextHandshake(final TransactionBuilder builder, String userId) {
+    protected void startClearTextHandshake(final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
-                .setUserId(userId)
+                .setUserId(getUserId(getSupport().getDevice()))
                 .build();
 
         final XiaomiProto.Command command = XiaomiProto.Command.newBuilder()
@@ -130,7 +130,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 final TransactionBuilder builder = getSupport().createTransactionBuilder("auth step 2");
                 // TODO use sendCommand
                 builder.write(
-                        getSupport().getCharacteristic(XiaomiEncryptedSupport.UUID_CHARACTERISTIC_XIAOMI_COMMAND_WRITE),
+                        getSupport().getCharacteristic(getSupport().characteristicCommandWrite.getCharacteristicUUID()),
                         ArrayUtils.addAll(PAYLOAD_HEADER_AUTH, reply.toByteArray())
                 );
                 builder.queue(getSupport().getQueue());
@@ -299,6 +299,17 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         }
 
         return authKeyBytes;
+    }
+
+    protected static String getUserId(final GBDevice device) {
+        final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
+
+        final String authKey = sharedPrefs.getString("authkey", null);
+        if (StringUtils.isNotBlank(authKey)) {
+            return authKey;
+        }
+
+        return "0000000000";
     }
 
     protected static byte[] hmacSHA256(final byte[] key, final byte[] input) {

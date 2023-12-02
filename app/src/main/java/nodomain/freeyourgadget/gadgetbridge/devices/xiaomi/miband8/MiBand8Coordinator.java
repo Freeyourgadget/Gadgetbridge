@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiEncryptedCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
-public class MiBand8Coordinator extends XiaomiEncryptedCoordinator {
+public class MiBand8Coordinator extends XiaomiCoordinator {
     @Override
     public boolean isExperimental() {
         return true;

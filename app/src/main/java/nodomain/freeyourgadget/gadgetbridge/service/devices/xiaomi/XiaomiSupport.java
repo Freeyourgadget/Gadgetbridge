@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -67,7 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
+public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSupport.class);
 
     protected XiaomiCharacteristic characteristicCommandRead;
@@ -105,26 +106,32 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     public XiaomiSupport() {
         super(LOG);
+        for (final UUID uuid : XiaomiBleUuids.UUIDS.keySet()) {
+            addSupportedService(uuid);
+        }
     }
-
-    protected abstract boolean isEncrypted();
-
-    protected abstract UUID getCharacteristicCommandRead();
-
-    protected abstract UUID getCharacteristicCommandWrite();
-
-    protected abstract UUID getCharacteristicActivityData();
-
-    protected abstract UUID getCharacteristicDataUpload();
-
-    protected abstract void startAuthentication(final TransactionBuilder builder);
 
     @Override
     protected final TransactionBuilder initializeDevice(final TransactionBuilder builder) {
-        final BluetoothGattCharacteristic btCharacteristicCommandRead = getCharacteristic(getCharacteristicCommandRead());
-        final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(getCharacteristicCommandWrite());
-        final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(getCharacteristicActivityData());
-        final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(getCharacteristicDataUpload());
+        XiaomiBleUuids.XiaomiBleUuidSet uuidSet = null;
+        for (Map.Entry<UUID, XiaomiBleUuids.XiaomiBleUuidSet> xiaomiUuid : XiaomiBleUuids.UUIDS.entrySet()) {
+            if (getSupportedServices().contains(xiaomiUuid.getKey())) {
+                uuidSet = xiaomiUuid.getValue();
+                break;
+            }
+        }
+
+        if (uuidSet == null) {
+            GB.toast(getContext(), "Failed to find known Xiaomi service", Toast.LENGTH_LONG, GB.ERROR);
+            LOG.warn("Failed to find known Xiaomi service");
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.NOT_CONNECTED, getContext()));
+            return builder;
+        }
+
+        final BluetoothGattCharacteristic btCharacteristicCommandRead = getCharacteristic(uuidSet.getCharacteristicCommandRead());
+        final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(uuidSet.getCharacteristicCommandWrite());
+        final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(uuidSet.getCharacteristicActivityData());
+        final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(uuidSet.getCharacteristicDataUpload());
 
         // FIXME unsetDynamicState unsets the fw version, which causes problems..
         if (getDevice().getFirmwareVersion() == null && mFirmwareVersion != null) {
@@ -138,15 +145,15 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         }
 
         this.characteristicCommandRead = new XiaomiCharacteristic(this, btCharacteristicCommandRead, authService);
-        this.characteristicCommandRead.setEncrypted(isEncrypted());
+        this.characteristicCommandRead.setEncrypted(uuidSet.isEncrypted());
         this.characteristicCommandRead.setHandler(this::handleCommandBytes);
         this.characteristicCommandWrite = new XiaomiCharacteristic(this, btCharacteristicCommandWrite, authService);
-        this.characteristicCommandWrite.setEncrypted(isEncrypted());
+        this.characteristicCommandWrite.setEncrypted(uuidSet.isEncrypted());
         this.characteristicActivityData = new XiaomiCharacteristic(this, btCharacteristicActivityData, authService);
         this.characteristicActivityData.setHandler(healthService.getActivityFetcher()::addChunk);
-        this.characteristicActivityData.setEncrypted(isEncrypted());
+        this.characteristicActivityData.setEncrypted(uuidSet.isEncrypted());
         this.characteristicDataUpload = new XiaomiCharacteristic(this, btCharacteristicDataUpload, authService);
-        this.characteristicDataUpload.setEncrypted(isEncrypted());
+        this.characteristicDataUpload.setEncrypted(uuidSet.isEncrypted());
         this.characteristicDataUpload.setIncrementNonce(false);
         this.dataUploadService.setDataUploadCharacteristic(this.characteristicDataUpload);
 
@@ -159,7 +166,11 @@ public abstract class XiaomiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(btCharacteristicActivityData, true);
         builder.notify(btCharacteristicDataUpload, true);
 
-        startAuthentication(builder);
+        if (uuidSet.isEncrypted()) {
+            authService.startEncryptedHandshake(builder);
+        } else {
+            authService.startClearTextHandshake(builder);
+        }
 
         return builder;
     }

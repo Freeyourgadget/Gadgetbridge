@@ -17,6 +17,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
 import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
+import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +27,10 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -49,9 +54,41 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiBleUuids;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
+    // On plaintext devices, user id is used as auth key - numeric
+    private static final Pattern AUTH_KEY_PATTERN = Pattern.compile("^[0-9]+$");
+
+    @NonNull
+    @Override
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        final List<ScanFilter> filters = new ArrayList<>();
+        for (final UUID uuid : XiaomiBleUuids.UUIDS.keySet()) {
+            final ParcelUuid service = new ParcelUuid(uuid);
+            final ScanFilter filter = new ScanFilter.Builder().setServiceUuid(service).build();
+            filters.add(filter);
+        }
+        return filters;
+    }
+
+    @NonNull
+    @Override
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return XiaomiSupport.class;
+    }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        final byte[] authKeyBytes = authKey.trim().getBytes();
+        // At this point we don't know if it's encrypted or not, so let's accept both:
+        return authKeyBytes.length == 32 || (authKey.startsWith("0x") && authKeyBytes.length == 34)
+                || AUTH_KEY_PATTERN.matcher(authKey.trim()).matches();
+    }
+
     @Override
     protected void deleteDevice(@NonNull final GBDevice gbDevice,
                                 @NonNull final Device device,

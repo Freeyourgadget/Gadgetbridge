@@ -25,11 +25,11 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiEncryptedCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class RedmiWatch3ActiveCoordinator extends XiaomiEncryptedCoordinator {
+public class RedmiWatch3ActiveCoordinator extends XiaomiCoordinator {
     @Override
     public boolean isExperimental() {
         return true;
