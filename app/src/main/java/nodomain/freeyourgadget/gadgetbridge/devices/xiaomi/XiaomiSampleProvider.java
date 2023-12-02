@@ -19,15 +19,24 @@ package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepTimeSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivitySample> {
+    private static final Logger LOG = LoggerFactory.getLogger(XiaomiSampleProvider.class);
+
     public XiaomiSampleProvider(final GBDevice device, final DaoSession session) {
         super(device, session);
     }
@@ -69,12 +78,35 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
 
     @Override
     public float normalizeIntensity(final int rawIntensity) {
-        // TODO
-        return rawIntensity;
+        return rawIntensity / 100f;
     }
 
     @Override
     public XiaomiActivitySample createActivitySample() {
         return new XiaomiActivitySample();
+    }
+
+    @Override
+    protected List<XiaomiActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to, final int activityType) {
+        final List<XiaomiActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
+
+        // Fetch bed and wakeup times and overlay them on the activity
+        final XiaomiSleepTimeSampleProvider sleepTimeSampleProvider = new XiaomiSleepTimeSampleProvider(getDevice(), getSession());
+        final List<XiaomiSleepTimeSample> sleepSamples = sleepTimeSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+        if (!sleepSamples.isEmpty()) {
+            LOG.debug("Found {} sleep samples between {} and {}", sleepSamples.size(), timestamp_from, timestamp_to);
+
+            for (final XiaomiActivitySample sample : samples) {
+                final long ts = sample.getTimestamp() * 1000L;
+                for (final XiaomiSleepTimeSample sleepSample : sleepSamples) {
+                    if (ts >= sleepSample.getTimestamp() && ts <= sleepSample.getWakeupTime()) {
+                        sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                        sample.setRawIntensity(30);
+                    }
+                }
+            }
+        }
+
+        return samples;
     }
 }
