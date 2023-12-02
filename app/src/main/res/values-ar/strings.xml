@@ -2553,4 +2553,5 @@
     <string name="menuitem_alerts">تنبيهات</string>
     <string name="devicetype_miband7pro">سوار شاومي الذكي 7 برو</string>
     <string name="devicetype_xiaomi_watch_s1_active">ساعة شاوميS1 النشطة</string>
+    <string name="devicetype_mi_watch_color_sport">ساعة مي كولور سبورت</string>
 </resources>
