@@ -652,7 +652,7 @@ public final class BtLEQueue {
                 try {
                     getCallbackToUse().onCharacteristicChanged(gatt, characteristic);
                 } catch (Throwable ex) {
-                    LOG.error("onCharaceristicChanged: " + ex.getMessage(), ex);
+                    LOG.error("onCharacteristicChanged: " + ex.getMessage(), ex);
                 }
             } else {
                 LOG.info("No gattcallback registered, ignoring characteristic change");
