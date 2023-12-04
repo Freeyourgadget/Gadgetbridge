@@ -117,8 +117,14 @@ public class XiaomiActivityFileFetcher {
                 return;
             }
 
-            if (!activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
-                LOG.warn("Failed to parse {}", fileId);
+            try {
+                if (activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
+                    LOG.info("Successfully parsed {}", fileId);
+                } else {
+                    LOG.warn("Failed to parse {}", fileId);
+                }
+            } catch (final Exception ex) {
+                LOG.error("addChunk(): failed to parse activity: ", ex);
             }
 
             triggerNextFetch();
