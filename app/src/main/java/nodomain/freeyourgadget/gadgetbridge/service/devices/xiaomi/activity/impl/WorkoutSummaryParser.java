@@ -60,6 +60,11 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             return false;
         }
 
+        // parseBinaryData may return null in case the version is not supported
+        if (summary == null) {
+            return false;
+        }
+
         summary.setSummaryData(null); // remove json before saving to database
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
