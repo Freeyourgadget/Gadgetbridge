@@ -25,17 +25,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
-import java.util.Set;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -137,7 +132,7 @@ public class XiaomiActivityFileFetcher {
             isFetching = true;
             final XiaomiSupport support = mHealthService.getSupport();
             final Context context = support.getContext();
-            GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data),"", true, 0, context);
+            GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", true, 0, context);
             support.getDevice().setBusyTask(context.getString(R.string.busy_task_fetch_activity_data));
             support.getDevice().sendDeviceUpdateIntent(support.getContext());
             triggerNextFetch();
@@ -162,12 +157,21 @@ public class XiaomiActivityFileFetcher {
     }
 
     protected void dumpBytesToExternalStorage(final XiaomiActivityFileId fileId, final byte[] bytes) {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.US);
+
         try {
             final File externalFilesDir = FileUtils.getExternalFilesDir();
             final File targetDir = new File(externalFilesDir, "rawFetchOperations");
             targetDir.mkdirs();
 
-            final String filename = "xiaomi_" + GB.hexdump(fileId.toBytes()) + ".bin";
+            final String filename = String.format(
+                    Locale.ROOT,  "xiaomi_%s_%02X_%02X_%02X_v%d.bin",
+                    sdf.format(fileId.getTimestamp()),
+                    fileId.getTypeCode(),
+                    fileId.getSubtypeCode(),
+                    fileId.getDetailTypeCode(),
+                    fileId.getVersion()
+            );
 
             final File outputFile = new File(targetDir, filename);
 

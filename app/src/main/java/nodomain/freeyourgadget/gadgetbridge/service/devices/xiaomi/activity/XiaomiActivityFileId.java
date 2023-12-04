@@ -58,12 +58,24 @@ public class XiaomiActivityFileId {
         return Type.fromCode(type);
     }
 
+    public int getTypeCode() {
+        return type;
+    }
+
     public Subtype getSubtype() {
         return Subtype.fromCode(getType(), subtype);
     }
 
+    public int getSubtypeCode() {
+        return subtype;
+    }
+
     public DetailType getDetailType() {
         return DetailType.fromCode(detailType);
+    }
+
+    public int getDetailTypeCode() {
+        return detailType;
     }
 
     public int getVersion() {
@@ -114,9 +126,9 @@ public class XiaomiActivityFileId {
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatIso8601(timestamp) +
                 ", timezone=" + timezone +
-                ", type=" + (typeName + "(" + type + ")") +
-                ", subtype=" + (subtypeName + "(" + subtype + ")") +
-                ", detailType=" + (detailTypeName + "(" + detailType + ")") +
+                ", type=" + (typeName + String.format("(0x%02X)", type)) +
+                ", subtype=" + (subtypeName + String.format("(0x%02X)", subtype)) +
+                ", detailType=" + (detailTypeName + String.format("(0x%02X)", detailType)) +
                 ", version=" + version +
                 "}";
     }
@@ -149,12 +161,12 @@ public class XiaomiActivityFileId {
 
     public enum Subtype {
         UNKNOWN(Type.UNKNOWN, -1),
-        ACTIVITY_DAILY(Type.ACTIVITY, 0),
-        ACTIVITY_SLEEP(Type.ACTIVITY,8),
-        SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 1),
-        SPORTS_FREESTYLE(Type.SPORTS, 8),
-        SPORTS_ELLIPTICAL(Type.SPORTS, 11),
-        SPORTS_OUTDOOR_CYCLING(Type.SPORTS, 23),
+        ACTIVITY_DAILY(Type.ACTIVITY, 0x00),
+        ACTIVITY_SLEEP(Type.ACTIVITY, 0x08),
+        SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 0x01),
+        SPORTS_FREESTYLE(Type.SPORTS, 0x08),
+        SPORTS_ELLIPTICAL(Type.SPORTS, 0x0B),
+        SPORTS_OUTDOOR_CYCLING(Type.SPORTS, 0x17),
         ;
 
         private final Type type;
@@ -182,8 +194,8 @@ public class XiaomiActivityFileId {
     public enum DetailType {
         UNKNOWN(-1),
         DETAILS(0),
-        SUMMARY(1),
-        GPS_TRACK(2),
+        SUMMARY(0x01),
+        GPS_TRACK(0x02),
         ;
 
         private final int code;
