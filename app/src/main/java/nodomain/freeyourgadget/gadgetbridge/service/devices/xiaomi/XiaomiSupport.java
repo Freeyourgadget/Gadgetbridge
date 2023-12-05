@@ -118,13 +118,17 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattCharacteristic btCharacteristicCommandWrite = null;
         BluetoothGattCharacteristic btCharacteristicActivityData = null;
         BluetoothGattCharacteristic btCharacteristicDataUpload = null;
+
+        // Attempt to find a known xiaomi service
         for (Map.Entry<UUID, XiaomiBleUuids.XiaomiBleUuidSet> xiaomiUuid : XiaomiBleUuids.UUIDS.entrySet()) {
             if (getSupportedServices().contains(xiaomiUuid.getKey())) {
                 LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
-                btCharacteristicCommandRead = getCharacteristic(xiaomiUuid.getValue().getCharacteristicCommandRead());
-                btCharacteristicCommandWrite = getCharacteristic(xiaomiUuid.getValue().getCharacteristicCommandWrite());
-                btCharacteristicActivityData = getCharacteristic(xiaomiUuid.getValue().getCharacteristicActivityData());
-                btCharacteristicDataUpload = getCharacteristic(xiaomiUuid.getValue().getCharacteristicDataUpload());
+                uuidSet = xiaomiUuid.getValue();
+
+                btCharacteristicCommandRead = getCharacteristic(uuidSet.getCharacteristicCommandRead());
+                btCharacteristicCommandWrite = getCharacteristic(uuidSet.getCharacteristicCommandWrite());
+                btCharacteristicActivityData = getCharacteristic(uuidSet.getCharacteristicActivityData());
+                btCharacteristicDataUpload = getCharacteristic(uuidSet.getCharacteristicDataUpload());
                 if (btCharacteristicCommandRead == null) {
                     LOG.warn("btCharacteristicCommandRead characteristicc is null");
                     continue;
@@ -139,7 +143,6 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
                     continue;
                 }
 
-                uuidSet = xiaomiUuid.getValue();
                 break;
             }
         }
