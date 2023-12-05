@@ -33,6 +33,7 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -560,22 +561,8 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         return ZeppOsConfigService.deviceHasConfig(getPrefs(device), config);
     }
 
-    /**
-     * Returns the preference key where to save the list of possible value for a preference, comma-separated.
-     */
-    public static String getPrefPossibleValuesKey(final String key) {
-        return String.format(Locale.ROOT, "%s_huami_2021_possible_values", key);
-    }
-
-    /**
-     * Returns the preference key where to that a config was reported as supported (boolean).
-     */
-    public static String getPrefKnownConfig(final String key) {
-        return String.format(Locale.ROOT, "huami_2021_known_config_%s", key);
-    }
-
     public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
-        return devicePrefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(config.name()), false);
+        return devicePrefs.getBoolean(DeviceSettingsUtils.getPrefKnownConfig(config.name()), false);
     }
 
     public static boolean experimentalFeatures(final GBDevice device) {

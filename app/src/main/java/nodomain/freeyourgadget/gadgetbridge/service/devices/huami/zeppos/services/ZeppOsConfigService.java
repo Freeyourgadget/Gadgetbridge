@@ -60,6 +60,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.WorkoutDetectionCapability;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
@@ -663,7 +664,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
-        return devicePrefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(config.name()), false);
+        return devicePrefs.getBoolean(DeviceSettingsUtils.getPrefKnownConfig(config.name()), false);
     }
 
     public ConfigSetter newSetter() {
@@ -973,7 +974,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 }
 
                 if (configArg != null && argPrefs != null && configType == configArg.getConfigType(mGroupVersions)) {
-                    prefs.put(Huami2021Coordinator.getPrefKnownConfig(configArg.name()), true);
+                    prefs.put(DeviceSettingsUtils.getPrefKnownConfig(configArg.name()), true);
 
                     // Special cases for "follow phone" preferences. We need to ensure that "auto"
                     // always has precedence
@@ -1062,7 +1063,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), decoder.decode(str.getValue()));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
                             decodeStringValues(possibleValues, decoder)
                     );
                 }
@@ -1147,7 +1148,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), new HashSet<>(valuesList));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
                             String.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
@@ -1183,7 +1184,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                                 possibleLanguages.add(languageByteToLocale(possibleValue));
                             }
                             possibleLanguages.removeAll(Collections.singleton(null));
-                            prefs.put(Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()), String.join(",", possibleLanguages));
+                            prefs.put(DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()), String.join(",", possibleLanguages));
                         }
                     }
                     decoder = null;
@@ -1239,7 +1240,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), decoder.decode(value.getValue()));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
                             String.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }

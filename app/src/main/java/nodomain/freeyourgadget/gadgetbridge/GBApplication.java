@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -121,7 +122,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 26;
+    private static final int CURRENT_PREFS_VERSION = 27;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -1365,6 +1366,37 @@ public class GBApplication extends Application {
 
                     final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
                     deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 27) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    for (final Map.Entry<String, ?> entry : deviceSharedPrefs.getAll().entrySet()) {
+                        final String key = entry.getKey();
+                        if (key.startsWith("huami_2021_known_config_")) {
+                            deviceSharedPrefsEdit.putString(
+                                    key.replace("huami_2021_known_config_", "") + "_is_known",
+                                    entry.getValue().toString()
+                            );
+                        } else if (key.endsWith("_huami_2021_possible_values")) {
+                            deviceSharedPrefsEdit.putString(
+                                    key.replace("_huami_2021_possible_values", "") + "_possible_values",
+                                    entry.getValue().toString()
+                            );
+                        }
+                    }
+
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {

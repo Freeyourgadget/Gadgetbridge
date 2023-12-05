@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.hidePrefIfNoneVisible;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.removeUnsupportedElementsFromListPreference;
+
 import android.os.Parcel;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -41,6 +44,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
@@ -389,70 +393,6 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
     }
 
     /**
-     * Removes all unsupported elements from a list preference. If they are not known, the preference
-     * is hidden.
-     */
-    private void removeUnsupportedElementsFromListPreference(final String prefKey,
-                                                             final DeviceSpecificSettingsHandler handler,
-                                                             final Prefs prefs) {
-        final Preference pref = handler.findPreference(prefKey);
-        if (pref == null) {
-            return;
-        }
-
-        // Get the list of possible values for this preference, as reported by the band
-        final List<String> possibleValues = prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(prefKey), null);
-        if (possibleValues == null || possibleValues.isEmpty()) {
-            // The band hasn't reported this setting, so we don't know the possible values.
-            // Hide it
-            pref.setVisible(false);
-
-            return;
-        }
-
-        final CharSequence[] originalEntries;
-        final CharSequence[] originalValues;
-
-        if (pref instanceof ListPreference) {
-            originalEntries = ((ListPreference) pref).getEntries();
-            originalValues = ((ListPreference) pref).getEntryValues();
-        } else if (pref instanceof MultiSelectListPreference) {
-            originalEntries = ((MultiSelectListPreference) pref).getEntries();
-            originalValues = ((MultiSelectListPreference) pref).getEntryValues();
-        } else {
-            LOG.error("Unknown list pref class {}", pref.getClass().getName());
-            return;
-        }
-
-        final List<String> prefValues = new ArrayList<>(originalValues.length);
-        for (final CharSequence entryValue : originalValues) {
-            prefValues.add(entryValue.toString());
-        }
-
-        final CharSequence[] entries = new CharSequence[possibleValues.size()];
-        final CharSequence[] values = new CharSequence[possibleValues.size()];
-        for (int i = 0; i < possibleValues.size(); i++) {
-            final String possibleValue = possibleValues.get(i);
-            final int idxPrefValue = prefValues.indexOf(possibleValue);
-
-            if (idxPrefValue >= 0) {
-                entries[i] = originalEntries[idxPrefValue];
-            } else {
-                entries[i] = handler.getContext().getString(R.string.menuitem_unknown_app, possibleValue);
-            }
-            values[i] = possibleValue;
-        }
-
-        if (pref instanceof ListPreference) {
-            ((ListPreference) pref).setEntries(entries);
-            ((ListPreference) pref).setEntryValues(values);
-        } else if (pref instanceof MultiSelectListPreference) {
-            ((MultiSelectListPreference) pref).setEntries(entries);
-            ((MultiSelectListPreference) pref).setEntryValues(values);
-        }
-    }
-
-    /**
      * Hides prefToHide if no configuration from the list has been reported by the band.
      */
     private void hidePrefIfNoConfigSupported(final DeviceSpecificSettingsHandler handler,
@@ -465,7 +405,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         for (final String prefKey : supportedPref) {
-            final boolean deviceHasConfig = prefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(prefKey), false);
+            final boolean deviceHasConfig = prefs.getBoolean(DeviceSettingsUtils.getPrefKnownConfig(prefKey), false);
             if (deviceHasConfig) {
                 // This preference is supported, don't hide
                 return;
@@ -473,33 +413,6 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // None of the configs were supported by the device, hide this preference
-        pref.setVisible(false);
-    }
-
-    /**
-     * Hides the the prefToHide preference if none of the preferences in the preferences list are
-     * visible.
-     */
-    private void hidePrefIfNoneVisible(final DeviceSpecificSettingsHandler handler,
-                                       final String prefToHide,
-                                       final List<String> subPrefs) {
-        final Preference pref = handler.findPreference(prefToHide);
-        if (pref == null) {
-            return;
-        }
-
-        for (final String subPrefKey : subPrefs) {
-            final Preference subPref = handler.findPreference(subPrefKey);
-            if (subPref == null) {
-                continue;
-            }
-            if (subPref.isVisible()) {
-                // At least one preference is visible
-                return;
-            }
-        }
-
-        // No preference was visible, hide
         pref.setVisible(false);
     }
 
@@ -526,17 +439,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
             return;
         }
 
-        if (minValue >= maxValue) {
-            LOG.warn("Invalid min/max values: {}/{}", minValue, maxValue);
-            return;
-        }
-
-        final EditTextPreference textPref = (EditTextPreference) pref;
-        textPref.setOnBindEditTextListener(editText -> {
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editText.setFilters(new InputFilter[]{new MinMaxInputFilter(minValue, maxValue)});
-            editText.setSelection(editText.getText().length());
-        });
+        DeviceSettingsUtils.enforceMinMax((EditTextPreference) pref, minValue, maxValue);
     }
 
     public static final Creator<Huami2021SettingsCustomizer> CREATOR = new Creator<Huami2021SettingsCustomizer>() {
@@ -553,26 +456,4 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
             return new Huami2021SettingsCustomizer[size];
         }
     };
-
-    public static final class MinMaxInputFilter implements InputFilter {
-        private final int min;
-        private final int max;
-
-        public MinMaxInputFilter(final int min, final int max) {
-            this.min = min;
-            this.max = max;
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            try {
-                final int input = Integer.parseInt(dest.toString() + source.toString());
-                if (input >= min && input <= max) {
-                    return null;
-                }
-            } catch (final NumberFormatException ignored) {
-            }
-            return "";
-        }
-    }
 }

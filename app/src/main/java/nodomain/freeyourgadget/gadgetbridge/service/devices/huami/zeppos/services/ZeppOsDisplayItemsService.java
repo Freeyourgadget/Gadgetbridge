@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -98,7 +99,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_MENU,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()))
                 );
                 return true;
@@ -106,14 +107,14 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case HuamiConst.PREF_SHORTCUTS_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_SHORTCUTS,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()))
                 );
                 return true;
             case HuamiConst.PREF_CONTROL_CENTER_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_CONTROL_CENTER,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
                 );
                 return true;
@@ -169,7 +170,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
                 LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
                 return;
         }
-        final String allScreensPrefKey = Huami2021Coordinator.getPrefPossibleValuesKey(prefKey);
+        final String allScreensPrefKey = DeviceSettingsUtils.getPrefPossibleValuesKey(prefKey);
 
         final boolean menuHasMoreSection;
 

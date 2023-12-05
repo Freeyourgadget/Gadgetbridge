@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -218,7 +219,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
                 .withPreference(SHORTCUT_CARDS_SORTABLE, String.join(",", enabledCards))
-                .withPreference(Huami2021Coordinator.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), String.join(",", allCards));
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), String.join(",", allCards));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

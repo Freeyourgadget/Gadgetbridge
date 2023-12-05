@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -228,7 +229,7 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
 
         // TODO broadcast something to update app manager
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
-                .withPreference(Huami2021Coordinator.getPrefPossibleValuesKey(PREF_WATCHFACE), String.join(",", watchfacePrefValues));
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_WATCHFACE), String.join(",", watchfacePrefValues));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

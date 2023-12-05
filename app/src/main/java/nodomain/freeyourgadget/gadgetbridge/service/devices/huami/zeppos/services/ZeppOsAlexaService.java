@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -385,7 +386,7 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
                 .withPreference(PREF_VOICE_SERVICE_LANGUAGE, currentLanguage.replace("-", "_"))
-                .withPreference(Huami2021Coordinator.getPrefPossibleValuesKey(PREF_VOICE_SERVICE_LANGUAGE), String.join(",", allLanguages).replace("-", "_"));
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_VOICE_SERVICE_LANGUAGE), String.join(",", allLanguages).replace("-", "_"));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

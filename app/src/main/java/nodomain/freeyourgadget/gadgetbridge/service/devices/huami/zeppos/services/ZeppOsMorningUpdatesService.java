@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -92,7 +93,7 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
                     return;
                 }
                 final GBDeviceEventUpdatePreferences gbDeviceEventUpdatePreferences = new GBDeviceEventUpdatePreferences()
-                        .withPreference(Huami2021Coordinator.getPrefKnownConfig(DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED), true)
+                        .withPreference(DeviceSettingsUtils.getPrefKnownConfig(DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED), true)
                         .withPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED, enabled);
                 getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdatePreferences);
                 LOG.info("Morning updates enabled = {}", enabled);
@@ -122,7 +123,7 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
                 return true;
             case DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE:
                 final List<String> categories = new ArrayList<>(prefs.getList(config, Collections.emptyList()));
-                final List<String> allCategories = new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(config), Collections.emptyList()));
+                final List<String> allCategories = new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(config), Collections.emptyList()));
                 LOG.info("Setting morning updates categories = {}", categories);
                 setCategories(categories, allCategories);
                 return true;
@@ -222,12 +223,12 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
         }
 
         final String prefKey = DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE;
-        final String allCategoriesPrefKey = Huami2021Coordinator.getPrefPossibleValuesKey(prefKey);
+        final String allCategoriesPrefKey = DeviceSettingsUtils.getPrefPossibleValuesKey(prefKey);
 
         final String allCategoriesPrefValue = StringUtils.join(",", allCategories.toArray(new String[0])).toString();
         final String prefValue = StringUtils.join(",", enabledCategories.toArray(new String[0])).toString();
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
-                .withPreference(Huami2021Coordinator.getPrefKnownConfig(prefKey), true)
+                .withPreference(DeviceSettingsUtils.getPrefKnownConfig(prefKey), true)
                 .withPreference(allCategoriesPrefKey, allCategoriesPrefValue)
                 .withPreference(prefKey, prefValue);
 
