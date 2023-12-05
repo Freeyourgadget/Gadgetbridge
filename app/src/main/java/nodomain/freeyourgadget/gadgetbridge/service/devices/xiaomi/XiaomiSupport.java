@@ -114,9 +114,31 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected final TransactionBuilder initializeDevice(final TransactionBuilder builder) {
         XiaomiBleUuids.XiaomiBleUuidSet uuidSet = null;
+        BluetoothGattCharacteristic btCharacteristicCommandRead = null;
+        BluetoothGattCharacteristic btCharacteristicCommandWrite = null;
+        BluetoothGattCharacteristic btCharacteristicActivityData = null;
+        BluetoothGattCharacteristic btCharacteristicDataUpload = null;
         for (Map.Entry<UUID, XiaomiBleUuids.XiaomiBleUuidSet> xiaomiUuid : XiaomiBleUuids.UUIDS.entrySet()) {
             if (getSupportedServices().contains(xiaomiUuid.getKey())) {
                 LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
+                btCharacteristicCommandRead = getCharacteristic(xiaomiUuid.getValue().getCharacteristicCommandRead());
+                btCharacteristicCommandWrite = getCharacteristic(xiaomiUuid.getValue().getCharacteristicCommandWrite());
+                btCharacteristicActivityData = getCharacteristic(xiaomiUuid.getValue().getCharacteristicActivityData());
+                btCharacteristicDataUpload = getCharacteristic(xiaomiUuid.getValue().getCharacteristicDataUpload());
+                if (btCharacteristicCommandRead == null) {
+                    LOG.warn("btCharacteristicCommandRead characteristicc is null");
+                    continue;
+                } else if (btCharacteristicCommandWrite == null) {
+                    LOG.warn("btCharacteristicCommandWrite characteristicc is null");
+                    continue;
+                } else if (btCharacteristicActivityData == null) {
+                    LOG.warn("btCharacteristicActivityData characteristicc is null");
+                    continue;
+                } else if (btCharacteristicDataUpload == null) {
+                    LOG.warn("btCharacteristicDataUpload characteristicc is null");
+                    continue;
+                }
+
                 uuidSet = xiaomiUuid.getValue();
                 break;
             }
@@ -128,11 +150,6 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.NOT_CONNECTED, getContext()));
             return builder;
         }
-
-        final BluetoothGattCharacteristic btCharacteristicCommandRead = getCharacteristic(uuidSet.getCharacteristicCommandRead());
-        final BluetoothGattCharacteristic btCharacteristicCommandWrite = getCharacteristic(uuidSet.getCharacteristicCommandWrite());
-        final BluetoothGattCharacteristic btCharacteristicActivityData = getCharacteristic(uuidSet.getCharacteristicActivityData());
-        final BluetoothGattCharacteristic btCharacteristicDataUpload = getCharacteristic(uuidSet.getCharacteristicDataUpload());
 
         // FIXME unsetDynamicState unsets the fw version, which causes problems..
         if (getDevice().getFirmwareVersion() == null && mFirmwareVersion != null) {
