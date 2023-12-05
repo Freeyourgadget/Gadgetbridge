@@ -357,6 +357,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 inMoreSection = true;
                 continue;
             }
+            if (labelsMap.get(enabledScreen) == null) {
+                continue;
+            }
 
             final XiaomiProto.DisplayItem.Builder displayItem = XiaomiProto.DisplayItem.newBuilder()
                     .setCode(enabledScreen)
