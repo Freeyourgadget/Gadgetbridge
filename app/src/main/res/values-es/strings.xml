@@ -1959,7 +1959,7 @@
     <string name="activity_type_core_training">Entrenamiento básico</string>
     <string name="pref_workout_detection_categories_title">Categorías de entrenamiento</string>
     <string name="pref_workout_detection_categories_summary">Categorías de entrenamientos para detectar automáticamente</string>
-    <string name="pref_workout_detection_alert_title">Alertas</string>
+    <string name="pref_workout_detection_alert_title">Alerta</string>
     <string name="pref_workout_detection_alert_summary">Notificar cuando se detecta un entrenamiento</string>
     <string name="prefs_ambient_volume_left">Volumen sonido ambiente izquierdo</string>
     <string name="prefs_noise_control">Reducción del ruido</string>
