@@ -1022,66 +1022,6 @@
         <item>headphone</item>
     </string-array>
 
-    <string-array name="pref_xiaomi_apps">
-        <item>@string/menuitem_stats</item>
-        <item>@string/menuitem_workout</item>
-        <item>@string/menuitem_activity</item>
-        <item>@string/menuitem_running</item>
-        <item>@string/menuitem_status</item>
-        <item>@string/menuitem_hr</item>
-        <item>@string/menuitem_pai</item>
-        <item>@string/menuitem_spo2</item>
-        <item>@string/menuitem_sleep</item>
-        <item>@string/menuitem_stress</item>
-        <item>@string/menuitem_weather</item>
-        <item>@string/menuitem_alarm</item>
-        <item>@string/menuitem_settings</item>
-        <item>@string/menuitem_more</item>  <!-- dummy item -->
-        <item>@string/menuitem_alerts</item>
-        <item>@string/menuitem_events</item>
-        <item>@string/menuitem_breathing</item>
-        <item>@string/menuitem_female_health</item>
-        <item>@string/menuitem_stopwatch</item>
-        <item>@string/menuitem_music</item>
-        <item>@string/menuitem_findphone</item>
-        <item>@string/menuitem_worldclock</item>
-        <item>@string/menuitem_mutephone</item>
-        <item>@string/menuitem_takephoto</item>
-        <item>@string/menuitem_timer</item>
-        <item>@string/menuitem_flashlight</item>
-        <item>@string/menuitem_pomodoro</item>
-    </string-array>
-
-    <string-array name="pref_xiaomi_apps_values">
-        <item>today_act</item>
-        <item>sport</item>
-        <item>sport_record</item>
-        <item>sport_course</item>
-        <item>sport_state</item>
-        <item>heart</item>
-        <item>pai</item>
-        <item>blood_ox</item>
-        <item>sleep</item>
-        <item>press</item>
-        <item>weather</item>
-        <item>alarm</item>
-        <item>setting</item>
-        <item>more</item>  <!-- dummy item -->
-        <item>schedule</item>
-        <item>event_reminder</item>
-        <item>breath</item>
-        <item>fm_health</item>
-        <item>stopwatch</item>
-        <item>music</item>
-        <item>find_phone</item>
-        <item>world_clock</item>
-        <item>phone_mute</item>
-        <item>phone_remote</item>
-        <item>count_down</item>
-        <item>flash_light</item>
-        <item>focus</item>
-    </string-array>
-
     <string-array name="pref_miband5_workout_activity_types">
         <item>@string/activity_type_outdoor_running</item>
         <item>@string/activity_type_walking</item>

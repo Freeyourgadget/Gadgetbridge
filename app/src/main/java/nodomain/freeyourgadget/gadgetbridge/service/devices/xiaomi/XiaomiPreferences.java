@@ -61,13 +61,6 @@ public final class XiaomiPreferences {
         return calendar.getTime();
     }
 
-    /**
-     * Returns the preference key where to save the list of possible value for a preference, comma-separated.
-     */
-    public static String getPrefPossibleValuesKey(final String key) {
-        return String.format(Locale.ROOT, "%s_possible_values", key);
-    }
-
     public static boolean keepActivityDataOnDevice(final GBDevice gbDevice) {
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         return prefs.getBoolean("keep_activity_data_on_device", false);

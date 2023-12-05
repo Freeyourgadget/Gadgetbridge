@@ -17,16 +17,12 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.hidePrefIfNoneVisible;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.removeUnsupportedElementsFromListPreference;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.populateOrHideListPreference;
 
 import android.os.Parcel;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.Spanned;
 
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
-import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 
 import org.slf4j.Logger;
@@ -65,13 +61,13 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         super.customizeSettings(handler, prefs);
 
         // These are not reported by the normal configs
-        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_WATCHFACE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
-        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE, handler, prefs);
+        populateOrHideListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
+        populateOrHideListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
+        populateOrHideListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
+        populateOrHideListPreference(DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE, handler, prefs);
+        populateOrHideListPreference(DeviceSettingsPreferenceConst.PREF_WATCHFACE, handler, prefs);
+        populateOrHideListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
+        populateOrHideListPreference(DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE, handler, prefs);
 
         for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {
             if (config.getPrefKey() == null) {
@@ -88,7 +84,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 case BYTE_LIST:
                 case STRING_LIST:
                     // For list preferences, remove the unsupported items
-                    removeUnsupportedElementsFromListPreference(config.getPrefKey(), handler, prefs);
+                    populateOrHideListPreference(config.getPrefKey(), handler, prefs);
                     break;
                 case SHORT:
                 case INT:

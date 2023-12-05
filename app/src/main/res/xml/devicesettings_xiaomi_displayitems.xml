@@ -3,8 +3,8 @@
     <com.mobeta.android.dslv.DragSortListPreference
         android:defaultValue="@array/pref_huami2021_empty_array"
         android:dialogTitle="@string/mi2_prefs_display_items"
-        android:entries="@array/pref_xiaomi_apps"
-        android:entryValues="@array/pref_xiaomi_apps_values"
+        android:entries="@array/pref_huami2021_empty_array"
+        android:entryValues="@array/pref_huami2021_empty_array"
         android:icon="@drawable/ic_widgets"
         android:key="display_items_sortable"
         android:persistent="true"

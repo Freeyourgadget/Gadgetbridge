@@ -28,9 +28,10 @@ import androidx.preference.Preference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -50,6 +51,13 @@ public final class DeviceSettingsUtils {
     }
 
     /**
+     * Returns the preference key where to save the list of entry labels for a preference, comma-separated.
+     */
+    public static String getPrefPossibleValueLabelsKey(final String key) {
+        return String.format(Locale.ROOT, "%s_possible_value_labels", key);
+    }
+
+    /**
      * Returns the preference key where to that a config was reported as supported (boolean).
      */
     public static String getPrefKnownConfig(final String key) {
@@ -57,12 +65,11 @@ public final class DeviceSettingsUtils {
     }
 
     /**
-     * Removes all unsupported elements from a list preference. If they are not known, the preference
-     * is hidden.
+     * Populates a list preference, or hides it if no known supported values are known.
      */
-    public static void removeUnsupportedElementsFromListPreference(final String prefKey,
-                                                                   final DeviceSpecificSettingsHandler handler,
-                                                                   final Prefs prefs) {
+    public static void populateOrHideListPreference(final String prefKey,
+                                                    final DeviceSpecificSettingsHandler handler,
+                                                    final Prefs prefs) {
         final Preference pref = handler.findPreference(prefKey);
         if (pref == null) {
             return;
@@ -92,19 +99,40 @@ public final class DeviceSettingsUtils {
             return;
         }
 
-        final List<String> prefValues = new ArrayList<>(originalValues.length);
-        for (final CharSequence entryValue : originalValues) {
-            prefValues.add(entryValue.toString());
+        final Map<CharSequence, CharSequence> entryNames = new HashMap<>();
+        final List<String> knownLabels = prefs.getList(getPrefPossibleValueLabelsKey(prefKey), null);
+        if (knownLabels != null) {
+            // We got some known labels from the watch
+            if (knownLabels.size() != possibleValues.size()) {
+                LOG.warn(
+                        "Number of possible values ({}) and labels ({}) for {} differs - this should never happen",
+                        possibleValues.size(),
+                        knownLabels.size(),
+                        prefKey
+                );
+
+                // Abort and hide preference - we can't safely recover from this
+                pref.setVisible(false);
+                return;
+            }
+
+            for (int i = 0; i < knownLabels.size(); i++) {
+                entryNames.put(possibleValues.get(i), knownLabels.get(i));
+            }
+        } else {
+            for (int i = 0; i < originalEntries.length; i++) {
+                entryNames.put(originalValues[i], originalEntries[i]);
+            }
         }
 
         final CharSequence[] entries = new CharSequence[possibleValues.size()];
         final CharSequence[] values = new CharSequence[possibleValues.size()];
         for (int i = 0; i < possibleValues.size(); i++) {
             final String possibleValue = possibleValues.get(i);
-            final int idxPrefValue = prefValues.indexOf(possibleValue);
+            final CharSequence knownLabel = entryNames.get(possibleValue);
 
-            if (idxPrefValue >= 0) {
-                entries[i] = originalEntries[idxPrefValue];
+            if (knownLabel != null) {
+                entries[i] = knownLabel;
             } else {
                 entries[i] = handler.getContext().getString(R.string.menuitem_unknown_app, possibleValue);
             }

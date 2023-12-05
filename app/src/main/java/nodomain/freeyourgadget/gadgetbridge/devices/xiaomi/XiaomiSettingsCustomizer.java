@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.populateOrHideListPreference;
+
 import android.os.Parcel;
 
 import androidx.preference.Preference;
@@ -26,6 +28,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
@@ -39,6 +42,8 @@ public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         if (activityMonitoringPref != null) {
             activityMonitoringPref.setVisible(false);
         }
+
+        populateOrHideListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
     }
 
     @Override

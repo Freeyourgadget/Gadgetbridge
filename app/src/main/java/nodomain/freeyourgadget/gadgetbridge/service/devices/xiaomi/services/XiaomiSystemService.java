@@ -32,6 +32,7 @@ import java.util.TimeZone;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -321,11 +322,26 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     private void setDisplayItems() {
         final Prefs prefs = getDevicePrefs();
-        final List<String> allScreens = new ArrayList<>(prefs.getList(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
+        final List<String> allScreens = new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
+        final List<String> allLabels = new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValueLabelsKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
         final List<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
         if (allScreens.isEmpty()) {
             LOG.warn("No list of all screens");
             return;
+        }
+
+        if (allScreens.size() != allLabels.size()) {
+            LOG.warn(
+                    "Mismatched allScreens ({}) and allLabels ({}) sizes - this should never happen",
+                    allScreens.size(),
+                    allLabels.size()
+            );
+            return;
+        }
+
+        final Map<String, String> labelsMap = new HashMap<>();
+        for (int i = 0; i < allScreens.size(); i++) {
+            labelsMap.put(allScreens.get(i), allLabels.get(i));
         }
 
         LOG.debug("Setting display items: {}", enabledScreens);
@@ -344,7 +360,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
             final XiaomiProto.DisplayItem.Builder displayItem = XiaomiProto.DisplayItem.newBuilder()
                     .setCode(enabledScreen)
-                    .setName(DISPLAY_ITEM_NAMES.get(enabledScreen))
+                    .setName(labelsMap.get(enabledScreen))
                     .setUnknown5(1);
 
             if (inMoreSection) {
@@ -365,7 +381,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
             final XiaomiProto.DisplayItem.Builder displayItem = XiaomiProto.DisplayItem.newBuilder()
                     .setCode(screen)
-                    .setName(DISPLAY_ITEM_NAMES.get(screen))
+                    .setName(labelsMap.get(screen))
                     .setDisabled(true)
                     .setUnknown5(1);
 
@@ -386,10 +402,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         LOG.debug("Got {} display items", displayItems.getDisplayItemCount());
 
         final List<String> allScreens = new ArrayList<>();
+        final List<String> allScreensLabels = new ArrayList<>();
         final List<String> mainScreens = new ArrayList<>();
         final List<String> moreScreens = new ArrayList<>();
         for (final XiaomiProto.DisplayItem displayItem : displayItems.getDisplayItemList()) {
             allScreens.add(displayItem.getCode());
+            allScreensLabels.add(displayItem.getName().replace(",", ""));
             if (!displayItem.getDisabled()) {
                 if (displayItem.getInMoreSection()) {
                     moreScreens.add(displayItem.getCode());
@@ -405,11 +423,16 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             enabledScreens.addAll(moreScreens);
         }
 
+        allScreens.add("more");
+        allScreensLabels.add(getSupport().getContext().getString(R.string.menuitem_more));
+
         final String allScreensPrefValue = StringUtils.join(",", allScreens.toArray(new String[0])).toString();
+        final String allScreensLabelsPrefValue = StringUtils.join(",", allScreensLabels.toArray(new String[0])).toString();
         final String prefValue = StringUtils.join(",", enabledScreens.toArray(new String[0])).toString();
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
-                .withPreference(XiaomiPreferences.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensPrefValue)
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensPrefValue)
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValueLabelsKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensLabelsPrefValue)
                 .withPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, prefValue);
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
@@ -515,34 +538,4 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             LOG.error("Failed to update progress notification", e);
         }
     }
-
-    // TODO do we even need this? also prevent NPE when unknown
-    private static final Map<String, String> DISPLAY_ITEM_NAMES = new HashMap<String, String>() {{
-        put("today_act", "Stats");
-        put("sport", "Workout");
-        put("sport_record", "Activity");
-        put("sport_course", "Running");
-        put("sport_state", "Status");
-        put("heart", "Heart rate");
-        put("pai", "Vitality");
-        put("blood_ox", "SpO₂");
-        put("sleep", "Sleep");
-        put("press", "Stress");
-        put("weather", "Weather");
-        put("alarm", "Alarm");
-        put("setting", "Settings");
-        put("event_reminder", "Alerts");
-        put("schedule", "Events");
-        put("breath", "Breathing");
-        put("stopwatch", "Stopwatch");
-        put("music", "Music");
-        put("find_phone", "Find phone");
-        put("world_clock", "World clock");
-        put("phone_mute", "Silence phone");
-        put("phone_remote", "Camera");
-        put("count_down", "Timer");
-        put("focus", "Focus");
-        put("flash_light", "Flashlight");
-        put("fm_health", "Cycles");
-    }};
 }
