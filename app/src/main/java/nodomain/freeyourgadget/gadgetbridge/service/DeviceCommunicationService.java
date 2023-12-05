@@ -689,6 +689,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         handleAction(intent, action, device1);
                     } catch (DeviceNotFoundException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        LOG.error("An exception was raised while handling the action {} for the device {}: ", action, device1, e);
                     }
                 }
                 break;
