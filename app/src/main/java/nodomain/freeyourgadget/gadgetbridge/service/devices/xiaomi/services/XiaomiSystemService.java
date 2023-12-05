@@ -46,7 +46,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -56,6 +55,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class XiaomiSystemService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSystemService.class);
+
+    // We persist the settings code when receiving the display items,
+    // so we can enforce it when sending them
+    private static final String PREF_SETTINGS_DISPLAY_ITEM_CODE = "xiaomi_settings_display_item_code";
 
     public static final int COMMAND_TYPE = 2;
 
@@ -325,6 +328,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final List<String> allScreens = new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
         final List<String> allLabels = new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValueLabelsKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList()));
         final List<String> enabledScreens = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
+        final String settingsCode = prefs.getString(PREF_SETTINGS_DISPLAY_ITEM_CODE, null);
+
         if (allScreens.isEmpty()) {
             LOG.warn("No list of all screens");
             return;
@@ -346,8 +351,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
         LOG.debug("Setting display items: {}", enabledScreens);
 
-        if (!enabledScreens.contains("setting")) {
-            enabledScreens.add("setting");
+        if (settingsCode != null && !enabledScreens.contains(settingsCode)) {
+            enabledScreens.add(settingsCode);
         }
 
         boolean inMoreSection = false;
@@ -370,7 +375,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 displayItem.setInMoreSection(true);
             }
 
-            if ("setting".equals(enabledScreen)) {
+            if (enabledScreen.equals(settingsCode)) {
                 displayItem.setIsSettings(1);
             }
 
@@ -408,6 +413,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final List<String> allScreensLabels = new ArrayList<>();
         final List<String> mainScreens = new ArrayList<>();
         final List<String> moreScreens = new ArrayList<>();
+        String settingsCode = null;
         for (final XiaomiProto.DisplayItem displayItem : displayItems.getDisplayItemList()) {
             allScreens.add(displayItem.getCode());
             allScreensLabels.add(displayItem.getName().replace(",", ""));
@@ -417,6 +423,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 } else {
                     mainScreens.add(displayItem.getCode());
                 }
+            }
+
+            if (displayItem.getIsSettings() == 1) {
+                settingsCode = displayItem.getCode();
             }
         }
 
@@ -436,6 +446,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
                 .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensPrefValue)
                 .withPreference(DeviceSettingsUtils.getPrefPossibleValueLabelsKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensLabelsPrefValue)
+                .withPreference(PREF_SETTINGS_DISPLAY_ITEM_CODE, settingsCode)
                 .withPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, prefValue);
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
