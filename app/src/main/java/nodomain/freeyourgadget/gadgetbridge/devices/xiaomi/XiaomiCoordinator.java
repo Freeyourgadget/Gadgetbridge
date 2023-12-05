@@ -33,6 +33,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
@@ -56,8 +57,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiBleUuids;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     // On plaintext devices, user id is used as auth key - numeric
@@ -158,8 +161,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount(final GBDevice device) {
-        // TODO the watch returns the slot count
-        return 10;
+        return getPrefs(device).getInt(XiaomiPreferences.PREF_ALARM_SLOTS, 0);
     }
 
     @Override
@@ -256,11 +258,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmSnoozing() {
-        return false;
-    }
-
-    @Override
     public boolean supportsAlarmDescription(final GBDevice device) {
         // TODO does it?
         return false;
@@ -279,8 +276,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getReminderSlotCount(final GBDevice device) {
-        // TODO fetch from watch
-        return 50;
+        return getPrefs(device).getInt(XiaomiPreferences.PREF_REMINDER_SLOTS, 0);
     }
 
     @Override
@@ -511,6 +507,10 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public AbstractNotificationPattern[] getNotificationLedPatterns() {
         return new AbstractNotificationPattern[0];
+    }
+
+    protected static Prefs getPrefs(final GBDevice device) {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
     }
 
     public boolean supportsMultipleWeatherLocations() {

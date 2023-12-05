@@ -28,6 +28,9 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public final class XiaomiPreferences {
+    public static final String PREF_ALARM_SLOTS = "alarm_slots";
+    public static final String PREF_REMINDER_SLOTS = "reminder_slots";
+
     private XiaomiPreferences() {
         // util class
     }

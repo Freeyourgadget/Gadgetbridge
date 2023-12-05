@@ -48,7 +48,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -164,6 +163,11 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
     public void handleReminders(final XiaomiProto.Reminders reminders) {
         LOG.debug("Got {} reminders from the watch", reminders.getReminderCount());
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.PREF_REMINDER_SLOTS, reminders.getMaxReminders());
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
 
         watchReminders.clear();
         for (final XiaomiProto.Reminder reminder : reminders.getReminderList()) {
@@ -498,6 +502,11 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
     public void handleAlarms(final XiaomiProto.Alarms alarms) {
         LOG.debug("Got {} alarms from the watch", alarms.getAlarmCount());
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.PREF_ALARM_SLOTS, alarms.getMaxAlarms());
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
 
         watchAlarms.clear();
         for (final XiaomiProto.Alarm alarm : alarms.getAlarmList()) {

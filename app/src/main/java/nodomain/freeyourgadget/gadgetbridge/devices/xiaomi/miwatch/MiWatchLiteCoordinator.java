@@ -81,14 +81,4 @@ public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     public boolean supportsRealtimeData() {
         return false;
     }
-
-    @Override
-    public int getAlarmSlotCount(final GBDevice device) {
-        return 0;
-    }
-
-    @Override
-    public int getReminderSlotCount(final GBDevice device) {
-        return 0;
-    }
 }

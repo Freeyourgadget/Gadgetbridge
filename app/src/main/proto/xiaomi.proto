@@ -825,7 +825,7 @@ message SleepModeSchedule {
 
 message Reminders {
   repeated Reminder reminder = 1;
-  optional uint32 unknown2 = 2; // 50, max reminder?
+  optional uint32 maxReminders = 2;
 }
 
 message Reminder {
