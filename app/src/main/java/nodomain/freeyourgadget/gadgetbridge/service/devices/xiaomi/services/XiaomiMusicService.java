@@ -136,8 +136,8 @@ public class XiaomiMusicService extends AbstractXiaomiService {
             }
 
             musicInfo.setVolume(mediaManager.getPhoneVolume())
-                    .setTrack(musicSpec.track)
-                    .setArtist(musicSpec.artist)
+                    .setTrack(musicSpec.track != null ? musicSpec.track : "")
+                    .setArtist(musicSpec.artist != null ? musicSpec.artist : "")
                     .setPosition(musicStateSpec.position)
                     .setDuration(musicSpec.duration);
         }
