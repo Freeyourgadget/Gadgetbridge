@@ -116,6 +116,7 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
         XiaomiBleUuids.XiaomiBleUuidSet uuidSet = null;
         for (Map.Entry<UUID, XiaomiBleUuids.XiaomiBleUuidSet> xiaomiUuid : XiaomiBleUuids.UUIDS.entrySet()) {
             if (getSupportedServices().contains(xiaomiUuid.getKey())) {
+                LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
                 uuidSet = xiaomiUuid.getValue();
                 break;
             }
