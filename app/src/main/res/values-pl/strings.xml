@@ -2578,4 +2578,5 @@
     <string name="pref_title_casio_alert_sms">Alert powiadomień SMS</string>
     <string name="menuitem_alerts">Alerty</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
+    <string name="devicetype_pixoo">Pixoo</string>
 </resources>
