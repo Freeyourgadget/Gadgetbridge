@@ -733,7 +733,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleTrksList(JSONObject json) throws JSONException {
         LOG.info("trksList says hi!");
-        GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
+        //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         for (int i = 0; i < tracksList.length(); i ++) {
@@ -955,8 +955,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 BaseActivitySummary summary = null;
 
-                Date startTime = new Date(Long.parseLong(storedLogArray2[1][0])*1000L);
-                Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0])*1000L);
+                Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
+                Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0].split("\\.\\d")[0])*1000L);
                 summary = new BaseActivitySummary();
                 summary.setName(log);
                 summary.setStartTime(startTime);
@@ -1188,12 +1188,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
                 writer.write(line);
                 writer.close();
-                GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
+                //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
 
                 BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
                 writerLogID.write(log);
                 writerLogID.close();
-                GB.toast(getContext(), "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
+                //GB.toast(getContext(), "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
             } catch (IOException e) {
                 LOG.warn("Could not write to file", e);
             }
