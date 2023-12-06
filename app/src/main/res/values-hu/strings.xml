@@ -455,7 +455,7 @@
     <string name="notif_battery_low_extended">%1$ akkumulátora merül: %2$s</string>
     <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a kapcsolódott eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
-    <string name="prefs_title_heartrate_measurement_interval">Egész napos szívritmus mérés</string>
+    <string name="prefs_title_heartrate_measurement_interval">Egész napos pulzusmérés</string>
     <string name="prefs_screen_orientation">Képernyő tájolása</string>
     <string name="pref_summary_sync_calendar">Naptár értesítések bekapcsolása mikor nincs kapcsolat a telefonnal</string>
     <string name="fw_upgrade_notice_amazfitcor">Ön a %s firmware-t telepíti az Amazfit Cor-ra.
@@ -1253,4 +1253,29 @@
     <string name="gps_gnolass">GPS + GLONASS</string>
     <string name="gps_bds">GPS + BDS</string>
     <string name="low_power_gps">Alacsony energiájú GPS</string>
+    <string name="heartrate_bpm_110">110 bpm</string>
+    <string name="heartrate_bpm_135">135 bpm</string>
+    <string name="prefs_autoheartrate_interval">Mérések gyakorisága</string>
+    <string name="heartrate_bpm_105">105 bpm</string>
+    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="zetime_title_heart_rate_alarm">Pulzus riasztás</string>
+    <string name="heartrate_bpm_130">130 bpm</string>
+    <string name="zetime_title_heartrate">Pulzus beállítások</string>
+    <string name="live_activity_max_heart_rate">Jelenlegi / maximum pulzus: %1$d / %2$d</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">Pulzusmérés beállítása</string>
+    <string name="pref_header_heartrate_allday">Egész napos mérés</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Pulzusmérés</string>
+    <string name="pref_header_heartrate_alerts">Pulzus riasztások</string>
+    <string name="heartrate_bpm_125">125 bpm</string>
+    <string name="heartrate_bpm_100">100 bpm</string>
+    <string name="heartrate_bpm_145">145 bpm</string>
+    <string name="heartrate_bpm_115">115 bpm</string>
+    <string name="heartrate_bpm_150">150 bpm</string>
+    <string name="prefs_autoheartrate_measurement">Automatikus pulzusmérések</string>
+    <string name="heartrate_bpm_140">140 bpm</string>
+    <string name="prefs_autoheartrate_sleep">Alvás közben végezzen méréseket</string>
+    <string name="heartrate_bpm_45">45 bpm</string>
+    <string name="heartrate_bpm_120">120 bpm</string>
+    <string name="zetime_heart_rate_alarm_enable">Pulzus riasztás engedélyezése</string>
+    <string name="heartrate_bpm_50">50 bpm</string>
 </resources>
