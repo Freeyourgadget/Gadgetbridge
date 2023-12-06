@@ -121,14 +121,27 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case CMD_CONFIG_SPO2_GET:
                 handleSpo2Config(cmd.getHealth().getSpo2());
                 return;
+            case CMD_CONFIG_SPO2_SET:
+                LOG.debug("Got spo2 set ack, status={}", cmd.getStatus());
+                return;
+            case CMD_CONFIG_HEART_RATE_SET:
+                LOG.debug("Got heart rate set ack, status={}", cmd.getStatus());
+                return;
+
             case CMD_CONFIG_HEART_RATE_GET:
                 handleHeartRateConfig(cmd.getHealth().getHeartRate());
                 return;
             case CMD_CONFIG_STANDING_REMINDER_GET:
                 handleStandingReminderConfig(cmd.getHealth().getStandingReminder());
                 return;
+            case CMD_CONFIG_STANDING_REMINDER_SET:
+                LOG.debug("Got standing reminder set ack, status={}", cmd.getStatus());
+                return;
             case CMD_CONFIG_STRESS_GET:
                 handleStressConfig(cmd.getHealth().getStress());
+                return;
+            case CMD_CONFIG_STRESS_SET:
+                LOG.debug("Got stress set ack, status={}", cmd.getStatus());
                 return;
             case CMD_WORKOUT_WATCH_STATUS:
                 handleWorkoutStatus(cmd.getHealth().getWorkoutStatusWatch());
@@ -311,18 +324,35 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
-    private void setHeartRateConfig() {
+    public void setHeartRateConfig() {
         final Prefs prefs = getDevicePrefs();
 
         final boolean sleepDetection = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION, false);
         final boolean sleepBreathingQuality = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING, false);
-        final int intervalMin = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0);
+        final int intervalSeconds = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0);
         final int alertHigh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD, 0);
         final int alertLow = prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD, 0);
 
+        int intervalMin;
+        if (intervalSeconds == -1) {
+            // Smart
+            intervalMin = 0;
+        } else {
+            intervalMin = intervalSeconds / 60;
+        }
+
+        LOG.debug(
+                "Set heart rate config: sleepDetection={}, sleepBreathingQuality={}, intervalSeconds={}, alertHigh={}, alertLow={}",
+                sleepDetection,
+                sleepBreathingQuality,
+                intervalSeconds,
+                alertHigh,
+                alertLow
+        );
+
         final XiaomiProto.HeartRate.Builder heartRate = XiaomiProto.HeartRate.newBuilder()
-                .setDisabled(intervalMin == 0)
-                .setInterval(Math.max(intervalMin, 0)) // smart will be -1 from pref
+                .setDisabled(intervalSeconds == 0)
+                .setInterval(intervalMin)
                 .setAdvancedMonitoring(XiaomiProto.AdvancedMonitoring.newBuilder()
                         .setEnabled(sleepDetection))
                 .setBreathingScore(sleepBreathingQuality ? 1 : 2)

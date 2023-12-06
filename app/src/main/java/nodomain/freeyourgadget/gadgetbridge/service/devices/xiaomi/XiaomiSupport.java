@@ -417,14 +417,12 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableHeartRateSleepSupport(final boolean enable) {
-        // TODO onEnableHeartRateSleepSupport
-        super.onEnableHeartRateSleepSupport(enable);
+        healthService.setHeartRateConfig();
     }
 
     @Override
     public void onSetHeartRateMeasurementInterval(final int seconds) {
-        // TODO
-        super.onSetHeartRateMeasurementInterval(seconds);
+        healthService.setHeartRateConfig();
     }
 
     @Override
