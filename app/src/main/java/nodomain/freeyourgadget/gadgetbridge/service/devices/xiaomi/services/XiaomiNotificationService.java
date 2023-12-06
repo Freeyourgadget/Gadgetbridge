@@ -37,10 +37,12 @@ import java.util.Queue;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -242,18 +244,36 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void onSetCannedMessages(final CannedMessagesSpec cannedMessagesSpec) {
-        if (cannedMessagesSpec.type != CannedMessagesSpec.TYPE_GENERIC) {
+        if (cannedMessagesSpec.type != CannedMessagesSpec.TYPE_REJECTEDCALLS) {
             LOG.warn("Got unsupported canned messages type: {}", cannedMessagesSpec.type);
             return;
         }
 
+        final int minReplies = getDevicePrefs().getInt(XiaomiPreferences.PREF_CANNED_MESSAGES_MIN, 0);
+        final int maxReplies = getDevicePrefs().getInt(XiaomiPreferences.PREF_CANNED_MESSAGES_MAX, 0);
+
+        if (maxReplies == 0) {
+            LOG.warn("Attempting to set canned messages, but max replies is 0");
+            return;
+        }
+
         final XiaomiProto.CannedMessages.Builder cannedMessagesBuilder = XiaomiProto.CannedMessages.newBuilder()
-                // TODO get those from wathc
-                // TODO enforce these
-                .setMinReplies(1)
-                .setMaxReplies(10);
+                .setMinReplies(minReplies)
+                .setMaxReplies(maxReplies);
+        int i = 0;
         for (final String cannedMessage : cannedMessagesSpec.cannedMessages) {
+            if (i >= maxReplies) {
+                LOG.warn("Got too many canned messages ({}), limit is {}", cannedMessagesSpec.cannedMessages.length, maxReplies);
+                break;
+            }
+
             cannedMessagesBuilder.addReply(cannedMessage);
+
+            i++;
+        }
+
+        for (; i < minReplies; i++) {
+            cannedMessagesBuilder.addReply("-");
         }
 
         final XiaomiProto.Notification.Builder notificationBuilder = XiaomiProto.Notification.newBuilder()
@@ -281,10 +301,30 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void handleCannedMessages(final XiaomiProto.CannedMessages cannedMessages) {
-        // TODO save them
-        //final GBDeviceEventUpdatePreferences gbDeviceEventUpdatePreferences = new GBDeviceEventUpdatePreferences();
-        //gbDeviceEventUpdatePreferences.withPreference("canned_reply_" + i, message);
-        //getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdatePreferences);
+        LOG.info("Got {} canned messages", cannedMessages.getReplyCount());
+
+        final int minReplies = cannedMessages.getMinReplies();
+        final int maxReplies = cannedMessages.getMaxReplies();
+        final GBDeviceEventUpdatePreferences gbDeviceEventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.PREF_CANNED_MESSAGES_MIN, minReplies)
+                .withPreference(XiaomiPreferences.PREF_CANNED_MESSAGES_MAX, maxReplies);
+
+        int i = 1;
+        for (final String reply : cannedMessages.getReplyList()) {
+            gbDeviceEventUpdatePreferences.withPreference("canned_message_dismisscall_" + i, reply);
+            i++;
+
+            if (i > maxReplies || i > 16) {
+                LOG.warn("Got too many canned messages ({})", i);
+                break;
+            }
+        }
+
+        for (int j = i; j <= maxReplies; j++) {
+            gbDeviceEventUpdatePreferences.withPreference("canned_message_dismisscall_" + j, null);
+        }
+
+        getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdatePreferences);
     }
 
     public boolean canSendSms() {

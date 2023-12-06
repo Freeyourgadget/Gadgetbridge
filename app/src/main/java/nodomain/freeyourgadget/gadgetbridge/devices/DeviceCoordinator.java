@@ -452,6 +452,11 @@ public interface DeviceCoordinator {
     int getReminderSlotCount(GBDevice device);
 
     /**
+     * Indicates the maximum number of canned replies available in the device.
+     */
+    int getCannedRepliesSlotCount(GBDevice device);
+
+    /**
      * Indicates the maximum number of slots available for world clocks in the device.
      */
     int getWorldClocksSlotCount();

@@ -772,12 +772,14 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             });
         }
 
+        final int cannedRepliesSlotCount = coordinator.getCannedRepliesSlotCount(device);
+
         final Preference cannedMessagesDismissCall = findPreference("canned_messages_dismisscall_send");
         if (cannedMessagesDismissCall != null) {
             cannedMessagesDismissCall.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     ArrayList<String> messages = new ArrayList<>();
-                    for (int i = 1; i <= 16; i++) {
+                    for (int i = 1; i <= cannedRepliesSlotCount; i++) {
                         String message = prefs.getString("canned_message_dismisscall_" + i, null);
                         if (message != null && !message.equals("")) {
                             messages.add(message);
@@ -790,14 +792,23 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     return true;
                 }
             });
+
+            // TODO we could use this to auto-create preferences for watches with > 16 slots
+            for (int i = cannedRepliesSlotCount + 1; i <= 16; i++) {
+                final Preference cannedReplyPref = findPreference("canned_message_dismisscall_" + i);
+                if (cannedReplyPref != null) {
+                    cannedReplyPref.setVisible(false);
+                }
+            }
         }
 
         final Preference cannedMessagesGeneric = findPreference("canned_messages_generic_send");
         if (cannedMessagesGeneric != null) {
+
             cannedMessagesGeneric.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     final ArrayList<String> messages = new ArrayList<>();
-                    for (int i = 1; i <= 16; i++) {
+                    for (int i = 1; i <= cannedRepliesSlotCount; i++) {
                         String message = prefs.getString("canned_reply_" + i, null);
                         if (message != null && !message.equals("")) {
                             messages.add(message);
@@ -810,6 +821,14 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     return true;
                 }
             });
+
+            // TODO we could use this to auto-create preferences for watches with > 16 slots
+            for (int i = cannedRepliesSlotCount + 1; i <= 16; i++) {
+                final Preference cannedReplyPref = findPreference("canned_reply_" + i);
+                if (cannedReplyPref != null) {
+                    cannedReplyPref.setVisible(false);
+                }
+            }
         }
 
         setInputTypeFor(HuamiConst.PREF_BUTTON_ACTION_BROADCAST_DELAY, InputType.TYPE_CLASS_NUMBER);

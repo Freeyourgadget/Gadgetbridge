@@ -284,6 +284,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        return 16;
+    }
+
+    @Override
     public int getContactsSlotCount(final GBDevice device) {
         return getPrefs(device).getInt(ZeppOsContactsService.PREF_CONTACTS_SLOT_COUNT, 0);
     }

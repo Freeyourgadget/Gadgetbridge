@@ -280,6 +280,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        return getPrefs(device).getInt(XiaomiPreferences.PREF_CANNED_MESSAGES_MAX, 0);
+    }
+
+    @Override
     public int getWorldClocksSlotCount() {
         // TODO how many? also, map world clocks
         return 0;
@@ -387,7 +392,9 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
         settings.add(R.xml.devicesettings_screen_on_on_notifications);
         settings.add(R.xml.devicesettings_autoremove_notifications);
-        settings.add(R.xml.devicesettings_canned_reply_16);
+        if (getCannedRepliesSlotCount(device) > 0) {
+            settings.add(R.xml.devicesettings_canned_dismisscall_16);
+        }
 
         //
         // Calendar

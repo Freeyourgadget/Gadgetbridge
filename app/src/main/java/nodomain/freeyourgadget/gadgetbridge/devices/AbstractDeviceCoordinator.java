@@ -433,6 +433,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        return 0;
+    }
+
+    @Override
     public int getWorldClocksSlotCount() {
         return 0;
     }

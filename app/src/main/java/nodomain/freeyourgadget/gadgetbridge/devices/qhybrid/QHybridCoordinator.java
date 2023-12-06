@@ -147,6 +147,15 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        if (isHybridHR()) {
+            return 16;
+        }
+
+        return 0;
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         return isHybridHR();
     }
