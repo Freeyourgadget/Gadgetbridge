@@ -2432,4 +2432,5 @@
     <string name="pref_sleep_mode_schedule_summary">Send a reminder and enter sleep mode at bedtime. At the scheduled wake-up time, the wake-up alarm will sound.</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
     <string name="devicetype_mi_watch_color_sport">Mi Watch Color Sport</string>
+    <string name="devicetype_pixoo">Pixoo</string>
 </resources>
