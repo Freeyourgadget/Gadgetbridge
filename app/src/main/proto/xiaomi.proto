@@ -130,7 +130,7 @@ message System {
   optional VibrationPatternAck vibrationPatternAck = 43;
 
   // 2, 79
-  optional Charger charger = 49;
+  optional DeviceState deviceState = 49;
 }
 
 message Power {
@@ -299,8 +299,17 @@ message Vibration {
   optional uint32 ms = 2;
 }
 
-message Charger {
-  optional uint32 state = 1; // 1 charging, 2 not charging
+message DeviceActivityState {
+  optional uint32 activityType = 1;
+  optional uint32 currentActivityState = 2;
+}
+
+message DeviceState {
+  optional uint32 chargingState = 1; // 1 charging, 2 not charging
+  optional uint32 wearingState = 2; // 1 wearing, 2 not wearing
+  optional uint32 sleepState = 3; // 1 sleep detected, 2 no sleep detected
+  optional uint32 warningState = 4; // ?
+  optional DeviceActivityState activityState = 5;
 }
 
 //

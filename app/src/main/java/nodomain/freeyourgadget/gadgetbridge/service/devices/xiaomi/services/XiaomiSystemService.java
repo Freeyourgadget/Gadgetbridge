@@ -74,10 +74,11 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
-    public static final int CMD_CHARGER = 79;
+    public static final int CMD_DEVICE_STATE = 79;
 
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
+    private XiaomiProto.DeviceState cachedDeviceState = null;
 
     public XiaomiSystemService(final XiaomiSupport support) {
         super(support);
@@ -129,8 +130,13 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
-            case CMD_CHARGER:
-                // charger event, request battery state
+            case CMD_DEVICE_STATE:
+                // some devices (e.g. Xiaomi Watch S1 Active) only broadcast the charger state through
+                // this message, so this will need to be kept cached to process when the battery levels
+                // get requested
+                cachedDeviceState = cmd.getSystem().getDeviceState();
+
+                // request battery state to request battery level and charger state on supported models
                 getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
                 return;
         }
@@ -250,7 +256,16 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
         batteryInfo.batteryIndex = 0;
         batteryInfo.level = battery.getLevel();
-        switch (battery.getState()) {
+
+        int chargerState = battery.getState();
+
+        // if device state is cached and the charging state there is set, take the charger status
+        // from there
+        if (cachedDeviceState != null && cachedDeviceState.hasChargingState()) {
+            chargerState = cachedDeviceState.getChargingState();
+        }
+
+        switch (chargerState) {
             case 1:
                 batteryInfo.state = BatteryState.BATTERY_CHARGING;
                 break;
