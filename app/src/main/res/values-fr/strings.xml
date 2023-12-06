@@ -927,7 +927,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_filter_name_contains">Étiquette</string>
     <string name="activity_filter_filter_title">Filtre</string>
     <string name="activity_filter_reset_filter">Effacer les filtres</string>
-    <string name="activity_filter_date_to">A</string>
+    <string name="activity_filter_date_to">À</string>
     <string name="activity_filter_date_from">De</string>
     <string name="pref_header_statistics">Statistiques sur les activités sportives</string>
     <string name="pref_header_filter">Filtre sur les activités sportives</string>
@@ -990,7 +990,7 @@ Temps de sommeil préféré en heures</string>
     <string name="error_retrieving_devices_database">Erreur lors de la récupération des appareils de la base de données</string>
     <string name="error_setting_alias">Erreur pour configurer l\'alias:</string>
     <string name="error_exporting_device_preferences">Erreur à l\'exportation des préférences spécifiques de cet appareil</string>
-    <string name="pref_check_permission_status_summary">Demander et vérifier les autorisations manquantes même si elles ne sont pas immédiatement nécessaires. Les désactiver uniquement si votre appareil ne supporte pas ces fonctions. Refuser une autorisation peut provoquer des problèmes !</string>
+    <string name="pref_check_permission_status_summary">Demander et vérifier les autorisations manquantes même si elles ne sont pas immédiatement nécessaires. Désactiver uniquement si votre appareil ne supporte pas ces fonctions. Refuser une autorisation peut provoquer des problèmes !</string>
     <string name="pref_check_permission_status">Vérifier l\'état des autorisations</string>
     <string name="error_background_service_reason">Le démarrage du service en arrière-plan n\'a pas réussi à cause d\'une exception. Erreur:</string>
     <string name="device_requires_key">CLÉ NÉCESSAIRE, APPUI LONG POUR ENTRER</string>
@@ -1008,8 +1008,8 @@ Temps de sommeil préféré en heures</string>
     <string name="about_contributors">Contributeurs</string>
     <string name="about_core_team_title">Équipe principal (dans l\'ordre de la première contribution au code)</string>
     <string name="about_description_generic">Un remplaçant libre et sans cloud aux applications Android propriétaires des fabricants de vos bracelets.</string>
-    <string name="about_activity_title_generic">A propos de Gadgetbridge</string>
-    <string name="about_title">A propos</string>
+    <string name="about_activity_title_generic">À propos de Gadgetbridge</string>
+    <string name="about_title">À propos</string>
     <string name="menuitem_worldclock">Horloge mondiale</string>
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_breathing">Respiration</string>
@@ -1033,7 +1033,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_elliptical_trainer">Entraîneur elliptique</string>
     <string name="activity_type_indoor_cycling">Vélo d\'intérieur</string>
     <string name="activity_type_swimming_openwater">Natation (en eau libre)</string>
-    <string name="pref_title_weather_summary">Utilisé par le fournisseur météo de LineageOS, les autres versions d\'Android doivent utilisées une application comme Weather notification. Se reporter au wiki Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Utilisé par le fournisseur météo de LineageOS, les autres versions d\'Android doivent utiliser une application comme Weather notification. Se reporter au wiki Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Vous êtes sur le point d\'installer le micrologiciel %s dans votre Mi Band 5.
 \n
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après avoir installé le fichier .fw.
@@ -1585,16 +1585,16 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_setting_light_up_on_notification">S\'allumer pour une nouvelle notification</string>
     <string name="menuitem_email">Email</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">À propos de Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.
 \n
 \nEn raison des règles du Google Play Store, nous ne pouvons pas mettre de lien de don directement dans l\'application, mais si vous appréciez cette application, pensez à faire un don via la page web de Gadgetbridge ci-dessous.</string>
     <string name="application_name_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
-    <string name="about_activity_title_main_nightly">A propos de Gatgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">À propos de Gatgetbridge Nightly</string>
     <string name="about_activity_title_banglejs_nopebble">A propos de Bangle.js pour Gadgetbridge</string>
-    <string name="about_activity_title_main_nopebble">A propos de Gadgetbridge Nightly sans Pebble</string>
+    <string name="about_activity_title_main_nopebble">À propos de Gadgetbridge Nightly sans Pebble</string>
     <string name="about_description_main_nightly">Remplaçant autonome et sous licence libre pour remplacer les applications propriétaires des fabricants. Version Nightly de Gadgetbridge. Ne peut pas être installé si vous avez déja Gadgetbridge ou Pebble d\'installé, en raison d\'un conflit avec l\'application Pebble.</string>
     <string name="application_name_main_nopebble">Gadgetbridage (Nightly, pas defournisseur Pebble)</string>
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sans Pebble</string>
@@ -1814,7 +1814,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_setting_title_custom_events">Événements personnalisés</string>
     <string name="pref_write_logfiles_not_available">Création du fichier journal ratée, l\'écriture du fichier journal est indisponible. Redémarrer l\'application pour essayer de nouveau l\'écriture du fichier journal.</string>
     <string name="controlcenter_get_heartrate_measurement">Obtenir les mesures de rythme cardiaque</string>
-    <string name="about_activity_title_banglejs_nightly">A propos de Bangle.js Gadgetbridge (Version quotidienne)</string>
+    <string name="about_activity_title_banglejs_nightly">À propos de Bangle.js Gadgetbridge (Version quotidienne)</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
     <string name="devicetype_binary_sensor">Capteur binaire</string>
@@ -1826,13 +1826,13 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_hourly_chime_summary">La montre fera un beep toutes les heures</string>
     <string name="step_streaks_achievements_sharing_title">Objectifs de pas</string>
     <string name="step_streaks_achievements_sharing_message">Mes résultats quotidiens de pas !</string>
-    <string name="permission_display_over_other_apps">%1$s a besoin d\'une autorisation pour s\'afficher au-dessus des autres apps afin de pouvoir lanter des activités via la commande vocale lorsque %1$s est en arrière-plan.
+    <string name="permission_display_over_other_apps">%1$s a besoin d\'une autorisation pour s\'afficher au-dessus des autres apps afin de pouvoir lancer des activités via la commande vocale lorsque %1$s est en arrière-plan.
 \n
 \nCela peut être utilisé pour démarrer une application de musique et jouer un morceau, et de nombreuses autres choses.
 \n
 \nMerci de choisir \'%2$s\' puis \'%1$s\' et activer \'Permettre l\'affichage au-dessus des autres apps\', puis faire \'Retour\' pour revenir à %1$s.
 \n
-\nPour empêcher %1$s de demander des permissions se rendre dans les \'Régalges\' et décocher \'Vérifier l\'état des permissions\'.
+\nPour empêcher %1$s de demander des permissions se rendre dans les \'Réglages\' et décocher \'Vérifier l\'état des permissions\'.
 \n
 \nAssurez-vous d\'accorder à %1$s les permissions nécessaires pour les fonctionnalités attendues.</string>
     <string name="pref_header_time">Heure</string>
@@ -2053,8 +2053,8 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_phone">Téléphone</string>
     <string name="menuitem_brightness">Luminosité</string>
     <string name="pref_title_lower_button_short_press_action">Action sur un appui court du bouton inférieur</string>
-    <string name="pref_title_notification_media_ignores_application_list">liste des applications dont les notifications média doivent être ignorées</string>
-    <string name="pref_summary_notification_media_ignores_application_list">Traiter les notifications média avant la liste des app. Si la préférence n\'est pas cochée, les applicatioms média doivent être autorisées dans la liste des applications pour que les contrôles média fonctionnent sur l\'appareil.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Liste des applications dont les notifications média doivent être ignorées</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Traiter les notifications média avant la liste des app. Si la préférence n\'est pas cochée, les applications média doivent être autorisées dans la liste des applications pour que les contrôles média fonctionnent sur l\'appareil.</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Supprimer les préférences de l\'appareil \?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Cela supprimera toutes les préférences appareil pour tous les appareils connectés. Etes-vous sûr \?</string>
     <string name="menuitem_eject_water">Éjecter l\'eau</string>
@@ -2167,7 +2167,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_pair_bluetooth_calls_title">Coupler pour les appels Bluetooth</string>
     <string name="pref_pair_bluetooth_calls_help_summary">Afin de recevoir les appels en Bluetooth, vous devez pairer votre téléphone avec une seconde instance de la montre.</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Rendez-vous dans les réglages Bluetooth de votre téléphone, et pairez-le avec le nouvel appareil qui apparaitra (nom similaire à votre montre existante, mais avec un suffixe, du style \"Amazfit GTR 4 - AFC8\".</string>
-    <string name="pref_title_notification_cache_while_disconnected">Masquer lorsque hors de portée</string>
+    <string name="pref_title_notification_cache_while_disconnected">Garder en cache lorsque hors de portée</string>
     <string name="pref_summary_notification_cache_while_disconnected">Envoyer les notifications manquées lorsqu\'un appareil se reconnecte après avoir été hors de portée</string>
     <string name="pref_switch_controls_anc_ambient_off">Annulation de bruit ←→ Ambiance ←→ Off</string>
     <string name="single_tap">Appui simple</string>
@@ -2537,4 +2537,16 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_thermometer">Thermomètre</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">App de navigation non installée sur le téléphone</string>
+    <string name="pref_title_casio_alert_other">Alerte pour les autres notifications</string>
+    <string name="pref_title_casio_alert_calendar">Alerte pour les notifications du calendrier</string>
+    <string name="pref_summary_casio_alert_call">Alerte (vibre/bipe) pour les appels entrants</string>
+    <string name="pref_title_casio_alert_call">Alerte pour les appels entrants</string>
+    <string name="pref_title_casio_alert_email">Alerte pour les notifications d\'email</string>
+    <string name="pref_summary_casio_alert_email">Alerte (vibre/bipe) pour les notifications d\'email</string>
+    <string name="pref_summary_casio_alert_sms">Alerte (vibre/bipe) pour les notifications SMS (message texte)</string>
+    <string name="pref_title_preview_message_in_title">Montrer un aperçu du message dans le titre</string>
+    <string name="pref_summary_casio_alert_calendar">Alerte (vibre/bipe) pour les notifications du calendrier</string>
+    <string name="pref_summary_casio_alert_other">Alerte (vibre/bipe) pour les notifications de la catégorie autre</string>
+    <string name="pref_title_prefix_notification_with_app">Nom de l\'app dans la notification</string>
+    <string name="pref_title_casio_alert_sms">Alerte pour les notifications SMS</string>
 </resources>
