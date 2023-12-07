@@ -230,7 +230,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         final XiaomiProto.UserInfo userInfo = XiaomiProto.UserInfo.newBuilder()
                 .setHeight(activityUser.getHeightCm())
                 .setWeight(activityUser.getWeightKg())
-                .setBirthday(Integer.parseInt(String.format(Locale.ROOT, "%02d%02d%02d", birthYear, birthMonth, birthDay)))
+                .setBirthday(Integer.parseInt(String.format(Locale.ROOT, "%04d%02d%02d", birthYear, birthMonth, birthDay)))
                 .setGender(genderInt)
                 .setMaxHeartRate(maxHeartRate)
                 .setGoalCalories(activityUser.getCaloriesBurntGoal())
