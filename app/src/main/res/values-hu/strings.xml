@@ -113,12 +113,12 @@
     <string name="pref_pebble_privacy_mode_off">Normál értesítések</string>
     <string name="pref_pebble_privacy_mode_content">Az értesítésszöveg eltolása képernyőn</string>
     <string name="pref_pebble_privacy_mode_complete">Csak az értesítési ikon megjelenítése</string>
-    <string name="pref_header_location">Helyzet</string>
-    <string name="pref_title_location_aquire">Pozició meghatározása</string>
+    <string name="pref_header_location">Hely</string>
+    <string name="pref_title_location_aquire">Hely meghatározása</string>
     <string name="pref_title_location_latitude">Szélesség</string>
     <string name="pref_title_location_longitude">Hosszúság</string>
-    <string name="pref_title_location_keep_uptodate">Helyzet frissen tartása</string>
-    <string name="pref_summary_location_keep_uptodate">Aktuális pozició meghatározásának megpróbálása futásidőben, hiba esetén az eltárolt pozíció használata</string>
+    <string name="pref_title_location_keep_uptodate">Hely frissen tartása</string>
+    <string name="pref_summary_location_keep_uptodate">Aktuális hely meghatározásának megpróbálása futásidőben, hiba esetén az eltárolt hely használata</string>
     <string name="toast_enable_networklocationprovider">Kérem, engedélyezze a hálózati helymeghatározást</string>
     <string name="toast_aqurired_networklocation">Hely meghatározva</string>
     <string name="pref_title_pebble_forceprotocol">Értesítési protokoll erőltetése</string>
@@ -1278,4 +1278,7 @@
     <string name="heartrate_bpm_120">120 bpm</string>
     <string name="zetime_heart_rate_alarm_enable">Pulzus riasztás engedélyezése</string>
     <string name="heartrate_bpm_50">50 bpm</string>
+    <string name="require_location_provider">A helymeghatározásnak engedélyezve kell lennie</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Hálózat használata csak a hely meghatározásához</string>
+    <string name="notification_gps_text">GPS hely küldése %1$d eszközökre</string>
 </resources>
