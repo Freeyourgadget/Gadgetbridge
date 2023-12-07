@@ -34,10 +34,6 @@ public class PixooSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onTestNewFunction() {
-    }
-
-    @Override
     public boolean connect() {
         getDeviceIOThread().start();
         return true;

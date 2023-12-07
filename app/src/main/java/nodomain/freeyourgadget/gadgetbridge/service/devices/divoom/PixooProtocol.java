@@ -201,6 +201,50 @@ public class PixooProtocol extends GBDeviceProtocol {
         });
     }
 
+    private byte[] encodeClockModeCommand(int clockMode, boolean showTime, boolean showWeather, boolean showTemperature, boolean showDate,
+                                          int r, int g, int b) {
+
+        r = Math.min(r, 127);
+        g = Math.min(g, 127);
+        b = Math.min(b, 127);
+
+        return encodeProtocol(new byte[]{
+                0x45,
+                0x00,
+                0x01, // unknown, can be 0 or 1
+                (byte) clockMode,
+                (byte) (showTime ? 0x01 : 0x00), // ignored it seems
+                (byte) (showWeather ? 0x01 : 0x00),
+                (byte) (showTemperature ? 0x01 : 0x00),
+                (byte) (showDate ? 0x01 : 0x00),
+                (byte) r, (byte) g, (byte) b
+        });
+
+    }
+
+    private byte[] encodeAudioVisualisationModeCommand(int visualisationMode) {
+        return encodeProtocol(new byte[]{
+                0x45,
+                0x04,
+                (byte) visualisationMode,
+        });
+    }
+
+    private byte[] encodeEffectModeCommand(int effectMode) {
+        return encodeProtocol(new byte[]{
+                0x45,
+                0x03,
+                (byte) effectMode,
+        });
+    }
+
+    @Override
+    public byte[] encodeTestNewFunction() {
+        //return encodeAudioModeCommand(1); // works
+        //return encodeEffectModeCommand(5); // does nothing
+        return encodeClockModeCommand(0, true, true, false, true, 127, 127, 127); // works r,g,b up to 127
+    }
+
     byte[] encodeProtocol(byte[] payload) {
 
         ByteBuffer msgBuf = ByteBuffer.allocate(6 + payload.length);
