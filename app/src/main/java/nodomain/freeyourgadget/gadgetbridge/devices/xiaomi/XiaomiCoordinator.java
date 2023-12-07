@@ -410,6 +410,9 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
             settings.add(R.xml.devicesettings_contacts);
         }
         settings.add(R.xml.devicesettings_camera_remote);
+        if (supportsWearingAndSleepingDataThroughDeviceState()) {
+            settings.add(R.xml.devicesettings_device_actions);
+        }
 
         //
         // Developer
@@ -485,6 +488,10 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     public boolean supportsMultipleWeatherLocations() {
+        return false;
+    }
+
+    public boolean supportsWearingAndSleepingDataThroughDeviceState() {
         return false;
     }
 }

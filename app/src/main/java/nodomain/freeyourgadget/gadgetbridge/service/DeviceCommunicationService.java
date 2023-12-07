@@ -1,8 +1,8 @@
-/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Avamander,
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Avamander,
     Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Daniel Hauck, Dikay900,
     Frank Slezak, ivanovlev, João Paulo Barraca, José Rebelo, Julien Pivotto,
     Kasha, keeshii, mamucho, Martin, Matthieu Baerts, Nephiel, Sebastian Kranz,
-    Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe, Uwe Hermann
+    Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe, Uwe Hermann, Yoran Vulker
 
     This file is part of Gadgetbridge.
 

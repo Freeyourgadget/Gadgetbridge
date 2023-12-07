@@ -98,15 +98,6 @@ public class HuamiConst {
     public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP = "FITNESS_CONTROL_STOP";
     public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE = "FITNESS_CONTROL_TOGGLE";
 
-    public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
-    public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";
-    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION = "events_forwarding_fellsleep_action_selection";
-    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST = "prefs_events_forwarding_fellsleep_broadcast";
-    public static final String PREF_DEVICE_ACTION_WOKE_UP_SELECTION = "events_forwarding_wokeup_action_selection";
-    public static final String PREF_DEVICE_ACTION_WOKE_UP_BROADCAST = "prefs_events_forwarding_wokeup_broadcast";
-    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION = "events_forwarding_startnonwear_action_selection";
-    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
-
     /**
      * The suffixes match the enum {@link nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType}.
      */

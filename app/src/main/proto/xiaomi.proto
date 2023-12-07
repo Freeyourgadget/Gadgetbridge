@@ -129,6 +129,9 @@ message System {
   // 2, 47
   optional VibrationPatternAck vibrationPatternAck = 43;
 
+  // 2, 78
+  optional BasicDeviceState basicDeviceState = 48;
+
   // 2, 79
   optional DeviceState deviceState = 49;
 }
@@ -302,6 +305,14 @@ message Vibration {
 message DeviceActivityState {
   optional uint32 activityType = 1;
   optional uint32 currentActivityState = 2;
+}
+
+message BasicDeviceState {
+  required bool isCharging = 1; // true when connected to charger
+  optional uint32 batteryLevel = 2;
+  required bool isWorn = 3; // true when the device detects it's being worn
+  required bool isUserAsleep = 4; // true when the device detected its user is asleep
+  optional DeviceActivityState activityState = 5;
 }
 
 message DeviceState {

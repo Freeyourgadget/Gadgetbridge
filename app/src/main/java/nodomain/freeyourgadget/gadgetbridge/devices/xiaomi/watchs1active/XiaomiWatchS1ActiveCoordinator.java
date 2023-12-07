@@ -67,4 +67,9 @@ public class XiaomiWatchS1ActiveCoordinator extends XiaomiCoordinator {
     public boolean supportsMultipleWeatherLocations() {
         return true;
     }
+
+    @Override
+    public boolean supportsWearingAndSleepingDataThroughDeviceState() {
+        return true;
+    }
 }

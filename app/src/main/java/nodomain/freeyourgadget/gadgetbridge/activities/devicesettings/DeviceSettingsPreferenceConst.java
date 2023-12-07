@@ -382,4 +382,12 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_FEMOMETER_MEASUREMENT_MODE = "femometer_measurement_mode";
 
     public static final String PREF_PREFIX_NOTIFICATION_WITH_APP = "pref_prefix_notification_with_app";
+    public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
+    public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";
+    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION = "events_forwarding_fellsleep_action_selection";
+    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST = "prefs_events_forwarding_fellsleep_broadcast";
+    public static final String PREF_DEVICE_ACTION_WOKE_UP_SELECTION = "events_forwarding_wokeup_action_selection";
+    public static final String PREF_DEVICE_ACTION_WOKE_UP_BROADCAST = "prefs_events_forwarding_wokeup_broadcast";
+    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION = "events_forwarding_startnonwear_action_selection";
+    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
 }

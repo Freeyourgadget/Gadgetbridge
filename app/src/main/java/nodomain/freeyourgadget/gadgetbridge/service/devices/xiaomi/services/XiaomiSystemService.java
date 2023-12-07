@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023 José Rebelo, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -36,13 +36,17 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
+import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
@@ -73,11 +77,14 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
+    public static final int CMD_DEVICE_STATE_GET = 78;
     public static final int CMD_DEVICE_STATE = 79;
 
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
-    private XiaomiProto.DeviceState cachedDeviceState = null;
+    private WearingState currentWearingState = WearingState.UNKNOWN;
+    private BatteryState currentBatteryState = BatteryState.UNKNOWN;
+    private SleepState currentSleepDetectionState = SleepState.UNKNOWN;
 
     public XiaomiSystemService(final XiaomiSupport support) {
         super(support);
@@ -87,7 +94,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public void initialize() {
         // Request device info and configs
         getSupport().sendCommand("get device info", COMMAND_TYPE, CMD_DEVICE_INFO);
-        getSupport().sendCommand("get battery", COMMAND_TYPE, CMD_BATTERY);
+        getSupport().sendCommand("get device status", COMMAND_TYPE, CMD_DEVICE_STATE_GET);
+        // device status request may initialize wearing, charger, sleeping, and activity state, so
+        // get battery level as a failsafe for devices that don't support CMD_DEVICE_STATE_SET command
+        getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
         getSupport().sendCommand("get password", COMMAND_TYPE, CMD_PASSWORD_GET);
         getSupport().sendCommand("get display items", COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
     }
@@ -129,14 +139,15 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
+            case CMD_DEVICE_STATE_GET:
+                handleBasicDeviceState(cmd.getSystem().hasBasicDeviceState()
+                        ? cmd.getSystem().getBasicDeviceState()
+                        : null);
+                return;
             case CMD_DEVICE_STATE:
-                // some devices (e.g. Xiaomi Watch S1 Active) only broadcast the charger state through
-                // this message, so this will need to be kept cached to process when the battery levels
-                // get requested
-                cachedDeviceState = cmd.getSystem().getDeviceState();
-
-                // request battery state to request battery level and charger state on supported models
-                getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
+                handleDeviceState(cmd.getSystem().hasDeviceState()
+                        ? cmd.getSystem().getDeviceState()
+                        : null);
                 return;
         }
 
@@ -246,6 +257,17 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
     }
 
+    private BatteryState convertBatteryStateFromRawValue(int chargerState) {
+        switch (chargerState) {
+            case 1:
+                return BatteryState.BATTERY_CHARGING;
+            case 2:
+                return BatteryState.BATTERY_NORMAL;
+        }
+
+        return BatteryState.UNKNOWN;
+    }
+
     private void handleBattery(final XiaomiProto.Battery battery) {
         LOG.debug("Got battery: {}", battery.getLevel());
 
@@ -253,25 +275,18 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         batteryInfo.batteryIndex = 0;
         batteryInfo.level = battery.getLevel();
 
-        int chargerState = battery.getState();
+        // currentBatteryState may already be set if the DeviceState message contained the field,
+        // but since some models report their charger state through this message, we will update it
+        // from here
+        if (battery.hasState()) {
+            currentBatteryState = convertBatteryStateFromRawValue(battery.getState());
 
-        // if device state is cached and the charging state there is set, take the charger status
-        // from there
-        if (cachedDeviceState != null && cachedDeviceState.hasChargingState()) {
-            chargerState = cachedDeviceState.getChargingState();
-        }
-
-        switch (chargerState) {
-            case 1:
-                batteryInfo.state = BatteryState.BATTERY_CHARGING;
-                break;
-            case 2:
-                batteryInfo.state = BatteryState.BATTERY_NORMAL;
-                break;
-            default:
-                batteryInfo.state = BatteryState.UNKNOWN;
+            if (currentBatteryState == BatteryState.UNKNOWN) {
                 LOG.warn("Unknown battery state {}", battery.getState());
+            }
         }
+
+        batteryInfo.state = currentBatteryState;
         getSupport().evaluateGBDeviceEvent(batteryInfo);
     }
 
@@ -444,6 +459,155 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 .withPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, prefValue);
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void handleWearingState(int newStateValue) {
+        WearingState newState;
+
+        switch (newStateValue) {
+            case 1:
+                newState = WearingState.WEARING;
+                break;
+            case 2:
+                newState = WearingState.NOT_WEARING;
+                break;
+            default:
+                LOG.warn("Unknown wearing state {}", newStateValue);
+                return;
+        }
+
+        LOG.debug("Current wearing state = {}, new wearing state = {}", currentWearingState, newState);
+
+        if (currentWearingState != WearingState.UNKNOWN && currentWearingState != newState) {
+            GBDeviceEventWearState event = new GBDeviceEventWearState();
+            event.wearingState = newState;
+            getSupport().evaluateGBDeviceEvent(event);
+        }
+
+        currentWearingState = newState;
+    }
+
+    private void handleSleepDetectionState(int newStateValue) {
+        SleepState newState;
+
+        switch (newStateValue) {
+            case 1:
+                newState = SleepState.ASLEEP;
+                break;
+            case 2:
+                newState = SleepState.AWAKE;
+                break;
+            default:
+                LOG.warn("Unknown sleep detection state {}", newStateValue);
+                return;
+        }
+
+        LOG.debug("Current sleep detection state = {}, new sleep detection state = {}", currentSleepDetectionState, newState);
+
+        if (currentSleepDetectionState != SleepState.UNKNOWN && currentSleepDetectionState != newState) {
+            GBDeviceEventSleepStateDetection event = new GBDeviceEventSleepStateDetection();
+            event.sleepState = newState;
+            getSupport().evaluateGBDeviceEvent(event);
+        }
+
+        currentSleepDetectionState = newState;
+    }
+
+    public void handleBasicDeviceState(XiaomiProto.BasicDeviceState deviceState) {
+        LOG.debug("Got basic device state: {}", deviceState);
+
+        if (null == deviceState) {
+            LOG.warn("Got null for BasicDeviceState, requesting battery state and returning");
+            getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
+            return;
+        }
+
+        // handle battery info from message
+        {
+            BatteryState newBatteryState = deviceState.getIsCharging() ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+            LOG.debug("Previous charging state: {}, new charging state: {}", currentBatteryState, newBatteryState);
+
+            currentBatteryState = newBatteryState;
+
+            // if the device state did not have a battery level, request it from the device through other means.
+            // the battery state is now cached, so that it can be used when another response with battery level is received.
+            if (!deviceState.hasBatteryLevel()) {
+                getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
+            } else {
+                GBDeviceEventBatteryInfo event = new GBDeviceEventBatteryInfo();
+                event.batteryIndex = 0;
+                event.state = newBatteryState;
+                event.level = deviceState.getBatteryLevel();
+                getSupport().evaluateGBDeviceEvent(event);
+            }
+        }
+
+        // handle sleep state from message
+        {
+            SleepState newSleepState = deviceState.getIsUserAsleep() ? SleepState.ASLEEP : SleepState.AWAKE;
+            LOG.debug("Previous sleep state: {}, new sleep state: {}", currentSleepDetectionState, newSleepState);
+
+            // send event if the previous state is known and the new state is different from cached
+            if (currentSleepDetectionState != SleepState.UNKNOWN && currentSleepDetectionState != newSleepState) {
+                GBDeviceEventSleepStateDetection event = new GBDeviceEventSleepStateDetection();
+                event.sleepState = newSleepState;
+                getSupport().evaluateGBDeviceEvent(event);
+            }
+
+            currentSleepDetectionState = newSleepState;
+        }
+
+        // handle wearing state from message
+        {
+            WearingState newWearingState = deviceState.getIsWorn() ? WearingState.WEARING : WearingState.NOT_WEARING;
+            LOG.debug("Previous wearing state: {}, new wearing state: {}", currentWearingState, newWearingState);
+
+            if (currentWearingState != WearingState.UNKNOWN && currentWearingState != newWearingState) {
+                GBDeviceEventWearState event = new GBDeviceEventWearState();
+                event.wearingState = newWearingState;
+                getSupport().evaluateGBDeviceEvent(event);
+            }
+
+            currentWearingState = newWearingState;
+        }
+
+        // TODO: handle activity state
+    }
+
+    public void handleDeviceState(XiaomiProto.DeviceState deviceState) {
+        LOG.debug("Got device state: {}", deviceState);
+
+        if (null == deviceState) {
+            LOG.warn("Got null for DeviceState, requesting battery state and returning");
+            getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
+            return;
+        }
+
+        if (deviceState.hasWearingState()) {
+            handleWearingState(deviceState.getWearingState());
+        }
+
+        // The charger state of some devices can only be known when listening for device status
+        // updates. If available, this state will be cached here and updated in the GBDevice upon
+        // the next retrieval of the battery level
+        if (deviceState.hasChargingState()) {
+            BatteryState newBatteryState = convertBatteryStateFromRawValue(deviceState.getChargingState());
+
+            LOG.debug("Current battery state = {}, new battery state = {}", currentBatteryState, newBatteryState);
+
+            if (currentBatteryState != newBatteryState) {
+                currentBatteryState = newBatteryState;
+            }
+        }
+
+        if (deviceState.hasSleepState()) {
+            handleSleepDetectionState(deviceState.getSleepState());
+        }
+
+        // TODO process warning (unknown possible values) and activity information
+
+        // request battery state to request battery level and charger state on supported models
+        getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
     }
 
     public void onFindPhone(final boolean start) {

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Daniele Gobbetti, José Rebelo, Pauli Salmenrinne, Sebastian Kranz,
-    Taavi Eomäe
+    Taavi Eomäe, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -67,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -75,10 +77,12 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDevi
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -90,6 +94,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
+import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
@@ -208,6 +214,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventUpdateDeviceState) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
             handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventWearState) {
+            handleGBDeviceEvent((GBDeviceEventWearState) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSleepStateDetection) {
+            handleGBDeviceEvent((GBDeviceEventSleepStateDetection) deviceEvent);
         }
     }
 
@@ -521,6 +531,133 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
+    /**
+     * Helper method to run specific actions configured in the device preferences, upon wear state
+     * or awake/asleep events.
+     *
+     * @param action
+     * @param message
+     */
+    private void handleDeviceAction(String action, String message) {
+        String actionDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
+
+        if (actionDisabled.equals(action)) {
+            return;
+        }
+
+        final String actionBroadcast = getContext().getString(R.string.pref_device_action_broadcast_value);
+        final String actionFitnessControlStart = getContext().getString(R.string.pref_device_action_fitness_app_control_start_value);
+        final String actionFitnessControlStop = getContext().getString(R.string.pref_device_action_fitness_app_control_stop_value);
+        final String actionFitnessControlToggle = getContext().getString(R.string.pref_device_action_fitness_app_control_toggle_value);
+        final String actionMediaPlay = getContext().getString(R.string.pref_media_play_value);
+        final String actionMediaPause = getContext().getString(R.string.pref_media_pause_value);
+        final String actionMediaPlayPause = getContext().getString(R.string.pref_media_playpause_value);
+
+        if (actionBroadcast.equals(action)) {
+            if (message != null) {
+                Intent in = new Intent();
+                in.setAction(message);
+                LOG.info("Sending broadcast " + message);
+                getContext().getApplicationContext().sendBroadcast(in);
+                return;
+            }
+        }
+
+        if (actionFitnessControlStart.equals(action)) {
+            OpenTracksController.startRecording(getContext());
+            return;
+        }
+
+        if (actionFitnessControlStop.equals(action)) {
+            OpenTracksController.stopRecording(getContext());
+            return;
+        }
+
+        if (actionFitnessControlToggle.equals(action)) {
+            OpenTracksController.toggleRecording(getContext());
+            return;
+        }
+
+        if (actionMediaPlay.equals(action) ||
+                actionMediaPause.equals(action) ||
+                actionMediaPlayPause.equals(action)
+        ) {
+            GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+            deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(action);
+            evaluateGBDeviceEvent(deviceEventMusicControl);
+            return;
+        }
+
+        LOG.warn("Unhandled device state change action (action: {}, message: {})", action, message);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventSleepStateDetection event) {
+        LOG.debug("Got SLEEP_STATE_DETECTION device event, detected sleep state = {}", event.sleepState);
+
+        if (event.sleepState == SleepState.UNKNOWN) {
+            return;
+        }
+
+        String actionDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
+        String actionPreferenceKey, messagePreferenceKey;
+        int defaultBroadcastMessageResource;
+
+        switch (event.sleepState) {
+            case AWAKE:
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+                messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
+                defaultBroadcastMessageResource = R.string.prefs_events_forwarding_wokeup_broadcast_default_value;
+                break;
+            case ASLEEP:
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
+                messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
+                defaultBroadcastMessageResource = R.string.prefs_events_forwarding_fellsleep_broadcast_default_value;
+                break;
+            default:
+                LOG.warn("Unable to deduce action and broadcast message preference key for sleep state {}", event.sleepState);
+                return;
+        }
+
+        String action = getDevicePrefs().getString(actionPreferenceKey, actionDisabled);
+
+        if (actionDisabled.equals(action)) {
+            return;
+        }
+
+        String broadcastMessage = getDevicePrefs().getString(messagePreferenceKey, context.getString(defaultBroadcastMessageResource));
+        handleDeviceAction(action, broadcastMessage);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventWearState event) {
+        LOG.debug("Got WEAR_STATE device event, wearingState = {}", event.wearingState);
+
+        if (event.wearingState == WearingState.UNKNOWN) {
+            LOG.warn("WEAR_STATE state is UNKNOWN, aborting further evaluation");
+            return;
+        }
+
+        if (event.wearingState != WearingState.NOT_WEARING) {
+            LOG.debug("WEAR_STATE state is not NOT_WEARING, aborting further evaluation");
+        }
+
+        String valueDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
+        String actionOnUnwear = getDevicePrefs().getString(
+                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION,
+                valueDisabled
+        );
+
+        // check if an action is set
+        if (actionOnUnwear.equals(valueDisabled)) {
+            return;
+        }
+
+        String broadcastMessage = getDevicePrefs().getString(
+                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST,
+                getContext().getString(R.string.prefs_events_forwarding_startnonwear_broadcast_default_value)
+        );
+
+        handleDeviceAction(actionOnUnwear, broadcastMessage);
+    }
 
     private StoreDataTask createStoreTask(String task, Context context, GBDeviceEventBatteryInfo deviceEvent) {
         return new StoreDataTask(task, context, deviceEvent);
