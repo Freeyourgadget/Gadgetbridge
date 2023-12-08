@@ -571,7 +571,7 @@ message MediaKey {
 
 message Notification {
   optional Notification2 notification2 = 3;
-  optional NotificationDismiss notification4 = 4;
+  optional NotificationDismiss notificationDismiss = 4;
 
   optional bool screenOnOnNotifications = 7;
   optional uint32 unknown8 = 8; // 1 on canned replies request?
@@ -605,7 +605,7 @@ message Notification3 {
 }
 
 message NotificationDismiss {
-  optional NotificationId notificationId = 1;
+  repeated NotificationId notificationId = 1;
 }
 
 message NotificationId {

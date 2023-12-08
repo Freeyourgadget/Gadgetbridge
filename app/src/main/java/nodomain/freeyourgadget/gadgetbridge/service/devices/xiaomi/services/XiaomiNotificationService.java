@@ -87,11 +87,13 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         switch (cmd.getSubtype()) {
             case CMD_NOTIFICATION_DISMISS:
-                final int dismissNotificationId = cmd.getNotification().getNotification4().getNotificationId().getId();
-                LOG.info("Watch dismiss notification {}", dismissNotificationId);
-                deviceEvtNotificationControl.handle = dismissNotificationId;
-                deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
-                getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
+                LOG.info("Watch dismiss {} notifications", cmd.getNotification().getNotificationDismiss().getNotificationIdCount());
+                for (final XiaomiProto.NotificationId notificationId : cmd.getNotification().getNotificationDismiss().getNotificationIdList()) {
+                    LOG.debug("Watch dismiss {}", notificationId.getId());
+                    deviceEvtNotificationControl.handle = notificationId.getId();
+                    deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
+                    getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
+                }
                 return;
             case CMD_CALL_REJECT:
                 LOG.debug("Reject call");
@@ -196,10 +198,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         if (callSpec.command != CallSpec.CALL_INCOMING) {
             final XiaomiProto.NotificationDismiss.Builder notification4 = XiaomiProto.NotificationDismiss.newBuilder()
-                    .setNotificationId(XiaomiProto.NotificationId.newBuilder().setId(0).setPackage("phone"));
+                    .addNotificationId(XiaomiProto.NotificationId.newBuilder().setId(0).setPackage("phone"));
 
             final XiaomiProto.Notification notification = XiaomiProto.Notification.newBuilder()
-                    .setNotification4(notification4)
+                    .setNotificationDismiss(notification4)
                     .build();
 
             getSupport().sendCommand(
