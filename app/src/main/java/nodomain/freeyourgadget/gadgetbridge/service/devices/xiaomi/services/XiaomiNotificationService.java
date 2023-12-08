@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPrefere
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class XiaomiNotificationService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
@@ -60,6 +61,8 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     public static final int CMD_NOTIFICATION_DISMISS = 1;
     public static final int CMD_CALL_REJECT = 2;
     public static final int CMD_CALL_IGNORE = 5;
+    public static final int CMD_SCREEN_ON_ON_NOTIFICATIONS_GET = 6;
+    public static final int CMD_SCREEN_ON_ON_NOTIFICATIONS_SET = 7;
     public static final int CMD_OPEN_ON_PHONE = 8;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
     public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
@@ -78,6 +81,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
     @Override
     public void initialize() {
+        getSupport().sendCommand("get screen on on notifications", COMMAND_TYPE, CMD_SCREEN_ON_ON_NOTIFICATIONS_GET);
         requestCannedMessages();
     }
 
@@ -106,6 +110,15 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.IGNORE;
                 getSupport().evaluateGBDeviceEvent(deviceEvtCallControl);
                 return;
+            case CMD_SCREEN_ON_ON_NOTIFICATIONS_GET:
+                final boolean screenOnOnNotifications = cmd.getNotification().getScreenOnOnNotifications();
+                LOG.debug("Got screen on on notifications: {}", screenOnOnNotifications);
+                final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(
+                        DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS,
+                        screenOnOnNotifications
+                );
+                getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+                return;
             case CMD_OPEN_ON_PHONE:
                 LOG.debug("Open on phone {}", cmd.getNotification().getOpenOnPhone().getId());
                 deviceEvtNotificationControl.handle = cmd.getNotification().getOpenOnPhone().getId();
@@ -123,6 +136,17 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
         }
 
         LOG.warn("Unhandled notification command {}", cmd.getSubtype());
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS:
+                setScreenOnOnNotifications();
+                return true;
+        }
+
+        return super.onSendConfiguration(config, prefs);
     }
 
     public void onNotification(final NotificationSpec notificationSpec) {
@@ -253,6 +277,23 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_NOTIFICATION_SEND)
                         .setNotification(notification)
+                        .build()
+        );
+    }
+
+    private void setScreenOnOnNotifications() {
+        final Prefs prefs = getDevicePrefs();
+
+        final boolean screenOnOnNotificationsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS, true);
+
+        LOG.info("Setting screen on on notification: {}", screenOnOnNotificationsEnabled);
+
+        getSupport().sendCommand(
+                "set screen on on notification",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_SCREEN_ON_ON_NOTIFICATIONS_SET)
+                        .setNotification(XiaomiProto.Notification.newBuilder().setScreenOnOnNotifications(screenOnOnNotificationsEnabled).build())
                         .build()
         );
     }
