@@ -348,14 +348,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
 
-        // TODO review this
-
         //
         // Time
         //
         settings.add(R.xml.devicesettings_header_time);
         settings.add(R.xml.devicesettings_timeformat);
-        settings.add(R.xml.devicesettings_dateformat_2);
         if (getWorldClocksSlotCount() > 0) {
             settings.add(R.xml.devicesettings_world_clocks);
         }
@@ -374,7 +371,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
         settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
         settings.add(R.xml.devicesettings_sleep_mode_schedule);
-        settings.add(R.xml.devicesettings_goal_notification);
+        // TODO not implemented settings.add(R.xml.devicesettings_goal_notification);
 
         //
         // Workout
@@ -387,12 +384,12 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // Notifications
         //
         settings.add(R.xml.devicesettings_header_notifications);
-        settings.add(R.xml.devicesettings_display_caller);
-        settings.add(R.xml.devicesettings_vibrationpatterns);
-        settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
+        // TODO not implemented settings.add(R.xml.devicesettings_display_caller);
+        // TODO not implemented settings.add(R.xml.devicesettings_vibrationpatterns);
+        // TODO not implemented settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
         settings.add(R.xml.devicesettings_send_app_notifications);
-        settings.add(R.xml.devicesettings_screen_on_on_notifications);
-        settings.add(R.xml.devicesettings_autoremove_notifications);
+        // TODO not implemented settings.add(R.xml.devicesettings_screen_on_on_notifications);
+        // TODO not implemented settings.add(R.xml.devicesettings_autoremove_notifications);
         if (getCannedRepliesSlotCount(device) > 0) {
             settings.add(R.xml.devicesettings_canned_dismisscall_16);
         }
@@ -481,40 +478,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
                 HeartRateCapability.MeasurementInterval.MINUTES_10,
                 HeartRateCapability.MeasurementInterval.MINUTES_30
         );
-    }
-
-    @Override
-    public boolean supportsNotificationVibrationPatterns() {
-        // TODO maybe can use this
-        return true;
-    }
-
-    @Override
-    public boolean supportsNotificationVibrationRepetitionPatterns() {
-        // TODO maybe can use this
-        return true;
-    }
-
-    @Override
-    public boolean supportsNotificationLedPatterns() {
-        return false;
-    }
-
-    @Override
-    public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
-        // TODO maybe can use this
-        return new AbstractNotificationPattern[0];
-    }
-
-    @Override
-    public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
-        // TODO maybe can use this
-        return new AbstractNotificationPattern[0];
-    }
-
-    @Override
-    public AbstractNotificationPattern[] getNotificationLedPatterns() {
-        return new AbstractNotificationPattern[0];
     }
 
     protected static Prefs getPrefs(final GBDevice device) {
