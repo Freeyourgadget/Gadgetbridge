@@ -105,7 +105,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         switch (cmd.getSubtype()) {
             case CMD_ALARMS_GET:
                 handleAlarms(cmd.getSchedule().getAlarms());
-                break;
+                return;
             case CMD_ALARMS_CREATE:
                 pendingAlarmAcks--;
                 LOG.debug("Got alarms create ack, remaining {}", pendingAlarmAcks);
@@ -113,16 +113,19 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                     LOG.debug("Requesting alarms after all acks");
                     requestAlarms();
                 }
-                break;
+                return;
+            case CMD_SLEEP_MODE_SET:
+                LOG.debug("Got sleep mode set ack, status={}", cmd.getStatus());
+                return;
             case CMD_WORLD_CLOCKS_GET:
                 handleWorldClocks(cmd.getSchedule().getWorldClocks());
-                break;
+                return;
             case CMD_SLEEP_MODE_GET:
                 handleSleepModeConfig(cmd.getSchedule().getSleepMode());
-                break;
+                return;
             case CMD_REMINDERS_GET:
                 handleReminders(cmd.getSchedule().getReminders());
-                break;
+                return;
             case CMD_REMINDERS_CREATE:
                 pendingReminderAcks--;
                 LOG.debug("Got alarms create ack, remaining {}", pendingReminderAcks);
@@ -130,7 +133,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
                     LOG.debug("Requesting reminders after all acks");
                     requestReminders();
                 }
-                break;
+                return;
         }
 
         LOG.warn("Unknown schedule command {}", cmd.getSubtype());
@@ -147,9 +150,9 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME:
-            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START:
-            case DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END:
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_START:
+            case DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_END:
                 setSleepModeConfig();
                 return true;
         }
