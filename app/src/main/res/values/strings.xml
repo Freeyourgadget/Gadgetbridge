@@ -348,6 +348,8 @@
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the device when dismissed from the phone</string>
     <string name="pref_title_screen_on_on_notifications">Screen On on Notifications</string>
     <string name="pref_summary_screen_on_on_notifications">Turn on the band\'s screen when a notification arrives</string>
+    <string name="pref_title_send_app_notifications">Send notifications</string>
+    <string name="pref_summary_send_app_notifications">Send app notifications to the device</string>
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
     <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
     <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>

@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -215,6 +216,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     }
 
     public void sendNotification(final NotificationSpec notificationSpec) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring");
+            return;
+        }
+
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         final String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
@@ -289,6 +295,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     }
 
     public void deleteNotification(final int id) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring delete");
+            return;
+        }
+
         LOG.info("Deleting notification {} from band", id);
 
         final ByteBuffer buf = ByteBuffer.allocate(12);
