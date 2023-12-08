@@ -390,6 +390,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_display_caller);
         settings.add(R.xml.devicesettings_vibrationpatterns);
         settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
+        settings.add(R.xml.devicesettings_send_app_notifications);
         settings.add(R.xml.devicesettings_screen_on_on_notifications);
         settings.add(R.xml.devicesettings_autoremove_notifications);
         if (getCannedRepliesSlotCount(device) > 0) {

@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
@@ -117,6 +118,11 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void onNotification(final NotificationSpec notificationSpec) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring");
+            return;
+        }
+
         final XiaomiProto.Notification3.Builder notification3 = XiaomiProto.Notification3.newBuilder()
                 .setId(notificationSpec.getId())
                 .setUnknown4("") // ?
@@ -175,6 +181,11 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     }
 
     public void onDeleteNotification(final int id) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring delete");
+            return;
+        }
+
         // TODO
     }
 
