@@ -24,6 +24,7 @@ public class NotificationSpec {
     public int flags;
     private static final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
     private int id;
+    public String key;
     public long when;
     public String sender;
     public String phoneNumber;

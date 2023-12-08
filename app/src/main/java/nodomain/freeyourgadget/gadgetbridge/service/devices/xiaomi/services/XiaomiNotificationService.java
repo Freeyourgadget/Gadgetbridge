@@ -60,6 +60,7 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     public static final int CMD_NOTIFICATION_DISMISS = 1;
     public static final int CMD_CALL_REJECT = 2;
     public static final int CMD_CALL_IGNORE = 5;
+    public static final int CMD_OPEN_ON_PHONE = 8;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
     public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
     public static final int CMD_NOTIFICATION_ICON_REQUEST = 15;
@@ -105,6 +106,11 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.IGNORE;
                 getSupport().evaluateGBDeviceEvent(deviceEvtCallControl);
                 return;
+            case CMD_OPEN_ON_PHONE:
+                LOG.debug("Open on phone {}", cmd.getNotification().getOpenOnPhone().getId());
+                deviceEvtNotificationControl.handle = cmd.getNotification().getOpenOnPhone().getId();
+                deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.OPEN;
+                getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
             case CMD_CANNED_MESSAGES_GET:
                 handleCannedMessages(cmd.getNotification().getCannedMessages());
                 return;
@@ -154,15 +160,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             notification3.setAppName(notificationSpec.sourceName);
         }
 
-        // TODO Open on phone
-        //final String unknown12 = String.format(
-        //        Locale.ROOT,
-        //        "0|%s|%d|null|12345",
-        //        notification3.getPackage(),
-        //        notification3.getId() // i think this needs to be converted to unsigned
-        //);
-        //notification3.setUnknown12(unknown12);
-        //notification3.setOpenOnPhone(1);
+        if (notificationSpec.key != null) {
+            notification3.setKey(notificationSpec.key);
+            notification3.setOpenOnPhone(true);
+        }
 
         final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
                 .setNotification3(notification3)

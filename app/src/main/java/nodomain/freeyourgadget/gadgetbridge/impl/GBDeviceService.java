@@ -176,6 +176,7 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_TITLE, hideMessageDetails ? null : notificationSpec.title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, hideMessageDetails || hideMessageBodyOnly ? null : notificationSpec.body)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.getId())
+                .putExtra(EXTRA_NOTIFICATION_KEY, notificationSpec.key)
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)

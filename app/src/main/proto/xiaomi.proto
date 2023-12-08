@@ -570,6 +570,8 @@ message MediaKey {
 //
 
 message Notification {
+  // 7, 8
+  optional NotificationId openOnPhone = 2;
   optional Notification2 notification2 = 3;
   optional NotificationDismiss notificationDismiss = 4;
 
@@ -600,8 +602,8 @@ message Notification3 {
   optional uint32 id = 7;
   optional bool isCall = 8;
   optional bool repliesAllowed = 11; // only for calls?
-  optional string unknown12 = 12; // "0|<package>|<id 2 complement>|null|12345"
-  optional uint32 openOnPhone = 13; // 1 to show "Open on phone", needs unknown12
+  optional string key = 12; // "0|<package>|<id 2 complement>|null|12345"
+  optional bool openOnPhone = 13; // 1 to show "Open on phone", needs key
 }
 
 message NotificationDismiss {

@@ -18,8 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import androidx.annotation.Nullable;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
@@ -82,6 +80,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
+    String EXTRA_NOTIFICATION_KEY = "notification_key";
     String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
