@@ -98,14 +98,7 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
 
     @Override
     public Set<String> getPreferenceKeysWithSummary() {
-        final Set<String> keysWithSummary = new HashSet<>();
-
-        for (HuamiVibrationPatternNotificationType notificationType : HuamiVibrationPatternNotificationType.values()) {
-            final String typeKey = notificationType.name().toLowerCase(Locale.ROOT);
-            keysWithSummary.add(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + typeKey);
-        }
-
-        return keysWithSummary;
+        return new HashSet<>();
     }
 
     public static final Creator<HuamiSettingsCustomizer> CREATOR = new Creator<HuamiSettingsCustomizer>() {
