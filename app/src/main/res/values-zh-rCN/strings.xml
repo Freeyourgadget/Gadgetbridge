@@ -2572,4 +2572,9 @@
     <string name="devicetype_pixoo">Pixoo</string>
     <string name="pref_summary_send_app_notifications">向设备发送应用通知</string>
     <string name="pref_title_send_app_notifications">发送通知</string>
+    <string name="pref_device_action_dnd_on">请勿打扰 - 已开启</string>
+    <string name="pref_device_action_dnd_alarms">请勿打扰 - 仅限闹钟</string>
+    <string name="pref_device_action_dnd_priority">请勿打扰 - 仅限优先</string>
+    <string name="not_set">未设置</string>
+    <string name="pref_device_action_dnd_off">请勿打扰 - 关闭</string>
 </resources>
