@@ -2161,6 +2161,10 @@
     <string name="pref_device_action_fitness_app_control_stop">Fitness App Tracking Stop</string>
     <string name="pref_device_action_fitness_app_control_toggle">Toggle Fitness App Tracking</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS Location Listener Stop</string>
+    <string name="pref_device_action_dnd_off">Do not disturb - Off</string>
+    <string name="pref_device_action_dnd_priority">Do not disturb - Priority only</string>
+    <string name="pref_device_action_dnd_alarms">Do not disturb - Alarms only</string>
+    <string name="pref_device_action_dnd_on">Do not disturb - On</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_meters">###m</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->

@@ -19,10 +19,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.companion.CompanionDeviceManager;
 import android.content.Context;
 import android.content.Intent;
@@ -106,7 +105,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -552,6 +550,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         final String actionMediaPlay = getContext().getString(R.string.pref_media_play_value);
         final String actionMediaPause = getContext().getString(R.string.pref_media_pause_value);
         final String actionMediaPlayPause = getContext().getString(R.string.pref_media_playpause_value);
+        final String actionDndOff = getContext().getString(R.string.pref_device_action_dnd_off_value);
+        final String actionDndpriority = getContext().getString(R.string.pref_device_action_dnd_priority_value);
+        final String actionDndAlarms = getContext().getString(R.string.pref_device_action_dnd_alarms_value);
+        final String actionDndOn = getContext().getString(R.string.pref_device_action_dnd_on_value);
 
         if (actionBroadcast.equals(action)) {
             if (message != null) {
@@ -586,6 +588,35 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(action);
             evaluateGBDeviceEvent(deviceEventMusicControl);
             return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            final int interruptionFilter;
+            if (actionDndOff.equals(action)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALL;
+            } else if (actionDndpriority.equals(action)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_PRIORITY;
+            } else if (actionDndAlarms.equals(action)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALARMS;
+            } else if (actionDndOn.equals(action)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_NONE;
+            } else {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_UNKNOWN;
+            }
+
+            if (interruptionFilter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN) {
+                LOG.debug("Setting do not disturb to {} for {}", interruptionFilter, action);
+
+                if (!notificationManager.isNotificationPolicyAccessGranted()) {
+                    LOG.warn("Do not disturb permissions not granted");
+                    return;
+                }
+
+                notificationManager.setInterruptionFilter(interruptionFilter);
+                return;
+            }
         }
 
         LOG.warn("Unhandled device state change action (action: {}, message: {})", action, message);

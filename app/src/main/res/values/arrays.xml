@@ -2562,6 +2562,10 @@
         <item>@string/pref_device_action_fitness_app_control_start</item>
         <item>@string/pref_device_action_fitness_app_control_stop</item>
         <item>@string/pref_device_action_fitness_app_control_toggle</item>
+        <item>@string/pref_device_action_dnd_off</item>
+        <item>@string/pref_device_action_dnd_priority</item>
+        <item>@string/pref_device_action_dnd_alarms</item>
+        <item>@string/pref_device_action_dnd_on</item>
     </string-array>
 
     <string-array name="device_action_values">
@@ -2573,6 +2577,10 @@
         <item>@string/pref_device_action_fitness_app_control_start_value</item>
         <item>@string/pref_device_action_fitness_app_control_stop_value</item>
         <item>@string/pref_device_action_fitness_app_control_toggle_value</item>
+        <item>@string/pref_device_action_dnd_off_value</item>
+        <item>@string/pref_device_action_dnd_priority_value</item>
+        <item>@string/pref_device_action_dnd_alarms_value</item>
+        <item>@string/pref_device_action_dnd_on_value</item>
     </string-array>
 
     <string-array name="pref_hybridhr_buttonfunctions">
