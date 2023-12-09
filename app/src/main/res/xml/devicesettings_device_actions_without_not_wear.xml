@@ -12,11 +12,11 @@
             android:icon="@drawable/ic_nights_stay"
             android:title="@string/prefs_events_forwarding_fellsleep">
 
-            <ListPreference
-                android:defaultValue="@string/pref_button_action_disabled_value"
+            <MultiSelectListPreference
+                android:defaultValue="@array/empty_array"
                 android:entries="@array/device_action_options"
                 android:entryValues="@array/device_action_values"
-                android:key="events_forwarding_fellsleep_action_selection"
+                android:key="events_forwarding_fellsleep_action_selections"
                 android:summary="%s"
                 android:title="@string/prefs_events_forwarding_action_title" />
             <EditTextPreference
@@ -30,11 +30,11 @@
             android:icon="@drawable/ic_wb_sunny"
             android:title="@string/prefs_events_forwarding_wokeup">
 
-            <ListPreference
-                android:defaultValue="@string/pref_button_action_disabled_value"
+            <MultiSelectListPreference
+                android:defaultValue="@array/empty_array"
                 android:entries="@array/device_action_options"
                 android:entryValues="@array/device_action_values"
-                android:key="events_forwarding_wokeup_action_selection"
+                android:key="events_forwarding_wokeup_action_selections"
                 android:summary="%s"
                 android:title="@string/prefs_events_forwarding_action_title" />
             <EditTextPreference

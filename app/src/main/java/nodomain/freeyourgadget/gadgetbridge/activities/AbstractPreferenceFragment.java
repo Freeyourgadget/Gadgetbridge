@@ -38,9 +38,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialEditTextPreferenceDialogFragment;
@@ -199,7 +202,29 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
             }
 
             if (getPreferenceKeysWithSummary().contains(key)) {
-                final String summary = prefs.getString(key, preference.getSummary() != null ? preference.getSummary().toString() : "");
+                final String summary;
+
+                // For multi select preferences, let's set the summary to the values, comma-delimited
+                if (preference instanceof MultiSelectListPreference) {
+                    final Set<String> prefSetValue = prefs.getStringSet(key, Collections.emptySet());
+                    if (prefSetValue.isEmpty()) {
+                        summary = requireContext().getString(R.string.not_set);
+                    } else {
+                        final MultiSelectListPreference multiSelectListPreference = (MultiSelectListPreference) preference;
+                        final CharSequence[] entries = multiSelectListPreference.getEntries();
+                        final CharSequence[] entryValues = multiSelectListPreference.getEntryValues();
+                        final List<String> translatedEntries = new ArrayList<>();
+                        for (int i = 0; i < entryValues.length; i++) {
+                            if (prefSetValue.contains(entryValues[i].toString())) {
+                                translatedEntries.add(entries[i].toString());
+                            }
+                        }
+                        summary = String.join(", ", translatedEntries);
+                    }
+                } else {
+                    summary = prefs.getString(key, preference.getSummary() != null ? preference.getSummary().toString() : "");
+                }
+
                 preference.setSummary(summary);
             }
 

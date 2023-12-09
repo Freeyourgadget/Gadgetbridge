@@ -122,7 +122,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 27;
+    private static final int CURRENT_PREFS_VERSION = 28;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -1398,6 +1398,47 @@ public class GBApplication extends Application {
                     }
 
                     deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 28) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    boolean shouldApply = false;
+
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_fellsleep_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_fellsleep_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_fellsleep_action_selection", "UNKNOWN"))
+                        );
+                    }
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_wokeup_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_wokeup_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_wokeup_action_selection", "UNKNOWN"))
+                        );
+                    }
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_startnonwear_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_startnonwear_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_startnonwear_action_selection", "UNKNOWN"))
+                        );
+                    }
+
+                    if (shouldApply) {
+                        deviceSharedPrefsEdit.apply();
+                    }
                 }
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");

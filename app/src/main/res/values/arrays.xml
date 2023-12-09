@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="empty_array">
+        <!-- empty array -->
+    </string-array>
+
     <string-array name="pref_theme_options">
         <item>@string/pref_theme_system</item>
         <item>@string/pref_theme_light</item>
@@ -2554,7 +2558,6 @@
     </string-array>
 
     <string-array name="device_action_options">
-        <item>@string/pref_button_action_disabled</item>
         <item>@string/pref_media_play</item>
         <item>@string/pref_media_pause</item>
         <item>@string/pref_media_playpause</item>
@@ -2569,7 +2572,6 @@
     </string-array>
 
     <string-array name="device_action_values">
-        <item>@string/pref_button_action_disabled_value</item>
         <item>@string/pref_media_play_value</item>
         <item>@string/pref_media_pause_value</item>
         <item>@string/pref_media_playpause_value</item>

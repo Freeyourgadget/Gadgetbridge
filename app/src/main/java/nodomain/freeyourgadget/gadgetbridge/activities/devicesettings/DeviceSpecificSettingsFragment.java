@@ -26,11 +26,11 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -50,23 +50,20 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wena3.SonyWena3SettingKeys;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
@@ -845,15 +842,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         new PasswordCapabilityImpl().registerPreferences(getContext(), coordinator.getPasswordCapability(), this);
         new HeartRateCapability().registerPreferences(getContext(), coordinator.getHeartRateMeasurementIntervals(), this);
 
-        String deviceActionsFellSleepSelection = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION);
+        Set<String> deviceActionsFellSleepSelection = prefs.getStringSet(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS);
         final Preference deviceActionsFellSleepBroadcast = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST);
-        boolean deviceActionsFellSleepSelectionBroadcast = deviceActionsFellSleepSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsFellSleepSelectionBroadcast = deviceActionsFellSleepSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsFellSleep != null) {
             deviceActionsFellSleep.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsFellSleepBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -863,15 +861,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             deviceActionsFellSleepBroadcast.setEnabled(deviceActionsFellSleepSelectionBroadcast);
         }
 
-        String deviceActionsWokeUpSelection = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsWokeUp = findPreference(PREF_DEVICE_ACTION_WOKE_UP_SELECTION);
+        Set<String> deviceActionsWokeUpSelection = prefs.getStringSet(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsWokeUp = findPreference(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS);
         final Preference deviceActionsWokeUpBroadcast = findPreference(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST);
-        boolean deviceActionsWokeUpSelectionBroadcast = deviceActionsWokeUpSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsWokeUpSelectionBroadcast = deviceActionsWokeUpSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsWokeUp != null) {
             deviceActionsWokeUp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsWokeUpBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -881,15 +880,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             deviceActionsWokeUpBroadcast.setEnabled(deviceActionsWokeUpSelectionBroadcast);
         }
 
-        String deviceActionsStartNonWearSelection = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsStartNonWear = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION);
+        Set<String> deviceActionsStartNonWearSelection = prefs.getStringSet(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsStartNonWear = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS);
         final Preference deviceActionsStartNonWearBroadcast = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST);
-        boolean deviceActionsStartNonWearSelectionBroadcast = deviceActionsStartNonWearSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsStartNonWearSelectionBroadcast = deviceActionsStartNonWearSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsStartNonWear != null) {
             deviceActionsStartNonWear.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsStartNonWearBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -1030,6 +1030,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         final Set<String> keysWithSummary = new HashSet<>();
 
         keysWithSummary.add(PREF_INACTIVITY_THRESHOLD);
+        keysWithSummary.add(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS);
+        keysWithSummary.add(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS);
+        keysWithSummary.add(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS);
 
         if (deviceSpecificSettingsCustomizer != null) {
             keysWithSummary.addAll(deviceSpecificSettingsCustomizer.getPreferenceKeysWithSummary());

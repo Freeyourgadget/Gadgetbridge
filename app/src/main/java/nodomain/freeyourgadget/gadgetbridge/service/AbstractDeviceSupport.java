@@ -46,9 +46,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -533,15 +535,15 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      * Helper method to run specific actions configured in the device preferences, upon wear state
      * or awake/asleep events.
      *
-     * @param action
+     * @param actions
      * @param message
      */
-    private void handleDeviceAction(String action, String message) {
-        String actionDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
-
-        if (actionDisabled.equals(action)) {
+    private void handleDeviceAction(Set<String> actions, String message) {
+        if (actions.isEmpty()) {
             return;
         }
+
+        LOG.debug("Handing device actions: {}", String.join(",", actions));
 
         final String actionBroadcast = getContext().getString(R.string.pref_device_action_broadcast_value);
         final String actionFitnessControlStart = getContext().getString(R.string.pref_device_action_fitness_app_control_start_value);
@@ -555,71 +557,66 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         final String actionDndAlarms = getContext().getString(R.string.pref_device_action_dnd_alarms_value);
         final String actionDndOn = getContext().getString(R.string.pref_device_action_dnd_on_value);
 
-        if (actionBroadcast.equals(action)) {
+        if (actions.contains(actionBroadcast)) {
             if (message != null) {
                 Intent in = new Intent();
                 in.setAction(message);
-                LOG.info("Sending broadcast " + message);
+                LOG.info("Sending broadcast {}", message);
                 getContext().getApplicationContext().sendBroadcast(in);
-                return;
             }
         }
 
-        if (actionFitnessControlStart.equals(action)) {
+        if (actions.contains(actionFitnessControlStart)) {
             OpenTracksController.startRecording(getContext());
-            return;
-        }
-
-        if (actionFitnessControlStop.equals(action)) {
+        } else if (actions.contains(actionFitnessControlStop)) {
             OpenTracksController.stopRecording(getContext());
-            return;
-        }
-
-        if (actionFitnessControlToggle.equals(action)) {
+        } else if (actions.contains(actionFitnessControlToggle)) {
             OpenTracksController.toggleRecording(getContext());
-            return;
         }
 
-        if (actionMediaPlay.equals(action) ||
-                actionMediaPause.equals(action) ||
-                actionMediaPlayPause.equals(action)
-        ) {
+        final String mediaAction;
+        if (actions.contains(actionMediaPlayPause)) {
+            mediaAction = actionMediaPlayPause;
+        } else if (actions.contains(actionMediaPause)) {
+            mediaAction = actionMediaPause;
+        } else if (actions.contains(actionMediaPlay)) {
+            mediaAction = actionMediaPlay;
+        } else {
+            mediaAction = null;
+        }
+
+        if (mediaAction != null) {
             GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
-            deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(action);
+            deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(mediaAction);
             evaluateGBDeviceEvent(deviceEventMusicControl);
-            return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             final int interruptionFilter;
-            if (actionDndOff.equals(action)) {
+            if (actions.contains(actionDndOff)) {
                 interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALL;
-            } else if (actionDndpriority.equals(action)) {
+            } else if (actions.contains(actionDndpriority)) {
                 interruptionFilter = NotificationManager.INTERRUPTION_FILTER_PRIORITY;
-            } else if (actionDndAlarms.equals(action)) {
+            } else if (actions.contains(actionDndAlarms)) {
                 interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALARMS;
-            } else if (actionDndOn.equals(action)) {
+            } else if (actions.contains(actionDndOn)) {
                 interruptionFilter = NotificationManager.INTERRUPTION_FILTER_NONE;
             } else {
                 interruptionFilter = NotificationManager.INTERRUPTION_FILTER_UNKNOWN;
             }
 
             if (interruptionFilter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN) {
-                LOG.debug("Setting do not disturb to {} for {}", interruptionFilter, action);
+                LOG.debug("Setting do not disturb to {}", interruptionFilter);
 
                 if (!notificationManager.isNotificationPolicyAccessGranted()) {
                     LOG.warn("Do not disturb permissions not granted");
-                    return;
                 }
 
                 notificationManager.setInterruptionFilter(interruptionFilter);
-                return;
             }
         }
-
-        LOG.warn("Unhandled device state change action (action: {}, message: {})", action, message);
     }
 
     private void handleGBDeviceEvent(GBDeviceEventSleepStateDetection event) {
@@ -629,18 +626,17 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             return;
         }
 
-        String actionDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
         String actionPreferenceKey, messagePreferenceKey;
         int defaultBroadcastMessageResource;
 
         switch (event.sleepState) {
             case AWAKE:
-                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS;
                 messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
                 defaultBroadcastMessageResource = R.string.prefs_events_forwarding_wokeup_broadcast_default_value;
                 break;
             case ASLEEP:
-                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS;
                 messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
                 defaultBroadcastMessageResource = R.string.prefs_events_forwarding_fellsleep_broadcast_default_value;
                 break;
@@ -649,14 +645,14 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 return;
         }
 
-        String action = getDevicePrefs().getString(actionPreferenceKey, actionDisabled);
+        Set<String> actions = getDevicePrefs().getStringSet(actionPreferenceKey, Collections.emptySet());
 
-        if (actionDisabled.equals(action)) {
+        if (actions.isEmpty()) {
             return;
         }
 
         String broadcastMessage = getDevicePrefs().getString(messagePreferenceKey, context.getString(defaultBroadcastMessageResource));
-        handleDeviceAction(action, broadcastMessage);
+        handleDeviceAction(actions, broadcastMessage);
     }
 
     private void handleGBDeviceEvent(GBDeviceEventWearState event) {
@@ -671,14 +667,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             LOG.debug("WEAR_STATE state is not NOT_WEARING, aborting further evaluation");
         }
 
-        String valueDisabled = getContext().getString(R.string.pref_button_action_disabled_value);
-        String actionOnUnwear = getDevicePrefs().getString(
-                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION,
-                valueDisabled
+        Set<String> actionOnUnwear = getDevicePrefs().getStringSet(
+                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS,
+                Collections.emptySet()
         );
 
         // check if an action is set
-        if (actionOnUnwear.equals(valueDisabled)) {
+        if (actionOnUnwear.isEmpty()) {
             return;
         }
 

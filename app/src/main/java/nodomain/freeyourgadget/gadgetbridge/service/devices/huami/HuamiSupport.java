@@ -225,7 +225,6 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.WORKOUT_GPS_FLAG_POSITION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.WORKOUT_GPS_FLAG_STATUS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
@@ -1825,7 +1824,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     private void handleMediaButton(String mediaAction) {
-        if (mediaAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF) || mediaAction.equals(PREF_BUTTON_ACTION_SELECTION_OFF)) {
+        if (mediaAction.equals(PREF_BUTTON_ACTION_SELECTION_OFF)) {
             return;
         }
         GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
