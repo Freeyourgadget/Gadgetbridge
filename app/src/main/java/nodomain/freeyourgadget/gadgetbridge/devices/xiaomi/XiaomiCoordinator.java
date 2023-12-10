@@ -431,9 +431,9 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         if (getContactsSlotCount(device) > 0) {
             settings.add(R.xml.devicesettings_contacts);
         }
-        // TODO not implemented if (supports(device, FEAT_CAMERA_REMOTE)) {
-        // TODO not implemented     settings.add(R.xml.devicesettings_camera_remote);
-        // TODO not implemented }
+        if (supports(device, FEAT_CAMERA_REMOTE)) {
+            settings.add(R.xml.devicesettings_camera_remote);
+        }
         if (supports(device, FEAT_DEVICE_ACTIONS)) {
             settings.add(R.xml.devicesettings_device_actions);
         }

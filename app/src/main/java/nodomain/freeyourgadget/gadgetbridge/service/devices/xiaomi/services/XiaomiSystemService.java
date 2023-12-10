@@ -103,6 +103,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
         getSupport().sendCommand("get password", COMMAND_TYPE, CMD_PASSWORD_GET);
         getSupport().sendCommand("get display items", COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
+        getSupport().sendCommand("get camera remote", COMMAND_TYPE, CMD_CAMERA_REMOTE_GET);
     }
 
     @Override
@@ -128,6 +129,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return;
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
+                return;
+            case CMD_PASSWORD_GET:
+                handleCameraRemote(cmd.getSystem().getCamera());
+                return;
+            case CMD_CAMERA_REMOTE_SET:
+                LOG.debug("Got camera remote set ack, status={}", cmd.getStatus());
                 return;
             case CMD_FIND_PHONE:
                 LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
@@ -160,6 +167,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE:
+                setCameraRemoteConfig();
+                return true;
             case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
                 setLanguage();
                 return true;
@@ -338,6 +348,33 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         );
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void handleCameraRemote(final XiaomiProto.Camera camera) {
+        LOG.debug("Got camera remote enabled={}", camera.getEnabled());
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_CAMERA_REMOTE, true)
+                .withPreference(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, camera.getEnabled());
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setCameraRemoteConfig() {
+        final boolean enabled = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false);
+
+        LOG.debug("Set camera remote enabled={}", enabled);
+
+        getSupport().sendCommand(
+                "set camera remote",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CAMERA_REMOTE_SET)
+                        .setSystem(XiaomiProto.System.newBuilder().setCamera(
+                                XiaomiProto.Camera.newBuilder().setEnabled(enabled)
+                        ))
+                        .build()
+        );
     }
 
     private void setDisplayItems() {
