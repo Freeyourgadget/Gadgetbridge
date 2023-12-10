@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -72,6 +73,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     // Maintain a queue of the last seen package names, since the band will send
     // requests with the package name truncated, and without an ID
     private final Queue<String> mPackages = new LinkedList<>();
+
+    // Keep track of package names and keys for notification dismissal
+    private final LimitedQueue<Integer, String> mNotificationPackageName = new LimitedQueue<>(128);
+    private final LimitedQueue<Integer, String> mNotificationKey = new LimitedQueue<>(128);
 
     private String iconPackageName;
 
@@ -166,6 +171,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             notification3.setPackage(BuildConfig.APPLICATION_ID);
         }
 
+        mNotificationPackageName.add(notificationSpec.getId(), notificationSpec.sourceAppId);
+        mNotificationKey.add(notificationSpec.getId(), notificationSpec.key);
+
         mPackages.add(notification3.getPackage());
         if (mPackages.size() > 32) {
             mPackages.poll();
@@ -213,7 +221,28 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             return;
         }
 
-        // TODO
+        final XiaomiProto.NotificationId notificationId = XiaomiProto.NotificationId.newBuilder()
+                .setId(id)
+                .setPackage(mNotificationPackageName.lookup(id))
+                .setKey(mNotificationKey.lookup(id))
+                .build();
+
+        final XiaomiProto.NotificationDismiss notificationDismiss = XiaomiProto.NotificationDismiss.newBuilder()
+                .addNotificationId(notificationId)
+                .build();
+
+        final XiaomiProto.Notification notification = XiaomiProto.Notification.newBuilder()
+                .setNotificationDismiss(notificationDismiss)
+                .build();
+
+        getSupport().sendCommand(
+                "delete notification " + id,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_NOTIFICATION_DISMISS)
+                        .setNotification(notification)
+                        .build()
+        );
     }
 
     public void onSetCallState(final CallSpec callSpec) {

@@ -624,7 +624,7 @@ message NotificationDismiss {
 message NotificationId {
   optional uint32 id = 1;
   optional string package = 2; // truncated
-  optional string unknown4 = 4; // ""
+  optional string key = 4; // ""
 }
 
 message CannedMessages {
