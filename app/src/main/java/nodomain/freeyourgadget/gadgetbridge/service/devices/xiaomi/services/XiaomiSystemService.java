@@ -130,7 +130,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
                 return;
-            case CMD_PASSWORD_GET:
+            case CMD_CAMERA_REMOTE_GET:
                 handleCameraRemote(cmd.getSystem().getCamera());
                 return;
             case CMD_CAMERA_REMOTE_SET:
