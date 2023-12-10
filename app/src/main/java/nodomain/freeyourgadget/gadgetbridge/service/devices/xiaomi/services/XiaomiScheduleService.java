@@ -591,6 +591,7 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
         final String end = XiaomiPreferences.prefFromHourMin(sleepMode.getSchedule().getEnd());
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_SLEEP_MODE_SCHEDULE, true)
                 .withPreference("prefs_enable_sleep_time", null)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_ENABLED, sleepMode.getEnabled())
                 .withPreference(DeviceSettingsPreferenceConst.PREF_SLEEP_MODE_SCHEDULE_START, start)

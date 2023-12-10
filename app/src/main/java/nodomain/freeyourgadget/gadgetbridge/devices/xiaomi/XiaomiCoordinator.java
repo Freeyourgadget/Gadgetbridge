@@ -373,7 +373,13 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // Health
         //
         settings.add(R.xml.devicesettings_header_health);
-        settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
+        if (supportsStressMeasurement() && supports(device, FEAT_STRESS) && supportsSpo2() && supports(device, FEAT_SPO2)) {
+            settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
+        } else if (supportsStressMeasurement() && supports(device, FEAT_STRESS)) {
+            settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress);
+        } else {
+            settings.add(R.xml.devicesettings_heartrate_sleep_activity);
+        }
         if (supports(device, FEAT_INACTIVITY)) {
             settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
         }
