@@ -81,6 +81,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     private static final int CMD_CONFIG_GOAL_SET = 22;
     private static final int CMD_WORKOUT_WATCH_STATUS = 26;
     private static final int CMD_WORKOUT_WATCH_OPEN = 30;
+    private static final int CMD_CONFIG_VITALITY_SCORE_GET = 35;
+    private static final int CMD_CONFIG_VITALITY_SCORE_SET = 36;
     private static final int CMD_WORKOUT_LOCATION = 48;
     private static final int CMD_REALTIME_STATS_START = 45;
     private static final int CMD_REALTIME_STATS_STOP = 46;
@@ -149,6 +151,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case CMD_CONFIG_GOAL_SET:
                 LOG.debug("Got goal set ack, status={}", cmd.getStatus());
                 return;
+            case CMD_CONFIG_VITALITY_SCORE_GET:
+                handleVitalityScore(cmd.getHealth().getVitalityScore());
+                return;
+            case CMD_CONFIG_VITALITY_SCORE_SET:
+                LOG.debug("Got vitality score set ack, status={}", cmd.getStatus());
+                return;
             case CMD_WORKOUT_WATCH_STATUS:
                 handleWorkoutStatus(cmd.getHealth().getWorkoutStatusWatch());
                 return;
@@ -171,6 +179,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().sendCommand("get standing reminders config", COMMAND_TYPE, CMD_CONFIG_STANDING_REMINDER_GET);
         getSupport().sendCommand("get stress config", COMMAND_TYPE, CMD_CONFIG_STRESS_GET);
         getSupport().sendCommand("get goal config", COMMAND_TYPE, CMD_CONFIG_GOAL_GET);
+        getSupport().sendCommand("get vitality score config", COMMAND_TYPE, CMD_CONFIG_VITALITY_SCORE_GET);
     }
 
     @Override
@@ -189,6 +198,10 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION:
             case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_SECONDARY:
                 sendGoalConfig();
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_7_DAY:
+            case DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_DAILY:
+                sendVitalityScoreConfig();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING:
@@ -310,6 +323,41 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_CONFIG_GOAL_SET)
+                        .setHealth(health)
+                        .build()
+        );
+    }
+
+    private void handleVitalityScore(final XiaomiProto.VitalityScore vitalityScore) {
+        LOG.debug("Got vitality score config");
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_7_DAY, vitalityScore.getSevenDay())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_DAILY, vitalityScore.getDailyProgress());
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    public void sendVitalityScoreConfig() {
+        final boolean prefSevenDay = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_7_DAY, false);
+        final boolean prefDaily = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_DAILY, false);
+
+        LOG.debug("Setting vitality score config, 7day={}, daily={}", prefSevenDay, prefDaily);
+
+        final XiaomiProto.VitalityScore vitalityScore = XiaomiProto.VitalityScore.newBuilder()
+                .setSevenDay(prefSevenDay)
+                .setDailyProgress(prefDaily)
+                .build();
+
+        final XiaomiProto.Health health = XiaomiProto.Health.newBuilder()
+                .setVitalityScore(vitalityScore)
+                .build();
+
+        getSupport().sendCommand(
+                "set vitality score config",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_VITALITY_SCORE_SET)
                         .setHealth(health)
                         .build()
         );

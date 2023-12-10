@@ -517,6 +517,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL_NOTIFICATION);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL_SECONDARY);
 
+        addPreferenceHandlerFor(PREF_VITALITY_SCORE_7_DAY);
+        addPreferenceHandlerFor(PREF_VITALITY_SCORE_DAILY);
+
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
         addPreferenceHandlerFor(PREF_HOURLY_CHIME_ENABLE);

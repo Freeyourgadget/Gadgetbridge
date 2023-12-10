@@ -2443,4 +2443,9 @@
     <string name="devicetype_mi_watch_color_sport">Mi Watch Color Sport</string>
     <string name="devicetype_pixoo">Pixoo</string>
     <string name="not_set">Not set</string>
+    <string name="pref_vitality_score_title">Vitality Score</string>
+    <string name="pref_vitality_score_7_day_title">7-day progress</string>
+    <string name="pref_vitality_score_7_day_summary">Get a notification when your vitality score reaches 30, 60 or 100 in the past 7 days</string>
+    <string name="pref_vitality_score_daily_title">Daily progress</string>
+    <string name="pref_vitality_score_daily_summary">Get a notification when you reached the maximum number of vitality points for the day</string>
 </resources>
