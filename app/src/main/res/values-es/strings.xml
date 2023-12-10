@@ -2579,4 +2579,7 @@
     <string name="pref_device_action_dnd_priority">No molestar - Sólo con prioridad</string>
     <string name="not_set">No fijado</string>
     <string name="pref_device_action_dnd_off">No molestar - Desactivado</string>
+    <string name="pref_title_goal_secondary">Objetivo secundario</string>
+    <string name="standing_time">tiempo de reposo</string>
+    <string name="active_time">Tiempo activo</string>
 </resources>
