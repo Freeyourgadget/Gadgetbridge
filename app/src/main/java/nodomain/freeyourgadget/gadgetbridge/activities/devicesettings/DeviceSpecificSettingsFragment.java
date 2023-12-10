@@ -539,6 +539,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE);
         addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_STYLE);
         addPreferenceHandlerFor(PREF_WEARDIRECTION);
+        addPreferenceHandlerFor(PREF_WEARMODE);
 
         addPreferenceHandlerFor(PREF_VOLUME);
         addPreferenceHandlerFor(PREF_CROWN_VIBRATION);

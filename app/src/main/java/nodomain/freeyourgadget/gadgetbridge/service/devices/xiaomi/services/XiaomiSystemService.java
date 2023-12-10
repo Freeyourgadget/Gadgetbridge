@@ -75,11 +75,14 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_CAMERA_REMOTE_GET = 7;
     public static final int CMD_CAMERA_REMOTE_SET = 8;
     public static final int CMD_PASSWORD_GET = 9;
+    public static final int CMD_MISC_SETTING_GET = 14;
+    public static final int CMD_MISC_SETTING_SET = 15;
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_FIND_WATCH = 18;
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
+    public static final int CMD_MISC_SETTING_SET_FROM_BAND = 42;
     public static final int CMD_DEVICE_STATE_GET = 78;
     public static final int CMD_DEVICE_STATE = 79;
 
@@ -130,6 +133,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
                 return;
+            case CMD_MISC_SETTING_SET:
+                LOG.debug("Got misc setting set ack, status={}", cmd.getStatus());
+                return;
             case CMD_CAMERA_REMOTE_GET:
                 handleCameraRemote(cmd.getSystem().getCamera());
                 return;
@@ -149,6 +155,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
+            case CMD_MISC_SETTING_SET_FROM_BAND:
+                handleMiscSettingSet(cmd.getSystem().getMiscSettingSet());
+                return;
             case CMD_DEVICE_STATE_GET:
                 handleBasicDeviceState(cmd.getSystem().hasBasicDeviceState()
                         ? cmd.getSystem().getBasicDeviceState()
@@ -167,6 +176,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_WEARMODE:
+                setWearMode();
+                return true;
             case DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE:
                 setCameraRemoteConfig();
                 return true;
@@ -348,6 +360,69 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         );
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void handleMiscSettingSet(final XiaomiProto.MiscSettingSet miscSettingSet) {
+        LOG.debug("Got misc setting set");
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences();
+
+        if (miscSettingSet.hasWearingMode()) {
+            final String wearMode;
+
+            switch (miscSettingSet.getWearingMode().getMode()) {
+                case 0:
+                    wearMode = "band";
+                    break;
+                case 1:
+                    wearMode = "pebble";
+                    break;
+                case 2:
+                    wearMode = "necklace";
+                    break;
+                default:
+                    wearMode = null;
+                    LOG.warn("Unknown wear mode {}", miscSettingSet.getWearingMode().getMode());
+                    break;
+            }
+
+            eventUpdatePreferences.withPreference(XiaomiPreferences.FEAT_WEAR_MODE, wearMode != null)
+                    .withPreference(DeviceSettingsPreferenceConst.PREF_WEARMODE, wearMode);
+        }
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setWearMode() {
+        final String wearMode = getDevicePrefs().getString(DeviceSettingsPreferenceConst.PREF_WEARMODE, "band");
+
+        LOG.debug("Set wear mode to {}", wearMode);
+
+        final int wearModeInt;
+
+        if ("band".equals(wearMode)) {
+            wearModeInt = 0;
+        } else if ("pebble".equals(wearMode)) {
+            wearModeInt = 1;
+        } else if ("necklace".equals(wearMode)) {
+            wearModeInt = 2;
+        } else {
+            LOG.warn("Unknown wear mode {}", wearMode);
+            return;
+        }
+
+        getSupport().sendCommand(
+                "set wear mode",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_MISC_SETTING_SET)
+                        .setSystem(XiaomiProto.System.newBuilder().setMiscSettingSet(
+                                XiaomiProto.MiscSettingSet.newBuilder().setWearingMode(
+                                        XiaomiProto.WearingMode.newBuilder().setMode(wearModeInt)
+                                )
+                        ))
+                        .build()
+        );
     }
 
     private void handleCameraRemote(final XiaomiProto.Camera camera) {

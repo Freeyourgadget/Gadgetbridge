@@ -293,8 +293,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             notification3.setBody("?");
         }
 
-        // TODO unknown caller i18n
-
         final XiaomiProto.Notification2 notification2 = XiaomiProto.Notification2.newBuilder()
                 .setNotification3(notification3)
                 .build();
@@ -477,7 +475,6 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             return;
         }
 
-        // TODO avoid resize?
         final Bitmap bmp = BitmapUtil.toBitmap(icon);
         final Bitmap bmpResized = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bmpResized);

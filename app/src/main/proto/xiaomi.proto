@@ -110,9 +110,9 @@ message System {
   optional WidgetParts widgetsSingle = 29;
 
   // 2, 14
-  optional DoNotDisturb dnd2 = 34;
+  optional MiscSettingGet miscSettingGet = 34;
   // 2, 15
-  optional DndSync dndSync = 35;
+  optional MiscSettingSet miscSettingSet = 35;
 
   // 2, 46
   optional VibrationPatterns vibrationPatterns = 38;
@@ -240,10 +240,30 @@ message DoNotDisturb {
   optional uint32 status = 1; // 0 enabled, 2 disabled
 }
 
-message DoNotDisturb2 {
+message MiscSettingGet {
+  optional uint32 setting = 1; // 2 dndSync
+}
+
+message MiscSettingSet {
+  optional MiscNotificationSettings miscNotificationSettings = 1;
+  optional DndSync dndSync = 2;
+  optional WearingMode wearingMode = 3;
+}
+
+message MiscNotificationSettings {
+  optional uint32 wakeScreen = 1; // 0 ignore 1 enable 2 disable
+  optional uint32 onlyWhenPhoneLocked = 2; // 0 ignore 1 enable 2 disable
 }
 
 message DndSync {
+  optional uint32 enabled = 1; // 0/1
+}
+
+message WearingMode {
+  // 0 Band Mode (wristband)
+  // 1 Pebble Mode (show buckle)
+  // 2 Necklace mode (neck strap)
+  optional uint32 mode = 1;
 }
 
 message FirmwareInstallRequest {

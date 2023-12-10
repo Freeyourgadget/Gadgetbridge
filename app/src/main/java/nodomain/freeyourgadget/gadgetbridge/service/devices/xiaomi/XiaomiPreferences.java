@@ -33,6 +33,7 @@ public final class XiaomiPreferences {
     public static final String PREF_CANNED_MESSAGES_MIN = "canned_messages_min";
     public static final String PREF_CANNED_MESSAGES_MAX = "canned_messages_max";
 
+    public static final String FEAT_WEAR_MODE = "feat_wear_mode";
     public static final String FEAT_DEVICE_ACTIONS = "feat_device_actions";
     public static final String FEAT_DISPLAY_ITEMS = "feat_display_items";
     public static final String FEAT_STRESS = "feat_stress";

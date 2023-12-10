@@ -161,6 +161,17 @@
         <item>buttons_on_right</item>
     </string-array>
 
+    <string-array name="wearmode">
+        <item>@string/wearmode_band</item>
+        <item>@string/wearmode_pebble</item>
+        <item>@string/wearmode_necklace</item>
+    </string-array>
+    <string-array name="wearmode_values">
+        <item>band</item>
+        <item>pebble</item>
+        <item>necklace</item>
+    </string-array>
+
     <string-array name="orientation">
         <item>@string/horizontal</item>
         <item>@string/vertical</item>

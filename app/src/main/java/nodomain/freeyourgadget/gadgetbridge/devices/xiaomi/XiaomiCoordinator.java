@@ -349,6 +349,12 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
 
+        if (supports(device, FEAT_WEAR_MODE)) {
+            // TODO we should be able to get this from the band - right now it must be changed
+            // at least once from the band itself
+            settings.add(R.xml.devicesettings_wearmode);
+        }
+
         //
         // Time
         //

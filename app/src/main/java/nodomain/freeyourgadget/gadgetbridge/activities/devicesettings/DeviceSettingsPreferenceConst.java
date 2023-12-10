@@ -54,6 +54,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_TIMEFORMAT_AUTO = "auto";
     public static final String PREF_WEARLOCATION = "wearlocation";
     public static final String PREF_WEARDIRECTION = "weardirection";
+    public static final String PREF_WEARMODE = "wearmode";
     public static final String PREF_VIBRATION_ENABLE = "vibration_enable";
     public static final String PREF_NOTIFICATION_ENABLE = "notification_enable";
     public static final String PREF_SCREEN_BRIGHTNESS = "screen_brightness";
