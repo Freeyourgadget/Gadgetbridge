@@ -2574,4 +2574,19 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_sleep_mode_schedule_summary">Envoyer un rappel et se mettre en veille à l\'heure du coucher. A l\'heure prévue de réveil, l\'alarme de réveil sonnera.</string>
     <string name="menuitem_alerts">Alertes</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
+    <string name="pref_device_action_dnd_on">Ne pas déranger - Actif</string>
+    <string name="pref_title_goal_secondary">Objectif secondaire</string>
+    <string name="pref_vitality_score_7_day_summary">Envoyer une notification quand votre score de vitalité atteint 30, 60 ou 100 sur les 7 derniers jours</string>
+    <string name="pref_vitality_score_title">Score Vitalité</string>
+    <string name="pref_device_action_dnd_alarms">Ne pas déranger - Alarmes uniquement</string>
+    <string name="pref_vitality_score_daily_summary">Envoyer une notification lorsque vous atteignez le maximum de points quotidiens de vitalité</string>
+    <string name="pref_summary_send_app_notifications">Envoyer les notifications de l\'application à l\'appareil</string>
+    <string name="pref_device_action_dnd_priority">Ne pas déranger - Prioritaire uniquement</string>
+    <string name="not_set">Non configuré</string>
+    <string name="standing_time">Temps de veille</string>
+    <string name="active_time">Temps actif</string>
+    <string name="pref_title_send_app_notifications">Envoyer des notifications</string>
+    <string name="pref_vitality_score_daily_title">Progrès quotidien</string>
+    <string name="pref_vitality_score_7_day_title">Progrès sur 7 jours</string>
+    <string name="pref_device_action_dnd_off">Ne pas déranger - Off</string>
 </resources>
