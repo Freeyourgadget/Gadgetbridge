@@ -92,7 +92,7 @@ message System {
   optional DoNotDisturb dndStatus = 11;
 
   // 2, 39
-  optional WidgetSubtypes widgetSubtypes = 14;
+  optional WorkoutTypes workoutTypes = 14;
 
   // 2, 5
   optional FirmwareInstallRequest firmwareInstallRequest = 16;
@@ -209,13 +209,13 @@ message Language {
   optional string code = 1; // pt_pt, en_us
 }
 
-message WidgetSubtypes {
-  repeated WidgetSubtype widgetSubtype = 1;
+message WorkoutTypes {
+  repeated WorkoutType workoutType = 1;
   optional uint32 unknown2 = 2; // 1
 }
 
-message WidgetSubtype {
-  optional uint32 subType = 1;
+message WorkoutType {
+  optional uint32 type = 1;
   optional uint32 unknown2 = 2; // 1
 }
 
