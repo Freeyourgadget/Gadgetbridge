@@ -825,7 +825,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_sync_calendar">Permet les alertes de calendrier, même en cas de déconnexion</string>
     <string name="pref_title_sync_caldendar">Sync. calendrier des évènements</string>
     <string name="hr_widget_heart_rate">Fréquence cardiaque</string>
-    <string name="hr_widget_steps">Étapes</string>
+    <string name="hr_widget_steps">Pas</string>
     <string name="hr_widget_date">Date</string>
     <string name="hr_widget_active_minutes">Les minutes actives</string>
     <string name="hr_widget_calories">Calories</string>
@@ -1669,7 +1669,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_device_internet_access">Permettre aux apps sur cet appareil d\'accéder à Internet</string>
     <string name="pref_title_device_intents">Permettre les intentions</string>
     <string name="pref_workout_start_on_phone_title">Application de suivi sportif</string>
-    <string name="pref_workout_start_on_phone_summary">Démmare/arrête le suivi sportif sur le téléphone si une activité GPS est démarré sur le bracelet</string>
+    <string name="pref_workout_start_on_phone_summary">Démarre/arrête le suivi sportif sur le téléphone si une activité GPS est démarrée sur le bracelet</string>
     <string name="pref_workout_send_gps_title">Envoyer le GPS durant l\'exercice</string>
     <string name="pref_workout_send_gps_summary">Envoyer les données GPS en cours durant un exercice</string>
     <string name="notification_gps_title">GPS Gadgebridge</string>
@@ -2043,7 +2043,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Objectif quotidien : temps d\'élimination de calories en minutes</string>
     <string name="menuitem_theater_mode">Mode Cinéma</string>
     <string name="pref_sleep_mode_smart_enable_summary">Activer le mode sommeil automatiquement lors du port du bracelet durant le sommeil</string>
-    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Tronquer lse horaires lors de la récupération</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Tronquer les horaires lors de la récupération</string>
     <string name="menuitem_sun_moon">Soleil &amp; Lune</string>
     <string name="menuitem_offline_voice">Voix hors-ligne</string>
     <string name="menuitem_screen_always_lit">Écran tout le temps allumé</string>
