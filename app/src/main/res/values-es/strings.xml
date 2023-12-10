@@ -2584,4 +2584,7 @@
     <string name="active_time">Tiempo activo</string>
     <string name="pref_vitality_score_daily_title">Avances diarios</string>
     <string name="pref_vitality_score_7_day_title">Progreso en 7 días</string>
+    <string name="pref_vitality_score_7_day_summary">Recibir una notificación cuando su puntuación de vitalidad alcance 30, 60 o 100 en los últimos 7 días</string>
+    <string name="pref_vitality_score_title">Nivel de vitalidad</string>
+    <string name="pref_vitality_score_daily_summary">Recibir una notificación cuando alcances el número máximo de puntos de vitalidad del día</string>
 </resources>
