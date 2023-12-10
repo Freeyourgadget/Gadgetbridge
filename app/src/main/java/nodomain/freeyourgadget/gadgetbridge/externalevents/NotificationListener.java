@@ -774,17 +774,18 @@ public class NotificationListener extends NotificationListenerService {
         // Clean up removed notifications from internal list
         notificationsActive.removeAll(notificationsToRemove);
 
-        // TODO prevent this from being called multiple times for the same ID
-        // TODO prevent this from being called form notifications removed from the device
-
         // Send notification remove request to device
-        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for (GBDevice device : devices) {
+            if (!device.isInitialized()) {
+                continue;
+            }
+
             Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
             if (devicePrefs.getBoolean("autoremove_notifications", true)) {
                 for (int id : notificationsToRemove) {
-                    LOG.info("Notification " + id + " removed, will ask device to delete it");
-                    GBApplication.deviceService().onDeleteNotification(id);
+                    LOG.info("Notification {} removed, deleting from {}", id, device.getAliasOrName());
+                    GBApplication.deviceService(device).onDeleteNotification(id);
                 }
             }
         }
