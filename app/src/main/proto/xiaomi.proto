@@ -91,6 +91,9 @@ message System {
   // 2, 34
   optional DoNotDisturb dndStatus = 11;
 
+  // 2, 39
+  optional WidgetSubtypes widgetSubtypes = 14;
+
   // 2, 5
   optional FirmwareInstallRequest firmwareInstallRequest = 16;
   optional FirmwareInstallResponse firmwareInstallResponse = 17;
@@ -105,9 +108,9 @@ message System {
   optional Language language = 20;
 
   // 2, 51 get | 2, 52 create
-  optional Widgets widgets = 28;
+  optional WidgetsScreens widgetScreens = 28;
   // 2, 53
-  optional WidgetParts widgetsSingle = 29;
+  optional WidgetParts widgetParts = 29;
 
   // 2, 14
   optional MiscSettingGet miscSettingGet = 34;
@@ -206,10 +209,20 @@ message Language {
   optional string code = 1; // pt_pt, en_us
 }
 
-message Widgets {
-  repeated Widget widget = 1;
+message WidgetSubtypes {
+  repeated WidgetSubtype widgetSubtype = 1;
   optional uint32 unknown2 = 2; // 1
-  optional WidgetsCapabilities widget3 = 3;
+}
+
+message WidgetSubtype {
+  optional uint32 subType = 1;
+  optional uint32 unknown2 = 2; // 1
+}
+
+message WidgetsScreens {
+  repeated WidgetScreen widgetScreen = 1;
+  optional uint32 isFullList = 2; // 1 to overwrite the full list
+  optional WidgetsCapabilities widgetsCapabilities = 3; // only in response
 }
 
 message WidgetsCapabilities {
@@ -218,9 +231,9 @@ message WidgetsCapabilities {
   optional uint32 unknown3 = 3; // 768
 }
 
-message Widget {
+message WidgetScreen {
   optional uint32 id = 1; // starts at 1
-  optional uint32 type = 2; // 256 for split, 512 for tall
+  optional uint32 layout = 2; // 256 for split, 512 for tall
   repeated WidgetPart widgetPart = 3;
 }
 
@@ -229,11 +242,13 @@ message WidgetParts {
 }
 
 message WidgetPart {
-  optional uint32 partType = 1; // 1 for small, 3 for tall
+  optional uint32 type = 1; // 1 for small 1x1, 2 for wide 2x1, 3 for tall 1x2
   optional uint32 app = 2; // matches command type
-  optional uint32 partId = 3; // they all seem unique
+  optional uint32 id = 3; // they all seem unique
   optional string title = 4; // not set on create
-  optional uint32 unknown5 = 5; // 0, not set on create
+  optional uint32 subType = 5; // usually 0 if no subtype
+  optional string unknown6 = 6; // "" on get
+  optional string unknown7 = 7; // "" on get
 }
 
 message DoNotDisturb {
@@ -298,13 +313,13 @@ message CustomVibrationPattern {
 
 message VibrationNotificationType {
   // 1 incoming calls
-  // 2 events
+  // 2 events // TODO confirm which one is events, which one is schedule
   // 3 alarms
   // 4 notifications
   // 5 standing reminder
   // 6 sms
   // 7 goal
-  // 8 events
+  // 8 events // TODO confirm which one is events, which one is schedule
   optional uint32 notificationType = 1;
   optional uint32 preset = 2;
 }
@@ -644,7 +659,7 @@ message NotificationDismiss {
 message NotificationId {
   optional uint32 id = 1;
   optional string package = 2; // truncated
-  optional string key = 4; // ""
+  optional string key = 4; // sometimes ""
 }
 
 message CannedMessages {
