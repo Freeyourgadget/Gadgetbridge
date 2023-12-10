@@ -67,6 +67,8 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     public static final int CMD_OPEN_ON_PHONE = 8;
     public static final int CMD_CANNED_MESSAGES_GET = 9;
     public static final int CMD_CANNED_MESSAGES_SET = 12; // also canned message reply
+    public static final int CMD_CALL_REPLY_SEND = 13;
+    public static final int CMD_CALL_REPLY_ACK = 14;
     public static final int CMD_NOTIFICATION_ICON_REQUEST = 15;
     public static final int CMD_NOTIFICATION_ICON_QUERY = 16;
 
@@ -134,6 +136,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 getSupport().evaluateGBDeviceEvent(deviceEvtNotificationControl);
             case CMD_CANNED_MESSAGES_GET:
                 handleCannedMessages(cmd.getNotification().getCannedMessages());
+                return;
+            case CMD_CALL_REPLY_SEND:
+                handleCannedSmsReply(cmd.getNotification().getNotificationReply());
                 return;
             case CMD_NOTIFICATION_ICON_REQUEST:
                 handleNotificationIconRequest(cmd.getNotification().getNotificationIconRequest());
@@ -452,6 +457,49 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                         .setSubtype(CMD_NOTIFICATION_ICON_REQUEST)
                         .setNotification(XiaomiProto.Notification.newBuilder()
                                 .setNotificationIconReply(notificationIconPackage)
+                        ).build()
+        );
+    }
+
+    private void handleCannedSmsReply(final XiaomiProto.NotificationReply notificationReply) {
+        final String phoneNumber = notificationReply.getNumber();
+        if (phoneNumber == null) {
+            LOG.warn("Missing phone number for sms reply");
+            ackSmsReply(false);
+            return;
+        }
+
+        final String message = notificationReply.getMessage();
+        if (message == null) {
+            LOG.warn("Missing message for sms reply");
+            ackSmsReply(false);
+            return;
+        }
+
+        LOG.debug("Sending SMS message '{}' to number '{}' and rejecting call", message, phoneNumber);
+
+        final GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
+        devEvtNotificationControl.handle = -1;
+        devEvtNotificationControl.phoneNumber = phoneNumber;
+        devEvtNotificationControl.reply = message;
+        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
+        getSupport().evaluateGBDeviceEvent(devEvtNotificationControl);
+
+        final GBDeviceEventCallControl rejectCallCmd = new GBDeviceEventCallControl(GBDeviceEventCallControl.Event.REJECT);
+        getSupport().evaluateGBDeviceEvent(rejectCallCmd);
+
+        // FIXME probably premature
+        ackSmsReply(true);
+    }
+
+    private void ackSmsReply(final boolean success) {
+        getSupport().sendCommand(
+                "ack sms reply success=" + success,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CALL_REPLY_ACK)
+                        .setNotification(XiaomiProto.Notification.newBuilder()
+                                .setNotificationReplyStatus(success ? 0 : 1)
                         ).build()
         );
     }

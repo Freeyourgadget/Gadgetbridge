@@ -626,6 +626,11 @@ message Notification {
   // 7, 9 get | 7, 12 set
   optional CannedMessages cannedMessages = 9;
 
+  // 7, 13
+  optional NotificationReply notificationReply = 12;
+  // 7, 14
+  optional uint32 notificationReplyStatus = 13; // 0 on success, 1 on failure
+
   // 7, 15
   optional NotificationIconPackage notificationIconReply = 14;
   // 7, 15
@@ -672,6 +677,13 @@ message NotificationIconRequest {
   optional uint32 unknown1 = 1; // 0 probably format
   optional uint32 unknown2 = 2; // 3 probably format
   optional uint32 size = 3;
+}
+
+message NotificationReply {
+  optional uint32 unknown1 = 1; // 1
+  optional string message = 2;
+  optional uint32 unknown3 = 3; // 1
+  optional string number = 4;
 }
 
 message NotificationIconPackage {
