@@ -829,7 +829,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                 // FIXME: GPS data can be missing for some entries which is handled here.
                                 // Should use more complex logic to be more accurate. Use interpolation.
                                 // Should distances be done via the GPX file we generate instead?
-                                distance = "0.001";
+                                distance = "0";
                             } else {
                                 distance = distanceFromCoordinatePairs(
                                         (String) valueArray.get(i - 1),
@@ -850,13 +850,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     // Add stride lengths between consecutive readings.
                     if (storedLogObject.has("Steps")) {
                         for (int i = 0; i < logLength; i++) {
-                            if (i == 0) {
+                            if (Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
+                                    Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "") ||
+                                    Objects.equals(analyticsObject.getJSONArray("Intermediate Distance").getString(i), "0")) {
                                 calculationsArray.put("0");
                             } else {
                                 double steps = storedLogObject.getJSONArray("Steps").getDouble(i);
-                                if (steps==0) steps=0.001;
                                 double calculation =
-                                        2 * analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / steps;
+                                        analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / steps;
                                 calculationsArray.put(calculation);
                             }
                         }
@@ -965,7 +966,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 summary.setRawDetailsPath(String.valueOf(inputFile));
 
                 JSONObject summaryData = new JSONObject();
-                summaryData = addSummaryData(summaryData,"test",3,"mm");
        //            private JSONObject createActivitySummaryGroups(){
        // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
        //     put("Strokes", Arrays.asList(
@@ -1007,7 +1007,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     if (analyticsObject.has("Speed")) {
                         //summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"mm"); // This seems to be calculated somewhere else automatically.
                         summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                        summaryData = addSummaryData(summaryData, "minSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                        //summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
                         //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
                         //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
                         //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
@@ -1027,6 +1027,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
                         summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
                     }
+
                     //     put("Activity", Arrays.asList(
                     //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
                     //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
@@ -1054,7 +1055,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
                     }
                 } catch (Exception e) {
-                    LOG.error(String.valueOf(e) + ". (thrown when trying to add summary data");
+                    LOG.error(e + ". (thrown when trying to add summary data");
                 }
        //     put("HeartRateZones", Arrays.asList(
        //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
@@ -2416,27 +2417,32 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private float sumOfJSONArray(JSONArray a) throws JSONException {
         double sum = 0;
         for (int i=0; i<a.length(); i++) {
-            sum += a.getDouble(i);
+            if (!Objects.equals(a.getString(i), "")) sum += a.getDouble(i);
         }
         return (float) sum;
     }
 
     private float averageOfJSONArray(JSONArray a) throws JSONException {
-        return sumOfJSONArray(a) / a.length();
+        JSONArray b = new JSONArray();
+        // Disregard empty lines.
+        for (int i=0; i<a.length(); i++) {
+            if (!Objects.equals(a.getString(i), ""))  b.put(a.getString(i));
+        }
+        return sumOfJSONArray(b) / b.length();
     }
 
     private float minOfJSONArray(JSONArray a) throws JSONException {
-        double min = a.getDouble(0);
-        for (int i=1; i<a.length(); i++) {
-            min = Math.min(min, a.getDouble(i));
+        double min = 999999999;
+        for (int i=0; i<a.length(); i++) {
+            if (!Objects.equals(a.getString(i), "")) min = Math.min(min, a.getDouble(i));
         }
         return (float) min;
     }
 
     private float maxOfJSONArray(JSONArray a) throws JSONException {
-        double max = a.getDouble(0);
-        for (int i=1; i<a.length(); i++) {
-            max = Math.max(max, a.getDouble(i));
+        double max = -999999999;
+        for (int i=0; i<a.length(); i++) {
+            if (!Objects.equals(a.getString(i), "")) max = Math.max(max, a.getDouble(i));
         }
         return (float) max;
     }
