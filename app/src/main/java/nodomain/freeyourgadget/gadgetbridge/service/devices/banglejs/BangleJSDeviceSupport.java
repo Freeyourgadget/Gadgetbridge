@@ -159,7 +159,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     /// Last battery percentage reported (or -1) to help with smoothing reported battery levels
     private int lastBatteryPercent = -1;
 
-    private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
+    private final LimitedQueue<Integer, Long> mNotificationReplyAction = new LimitedQueue<>(16);
 
     private boolean gpsUpdateSetup = false;
 
@@ -623,7 +623,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         /* REPLY responses don't use the ID from the event (MUTE/etc seem to), but instead
          * they use a handle that was provided in an action list on the onNotification.. event  */
         if (deviceEvtNotificationControl.event == GBDeviceEventNotificationControl.Event.REPLY) {
-            Long foundHandle = (Long)mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
+            Long foundHandle = mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
             if (foundHandle!=null)
                 deviceEvtNotificationControl.handle = foundHandle;
         }

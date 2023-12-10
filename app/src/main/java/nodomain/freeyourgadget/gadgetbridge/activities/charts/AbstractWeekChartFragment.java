@@ -371,14 +371,14 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 
     private ActivityAmounts getActivityAmountsForDay(DBHandler db, Calendar day, GBDevice device) {
 
-        LimitedQueue activityAmountCache = null;
+        LimitedQueue<Integer, ActivityAmounts> activityAmountCache = null;
         ActivityAmounts amounts = null;
 
         Activity activity = getActivity();
         int key = (int) (day.getTimeInMillis() / 1000) + (mOffsetHours * 3600);
         if (activity != null) {
             activityAmountCache = ((ActivityChartsActivity) activity).mActivityAmountCache;
-            amounts = (ActivityAmounts) (activityAmountCache.lookup(key));
+            amounts = activityAmountCache.lookup(key);
         }
 
         if (amounts == null) {

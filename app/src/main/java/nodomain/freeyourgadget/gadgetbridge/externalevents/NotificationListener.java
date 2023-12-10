@@ -83,17 +83,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
@@ -115,9 +104,9 @@ public class NotificationListener extends NotificationListenerService {
     public static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
 
-    private final LimitedQueue mActionLookup = new LimitedQueue(32);
-    private final LimitedQueue mPackageLookup = new LimitedQueue(64);
-    private final LimitedQueue mNotificationHandleLookup = new LimitedQueue(128);
+    private final LimitedQueue<Integer, NotificationCompat.Action> mActionLookup = new LimitedQueue<>(32);
+    private final LimitedQueue<Integer, String> mPackageLookup = new LimitedQueue<>(64);
+    private final LimitedQueue<Integer, Long> mNotificationHandleLookup = new LimitedQueue<>(128);
 
     private final HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private final HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
@@ -158,7 +147,7 @@ public class NotificationListener extends NotificationListenerService {
 
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    Long ts = mNotificationHandleLookup.lookup(handle);
                     if (ts == null) {
                         LOG.info("could not lookup handle for open action");
                         break;
@@ -179,7 +168,7 @@ public class NotificationListener extends NotificationListenerService {
                     break;
                 }
                 case ACTION_MUTE:
-                    String packageName = (String) mPackageLookup.lookup(handle);
+                    String packageName = mPackageLookup.lookup(handle);
                     if (packageName == null) {
                         LOG.info("could not lookup handle for mute action");
                         break;
@@ -193,7 +182,7 @@ public class NotificationListener extends NotificationListenerService {
                     break;
                 case ACTION_DISMISS: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    Long ts = mNotificationHandleLookup.lookup(handle);
                     if (ts == null) {
                         LOG.info("could not lookup handle for dismiss action");
                         break;
@@ -210,7 +199,7 @@ public class NotificationListener extends NotificationListenerService {
                     NotificationListener.this.cancelAllNotifications();
                     break;
                 case ACTION_REPLY:
-                    NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(handle);
+                    NotificationCompat.Action wearableAction = mActionLookup.lookup(handle);
                     String reply = intent.getStringExtra("reply");
                     if (wearableAction != null) {
                         PendingIntent actionIntent = wearableAction.getActionIntent();
@@ -766,17 +755,16 @@ public class NotificationListener extends NotificationListenerService {
         if (shouldIgnoreNotification(sbn, true)) return;
 
         // Build list of all currently active notifications
-        ArrayList<Integer> activeNotificationsIds = new ArrayList<Integer>();
+        ArrayList<Integer> activeNotificationsIds = new ArrayList<>();
         for (StatusBarNotification notification : getActiveNotifications()) {
-            Object o = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
-            if (o != null) {
-                int id = (int) o;
+            Integer id = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
+            if (id != null) {
                 activeNotificationsIds.add(id);
             }
         }
 
         // Build list of notifications that aren't active anymore
-        ArrayList<Integer> notificationsToRemove = new ArrayList<Integer>();
+        ArrayList<Integer> notificationsToRemove = new ArrayList<>();
         for (int notificationId : notificationsActive) {
             if (!activeNotificationsIds.contains(notificationId)) {
                 notificationsToRemove.add(notificationId);

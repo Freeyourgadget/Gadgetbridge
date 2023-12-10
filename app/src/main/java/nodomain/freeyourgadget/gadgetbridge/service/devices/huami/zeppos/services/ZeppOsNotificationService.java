@@ -70,7 +70,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
 
     // Keep track of Notification ID -> action handle, as BangleJSDeviceSupport.
     // This needs to be simplified.
-    private final LimitedQueue mNotificationReplyAction = new LimitedQueue(16);
+    private final LimitedQueue<Integer, Long> mNotificationReplyAction = new LimitedQueue<>(16);
 
     private final ZeppOsFileTransferService fileTransferService;
 
@@ -98,7 +98,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
             case NOTIFICATION_CMD_REPLY:
                 // TODO make this configurable?
                 final int notificationId = BLETypeConversions.toUint32(subarray(payload, 1, 5));
-                final Long replyHandle = (Long) mNotificationReplyAction.lookup(notificationId);
+                final Long replyHandle = mNotificationReplyAction.lookup(notificationId);
                 if (replyHandle == null) {
                     LOG.warn("Failed to find reply handle for notification ID {}", notificationId);
                     return;

@@ -124,7 +124,7 @@ public class GBApplication extends Application {
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
     private static final int CURRENT_PREFS_VERSION = 28;
 
-    private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
+    private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
     private static LockHandler lockHandler;
@@ -1481,7 +1481,7 @@ public class GBApplication extends Application {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
-    public static LimitedQueue getIDSenderLookup() {
+    public static LimitedQueue<Integer, String> getIDSenderLookup() {
         return mIDSenderLookup;
     }
 
