@@ -27,7 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class MiWatchLiteCoordinator extends XiaomiCoordinator {
     @Override

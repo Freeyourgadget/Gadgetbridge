@@ -292,6 +292,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         }
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_GOAL_NOTIFICATION, true)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION, achievementReminders.getEnabled())
                 .withPreference(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_SECONDARY, secondaryValue);
 
@@ -332,6 +333,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         LOG.debug("Got vitality score config");
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_VITALITY_SCORE, true)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_7_DAY, vitalityScore.getSevenDay())
                 .withPreference(DeviceSettingsPreferenceConst.PREF_VITALITY_SCORE_DAILY, vitalityScore.getDailyProgress());
 
@@ -367,6 +369,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         LOG.debug("Got SpO2 config");
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_SPO2, true)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING, spo2.getAllDayTracking())
                 .withPreference(
                         DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD,
@@ -492,6 +495,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         final String dndEnd = XiaomiPreferences.prefFromHourMin(standingReminder.getDndEnd());
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_INACTIVITY, true)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, standingReminder.getEnabled())
                 .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, start)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, end)
@@ -536,6 +540,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         LOG.debug("Got stress config");
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_STRESS, true)
                 .withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, stress.getAllDayTracking())
                 .withPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER, stress.getRelaxReminder().getEnabled());
 

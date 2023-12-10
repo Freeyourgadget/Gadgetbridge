@@ -16,12 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.hidePrefIfNoneVisible;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.populateOrHideListPreference;
 
 import android.os.Parcel;
 
 import androidx.preference.Preference;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 
@@ -44,6 +46,16 @@ public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         }
 
         populateOrHideListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
+
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_DISPLAY, Arrays.asList(
+                HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_PASSWORD
+        ));
+        hidePrefIfNoneVisible(handler, "pref_header_other", Arrays.asList(
+                "pref_contacts",
+                "camera_remote",
+                "screen_events_forwarding"
+        ));
     }
 
     @Override

@@ -121,6 +121,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
                 final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(
                         DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS,
                         screenOnOnNotifications
+                ).withPreference(
+                        XiaomiPreferences.FEAT_SCREEN_ON_ON_NOTIFICATIONS,
+                        true
                 );
                 getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
                 return;

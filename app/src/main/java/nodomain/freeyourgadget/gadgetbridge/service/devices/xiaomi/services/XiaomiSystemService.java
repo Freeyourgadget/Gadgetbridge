@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -71,6 +72,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_CLOCK = 3;
     public static final int CMD_FIRMWARE_INSTALL = 5;
     public static final int CMD_LANGUAGE = 6;
+    public static final int CMD_CAMERA_REMOTE_GET = 7;
+    public static final int CMD_CAMERA_REMOTE_SET = 8;
     public static final int CMD_PASSWORD_GET = 9;
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_FIND_WATCH = 18;
@@ -329,6 +332,11 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                     password.getPassword()
             );
         }
+        eventUpdatePreferences.withPreference(
+                XiaomiPreferences.FEAT_PASSWORD,
+                true
+        );
+
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
@@ -453,6 +461,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final String prefValue = StringUtils.join(",", enabledScreens.toArray(new String[0])).toString();
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_DISPLAY_ITEMS, displayItems.getDisplayItemCount() > 0)
                 .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensPrefValue)
                 .withPreference(DeviceSettingsUtils.getPrefPossibleValueLabelsKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), allScreensLabelsPrefValue)
                 .withPreference(PREF_SETTINGS_DISPLAY_ITEM_CODE, settingsCode)
@@ -521,6 +530,13 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
             return;
         }
+
+        // If we got basic device state, we support device actions
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(
+                XiaomiPreferences.FEAT_DEVICE_ACTIONS,
+                true
+        );
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
 
         // handle battery info from message
         {

@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences.*;
+
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.os.ParcelUuid;
@@ -47,7 +49,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
@@ -361,19 +362,31 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // Display
         //
         settings.add(R.xml.devicesettings_header_display);
-        settings.add(R.xml.devicesettings_xiaomi_displayitems);
-        settings.add(R.xml.devicesettings_password);
+        if (supports(device, FEAT_DISPLAY_ITEMS)) {
+            settings.add(R.xml.devicesettings_xiaomi_displayitems);
+        }
+        if (supports(device, FEAT_PASSWORD)) {
+            settings.add(R.xml.devicesettings_password);
+        }
 
         //
         // Health
         //
         settings.add(R.xml.devicesettings_header_health);
         settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
-        settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
-        settings.add(R.xml.devicesettings_sleep_mode_schedule);
-        settings.add(R.xml.devicesettings_goal_notification);
-        settings.add(R.xml.devicesettings_goal_secondary);
-        settings.add(R.xml.devicesettings_vitality_score);
+        if (supports(device, FEAT_INACTIVITY)) {
+            settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
+        }
+        if (supports(device, FEAT_SLEEP_MODE_SCHEDULE)) {
+            settings.add(R.xml.devicesettings_sleep_mode_schedule);
+        }
+        if (supports(device, FEAT_GOAL_NOTIFICATION)) {
+            settings.add(R.xml.devicesettings_goal_notification);
+            settings.add(R.xml.devicesettings_goal_secondary);
+        }
+        if (supports(device, FEAT_VITALITY_SCORE)) {
+            settings.add(R.xml.devicesettings_vitality_score);
+        }
 
         //
         // Workout
@@ -389,7 +402,9 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // TODO not implemented settings.add(R.xml.devicesettings_vibrationpatterns);
         // TODO not implemented settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
         settings.add(R.xml.devicesettings_send_app_notifications);
-        settings.add(R.xml.devicesettings_screen_on_on_notifications);
+        if (supports(device, FEAT_SCREEN_ON_ON_NOTIFICATIONS)) {
+            settings.add(R.xml.devicesettings_screen_on_on_notifications);
+        }
         settings.add(R.xml.devicesettings_autoremove_notifications);
         if (getCannedRepliesSlotCount(device) > 0) {
             settings.add(R.xml.devicesettings_canned_dismisscall_16);
@@ -410,8 +425,10 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         if (getContactsSlotCount(device) > 0) {
             settings.add(R.xml.devicesettings_contacts);
         }
-        settings.add(R.xml.devicesettings_camera_remote);
-        if (supportsWearingAndSleepingDataThroughDeviceState()) {
+        // TODO not implemented if (supports(device, FEAT_CAMERA_REMOTE)) {
+        // TODO not implemented     settings.add(R.xml.devicesettings_camera_remote);
+        // TODO not implemented }
+        if (supports(device, FEAT_DEVICE_ACTIONS)) {
             settings.add(R.xml.devicesettings_device_actions);
         }
 
@@ -492,7 +509,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         return false;
     }
 
-    public boolean supportsWearingAndSleepingDataThroughDeviceState() {
-        return false;
+    public boolean supports(final GBDevice device, final String feature) {
+        return getPrefs(device).getBoolean(feature, false);
     }
 }
