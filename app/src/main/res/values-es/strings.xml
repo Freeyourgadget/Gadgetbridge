@@ -2582,4 +2582,6 @@
     <string name="pref_title_goal_secondary">Objetivo secundario</string>
     <string name="standing_time">tiempo de reposo</string>
     <string name="active_time">Tiempo activo</string>
+    <string name="pref_vitality_score_daily_title">Avances diarios</string>
+    <string name="pref_vitality_score_7_day_title">Progreso en 7 días</string>
 </resources>
