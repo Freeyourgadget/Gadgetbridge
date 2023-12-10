@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ListPreference
+        android:defaultValue="standing_time"
+        android:entries="@array/goal_fitness_secondary_goal_entries"
+        android:entryValues="@array/goal_fitness_secondary_goal_values"
+        android:icon="@drawable/ic_star_gray"
+        android:key="fitness_goal_secondary"
+        android:title="@string/pref_title_goal_secondary"
+        app:useSimpleSummaryProvider="true" />
+</androidx.preference.PreferenceScreen>

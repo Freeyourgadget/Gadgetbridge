@@ -52,7 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.XiaomiActivityFileFetcher;
@@ -78,6 +77,8 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     private static final int CMD_CONFIG_STANDING_REMINDER_SET = 13;
     private static final int CMD_CONFIG_STRESS_GET = 14;
     private static final int CMD_CONFIG_STRESS_SET = 15;
+    private static final int CMD_CONFIG_GOAL_GET = 21;
+    private static final int CMD_CONFIG_GOAL_SET = 22;
     private static final int CMD_WORKOUT_WATCH_STATUS = 26;
     private static final int CMD_WORKOUT_WATCH_OPEN = 30;
     private static final int CMD_WORKOUT_LOCATION = 48;
@@ -127,7 +128,6 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case CMD_CONFIG_HEART_RATE_SET:
                 LOG.debug("Got heart rate set ack, status={}", cmd.getStatus());
                 return;
-
             case CMD_CONFIG_HEART_RATE_GET:
                 handleHeartRateConfig(cmd.getHealth().getHeartRate());
                 return;
@@ -142,6 +142,12 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 return;
             case CMD_CONFIG_STRESS_SET:
                 LOG.debug("Got stress set ack, status={}", cmd.getStatus());
+                return;
+            case CMD_CONFIG_GOAL_GET:
+                handleGoalConfig(cmd.getHealth().getAchievementReminders());
+                return;
+            case CMD_CONFIG_GOAL_SET:
+                LOG.debug("Got goal set ack, status={}", cmd.getStatus());
                 return;
             case CMD_WORKOUT_WATCH_STATUS:
                 handleWorkoutStatus(cmd.getHealth().getWorkoutStatusWatch());
@@ -164,6 +170,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         getSupport().sendCommand("get heart rate config", COMMAND_TYPE, CMD_CONFIG_HEART_RATE_GET);
         getSupport().sendCommand("get standing reminders config", COMMAND_TYPE, CMD_CONFIG_STANDING_REMINDER_GET);
         getSupport().sendCommand("get stress config", COMMAND_TYPE, CMD_CONFIG_STRESS_GET);
+        getSupport().sendCommand("get goal config", COMMAND_TYPE, CMD_CONFIG_GOAL_GET);
     }
 
     @Override
@@ -178,6 +185,10 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS:
             case ActivityUser.PREF_USER_ACTIVETIME_MINUTES:
                 setUserInfo();
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION:
+            case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_SECONDARY:
+                sendGoalConfig();
                 return true;
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION:
             case DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING:
@@ -248,6 +259,57 @@ public class XiaomiHealthService extends AbstractXiaomiService {
                 XiaomiProto.Command.newBuilder()
                         .setType(COMMAND_TYPE)
                         .setSubtype(CMD_SET_USER_INFO)
+                        .setHealth(health)
+                        .build()
+        );
+    }
+
+    private void handleGoalConfig(final XiaomiProto.AchievementReminders achievementReminders) {
+        LOG.debug("Got goal config");
+
+        final String secondaryValue;
+
+        switch (achievementReminders.getSuggested()) {
+            case 0:
+                secondaryValue = "active_time";
+                break;
+            case 1:
+            default:
+                secondaryValue = "standing_time";
+        }
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION, achievementReminders.getEnabled())
+                .withPreference(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_SECONDARY, secondaryValue);
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    public void sendGoalConfig() {
+        final boolean goalNotification = getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION, false);
+        final String goalSecondary = getDevicePrefs().getString(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_SECONDARY, "standing_time");
+
+        LOG.debug("Setting goal config, notification={}, secondary={}", goalNotification, goalSecondary);
+
+        final XiaomiProto.AchievementReminders.Builder achievementReminders = XiaomiProto.AchievementReminders.newBuilder()
+                .setEnabled(goalNotification)
+                .setSuggested(1);
+
+        if (goalSecondary.equals("active_time")) {
+            achievementReminders.setSuggested(0);
+        } else {
+            achievementReminders.setSuggested(1);
+        }
+
+        final XiaomiProto.Health health = XiaomiProto.Health.newBuilder()
+                .setAchievementReminders(achievementReminders)
+                .build();
+
+        getSupport().sendCommand(
+                "set goal config",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_CONFIG_GOAL_SET)
                         .setHealth(health)
                         .build()
         );

@@ -371,7 +371,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
         settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
         settings.add(R.xml.devicesettings_sleep_mode_schedule);
-        // TODO not implemented settings.add(R.xml.devicesettings_goal_notification);
+        settings.add(R.xml.devicesettings_goal_notification);
+        settings.add(R.xml.devicesettings_goal_secondary);
 
         //
         // Workout

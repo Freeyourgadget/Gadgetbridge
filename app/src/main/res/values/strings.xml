@@ -408,6 +408,7 @@
     <string name="pref_title_unit_system">Units</string>
     <string name="pref_title_timeformat">Time format</string>
     <string name="pref_title_screentime">Screen on duration</string>
+    <string name="pref_title_goal_secondary">Secondary goal</string>
     <string name="prefs_title_all_day_heart_rate">All day heart rate measurement</string>
     <string name="preferences_hplus_settings">HPlus/Makibes settings</string>
     <!-- WatchXPlus Preferences -->
@@ -1100,6 +1101,8 @@
     <string name="activity_prefs_activetime_minutes">Daily target: active time in minutes</string>
     <string name="activity_prefs_goal_standing_time_minutes">Daily target: standing time in minutes</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Daily target: fat burn time in minutes</string>
+    <string name="active_time">Active time</string>
+    <string name="standing_time">Standing time</string>
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Data management</string>
