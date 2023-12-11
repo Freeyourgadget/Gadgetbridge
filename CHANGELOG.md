@@ -13,6 +13,7 @@
 * Experimental support for Mi Band 8 (Xiaomi Smart Band 8)
 * Experimental support for Mi Watch Lite
 * Experimental support for Mi Watch Color Sport
+* Experimental support for Redmi Smart Band 2
 * Experimental support for Redmi Watch 3 Active
 * Experimental support for Xiaomi Watch S1 Active
 * Amazfit Band 7: Add alexa menu entries
