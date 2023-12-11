@@ -2,6 +2,9 @@ syntax = "proto2"; // we must use proto2 to serialize default values on the wire
 
 package xiaomi;
 
+// FIXME: The generated class is very large, so Android Studio stops recognizing it
+// set idea.max.intellisense.filesize=5000 in idea.properties
+
 option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.xiaomi";
 option java_outer_classname = "XiaomiProto";
 
