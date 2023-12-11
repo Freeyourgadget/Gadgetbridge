@@ -886,12 +886,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (analyticsObject.has("Intermediate Distance")) {
                     // Add total distance from start of activity up to each reading.
                     for (int i = 0; i < logLength; i++) {
-                       if (i==0) {
-                           calculationsArray.put(0);
-                       } else {
-                           double calculation = calculationsArray.getDouble(i-1) + analyticsObject.getJSONArray("Intermediate Distance").getDouble(i);
-                           calculationsArray.put(calculation);
-                       }
+                        if (i==0) {
+                            calculationsArray.put(0);
+                        } else {
+                            double calculation = calculationsArray.getDouble(i-1) + analyticsObject.getJSONArray("Intermediate Distance").getDouble(i);
+                            calculationsArray.put(calculation);
+                        }
                     }
                     analyticsObject.put("Total Distance", calculationsArray);
 
@@ -904,7 +904,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         } else {
                             double timeDiff =
                                     (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
-                                    analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
+                                            analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
                             if (timeDiff==0) timeDiff = 1;
                             double calculation =
                                     analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / timeDiff;
@@ -966,48 +966,42 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 summary.setRawDetailsPath(String.valueOf(inputFile));
 
                 JSONObject summaryData = new JSONObject();
-       //            private JSONObject createActivitySummaryGroups(){
-       // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
-       //     put("Strokes", Arrays.asList(
-       //             "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
-       //     ));
-
-       //     put("Swimming", Arrays.asList(
-       //             "swolfIndex", "swimStyle"
-       //     ));
-
-       //     put("Elevation", Arrays.asList(
-       //             "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
-       //             "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
-       //             "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
-       //     ));
-                if (storedLogObject.has("Altitude") || storedLogObject.has("Barometer Altitude")) {
-                    summaryData = addSummaryData(summaryData, "ascentMeters", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "descentMeters", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "maxAltitude", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "minAltitude", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "averageAltitude", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "baseAltitude", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "ascentSeconds", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "descentSeconds", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "flatSeconds", 3, "mm");
-                    if (analyticsObject.has("Intermittent Distance")) {
-                        summaryData = addSummaryData(summaryData, "ascentDistance", 3, "mm");
-                        summaryData = addSummaryData(summaryData, "descentDistance", 3, "mm");
-                        summaryData = addSummaryData(summaryData, "flatDistance", 3, "mm");
-                    }
-                    summaryData = addSummaryData(summaryData, "elevationGain", 3, "mm");
-                    summaryData = addSummaryData(summaryData, "elevationLoss", 3, "mm");
+                //     put("Activity", Arrays.asList(
+                //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
+                //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
+                //     ));
+                if (analyticsObject.has("Intermediate Distance")) summaryData =
+                        addSummaryData(summaryData, "distanceMeters",
+                                (float) analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1),
+                                "m");
+                if (storedLogObject.has("Steps"))
+                    summaryData = addSummaryData(summaryData, "steps", sumOfJSONArray(storedLogObject.getJSONArray("Steps")), "steps");
+                //summaryData = addSummaryData(summaryData,"activeSeconds",3,"mm"); // FIXME: Is this suppose to exclude the time of inactivity in a workout?
+                //summaryData = addSummaryData(summaryData,"caloriesBurnt",3,"mm"); // TODO: Should this be calculated on Gadgetbridge side or be reported by Bangle.js?
+                //summaryData = addSummaryData(summaryData,"totalStride",3,"mm"); // FIXME: What is this?
+                if (storedLogObject.has("Heartrate")) {
+                    summaryData = addSummaryData(summaryData, "averageHR", averageOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
+                    summaryData = addSummaryData(summaryData, "maxHR", maxOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
+                    summaryData = addSummaryData(summaryData, "minHR", minOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
                 }
-       //     put("Speed", Arrays.asList(
-       //             "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
-       //             "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
-       //     ));
+                if (analyticsObject.has("Stride")) {
+                    summaryData = addSummaryData(summaryData, "averageStride",
+                            (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
+                                    (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
+                            "m/stride"); // FIXME: Is this meant to be stride length as I've assumed?
+                    summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
+                    summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
+                }
+
+                //     put("Speed", Arrays.asList(
+                //             "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
+                //             "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
+                //     ));
                 try {
                     if (analyticsObject.has("Speed")) {
                         //summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"mm"); // This seems to be calculated somewhere else automatically.
                         summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                        //summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                        summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
                         //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
                         //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
                         //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
@@ -1027,40 +1021,52 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
                         summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
                     }
-
-                    //     put("Activity", Arrays.asList(
-                    //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
-                    //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
-                    //     ));
-                    if (analyticsObject.has("Intermediate Distance")) summaryData =
-                            addSummaryData(summaryData, "distanceMeters",
-                                    (float) analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1),
-                                    "m");
-                    if (storedLogObject.has("Steps"))
-                        summaryData = addSummaryData(summaryData, "steps", sumOfJSONArray(storedLogObject.getJSONArray("Steps")), "steps");
-                    //summaryData = addSummaryData(summaryData,"activeSeconds",3,"mm"); // FIXME: Is this suppose to exclude the time of inactivity in a workout?
-                    //summaryData = addSummaryData(summaryData,"caloriesBurnt",3,"mm"); // TODO: Should this be calculated on Gadgetbridge side or be reported by Bangle.js?
-                    //summaryData = addSummaryData(summaryData,"totalStride",3,"mm"); // FIXME: What is this?
-                    if (storedLogObject.has("Heartrate")) {
-                        summaryData = addSummaryData(summaryData, "averageHR", averageOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                        summaryData = addSummaryData(summaryData, "maxHR", maxOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                        summaryData = addSummaryData(summaryData, "minHR", minOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                    }
-                    if (analyticsObject.has("Stride")) {
-                        summaryData = addSummaryData(summaryData, "averageStride",
-                                (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
-                                        (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
-                                "m/stride"); // FIXME: Is this meant to be stride length as I've assumed?
-                        summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
-                        summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
-                    }
                 } catch (Exception e) {
                     LOG.error(e + ". (thrown when trying to add summary data");
                 }
-       //     put("HeartRateZones", Arrays.asList(
-       //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
-       //             "hrZoneExtreme"
-       //     ));
+                //            private JSONObject createActivitySummaryGroups(){
+                // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
+                //     put("Strokes", Arrays.asList(
+                //             "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
+                //     ));
+
+                //     put("Swimming", Arrays.asList(
+                //             "swolfIndex", "swimStyle"
+                //     ));
+
+                //     put("Elevation", Arrays.asList(
+                //             "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
+                //             "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
+                //             "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
+                //     ));
+                if (storedLogObject.has("Altitude") || storedLogObject.has("Barometer Altitude")) {
+                    String altitudeToUseKey = null;
+                    if (storedLogObject.has("Altitude")) {
+                        altitudeToUseKey = "Altitude";
+                    } else if (storedLogObject.has("Barometer Altitude")) {
+                        altitudeToUseKey = "Barometer Altitude";
+                    }
+                    //summaryData = addSummaryData(summaryData, "ascentMeters", 3, "m");
+                    //summaryData = addSummaryData(summaryData, "descentMeters", 3, "m");
+                    summaryData = addSummaryData(summaryData, "maxAltitude", maxOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                    summaryData = addSummaryData(summaryData, "minAltitude", minOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                    summaryData = addSummaryData(summaryData, "averageAltitude", averageOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                    //summaryData = addSummaryData(summaryData, "baseAltitude", 3, "m");
+                    //summaryData = addSummaryData(summaryData, "ascentSeconds", 3, "s");
+                    //summaryData = addSummaryData(summaryData, "descentSeconds", 3, "s");
+                    //summaryData = addSummaryData(summaryData, "flatSeconds", 3, "s");
+                    //if (analyticsObject.has("Intermittent Distance")) {
+                    //    summaryData = addSummaryData(summaryData, "ascentDistance", 3, "m");
+                    //    summaryData = addSummaryData(summaryData, "descentDistance", 3, "m");
+                    //    summaryData = addSummaryData(summaryData, "flatDistance", 3, "m");
+                    //}
+                    //summaryData = addSummaryData(summaryData, "elevationGain", 3, "mm");
+                    //summaryData = addSummaryData(summaryData, "elevationLoss", 3, "mm");
+                }
+                //     put("HeartRateZones", Arrays.asList(
+                //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
+                //             "hrZoneExtreme"
+                //     ));
                 // TODO: Implement hrZones by doing calculations on Gadgetbridge side or make Bangle.js report this (Karvonen method implemented to a degree in watch app "Run+")?
                 //summaryData = addSummaryData(summaryData,"hrZoneNa",3,"mm");
                 //summaryData = addSummaryData(summaryData,"hrZoneWarmUp",3,"mm");
@@ -1068,18 +1074,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 //summaryData = addSummaryData(summaryData,"hrZoneAerobic",3,"mm");
                 //summaryData = addSummaryData(summaryData,"hrZoneAnaerobic",3,"mm");
                 //summaryData = addSummaryData(summaryData,"hrZoneExtreme",3,"mm");
-       //     put("TrainingEffect", Arrays.asList(
-       //             "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
-       //             "maximumOxygenUptake"
-       //     ));
+                //     put("TrainingEffect", Arrays.asList(
+                //             "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
+                //             "maximumOxygenUptake"
+                //     ));
 
-       //     put("Laps", Arrays.asList(
-       //             "averageLapPace", "laps"
-       //     ));
+                //     put("Laps", Arrays.asList(
+                //             "averageLapPace", "laps"
+                //     ));
                 // TODO: Does Bangle.js report laps in recorder logs?
                 //summaryData = addSummaryData(summaryData,"averageLapPace",3,"mm");
                 //summaryData = addSummaryData(summaryData,"laps",3,"mm");
-       // }};
+                // }};
                 summary.setSummaryData(summaryData.toString());
 
                 ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
