@@ -217,18 +217,20 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return true;
+        // TODO It does, but not yet fully working - only in Mi Band 8
+        return false;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return true;
+        // TODO It does, but not yet fully working - only in Mi Band 8
+        return false;
     }
 
     @Override
     public boolean supportsActivityTracks() {
         // TODO It does, but not yet fully working
-        return BuildConfig.DEBUG;
+        return false;
     }
 
     @Override

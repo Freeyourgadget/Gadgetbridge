@@ -62,6 +62,18 @@ public class MiBand8Coordinator extends XiaomiCoordinator {
     }
 
     @Override
+    public boolean supportsActivityDataFetching() {
+        // FIXME still has some issues
+        return true;
+    }
+
+    @Override
+    public boolean supportsActivityTracking() {
+        // FIXME still has some issues
+        return true;
+    }
+
+    @Override
     public boolean supportsMultipleWeatherLocations() {
         return true;
     }
