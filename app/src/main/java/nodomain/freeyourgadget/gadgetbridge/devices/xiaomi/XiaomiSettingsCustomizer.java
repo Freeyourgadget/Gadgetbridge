@@ -54,7 +54,8 @@ public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         hidePrefIfNoneVisible(handler, "pref_header_other", Arrays.asList(
                 "pref_contacts",
                 "camera_remote",
-                "screen_events_forwarding"
+                "screen_events_forwarding",
+                "phone_silent_mode"
         ));
     }
 

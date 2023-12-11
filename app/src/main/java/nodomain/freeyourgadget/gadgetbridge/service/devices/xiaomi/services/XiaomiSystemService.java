@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class XiaomiSystemService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
@@ -83,6 +84,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
     public static final int CMD_MISC_SETTING_SET_FROM_BAND = 42;
+    public static final int CMD_SILENT_MODE_GET = 43;
+    public static final int CMD_SILENT_MODE_SET_FROM_PHONE = 44;
+    public static final int CMD_SILENT_MODE_SET_FROM_WATCH = 45;
     public static final int CMD_DEVICE_STATE_GET = 78;
     public static final int CMD_DEVICE_STATE = 79;
 
@@ -157,6 +161,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return;
             case CMD_MISC_SETTING_SET_FROM_BAND:
                 handleMiscSettingSet(cmd.getSystem().getMiscSettingSet());
+                return;
+            case CMD_SILENT_MODE_GET:
+                handlePhoneSilentModeGet();
+                return;
+            case CMD_SILENT_MODE_SET_FROM_WATCH:
+                handlePhoneSilentModeSet(cmd.getSystem().getPhoneSilentModeSet());
                 return;
             case CMD_DEVICE_STATE_GET:
                 handleBasicDeviceState(cmd.getSystem().hasBasicDeviceState()
@@ -632,6 +642,33 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         }
 
         currentSleepDetectionState = newState;
+    }
+
+    public void handlePhoneSilentModeGet() {
+        LOG.debug("Watch requested phone silent mode");
+        sendPhoneSilentMode(SilentMode.isPhoneInSilenceMode(getSupport().getDevice().getAddress()));
+    }
+
+    public void handlePhoneSilentModeSet(final XiaomiProto.PhoneSilentModeSet phoneSilentModeSet) {
+        final boolean silent = phoneSilentModeSet.getPhoneSilentMode().getSilent();
+
+        LOG.debug("Set phone silent mode = {}", silent);
+        SilentMode.setPhoneSilentMode(getSupport().getDevice().getAddress(), silent);
+    }
+
+    private void sendPhoneSilentMode(final boolean enabled) {
+        getSupport().sendCommand(
+                "send phone silent mode = " + enabled,
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_SILENT_MODE_SET_FROM_PHONE)
+                        .setSystem(XiaomiProto.System.newBuilder().setPhoneSilentModeSet(
+                                XiaomiProto.PhoneSilentModeSet.newBuilder().setPhoneSilentMode(
+                                        XiaomiProto.PhoneSilentMode.newBuilder().setSilent(enabled)
+                                )
+                        ))
+                        .build()
+        );
     }
 
     public void handleBasicDeviceState(XiaomiProto.BasicDeviceState deviceState) {

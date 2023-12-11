@@ -117,6 +117,12 @@ message System {
   // 2, 15
   optional MiscSettingSet miscSettingSet = 35;
 
+  // 2, 43
+  optional PhoneSilentModeGet phoneSilentModeGet = 36;
+
+  // 2, 44 returning to watch, 2, 45 setting from watch
+  optional PhoneSilentModeSet phoneSilentModeSet = 37;
+
   // 2, 46
   optional VibrationPatterns vibrationPatterns = 38;
 
@@ -296,6 +302,18 @@ message Password {
   optional uint32 state = 1; // 1 disabled, 2 enabled
   optional string password = 2;
   optional uint32 unknown3 = 3; // 0 when set on ret
+}
+
+message PhoneSilentModeGet {
+  optional uint32 unknown1 = 1; // 1
+}
+
+message PhoneSilentModeSet {
+  optional PhoneSilentMode phoneSilentMode = 1;
+}
+
+message PhoneSilentMode {
+  optional bool silent = 1;
 }
 
 message VibrationPatterns {

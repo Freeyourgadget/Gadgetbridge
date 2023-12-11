@@ -443,6 +443,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         if (supports(device, FEAT_DEVICE_ACTIONS)) {
             settings.add(R.xml.devicesettings_device_actions);
         }
+        settings.add(R.xml.devicesettings_phone_silent_mode);
 
         //
         // Developer
