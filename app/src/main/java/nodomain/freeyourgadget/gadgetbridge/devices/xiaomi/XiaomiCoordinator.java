@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActi
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
@@ -371,6 +372,9 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         if (supports(device, FEAT_DISPLAY_ITEMS)) {
             settings.add(R.xml.devicesettings_xiaomi_displayitems);
         }
+        if (this.supportsWidgets(device)) {
+            settings.add(R.xml.devicesettings_widgets);
+        }
         if (supports(device, FEAT_PASSWORD)) {
             settings.add(R.xml.devicesettings_password);
         }
@@ -512,6 +516,16 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
                 HeartRateCapability.MeasurementInterval.MINUTES_10,
                 HeartRateCapability.MeasurementInterval.MINUTES_30
         );
+    }
+
+    @Override
+    public boolean supportsWidgets(final GBDevice device) {
+        return getPrefs(device).getBoolean(XiaomiPreferences.FEAT_WIDGETS, false);
+    }
+
+    @Override
+    public WidgetManager getWidgetManager(final GBDevice device) {
+        return new XiaomiWidgetManager(device);
     }
 
     protected static Prefs getPrefs(final GBDevice device) {

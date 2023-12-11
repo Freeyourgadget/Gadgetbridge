@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,10 +85,14 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_PASSWORD_SET = 21;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
+    public static final int CMD_WORKOUT_TYPES_GET = 39;
     public static final int CMD_MISC_SETTING_SET_FROM_BAND = 42;
     public static final int CMD_SILENT_MODE_GET = 43;
     public static final int CMD_SILENT_MODE_SET_FROM_PHONE = 44;
     public static final int CMD_SILENT_MODE_SET_FROM_WATCH = 45;
+    public static final int CMD_WIDGET_SCREENS_GET = 51;
+    public static final int CMD_WIDGET_SCREENS_SET = 52;
+    public static final int CMD_WIDGET_PARTS_GET = 53;
     public static final int CMD_DEVICE_STATE_GET = 78;
     public static final int CMD_DEVICE_STATE = 79;
 
@@ -111,6 +117,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().sendCommand("get password", COMMAND_TYPE, CMD_PASSWORD_GET);
         getSupport().sendCommand("get display items", COMMAND_TYPE, CMD_DISPLAY_ITEMS_GET);
         getSupport().sendCommand("get camera remote", COMMAND_TYPE, CMD_CAMERA_REMOTE_GET);
+        getSupport().sendCommand("get widgets", COMMAND_TYPE, CMD_WIDGET_SCREENS_GET);
+        getSupport().sendCommand("get widget parts", COMMAND_TYPE, CMD_WIDGET_PARTS_GET);
+        getSupport().sendCommand("get workout types", COMMAND_TYPE, CMD_WORKOUT_TYPES_GET);
     }
 
     @Override
@@ -159,6 +168,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
+            case CMD_WORKOUT_TYPES_GET:
+                handleWorkoutTypes(cmd.getSystem().getWorkoutTypes());
+                return;
             case CMD_MISC_SETTING_SET_FROM_BAND:
                 handleMiscSettingSet(cmd.getSystem().getMiscSettingSet());
                 return;
@@ -167,6 +179,15 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return;
             case CMD_SILENT_MODE_SET_FROM_WATCH:
                 handlePhoneSilentModeSet(cmd.getSystem().getPhoneSilentModeSet());
+                return;
+            case CMD_WIDGET_SCREENS_GET:
+                handleWidgetScreens(cmd.getSystem().getWidgetScreens());
+                return;
+            case CMD_WIDGET_SCREENS_SET:
+                LOG.debug("Got widget screens set ack, status={}", cmd.getStatus());
+                return;
+            case CMD_WIDGET_PARTS_GET:
+                handleWidgetParts(cmd.getSystem().getWidgetParts());
                 return;
             case CMD_DEVICE_STATE_GET:
                 handleBasicDeviceState(cmd.getSystem().hasBasicDeviceState()
@@ -204,6 +225,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return true;
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
                 setDisplayItems();
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_WIDGETS:
+                setWidgets();
                 return true;
         }
 
@@ -592,6 +616,20 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
+    private void handleWorkoutTypes(final XiaomiProto.WorkoutTypes workoutTypes) {
+        LOG.debug("Got {} workout types", workoutTypes.getWorkoutTypeCount());
+
+        final List<String> codes = new ArrayList<>(workoutTypes.getWorkoutTypeCount());
+        for (final XiaomiProto.WorkoutType workoutType : workoutTypes.getWorkoutTypeList()) {
+            codes.add(String.valueOf(workoutType.getType()));
+        }
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.PREF_WORKOUT_TYPES, String.join(",", codes));
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
     private void handleWearingState(int newStateValue) {
         WearingState newState;
 
@@ -773,6 +811,52 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
         // request battery state to request battery level and charger state on supported models
         getSupport().sendCommand("request battery state", COMMAND_TYPE, CMD_BATTERY);
+    }
+
+    private void handleWidgetScreens(final XiaomiProto.WidgetScreens widgetScreens) {
+        LOG.debug("Got {} widget screens", widgetScreens.getWidgetScreenCount());
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                // FIXME we're just persisting the protobuf bytes - probably not a good idea
+                .withPreference(XiaomiPreferences.PREF_WIDGET_SCREENS, GB.hexdump(widgetScreens.toByteArray()));
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void handleWidgetParts(final XiaomiProto.WidgetParts widgetParts) {
+        LOG.debug("Got {} widget parts", widgetParts.getWidgetPartCount());
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(XiaomiPreferences.FEAT_WIDGETS, widgetParts.getWidgetPartCount() > 0)
+                // FIXME we're just persisting the protobuf bytes - probably not a good idea
+                .withPreference(XiaomiPreferences.PREF_WIDGET_PARTS, GB.hexdump(widgetParts.toByteArray()));
+
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
+    private void setWidgets() {
+        final String hex = getDevicePrefs().getString(XiaomiPreferences.PREF_WIDGET_SCREENS, null);
+        if (hex == null) {
+            LOG.warn("raw widget screens hex is null");
+            return;
+        }
+
+        final XiaomiProto.WidgetScreens widgetScreens;
+        try {
+            widgetScreens = XiaomiProto.WidgetScreens.parseFrom(GB.hexStringToByteArray(hex));
+        } catch (final InvalidProtocolBufferException e) {
+            LOG.warn("failed to parse raw widget screns hex");
+            return;
+        }
+
+        LOG.debug("Setting {} widget screens", widgetScreens.getWidgetScreenCount());
+
+        getSupport().sendCommand(
+                "set widgets",
+                XiaomiProto.Command.newBuilder()
+                        .setType(COMMAND_TYPE)
+                        .setSubtype(CMD_WIDGET_SCREENS_SET)
+                        .setSystem(XiaomiProto.System.newBuilder().setWidgetScreens(widgetScreens))
+                        .build()
+        );
     }
 
     public void onFindPhone(final boolean start) {

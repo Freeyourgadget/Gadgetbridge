@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -584,6 +585,17 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
                 HeartRateCapability.MeasurementInterval.MINUTES_30,
                 HeartRateCapability.MeasurementInterval.HOUR_1
         );
+    }
+
+    @Override
+    public boolean supportsWidgets(final GBDevice device) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public WidgetManager getWidgetManager(final GBDevice device) {
+        return null;
     }
 
     public boolean supportsNavigation() {

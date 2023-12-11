@@ -594,6 +594,10 @@
             android:label="@string/title_activity_set_contacts"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.widgets.WidgetScreensListActivity"
+            android:label="@string/menuitem_widgets"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.ConfigureWorldClocks"
             android:label="@string/pref_world_clocks_title"
             android:parentActivityName=".activities.ControlCenterv2" />
@@ -616,6 +620,12 @@
             android:name=".activities.ContactDetails"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".activities.ConfigureReminders"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.widgets.WidgetScreenDetailsActivity"
+            android:label="@string/widget_screen"
+            android:parentActivityName=".activities.widgets.WidgetScreensListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity

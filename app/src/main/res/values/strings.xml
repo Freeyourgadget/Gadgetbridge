@@ -1280,6 +1280,9 @@
     <string name="activity_type_iceskating">Ice Skating</string>
     <string name="activity_type_golf">Golfing</string>
     <string name="activity_type_other">Other</string>
+    <string name="activity_type_trekking">Trekking</string>
+    <string name="activity_type_trail_run">Trail run</string>
+    <string name="activity_type_wrestling">Wrestling</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
@@ -2457,4 +2460,22 @@
     <string name="pref_vitality_score_7_day_summary">Get a notification when your vitality score reaches 30, 60 or 100 in the past 7 days</string>
     <string name="pref_vitality_score_daily_title">Daily progress</string>
     <string name="pref_vitality_score_daily_summary">Get a notification when you reached the maximum number of vitality points for the day</string>
+    <string name="widget">Widget</string>
+    <string name="widget_screen">Widget Screen</string>
+    <string name="widget_screen_delete_confirm_title">Delete widget screen</string>
+    <string name="widget_screen_delete_confirm_description">Are you sure you want to delete \'%1$s\'?</string>
+    <string name="widget_screen_no_free_slots_description">The device has no free slots for widget screens (total slots: %1$s)</string>
+    <string name="widget_screen_min_screens">There must be a minimum of %1$s screens</string>
+    <string name="widget_layout_top_1_bot_2">1 top, 2 bottom</string>
+    <string name="widget_layout_top_2_bot_1">2 top, 1 bottom</string>
+    <string name="widget_layout_top_2_bot_2">2 top, 2 bottom</string>
+    <string name="widget_layout">Widget layout</string>
+    <string name="widget_subtype">Widget Subtype</string>
+    <string name="widget_screen_x">Screen %s</string>
+    <string name="widget_layout_single">1 widget</string>
+    <string name="widget_layout_two">2 widgets</string>
+    <string name="widget_move_up">Move up</string>
+    <string name="widget_move_down">Move down</string>
+    <string name="widget_missing_parts">Please select all widgets</string>
+    <string name="widget_unknown_workout">Unknown workout - %s</string>
 </resources>

@@ -111,7 +111,7 @@ message System {
   optional Language language = 20;
 
   // 2, 51 get | 2, 52 create
-  optional WidgetsScreens widgetScreens = 28;
+  optional WidgetScreens widgetScreens = 28;
   // 2, 53
   optional WidgetParts widgetParts = 29;
 
@@ -228,7 +228,7 @@ message WorkoutType {
   optional uint32 unknown2 = 2; // 1
 }
 
-message WidgetsScreens {
+message WidgetScreens {
   repeated WidgetScreen widgetScreen = 1;
   optional uint32 isFullList = 2; // 1 to overwrite the full list
   optional WidgetsCapabilities widgetsCapabilities = 3; // only in response

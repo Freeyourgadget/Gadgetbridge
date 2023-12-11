@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -549,6 +550,17 @@ public interface DeviceCoordinator {
     PasswordCapabilityImpl.Mode getPasswordCapability();
 
     List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals();
+
+    /**
+     * Whether the device supports screens with configurable widgets.
+     */
+    boolean supportsWidgets(GBDevice device);
+
+    /**
+     * Gets the {@link WidgetManager} for this device. Must not be null if supportsWidgets is true.
+     */
+    @Nullable
+    WidgetManager getWidgetManager(GBDevice device);
 
     boolean supportsNavigation();
 

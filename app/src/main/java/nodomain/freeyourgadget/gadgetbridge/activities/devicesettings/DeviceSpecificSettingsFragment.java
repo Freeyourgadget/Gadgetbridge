@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragmen
 import nodomain.freeyourgadget.gadgetbridge.activities.app_specific_notifications.AppSpecificNotificationSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.widgets.WidgetScreensListActivity;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -57,7 +58,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
@@ -771,6 +771,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     startActivity(intent);
                     return true;
                 }
+            });
+        }
+
+        final Preference widgets = findPreference(PREF_WIDGETS);
+        if (widgets != null) {
+            widgets.setOnPreferenceClickListener(preference -> {
+                final Intent intent = new Intent(getContext(), WidgetScreensListActivity.class);
+                intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                startActivity(intent);
+                return true;
             });
         }
 
