@@ -72,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCar
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
@@ -128,11 +129,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
 public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021Support.class);
@@ -1348,17 +1349,36 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
                 return;
             case SILENT_MODE_CMD_QUERY:
                 LOG.info("Got silent mode query from band");
-                // TODO sendCurrentSilentMode();
+                sendPhoneSilentMode(SilentMode.isPhoneInSilenceMode(getDevice().getAddress()));
                 return;
             case SILENT_MODE_CMD_SET:
                 LOG.info("Band setting silent mode = {}", payload[1]);
-                // TODO ackSilentModeSet();
-                // TODO setSilentMode(payload[1] == 0x01);
-                // TODO sendCurrentSilentMode();
+                final boolean silentModeEnabled = (payload[1] == 1);
+                ackSilentModeSet();
+                sendPhoneSilentMode(silentModeEnabled);
+                evaluateGBDeviceEvent(new GBDeviceEventSilentMode(silentModeEnabled));
                 return;
             default:
                 LOG.warn("Unexpected silent mode payload byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    private void ackSilentModeSet() {
+        writeToChunked2021(
+                "ack silent mode set",
+                CHUNKED2021_ENDPOINT_SILENT_MODE,
+                new byte[]{SILENT_MODE_CMD_ACK, 0x01},
+                false
+        );
+    }
+
+    private void sendPhoneSilentMode(final boolean enabled) {
+        writeToChunked2021(
+                "send phone silent mode to band",
+                CHUNKED2021_ENDPOINT_SILENT_MODE,
+                new byte[]{SILENT_MODE_CMD_NOTIFY_BAND, bool(enabled)},
+                false
+        );
     }
 
     @Override

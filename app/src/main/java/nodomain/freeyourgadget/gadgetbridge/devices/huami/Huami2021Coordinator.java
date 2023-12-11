@@ -419,6 +419,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         }
         settings.add(R.xml.devicesettings_offline_voice);
         settings.add(R.xml.devicesettings_device_actions_without_not_wear);
+        settings.add(R.xml.devicesettings_phone_silent_mode);
         settings.add(R.xml.devicesettings_buttonactions_upper_long);
         settings.add(R.xml.devicesettings_buttonactions_lower_short);
         settings.add(R.xml.devicesettings_weardirection);
