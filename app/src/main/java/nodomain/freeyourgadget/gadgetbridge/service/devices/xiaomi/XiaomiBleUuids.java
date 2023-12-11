@@ -26,6 +26,7 @@ public class XiaomiBleUuids {
         // Mi Band 8
         // Redmi Watch 3 Active
         // Xiaomi Watch S1 Active
+        // Redmi Smart Band 2
         put(UUID.fromString("0000fe95-0000-1000-8000-00805f9b34fb"), new XiaomiBleUuidSet(
                 true,
                 UUID.fromString("00000051-0000-1000-8000-00805f9b34fb"),

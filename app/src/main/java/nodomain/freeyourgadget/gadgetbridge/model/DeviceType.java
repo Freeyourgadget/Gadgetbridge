@@ -144,6 +144,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsStee
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband7pro.MiBand7ProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8.MiBand8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatchcolorsport.MiWatchColorSportCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmismartband2.RedmiSmartBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.watchs1active.XiaomiWatchS1ActiveCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
@@ -204,6 +205,7 @@ public enum DeviceType {
     MIWATCHLITE(MiWatchLiteCoordinator.class),
     MIWATCHCOLORSPORT(MiWatchColorSportCoordinator.class),
     REDMIWATCH3ACTIVE(RedmiWatch3ActiveCoordinator.class),
+    REDMISMARTBAND2(RedmiSmartBand2Coordinator.class),
     XIAOMI_WATCH_S1_ACTIVE(XiaomiWatchS1ActiveCoordinator.class),
     AMAZFITGTS3(AmazfitGTS3Coordinator.class),
     AMAZFITGTR3(AmazfitGTR3Coordinator.class),

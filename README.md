@@ -100,6 +100,7 @@ vendor's servers.
 	- [Xiaomi Smart Band 8 (experimental)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-8) [**\[!\]**](#special-pairing-procedures)
 	- Mi Watch Color Sport (experimental)
     - Mi Watch Lite (experimental)
+    - Redmi Smart Band 2 (experimental) [**\[!\]**](#special-pairing-procedures)
     - Redmi Watch 3 Active (experimental) [**\[!\]**](#special-pairing-procedures)
 	- Watch S1 Active (experimental) [**\[!\]**](#special-pairing-procedures)
 	- Xiaomi Temperature and Humidity Monitor Clock (LYWSD02/LYWSD02MMC) (partial support)
