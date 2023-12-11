@@ -2572,4 +2572,25 @@
     <string name="devicetype_pixoo">Pixoo</string>
     <string name="pref_summary_send_app_notifications">Stuur app-meldingen naar het apparaat</string>
     <string name="pref_title_send_app_notifications">Stuur meldingen</string>
+    <string name="pref_device_action_dnd_on">Niet storen - Aan</string>
+    <string name="prefs_phone_silent_mode">Stiltestand telefoon</string>
+    <string name="prefs_wearmode">Draagwijze</string>
+    <string name="wearmode_pebble">Pebble (schoengesp)</string>
+    <string name="silent_mode_normal_vibrate">Normaal / Trillen</string>
+    <string name="pref_title_goal_secondary">Tweede doel</string>
+    <string name="pref_vitality_score_7_day_summary">Krijg een melding wanneer je vitaliteitsscore 30, 60 of 100 bereikt in de afgelopen 7 dagen</string>
+    <string name="pref_vitality_score_title">Vitaliteitsscore</string>
+    <string name="pref_device_action_dnd_alarms">Niet storen - Alleen alarmen</string>
+    <string name="silent_mode_vibrate_silent">Trillen / Stil</string>
+    <string name="pref_vitality_score_daily_summary">Krijg een melding wanneer je het dagelijks maximum aantal vitaliteitspunten hebt bereikt</string>
+    <string name="pref_device_action_dnd_priority">Niet storen - Alleen belangrijk</string>
+    <string name="not_set">Niet ingesteld</string>
+    <string name="standing_time">Tijd staand</string>
+    <string name="active_time">Tijd actief</string>
+    <string name="wearmode_band">Band (armband)</string>
+    <string name="wearmode_necklace">Ketting (om de nek)</string>
+    <string name="pref_vitality_score_daily_title">Dagelijkse voortgang</string>
+    <string name="pref_vitality_score_7_day_title">7-daagse voortgang</string>
+    <string name="pref_device_action_dnd_off">Niet storen - Uit</string>
+    <string name="silent_mode_normal_silent">Normaal / Stil</string>
 </resources>
