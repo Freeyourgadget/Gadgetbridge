@@ -2587,4 +2587,13 @@
     <string name="pref_vitality_score_7_day_summary">Recibir una notificación cuando su puntuación de vitalidad alcance 30, 60 o 100 en los últimos 7 días</string>
     <string name="pref_vitality_score_title">Nivel de vitalidad</string>
     <string name="pref_vitality_score_daily_summary">Recibir una notificación cuando alcances el número máximo de puntos de vitalidad del día</string>
+    <string name="prefs_phone_silent_mode">Modo silencio del teléfono</string>
+    <string name="prefs_wearmode">Modo de uso</string>
+    <string name="wearmode_pebble">Pebble (hebilla de zapato)</string>
+    <string name="silent_mode_normal_vibrate">Normal / Vibración</string>
+    <string name="silent_mode_vibrate_silent">Vibrar / Silencio</string>
+    <string name="devicetype_redmi_smart_band_2">Redmi Smart Band 2</string>
+    <string name="wearmode_band">Pulsera (Pulsera)</string>
+    <string name="wearmode_necklace">Collar (tira para el cuello)</string>
+    <string name="silent_mode_normal_silent">Normal / Silencio</string>
 </resources>
