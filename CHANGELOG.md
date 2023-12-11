@@ -6,11 +6,13 @@
 * Initial support for Femometer Vinca II
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
+* Experimental support for Divoom Pixoo
 * Experimental support for Sony WF-1000XM5
 * Experimental support for Amazfit Active Edge
 * Experimental support for Mi Band 7 Pro (Xiaomi Smart Band 7 Pro)
 * Experimental support for Mi Band 8 (Xiaomi Smart Band 8)
 * Experimental support for Mi Watch Lite
+* Experimental support for Mi Watch Color Sport
 * Experimental support for Redmi Watch 3 Active
 * Experimental support for Xiaomi Watch S1 Active
 * Amazfit Band 7: Add alexa menu entries
@@ -20,6 +22,7 @@
 * AsteroidOS: Fix media info
 * AsteroidOS: Fix notification dismissal
 * Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Ensure SMS messages have src field set to "SMS Message"
 * Bangle.js: Fix GPS speed
 * Bangle.js: Improve handling of chinese characters
 * Bangle.js: Lower threshold for low battery warning
@@ -30,11 +33,13 @@
 * Casio GDB-200: Fixed notification categories and default category
 * Casio GDB-200: Allow preview of notification message alongside title
 * Casio GDB-200: Fixed find my phone feature
+* Intent API: Add debug action for test new function
 * Fossil/Skagen Hybrids: Add new navigation app
 * Fossil/Skagen Hybrids: Allow configuring call rejection method
 * Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
 * Fossil/Skagen Hybrids: Reduce toasts on release builds
 * Fossil/Skagen Hybrids: Show device specific settings in more logical order
+* Huami: Toggle phone silent mode from band
 * Message privacy: Add mode Hide only body
 * Mijia LYWSD02: Add battery
 * Mijia LYWSD02: Add low battery notification
@@ -47,13 +52,17 @@
 * Withings Steel HR: Fix crash when calibrating hands on the nightly
 * Zepp OS: Add blood oxygen graph
 * Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Allow disabling app notifications per device
 * Zepp OS: Attempt to fix activity fetch operation getting stuck
 * Zepp OS: Display swimming activity data
 * Zepp OS: Fix health settings on older Zepp OS versions
 * Zepp OS: Fix setting of unknown button press apps
 * Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
+* Zepp OS: Toggle phone silent mode from band
 * Add transliteration for Latvian, Hungarian, Common Symbols
+* Allow multiple device actions to be triggered for the same event
+* Allow toggling DND through device actions
 * Autodetect OsmAnd package name and make it configurable
 * Improve ASCII transliterator
 * Make GMaps navigation handler follow the "navigation forwarding" setting
