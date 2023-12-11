@@ -2577,4 +2577,16 @@
     <string name="pref_device_action_dnd_priority">请勿打扰 - 仅限优先</string>
     <string name="not_set">未设置</string>
     <string name="pref_device_action_dnd_off">请勿打扰 - 关闭</string>
+    <string name="prefs_wearmode">佩戴方式</string>
+    <string name="wearmode_pebble">Pebble（鞋扣）</string>
+    <string name="pref_title_goal_secondary">次要目标</string>
+    <string name="pref_vitality_score_7_day_summary">当您的活力值在过去 7 天内达到 30、60 或 100 时，您会收到通知</string>
+    <string name="pref_vitality_score_title">活力值</string>
+    <string name="pref_vitality_score_daily_summary">当您达到当天的最大活力值时收到通知</string>
+    <string name="standing_time">站立时间</string>
+    <string name="active_time">活动时间</string>
+    <string name="wearmode_band">手环（腕带）</string>
+    <string name="wearmode_necklace">项链（颈带）</string>
+    <string name="pref_vitality_score_daily_title">每日进度</string>
+    <string name="pref_vitality_score_7_day_title">7天进展</string>
 </resources>
