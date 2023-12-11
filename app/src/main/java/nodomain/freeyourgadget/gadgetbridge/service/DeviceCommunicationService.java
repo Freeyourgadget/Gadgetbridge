@@ -33,6 +33,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.OsmandEventReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.SilentModeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGermanyReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -233,6 +235,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothConnectReceiver mBlueToothConnectReceiver = null;
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
+    private SilentModeReceiver mSilentModeReceiver = null;
     private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
     private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver = null;
 
@@ -776,6 +779,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 float phoneVolume = intent.getFloatExtra(EXTRA_PHONE_VOLUME, 0);
                 deviceSupport.onSetPhoneVolume(phoneVolume);
                 break;
+            case ACTION_SET_PHONE_SILENT_MODE:
+                final int ringerMode = intent.getIntExtra(EXTRA_PHONE_RINGER_MODE, -1);
+                deviceSupport.onChangePhoneSilentMode(ringerMode);
+                break;
             case ACTION_SETMUSICSTATE:
                 MusicStateSpec stateSpec = new MusicStateSpec();
                 stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte) 0);
@@ -1156,6 +1163,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmClockReceiver, filter);
             }
 
+            if (mSilentModeReceiver == null) {
+                mSilentModeReceiver = new SilentModeReceiver();
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
+                registerReceiver(mSilentModeReceiver, filter);
+            }
+
             if (mOsmandAidlHelper == null && features.supportsNavigation()) {
                 mOsmandAidlHelper = new OsmandEventReceiver(this.getApplication());
             }
@@ -1225,6 +1239,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mAlarmClockReceiver != null) {
                 unregisterReceiver(mAlarmClockReceiver);
                 mAlarmClockReceiver = null;
+            }
+            if (mSilentModeReceiver != null) {
+                unregisterReceiver(mSilentModeReceiver);
+                mSilentModeReceiver = null;
             }
             if (mCMWeatherReceiver != null) {
                 unregisterReceiver(mCMWeatherReceiver);

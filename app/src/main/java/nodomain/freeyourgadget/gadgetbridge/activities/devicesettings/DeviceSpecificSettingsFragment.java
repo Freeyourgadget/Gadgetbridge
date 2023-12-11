@@ -16,7 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.InputType;
 
@@ -55,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
@@ -633,6 +636,15 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     notifyPreferenceChanged(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
                     return true;
                 }
+            });
+        }
+
+        final Preference phoneSilentMode = findPreference(PREF_PHONE_SILENT_MODE);
+        if (phoneSilentMode != null) {
+            phoneSilentMode.setOnPreferenceChangeListener((preference, newVal) -> {
+                final AudioManager audioManager = (AudioManager) requireContext().getSystemService(Context.AUDIO_SERVICE);
+                GBApplication.deviceService(device).onChangePhoneSilentMode(audioManager.getRingerMode());
+                return true;
             });
         }
 

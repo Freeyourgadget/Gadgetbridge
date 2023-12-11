@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMes
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -105,6 +106,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlRece
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 
@@ -212,6 +214,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventUpdatePreferences) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventUpdateDeviceState) {
             handleGBDeviceEvent((GBDeviceEventUpdateDeviceState) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSilentMode) {
+            handleGBDeviceEvent((GBDeviceEventSilentMode) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
             handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventWearState) {
@@ -219,6 +223,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         } else if (deviceEvent instanceof GBDeviceEventSleepStateDetection) {
             handleGBDeviceEvent((GBDeviceEventSleepStateDetection) deviceEvent);
         }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventSilentMode deviceEvent) {
+        LOG.info("Got GBDeviceEventSilentMode: enabled = {}", deviceEvent.isEnabled());
+
+        SilentMode.setPhoneSilentMode(getDevice().getAddress(), deviceEvent.isEnabled());
     }
 
     private void handleGBDeviceEvent(final GBDeviceEventFindPhone deviceEvent) {
@@ -790,6 +800,15 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     @Override
     public void onSetPhoneVolume(final float volume) {
+
+    }
+
+    /**
+     * Called when the phone's interruption filter or ringer mode is changed.
+     * @param ringerMode as per {@link android.media.AudioManager#getRingerMode()}
+     */
+    @Override
+    public void onChangePhoneSilentMode(int ringerMode) {
 
     }
 

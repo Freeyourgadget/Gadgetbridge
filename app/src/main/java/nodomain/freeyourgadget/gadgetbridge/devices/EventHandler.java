@@ -75,6 +75,8 @@ public interface EventHandler {
      */
     void onSetPhoneVolume(final float volume);
 
+    void onChangePhoneSilentMode(int ringerMode);
+
     void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec);
 
     void onEnableRealtimeSteps(boolean enable);

@@ -376,6 +376,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VITALITY_SCORE_7_DAY = "pref_vitality_score_7_day";
     public static final String PREF_VITALITY_SCORE_DAILY = "pref_vitality_score_daily";
 
+    public static final String PREF_PHONE_SILENT_MODE = "phone_silent_mode";
+
     public static final String PREF_HOURLY_CHIME_ENABLE = "hourly_chime_enable";
     public static final String PREF_HOURLY_CHIME_START = "hourly_chime_start";
     public static final String PREF_HOURLY_CHIME_END = "hourly_chime_end";

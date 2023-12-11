@@ -87,6 +87,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -141,6 +142,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -1893,6 +1895,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
                 evaluateGBDeviceEvent(findPhoneEvent);
                 break;
+            case HuamiDeviceEvent.SILENT_MODE:
+                final boolean silentModeEnabled = value[1] == 1;
+                LOG.info("silent mode = {}", silentModeEnabled);
+                sendPhoneSilentMode(silentModeEnabled);
+                evaluateGBDeviceEvent(new GBDeviceEventSilentMode(silentModeEnabled));
+                break;
             case HuamiDeviceEvent.MUSIC_CONTROL:
                 LOG.info("got music control");
                 GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
@@ -2154,6 +2162,28 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         } catch (Exception ex) {
             LOG.error("Error while ending acknowledge find phone", ex);
         }
+    }
+
+    private void sendPhoneSilentMode(final TransactionBuilder builder) {
+        final boolean silentMode = SilentMode.isPhoneInSilenceMode(getDevice().getAddress());
+
+        sendPhoneSilentMode(builder, silentMode);
+    }
+
+    private void sendPhoneSilentMode(final boolean enabled) {
+        try {
+            final TransactionBuilder builder = performInitialized("send phone silent mode");
+            sendPhoneSilentMode(builder, enabled);
+            builder.queue(getQueue());
+        } catch (final Exception ex) {
+            LOG.error("Error while sending phone silent mode", ex);
+        }
+    }
+
+    private void sendPhoneSilentMode(final TransactionBuilder builder, final boolean enabled) {
+        final byte[] cmd = {ENDPOINT_DISPLAY, 0x19, 0x00, (byte) (enabled ? 0x01 : 0x00)};
+
+        writeToConfiguration(builder, cmd);
     }
 
     protected void processDeviceEvent(int deviceEvent){
@@ -4161,6 +4191,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
 
         requestAlarms(builder);
+        sendPhoneSilentMode(builder);
     }
 
     public abstract HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException;

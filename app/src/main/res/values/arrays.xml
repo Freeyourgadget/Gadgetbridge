@@ -204,6 +204,17 @@
         <item>@string/p_alarm_clock</item>
     </string-array>
 
+    <string-array name="phone_silent_mode">
+        <item>@string/silent_mode_normal_vibrate</item>
+        <item>@string/silent_mode_normal_silent</item>
+        <item>@string/silent_mode_vibrate_silent</item>
+    </string-array>
+    <string-array name="phone_silent_mode_values">
+        <item>normal_vibrate</item>
+        <item>normal_silent</item>
+        <item>vibrate_silent</item>
+    </string-array>
+
     <string-array name="pebble_activitytracker">
         <item name="4">Pebble Health</item>
         <item name="3">Misfit</item>

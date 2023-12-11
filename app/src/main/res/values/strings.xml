@@ -964,6 +964,10 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable inactivity warnings for a time interval</string>
     <string name="mi2_prefs_heart_rate_monitoring">Heart Rate Monitoring</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Configure heart rate monitoring</string>
+    <string name="prefs_phone_silent_mode">Phone Silent Mode</string>
+    <string name="silent_mode_normal_vibrate">Normal / Vibrate</string>
+    <string name="silent_mode_normal_silent">Normal / Silent</string>
+    <string name="silent_mode_vibrate_silent">Vibrate / Silent</string>
     <string name="prefs_always_on_display">Always On Display</string>
     <string name="prefs_always_on_display_follow_watchface">Style follows Watchface</string>
     <string name="prefs_always_on_display_style">Style</string>

@@ -225,6 +225,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onChangePhoneSilentMode(final int ringerMode) {
+        if (checkBusy("change phone silent mode")) {
+            return;
+        }
+        delegate.onChangePhoneSilentMode(ringerMode);
+    }
+
+    @Override
     public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
         if (checkBusy("set navigation info")) {
             return;

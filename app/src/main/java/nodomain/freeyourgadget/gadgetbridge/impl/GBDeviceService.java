@@ -263,6 +263,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onChangePhoneSilentMode(int ringerMode) {
+        Intent intent = createIntent().setAction(ACTION_SET_PHONE_SILENT_MODE)
+                .putExtra(EXTRA_PHONE_RINGER_MODE, ringerMode);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
         Intent intent = createIntent().setAction(ACTION_SET_REMINDERS)
                 .putExtra(EXTRA_REMINDERS, reminders);
