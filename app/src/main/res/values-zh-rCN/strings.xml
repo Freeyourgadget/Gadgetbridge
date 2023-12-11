@@ -2589,4 +2589,9 @@
     <string name="wearmode_necklace">项链（颈带）</string>
     <string name="pref_vitality_score_daily_title">每日进度</string>
     <string name="pref_vitality_score_7_day_title">7天进展</string>
+    <string name="prefs_phone_silent_mode">手机静音模式</string>
+    <string name="silent_mode_normal_vibrate">普通 / 振动</string>
+    <string name="silent_mode_vibrate_silent">震动 / 静音</string>
+    <string name="devicetype_redmi_smart_band_2">红米智能手环2</string>
+    <string name="silent_mode_normal_silent">普通 / 静音</string>
 </resources>
