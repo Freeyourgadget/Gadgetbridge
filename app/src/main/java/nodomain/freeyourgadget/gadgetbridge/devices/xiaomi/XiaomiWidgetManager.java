@@ -290,6 +290,8 @@ public class XiaomiWidgetManager implements WidgetManager {
             }
         }
 
+        builder.setIsFullList(1);
+
         getPrefs().getPreferences().edit()
                 .putString(XiaomiPreferences.PREF_WIDGET_SCREENS, GB.hexdump(builder.build().toByteArray()))
                 .apply();
