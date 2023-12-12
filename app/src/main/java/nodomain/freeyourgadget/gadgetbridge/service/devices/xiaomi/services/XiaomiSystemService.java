@@ -833,6 +833,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     }
 
     private void setWidgets() {
+        // Just take the persisted protobuf and send it (see above and XiaomiWidgetManager)
         final String hex = getDevicePrefs().getString(XiaomiPreferences.PREF_WIDGET_SCREENS, null);
         if (hex == null) {
             LOG.warn("raw widget screens hex is null");

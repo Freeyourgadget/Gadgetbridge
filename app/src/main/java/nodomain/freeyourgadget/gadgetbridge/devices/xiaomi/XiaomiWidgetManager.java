@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -90,6 +91,9 @@ public class XiaomiWidgetManager implements WidgetManager {
 
         final XiaomiProto.WidgetParts rawWidgetParts = getRawWidgetParts();
 
+        final Set<String> seenNames = new HashSet<>();
+        final Set<String> duplicatedNames = new HashSet<>();
+
         for (final XiaomiProto.WidgetPart widgetPart : rawWidgetParts.getWidgetPartList()) {
             final WidgetType type = fromRawWidgetType(widgetPart.getType());
 
@@ -118,7 +122,20 @@ public class XiaomiWidgetManager implements WidgetManager {
                     }
                 }
 
+                if (seenNames.contains(newPart.getFullName())) {
+                    duplicatedNames.add(newPart.getFullName());
+                } else {
+                    seenNames.add(newPart.getFullName());
+                }
+
                 parts.add(newPart);
+            }
+        }
+
+        // Ensure that all names are unique
+        for (final WidgetPart part : parts) {
+            if (duplicatedNames.contains(part.getFullName())) {
+                part.setName(String.format(Locale.ROOT, "%s (%s)", part.getName(), part.getId()));
             }
         }
 
