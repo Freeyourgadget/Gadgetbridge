@@ -2594,4 +2594,25 @@
     <string name="silent_mode_vibrate_silent">震动 / 静音</string>
     <string name="devicetype_redmi_smart_band_2">红米智能手环2</string>
     <string name="silent_mode_normal_silent">普通 / 静音</string>
+    <string name="activity_type_trail_run">越野跑</string>
+    <string name="widget_layout">小部件布局</string>
+    <string name="widget_screen_no_free_slots_description">该设备没有用于小部件屏幕的空闲位置（位置总数：%1$s）</string>
+    <string name="widget_unknown_workout">未知锻炼 - %s</string>
+    <string name="widget_move_up">上移</string>
+    <string name="widget_screen_delete_confirm_description">您确定要删除“%1$s”吗？</string>
+    <string name="activity_type_trekking">徒步</string>
+    <string name="widget_layout_two">2 个小部件</string>
+    <string name="widget_screen_delete_confirm_title">删除小部件屏幕</string>
+    <string name="widget_layout_top_1_bot_2">1 个顶部，2 个底部</string>
+    <string name="widget_layout_top_2_bot_2">2 个顶部，2 个底部</string>
+    <string name="widget_screen_min_screens">必须至少有 %1$s 个屏幕</string>
+    <string name="widget">小部件</string>
+    <string name="widget_screen">小部件屏幕</string>
+    <string name="widget_move_down">下移</string>
+    <string name="widget_layout_single">1 个小部件</string>
+    <string name="widget_subtype">小部件子类型</string>
+    <string name="widget_screen_x">屏幕 %s</string>
+    <string name="widget_missing_parts">请选择所有小部件</string>
+    <string name="widget_layout_top_2_bot_1">2 个顶部，1 个底部</string>
+    <string name="activity_type_wrestling">摔角</string>
 </resources>
