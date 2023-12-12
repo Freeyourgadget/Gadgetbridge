@@ -399,6 +399,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int getPaiName() {
+        return R.string.menuitem_pai;
+    }
+
+    @Override
+    public boolean supportsPaiTime() {
+        return supportsPai();
+    }
+
+    @Override
     public boolean supportsSleepRespiratoryRate() {
         return false;
     }

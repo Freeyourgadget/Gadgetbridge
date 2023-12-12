@@ -172,7 +172,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "stress":
                     return getString(R.string.menuitem_stress);
                 case "pai":
-                    return getString(R.string.menuitem_pai);
+                    return getString(getDevice().getDeviceCoordinator().getPaiName());
                 case "stepsweek":
                     return getStepsTitle();
                 case "speedzones":

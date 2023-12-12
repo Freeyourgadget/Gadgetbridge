@@ -140,8 +140,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends PaiSample> getPaiSampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO XiaomiPaiSampleProvider
-        return super.getPaiSampleProvider(device, session);
+        return new XiaomiPaiSampleProvider(device, session);
     }
 
     @Override
@@ -245,13 +244,23 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateStats() {
-        // TODO it does - see DailySummaryParser
+        // TODO it does, and they're persisted - see DailySummaryParser
         return false;
     }
 
     @Override
     public boolean supportsPai() {
-        // TODO it does - vitality score
+        // Vitality Score
+        return true;
+    }
+
+    @Override
+    public int getPaiName() {
+        return R.string.pref_vitality_score_title;
+    }
+
+    @Override
+    public boolean supportsPaiTime() {
         return false;
     }
 

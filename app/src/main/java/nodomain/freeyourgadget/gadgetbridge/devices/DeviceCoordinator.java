@@ -210,6 +210,18 @@ public interface DeviceCoordinator {
     boolean supportsPai();
 
     /**
+     * Returns the device-specific name for PAI (eg. Vitality Score).
+     */
+    @StringRes
+    int getPaiName();
+
+    /**
+     * Returns true if the device is capable of providing the time contribution for each PAI type
+     * (light, moderate, high).
+     */
+    boolean supportsPaiTime();
+
+    /**
      * Returns true if sleep respiratory rate measurement and fetching is supported by
      * the device (with this coordinator).
      */

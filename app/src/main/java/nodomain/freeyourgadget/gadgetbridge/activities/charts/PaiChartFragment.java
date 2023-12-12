@@ -58,7 +58,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.PaiChartsData> {
@@ -117,6 +116,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         mLineModerateTime = rootView.findViewById(R.id.pai_line_moderate_time);
         mLineHighInc = rootView.findViewById(R.id.pai_line_high_inc);
         mLineHighTime = rootView.findViewById(R.id.pai_line_high_time);
+
+        if (!getChartsHost().getDevice().getDeviceCoordinator().supportsPaiTime()) {
+            mLineLowTime.setVisibility(View.GONE);
+            mLineModerateTime.setVisibility(View.GONE);
+            mLineHighTime.setVisibility(View.GONE);
+        }
 
         setupWeekChart();
         setupTodayPieChart();

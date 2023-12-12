@@ -956,6 +956,20 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             }
         }
 
+        // Replace the PAI with the device-specific name
+        if (chartsTabsOrderSelection != null) {
+            final ListPreference chartsTabsListPref = (ListPreference) chartsTabsOrderSelection;
+            final CharSequence[] entries = chartsTabsListPref.getEntries();
+            final CharSequence[] entryValues = chartsTabsListPref.getEntryValues();
+            for (int i = 0; i < entries.length; i++) {
+                if ("pai".equals(entryValues[i].toString())) {
+                    entries[i] = getString(coordinator.getPaiName());
+                    break;
+                }
+            }
+            chartsTabsListPref.setEntries(entries);
+        }
+
         final Preference loyaltyCards = findPreference(LoyaltyCardsSettingsConst.PREF_KEY_LOYALTY_CARDS);
         if (loyaltyCards != null) {
             loyaltyCards.setOnPreferenceClickListener(preference -> {
