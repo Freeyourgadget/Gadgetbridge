@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(64, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(65, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -72,6 +72,7 @@ public class GBDaoGenerator {
         addHuamiSleepRespiratoryRateSample(schema, user, device);
         addXiaomiActivitySample(schema, user, device);
         addXiaomiSleepTimeSamples(schema, user, device);
+        addXiaomiDailySummarySamples(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -344,6 +345,37 @@ public class GBDaoGenerator {
         addCommonTimeSampleProperties("AbstractTimeSample", sample, user, device);
         sample.addLongProperty("wakeupTime");
         sample.addBooleanProperty("isAwake");
+        return sample;
+    }
+
+    private static Entity addXiaomiDailySummarySamples(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "XiaomiDailySummarySample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sample, user, device);
+        sample.addIntProperty("timezone");
+        sample.addIntProperty("steps");
+        sample.addIntProperty("hrResting");
+        sample.addIntProperty("hrMax");
+        sample.addIntProperty("hrMaxTs");
+        sample.addIntProperty("hrMin");
+        sample.addIntProperty("hrMinTs");
+        sample.addIntProperty("hrAvg");
+        sample.addIntProperty("stressAvg");
+        sample.addIntProperty("stressMax");
+        sample.addIntProperty("stressMin");
+        sample.addIntProperty("standing");
+        sample.addIntProperty("calories");
+        sample.addIntProperty("spo2Max");
+        sample.addIntProperty("spo2MaxTs");
+        sample.addIntProperty("spo2Min");
+        sample.addIntProperty("spo2MinTs");
+        sample.addIntProperty("spo2Avg");
+        sample.addIntProperty("trainingLoadDay");
+        sample.addIntProperty("trainingLoadWeek");
+        sample.addIntProperty("trainingLoadLevel");
+        sample.addIntProperty("vitalityIncreaseLight");
+        sample.addIntProperty("vitalityIncreaseModerate");
+        sample.addIntProperty("vitalityIncreaseHigh");
+        sample.addIntProperty("vitalityCurrent");
         return sample;
     }
 
