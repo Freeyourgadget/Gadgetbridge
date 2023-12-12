@@ -796,6 +796,20 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     valueArray = new JSONArray();
                 }
 
+                // Clean out heartrate==0...
+                if (storedLogObject.has("Heartrate")) {
+                    JSONArray heartrateArray = storedLogObject.getJSONArray("Heartrate");
+                    for (int i = 0; i < heartrateArray.length(); i++){
+                        if (Objects.equals(heartrateArray.getString(i), "0") ||
+                                Objects.equals(heartrateArray.getString(i), "0.0")) {
+                            heartrateArray.put(i,"");
+                        }
+                    }
+                    //storedLogObject.remove("Heartrate");
+                    storedLogObject.put("Heartrate", heartrateArray);
+
+                }
+
                 LOG.info("storedLogObject:\n" + storedLogObject);
 
                 // Calculate and store analytical data (distance, speed, cadence, etc.).
@@ -815,6 +829,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 JSONArray valueArray2 = new JSONArray();
 
+                LOG.info("check here 0");
                 // Add analytics based on GPS coordinates.
                 if (storedLogObject.has("Latitude")) {
                     // Add distance between last and current reading.
@@ -825,7 +840,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             calculationsArray.put("0");
                         } else {
                             String distance;
-                            if (Objects.equals(valueArray.getString(i), "") || Objects.equals(valueArray.getString(i - 1), "")) {
+                            if (Objects.equals(valueArray.getString(i), "") ||
+                                    Objects.equals(valueArray.getString(i - 1), "")) {
                                 // FIXME: GPS data can be missing for some entries which is handled here.
                                 // Should use more complex logic to be more accurate. Use interpolation.
                                 // Should distances be done via the GPX file we generate instead?
@@ -847,12 +863,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     valueArray2 = new JSONArray();
                     calculationsArray = new JSONArray();
 
+                    LOG.info("check here 1");
                     // Add stride lengths between consecutive readings.
                     if (storedLogObject.has("Steps")) {
                         for (int i = 0; i < logLength; i++) {
                             if (Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
-                                    Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "") ||
-                                    Objects.equals(analyticsObject.getJSONArray("Intermediate Distance").getString(i), "0")) {
+                                    Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
+                                calculationsArray.put("");
+                            } else if (Objects.equals(analyticsObject.getJSONArray("Intermediate Distance").getString(i), "0")) {
                                 calculationsArray.put("0");
                             } else {
                                 double steps = storedLogObject.getJSONArray("Steps").getDouble(i);
@@ -866,12 +884,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         calculationsArray = new JSONArray();
                     }
 
+                    LOG.info("check here 2");
                 } else if (storedLogObject.has("Steps")) {
                     for (int i = 0; i < logLength; i++) {
-                        if (i==0) {
+                        if (i==0 ||
+                                Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
+                                Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
                             calculationsArray.put(0);
                         } else {
-                            double stride = 0.85; // TODO: Depend on user defined stride length?
+                            double avgStep = (0.67+0.762)/2; // https://marathonhandbook.com/average-stride-length/  (female+male)/2
+                            double stride = 2*avgStep; // TODO: Depend on user defined stride length?
                             double calculation = stride * (storedLogObject.getJSONArray("Steps").getDouble(i));
                             //if (calculation == 0) calculation = 0.001; // To avoid potential division by zero later on.
                             calculationsArray.put(calculation);
@@ -883,6 +905,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 }
 
+                LOG.info("check here 3");
                 if (analyticsObject.has("Intermediate Distance")) {
                     // Add total distance from start of activity up to each reading.
                     for (int i = 0; i < logLength; i++) {
@@ -897,32 +920,35 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                     calculationsArray = new JSONArray();
 
+                    LOG.info("check here 4");
                     // Add average speed between last and current reading (m/s).
                     for (int i = 0; i < logLength; i++) {
                         if (i==0) {
-                            calculationsArray.put(0);
+                            calculationsArray.put("");
                         } else {
                             double timeDiff =
                                     (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
                                             analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
-                            if (timeDiff==0) timeDiff = 1;
+                            if (timeDiff==0) timeDiff = 1; // On older versions of the Recorder Bangle.js app the time reporting could be the same for two data points due to rounding.
                             double calculation =
                                     analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / timeDiff;
                             calculationsArray.put(calculation);
                         }
                     }
+                    LOG.info("check " + calculationsArray);
                     analyticsObject.put("Speed", calculationsArray);
 
                     calculationsArray = new JSONArray();
 
+                    LOG.info("check here 5");
                     // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seems to expect s/km).
                     for (int i = 0; i < logLength; i++) {
-                        if (i==0) {
-                            calculationsArray.put(0);
+                        String speed = analyticsObject.getJSONArray("Speed").getString(i);
+                        LOG.info("check: " + speed);
+                        if (i==0 || Objects.equals(speed, "0") || Objects.equals(speed, "0.0") || Objects.equals(speed, "")) {
+                            calculationsArray.put("");
                         } else {
-                            double speed = analyticsObject.getJSONArray("Speed").getDouble(i);
-                            if (speed==0) speed = 0.001;
-                            double calculation = (1000.0) * 1/speed;
+                            double calculation = (1000.0) * 1/ analyticsObject.getJSONArray("Speed").getDouble(i);
                             calculationsArray.put(calculation);
                         }
                     }
@@ -931,9 +957,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     calculationsArray = new JSONArray();
                 }
 
+                LOG.info("check here 6");
                 if (storedLogObject.has("Steps")) {
                     for (int i = 0; i < logLength; i++) {
-                        if (i==0) {
+                        if (i==0 || Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
                             calculationsArray.put(0);
                         } else {
                             // FIXME: Should cadence be steps/min or half that? https://www.polar.com/blog/what-is-running-cadence/
@@ -952,8 +979,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                     calculationsArray = new JSONArray();
                 }
-                LOG.info("AnalyticsObject:\n" + analyticsObject);
+                LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
 
+                LOG.info("check here 7");
                 BaseActivitySummary summary = null;
 
                 Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
@@ -999,10 +1027,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 //     ));
                 try {
                     if (analyticsObject.has("Speed")) {
-                        //summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"mm"); // This seems to be calculated somewhere else automatically.
+                        summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
                         summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
                         summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                        //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
+                        summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
                         //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
                         //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
                         //                analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1)),
@@ -1013,13 +1041,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         //summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
                     }
                     if (analyticsObject.has("Cadence")) {
+                        //summaryData = addSummaryData(summaryData, "averageCadence", averageOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min"); // Is this also calculated automatically then?
                         summaryData = addSummaryData(summaryData, "averageCadence",
-                                60 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")) /
+                                (float) 0.5 * 60 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")) /
                                         (float) analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength - 1),
-                                "steps/min"
+                                "cycles/min"
                         );
-                        summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
-                        summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "steps/min");
+                        summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
+                        summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
                     }
                 } catch (Exception e) {
                     LOG.error(e + ". (thrown when trying to add summary data");
