@@ -50,6 +50,7 @@ public final class XiaomiPreferences {
     public static final String FEAT_INACTIVITY = "feat_inactivity";
     public static final String FEAT_SLEEP_MODE_SCHEDULE = "feat_sleep_mode_schedule";
     public static final String FEAT_GOAL_NOTIFICATION = "feat_goal_notification";
+    public static final String FEAT_GOAL_SECONDARY = "feat_goal_secondary";
     public static final String FEAT_VITALITY_SCORE = "feat_vitality_score";
     public static final String FEAT_SCREEN_ON_ON_NOTIFICATIONS = "feat_screen_on_on_notifications";
     public static final String FEAT_CAMERA_REMOTE = "feat_camera_remote";

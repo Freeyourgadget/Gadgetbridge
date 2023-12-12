@@ -412,6 +412,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         }
         if (supports(device, FEAT_GOAL_NOTIFICATION)) {
             settings.add(R.xml.devicesettings_goal_notification);
+        }
+        if (supports(device, FEAT_GOAL_SECONDARY)) {
             settings.add(R.xml.devicesettings_goal_secondary);
         }
         if (supports(device, FEAT_VITALITY_SCORE)) {

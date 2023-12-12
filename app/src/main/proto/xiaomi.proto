@@ -441,7 +441,7 @@ message Health {
   // 8, 12 get | 8, 13 set
   optional StandingReminder standingReminder = 9;
   optional Stress stress = 10;
-  optional AchievementReminders achievementReminders = 13;
+  optional GoalNotification goalNotification = 13;
 
   // 8, 35 get | 8, 36 set
   optional VitalityScore vitalityScore = 14;
@@ -452,6 +452,9 @@ message Health {
   // 8, 30
   optional WorkoutOpenWatch workoutOpenWatch = 25;
   optional WorkoutOpenReply workoutOpenReply = 26;
+
+  // 7, 43
+  optional GoalsConfig goalsConfig = 38;
 
   // 7, 48
   optional WorkoutLocation workoutLocation = 40;
@@ -521,9 +524,9 @@ message Stress {
   optional RelaxReminder relaxReminder = 2;
 }
 
-message AchievementReminders {
+message GoalNotification {
   optional bool enabled = 1;
-  optional uint32 suggested = 2; // 0 moving, 1 standing
+  optional uint32 unknown2 = 2; // 1
 }
 
 message RelaxReminder {
@@ -562,6 +565,19 @@ message WorkoutOpenReply {
   optional uint32 unknown1 = 1;
   optional uint32 unknown2 = 2; // always 2?
   optional uint32 unknown3 = 3;
+}
+
+message GoalsConfig {
+  repeated Goal currentGoals = 1;
+  repeated Goal supportedGoals = 2;
+}
+
+message Goal {
+  // 1 steps?
+  // 2 calories?
+  // 3 moving time
+  // 4 standing time
+  optional uint32 id = 1;
 }
 
 message WorkoutLocation {
