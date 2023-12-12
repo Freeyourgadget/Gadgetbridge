@@ -80,6 +80,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
 
     private Pattern supportedDeviceName = null;
+
     /**
      * This method should return a ReGexp pattern that will matched against a found device
      * to check whether this coordinator supports that device.
@@ -87,17 +88,17 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
      * should be overridden.
      *
      * @return Pattern
-     * */
-    protected Pattern getSupportedDeviceName(){
+     */
+    protected Pattern getSupportedDeviceName() {
         return null;
     }
 
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
-        if(supportedDeviceName == null){
+        if (supportedDeviceName == null) {
             supportedDeviceName = getSupportedDeviceName();
         }
-        if(supportedDeviceName == null){
+        if (supportedDeviceName == null) {
             throw new RuntimeException(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
         }
 
@@ -193,6 +194,15 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int[] getStressRanges() {
+        // 0-39 = relaxed
+        // 40-59 = mild
+        // 60-79 = moderate
+        // 80-100 = high
+        return new int[]{0, 40, 60, 80};
+    }
+
+    @Override
     public TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
@@ -282,7 +292,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsFlashing() { return false; }
+    public boolean supportsFlashing() {
+        return false;
+    }
 
     @Nullable
     @Override
@@ -519,15 +531,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         int[] settings = new int[0];
         ConnectionType connectionType = getConnectionType();
 
-        if(connectionType.usesBluetoothLE()){
+        if (connectionType.usesBluetoothLE()) {
             settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_ble);
         }
-        if(connectionType.usesBluetoothClassic()){
+        if (connectionType.usesBluetoothClassic()) {
             settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_bl_classic);
         }
 
         return settings;
     }
+
     @Override
     public int[] getSupportedDeviceSpecificApplicationSettings() {
         return new int[0];
@@ -613,7 +626,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public int getOrderPriority(){
+    public int getOrderPriority() {
         return 0;
     }
 

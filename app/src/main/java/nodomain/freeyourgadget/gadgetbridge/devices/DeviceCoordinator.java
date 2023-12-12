@@ -250,6 +250,11 @@ public interface DeviceCoordinator {
     TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
 
     /**
+     * Returns the stress ranges (relaxed, mild, moderate, high), so that stress can be categorized.
+     */
+    int[] getStressRanges();
+
+    /**
      * Returns the sample provider for temperature data, for the device being supported.
      */
     TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(GBDevice device, DaoSession session);

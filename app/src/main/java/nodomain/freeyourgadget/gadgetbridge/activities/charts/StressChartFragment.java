@@ -59,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class StressChartFragment extends AbstractChartFragment<StressChartFragment.StressChartsData> {
@@ -97,7 +96,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
 
         ensureStartAndEndSamples((List<StressSample>) samples);
 
-        return new StressChartsDataBuilder(samples).build();
+        return new StressChartsDataBuilder(samples, device.getDeviceCoordinator().getStressRanges()).build();
     }
 
     protected LineDataSet createDataSet(final StressType stressType, final List<Entry> values) {
@@ -281,6 +280,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         private static final int UNKNOWN_VAL = 2;
 
         private final List<? extends StressSample> samples;
+        private final int[] stressRanges;
 
         private final TimestampTranslation tsTranslation = new TimestampTranslation();
 
@@ -293,8 +293,9 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         long averageSum;
         long averageNumSamples;
 
-        public StressChartsDataBuilder(final List<? extends StressSample> samples) {
+        public StressChartsDataBuilder(final List<? extends StressSample> samples, final int[] stressRanges) {
             this.samples = samples;
+            this.stressRanges = stressRanges;
         }
 
         private void reset() {
@@ -326,7 +327,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         private void processSample(final StressSample sample) {
             //LOG.debug("Processing sample {} {}", sdf.format(new Date(sample.getTimestamp())), sample.getStress());
 
-            final StressType stressType = StressType.fromStress(sample.getStress());
+            final StressType stressType = StressType.fromStress(sample.getStress(), stressRanges);
             final int ts = tsTranslation.shorten((int) (sample.getTimestamp() / 1000L));
 
             if (ts == 0) {
@@ -460,14 +461,14 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
             return ContextCompat.getColor(context, colorId);
         }
 
-        public static StressType fromStress(final int stress) {
-            if (stress < 0) {
+        public static StressType fromStress(final int stress, final int[] stressRanges) {
+            if (stress < stressRanges[0]) {
                 return StressType.UNKNOWN;
-            } else if (stress < 40) {
+            } else if (stress < stressRanges[1]) {
                 return StressType.RELAXED;
-            } else if (stress < 60) {
+            } else if (stress < stressRanges[2]) {
                 return StressType.MILD;
-            } else if (stress < 80) {
+            } else if (stress < stressRanges[3]) {
                 return StressType.MODERATE;
             } else {
                 return StressType.HIGH;

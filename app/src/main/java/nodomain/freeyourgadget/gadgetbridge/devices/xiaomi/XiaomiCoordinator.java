@@ -116,6 +116,15 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int[] getStressRanges() {
+        // 1-25 = relaxed
+        // 26-50 = mild
+        // 51-80 = moderate
+        // 81-100 = high
+        return new int[]{1, 26, 51, 81};
+    }
+
+    @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(final GBDevice device, final DaoSession session) {
         return new XiaomiSpo2SampleProvider(device, session);
     }
