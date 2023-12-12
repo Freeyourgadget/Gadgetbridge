@@ -69,6 +69,8 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         final byte[] header = new byte[headerSize];
         buf.get(header);
 
+        LOG.debug("Daily Details Header: {}", GB.hexdump(header));
+
         if ((buf.limit() - buf.position()) % sampleSize != 0) {
             LOG.warn("Remaining data in the buffer is not a multiple of {}", sampleSize);
             return false;
@@ -85,8 +87,11 @@ public class DailyDetailsParser extends XiaomiActivityParser {
 
             sample.setSteps(buf.getShort());
 
-            final byte[] unknown1 = new byte[4];
-            buf.get(unknown1);  // TODO intensity and kind?
+            final int calories = buf.get() & 0xff;
+            final int unk2 = buf.get() & 0xff;
+            final int distance = buf.getShort(); // not just walking, includes workouts like cycling
+
+            // TODO persist calories and distance, add UI
 
             sample.setHeartRate(buf.get() & 0xff);
 

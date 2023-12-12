@@ -229,7 +229,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracks() {
-        // TODO It does, but not yet fully working
+        // TODO It does, but not yet fully working - only in Mi Band 8
         return false;
     }
 
@@ -245,25 +245,19 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateStats() {
-        // TODO does it?
+        // TODO it does - see DailySummaryParser
         return false;
     }
 
     @Override
     public boolean supportsPai() {
-        // TODO does it?
+        // TODO it does - vitality score
         return false;
     }
 
     @Override
     public boolean supportsSleepRespiratoryRate() {
-        // TODO does it?
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmDescription(final GBDevice device) {
-        // TODO does it?
+        // TODO it does
         return false;
     }
 

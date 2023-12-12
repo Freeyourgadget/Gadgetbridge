@@ -29,9 +29,11 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -775,12 +777,14 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         LOG.debug("Got {} activity file IDs", recordIds.length / 7);
 
         final ByteBuffer buf = ByteBuffer.wrap(recordIds).order(ByteOrder.LITTLE_ENDIAN);
+        final List<XiaomiActivityFileId> fileIds = new ArrayList<>();
 
         while (buf.position() < buf.limit()) {
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
             LOG.debug("Got activity to fetch: {}", fileId);
-            activityFetcher.fetch(fileId);
+            fileIds.add(fileId);
         }
+        activityFetcher.fetch(fileIds);
 
         if (subtype == CMD_ACTIVITY_FETCH_TODAY) {
             LOG.debug("Fetch recorded data from the past");

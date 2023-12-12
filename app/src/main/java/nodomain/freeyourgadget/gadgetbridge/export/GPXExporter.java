@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.export;
 
 import android.util.Xml;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.xmlpull.v1.XmlSerializer;
@@ -39,7 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GPXExporter implements ActivityTrackExporter {
     private static final String NS_GPX_URI = "http://www.topografix.com/GPX/1/1";
@@ -55,12 +53,6 @@ public class GPXExporter implements ActivityTrackExporter {
     private String creator;
     private boolean includeHeartRate = true;
     private boolean includeHeartRateOfNearestSample = true;
-
-    @NonNull
-    @Override
-    public String getDefaultFileName(@NonNull ActivityTrack track) {
-        return FileUtils.makeValidFileName(track.getName());
-    }
 
     @Override
     public void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException {

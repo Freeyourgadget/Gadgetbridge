@@ -28,7 +28,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TimeZone;
 
@@ -47,7 +49,7 @@ public class XiaomiActivityFileFetcher {
 
     private final XiaomiHealthService mHealthService;
 
-    private final Queue<XiaomiActivityFileId> mFetchQueue = new LinkedList<>();
+    private final Queue<XiaomiActivityFileId> mFetchQueue = new PriorityQueue<>();
     private ByteArrayOutputStream mBuffer = new ByteArrayOutputStream();
     private boolean isFetching = false;
 
@@ -124,15 +126,15 @@ public class XiaomiActivityFileFetcher {
                     LOG.warn("Failed to parse {}", fileId);
                 }
             } catch (final Exception ex) {
-                LOG.error("addChunk(): failed to parse activity: ", ex);
+                LOG.error("Exception while parsing " + fileId, ex);
             }
 
             triggerNextFetch();
         }
     }
 
-    public void fetch(final XiaomiActivityFileId fileId) {
-        mFetchQueue.add(fileId);
+    public void fetch(final List<XiaomiActivityFileId> fileIds) {
+        mFetchQueue.addAll(fileIds);
         if (!isFetching) {
             // Currently not fetching anything, fetch the next
             isFetching = true;
@@ -163,23 +165,12 @@ public class XiaomiActivityFileFetcher {
     }
 
     protected void dumpBytesToExternalStorage(final XiaomiActivityFileId fileId, final byte[] bytes) {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.US);
-
         try {
             final File externalFilesDir = FileUtils.getExternalFilesDir();
             final File targetDir = new File(externalFilesDir, "rawFetchOperations");
             targetDir.mkdirs();
 
-            final String filename = String.format(
-                    Locale.ROOT,  "xiaomi_%s_%02X_%02X_%02X_v%d.bin",
-                    sdf.format(fileId.getTimestamp()),
-                    fileId.getTypeCode(),
-                    fileId.getSubtypeCode(),
-                    fileId.getDetailTypeCode(),
-                    fileId.getVersion()
-            );
-
-            final File outputFile = new File(targetDir, filename);
+            final File outputFile = new File(targetDir, fileId.getFilename());
 
             final OutputStream outputStream = new FileOutputStream(outputFile);
             outputStream.write(bytes);

@@ -19,13 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.export;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 
 public interface ActivityTrackExporter {
-    @NonNull
-    String getDefaultFileName(@NonNull ActivityTrack track);
-
     void performExport(ActivityTrack track, File targetFile) throws IOException, GPXTrackEmptyException;
 
     class GPXTrackEmptyException extends Exception {

@@ -18,13 +18,17 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity;
 
 import androidx.annotation.NonNull;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
-public class XiaomiActivityFileId {
+public class XiaomiActivityFileId implements Comparable<XiaomiActivityFileId> {
     private final Date timestamp;
     private final int timezone;
     private final int type;
@@ -133,6 +137,32 @@ public class XiaomiActivityFileId {
                 "}";
     }
 
+    @Override
+    public int compareTo(final XiaomiActivityFileId o) {
+        return new CompareToBuilder()
+                .append(timestamp, o.timestamp)
+                .append(timezone, o.timezone)
+                .append(type, o.type)
+                .append(subtype, o.subtype)
+                .append(getDetailType().getFetchOrder(), o.getDetailType().getFetchOrder())
+                .append(version, o.version)
+                .build();
+    }
+
+    public String getFilename() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.US);
+
+        return String.format(
+                Locale.ROOT,
+                "xiaomi_%s_%02X_%02X_%02X_v%d.bin",
+                sdf.format(getTimestamp()),
+                getTypeCode(),
+                getSubtypeCode(),
+                getDetailTypeCode(),
+                getVersion()
+        );
+    }
+
     public enum Type {
         UNKNOWN(-1),
         ACTIVITY(0),
@@ -166,6 +196,7 @@ public class XiaomiActivityFileId {
         SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 0x01),
         SPORTS_FREESTYLE(Type.SPORTS, 0x08),
         SPORTS_ELLIPTICAL(Type.SPORTS, 0x0B),
+        SPORTS_OUTDOOR_WALKING(Type.SPORTS, 0x16),
         SPORTS_OUTDOOR_CYCLING(Type.SPORTS, 0x17),
         ;
 
@@ -206,6 +237,21 @@ public class XiaomiActivityFileId {
 
         public int getCode() {
             return code;
+        }
+
+        public int getFetchOrder() {
+            // Fetch summary first, so we have the summary data for workouts
+            // before parsing the gps track
+            switch (this) {
+                case SUMMARY:
+                    return 0;
+                case DETAILS:
+                    return 1;
+                case GPS_TRACK:
+                    return 2;
+            }
+
+            return 3;
         }
 
         public static DetailType fromCode(final int code) {

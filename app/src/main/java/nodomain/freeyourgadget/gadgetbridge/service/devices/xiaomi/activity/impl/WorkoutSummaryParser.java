@@ -71,9 +71,14 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             final DaoSession session = dbHandler.getDaoSession();
             final Device device = DBHelper.getDevice(support.getDevice(), session);
             final User user = DBHelper.getUser(session);
-            summary.setDevice(device);
-            summary.setUser(user);
-            session.getBaseActivitySummaryDao().insertOrReplace(summary);
+
+            final BaseActivitySummary existingSummary = findOrCreateBaseActivitySummary(session, device, user, fileId);
+            existingSummary.setEndTime(summary.getEndTime());
+            existingSummary.setActivityKind(summary.getActivityKind());
+            existingSummary.setRawSummaryData(summary.getRawSummaryData());
+            existingSummary.setSummaryData(null);  // remove json before saving to database
+
+            session.getBaseActivitySummaryDao().insertOrReplace(existingSummary);
         } catch (final Exception e) {
             GB.toast(support.getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;
@@ -117,7 +122,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int startTime = buf.getInt();
         final int endTime = buf.getInt();
 
-        summary.setStartTime(new Date(startTime * 1000L));
+        // We don't set the start time, since we need it to match the fileId for the WorkoutGpsParser
+        // to find it. They also seem to match.
+        //summary.setStartTime(new Date(startTime * 1000L));
         summary.setEndTime(new Date(endTime * 1000L));
 
         final int duration = buf.getInt();

@@ -21,15 +21,54 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
+import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailyDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.SleepDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutGpsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
 
 public abstract class XiaomiActivityParser {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiActivityParser.class);
 
     public abstract boolean parse(final XiaomiSupport support, final XiaomiActivityFileId fileId, final byte[] bytes);
+
+    protected BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
+                                                                  final Device device,
+                                                                  final User user,
+                                                                  final XiaomiActivityFileId fileId) {
+        final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
+        final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
+        qb.where(BaseActivitySummaryDao.Properties.StartTime.eq(fileId.getTimestamp()));
+        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()));
+        qb.where(BaseActivitySummaryDao.Properties.UserId.eq(user.getId()));
+        final List<BaseActivitySummary> summaries = qb.build().list();
+        if (summaries.isEmpty()) {
+            final BaseActivitySummary summary = new BaseActivitySummary();
+            summary.setStartTime(fileId.getTimestamp());
+            summary.setDevice(device);
+            summary.setUser(user);
+
+            // These will be set later, once we parse the summary
+            summary.setEndTime(fileId.getTimestamp());
+            summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+
+            return summary;
+        }
+        if (summaries.size() > 1) {
+            LOG.warn("Found multiple summaries for {}", fileId);
+        }
+        return summaries.get(0);
+    }
 
     @Nullable
     public static XiaomiActivityParser create(final XiaomiActivityFileId fileId) {
@@ -52,6 +91,9 @@ public abstract class XiaomiActivityParser {
                 if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
                     return new DailyDetailsParser();
                 }
+                if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.SUMMARY) {
+                    return new DailySummaryParser();
+                }
 
                 break;
             case ACTIVITY_SLEEP:
@@ -71,6 +113,8 @@ public abstract class XiaomiActivityParser {
         switch (fileId.getDetailType()) {
             case SUMMARY:
                 return new WorkoutSummaryParser();
+            case GPS_TRACK:
+                return new WorkoutGpsParser();
         }
 
         return null;
