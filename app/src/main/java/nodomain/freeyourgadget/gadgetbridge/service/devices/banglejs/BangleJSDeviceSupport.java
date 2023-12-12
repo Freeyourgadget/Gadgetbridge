@@ -1016,9 +1016,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     summaryData = addSummaryData(summaryData, "averageStride",
                             (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
                                     (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
-                            "m/stride"); // FIXME: Is this meant to be stride length as I've assumed?
-                    summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
-                    summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m/stride");
+                            "m"); // FIXME: Is this meant to be stride length as I've assumed?
+                    summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
+                    summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
                 }
 
                 //     put("Speed", Arrays.asList(
