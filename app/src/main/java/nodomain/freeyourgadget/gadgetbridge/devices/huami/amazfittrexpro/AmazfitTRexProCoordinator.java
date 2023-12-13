@@ -82,7 +82,7 @@ public class AmazfitTRexProCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_liftwrist_display_sensitivity,
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_sync_calendar,
