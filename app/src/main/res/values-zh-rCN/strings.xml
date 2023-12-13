@@ -2271,8 +2271,8 @@
     <string name="num_min">%d 分钟</string>
     <string name="pai_chart_per_week">每周 PAI</string>
     <string name="pai_plus_num">+%d</string>
-    <string name="pai_total">总计 PAI</string>
-    <string name="pai_day">每日 AAI 增长</string>
+    <string name="pai_total">总计</string>
+    <string name="pai_day">每日增长</string>
     <string name="loyalty_cards_catima_not_installed">需要 Catima 来管理会员卡</string>
     <string name="loyalty_cards_catima_package">Catima 包名</string>
     <string name="loyalty_cards_install">安装 Catima</string>
