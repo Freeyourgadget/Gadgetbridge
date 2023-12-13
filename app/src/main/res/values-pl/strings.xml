@@ -2579,4 +2579,8 @@
     <string name="menuitem_alerts">Alerty</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
     <string name="devicetype_pixoo">Pixoo</string>
+    <string name="pref_title_goal_secondary">Drugi punkt</string>
+    <string name="pref_summary_send_app_notifications">Wyślij powiadomienie do urządzenia</string>
+    <string name="wearmode_band">Opaska (na nadgarstek)</string>
+    <string name="pref_title_send_app_notifications">Wyślij powiadomienie</string>
 </resources>
