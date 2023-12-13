@@ -1955,7 +1955,7 @@
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
     <string name="pref_contacts_title">Контакты</string>
     <string name="contact_delete_confirm_title">Удалить контакт</string>
-    <string name="activity_prefs_goal_standing_time_minutes">Ежедневная цель: время стояния в минутах</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Ежедневная цель: время стоя в минутах</string>
     <string name="prefs_always_on_display_style">Стиль</string>
     <string name="croatian">Хорватский</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Ежедневная цель: время сжигания жира в минутах</string>
