@@ -1404,6 +1404,8 @@
     <string name="devicetype_waspos">Wasp-os</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
     <string name="devicetype_fitpro">FitPro</string>
+    <string name="devicetype_colacao21">ColaCao 2021</string>
+    <string name="devicetype_colacao23">ColaCao 2023</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
