@@ -57,12 +57,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class XiaomiAuthService extends AbstractXiaomiService {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiAuthService.class);
 
-    public static final byte[] PAYLOAD_HEADER_AUTH = new byte[]{0, 0, 2, 2};
 
     public static final int COMMAND_TYPE = 1;
 
     public static final int CMD_SEND_USERID = 5;
-
     public static final int CMD_NONCE = 26;
     public static final int CMD_AUTH = 27;
 
@@ -83,7 +81,8 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         return encryptionInitialized;
     }
 
-    protected void startEncryptedHandshake(final TransactionBuilder builder) {
+    // TODO also implement for spp
+    protected void startEncryptedHandshake(final XiaomiBleSupport support, final TransactionBuilder builder) {
         encryptionInitialized = false;
 
         builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
@@ -91,10 +90,10 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
 
-        getSupport().sendCommand(builder, buildNonceCommand(nonce));
+        support.sendCommand(builder, buildNonceCommand(nonce));
     }
 
-    protected void startClearTextHandshake(final TransactionBuilder builder) {
+    protected void startClearTextHandshake(final XiaomiBleSupport support, final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
@@ -107,7 +106,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .setAuth(auth)
                 .build();
 
-        getSupport().sendCommand(builder, command);
+        support.sendCommand(builder, command);
     }
 
     @Override
@@ -121,33 +120,27 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 LOG.debug("Got watch nonce");
 
                 // Watch nonce
-                final XiaomiProto.Command reply = handleWatchNonce(cmd.getAuth().getWatchNonce());
-                if (reply == null) {
+                final XiaomiProto.Command command = handleWatchNonce(cmd.getAuth().getWatchNonce());
+                if (command == null) {
                     getSupport().disconnect();
                     return;
                 }
 
-                final TransactionBuilder builder = getSupport().createTransactionBuilder("auth step 2");
-                // TODO use sendCommand
-                builder.write(
-                        getSupport().getCharacteristic(getSupport().characteristicCommandWrite.getCharacteristicUUID()),
-                        ArrayUtils.addAll(PAYLOAD_HEADER_AUTH, reply.toByteArray())
-                );
-                builder.queue(getSupport().getQueue());
+                getSupport().sendCommand("auth step 2", command);
                 break;
             }
 
             case CMD_AUTH:
             case CMD_SEND_USERID: {
                 if (cmd.getSubtype() == CMD_AUTH || cmd.getAuth().getStatus() == 1) {
-                    LOG.info("Authenticated!");
-
                     encryptionInitialized = cmd.getSubtype() == CMD_AUTH;
 
-                    final TransactionBuilder builder = getSupport().createTransactionBuilder("phase 2 initialize");
-                    builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.INITIALIZED, getSupport().getContext()));
-                    getSupport().phase2Initialize();
-                    builder.queue(getSupport().getQueue());
+                    LOG.info("Authenticated, further communications are {}", encryptionInitialized ? "encrypted" : "in plaintext");
+
+                    getSupport().getDevice().setState(GBDevice.State.INITIALIZED);
+                    getSupport().getDevice().sendDeviceUpdateIntent(getSupport().getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
+
+                    getSupport().onAuthSuccess();
                 } else {
                     LOG.warn("could not authenticate");
                 }

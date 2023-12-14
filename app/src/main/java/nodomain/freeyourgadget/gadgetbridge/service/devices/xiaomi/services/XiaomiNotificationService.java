@@ -538,15 +538,15 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             }
         }
 
-        getSupport().getDataUploader().setCallback(this);
-        getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_NOTIFICATION_ICON, buf.array());
+        getSupport().getDataUploadService().setCallback(this);
+        getSupport().getDataUploadService().requestUpload(XiaomiDataUploadService.TYPE_NOTIFICATION_ICON, buf.array());
     }
 
     @Override
     public void onUploadFinish(final boolean success) {
         LOG.debug("Notification icon upload finished: {}", success);
 
-        getSupport().getDataUploader().setCallback(null);
+        getSupport().getDataUploadService().setCallback(null);
     }
 
     @Override

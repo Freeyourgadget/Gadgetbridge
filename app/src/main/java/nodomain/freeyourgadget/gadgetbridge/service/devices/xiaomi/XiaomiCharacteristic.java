@@ -45,7 +45,7 @@ public class XiaomiCharacteristic {
     // max chunk size, including headers
     public static final int MAX_WRITE_SIZE = 242;
 
-    private final XiaomiSupport mSupport;
+    private final XiaomiBleSupport mSupport;
 
     private final BluetoothGattCharacteristic bluetoothGattCharacteristic;
     private final UUID characteristicUUID;
@@ -68,11 +68,11 @@ public class XiaomiCharacteristic {
     private boolean sendingChunked = false;
     private Payload currentPayload = null;
 
-    private Handler handler = null;
+    private XiaomiChannelHandler channelHandler = null;
 
     private SendCallback callback;
 
-    public XiaomiCharacteristic(final XiaomiSupport support,
+    public XiaomiCharacteristic(final XiaomiBleSupport support,
                                 final BluetoothGattCharacteristic bluetoothGattCharacteristic,
                                 @Nullable final XiaomiAuthService authService) {
         this.mSupport = support;
@@ -86,8 +86,8 @@ public class XiaomiCharacteristic {
         return characteristicUUID;
     }
 
-    public void setHandler(final Handler handler) {
-        this.handler = handler;
+    public void setChannelHandler(final XiaomiChannelHandler handler) {
+        this.channelHandler = handler;
     }
 
     public void setCallback(final SendCallback callback) {
@@ -162,11 +162,15 @@ public class XiaomiCharacteristic {
             if (chunk == numChunks) {
                 sendChunkEndAck();
 
-                if (isEncrypted) {
-                    // chunks are always encrypted if an auth service is available
-                    handler.handle(authService.decrypt(chunkBuffer.toByteArray()));
+                if (channelHandler != null) {
+                    if (isEncrypted) {
+                        // chunks are always encrypted if an auth service is available
+                        channelHandler.handle(authService.decrypt(chunkBuffer.toByteArray()));
+                    } else {
+                        channelHandler.handle(chunkBuffer.toByteArray());
+                    }
                 } else {
-                    handler.handle(chunkBuffer.toByteArray());
+                    LOG.warn("Channel handler for char {} is null!", characteristicUUID);
                 }
 
                 currentChunk = 0;
@@ -249,7 +253,10 @@ public class XiaomiCharacteristic {
                         buf.get(plainValue);
                     }
 
-                    handler.handle(plainValue);
+                    if (channelHandler != null)
+                        channelHandler.handle(plainValue);
+                    else
+                        LOG.warn("Channel handler for char {} is null!", characteristicUUID);
 
                     return;
                 case 3:
@@ -360,10 +367,6 @@ public class XiaomiCharacteristic {
         final TransactionBuilder builder = mSupport.createTransactionBuilder("send chunked end ack");
         builder.write(bluetoothGattCharacteristic, new byte[]{0x00, 0x00, 0x01, 0x00});
         builder.queue(mSupport.getQueue());
-    }
-
-    public interface Handler {
-        void handle(final byte[] payload);
     }
 
     private static class Payload {

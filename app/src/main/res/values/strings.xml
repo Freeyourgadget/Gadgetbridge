@@ -2572,4 +2572,8 @@
     <string name="pref_title_fossil_hr_nav_vibrate">Vibrate on new instruction</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Whether the watch should vibrate on every new or changed navigation instruction (only when the app is in the foreground)</string>
     <string name="notification_channel_connection_status_name">Connection Status</string>
+    <string name="uploading_watchface">Uploading watchface…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Uploading watchface</string>
+    <string name="uploadwatchfaceoperation_complete">Watchface installation completed</string>
+    <string name="uploadwatchfaceoperation_failed">Watchface installation failed</string>
 </resources>

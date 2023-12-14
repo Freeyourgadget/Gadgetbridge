@@ -80,8 +80,8 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
 
                 LOG.debug("Watchface install status 0, uploading");
                 setDeviceBusy();
-                getSupport().getDataUploader().setCallback(this);
-                getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_WATCHFACE, fwHelper.getBytes());
+                getSupport().getDataUploadService().setCallback(this);
+                getSupport().getDataUploadService().requestUpload(XiaomiDataUploadService.TYPE_WATCHFACE, fwHelper.getBytes());
                 return;
         }
 
@@ -230,11 +230,11 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
     public void onUploadFinish(final boolean success) {
         LOG.debug("Watchface upload finished: {}", success);
 
-        getSupport().getDataUploader().setCallback(null);
+        getSupport().getDataUploadService().setCallback(null);
 
         final String notificationMessage = success ?
-                getSupport().getContext().getString(R.string.updatefirmwareoperation_update_complete) :
-                getSupport().getContext().getString(R.string.updatefirmwareoperation_write_failed);
+                getSupport().getContext().getString(R.string.uploadwatchfaceoperation_complete) :
+                getSupport().getContext().getString(R.string.uploadwatchfaceoperation_failed);
 
         GB.updateInstallNotification(notificationMessage, false, 100, getSupport().getContext());
 
@@ -250,23 +250,12 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
 
     @Override
     public void onUploadProgress(final int progressPercent) {
-        try {
-            final TransactionBuilder builder = getSupport().createTransactionBuilder("send data upload progress");
-            builder.add(new SetProgressAction(
-                    getSupport().getContext().getString(R.string.updatefirmwareoperation_update_in_progress),
-                    true,
-                    progressPercent,
-                    getSupport().getContext()
-            ));
-            builder.queue(getSupport().getQueue());
-        } catch (final Exception e) {
-            LOG.error("Failed to update progress notification", e);
-        }
+        getSupport().onUploadProgress(R.string.uploadwatchfaceoperation_in_progress, progressPercent);
     }
 
     private void setDeviceBusy() {
         final GBDevice device = getSupport().getDevice();
-        device.setBusyTask(getSupport().getContext().getString(R.string.updating_firmware));
+        device.setBusyTask(getSupport().getContext().getString(R.string.uploading_watchface));
         device.sendDeviceUpdateIntent(getSupport().getContext());
     }
 

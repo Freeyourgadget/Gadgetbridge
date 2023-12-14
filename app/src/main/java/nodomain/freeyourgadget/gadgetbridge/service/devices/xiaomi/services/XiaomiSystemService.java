@@ -53,8 +53,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
 import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
@@ -143,8 +141,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
                 LOG.debug("Firmware install status 0, uploading");
                 setDeviceBusy();
-                getSupport().getDataUploader().setCallback(this);
-                getSupport().getDataUploader().requestUpload(XiaomiDataUploadService.TYPE_FIRMWARE, fwHelper.getBytes());
+                getSupport().getDataUploadService().setCallback(this);
+                getSupport().getDataUploadService().requestUpload(XiaomiDataUploadService.TYPE_FIRMWARE, fwHelper.getBytes());
                 return;
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
@@ -315,9 +313,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         gbDeviceEventVersionInfo.fwVersion = deviceInfo.getFirmware();
         //gbDeviceEventVersionInfo.fwVersion2 = "N/A";
         gbDeviceEventVersionInfo.hwVersion = deviceInfo.getModel();
-        final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", deviceInfo.getSerialNumber());
-
         getSupport().evaluateGBDeviceEvent(gbDeviceEventVersionInfo);
+
+        final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", deviceInfo.getSerialNumber());
         getSupport().evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
     }
 
@@ -937,7 +935,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public void onUploadFinish(final boolean success) {
         LOG.debug("Firmware upload finished: {}", success);
 
-        getSupport().getDataUploader().setCallback(null);
+        getSupport().getDataUploadService().setCallback(null);
 
         final String notificationMessage = success ?
                 getSupport().getContext().getString(R.string.updatefirmwareoperation_update_complete) :
@@ -952,17 +950,6 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     @Override
     public void onUploadProgress(final int progressPercent) {
-        try {
-            final TransactionBuilder builder = getSupport().createTransactionBuilder("send data upload progress");
-            builder.add(new SetProgressAction(
-                    getSupport().getContext().getString(R.string.updatefirmwareoperation_update_in_progress),
-                    true,
-                    progressPercent,
-                    getSupport().getContext()
-            ));
-            builder.queue(getSupport().getQueue());
-        } catch (final Exception e) {
-            LOG.error("Failed to update progress notification", e);
-        }
+        getSupport().onUploadProgress(R.string.updatefirmwareoperation_update_in_progress, progressPercent);
     }
 }
