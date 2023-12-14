@@ -2273,8 +2273,8 @@
     <string name="pai_chart_per_month">PAI al mes</string>
     <string name="pai_plus_num">+%d</string>
     <string name="num_min">%d min</string>
-    <string name="pai_total">PAI total</string>
-    <string name="pai_day">Aumento del PAI por día</string>
+    <string name="pai_total">Total</string>
+    <string name="pai_day">Aumento del día</string>
     <string name="loyalty_cards_install">Instalar Catima</string>
     <string name="loyalty_cards_sync_groups">Grupos a sincronizar</string>
     <string name="loyalty_cards_sync_starred">Sincronizar sólo tarjetas favoritas</string>
@@ -2596,4 +2596,25 @@
     <string name="wearmode_band">Pulsera (Pulsera)</string>
     <string name="wearmode_necklace">Collar (tira para el cuello)</string>
     <string name="silent_mode_normal_silent">Normal / Silencio</string>
+    <string name="activity_type_trail_run">Carrera de montaña</string>
+    <string name="widget_layout">Diseño del widget</string>
+    <string name="widget_screen_no_free_slots_description">El dispositivo no tiene espacio libre para pantallas con widgets (espacio total: %1$s)</string>
+    <string name="widget_unknown_workout">Entrenamiento desconocido - %s</string>
+    <string name="widget_move_up">Subir</string>
+    <string name="widget_screen_delete_confirm_description">¿Seguro que quieres borrar \'%1$s\'?</string>
+    <string name="activity_type_trekking">Senderismo</string>
+    <string name="widget_layout_two">2 widgets</string>
+    <string name="widget_screen_delete_confirm_title">Eliminar la pantalla de widgets</string>
+    <string name="widget_layout_top_1_bot_2">1 superior, 2 inferiores</string>
+    <string name="widget_layout_top_2_bot_2">2 superiores, 2 inferiores</string>
+    <string name="widget_screen_min_screens">Debe haber un mínimo de %1$s pantallas</string>
+    <string name="widget">Widget</string>
+    <string name="widget_screen">Pantalla con los widgets</string>
+    <string name="widget_move_down">Bajar</string>
+    <string name="widget_layout_single">1 widget</string>
+    <string name="widget_subtype">Subtipo de widget</string>
+    <string name="widget_screen_x">Pantalla %s</string>
+    <string name="widget_missing_parts">Por favor, seleccione todos los widgets</string>
+    <string name="widget_layout_top_2_bot_1">2 superior, 1 inferior</string>
+    <string name="activity_type_wrestling">Lucha libre</string>
 </resources>
