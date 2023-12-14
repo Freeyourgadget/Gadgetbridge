@@ -3,6 +3,8 @@
 #### Next release (WIP)
 * Initial support for Amazfit Balance
 * Initial support for Amazfit Active
+* Initial support for ColaCao 2021
+* Initial support for ColaCao 2023
 * Initial support for Femometer Vinca II
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
@@ -19,6 +21,7 @@
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
+* Amazfit T-Rex Pro: Add activate display on lift sensitivity
 * AsteroidOS: Add more supported watch models
 * AsteroidOS: Fix media info
 * AsteroidOS: Fix notification dismissal
