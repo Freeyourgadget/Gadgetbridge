@@ -42,13 +42,13 @@
                 android:text="(Smart)"
                 android:visibility="invisible" />
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/alarm_item_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_margin="8dp" />
+                android:layout_marginEnd="8dp" />
 
             <LinearLayout
                 android:id="@+id/dowSelector"
