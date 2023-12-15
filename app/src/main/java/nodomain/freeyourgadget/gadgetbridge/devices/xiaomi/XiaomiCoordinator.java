@@ -356,6 +356,20 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int[] getSupportedDeviceSpecificConnectionSettings() {
+        final List<Integer> settings = new ArrayList<>();
+
+        if (getConnectionType().equals(ConnectionType.BOTH)) {
+            settings.add(R.xml.devicesettings_force_connection_type);
+        }
+
+        return ArrayUtils.addAll(
+                super.getSupportedDeviceSpecificConnectionSettings(),
+                ArrayUtils.toPrimitive(settings.toArray(new Integer[0]))
+        );
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
 

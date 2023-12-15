@@ -427,4 +427,5 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
     public static final String PREF_CLAP_HANDS_TO_WAKEUP_DEVICE = "pref_key_clap_hands_to_wakeup_device";
     public static final String PREF_POWER_SAVING = "pref_key_power_saving";
+    public static final String PREF_FORCE_CONNECTION_TYPE = "pref_force_connection_type";
 }

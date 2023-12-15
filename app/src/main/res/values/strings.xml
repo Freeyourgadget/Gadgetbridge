@@ -2579,4 +2579,12 @@
     <string name="uploadwatchfaceoperation_in_progress">Uploading watchface</string>
     <string name="uploadwatchfaceoperation_complete">Watchface installation completed</string>
     <string name="uploadwatchfaceoperation_failed">Watchface installation failed</string>
+    <string name="pref_force_connection_type_title">Force connection type</string>
+    <string name="pref_force_connection_type_description">You may try forcing the connection type in case your device does not respond to Gadgetbridge</string>
+    <string name="pref_force_connection_type_auto">Automatic</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
+    <string name="pref_force_connection_type_auto_value" translatable="false">BOTH</string>
+    <string name="pref_force_connection_type_ble_value" translatable="false">BLE</string>
+    <string name="pref_force_connection_type_bt_classic_value" translatable="false">BT_CLASSIC</string>
 </resources>
