@@ -2617,4 +2617,6 @@
     <string name="widget_missing_parts">Por favor, seleccione todos los widgets</string>
     <string name="widget_layout_top_2_bot_1">2 superior, 1 inferior</string>
     <string name="activity_type_wrestling">Lucha libre</string>
+    <string name="devicetype_colacao23">ColaCao 2023</string>
+    <string name="devicetype_colacao21">ColaCao 2021</string>
 </resources>
