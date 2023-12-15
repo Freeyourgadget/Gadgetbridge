@@ -2615,4 +2615,6 @@
     <string name="widget_missing_parts">请选择所有小部件</string>
     <string name="widget_layout_top_2_bot_1">2 个顶部，1 个底部</string>
     <string name="activity_type_wrestling">摔角</string>
+    <string name="devicetype_colacao23">高乐高 2023</string>
+    <string name="devicetype_colacao21">高乐高 2021</string>
 </resources>
