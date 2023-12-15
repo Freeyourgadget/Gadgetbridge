@@ -2608,4 +2608,6 @@
     <string name="pref_device_action_dnd_off">Не беспокоить - Выкл.</string>
     <string name="silent_mode_normal_silent">Нормальный / Беззвучный</string>
     <string name="activity_type_wrestling">Борьба</string>
+    <string name="devicetype_colacao23">ColaCao 2023</string>
+    <string name="devicetype_colacao21">ColaCao 2021</string>
 </resources>
