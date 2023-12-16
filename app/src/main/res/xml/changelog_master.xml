@@ -1,5 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.77.0" versioncode="227">
+        <change>Initial support for Amazfit Balance</change>
+        <change>Initial support for Amazfit Active</change>
+        <change>Initial support for ColaCao 2021</change>
+        <change>Initial support for ColaCao 2023</change>
+        <change>Initial support for Femometer Vinca II</change>
+        <change>Initial support for Mijia LYWSD02MMC variant</change>
+        <change>Initial support for Sony Wena 3</change>
+        <change>Experimental support for Divoom Pixoo</change>
+        <change>Experimental support for Sony WF-1000XM5</change>
+        <change>Experimental support for Amazfit Active Edge</change>
+        <change>Experimental support for Mi Band 7 Pro (Xiaomi Smart Band 7 Pro)</change>
+        <change>Experimental support for Mi Band 8 (Xiaomi Smart Band 8)</change>
+        <change>Experimental support for Mi Watch Lite</change>
+        <change>Experimental support for Mi Watch Color Sport</change>
+        <change>Experimental support for Redmi Smart Band 2</change>
+        <change>Experimental support for Redmi Watch 3 Active</change>
+        <change>Experimental support for Xiaomi Watch S1 Active</change>
+        <change>Amazfit Band 7: Add alexa menu entries</change>
+        <change>Amazfit GTR 3 Pro: Fix firmware and watchface upload</change>
+        <change>Amazfit T-Rex: Fix activity summary parsing</change>
+        <change>Amazfit T-Rex Pro: Add activate display on lift sensitivity</change>
+        <change>AsteroidOS: Add more supported watch models</change>
+        <change>AsteroidOS: Fix media info</change>
+        <change>AsteroidOS: Fix notification dismissal</change>
+        <change>Bangle.js: Add loyalty cards integration with Catima</change>
+        <change>Bangle.js: Ensure SMS messages have src field set to "SMS Message"</change>
+        <change>Bangle.js: Fix GPS speed</change>
+        <change>Bangle.js: Improve handling of chinese characters</change>
+        <change>Bangle.js: Lower threshold for low battery warning</change>
+        <change>Bangle.js: Recover from device initialization failure</change>
+        <change>Casio GBX100/GBD-200: Fix first connect</change>
+        <change>Casio GB5600/6900/STB-1000: Fix pairing</change>
+        <change>Casio GDB-200: Fix notification timestamp</change>
+        <change>Casio GDB-200: Fixed notification categories and default category</change>
+        <change>Casio GDB-200: Allow preview of notification message alongside title</change>
+        <change>Casio GDB-200: Fixed find my phone feature</change>
+        <change>Intent API: Add debug action for test new function</change>
+        <change>Fossil/Skagen Hybrids: Add new navigation app</change>
+        <change>Fossil/Skagen Hybrids: Allow configuring call rejection method</change>
+        <change>Fossil/Skagen Hybrids: Fix some preference crashes on the nightly</change>
+        <change>Fossil/Skagen Hybrids: Reduce toasts on release builds</change>
+        <change>Fossil/Skagen Hybrids: Show device specific settings in more logical order</change>
+        <change>Huami: Toggle phone silent mode from band</change>
+        <change>Message privacy: Add mode Hide only body</change>
+        <change>Mijia LYWSD02: Add battery</change>
+        <change>Mijia LYWSD02: Add low battery notification</change>
+        <change>Mijia LYWSD02: Set temperature unit</change>
+        <change>Mijia LYWSD02: Fix battery drain while connected</change>
+        <change>PineTime: Display app name for VoIP app calls</change>
+        <change>PineTime: Honor Sync time setting on connect</change>
+        <change>PineTime: Improve notification handling</change>
+        <change>PineTime: Reduce weather memory usage</change>
+        <change>Withings Steel HR: Fix crash when calibrating hands on the nightly</change>
+        <change>Zepp OS: Add blood oxygen graph</change>
+        <change>Zepp OS: Add workout codes for hiking and outdoor swimming</change>
+        <change>Zepp OS: Allow disabling app notifications per device</change>
+        <change>Zepp OS: Attempt to fix activity fetch operation getting stuck</change>
+        <change>Zepp OS: Display swimming activity data</change>
+        <change>Zepp OS: Fix health settings on older Zepp OS versions</change>
+        <change>Zepp OS: Fix setting of unknown button press apps</change>
+        <change>Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset</change>
+        <change>Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types</change>
+        <change>Zepp OS: Toggle phone silent mode from band</change>
+        <change>Add transliteration for Latvian, Hungarian, Common Symbols</change>
+        <change>Allow multiple device actions to be triggered for the same event</change>
+        <change>Allow toggling DND through device actions</change>
+        <change>Autodetect OsmAnd package name and make it configurable</change>
+        <change>Improve ASCII transliterator</change>
+        <change>Make GMaps navigation handler follow the "navigation forwarding" setting</change>
+        <change>Support selecting enabled navigation apps</change>
+        <change>Allow ignore notifications from work profile apps</change>
+        <change>Display alias in low battery notification</change>
+        <change>Fix crash when pairing current device as companion</change>
+        <change>Fix emoji when a transliterator is enabled</change>
+        <change>Fix UV Index and rain probability for some weather apps</change>
+        <change>Improve device discovery stability and fix freezes</change>
+        <change>Improve Telegram and COL Reminder notifications</change>
+        <change>Replace old-style preference switch with Material 3 switch</change>
+    </release>
     <release version="0.76.1" versioncode="226">
         <change>Amazfit GTR Mini: Mark as not experimental</change>
         <change>Bangle.js: Improve file downloads</change>

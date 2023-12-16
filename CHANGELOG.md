@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next release (WIP)
+#### 0.77.0
 * Initial support for Amazfit Balance
 * Initial support for Amazfit Active
 * Initial support for ColaCao 2021
