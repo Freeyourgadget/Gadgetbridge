@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.servic
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE;
 
+import android.text.TextUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -218,8 +220,8 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         }
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
-                .withPreference(SHORTCUT_CARDS_SORTABLE, String.join(",", enabledCards))
-                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), String.join(",", allCards));
+                .withPreference(SHORTCUT_CARDS_SORTABLE, TextUtils.join(",", enabledCards))
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), TextUtils.join(",", allCards));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

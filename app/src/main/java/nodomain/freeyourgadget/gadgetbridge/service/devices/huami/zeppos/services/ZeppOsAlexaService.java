@@ -20,6 +20,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WATCHFACE;
 
 import android.os.Handler;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -386,7 +387,7 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
                 .withPreference(PREF_VOICE_SERVICE_LANGUAGE, currentLanguage.replace("-", "_"))
-                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_VOICE_SERVICE_LANGUAGE), String.join(",", allLanguages).replace("-", "_"));
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_VOICE_SERVICE_LANGUAGE), TextUtils.join(",", allLanguages).replace("-", "_"));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

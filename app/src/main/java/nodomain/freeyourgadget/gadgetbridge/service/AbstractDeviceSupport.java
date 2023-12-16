@@ -32,6 +32,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -553,7 +554,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             return;
         }
 
-        LOG.debug("Handing device actions: {}", String.join(",", actions));
+        LOG.debug("Handing device actions: {}", TextUtils.join(",", actions));
 
         final String actionBroadcast = getContext().getString(R.string.pref_device_action_broadcast_value);
         final String actionFitnessControlStart = getContext().getString(R.string.pref_device_action_fitness_app_control_start_value);

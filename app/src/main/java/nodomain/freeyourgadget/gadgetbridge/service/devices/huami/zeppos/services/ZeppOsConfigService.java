@@ -25,6 +25,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -1149,7 +1150,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 if (includesConstraints) {
                     prefs.put(
                             DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
-                            String.join(",", decodeByteValues(possibleValues, decoder))
+                            TextUtils.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
             }
@@ -1184,7 +1185,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                                 possibleLanguages.add(languageByteToLocale(possibleValue));
                             }
                             possibleLanguages.removeAll(Collections.singleton(null));
-                            prefs.put(DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()), String.join(",", possibleLanguages));
+                            prefs.put(DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()), TextUtils.join(",", possibleLanguages));
                         }
                     }
                     decoder = null;
@@ -1241,7 +1242,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 if (includesConstraints) {
                     prefs.put(
                             DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
-                            String.join(",", decodeByteValues(possibleValues, decoder))
+                            TextUtils.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
             }
@@ -1276,7 +1277,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             if (decoded.isEmpty()) {
                 return null;
             }
-            return String.join(",", decoded);
+            return TextUtils.join(",", decoded);
         }
 
         private Map<String, Object> singletonMap(final String key, final Object value) {

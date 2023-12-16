@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.EditTextPreference;
@@ -219,7 +220,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
                                 translatedEntries.add(entries[i].toString());
                             }
                         }
-                        summary = String.join(", ", translatedEntries);
+                        summary = TextUtils.join(", ", translatedEntries);
                     }
                 } else {
                     summary = prefs.getString(key, preference.getSummary() != null ? preference.getSummary().toString() : "");

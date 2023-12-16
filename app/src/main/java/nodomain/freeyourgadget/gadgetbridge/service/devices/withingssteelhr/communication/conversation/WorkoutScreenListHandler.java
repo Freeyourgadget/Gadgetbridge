@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.communication.conversation;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class WorkoutScreenListHandler extends AbstractResponseHandler {
             }
          }
 
-        String workoutActivityTypes = String.join(",", prefValues);
+        String workoutActivityTypes = TextUtils.join(",", prefValues);
         GBDevice device = support.getDevice();
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
         prefs.edit().putString("workout_activity_types_sortable", workoutActivityTypes).apply();

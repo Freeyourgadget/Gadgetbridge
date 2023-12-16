@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
+import android.text.TextUtils;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.slf4j.Logger;
@@ -625,7 +627,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         }
 
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
-                .withPreference(XiaomiPreferences.PREF_WORKOUT_TYPES, String.join(",", codes));
+                .withPreference(XiaomiPreferences.PREF_WORKOUT_TYPES, TextUtils.join(",", codes));
 
         getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
     }

@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.servic
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WATCHFACE;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,7 +230,7 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
 
         // TODO broadcast something to update app manager
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
-                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_WATCHFACE), String.join(",", watchfacePrefValues));
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(PREF_WATCHFACE), TextUtils.join(",", watchfacePrefValues));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

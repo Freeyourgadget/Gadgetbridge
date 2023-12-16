@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -230,7 +231,7 @@ public class LoyaltyCardsSettingsFragment extends AbstractPreferenceFragment {
                     }
                 }
                 values.removeAll(toRemove);
-                syncGroups.setSummary(String.join(", ", values));
+                syncGroups.setSummary(TextUtils.join(", ", values));
             }
         }
 

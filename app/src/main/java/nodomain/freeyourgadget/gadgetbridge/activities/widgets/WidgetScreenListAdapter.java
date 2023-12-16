@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.widgets;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class WidgetScreenListAdapter extends RecyclerView.Adapter<WidgetScreenLi
         }
 
         if (!widgetNames.isEmpty()) {
-            holder.widgetScreenDescription.setText(String.join(", ", widgetNames));
+            holder.widgetScreenDescription.setText(TextUtils.join(", ", widgetNames));
         } else {
             holder.widgetScreenDescription.setText(R.string.unknown);
         }
