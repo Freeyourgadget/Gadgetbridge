@@ -159,13 +159,15 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return;
             case CMD_FIND_PHONE:
                 LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
-                final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
-                if (cmd.getSystem().getFindDevice() == 0) {
-                    findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
-                } else {
-                    findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                if (cmd.hasSystem()) {
+                    final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+                    if (cmd.getSystem().getFindDevice() == 0) {
+                        findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+                    } else {
+                        findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                    }
+                    getSupport().evaluateGBDeviceEvent(findPhoneEvent);
                 }
-                getSupport().evaluateGBDeviceEvent(findPhoneEvent);
                 return;
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
