@@ -31,19 +31,24 @@ import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nothing.NothingProtocol;
 
 public class PixooIOThread extends BtClassicIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PixooIOThread.class);
+    private final PixooProtocol mPixooProtocol;
 
 
     @Override
     protected void initialize() {
+        write(mPixooProtocol.encodeReqestAlarms());
+
         setUpdateState(GBDevice.State.INITIALIZED);
     }
 
     public PixooIOThread(GBDevice device, Context context, PixooProtocol deviceProtocol,
                          PixooSupport PixooSupport, BluetoothAdapter bluetoothAdapter) {
         super(device, context, deviceProtocol, PixooSupport, bluetoothAdapter);
+        mPixooProtocol = deviceProtocol;
     }
 
     @Override

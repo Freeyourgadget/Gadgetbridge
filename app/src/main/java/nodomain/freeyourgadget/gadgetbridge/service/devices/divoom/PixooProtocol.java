@@ -17,8 +17,12 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.divoom;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,17 +30,22 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lineageos.weather.util.WeatherUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -64,8 +73,84 @@ public class PixooProtocol extends GBDeviceProtocol {
 
         ByteBuffer incoming = ByteBuffer.wrap(responseData);
         incoming.order(ByteOrder.LITTLE_ENDIAN);
-
+        if (incoming.get() != 0x01) {
+            LOG.warn("first byte not 0x01");
+            return devEvts.toArray(new GBDeviceEvent[0]);
+        }
+        int length = incoming.getShort() & 0xffff;
+        byte status = incoming.get(); // unsure
+        if (status != 0x04) {
+            LOG.warn("status byte not 0x04");
+            return devEvts.toArray(new GBDeviceEvent[0]);
+        }
+        byte endpoint = incoming.get(); // unsure
+        LOG.info("endpoint " + endpoint);
+        if (endpoint == 0x42) {
+            decodeAlarms(incoming);
+        }
         return devEvts.toArray(new GBDeviceEvent[0]);
+    }
+
+    private void decodeAlarms(ByteBuffer incoming) {
+        byte unknown = incoming.get();
+        if (unknown != 0x55) { // expected
+            LOG.warn("unexpected byte when decoding Alarms " + unknown);
+            return;
+        }
+        // Map of alarm position to Alarm, as returned by the band
+        final Map<Integer, nodomain.freeyourgadget.gadgetbridge.model.Alarm> payloadAlarms = new HashMap<>();
+
+        while (incoming.remaining() > 10) {
+            int position = incoming.get();
+            boolean enabled = incoming.get() == 1;
+            int hour = incoming.get();
+            int minute = incoming.get();
+            int repeatMask = incoming.get();
+            int unknown2 = incoming.getInt();
+            byte unknown3 = incoming.get(); // normally 0x01, on fresh alarms 0x32
+            final Alarm alarm = new nodomain.freeyourgadget.gadgetbridge.entities.Alarm();
+            alarm.setEnabled(enabled);
+            alarm.setPosition(position);
+            alarm.setHour(hour);
+            alarm.setMinute(minute);
+            alarm.setRepetition(repeatMask);
+            alarm.setUnused(unknown3 == 0x32 && !enabled);
+            payloadAlarms.put(position, alarm);
+        }
+        final List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> dbAlarms = DBHelper.getAlarms(getDevice());
+        int numUpdatedAlarms = 0;
+
+        for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : dbAlarms) {
+            final int pos = alarm.getPosition();
+            final nodomain.freeyourgadget.gadgetbridge.model.Alarm updatedAlarm = payloadAlarms.get(pos);
+            final boolean alarmNeedsUpdate = updatedAlarm == null ||
+                    alarm.getUnused() != updatedAlarm.getUnused() ||
+                    alarm.getEnabled() != updatedAlarm.getEnabled() ||
+                    alarm.getSmartWakeup() != updatedAlarm.getSmartWakeup() ||
+                    alarm.getHour() != updatedAlarm.getHour() ||
+                    alarm.getMinute() != updatedAlarm.getMinute() ||
+                    alarm.getRepetition() != updatedAlarm.getRepetition();
+
+            if (alarmNeedsUpdate) {
+                numUpdatedAlarms++;
+                LOG.info("Updating alarm index={}, unused={}", pos, updatedAlarm == null);
+                alarm.setUnused(updatedAlarm == null);
+                if (updatedAlarm != null) {
+                    alarm.setEnabled(updatedAlarm.getEnabled());
+                    alarm.setUnused(updatedAlarm.getUnused());
+                    alarm.setSmartWakeup(updatedAlarm.getSmartWakeup());
+                    alarm.setHour(updatedAlarm.getHour());
+                    alarm.setMinute(updatedAlarm.getMinute());
+                    alarm.setRepetition(updatedAlarm.getRepetition());
+                }
+                DBHelper.store(alarm);
+            }
+        }
+
+        if (numUpdatedAlarms > 0) {
+            final Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
+            LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
+        }
     }
 
     @Override
@@ -172,6 +257,26 @@ public class PixooProtocol extends GBDeviceProtocol {
     }
 
     @Override
+    public byte[] encodeSetAlarms(ArrayList<? extends nodomain.freeyourgadget.gadgetbridge.model.Alarm> alarms) {
+        byte[] complete_command = new byte[]{};
+        for (nodomain.freeyourgadget.gadgetbridge.model.Alarm alarm : alarms) {
+            byte[] cmd = new byte[]{
+                    0x43,
+                    (byte) alarm.getPosition(),
+                    (byte) (alarm.getEnabled() && !alarm.getUnused() ? 1 : 0),
+                    (byte) alarm.getHour(),
+                    (byte) alarm.getMinute(),
+                    (byte) alarm.getRepetition(),
+                    0, 0, 0, 0,
+                    (byte) (alarm.getUnused() ? 0x32 : 0x00)};
+
+            complete_command = ArrayUtils.addAll(complete_command, encodeProtocol(cmd));
+        }
+        return complete_command;
+    }
+
+
+    @Override
     public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
         byte pixooWeatherCode = 0;
         if (weatherSpec.currentConditionCode >= 200 && weatherSpec.currentConditionCode <= 299) {
@@ -238,6 +343,10 @@ public class PixooProtocol extends GBDeviceProtocol {
         });
     }
 
+    public byte[] encodeReqestAlarms() {
+        return encodeProtocol(new byte[]{0x42});
+    }
+
     @Override
     public byte[] encodeTestNewFunction() {
         //return encodeAudioModeCommand(1); // works
@@ -262,3 +371,4 @@ public class PixooProtocol extends GBDeviceProtocol {
     }
 
 }
+

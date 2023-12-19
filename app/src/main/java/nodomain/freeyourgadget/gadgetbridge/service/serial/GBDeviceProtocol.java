@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -155,6 +156,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodePowerOff() {
+        return null;
+    }
+
+    public byte[] encodeSetAlarms(ArrayList<? extends Alarm> alarms)  {
         return null;
     }
 

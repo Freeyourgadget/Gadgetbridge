@@ -62,6 +62,11 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int getAlarmSlotCount(GBDevice device) {
+        return 10;
+    }
+
+    @Override
     public int getDefaultIconResource() {
         return R.drawable.ic_device_lovetoy;
     }
