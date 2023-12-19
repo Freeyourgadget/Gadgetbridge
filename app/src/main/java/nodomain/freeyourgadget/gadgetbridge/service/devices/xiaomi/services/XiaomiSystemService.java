@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
+import android.os.Handler;
 import android.text.TextUtils;
 
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -68,6 +70,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     // We persist the settings code when receiving the display items,
     // so we can enforce it when sending them
     private static final String PREF_SETTINGS_DISPLAY_ITEM_CODE = "xiaomi_settings_display_item_code";
+    private static final int BATTERY_STATE_REQUEST_INTERVAL = (int) TimeUnit.MINUTES.toMillis(15);
 
     public static final int COMMAND_TYPE = 2;
 
@@ -99,6 +102,16 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
+    private Handler handler = new Handler();
+    private final Runnable batteryStateRequestRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getSupport().sendCommand("get device status", COMMAND_TYPE, CMD_DEVICE_STATE_GET);
+            getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
+            handler.postDelayed(this, BATTERY_STATE_REQUEST_INTERVAL);
+        }
+    };
+
     private WearingState currentWearingState = WearingState.UNKNOWN;
     private BatteryState currentBatteryState = BatteryState.UNKNOWN;
     private SleepState currentSleepDetectionState = SleepState.UNKNOWN;
@@ -121,6 +134,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().sendCommand("get widgets", COMMAND_TYPE, CMD_WIDGET_SCREENS_GET);
         getSupport().sendCommand("get widget parts", COMMAND_TYPE, CMD_WIDGET_PARTS_GET);
         getSupport().sendCommand("get workout types", COMMAND_TYPE, CMD_WORKOUT_TYPES_GET);
+
+        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
     }
 
     @Override
@@ -351,6 +366,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
         batteryInfo.state = currentBatteryState;
         getSupport().evaluateGBDeviceEvent(batteryInfo);
+
+        // reset battery level request timer
+        handler.removeCallbacks(batteryStateRequestRunnable);
+        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
     }
 
     private void setPassword() {
@@ -779,6 +798,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         }
 
         // TODO: handle activity state
+
+        // reset battery level refresh timer
+        handler.removeCallbacks(batteryStateRequestRunnable);
+        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
     }
 
     public void handleDeviceState(XiaomiProto.DeviceState deviceState) {
