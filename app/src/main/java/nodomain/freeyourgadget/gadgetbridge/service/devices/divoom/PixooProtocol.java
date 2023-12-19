@@ -174,6 +174,20 @@ public class PixooProtocol extends GBDeviceProtocol {
                         0x2d,
                         (byte) (is24hour ? 1 : 0),
                 });
+            case DeviceSettingsPreferenceConst.PREF_CLAP_HANDS_TO_WAKEUP_DEVICE:
+                boolean clap = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_CLAP_HANDS_TO_WAKEUP_DEVICE, false);
+
+                return encodeProtocol(new byte[]{
+                        (byte) 0xa7,
+                        (byte) (clap ? 1 : 0),
+                });
+            case DeviceSettingsPreferenceConst.PREF_POWER_SAVING:
+                boolean power_saving = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_POWER_SAVING, false);
+
+                return encodeProtocol(new byte[]{
+                        (byte) 0xb2,
+                        (byte) (power_saving ? 1 : 0),
+                });
 
         }
 
@@ -363,7 +377,7 @@ public class PixooProtocol extends GBDeviceProtocol {
         msgBuf.put(payload);
         short crc = (short) (((payload.length + 2) & 0xff) + ((payload.length + 2) >> 8));
         for (byte b : payload) {
-            crc += b;
+            crc += (b & 0xff);
         }
         msgBuf.putShort(crc);
         msgBuf.put((byte) 0x02);

@@ -144,10 +144,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     ListPreference languageListPreference = findPreference("language");
                     CharSequence[] entries = languageListPreference.getEntries();
                     CharSequence[] values = languageListPreference.getEntryValues();
-                    for (int i=entries.length-1;i>=0;i--) {
-                        if (!ArrayUtils.contains(supportedLanguages,values[i])) {
-                            entries = ArrayUtils.remove(entries,i);
-                            values = ArrayUtils.remove(values,i);
+                    for (int i = entries.length - 1; i >= 0; i--) {
+                        if (!ArrayUtils.contains(supportedLanguages, values[i])) {
+                            entries = ArrayUtils.remove(entries, i);
+                            values = ArrayUtils.remove(values, i);
                         }
                     }
                     languageListPreference.setEntries(entries);
@@ -322,7 +322,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 }
             });
         }
-
 
 
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
@@ -565,6 +564,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_ENABLED);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_START);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_END);
+
+        addPreferenceHandlerFor(PREF_CLAP_HANDS_TO_WAKEUP_DEVICE);
+        addPreferenceHandlerFor(PREF_POWER_SAVING);
 
         addPreferenceHandlerFor("lock");
 
@@ -981,7 +983,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
 
         final Preference notificationSettings = findPreference(PREFS_PER_APP_NOTIFICATION_SETTINGS);
-        if(notificationSettings != null) {
+        if (notificationSettings != null) {
             notificationSettings.setOnPreferenceClickListener(preference -> {
                 final Intent intent = new Intent(getContext(), AppSpecificNotificationSettingsActivity.class);
                 intent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());

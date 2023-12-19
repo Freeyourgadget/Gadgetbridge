@@ -79,6 +79,7 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
+                R.xml.devicesettings_pixoo,
                 R.xml.devicesettings_screen_brightness,
                 R.xml.devicesettings_timeformat,
         };
