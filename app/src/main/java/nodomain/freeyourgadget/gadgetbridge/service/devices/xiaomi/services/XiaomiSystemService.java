@@ -324,6 +324,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
             case 1:
                 return BatteryState.BATTERY_CHARGING;
             case 2:
+            case 3:
                 return BatteryState.BATTERY_NORMAL;
         }
 
