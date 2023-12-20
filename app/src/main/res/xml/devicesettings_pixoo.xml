@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_power_settings_new"
+        android:key="pref_key_clap_hands_to_wakeup_device"
+        android:title="@string/clap_hands_to_wakeup_device"
+        android:summary="@string/clap_hands_to_wakeup_device_summary"
+        android:defaultValue="false" />
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_music_note"
+        android:key="pref_key_power_saving"
+        android:title="@string/power_saving"
+        android:summary="@string/pixoo_power_saving_summary"
+        android:defaultValue="false" />
+</androidx.preference.PreferenceScreen>
