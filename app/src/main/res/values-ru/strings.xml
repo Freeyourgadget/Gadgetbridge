@@ -1533,7 +1533,7 @@
     <string name="left_earbud">Левый наушник</string>
     <string name="watchface_widget_type_2nd_tz">2-ой часовой пояс</string>
     <string name="watchface_widget_type_chance_rain">Вероятность дождя</string>
-    <string name="watchface_setting_power_saving_display">Не обновлять информацию на экране, когда устроство не надето</string>
+    <string name="watchface_setting_power_saving_display">Не обновлять информацию на экране, когда устройство снято</string>
     <string name="pref_title_equalizer_normal">Нормальный</string>
     <string name="pref_title_equalizer_bass_boost">Усиление басов</string>
     <string name="enable_vibrations_summary">Вибрация при поступлении звонков, сообщений, оповещений и прочего</string>
@@ -2610,4 +2610,7 @@
     <string name="activity_type_wrestling">Борьба</string>
     <string name="devicetype_colacao23">ColaCao 2023</string>
     <string name="devicetype_colacao21">ColaCao 2021</string>
+    <string name="clap_hands_to_wakeup_device">Активировать экран хлопком руками</string>"
+    <string name="clap_hands_to_wakeup_device_summary">Повторный хлопок погасит его</string>"
+    <string name="pixoo_power_saving_summary">Экран погаснет после продолжительной тишины, замеченной микрофоном</string>
 </resources>
