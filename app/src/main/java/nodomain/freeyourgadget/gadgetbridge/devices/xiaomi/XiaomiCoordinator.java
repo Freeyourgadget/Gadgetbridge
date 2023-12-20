@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -226,19 +225,19 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsActivityDataFetching() {
         // TODO It does, but not yet fully working - only in Mi Band 8
-        return false;
+        return GBApplication.isDebug() || GBApplication.isNightly();
     }
 
     @Override
     public boolean supportsActivityTracking() {
         // TODO It does, but not yet fully working - only in Mi Band 8
-        return false;
+        return GBApplication.isDebug() || GBApplication.isNightly();
     }
 
     @Override
     public boolean supportsActivityTracks() {
         // TODO It does, but not yet fully working - only in Mi Band 8
-        return false;
+        return GBApplication.isDebug() || GBApplication.isNightly();
     }
 
     @Override

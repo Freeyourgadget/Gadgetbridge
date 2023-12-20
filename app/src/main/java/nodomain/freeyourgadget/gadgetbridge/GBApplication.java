@@ -1562,6 +1562,10 @@ public class GBApplication extends Application {
         return BuildConfig.APPLICATION_ID.contains("nightly");
     }
 
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
     public String getVersion() {
         try {
             return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionName;
