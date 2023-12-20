@@ -2617,4 +2617,7 @@
     <string name="activity_type_wrestling">摔角</string>
     <string name="devicetype_colacao23">高乐高 2023</string>
     <string name="devicetype_colacao21">高乐高 2021</string>
+    <string name="clap_hands_to_wakeup_device">拍手亮起屏幕</string>"
+    <string name="clap_hands_to_wakeup_device_summary">再次拍手关闭屏幕</string>"
+    <string name="pixoo_power_saving_summary">麦克风检测到静音一段时间后将屏幕关闭</string>
 </resources>
