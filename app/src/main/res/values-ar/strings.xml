@@ -2605,4 +2605,5 @@
     <string name="pref_device_action_dnd_off">عدم الإزعاج - إيقاف</string>
     <string name="silent_mode_normal_silent">عادي / صامت</string>
     <string name="activity_type_wrestling">المصارعة</string>
+    <string name="devicetype_mijia_lywsd03">Mijia مستشعر درجة الحرارة والرطوبة 2</string>
 </resources>
