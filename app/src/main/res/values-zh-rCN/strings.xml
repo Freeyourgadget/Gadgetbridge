@@ -2620,4 +2620,5 @@
     <string name="clap_hands_to_wakeup_device">拍手亮起屏幕</string>"
     <string name="clap_hands_to_wakeup_device_summary">再次拍手关闭屏幕</string>"
     <string name="pixoo_power_saving_summary">麦克风检测到静音一段时间后将屏幕关闭</string>
+    <string name="devicetype_mijia_lywsd03">米家温湿度传感器2</string>
 </resources>
