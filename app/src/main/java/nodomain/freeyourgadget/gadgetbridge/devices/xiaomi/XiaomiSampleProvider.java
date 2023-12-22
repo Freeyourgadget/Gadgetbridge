@@ -30,9 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepTimeSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.RangeMap;
 
 public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivitySample> {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSampleProvider.class);
@@ -90,18 +92,68 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
     protected List<XiaomiActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to, final int activityType) {
         final List<XiaomiActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
 
-        // Fetch bed and wakeup times and overlay them on the activity
-        final XiaomiSleepTimeSampleProvider sleepTimeSampleProvider = new XiaomiSleepTimeSampleProvider(getDevice(), getSession());
-        final List<XiaomiSleepTimeSample> sleepSamples = sleepTimeSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
-        if (!sleepSamples.isEmpty()) {
-            LOG.debug("Found {} sleep samples between {} and {}", sleepSamples.size(), timestamp_from, timestamp_to);
+        final RangeMap<Long, Integer> stagesMap = new RangeMap<>();
+
+        final XiaomiSleepStageSampleProvider sleepStagesSampleProvider = new XiaomiSleepStageSampleProvider(getDevice(), getSession());
+        final List<XiaomiSleepStageSample> stageSamples = sleepStagesSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+        if (!stageSamples.isEmpty()) {
+            // We got actual sleep stages
+            LOG.debug("Found {} sleep stage samples between {} and {}", stageSamples.size(), timestamp_from, timestamp_to);
+
+            for (final XiaomiSleepStageSample stageSample : stageSamples) {
+                final int activityKind;
+
+                switch (stageSample.getStage()) {
+                    case 2: // deep
+                        activityKind = ActivityKind.TYPE_DEEP_SLEEP;
+                        break;
+                    case 3: // light
+                        activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
+                        break;
+                    case 4: // rem
+                        activityKind = ActivityKind.TYPE_REM_SLEEP;
+                        break;
+                    case 0: // final awake
+                    case 1: // ?
+                    case 5: // awake during the night
+                    default:
+                        activityKind = ActivityKind.TYPE_UNKNOWN;
+                        break;
+                }
+                stagesMap.put(stageSample.getTimestamp(), activityKind);
+            }
+        } else {
+            // Fetch bed and wakeup times and overlay as light sleep on the activity
+            final XiaomiSleepTimeSampleProvider sleepTimeSampleProvider = new XiaomiSleepTimeSampleProvider(getDevice(), getSession());
+            final List<XiaomiSleepTimeSample> sleepSamples = sleepTimeSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+            if (!sleepSamples.isEmpty()) {
+                LOG.debug("Found {} sleep samples between {} and {}", sleepSamples.size(), timestamp_from, timestamp_to);
+                for (final XiaomiSleepTimeSample stageSample : sleepSamples) {
+                    stagesMap.put(stageSample.getTimestamp(), ActivityKind.TYPE_LIGHT_SLEEP);
+                    stagesMap.put(stageSample.getWakeupTime(), ActivityKind.TYPE_UNKNOWN);
+                }
+            }
+        }
+
+        if (!stagesMap.isEmpty()) {
+            LOG.debug("Found {} sleep samples between {} and {}", stagesMap.size(), timestamp_from, timestamp_to);
 
             for (final XiaomiActivitySample sample : samples) {
                 final long ts = sample.getTimestamp() * 1000L;
-                for (final XiaomiSleepTimeSample sleepSample : sleepSamples) {
-                    if (ts >= sleepSample.getTimestamp() && ts <= sleepSample.getWakeupTime()) {
-                        sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
-                        sample.setRawIntensity(30);
+                final Integer sleepType = stagesMap.get(ts);
+                if (sleepType != null) {
+                    sample.setRawKind(sleepType);
+
+                    switch (sleepType) {
+                        case ActivityKind.TYPE_DEEP_SLEEP:
+                            sample.setRawIntensity(10);
+                            break;
+                        case ActivityKind.TYPE_LIGHT_SLEEP:
+                            sample.setRawIntensity(30);
+                            break;
+                        case ActivityKind.TYPE_REM_SLEEP:
+                            sample.setRawIntensity(40);
+                            break;
                     }
                 }
             }
