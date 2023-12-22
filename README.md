@@ -107,6 +107,7 @@ vendor's servers.
     - Redmi Watch 3 Active (experimental) [**\[!\]**](#special-pairing-procedures)
 	- Watch S1 Active (experimental) [**\[!\]**](#special-pairing-procedures)
 	- Xiaomi Temperature and Humidity Monitor Clock (LYWSD02/LYWSD02MMC) (partial support)
+	- Xiaomi Mijia Temperature and Humidity Sensor 2 (LYWSD03MMC) (partial support)
 	- Scale 2 (Currently only displays a toast after stepping on the scale)
 - [MyKronoz ZeTime](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 - NO.1 F1

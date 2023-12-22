@@ -110,6 +110,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.MijiaLywsd02Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.MijiaLywsd03Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear1Coordinator;
@@ -255,6 +256,7 @@ public enum DeviceType {
     TLW64(TLW64Coordinator.class),
     PINETIME_JF(PineTimeJFCoordinator.class),
     MIJIA_LYWSD02(MijiaLywsd02Coordinator.class),
+    MIJIA_LYWSD03(MijiaLywsd03Coordinator.class),
     LEFUN(LefunDeviceCoordinator.class),
     BOHEMIC_SMART_BRACELET(BohemicSmartBraceletDeviceCoordinator.class),
     SMAQ2OSS(SMAQ2OSSCoordinator.class),

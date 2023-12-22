@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.AbstractMijiaLywsdCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -80,7 +81,8 @@ public class MijiaLywsdSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
 
-        if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
+        final boolean supportsSetTime = getCoordinator().supportsSetTime();
+        if (supportsSetTime && GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
             setTime(builder);
         }
 
@@ -88,6 +90,10 @@ public class MijiaLywsdSupport extends AbstractBTLEDeviceSupport {
         setConnectionInterval(builder);
         setInitialized(builder);
         return builder;
+    }
+
+    protected AbstractMijiaLywsdCoordinator getCoordinator() {
+        return (AbstractMijiaLywsdCoordinator) gbDevice.getDeviceCoordinator();
     }
 
     private void setTime(TransactionBuilder builder) {

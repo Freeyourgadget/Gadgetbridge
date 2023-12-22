@@ -21,29 +21,29 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class MijiaLywsd02Coordinator extends AbstractMijiaLywsdCoordinator {
+public class MijiaLywsd03Coordinator extends AbstractMijiaLywsdCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("LYWSD02|LYWSD02MMC");
+        return Pattern.compile("LYWSD03MMC");
     }
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_mijia_lywsd02;
+        return R.string.devicetype_mijia_lywsd03;
     }
 
     @Override
     public int getDefaultIconResource() {
-        return R.drawable.ic_device_pebble;
+        return R.drawable.ic_device_thermometer;
     }
 
     @Override
     public int getDisabledIconResource() {
-        return R.drawable.ic_device_pebble_disabled;
+        return R.drawable.ic_device_thermometer_disabled;
     }
 
     @Override
     public boolean supportsSetTime() {
-        return true;
+        return false;
     }
 }
