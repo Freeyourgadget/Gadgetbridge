@@ -52,9 +52,12 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         final int sampleSize;
         switch (version) {
             case 1:
-            case 2:
                 headerSize = 4;
                 sampleSize = 7;
+                break;
+            case 2:
+                headerSize = 4;
+                sampleSize = 10;
                 break;
             case 3:
                 headerSize = 5;
@@ -95,12 +98,15 @@ public class DailyDetailsParser extends XiaomiActivityParser {
 
             sample.setHeartRate(buf.get() & 0xff);
 
-            if (version == 3) {
+            if (version >= 2) {
                 final byte[] unknown2 = new byte[3];
-                buf.get(unknown2);  // TODO intensity and kind?
+                buf.get(unknown2);  // TODO intensity and kind? energy?
 
-                sample.setSpo2(buf.get() & 0xff);
-                sample.setStress(buf.get() & 0xff);
+                if (version == 3) {
+                    // TODO gadgets with versions 2 also should have stress, but the values don't make sense
+                    sample.setSpo2(buf.get() & 0xff);
+                    sample.setStress(buf.get() & 0xff);
+                }
             }
 
             samples.add(sample);
