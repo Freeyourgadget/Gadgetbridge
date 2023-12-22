@@ -29,12 +29,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
@@ -54,6 +60,8 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.XiaomiActivityFileId;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.XiaomiActivityParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiDataUploadService;
@@ -65,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.Xiao
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiSystemService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiWeatherService;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -292,7 +301,8 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-        sendCommand("test new function", 2, 29);
+        //sendCommand("test new function", 2, 29);
+        parseAllActivityFilesFromStorage();
     }
 
     @Override
@@ -508,6 +518,69 @@ public class XiaomiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public String customStringFilter(final String inputString) {
         return StringUtils.replaceEach(inputString, EMOJI_SOURCE, EMOJI_TARGET);
+    }
+
+    private void parseAllActivityFilesFromStorage() {
+        // This function as-is should only be used for debug purposes
+        if (!BuildConfig.DEBUG) {
+            LOG.error("This should never be used in release builds");
+            return;
+        }
+
+        LOG.info("Parsing all activity files from storage");
+
+        try {
+            final File externalFilesDir = FileUtils.getExternalFilesDir();
+            final File targetDir = new File(externalFilesDir, "rawFetchOperations");
+
+            if (!targetDir.exists()) {
+                LOG.warn("rawFetchOperations not found");
+                return;
+            }
+
+            final File[] activityFiles = targetDir.listFiles((dir, name) -> name.startsWith("xiaomi_"));
+
+            if (activityFiles == null) {
+                LOG.warn("activityFiles is null");
+                return;
+            }
+
+            for (final File activityFile : activityFiles) {
+                LOG.debug("Parsing {}", activityFile);
+
+                // The logic below just replicates XiaomiActivityFileFetcher
+
+                final byte[] data;
+                try (InputStream in = new FileInputStream(activityFile)) {
+                    data = FileUtils.readAll(in, 999999);
+                } catch (final IOException ioe) {
+                    LOG.error("Failed to read " + activityFile, ioe);
+                    continue;
+                }
+
+                final byte[] fileIdBytes = Arrays.copyOfRange(data, 0, 7);
+                final byte[] activityData = Arrays.copyOfRange(data, 8, data.length - 4);
+                final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(fileIdBytes);
+
+                final XiaomiActivityParser activityParser = XiaomiActivityParser.create(fileId);
+                if (activityParser == null) {
+                    LOG.warn("Failed to find parser for {}", fileId);
+                    continue;
+                }
+
+                try {
+                    if (activityParser.parse(this, fileId, activityData)) {
+                        LOG.info("Successfully parsed {}", fileId);
+                    } else {
+                        LOG.warn("Failed to parse {}", fileId);
+                    }
+                } catch (final Exception ex) {
+                    LOG.error("Exception while parsing " + fileId, ex);
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Failed to parse from storage", e);
+        }
     }
 
     private static final String[] EMOJI_SOURCE = new String[]{
