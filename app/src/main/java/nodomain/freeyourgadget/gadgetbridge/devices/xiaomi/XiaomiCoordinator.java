@@ -340,8 +340,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsRemSleep() {
-        // TODO it does, but we don't know how to parse it yet
-        return false;
+        return true;
     }
 
     @Override
