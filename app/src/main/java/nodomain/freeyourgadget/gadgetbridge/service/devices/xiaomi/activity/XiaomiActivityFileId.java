@@ -192,6 +192,7 @@ public class XiaomiActivityFileId implements Comparable<XiaomiActivityFileId> {
     public enum Subtype {
         UNKNOWN(Type.UNKNOWN, -1),
         ACTIVITY_DAILY(Type.ACTIVITY, 0x00),
+        ACTIVITY_SLEEP_STAGES(Type.ACTIVITY, 0x03),
         ACTIVITY_SLEEP(Type.ACTIVITY, 0x08),
         SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 0x01),
         SPORTS_FREESTYLE(Type.SPORTS, 0x08),
