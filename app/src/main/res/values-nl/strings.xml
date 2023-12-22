@@ -2620,4 +2620,5 @@
     <string name="devicetype_colacao21">ColaCao 2021</string>
     <string name="pixoo_power_saving_summary">Het scherm zal uitgaan nadat de microfoon een tijd geen geluid heeft opgevangen</string>
     <string name="activity_type_wrestling">Worstelen</string>
+    <string name="devicetype_mijia_lywsd03">Mijia thermo- en hygrometer 2</string>
 </resources>
