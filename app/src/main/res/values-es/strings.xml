@@ -2619,4 +2619,8 @@
     <string name="activity_type_wrestling">Lucha libre</string>
     <string name="devicetype_colacao23">ColaCao 2023</string>
     <string name="devicetype_colacao21">ColaCao 2021</string>
+    <string name="clap_hands_to_wakeup_device">Aplaudir para subir la pantalla</string>"
+    <string name="clap_hands_to_wakeup_device_summary">Si vuelves a aplaudir, se apagará la pantalla</string>"
+    <string name="devicetype_mijia_lywsd03">Sensor de temperatura y humedad Mijia 2</string>
+    <string name="pixoo_power_saving_summary">La pantalla se apagará después de que el micrófono haya detectado un silencio durante un tiempo</string>
 </resources>
