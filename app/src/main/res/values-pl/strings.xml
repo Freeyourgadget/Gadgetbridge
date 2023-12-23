@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="application_name_generic">Gadgetbridge</string>
-    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
+    <string name="application_name_generic">Urządzenia na ciele</string>
+    <string name="title_activity_controlcenter_generic">Urządzenia na ciele</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Odpluskwiaj</string>
     <string name="action_quit">Wyjdź</string>
@@ -31,21 +31,21 @@
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalator oprogramowania układowego/aplikacji</string>
     <string name="fw_upgrade_notice">Zamierzasz zainstalować %s.</string>
-    <string name="miband_firmware_known">To oprogramowanie układowe zostało przetestowane i jest ono kompatybilne z Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">To oprogramowanie układowe nie zostało przetestowane i może być niekompatybilne z Gadgetbridge.
+    <string name="miband_firmware_known">To oprogramowanie układowe zostało przetestowane i jest ono kompatybilne z Urządzenia na ciele.</string>
+    <string name="miband_firmware_unknown_warning">To oprogramowanie układowe nie zostało przetestowane i może być niekompatybilne z Urządzenia na ciele.
 \n
 \nWgrywanie tego oprogramowania jest NIEZALECANE!</string>
-    <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadomić programistów Gadgetbridge, aby dodali wersję %s oprogramowania układowego do białej listy.</string>
+    <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadomić programistów Urządzenia na ciele, aby dodali wersję %s oprogramowania układowego do białej listy.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_header_general">Ustawienia ogólne</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem Gadgetbridge, gdy Bluetooth jest włączony</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Połącz z Urządzenia na ciele, gdy Bluetooth jest włączony</string>
     <string name="pref_title_general_autoreconnect">Automatycznie ponów połączenie</string>
     <string name="pref_title_audio_player">Preferowany odtwarzacz muzyki</string>
     <string name="pref_default">Domyślny</string>
     <string name="pref_header_datetime">Data i godzina</string>
     <string name="pref_title_datetime_syctimeonconnect">Synchronizuj czas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia Gadgetbridge podczas łączenia lub gdy czas albo strefa czasowa zmienią się na urządzeniu Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas łączenia lub gdy czas albo strefa czasowa zmienią się na urządzeniu Android</string>
     <string name="pref_title_theme">Motyw</string>
     <string name="pref_theme_light">Jasny</string>
     <string name="pref_theme_dark">Ciemny</string>
@@ -99,13 +99,13 @@
     <string name="_unknown_">(nieznane)</string>
     <string name="test">Testuj</string>
     <string name="test_notification">Test powiadomień</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">To jest testowe powiadomienie z Gadgetbridge</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">To jest testowe powiadomienie z Urządzenia na ciele</string>
     <string name="bluetooth_is_not_supported_">Bluetooth nie jest obsługiwany.</string>
     <string name="bluetooth_is_disabled_">Bluetooth jest wyłączony.</string>
     <string name="tap_connected_device_for_app_mananger">Kliknij połączone urządzenie, aby uruchomić menadżer aplikacji</string>
     <string name="tap_a_device_to_connect">Dotknij urządzenie aby połączyć</string>
     <string name="cannot_connect_bt_address_invalid_">Nie można połączyć. Nieprawidłowy adres Bluetooth\?</string>
-    <string name="gadgetbridge_running_generic">Gadgetbridge działa</string>
+    <string name="gadgetbridge_running_generic">Urządzenia na ciele uruchomione</string>
     <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
     <string name="installation_failed_">Instalacja nie powiodła się</string>
     <string name="installation_successful">Zainstalowano</string>
@@ -220,7 +220,7 @@
     <string name="weeksteps_today_steps_description">Kroków dziś, cel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nie przesyłaj danych aktywności ACK</string>
     <string name="pref_summary_dont_ack_transfers">Jeśli transmisja danych nie zostanie potwierdzona przez opaskę, dane dotyczące aktywności nie zostaną wyczyszczone. Przydatne, jeśli GB jest używany razem z innymi aplikacjami.</string>
-    <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Gadgetbridge jest używany razem z innymi aplikacjami.</string>
+    <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Urządzenia na ciele jest używany razem z innymi aplikacjami.</string>
     <string name="pref_summary_low_latency_fw_update">Może pomóc na urządzeniach gdzie aktualizacja kończy się błędem.</string>
     <string name="live_activity_steps_history">Historia kroków</string>
     <string name="live_activity_current_steps_per_minute">Aktualnie kroków/min</string>
@@ -276,7 +276,7 @@
     <string name="appmanager_weather_install_provider">Zainstaluj aplikację Weather Notification</string>
     <string name="title_activity_calblacklist">Lista zablokowanych kalendarzy</string>
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
-    <string name="pref_title_minimize_priority">Ukryj powiadomienia Gadgetbridge</string>
+    <string name="pref_title_minimize_priority">Ukryj powiadomienia Urządzenia na ciele</string>
     <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia będą wyświetlane na zablokowanym ekranie</string>
     <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia będą ukrywane na zablokowanym ekranie</string>
     <string name="pref_summary_notification_filter">Blokuj wszystkie powiadomienia, gdy tryb \"Nie przeszkadzać\" jest włączony w telefonie</string>
@@ -391,7 +391,7 @@
     <string name="pref_summary_pebble_forcele">Użyj eksperymentalnego wsparcia Pebble LE (Low Energy), zamiast Bluetooth Classic, dla wszystkich typów Pebble. Wymaga sparowania poprzez BT Classic, a następnie LE</string>
     <string name="pref_title_pebble_gatt_clientonly">Tylko klient GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Ta eksperymentalna opcja przeznaczona jest wyłącznie dla Pebble 2. Wypróbuj ją jeżeli masz problemy z połączeniem</string>
-    <string name="pref_summary_pebble_enable_applogs">Spowoduje, że logi z aplikacji zegarka będą zapisywane przez Gadgetbridge (wymaga ponownego połączenia)</string>
+    <string name="pref_summary_pebble_enable_applogs">Spowoduje, że logi z aplikacji zegarka będą zapisywane przez Urządzenia na ciele (wymaga ponownego połączenia)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Przedwczesne ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Spowoduje, że wiadomości wysyłane do zewnętrznych aplikacji będą zawsze natychmiast potwierdzane</string>
     <string name="pref_title_screentime">Czas włączenia ekranu</string>
@@ -404,7 +404,7 @@
     <string name="pref_auto_fetch_limit_fetches_summary">Pobieranie co %d minut(y)</string>
     <string name="horizontal">Poziomo</string>
     <string name="vertical">Pionowo</string>
-    <string name="discovery_connected_devices_hint">Upewnij się, że urządzenie (opaska/smartwatch) jest wykrywalne. Aktualnie połączone urządzenia prawdopodobnie nie będą wykrywalne. Na Androidzie 6+ włącz dostęp do lokalizacji (GPS). Wyłącz Privacy Guard dla Gadgetbridge, ponieważ mogą ze sobą kolidować i zrestartuj telefon. Jeżeli urządzenie nie zostanie wykryte w przeciągu paru minut, spróbuj ponownie po ponownym uruchomieniu telefonu.</string>
+    <string name="discovery_connected_devices_hint">Upewnij się, że urządzenie (opaska/smartwatch) jest wykrywalne. Aktualnie połączone urządzenia prawdopodobnie nie będą wykrywalne. Na Androidzie 6+ włącz dostęp do lokalizacji (GPS). Wyłącz Privacy Guard dla Urządzenia na ciele, ponieważ mogą ze sobą kolidować i zrestartuj telefon. Jeżeli urządzenie nie zostanie wykryte w przeciągu paru minut, spróbuj ponownie po ponownym uruchomieniu telefonu.</string>
     <string name="watch9_pairing_tap_hint">Jeśli Twój zegarek (opaska) wibruje, potrząśnij nim lub wciśnij na nim przycisk.</string>
     <string name="stats_x_axis_label">Całkowicie minut</string>
     <string name="notif_battery_low">%1$s rozładowana bateria</string>
@@ -519,7 +519,7 @@
     <string name="watch9_time_hours">Godziny:</string>
     <string name="watch9_time_seconds">Sekundy:</string>
     <string name="watch9_calibration_button">Kalibruj</string>
-    <string name="share_log_warning">Prosimy pamiętać, że logi Gadgetbridge mogą zawierać wiele informacji osobistych, w tym dane dotyczące zdrowia, unikalne identyfikatory (takie jak adresy MAC urządzeń), preferencje muzyczne itd. Rozważ edycję logów i usunięcie takich informacji zanim wyślesz je przy zgłaszaniu problemu.</string>
+    <string name="share_log_warning">Prosimy pamiętać, że logi Urządzenia na ciele mogą zawierać wiele informacji osobistych, w tym dane dotyczące zdrowia, unikalne identyfikatory (takie jak adresy MAC urządzeń), preferencje muzyczne itd. Rozważ edycję logów i usunięcie takich informacji zanim wyślesz je przy zgłaszaniu problemu.</string>
     <string name="warning">Ostrzeżenie!</string>
     <string name="no_data">Brak danych</string>
     <string name="preferences_led_color">Kolor LED</string>
@@ -530,7 +530,7 @@
     <string name="pref_title_auto_export_interval">Częstość eksportowania</string>
     <string name="unit_imperial">imperialne</string>
     <string name="debugactivity_really_factoryreset_title">Przywrócić do ustawień fabrycznych\?</string>
-    <string name="debugactivity_really_factoryreset">Powrót do ustawień fabrycznych spowoduje usunięcie wszystkich danych z podłączonego urządzenia (jeśli jest obsługiwane). Urządzenia Xiaomi/Huami zmienią również adres MAC Bluetooth, więc pojawią się dla Gadgetbridge jako nowe urządzenia.</string>
+    <string name="debugactivity_really_factoryreset">Powrót do ustawień fabrycznych spowoduje usunięcie wszystkich danych z podłączonego urządzenia (jeśli jest obsługiwane). Urządzenia Xiaomi/Huami zmienią również adres MAC Bluetooth, więc pojawią się dla Urządzenia na ciele jako nowe urządzenia.</string>
     <string name="overslept">Nadmiar snu: %1$s</string>
     <string name="overstep">Przekroczenie: %1$d</string>
     <string name="you_did_not_sleep">Nie spałeś(-aś)</string>
@@ -682,7 +682,7 @@
     <string name="weeksleepchart_sleep_a_month">Sen w miesiącu</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_summary_expose_hr">Zezwala innym aplikacjom na dostęp do danych HR w czasie rzeczywistym, gdy Gadgetbridge jest połączony</string>
+    <string name="pref_summary_expose_hr">Zezwala innym aplikacjom na dostęp do danych HR w czasie rzeczywistym, gdy urządzenie jest połączone</string>
     <string name="pref_title_use_custom_font">Użyj niestandardowej czcionki</string>
     <string name="pref_summary_use_custom_font">Włącz tę opcję, jeśli Twoje urządzenie ma niestandardowy firmware czcionek do obsługi emoji</string>
     <string name="activity_db_management_autoexport_label">Automatyczny eksport</string>
@@ -742,13 +742,13 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="alarm_snooze">Drzemka</string>
-    <string name="activity_db_management_import_export_explanation">Działanie importu/eksportu używa następującej ścieżki (zobacz poniżej) do katalogu na urządzeniu. Katalog ten jest dostępny dla innych aplikacji Androida i twojego komputera. Należy pamiętać, że ten katalog i wszystkie zawarte w nim pliki zostaną usunięte, jeśli odinstalujesz Gadgetbridge.
+    <string name="activity_db_management_import_export_explanation">Działanie importu/eksportu używa następującej ścieżki (zobacz poniżej) do katalogu na urządzeniu. Katalog ten jest dostępny dla innych aplikacji Androida i twojego komputera. Należy pamiętać, że ten katalog i wszystkie zawarte w nim pliki zostaną usunięte, jeśli odinstalujesz Urządzenia na ciele.
 \n
 \nDane eksportu obejmują:
 \n • Export_preference – ustawienia globalne
 \n • Export_preference_MAC – ustawienia danego urządzenia
-\n • Gadgetbridge – baza danych urządzeń i aktywności
-\n • Gadgetbridge_date – baza danych wyeksportowana w danym dniu
+\n • Urządzenia na ciele – baza danych urządzeń i aktywności
+\n • Urządzenia na ciele_date – baza danych wyeksportowana w danym dniu
 \n • Pliki z rozszerzeniem GPX – trasy GPS
 \n • Pliki z rozszerzeniem LOG – pliki rejestrów dziennika
 \n
@@ -845,7 +845,7 @@
     <string name="pref_title_force_white_color_scheme">Wymuś schemat kolorów czarno na białym</string>
     <string name="pref_summary_force_white_color_scheme">Użyteczne, jeśli twój zegarek ma ciemne wskazówki</string>
     <string name="notification_channel_high_priority_name">Wysoki priorytet</string>
-    <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Gadgetbridge, gdy połączono</string>
+    <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Urządzenia na ciele, gdy połączono</string>
     <string name="hr_appname_workout">Trening</string>
     <string name="hr_appname_stopwatch">Stoper</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
@@ -903,7 +903,7 @@
     <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
     <string name="controlcenter_set_alias">Ustaw własną nazwę (alias)</string>
     <string name="about_contributors">Współtwórcy</string>
-    <string name="about_activity_title_generic">O Gadgetbridge</string>
+    <string name="about_activity_title_generic">O Urządzeniach na ciele</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="backstroke">Styl grzbietowy</string>
     <string name="freestyle">Styl dowolny</string>
@@ -936,7 +936,7 @@
     <string name="devicetype_pinetime_jf">PineTime (Firmware JF)</string>
     <string name="activity_summary_detail">Szczegóły aktywności sportowej</string>
     <string name="activity_type_jump_roping">Skakanka</string>
-    <string name="pref_title_weather_summary">Używane przez dostawcę pogody LineageOS. Inne wersje systemu Android powinny używać innej aplikacji, np. Weather notification. Więcej informacji znajdziesz na stronie projektu Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Używane przez dostawcę pogody LineageOS. Inne wersje systemu Android powinny używać innej aplikacji, np. Weather notification. Więcej informacji znajdziesz na stronie projektu Urządzenia na ciele.</string>
     <string name="fw_upgrade_notice_miband5">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Mi Band 5.
 \n
 \nProszę upewnić się, że zainstalowany został plik .fw, a następnie plik .res. Po zainstalowaniu pliku .fw Twój zegarek zostanie ponownie uruchomiony.
@@ -1015,13 +1015,13 @@
     <string name="error_background_service_reason">Uruchomienie usługi w tle nie powiodło się z powodu wyjątku. Błąd:</string>
     <string name="error_background_service_reason_truncated">Uruchomienie usługi w tle nie powiodło się, ponieważ…</string>
     <string name="error_background_service">Nie udało się uruchomić usługi w tle</string>
-    <string name="companiondevice_pairing_details">Włącza obsługę nowego interfejsu API urządzeń towarzyszących (CompanionDevice) (ma wpływ tylko na Android 8 lub nowszy), który zwiększa niezawodność, jeśli usługa będzie musiała zostać ponownie uruchomiona w tle, aby odniosło skutek wymaga to ponownego sparowania przy użyciu Gadgetbridge</string>
+    <string name="companiondevice_pairing_details">Włącza obsługę nowego interfejsu API urządzeń towarzyszących (CompanionDevice) (ma wpływ tylko na Android 8 lub nowszy), który zwiększa niezawodność, jeśli usługa będzie musiała zostać ponownie uruchomiona w tle, aby odniosło skutek wymaga to ponownego sparowania przy użyciu Urządzenia na ciele</string>
     <string name="companiondevice_pairing">Parowanie urządzeń towarzyszących (CompanionDevice Pairing)</string>
     <string name="error_version_check_extreme_caution">UWAGA: Błąd przy sprawdzaniu informacji o wersji! Nie należy kontynuować! Nazwa wersji \"%s\"</string>
     <string name="about_links">Linki</string>
     <string name="about_additional_contributions">Dziękujemy wszystkim nie notowanym na liście współtwórcom za udostępnienie kodu, tłumaczenia, wsparcie, pomysły, motywację, zgłoszenia błędów, pieniądze… ✊</string>
     <string name="about_core_team_title">Zespół główny (w kolejności od pierwszego wkładu w kod aplikacji)</string>
-    <string name="about_description_generic">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android.</string>
+    <string name="about_description_generic">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android.</string>
     <string name="activity_summary_edit_name_title">Edytuj etykietę</string>
     <string name="activity_type_pingpong">Ping-pong</string>
     <string name="activity_type_cricket">Krykiet</string>
@@ -1263,7 +1263,7 @@
     <string name="set">Ustaw</string>
     <string name="gpx_receiver_files_received">Otrzymane pliki GPX:</string>
     <string name="gpx_receiver_overwrite_some_files">Niektóre pliki już istnieją. Nadpisać\?</string>
-    <string name="gpx_receiver_activity_title">Odbiornik GPX Gadgetbridge</string>
+    <string name="gpx_receiver_activity_title">Odbiornik GPX Urządzenia na ciele</string>
     <string name="activity_summary_detail_clear_gpx_track">Wyczyść trasę GPX</string>
     <string name="activity_summary_detail_select_gpx_track">Wybierz trasę GPX</string>
     <string name="watchface_dialog_widget_color">Kolor</string>
@@ -1600,9 +1600,9 @@
     <string name="pref_screen_vibration_patterns_summary">Skonfiguruj wzory wibracji dla różnych powiadomień</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
-    <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
-    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">O Bangle.js Urządzeń na ciele</string>
+    <string name="application_name_banglejs_main">Bangle.js Urządzeń na ciele</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Urządzeń na ciele</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js jest uruchomiony</string>
     <string name="about_activity_title_banglejs_nopebble">O Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1716,20 +1716,20 @@
     <string name="pref_title_banglejs_webview_url">Adres URL programu ładującego aplikacje</string>
     <string name="pref_summary_banglejs_webview_url">Jeśli chcesz mieć niestandardowy program ładujący aplikacje, umieść swój adres URL https://.../android.html tutaj. W przeciwnym razie pozostaw puste miejsce dla https://banglejs.com/apps</string>
     <string name="pref_summary_device_intents">Zezwalaj aplikacjom zegarkowym Bangle.js na wysyłanie intencji Androida i zezwalaj innym aplikacjom na Androida (jak Tasker) na wysyłanie danych do Bangle.js z intencją com.banglejs.uart.tx. Wymaga pozwolenia na wyświetlanie nad innymi aplikacjami, aby działać w tle.</string>
-    <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
+    <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Urządzeń na ciele, z dodanym dostępem do Internetu.
 \n
-\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Wczesna)</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Wczesna</string>
-    <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
-    <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Nightly Gadgetbridge. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Gadgetbridge lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
-    <string name="gadgetbridge_running_main_nightly">Gadgetbridge (Nightly) działa</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, bez dostawcy Pebble)</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Bez Pebble</string>
-    <string name="about_activity_title_main_nopebble">O Gadgetbridge Nightly Bez Pebble</string>
-    <string name="about_description_main_nopebble">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Nightly Gadgetbridge. W tej wersji zmieniono nazwę dostawcy Pebble, aby zapobiec konfliktom, więc niektóre integracje związane z Pebble nie będą działać, ale można ją zainstalować obok istniejącej instalacji Gadgetbridge.</string>
-    <string name="gadgetbridge_running_main_nopebble">Gadgetbridge (Nightly Bez Pebble) działa</string>
-    <string name="pref_summary_banglejs_text_bitmap">Jeśli słowo nie może być wygenerowane za pomocą czcionki zegarka, wygeneruj je do bitmapy w Gadgetbridge i wyświetl ją na zegarku</string>
+\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Urządzenia na ciele poniżej.</string>
+    <string name="application_name_main_nightly">Urządzenia na ciele (Wczesna)</string>
+    <string name="title_activity_controlcenter_main_nightly">Urządzenia na ciele Wczesna</string>
+    <string name="about_activity_title_main_nightly">O Urządzenia na ciele Wczesna</string>
+    <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Wczesne Urządzenia na ciele. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Urządzenia na ciele lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
+    <string name="gadgetbridge_running_main_nightly">Urządzenia na ciele (Wczesna) działa</string>
+    <string name="application_name_main_nopebble">Urządzenia na ciele (Wczesna, bez dostawcy Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Urządzenia na ciele Wczesna bez Pebble</string>
+    <string name="about_activity_title_main_nopebble">O Urządzenia na ciele Wczesna bez Pebble</string>
+    <string name="about_description_main_nopebble">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Wczesne Urządzenia na ciele W tej wersji zmieniono nazwę dostawcy Pebble, aby zapobiec konfliktom, więc niektóre integracje związane z Pebble nie będą działać, ale można ją zainstalować obok istniejącej instalacji Urządzenia na ciele.</string>
+    <string name="gadgetbridge_running_main_nopebble">Urządzenia na ciele (Wczesna bez Pebble) działa</string>
+    <string name="pref_summary_banglejs_text_bitmap">Jeśli słowo nie może być wygenerowane za pomocą czcionki zegarka, wygeneruj je do bitmapy w Urządzenia na ciele i wyświetl ją na zegarku</string>
     <string name="open_fw_installer_warning_text">Ta funkcja ma potencjał, aby pozostawić z Twojego urządzenia cegłę. To powiedziawszy, taka sytuacja nigdy nie zdarzyła się żadnemu z programistów poprzez flashowanie, ale pamiętaj, że robisz to na własne ryzyko.</string>
     <string name="open_fw_installer_getting_files_title">Pobieranie pliku z oprogramowaniem sprzętowym/aplikacją</string>
     <string name="discovery_scanning_intensity">Intensywność skanowania</string>
@@ -1752,13 +1752,13 @@
     <string name="open_fw_installer_getting_files_text">Ponieważ nie możemy rozpowszechniać plików oprogramowania sprzętowego, będziesz musiał zdobyć je samodzielnie. Oznacza to, że będziesz musiał szukać plików w plikach apk, online, na forach, na Amazfitwatchfaces (dla urządzeń Miband/Amazfit) i tak dalej.</string>
     <string name="open_fw_installer_connect_minimum_one_device">Proszę podłączyć PRZYNAJMNIEJ JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_write_logfiles_not_available">Inicjalizacja logowania plików nie powiodła się, zapisywanie plików dziennika jest obecnie niedostępne. Uruchom ponownie aplikację, aby spróbować ponownie zainicjować pliki dziennika.</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
-    <string name="about_activity_title_banglejs_nightly">O Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
+    <string name="application_name_banglejs_nightly">Bangle.js Urządzenia na ciele (Wczesna)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Urządzenia na ciele (Wczesna)</string>
+    <string name="about_activity_title_banglejs_nightly">O Bangle.js Urządzenia na ciele (Wczesna)</string>
+    <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Urządzenia na ciele, z dodanym dostępem do Internetu.
 \n
-\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js (Nightly) działa</string>
+\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Urządzenia na ciele poniżej.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js (Wczesna) działa</string>
     <string name="pref_summary_notification_delay_calls">Opóźnienie przed wysłaniem powiadomień o połączeniach przychodzących do urządzenia, w sekundach.</string>
     <string name="world_clock_delete_confirm_description">Czy na pewno chcesz usunąć zegar światowy\?</string>
     <string name="prefs_heartrate_alert_experimental_title">Alarm tętna (eksperymentalny)</string>
@@ -1777,7 +1777,7 @@
     <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
     <string name="activity_type_elliptical">Eliptyczna</string>
     <string name="error_deleting_device">Błąd przy usuwaniu urządzenia: %s</string>
-    <string name="notification_gps_title">GPS Gadgetbridge</string>
+    <string name="notification_gps_title">GPS Urządzenia na ciele</string>
     <string name="menuitem_unknown_app">Nieznane (%s)</string>
     <string name="devicetype_binary_sensor">Czujnik binarny</string>
     <string name="notification_gps_text">Wysyłanie lokalizacji GPS do %1$d urządzeń</string>
@@ -2287,7 +2287,7 @@
     <string name="prefs_wena3_vibration_smart_item">Inteligentne wibracje</string>
     <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
     <string name="pref_message_privacy_mode_bodyonly">Ukryj tylko główną treść</string>
-    <string name="prefs_wena3_hint_background_sync">Pozwól urządzeniu Wena okresowo prosić Gadgetbridge o pobranie danych o aktywności z urządzenia</string>
+    <string name="prefs_wena3_hint_background_sync">Pozwól urządzeniu Wena okresowo prosić Urządzenia na ciele o pobranie danych o aktywności z urządzenia</string>
     <string name="pref_morning_updates_categories_summary">Lista kategorii wyświetlana każdego ranka</string>
     <string name="english_in">English (India)</string>
     <string name="prefs_wena3_home_icon_name_suica">Równowaga Suica</string>
@@ -2330,14 +2330,14 @@
     <string name="prefs_wena3_vibration_strength_item_weak">Słabe</string>
     <string name="description">Opis</string>
     <string name="prefs_wena3_home_icon_title">Ikony ekranu głównego</string>
-    <string name="pref_show_changelog_summary">Wyświetl dziennik zmian od ostatniej wersji po aktualizacji Gadgetbridge</string>
+    <string name="pref_show_changelog_summary">Wyświetl dziennik zmian od ostatniej wersji po aktualizacji Urządzenia na ciele</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Pobieranie danych dotyczących częstości oddechów podczas snu</string>
     <string name="debug_companion_pair_current">Sparuj bieżące urządzenie jako towarzysza</string>
     <string name="pref_morning_updates_summary">Wyświetlaj aktualizacje każdego ranka</string>
     <string name="menuitem_cards">Karty</string>
     <string name="prefs_wena3_item_weather_statusbar">Pogoda w pasku stanu</string>
     <string name="loyalty_cards_sync_groups_only">Synchronizuj tylko określone grupy</string>
-    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge potrzebuje uprawnień do odczytu kart Catima, aby je zsynchronizować. Dotknij tego przycisku, aby je przyznać.</string>
+    <string name="loyalty_cards_catima_permissions_summary">Urządzenia na ciele potrzebuje uprawnień do odczytu kart Catima, aby je zsynchronizować. Dotknij tego przycisku, aby je przyznać.</string>
     <string name="zepp_os_watchface_red_fantasy">Czerwona fantazja</string>
     <string name="prefs_shortcut_cards">Karty skrótów</string>
     <string name="temperature_scale_celsius">Skala Celciusza</string>
@@ -2392,7 +2392,7 @@
     <string name="gpx_route_upload_failed">Przesyłanie trasy Gpx nie powiodło się</string>
     <string name="ftp_server_start_summary">Uruchom serwer FTP na zegarku</string>
     <string name="pref_activity_full_sync_trigger_warning">Spowoduje to pełną synchronizację wszystkich danych dotyczących aktywności z urządzenia. Ukończenie może zająć kilka minut.</string>
-    <string name="pai_day">Dzienny wzrost PAI</string>
+    <string name="pai_day">Dzienny wzrost</string>
     <string name="voice_service">Usługa głosowa</string>
     <string name="prefs_wena3_button_action_item">Akcja przycisku</string>
     <string name="prefs_wena3_auto_power_off_turn_on_time_item">Czas wznowienia działania</string>
@@ -2416,7 +2416,7 @@
     <string name="wifi_hotspot_stop_summary">Zatrzymaj hotspot Wi-Fi na zegarku</string>
     <string name="intent_api_allow_debug_commands_title">Zezwalaj na polecenia debugowania</string>
     <string name="fwapp_install_device_not_supported">Nie można zainstalować pliku, urządzenie nie jest obsługiwane.</string>
-    <string name="pref_theme_dynamic_colors_explanation">Uwaga: aby uzyskać motyw dynamicznych kolorów, musisz włączyć opcję Kolory tapety lub Paleta kolorów w ustawieniach wyglądu Androida 12+. Jeśli tego nie zrobisz, Gadgetbridge użyje domyślnych kolorów Material 3.</string>
+    <string name="pref_theme_dynamic_colors_explanation">Uwaga: aby uzyskać motyw dynamicznych kolorów, musisz włączyć opcję Kolory tapety lub Paleta kolorów w ustawieniach wyglądu Androida 12+. Jeśli tego nie zrobisz, Urządzenia na ciele użyje domyślnych kolorów Material 3.</string>
     <string name="zepp_os_watchface_simplicity_data">Proste dane</string>
     <string name="red">Czerwony</string>
     <string name="voice_service_class_title">Klasa usług głosowych</string>
@@ -2438,7 +2438,7 @@
     <string name="intent_api_allow_debug_commands_summary">Zezwalaj na uruchamianie poleceń menu debugowania za pośrednictwem interfejsu Intent API</string>
     <string name="loyalty_cards_sync_options">Opcje synchronizacji</string>
     <string name="prefs_wena3_notification_default_vibration">Wibracja powiadomień</string>
-    <string name="loyalty_cards_catima_not_compatible">Zainstalowana wersja Catimy nie jest kompatybilna z Gadgetbridge. Zaktualizuj Catima i Gadgetbridge do najnowszych wersji.</string>
+    <string name="loyalty_cards_catima_not_compatible">Zainstalowana wersja Catimy nie jest kompatybilna z Urządzenia na ciele. Zaktualizuj Catima i Urządzenia na ciele do najnowszych wersji.</string>
     <string name="prefs_wena3_notification_vibration_repetition_0">W sposób nieokreślony</string>
     <string name="activity_detail_share_raw_details">Udostępnij surowe szczegóły</string>
     <string name="activity_type_windsurfing">Windsurfing</string>
@@ -2447,7 +2447,7 @@
     <string name="temperature_scale_fahrenheit">Skala Fahrenheita</string>
     <string name="prefs_wena3_vibration_strength_item">Siła wibracji</string>
     <string name="english_us">English (United States)</string>
-    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamiczne kolory nie są dostępne na Twoim urządzeniu, tylko Android 12+ obsługuje tę funkcję. Gadgetbridge użyje domyślnych kolorów Material 3.</string>
+    <string name="pref_theme_dynamic_colors_not_available_warning">Dynamiczne kolory nie są dostępne na Twoim urządzeniu, tylko Android 12+ obsługuje tę funkcję. Urządzenia na ciele użyje domyślnych kolorów Material 3.</string>
     <string name="withings_bt_calibration_previous">Wstecz</string>
     <string name="ftp_server_stop_summary">Zatrzymaj serwer FTP na zegarku</string>
     <string name="changelog_show_full">Więcej…</string>
@@ -2468,7 +2468,7 @@
     <string name="prefs_wena3_hint_rich_design">Dodaje zaokrąglone prostokąty wokół ikon ekranu głównego</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">Przebuduj tarczę zegarka, aby uzyskać niestandardowe menu</string>
     <string name="withings_steel_hr">Withings Steel HR</string>
-    <string name="pai_total">Całkowite PAI</string>
+    <string name="pai_total">Całkowite</string>
     <string name="zepp_os_watchface_minimalist">Minimalistyczny</string>
     <string name="loyalty_cards_catima_not_installed">Catima jest potrzebna do zarządzania kartami lojalnościowymi</string>
     <string name="prefs_wena3_notification_default_led">Kolor diody powiadomień</string>
@@ -2583,4 +2583,51 @@
     <string name="pref_summary_send_app_notifications">Wyślij powiadomienie do urządzenia</string>
     <string name="wearmode_band">Opaska (na nadgarstek)</string>
     <string name="pref_title_send_app_notifications">Wyślij powiadomienie</string>
+    <string name="activity_type_trail_run">Bieg szlakiem</string>
+    <string name="widget_layout">Układ widżetu</string>
+    <string name="widget_screen_no_free_slots_description">Urządzenie nie ma wolnych miejsc na ekrany widżetów (łączna liczba miejsc: %1$s)</string>
+    <string name="pref_device_action_dnd_on">Nie przeszkadzać – Włączone</string>
+    <string name="prefs_phone_silent_mode">Tryb cichy telefonu</string>
+    <string name="widget_unknown_workout">Nieznany trening - %s</string>
+    <string name="prefs_wearmode">Tryb noszenia</string>
+    <string name="wearmode_pebble">Pebble (klamra do butów)</string>
+    <string name="widget_move_up">Przesuń w górę</string>
+    <string name="widget_screen_delete_confirm_description">Czy na pewno chcesz usunąć \'%1$s\'?</string>
+    <string name="clap_hands_to_wakeup_device">Klaśnij dłońmi, aby wybudzić ekran</string>"
+    <string name="silent_mode_normal_vibrate">Normalny / Wibracje</string>
+    <string name="pref_vitality_score_7_day_summary">Otrzymuj powiadomienie, gdy Twój wynik witalności osiągnie 30, 60 lub 100 w ciągu ostatnich 7 dni</string>
+    <string name="activity_type_trekking">Trekking</string>
+    <string name="pref_vitality_score_title">Wynik witalności</string>
+    <string name="widget_layout_two">2 widżety</string>
+    <string name="widget_screen_delete_confirm_title">Usuń ekran widżetu</string>
+    <string name="pref_device_action_dnd_alarms">Nie przeszkadzać — tylko alarmy</string>
+    <string name="clap_hands_to_wakeup_device_summary">Ponownie klaśnięcie spowoduje wygaszenie ekranu</string>"
+    <string name="widget_layout_top_1_bot_2">1 góra, 2 dół</string>
+    <string name="devicetype_colacao23">ColaCao 2023</string>
+    <string name="widget_layout_top_2_bot_2">2 góra, 2 dół</string>
+    <string name="devicetype_mijia_lywsd03">Czujnik temperatury i wilgotności Mijia 2</string>
+    <string name="widget_screen_min_screens">Musi być co najmniej %1$s ekranów</string>
+    <string name="silent_mode_vibrate_silent">Wibracje / Cichy</string>
+    <string name="widget">Widżet</string>
+    <string name="pref_vitality_score_daily_summary">Otrzymuj powiadomienie, gdy osiągniesz maksymalną liczbę punktów witalności na dany dzień</string>
+    <string name="devicetype_redmi_smart_band_2">Redmi Smart Band 2</string>
+    <string name="widget_screen">Ekran widżetu</string>
+    <string name="widget_move_down">Przesuń w dół</string>
+    <string name="widget_layout_single">1 widżet</string>
+    <string name="pref_device_action_dnd_priority">Nie przeszkadzać – tylko priorytetowe</string>
+    <string name="not_set">Nie ustawiono</string>
+    <string name="widget_subtype">Podtyp widżetu</string>
+    <string name="standing_time">Czas stania</string>
+    <string name="active_time">Czas aktywności</string>
+    <string name="widget_screen_x">Ekran %s</string>
+    <string name="widget_missing_parts">Wybierz wszystkie widżety</string>
+    <string name="widget_layout_top_2_bot_1">2 góra, 1 dół</string>
+    <string name="devicetype_colacao21">ColaCao 2021</string>
+    <string name="wearmode_necklace">Necklace (pasek na szyję)</string>
+    <string name="pixoo_power_saving_summary">Ekran wyłączy się, gdy mikrofon wykryje przez chwilę ciszę</string>
+    <string name="pref_vitality_score_daily_title">Dzienny postęp</string>
+    <string name="pref_vitality_score_7_day_title">7-dniowy postęp</string>
+    <string name="pref_device_action_dnd_off">Nie przeszkadzać – wyłączone</string>
+    <string name="silent_mode_normal_silent">Normalny / Cichy</string>
+    <string name="activity_type_wrestling">Zapasy</string>
 </resources>
