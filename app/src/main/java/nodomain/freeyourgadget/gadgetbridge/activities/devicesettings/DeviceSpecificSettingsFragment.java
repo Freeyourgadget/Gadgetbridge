@@ -339,6 +339,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_WEARLOCATION);
         addPreferenceHandlerFor(PREF_VIBRATION_ENABLE);
         addPreferenceHandlerFor(PREF_NOTIFICATION_ENABLE);
+        addPreferenceHandlerFor(PREF_DEVICE_NAME);
         addPreferenceHandlerFor(PREF_SCREEN_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_AUTO_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);

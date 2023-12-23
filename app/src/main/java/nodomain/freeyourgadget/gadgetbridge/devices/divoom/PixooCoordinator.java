@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.divoom.PixooSupport;
 public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Pixoo");
+        return Pattern.compile("Pixoo(-.+)?");
     }
 
     @Override
@@ -79,10 +79,14 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_pixoo,
+                R.xml.devicesettings_header_display,
                 R.xml.devicesettings_screen_brightness,
+                R.xml.devicesettings_header_time,
                 R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_header_other,
+                R.xml.devicesettings_pixoo,
+                R.xml.devicesettings_header_connection,
+                R.xml.devicesettings_device_name,
         };
     }
-
 }

@@ -47,6 +47,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_LANGUAGE = "language";
     public static final String PREF_LANGUAGE_AUTO = "auto";
     public static final String PREF_DEVICE_REGION = "device_region";
+    public static final String PREF_DEVICE_NAME = "pref_device_name";
     public static final String PREF_DATEFORMAT = "dateformat";
     public static final String PREF_TIMEFORMAT = "timeformat";
     public static final String PREF_TIMEFORMAT_24H = "24h";

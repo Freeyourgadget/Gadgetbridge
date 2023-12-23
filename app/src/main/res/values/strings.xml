@@ -976,6 +976,7 @@
     <string name="prefs_always_on_display_follow_watchface">Style follows Watchface</string>
     <string name="prefs_always_on_display_style">Style</string>
     <string name="prefs_always_on_display_summary">Keep the band\'s display always on</string>
+    <string name="prefs_device_name">Device name</string>
     <string name="prefs_password">Password</string>
     <string name="prefs_password_summary">Lock the band with a password when removed from the wrist</string>
     <string name="prefs_password_enabled">Password Enabled</string>

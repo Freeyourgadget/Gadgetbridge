@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class PixooProtocol extends GBDeviceProtocol {
     private static final Logger LOG = LoggerFactory.getLogger(PixooProtocol.class);
@@ -158,6 +159,14 @@ public class PixooProtocol extends GBDeviceProtocol {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
 
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_DEVICE_NAME:
+                final byte[] deviceName = StringUtils.truncateToBytes(prefs.getString(DeviceSettingsPreferenceConst.PREF_DEVICE_NAME, ""), 26);
+                return encodeProtocol(ByteBuffer.allocate(2 + deviceName.length)
+                        .order(ByteOrder.LITTLE_ENDIAN)
+                        .put((byte) 0x75)
+                        .put((byte) deviceName.length)
+                        .put(deviceName)
+                        .array());
             case DeviceSettingsPreferenceConst.PREF_SCREEN_BRIGHTNESS:
                 byte brightness = (byte) prefs.getInt(DeviceSettingsPreferenceConst.PREF_SCREEN_BRIGHTNESS, 50);
                 LOG.debug("setting brightness to " + brightness);
