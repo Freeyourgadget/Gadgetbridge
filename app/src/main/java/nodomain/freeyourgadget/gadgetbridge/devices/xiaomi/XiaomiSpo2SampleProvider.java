@@ -29,7 +29,7 @@ public class XiaomiSpo2SampleProvider extends AbstractSampleToTimeSampleProvider
 
     @Override
     protected Spo2Sample convertSample(final XiaomiActivitySample sample) {
-        if (sample.getSpo2() == 0) {
+        if (sample.getSpo2() == null || sample.getSpo2() == 0) {
             return null;
         }
 
