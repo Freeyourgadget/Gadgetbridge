@@ -2082,6 +2082,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        SharedPreferences prefs = getDeviceSpecificPreferences();
         String installedAppsJson = getDeviceSupport().getDevice().getDeviceInfo("INSTALLED_APPS").getDetails();
         if (installedAppsJson == null || !installedAppsJson.contains("navigationApp")) {
             if (!notifiedAboutMissingNavigationApp) {
@@ -2106,6 +2107,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                             .put("eta", navigationInfoSpec.ETA)
                                             .put("instruction", navigationInfoSpec.instruction)
                                             .put("nextAction", navigationInfoSpec.nextAction)
+                                            .put("autoFg", prefs.getBoolean("fossil_hr_nav_auto_foreground", true))
+                                            .put("vibrate", prefs.getBoolean("fossil_hr_nav_vibrate", true))
                                     )
                             )
                     );

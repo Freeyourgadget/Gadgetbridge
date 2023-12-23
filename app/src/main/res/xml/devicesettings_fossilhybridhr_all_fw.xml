@@ -131,4 +131,25 @@
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CalibrationActivity" />
     </Preference>
 
+    <PreferenceScreen
+        android:icon="@drawable/baseline_merge_24"
+        android:title="Navigation instructions"
+        android:summary="Configure on-watch navigation app behavior"
+        android:key="navigation_app_config">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="fossil_hr_nav_auto_foreground"
+            android:title="Come to foreground"
+            android:summary="Whether the navigation app should automatically come to the foreground when it receives a navigation instruction"
+            android:icon="@drawable/ic_info"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="fossil_hr_nav_vibrate"
+            android:title="Vibrate on new instruction"
+            android:summary="Whether the watch should vibrate on every new or changed navigation instruction (only when the app is in the foreground)"
+            android:icon="@drawable/ic_action_find_lost_device"/>
+
+    </PreferenceScreen>
+
 </androidx.preference.PreferenceScreen>
