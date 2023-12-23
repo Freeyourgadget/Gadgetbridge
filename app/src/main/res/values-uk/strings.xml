@@ -2616,4 +2616,23 @@
     <string name="pref_vitality_score_daily_summary">Отримувати сповіщення, коли ви досягли максимальної кількості балів життєвої енергії за день</string>
     <string name="widget_screen">Екран віджета</string>
     <string name="pref_vitality_score_daily_title">Щоденний прогрес</string>
+    <string name="widget_layout">Макет віджета</string>
+    <string name="widget_unknown_workout">Невідомий тип тренування - %s</string>
+    <string name="widget_move_up">Перемістити вище</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Інструменти навігації</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Налаштувати поведінку навігаційного застосунку на годиннику</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Чи повинен навігаційний застосунок автоматично відкриватися поверх інших вікон, коли він отримує навігаційні вказівки</string>
+    <string name="widget_layout_two">2 віджети</string>
+    <string name="widget_layout_top_1_bot_2">1 вгорі, 2 внизу</string>
+    <string name="widget_layout_top_2_bot_2">2 вгорі, 2 внизу</string>
+    <string name="widget_screen_min_screens">Має бути принаймні %1$s екранів</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Вібрувати отримавши нову вказівку</string>
+    <string name="widget_move_down">Перемістити вниз</string>
+    <string name="widget_layout_single">1 віджет</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Перейти поверх усіх вікон</string>
+    <string name="widget_subtype">Підтип віджета</string>
+    <string name="widget_screen_x">Екран %s</string>
+    <string name="widget_missing_parts">Виберіть усі віджети</string>
+    <string name="widget_layout_top_2_bot_1">2 вгорі, 1 внизу</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Чи повинен годинник вібрувати за кожною новою або зміненою навігаційною вказівкою (тільки коли застосунок показано поверх інших вікон)</string>
 </resources>
