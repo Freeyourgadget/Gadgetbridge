@@ -2485,4 +2485,10 @@
     <string name="widget_move_down">Move down</string>
     <string name="widget_missing_parts">Please select all widgets</string>
     <string name="widget_unknown_workout">Unknown workout - %s</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Navigation instructions</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Configure on-watch navigation app behavior</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Come to foreground</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Whether the navigation app should automatically come to the foreground when it receives a navigation instruction</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Vibrate on new instruction</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Whether the watch should vibrate on every new or changed navigation instruction (only when the app is in the foreground)</string>
 </resources>
