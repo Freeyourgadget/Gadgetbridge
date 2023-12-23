@@ -83,6 +83,8 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
                 R.xml.devicesettings_screen_brightness,
                 R.xml.devicesettings_header_time,
                 R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_header_notifications,
+                R.xml.devicesettings_send_app_notifications,
                 R.xml.devicesettings_header_other,
                 R.xml.devicesettings_pixoo,
                 R.xml.devicesettings_header_connection,

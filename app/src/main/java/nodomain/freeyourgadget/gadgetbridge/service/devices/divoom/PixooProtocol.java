@@ -216,6 +216,11 @@ public class PixooProtocol extends GBDeviceProtocol {
 
     @Override
     public byte[] encodeNotification(NotificationSpec notificationSpec) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring");
+            return null;
+        }
+
         byte iconID;
         switch (notificationSpec.type) {
             case KAKAO_TALK:

@@ -22,6 +22,7 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -31,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class GBDeviceProtocol {
 
@@ -177,5 +179,9 @@ public abstract class GBDeviceProtocol {
 
     public byte[] encodeGpsLocation(Location location) {
         return null;
+    }
+
+    protected Prefs getDevicePrefs() {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
     }
 }
