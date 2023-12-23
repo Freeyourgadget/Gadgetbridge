@@ -2613,4 +2613,5 @@
     <string name="clap_hands_to_wakeup_device">Активировать экран хлопком руками</string>"
     <string name="clap_hands_to_wakeup_device_summary">Повторный хлопок погасит его</string>"
     <string name="pixoo_power_saving_summary">Экран погаснет после продолжительной тишины, замеченной микрофоном</string>
+    <string name="devicetype_mijia_lywsd03">Mijia Temperature and Humidity Sensor 2</string>
 </resources>
