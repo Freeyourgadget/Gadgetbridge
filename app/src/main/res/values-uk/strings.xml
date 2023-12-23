@@ -2235,7 +2235,7 @@
     <string name="contact_no_free_slots_description">У пристрої немає вільних слотів для контактів (усього слотів: %1$s)</string>
     <string name="contact_name">Ім\'я</string>
     <string name="title_activity_contact_details">Контактні дані</string>
-    <string name="contact_delete_confirm_description">Ви впевнені, що хочете видалити \'%1$s\'\?</string>
+    <string name="contact_delete_confirm_description">Ви дійсно хочете видалити \'%1$s\'?</string>
     <string name="contact_missing_number">Контактний номер порожній</string>
     <string name="pref_header_navigation">Навігація</string>
     <string name="pref_title_navigation_forward">Надсилати навігацію на годинник</string>
@@ -2588,9 +2588,9 @@
     <string name="pref_sleep_mode_schedule_title">Графік режиму сну</string>
     <string name="clap_hands_to_wakeup_device">Поплескайте в долоні, щоб увімкнути екран</string>"
     <string name="bedtime">Початок сну</string>
-    <string name="pref_vitality_score_7_day_summary">Отримуйте сповіщення, коли ваш показник життєвої активності досягне 30, 60 або 100 за останні 7 днів</string>
+    <string name="pref_vitality_score_7_day_summary">Отримуйте сповіщення, коли ваш показник життєвої енергії досягне 30, 60 або 100 за останні 7 днів</string>
     <string name="devicetype_pixoo">Pixoo</string>
-    <string name="pref_vitality_score_title">Оцінка життєвої активності</string>
+    <string name="pref_vitality_score_title">Оцінка життєвої енергії</string>
     <string name="pref_title_navigation_prefs">Налаштування навігації</string>
     <string name="menuitem_focus">Зосередження</string>
     <string name="pref_navigation_app_gmaps">Карти Google</string>
@@ -2609,4 +2609,11 @@
     <string name="menuitem_alerts">Оповіщення</string>
     <string name="activity_type_wrestling">Боротьба</string>
     <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
+    <string name="widget_screen_no_free_slots_description">У пристрої немає вільних слотів для екранів віджетів (усього слотів: %1$s)</string>
+    <string name="widget_screen_delete_confirm_description">Ви дійсно хочете видалити \'%1$s\'?</string>
+    <string name="widget_screen_delete_confirm_title">Видалити екран віджета</string>
+    <string name="widget">Віджет</string>
+    <string name="pref_vitality_score_daily_summary">Отримувати сповіщення, коли ви досягли максимальної кількості балів життєвої енергії за день</string>
+    <string name="widget_screen">Екран віджета</string>
+    <string name="pref_vitality_score_daily_title">Щоденний прогрес</string>
 </resources>
