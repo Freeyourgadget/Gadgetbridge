@@ -2621,4 +2621,11 @@
     <string name="pixoo_power_saving_summary">Het scherm zal uitgaan nadat de microfoon een tijd geen geluid heeft opgevangen</string>
     <string name="activity_type_wrestling">Worstelen</string>
     <string name="devicetype_mijia_lywsd03">Mijia thermo- en hygrometer 2</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Navigatie-instructies</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Configureer gedrag van navigatie-app op horloge</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Mag de navigatie-app automatisch naar de voorgrond komen als er een navigatie-instructie ontvangen wordt?</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Tril bij nieuwe instructie</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Naar voorgrond</string>
+    <string name="prefs_device_name">Apparaatnaam</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Moet het horloge trillen bij elke nieuwe of veranderde navigatie-instructie (alleen als de app op de voorgrond is)?</string>
 </resources>
