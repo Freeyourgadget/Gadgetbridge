@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -264,6 +265,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_WEATHER);
+        addSupportedService(PineTimeJFConstants.UUID_SERVICE_SIMPLE_WEATHER);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_NAVIGATION);
         addSupportedService(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MOTION);
@@ -731,253 +733,305 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         return false;
     }
 
+    private void onSendWeatherCBOR(WeatherSpec weatherSpec) {
+        if (weatherSpec.location != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Location.value)
+                        .put("Location", weatherSpec.location)
+                        .put("Altitude", 0)
+                        .put("Latitude", 0)
+                        .put("Longitude", 0)
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        // Current condition
+        if (weatherSpec.currentCondition != null) {
+            // We can't do anything with this?
+        }
+
+        // Current humidity
+        if (weatherSpec.currentHumidity > 0) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
+                        .put("EventType", WeatherData.EventType.Humidity.value)
+                        .put("Humidity", (int) weatherSpec.currentHumidity)
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        // Current temperature
+        if (weatherSpec.currentTemp >= -273.15) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
+                        .put("EventType", WeatherData.EventType.Temperature.value)
+                        .put("Temperature", (int) ((weatherSpec.currentTemp - 273.15) * 100))
+                        .put("DewPoint", (int) (-32768))
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        // 24h temperature forecast
+        // TODO: This is disabled until WeatherSpec contains how often this data is pushed
+        /*
+        if (weatherSpec.todayMinTemp >= -273.15 &&
+                weatherSpec.todayMaxTemp >= -273.15) { // Some sanity checking, should really be nullable
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 24) // 24h, because the temperature is today's
+                        .put("EventType", WeatherData.EventType.Temperature.value)
+                        .put("Temperature", (int) ((((weatherSpec.todayMinTemp - 273.15) + (weatherSpec.todayMaxTemp - 273.15)) / 2) * 100))
+                        .put("DewPoint", (int) (-32768))
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+        */
+
+        // Wind speed
+        if (weatherSpec.windSpeed != 0.0f) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Wind.value)
+                        .put("SpeedMin", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
+                        .put("SpeedMax", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
+                        .put("DirectionMin", (int) (0.71 * weatherSpec.windDirection))
+                        .put("DirectionMax", (int) (0.71 * weatherSpec.windDirection))
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        // Current weather condition
+        if (mapOpenWeatherConditionToPineTimePrecipitation(weatherSpec.currentConditionCode) != WeatherData.PrecipitationType.Length) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Precipitation.value)
+                        .put("Type", (int) mapOpenWeatherConditionToPineTimePrecipitation(weatherSpec.currentConditionCode).value)
+                        .put("Amount", (int) 0)
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        if (mapOpenWeatherConditionToPineTimeObscuration(weatherSpec.currentConditionCode) != WeatherData.ObscurationType.Length) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Obscuration.value)
+                        .put("Type", (int) mapOpenWeatherConditionToPineTimeObscuration(weatherSpec.currentConditionCode).value)
+                        .put("Amount", (int) 65535)
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        if (mapOpenWeatherConditionToPineTimeSpecial(weatherSpec.currentConditionCode) != WeatherData.SpecialType.Length) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Special.value)
+                        .put("Type", mapOpenWeatherConditionToPineTimeSpecial(weatherSpec.currentConditionCode).value)
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        if (mapOpenWeatherConditionToCloudCover(weatherSpec.currentConditionCode) != -1) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                new CborEncoder(baos).encode(new CborBuilder()
+                        .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
+                        .put("Timestamp", System.currentTimeMillis() / 1000L)
+                        .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
+                        .put("EventType", WeatherData.EventType.Clouds.value)
+                        .put("Amount", (int) (mapOpenWeatherConditionToCloudCover(weatherSpec.currentConditionCode)))
+                        .end()
+                        .build()
+                );
+            } catch (Exception e) {
+                LOG.warn(String.valueOf(e));
+            }
+            byte[] encodedBytes = baos.toByteArray();
+            TransactionBuilder builder = createTransactionBuilder("WeatherData");
+            safeWriteToCharacteristic(builder,
+                    PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
+                    encodedBytes);
+
+            builder.queue(getQueue());
+        }
+
+        LOG.debug("Wrote weather data");
+    }
+
+    private void onSendWeatherSimple(WeatherSpec weatherSpec) {
+        ByteBuffer currentPacket = ByteBuffer.allocate(49).order(ByteOrder.LITTLE_ENDIAN);
+        currentPacket.putLong(2, (long) weatherSpec.timestamp * 1000000000L); // 10^9, for nanoseconds
+        currentPacket.putShort(10, (short) ((weatherSpec.currentTemp - 273.15) * 100));
+        currentPacket.putShort(12, (short) ((weatherSpec.todayMinTemp - 273.15) * 100));
+        currentPacket.putShort(14, (short) ((weatherSpec.todayMaxTemp - 273.15) * 100));
+        if (weatherSpec.location != null) {
+            byte[] locationBytes = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.truncateToBytes(weatherSpec.location, 32);
+            for (int i = 0; i < locationBytes.length; i++) {
+                currentPacket.put(16 + i, locationBytes[i]);
+            }
+        }
+        // currentPacket.put(48, ); // condition
+
+        TransactionBuilder currentBuilder = createTransactionBuilder("SimpleWeatherData");
+        safeWriteToCharacteristic(currentBuilder,
+            PineTimeJFConstants.UUID_CHARACTERISTIC_SIMPLE_WEATHER_DATA,
+            currentPacket.array());
+
+        currentBuilder.queue(getQueue());
+
+        if (weatherSpec.forecasts == null) {
+            return;
+        }
+
+        ByteBuffer forecastPacket = ByteBuffer.allocate(36).order(ByteOrder.LITTLE_ENDIAN);
+        forecastPacket.put(0, (byte) 1);
+        forecastPacket.putLong(2, (long) weatherSpec.timestamp * 1000000000L); // 10^9, for nanoseconds
+        byte nbDays = (byte) Math.min(weatherSpec.forecasts.size(), 5);
+        forecastPacket.put(10, nbDays);
+        for (int i = 0; i < nbDays; i++) {
+            forecastPacket.putShort(11 + i * 5, (short) ((weatherSpec.forecasts.get(i).minTemp - 273.15) * 100));
+            forecastPacket.putShort(11 + i * 5 + 2, (short) ((weatherSpec.forecasts.get(i).maxTemp - 273.15) * 100));
+            // forecastPacket.put(11 + i * 5 + 4, ); // condition
+        }
+
+        TransactionBuilder forecastBuilder = createTransactionBuilder("SimpleWeatherData");
+        safeWriteToCharacteristic(forecastBuilder,
+                PineTimeJFConstants.UUID_CHARACTERISTIC_SIMPLE_WEATHER_DATA,
+                currentPacket.array());
+
+        forecastBuilder.queue(getQueue());
+    }
+
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        if (this.firmwareVersionMajor != 1 || this.firmwareVersionMinor <= 7) {
+        if (this.firmwareVersionMajor < 1 || (this.firmwareVersionMajor == 1 && this.firmwareVersionMinor <= 7)) {
             // Not supported
             return;
+        }
+
+        if (this.firmwareVersionMajor == 1 && this.firmwareVersionMinor <= 13) {
+            this.onSendWeatherCBOR(weatherSpec);
         } else {
-            if (weatherSpec.location != null) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Location.value)
-                            .put("Location", weatherSpec.location)
-                            .put("Altitude", 0)
-                            .put("Latitude", 0)
-                            .put("Longitude", 0)
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            // Current condition
-            if (weatherSpec.currentCondition != null) {
-                // We can't do anything with this?
-            }
-
-            // Current humidity
-            if (weatherSpec.currentHumidity > 0) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
-                            .put("EventType", WeatherData.EventType.Humidity.value)
-                            .put("Humidity", (int) weatherSpec.currentHumidity)
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            // Current temperature
-            if (weatherSpec.currentTemp >= -273.15) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h this should be the weather provider's interval, really
-                            .put("EventType", WeatherData.EventType.Temperature.value)
-                            .put("Temperature", (int) ((weatherSpec.currentTemp - 273.15) * 100))
-                            .put("DewPoint", (int) (-32768))
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            // 24h temperature forecast
-            // TODO: This is disabled until WeatherSpec contains how often this data is pushed
-            /*
-            if (weatherSpec.todayMinTemp >= -273.15 &&
-                    weatherSpec.todayMaxTemp >= -273.15) { // Some sanity checking, should really be nullable
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 24) // 24h, because the temperature is today's
-                            .put("EventType", WeatherData.EventType.Temperature.value)
-                            .put("Temperature", (int) ((((weatherSpec.todayMinTemp - 273.15) + (weatherSpec.todayMaxTemp - 273.15)) / 2) * 100))
-                            .put("DewPoint", (int) (-32768))
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-            */
-
-            // Wind speed
-            if (weatherSpec.windSpeed != 0.0f) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Wind.value)
-                            .put("SpeedMin", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
-                            .put("SpeedMax", (int) (weatherSpec.windSpeed / 60 / 60 * 1000))
-                            .put("DirectionMin", (int) (0.71 * weatherSpec.windDirection))
-                            .put("DirectionMax", (int) (0.71 * weatherSpec.windDirection))
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            // Current weather condition
-            if (mapOpenWeatherConditionToPineTimePrecipitation(weatherSpec.currentConditionCode) != WeatherData.PrecipitationType.Length) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Precipitation.value)
-                            .put("Type", (int) mapOpenWeatherConditionToPineTimePrecipitation(weatherSpec.currentConditionCode).value)
-                            .put("Amount", (int) 0)
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            if (mapOpenWeatherConditionToPineTimeObscuration(weatherSpec.currentConditionCode) != WeatherData.ObscurationType.Length) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Obscuration.value)
-                            .put("Type", (int) mapOpenWeatherConditionToPineTimeObscuration(weatherSpec.currentConditionCode).value)
-                            .put("Amount", (int) 65535)
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            if (mapOpenWeatherConditionToPineTimeSpecial(weatherSpec.currentConditionCode) != WeatherData.SpecialType.Length) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Special.value)
-                            .put("Type", mapOpenWeatherConditionToPineTimeSpecial(weatherSpec.currentConditionCode).value)
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            if (mapOpenWeatherConditionToCloudCover(weatherSpec.currentConditionCode) != -1) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try {
-                    new CborEncoder(baos).encode(new CborBuilder()
-                            .startMap() // This map is not fixed-size, which is not great, but it might come in a library update
-                            .put("Timestamp", System.currentTimeMillis() / 1000L)
-                            .put("Expires", 60 * 60 * 1 + WEATHER_GRACE_TIME) // 1h
-                            .put("EventType", WeatherData.EventType.Clouds.value)
-                            .put("Amount", (int) (mapOpenWeatherConditionToCloudCover(weatherSpec.currentConditionCode)))
-                            .end()
-                            .build()
-                    );
-                } catch (Exception e) {
-                    LOG.warn(String.valueOf(e));
-                }
-                byte[] encodedBytes = baos.toByteArray();
-                TransactionBuilder builder = createTransactionBuilder("WeatherData");
-                safeWriteToCharacteristic(builder,
-                        PineTimeJFConstants.UUID_CHARACTERISTIC_WEATHER_DATA,
-                        encodedBytes);
-
-                builder.queue(getQueue());
-            }
-
-            LOG.debug("Wrote weather data");
+            this.onSendWeatherSimple(weatherSpec);
         }
     }
 
