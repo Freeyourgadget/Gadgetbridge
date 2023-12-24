@@ -2383,4 +2383,5 @@
     <string name="updatefirmwareoperation_failed_low_mtu">Aktuální MTU %1$d je příliš nízké, povolte, prosím, větší MTU v nastavení zařízení. Následně se odpojte a znovu připojte.</string>
     <string name="english_au">Angličtina (Austrálie)</string>
     <string name="english_ca">Angličtina (Kanada)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignorovat oznámení z aplikací v pracovním profilu</string>
 </resources>
