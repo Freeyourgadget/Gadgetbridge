@@ -2621,4 +2621,11 @@
     <string name="clap_hands_to_wakeup_device_summary">再次拍手关闭屏幕</string>"
     <string name="pixoo_power_saving_summary">麦克风检测到静音一段时间后将屏幕关闭</string>
     <string name="devicetype_mijia_lywsd03">米家温湿度传感器2</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">导航说明</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">配置手表上导航应用的行为</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">导航应用收到导航指令时是否自动进入前台</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">根据新指令振动</string>
+    <string name="pref_title_fossil_hr_nav_foreground">来到前台</string>
+    <string name="prefs_device_name">设备名称</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">手表是否应该在每个新的或更改的导航指令时振动（仅当应用程序位于前台时）</string>
 </resources>
