@@ -2623,4 +2623,12 @@
     <string name="clap_hands_to_wakeup_device_summary">Si vuelves a aplaudir, se apagará la pantalla</string>"
     <string name="devicetype_mijia_lywsd03">Sensor de temperatura y humedad Mijia 2</string>
     <string name="pixoo_power_saving_summary">La pantalla se apagará después de que el micrófono haya detectado un silencio durante un tiempo</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Instrucciones de navegación</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Configurar el comportamiento de la aplicación de navegación en el reloj</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Si la aplicación de navegación debe pasar automáticamente a primer plano cuando recibe una instrucción de navegación</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Vibrar al recibir una nueva instrucción</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Pasar a primer plano</string>
+    <string name="prefs_device_name">Nombre del dispositivo</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Si el reloj debe vibrar con cada instrucción de navegación nueva o modificada (sólo cuando la aplicación está en primer plano)</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
 </resources>
