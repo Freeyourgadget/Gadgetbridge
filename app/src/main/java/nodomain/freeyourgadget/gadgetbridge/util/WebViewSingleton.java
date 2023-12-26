@@ -104,6 +104,9 @@ public class WebViewSingleton {
             webSettings.setDomStorageEnabled(true);
             //needed for localstorage
             webSettings.setDatabaseEnabled(true);
+            // #3373 #3424 - Fix configuration for pebble apps
+            // TODO: this should use a WebViewAssetLoader
+            webSettings.setAllowFileAccess(true);
         }
     }
 
