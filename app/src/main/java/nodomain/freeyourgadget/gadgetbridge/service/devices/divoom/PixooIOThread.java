@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,5 +59,4 @@ public class PixooIOThread extends BtClassicIoThread {
         LOG.debug("read " + bytes + " bytes. " + hexdump(buffer, 0, bytes));
         return Arrays.copyOf(buffer, bytes);
     }
-
 }

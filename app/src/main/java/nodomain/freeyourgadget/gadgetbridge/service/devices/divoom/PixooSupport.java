@@ -17,6 +17,8 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.divoom;
 
+import android.net.Uri;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +54,11 @@ public class PixooSupport extends AbstractSerialDeviceSupport {
 
     protected GBDeviceProtocol createDeviceProtocol() {
         return new PixooProtocol(getDevice());
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        getDeviceIOThread().write(((PixooProtocol) getDeviceProtocol()).encodeShowFrame(uri));
     }
 
     @Override

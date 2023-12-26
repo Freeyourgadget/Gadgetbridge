@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.divoom;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import java.util.regex.Pattern;
@@ -23,6 +26,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -51,6 +55,11 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
         return PixooSupport.class;
     }
 
+    @Override
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        PixooInstallHandler installHandler = new PixooInstallHandler(uri, context);
+        return installHandler.isValid() ? installHandler : null;
+    }
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_pixoo;

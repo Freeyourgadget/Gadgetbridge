@@ -23,6 +23,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -30,6 +32,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -348,10 +351,25 @@ public class PixooProtocol extends GBDeviceProtocol {
             return null;
         }
         final Bitmap bmp = BitmapUtil.toBitmap(icon);
+
+        return encodeShowFrame(bmp);
+    }
+
+    protected byte[] encodeShowFrame(Uri uri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(GBApplication.getContext().getContentResolver(), uri);
+            return encodeShowFrame(bitmap);
+        } catch (IOException e) {
+            LOG.error("could not decode Image",e);
+        }
+        return null;
+    }
+
+    private byte[] encodeShowFrame(Bitmap bitmap) {
         final Bitmap bmpResized = Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bmpResized);
         final Rect rect = new Rect(0, 0, 16, 16);
-        canvas.drawBitmap(bmp, null, rect, null);
+        canvas.drawBitmap(bitmap, null, rect, null);
 
 
         // construct palette with unique colors
