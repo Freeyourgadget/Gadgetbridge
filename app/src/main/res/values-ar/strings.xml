@@ -2606,4 +2606,12 @@
     <string name="silent_mode_normal_silent">عادي / صامت</string>
     <string name="activity_type_wrestling">المصارعة</string>
     <string name="devicetype_mijia_lywsd03">Mijia مستشعر درجة الحرارة والرطوبة 2</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">تعليمات الملاحة</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">قم بتكوين سلوك التطبيق أثناء التنقل</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">ما إذا كان يجب أن يظهر تطبيق التنقل تلقائيًا في المقدمة عندما يتلقى تعليمات التنقل</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">الاهتزاز عند التعليمات الجديدة</string>
+    <string name="pref_title_fossil_hr_nav_foreground">تعال إلى المقدمة</string>
+    <string name="prefs_device_name">اسم الجهاز</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">ما إذا كان يجب أن تهتز الساعة عند كل تعليمات تنقل جديدة أو تم تغييرها (فقط عندما يكون التطبيق في المقدمة)</string>
+    <string name="devicetype_redmi_watch_2_lite">ساعة ريدمي 2 لايت</string>
 </resources>
