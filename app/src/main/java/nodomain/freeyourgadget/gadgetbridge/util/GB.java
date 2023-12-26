@@ -68,6 +68,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_REC
 public class GB {
 
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+    public static final String NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS = "gadgetbridge connection status";
     public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
     public static final String NOTIFICATION_CHANNEL_ID_LOW_BATTERY = "low_battery";
@@ -115,6 +116,12 @@ public class GB {
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channelGeneral);
 
+            NotificationChannel channelConnwectionStatus = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS,
+                    context.getString(R.string.notification_channel_connection_status_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(channelConnwectionStatus);
+
             NotificationChannel channelHighPriority = new NotificationChannel(
                     NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID,
                     context.getString(R.string.notification_channel_high_priority_name),
@@ -154,7 +161,7 @@ public class GB {
     }
 
     public static Notification createNotification(List<GBDevice> devices, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS);
         if(devices.size() == 0){
             builder.setContentTitle(context.getString(R.string.info_no_devices_connected))
                     .setSmallIcon(R.drawable.ic_notification_disconnected)
@@ -258,7 +265,7 @@ public class GB {
     }
 
     public static Notification createNotification(String text, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS);
         builder.setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification_disconnected)

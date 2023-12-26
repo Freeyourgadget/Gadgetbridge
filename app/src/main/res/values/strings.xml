@@ -2494,4 +2494,5 @@
     <string name="pref_summary_fossil_hr_nav_foreground">Whether the navigation app should automatically come to the foreground when it receives a navigation instruction</string>
     <string name="pref_title_fossil_hr_nav_vibrate">Vibrate on new instruction</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Whether the watch should vibrate on every new or changed navigation instruction (only when the app is in the foreground)</string>
+    <string name="notification_channel_connection_status_name">Connection Status</string>
 </resources>
