@@ -19,6 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.divoom;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -31,6 +35,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +55,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -334,6 +341,71 @@ public class PixooProtocol extends GBDeviceProtocol {
         });
     }
 
+    private byte[] encodeDrawIcon(String packageName) {
+        Drawable icon = NotificationUtils.getAppIcon(GBApplication.getContext(), packageName);
+        if (icon == null) {
+            LOG.warn("could not get icon for package: " + packageName);
+            return null;
+        }
+        final Bitmap bmp = BitmapUtil.toBitmap(icon);
+        final Bitmap bmpResized = Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmpResized);
+        final Rect rect = new Rect(0, 0, 16, 16);
+        canvas.drawBitmap(bmp, null, rect, null);
+
+
+        // construct palette with unique colors
+        HashSet<Integer> palette = new HashSet<>();
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int pixel = bmpResized.getPixel(x, y);
+                palette.add(pixel);
+            }
+        }
+        // convert to lookup of index
+        HashMap<Integer, Integer> paletteLookup = new HashMap<>();
+        int index = 0;
+        for (int color : palette) {
+            paletteLookup.put(color, index++);
+        }
+
+        int paletteMaxIndex = palette.size() - 1;
+        int bpp = 1;
+        while ((paletteMaxIndex >>= 1) != 0) {
+            bpp++;
+        }
+        LOG.info("got palette of {} colors, will need {}bpp", palette.size(), bpp);
+        byte[] header = new byte[]{0x44, 0x00, 0x0a, 0x0a, 0x04, (byte) 0xaa, 0x53, 0x00, (byte) 0xf4, 0x01, 0x00, (byte) palette.size()};
+        int pixels_size = (bpp * 16 * 16) / 8;
+        byte[] pixels = new byte[pixels_size];
+        ByteBuffer buf = ByteBuffer.allocate(palette.size() * 3 + header.length + pixels_size);
+        buf.put(header);
+        for (int color : palette) {
+            buf.put((byte) ((color >> 16) & 0xff));
+            buf.put((byte) ((color >> 8) & 0xff));
+            buf.put((byte) (color & 0xff));
+        }
+        int bitposition = 0;
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int pixel = bmpResized.getPixel(x, y);
+                index = paletteLookup.get(pixel);
+                int pos = bitposition / 8;
+                int shift = bitposition % 8;
+                pixels[pos] = (byte) (pixels[pos] | (byte) (index << shift));
+                if (shift + bpp > 8) {
+                    shift = -shift + 8;
+                    pos++;
+                    pixels[pos] = (byte) (pixels[pos] | (byte) (index >> shift));
+                }
+                bitposition += bpp;
+            }
+        }
+        buf.put(pixels);
+
+        return encodeProtocol(buf.array());
+    }
+
     private byte[] encodeClockModeCommand(int clockMode, boolean showTime, boolean showWeather, boolean showTemperature, boolean showDate,
                                           int r, int g, int b) {
 
@@ -379,7 +451,9 @@ public class PixooProtocol extends GBDeviceProtocol {
     public byte[] encodeTestNewFunction() {
         //return encodeAudioModeCommand(1); // works
         //return encodeEffectModeCommand(5); // does nothing
-        return encodeClockModeCommand(0, true, true, false, true, 127, 127, 127); // works r,g,b up to 127
+        //return encodeClockModeCommand(0, true, true, false, true, 127, 127, 127); // works r,g,b up to 127
+        return encodeDrawIcon("nodomain.freeyourgadget.gadgetbridge");
+        //return encodeDrawIcon("com.benny.openlauncher");
     }
 
     byte[] encodeProtocol(byte[] payload) {
