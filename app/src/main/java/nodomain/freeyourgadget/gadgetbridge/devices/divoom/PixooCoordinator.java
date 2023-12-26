@@ -66,6 +66,12 @@ public class PixooCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFlashing() {
+        // To install bitmaps
+        return true;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return true;
     }
