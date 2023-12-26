@@ -89,19 +89,17 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
     @Override
     public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary) {
-        final JSONObject summaryData = new JSONObject();
-
         final ByteBuffer buf = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
 
         final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
 
         switch (fileId.getSubtype()) {
             case SPORTS_OUTDOOR_RUNNING:
-                break;
+                return parseOutdoorRunning(summary, fileId, buf);
             case SPORTS_FREESTYLE:
-                break;
+                return parseFreestyle(summary, fileId, buf);
             case SPORTS_ELLIPTICAL:
-                break;
+                return parseElliptical(summary, fileId, buf);
             case SPORTS_OUTDOOR_WALKING:
                 return parseOutdoorWalking(summary, fileId, buf);
             case SPORTS_OUTDOOR_CYCLING:
@@ -111,6 +109,30 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         LOG.warn("Unable to parse {}", fileId.getSubtype());
 
         return null;
+    }
+
+    private BaseActivitySummary parseOutdoorRunning(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+        summary.setActivityKind(ActivityKind.TYPE_RUNNING);
+
+        // TODO
+
+        return summary;
+    }
+
+    private BaseActivitySummary parseFreestyle(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+        summary.setActivityKind(ActivityKind.TYPE_STRENGTH_TRAINING);
+
+        // TODO
+
+        return summary;
+    }
+
+    private BaseActivitySummary parseElliptical(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+        summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
+
+        // TODO
+
+        return summary;
     }
 
     private BaseActivitySummary parseOutdoorWalking(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
