@@ -2628,4 +2628,5 @@
     <string name="pref_title_fossil_hr_nav_foreground">Naar voorgrond</string>
     <string name="prefs_device_name">Apparaatnaam</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Moet het horloge trillen bij elke nieuwe of veranderde navigatie-instructie (alleen als de app op de voorgrond is)?</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
 </resources>
