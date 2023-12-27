@@ -1036,7 +1036,7 @@
     <string name="Strokes">Pulsaciones</string>
     <string name="km">km</string>
     <string name="bpm">lat/min</string>
-    <string name="minutes_km">km/min</string>
+    <string name="minutes_km">min/km</string>
     <string name="seconds_m">m/s</string>
     <string name="seconds_km">km/s</string>
     <string name="calories_unit">kcal</string>
