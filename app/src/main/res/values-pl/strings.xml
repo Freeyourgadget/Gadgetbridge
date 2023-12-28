@@ -2630,4 +2630,12 @@
     <string name="pref_device_action_dnd_off">Nie przeszkadzać – wyłączone</string>
     <string name="silent_mode_normal_silent">Normalny / Cichy</string>
     <string name="activity_type_wrestling">Zapasy</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Instrukcje nawigacji</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Konfiguracja zachowania aplikacji do nawigacji w zegarku</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Określ, czy aplikacja nawigacyjna powinna automatycznie wyświetlać się na pierwszym planie po otrzymaniu instrukcji nawigacyjnych</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Wibruj przy nowej instrukcji</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Przejdź do pracy na pierwszym planie</string>
+    <string name="prefs_device_name">Nazwa urządzenia</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Wibracje zegarka przy każdej nowej lub zmienionej instrukcji nawigacji (tylko gdy aplikacja jest na pierwszym planie)</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
 </resources>
