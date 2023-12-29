@@ -2514,7 +2514,7 @@
     <string name="menuitem_thermometer">Термометр</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="fossil_hr_nav_app_not_installed_notify_text">Навигация была начата, но navigationApp не установлено на часах. Пожалуйста, установите его в менеджере приложений.</string>
-    <string name="fossil_hr_nav_app_not_installed_notify_title">Приложение навигации не установлено на часах</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Приложение для навигации не установлено на часах</string>
     <string name="call_rejection_method_ignore">Игнорировать (прекратить уведомление)</string>
     <string name="call_rejection_method_reject">Отклонить</string>
     <string name="pref_call_rejection_method_title">Способ отклонения вызова</string>
@@ -2614,4 +2614,12 @@
     <string name="clap_hands_to_wakeup_device_summary">Повторный хлопок погасит его</string>"
     <string name="pixoo_power_saving_summary">Экран погаснет после продолжительной тишины, замеченной микрофоном</string>
     <string name="devicetype_mijia_lywsd03">Mijia Temperature and Humidity Sensor 2</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Указания по навигации</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Настройки встроенного приложения навигации</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Должно ли появляться приложение навигации при получении навигационных указаний</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Вибрировать при новых указаниях</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Автопоявление</string>
+    <string name="prefs_device_name">Имя устройства</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Должны ли часы вибрировать при получении или изменении навигационных указаний (когда приложение показано)</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
 </resources>
