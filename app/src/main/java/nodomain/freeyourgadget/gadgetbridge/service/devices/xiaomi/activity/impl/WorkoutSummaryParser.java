@@ -94,14 +94,16 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
 
         switch (fileId.getSubtype()) {
+            case SPORTS_OUTDOOR_WALKING_V1:
+                return parseOutdoorWalkingV1(summary, fileId, buf);
             case SPORTS_OUTDOOR_RUNNING:
                 return parseOutdoorRunning(summary, fileId, buf);
             case SPORTS_FREESTYLE:
                 return parseFreestyle(summary, fileId, buf);
             case SPORTS_ELLIPTICAL:
                 return parseElliptical(summary, fileId, buf);
-            case SPORTS_OUTDOOR_WALKING:
-                return parseOutdoorWalking(summary, fileId, buf);
+            case SPORTS_OUTDOOR_WALKING_V2:
+                return parseOutdoorWalkingV2(summary, fileId, buf);
             case SPORTS_OUTDOOR_CYCLING:
                 return parseOutdoorCycling(summary, fileId, buf);
         }
@@ -135,7 +137,66 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         return summary;
     }
 
-    private BaseActivitySummary parseOutdoorWalking(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private BaseActivitySummary parseOutdoorWalkingV1(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+        final JSONObject summaryData = new JSONObject();
+
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 4:
+                headerSize = 4;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final byte[] header = new byte[headerSize];
+        buf.get(header);
+
+        summary.setActivityKind(ActivityKind.TYPE_WALKING);
+
+        final int startTime = buf.getInt();
+        final int endTime = buf.getInt();
+
+        // We don't set the start time, since we need it to match the fileId for the WorkoutGpsParser
+        // to find it. They also seem to match.
+        //summary.setStartTime(new Date(startTime * 1000L));
+        summary.setEndTime(new Date(endTime * 1000L));
+
+        final int duration = buf.getInt();
+        addSummaryData(summaryData, "activeSeconds", duration, "seconds");
+
+        final int distance = buf.getInt();
+        addSummaryData(summaryData, "distanceMeters", distance, "meters");
+
+        final int calories = buf.getShort();
+        addSummaryData(summaryData, "caloriesBurnt", calories, "calories_unit");
+
+
+        final int maxPace = buf.getInt();
+        addSummaryData(summaryData, "maxPace", maxPace, "seconds_m");
+        final int minPace = buf.getInt();
+        addSummaryData(summaryData, "minPace", minPace, "seconds_m");
+        final int unknown1 = buf.getInt(); // ?
+        final int steps = buf.getInt();
+        addSummaryData(summaryData, "steps", steps, "steps_unit");
+        final int unknown6 = buf.getShort(); // pace?
+
+        final int averageHR = buf.get() & 0xff;
+        final int maxHR = buf.get() & 0xff;
+        final int minHR = buf.get() & 0xff;
+
+        addSummaryData(summaryData, "averageHR", averageHR, "bpm");
+        addSummaryData(summaryData, "maxHR", maxHR, "bpm");
+        addSummaryData(summaryData, "minHR", minHR, "bpm");
+
+        summary.setSummaryData(summaryData.toString());
+
+        return summary;
+    }
+
+    private BaseActivitySummary parseOutdoorWalkingV2(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         final JSONObject summaryData = new JSONObject();
 
         final int version = fileId.getVersion();
