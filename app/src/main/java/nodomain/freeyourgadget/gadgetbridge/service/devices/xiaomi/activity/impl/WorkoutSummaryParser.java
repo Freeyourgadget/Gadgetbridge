@@ -95,49 +95,50 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         switch (fileId.getSubtype()) {
             case SPORTS_OUTDOOR_WALKING_V1:
-                return parseOutdoorWalkingV1(summary, fileId, buf);
+                parseOutdoorWalkingV1(summary, fileId, buf);
+                break;
             case SPORTS_OUTDOOR_RUNNING:
-                return parseOutdoorRunning(summary, fileId, buf);
+                parseOutdoorRunning(summary, fileId, buf);
+                break;
             case SPORTS_FREESTYLE:
-                return parseFreestyle(summary, fileId, buf);
+                parseFreestyle(summary, fileId, buf);
+                break;
             case SPORTS_ELLIPTICAL:
-                return parseElliptical(summary, fileId, buf);
+                parseElliptical(summary, fileId, buf);
+                break;
             case SPORTS_OUTDOOR_WALKING_V2:
-                return parseOutdoorWalkingV2(summary, fileId, buf);
+                parseOutdoorWalkingV2(summary, fileId, buf);
+                break;
             case SPORTS_OUTDOOR_CYCLING:
-                return parseOutdoorCycling(summary, fileId, buf);
+                parseOutdoorCycling(summary, fileId, buf);
+                break;
+            default:
+                LOG.warn("No workout summary parser for {}", fileId.getSubtypeCode());
+                break;
         }
 
-        LOG.warn("Unable to parse {}", fileId.getSubtype());
-
-        return null;
+        return summary;
     }
 
-    private BaseActivitySummary parseOutdoorRunning(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseOutdoorRunning(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         summary.setActivityKind(ActivityKind.TYPE_RUNNING);
 
         // TODO
-
-        return summary;
     }
 
-    private BaseActivitySummary parseFreestyle(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseFreestyle(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         summary.setActivityKind(ActivityKind.TYPE_STRENGTH_TRAINING);
 
         // TODO
-
-        return summary;
     }
 
-    private BaseActivitySummary parseElliptical(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseElliptical(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
 
         // TODO
-
-        return summary;
     }
 
-    private BaseActivitySummary parseOutdoorWalkingV1(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseOutdoorWalkingV1(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         final JSONObject summaryData = new JSONObject();
 
         final int version = fileId.getVersion();
@@ -148,7 +149,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
-                return null;
+                return;
         }
 
         final byte[] header = new byte[headerSize];
@@ -192,11 +193,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         addSummaryData(summaryData, "minHR", minHR, "bpm");
 
         summary.setSummaryData(summaryData.toString());
-
-        return summary;
     }
 
-    private BaseActivitySummary parseOutdoorWalkingV2(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseOutdoorWalkingV2(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         final JSONObject summaryData = new JSONObject();
 
         final int version = fileId.getVersion();
@@ -207,7 +206,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
-                return null;
+                return;
         }
 
         final byte[] header = new byte[headerSize];
@@ -259,11 +258,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         addSummaryData(summaryData, "minHR", minHR, "bpm");
 
         summary.setSummaryData(summaryData.toString());
-
-        return summary;
     }
 
-    private BaseActivitySummary parseOutdoorCycling(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+    private void parseOutdoorCycling(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
         final JSONObject summaryData = new JSONObject();
 
         final int version = fileId.getVersion();
@@ -274,7 +271,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
-                return null;
+                return;
         }
 
         final byte[] header = new byte[headerSize];
@@ -322,8 +319,6 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         addSummaryData(summaryData, "minHR", minHr, "bpm");
 
         summary.setSummaryData(summaryData.toString());
-
-        return summary;
     }
 
     protected void addSummaryData(final JSONObject summaryData, final String key, final float value, final String unit) {
