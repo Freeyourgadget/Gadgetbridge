@@ -458,7 +458,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                         .setKeepBond(true)
                         .setForeground(false)
                         .setUnsafeExperimentalButtonlessServiceInSecureDfuEnabled(false)
-                        .setMtu(23)
+                        .disableMtuRequest()
                         .setZip(uri);
 
                 controller = starter.start(getContext(), PineTimeDFUService.class);
