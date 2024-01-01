@@ -2637,4 +2637,5 @@
     <string name="pref_summary_fossil_hr_nav_vibrate">Чи повинен годинник вібрувати за кожною новою або зміненою навігаційною вказівкою (тільки коли застосунок показано поверх інших вікон)</string>
     <string name="prefs_device_name">Назва пристрою</string>
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
+    <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
 </resources>
