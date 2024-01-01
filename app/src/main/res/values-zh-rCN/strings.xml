@@ -2629,4 +2629,5 @@
     <string name="prefs_device_name">设备名称</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">手表是否应该在每个新的或更改的导航指令时振动（仅当应用程序位于前台时）</string>
     <string name="devicetype_redmi_watch_2_lite">红米手表2青春版</string>
+    <string name="devicetype_redmi_smart_band_pro">红米智能手环Pro</string>
 </resources>
