@@ -2631,4 +2631,6 @@
     <string name="prefs_device_name">Nombre del dispositivo</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Si el reloj debe vibrar con cada instrucción de navegación nueva o modificada (sólo cuando la aplicación está en primer plano)</string>
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
+    <string name="notification_channel_connection_status_name">Estado de la conexión</string>
+    <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
 </resources>
