@@ -473,6 +473,92 @@ public class WeatherData {
     ;
 
     /**
+     * List of weather condition codes used to determine display
+     * https://openweathermap.org/weather-conditions
+     */
+    public static final ConditionType mapOpenWeatherConditionToPineTimeCondition(int openWeatherMapCondition) {
+        switch (openWeatherMapCondition) {
+            // Group 2xx: Thunderstorm
+            case 200:  // Thunderstorm with light rain
+            case 201:  // Thunderstorm with rain
+            case 202:  // Thunderstorm with heavy rain
+            case 210:  // Light thunderstorm
+            case 211:  // Thunderstorm
+            case 212:  // Heavy thunderstorm
+            case 221:  // Ragged thunderstorm
+            case 230:  // Thunderstorm with light drizzle
+            case 231:  // Thunderstorm with drizzle
+            case 232:  // Thunderstorm with heavy drizzle
+                return ConditionType.Thunderstorm;
+            // Group 3xx: Drizzle
+            case 300:  // Light intensity drizzle
+            case 301:  // Drizzle
+            case 302:  // Heavy intensity drizzle
+            case 310:  // Light intensity drizzle rain
+            case 311:  // Drizzle rain
+            case 312:  // Heavy intensity drizzle rain
+            case 313:  // Shower rain and drizzle
+            case 314:  // Heavy shower rain and drizzle
+            case 321:  // Shower drizzle
+                return ConditionType.CloudsAndRain;
+            // Group 5xx: Rain
+            case 500:  // Light rain
+            case 501:  // Moderate rain
+            case 502:  // Heavy intensity rain
+            case 503:  // Very heavy rain
+            case 504:  // Extreme rain
+                return ConditionType.Rain;
+            case 511:  // Freezing rain
+                return ConditionType.Snow;
+            case 520:  // Light intensity shower rain
+            case 521:  // Shower rain
+            case 522:  // Heavy intensity shower rain
+            case 531:  // Ragged shower rain
+                return ConditionType.CloudsAndRain;
+            // Group 6xx: Snow
+            case 600:  // Light snow
+            case 601:  // Snow
+            case 602:  // Heavy snow
+            case 611:  // Sleet
+            case 612:  // Light shower sleet
+            case 613:  // Shower sleet
+            case 615:  // Light rain and snow
+            case 616:  // Rain and snow
+            case 620:  // Light shower snow
+            case 621:  // Shower snow
+            case 622:  // Heavy shower snow
+                return ConditionType.Snow;
+            // Group 7xx: Atmosphere
+            case 701:  // Mist
+            case 711:  // Smoke
+            case 721:  // Haze
+            case 731:  // Sandcase/dust whirls
+            case 741:  // Fog
+            case 751:  // Sand
+            case 761:  // Dust
+            case 762:  // Volcanic ash
+            case 771:  // Squalls
+            case 781:  // Tornado
+                return ConditionType.Mist;
+            // Group 800: Clear
+            case 800:  // Clear sky
+                return ConditionType.ClearSky;
+            // Group 80x: Clouds
+            case 801:  // Few clouds
+                return ConditionType.FewClouds;
+            case 802:  // Scattered clouds
+                return ConditionType.Clouds;
+            case 803:  // Broken clouds
+            case 804:  // Overcast clouds
+                return ConditionType.HeavyClouds;
+            default:
+                return ConditionType.Length;
+        }
+    }
+
+    ;
+
+    /**
      * Visibility obscuration types
      */
     public enum ObscurationType {
@@ -612,6 +698,52 @@ public class WeatherData {
         SpecialType(int value) {
             this.value = value;
         }
+    }
+
+    /**
+     * List of weather condition codes used to determine display
+     */
+    public enum ConditionType {
+        /**
+         * Clear sky
+         */
+        ClearSky(0),
+        /**
+         * Few clouds
+         */
+        FewClouds(1),
+        /**
+         * Scattered clouds
+         */
+        Clouds(2),
+        /**
+         * Broken/heavy clouds
+         */
+        HeavyClouds(3),
+        /**
+         * Shower rain
+         */
+        CloudsAndRain(4),
+        /**
+         * Rain
+         */
+        Rain(5),
+        /**
+         * Thunderstorm
+         */
+        Thunderstorm(6),
+        /**
+         * Snow
+         */
+        Snow(7),
+        /**
+         * Mist
+         */
+        Mist(8),
+        Length(9);
+        public final byte value;
+
+        ConditionType(int value) { this.value = (byte) value; }
     }
 
     /**

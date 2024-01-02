@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.Weat
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeObscuration;
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimePrecipitation;
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeSpecial;
+import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeCondition;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -989,7 +990,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 currentPacket.put(16 + i, locationBytes[i]);
             }
         }
-        // currentPacket.put(48, ); // condition
+        currentPacket.put(48, mapOpenWeatherConditionToPineTimeCondition(weatherSpec.currentConditionCode).value);
 
         TransactionBuilder currentBuilder = createTransactionBuilder("SimpleWeatherData");
         safeWriteToCharacteristic(currentBuilder,
@@ -1010,7 +1011,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         for (int i = 0; i < nbDays; i++) {
             forecastPacket.putShort(11 + i * 5, (short) ((weatherSpec.forecasts.get(i).minTemp - 273.15) * 100));
             forecastPacket.putShort(11 + i * 5 + 2, (short) ((weatherSpec.forecasts.get(i).maxTemp - 273.15) * 100));
-            // forecastPacket.put(11 + i * 5 + 4, ); // condition
+            forecastPacket.put(11 + i * 5 + 4, mapOpenWeatherConditionToPineTimeCondition(weatherSpec.forecasts.get(i).conditionCode).value);
         }
 
         TransactionBuilder forecastBuilder = createTransactionBuilder("SimpleWeatherData");
