@@ -100,6 +100,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             case SPORTS_OUTDOOR_RUNNING:
                 parseOutdoorRunning(summary, fileId, buf);
                 break;
+            case SPORTS_INDOOR_CYCLING:
+                parseIndoorCycling(summary, fileId, buf);
+                break;
             case SPORTS_FREESTYLE:
                 parseFreestyle(summary, fileId, buf);
                 break;
@@ -124,6 +127,54 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         summary.setActivityKind(ActivityKind.TYPE_RUNNING);
 
         // TODO
+    }
+
+    private void parseIndoorCycling(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
+        final JSONObject summaryData = new JSONObject();
+
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 8:
+                headerSize = 7;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return;
+        }
+
+        final byte[] header = new byte[headerSize];
+        buf.get(header);
+
+        summary.setActivityKind(ActivityKind.TYPE_INDOOR_CYCLING);
+
+        final int startTime = buf.getInt();
+        final int endTime = buf.getInt();
+
+        // We don't set the start time, since we need it to match the fileId for the WorkoutGpsParser
+        // to find it. They also seem to match.
+        //summary.setStartTime(new Date(startTime * 1000L));
+        summary.setEndTime(new Date(endTime * 1000L));
+
+        final int duration = buf.getInt();
+        addSummaryData(summaryData, "activeSeconds", duration, "seconds");
+
+        final int distance = buf.getInt();
+        addSummaryData(summaryData, "distanceMeters", distance, "meters");
+
+        final int calories = buf.getShort();
+        addSummaryData(summaryData, "caloriesBurnt", calories, "calories_unit");
+
+        final int unknown1 = buf.getInt();
+
+        final float avgHr = buf.get() & 0xff;
+        final float maxHr = buf.get() & 0xff;
+        final float minHr = buf.get() & 0xff;
+        addSummaryData(summaryData, "averageHR", avgHr, "bpm");
+        addSummaryData(summaryData, "maxHR", maxHr, "bpm");
+        addSummaryData(summaryData, "minHR", minHr, "bpm");
+
+        summary.setSummaryData(summaryData.toString());
     }
 
     private void parseFreestyle(final BaseActivitySummary summary, final XiaomiActivityFileId fileId, final ByteBuffer buf) {
