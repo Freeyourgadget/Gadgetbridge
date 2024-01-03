@@ -65,8 +65,7 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
 
                 if (dataUploadAck.getUnknown2() != 0 || dataUploadAck.getResumePosition() != 0) {
                     LOG.warn("Unexpected response");
-                    this.currentType = 0;
-                    this.currentBytes = null;
+                    onUploadFinish(false);
                     return;
                 }
 
@@ -76,6 +75,7 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
                     chunkSize = 2048;
                 }
 
+                LOG.debug("Using chunk size of {} bytes", chunkSize);
                 doUpload(currentType, currentBytes);
                 return;
         }
@@ -143,38 +143,35 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
         final int partSize = chunkSize - 4; // 2 + 2 at beginning of each for total and progress
         final int totalParts = (int) Math.ceil(payload.length / (float) partSize);
 
-        characteristic.setCallback(remainingParts -> {
-            final int totalBytes = totalParts * 4 + payload.length;
-            int progressBytes = totalParts * 4 + payload.length;
-            if (remainingParts > 1) {
-                progressBytes -= (remainingParts - 1) * partSize;
-            }
-            if (remainingParts > 0) {
-                progressBytes -= (payload.length % partSize);
-            }
-
-            final int progressPercent = Math.round((100.0f * progressBytes) / totalBytes);
-
-            LOG.debug("Data upload progress: {} parts remaining ({}%)", remainingParts, progressPercent);
-
-            if (remainingParts > 0) {
-                if (callback != null) {
-                    callback.onUploadProgress(progressPercent);
-                }
-            } else {
-                onUploadFinish(true);
-            }
-        });
-
         for (int i = 0; i * partSize < payload.length; i++) {
+            final int currentPart = i + 1;
             final int startIndex = i * partSize;
-            final int endIndex = Math.min((i + 1) * partSize, payload.length);
-            LOG.debug("Uploading part {} of {}, from {} to {}", (i + 1), totalParts, startIndex, endIndex);
+            final int endIndex = Math.min(currentPart * partSize, payload.length);
+            LOG.debug("Uploading part {} of {}, from {} to {}", currentPart, totalParts, startIndex, endIndex);
             final byte[] chunkToSend = new byte[4 + endIndex - startIndex];
             BLETypeConversions.writeUint16(chunkToSend, 0, totalParts);
-            BLETypeConversions.writeUint16(chunkToSend, 2, i + 1);
+            BLETypeConversions.writeUint16(chunkToSend, 2, currentPart);
             System.arraycopy(payload, startIndex, chunkToSend, 4, endIndex - startIndex);
-            characteristic.write("upload part " + (i + 1) + " of " + totalParts, chunkToSend);
+
+            characteristic.write("upload part " + currentPart + " of " + totalParts, chunkToSend, new XiaomiCharacteristic.SendCallback() {
+                @Override
+                public void onSend() {
+                    final int progressPercent = Math.round((100.0f * currentPart) / totalParts);
+                    LOG.debug("Data upload progress: {}/{} parts sent ({}% done)", currentPart, totalParts, progressPercent);
+
+                    if (currentPart >= totalParts) {
+                        onUploadFinish(true);
+                    } else if (callback != null) {
+                        callback.onUploadProgress(progressPercent);
+                    }
+                }
+
+                @Override
+                public void onNack() {
+                    LOG.warn("NACK received while uploading part {}/{}", currentPart, totalParts);
+                    // TODO callback.onUploadFinish(false); ?
+                }
+            });
         }
     }
 
@@ -189,8 +186,6 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
         if (callback != null) {
             callback.onUploadFinish(success);
         }
-
-        characteristic.setCallback(null);
     }
 
     public interface Callback {

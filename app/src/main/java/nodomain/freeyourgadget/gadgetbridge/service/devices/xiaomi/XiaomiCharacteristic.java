@@ -70,8 +70,6 @@ public class XiaomiCharacteristic {
 
     private XiaomiChannelHandler channelHandler = null;
 
-    private SendCallback callback;
-
     public XiaomiCharacteristic(final XiaomiBleSupport support,
                                 final BluetoothGattCharacteristic bluetoothGattCharacteristic,
                                 @Nullable final XiaomiAuthService authService) {
@@ -88,10 +86,6 @@ public class XiaomiCharacteristic {
 
     public void setChannelHandler(final XiaomiChannelHandler handler) {
         this.channelHandler = handler;
-    }
-
-    public void setCallback(final SendCallback callback) {
-        this.callback = callback;
     }
 
     public void setEncrypted(final boolean encrypted) {
@@ -115,9 +109,27 @@ public class XiaomiCharacteristic {
 
     /**
      * Write bytes to this characteristic, encrypting and splitting it into chunks if necessary.
+     * Callback will be notified when a (n)ack has been received by the remote device.
+     */
+    public void write(final String taskName, final byte[] value, final SendCallback callback) {
+        write(null, new Payload(taskName, value, callback));
+    }
+
+    /**
+     * Write bytes to this characteristic, encrypting and splitting it into chunks if necessary.
      */
     public void write(final String taskName, final byte[] value) {
-        write(null, new Payload(taskName, value));
+        write(taskName, value, null);
+    }
+
+    /**
+     * Write bytes to this characteristic, encrypting and splitting it into chunks if necessary. Uses
+     * the provided builder if we need to schedule something, otherwise it will be queued as other
+     * commands. The callback will be notified when a (n)ack has been received from the remote
+     * device in response to the payload being sent.
+     */
+    public void write(final TransactionBuilder builder, final byte[] value, final SendCallback callback) {
+        write(builder, new Payload(builder.getTaskName(), value, callback));
     }
 
     /**
@@ -125,7 +137,7 @@ public class XiaomiCharacteristic {
      * the provided if we need to schedule something, otherwise it will be queued as other commands.
      */
     public void write(final TransactionBuilder builder, final byte[] value) {
-        write(builder, new Payload(builder.getTaskName(), value));
+        write(builder, value, null);
     }
 
     private void write(final TransactionBuilder builder, final Payload payload) {
@@ -134,17 +146,6 @@ public class XiaomiCharacteristic {
     }
 
     public void onCharacteristicChanged(final byte[] value) {
-        if (Arrays.equals(value, PAYLOAD_ACK)) {
-            LOG.debug("Got ack");
-            currentPayload = null;
-            waitingAck = false;
-            if (callback != null) {
-                callback.onSend(payloadQueue.size());
-            }
-            sendNext(null);
-            return;
-        }
-
         final ByteBuffer buf = ByteBuffer.wrap(value).order(ByteOrder.LITTLE_ENDIAN);
 
         final int chunk = buf.getShort();
@@ -201,11 +202,11 @@ public class XiaomiCharacteristic {
                     switch (subtype) {
                         case 0:
                             LOG.debug("Got chunked ack end");
+                            if (currentPayload != null && currentPayload.getCallback() != null) {
+                                currentPayload.getCallback().onSend();
+                            }
                             currentPayload = null;
                             sendingChunked = false;
-                            if (callback != null) {
-                                callback.onSend(payloadQueue.size());
-                            }
                             sendNext(null);
                             return;
                         case 1:
@@ -226,17 +227,16 @@ public class XiaomiCharacteristic {
                             return;
                         case 2:
                             LOG.warn("Got chunked nack for {}", currentPayload.getTaskName());
+                            if (currentPayload != null && currentPayload.getCallback() != null) {
+                                currentPayload.getCallback().onNack();
+                            }
                             currentPayload = null;
                             sendingChunked = false;
-                            if (callback != null) {
-                                callback.onSend(payloadQueue.size());
-                            }
                             sendNext(null);
                             return;
                     }
 
                     LOG.warn("Unknown chunked ack subtype {} for {}", subtype, currentPayload.getTaskName());
-
                     return;
                 case 2:
                     // Single command
@@ -261,8 +261,28 @@ public class XiaomiCharacteristic {
                     return;
                 case 3:
                     // ack
-                    LOG.debug("Got ack");
+                    final byte result = buf.get();
+
+                    if (result == 0) {
+                        LOG.debug("Got ack for {}", currentPayload.getTaskName());
+
+                        if (currentPayload != null && currentPayload.getCallback() != null) {
+                            currentPayload.getCallback().onSend();
+                        }
+                    } else {
+                        LOG.warn("Got single cmd NACK ({}) for {}", result, currentPayload.getTaskName());
+
+                        if (currentPayload != null && currentPayload.getCallback() != null) {
+                            currentPayload.getCallback().onNack();
+                        }
+                    }
+                    currentPayload = null;
+                    waitingAck = false;
+                    sendNext(null);
+                    return;
             }
+
+            LOG.warn("Unhandled command type {}", type);
         }
     }
 
@@ -375,10 +395,16 @@ public class XiaomiCharacteristic {
 
         // Bytes that will actually be sent (might be encrypted)
         private byte[] bytesToSend;
+        private final SendCallback callback;
 
-        public Payload(final String taskName, final byte[] bytes) {
+        public Payload(final String taskName, final byte[] bytes, final SendCallback callback) {
             this.taskName = taskName;
             this.bytes = bytes;
+            this.callback = callback;
+        }
+
+        public Payload(final String taskName, final byte[] bytes) {
+            this(taskName, bytes, null);
         }
 
         public String getTaskName() {
@@ -392,9 +418,11 @@ public class XiaomiCharacteristic {
         public byte[] getBytesToSend() {
             return bytesToSend != null ? bytesToSend : bytes;
         }
+        public SendCallback getCallback() { return this.callback; }
     }
 
     public interface SendCallback {
-        void onSend(int remaining);
+        void onSend();
+        void onNack();
     }
 }
