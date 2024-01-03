@@ -50,6 +50,8 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         BaseActivitySummary summary = new BaseActivitySummary();
 
         summary.setStartTime(fileId.getTimestamp()); // due to a bug this has to be set
+        summary.setEndTime(fileId.getTimestamp()); // due to a bug this has to be set
+        summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
         summary.setRawSummaryData(ArrayUtils.addAll(fileId.toBytes(), bytes));
 
         try {
@@ -62,6 +64,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         // parseBinaryData may return null in case the version is not supported
         if (summary == null) {
+            LOG.warn("summary is null - should never happen {}", fileId);
             return false;
         }
 
