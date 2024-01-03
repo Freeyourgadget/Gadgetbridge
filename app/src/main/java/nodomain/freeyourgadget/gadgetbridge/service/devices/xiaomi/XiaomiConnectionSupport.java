@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 
@@ -30,4 +32,5 @@ public abstract class XiaomiConnectionSupport {
     public abstract void setContext(final GBDevice device, final BluetoothAdapter adapter, final Context context);
     public abstract void disconnect();
     public abstract void sendCommand(final String taskName, final XiaomiProto.Command command);
+    public abstract void sendDataChunk(final String taskName, final byte[] chunk, @Nullable final XiaomiCharacteristic.SendCallback callback);
 }

@@ -22,6 +22,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,8 +127,6 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
             XiaomiBleSupport.this.characteristicDataUpload.setEncrypted(uuidSet.isEncrypted());
             XiaomiBleSupport.this.characteristicDataUpload.setIncrementNonce(false);
 
-            mXiaomiSupport.getDataUploadService().setDataUploadCharacteristic(XiaomiBleSupport.this.characteristicDataUpload);
-
             builder.requestMtu(247);
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
             builder.notify(btCharacteristicCommandWrite, true);
@@ -205,6 +205,16 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         }
 
         this.characteristicCommandWrite.write(taskName, command.toByteArray());
+    }
+
+    @Override
+    public void sendDataChunk(String taskName, byte[] chunk, @Nullable XiaomiCharacteristic.SendCallback callback) {
+        if (this.characteristicDataUpload == null) {
+            LOG.warn("characteristicDataUpload is null!");
+            return;
+        }
+
+        this.characteristicDataUpload.write(taskName, chunk, callback);
     }
 
     /**

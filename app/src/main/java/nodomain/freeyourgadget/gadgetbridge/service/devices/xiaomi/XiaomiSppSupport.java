@@ -17,11 +17,16 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_FITNESS;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_MASS;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_PROTO_RX;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.DATA_TYPE_ENCRYPTED;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.PACKET_PREAMBLE;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+
+import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -257,5 +262,26 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
 
         builder.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
         // do not queue here, that's the job of the caller
+    }
+
+    public void sendDataChunk(final String taskName, final byte[] chunk, @Nullable final XiaomiCharacteristic.SendCallback callback) {
+        XiaomiSppPacket packet = XiaomiSppPacket.newBuilder()
+                .channel(CHANNEL_MASS)
+                .needsResponse(false)
+                .flag(true)
+                .opCode(2)
+                .frameSerial(frameCounter.getAndIncrement())
+                .dataType(DATA_TYPE_ENCRYPTED)
+                .payload(chunk)
+                .build();
+        LOG.debug("sending data packet: {}", packet);
+        TransactionBuilder b = this.commsSupport.createTransactionBuilder("send " + taskName);
+        b.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
+        b.queue(commsSupport.getQueue());
+
+        if (callback != null) {
+            // callback puts a SetProgressAction onto the queue
+            callback.onSend();
+        }
     }
 }

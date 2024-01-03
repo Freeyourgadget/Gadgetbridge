@@ -44,7 +44,6 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
     public static final byte TYPE_FIRMWARE = 32;
     public static final byte TYPE_NOTIFICATION_ICON = 50;
 
-    private XiaomiCharacteristic characteristic;
     private Callback callback;
 
     private byte currentType;
@@ -153,7 +152,7 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
             BLETypeConversions.writeUint16(chunkToSend, 2, currentPart);
             System.arraycopy(payload, startIndex, chunkToSend, 4, endIndex - startIndex);
 
-            characteristic.write("upload part " + currentPart + " of " + totalParts, chunkToSend, new XiaomiCharacteristic.SendCallback() {
+            getSupport().getConnectionSpecificSupport().sendDataChunk("upload part " + currentPart + " of " + totalParts, chunkToSend, new XiaomiCharacteristic.SendCallback() {
                 @Override
                 public void onSend() {
                     final int progressPercent = Math.round((100.0f * currentPart) / totalParts);
@@ -173,10 +172,6 @@ public class XiaomiDataUploadService extends AbstractXiaomiService {
                 }
             });
         }
-    }
-
-    public void setDataUploadCharacteristic(final XiaomiCharacteristic characteristic) {
-        this.characteristic = characteristic;
     }
 
     private void onUploadFinish(final boolean success) {
