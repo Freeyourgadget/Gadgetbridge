@@ -1,5 +1,25 @@
 ### Changelog
 
+#### Next version (WIP)
+
+* Initial support for Mijia LYWSD03MMC
+* Initial support for Nothing Ear (2)
+* Experimental support for Redmi Watch 2 Lite
+* Experimental support for Redmi Smart Band Pro
+* Fossil/Skagen Hybrids: Update navigationApp to 1.1
+* Pebble: Attempt to fix app configuration webview
+* PineTime: Add support for InfiniTime's new simple weather
+* PineTime: Fix freeze and reboot when upgrading firmware
+* Pixoo: Enable sending images (non-persistent)
+* Pixoo: Get and send alarms
+* Pixoo: Set custom device name
+* Pixoo: support "clap hands to turn off screen" and "sleep after silence" settings
+* Xiaomi: Improve activity and workout parsing
+* Xiaomi: Improve stability and fix some crashes
+* Xiaomi: Parse sleep stages on some devices
+* Add a notifications channel for connection status notifications
+* Map some missing Google Maps navigation actions
+
 #### 0.77.0
 * Initial support for Amazfit Balance
 * Initial support for Amazfit Active
