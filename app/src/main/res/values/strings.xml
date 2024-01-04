@@ -1960,6 +1960,7 @@
     <string name="prefs_autoheartrate_sleep">Take measurements during sleep</string>
     <string name="prefs_autoheartrate_interval">Frequency of measurements</string>
     <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="devicetype_nothingear2">Nothing Ear (2)</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>

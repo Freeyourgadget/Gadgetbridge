@@ -1,3 +1,19 @@
+/*  Copyright (C) 2023 Daniele Gobbetti, José Rebelo
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.nothing;
 
 import android.content.Context;
@@ -18,10 +34,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.nothing.Ear1Support;
 
-public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
+public class Ear2Coordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Nothing ear (1)", Pattern.LITERAL);
+        return Pattern.compile("Ear (2)", Pattern.LITERAL);
     }
 
     @Override
@@ -72,7 +88,7 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_nothingear1;
+        return R.string.devicetype_nothingear2;
     }
 
     @Override
