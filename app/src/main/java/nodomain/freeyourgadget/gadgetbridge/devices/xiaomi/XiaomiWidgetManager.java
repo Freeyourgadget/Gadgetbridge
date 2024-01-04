@@ -104,8 +104,7 @@ public class XiaomiWidgetManager implements WidgetManager {
                         type
                 );
 
-                // FIXME are there others?
-                if (widgetPart.getId() == 2321) {
+                if (widgetPart.getFunction() == 16) {
                     if (StringUtils.isBlank(newPart.getName())) {
                         newPart.setName(GBApplication.getContext().getString(R.string.menuitem_workout));
                     }
@@ -170,8 +169,7 @@ public class XiaomiWidgetManager implements WidgetManager {
                     newPart.setName(rawPart1.getTitle());
                 }
 
-                // FIXME are there others?
-                if (widgetPart.getId() == 2321) {
+                if (widgetPart.getFunction() == 16) {
                     if (StringUtils.isBlank(newPart.getName())) {
                         newPart.setName(GBApplication.getContext().getString(R.string.menuitem_workout));
                     }

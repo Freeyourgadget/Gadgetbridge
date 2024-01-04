@@ -253,11 +253,11 @@ message WidgetParts {
 
 message WidgetPart {
   optional uint32 type = 1; // 1 for small 1x1, 2 for wide 2x1, 3 for tall 1x2
-  optional uint32 app = 2; // matches command type
+  optional uint32 function = 2; // matches command type
   optional uint32 id = 3; // they all seem unique
   optional string title = 4; // not set on create
   optional uint32 subType = 5; // usually 0 if no subtype
-  optional string unknown6 = 6; // "" on get
+  optional string appId = 6; // "" on get
   optional string unknown7 = 7; // "" on get
 }
 
