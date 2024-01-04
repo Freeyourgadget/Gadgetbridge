@@ -979,8 +979,10 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     private void onSendWeatherSimple(WeatherSpec weatherSpec) {
+        long timestampLocal = weatherSpec.timestamp + Calendar.getInstance().getTimeZone().getOffset(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis()) / 1000L;
+
         ByteBuffer currentPacket = ByteBuffer.allocate(49).order(ByteOrder.LITTLE_ENDIAN);
-        currentPacket.putLong(2, (long) weatherSpec.timestamp * 1000000000L); // 10^9, for nanoseconds
+        currentPacket.putLong(2, timestampLocal);
         currentPacket.putShort(10, (short) ((weatherSpec.currentTemp - 273.15) * 100));
         currentPacket.putShort(12, (short) ((weatherSpec.todayMinTemp - 273.15) * 100));
         currentPacket.putShort(14, (short) ((weatherSpec.todayMaxTemp - 273.15) * 100));
@@ -1005,7 +1007,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
         ByteBuffer forecastPacket = ByteBuffer.allocate(36).order(ByteOrder.LITTLE_ENDIAN);
         forecastPacket.put(0, (byte) 1);
-        forecastPacket.putLong(2, (long) weatherSpec.timestamp * 1000000000L); // 10^9, for nanoseconds
+        forecastPacket.putLong(2, timestampLocal);
         byte nbDays = (byte) Math.min(weatherSpec.forecasts.size(), 5);
         forecastPacket.put(10, nbDays);
         for (int i = 0; i < nbDays; i++) {
