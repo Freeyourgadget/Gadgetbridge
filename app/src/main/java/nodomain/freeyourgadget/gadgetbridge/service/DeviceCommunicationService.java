@@ -598,6 +598,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                                 }
                                 notifCache.removeAll(toRemove);
                             }
+                        } else if (action.equals(ACTION_DISCONNECT) && device.getState() != GBDevice.State.NOT_CONNECTED) {
+                            targetedDevices.add(device);
                         }
                     }
                 }
