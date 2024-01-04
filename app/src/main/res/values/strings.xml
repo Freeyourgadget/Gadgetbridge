@@ -204,6 +204,8 @@
     <string name="pref_header_workout">Workout</string>
     <string name="pref_header_equalizer">Equalizer</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to Gadgetbridge device(s) when Bluetooth is turned on</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Reconnect only to connected devices</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Reconnect only to connected devices, instead of reconnecting to all devices</string>
     <string name="pref_title_general_autostartonboot">Start automatically</string>
     <string name="pref_title_general_autoreconnect">Reconnect automatically</string>
     <string name="pref_title_mb_intents">Broadcast Media Button Intents Directly</string>

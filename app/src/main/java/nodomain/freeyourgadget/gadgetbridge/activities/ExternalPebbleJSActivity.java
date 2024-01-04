@@ -35,8 +35,10 @@ import androidx.core.app.NavUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -51,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWeb
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
@@ -91,28 +94,22 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
                 DeviceManager deviceManager = ((GBApplication) getApplication()).getDeviceManager();
                 List<GBDevice> deviceList = deviceManager.getDevices();
                 for (GBDevice device : deviceList) {
-                    if (device.getState() == GBDevice.State.INITIALIZED) {
-                        if (device.getType().equals(DeviceType.PEBBLE)) {
-                            currentDevice = device;
-                            break;
-                        } else {
-                            LOG.error("attempting to load pebble configuration but a different device type is connected!!!");
-                            finish();
-                            return;
-                        }
+                    if (device.getState() == GBDevice.State.INITIALIZED && device.getType().equals(DeviceType.PEBBLE)) {
+                        currentDevice = device;
+                        break;
                     }
                 }
                 if (currentDevice == null) {
-                    //then try to reconnect to last connected device
-                    String btDeviceAddress = GBApplication.getPrefs().getPreferences().getString("last_device_address", null);
-                    if (btDeviceAddress != null) {
-                        GBDevice candidate = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
-                        if(!candidate.isConnected() && candidate.getType() == DeviceType.PEBBLE){
+                    //then try to reconnect to one of last connected Pebble devices
+                    Set<String> lastDeviceAddresses = GBApplication.getPrefs().getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+                    for (GBDevice device : deviceList) {
+                        if (!device.isConnected() && device.getType() == DeviceType.PEBBLE && lastDeviceAddresses.contains(device.getAddress())) {
                             Intent intent = new Intent(this, DeviceCommunicationService.class)
                                     .setAction(ACTION_CONNECT)
-                                    .putExtra(GBDevice.EXTRA_DEVICE, currentDevice);
+                                    .putExtra(GBDevice.EXTRA_DEVICE, device);
                             this.startService(intent);
-                            currentDevice = candidate;
+                            currentDevice = device;
+                            break;
                         }
                     }
                 }

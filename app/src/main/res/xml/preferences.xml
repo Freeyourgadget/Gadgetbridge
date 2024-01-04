@@ -19,6 +19,13 @@
             android:title="@string/pref_title_general_autoconnectonbluetooth"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="general_reconnectonlytoconnected"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_general_reconnectonlytoconnected"
+            android:summary="@string/pref_summary_general_reconnectonlytoconnected"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:enabled="false"
             android:key="general_autocreconnect"

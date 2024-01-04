@@ -65,6 +65,9 @@ public class GBPrefs {
     public static final String CHART_MAX_HEART_RATE = "chart_max_heart_rate";
     public static final String CHART_MIN_HEART_RATE = "chart_min_heart_rate";
 
+    public static final String LAST_DEVICE_ADDRESSES = "last_device_addresses";
+    public static final String RECONNECT_ONLY_TO_CONNECTED = "general_reconnectonlytoconnected";
+
     private final Prefs mPrefs;
 
     public GBPrefs(Prefs prefs) {

@@ -48,8 +48,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -484,6 +487,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     gbDevs = new ArrayList<>();
                     gbDevs.add(extraDevice);
                     fromExtra = true;
+                } else if (prefs.getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true)) {
+                    List<GBDevice> gbAllDevs = GBApplication.app().getDeviceManager().getDevices();
+                    Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+                    if (gbAllDevs != null && !gbAllDevs.isEmpty() && !lastDeviceAddresses.isEmpty()) {
+                        gbDevs = new ArrayList<>();
+                        for(GBDevice gbDev : gbAllDevs) {
+                            if (lastDeviceAddresses.contains(gbDev.getAddress())) {
+                                gbDevs.add(gbDev);
+                            }
+                        }
+                    }
                 } else {
                     gbDevs = GBApplication.app().getDeviceManager().getDevices();
                 }
@@ -501,7 +515,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         if(!fromExtra && !autoReconnect) {
                             continue;
                         }
-                        prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
+                        Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+                        if (!lastDeviceAddresses.contains(btDeviceAddress)) {
+                            lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
+                            lastDeviceAddresses.add(btDeviceAddress);
+                            prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
+                        }
                     }
 
                     if(!fromExtra && !autoReconnect) {

@@ -41,7 +41,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -74,6 +76,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
@@ -134,10 +137,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         }
         Prefs prefs = getPrefs();
 
-        String lastDevice = prefs.getPreferences().getString("last_device_address", "");
-        if (gbDevice.getAddress().equals(lastDevice)) {
-            LOG.debug("#1605 removing last device");
-            prefs.getPreferences().edit().remove("last_device_address").apply();
+        Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+        if (lastDeviceAddresses.contains(gbDevice.getAddress())) {
+            LOG.debug("#1605 removing last device (one of last devices)");
+            lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
+            lastDeviceAddresses.remove(gbDevice.getAddress());
+            prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
         }
 
         String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
