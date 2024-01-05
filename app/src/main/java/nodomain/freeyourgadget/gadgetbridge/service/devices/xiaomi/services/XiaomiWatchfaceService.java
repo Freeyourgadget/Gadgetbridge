@@ -228,29 +228,36 @@ public class XiaomiWatchfaceService extends AbstractXiaomiService implements Xia
 
     @Override
     public void onUploadFinish(final boolean success) {
-        LOG.debug("Watchface upload finished: {}", success);
+        final int notificationMessage = success ?
+                R.string.uploadwatchfaceoperation_complete :
+                R.string.uploadwatchfaceoperation_failed;
 
-        getSupport().getDataUploadService().setCallback(null);
+        onUploadProgress(notificationMessage, 100, false);
 
-        final String notificationMessage = success ?
-                getSupport().getContext().getString(R.string.uploadwatchfaceoperation_complete) :
-                getSupport().getContext().getString(R.string.uploadwatchfaceoperation_failed);
+        if (getSupport().getConnectionSpecificSupport() != null) {
+            getSupport().getConnectionSpecificSupport().runOnQueue("watchface upload finish", () -> {
+                LOG.debug("Watchface upload finished: {}", success);
+                getSupport().getDataUploadService().setCallback(null);
+                unsetDeviceBusy();
 
-        GB.updateInstallNotification(notificationMessage, false, 100, getSupport().getContext());
+                if (success) {
+                    setWatchface(fwHelper.getId());
+                    requestWatchfaceList();
+                }
 
-        unsetDeviceBusy();
-
-        if (success) {
-            setWatchface(fwHelper.getId());
-            requestWatchfaceList();
+                fwHelper = null;
+            });
         }
-
-        fwHelper = null;
     }
 
     @Override
     public void onUploadProgress(final int progressPercent) {
-        getSupport().onUploadProgress(R.string.uploadwatchfaceoperation_in_progress, progressPercent);
+        onUploadProgress(R.string.uploadwatchfaceoperation_in_progress, progressPercent, true);
+    }
+
+    private void onUploadProgress(final int stringResource, final int progressPercent, final boolean ongoing) {
+        if (getSupport().getConnectionSpecificSupport() != null)
+            getSupport().getConnectionSpecificSupport().onUploadProgress(stringResource, progressPercent, ongoing);
     }
 
     private void setDeviceBusy() {

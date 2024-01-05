@@ -27,7 +27,8 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 public abstract class XiaomiConnectionSupport {
     public abstract boolean connect();
     public abstract void onAuthSuccess();
-    public abstract void onUploadProgress(int textRsrc, int progressPercent);
+    public abstract void onUploadProgress(int textRsrc, int progressPercent, boolean ongoing);
+    public abstract void runOnQueue(String taskName, Runnable run);
     public abstract void dispose();
     public abstract void setContext(final GBDevice device, final BluetoothAdapter adapter, final Context context);
     public abstract void disconnect();

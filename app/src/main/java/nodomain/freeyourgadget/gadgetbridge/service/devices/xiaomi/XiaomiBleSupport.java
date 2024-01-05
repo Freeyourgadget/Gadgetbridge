@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -241,12 +242,12 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
     }
 
     @Override
-    public void onUploadProgress(int textRsrc, int progressPercent) {
+    public void onUploadProgress(int textRsrc, int progressPercent, boolean ongoing) {
         try {
             final TransactionBuilder builder = commsSupport.createTransactionBuilder("send data upload progress");
             builder.add(new SetProgressAction(
                     commsSupport.getContext().getString(textRsrc),
-                    true,
+                    ongoing,
                     progressPercent,
                     commsSupport.getContext()
             ));
@@ -259,6 +260,19 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
     @Override
     public boolean connect() {
         return commsSupport.connect();
+    }
+
+    @Override
+    public void runOnQueue(String taskName, Runnable runnable) {
+        final TransactionBuilder b = commsSupport.createTransactionBuilder("run task " + taskName + " on queue");
+        b.add(new PlainAction() {
+            @Override
+            public boolean run(BluetoothGatt gatt) {
+                runnable.run();
+                return true;
+            }
+        });
+        b.queue(commsSupport.getQueue());
     }
 
     @Override

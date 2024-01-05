@@ -545,8 +545,10 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
     @Override
     public void onUploadFinish(final boolean success) {
         LOG.debug("Notification icon upload finished: {}", success);
-
-        getSupport().getDataUploadService().setCallback(null);
+        getSupport().getConnectionSpecificSupport().runOnQueue(
+                "notification icon upload finish",
+                () -> getSupport().getDataUploadService().setCallback(null)
+        );
     }
 
     @Override

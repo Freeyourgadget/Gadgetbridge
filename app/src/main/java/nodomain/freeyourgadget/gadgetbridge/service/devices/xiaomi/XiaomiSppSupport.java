@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.AbstractBTBRDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetProgressAction;
 
@@ -110,12 +111,12 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
     }
 
     @Override
-    public void onUploadProgress(final int textRsrc, final int progressPercent) {
+    public void onUploadProgress(final int textRsrc, final int progressPercent, final boolean ongoing) {
         try {
             final TransactionBuilder builder = commsSupport.createTransactionBuilder("send data upload progress");
             builder.add(new SetProgressAction(
                     commsSupport.getContext().getString(textRsrc),
-                    true,
+                    ongoing,
                     progressPercent,
                     commsSupport.getContext()
             ));
@@ -123,6 +124,24 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         } catch (final Exception e) {
             LOG.error("Failed to update progress notification", e);
         }
+    }
+
+    @Override
+    public void runOnQueue(String taskName, Runnable runnable) {
+        if (commsSupport == null) {
+            LOG.error("commsSupport is null, unable to queue task");
+            return;
+	}
+
+        final TransactionBuilder b = commsSupport.createTransactionBuilder("run task " + taskName + " on queue");
+        b.add(new PlainAction() {
+            @Override
+            public boolean run(BluetoothSocket socket) {
+                runnable.run();
+                return true;
+            }
+        });
+        b.queue(commsSupport.getQueue());
     }
 
     @Override

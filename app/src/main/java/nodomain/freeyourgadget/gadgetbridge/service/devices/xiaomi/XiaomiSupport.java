@@ -168,15 +168,6 @@ public class XiaomiSupport extends AbstractDeviceSupport {
         return false;
     }
 
-    public void onUploadProgress(int textRsrc, int progressPercent) {
-        if (getConnectionSpecificSupport() == null) {
-            LOG.error("onUploadProgress called but connection specific unavailable");
-            return;
-        }
-
-        getConnectionSpecificSupport().onUploadProgress(textRsrc, progressPercent);
-    }
-
     @Override
     public void dispose() {
         if (getConnectionSpecificSupport() != null) {

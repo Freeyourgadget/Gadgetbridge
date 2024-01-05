@@ -959,21 +959,28 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public void onUploadFinish(final boolean success) {
         LOG.debug("Firmware upload finished: {}", success);
 
-        getSupport().getDataUploadService().setCallback(null);
+        if (getSupport().getConnectionSpecificSupport() != null) {
+            getSupport().getConnectionSpecificSupport().runOnQueue("firmware upload finish", () -> {
+                getSupport().getDataUploadService().setCallback(null);
 
-        final String notificationMessage = success ?
-                getSupport().getContext().getString(R.string.updatefirmwareoperation_update_complete) :
-                getSupport().getContext().getString(R.string.updatefirmwareoperation_write_failed);
+                final int notificationMessage = success ?
+                        R.string.updatefirmwareoperation_update_complete :
+                        R.string.updatefirmwareoperation_write_failed;
 
-        GB.updateInstallNotification(notificationMessage, false, 100, getSupport().getContext());
+                onUploadProgress(notificationMessage, 100, false);
+                unsetDeviceBusy();
 
-        unsetDeviceBusy();
-
-        fwHelper = null;
+                fwHelper = null;
+            });
+        }
     }
 
     @Override
     public void onUploadProgress(final int progressPercent) {
-        getSupport().onUploadProgress(R.string.updatefirmwareoperation_update_in_progress, progressPercent);
+        onUploadProgress(R.string.updatefirmwareoperation_update_in_progress, progressPercent, true);
+    }
+
+    public void onUploadProgress(final int stringResource, final int progressPercent, final boolean ongoing) {
+        getSupport().getConnectionSpecificSupport().onUploadProgress(stringResource, progressPercent, ongoing);
     }
 }
