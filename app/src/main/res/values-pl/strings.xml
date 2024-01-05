@@ -2640,4 +2640,5 @@
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
     <string name="notification_channel_connection_status_name">Stan połączenia</string>
     <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
+    <string name="devicetype_nothingear2">Nothing Ear (2)</string>
 </resources>
