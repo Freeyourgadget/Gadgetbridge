@@ -155,12 +155,47 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt("startTime", "seconds");
         builder.addInt("endTime", "seconds");
         builder.addInt("activeSeconds", "seconds");
-        builder.addInt("distanceMeters", "meters");
+        builder.addUnknown(4);
         builder.addShort("caloriesBurnt", "calories_unit");
         builder.addUnknown(4);
         builder.addByte("averageHR", "bpm");
         builder.addByte("maxHR", "bpm");
         builder.addByte("minHR", "bpm");
+        builder.addFloat("aerobicTrainingEffect", "");
+        builder.addUnknown(2);
+        builder.addShort("recoveryTime", "hours");
+        builder.addInt("hrZoneExtreme", "seconds");
+        builder.addInt("hrZoneAnaerobic", "seconds");
+        builder.addInt("hrZoneAerobic", "seconds");
+        builder.addInt("hrZoneFatBurn", "seconds");
+        builder.addInt("hrZoneWarmUp", "seconds");
+        builder.addUnknown(6);
+        builder.addFloat("anaerobicTrainingEffect", "");
+        builder.addUnknown(3);
+        builder.addInt("configuredTimeGoal", "seconds");
+        builder.addShort("configuredCaloriesGoal", "calories_unit");
+        builder.addShort("maximumCaloriesGoal", "calories_unit");  // TODO: mhm?
+        builder.addUnknown(28);
+        builder.addShort("trainingLoad", "");
+        builder.addUnknown(24);
+        builder.addByte("configuredSets", "");
+        builder.addUnknown(13);
+        builder.addInt("startTime2", "seconds");
+        builder.addInt("endTime2", "seconds");
+        builder.addInt("goal", ""); // TODO match against goalType
+        builder.addInt("duration2", "seconds");
+        builder.addInt("intervalTime", "seconds");
+        builder.addUnknown(56);
+        builder.addInt("hrZoneExtreme2", "seconds");
+        builder.addInt("hrZoneAnaerobic2", "seconds");
+        builder.addInt("hrZoneAerobic2", "seconds");
+        builder.addInt("hrZoneFatBurn2", "seconds");
+        builder.addInt("hrZoneWarmUp2", "seconds");
+        builder.addUnknown(16);
+        builder.addShort("vitality_gain", "");
+        builder.addShort("training_load2", "");
+        builder.addShort("recovery_time2", "hours");
+
 
         return builder.build();
     }
@@ -198,7 +233,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addUnknown(9);
         builder.addByte("recoveryTime", "seconds");
         builder.addUnknown(2);
-        builder.addInt("vo2max", "seconds");
+        builder.addInt("hrZoneExtreme", "seconds");
         builder.addInt("hrZoneAnaerobic", "seconds");
         builder.addInt("hrZoneAerobic", "seconds");
         builder.addInt("hrZoneFatBurn", "seconds");
