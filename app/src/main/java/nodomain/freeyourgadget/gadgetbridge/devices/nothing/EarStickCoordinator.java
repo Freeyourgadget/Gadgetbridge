@@ -20,24 +20,24 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class Ear2Coordinator extends AbstractEarCoordinator {
+public class EarStickCoordinator extends AbstractEarCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Ear (2)", Pattern.LITERAL);
+        return Pattern.compile("Ear (stick)", Pattern.LITERAL);
     }
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_nothingear2;
+        return R.string.devicetype_nothingearstick;
     }
 
     @Override
     public boolean incrementCounter() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsLightAncAndTransparency() {
-        return true;
+        return false;
     }
 }

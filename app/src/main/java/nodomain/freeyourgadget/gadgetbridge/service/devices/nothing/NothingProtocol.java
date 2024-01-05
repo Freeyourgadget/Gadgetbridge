@@ -20,6 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.nothing.AbstractEarCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -61,6 +62,8 @@ public class NothingProtocol extends GBDeviceProtocol {
     private static final short in_ear_detection = (short) 0xf004;
     private static final short audio_mode = (short) 0xf00f;
 
+    private final boolean incrementCounter;
+    private int messageCounter = 0x00;
 
     private HashMap<Byte, GBDeviceEventBatteryInfo> batteries;
     private static final byte battery_earphone_left = 0x02;
@@ -133,10 +136,16 @@ public class NothingProtocol extends GBDeviceProtocol {
         ByteBuffer msgBuf = ByteBuffer.allocate(8 + payload.length);
         msgBuf.order(ByteOrder.LITTLE_ENDIAN);
         msgBuf.put((byte) 0x55); //sof
-        msgBuf.putShort(control);
+        msgBuf.putShort((short) (incrementCounter ? (control | 0x40) : control));
         msgBuf.putShort(command);
         msgBuf.putShort((short) payload.length);
-        msgBuf.put((byte) 0x00); //fsn TODO: is this always 0?
+        msgBuf.put((byte) messageCounter); //fsn
+        if (incrementCounter) {
+            messageCounter++;
+            if ((byte) messageCounter == (byte) 0xfd) {
+                messageCounter = 0x00;
+            }
+        }
         msgBuf.put(payload);
 
         if (isCrcNeeded(control)) {
@@ -294,8 +303,13 @@ public class NothingProtocol extends GBDeviceProtocol {
         return (byte) ((control & MASK_DEVICE_TYPE) >> 8);
     }
 
+    private AbstractEarCoordinator getCoordinator() {
+        return (AbstractEarCoordinator) getDevice().getDeviceCoordinator();
+    }
+
     protected NothingProtocol(GBDevice device) {
         super(device);
+
         batteries = new HashMap<>(3);
 
         batteries.put(battery_earphone_left, new GBDeviceEventBatteryInfo());
@@ -306,5 +320,6 @@ public class NothingProtocol extends GBDeviceProtocol {
         batteries.get(battery_earphone_left).batteryIndex=1;
         batteries.get(battery_earphone_right).batteryIndex=2;
 
+        incrementCounter = getCoordinator().incrementCounter();
     }
 }

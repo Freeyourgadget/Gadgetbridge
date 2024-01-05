@@ -115,6 +115,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoord
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.nothing.EarStickCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nut.NutCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFCoordinator;
@@ -279,6 +280,7 @@ public enum DeviceType {
     DOMYOS_T540(DomyosT540Coordinator.class),
     NOTHING_EAR1(Ear1Coordinator.class),
     NOTHING_EAR2(Ear2Coordinator.class),
+    NOTHING_EAR_STICK(EarStickCoordinator.class),
     GALAXY_BUDS_PRO(GalaxyBudsProDeviceCoordinator.class),
     GALAXY_BUDS_LIVE(GalaxyBudsLiveDeviceCoordinator.class),
     GALAXY_BUDS(GalaxyBudsDeviceCoordinator.class),

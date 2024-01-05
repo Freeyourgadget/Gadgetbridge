@@ -2820,8 +2820,15 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
-    <string-array name="nothing_ear1_audio_mode">
+
+    <string-array name="nothing_ear1_audio_mode_names">
+        <item>@string/prefs_active_noise_cancelling</item>
+        <item>@string/prefs_active_noise_cancelling_light</item>
+        <item>@string/prefs_active_noise_cancelling_transparency</item>
+        <item>@string/off</item>
+    </string-array>
+
+    <string-array name="nothing_ear1_audio_mode_values">
         <item>anc</item>
         <item>anc-light</item>
         <item>transparency</item>
