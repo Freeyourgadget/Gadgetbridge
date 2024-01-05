@@ -2616,4 +2616,5 @@
     <string name="devicetype_redmi_watch_2_lite">ساعة ريدمي 2 لايت</string>
     <string name="devicetype_redmi_smart_band_pro">سوار ريدمي برو الذكي</string>
     <string name="notification_channel_connection_status_name">حالة الإتصال</string>
+    <string name="devicetype_nothingear2">نوثينج Ear (2)</string>
 </resources>
