@@ -160,12 +160,11 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         }
     }
 
-    public byte[] encrypt(final byte[] arr, final short i) {
+    public byte[] encrypt(final byte[] arr, final int i) {
         final ByteBuffer packetNonce = ByteBuffer.allocate(12).order(ByteOrder.LITTLE_ENDIAN)
                 .put(encryptionNonce)
                 .putInt(0)
-                .putShort(i) // TODO what happens once this overflows?
-                .putShort((short) 0);
+                .putInt(i);
 
         try {
             return encrypt(encryptionKey, packetNonce.array(), arr);
@@ -219,7 +218,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .build();
 
         final byte[] encryptedNonces = hmacSHA256(encryptionKey, ArrayUtils.addAll(nonce, watchNonce.getNonce().toByteArray()));
-        final byte[] encryptedDeviceInfo = encrypt(authDeviceInfo.toByteArray(), (short) 0);
+        final byte[] encryptedDeviceInfo = encrypt(authDeviceInfo.toByteArray(), 0);
         final XiaomiProto.AuthStep3 authStep3 = XiaomiProto.AuthStep3.newBuilder()
                 .setEncryptedNonces(ByteString.copyFrom(encryptedNonces))
                 .setEncryptedDeviceInfo(ByteString.copyFrom(encryptedDeviceInfo))

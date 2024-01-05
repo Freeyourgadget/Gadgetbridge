@@ -220,9 +220,9 @@ public class XiaomiSppPacket {
         byte[] payload = this.payload;
 
         if (dataType == DATA_TYPE_ENCRYPTED && channel == CHANNEL_PROTO_TX) {
-            short packetCounter = (short) encryptionCounter.incrementAndGet();
+            int packetCounter = encryptionCounter.incrementAndGet();
             payload = authService.encrypt(payload, packetCounter);
-            payload = ByteBuffer.allocate(payload.length + 2).order(ByteOrder.LITTLE_ENDIAN).putShort(packetCounter).put(payload).array();
+            payload = ByteBuffer.allocate(payload.length + 2).order(ByteOrder.LITTLE_ENDIAN).putShort((short) packetCounter).put(payload).array();
         } else if (dataType == DATA_TYPE_ENCRYPTED) {
             payload = authService.encrypt(payload, (short) 0);
         }

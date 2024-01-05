@@ -54,7 +54,7 @@ public class XiaomiCharacteristic {
     private final XiaomiAuthService authService;
     private boolean isEncrypted;
     public boolean incrementNonce = true;
-    private short encryptedIndex = 0;
+    private int encryptedIndex = 0;
 
     // Chunking
     private int numChunks = 0;
@@ -311,7 +311,7 @@ public class XiaomiCharacteristic {
                 // Prepend encrypted index for the nonce
                 currentPayload.setBytesToSend(
                         ByteBuffer.allocate(2 + currentPayload.getBytesToSend().length).order(ByteOrder.LITTLE_ENDIAN)
-                                .putShort(encryptedIndex++)
+                                .putShort((short) encryptedIndex++)
                                 .put(currentPayload.getBytesToSend())
                                 .array()
                 );
@@ -344,7 +344,7 @@ public class XiaomiCharacteristic {
             buf.put((byte) (encrypt ? 1 : 2));
             if (encrypt) {
                 if (incrementNonce) {
-                    buf.putShort(encryptedIndex++);
+                    buf.putShort((short) encryptedIndex++);
                 } else {
                     buf.putShort((short) 0);
                 }
