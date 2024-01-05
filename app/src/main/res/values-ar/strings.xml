@@ -2617,4 +2617,7 @@
     <string name="devicetype_redmi_smart_band_pro">سوار ريدمي برو الذكي</string>
     <string name="notification_channel_connection_status_name">حالة الإتصال</string>
     <string name="devicetype_nothingear2">نوثينج Ear (2)</string>
+    <string name="prefs_active_noise_cancelling_transparency">الشفافية</string>
+    <string name="devicetype_nothingearstick">نوثينج Ear (Stick)</string>
+    <string name="prefs_active_noise_cancelling_light">إلغاء الضوضاء النشطة الخفيفة</string>
 </resources>
