@@ -99,10 +99,15 @@ public class BleNamesResolver {
 		mServices.put("00001814-0000-1000-8000-00805f9b34fb", "Running Speed and Cadence");
 		mServices.put("00001813-0000-1000-8000-00805f9b34fb", "Scan Parameters");
 		mServices.put("00001804-0000-1000-8000-00805f9b34fb", "Tx Power");
+		mServices.put("0000fdab-0000-1000-8000-00805f9b34fb", "(Propr: Xiaomi Proximity Unlock Service)");
+		mServices.put("0000fe95-0000-1000-8000-00805f9b34fb", "(Propr: Xiaomi Wear Service)");
 		mServices.put("0000fee0-0000-3512-2118-0009af100700", "(Propr: Xiaomi MiLi Service)");
 		mServices.put("00001530-0000-3512-2118-0009af100700", "(Propr: Xiaomi Weight Service)");
 		mServices.put("14701820-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Service)");
-
+		mServices.put("16186f00-0000-1000-8000-00807f9b34fb", "(Propr: Xiaomi Wear Service - Mi Watch Lite/Redmi Watch)");
+		mServices.put("16187f00-0000-1000-8000-00807f9b34fb", "(Propr: Xiaomi Wear Service - Mi Smart Watch 4C/Redmi Band)");
+		mServices.put("1314f000-1000-9000-7000-301291e21220", "(Propr: Xiaomi Wear Service - Mi Watch/Mi Watch Color/Mi Watch Color Sport)");
+		mServices.put("7495fe00-a7f3-424b-92dd-4a006a3aef56", "(Propr: Xiaomi Wear Service - Mi Watch CN)");
 		
 		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID");
 		mCharacteristics.put("00002a42-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID Bit Mask");

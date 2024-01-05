@@ -75,23 +75,30 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
                 if (getSupportedServices().contains(xiaomiUuid.getKey())) {
                     LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
                     uuidSet = xiaomiUuid.getValue();
+                    UUID currentChar;
 
-                    btCharacteristicCommandRead = getCharacteristic(uuidSet.getCharacteristicCommandRead());
-                    btCharacteristicCommandWrite = getCharacteristic(uuidSet.getCharacteristicCommandWrite());
-                    btCharacteristicActivityData = getCharacteristic(uuidSet.getCharacteristicActivityData());
-                    btCharacteristicDataUpload = getCharacteristic(uuidSet.getCharacteristicDataUpload());
-                    if (btCharacteristicCommandRead == null) {
+                    if ((currentChar = uuidSet.getCharacteristicCommandRead()) == null ||
+                            (btCharacteristicCommandRead = getCharacteristic(currentChar)) == null) {
                         LOG.warn("btCharacteristicCommandRead characteristicc is null");
                         continue;
-                    } else if (btCharacteristicCommandWrite == null) {
+                    }
+
+                    if ((currentChar = uuidSet.getCharacteristicCommandWrite()) == null ||
+                            (btCharacteristicCommandWrite = getCharacteristic(currentChar)) == null) {
                         LOG.warn("btCharacteristicCommandWrite characteristicc is null");
                         continue;
-                    } else if (btCharacteristicActivityData == null) {
+                    }
+
+                    if ((currentChar = uuidSet.getCharacteristicActivityData()) == null ||
+                            (btCharacteristicActivityData= getCharacteristic(currentChar)) == null) {
                         LOG.warn("btCharacteristicActivityData characteristicc is null");
                         continue;
-                    } else if (btCharacteristicDataUpload == null) {
+                    }
+
+                    if ((currentChar = uuidSet.getCharacteristicDataUpload()) == null ||
+                            (btCharacteristicDataUpload= getCharacteristic(currentChar)) == null) {
                         LOG.warn("btCharacteristicDataUpload characteristicc is null");
-                        continue;
+                        // this characteristic may not be supported by all models
                     }
 
                     break;

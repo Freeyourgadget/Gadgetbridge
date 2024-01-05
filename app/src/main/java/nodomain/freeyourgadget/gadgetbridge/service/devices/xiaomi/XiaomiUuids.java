@@ -40,6 +40,7 @@ public class XiaomiUuids {
         ));
 
         // Mi Watch Lite
+        // Redmi Watch
         put(UUID.fromString("16186f00-0000-1000-8000-00807f9b34fb"), new XiaomiBleUuidSet(
                 false,
                 UUID.fromString("16186f01-0000-1000-8000-00807f9b34fb"),
@@ -48,13 +49,32 @@ public class XiaomiUuids {
                 UUID.fromString("16186f04-0000-1000-8000-00807f9b34fb")
         ));
 
-        // Mi Watch Color Sport
+        // Mi Smart Watch 4C
+        // Redmi Band
+        put(UUID.fromString("16187f00-0000-1000-8000-00807f9b34fb"), new XiaomiBleUuidSet(
+                false, // FIXME check
+                UUID.fromString("16187f02-0000-1000-8000-00807f9b34fb"),
+                UUID.fromString("16187f01-0000-1000-8000-00807f9b34fb"),
+                UUID.fromString("16187f03-0000-1000-8000-00807f9b34fb"),
+                UUID.fromString("16187f04-0000-1000-8000-00807f9b34fb")
+        ));
+
+        // Mi Watch (Color (Sport))
         put(UUID.fromString("1314f000-1000-9000-7000-301291e21220"), new XiaomiBleUuidSet(
                 false,
                 UUID.fromString("1314f005-1000-9000-7000-301291e21220"),
                 UUID.fromString("1314f001-1000-9000-7000-301291e21220"),
                 UUID.fromString("1314f002-1000-9000-7000-301291e21220"),
                 UUID.fromString("1314f007-1000-9000-7000-301291e21220")
+        ));
+
+        // Mi Watch CN
+        put(UUID.fromString("7495fe00-a7f3-424b-92dd-4a006a3aef56"), new XiaomiBleUuidSet(
+                false, // FIXME check
+                UUID.fromString("74950002-a7f3-424b-92dd-4a006a3aef56"),
+                UUID.fromString("74950001-a7f3-424b-92dd-4a006a3aef56"),
+                UUID.fromString("74950003-a7f3-424b-92dd-4a006a3aef56"),
+                null
         ));
     }};
 
