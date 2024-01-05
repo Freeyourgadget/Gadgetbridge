@@ -116,29 +116,54 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
                 return builder;
             }
 
-            XiaomiBleSupport.this.characteristicCommandRead = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicCommandRead, mXiaomiSupport.getAuthService());
-            XiaomiBleSupport.this.characteristicCommandRead.setEncrypted(uuidSet.isEncrypted());
-            XiaomiBleSupport.this.characteristicCommandRead.setChannelHandler(mXiaomiSupport::handleCommandBytes);
-            XiaomiBleSupport.this.characteristicCommandWrite = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicCommandWrite, mXiaomiSupport.getAuthService());
-            XiaomiBleSupport.this.characteristicCommandWrite.setEncrypted(uuidSet.isEncrypted());
-            XiaomiBleSupport.this.characteristicActivityData = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicActivityData, mXiaomiSupport.getAuthService());
-            XiaomiBleSupport.this.characteristicActivityData.setChannelHandler(mXiaomiSupport.getHealthService().getActivityFetcher()::addChunk);
-            XiaomiBleSupport.this.characteristicActivityData.setEncrypted(uuidSet.isEncrypted());
-            XiaomiBleSupport.this.characteristicDataUpload = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicDataUpload, mXiaomiSupport.getAuthService());
-            XiaomiBleSupport.this.characteristicDataUpload.setEncrypted(uuidSet.isEncrypted());
-            XiaomiBleSupport.this.characteristicDataUpload.setIncrementNonce(false);
+            // FIXME:
+            // Because the first handshake packet is sent before the actions in the builder are run,
+            // the maximum message size is not properly initialized if the device itself does not request
+            // the MTU to be upgraded. However, since we will upgrade the MTU ourselves to the highest
+            // possible (512) and the device will (likely) respond with something higher than 247,
+            // we will initialize the characteristics with that MTU.
+            final int expectedMtu = 247;
+            characteristicCommandRead = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicCommandRead, mXiaomiSupport.getAuthService());
+            characteristicCommandRead.setEncrypted(uuidSet.isEncrypted());
+            characteristicCommandRead.setChannelHandler(mXiaomiSupport::handleCommandBytes);
+            characteristicCommandRead.setMtu(expectedMtu);
+            characteristicCommandWrite = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicCommandWrite, mXiaomiSupport.getAuthService());
+            characteristicCommandWrite.setEncrypted(uuidSet.isEncrypted());
+            characteristicCommandWrite.setMtu(expectedMtu);
+            characteristicActivityData = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicActivityData, mXiaomiSupport.getAuthService());
+            characteristicActivityData.setChannelHandler(mXiaomiSupport.getHealthService().getActivityFetcher()::addChunk);
+            characteristicActivityData.setEncrypted(uuidSet.isEncrypted());
+            characteristicActivityData.setMtu(expectedMtu);
+            characteristicDataUpload = new XiaomiCharacteristic(XiaomiBleSupport.this, btCharacteristicDataUpload, mXiaomiSupport.getAuthService());
+            characteristicDataUpload.setEncrypted(uuidSet.isEncrypted());
+            characteristicDataUpload.setIncrementNonce(false);
+            characteristicDataUpload.setMtu(expectedMtu);
 
-            builder.requestMtu(247);
+            // request highest possible MTU; device should response with the highest supported MTU anyway
+            builder.requestMtu(512);
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
             builder.notify(btCharacteristicCommandWrite, true);
             builder.notify(btCharacteristicCommandRead, true);
             builder.notify(btCharacteristicActivityData, true);
             builder.notify(btCharacteristicDataUpload, true);
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
 
             if (uuidSet.isEncrypted()) {
-                mXiaomiSupport.getAuthService().startEncryptedHandshake(XiaomiBleSupport.this, builder);
+                builder.add(new PlainAction() {
+                    @Override
+                    public boolean run(BluetoothGatt gatt) {
+                        mXiaomiSupport.getAuthService().startEncryptedHandshake();
+                        return true;
+                    }
+                });
             } else {
-                mXiaomiSupport.getAuthService().startClearTextHandshake(XiaomiBleSupport.this, builder);
+                builder.add(new PlainAction() {
+                    @Override
+                    public boolean run(BluetoothGatt gatt) {
+                        mXiaomiSupport.getAuthService().startClearTextHandshake();
+                        return true;
+                    }
+                });
             }
 
             return builder;
@@ -174,6 +199,20 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         @Override
         public boolean getImplicitCallbackModify() {
             return mXiaomiSupport.getImplicitCallbackModify();
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+
+            if (characteristicCommandRead != null)
+                characteristicCommandRead.setMtu(mtu);
+            if (characteristicCommandWrite != null)
+                characteristicCommandWrite.setMtu(mtu);
+            if (characteristicDataUpload != null)
+                characteristicDataUpload.setMtu(mtu);
+            if (characteristicActivityData != null)
+                characteristicActivityData.setMtu(mtu);
         }
     };
 

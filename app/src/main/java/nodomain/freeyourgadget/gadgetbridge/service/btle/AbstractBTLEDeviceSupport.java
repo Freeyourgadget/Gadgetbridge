@@ -55,7 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback, GattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
 
-    private int mMTU = 0;
+    private int mMTU = 23;
     private BtLEQueue mQueue;
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);

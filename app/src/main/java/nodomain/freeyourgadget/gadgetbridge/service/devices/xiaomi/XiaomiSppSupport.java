@@ -76,7 +76,14 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
             }
 
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-            mXiaomiSupport.getAuthService().startEncryptedHandshake(XiaomiSppSupport.this, builder);
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
+            builder.add(new PlainAction() {
+                @Override
+                public boolean run(BluetoothSocket socket) {
+                    mXiaomiSupport.getAuthService().startEncryptedHandshake();
+                    return true;
+                }
+            });
 
             return builder;
         }

@@ -79,32 +79,16 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         return encryptionInitialized;
     }
 
-    // TODO also implement for spp
-    protected void startEncryptedHandshake(final XiaomiBleSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
+    protected void startEncryptedHandshake() {
         encryptionInitialized = false;
-
-        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
 
-        support.sendCommand(builder, buildNonceCommand(nonce));
+        getSupport().sendCommand("auth step 1", buildNonceCommand(nonce));
     }
 
-    protected void startEncryptedHandshake(final XiaomiSppSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder builder) {
-        encryptionInitialized = false;
-
-        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
-
-        System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
-        new SecureRandom().nextBytes(nonce);
-
-        support.sendCommand(builder, buildNonceCommand(nonce));
-    }
-
-    protected void startClearTextHandshake(final XiaomiBleSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
-        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
-
+    protected void startClearTextHandshake() {
         final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
                 .setUserId(getUserId(getSupport().getDevice()))
                 .build();
@@ -115,7 +99,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .setAuth(auth)
                 .build();
 
-        support.sendCommand(builder, command);
+        getSupport().sendCommand("auth step 1", command);
     }
 
     @Override
