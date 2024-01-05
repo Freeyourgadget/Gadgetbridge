@@ -1379,4 +1379,5 @@
     <string name="prefs_wena3_vibration_strength_item_strong">Erős</string>
     <string name="prefs_wena3_vibration_triple">Háromszor</string>
     <string name="pref_explanation_authkey">Néhány eszköznek szüksége van egy különleges párosítási kulcsra az első alkalommal. Koppintson ide a további részletekért a wikiben.</string>
+    <string name="about_description_banglejs_main"></string>
 </resources>
