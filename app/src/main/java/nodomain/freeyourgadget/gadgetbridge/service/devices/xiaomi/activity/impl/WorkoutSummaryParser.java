@@ -242,7 +242,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addUnknown(9);
         builder.addByte("recoveryTime", "seconds");
         builder.addUnknown(2);
-        builder.addInt("vo2max", "ml/kg/min");
+        builder.addInt("hrZoneExtreme", "seconds");
         builder.addInt("hrZoneAnaerobic", "seconds");
         builder.addInt("hrZoneAerobic", "seconds");
         builder.addInt("hrZoneFatBurn", "seconds");
