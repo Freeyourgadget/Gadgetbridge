@@ -2634,4 +2634,7 @@
     <string name="notification_channel_connection_status_name">Estado de la conexión</string>
     <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
     <string name="devicetype_nothingear2">Nothing Ear (2)</string>
+    <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
+    <string name="prefs_active_noise_cancelling_transparency">Transparencia</string>
+    <string name="prefs_active_noise_cancelling_light">Cancelación activa del ruido ligera</string>
 </resources>
