@@ -2624,4 +2624,8 @@
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
     <string name="notification_channel_connection_status_name">Состояние соединения</string>
     <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
+    <string name="devicetype_nothingear2">Nothing Ear (2)</string>
+    <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
+    <string name="prefs_active_noise_cancelling_light">Лёгкое активное подавление шума</string>
+    <string name="prefs_active_noise_cancelling_transparency">Прозрачность</string>
 </resources>
