@@ -16,13 +16,46 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ACTIVE_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CADENCE_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CALORIES_BURNT;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DISTANCE_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MAX;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MIN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_AEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_ANAEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_EXTREME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_FAT_BURN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MAX;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MIN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.RECOVERY_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_MAX;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_END;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_START;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_AEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_ANAEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_BPM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_HOURS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KCAL;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KMPH;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_M;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SPM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.WORKOUT_LOAD;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.XiaomiSimpleActivityParser.XIAOMI_WORKOUT_TYPE;
+
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,50 +185,52 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
         builder.setHeaderSize(headerSize);
-        builder.addInt("startTime", "seconds");
-        builder.addInt("endTime", "seconds");
-        builder.addInt("activeSeconds", "seconds");
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
         builder.addUnknown(4);
-        builder.addShort("caloriesBurnt", "calories_unit");
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
         builder.addUnknown(4);
-        builder.addByte("averageHR", "bpm");
-        builder.addByte("maxHR", "bpm");
-        builder.addByte("minHR", "bpm");
-        builder.addFloat("aerobicTrainingEffect", "");
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addUnknown(1);
+        builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
         builder.addUnknown(2);
-        builder.addShort("recoveryTime", "hours");
-        builder.addInt("hrZoneExtreme", "seconds");
-        builder.addInt("hrZoneAnaerobic", "seconds");
-        builder.addInt("hrZoneAerobic", "seconds");
-        builder.addInt("hrZoneFatBurn", "seconds");
-        builder.addInt("hrZoneWarmUp", "seconds");
-        builder.addUnknown(6);
-        builder.addFloat("anaerobicTrainingEffect", "");
+        builder.addUnknown(4);
+        builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
+        // FIXME identify field lengths to align with the header
         builder.addUnknown(3);
-        builder.addInt("configuredTimeGoal", "seconds");
-        builder.addShort("configuredCaloriesGoal", "calories_unit");
-        builder.addShort("maximumCaloriesGoal", "calories_unit");  // TODO: mhm?
+        builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+        builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+        builder.addShort("maximumCaloriesGoal", UNIT_KCAL);  // TODO: mhm?
         builder.addUnknown(28);
-        builder.addShort("trainingLoad", "");
+        builder.addShort(WORKOUT_LOAD, UNIT_NONE); // training load
         builder.addUnknown(24);
-        builder.addByte("configuredSets", "");
+        builder.addByte("configuredSets", UNIT_NONE);
         builder.addUnknown(13);
-        builder.addInt("startTime2", "seconds");
-        builder.addInt("endTime2", "seconds");
-        builder.addInt("goal", ""); // TODO match against goalType
-        builder.addInt("duration2", "seconds");
-        builder.addInt("intervalTime", "seconds");
+        builder.addInt("startTime2", UNIT_SECONDS);
+        builder.addInt("endTime2", UNIT_SECONDS);
+        builder.addInt("goal", UNIT_NONE); // TODO match against goalType
+        builder.addInt("duration2", UNIT_SECONDS);
+        builder.addInt("intervalTime", UNIT_SECONDS);
         builder.addUnknown(56);
-        builder.addInt("hrZoneExtreme2", "seconds");
-        builder.addInt("hrZoneAnaerobic2", "seconds");
-        builder.addInt("hrZoneAerobic2", "seconds");
-        builder.addInt("hrZoneFatBurn2", "seconds");
-        builder.addInt("hrZoneWarmUp2", "seconds");
+        builder.addInt("hrZoneExtreme2", UNIT_SECONDS);
+        builder.addInt("hrZoneAnaerobic2", UNIT_SECONDS);
+        builder.addInt("hrZoneAerobic2", UNIT_SECONDS);
+        builder.addInt("hrZoneFatBurn2", UNIT_SECONDS);
+        builder.addInt("hrZoneWarmUp2", UNIT_SECONDS);
         builder.addUnknown(16);
-        builder.addShort("vitality_gain", "");
-        builder.addShort("training_load2", "");
-        builder.addShort("recovery_time2", "hours");
-
+        builder.addShort("vitality_gain", UNIT_NONE);
+        builder.addShort("training_load2", UNIT_NONE);
+        builder.addShort("recovery_time2", UNIT_HOURS);
 
         return builder.build();
     }
@@ -215,30 +250,31 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
         builder.setHeaderSize(headerSize);
-        builder.addInt("startTime", "seconds");
-        builder.addInt("endTime", "seconds");
-        builder.addInt("activeSeconds", "seconds");
-        builder.addInt("distanceMeters", "meters");
-        builder.addInt("caloriesBurnt", "calories_unit");
-        builder.addInt("maxPace", "seconds_m");
-        builder.addInt("minPace", "seconds_m");
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addInt(DISTANCE_METERS, UNIT_METERS);
+        builder.addInt(CALORIES_BURNT, UNIT_KCAL);
+        builder.addInt(PACE_MAX, UNIT_SECONDS_PER_M);
+        builder.addInt(PACE_MIN, UNIT_SECONDS_PER_M);
         builder.addUnknown(4);
-        builder.addInt("steps", "steps_unit");
+        builder.addInt(STEPS, UNIT_STEPS);
         builder.addUnknown(2); // pace?
-        builder.addByte("averageHR", "bpm");
-        builder.addByte("maxHR", "bpm");
-        builder.addByte("minHR", "bpm");
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        // FIXME identify field lengths to align with the header
         builder.addUnknown(20);
         builder.addFloat("recoveryValue", "recoveryValue");
         builder.addUnknown(9);
-        builder.addByte("recoveryTime", "seconds");
+        builder.addByte(RECOVERY_TIME, UNIT_SECONDS);
         builder.addUnknown(2);
-        builder.addInt("hrZoneExtreme", "seconds");
-        builder.addInt("hrZoneAnaerobic", "seconds");
-        builder.addInt("hrZoneAerobic", "seconds");
-        builder.addInt("hrZoneFatBurn", "seconds");
-        builder.addInt("hrZoneWarmUp", "seconds");
-        builder.addInt("configured_time_goal", "seconds");
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addInt("configured_time_goal", UNIT_SECONDS);
 
         return builder.build();
     }
@@ -258,41 +294,41 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
         builder.setHeaderSize(headerSize);
-        builder.addShort("xiaomiActivityType", "xiaomiActivityType");
-        builder.addInt("startTime", "seconds");
-        builder.addInt("endTime", "seconds");
-        builder.addInt("activeSeconds", "seconds");
+        builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
         builder.addUnknown(4);
-        builder.addInt("distanceMeters", "meters");
+        builder.addInt(DISTANCE_METERS, UNIT_METERS);
         builder.addUnknown(2);
-        builder.addShort("caloriesBurnt", "calories_unit");
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
         builder.addUnknown(12);
-        builder.addInt("steps", "steps_unit");
+        builder.addInt(STEPS, UNIT_STEPS);
         builder.addUnknown(2);
-        builder.addByte("averageHR", "bpm");
-        builder.addByte("maxHR", "bpm");
-        builder.addByte("minHR", "bpm");
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
         builder.addUnknown(20);
         builder.addFloat("recoveryValue", "?");
         builder.addUnknown(9);
-        builder.addByte("recoveryTime", "hours");
+        builder.addByte(RECOVERY_TIME, UNIT_HOURS);
         builder.addUnknown(2);
-        builder.addInt("hrZoneExtreme", "seconds");
-        builder.addInt("hrZoneAnaerobic", "seconds");
-        builder.addInt("hrZoneAerobic", "seconds");
-        builder.addInt("hrZoneFatBurn", "seconds");
-        builder.addInt("hrZoneWarmUp", "seconds");
-        builder.addInt("configuredTimeGoal", "seconds");
-        builder.addShort("configuredCaloriesGoal", "calories_unit");
-        builder.addInt("configuredDistanceGoal", "meters");
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+        builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+        builder.addInt("configuredDistanceGoal", UNIT_METERS);
         builder.addUnknown(11);
-        builder.addShort("trainingLoad", "");
+        builder.addShort(WORKOUT_LOAD, UNIT_NONE); // training load
         builder.addUnknown(24);
-        builder.addByte("averageHR2", "bpm");
-        builder.addByte("maxHR2", "bpm");
-        builder.addByte("minHR2", "bpm");
+        builder.addByte("averageHR2", UNIT_BPM);
+        builder.addByte("maxHR2", UNIT_BPM);
+        builder.addByte("minHR2", UNIT_BPM);
         builder.addUnknown(2);
-        builder.addByte("averageCadence", "spm");
+        builder.addByte(CADENCE_AVG, UNIT_SPM);
 
         return builder.build();
     }
@@ -312,19 +348,20 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
         builder.setHeaderSize(headerSize);
-        builder.addShort("xiaomiWorkoutType", "xiaomiWorkoutType");
-        builder.addInt("startTime", "seconds");
-        builder.addInt("endTime", "seconds");
-        builder.addInt("activeSeconds", "seconds");
+        builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
         builder.addUnknown(4);
-        builder.addInt("distanceMeters", "meters");
+        builder.addInt(DISTANCE_METERS, UNIT_METERS);
         builder.addUnknown(2);
-        builder.addShort("caloriesBurnt", "calories_unit");
-        builder.addUnknown(8);
-        builder.addFloat("maxSpeed", "km_h");
-        builder.addByte("averageHR", "bpm");
-        builder.addByte("maxHR", "bpm");
-        builder.addByte("minHR", "bpm");
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addUnknown(4);
+        builder.addUnknown(4);
+        builder.addFloat(SPEED_MAX, UNIT_KMPH);
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
 
         return builder.build();
     }

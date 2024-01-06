@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -153,35 +155,35 @@ public class ActivitySummaryJsonSummary {
     private JSONObject createActivitySummaryGroups(){
         final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
             put("Strokes", Arrays.asList(
-                    "averageStrokeDistance", "averageStrokesPerSecond", "strokes",
-                    "avgStrokeRate", "maxStrokeRate"
+                    STROKE_DISTANCE_AVG, STROKE_AVG_PER_SECOND, STROKES,
+                    STROKE_RATE_AVG, STROKE_RATE_MAX
             ));
             put("Swimming", Arrays.asList(
-                    "swolfIndex", "swimStyle"
+                    SWOLF_INDEX, SWIM_STYLE
             ));
             put("Elevation", Arrays.asList(
-                    "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
-                    "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
-                    "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
+                    ASCENT_METERS, DESCENT_METERS, ALTITUDE_MAX, ALTITUDE_MIN, ALTITUDE_AVG,
+                    ALTITUDE_BASE, ASCENT_SECONDS, DESCENT_SECONDS, FLAT_SECONDS, ASCENT_DISTANCE,
+                    DESCENT_DISTANCE, FLAT_DISTANCE, ELEVATION_GAIN, ELEVATION_LOSS
             ));
             put("Speed", Arrays.asList(
-                    "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
-                    "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
+                    SPEED_AVG, SPEED_MAX, SPEED_MIN, PACE_AVG_SECONDS_KM, PACE_MIN,
+                    PACE_MAX, "averageSpeed2", CADENCE_AVG, CADENCE_MAX, CADENCE_MIN
             ));
             put("Activity", Arrays.asList(
-                    "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
-                    "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
+                    DISTANCE_METERS, STEPS, ACTIVE_SECONDS, CALORIES_BURNT, STRIDE_TOTAL,
+                    HR_AVG, HR_MAX, HR_MIN, STRIDE_AVG, STRIDE_MAX, STRIDE_MIN
             ));
             put("HeartRateZones", Arrays.asList(
-                    "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
-                    "hrZoneExtreme"
+                    HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC,
+                    HR_ZONE_EXTREME
             ));
             put("TrainingEffect", Arrays.asList(
-                    "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
-                    "maximumOxygenUptake"
+                    TRAINING_EFFECT_AEROBIC, TRAINING_EFFECT_ANAEROBIC, WORKOUT_LOAD,
+                    MAXIMUM_OXYGEN_UPTAKE
             ));
             put("laps", Arrays.asList(
-                    "averageLapPace", "laps", "laneLength"
+                    LAP_PACE_AVERAGE, LAPS, LANE_LENGTH
             ));
         }};
 

@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
+
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -86,7 +88,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
@@ -464,13 +465,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         if (!show_raw_data) {
                             //special casing here + imperial units handling
                             switch (unit) {
-                                case "cm":
+                                case UNIT_CM:
                                     if (units.equals(UNIT_IMPERIAL)) {
                                         value = value * 0.0328084;
                                         unit = "ft";
                                     }
                                     break;
-                                case "meters_second":
+                                case UNIT_METERS_PER_SECOND:
                                     if (units.equals(UNIT_IMPERIAL)) {
                                         value = value * 2.236936D;
                                         unit = "mi_h";
@@ -479,7 +480,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                         unit = "km_h";
                                     }
                                     break;
-                                case "seconds_m":
+                                case UNIT_SECONDS_PER_M:
                                     if (units.equals(UNIT_IMPERIAL)) {
                                         value = value * (1609.344 / 60D);
                                         unit = "minutes_mi";
@@ -488,7 +489,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                         unit = "minutes_km";
                                     }
                                     break;
-                                case "seconds_km":
+                                case UNIT_SECONDS_PER_KM:
                                     if (units.equals(UNIT_IMPERIAL)) {
                                         value = value / 60D * 1.609344;
                                         unit = "minutes_mi";
@@ -497,7 +498,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                         unit = "minutes_km";
                                     }
                                     break;
-                                case "meters":
+                                case UNIT_METERS:
                                     if (units.equals(UNIT_IMPERIAL)) {
                                         value = value * 3.28084D;
                                         unit = "ft";

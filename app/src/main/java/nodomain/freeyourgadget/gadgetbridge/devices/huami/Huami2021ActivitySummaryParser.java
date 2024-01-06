@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -73,7 +75,7 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
         if (summaryProto.hasTime()) {
             int totalDuration = summaryProto.getTime().getTotalDuration();
             summary.setEndTime(new Date(startTime.getTime() + totalDuration * 1000L));
-            addSummaryData("activeSeconds", summaryProto.getTime().getWorkoutDuration(), "seconds");
+            addSummaryData(ACTIVE_SECONDS, summaryProto.getTime().getWorkoutDuration(), UNIT_SECONDS);
             // TODO pause durations
         }
 
@@ -82,93 +84,94 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
             summary.setBaseLatitude(summaryProto.getLocation().getBaseLatitude());
             summary.setBaseAltitude(summaryProto.getLocation().getBaseAltitude() / 2);
             // TODO: Min/Max Latitude/Longitude
-            addSummaryData("baseAltitude", summaryProto.getLocation().getBaseAltitude() / 2, "meters");
+            addSummaryData(ALTITUDE_BASE, summaryProto.getLocation().getBaseAltitude() / 2, UNIT_METERS);
         }
 
         if (summaryProto.hasHeartRate()) {
-            addSummaryData("averageHR", summaryProto.getHeartRate().getAvg(), "bpm");
-            addSummaryData("maxHR", summaryProto.getHeartRate().getMax(), "bpm");
-            addSummaryData("minHR", summaryProto.getHeartRate().getMin(), "bpm");
+            addSummaryData(HR_AVG, summaryProto.getHeartRate().getAvg(), UNIT_BPM);
+            addSummaryData(HR_MAX, summaryProto.getHeartRate().getMax(), UNIT_BPM);
+            addSummaryData(HR_MIN, summaryProto.getHeartRate().getMin(), UNIT_BPM);
         }
 
         if (summaryProto.hasSteps()) {
-            addSummaryData("maxCadence", summaryProto.getSteps().getMaxCadence() * 60, "spm");
-            addSummaryData("averageCadence", summaryProto.getSteps().getAvgCadence() * 60, "spm");
-            addSummaryData("averageStride", summaryProto.getSteps().getAvgStride(), "cm");
-            addSummaryData("steps", summaryProto.getSteps().getSteps(), "steps_unit");
+            addSummaryData(CADENCE_MAX, summaryProto.getSteps().getMaxCadence() * 60, UNIT_SPM);
+            addSummaryData(CADENCE_AVG, summaryProto.getSteps().getAvgCadence() * 60, UNIT_SPM);
+            addSummaryData(STRIDE_AVG, summaryProto.getSteps().getAvgStride(), UNIT_CM);
+            addSummaryData(STEPS, summaryProto.getSteps().getSteps(), UNIT_STEPS);
         }
 
         if (summaryProto.hasDistance()) {
-            addSummaryData("distanceMeters", summaryProto.getDistance().getDistance(), "meters");
+            addSummaryData(DISTANCE_METERS, summaryProto.getDistance().getDistance(), UNIT_METERS);
         }
 
         if (summaryProto.hasPace()) {
-            addSummaryData("maxPace", summaryProto.getPace().getBest(), "seconds_m");
-            addSummaryData("averageKMPaceSeconds", summaryProto.getPace().getAvg() * 1000, "seconds_km");
+            addSummaryData(PACE_MAX, summaryProto.getPace().getBest(), UNIT_SECONDS_PER_M);
+            addSummaryData(PACE_AVG_SECONDS_KM, summaryProto.getPace().getAvg() * 1000, UNIT_SECONDS_PER_KM);
         }
 
         if (summaryProto.hasCalories()) {
-            addSummaryData("caloriesBurnt", summaryProto.getCalories().getCalories(), "calories_unit");
+            addSummaryData(CALORIES_BURNT, summaryProto.getCalories().getCalories(), UNIT_KCAL);
         }
 
         if (summaryProto.hasHeartRateZones()) {
             // TODO hr zones bpm?
             if (summaryProto.getHeartRateZones().getZoneTimeCount() == 6) {
-                addSummaryData("hrZoneNa", summaryProto.getHeartRateZones().getZoneTime(0), "seconds");
-                addSummaryData("hrZoneWarmUp", summaryProto.getHeartRateZones().getZoneTime(1), "seconds");
-                addSummaryData("hrZoneFatBurn", summaryProto.getHeartRateZones().getZoneTime(2), "seconds");
-                addSummaryData("hrZoneAerobic", summaryProto.getHeartRateZones().getZoneTime(3), "seconds");
-                addSummaryData("hrZoneAnaerobic", summaryProto.getHeartRateZones().getZoneTime(4), "seconds");
-                addSummaryData("hrZoneExtreme", summaryProto.getHeartRateZones().getZoneTime(5), "seconds");
+                addSummaryData(HR_ZONE_NA, summaryProto.getHeartRateZones().getZoneTime(0), UNIT_SECONDS);
+                addSummaryData(HR_ZONE_WARM_UP, summaryProto.getHeartRateZones().getZoneTime(1), UNIT_SECONDS);
+                addSummaryData(HR_ZONE_FAT_BURN, summaryProto.getHeartRateZones().getZoneTime(2), UNIT_SECONDS);
+                addSummaryData(HR_ZONE_AEROBIC, summaryProto.getHeartRateZones().getZoneTime(3), UNIT_SECONDS);
+                addSummaryData(HR_ZONE_ANAEROBIC, summaryProto.getHeartRateZones().getZoneTime(4), UNIT_SECONDS);
+                addSummaryData(HR_ZONE_EXTREME, summaryProto.getHeartRateZones().getZoneTime(5), UNIT_SECONDS);
             } else {
                 LOG.warn("Unexpected number of HR zones {}", summaryProto.getHeartRateZones().getZoneTimeCount());
             }
         }
 
         if (summaryProto.hasTrainingEffect()) {
-            addSummaryData("aerobicTrainingEffect", summaryProto.getTrainingEffect().getAerobicTrainingEffect(), "");
-            addSummaryData("anaerobicTrainingEffect", summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), "");
-            addSummaryData("currentWorkoutLoad", summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), "");
-            addSummaryData("maximumOxygenUptake", summaryProto.getTrainingEffect().getMaximumOxygenUptake(), "ml/kg/min");
+            addSummaryData(TRAINING_EFFECT_AEROBIC, summaryProto.getTrainingEffect().getAerobicTrainingEffect(), UNIT_NONE);
+            addSummaryData(TRAINING_EFFECT_ANAEROBIC, summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), UNIT_NONE);
+            addSummaryData(WORKOUT_LOAD, summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), UNIT_NONE);
+            addSummaryData(MAXIMUM_OXYGEN_UPTAKE, summaryProto.getTrainingEffect().getMaximumOxygenUptake(), UNIT_ML_KG_MIN);
         }
 
         if (summaryProto.hasAltitude()) {
-            addSummaryData("maxAltitude", summaryProto.getAltitude().getMaxAltitude() / 200, "meters");
-            addSummaryData("minAltitude", summaryProto.getAltitude().getMinAltitude() / 200, "meters");
-            addSummaryData("averageAltitude", summaryProto.getAltitude().getAvgAltitude() / 200, "meters");
+            addSummaryData(ALTITUDE_MAX, summaryProto.getAltitude().getMaxAltitude() / 200, UNIT_METERS);
+            addSummaryData(ALTITUDE_MIN, summaryProto.getAltitude().getMinAltitude() / 200, UNIT_METERS);
+            addSummaryData(ALTITUDE_AVG, summaryProto.getAltitude().getAvgAltitude() / 200, UNIT_METERS);
             // TODO totalClimbing
-            addSummaryData("elevationGain", summaryProto.getAltitude().getElevationGain() / 100, "meters");
-            addSummaryData("elevationLoss", summaryProto.getAltitude().getElevationLoss() / 100, "meters");
+            addSummaryData(ELEVATION_GAIN, summaryProto.getAltitude().getElevationGain() / 100, UNIT_METERS);
+            addSummaryData(ELEVATION_LOSS, summaryProto.getAltitude().getElevationLoss() / 100, UNIT_METERS);
         }
 
         if (summaryProto.hasElevation()) {
-            addSummaryData("ascentSeconds", summaryProto.getElevation().getUphillTime(), "seconds");
-            addSummaryData("descentSeconds", summaryProto.getElevation().getDownhillTime(), "seconds");
+            addSummaryData(ASCENT_SECONDS, summaryProto.getElevation().getUphillTime(), UNIT_SECONDS);
+            addSummaryData(DESCENT_SECONDS, summaryProto.getElevation().getDownhillTime(), UNIT_SECONDS);
         }
 
         if (summaryProto.hasSwimmingData()) {
-            addSummaryData("laps", summaryProto.getSwimmingData().getLaps(), "laps_unit");
+            addSummaryData(LAPS, summaryProto.getSwimmingData().getLaps(), UNIT_LAPS);
             switch (summaryProto.getSwimmingData().getLaneLengthUnit()) {
                 case 0:
-                    addSummaryData("laneLength", summaryProto.getSwimmingData().getLaneLength(), "meters");
+                    addSummaryData(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_METERS);
                     break;
                 case 1:
-                    addSummaryData("laneLength", summaryProto.getSwimmingData().getLaneLength(), "yard");
+                    addSummaryData(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_YARD);
                     break;
             }
             switch (summaryProto.getSwimmingData().getStyle()) {
+                // TODO i18n these
                 case 1:
-                    addSummaryData("swimStyle", "breaststroke");
+                    addSummaryData(SWIM_STYLE, "breaststroke");
                     break;
                 case 2:
-                    addSummaryData("swimStyle", "freestyle");
+                    addSummaryData(SWIM_STYLE, "freestyle");
                     break;
             }
-            addSummaryData("strokes", summaryProto.getSwimmingData().getStrokes(), "strokes_unit");
-            addSummaryData("avgStrokeRate", summaryProto.getSwimmingData().getAvgStrokeRate(), "strokes_minute");
-            addSummaryData("maxStrokeRate", summaryProto.getSwimmingData().getMaxStrokeRate(), "strokes_minute");
-            addSummaryData("averageStrokeDistance", summaryProto.getSwimmingData().getAvgDps(), "cm");
-            addSummaryData("swolfIndex", summaryProto.getSwimmingData().getSwolf(), "");
+            addSummaryData(STROKES, summaryProto.getSwimmingData().getStrokes(), UNIT_STROKES);
+            addSummaryData(STROKE_RATE_AVG, summaryProto.getSwimmingData().getAvgStrokeRate(), UNIT_STROKES_PER_MINUTE);
+            addSummaryData(STROKE_RATE_MAX, summaryProto.getSwimmingData().getMaxStrokeRate(), UNIT_STROKES_PER_MINUTE);
+            addSummaryData(STROKE_DISTANCE_AVG, summaryProto.getSwimmingData().getAvgDps(), UNIT_CM);
+            addSummaryData(SWOLF_INDEX, summaryProto.getSwimmingData().getSwolf(), UNIT_NONE);
         }
     }
 }

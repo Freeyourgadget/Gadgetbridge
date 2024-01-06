@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -273,9 +275,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 buffer.getInt(); // unknown probably flatDistance = buffer.getFloat();
                 flatSeconds = buffer.getInt() / 1000; // ms?
 
-                addSummaryData("ascentSeconds", ascentSeconds, "seconds");
-                addSummaryData("descentSeconds", descentSeconds, "seconds");
-                addSummaryData("flatSeconds", flatSeconds, "seconds");
+                addSummaryData(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
+                addSummaryData(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
+                addSummaryData(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
             }
 
             averageHR = buffer.getShort();
@@ -308,62 +310,62 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
-        addSummaryData("ascentSeconds", ascentSeconds, "seconds");
-        addSummaryData("descentSeconds", descentSeconds, "seconds");
-        addSummaryData("flatSeconds", flatSeconds, "seconds");
-        addSummaryData("ascentDistance", ascentDistance, "meters");
-        addSummaryData("descentDistance", descentDistance, "meters");
-        addSummaryData("flatDistance", flatDistance, "meters");
+        addSummaryData(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
+        addSummaryData(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
+        addSummaryData(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
+        addSummaryData(ASCENT_DISTANCE, ascentDistance, UNIT_METERS);
+        addSummaryData(DESCENT_DISTANCE, descentDistance, UNIT_METERS);
+        addSummaryData(FLAT_DISTANCE, flatDistance, UNIT_METERS);
 
-        addSummaryData("distanceMeters", distanceMeters, "meters");
-        // addSummaryData("distanceMeters2", distanceMeters2, "meters");
-        addSummaryData("ascentMeters", ascentMeters, "meters");
-        addSummaryData("descentMeters", descentMeters, "meters");
+        addSummaryData(DISTANCE_METERS, distanceMeters, UNIT_METERS);
+        // addSummaryData("distanceMeters2", distanceMeters2, UNIT_METERS);
+        addSummaryData(ASCENT_METERS, ascentMeters, UNIT_METERS);
+        addSummaryData(DESCENT_METERS, descentMeters, UNIT_METERS);
         if (maxAltitude != -100000) {
-            addSummaryData("maxAltitude", maxAltitude, "meters");
+            addSummaryData(ALTITUDE_MAX, maxAltitude, UNIT_METERS);
         }
         if (minAltitude != 100000) {
-            addSummaryData("minAltitude", minAltitude, "meters");
+            addSummaryData(ALTITUDE_MIN, minAltitude, UNIT_METERS);
         }
         if (minAltitude != 100000) {
-            addSummaryData("averageAltitude", averageAltitude, "meters");
+            addSummaryData(ALTITUDE_AVG, averageAltitude, UNIT_METERS);
         }
-        addSummaryData("steps", steps, "steps_unit");
-        addSummaryData("activeSeconds", activeSeconds, "seconds");
-        addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit");
-        addSummaryData("maxSpeed", maxSpeed, "meters_second");
-        addSummaryData("minSpeed", minSpeed, "meters_second");
-        addSummaryData("averageSpeed", averageSpeed, "meters_second");
-        addSummaryData("maxCadence", maxCadence, "spm");
-        addSummaryData("minCadence", minCadence, "spm");
-        addSummaryData("averageCadence", averageCadence, "spm");
+        addSummaryData(STEPS, steps, UNIT_STEPS);
+        addSummaryData(ACTIVE_SECONDS, activeSeconds, UNIT_SECONDS);
+        addSummaryData(CALORIES_BURNT, caloriesBurnt, UNIT_KCAL);
+        addSummaryData(SPEED_MAX, maxSpeed, UNIT_METERS_PER_SECOND);
+        addSummaryData(SPEED_MIN, minSpeed, UNIT_METERS_PER_SECOND);
+        addSummaryData(SPEED_AVG, averageSpeed, UNIT_METERS_PER_SECOND);
+        addSummaryData(CADENCE_MAX, maxCadence, UNIT_SPM);
+        addSummaryData(CADENCE_MIN, minCadence, UNIT_SPM);
+        addSummaryData(CADENCE_AVG, averageCadence, UNIT_SPM);
 
         if (!(activityKind == ActivityKind.TYPE_ELLIPTICAL_TRAINER ||
                 activityKind == ActivityKind.TYPE_JUMP_ROPING ||
                 activityKind == ActivityKind.TYPE_EXERCISE ||
                 activityKind == ActivityKind.TYPE_YOGA ||
                 activityKind == ActivityKind.TYPE_INDOOR_CYCLING)) {
-            addSummaryData("minPace", minPace, "seconds_m");
-            addSummaryData("maxPace", maxPace, "seconds_m");
-            // addSummaryData("averagePace", averagePace, "seconds_m");
+            addSummaryData(PACE_MIN, minPace, UNIT_SECONDS_PER_M);
+            addSummaryData(PACE_MAX, maxPace, UNIT_SECONDS_PER_M);
+            // addSummaryData("averagePace", averagePace, UNIT_SECONDS_PER_M);
         }
 
-        addSummaryData("totalStride", totalStride, "meters");
-        addSummaryData("averageHR", averageHR, "bpm");
-        addSummaryData("maxHR", maxHR, "bpm");
-        addSummaryData("minHR", minHR, "bpm");
-        addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
-        addSummaryData("averageStride", averageStride, "cm");
-        addSummaryData("maxStride", maxStride, "cm");
-        addSummaryData("minStride", minStride, "cm");
-        // addSummaryData("averageStride2", averageStride2, "cm");
+        addSummaryData(STRIDE_TOTAL, totalStride, UNIT_METERS);
+        addSummaryData(HR_AVG, averageHR, UNIT_BPM);
+        addSummaryData(HR_MAX, maxHR, UNIT_BPM);
+        addSummaryData(HR_MIN, minHR, UNIT_BPM);
+        addSummaryData(PACE_AVG_SECONDS_KM, averageKMPaceSeconds, UNIT_SECONDS_PER_KM);
+        addSummaryData(STRIDE_AVG, averageStride, UNIT_CM);
+        addSummaryData(STRIDE_MAX, maxStride, UNIT_CM);
+        addSummaryData(STRIDE_MIN, minStride, UNIT_CM);
+        // addSummaryData("averageStride2", averageStride2, UNIT_CM);
 
         if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
-            addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
-            addSummaryData("averageStrokesPerSecond", averageStrokesPerSecond, "strokes_second");
-            addSummaryData("averageLapPace", averageLapPace, "second");
-            addSummaryData("strokes", strokes, "strokes");
-            addSummaryData("swolfIndex", swolfIndex, "swolf_index");
+            addSummaryData(STROKE_DISTANCE_AVG, averageStrokeDistance, UNIT_METERS);
+            addSummaryData(STROKE_AVG_PER_SECOND, averageStrokesPerSecond, UNIT_STROKES_PER_SECOND);
+            addSummaryData(LAP_PACE_AVERAGE, averageLapPace, "second");
+            addSummaryData(STROKES, strokes, "strokes");
+            addSummaryData(SWOLF_INDEX, swolfIndex, "swolf_index");
             String swimStyleName = "unknown"; // TODO: translate here or keep as string identifier here?
             switch (swimStyle) {
                 case 1:
@@ -379,8 +381,8 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                     swimStyleName = "medley";
                     break;
             }
-            addSummaryData("swimStyle", swimStyleName);
-            addSummaryData("laps", laps, "laps");
+            addSummaryData(SWIM_STYLE, swimStyleName);
+            addSummaryData(LAPS, laps, "laps");
         }
     }
 

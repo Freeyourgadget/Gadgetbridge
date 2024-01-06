@@ -16,8 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_END;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_START;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -26,8 +32,13 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiSimpleActivityParser {
+    private static final Logger LOG = LoggerFactory.getLogger(XiaomiSimpleActivityParser.class);
+
+    public static final String XIAOMI_WORKOUT_TYPE = "xiaomiWorkoutType";
+
     private final int headerSize;
     private final List<XiaomiSimpleDataEntry> dataEntries;
 
@@ -42,19 +53,35 @@ public class XiaomiSimpleActivityParser {
         final byte[] header = new byte[headerSize];
         buf.get(header);
 
-        for (final XiaomiSimpleDataEntry dataEntry : dataEntries) {
+        LOG.debug("Header: {}", GB.hexdump(header));
+
+        for (int i = 0; i < dataEntries.size(); i++) {
+            final XiaomiSimpleDataEntry dataEntry = dataEntries.get(i);
+
             final Number value = dataEntry.get(buf);
             if (value == null) {
+                LOG.debug("Skipping unknown field {}", i);
                 continue;
             }
 
-            if (dataEntry.getKey().equals("endTime")) {
-                if (dataEntry.getUnit().equals("seconds")) {
+            // Each bit in the header marks whether the data is valid or not, in order of the fields
+            final boolean validData = (header[i / 8] & (1 << (7 - (i % 8)))) != 0;
+            // FIXME: We can't use the header before identifying the correct field lenggths for unknown fields
+            // or parsing gets out of sync with the header and we will potentially ignore valid data
+            //if (!validData) {
+            //    LOG.debug("Ignoring non-valid data {}", i);
+            //    continue;
+            //}
+
+            if (dataEntry.getKey().equals(TIME_END)) {
+                if (dataEntry.getUnit().equals(UNIT_UNIX_EPOCH_SECONDS)) {
                     summary.setEndTime(new Date(value.intValue() * 1000L));
                 } else {
-                    throw new IllegalArgumentException("endTime should be in seconds");
+                    throw new IllegalArgumentException("endTime should be an unix epoch");
                 }
-            } if (dataEntry.getKey().equals("xiaomiWorkoutType")) {
+            } else if (dataEntry.getKey().equals(TIME_START)) {
+                // ignored
+            } else if (dataEntry.getKey().equals(XIAOMI_WORKOUT_TYPE)) {
                 // TODO use XiaomiWorkoutType
                 switch (value.intValue()) {
                     case 2:
