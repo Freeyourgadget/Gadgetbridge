@@ -2631,4 +2631,8 @@
     <string name="devicetype_redmi_watch_2_lite">红米手表2青春版</string>
     <string name="devicetype_redmi_smart_band_pro">红米智能手环Pro</string>
     <string name="notification_channel_connection_status_name">连接状态</string>
+    <string name="devicetype_nothingear2">Nothing Ear (2)</string>
+    <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
+    <string name="prefs_active_noise_cancelling_light">轻度主动降噪</string>
+    <string name="prefs_active_noise_cancelling_transparency">通透度</string>
 </resources>
