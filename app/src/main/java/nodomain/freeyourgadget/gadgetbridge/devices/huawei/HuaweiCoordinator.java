@@ -59,11 +59,11 @@ public class HuaweiCoordinator {
                 byte[] commands = GB.hexStringToByteArray(getCapabilitiesSharedPreferences().getString(key, "00"));
                 this.commandsPerService.put(service, commands);
             } catch (NumberFormatException e) {
-                if (key == "expandCapabilities")
+                if (key.equals("expandCapabilities"))
                     this.expandCapabilities = GB.hexStringToByteArray(getCapabilitiesSharedPreferences().getString(key, "00"));
-                if (key == "notificationCapabilities")
+                if (key.equals("notificationCapabilities"))
                     this.notificationCapabilities = (byte)getCapabilitiesSharedPreferences().getInt(key, -0x01);
-                if (key == "notificationConstraints")
+                if (key.equals("notificationConstraints"))
                     this.notificationConstraints = ByteBuffer.wrap(GB.hexStringToByteArray(
                                     getCapabilitiesSharedPreferences().getString(
                                             key,
