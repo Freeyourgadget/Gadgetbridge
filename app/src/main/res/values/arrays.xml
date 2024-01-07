@@ -297,6 +297,11 @@
         <item>@string/mi2_dnd_automatic</item>
         <item>@string/mi2_dnd_scheduled</item>
     </string-array>
+    <string-array name="do_not_disturb_allday">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/dnd_all_day</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
     <string-array name="mi2_do_not_disturb_values">
         <item>@string/p_off</item>
         <item>@string/p_automatic</item>
@@ -3184,6 +3189,16 @@
         <item>net.osmand.plus</item>
         <item>net.osmand</item>
         <item>net.osmand.dev</item>
+    </string-array>
+
+    <string-array name="workmode">
+        <item>@string/automatic</item>
+        <item>@string/manual</item>
+    </string-array>
+
+    <string-array name="workmode_values">
+        <item>auto</item>
+        <item>manual</item>
     </string-array>
 
     <string-array name="pref_transliteration_languages">

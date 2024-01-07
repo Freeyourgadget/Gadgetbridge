@@ -141,6 +141,9 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
+    public void onFindPhone(boolean start) {}
+
+    @Override
     public void onSetFmFrequency(float frequency) {}
 
     @Override

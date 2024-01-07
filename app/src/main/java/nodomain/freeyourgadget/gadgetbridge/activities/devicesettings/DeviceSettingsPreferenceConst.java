@@ -197,10 +197,19 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_start";
     public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
     public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
+    public static final String PREF_DO_NOT_DISTURB_NOT_WEAR = "do_not_disturb_not_wear";
     public static final String PREF_DO_NOT_DISTURB_OFF = "off";
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_ALWAYS = "always";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
+    public static final String PREF_DO_NOT_DISTURB_MO = "pref_do_not_disturb_mo";
+    public static final String PREF_DO_NOT_DISTURB_TU = "pref_do_not_disturb_tu";
+    public static final String PREF_DO_NOT_DISTURB_WE = "pref_do_not_disturb_we";
+    public static final String PREF_DO_NOT_DISTURB_TH = "pref_do_not_disturb_th";
+    public static final String PREF_DO_NOT_DISTURB_FR = "pref_do_not_disturb_fr";
+    public static final String PREF_DO_NOT_DISTURB_SA = "pref_do_not_disturb_sa";
+    public static final String PREF_DO_NOT_DISTURB_SU = "pref_do_not_disturb_su";
+
     public static final String PREF_CAMERA_REMOTE = "camera_remote";
 
     public static final String PREF_WORKOUT_START_ON_PHONE = "workout_start_on_phone";
@@ -387,6 +396,19 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VOICE_SERVICE_LANGUAGE = "voice_service_language";
 
     public static final String PREF_TEMPERATURE_SCALE_CF = "temperature_scale_cf";
+
+    public static final String PREF_FAKE_ANDROID_ID = "fake_android_id";
+
+    public static final String PREF_HEARTRATE_AUTOMATIC_ENABLE = "heartrate_automatic_enable";
+    public static final String PREF_SPO_AUTOMATIC_ENABLE = "spo_automatic_enable";
+
+    public static final String PREF_FORCE_OPTIONS = "pref_force_options";
+    public static final String PREF_FORCE_ENABLE_SMART_ALARM = "pref_force_enable_smart_alarm";
+    public static final String PREF_FORCE_ENABLE_WEAR_LOCATION = "pref_force_enable_wear_location";
+    public static final String PREF_FORCE_DND_SUPPORT = "pref_force_dnd_support";
+    public static final String PREF_IGNORE_WAKEUP_STATUS_START = "pref_force_ignore_wakeup_status_start";
+    public static final String PREF_IGNORE_WAKEUP_STATUS_END = "pref_force_ignore_wakeup_status_end";
+
     public static final String PREF_FEMOMETER_MEASUREMENT_MODE = "femometer_measurement_mode";
 
     public static final String PREF_PREFIX_NOTIFICATION_WITH_APP = "pref_prefix_notification_with_app";

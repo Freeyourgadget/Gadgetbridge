@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="huawei_reparse_workout_data"
+        android:title="@string/huawei_reparse_workout_data"
+        android:summary="@string/huawei_reparse_workout_data_description" />
+
+</PreferenceScreen>

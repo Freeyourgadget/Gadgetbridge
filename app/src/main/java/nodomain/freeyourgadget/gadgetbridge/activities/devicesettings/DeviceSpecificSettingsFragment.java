@@ -392,7 +392,18 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_START);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_MO);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_TU);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_WE);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_TH);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_FR);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_SA);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_SU);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_LIFT_WRIST);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOT_WEAR);
         addPreferenceHandlerFor(PREF_FIND_PHONE);
         addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
@@ -568,6 +579,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_CLAP_HANDS_TO_WAKEUP_DEVICE);
         addPreferenceHandlerFor(PREF_POWER_SAVING);
+
+        addPreferenceHandlerFor(PREF_HEARTRATE_AUTOMATIC_ENABLE);
+        addPreferenceHandlerFor(PREF_SPO_AUTOMATIC_ENABLE);
 
         addPreferenceHandlerFor("lock");
 

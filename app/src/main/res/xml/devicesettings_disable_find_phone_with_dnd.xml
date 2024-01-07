@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_notifications"
+        android:key="disable_find_phone_with_dnd"
+        android:title="@string/pref_disable_find_phone_with_dnd" />
+</PreferenceScreen>

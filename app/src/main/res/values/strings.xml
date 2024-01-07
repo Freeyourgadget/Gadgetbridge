@@ -941,6 +941,7 @@
     <string name="dateformat_time">Time</string>
     <string name="dateformat_date_time"><![CDATA[Time & date]]></string>
     <string name="prefs_disconnect_notification">Disconnect notification</string>
+    <string name="prefs_disconnect_notification_summary">Notification on device when disconnected from BT.</string>
     <string name="mi2_prefs_button_actions">Button actions</string>
     <string name="mi2_prefs_button_actions_summary">Specify button press actions</string>
     <string name="mi2_prefs_button_press_count">Button press count</string>
@@ -986,6 +987,8 @@
     <string name="mi2_prefs_do_not_disturb_start">Start time</string>
     <string name="mi2_prefs_do_not_disturb_end">End time</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Activate display upon lift during Do Not Disturb</string>
+    <string name="do_not_disturb_lift_wrist_summary">Only if activate display upon lift enabled</string>
+    <string name="pref_do_not_disturb_not_wear">Do not disturb when not wearing</string>
     <string name="mi3_prefs_band_screen_unlock">Band screen unlock"</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Swipe up to unlock the band\'s screen</string>
     <string name="mi3_prefs_night_mode">Night mode</string>
@@ -1009,6 +1012,7 @@
     <string name="lefun_prefs_antilost_summary">The band will vibrate if your phone disconnects from the band</string>
     <string name="lefun_prefs_interface_language_title">Interface language</string>
     <string name="automatic">Automatic</string>
+    <string name="manual">Manual</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
     <string name="english">English</string>
@@ -1206,6 +1210,7 @@
     <string name="mi3_night_mode_sunset">At sunset</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
     <string name="mi2_dnd_scheduled">Scheduled (time interval)</string>
+    <string name="dnd_all_day">All day</string>
     <string name="maximum_duration">Duration</string>
     <string name="discovery_attempting_to_pair">Attempting to pair with %1$s</string>
     <string name="discovery_bonding_failed_immediately">Bonding with %1$s failed immediately.</string>
@@ -1423,6 +1428,21 @@
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
+    <string name="devicetype_honor_band3">Honor Band 3</string>
+    <string name="devicetype_honor_band4">Honor Band 4</string>
+    <string name="devicetype_honor_band5">Honor Band 5</string>
+    <string name="devicetype_honor_band6">Honor Band 6</string>
+    <string name="devicetype_honor_band7">Honor Band 7</string>
+    <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
+    <string name="devicetype_huawei_band6">Huawei Band 6</string>
+    <string name="devicetype_huawei_band7">Huawei Band 7</string>
+    <string name="devicetype_huawei_band8">Huawei Band 8</string>
+    <string name="devicetype_huawei_watch_gt">Huawei Watch GT</string>
+    <string name="devicetype_huawei_band4pro">Huawei Band 4 (Pro)</string>
+    <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
+    <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e</string>
+    <string name="devicetype_huawei_talk_band_b6">Huawei Talk Band B6</string>
+    <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
     <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
@@ -2203,6 +2223,21 @@
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_feet">###ft</string>
 
+    <string name="prefs_workmode">Work Mode</string>
+    <string name="huawei_alarm_smart_description">Do not uncheck smart wakeup checkbox.</string>
+    <string name="huawei_alarm_event_description">Do not check smart wakeup checkbox.</string>
+    <string name="huawei_trusleep_title">HUAWEI TruSleep &#8482;</string>
+    <string name="huawei_trusleep_summary">Monitor your sleep quality and breathing pattern in real time.\nAnalyze your sleep patterns and accurately diagnose 6 types of sleeping problems.</string>
+    <string name="huawei_trusleep_summary_light">Improved sleep monitoring</string>
+    <string name="prefs_activity_recognition">Activity recognition settings</string>
+    <string name="pref_activity_recognize_running">recognize running</string>
+    <string name="pref_activity_recognize_biking">recognize biking</string>
+    <string name="pref_activity_recognize_walking">recognize walking</string>
+    <string name="pref_activity_recognize_rowing">recognize rowing</string>
+    <string name="pref_activity_recognition_mode_none">none</string>
+    <string name="pref_activity_recognition_mode_ask">ask</string>
+    <string name="pref_activity_recognition_mode_auto">auto</string>
+
     <string name="menuitem_menu">Menu</string>
     <string name="fossil_hr_button_config_info">Some buttons cannot be configured because their functions are hard-coded in the watch firmware.\n\nWarning: long-pressing the upper button when a watchface from the official Fossil app is installed will also toggle between showing/hiding widgets.</string>
     <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
@@ -2211,6 +2246,31 @@
     <string name="pref_title_navigation_forward">Send navigation to watch</string>
     <string name="watchface_dialog_pre_setting_position">pre-setting position to %s</string>
     <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
+
+    <string name="pref_enable_call_accept">Enable accepting calls</string>
+    <string name="pref_enable_call_accept_summary">Enable accepting calls from the device</string>
+    <string name="pref_enable_call_reject">Enable rejecting calls</string>
+    <string name="pref_enable_call_reject_summary">Enable rejecting calls from the device</string>
+
+    <string name="pref_disable_find_phone_with_dnd">Disable find my phone when do not disturb is active</string>
+
+    <string name="pref_heartrate_automatic_enable">Enable automatic heartrate measuring</string>
+    <string name="pref_spo_automatic_enable">Enable automatic SpO2 measuring</string>
+
+    <string name="pref_force_options">Force options</string>
+    <string name="pref_force_options_summary">Some devices falsely claim not to have support for some options. This settings can be used to enable them anyway.\nUSE AT YOUR OWN RISK\nRead the wiki</string>
+    <string name="pref_force_smart_alarm">Force smart alarm</string>
+    <string name="pref_force_smart_alarm_summary">Force smart alarms support.\nUSE AT YOUR OWN RISK</string>
+    <string name="pref_force_wear_location">Force wear location</string>
+    <string name="pref_force_wear_location_summary">Force wear location support.\nUSE AT YOUR OWN RISK</string>
+    <string name="pref_force_dnd_support">Force Do Not Disturb support</string>
+    <string name="pref_force_dnd_support_summary">Force Do Not Disturb support.\nUSE AT YOUR OWN RISK</string>
+    <string name="huawei_ignore_wakeup_status_start">Ignore wakeup start status</string>
+    <string name="huawei_ignore_wakeup_status_start_description">May help with proper sleep detection. Visible immediately in the daily activities view.</string>
+    <string name="huawei_ignore_wakeup_status_end">Ignore wakeup end status</string>
+    <string name="huawei_ignore_wakeup_status_end_description">May help with proper sleep detection. Visible immediately in the daily activities view.</string>
+    <string name="huawei_reparse_workout_data">"Reparse workout data"</string>
+    <string name="huawei_reparse_workout_data_description">"This will only do something after certain updates"</string>
 
     <string name="info_no_devices_connected">no devices connected</string>
     <string name="info_connected_count">%d devices connected</string>
@@ -2266,6 +2326,8 @@
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="supercars_lights_label">Lights</string>
     <string name="supercars_lights_blinking_label">Blinking</string>
+    <string name="pref_summary_debug">Send a debug request to Huawei device</string>
+    <string name="pref_title_debug">Debug request</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Lock</string>
