@@ -168,6 +168,12 @@ public class GpxParser {
                     case "time":
                         trackPointBuilder.withTime(parseTime());
                         continue;
+                    case "extensions":
+                        final int hr = parseExtensions();
+                        if (hr >= 0) {
+                            trackPointBuilder.withHeartRate(hr);
+                        }
+                        continue;
                 }
             } 
 
@@ -175,6 +181,36 @@ public class GpxParser {
         }
 
         return trackPointBuilder.build();
+    }
+
+    private int parseExtensions() throws Exception {
+        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("extensions")) {
+            if (parser.getEventType() == XmlPullParser.START_TAG) {
+                switch (parser.getName()) {
+                    case "gpxtpx:TrackPointExtension":
+                        return parseTrackPointExtension();
+                }
+            }
+
+            eventType = parser.next();
+        }
+
+        return -1;
+    }
+
+    private int parseTrackPointExtension() throws Exception {
+        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("gpxtpx:TrackPointExtension")) {
+            if (parser.getEventType() == XmlPullParser.START_TAG) {
+                switch (parser.getName()) {
+                    case "gpxtpx:hr":
+                        return Integer.parseInt(parseStringContent("gpxtpx:hr"));
+                }
+            }
+
+            eventType = parser.next();
+        }
+
+        return -1;
     }
 
     private GpxWaypoint parseWaypoint() throws Exception {

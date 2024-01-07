@@ -182,11 +182,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (get_gpx_file() != null) {
+                    final File gpxFile = get_gpx_file();
+                    if (gpxFile != null) {
+                        activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), gpxFile);
                         showCanvas();
-                        activitySummariesGpsFragment.set_data(get_gpx_file());
+                        activitySummariesGpsFragment.set_data(gpxFile);
                     } else {
+                        activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
                         hideCanvas();
                     }
 

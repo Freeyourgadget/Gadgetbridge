@@ -37,7 +37,11 @@ import com.github.mikephil.charting.data.LineData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -47,8 +51,14 @@ import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParseException;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxTrackPoint;
 
 
 public class ActivitySummariesChartFragment extends AbstractActivityChartFragment<ChartsData> {
@@ -59,18 +69,60 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
     private int endTime;
     private GBDevice gbDevice;
     private View view;
+    private File gpxFile;
 
     public void setDateAndGetData(GBDevice gbDevice, long startTime, long endTime) {
         this.startTime = (int) startTime;
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
+        this.gpxFile = null;
+        if (this.view != null) {
+            createLocalRefreshTask("Visualizing data", getActivity()).execute();
+        }
+    }
+
+    public void setDateAndGetData(GBDevice gbDevice, File gpxFile) {
+        this.gbDevice = gbDevice;
+        this.gpxFile = gpxFile;
+        this.startTime = 0;
+        this.endTime = 0;
         if (this.view != null) {
             createLocalRefreshTask("Visualizing data", getActivity()).execute();
         }
     }
 
     protected RefreshTask createLocalRefreshTask(String task, Context context) {
-        return new RefreshTask(task, context);
+        if (gpxFile != null) {
+            return new RefreshTask(task, context, (dbHandler) -> {
+                final GpxFile gpx;
+
+                try (FileInputStream inputStream = new FileInputStream(gpxFile)) {
+                    final GpxParser gpxParser = new GpxParser(inputStream);
+                    gpx = gpxParser.getGpxFile();
+                } catch (final IOException e) {
+                    LOG.error("Failed to open {}", gpxFile, e);
+                    // fallback to activity samples
+                    return getAllSamples(dbHandler, gbDevice, startTime, endTime);
+                } catch (final GpxParseException e) {
+                    LOG.error("Failed to parse gpx file", e);
+                    // fallback to activity samples
+                    return getAllSamples(dbHandler, gbDevice, startTime, endTime);
+                }
+
+                final List<GpxActivitySample> ret = new ArrayList<>(gpx.getPoints().size());
+
+                for (final GpxTrackPoint point : gpx.getPoints()) {
+                    ret.add(new GpxActivitySample(
+                            (int) (point.getTime().getTime() / 1000L),
+                            point.getHeartRate()
+                    ));
+                }
+
+                return ret;
+            });
+        } else {
+            return new RefreshTask(task, context, (dbHandler) -> getAllSamples(dbHandler, gbDevice, startTime, endTime));
+        }
     }
 
     @Override
@@ -135,6 +187,8 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
 
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        LOG.warn("This should not need to be called...");
+        // FIXME: This fragment should be refactored, this is not even used
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -178,16 +232,18 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
     }
 
     public class RefreshTask extends DBAccess {
+        private final ActivitySampleGetter getter;
 
-        public RefreshTask(String task, Context context) {
+        public RefreshTask(final String task, final Context context, final ActivitySampleGetter getter) {
             super(task, context);
+            this.getter = getter;
         }
 
         @Override
         protected void doInBackground(DBHandler handler) {
-            List<? extends ActivitySample> samples = getAllSamples(handler, gbDevice, startTime, endTime);
+            List<? extends ActivitySample> samples = getter.getSamples(handler);
 
-            DefaultChartsData dcd = null;
+            DefaultChartsData<LineData> dcd = null;
             try {
                 dcd = refresh(gbDevice, samples);
             } catch (Exception e) {
@@ -203,6 +259,66 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
         @Override
         protected void onPostExecute(Object o) {
             mChart.invalidate();
+        }
+    }
+
+    public interface ActivitySampleGetter {
+        List<? extends ActivitySample> getSamples(DBHandler handler);
+    }
+
+    private static class GpxActivitySample implements ActivitySample {
+
+        private final int timestamp;
+        private final int hr;
+
+        public GpxActivitySample(final int timestamp, final int hr) {
+            this.timestamp = timestamp;
+            this.hr = hr;
+        }
+
+        @Override
+        public SampleProvider getProvider() {
+            return null;
+        }
+
+        @Override
+        public int getRawKind() {
+            return ActivityKind.TYPE_ACTIVITY;
+        }
+
+        @Override
+        public int getKind() {
+            return ActivityKind.TYPE_ACTIVITY;
+        }
+
+        @Override
+        public int getRawIntensity() {
+            return 0;
+        }
+
+        @Override
+        public float getIntensity() {
+            return 0;
+        }
+
+        @Override
+        public int getSteps() {
+            return 0;
+        }
+
+        @Override
+        public int getHeartRate() {
+            return hr;
+        }
+
+        @Override
+        public void setHeartRate(final int value) {
+
+        }
+
+        @Override
+        public int getTimestamp() {
+            return timestamp;
         }
     }
 }

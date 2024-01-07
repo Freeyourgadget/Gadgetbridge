@@ -23,14 +23,24 @@ import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 
 public class GpxTrackPoint extends GPSCoordinate {
     private final Date time;
+    private final int heartRate;
 
-    public GpxTrackPoint(final double longitude, final double latitude, final double altitude, final Date time) {
+    public GpxTrackPoint(final double longitude, final double latitude, final double altitude, final Date time, final int heartRate) {
         super(longitude, latitude, altitude);
         this.time = time;
+        this.heartRate = heartRate;
+    }
+
+    public GpxTrackPoint(final double longitude, final double latitude, final double altitude, final Date time) {
+        this(longitude, latitude, altitude, time, -1);
     }
 
     public Date getTime() {
         return time;
+    }
+
+    public int getHeartRate() {
+        return heartRate;
     }
 
     @Override
@@ -52,6 +62,7 @@ public class GpxTrackPoint extends GPSCoordinate {
         private double latitude;
         private double altitude;
         private Date time;
+        private int heartRate;
 
         public Builder withLongitude(final double longitude) {
             this.longitude = longitude;
@@ -70,6 +81,11 @@ public class GpxTrackPoint extends GPSCoordinate {
 
         public Builder withTime(final Date time) {
             this.time = time;
+            return this;
+        }
+
+        public Builder withHeartRate(final int heartRate) {
+            this.heartRate = heartRate;
             return this;
         }
 
