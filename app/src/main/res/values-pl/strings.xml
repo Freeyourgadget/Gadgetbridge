@@ -2544,7 +2544,7 @@
     <string name="devicetype_amazfit_active">Amazfit Active</string>
     <string name="pref_title_navigation_apps">Aplikacje nawigacyjne</string>
     <string name="pref_title_navigation_prefs">Preferencje nawigacji</string>
-    <string name="pref_navigation_app_gmaps">Google Maps</string>
+    <string name="pref_navigation_app_gmaps">Mapy Google</string>
     <string name="pref_summary_prefix_notification_with_app">Tytuł powiadomienia poprzedź nazwą aplikacji źródłowej</string>
     <string name="pref_summary_osmand_packagename">Służy do wyboru wersji OsmAnd, z którą chcesz się połączyć</string>
     <string name="pref_title_prefix_notification_with_app">Nazwa aplikacji w powiadomieniu</string>
