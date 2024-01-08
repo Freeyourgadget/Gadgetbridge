@@ -12,7 +12,8 @@
 * Initial support for Huawei Band 6
 * Initial support for Huawei Band 7
 * Initial support for Huawei Band 8
-* Initial support for Huawei Band AW70 (aka Huawei Band 3e / 4e)
+* Initial support for Huawei Band 3e
+* Initial support for Huawei Band 4e
 * Initial support for Huawei Talk Band B6
 * Initial support for Huawei Watch GT
 * Initial support for Huawei Watch GT 2
