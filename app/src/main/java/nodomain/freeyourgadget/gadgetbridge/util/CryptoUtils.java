@@ -94,7 +94,7 @@ public class CryptoUtils {
         int n = (outputLength % hashLen == 0) ? outputLength / hashLen : (outputLength / hashLen) + 1;
         byte[] hashRound = new byte[0];
 
-        ByteBuffer generatedBytes = ByteBuffer.allocate(Math.multiplyExact(n, hashLen));
+        ByteBuffer generatedBytes = ByteBuffer.allocate(n * hashLen);
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(pseudoSecretKey);
         for (int roundNum = 1; roundNum <= n; roundNum++) {
