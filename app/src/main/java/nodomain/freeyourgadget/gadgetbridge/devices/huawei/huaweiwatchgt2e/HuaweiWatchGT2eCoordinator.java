@@ -20,6 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt2e;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
@@ -44,16 +46,8 @@ public class HuaweiWatchGT2eCoordinator extends HuaweiLECoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.toLowerCase().startsWith(HuaweiConstants.HU_WATCHGT2E_NAME)) {
-                return true;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return false;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuaweiConstants.HU_WATCHGT2E_NAME + ".*");
     }
 
     @Override

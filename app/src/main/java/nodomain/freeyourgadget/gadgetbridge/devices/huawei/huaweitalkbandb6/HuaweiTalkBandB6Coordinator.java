@@ -20,6 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweitalkbandb6;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiBRCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
@@ -36,16 +38,8 @@ public class HuaweiTalkBandB6Coordinator extends HuaweiBRCoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && name.toLowerCase().startsWith(HuaweiConstants.HU_TALKBANDB6_NAME)) {
-                return true;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return false;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile(HuaweiConstants.HU_TALKBANDB6_NAME + ".*");
     }
 
     @Override
