@@ -46,8 +46,7 @@ public class HuaweiUtil {
             (byte)calendar.get(Calendar.MINUTE)};
     }
 
-    public static byte[] getTimeAndZoneId() {
-        Calendar now = Calendar.getInstance();
+    public static byte[] getTimeAndZoneId(final Calendar now) {
         int zoneRawOffset = (now.get(Calendar.ZONE_OFFSET) + now.get(Calendar.DST_OFFSET)) / 1000;
         byte[] id = now.getTimeZone().getID().getBytes();
         return ByteBuffer.allocate(6 + id.length)

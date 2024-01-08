@@ -23,6 +23,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -395,15 +396,19 @@ public class DeviceConfig {
     public static class TimeRequest extends HuaweiPacket {
         public static final byte id = 0x05;
 
-        public TimeRequest(ParamsProvider paramsProvider) {
+        public TimeRequest(ParamsProvider paramsProvider, final Calendar now) {
             super(paramsProvider);
             this.serviceId = DeviceConfig.id;
             this.commandId = id;
-            ByteBuffer timeAndZoneId = ByteBuffer.wrap(HuaweiUtil.getTimeAndZoneId());
+            ByteBuffer timeAndZoneId = ByteBuffer.wrap(HuaweiUtil.getTimeAndZoneId(now));
             this.tlv = new HuaweiTLV()
                     .put(0x01, timeAndZoneId.getInt(0))
                     .put(0x02, timeAndZoneId.getShort(4));
             this.complete = true;
+        }
+
+        public TimeRequest(ParamsProvider paramsProvider) {
+            this(paramsProvider, Calendar.getInstance());
         }
 
         // TODO: implement parsing this request for the log parser support
@@ -1506,7 +1511,7 @@ public class DeviceConfig {
             super(paramsProvider);
             this.serviceId = DeviceConfig.id;
             this.commandId = id;
-            ByteBuffer timeAndZoneId = ByteBuffer.wrap(HuaweiUtil.getTimeAndZoneId());
+            ByteBuffer timeAndZoneId = ByteBuffer.wrap(HuaweiUtil.getTimeAndZoneId(Calendar.getInstance()));
             this.tlv = new HuaweiTLV()
                     .put(0x01, timeAndZoneId.getInt())
                     .put(0x02, timeAndZoneId.getShort());

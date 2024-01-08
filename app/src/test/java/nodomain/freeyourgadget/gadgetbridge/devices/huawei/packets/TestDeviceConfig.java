@@ -30,7 +30,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -311,6 +313,10 @@ public class TestDeviceConfig {
         int timestamp = 1633987331;
         short zoneOffset = (short) 512;
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp * 1000L);
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+
         Field tlvField = HuaweiPacket.class.getDeclaredField("tlv");
         tlvField.setAccessible(true);
 
@@ -319,7 +325,7 @@ public class TestDeviceConfig {
                 .put(0x02, zoneOffset);
 
         byte[] serialized = new byte[] {(byte) 0x5A, (byte) 0x00, (byte) 0x2A, (byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x7C, (byte) 0x01, (byte) 0x01, (byte) 0x7D, (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x7E, (byte) 0x10, (byte) 0xED, (byte) 0x67, (byte) 0x61, (byte) 0x8A, (byte) 0x8E, (byte) 0x44, (byte) 0x67, (byte) 0xB1, (byte) 0x2A, (byte) 0xB4, (byte) 0xFA, (byte) 0x86, (byte) 0x76, (byte) 0x17, (byte) 0x8C, (byte) 0x61, (byte) 0xFC, (byte) 0x99};
-        DeviceConfig.TimeRequest request = new DeviceConfig.TimeRequest(secretsProvider);
+        DeviceConfig.TimeRequest request = new DeviceConfig.TimeRequest(secretsProvider, calendar);
 
         Assert.assertEquals(0x01, request.serviceId);
         Assert.assertEquals(0x05, request.commandId);
