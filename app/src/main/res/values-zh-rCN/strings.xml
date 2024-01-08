@@ -2635,4 +2635,59 @@
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
     <string name="prefs_active_noise_cancelling_light">轻度主动降噪</string>
     <string name="prefs_active_noise_cancelling_transparency">通透度</string>
+    <string name="devicetype_honor_band4">荣耀手环4</string>
+    <string name="devicetype_honor_band5">荣耀手环5</string>
+    <string name="devicetype_huawei_talk_band_b6">华为语音手环B6</string>
+    <string name="huawei_alarm_smart_description">不要取消选中智能唤醒复选框。</string>
+    <string name="huawei_trusleep_summary">实时监控您的睡眠质量和呼吸模式。
+\n分析您的睡眠模式并准确诊断 6 种睡眠问题。</string>
+    <string name="devicetype_huawei_watchgt3">华为手表GT 3 （Pro）</string>
+    <string name="pref_enable_call_accept">启用接听电话</string>
+    <string name="pref_enable_call_accept_summary">启用从设备接受电话</string>
+    <string name="pref_heartrate_automatic_enable">启用自动心率测量</string>
+    <string name="pref_force_options_summary">某些设备错误地声称不支持某些选项。无论如何，此设置可用于启用它们。
+\n使用风险由您自行承担。
+\n阅读维基</string>
+    <string name="pref_force_smart_alarm_summary">强制智能报警支持。
+\n风险自担</string>
+    <string name="pref_force_dnd_support">强制请勿打扰支持</string>
+    <string name="huawei_reparse_workout_data">重新解析锻炼数据</string>
+    <string name="prefs_disconnect_notification_summary">当蓝牙断开时在设备上进行通知。</string>
+    <string name="do_not_disturb_lift_wrist_summary">仅当抬腕启用时激活显示</string>
+    <string name="pref_do_not_disturb_not_wear">不佩戴时启用请勿打扰</string>
+    <string name="manual">手动</string>
+    <string name="dnd_all_day">全天</string>
+    <string name="devicetype_honor_band3">荣耀手环3</string>
+    <string name="devicetype_honor_band6">荣耀手环6</string>
+    <string name="devicetype_honor_band7">荣耀手环7</string>
+    <string name="devicetype_huawei_band_aw70">华为手环（AW70）</string>
+    <string name="devicetype_huawei_band6">荣耀手环6</string>
+    <string name="devicetype_huawei_band7">荣耀手环7</string>
+    <string name="devicetype_huawei_band8">荣耀手环8</string>
+    <string name="devicetype_huawei_watch_gt">华为手表GT</string>
+    <string name="devicetype_huawei_band4pro">华为手环4（Pro）</string>
+    <string name="devicetype_huawei_watchgt2">华为手表GT 2（Pro）</string>
+    <string name="devicetype_huawei_watchgt2e">华为手表GT 2e</string>
+    <string name="prefs_workmode">工作模式</string>
+    <string name="huawei_alarm_event_description">不要选中智能唤醒复选框。</string>
+    <string name="huawei_trusleep_title">华为 TruSleep™</string>
+    <string name="huawei_trusleep_summary_light">改善睡眠监测</string>
+    <string name="pref_enable_call_reject">启用拒绝来电</string>
+    <string name="pref_enable_call_reject_summary">启用拒绝来自设备的呼叫</string>
+    <string name="pref_disable_find_phone_with_dnd">当请勿打扰处于活动状态时禁用查找我的手机</string>
+    <string name="pref_spo_automatic_enable">启用自动血氧测量</string>
+    <string name="pref_force_options">强制选项</string>
+    <string name="pref_force_smart_alarm">强制智能闹钟</string>
+    <string name="pref_force_wear_location">强制佩戴位置</string>
+    <string name="pref_force_wear_location_summary">强制佩戴位置支持。
+\n风险自担</string>
+    <string name="pref_force_dnd_support_summary">强制请勿打扰支持。
+\n风险自担</string>
+    <string name="huawei_ignore_wakeup_status_start">忽略唤醒启动状态</string>
+    <string name="huawei_ignore_wakeup_status_start_description">可能有助于正确的睡眠检测。 在日常活动视图中立即可见。</string>
+    <string name="huawei_ignore_wakeup_status_end">忽略唤醒结束状态</string>
+    <string name="huawei_ignore_wakeup_status_end_description">可能有助于正确的睡眠检测。 在日常活动视图中立即可见。</string>
+    <string name="huawei_reparse_workout_data_description">这只会在某些更新后执行某些操作</string>
+    <string name="pref_summary_debug">向华为设备发送调试请求</string>
+    <string name="pref_title_debug">调试请求</string>
 </resources>
