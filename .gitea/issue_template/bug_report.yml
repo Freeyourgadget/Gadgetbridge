@@ -75,5 +75,3 @@ body:
         if you are using a phone that running a vendor-exclusive system (like MIUI) or if 
         you use a custom ROM, make sure to also include the name of the OS/ROM.
       placeholder: e.g. LineageOS 20 based on Android 13
-    validations:
-      required: true
