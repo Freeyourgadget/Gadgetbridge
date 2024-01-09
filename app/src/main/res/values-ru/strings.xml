@@ -50,7 +50,7 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Настройки</string>
     <string name="pref_header_general">Общие настройки</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Подключаться к добавленному устройству при включении Bluetooth</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Подключаться к добавленным устройствам при включении Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
     <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
     <string name="pref_title_audio_player">Предпочтительный музыкальный плеер</string>
@@ -302,7 +302,7 @@
     <string name="miband_fwinstaller_incompatible_version">Несовместимая прошивка</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">Эта прошивка не совместима с устройством</string>
     <string name="miband_prefs_reserve_alarm_calendar">Резервные сигналы для предстоящих событий</string>
-    <string name="miband_prefs_hr_sleep_detection">Использовать датчик сердцебиения для улучшения мониторинга сна</string>
+    <string name="miband_prefs_hr_sleep_detection">Использовать датчик сердцебиения для улучшения отслеживания сна</string>
     <string name="miband_prefs_device_time_offset_hours">Смещение времени в часах (для тех, кто работает по ночам)</string>
     <string name="miband2_prefs_dateformat">Формат даты</string>
     <string name="dateformat_time">Время</string>
@@ -1604,7 +1604,7 @@
     <string name="pref_title_equalizer_trebble">Усиление ВЧ</string>
     <string name="pref_title_equalizer_dynamic">Динамичный</string>
     <string name="appmanager_app_share">Поделиться</string>
-    <string name="spo2_off">Выключено</string>
+    <string name="spo2_off">Выкл.</string>
     <string name="pref_workout_send_gps_title">Отправка GPS во время тренировки</string>
     <string name="pref_workout_start_on_phone_summary">Запуск/остановка отслеживания фитнес-приложения на телефоне при запущенной GPS-тренировке на браслете</string>
     <string name="pref_screen_notification_idle_alerts">Оповещения о простое</string>
@@ -2040,7 +2040,7 @@
     <string name="activity_detail_share_raw_details">Поделиться Необработанными Деталями</string>
     <string name="dev_tools">Инструменты Разработчика</string>
     <string name="prefs_always_on_display_follow_watchface">Стиль как на циферблате</string>
-    <string name="sports_activity_confirm_delete_description">Вы уверены, что хотите удалить %d активностей\?</string>
+    <string name="sports_activity_confirm_delete_description">Вы точно хотите удалить %d активности(-ей)?</string>
     <string name="menuitem_offline_voice">Оффлайн голос</string>
     <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
     <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
@@ -2119,7 +2119,7 @@
 \nВнимание: если установлено официальное приложение Fossil, долгое зажатие верхней кнопки также будет переключать отображение виджетов.</string>
     <string name="busy_task_fetch_sports_summaries">Получение сводки по спорту</string>
     <string name="busy_task_fetch_pai_data">Получение данных индекса физ. активности</string>
-    <string name="busy_task_fetch_spo2_data">Получение данных о насыщеннии крови кислородом</string>
+    <string name="busy_task_fetch_spo2_data">Получение данных о кислороде в крови</string>
     <string name="busy_task_fetch_hr_data">Получение данных о серцебиении</string>
     <string name="pref_app_logs_title">Журнал приложения</string>
     <string name="pref_app_logs_summary">Включить ведение журнала из приложения часов</string>
@@ -2652,4 +2652,45 @@
     <string name="huawei_alarm_smart_description">Не отключать \"умный подъём\".</string>
     <string name="huawei_alarm_event_description">Не включать \"умный подъём\".</string>
     <string name="huawei_trusleep_title">HUAWEI TruSleep ™</string>
+    <string name="huawei_trusleep_summary">Отслеживание качества сна и характера дыхания в реальном времени.
+\nАнализ закономерностей сна и точный диагноз 6 типов проблем со сном.</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Переподключаться только к подключенным устройствам</string>
+    <string name="pref_activity_recognize_biking">распознавать езду на велосипеде</string>
+    <string name="pref_activity_recognize_walking">распознавать ходьбу</string>
+    <string name="pref_activity_recognition_mode_ask">спрашивать</string>
+    <string name="pref_activity_recognition_mode_auto">автоматически</string>
+    <string name="pref_enable_call_accept">Принятие тел. вызовов</string>
+    <string name="pref_enable_call_accept_summary">Включить принятие вызовов с устройства</string>
+    <string name="pref_enable_call_reject">Отклонение тел. вызовов</string>
+    <string name="pref_heartrate_automatic_enable">Автоизмерение сердцебиения</string>
+    <string name="pref_spo_automatic_enable">Автоизмерение кислорода в крови</string>
+    <string name="pref_force_options">Форсирование опций</string>
+    <string name="pref_force_smart_alarm">Форсировать умный будильник</string>
+    <string name="pref_force_smart_alarm_summary">Форсировать поддержку умных будильников.
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
+    <string name="pref_force_wear_location">Форсировать место ношения</string>
+    <string name="pref_force_wear_location_summary">Форсировать поддержку расположения ношения устройства.
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
+    <string name="pref_force_dnd_support">Форсировать поддержку \"не беспокоить\"</string>
+    <string name="huawei_ignore_wakeup_status_start">Игнорировать статус начала вставания</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Может помочь исправить распознание сна. Сразу видимо в обзоре дневных активностей.</string>
+    <string name="huawei_ignore_wakeup_status_end">Игнорировать статус окончания вставания</string>
+    <string name="huawei_reparse_workout_data">Повторный анализ данных тренировки</string>
+    <string name="pref_summary_debug">Отправить запрос отладки на устройство Huawei</string>
+    <string name="pref_title_debug">Запрос отладки</string>
+    <string name="huawei_trusleep_summary_light">Улучшенное отслеживание сна</string>
+    <string name="pref_activity_recognition_mode_none">нет</string>
+    <string name="prefs_activity_recognition">Настройки распознания активности</string>
+    <string name="pref_activity_recognize_running">распознавать бег</string>
+    <string name="pref_activity_recognize_rowing">распознавать греблю</string>
+    <string name="pref_enable_call_reject_summary">Включить отклонение вызовов с устройства</string>
+    <string name="pref_disable_find_phone_with_dnd">Запретить \"найти мой телефон\" при включенном режиме \"не беспокоить\"</string>
+    <string name="pref_force_options_summary">Некоторые устройства ложно помечают себя как не имеющие поддержки этих опций. В этих настройках их можно попытаться включить.
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК
+\nЗа помощью обращайтесь к Вики</string>
+    <string name="pref_force_dnd_support_summary">Форсировать поддержку режима \"не беспокоить\".
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Может помочь исправить распознание сна. Сразу видимо в обзоре дневных активностей.</string>
+    <string name="huawei_reparse_workout_data_description">Эта опция повлияет на что-то после некоторых обновлений</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Переподключаться только к подключенным устройствам, а не ко всем подряд</string>
 </resources>
