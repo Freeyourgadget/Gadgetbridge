@@ -111,13 +111,13 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                                 .setHumidity(weatherSpec.currentHumidity)
                                                 .setSymbol("%")
                                         )
-                                        .setUnk5(XiaomiProto.WeatherCurrentUnk5.newBuilder()
-                                                .setUnk1("")
-                                                .setUnk2(0)
+                                        .setWind(XiaomiProto.WeatherCurrentWind.newBuilder()
+                                                .setWind(weatherSpec.windSpeedAsBeaufort())
+                                                .setSymbol("")
                                         )
-                                        .setUnk6(XiaomiProto.WeatherCurrentUnk6.newBuilder()
+                                        .setUv(XiaomiProto.WeatherCurrentUVIndex.newBuilder()
                                                 .setUnk1("")
-                                                .setUnk2(0)
+                                                .setIndex(Math.round(weatherSpec.uvIndex)) // This is sent as an sint but seems to be displayed with a decimal point
                                         )
                                         .setAQI(XiaomiProto.WeatherCurrentAQI.newBuilder()
                                                 .setAQIText("Unknown") // some string like "Moderate"
@@ -139,10 +139,12 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
             XiaomiProto.WeatherDailyList.Builder dailyListBuilder = XiaomiProto.WeatherDailyList.newBuilder();
             int daysToSend = Math.min(7, weatherSpec.forecasts.size());
             for (int i = 0; i < daysToSend; i++) {
+                WeatherSpec.AirQuality airQuality = weatherSpec.forecasts.get(i).airQuality;
+
                 dailyListBuilder.addForecastDay(XiaomiProto.WeatherDailyForecastDay.newBuilder()
-                        .setUnk1(XiaomiProto.DailyUnk1.newBuilder()
-                                .setUnk1("")
-                                .setUnk2(0)
+                        .setAQI(XiaomiProto.DailyAQI.newBuilder()
+                                .setAQIText("")
+                                .setAQI(airQuality != null && airQuality.aqi >= 0 ? airQuality.aqi : 0)
                         )
                         .setUnk2(XiaomiProto.DailyUnk2.newBuilder()
                                 .setUnk1(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.forecasts.get(i).conditionCode)) // TODO: verify

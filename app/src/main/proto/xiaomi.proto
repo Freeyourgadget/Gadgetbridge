@@ -752,8 +752,8 @@ message WeatherCurrent {
   optional uint32 weatherCondition = 2;
   optional WeatherCurrentTemperature temperature = 3;
   optional WeatherCurrentHumidity humidity= 4;
-  optional WeatherCurrentUnk5 unk5 = 5;
-  optional WeatherCurrentUnk6 unk6 = 6;
+  optional WeatherCurrentWind wind = 5;
+  optional WeatherCurrentUVIndex uv = 6;
   optional WeatherCurrentAQI AQI = 7;
   optional WeatherCurrentWarning warning = 8; // Seems to be an array?
   optional float pressure = 9;
@@ -776,14 +776,14 @@ message WeatherCurrentHumidity {
   optional sint32 humidity = 2;
 }
 
-message WeatherCurrentUnk5 {
-  optional string unk1 = 1;
-  optional uint32 unk2 = 2;
+message WeatherCurrentWind {
+  optional string symbol = 1;
+  optional sint32 wind = 2;
 }
 
-message WeatherCurrentUnk6 {
+message WeatherCurrentUVIndex {
   optional string unk1 = 1;
-  optional uint32 unk2 = 2;
+  optional sint32 index = 2;
 }
 
 message WeatherCurrentAQI {
@@ -817,21 +817,21 @@ message WeatherDailyList {
 }
 
 message WeatherDailyForecastDay {
-  optional DailyUnk1 unk1 = 1;
+  optional DailyAQI AQI = 1;
   optional DailyUnk2 unk2 = 2;
   optional DailyHighLowTemp highLowTemp = 3;
   optional string temperatureSymbol = 4;
   optional DailySunriseSunset sunriseSunset = 5;
 }
 
-message DailyUnk1 {
-  optional string unk1 = 1;
-  optional uint32 unk2 = 2;
+message DailyAQI {
+  optional string AQIText = 1;
+  optional sint32 AQI = 2;
 }
 
 message DailyUnk2 {
-  optional uint32 unk1 = 1;
-  optional uint32 unk2 = 2;
+  optional sint32 unk1 = 1;
+  optional sint32 unk2 = 2;
 }
 
 message DailyHighLowTemp {
