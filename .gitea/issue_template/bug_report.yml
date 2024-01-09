@@ -54,7 +54,7 @@ body:
     attributes:
       label: Do you have logs?
       description: >
-        If possible, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)
+        If possible, please attach [logs](https://gadgetbridge.org/internals/topics/logs/)
         that might help identifying the problem. This will be automatically formatted into 
         code, so no need for backticks.
       render: shell

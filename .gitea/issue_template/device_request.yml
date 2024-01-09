@@ -62,7 +62,7 @@ body:
     attributes:
       label: Do you have logs?
       description: >
-        If possible, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)
+        If possible, please attach [logs](https://gadgetbridge.org/internals/topics/logs/)
         which might help to implement the device support into Gadgetbridge. This will be automatically 
         formatted into code, so no need for backticks.
       render: shell
