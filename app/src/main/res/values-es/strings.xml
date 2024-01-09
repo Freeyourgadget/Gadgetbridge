@@ -52,7 +52,7 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ajustes</string>
     <string name="pref_header_general">Ajustes generales</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Conectarse al dispositivo cuando el Bluetooth esté activado</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Conectarse al (los) dispositivo(s) Gadgetbridge cuando el Bluetooth está(n) activado(s)</string>
     <string name="pref_title_general_autostartonboot">Iniciar automáticamente</string>
     <string name="pref_title_general_autoreconnect">Reconectar automáticamente</string>
     <string name="pref_title_audio_player">Reproductor de audio favorito</string>
@@ -2637,4 +2637,61 @@
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
     <string name="prefs_active_noise_cancelling_transparency">Transparencia</string>
     <string name="prefs_active_noise_cancelling_light">Cancelación activa del ruido ligera</string>
+    <string name="pref_do_not_disturb_not_wear">No molestar cuando no lo use</string>
+    <string name="manual">Manual</string>
+    <string name="pref_force_dnd_support">Forzar la función No molestar</string>
+    <string name="pref_force_dnd_support_summary">Forzar el soporte de No Molestar.
+\nUTILÍCELO BAJO SU PROPIA RESPONSABILIDAD</string>
+    <string name="huawei_ignore_wakeup_status_start">Ignorar el estado de inicio del despertador</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Puede ayudar a detectar correctamente el sueño. Visible inmediatamente en la vista de actividades diarias.</string>
+    <string name="huawei_ignore_wakeup_status_end">Ignorar estado de fin de despertador</string>
+    <string name="prefs_disconnect_notification_summary">Notificación en el dispositivo cuando se desconecta de BT.</string>
+    <string name="dnd_all_day">Todo el día</string>
+    <string name="devicetype_honor_band3">Honor Band 3</string>
+    <string name="devicetype_honor_band4">Honor Band 4</string>
+    <string name="devicetype_honor_band5">Honor Band 5</string>
+    <string name="devicetype_honor_band6">Honor Band 6</string>
+    <string name="devicetype_honor_band7">Honor Band 7</string>
+    <string name="devicetype_huawei_band6">Huawei Band 6</string>
+    <string name="devicetype_huawei_band7">Huawei Band 7</string>
+    <string name="devicetype_huawei_band8">Huawei Band 8</string>
+    <string name="devicetype_huawei_watch_gt">Huawei Watch GT</string>
+    <string name="devicetype_huawei_band4pro">Huawei Band 4 (Pro)</string>
+    <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
+    <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e</string>
+    <string name="devicetype_huawei_talk_band_b6">Huawei Talk Band B6</string>
+    <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)</string>
+    <string name="prefs_workmode">Modo de trabajo</string>
+    <string name="huawei_alarm_smart_description">No desmarque la casilla de activación inteligente.</string>
+    <string name="huawei_trusleep_title">HUAWEI TruSleep ™</string>
+    <string name="huawei_trusleep_summary">Monitorice la calidad de su sueño y su patrón respiratorio en tiempo real.
+\nAnaliza tus patrones de sueño y diagnostica con precisión 6 tipos de problemas de sueño.</string>
+    <string name="huawei_trusleep_summary_light">Control del sueño mejorado</string>
+    <string name="pref_enable_call_accept">Permitir aceptar llamadas</string>
+    <string name="pref_enable_call_accept_summary">Activar la aceptación de llamadas desde el dispositivo</string>
+    <string name="pref_enable_call_reject">Permitir rechazar llamadas</string>
+    <string name="pref_enable_call_reject_summary">Activar el rechazo de llamadas desde el dispositivo</string>
+    <string name="pref_disable_find_phone_with_dnd">Desactivar encontrar mi teléfono cuando no molestar está activo</string>
+    <string name="pref_heartrate_automatic_enable">Activar la medición automática del ritmo cardíaco</string>
+    <string name="pref_spo_automatic_enable">Activar la medición automática de SpO2</string>
+    <string name="pref_force_options">Opción obligatoria</string>
+    <string name="pref_force_smart_alarm">Forzar la alarma inteligente</string>
+    <string name="pref_force_wear_location">Lugar de desgaste de la fuerza</string>
+    <string name="pref_force_wear_location_summary">Soporte de localización de desgaste forzoso.
+\nUSO BAJO SU PROPIA RESPONSABILIDAD</string>
+    <string name="huawei_reparse_workout_data">Reparar datos de entrenamiento</string>
+    <string name="huawei_reparse_workout_data_description">Esto sólo hará algo después de ciertas actualizaciones</string>
+    <string name="pref_summary_debug">Enviar una solicitud de depuración al dispositivo Huawei</string>
+    <string name="pref_title_debug">Solicitud de depuración</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Reconectar sólo a los dispositivos conectados</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Reconectarse sólo a los dispositivos conectados, en lugar de volver a conectarse a todos los dispositivos</string>
+    <string name="do_not_disturb_lift_wrist_summary">Sólo si se activa la visualización al subir</string>
+    <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
+    <string name="huawei_alarm_event_description">No marque la casilla de activación inteligente.</string>
+    <string name="pref_force_options_summary">Algunos dispositivos afirman falsamente no ser compatibles con algunas opciones. Esta configuración se puede utilizar para habilitarlos de todos modos.
+\nUTILÍZALO BAJO TU PROPIA RESPONSABILIDAD
+\nLea la wiki</string>
+    <string name="pref_force_smart_alarm_summary">Forzar el soporte de alarmas inteligentes.
+\nUSO BAJO SU PROPIA RESPONSABILIDAD</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Puede ayudar a detectar correctamente el sueño. Visible inmediatamente en la vista de actividades diarias.</string>
 </resources>
