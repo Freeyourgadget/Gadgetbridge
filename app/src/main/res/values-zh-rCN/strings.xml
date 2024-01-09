@@ -2690,4 +2690,6 @@
     <string name="huawei_reparse_workout_data_description">这只会在某些更新后执行某些操作</string>
     <string name="pref_summary_debug">向华为设备发送调试请求</string>
     <string name="pref_title_debug">调试请求</string>
+    <string name="pref_title_general_reconnectonlytoconnected">仅重新连接到已连接的设备</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">仅重新连接到已连接的设备，而不是重新连接到所有设备</string>
 </resources>
