@@ -6,27 +6,24 @@
 * Initial support for Honor Band 4
 * Initial support for Honor Band 5
 * Initial support for Honor Band 6
-* Initial support for Honor Band 7
 * Initial support for Huawei Band 4
 * Initial support for Huawei Band 4 Pro
 * Initial support for Huawei Band 6
 * Initial support for Huawei Band 7
-* Initial support for Huawei Band 8
 * Initial support for Huawei Band 3e
 * Initial support for Huawei Band 4e
 * Initial support for Huawei Talk Band B6
 * Initial support for Huawei Watch GT
 * Initial support for Huawei Watch GT 2
-* Initial support for Huawei Watch GT 2 Pro
-* Initial support for Huawei Watch GT 2e
-* Initial support for Huawei Watch GT 3
-* Initial support for Huawei Watch GT 3 Pro
 * Initial support for Mijia LYWSD03MMC
 * Initial support for Nothing Ear (2)
 * Initial support for Nothing Ear (Stick)
+* Experimental support for Honor Band 7
+* Experimental support for Huawei Band 8
 * Experimental support for Redmi Watch 2 Lite
 * Experimental support for Redmi Smart Band Pro
 * Fossil/Skagen Hybrids: Update navigationApp to 1.1
+* Huami: Fetch SpO2 on devices that support it
 * Pebble: Attempt to fix app configuration webview
 * PineTime: Add support for InfiniTime's new simple weather
 * PineTime: Fix freeze and reboot when upgrading firmware
@@ -36,6 +33,7 @@
 * Pixoo: support "clap hands to turn off screen" and "sleep after silence" settings
 * Xiaomi: Improve activity and workout parsing
 * Xiaomi: Improve stability and fix some crashes
+* Xiaomi: Improve weather
 * Xiaomi: Parse sleep stages on some devices
 * Add a notifications channel for connection status notifications
 * Improve automatic connection to all or previous devices
