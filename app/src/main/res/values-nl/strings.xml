@@ -2689,4 +2689,9 @@
 \nGEBRUIK OP EIGEN RISICO</string>
     <string name="pref_force_dnd_support_summary">Forceer ondersteuning voor Niet Storen
 \nGEBRUIK OP EIGEN RISICO</string>
+    <string name="huawei_reparse_workout_data">Trainingsgegevens opnieuw analyseren</string>
+    <string name="pref_summary_debug">Stuur een foutopsporingsverzoek naar het Huawei-apparaat</string>
+    <string name="pref_title_debug">Foutopsporingsverzoek</string>
+    <string name="huawei_reparse_workout_data_description">Dit zal alleen iets doen na bepaalde updates</string>
+    <string name="menuitem_buzzer_intensity">Zoemerintensiteit</string>
 </resources>
