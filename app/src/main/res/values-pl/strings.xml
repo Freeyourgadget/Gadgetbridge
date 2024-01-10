@@ -541,7 +541,7 @@
     <string name="mi2_prefs_do_not_disturb_end">Koniec</string>
     <string name="mi3_prefs_band_screen_unlock">Odblokowanie ekranu opaski</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Przesuń w górę, aby odblokować ekran opaski</string>
-    <string name="norwegian_bokmal">Norwegian Bokmål</string>
+    <string name="norwegian_bokmal">Norweski Bokmål</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Przeniesienie danych z okresu %1$s</string>
     <string name="appwidget_setting_alarm">Ustawienie alarmu na %1$02d:%2$02d</string>
     <string name="error_creating_directory_for_logfiles">Błąd tworzenia folderu na pliki log: %1$s</string>
@@ -1773,7 +1773,7 @@
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
     <string name="controlcenter_set_preferences">Ustaw preferencje</string>
-    <string name="controlcenter_toggle_details">Pokaż detale</string>
+    <string name="controlcenter_toggle_details">Pokaż szczegóły</string>
     <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
     <string name="activity_type_elliptical">Eliptyczna</string>
     <string name="error_deleting_device">Błąd przy usuwaniu urządzenia: %s</string>
@@ -2147,7 +2147,7 @@
     <string name="stress_relaxed">Zreleksowany</string>
     <string name="kind_gpx_route">Ślad GPX</string>
     <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Ustawienia Mi Band 1/2</string>
-    <string name="croatian">chorwacki</string>
+    <string name="croatian">Chorwacki</string>
     <string name="stop">Zatrzymaj</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
     <string name="long_press">Długie naciśnięcie</string>
@@ -2259,7 +2259,7 @@
     <string name="status_icon">Ikona stanu</string>
     <string name="title">Tytuł</string>
     <string name="busy_task_fetch_spo2_data">Pobieranie danych SpO2</string>
-    <string name="french_ca">French (Canada)</string>
+    <string name="french_ca">Francuski (Kanada)</string>
     <string name="double_tap">Podwójne dotknięcie</string>
     <string name="prefs_wena3_button_action_name_qrio_lock">Blokada Qrio</string>
     <string name="pref_app_logs_stop_summary">Zatrzymaj rejestrowanie dzienników aplikacji zegarka</string>
@@ -2274,7 +2274,7 @@
     <string name="loyalty_cards_install">Zainstaluj Catimę</string>
     <string name="prefs_home_icon_left_item">Do lewej</string>
     <string name="prefs_wena3_led_none">Bez LED</string>
-    <string name="spanish_es">Spanish (Spain)</string>
+    <string name="spanish_es">Hiszpański (Hiszpania)</string>
     <string name="activity_type_skiing">Narciarstwo</string>
     <string name="activity_error_share_failed">Udostępnianie pliku nie powiodło się.</string>
     <string name="pref_morning_updates_categories_title">Kategorie porannych aktualizacji</string>
@@ -2289,7 +2289,7 @@
     <string name="pref_message_privacy_mode_bodyonly">Ukryj tylko główną treść</string>
     <string name="prefs_wena3_hint_background_sync">Pozwól urządzeniu Wena okresowo prosić Urządzenia na ciele o pobranie danych o aktywności z urządzenia</string>
     <string name="pref_morning_updates_categories_summary">Lista kategorii wyświetlana każdego ranka</string>
-    <string name="english_in">English (India)</string>
+    <string name="english_in">Angielski (Indie)</string>
     <string name="prefs_wena3_home_icon_name_suica">Równowaga Suica</string>
     <string name="zepp_os_watchface_business_style">Styl biznesowy</string>
     <string name="prefs_wena3_vibration_strength_item_medium">Średnie</string>
@@ -2353,7 +2353,7 @@
     <string name="prefs_wena3_item_large_font">Większy rozmiar czcionki</string>
     <string name="gpx_route_upload_in_progress">Przesyłanie trasy gpx</string>
     <string name="fossil_hr_pairing_failed">Parowanie z zegarkiem nie powiodło się</string>
-    <string name="english_au">English (Australia)</string>
+    <string name="english_au">Angielski (Australia)</string>
     <string name="prefs_wena3_home_icon_name_energy">Energia ciała</string>
     <string name="permission_request">%1$s umożliwia wysyłanie wiadomości i innych danych z Androida na Twoje urządzenie. Aby to zrobić, wymagany jest dostęp do tych danych i bez niego może nie działać poprawnie.
 \n
@@ -2412,7 +2412,7 @@
     <string name="prefs_wena3_notification_default_call_led">Kolor diody LED połączenia przychodzącego</string>
     <string name="pref_activity_full_sync_trigger_title">Pełna synchronizacja</string>
     <string name="loyalty_cards_syncing">Synchronizowanie %d kart lojalnościowych z urządzeniem</string>
-    <string name="french_fr">French (France)</string>
+    <string name="french_fr">Francuski (Francja)</string>
     <string name="wifi_hotspot_stop_summary">Zatrzymaj hotspot Wi-Fi na zegarku</string>
     <string name="intent_api_allow_debug_commands_title">Zezwalaj na polecenia debugowania</string>
     <string name="fwapp_install_device_not_supported">Nie można zainstalować pliku, urządzenie nie jest obsługiwane.</string>
@@ -2426,14 +2426,14 @@
     <string name="temperature_scale_cf_summary">Wybierz, czy urządzenie ma używać skali Celsjusza czy Fahrenheita.</string>
     <string name="prefs_wena3_menu_icon_title">Ikony Menu</string>
     <string name="withings_bt_calibration_next">Dalej</string>
-    <string name="spanish_mx">Spanish (Mexico)</string>
+    <string name="spanish_mx">Hiszpański (Meksyk)</string>
     <string name="loyalty_cards_sync_starred">Synchronizuj tylko karty oznaczone gwiazdką</string>
     <string name="changelog_full_title">Lista zmian</string>
     <string name="pref_contacts_summary">Skonfiguruj kontakty na zegarku</string>
     <string name="loyalty_cards_install_catima_fail">Nie udało się otworzyć sklepu z aplikacjami, aby zainstalować Catimę</string>
     <string name="preview_image">Miniaturka</string>
     <string name="loyalty_cards_sync">Synchronizuj</string>
-    <string name="english_gb">English (United Kingdom)</string>
+    <string name="english_gb">Angielski (Wielka Brytania)</string>
     <string name="prefs_wena3_notification_default_call_vibration_repetition">Powtórzenie wibracji połączenia przychodzącego</string>
     <string name="intent_api_allow_debug_commands_summary">Zezwalaj na uruchamianie poleceń menu debugowania za pośrednictwem interfejsu Intent API</string>
     <string name="loyalty_cards_sync_options">Opcje synchronizacji</string>
@@ -2446,17 +2446,17 @@
     <string name="activity_type_handball">Piłka ręczna</string>
     <string name="temperature_scale_fahrenheit">Skala Fahrenheita</string>
     <string name="prefs_wena3_vibration_strength_item">Siła wibracji</string>
-    <string name="english_us">English (United States)</string>
+    <string name="english_us">Angielski (Stany Zjednoczone)</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamiczne kolory nie są dostępne na Twoim urządzeniu, tylko Android 12+ obsługuje tę funkcję. Urządzenia na ciele użyje domyślnych kolorów Material 3.</string>
     <string name="withings_bt_calibration_previous">Wstecz</string>
     <string name="ftp_server_stop_summary">Zatrzymaj serwer FTP na zegarku</string>
     <string name="changelog_show_full">Więcej…</string>
-    <string name="spanish_us">Spanish (United States)</string>
+    <string name="spanish_us">Hiszpański (Stany Zjednoczone)</string>
     <string name="prefs_wena3_receive_calls_hint">Jeśli ta opcja jest wyłączona, nie będziesz otrzymywać powiadomień o połączeniach przychodzących na urządzeniu Wena</string>
     <string name="zepp_os_watchface_multiple_data">Wiele danych</string>
     <string name="prefs_wena3_button_action_item_long">Długie naciśnięcie</string>
     <string name="prefs_wena3_menu_icon_name_payment">Płatności</string>
-    <string name="latvian">Latvian</string>
+    <string name="latvian">Łotewski</string>
     <string name="prefs_wena3_status_page_title">Strona stanu zamówień</string>
     <string name="single_tap">Pojedyncze dotknięcie</string>
     <string name="prefs_wena3_title_alarm">Ustawienia alarmów</string>
@@ -2481,7 +2481,7 @@
     <string name="contact_phone_number">Numer telefonu</string>
     <string name="fossil_hr_pairing_successful">Parowanie z zegarkiem powiodło się</string>
     <string name="prefs_wena3_item_rich_design">Użyj bogatego projektu</string>
-    <string name="english_ca">English (Canada)</string>
+    <string name="english_ca">Angielski (Kanada)</string>
     <string name="prefs_wena3_day_start_hour_item">Dzień zaczyna się o</string>
     <string name="error_no_bluetooth_connect">Aby skanowanie działało prawidłowo, należy przyznać i włączyć dostęp do połączenia Bluetooth</string>
     <string name="prefs_shortcut_cards_summary">Karty skrótów widoczne po przesunięciu palcem w prawo na tarczy zegarka. To ustawienie nie ma wpływu na automatycznie generowane karty, gdy aplikacja jest uruchomiona.</string>
@@ -2644,4 +2644,24 @@
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
     <string name="prefs_active_noise_cancelling_light">Lekka aktywna redukcja szumów</string>
     <string name="prefs_active_noise_cancelling_transparency">Przezroczyste</string>
+    <string name="devicetype_huawei_talk_band_b6">Huawei Talk Band B6</string>
+    <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e</string>
+    <string name="devicetype_honor_band4">Honor Band 4</string>
+    <string name="devicetype_honor_band5">Honor Band 5</string>
+    <string name="devicetype_honor_band7">Honor Band 7</string>
+    <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
+    <string name="devicetype_huawei_band4pro">Huawei Band 4 (Pro)</string>
+    <string name="devicetype_huawei_watch_gt">Huawei Watch GT</string>
+    <string name="devicetype_huawei_band8">Huawei Band 8</string>
+    <string name="devicetype_huawei_band7">Huawei Band 7</string>
+    <string name="pref_summary_debug">Wyślij żądanie odpluskwienia do urządzenia Huawei</string>
+    <string name="pref_title_debug">Żądanie odpluskwienia</string>
+    <string name="huawei_trusleep_title">HUAWEI TruSleep ™</string>
+    <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)</string>
+    <string name="devicetype_huawei_band6">Huawei Band 6</string>
+    <string name="devicetype_honor_band3">Honor Band 3</string>
+    <string name="devicetype_honor_band6">Honor Band 6</string>
+    <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
+    <string name="pref_spo_automatic_enable">Włącz automatyczne mierzenie SpO2</string>
+    <string name="manual">Ręcznie</string>
 </resources>
