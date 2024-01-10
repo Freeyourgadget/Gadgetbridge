@@ -109,10 +109,10 @@
     <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
     <string name="installation_failed_">Instalacja nie powiodła się</string>
     <string name="installation_successful">Zainstalowano</string>
-    <string name="firmware_install_warning">PRÓBUJESZ ZAINSTALOWAĆ FIRMWARE, POSTĘPUJESZ NA WŁASNĄ ODPOWIEDZIALNOŚĆ . 
-\n 
-\n 
-\n Ten firmware jest przeznaczony dla wersji HW: %s</string>
+    <string name="firmware_install_warning">PRÓBUJESZ ZAINSTALOWAĆ OPROGRAMOWANIE UKŁADOWE, KONTYNUUJ NA WŁASNE RYZYKO.
+\n
+\n
+\n Te oprogramowanie układowe jest przeznaczone dla wersji HW: %s</string>
     <string name="app_install_info">Zamierzasz zainstalować poniższą aplikację:
 \n
 \n%1$s
@@ -1178,7 +1178,7 @@
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="battery_detail_activity_title">Informacje o baterii</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
-    <string name="fw_upgrade_notice_amazfitx">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit X.
+    <string name="fw_upgrade_notice_amazfitx">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit X.
 \n
 \nProszę upewnić się, że zainstalowany został plik .fw, a następnie plik .res. Po zainstalowaniu pliku .fw Twoja opaska zostanie ponownie uruchomiona.
 \n
@@ -1208,7 +1208,7 @@
     <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
     <string name="prefs_sounds_summary">Skonfiguruj, kiedy urządzenie będzie emitować sygnał dźwiękowy</string>
     <string name="prefs_sounds">Dźwięki</string>
-    <string name="fw_upgrade_notice_amazfitneo">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit Neo
 \n
 \nPo zainstalowaniu pliku .fw Twoja opaska zostanie ponownie uruchomiona.
 \n
@@ -1696,11 +1696,11 @@
     <string name="prefs_spo2_monitoring_description">Automatyczne monitorowanie poziomu tlenu we krwi przez cały dzień</string>
     <string name="prefs_spo2_alert_threshold">Próg alarmowy SPO2</string>
     <string name="pref_sleep_breathing_quality_monitoring">Monitorowanie jakości oddechu podczas snu</string>
-    <string name="fw_upgrade_notice_miband7">Zamierzasz zainstalować oprogramowanie %s na swoim Xiaomi Smart Band 7.
+    <string name="fw_upgrade_notice_miband7">Zamierzasz zainstalować oprogramowanie układowe %s na swoim Xiaomi Smart Band 7.
 \n
 \nTwoja opaska uruchomi się ponownie po zainstalowaniu pliku .zip.
 \n
-\nROBISZ TO NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="open_fw_installer_connect_maximum_one_device">Proszę podłączyć TYLKO JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_header_connection">Połączenie</string>
     <string name="pref_header_display">Wyświetlanie</string>
@@ -1928,11 +1928,11 @@
     <string name="supercars_lights_label">Klasyczne</string>
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="dismiss">Odrzuć</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR3. 
-\n 
-\nUrządzenie uruchomi się ponownie po instalacji pliku .zip. 
-\n 
-\nWykonujesz to na własne ryzyko!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR3.
+\n
+\nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_title_third_party_app_device_settings">Pozwól aplikacjom firm trzecich na zmianę ustawień</string>
     <string name="activity_type_dance">Taniec</string>
     <string name="activity_type_indoor_fitness">Ćwiczenia w domu</string>
@@ -1979,7 +1979,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_title_notification_media_ignores_application_list">Lista ignorowanych powiadomień ze stron społecznościowych</string>
     <string name="pref_summary_notification_media_ignores_application_list">Przetwarzaj powiadomienia multimedialne przed listą aplikacji. Jeśli ta preferencja nie jest zaznaczona, aplikacje multimedialne muszą być dozwolone na liście aplikacji, aby elementy sterujące multimediami działały na urządzeniu.</string>
     <string name="pref_workout_detection_categories_summary">Automatyczne wykrywanie kategorii ćwiczeń</string>
@@ -2079,7 +2079,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_header_sound_vibration">Dźwięki i wibracje</string>
     <string name="pref_header_intent_api">Interfejs API intencji</string>
     <string name="pref_text_to_speech">Tekst na mowę</string>
@@ -2105,12 +2105,12 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR 4.
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_agps_expiry_reminder_time">Czas powiadamiania o wygasaniu AGPS</string>
     <string name="pref_workout_detection_title">Kierunek ćwiczeń</string>
     <string name="pref_enable_unsupported_settings_summary">Umożliwi to dostęp do wszystkich dostępnych ustawień, nawet jeśli nie są obsługiwane przez urządzenie. Może to spowodować niestabilność i awarie urządzenia.</string>
@@ -2121,7 +2121,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_gps_combination">Mieszanie GPS</string>
     <string name="pref_gps_satellite_search">Wyszukiwanie satelit</string>
     <string name="pref_crown_vibration">Wibracja koronki</string>
@@ -2129,7 +2129,7 @@
     <string name="pref_cover_to_mute">Przykryj, aby wyciszyć</string>
     <string name="pref_workout_detection_summary">Automatyczny kierunek ćwiczeń</string>
     <string name="pref_screen_notification_profile_todo_list">Lista Do zrobienia</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR 3 Pro.
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR 3 Pro.
 \n
 \nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
 \n
@@ -2227,7 +2227,7 @@
     <string name="pref_camera_remote_summary">Umożliwia zegarkowi wyzwalanie aparatu telefonu</string>
     <string name="bluetooth_calls_settings">Ustawienia połączeń Bluetooth</string>
     <string name="bluetooth_calls_pairing">Parowanie połączeń Bluetooth</string>
-    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Cheetah Pro
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit Cheetah Pro
 \n
 \nTwój zegarek zostanie ponownie uruchomiony po instalacji pliku .zip
 \n
@@ -2235,7 +2235,7 @@
     <string name="pref_title_notification_cache_while_disconnected">Pamięć podręczna poza zasięgiem</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">Do określenia lokalizacji używaj tylko dostawcy sieci. Zmniejsza to zużycie energii kosztem dokładności. Konieczne jest ponowne połączenie.</string>
     <string name="pref_title_banglejs_phone_gps_update_interval">Interwał aktualizacji danych GPS</string>
-    <string name="fw_upgrade_notice_zepp_os">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim %s.
+    <string name="fw_upgrade_notice_zepp_os">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim %s.
 \n
 \nTwój zegarek zostanie ponownie uruchomiony po instalacji pliki .zip.
 \n
@@ -2669,4 +2669,7 @@
     <string name="huawei_reparse_workout_data_description">Ta opcja będzie działać dopiero w nowszej wersji aplikacji</string>
     <string name="updatefirmwareoperation_updateproblem_low_battery">Poziom baterii urządzenia jest zbyt niski</string>
     <string name="dnd_all_day">Cały dzień</string>
+    <string name="pref_force_options_summary">Niektóre urządzenia fałszywie twierdzą, że nie mają wsparcia dla pewnych funkcji. Tej opcji można użyć by włączyć je pomimo tego.
+\nKONTYNUUJ NA WŁASNE RYZYKO!
+\nPrzeczytaj wiki</string>
 </resources>
