@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, João
-    Paulo Barraca, José Rebelo, pangwalla, tiparega
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, Daniel Dakhno, José Rebelo,
+    pangwalla, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2;
 
 import android.content.Context;

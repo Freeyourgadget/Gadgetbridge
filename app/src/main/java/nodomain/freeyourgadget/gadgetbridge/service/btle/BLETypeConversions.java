@@ -1,5 +1,6 @@
-/*  Copyright (C) 2016-2023 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lukas Veneziano, Maxim Baz, Johannes Krude
+/*  Copyright (C) 2016-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Johannes Krude, José Rebelo, Lukas Veneziano, Maxim Baz, Petr
+    Kadlec, Robbert Gurdeep Singh, uli
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import java.nio.charset.StandardCharsets;

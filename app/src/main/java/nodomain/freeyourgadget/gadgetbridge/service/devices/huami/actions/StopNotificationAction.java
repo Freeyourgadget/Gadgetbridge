@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2018-2024 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions;
 
 import android.bluetooth.BluetoothGatt;

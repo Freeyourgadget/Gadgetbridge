@@ -1,7 +1,8 @@
-/*  Copyright (C) 2015-2021 Alberto, Andreas Böhler, Andreas Shimokawa,
-    Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti, Frank Slezak,
-    ivanovlev, José Rebelo, Julien Pivotto, Kasha, Roi Greenberg, Sebastian
-    Kranz, Steffen Liebergeld
+/*  Copyright (C) 2015-2024 Alberto, Andreas Böhler, Andreas Shimokawa,
+    Arjan Schrijver, Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti,
+    Davis Mosenkovs, Frank Slezak, Gabriele Monaco, Gordon Williams, ivanovlev,
+    José Rebelo, Julien Pivotto, Kasha, mvn23, Petr Vaněk, Roi Greenberg,
+    Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
 import android.app.Service;

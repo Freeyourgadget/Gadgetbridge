@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo, Pauli Salmenrinne, Sebastian Kranz,
-    Taavi Eomäe, Yoran Vulker
+/*  Copyright (C) 2015-2024 Alicia Hormann, Andreas Böhler, Andreas Shimokawa,
+    Arjan Schrijver, Carsten Pfeiffer, Daniele Gobbetti, Davis Mosenkovs,
+    Dmitriy Bogdanov, foxstidious, Ganblejs, José Rebelo, Pauli Salmenrinne,
+    Petr Vaněk, Taavi Eomäe, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.Notification;

@@ -1,5 +1,7 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Lem Dulfo, maxirnilian
+/*  Copyright (C) 2016-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs,
+    fparri, José Rebelo, mamucho, maxirnilian, mkusnierz, Petr Vaněk, Taavi
+    Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;

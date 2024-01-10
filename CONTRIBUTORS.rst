@@ -30,15 +30,14 @@
 * Yaron Shahrabani <sh.yaron@gmail.com>
 * Daniel Dakhno <dakhnod@gmail.com>
 * 陈少举 <oshirisu.red@gmail.com>
+* Arjan Schrijver <arjan5@noreply.codeberg.org>
 * Vincèn PUJOL <vincen@vincen.org>
 * Oğuz Ersen <oguzersen@protonmail.com>
 * Allan Nordhøy <epost@anotheragency.no>
 * Ihor Hordiichuk <igor_ck@outlook.com>
-* Arjan Schrijver <arjan.schrijver@foxcrypto.com>
 * nautilusx <mail.ka@mailbox.org>
 * Taavi Eomäe <taavi.eomae+github@gmail.com>
 * Gordon Williams <gw@pur3.co.uk>
-* arjan-s <a_gitlab@anymore.nl>
 * Rafael Fontenelle <rafaelff@gnome.org>
 * Michal L <michalrmsmi@wp.pl>
 * Sebastian Kranz <lightwars@web.de>
@@ -62,6 +61,7 @@
 * Vadim Kaushan <admin@disasm.info>
 * protomors <protomors@gmail.com>
 * Cre3per <lukas96s@web.de>
+* Davis Mosenkovs <davikovs@gmail.com>
 * ssantos <ssantos@web.de>
 * Michael <quelbs@gmail.com>
 * glemco <glemco@codeberg>
@@ -70,14 +70,13 @@
 * Саша Петровић <salepetronije@gmail.com>
 * naofum <naofum@gmail.com>
 * My Random Thoughts <weblate@myrandomthoughts.co.uk>
-* Davis Mosenkovs <davikovs@gmail.com>
+* Damien 'Psolyca' Gaignon <damien.gaignon@gmail.com>
 * 0eoc <0eoc@users.noreply.hosted.weblate.org>
 * mesnevi <shams@airpost.net>
 * Kintu <kintukp@gmail.com>
 * youzhiran <2668760098@qq.com>
 * mueller-ma <mueller-ma@users.noreply.github.com>
 * ivanovlev <ivanovlev@mail.ru>
-* Damien 'Psolyca' Gaignon <damien.gaignon@gmail.com>
 * Tijl Schepens <tijl.schepens@hotmail.com>
 * Sophanimus <sennamails@googlemail.com>
 * Pavel Elagin <elagin.pasha@gmail.com>
@@ -120,6 +119,7 @@
 * Lukas <lukas.edi@gmx.net>
 * Ganblejs <ganblejs@noreply.codeberg.org>
 * Deixondit <jperals@protonmail.com>
+* akasaka / Genjitsu Labs <vladkorotnev@gmail.com>
 * Szylu <chipolade@gmail.com>
 * Robert Barat <rbarat07@gmail.com>
 * Reza Almanda <rezaalmanda27@gmail.com>
@@ -168,7 +168,6 @@
 * ce4 <ce4@posteo.de>
 * Baka Gaijin <lewdwarrior@waifu.club>
 * AndrewBedscastle <1462953+AndrewBedscastle@users.noreply.github.com>
-* akasaka <akasaka@nezumi.local>
 * abettenburg <a.bettenburg@gmail.com>
 * 0nse <0nse@users.noreply.github.com>
 * Максим Якимчук <xpinovo@gmail.com>
@@ -204,6 +203,7 @@
 * ITCactus <itcactus@noreply.codeberg.org>
 * illis <illis@beyond8labs.com>
 * Francesco Marinucci <francesco.marinucci@posteo.net>
+* FintasticMan <finlay.neon.kid@gmail.com>
 * Doma Gergő <domag02@gmail.com>
 * Dikay900 <dark900@xyz.de>
 * Denis <korden@sky-play.ru>
@@ -289,7 +289,6 @@
 * Andreas Kromke <Andreas.Kromke@web.de>
 * Alex <leha-bot@yandex.ru>
 * Albert <albert@avdm043>
-* Akasaka Ryuunosuke <vladkorotnev@gmail.com>
 * Ainārs <ainars71@inbox.lv>
 * عبدالرئوف عابدی <abdolraoofabedi@gmail.com>
 * Егор Ермаков <eg.ermakov2016@yandex.ru>
@@ -304,7 +303,6 @@
 * Xavier RENE-CORAIL <xavier.renecorail@gmail.com>
 * x29a <x29a@noreply.codeberg.org>
 * w2q <w2q@noreply.codeberg.org>
-* vladkorotnev <vladkorotnev@noreply.codeberg.org>
 * Vitaliy Shuruta <vshuruta@gmail.com>
 * veecue <veecue@ventos.tk>
 * Unixware <csynt@hotmail.com>
@@ -316,6 +314,7 @@
 * t-m-w <t-m-w-codeberg@galac.tk>
 * tiparega <11555126+tiparega@users.noreply.github.com>
 * TinfoilSubmarine <tinfoilsubmarine@noreply.codeberg.org>
+* Tim <tim.w1995@gmail.com>
 * thirschbuechler <thirschbuechler@github.com>
 * Thiago Rodrigues <thiaguinho.the@gmail.com>
 * thermatk <thermatk@noreply.codeberg.org>
@@ -368,6 +367,7 @@
 * pangwalla <pangwalla@noreply.codeberg.org>
 * Pander <pander@users.sourceforge.net>
 * ozkanpakdil <ozkan.pakdil@gmail.com>
+* opcode <luigi@sciolla.net>
 * Ondřej Sedláček <ond.sedlacek@gmail.com>
 * Olivier Bloch <blochjunior@gmail.com>
 * Oleg Vasilev <oleg.vasilev@virtuozzo.com>
@@ -379,6 +379,7 @@
 * Nathan Philipp Bo Seddig <natpbs@gmail.com>
 * Natanael Arndt <arndtn@gmail.com>
 * Nabil BENDAFI <nabil@bendafi.fr>
+* myxor <myxor@noreply.codeberg.org>
 * Morten Rieger Hannemose <mohan@dtu.dk>
 * Mirko Covizzi <mrkcvzz@gmail.com>
 * Milan Šalka <salka.milan@googlemail.com>
@@ -461,7 +462,6 @@
 * Hüseyin Aslan <ha098784@gmail.com>
 * Hugel <qihu@nfschina.com>
 * hr-sales <hericsonregis@hotmail.com>
-* hrglpfrmpf <hrglpfrmpf@noreply.codeberg.org>
 * Hirnchirurg <anonymous11@posteo.net>
 * Hen Ry <nobo@go4more.de>
 * HelloCodeberg <hellocodeberg@noreply.codeberg.org>
@@ -483,6 +483,7 @@
 * Gabe Schrecker <gabe@pbrb.co.uk>
 * freezed-or-frozen <freezed.or.frozen@gmail.com>
 * Frank Slezak <KazWolfe@users.noreply.github.com>
+* Frank Ertl <hrglpfrmpf@noreply.codeberg.org>
 * Florian Beuscher <florianbeuscher@gmail.com>
 * Fabian Hof <weblate@fabian-hof.de>
 * Étienne Deparis <etienne@depar.is>
@@ -494,7 +495,6 @@
 * Donato <pread.xa4mx@simplelogin.com>
 * Dmytro Bielik <mitrandir.hex@gmail.com>
 * djurik <dirceu.semighini@protonmail.com>
-* DESKTOP-IF738U6\Tim <tim.w1995@gmail.com>
 * DerFetzer <kontakt@der-fetzer.de>
 * Dean <3114661520@qq.com>
 * Deactivated Account <diastasis@gmail.com>
@@ -539,11 +539,11 @@
 * andre <andre.buesgen@yahoo.de>
 * Andrea Lepori <mafaldo@hotmail.it>
 * Allen B <28495335+Allen-B1@users.noreply.github.com>
+* Alicia Hormann <ahormann@gmx.net>
 * Alfeu Lucas Guedes dos Santos <alfeugds@gmail.com>
 * Alexey Afanasev <avafanasiev@gmail.com>
 * Alexandra Sevostyanova <asevostyanova@gmail.com>
 * Aidan Crane <aidancrane78@gmail.com>
-* ahormann <ahormann@gmx.net>
 * aerowolf <aerowolf@tom.com>
 * Adam Büchner <buechner.adam@gmx.de>
 * a b <65567823+abb128@users.noreply.github.com>

@@ -1,5 +1,4 @@
-/*  Copyright (C) 2021-2022 Gaignon Damien
-    Copyright (C) 2022-2023 MartinJM
+/*  Copyright (C) 2024 Damien Gaignon
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
 /* TLV parsing and serialisation thanks to https://github.com/yihleego/tlv */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;

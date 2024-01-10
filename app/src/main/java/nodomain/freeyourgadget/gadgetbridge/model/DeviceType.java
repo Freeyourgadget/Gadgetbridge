@@ -1,9 +1,15 @@
-/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Gordon Williams,
-    Jean-François Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft,
-    Manuel Ruß, maxirnilian, Pavel, Pavel Elagin, protomors, Quallenauge,
-    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan,
-    Johannes Krude
+/*  Copyright (C) 2015-2024 115ek, akasaka / Genjitsu Labs, Alicia Hormann,
+    Andreas Böhler, Andreas Shimokawa, Andrew Watkins, angelpup, Carsten Pfeiffer,
+    Cre3per, Damien Gaignon, DanialHanif, Daniel Dakhno, Daniele Gobbetti, Daniel
+    Thompson, Da Pa, Dmytro Bielik, Frank Ertl, Gabriele Monaco, GeekosaurusR3x,
+    Gordon Williams, Jean-François Greffier, jfgreffier, jhey, João Paulo
+    Barraca, Jochen S, Johannes Krude, José Rebelo, ksiwczynski, ladbsoft,
+    Lesur Frederic, Maciej Kuśnierz, mamucho, Manuel Ruß, Maxime Reyrolle,
+    maxirnilian, Michael, narektor, Noodlez, odavo32nof, opavlov, pangwalla,
+    Pavel Elagin, Petr Kadlec, Petr Vaněk, protomors, Quallenauge, Quang Ngô,
+    Raghd Hamzeh, Sami Alaoui, Sebastian Kranz, sedy89, Sophanimus, Stefan Bora,
+    Taavi Eomäe, thermatk, tiparega, Vadim Kaushan, x29a, xaos, Yoran Vulker,
+    Yukai Li
 
     This file is part of Gadgetbridge.
 
@@ -18,7 +24,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;

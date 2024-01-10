@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Q-er
+/*  Copyright (C) 2019-2024 José Rebelo, Petr Vaněk, Q-er
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import java.util.ArrayList;

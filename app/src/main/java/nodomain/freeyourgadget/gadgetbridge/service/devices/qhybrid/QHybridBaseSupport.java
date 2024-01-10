@@ -1,5 +1,4 @@
-/*  Copyright (C) 2015-2021 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniel
-    Dakhno, José Rebelo, Julien Pivotto, Sebastian Kranz, Steffen Liebergeld
+/*  Copyright (C) 2019-2024 Arjan Schrijver, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
 import android.net.Uri;

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2016-2021 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    ivanovlev, João Paulo Barraca, Lesur Frederic, Pavel Motyrev, Quallenauge,
-    Sebastian Kranz
+/*  Copyright (C) 2016-2024 Alberto, Andreas Shimokawa, Arjan Schrijver,
+    Carsten Pfeiffer, Damien Gaignon, ivanovlev, João Paulo Barraca, Lesur
+    Frederic, Pavel Motyrev, Quallenauge, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 /*

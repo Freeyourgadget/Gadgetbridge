@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Pavel Elagin, vanous, Vebryn
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Pavel Elagin, Petr Vaněk, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import org.slf4j.Logger;

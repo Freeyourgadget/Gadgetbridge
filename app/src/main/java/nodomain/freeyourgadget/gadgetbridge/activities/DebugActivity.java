@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Frank Slezak, ivanovlev, Kasha, Lem Dulfo, Pavel Elagin, Steffen
-    Liebergeld, vanous
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Dmitriy Bogdanov, Frank Slezak,
+    Ganblejs, ivanovlev, José Rebelo, Kamalei Zestri, Kasha, Lem Dulfo, Pavel
+    Elagin, Petr Vaněk, Steffen Liebergeld, Tim
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import static android.content.Intent.EXTRA_SUBJECT;

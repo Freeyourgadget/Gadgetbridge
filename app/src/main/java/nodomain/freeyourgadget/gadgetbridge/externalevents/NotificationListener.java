@@ -1,7 +1,10 @@
-/*  Copyright (C) 2015-2020 abettenburg, Andreas Shimokawa, AndrewBedscastle,
-    Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Frank Slezak, Hasan Ammar,
-    José Rebelo, Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64,
-    Steffen Liebergeld, Taavi Eomäe, veecue, Zhong Jianxin
+/*  Copyright (C) 2015-2024 abettenburg, Andreas Böhler, Andreas Shimokawa,
+    AndrewBedscastle, Arjan Schrijver, Carsten Pfeiffer, Daniel Dakhno, Daniele
+    Gobbetti, Davis Mosenkovs, Dmitriy Bogdanov, Dmitry Markin, Frank Slezak,
+    gnufella, Gordon Williams, Hasan Ammar, José Rebelo, Julien Pivotto,
+    Kevin Richter, mamucho, Matthieu Baerts, mvn23, Normano64, Petr Kadlec,
+    Petr Vaněk, Steffen Liebergeld, Taavi Eomäe, theghostofheathledger, t-m-w,
+    veecue, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +19,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.ActivityManager;

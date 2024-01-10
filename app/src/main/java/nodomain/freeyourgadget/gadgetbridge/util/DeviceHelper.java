@@ -1,10 +1,14 @@
-/*  Copyright (C) 2015-2021 0nse, 115ek, Andreas Böhler, Andreas Shimokawa,
-    angelpup, Carsten Pfeiffer, Cre3per, DanialHanif, Daniel Dakhno, Daniele
-    Gobbetti, Dmytro Bielik, Gordon Williams, Jean-François Greffier, João Paulo
-    Barraca, José Rebelo, ksiwczynski, ladbsoft, Lesur Frederic, Manuel Ruß,
-    maxirnilian, mkusnierz, odavo32nof, opavlov, pangwalla, Pavel Elagin,
-    protomors, Quallenauge, Sami Alaoui, Sebastian Kranz, Sophanimus, Taavi
-    Eomäe, tiparega, Vadim Kaushan, Yukai Li
+/*  Copyright (C) 2015-2024 115ek, akasaka / Genjitsu Labs, Andreas Böhler,
+    Andreas Shimokawa, Andrew Watkins, angelpup, Arjan Schrijver, Carsten Pfeiffer,
+    Cre3per, DanialHanif, Daniel Dakhno, Daniele Gobbetti, Daniel Thompson, Da Pa,
+    Dmytro Bielik, Frank Ertl, GeekosaurusR3x, Gordon Williams, Jean-François
+    Greffier, jfgreffier, jhey, João Paulo Barraca, Jochen S, Johannes Krude,
+    José Rebelo, ksiwczynski, ladbsoft, Lesur Frederic, Maciej Kuśnierz, mamucho,
+    Manuel Ruß, maxirnilian, mkusnierz, narektor, Noodlez, odavo32nof, opavlov,
+    pangwalla, Pavel Elagin, Petr Kadlec, Petr Vaněk, protomors, Quallenauge,
+    Quang Ngô, Raghd Hamzeh, Sami Alaoui, Sebastian Kranz, sedy89, Sophanimus,
+    Stefan Bora, Taavi Eomäe, thermatk, tiparega, Vadim Kaushan, x29a, xaos,
+    Yukai Li
 
     This file is part of Gadgetbridge.
 
@@ -19,7 +23,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.bluetooth.BluetoothAdapter;

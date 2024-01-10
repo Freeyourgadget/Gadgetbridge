@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Gordon Williams
+/*  Copyright (C) 2020-2024 Daniel Thompson
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.waspos;
 
 import java.util.UUID;

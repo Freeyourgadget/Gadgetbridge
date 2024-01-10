@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Julien Pivotto, Maxim Baz, Sebastian Kranz, Steffen Liebergeld
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, chklump, Damien Gaignon, José Rebelo, Maxim Baz, Petr Vaněk,
+    Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.zetime;
 
 import android.bluetooth.BluetoothGatt;

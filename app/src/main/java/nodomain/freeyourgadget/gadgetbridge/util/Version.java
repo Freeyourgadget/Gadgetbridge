@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Michal Novotny
+/*  Copyright (C) 2017-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Michal Novotny
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import androidx.annotation.NonNull;

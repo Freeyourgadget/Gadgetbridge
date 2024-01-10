@@ -1,6 +1,7 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
-    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, Marvin D,
-    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej, w2q
+/*  Copyright (C) 2016-2024 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+    Gobbetti, Davis Mosenkovs, foxstidious, Frank Slezak, Kaz Wolfe, Kevin Richter,
+    Lukas Veneziano, Marvin D, Matthieu Baerts, Mave95, Maxim Baz, michaelneu,
+    musover, NotAFIle, Tomas Radej, w2q
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.util.HashMap;

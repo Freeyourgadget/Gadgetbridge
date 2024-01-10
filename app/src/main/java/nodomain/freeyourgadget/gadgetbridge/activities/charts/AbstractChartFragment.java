@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Dikay900, Pavel Elagin, vanous, walkjivefly
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Dikay900, José Rebelo, Pavel Elagin, Petr Vaněk, walkjivefly
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.annotation.SuppressLint;

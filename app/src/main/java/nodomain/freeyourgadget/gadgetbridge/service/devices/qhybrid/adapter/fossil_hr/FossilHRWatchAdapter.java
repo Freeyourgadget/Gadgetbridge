@@ -1,4 +1,6 @@
-/*  Copyright (C) 2019-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno, Arjan Schrijver
+/*  Copyright (C) 2019-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Daniel Dakhno, Enrico Brambilla, Hasan Ammar, José Rebelo, Morten
+    Rieger Hannemose, mvn23, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.FitnessConfigItem;

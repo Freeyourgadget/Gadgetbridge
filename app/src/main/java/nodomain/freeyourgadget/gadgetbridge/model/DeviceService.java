@@ -1,6 +1,8 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniel
-    Dakhno, Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo,
-    Julien Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld, vanous
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs, Frank Slezak,
+    Gabriele Monaco, Gordon Williams, ivanovlev, JohnnySun, José Rebelo, Julien
+    Pivotto, Kasha, mvn23, Petr Vaněk, Sebastian Kranz, Steffen Liebergeld,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2020-2021 Andreas Böhler, Taavi Eomäe
+/*  Copyright (C) 2020-2024 Andreas Böhler, Arjan Schrijver, Daniel Dakhno,
+    José Rebelo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import static androidx.core.app.ActivityCompat.startIntentSenderForResult;

@@ -1,7 +1,8 @@
-/*  Copyright (C) 2015-2023 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Dmitry Markin, JohnnySun, José Rebelo, Julien
-    Pivotto, Kasha, Michal Novotny, Petr Vaněk, Sebastian Kranz, Sergey Trofimov,
-    Steffen Liebergeld, Taavi Eomäe, Yoran Vulker, Zhong Jianxin
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Arjan Schrijver, beardhatcode,
+    Carsten Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Dmitry
+    Markin, José Rebelo, musover, Nathan Philipp Bo Seddig, NekoBox, Petr
+    Vaněk, Robbert Gurdeep Singh, Sebastian Kranz, Taavi Eomäe, Toby Murray,
+    uli, Yoran Vulker, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import android.bluetooth.BluetoothAdapter;

@@ -1,5 +1,7 @@
-/*  Copyright (C) 2016-2022 Andreas Shimokawa, Carsten Pfeiffer, JF, Sebastian
-    Kranz, Taavi Eomäe
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, Arjan Schrijver, Daniel
+    Dakhno, Davis Mosenkovs, Ernst, FintasticMan, Gordon Williams, ITCactus,
+    Jean-François Milants, JF, Johannes Krude, kieranc001, Patric Gruber,
+    Petr Kadlec, Taavi Eomäe, uli
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToCloudCover;

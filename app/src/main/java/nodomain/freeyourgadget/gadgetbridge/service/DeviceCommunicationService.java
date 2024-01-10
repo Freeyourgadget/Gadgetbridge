@@ -1,8 +1,10 @@
-/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Avamander,
-    Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Daniel Hauck, Dikay900,
-    Frank Slezak, ivanovlev, João Paulo Barraca, José Rebelo, Julien Pivotto,
-    Kasha, keeshii, mamucho, Martin, Matthieu Baerts, Nephiel, Sebastian Kranz,
-    Sergey Trofimov, Steffen Liebergeld, Taavi Eomäe, Uwe Hermann, Yoran Vulker
+/*  Copyright (C) 2015-2024 Andreas Böhler, Andreas Shimokawa, Arjan
+    Schrijver, Avamander, Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti,
+    Daniel Hauck, Davis Mosenkovs, Dikay900, Dmitriy Bogdanov, Frank Slezak,
+    Gabriele Monaco, Gordon Williams, ivanovlev, João Paulo Barraca, José
+    Rebelo, Julien Pivotto, Kasha, keeshii, Martin, Matthieu Baerts, mvn23,
+    NekoBox, Nephiel, Petr Vaněk, Sebastian Kranz, Sergey Trofimov, Steffen
+    Liebergeld, Taavi Eomäe, TylerWilliamson, Uwe Hermann, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -17,7 +19,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;

@@ -1,6 +1,8 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Martin, Matthieu Baerts, Normano64, odavo32nof, Pauli Salmenrinne,
-    Pavel Elagin, Petr Vaněk, Saul Nunez, Taavi Eomäe
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs,
+    Dmitriy Bogdanov, Joel Beckmeyer, José Rebelo, Kornél Schmidt, Ludovic
+    Jozeau, Martin, Martin.JM, mvn23, Normano64, odavo32nof, Pauli Salmenrinne,
+    Pavel Elagin, Petr Vaněk, Saul Nunez, Taavi Eomäe, x29a
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.annotation.TargetApi;

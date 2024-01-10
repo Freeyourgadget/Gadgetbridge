@@ -1,5 +1,4 @@
-/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Sebastian Kranz, Johannes Krude
+/*  Copyright (C) 2023-2024 Andreas Böhler, foxstidious, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
