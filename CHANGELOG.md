@@ -19,7 +19,6 @@
 * Initial support for Nothing Ear (2)
 * Initial support for Nothing Ear (Stick)
 * Experimental support for Honor Band 7
-* Experimental support for Huawei Band 8
 * Experimental support for Redmi Watch 2 Lite
 * Experimental support for Redmi Smart Band Pro
 * Fossil/Skagen Hybrids: Update navigationApp to 1.1
