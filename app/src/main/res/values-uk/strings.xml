@@ -1359,7 +1359,7 @@
     <string name="prefs_touch_lock">Сенсорне блокування</string>
     <string name="prefs_touch_lock_summary">Вимкнути події торкання</string>
     <string name="prefs_galaxy_buds_experimental">Експериментальне</string>
-    <string name="prefs_ambient_volume">Гучність оточення</string>
+    <string name="prefs_ambient_volume">Гучність середовища</string>
     <string name="prefs_ambient_voice_focus">Фокус голосу</string>
     <string name="prefs_ambient_voice_summary">Підсилення голосу</string>
     <string name="prefs_left">Лівий</string>
@@ -1640,7 +1640,7 @@
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
     <string name="prefs_in_ear_detection_summary">Відтворення викликів через навушники, коли вони у ваших вухах</string>
     <string name="prefs_seamless_connection_switch_summary">Автоматичне перемикає навушники між пов\'язаними пристроями</string>
-    <string name="prefs_ambient_volume_left">Гучність оточення зліва</string>
+    <string name="prefs_ambient_volume_left">Гучність середовища зліва</string>
     <string name="prefs_customize_ambient_sound_summary">Налаштування навколишнього звуку</string>
     <string name="prefs_ambient_sound_during_call_title">Навколишній звук під час виклику</string>
     <string name="prefs_active_noise_cancelling_level">Рівень активного шумопоглинання</string>
@@ -1651,13 +1651,13 @@
     <string name="pref_title_touch_volume">Гучність</string>
     <string name="pref_ambient_sound_tone_summary">Від м\'якого до чистого</string>
     <string name="pref_switch_controls_anc_off">Шумопоглинання ←→ Вимкнено</string>
-    <string name="pref_switch_controls_ambient_off">Оточення ←→ Вимкнено</string>
+    <string name="pref_switch_controls_ambient_off">Середовище ←→ Вимкнено</string>
     <string name="prefs_noise_control">Контроль шуму</string>
     <string name="prefs_voice_detect">Виявлення голосу</string>
     <string name="prefs_double_tap_edge">Подвійне торкання краю</string>
     <string name="prefs_voice_detect_duration">Завершення після тиші за:</string>
     <string name="pref_voice_detect_duration_15">15 секунд</string>
-    <string name="prefs_ambient_volume_right">Гучність оточення справа</string>
+    <string name="prefs_ambient_volume_right">Гучність середовища справа</string>
     <string name="prefs_ambient_sound_during_call_summary">Чітко чути власний голос під час викликів</string>
     <string name="prefs_seamless_connection_switch_title">Плавне перемикання з\'єднання</string>
     <string name="prefs_ambient_settings_title">Параметри навколишнього звуку</string>
@@ -1671,7 +1671,7 @@
     <string name="prefs_noise_control_with_one_earbud_summary">Дозволити контроль шуму під час використання лише одного навушника</string>
     <string name="pref_balance">Баланс</string>
     <string name="pref_ambient_sound_tone">Тон навколишнього звуку</string>
-    <string name="pref_switch_controls_anc_ambient">Шумопоглинання ←→ Оточення</string>
+    <string name="pref_switch_controls_anc_ambient">Шумопоглинання ←→ Середовище</string>
     <string name="prefs_voice_detect_summary">Увімкнути навколишній звук і автоматичне стишення відтворення після виявлення голосу</string>
     <string name="prefs_double_tap_edge_summary">Виявлення подвійного торкання, навіть якщо не торкатися тачпада</string>
     <string name="pref_voice_detect_duration_10">10 секунд</string>
@@ -2180,7 +2180,7 @@
     <string name="continue_pressing">Продовжити натискання</string>
     <string name="quick_attention">Швидка увага</string>
     <string name="long_press">Затискання</string>
-    <string name="pref_switch_controls_anc_ambient_off">Шумопоглинання ←→ Оточення ←→ Вимкнено</string>
+    <string name="pref_switch_controls_anc_ambient_off">Шумопоглинання ←→ Середовище ←→ Вимкнено</string>
     <string name="sony_button_mode_help_title">Режими кнопок - Довідка</string>
     <string name="menuitem_mi_ai">MI AI</string>
     <string name="menuitem_cards">Картки</string>
