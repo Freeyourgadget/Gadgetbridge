@@ -583,7 +583,9 @@ public final class BtLEQueue {
                 getCallbackToUse().onMtuChanged(gatt, mtu, status);
             }
 
-            mWaitForActionResultLatch.countDown();
+            if (mWaitForActionResultLatch != null) {
+                mWaitForActionResultLatch.countDown();
+            }
         }
 
 
