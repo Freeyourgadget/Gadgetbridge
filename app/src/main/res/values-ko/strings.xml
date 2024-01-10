@@ -304,7 +304,7 @@
     <string name="pref_summary_pebble_always_ack_pebblekit">제 3자 앱으로 보내는 메세지에 언제나 바로 ACK을 보냅니다</string>
     <string name="pref_title_unit_system">단위</string>
     <string name="pref_title_timeformat">시간 형식</string>
-    <string name="controlcenter_connect">연결</string>
+    <string name="controlcenter_connect">연결…</string>
     <string name="fw_upgrade_notice_amazfitcor">지금 당신의 Amazfit Cor에 %s 펌웨어를 설치하려고 합니다.
 \n
 \n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다.
@@ -611,4 +611,43 @@
     <string name="sonyswr12_settings_stamina_summary">절전 모드는주기적인 심박수 자동 측정을 해제하여 작업 시간을 늘립니다.</string>
     <string name="sonyswr12_settings_alarm_interval">분 단위의 스마트 알람 간격</string>
     <string name="sonyswr12_settings_alarm_interval_summary">스마트 알람 간격은 설치된 알람 이전의 간격입니다. 이 간격에서 장치는 사용자를 깨우기 위해 가장 가벼운 수면 단계를 감지하려고합니다.</string>
+    <string name="controlcenter_power_off">전원 끄기</string>
+    <string name="calendar_day">일</string>
+    <string name="calendar_two_weeks">2주</string>
+    <string name="accuracy">정확도</string>
+    <string name="about_activity_title_generic">Gadgetbridge에 대하여</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge에 대하여</string>
+    <string name="controlcenter_power_off_confirm_title">전원 끄기</string>
+    <string name="controlcenter_power_off_confirm_description">기기의 전원을 끄고 싶은 것이 확실한가요?</string>
+    <string name="battery_level">배터리 레벨</string>
+    <string name="calendar_week">주</string>
+    <string name="controlcenter_set_alias">별명 설정</string>
+    <string name="prefs_activity_in_device_card_sleep_title">수면</string>
+    <string name="activity_list_summary_distance">거리</string>
+    <string name="activity_list_summary_active_steps">활성 걸음</string>
+    <string name="controlcenter_get_heartrate_measurement">심박수 측정 얻기</string>
+    <string name="battery_detail_activity_title">배터리 정보</string>
+    <string name="power_saving">절전</string>
+    <string name="custom">커스텀</string>
+    <string name="dialog_hide">숨기기</string>
+    <string name="charts_activity_list">활동 목록</string>
+    <string name="action_changelog">변경 기록</string>
+    <string name="balanced">균형</string>
+    <string name="low_power_gps">저전력 GPS</string>
+    <string name="gps">GPS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">수면 기간 표시</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">거리는 걸음과 보폭에서 계산됩니다 (설정에서 변경 가능)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">전체 걸음 수 표시</string>
+    <string name="calendar_month">달</string>
+    <string name="calendar_three_months">3달</string>
+    <string name="calendar_six_months">6달</string>
+    <string name="calendar_year">년</string>
+    <string name="appmanager_app_start">시작</string>
+    <string name="activity_list_summary_active_time">활성 시간</string>
+    <string name="activity_list_summary_activities">활동</string>
 </resources>
