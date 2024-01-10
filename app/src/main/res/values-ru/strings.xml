@@ -433,7 +433,7 @@
     <string name="stats_y_axis_label">Шагов в минуту</string>
     <string name="clock">Часы</string>
     <string name="heart_rate">Пульс</string>
-    <string name="battery">Заряд батарейки</string>
+    <string name="battery">Заряд батареи</string>
     <string name="mi2_prefs_button_actions">Действия кнопки</string>
     <string name="mi2_prefs_button_actions_summary">Настройте действия при нажатии на кнопку</string>
     <string name="mi2_prefs_button_press_count">Кол-во нажатий на кнопку</string>
@@ -2693,4 +2693,5 @@
     <string name="huawei_ignore_wakeup_status_end_description">Может помочь исправить распознание сна. Сразу видимо в обзоре дневных активностей.</string>
     <string name="huawei_reparse_workout_data_description">Эта опция повлияет на что-то после некоторых обновлений</string>
     <string name="pref_summary_general_reconnectonlytoconnected">Переподключаться только к подключенным устройствам, а не ко всем подряд</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Заряд батареи слишком низок</string>
 </resources>
