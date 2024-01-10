@@ -50,7 +50,7 @@
     <string name="miband_firmware_suggest_whitelist">Als u nog steeds wilt doorgaan en uw apparaat blijft goed functioneren, vertel dan alstublieft de ontwikkelaars van Gadgetbridge om de %s firmware-versie op de goedgekeurde lijst te zetten.</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="pref_header_general">Algemene instellingen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Verbind met Gadgetbridge-apparaat wanneer Bluetooth wordt ingeschakeld</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbind met Gadgetbridge-apparaten wanneer Bluetooth wordt ingeschakeld</string>
     <string name="pref_title_general_autostartonboot">Start automatisch</string>
     <string name="pref_title_general_autoreconnect">Verbind automatisch opnieuw</string>
     <string name="pref_title_audio_player">Gewenste audiospeler</string>
@@ -2669,4 +2669,24 @@
     <string name="huawei_alarm_event_description">Plaats geen vinkje bij slim wakker worden.</string>
     <string name="huawei_trusleep_summary">Monitor uw slaapkwaliteit en adempatroon in realtime.
 \nAnalyseer uw slaappatronen en diagnosticeer 6 types slaapproblemen.</string>
+    <string name="pref_force_options">Opties forceren</string>
+    <string name="pref_force_options_summary">Sommige apparaten geven onterecht aan sommige opties niet te ondersteunen. Deze instellingen gebruikt worden om ze alsnog in te schakelen.
+\nGEBRUIK OP EIGEN RISICO
+\nLees de documentatie</string>
+    <string name="pref_force_smart_alarm">Forceer slim alarm</string>
+    <string name="pref_force_smart_alarm_summary">Forceer ondersteuning van slimme alarmen
+\nGEBRUIK OP EIGEN RISICO</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Maak alleen opnieuw verbinding met verbonden apparaten</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Maak alleen opnieuw verbinding met verbonden apparaten, in plaats van met alle apparaten</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Het batterijniveau van het apparaat is te laag</string>
+    <string name="pref_force_wear_location">Forceer draaglocatie</string>
+    <string name="pref_force_dnd_support">Forceer ondersteuning voor Niet Storen</string>
+    <string name="huawei_ignore_wakeup_status_start">Negeer startstatus wakkerworden</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Kan helpen voor correcte slaapdetectie. Direct zichtbaar in het dagelijkse activiteitenoverzicht.</string>
+    <string name="huawei_ignore_wakeup_status_end">Negeer eindstatus wakkerworden</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Kan helpen voor correcte slaapdetectie. Direct zichtbaar in het dagelijkse activiteitenoverzicht.</string>
+    <string name="pref_force_wear_location_summary">Forceer ondersteuning voor draaglocatie
+\nGEBRUIK OP EIGEN RISICO</string>
+    <string name="pref_force_dnd_support_summary">Forceer ondersteuning voor Niet Storen
+\nGEBRUIK OP EIGEN RISICO</string>
 </resources>
