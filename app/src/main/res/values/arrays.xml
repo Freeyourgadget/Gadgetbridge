@@ -1032,6 +1032,7 @@
         <item>@string/menuitem_findphone</item>
         <item>@string/menuitem_eject_water</item>
         <item>@string/menuitem_headphone</item>
+        <item>@string/menuitem_buzzer_intensity</item>
     </string-array>
 
     <string-array name="pref_huami2021_control_center_values">
@@ -1051,6 +1052,7 @@
         <item>findphone</item>
         <item>eject_water</item>
         <item>headphone</item>
+        <item>buzzer_intensity</item>
     </string-array>
 
     <string-array name="pref_miband5_workout_activity_types">

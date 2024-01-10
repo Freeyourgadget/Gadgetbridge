@@ -1543,6 +1543,7 @@
     <string name='menuitem_lockscreen'>Lockscreen</string>
     <string name='menuitem_eject_water'>Eject Water</string>
     <string name='menuitem_headphone'>Headphone</string>
+    <string name='menuitem_buzzer_intensity'>Buzzer Intensity</string>
     <string name="menuitem_unknown_app">Unknown (%s)</string>
     <string name="menuitem_unsupported">[UNSUPPORTED] %s</string>
     <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>
