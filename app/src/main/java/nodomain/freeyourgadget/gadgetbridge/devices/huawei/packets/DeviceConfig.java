@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon, José Rebelo
+/*  Copyright (C) 2024 Damien Gaignon, José Rebelo, Martin.JM
 
     This file is part of Gadgetbridge.
 

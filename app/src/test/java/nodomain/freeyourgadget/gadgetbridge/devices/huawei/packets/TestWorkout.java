@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 MartinJM
+/*  Copyright (C) 2022 Martin.JM
 
     This file is part of Gadgetbridge.
 

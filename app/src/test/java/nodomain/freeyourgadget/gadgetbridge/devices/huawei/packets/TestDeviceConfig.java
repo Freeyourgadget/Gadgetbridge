@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 Gaignon Damien
+/*  Copyright (C) 2022 Gaignon Damien, Martin.JM
     Copyright (C) 2022-2023 MartinJM
 
     This file is part of Gadgetbridge.
