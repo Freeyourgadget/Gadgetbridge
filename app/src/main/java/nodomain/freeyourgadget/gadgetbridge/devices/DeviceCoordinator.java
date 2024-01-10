@@ -96,7 +96,7 @@ public interface DeviceCoordinator {
 
     enum ConnectionType{
         BLE(false, true),
-        BL_CLASSIC(true, false),
+        BT_CLASSIC(true, false),
         BOTH(true, true)
         ;
         boolean usesBluetoothClassic, usesBluetoothLE;

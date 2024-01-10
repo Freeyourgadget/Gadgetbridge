@@ -57,7 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiBleUuids;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiUuids;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.WorkoutSummaryParser;
@@ -71,7 +71,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         final List<ScanFilter> filters = new ArrayList<>();
-        for (final UUID uuid : XiaomiBleUuids.UUIDS.keySet()) {
+        for (final UUID uuid : XiaomiUuids.BLE_UUIDS.keySet()) {
             final ParcelUuid service = new ParcelUuid(uuid);
             final ScanFilter filter = new ScanFilter.Builder().setServiceUuid(service).build();
             filters.add(filter);

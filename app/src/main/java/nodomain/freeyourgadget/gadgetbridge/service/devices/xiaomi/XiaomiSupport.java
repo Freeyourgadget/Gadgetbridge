@@ -122,6 +122,8 @@ public class XiaomiSupport extends AbstractDeviceSupport {
             case BLE:
             case BOTH:
                 return new XiaomiBleSupport(this);
+            case BT_CLASSIC:
+                return new XiaomiSppSupport(this);
         }
 
         LOG.error("Cannot create connection-specific support, unhanded {} connection type", connType);

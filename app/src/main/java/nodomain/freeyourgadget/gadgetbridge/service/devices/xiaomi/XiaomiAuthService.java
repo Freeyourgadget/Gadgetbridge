@@ -49,8 +49,6 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -82,10 +80,10 @@ public class XiaomiAuthService extends AbstractXiaomiService {
     }
 
     // TODO also implement for spp
-    protected void startEncryptedHandshake(final XiaomiBleSupport support, final TransactionBuilder builder) {
+    protected void startEncryptedHandshake(final XiaomiBleSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
         encryptionInitialized = false;
 
-        builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
+        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
         new SecureRandom().nextBytes(nonce);
@@ -93,8 +91,19 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         support.sendCommand(builder, buildNonceCommand(nonce));
     }
 
-    protected void startClearTextHandshake(final XiaomiBleSupport support, final TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
+    protected void startEncryptedHandshake(final XiaomiSppSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder builder) {
+        encryptionInitialized = false;
+
+        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
+
+        System.arraycopy(getSecretKey(getSupport().getDevice()), 0, secretKey, 0, 16);
+        new SecureRandom().nextBytes(nonce);
+
+        support.sendCommand(builder, buildNonceCommand(nonce));
+    }
+
+    protected void startClearTextHandshake(final XiaomiBleSupport support, final nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
+        builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(getSupport().getDevice(), GBDevice.State.AUTHENTICATING, getSupport().getContext()));
 
         final XiaomiProto.Auth auth = XiaomiProto.Auth.newBuilder()
                 .setUserId(getUserId(getSupport().getDevice()))

@@ -60,6 +60,12 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
         return mQueue.connect();
     }
 
+    public void disconnect() {
+        if (mQueue != null) {
+            mQueue.disconnect();
+        }
+    }
+
     /**
      * Subclasses should populate the given builder to initialize the device (if necessary).
      *
