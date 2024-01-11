@@ -2694,4 +2694,5 @@
     <string name="huawei_reparse_workout_data_description">Эта опция повлияет на что-то после некоторых обновлений</string>
     <string name="pref_summary_general_reconnectonlytoconnected">Переподключаться только к подключенным устройствам, а не ко всем подряд</string>
     <string name="updatefirmwareoperation_updateproblem_low_battery">Заряд батареи слишком низок</string>
+    <string name="menuitem_buzzer_intensity">Мощность звукоизлучателя</string>
 </resources>
