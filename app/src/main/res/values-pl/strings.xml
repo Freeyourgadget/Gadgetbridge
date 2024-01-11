@@ -2692,4 +2692,15 @@
     <string name="pref_force_wear_location_summary">Wymuszone wsparcie lokalizacji zużycia.
 \nUŻYWAJ NA WŁASNE RYZYKO</string>
     <string name="menuitem_buzzer_intensity">Intensywność brzęczyka</string>
+    <string name="do_not_disturb_lift_wrist_summary">Jedynie gdy jest włączona opcja: podnieś, aby wybudzić ekran</string>
+    <string name="pref_enable_call_accept_summary">Włącz odbieranie połączeń z poziomu urządzenia</string>
+    <string name="pref_enable_call_accept">Włącz odbieranie połączeń</string>
+    <string name="pref_enable_call_reject">Włącz odrzucanie połączeń</string>
+    <string name="pref_enable_call_reject_summary">Włącz odrzucanie połączeń z poziomu urządzenia</string>
+    <string name="pref_heartrate_automatic_enable">Włącz automatyczny pomiar tętna</string>
+    <string name="pref_disable_find_phone_with_dnd">Wylącz funkcję Znajdź mój telefon, gdy tryb Nie przeszkadzać jest włączony</string>
+    <string name="pref_force_dnd_support_summary">Wymuś tryb Nie Przeszkadzać.
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_force_dnd_support">Wymuś wspacie dla trybu Nie przeszkadzać</string>
+    <string name="huawei_trusleep_summary_light">Poprawione monitorowanie snu</string>
 </resources>
