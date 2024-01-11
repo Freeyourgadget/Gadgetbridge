@@ -2672,4 +2672,24 @@
     <string name="pref_force_options_summary">Niektóre urządzenia fałszywie twierdzą, że nie mają wsparcia dla pewnych funkcji. Tej opcji można użyć by włączyć je pomimo tego.
 \nKONTYNUUJ NA WŁASNE RYZYKO!
 \nPrzeczytaj wiki</string>
+    <string name="prefs_disconnect_notification_summary">Powiadomienie na urządzeniu, po rozłączeniu Bluetooth.</string>
+    <string name="pref_force_options">Wymuś opcje</string>
+    <string name="pref_do_not_disturb_not_wear">Nie przeszkadzać, gdy nie noszone</string>
+    <string name="prefs_workmode">Tryb pracy</string>
+    <string name="huawei_alarm_smart_description">Nie odznaczaj inteligentnego wybudzania.</string>
+    <string name="huawei_alarm_event_description">Nie zaznaczaj inteligentnego wybudzania.</string>
+    <string name="huawei_trusleep_summary">Monitoruj jakość snu i sposób oddychania w czasie rzeczywistym.
+\nPrzeanalizuj swoje wzorce snu i dokładnie zdiagnozuj 6 rodzajów problemów ze snem.</string>
+    <string name="pref_force_smart_alarm">Wymuś inteligentny alarm</string>
+    <string name="huawei_ignore_wakeup_status_start">Ignoruj stan rozpoczęcia wybudzania</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Może pomóc w prawidłowym wykrywaniu snu. Widoczne natychmiast w widoku codziennych aktywności.</string>
+    <string name="huawei_ignore_wakeup_status_end">Ignoruj stan zakończenia wybudzania</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Może pomóc w prawidłowym wykrywaniu snu. Widoczne natychmiast w widoku codziennych aktywności.</string>
+    <string name="huawei_reparse_workout_data">Przeanalizuj ponownie dane treningu</string>
+    <string name="pref_force_smart_alarm_summary">Wymuś obsługę inteligentnych alarmów.
+\nUŻYWAJ NA WŁASNE RYZYKO</string>
+    <string name="pref_force_wear_location">Wymuś lokalizację zużycia</string>
+    <string name="pref_force_wear_location_summary">Wymuszone wsparcie lokalizacji zużycia.
+\nUŻYWAJ NA WŁASNE RYZYKO</string>
+    <string name="menuitem_buzzer_intensity">Intensywność brzęczyka</string>
 </resources>
