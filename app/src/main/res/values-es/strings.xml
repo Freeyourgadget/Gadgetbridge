@@ -2694,4 +2694,6 @@
     <string name="pref_force_smart_alarm_summary">Forzar el soporte de alarmas inteligentes.
 \nUSO BAJO SU PROPIA RESPONSABILIDAD</string>
     <string name="huawei_ignore_wakeup_status_end_description">Puede ayudar a detectar correctamente el sueño. Visible inmediatamente en la vista de actividades diarias.</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">La batería del dispositivo está demasiado baja</string>
+    <string name="menuitem_buzzer_intensity">Intensidad del zumbador</string>
 </resources>
