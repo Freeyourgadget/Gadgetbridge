@@ -56,12 +56,14 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
         buf.get(); // header ? 0xF0
 
-        final int isAwake = buf.get() & 0xff; // 0/1
+        final int isAwake = buf.get() & 0xff; // 0/1 - more correctly this would be !isSleepFinish
         final int bedTime = buf.getInt();
         final int wakeupTime = buf.getInt();
         LOG.debug("Sleep sample: bedTime: {}, wakeupTime: {}, isAwake: {}", bedTime, wakeupTime, isAwake);
 
-        final XiaomiSleepTimeSample sample = new XiaomiSleepTimeSample();
+        final List<XiaomiSleepTimeSample> summaries = new ArrayList<>();
+
+        XiaomiSleepTimeSample sample = new XiaomiSleepTimeSample();
         sample.setTimestamp(bedTime * 1000L);
         sample.setWakeupTime(wakeupTime * 1000L);
         sample.setIsAwake(isAwake == 1);
@@ -80,7 +82,6 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         }
 
         final List<XiaomiSleepStageSample> stages = new ArrayList<>();
-
 
         while (buf.remaining() >= 17 && buf.getInt() == 0xFFFCFAFB) {
             final int headerLen = buf.get() & 0xFF; // this seems to always be 17
@@ -108,7 +109,40 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 //             - Summary = 16,
 //             - Stages = 17
 
-            if (type == 17) { // Stages
+            if (type == 16) {
+                final int data_0 = dataBuf.get() & 0xFF;
+                final int sleep_index = data_0 >> 4;
+                final int wake_count = data_0 & 0x0F;
+
+                final int sleep_duration = dataBuf.getShort() & 0xFFFF;
+                final int wake_duration  = dataBuf.getShort() & 0xFFFF;
+                final int light_duration = dataBuf.getShort() & 0xFFFF;
+                final int rem_duration   = dataBuf.getShort() & 0xFFFF;
+                final int deep_duration  = dataBuf.getShort() & 0xFFFF;
+
+                final int data_1 = dataBuf.get() & 0xFF;
+                final boolean has_rem = (data_1 >> 4) == 1;
+                final boolean has_stage = (data_1 >> 2) == 1;
+
+                // Could probably be an "awake" duration after sleep
+                final int unk_duration_minutes = dataBuf.get() & 0xFF;
+
+                if (sample == null) {
+                    sample = new XiaomiSleepTimeSample();
+                }
+
+                sample.setTimestamp(bedTime * 1000L);
+                sample.setWakeupTime(wakeupTime * 1000L);
+                sample.setTotalDuration(sleep_duration);
+                sample.setDeepSleepDuration(deep_duration);
+                sample.setLightSleepDuration(light_duration);
+                sample.setRemSleepDuration(rem_duration);
+                sample.setAwakeDuration(wake_duration);
+
+                summaries.add(sample);
+                sample = null;
+            }
+            else if (type == 17) { // Stages
                 long currentTime = ts * 1000;
                 for (int i = 0; i < dataLen / 2; i++) {
                     // when the change to the phase occurs
@@ -133,24 +167,28 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             final DaoSession session = handler.getDaoSession();
             final GBDevice gbDevice = support.getDevice();
 
-            sample.setDevice(DBHelper.getDevice(gbDevice, session));
-            sample.setUser(DBHelper.getUser(session));
-
             final XiaomiSleepTimeSampleProvider sampleProvider = new XiaomiSleepTimeSampleProvider(gbDevice, session);
 
-            // Check if there is already a later sleep sample - if so, ignore this one
-            // Samples for the same sleep will always have the same bedtime (timestamp), but we might get
-            // multiple bedtimes until the user wakes up
-            final List<XiaomiSleepTimeSample> existingSamples = sampleProvider.getAllSamples(sample.getTimestamp(), sample.getTimestamp());
-            if (!existingSamples.isEmpty()) {
-                final XiaomiSleepTimeSample existingSample = existingSamples.get(0);
-                if (existingSample.getWakeupTime() > sample.getWakeupTime()) {
-                    LOG.warn("Ignoring sleep sample - existing sample is more recent ({})", existingSample.getWakeupTime());
-                    return true;
+
+            for (final XiaomiSleepTimeSample summary : summaries) {
+                summary.setDevice(DBHelper.getDevice(gbDevice, session));
+                summary.setUser(DBHelper.getUser(session));
+
+                // Check if there is already a later sleep sample - if so, ignore this one
+                // Samples for the same sleep will always have the same bedtime (timestamp), but we might get
+                // multiple bedtimes until the user wakes up
+                final List<XiaomiSleepTimeSample> existingSamples = sampleProvider.getAllSamples(summary.getTimestamp(), summary.getTimestamp());
+                if (!existingSamples.isEmpty()) {
+                    final XiaomiSleepTimeSample existingSample = existingSamples.get(0);
+                    if (existingSample.getWakeupTime() > summary.getWakeupTime()) {
+                        LOG.warn("Ignoring sleep sample - existing sample is more recent ({})", existingSample.getWakeupTime());
+                        continue;
+                    }
                 }
+
+                sampleProvider.addSample(summary);
             }
 
-            sampleProvider.addSample(sample);
         } catch (final Exception e) {
             GB.toast(support.getContext(), "Error saving sleep sample", Toast.LENGTH_LONG, GB.ERROR);
             LOG.error("Error saving sleep sample", e);
