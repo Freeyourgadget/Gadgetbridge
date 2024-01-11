@@ -25,6 +25,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -32,7 +33,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -58,11 +61,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 public class PixooProtocol extends GBDeviceProtocol {
     private static final Logger LOG = LoggerFactory.getLogger(PixooProtocol.class);
@@ -357,10 +363,36 @@ public class PixooProtocol extends GBDeviceProtocol {
 
     protected byte[] encodeShowFrame(Uri uri) {
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(GBApplication.getContext().getContentResolver(), uri);
-            return encodeShowFrame(bitmap);
+            Bitmap bitmap = null;
+            UriHelper uriHelper = null;
+            try {
+                uriHelper = UriHelper.get(uri, GBApplication.getContext());
+            } catch (IOException e) {
+                GB.toast(GBApplication.getContext(), "Could not open image: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+            if (uriHelper != null) {
+                String fileName = AndroidUtils.getFilePath(GBApplication.getContext(), uri);
+                if (fileName.endsWith(".gif") || fileName.endsWith(".GIF")) {
+
+                    try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
+                        GifDecoder gifDecoder = new GifDecoder();
+                        gifDecoder.read(in, 4096);
+                        gifDecoder.advance();
+                        gifDecoder.advance();
+
+                        bitmap = gifDecoder.getNextFrame();
+                    } catch (Exception e) {
+                        GB.toast(GBApplication.getContext(), "Could not open image: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+                    }
+                }
+            } else {
+                bitmap = MediaStore.Images.Media.getBitmap(GBApplication.getContext().getContentResolver(), uri);
+            }
+            if (bitmap != null) {
+                return encodeShowFrame(bitmap);
+            }
         } catch (IOException e) {
-            LOG.error("could not decode Image",e);
+            LOG.error("could not decode Image", e);
         }
         return null;
     }
