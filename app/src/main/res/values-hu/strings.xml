@@ -267,7 +267,7 @@
     <string name="miband_fwinstaller_compatible_version">Kompatibilis verzió</string>
     <string name="miband_fwinstaller_untested_version">Nem tesztelt verzió!</string>
     <string name="fwappinstaller_connection_state">Kapcsolódás az eszközhöz: %1$s</string>
-    <string name="pbw_installhandler_pebble_firmware">Pebble Firmware %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Pebble firmware %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Helyes hardververzió</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Hardververzió eltérés!</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
@@ -345,7 +345,7 @@
     <string name="charts_legend_heartrate">Pulzus</string>
     <string name="live_activity_heart_rate">Pulzus</string>
     <string name="pref_title_pebble_health_store_raw">Nyers adatok tárolása az adatbázisban</string>
-    <string name="pref_summary_pebble_health_store_raw">Ha bejelölöd, az adatok eredeti formában lesznek tárolva későbbi értelmezéshez. Megj.: az adatbázis ebben az esetben nagyobb lesz!</string>
+    <string name="pref_summary_pebble_health_store_raw">Az adatokat eredeti formában tárolja, növelve az adatbázishasználatot a későbbi feldolgozás lehetővé tétele érdekében.</string>
     <string name="action_db_management">Adatkezelés</string>
     <string name="title_activity_db_management">Adatkezelés</string>
     <string name="activity_db_management_import_export_explanation">Az exportálás/importálás műveletek a következő könyvtár útvonalát (lásd lentebb) használják az eszközén. Ez a könyvtár elérhető más Android alkalmazások és a számítógépe számára. Jegyezze meg, hogy ez a könyvár és az összes tartalmazott fájl törölve lesz, ha eltávolítja a Gadgetbridge-et. Az adatok tartalmazzák:
@@ -652,7 +652,7 @@
     <string name="quick_alarm">Gyors ébresztés</string>
     <string name="sony_automatic_power_off_1_hour">1 óra</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Napi cél: zsírégetés ideje percben</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge nightly</string>
     <string name="sony_automatic_power_off_5_min">5 perc</string>
     <string name="sony_speak_to_chat_sensitivity_auto">Automatikus</string>
     <string name="reminder_time_every_day">%1$s, minden nap</string>
@@ -665,7 +665,7 @@
     <string name="pref_workout_keep_screen_on_title">Képernyő bekapcsolva tartása edzés közben</string>
     <string name="activity_summary_yesterday">Tegnap</string>
     <string name="devicetype_miband3">Mi Band 3</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Pebble nélkül</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge nightly Pebble nélkül</string>
     <string name="pref_workout_send_gps_title">GPS küldése edzés közben</string>
     <string name="menuitem_total_workout">Összes edzés</string>
     <string name="sony_equalizer_band_6300">6.3k</string>
@@ -673,7 +673,7 @@
     <string name="appwidget_sleep_alarm_widget_label">Ébresztés</string>
     <string name="menuitem_workout">Edzés</string>
     <string name="pref_show_changelog_summary">A Gadgetbridge frissítése utáni változásnapló megjelenítése az utolsó verzió óta</string>
-    <string name="about_activity_title_main_nopebble">About Gadgetbridge Nightly Pebble nélkül névjegye</string>
+    <string name="about_activity_title_main_nopebble">Gadgetbridge nightly Pebble nélkül névjegye</string>
     <string name="activity_prefs_goal_standing_time_minutes">Napi cél: állási idő percben</string>
     <string name="automatic">Automatikus</string>
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus kalibráció</string>
@@ -690,13 +690,13 @@
         <item quantity="one">%d óra</item>
         <item quantity="other">%d óra</item>
     </plurals>
-    <string name="about_activity_title_main_nightly">Gadgetbridge Nightly névjegye</string>
+    <string name="about_activity_title_main_nightly">Gadgetbridge nightly névjegye</string>
     <string name="single_band">Egy karkötő</string>
     <string name="menuitem_last_workout">Utolsó edzés</string>
     <string name="pref_show_changelog">Változásnapló megjelenítése induláskor</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">NYERS adatok megjelenítése az aktivitásgrafikonon</string>
     <string name="changelog_title">Újdonságok</string>
-    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (Nightly) névjegye</string>
+    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (nightly) névjegye</string>
     <string name="sony_automatic_power_off_3_hour">3 óra</string>
     <string name="activity_prefs_alarm_min_heart_rate">Minimum pulzus</string>
     <string name="yesterdays_activity">Tegnapi aktivitás</string>
@@ -709,7 +709,7 @@
     <string name="activity_prefs_distance_meters">Napi cél: távolság méterben</string>
     <string name="steps_streaks_total_steps_average_hint">Összesen %d lépés naponta</string>
     <string name="pref_workout_detection_ask_first">Kérdezzen először</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (nightly)</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="pref_workout_detection_enabled">Észlelés engedélyezése</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
@@ -1081,8 +1081,8 @@
     <string name="speed_first">Sebesség először</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (nightly)</string>
+    <string name="application_name_main_nightly">Gadgetbridge (nightly)</string>
     <string name="Steps">Lépések</string>
     <string name="activity_type_climbing">Mászás</string>
     <string name="activity_list_summary_distance">Távolság</string>
@@ -1255,7 +1255,7 @@
     <string name="qhybrid_calibration_1_step">1 lépés</string>
     <string name="appmanager_download_started">Az alkalmazás letöltése elindult</string>
     <string name="power_saving">Energiatakarékos</string>
-    <string name="gadgetbridge_running_banglejs_main">Bangle.js jelenleg fut</string>
+    <string name="gadgetbridge_running_banglejs_main">A Bangle.js fut</string>
     <string name="debugactivity_confirm_remove_device_preferences">Ez a művelet az összes kapcsolódott eszköz beállítását alap helyzetbe helyezi. Biztos benne?</string>
     <string name="gps_gnolass">GPS + GLONASS</string>
     <string name="gps_bds">GPS + BDS</string>
@@ -1379,5 +1379,40 @@
     <string name="prefs_wena3_vibration_strength_item_strong">Erős</string>
     <string name="prefs_wena3_vibration_triple">Háromszor</string>
     <string name="pref_explanation_authkey">Néhány eszköznek szüksége van egy különleges párosítási kulcsra az első alkalommal. Koppintson ide a további részletekért a wikiben.</string>
-    <string name="about_description_banglejs_main"></string>
+    <string name="about_description_banglejs_main">Android társalkalmazás a Bangle.js számára, amely a Gadgetbridge projektre épül, hozzáadott internet-hozzáféréssel.
+\n
+\nA Google Play Áruház szabályzata miatt nem lehet az adományozási link magában az alkalmazásban, de ha tetszik az alkalmazás, kérjük, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
+    <string name="sony_quick_access_triple_tap">Gyors elérés (három érintés)</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
+    <string name="gadgetbridge_running_main_nightly">A nightly GB fut</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (nightly, Pebble szolgáltató nélkül)</string>
+    <string name="gadgetbridge_running_main_nopebble">a nightly Pebble nélküli GB fut</string>
+    <string name="activity_type_indoor_cycling">Beltéri kerékpározás</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="gadgetbridge_running_banglejs_nightly">A nightly Bangle.js fut</string>
+    <string name="activity_type_indoor_fitness">Beltéri fitnesz</string>
+    <string name="sony_anc_optimizer_status_not_running">Nem fut</string>
+    <string name="pref_activity_recognize_walking">séta felismerése</string>
+    <string name="pref_activity_recognize_rowing">evezés felismerése</string>
+    <string name="activity_type_indoor_ice_skating">Beltéri jégkorcsolyázás</string>
+    <string name="activity_type_iceskating">Jégkorcsolyázás</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="activity_type_indoor_walking">Beltéri séta</string>
+    <string name="sony_quick_access_double_tap">Gyors elérés (kettő érintés)</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
+    <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
+    <string name="menuitem_running">Futás</string>
+    <string name="pref_activity_recognize_biking">kerékpározás felismerése</string>
+    <string name="wearmode_pebble">Pebble (cipőcsat)</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Ez csak a Pebble 2 számára van, és kísérleti, próbálja ezt, ha kapcsolódási problémái vannak</string>
+    <string name="pref_activity_recognize_running">futás felismerése</string>
+    <string name="about_description_banglejs_nightly">Android társalkalmazás a Bangle.js számára, amely a Gadgetbridge projektre épül, hozzáadott internet-hozzáféréssel.
+\n
+\nA Google Play Áruház szabályzata miatt nem lehet az adományozási link magában az alkalmazásban, de ha tetszik az alkalmazás, kérjük, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
+    <string name="activity_type_outdoor_running">Kültéri futás</string>
+    <string name="_pebble_watch_open_on_phone">Megnyitás Android eszközön</string>
+    <string name="activity_type_outdoor_cycling">Kültéri kerékpározás</string>
+    <string name="pref_title_pebble_enable_bgjs">Háttérbeli JS engedélyezése</string>
+    <string name="devicetype_sony_wena3">Sony Wena 3</string>
+    <string name="sony_surround_mode_outdoor_stage">Kültéri színpad</string>
 </resources>
