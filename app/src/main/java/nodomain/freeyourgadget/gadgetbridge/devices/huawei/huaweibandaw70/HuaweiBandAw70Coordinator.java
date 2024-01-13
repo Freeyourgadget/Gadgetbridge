@@ -38,7 +38,7 @@ public class HuaweiBandAw70Coordinator extends HuaweiLECoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("(" + HuaweiConstants.HU_BAND3E_NAME + "|" + HuaweiConstants.HU_BAND4E_NAME + ").*");
+        return Pattern.compile("(" + HuaweiConstants.HU_BAND3E_NAME + "|" + HuaweiConstants.HU_BAND4E_NAME + ").*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class HuaweiTalkBandB6Coordinator extends HuaweiBRCoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuaweiConstants.HU_TALKBANDB6_NAME + ".*");
+        return Pattern.compile(HuaweiConstants.HU_TALKBANDB6_NAME + ".*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

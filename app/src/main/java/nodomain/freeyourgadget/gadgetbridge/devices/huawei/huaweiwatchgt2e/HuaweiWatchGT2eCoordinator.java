@@ -46,7 +46,7 @@ public class HuaweiWatchGT2eCoordinator extends HuaweiLECoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuaweiConstants.HU_WATCHGT2E_NAME + ".*");
+        return Pattern.compile(HuaweiConstants.HU_WATCHGT2E_NAME + ".*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

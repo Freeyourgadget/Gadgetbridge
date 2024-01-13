@@ -46,7 +46,7 @@ public class HuaweiWatchGT2Coordinator extends HuaweiBRCoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("(" + HuaweiConstants.HU_WATCHGT2_NAME + "|" + HuaweiConstants.HU_WATCHGT2PRO_NAME + ").*");
+        return Pattern.compile("(" + HuaweiConstants.HU_WATCHGT2_NAME + "|" + HuaweiConstants.HU_WATCHGT2PRO_NAME + ").*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

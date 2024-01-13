@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiband4pro;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
@@ -39,19 +41,8 @@ public class HuaweiBand4ProCoordinator extends HuaweiLECoordinator {
     }
 
     @Override
-    public boolean supports(GBDeviceCandidate candidate) {
-        try {
-            String name = candidate.getName();
-            if (name != null && (
-                        name.toLowerCase().startsWith(HuaweiConstants.HU_BAND4_NAME) ||
-                        name.toLowerCase().startsWith(HuaweiConstants.HU_BAND4PRO_NAME)
-            )) {
-                return true;
-            }
-        } catch (Exception ex) {
-            LOG.error("unable to check device support", ex);
-        }
-        return false;
+    protected Pattern getSupportedDeviceName() {
+        return Pattern.compile("(" + HuaweiConstants.HU_BAND4_NAME + "|" + HuaweiConstants.HU_BAND4PRO_NAME + ").*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override

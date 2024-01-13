@@ -42,7 +42,7 @@ public class HuaweiBand8Coordinator extends HuaweiLECoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuaweiConstants.HU_BAND8_NAME + ".*");
+        return Pattern.compile(HuaweiConstants.HU_BAND8_NAME + ".*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
