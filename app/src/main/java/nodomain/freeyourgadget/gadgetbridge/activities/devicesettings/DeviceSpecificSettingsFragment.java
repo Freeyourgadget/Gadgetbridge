@@ -1024,6 +1024,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
             supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
             if (coordinator.supportsActivityTracking()) {
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_activity_info_header);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
             }

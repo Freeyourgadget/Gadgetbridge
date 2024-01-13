@@ -2587,4 +2587,5 @@
     <string name="pref_force_connection_type_auto_value" translatable="false">BOTH</string>
     <string name="pref_force_connection_type_ble_value" translatable="false">BLE</string>
     <string name="pref_force_connection_type_bt_classic_value" translatable="false">BT_CLASSIC</string>
+    <string name="activity_info">Activity info</string>
 </resources>
