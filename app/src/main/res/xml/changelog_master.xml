@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.78.0" versioncode="228">
+        <change>Initial support for Honor Band 3,4,5,6</change>
+        <change>Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e</change>
+        <change>Initial support for Huawei Talk Band B6</change>
+        <change>Initial support for Huawei Watch GT, GT 2</change>
+        <change>Initial support for Mijia LYWSD03MMC</change>
+        <change>Initial support for Nothing Ear (2)</change>
+        <change>Initial support for Nothing Ear (Stick)</change>
+        <change>Experimental support for Honor Band 7</change>
+        <change>Experimental support for Redmi Watch 2 Lite</change>
+        <change>Experimental support for Redmi Smart Band Pro</change>
+        <change>Casio GBX100: Add support for snooze alarm</change>
+        <change>Fossil/Skagen Hybrids: Update navigationApp to 1.1</change>
+        <change>Huami: Fetch SpO2 on devices that support it</change>
+        <change>Pebble: Attempt to fix app configuration webview</change>
+        <change>PineTime: Add support for InfiniTime's new simple weather</change>
+        <change>PineTime: Fix freeze and reboot when upgrading firmware</change>
+        <change>Pixoo: Enable sending images (non-persistent)</change>
+        <change>Pixoo: Get and send alarms</change>
+        <change>Pixoo: Set custom device name</change>
+        <change>Pixoo: support "clap hands to turn off screen" and "sleep after silence" settings</change>
+        <change>Xiaomi: Improve activity and workout parsing</change>
+        <change>Xiaomi: Improve stability and fix some crashes</change>
+        <change>Xiaomi: Improve weather</change>
+        <change>Xiaomi: Parse sleep stages</change>
+        <change>Add a notifications channel for connection status notifications</change>
+        <change>Improve automatic connection to all or previous devices</change>
+        <change>Fix devices sometimes staying stuck in a "Connecting" state</change>
+        <change>Map some missing Google Maps navigation actions</change>
+    </release>
     <release version="0.77.0" versioncode="227">
         <change>Initial support for Amazfit Balance</change>
         <change>Initial support for Amazfit Active</change>
