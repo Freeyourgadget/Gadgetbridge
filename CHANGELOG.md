@@ -21,6 +21,7 @@
 * Experimental support for Honor Band 7
 * Experimental support for Redmi Watch 2 Lite
 * Experimental support for Redmi Smart Band Pro
+* Casio GBX100: Add support for snooze alarm
 * Fossil/Skagen Hybrids: Update navigationApp to 1.1
 * Huami: Fetch SpO2 on devices that support it
 * Pebble: Attempt to fix app configuration webview
@@ -33,7 +34,7 @@
 * Xiaomi: Improve activity and workout parsing
 * Xiaomi: Improve stability and fix some crashes
 * Xiaomi: Improve weather
-* Xiaomi: Parse sleep stages on some devices
+* Xiaomi: Parse sleep stages
 * Add a notifications channel for connection status notifications
 * Improve automatic connection to all or previous devices
 * Fix devices sometimes staying stuck in a "Connecting" state
