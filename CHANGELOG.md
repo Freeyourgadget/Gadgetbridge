@@ -1,20 +1,10 @@
 ### Changelog
 
-#### Next version (WIP)
-
-* Initial support for Honor Band 3
-* Initial support for Honor Band 4
-* Initial support for Honor Band 5
-* Initial support for Honor Band 6
-* Initial support for Huawei Band 4
-* Initial support for Huawei Band 4 Pro
-* Initial support for Huawei Band 6
-* Initial support for Huawei Band 7
-* Initial support for Huawei Band 3e
-* Initial support for Huawei Band 4e
+#### 0.78.0
+* Initial support for Honor Band 3,4,5,6
+* Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e
 * Initial support for Huawei Talk Band B6
-* Initial support for Huawei Watch GT
-* Initial support for Huawei Watch GT 2
+* Initial support for Huawei Watch GT, GT 2
 * Initial support for Mijia LYWSD03MMC
 * Initial support for Nothing Ear (2)
 * Initial support for Nothing Ear (Stick)
