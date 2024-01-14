@@ -98,6 +98,11 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return false;
     }

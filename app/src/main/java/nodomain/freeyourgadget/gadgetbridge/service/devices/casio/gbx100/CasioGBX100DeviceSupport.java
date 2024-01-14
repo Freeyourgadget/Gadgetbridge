@@ -538,6 +538,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             Alarm alm = alarms.get(i);
             if(alm.getEnabled()) {
                 settings[0] = 0x40;
+                if (alm.getSnooze()) {
+                    settings[0] = 0x50;
+                }
             } else {
                 settings[0] = 0;
             }
