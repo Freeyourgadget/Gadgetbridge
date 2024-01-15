@@ -66,17 +66,12 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
     }};
 
     public ZeppOsMorningUpdatesService(Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

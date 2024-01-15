@@ -43,6 +43,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +59,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -170,6 +174,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsLoyaltyCardService loyaltyCardService = new ZeppOsLoyaltyCardService(this);
     private final ZeppOsMusicService musicService = new ZeppOsMusicService(this);
 
+    private final Set<Short> mSupportedServices = new HashSet<>();
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(servicesService.getEndpoint(), servicesService);
         put(fileTransferService.getEndpoint(), fileTransferService);
@@ -967,33 +972,69 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     public void phase3Initialize(final TransactionBuilder builder) {
+        LOG.info("2021 phase3Initialize...");
+
         // Make sure that performInitialized is not called accidentally in here
         // (eg. by creating a new TransactionBuilder).
         // In those cases, the device will be initialized twice, which will change the shared
-        // session key during these phase3 requests and decrypting messages will fail
+        // session key during these requests and decrypting messages will fail
 
-        final Huami2021Coordinator coordinator = getCoordinator();
+        // In here, we only request the list of supported services - they will all be initialized in
+        // initializeServices below
+        mSupportedServices.clear();
+        servicesService.requestServices(builder);
+    }
 
-        LOG.info("2021 phase3Initialize...");
-        setUserInfo(builder);
+    public void addSupportedService(final short endpoint) {
+        mSupportedServices.add(endpoint);
+    }
 
-        for (final HuamiVibrationPatternNotificationType type : coordinator.getVibrationPatternNotificationTypes(gbDevice)) {
-            // FIXME: Can we read these from the band?
-            final String typeKey = type.name().toLowerCase(Locale.ROOT);
-            setVibrationPattern(builder, HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey);
+    public void initializeServices() {
+        LOG.info("2021 initializeServices...");
+
+        try {
+            final TransactionBuilder builder = createTransactionBuilder("initialize services");
+
+            // At this point we got the service list from phase 3, so we know which
+            // services are supported, and whether they are encrypted or not
+
+            final Huami2021Coordinator coordinator = getCoordinator();
+
+            // TODO move this to a service
+            setUserInfo(builder);
+
+            // TODO move this to a service
+            for (final HuamiVibrationPatternNotificationType type : coordinator.getVibrationPatternNotificationTypes(gbDevice)) {
+                // FIXME: Can we read these from the band?
+                final String typeKey = type.name().toLowerCase(Locale.ROOT);
+                setVibrationPattern(builder, HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey);
+            }
+
+            // TODO move these to a service
+            cannedMessagesService.requestCannedMessages(builder);
+            alarmsService.requestAlarms(builder);
+
+            for (AbstractZeppOsService service : mServiceMap.values()) {
+                if (mSupportedServices.contains(service.getEndpoint())) {
+                    // Only initialize supported services
+                    service.initialize(builder);
+                }
+            }
+
+            if (coordinator.supportsBluetoothPhoneCalls(gbDevice)) {
+                phoneService.requestCapabilities(builder);
+                phoneService.requestEnabled(builder);
+            }
+
+            builder.queue(getQueue());
+        } catch (Exception e) {
+            LOG.error("failed initializing device", e);
         }
+    }
 
-        cannedMessagesService.requestCannedMessages(builder);
-        alarmsService.requestAlarms(builder);
-
-        for (AbstractZeppOsService service : mServiceMap.values()) {
-            service.initialize(builder);
-        }
-
-        if (coordinator.supportsBluetoothPhoneCalls(gbDevice)) {
-            phoneService.requestCapabilities(builder);
-            phoneService.requestEnabled(builder);
-        }
+    @Nullable
+    public AbstractZeppOsService getService(final short endpoint) {
+        return mServiceMap.get(endpoint);
     }
 
     @Override
@@ -1099,6 +1140,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
             return;
         }
 
+        // TODO: Move these services to dedicated classes, so they get the encryption correctly
         switch (type) {
             case CHUNKED2021_ENDPOINT_AUTH:
                 LOG.warn("Unexpected auth payload {}", GB.hexdump(payload));

@@ -65,17 +65,12 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
     public static final byte DISPLAY_ITEMS_SECTION_DISABLED = 0x03;
 
     public ZeppOsDisplayItemsService(final Huami2021Support support) {
-        super(support);
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

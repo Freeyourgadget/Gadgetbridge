@@ -61,17 +61,12 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
     private static final String PREF_CAPABILITY = "huami_2021_capability_reminders";
 
     public ZeppOsRemindersService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

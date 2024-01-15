@@ -16,30 +16,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
-import android.annotation.SuppressLint;
-import android.widget.Toast;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ZeppOsServicesService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsServicesService.class);
@@ -50,17 +35,12 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
     public static final byte CMD_RET_LIST = 0x04;
 
     public ZeppOsServicesService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override
@@ -72,11 +52,6 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected services payload byte {}", String.format("0x%02x", payload[0]));
         }
-    }
-
-    @Override
-    public void initialize(final TransactionBuilder builder) {
-        //requestServices(builder);
     }
 
     public void requestServices(final TransactionBuilder builder) {
@@ -95,10 +70,16 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
             final byte encryptedByte = buf.get();
             final Boolean encrypted = booleanFromByte(encryptedByte);
 
-            LOG.debug("Service: endpoint={} encrypted={}", String.format("%04x", endpoint), encrypted);
+            final AbstractZeppOsService service = getSupport().getService(endpoint);
 
-            // TODO use this to initialize the services supported by the device
+            LOG.debug("Service: endpoint={} encrypted={} known={}", String.format("%04x", endpoint), encrypted, service != null);
+
+            if (service != null && encrypted != null) {
+                service.setEncrypted(encrypted);
+            }
         }
+
+        getSupport().initializeServices();
 
         final int remainingBytes = buf.limit() - buf.position();
         if (remainingBytes != 0) {

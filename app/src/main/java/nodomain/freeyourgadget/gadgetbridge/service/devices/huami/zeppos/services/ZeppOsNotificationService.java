@@ -75,18 +75,13 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     private final ZeppOsFileTransferService fileTransferService;
 
     public ZeppOsNotificationService(final Huami2021Support support, final ZeppOsFileTransferService fileTransferService) {
-        super(support);
+        super(support, true);
         this.fileTransferService = fileTransferService;
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

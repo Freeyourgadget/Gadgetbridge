@@ -47,17 +47,12 @@ public class ZeppOsFtpServerService extends AbstractZeppOsService {
     private Callback mCallback = null;
 
     public ZeppOsFtpServerService(final Huami2021Support support) {
-        super(support);
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

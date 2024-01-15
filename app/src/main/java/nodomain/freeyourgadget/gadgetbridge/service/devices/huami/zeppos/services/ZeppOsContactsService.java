@@ -47,17 +47,12 @@ public class ZeppOsContactsService extends AbstractZeppOsService {
     public static final String PREF_CONTACTS_SLOT_COUNT = "zepp_os_contacts_slot_count";
 
     public ZeppOsContactsService(final Huami2021Support support) {
-        super(support);
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

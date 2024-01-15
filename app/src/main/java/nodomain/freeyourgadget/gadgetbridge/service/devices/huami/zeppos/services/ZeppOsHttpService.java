@@ -45,17 +45,12 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
     public static final byte RESPONSE_NO_INTERNET = 0x02;
 
     public ZeppOsHttpService(final Huami2021Support support) {
-        super(support);
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

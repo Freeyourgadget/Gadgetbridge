@@ -59,17 +59,12 @@ public class ZeppOsCannedMessagesService extends AbstractZeppOsService {
     public static final byte CMD_REPLY_SMS_ALLOW = 0x0e;
 
     public ZeppOsCannedMessagesService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

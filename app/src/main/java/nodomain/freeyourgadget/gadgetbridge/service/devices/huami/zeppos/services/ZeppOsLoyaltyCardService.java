@@ -58,17 +58,12 @@ public class ZeppOsLoyaltyCardService extends AbstractZeppOsService {
     public static final String PREF_VERSION = "zepp_os_loyalty_cards_version";
 
     public ZeppOsLoyaltyCardService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

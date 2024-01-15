@@ -50,17 +50,12 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
     private int version = -1;
 
     public ZeppOsCalendarService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

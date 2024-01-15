@@ -45,17 +45,12 @@ public class ZeppOsMusicService extends AbstractZeppOsService {
     private static final byte BUTTON_VOLUME_DOWN = 0x06;
 
     public ZeppOsMusicService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override

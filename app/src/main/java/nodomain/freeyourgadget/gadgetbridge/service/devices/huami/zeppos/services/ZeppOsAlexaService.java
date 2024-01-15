@@ -83,17 +83,12 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
     final ByteArrayOutputStream voiceBuffer = new ByteArrayOutputStream();
 
     public ZeppOsAlexaService(final Huami2021Support support) {
-        super(support);
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override

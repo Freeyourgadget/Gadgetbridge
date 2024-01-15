@@ -42,17 +42,12 @@ public class ZeppOsAgpsService extends AbstractZeppOsService {
     private Callback mCallback = null;
 
     public ZeppOsAgpsService(final Huami2021Support support) {
-        super(support);
+        super(support, false);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return false;
     }
 
     @Override
