@@ -1729,6 +1729,7 @@
     <string name="descentMeters">Downhill</string>
     <string name="ascentDistance">Uphill distance</string>
     <string name="descentDistance">Downhill distance</string>
+    <string name="flatDistance">Flat distance</string>
     <string name="elevationGain">Elevation gain</string>
     <string name="elevationLoss">Elevation loss</string>
     <string name="maxAltitude">Maximum</string>
