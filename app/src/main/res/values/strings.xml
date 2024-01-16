@@ -985,6 +985,7 @@
     <string name="prefs_password_summary">Lock the band with a password when removed from the wrist</string>
     <string name="prefs_password_enabled">Password Enabled</string>
     <string name="prefs_password_4_digits_1_to_4_summary">The password must have 4 digits, using numbers 1 to 4</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">The password must have 4 digits, using only numbers</string>
     <string name="prefs_password_6_digits_0_to_9_summary">The password must have 6 digits, using only numbers</string>
     <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">Configure heart rate monitoring and alert thresholds</string>
     <string name="mi2_prefs_do_not_disturb_start">Start time</string>

@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
@@ -59,5 +60,10 @@ public class RedmiSmartBandProCoordinator extends XiaomiCoordinator {
     @Override
     public int getDisabledIconResource() {
         return R.drawable.ic_device_default_disabled;
+    }
+
+    @Override
+    public PasswordCapabilityImpl.Mode getPasswordCapability() {
+        return PasswordCapabilityImpl.Mode.NUMBERS_4_DIGITS_0_TO_9;
     }
 }

@@ -39,6 +39,7 @@ public class PasswordCapabilityImpl {
 
     public enum Mode {
         NONE,
+        NUMBERS_4_DIGITS_0_TO_9,
         NUMBERS_4_DIGITS_1_TO_4,
         NUMBERS_6,
     }
@@ -60,6 +61,9 @@ public class PasswordCapabilityImpl {
             case NUMBERS_6:
                 password.setSummary(R.string.prefs_password_6_digits_0_to_9_summary);
                 break;
+            case NUMBERS_4_DIGITS_0_TO_9:
+                password.setSummary(R.string.prefs_password_4_digits_0_to_9_summary);
+                break;
             case NUMBERS_4_DIGITS_1_TO_4:
                 password.setSummary(R.string.prefs_password_4_digits_1_to_4_summary);
                 break;
@@ -78,6 +82,11 @@ public class PasswordCapabilityImpl {
                         password.setSummary(R.string.prefs_password_6_digits_0_to_9_summary);
                         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         expectedLength = 6;
+                        break;
+                    case NUMBERS_4_DIGITS_0_TO_9:
+                        password.setSummary(R.string.prefs_password_4_digits_0_to_9_summary);
+                        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        expectedLength = 4;
                         break;
                     case NUMBERS_4_DIGITS_1_TO_4:
                         password.setSummary(R.string.prefs_password_4_digits_1_to_4_summary);
