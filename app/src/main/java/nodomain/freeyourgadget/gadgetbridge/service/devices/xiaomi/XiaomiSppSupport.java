@@ -71,8 +71,10 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         @Override
         protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
             // FIXME unsetDynamicState unsets the fw version, which causes problems..
-            if (getDevice().getFirmwareVersion() == null && mXiaomiSupport.getCachedFirmwareVersion() != null) {
-                getDevice().setFirmwareVersion(mXiaomiSupport.getCachedFirmwareVersion());
+            if (getDevice().getFirmwareVersion() == null) {
+                getDevice().setFirmwareVersion(mXiaomiSupport.getCachedFirmwareVersion() != null ?
+                        mXiaomiSupport.getCachedFirmwareVersion() :
+                        "N/A");
             }
 
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));

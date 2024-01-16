@@ -178,7 +178,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     public void setContext(final GBDevice device, final BluetoothAdapter adapter, final Context context) {
         // FIXME unsetDynamicState unsets the fw version, which causes problems..
-        if (getCachedFirmwareVersion() == null && device.getFirmwareVersion() != null) {
+        if (device.getFirmwareVersion() != null) {
             setCachedFirmwareVersion(device.getFirmwareVersion());
         }
 
