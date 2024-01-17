@@ -38,7 +38,7 @@ public class DebugRequest extends Request {
     protected List<byte[]> createRequest() throws RequestCreationException {
         String debugString = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())
-            .getString(HuaweiConstants.PREF_HUAWEI_DEBUG, "1,1,false,(1,/),(2,/),(3,/),(4,/)");
+            .getString(HuaweiConstants.PREF_HUAWEI_DEBUG_REQUEST, "1,1,false,(1,/),(2,/),(3,/),(4,/)");
         HuaweiPacket packet = parseDebugString(debugString);
         try {
             return packet.serialize();

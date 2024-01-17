@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_DEBUG;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_DEBUG_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_TRUSLEEP;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_WORKMODE;
@@ -111,7 +110,6 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
 
         handler.addPreferenceHandlerFor(PREF_HUAWEI_WORKMODE);
         handler.addPreferenceHandlerFor(PREF_HUAWEI_TRUSLEEP);
-        handler.addPreferenceHandlerFor(PREF_HUAWEI_DEBUG);
         handler.addPreferenceHandlerFor(PREF_HUAWEI_DEBUG_REQUEST);
 
         // Only supported on specific devices
