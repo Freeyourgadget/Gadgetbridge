@@ -77,6 +77,8 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
             if (service != null && encrypted != null) {
                 service.setEncrypted(encrypted);
             }
+
+            getSupport().addSupportedService(endpoint, encrypted != null && encrypted);
         }
 
         getSupport().initializeServices();

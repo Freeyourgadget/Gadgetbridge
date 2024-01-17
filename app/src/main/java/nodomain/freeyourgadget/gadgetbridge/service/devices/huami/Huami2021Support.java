@@ -175,6 +175,8 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsMusicService musicService = new ZeppOsMusicService(this);
 
     private final Set<Short> mSupportedServices = new HashSet<>();
+    // FIXME: We need to keep track of which services are encrypted for now, since not all of them were yet migrated to a service
+    private final Set<Short> mIsEncrypted = new HashSet<>();
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(servicesService.getEndpoint(), servicesService);
         put(fileTransferService.getEndpoint(), fileTransferService);
@@ -924,6 +926,13 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
+    public void writeToChunked2021(final TransactionBuilder builder, final short endpoint, final byte[] data, final boolean encryptIgnored) {
+        // Ensure communication for all services contains the encrypted flag reported by the service, since not all
+        // watches have the same services encrypted (eg. #3308).
+        huami2021ChunkedEncoder.write(builder, endpoint, data, force2021Protocol(), mIsEncrypted.contains(endpoint));
+    }
+
+    @Override
     public void writeToConfiguration(final TransactionBuilder builder, final byte[] data) {
         LOG.warn("writeToConfiguration is not supported");
     }
@@ -982,11 +991,15 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         // In here, we only request the list of supported services - they will all be initialized in
         // initializeServices below
         mSupportedServices.clear();
+        mIsEncrypted.clear();
         servicesService.requestServices(builder);
     }
 
-    public void addSupportedService(final short endpoint) {
+    public void addSupportedService(final short endpoint, final boolean encrypted) {
         mSupportedServices.add(endpoint);
+        if (encrypted) {
+            mIsEncrypted.add(endpoint);
+        }
     }
 
     public void initializeServices() {
