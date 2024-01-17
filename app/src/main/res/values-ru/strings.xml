@@ -1690,7 +1690,7 @@
     <string name="menuitem_sun_moon">Солнце и Луна</string>
     <string name="menuitem_phone">Телефон</string>
     <string name="menuitem_lockscreen">Экран блокировки</string>
-    <string name="prefs_password_6_digits_0_to_9_summary">Пароль должен состоять из 6 цифр, используя только цифры</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">Пароль должен состоять из 6 цифр</string>
     <string name="prefs_password_summary">Блокировка браслета паролем при снятии с запястья</string>
     <string name="activity_type_hiit">Интенсивная интервальная тренировка</string>
     <string name="prefs_fm_presets_presets">Предустановки</string>
@@ -2695,4 +2695,5 @@
     <string name="pref_summary_general_reconnectonlytoconnected">Переподключаться только к подключенным устройствам, а не ко всем подряд</string>
     <string name="updatefirmwareoperation_updateproblem_low_battery">Заряд батареи слишком низок</string>
     <string name="menuitem_buzzer_intensity">Мощность звукоизлучателя</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Пароль должен состоять из 4 цифр</string>
 </resources>
