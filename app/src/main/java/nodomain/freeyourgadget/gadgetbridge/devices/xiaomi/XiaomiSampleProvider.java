@@ -97,11 +97,22 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
         return samples;
     }
 
+    /**
+     * Overlay sleep states on activity samples, since they are stored on a separate table.
+     *
+     * @implNote This currently needs to look back a further 24h, so that we are sure that we
+     * got the sleep start of a sleep session at the start of the samples, if any. This is especially
+     * noticeable if the charts are configured in a noon-to-noon setting. FIXME: This is not ideal,
+     * and we may need to rethink the way sleep samples are persisted in the database for Xiaomi devices.
+     */
     public void overlaySleep(final List<XiaomiActivitySample> samples, final int timestamp_from, final int timestamp_to) {
         final RangeMap<Long, Integer> stagesMap = new RangeMap<>();
 
         final XiaomiSleepStageSampleProvider sleepStagesSampleProvider = new XiaomiSleepStageSampleProvider(getDevice(), getSession());
-        final List<XiaomiSleepStageSample> stageSamples = sleepStagesSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+        final List<XiaomiSleepStageSample> stageSamples = sleepStagesSampleProvider.getAllSamples(
+                timestamp_from * 1000L - 86400000L,
+                timestamp_to * 1000L
+        );
         if (!stageSamples.isEmpty()) {
             // We got actual sleep stages
             LOG.debug("Found {} sleep stage samples between {} and {}", stageSamples.size(), timestamp_from, timestamp_to);
@@ -132,7 +143,10 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
 
         // Fetch bed and wakeup times as well.
         final XiaomiSleepTimeSampleProvider sleepTimeSampleProvider = new XiaomiSleepTimeSampleProvider(getDevice(), getSession());
-        final List<XiaomiSleepTimeSample> sleepTimeSamples = sleepTimeSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+        final List<XiaomiSleepTimeSample> sleepTimeSamples = sleepTimeSampleProvider.getAllSamples(
+                timestamp_from * 1000L - 86400000L,
+                timestamp_to * 1000L
+        );
         if (!sleepTimeSamples.isEmpty()) {
             LOG.debug("Found {} sleep samples between {} and {}", sleepTimeSamples.size(), timestamp_from, timestamp_to);
             for (final XiaomiSleepTimeSample stageSample : sleepTimeSamples) {
