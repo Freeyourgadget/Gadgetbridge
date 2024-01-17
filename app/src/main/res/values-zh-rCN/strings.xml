@@ -2694,4 +2694,5 @@
     <string name="pref_summary_general_reconnectonlytoconnected">仅重新连接到已连接的设备，而不是重新连接到所有设备</string>
     <string name="updatefirmwareoperation_updateproblem_low_battery">设备电池电量过低</string>
     <string name="menuitem_buzzer_intensity">蜂鸣器强度</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">密码必须为 4 位数字，且只能使用数字</string>
 </resources>
