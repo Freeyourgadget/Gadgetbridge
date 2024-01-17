@@ -1411,6 +1411,7 @@
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="devicetype_mijia_lywsd03">Mijia Temperature and Humidity Sensor 2</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_tlw64">TLW64</string>
