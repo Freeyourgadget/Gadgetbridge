@@ -2703,4 +2703,5 @@
 \nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_force_dnd_support">Wymuś wspacie dla trybu Nie przeszkadzać</string>
     <string name="huawei_trusleep_summary_light">Poprawione monitorowanie snu</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Hasło musi składać się z 4 znaków i zawierać jedynie cyfry</string>
 </resources>
