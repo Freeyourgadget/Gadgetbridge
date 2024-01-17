@@ -1,5 +1,12 @@
 ### Changelog
 
+#### Next Version (WIP)
+
+* Initial support for Mijia MHO-C303
+* Redmi Smart Band Pro: Fix password digits
+* Zepp OS: Fix weather not working on some devices
+* Fix sport activity summary group order
+
 #### 0.78.0
 * Initial support for Honor Band 3,4,5,6
 * Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e
