@@ -14,5 +14,14 @@
             android:title="@string/audio_codec"
             app:useSimpleSummaryProvider="true" />
 
+        <EditTextPreference
+            android:defaultValue="\?"
+            android:enabled="false"
+            android:icon="@drawable/ic_developer_mode"
+            android:key="pref_actual_protocol_version"
+            android:shouldDisableView="false"
+            android:title="@string/protocol_version"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

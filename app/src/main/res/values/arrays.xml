@@ -3019,6 +3019,20 @@
         <item>ambient_sound</item>
     </string-array>
 
+    <string-array name="sony_protocol_version_names">
+        <item>@string/automatic</item>
+        <item>@string/sony_protocol_v1</item>
+        <item>@string/sony_protocol_v2</item>
+        <item>@string/sony_protocol_v3</item>
+    </string-array>
+
+    <string-array name="sony_protocol_version_values">
+        <item>auto</item>
+        <item>v1</item>
+        <item>v2</item>
+        <item>v3</item>
+    </string-array>
+
     <string-array name="sony_sound_position_names">
         <item>@string/sony_sound_position_off</item>
         <item>@string/sony_sound_position_front</item>

@@ -335,6 +335,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION="prefs_galaxy_buds_seamless_connection";
 
     public static final String PREF_SONY_AUDIO_CODEC = "pref_sony_audio_codec";
+    public static final String PREF_SONY_PROTOCOL_VERSION = "pref_protocol_version";
+    public static final String PREF_SONY_ACTUAL_PROTOCOL_VERSION = "pref_actual_protocol_version";
     public static final String PREF_SONY_AMBIENT_SOUND_CONTROL = "pref_sony_ambient_sound_control";
     public static final String PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE = "pref_sony_ambient_sound_control_button_mode";
     public static final String PREF_SONY_FOCUS_VOICE = "pref_sony_focus_voice";

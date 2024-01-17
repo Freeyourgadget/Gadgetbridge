@@ -213,6 +213,9 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             put(SonyHeadphonesCapabilities.VoiceNotifications, R.xml.devicesettings_sony_headphones_notifications_voice_guide);
         }});
 
+        settings.add(R.xml.devicesettings_header_developer);
+        settings.add(R.xml.devicesettings_sony_headphones_protocol_version);
+
         settings.add(R.xml.devicesettings_sony_headphones_device_info);
 
         return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));

@@ -2181,6 +2181,10 @@
     <string name="sony_ambient_sound_control_button_mode_as_off">Ambient Sound, Off</string>
     <string name="sony_quick_access_double_tap">Quick Access (Double Tap)</string>
     <string name="sony_quick_access_triple_tap">Quick Access (Triple Tap)</string>
+    <string name="sony_protocol_v1">Version 1</string>
+    <string name="sony_protocol_v2">Version 2</string>
+    <string name="sony_protocol_v3">Version 3</string>
+    <string name="protocol_version">Protocol Version</string>
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>
     <string name="pref_screen_brightness">Screen Brightness</string>
