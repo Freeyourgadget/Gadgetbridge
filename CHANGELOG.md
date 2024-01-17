@@ -3,7 +3,13 @@
 #### Next Version (WIP)
 
 * Initial support for Mijia MHO-C303
+* Experimental support for Xiaomi Smart Band 8 Pro
+* Experimental support for Xiaomi Watch S1 Pro
+* Experimental support for Xiaomi Watch S1
+* Experimental support for Xiaomi Watch S3
 * Redmi Smart Band Pro: Fix password digits
+* Xiaomi: Fix sleep sometimes extending past the wakeup time
+* Xiaomi: Request battery level and charging state periodically
 * Zepp OS: Fix weather not working on some devices
 * Fix sport activity summary group order
 
