@@ -2696,4 +2696,5 @@
     <string name="huawei_ignore_wakeup_status_end_description">Puede ayudar a detectar correctamente el sueño. Visible inmediatamente en la vista de actividades diarias.</string>
     <string name="updatefirmwareoperation_updateproblem_low_battery">La batería del dispositivo está demasiado baja</string>
     <string name="menuitem_buzzer_intensity">Intensidad del zumbador</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">La contraseña debe tener 4 dígitos, utilizando sólo números</string>
 </resources>
