@@ -2697,4 +2697,23 @@
     <string name="updatefirmwareoperation_updateproblem_low_battery">La batería del dispositivo está demasiado baja</string>
     <string name="menuitem_buzzer_intensity">Intensidad del zumbador</string>
     <string name="prefs_password_4_digits_0_to_9_summary">La contraseña debe tener 4 dígitos, utilizando sólo números</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
+    <string name="sony_protocol_v2">Versión 2</string>
+    <string name="pref_force_connection_type_title">Forzar el tipo de conexión</string>
+    <string name="activity_info">Información de la actividad</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
+    <string name="sony_protocol_v1">Versión 1</string>
+    <string name="sony_protocol_v3">Versión 3</string>
+    <string name="protocol_version">Versión del protocolo</string>
+    <string name="devicetype_xiaomi_watch_s1">Xiaomi Watch S1</string>
+    <string name="devicetype_xiaomi_watch_s3">Xiaomi Watch S3</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">Xiaomi Watch S1 Pro</string>
+    <string name="uploading_watchface">Subiendo esfera del reloj…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Subiendo esfera del reloj</string>
+    <string name="uploadwatchfaceoperation_complete">Instalación de la esfera del reloj completada</string>
+    <string name="uploadwatchfaceoperation_failed">La instalación de la esfera del reloj falló</string>
+    <string name="pref_force_connection_type_auto">Automático</string>
+    <string name="pref_force_connection_type_ble">Bluetooth de baja energía</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth</string>
+    <string name="pref_force_connection_type_description">Puedes intentar forzar el tipo de conexión en caso de que tu dispositivo no responda a Gadgetbridge</string>
 </resources>
