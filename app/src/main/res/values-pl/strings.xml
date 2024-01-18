@@ -2704,4 +2704,19 @@
     <string name="pref_force_dnd_support">Wymuś wspacie dla trybu Nie przeszkadzać</string>
     <string name="huawei_trusleep_summary_light">Poprawione monitorowanie snu</string>
     <string name="prefs_password_4_digits_0_to_9_summary">Hasło musi składać się z 4 znaków i zawierać jedynie cyfry</string>
+    <string name="flatDistance">Płaski dystans</string>
+    <string name="sony_protocol_v1">Wersja 1</string>
+    <string name="sony_protocol_v2">Wersja 2</string>
+    <string name="sony_protocol_v3">Wersja 3</string>
+    <string name="devicetype_xiaomi_watch_s1">Xiaomi Watch S1</string>
+    <string name="protocol_version">Wersja protokołu</string>
+    <string name="devicetype_xiaomi_watch_s3">Xiaomi Watch S3</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">Xiaomi Watch S1 Pro</string>
+    <string name="uploadwatchfaceoperation_failed">Instalacja tarczy zegarka nie powiodła się</string>
+    <string name="uploadwatchfaceoperation_complete">Instalacja tarczy zegarka zakończona</string>
+    <string name="uploadwatchfaceoperation_in_progress">Wysyłanie tarczy zegarka</string>
+    <string name="uploading_watchface">Wysyłanie tarczy zegarka…</string>
+    <string name="pref_force_connection_type_title">Wymuś typ połączenia</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
 </resources>
