@@ -47,9 +47,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Menstrual;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendMenstrualModifyTimeRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetMusicStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -95,6 +97,7 @@ public class AsynchronousResponse {
             handleCallControls(response);
             handlePhoneInfo(response);
             handleMenstrualModifyTime(response);
+            handleWeatherCheck(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -376,6 +379,20 @@ public class AsynchronousResponse {
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    private void handleWeatherCheck(HuaweiPacket response) {
+        if (response.serviceId == Weather.id && response.commandId == 0x04) {
+            // Send back ok
+            try {
+                SendWeatherDeviceRequest sendWeatherDeviceRequest = new SendWeatherDeviceRequest(this.support);
+                sendWeatherDeviceRequest.doPerform();
+            } catch (IOException e) {
+                e.printStackTrace(); // TODO: Change
+            }
+
+            // TODO: send back weather?
         }
     }
 }

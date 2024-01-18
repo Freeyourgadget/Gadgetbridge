@@ -336,6 +336,30 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x0c, 0x01);
     }
 
+    public boolean supportsWeather() {
+        return supportsCommandForService(0x0f, 0x01);
+    }
+
+    public boolean supportsWeatherUnit() {
+        return supportsCommandForService(0x0f, 0x05);
+    }
+
+    public boolean supportsWeatherExtended() {
+        return supportsCommandForService(0x0f, 0x05);
+    }
+
+    public boolean supportsWeatherForecasts() {
+        return supportsCommandForService(0x0f, 0x08);
+    }
+
+    public boolean supportsWeatherMoonRiseSet() {
+        return supportsCommandForService(0x0f, 0x0a);
+    }
+
+    public boolean supportsWeatherTides() {
+        return supportsCommandForService(0x0f, 0x0b);
+    }
+
     public boolean supportsWorkouts() {
         return supportsCommandForService(0x17, 0x01);
     }

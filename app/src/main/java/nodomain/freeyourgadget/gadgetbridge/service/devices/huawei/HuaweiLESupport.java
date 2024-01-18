@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -124,5 +125,10 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
     public void onFindPhone(boolean start) {
         if (!start)
             supportProvider.onStopFindPhone();
+    }
+
+    @Override
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        supportProvider.onSendWeather(weatherSpec);
     }
 }

@@ -144,7 +144,7 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return huaweiCoordinator.supportsWeather();
     }
 
     @Override

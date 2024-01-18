@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupp
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -73,11 +74,18 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherExtendedSupportRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherStartRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSunMoonSupportRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSupportRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherUnitRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetAutomaticHeartrateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetAutomaticSpoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetDisconnectNotification;
@@ -155,6 +163,8 @@ public class HuaweiSupportProvider {
 
     private MusicStateSpec musicStateSpec = null;
     private MusicSpec musicSpec = null;
+
+    private Weather.Settings weatherSettings = null;
 
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
@@ -1635,6 +1645,77 @@ public class HuaweiSupportProvider {
             // TODO: Use translatable string
             GB.toast(context, "Failed to set language settings request", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Failed to set language settings request", e);
+        }
+    }
+
+    public void onSendWeather(WeatherSpec weatherSpec) {
+        if (weatherSettings != null && weatherSettings.weatherSupported) {
+            try {
+                SendWeatherCurrentRequest sendWeatherCurrentRequest = new SendWeatherCurrentRequest(
+                        this,
+                        weatherSettings,
+                        weatherSpec
+                );
+                sendWeatherCurrentRequest.doPerform();
+            } catch (IOException e) {
+                // TODO: Use translatable string
+                GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
+                LOG.error("Failed to send weather", e);
+            }
+        } else {
+            // Initialize weather settings
+            if (!getHuaweiCoordinator().supportsWeather()) {
+                // TODO: exception?
+                return;
+            }
+
+            this.weatherSettings = new Weather.Settings();
+
+            RequestCallback requestCallback = new RequestCallback(this) {
+                @Override
+                public void call() {
+                    this.support.weatherSettings.weatherSupported = true;
+                    this.support.onSendWeather(weatherSpec);
+                }
+            };
+
+            SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this);
+            weatherStartRequest.setFinalizeReq(requestCallback);
+            Request lastRequest = weatherStartRequest;
+
+            if (getHuaweiCoordinator().supportsWeatherUnit()) {
+                SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
+                weatherUnitRequest.setFinalizeReq(requestCallback);
+                lastRequest.nextRequest(weatherUnitRequest);
+                lastRequest = weatherUnitRequest;
+            }
+
+            SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
+            weatherSupportRequest.setFinalizeReq(requestCallback);
+            lastRequest.nextRequest(weatherSupportRequest);
+            lastRequest = weatherSupportRequest;
+
+            if (getHuaweiCoordinator().supportsWeatherExtended()) {
+                SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
+                weatherExtendedSupportRequest.setFinalizeReq(requestCallback);
+                lastRequest.nextRequest(weatherExtendedSupportRequest);
+                lastRequest = weatherExtendedSupportRequest;
+            }
+
+            if (getHuaweiCoordinator().supportsWeatherMoonRiseSet()) {
+                SendWeatherSunMoonSupportRequest weatherSunMoonSupportRequest = new SendWeatherSunMoonSupportRequest(this, weatherSettings);
+                weatherSunMoonSupportRequest.setFinalizeReq(requestCallback);
+                lastRequest.nextRequest(weatherSunMoonSupportRequest);
+//                lastRequest = weatherSunMoonSupportRequest;
+            }
+
+            try {
+                weatherStartRequest.doPerform();
+            } catch (IOException e) {
+                // TODO: Use translatable string
+                GB.toast(context, "Failed to send initialize weather requests", Toast.LENGTH_SHORT, GB.ERROR, e);
+                LOG.error("Failed to send initialize weather requests", e);
+            }
         }
     }
 }

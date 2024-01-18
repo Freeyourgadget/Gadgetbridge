@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelated;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
@@ -475,6 +476,20 @@ public class HuaweiPacket {
                     return new FindPhone.Response(paramsProvider).fromPacket(this);
                 this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                 return this;
+            case Weather.id:
+                switch (this.commandId) {
+                    case Weather.WeatherSupport.id:
+                        return new Weather.WeatherSupport.Response(paramsProvider).fromPacket(this);
+                    case Weather.WeatherExtendedSupport.id:
+                        return new Weather.WeatherExtendedSupport.Response(paramsProvider).fromPacket(this);
+                    case Weather.WeatherStart.id:
+                        return new Weather.WeatherStart.Response(paramsProvider).fromPacket(this);
+                    case Weather.WeatherSunMoonSupport.id:
+                        return new Weather.WeatherSunMoonSupport.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
             case Workout.id:
                 switch (this.commandId) {
                     case Workout.WorkoutCount.id:
