@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(67, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(68, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -73,6 +73,7 @@ public class GBDaoGenerator {
         addXiaomiActivitySample(schema, user, device);
         addXiaomiSleepTimeSamples(schema, user, device);
         addXiaomiSleepStageSamples(schema, user, device);
+        addXiaomiManualSamples(schema, user, device);
         addXiaomiDailySummarySamples(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
@@ -364,6 +365,14 @@ public class GBDaoGenerator {
         Entity sample = addEntity(schema, "XiaomiSleepStageSample");
         addCommonTimeSampleProperties("AbstractTimeSample", sample, user, device);
         sample.addIntProperty("stage");
+        return sample;
+    }
+
+    private static Entity addXiaomiManualSamples(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "XiaomiManualSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sample, user, device);
+        sample.addIntProperty("type");
+        sample.addIntProperty("value");
         return sample;
     }
 

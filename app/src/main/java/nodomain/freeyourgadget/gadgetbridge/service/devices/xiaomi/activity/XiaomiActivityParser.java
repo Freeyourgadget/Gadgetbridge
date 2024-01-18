@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.ManualSamplesParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailyDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.DailySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.SleepDetailsParser;
@@ -100,6 +101,12 @@ public abstract class XiaomiActivityParser {
             case ACTIVITY_SLEEP_STAGES:
                 if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
                     return new SleepStagesParser();
+                }
+
+                break;
+            case ACTIVITY_MANUAL_SAMPLES:
+                if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
+                    return new ManualSamplesParser();
                 }
 
                 break;
