@@ -2695,4 +2695,24 @@
     <string name="updatefirmwareoperation_updateproblem_low_battery">设备电池电量过低</string>
     <string name="menuitem_buzzer_intensity">蜂鸣器强度</string>
     <string name="prefs_password_4_digits_0_to_9_summary">密码必须为 4 位数字，且只能使用数字</string>
+    <string name="devicetype_mijia_mho_c303">米家 MHO-C303</string>
+    <string name="sony_protocol_v1">版本 1</string>
+    <string name="devicetype_miband8pro">小米智能手环 8 Pro</string>
+    <string name="flatDistance">平面距离</string>
+    <string name="protocol_version">协议版本</string>
+    <string name="devicetype_xiaomi_watch_s3">小米手表 S3</string>
+    <string name="sony_protocol_v2">版本 2</string>
+    <string name="devicetype_xiaomi_watch_s1">小米手表 S1</string>
+    <string name="sony_protocol_v3">版本 3</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">小米手表 S1 Pro</string>
+    <string name="activity_info">活动信息</string>
+    <string name="pref_force_connection_type_description">如果您的设备不响应 Gadgetbridge，您可以尝试强制连接类型</string>
+    <string name="uploading_watchface">正在上传表盘……</string>
+    <string name="uploadwatchfaceoperation_in_progress">正在上传表盘</string>
+    <string name="uploadwatchfaceoperation_complete">表盘安装已完成</string>
+    <string name="uploadwatchfaceoperation_failed">表盘安装失败</string>
+    <string name="pref_force_connection_type_title">强制连接类型</string>
+    <string name="pref_force_connection_type_auto">自动</string>
+    <string name="pref_force_connection_type_ble">低功耗蓝牙</string>
+    <string name="pref_force_connection_type_bt_classic">经典蓝牙</string>
 </resources>
