@@ -6,7 +6,7 @@
         android:persistent="false"
         android:title="@string/pref_sleep_mode_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_sleep"
             android:key="sleep_mode_schedule_enabled"
