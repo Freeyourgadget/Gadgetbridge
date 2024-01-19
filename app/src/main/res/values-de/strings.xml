@@ -2479,7 +2479,7 @@
     <string name="femometer_measurement_mode_normal">Normaler Modus (60s-90s)</string>
     <string name="menuitem_zepp_pay">Zepp Pay</string>
     <string name="femometer_measurement_mode_quick">Schneller Modus (30s)</string>
-    <string name="pref_title_notifications_ignore_work_profile">Arbeitsprofilbenachrichtigungen ignorieren</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignoriere Arbeitsprofilbenachrichtigungen</string>
     <string name="devicetype_amazfit_balance"></string>
     <string name="yard">yd</string>
     <string name="strokes_minute">Züge/min</string>
@@ -2492,7 +2492,7 @@
     <string name="menuitem_apps_shortcuts">Apps-Verknüpfungen</string>
     <string name="pref_summary_notifications_ignore_work_profile">Benachrichtigungen von Apps im Arbeitsprofil nicht an die Uhr senden</string>
     <string name="menuitem_thermometer">Thermometer</string>
-    <string name="common_symbols">Gebräuchliche Symbole</string>
+    <string name="common_symbols">Häufige Symbole</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="activity_type_trekking">Wanderung</string>
     <string name="activity_type_wrestling"></string>
