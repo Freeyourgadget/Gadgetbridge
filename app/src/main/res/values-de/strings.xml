@@ -52,7 +52,7 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_header_general">Allgemeine Einstellungen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Verbinde, wenn Bluetooth eingeschaltet ist</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbindung mit Gadgetbridge-Gerät(en) herstellen, wenn Bluetooth eingeschaltet ist</string>
     <string name="pref_title_general_autostartonboot">Automatisch starten</string>
     <string name="pref_title_general_autoreconnect">Verbindung automatisch wiederherstellen</string>
     <string name="pref_title_audio_player">Bevorzugter Audioplayer</string>
@@ -469,9 +469,9 @@
     <string name="kind_gps">GPS-Firmware</string>
     <string name="devicetype_unknown">Unbekanntes Gerät</string>
     <string name="devicetype_test">Testgerät</string>
-    <string name="devicetype_pebble">Pebble</string>
-    <string name="devicetype_miband">Mi Band</string>
-    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_pebble"></string>
+    <string name="devicetype_miband"></string>
+    <string name="devicetype_miband2"></string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
@@ -534,7 +534,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dies ist nur für Pebble 2 und experimentell, versuche dies, wenn du Verbindungsprobleme hast</string>
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
-    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="devicetype_miband3"></string>
     <string name="devicetype_q8">Q8</string>
     <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
     <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
@@ -710,7 +710,7 @@
     <string name="vietnamese">Vietnamesisch</string>
     <string name="portuguese">Portugiesisch</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
-    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="devicetype_miband4"></string>
     <string name="fw_upgrade_notice_miband4">Du bist dabei, die Firmware %s auf dein Mi Band 4 zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
@@ -925,7 +925,7 @@
     <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
     <string name="menuitem_breathing">Atemübungen</string>
-    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="devicetype_miband5"></string>
     <string name="fw_upgrade_notice_miband5">Du bist dabei, die Firmware %s auf dein Mi Band 5 zu installieren.
 \n
 \nBitte stelle sicher, dass du zuerst die .fw Datei und dann die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu starten.
@@ -984,7 +984,7 @@
     <string name="prefs_events_forwarding_startnonwear">Beim nicht tragend</string>
     <string name="prefs_events_forwarding_wokeup">Beim Aufwachen</string>
     <string name="prefs_events_forwarding_fellsleep">Beim Einschlafen</string>
-    <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_yoga"></string>
     <string name="activity_type_swimming_openwater">Schwimmen (Freiwasser)</string>
     <string name="Strokes">Züge</string>
     <string name="calories_unit">kcal</string>
@@ -1030,7 +1030,7 @@
     <string name="activity_summary_edit_name_title">Beschriftung bearbeiten</string>
     <string name="swolf_index">Swolf-Index</string>
     <string name="baseAltitude">Basishöhe</string>
-    <string name="swolfIndex">Swolf-Index</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="activity_filter_individual_items">Individuell ausgewählte Elemente</string>
     <string name="addto_filter">Zu Filter hinzufügen</string>
     <string name="activity_summaries_all_devices">Alle Geräte</string>
@@ -1045,9 +1045,9 @@
     <string name="yes">Ja</string>
     <string name="averageSpeed">Durchschnittliche Geschwindigkeit</string>
     <string name="about_links">Links</string>
-    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_badminton"></string>
     <string name="activity_type_pingpong">Tischtennis</string>
-    <string name="activity_type_basketball">Basketball</string>
+    <string name="activity_type_basketball"></string>
     <string name="activity_type_cricket">Kricket</string>
     <string name="activity_type_rowing_machine">Rudergerät</string>
     <string name="activity_type_soccer">Fußball</string>
@@ -1213,7 +1213,7 @@
     <string name="menuitem_temperature">Temperatur</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_events">Ereignisse</string>
-    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="devicetype_miband6"></string>
     <string name="fw_upgrade_notice_miband6">Du bist dabei, die Firmware %s auf dein Mi Band 6 zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
@@ -1349,7 +1349,7 @@
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
     <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="pref_title_equalizer_normal">Normal</string>
-    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="pref_header_equalizer"></string>
     <string name="pref_header_system">System</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_equalizer_preset">Equalizer-Voreinstellungen</string>
@@ -1597,8 +1597,8 @@
     <string name="about_description_banglejs_nopebble">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="application_name_main_nightly"></string>
+    <string name="title_activity_controlcenter_main_nightly"></string>
     <string name="about_activity_title_main_nightly">Über Gadgetbridge Nightly</string>
     <string name="about_description_main_nightly">Cloudloser und freier quelloffener Ersatz für Closed-Source Android-Gadget-Apps von Anbietern. Nächtliche Veröffentlichungen von Gadgetbridge. Es kann nicht installiert werden, wenn du bereits die Gadgetbridge- oder die Pebble-App installiert hast, da es einen Konflikt mit dem Pebble-Anbieter gibt.</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB läuft</string>
@@ -1818,8 +1818,8 @@
     <string name="controlcenter_get_heartrate_measurement">Herzfrequenzmessung</string>
     <string name="pref_write_logfiles_not_available">Die Initialisierung der Dateiprotokollierung ist fehlgeschlagen, das Schreiben von Protokolldateien ist derzeit nicht möglich. Starte die App neu, um zu versuchen, die Protokolldateien erneut zu initialisieren.</string>
     <string name="devicetype_binary_sensor">Binärer Sensor</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="application_name_banglejs_nightly"></string>
+    <string name="title_activity_controlcenter_banglejs_nightly"></string>
     <string name="about_activity_title_banglejs_nightly">Über Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_description_banglejs_nightly">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
@@ -1860,9 +1860,9 @@
     <string name="seconds_14">14 Sekunden</string>
     <string name="seconds_15">15 Sekunden</string>
     <string name="prefs_always_on_display">Display immer eingeschaltet</string>
-    <string name="smart">Smart</string>
+    <string name="smart"></string>
     <string name="mi2_dnd_always">Immer</string>
-    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="devicetype_miband7"></string>
     <string name="menuitem_countdown">Countdown</string>
     <string name="menuitem_personal_activity_intelligence">Persönliche Aktivitätsintelligenz</string>
     <string name="menuitem_female_health">Weibliche Gesundheit</string>
@@ -1908,18 +1908,18 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="pref_title_notification_prefer_long_text">Langen Benachrichtigungstext bevorzugen</string>
     <string name="pref_summary_notification_prefer_long_text">Falls verfügbar, langen Benachrichtigungstext an das Gerät senden</string>
-    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
+    <string name="devicetype_amazfit_gts3"></string>
     <string name="menuitem_unknown_app">Unbekannt (%s)</string>
     <string name="pref_summary_overwrite_settings_on_connection">Beim Verbinden mit dem Band überschreibst du alle Einstellungen des Bandes.</string>
     <string name="pref_title_overwrite_settings_on_connection">Überschreiben von Einstellungen bei der Verbindung</string>
-    <string name="kind_app">App</string>
+    <string name="kind_app"></string>
     <string name="dismiss">Ablehnen</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">Du bist dabei, die Firmware %s auf deine Amazfit GTR 3 zu installieren.
 \n
 \nDeine Uhr wird nach der Installation der .zip Datei neu starten.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="devicetype_amazfit_gtr3"></string>
     <string name="pref_summary_third_party_app_device_settings">Erlaube anderen installierten Apps von Drittanbietern, Geräteeinstellungen über Intents festzulegen.</string>
     <string name="pref_title_third_party_app_device_settings">Ändern von Einstellungen durch App von Drittanbietern zulassen</string>
     <string name="activity_type_dance">Tanzen</string>
@@ -1930,10 +1930,10 @@
     <string name="activity_type_stretching">Dehnen</string>
     <string name="activity_type_stepper">Stepper</string>
     <string name="activity_type_pilates">Pilates</string>
-    <string name="activity_type_volleyball">Volleyball</string>
+    <string name="activity_type_volleyball"></string>
     <string name="activity_type_table_tennis">Tischtennis</string>
-    <string name="activity_type_bowling">Bowling</string>
-    <string name="activity_type_zumba">Zumba</string>
+    <string name="activity_type_bowling"></string>
+    <string name="activity_type_zumba"></string>
     <string name="activity_type_indoor_ice_skating">Indoor-Eislaufen</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="activity_type_street_dance">Street Dance</string>
@@ -1966,7 +1966,7 @@
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
     <string name="balanced">Ausgewogen</string>
-    <string name="dual_band">Dual Band</string>
+    <string name="dual_band"></string>
     <string name="low_power_gps">Stromsparendes GPS</string>
     <string name="gps">GPS</string>
     <string name="gps_bds">GPS + BDS</string>
@@ -2010,7 +2010,7 @@
     <string name="menuitem_offline_voice">Offline Stimme</string>
     <string name="menuitem_screen_always_lit">Bildschirm leuchtet immer</string>
     <string name="pref_header_sound_vibration">Ton &amp; Vibration</string>
-    <string name="single_band">Single Band</string>
+    <string name="single_band"></string>
     <string name="gps_galileo">GPS + GALILEO</string>
     <string name="pref_text_to_speech">Text in Sprache</string>
     <string name="offline_voice_respond_turn_wrist">Reagiert beim Drehen des Handgelenks</string>
@@ -2069,7 +2069,7 @@
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
     <string name="function_enabled">Aktiviert</string>
     <string name="world_clock_code">Code</string>
-    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="devicetype_amazfit_gts4"></string>
     <string name="pref_title_touch_spotify_official_app">Spotify (nur offizielle App)</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (nur Galaxy Wearable App)</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Du bist dabei, die Firmware %s auf deine Amazfit GTS 4 zu installieren.
@@ -2084,7 +2084,7 @@
 \nDeine Uhr wird nach der Installation der .zip Datei neu starten.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="devicetype_amazfit_gts4_mini"></string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="intent_api_allow_trigger_export_title">Datenbankexport zulassen</string>
     <string name="menuitem_wechat_pay">WeChat Pay</string>
@@ -2183,7 +2183,7 @@
     <string name="quick_attention">Schnelle Aufmerksamkeit</string>
     <string name="double_tap">Doppeltes Antippen</string>
     <string name="continue_pressing">Gedrückt halten</string>
-    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="devicetype_amazfit_gtr3_pro"></string>
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_mi_ai">MI AI</string>
     <string name="zepp_os_watchface_simplicity_data">Einfache Daten</string>
@@ -2324,14 +2324,14 @@
     <string name="activity_type_surfing">Surfen</string>
     <string name="activity_type_windsurfing">Windsurfen</string>
     <string name="activity_type_football">Fußball</string>
-    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_rugby"></string>
     <string name="activity_type_baseball">Baseball</string>
-    <string name="activity_type_handball">Handball</string>
-    <string name="activity_type_tennis">Tennis</string>
-    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_handball"></string>
+    <string name="activity_type_tennis"></string>
+    <string name="activity_type_squash"></string>
     <string name="activity_type_weightlifting">Gewichtheben</string>
     <string name="activity_type_skiing">Skifahren</string>
-    <string name="activity_type_hockey">Hockey</string>
+    <string name="activity_type_hockey"></string>
     <string name="activity_type_icehockey">Eishockey</string>
     <string name="activity_type_iceskating">Schlittschuhlaufen</string>
     <string name="activity_type_golf">Golfen</string>
@@ -2359,7 +2359,7 @@
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamische Farben sind auf deinem Gerät nicht verfügbar, nur Android 12+ unterstützt diese Funktion. Gadgetbridge verwendet die Standardfarben von Material 3.</string>
     <string name="pref_theme_dynamic_colors_explanation">Hinweis: Für das Design mit dynamischen Farben musst du Hintergrundbildfarben oder Farbpalette in deinen Android 12+ Darstellungseinstellungen aktivieren. Wenn du das nicht tust, wird Gadgetbridge die Standardfarben von Material 3 verwenden.</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
-    <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
+    <string name="devicetype_amazfit_bip3_pro"></string>
     <string name="fw_upgrade_notice_amazfit_cheetah_pro">Du bist dabei, die Firmware %s auf deine Amazfit Cheetah Pro zu installieren.
 \n
 \nDeine Uhr wird nach der Installation der .zip-Datei neu starten.
@@ -2380,8 +2380,8 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_cheetah_round">Amazfit Cheetah (Rund)</string>
-    <string name="devicetype_amazfit_cheetah_pro">Amazfit Cheetah Pro</string>
-    <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_cheetah_pro"></string>
+    <string name="devicetype_amazfit_bip5"></string>
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="devicetype_amazfit_gtr_mini">Amazfit GTR Mini</string>
@@ -2407,7 +2407,7 @@
     <string name="prefs_home_icon_left_item">Links</string>
     <string name="prefs_wena3_led_none">Keine LED</string>
     <string name="updatefirmwareoperation_failed_low_mtu">Die aktuelle MTU von %1$d ist zu niedrig,bitte aktiviere eine hohe MTU in den Geräteeinstellungen und trenne/schließe das Gerät neu an.</string>
-    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
+    <string name="prefs_wena3_home_icon_name_riiiver"></string>
     <string name="pref_message_privacy_mode_bodyonly">Nur Nachrichtentext ausblenden</string>
     <string name="prefs_wena3_home_icon_name_suica">Suica Kontostand</string>
     <string name="prefs_wena3_vibration_strength_item_medium">Mittel</string>
@@ -2464,7 +2464,7 @@
     <string name="error_invalid_menu_structure">Ungültiges JSON für Menüstruktur</string>
     <string name="prefs_wena3_item_large_font">Größere Schriftgröße</string>
     <string name="button_reset_menu_structure">Menüstruktur zurücksetzen</string>
-    <string name="prefs_wena3_hint_large_font">Schriftgröße in Kalender, Benachrichtigungen, etc. vergrößern</string>
+    <string name="prefs_wena3_hint_large_font">Schriftgröße in Kalender, Benachrichtigungen usw. vergrößern</string>
     <string name="prefs_wena3_receive_calls_item">Anrufbenachrichtigungen empfangen</string>
     <string name="prefs_wena3_notification_default_call_vibration">Eingehende Anrufvibration</string>
     <string name="prefs_wena3_notification_default_call_led">LED-Farbe bei eingehendem Anruf</string>
@@ -2480,7 +2480,7 @@
     <string name="menuitem_zepp_pay">Zepp Pay</string>
     <string name="femometer_measurement_mode_quick">Schneller Modus (30s)</string>
     <string name="pref_title_notifications_ignore_work_profile">Arbeitsprofilbenachrichtigungen ignorieren</string>
-    <string name="devicetype_amazfit_balance">Amazfit Balance</string>
+    <string name="devicetype_amazfit_balance"></string>
     <string name="yard">yd</string>
     <string name="strokes_minute">Züge/min</string>
     <string name="femometer_measurement_mode_title">Messmodus</string>
@@ -2494,37 +2494,99 @@
     <string name="menuitem_thermometer">Thermometer</string>
     <string name="common_symbols">Gebräuchliche Symbole</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
-    <string name="activity_type_trekking">Wandern</string>
-    <string name="activity_type_wrestling">Ringkampf</string>
-    <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
+    <string name="activity_type_trekking">Wanderung</string>
+    <string name="activity_type_wrestling"></string>
+    <string name="devicetype_redmi_smart_band_pro"></string>
     <string name="menuitem_readiness">Bereitschaft</string>
-    <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
-    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
-    <string name="pref_summary_casio_alert_call">Alarm (Vibration/Ton) für eingehende Anrufe</string>
-    <string name="pref_title_casio_alert_email">Alarm für E-Mail-Benachrichtigungen</string>
-    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro</string>
+    <string name="devicetype_xiaomi_watch_lite"></string>
+    <string name="devicetype_amazfit_active_edge"></string>
+    <string name="pref_summary_casio_alert_call">Klingeln (Vibration/Ton) bei eingehenden Anrufen</string>
+    <string name="pref_title_casio_alert_email">Alarm für Mail-Benachrichtigungen</string>
+    <string name="devicetype_miband7pro"></string>
     <string name="clap_hands_to_wakeup_device">Klatsche in die Hände, um den Bildschirm zu aktivieren</string>"
-    <string name="devicetype_colacao21">ColaCao 2021</string>
-    <string name="devicetype_colacao23">ColaCao 2023</string>
-    <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
-    <string name="devicetype_redmi_smart_band_2">Redmi Smart Band 2</string>
+    <string name="devicetype_colacao21"></string>
+    <string name="devicetype_colacao23"></string>
+    <string name="devicetype_redmiwatch3active"></string>
+    <string name="devicetype_redmi_smart_band_2"></string>
     <string name="standing_time">Steh-Zeit</string>
     <string name="active_time">Aktiv-Zeit</string>
     <string name="pref_title_send_app_notifications">Sende Benachrichtigungen</string>
     <string name="pref_summary_send_app_notifications">Sende App-Benachrichtigungen an das Gerät</string>
-    <string name="pref_title_preview_message_in_title">Zeige eine Vorschau der Nachricht im Titel</string>
-    <string name="pref_summary_preview_message_in_title">Zeige eine Vorschau der Nachricht im Titel der Benachrichtigung, wie es die Einstellungen des Gerätes erlaubt</string>
-    <string name="pref_title_casio_alert_calendar">Alarm für Kalenderbenachrichtigungen</string>
-    <string name="pref_summary_casio_alert_calendar">Alarm (Vibration/Ton) für Kalenderbenachrichtigungen</string>
-    <string name="pref_title_casio_alert_call">Alarm für eingehende Anrufe</string>
-    <string name="pref_summary_casio_alert_email">Alarm (Vibration/Ton) für E-Mail-Benachrichtigungen</string>
-    <string name="pref_title_casio_alert_sms">Alarm für SMS-Benachrichtigungen</string>
+    <string name="pref_title_preview_message_in_title">Nachrichtenvorschau in Titelleiste anzeigen</string>
+    <string name="pref_summary_preview_message_in_title">Zeigt vom Gerät zugelassene Vorschau der Nachricht im Benachrichtigungstitel an</string>
+    <string name="pref_title_casio_alert_calendar">Alarmton für Kalender-Erinnerungen</string>
+    <string name="pref_summary_casio_alert_calendar">Alarm (Vibration/Ton) für Kalender-Erinnerungen</string>
+    <string name="pref_title_casio_alert_call">Klingelton bei eingehenden Anrufen</string>
+    <string name="pref_summary_casio_alert_email">Alarm (Vibration/Ton) für Mail-Benachrichtigungen</string>
+    <string name="pref_title_casio_alert_sms">SMS-Klingelton</string>
     <string name="pref_title_casio_alert_other">Alarm für andere Benachrichtigungen</string>
     <string name="pref_summary_casio_alert_other">Alarm (Vibration/Ton) für Benachrichtigungen in anderen Kategorien</string>
-    <string name="devicetype_miband8">Xiaomi Smart Band 8</string>
+    <string name="devicetype_miband8"></string>
     <string name="devicetype_mijia_lywsd03">Mijia Temperatur- und Feuchtigkeitssensor 2</string>
-    <string name="menuitem_body_composition">Körperzusammensetzung</string>
-    <string name="devicetype_amazfit_active">Amazfit Active</string>
-    <string name="pref_title_goal_secondary">Zweites Ziel</string>
-    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
+    <string name="menuitem_body_composition">Körperliche Zusammensetzung</string>
+    <string name="devicetype_amazfit_active"></string>
+    <string name="pref_title_goal_secondary">Zusätzliches Ziel</string>
+    <string name="devicetype_redmi_watch_2_lite"></string>
+    <string name="wake_up_time">Aufwachen</string>
+    <string name="pixoo_power_saving_summary">Der Bildschirm schaltet sich aus, wenn das Mikrofon eine Zeit lang Stille erkannt hat</string>
+    <string name="activity_info">Informationen zur Aktivität</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Das Passwort muss 4-stellig sein und darf nur Zahlen enthalten</string>
+    <string name="activity_type_trail_run">Geländelauf</string>
+    <string name="pref_force_connection_type_title">Verbindungstyp erzwingen</string>
+    <string name="uploadwatchfaceoperation_complete">Installation des Zifferblatts abgeschlossen</string>
+    <string name="uploadwatchfaceoperation_failed">Installation des Zifferblatts fehlgeschlagen</string>
+    <string name="pref_heartrate_automatic_enable">Automatische Pulsmessung aktivieren</string>
+    <string name="zepp_os_watchface_vast_sky">Weitläufiger Himmel</string>
+    <string name="zepp_os_watchface_pure_white">Reines Weiß</string>
+    <string name="prefs_wena3_hint_rich_design">Fügt abgerundete Ecken um Home Screen Icons hinzu</string>
+    <string name="error_menu_companion_not_installed">\'HR Menu Companion\" ist wahrscheinlich nicht installiert</string>
+    <string name="pref_vitality_score_7_day_title">7-Tage-Fortschritt</string>
+    <string name="pref_vitality_score_daily_title">Täglicher Fortschritt</string>
+    <string name="pref_vitality_score_title">Vitalitätswert</string>
+    <string name="zepp_os_watchface_guider">Reiseführer</string>
+    <string name="prefs_phone_silent_mode">Telefonstummschaltung</string>
+    <string name="silent_mode_normal_vibrate">Normal / Vibration</string>
+    <string name="prefs_wena3_vibration_smart_item">Intelligente Vibration</string>
+    <string name="bedtime">Bettzeit</string>
+    <string name="prefs_wena3_auto_power_off_item">Automatisches Ausschalten</string>
+    <string name="prefs_disconnect_notification_summary">Benachrichtigung auf dem Gerät, wenn die Verbindung zu Bluetooth getrennt wird.</string>
+    <string name="dnd_all_day">Ganztägig</string>
+    <string name="pref_force_options">Optionen erzwingen</string>
+    <string name="pref_force_smart_alarm">Intelligenten Alarm erzwingen</string>
+    <string name="notification_channel_connection_status_name">Status der Verbindung</string>
+    <string name="pref_force_dnd_support">Unterstützung von \"Bitte-Nicht-Stören\" erzwingen</string>
+    <string name="charts_legend_spo2_average">Durchschnittlicher Blutsauerstoff</string>
+    <string name="pref_disable_find_phone_with_dnd">Telefon suchen deaktivieren, wenn Bitte-Nicht-Stören aktiv ist</string>
+    <string name="pref_enable_call_reject">Ablehnen von Anrufen aktivieren</string>
+    <string name="pref_spo_automatic_enable">Automatische SpO2-Messung aktivieren</string>
+    <string name="prefs_wena3_item_background_sync">Datensynchronisierung im Hintergrund</string>
+    <string name="prefs_wena3_title_alarm">Alarm Einstellungen</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Der Akku des Geräts ist zu schwach</string>
+    <string name="silent_mode_normal_silent">Normal / Lautlos</string>
+    <string name="silent_mode_vibrate_silent">Vibration / Lautlos</string>
+    <string name="clap_hands_to_wakeup_device_summary">Erneutes Klatschen schaltet den Bildschirm aus</string>"
+    <string name="busy_task_fetch_statistics">Statistiken abrufen</string>
+    <string name="busy_task_fetch_temperature">Abruf der Temperaturdaten</string>
+    <string name="prefs_wearmode">Tragemodus</string>
+    <string name="zepp_os_watchface_starry_sky">Sternenhimmel</string>
+    <string name="prefs_wena3_hint_background_sync">Erlaube Wena, Gadgetbridge in regelmäßigen Abständen aufzufordern, Aktivitätsdaten vom Gerät herunterzuladen</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">Navigations-App nicht auf der Uhr installiert</string>
+    <string name="call_rejection_method_reject">Ablehnen</string>
+    <string name="pref_sleep_mode_schedule_title">Zeitplan für Schlafmodus</string>
+    <string name="pref_sleep_mode_schedule_summary">Sendet eine Erinnerung und schaltet zur Bettzeit in den Schlafmodus. Zur geplanten Aufwachzeit ertönt der Weckalarm.</string>
+    <string name="pref_vitality_score_7_day_summary">Erhalte eine Benachrichtigung, wenn dein Vitalitätswert in den letzten 7 Tagen 30, 60 oder 100 erreicht hat</string>
+    <string name="pref_vitality_score_daily_summary">Erhalte eine Benachrichtigung, wenn du die maximale Anzahl an Vitalitätspunkten für den Tag erreicht hast</string>
+    <string name="wearmode_band">Armband</string>
+    <string name="wearmode_necklace">Halskette (Halsband)</string>
+    <string name="wearmode_pebble">Kieselsteine (Schuhschnalle)</string>
+    <string name="danish">Dänisch</string>
+    <string name="pref_summary_casio_alert_sms">Alarm (Vibration/Ton) für SMS (Textnachrichten)</string>
+    <string name="prefs_wena3_button_action_item_long">Lange drücken</string>
+    <string name="menuitem_buzzer_intensity">Summer-Intensität</string>
+    <string name="zepp_os_watchface_lightning_flash">Blitzschlag</string>
+    <string name="uploading_watchface">Zifferblatt hochladen…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Zifferblatt hochladen</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Vibrieren bei neuer Anweisung</string>
+    <string name="pref_title_fossil_hr_nav_foreground">In den Vordergrund rücken</string>
+    <string name="prefs_device_name">Gerätebezeichnung</string>
 </resources>
