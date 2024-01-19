@@ -2694,4 +2694,25 @@
     <string name="pref_title_debug">Foutopsporingsverzoek</string>
     <string name="huawei_reparse_workout_data_description">Dit zal alleen iets doen na bepaalde updates</string>
     <string name="menuitem_buzzer_intensity">Zoemerintensiteit</string>
+    <string name="flatDistance">Afstand zonder hoogteverschil</string>
+    <string name="sony_protocol_v2">Versie 2</string>
+    <string name="sony_protocol_v3">Versie 3</string>
+    <string name="protocol_version">Protocolversie</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Het wachtwoord moet uit 4 cijfers bestaan</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
+    <string name="sony_protocol_v1">Versie 1</string>
+    <string name="devicetype_xiaomi_watch_s1">Xiaomi Watch S1</string>
+    <string name="devicetype_xiaomi_watch_s3">Xiaomi Watch S3</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">Xiaomi Watch S1 Pro</string>
+    <string name="uploading_watchface">Wijzerplaat uploaden…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Wijzerplaat uploaden</string>
+    <string name="uploadwatchfaceoperation_complete">Wijzerplaat-installatie gelukt</string>
+    <string name="uploadwatchfaceoperation_failed">Wijzerplaat-installatie mislukt</string>
+    <string name="pref_force_connection_type_title">Forceer verbindingstype</string>
+    <string name="pref_force_connection_type_description">U kunt proberen het type verbinding te forceren indien het Gadgetbridge niet lukt om verbinding te maken</string>
+    <string name="pref_force_connection_type_auto">Automatisch</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth (klassiek)</string>
+    <string name="activity_info">Activiteitsinformatie</string>
 </resources>
