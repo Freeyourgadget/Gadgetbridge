@@ -984,7 +984,7 @@
     <string name="prefs_events_forwarding_startnonwear">Beim nicht tragend</string>
     <string name="prefs_events_forwarding_wokeup">Beim Aufwachen</string>
     <string name="prefs_events_forwarding_fellsleep">Beim Einschlafen</string>
-    <string name="activity_type_yoga"/>
+    <string name="activity_type_yoga"></string>
     <string name="activity_type_swimming_openwater">Schwimmen (Freiwasser)</string>
     <string name="Strokes">Züge</string>
     <string name="calories_unit">kcal</string>
@@ -1045,9 +1045,9 @@
     <string name="yes">Ja</string>
     <string name="averageSpeed">Durchschnittliche Geschwindigkeit</string>
     <string name="about_links">Links</string>
-    <string name="activity_type_badminton"/>
+    <string name="activity_type_badminton"></string>
     <string name="activity_type_pingpong">Tischtennis</string>
-    <string name="activity_type_basketball"/>
+    <string name="activity_type_basketball"></string>
     <string name="activity_type_cricket">Kricket</string>
     <string name="activity_type_rowing_machine">Rudergerät</string>
     <string name="activity_type_soccer">Fußball</string>
@@ -1597,8 +1597,8 @@
     <string name="about_description_banglejs_nopebble">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
-    <string name="application_name_main_nightly"/>
-    <string name="title_activity_controlcenter_main_nightly"/>
+    <string name="application_name_main_nightly"></string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_main_nightly">Über Gadgetbridge Nightly</string>
     <string name="about_description_main_nightly">Cloudloser und freier quelloffener Ersatz für Closed-Source Android-Gadget-Apps von Anbietern. Nächtliche Veröffentlichungen von Gadgetbridge. Es kann nicht installiert werden, wenn du bereits die Gadgetbridge- oder die Pebble-App installiert hast, da es einen Konflikt mit dem Pebble-Anbieter gibt.</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB läuft</string>
@@ -1818,8 +1818,8 @@
     <string name="controlcenter_get_heartrate_measurement">Herzfrequenzmessung</string>
     <string name="pref_write_logfiles_not_available">Die Initialisierung der Dateiprotokollierung ist fehlgeschlagen, das Schreiben von Protokolldateien ist derzeit nicht möglich. Starte die App neu, um zu versuchen, die Protokolldateien erneut zu initialisieren.</string>
     <string name="devicetype_binary_sensor">Binärer Sensor</string>
-    <string name="application_name_banglejs_nightly"/>
-    <string name="title_activity_controlcenter_banglejs_nightly"/>
+    <string name="application_name_banglejs_nightly"></string>
+    <string name="title_activity_controlcenter_banglejs_nightly"></string>
     <string name="about_activity_title_banglejs_nightly">Über Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_description_banglejs_nightly">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
@@ -1930,9 +1930,9 @@
     <string name="activity_type_stretching">Dehnen</string>
     <string name="activity_type_stepper">Stepper</string>
     <string name="activity_type_pilates">Pilates</string>
-    <string name="activity_type_volleyball"/>
+    <string name="activity_type_volleyball"></string>
     <string name="activity_type_table_tennis">Tischtennis</string>
-    <string name="activity_type_bowling"/>
+    <string name="activity_type_bowling"></string>
     <string name="activity_type_zumba"/>
     <string name="activity_type_indoor_ice_skating">Indoor-Eislaufen</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
@@ -2324,14 +2324,14 @@
     <string name="activity_type_surfing">Surfen</string>
     <string name="activity_type_windsurfing">Windsurfen</string>
     <string name="activity_type_football">Fußball</string>
-    <string name="activity_type_rugby"/>
+    <string name="activity_type_rugby"></string>
     <string name="activity_type_baseball">Baseball</string>
-    <string name="activity_type_handball"/>
-    <string name="activity_type_tennis"/>
-    <string name="activity_type_squash"/>
+    <string name="activity_type_handball"></string>
+    <string name="activity_type_tennis"></string>
+    <string name="activity_type_squash"></string>
     <string name="activity_type_weightlifting">Gewichtheben</string>
     <string name="activity_type_skiing">Skifahren</string>
-    <string name="activity_type_hockey"/>
+    <string name="activity_type_hockey"></string>
     <string name="activity_type_icehockey">Eishockey</string>
     <string name="activity_type_iceskating">Schlittschuhlaufen</string>
     <string name="activity_type_golf">Golfen</string>
@@ -2495,7 +2495,7 @@
     <string name="common_symbols">Häufige Symbole</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="activity_type_trekking">Wanderung</string>
-    <string name="activity_type_wrestling"/>
+    <string name="activity_type_wrestling"></string>
     <string name="devicetype_redmi_smart_band_pro"/>
     <string name="menuitem_readiness">Bereitschaft</string>
     <string name="devicetype_xiaomi_watch_lite"/>
@@ -2518,7 +2518,7 @@
     <string name="pref_summary_casio_alert_calendar">Alarm (Vibration/Ton) für Kalender-Erinnerungen</string>
     <string name="pref_title_casio_alert_call">Klingelton bei eingehenden Anrufen</string>
     <string name="pref_summary_casio_alert_email">Alarm (Vibration/Ton) für Mail-Benachrichtigungen</string>
-    <string name="pref_title_casio_alert_sms">SMS-Klingelton</string>
+    <string name="pref_title_casio_alert_sms">Alarm für SMS-Benachrichtigungen</string>
     <string name="pref_title_casio_alert_other">Alarm für andere Benachrichtigungen</string>
     <string name="pref_summary_casio_alert_other">Alarm (Vibration/Ton) für Benachrichtigungen in anderen Kategorien</string>
     <string name="devicetype_miband8"/>
@@ -2538,7 +2538,7 @@
     <string name="pref_heartrate_automatic_enable">Automatische Pulsmessung aktivieren</string>
     <string name="zepp_os_watchface_vast_sky">Weitläufiger Himmel</string>
     <string name="zepp_os_watchface_pure_white">Reines Weiß</string>
-    <string name="prefs_wena3_hint_rich_design">Fügt um Startbildschirmsymbole abgerundete Rechtecke hinzu</string>
+    <string name="prefs_wena3_hint_rich_design">Fügt abgerundete Rechtecke um Startbildschirmsymbole hinzu</string>
     <string name="error_menu_companion_not_installed">\'HR Menu Companion\" ist wahrscheinlich nicht installiert</string>
     <string name="pref_vitality_score_7_day_title">7-Tage-Fortschritt</string>
     <string name="pref_vitality_score_daily_title">Täglicher Fortschritt</string>
@@ -2566,7 +2566,7 @@
     <string name="silent_mode_vibrate_silent">Vibration / Lautlos</string>
     <string name="clap_hands_to_wakeup_device_summary">Erneutes Klatschen schaltet den Bildschirm aus</string>"
     <string name="busy_task_fetch_statistics">Statistiken abrufen</string>
-    <string name="busy_task_fetch_temperature">Abruf der Temperaturdaten</string>
+    <string name="busy_task_fetch_temperature">Temperaturdaten abrufen</string>
     <string name="prefs_wearmode">Tragemodus</string>
     <string name="zepp_os_watchface_starry_sky">Sternenhimmel</string>
     <string name="prefs_wena3_hint_background_sync">Erlaube Wena, Gadgetbridge in regelmäßigen Abständen aufzufordern, Aktivitätsdaten vom Gerät herunterzuladen</string>
@@ -2589,4 +2589,55 @@
     <string name="pref_title_fossil_hr_nav_vibrate">Vibrieren bei neuer Anweisung</string>
     <string name="pref_title_fossil_hr_nav_foreground">In den Vordergrund rücken</string>
     <string name="prefs_device_name">Gerätebezeichnung</string>
+    <string name="not_set">Nicht festgelegt</string>
+    <string name="widget_screen_delete_confirm_description">Bist du sicher, dass du \'%1$s\' löschen möchtest?</string>
+    <string name="widget_move_down">Nach unten verschieben</string>
+    <string name="protocol_version">Protokoll-Version</string>
+    <string name="flatDistance">Flache Strecke</string>
+    <string name="pref_enable_call_accept">Annehmen von Anrufen aktivieren</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_text">Navigation gestartet, aber die Navigation-App ist nicht auf der Uhr installiert. Bitte installiere sie über den App-Manager.</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Ob die Navigations-App automatisch in den Vordergrund kommen soll, wenn sie eine Navigationsanweisung erhält</string>
+    <string name="pref_force_connection_type_description">Du kannst versuchen, den Verbindungstyp zu erzwingen, falls dein Gerät nicht auf Gadgetbridge reagiert</string>
+    <string name="pref_force_connection_type_auto">Automatisch</string>
+    <string name="pref_force_connection_type_ble">Bluetooth-LE</string>
+    <string name="pref_device_action_dnd_alarms">Bitte-Nicht-Stören - nur Alarme</string>
+    <string name="pref_title_navigation_apps">Navigations-Apps</string>
+    <string name="pref_summary_osmand_packagename">Dient zur Auswahl der Version von OsmAnd, mit der eine Verbindung hergestellt werden soll</string>
+    <string name="pref_title_navigation_prefs">Einstellungen zur Navigation</string>
+    <string name="pref_title_osmand_packagename">OsmAnd Paketname</string>
+    <string name="widget_missing_parts">Bitte alle Widgets auswählen</string>
+    <string name="widget_layout_top_1_bot_2">1 oben, 2 unten</string>
+    <string name="widget_unknown_workout">Unbekanntes Workout - %s</string>
+    <string name="prefs_wena3_auto_power_off_turn_off_time_item">Ausschaltzeit</string>
+    <string name="pref_device_action_dnd_off">Bitte-Nicht-Stören - Aus</string>
+    <string name="zepp_os_watchface_free_combination">Freie Kombination</string>
+    <string name="pref_title_debug">Debug-Anfrage</string>
+    <string name="prefs_wena3_button_action_name_activity_screen">Aktivitätsbildschirm</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Verbindung nur mit verbundenen Geräten wiederherstellen</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Verbindung nur mit verbundenen Geräten wiederherstellen, statt mit allen Geräten neu zu verbinden</string>
+    <string name="prefs_active_noise_cancelling_transparency">Transparenz</string>
+    <string name="prefs_workmode">Arbeitsmodus</string>
+    <string name="pref_summary_debug">Eine Debug-Anfrage an das Huawei-Gerät senden</string>
+    <string name="prefs_wena3_hint_weather_statusbar">Symbol für aktuelle Wetterbedingungen in der oberen linken Ecke des Startbildschirms anzeigen</string>
+    <string name="pref_title_prefix_notification_with_app">App-Name in der Benachrichtigung</string>
+    <string name="pref_device_action_dnd_on">Bitte-Nicht-Stören - Ein</string>
+    <string name="pref_force_dnd_support_summary">Unterstützung von \"Bitte-Nicht-Stören\" erzwingen
+\nVERWENDUNG AUF EIGENE GEFAHR</string>
+    <string name="prefs_wena3_notification_per_app_settings_title">App-spezifische Einstellungen für Benachrichtigungen</string>
+    <string name="serial_number">Seriennummer</string>
+    <string name="menuitem_stats">Statistiken</string>
+    <string name="menuitem_alerts">Meldungen</string>
+    <string name="widget_layout_top_2_bot_1">2 oben, 1 unten</string>
+    <string name="widget_layout_top_2_bot_2">2 oben, 2 unten</string>
+    <string name="widget_layout">Widget-Anordnung</string>
+    <string name="widget_layout_single">1 Widget</string>
+    <string name="widget_move_up">Nach oben verschieben</string>
+    <string name="widget_layout_two">2 Widgets</string>
+    <string name="call_rejection_method_ignore">Ignorieren (Stille)</string>
+    <string name="huawei_trusleep_summary_light">Verbesserte Schlafüberwachung</string>
+    <string name="pref_force_smart_alarm_summary">Unterstützung für intelligente Alarme erzwingen
+\nVERWENDUNG AUF EIGENE GEFAHR</string>
+    <string name="prefs_wena3_button_action_name_start_timer">Starte Aktivitätstimer</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Anweisungen für die Navigation</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Ob die Uhr bei jeder neuen oder geänderten Navigationsanweisung vibrieren soll (nur wenn die App im Vordergrund ist)</string>
 </resources>
