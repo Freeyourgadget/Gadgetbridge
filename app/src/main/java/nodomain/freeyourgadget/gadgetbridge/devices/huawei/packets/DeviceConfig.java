@@ -100,11 +100,8 @@ public class DeviceConfig {
                 if (this.tlv.contains(0x04))
                     this.interval = this.tlv.getShort(0x04);
 
-                if (this.tlv.contains(0x05)) {
-                    System.arraycopy(this.tlv.getBytes(0x05), 2, this.serverNonce, 0, 16);
-                    this.authVersion = (byte)this.tlv.getBytes(0x05)[1];
-                } else
-                    throw new MissingTagException(0x05);
+                System.arraycopy(this.tlv.getBytes(0x05), 2, this.serverNonce, 0, 16);
+                this.authVersion = (byte)this.tlv.getBytes(0x05)[1];
 
                 if (this.tlv.contains(0x07))
                     this.authMode = this.tlv.getByte(0x07);
@@ -152,11 +149,7 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (this.tlv.contains(0x02)) {
-                    this.supportedServices = this.tlv.getBytes(0x02);
-                } else {
-                    throw new MissingTagException(0x02);
-                }
+                this.supportedServices = this.tlv.getBytes(0x02);
             }
         }
 
@@ -175,10 +168,7 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (this.tlv.contains(0x01))
-                    this.allSupportedServices = this.tlv.getBytes(0x01);
-                else
-                    throw new MissingTagException(0x01);
+                this.allSupportedServices = this.tlv.getBytes(0x01);
             }
         }
     }
@@ -320,13 +310,6 @@ public class DeviceConfig {
                 CommandsList commandsList = null;
                 HuaweiTLV containerTLV = this.tlv.getObject(0x81);
 
-                if (!containerTLV.contains(0x02)) {
-                    throw new MissingTagException(0x02);
-                }
-                if (!containerTLV.contains(0x04)) {
-                    throw new MissingTagException(0x04);
-                }
-
                 for (HuaweiTLV.TLV tlv : containerTLV.get()) {
                     if ((int) tlv.getTag() == 0x02) {
                         commandsList = new CommandsList();
@@ -465,10 +448,6 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x07))
-                    throw new MissingTagException(0x07);
-                if (!this.tlv.contains(0x0A))
-                    throw new MissingTagException(0x0A);
                 if (this.tlv.contains(0x03))
                     this.hardwareVersion = this.tlv.getString(0x03);
                 this.softwareVersion = this.tlv.getString(0x07);
@@ -521,20 +500,9 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (this.tlv.contains(0x05))
-                    this.clientSerial = this.tlv.getBytes(0x05);
-                else
-                    throw new MissingTagException(0x05);
-
-                if (this.tlv.contains(0x06))
-                    this.bondingKey = this.tlv.getBytes(0x06);
-                else
-                    throw new MissingTagException(0x06);
-
-                if (this.tlv.contains(0x07))
-                    this.iv = this.tlv.getBytes(0x07);
-                else
-                    throw new MissingTagException(0x07);
+                this.clientSerial = this.tlv.getBytes(0x05);
+                this.bondingKey = this.tlv.getBytes(0x06);
+                this.iv = this.tlv.getBytes(0x07);
             }
         }
     }
@@ -579,7 +547,7 @@ public class DeviceConfig {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 this.status = this.tlv.getByte(0x01);
                 this.encryptionCounter = this.tlv.getInteger(0x09) & 0xFFFFFFFFL;
             }
@@ -655,7 +623,7 @@ public class DeviceConfig {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 this.challengeResponse = this.tlv.getBytes(0x01);
             }
         }
@@ -690,10 +658,7 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (this.tlv.contains(0x01))
-                    this.level = this.tlv.getByte(0x01);
-                else
-                    throw new MissingTagException(0x01);
+                this.level = this.tlv.getByte(0x01);
             }
         }
         // TODO: implement parsing this request for the log parser support
@@ -876,7 +841,7 @@ public class DeviceConfig {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 // AW70 doesn't seem to have this
                 if (this.tlv.contains(0x01))
                     this.status = this.tlv.getByte(0x01);
@@ -944,7 +909,7 @@ public class DeviceConfig {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 this.dndLiftWristType = (int) this.tlv.getShort(0x01);
             }
         }
@@ -1192,7 +1157,7 @@ public class DeviceConfig {
             public static class Step4Data {
                 public String data;
 
-                public Step4Data(HuaweiTLV tlv) {
+                public Step4Data(HuaweiTLV tlv) throws ParseException {
                     if (tlv.contains(0x01))
                         this.data = tlv.getString(0x01);
                 }
@@ -1231,11 +1196,6 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x01))
-                    throw new MissingTagException(0x01);
-                if (!this.tlv.contains(0x04))
-                    throw new MissingTagException(0x04);
-
                 this.type = this.tlv.getByte(0x04);
 
                 if (this.type == 0x00) {
@@ -1377,11 +1337,6 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x01))
-                    throw new MissingTagException(0x01);
-                if (!this.tlv.contains(0x02))
-                    throw new MissingTagException(0x02);
-
                 try {
                     value = new JSONObject(this.tlv.getString(0x01));
                     payload = value.getJSONObject("payload");
@@ -1440,16 +1395,9 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                byte[] message;
-                byte[] iv;
-                if (this.tlv.contains(0x01))
-                    message = this.tlv.getBytes(0x01);
-                else
-                    throw new MissingTagException(0x01);
-                if (this.tlv.contains(0x02))
-                    iv = this.tlv.getBytes(0x02);
-                else
-                    throw new MissingTagException(0x02);
+                byte[] message = this.tlv.getBytes(0x01);
+                byte[] iv = this.tlv.getBytes(0x02);
+
                 HuaweiCrypto huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion());
                 try {
                     pinCode = huaweiCrypto.decryptPinCode(message, iv);
@@ -1498,7 +1446,6 @@ public class DeviceConfig {
                 // Tag 4 to 6 are HMS related
             }
         }
-
     }
 
     public static class TimeZoneIdRequest extends HuaweiPacket {
@@ -1628,10 +1575,7 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (this.tlv.contains(0x01)) {
-                   this.expandCapabilities = this.tlv.getBytes(0x01);
-                } else
-                    throw new MissingTagException(0x01);
+               this.expandCapabilities = this.tlv.getBytes(0x01);
             }
         }
 
@@ -1666,7 +1610,6 @@ public class DeviceConfig {
             public void parseTlv() throws ParseException {
             }
         }
-
     }
 
     public static class SetUpDeviceStatusRequest extends HuaweiPacket {
@@ -1702,12 +1645,5 @@ public class DeviceConfig {
 
         public static final int hours12 = 0x01;
         public static final int hours24 = 0x02;
-    }
-
-    public static class HiChainStep {
-        public static final int one = 0x01;
-        public static final int two = 0x02;
-        public static final int three = 0x03;
-        public static final int four = 0x04;
     }
 }

@@ -44,6 +44,7 @@ public class HuaweiPacket {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiPacket.class);
 
     public static class ParamsProvider {
+
         protected byte authVersion;
         protected byte authMode;
         protected byte[] secretKey;
@@ -226,6 +227,8 @@ public class HuaweiPacket {
     }
 
     public boolean attemptDecrypt() throws ParseException {
+        if (paramsProvider.getSecretKey() == null)
+            return false;
         if (this.tlv == null)
             return false;
         if (this.tlv.contains(0x7C) && this.tlv.getBoolean(0x7C)) {
@@ -495,6 +498,8 @@ public class HuaweiPacket {
     }
 
     public HuaweiPacket parseOutgoing(byte[] data) throws ParseException {
+        this.isEncrypted = false; // Will be changed if decrypt has been performed
+
         parseData(data);
         if (!this.complete)
             return this;

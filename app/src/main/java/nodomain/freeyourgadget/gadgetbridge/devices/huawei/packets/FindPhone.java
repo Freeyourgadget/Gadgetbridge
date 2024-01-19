@@ -37,10 +37,9 @@ public class FindPhone {
         }
 
         @Override
-        public void parseTlv() {
-            if (this.tlv.contains(0x01)) {
+        public void parseTlv() throws ParseException {
+            if (this.tlv.contains(0x01))
                 this.start = this.tlv.getBoolean(0x01);
-            }
             // No missing tag exception so it will stop by default
         }
     }

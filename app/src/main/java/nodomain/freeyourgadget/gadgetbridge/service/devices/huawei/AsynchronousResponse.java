@@ -78,6 +78,10 @@ public class AsynchronousResponse {
     }
 
     public void handleResponse(HuaweiPacket response) {
+        // Ignore messages if the key isn't set yet
+        if (support.getParamsProvider().getSecretKey() == null)
+            return;
+
         try {
             response.parseTlv();
         } catch (HuaweiPacket.ParseException e) {

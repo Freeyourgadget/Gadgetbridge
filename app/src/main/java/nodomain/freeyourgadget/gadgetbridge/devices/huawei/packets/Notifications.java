@@ -132,10 +132,12 @@ public class Notifications {
 
             private void putByteBuffer(ByteBuffer bBuffer, byte position, byte[] value) {
                 ByteBuffer bValue = ByteBuffer.wrap(value);
-                if (bValue.capacity() == 2)
+                if (bValue.capacity() == 2) {
                     bBuffer.putShort(position, bValue.getShort());
-                bBuffer.put(position, (byte)0x00);
-                bBuffer.put(bValue.get());
+                } else {
+                    bBuffer.put(position, (byte) 0x00);
+                    bBuffer.put(position + 1, bValue.get());
+                }
             }
 
             @Override

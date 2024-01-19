@@ -51,7 +51,7 @@ public class MusicControl {
         }
 
         @Override
-        public void parseTlv() {
+        public void parseTlv() throws ParseException {
             if (this.tlv.contains(0x7F) && this.tlv.getBytes(0x7F).length == 4)
                 this.status = this.tlv.getInteger(0x7F);
         }
@@ -96,7 +96,7 @@ public class MusicControl {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 if (this.tlv.contains(0x7F)) {
                     if (this.tlv.getInteger(0x7F) == successValue) {
                         this.ok = true;
@@ -144,7 +144,7 @@ public class MusicControl {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 if (this.tlv.contains(0x01)) {
                     this.buttonPresent = true;
                     this.rawButton = this.tlv.getByte(0x01);

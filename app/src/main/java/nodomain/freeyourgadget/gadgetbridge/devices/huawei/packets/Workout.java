@@ -69,13 +69,7 @@ public class Workout {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 HuaweiTLV container = this.tlv.getObject(0x81);
-
-                if (!container.contains(0x02))
-                    throw new MissingTagException(0x02);
 
                 this.count = container.getShort(0x02);
                 this.workoutNumbers = new ArrayList<>();
@@ -83,18 +77,8 @@ public class Workout {
                 if (this.count == 0)
                     return;
 
-                if (!container.contains(0x85))
-                    throw new MissingTagException(0x85);
-
                 List<HuaweiTLV> subContainers = container.getObjects(0x85);
                 for (HuaweiTLV subContainerTlv : subContainers) {
-                    if (!subContainerTlv.contains(0x06))
-                        throw new MissingTagException(0x06);
-                    if (!subContainerTlv.contains(0x07))
-                        throw new MissingTagException(0x07);
-                    if (!subContainerTlv.contains(0x08))
-                        throw new MissingTagException(0x08);
-
                     WorkoutNumbers workoutNumber = new WorkoutNumbers();
                     workoutNumber.rawData = subContainerTlv.serialize();
                     workoutNumber.workoutNumber = subContainerTlv.getShort(0x06);
@@ -150,17 +134,7 @@ public class Workout {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 HuaweiTLV container = this.tlv.getObject(0x81);
-
-                if (!container.contains(0x02))
-                    throw new MissingTagException(0x02);
-                if (!container.contains(0x04))
-                    throw new MissingTagException(0x04);
-                if (!container.contains(0x05))
-                    throw new MissingTagException(0x05);
 
                 this.rawData = container.serialize();
                 this.number = container.getShort(0x02);
@@ -319,24 +293,12 @@ public class Workout {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 HuaweiTLV container = this.tlv.getObject(0x81);
-
-                if (!container.contains(0x02))
-                    throw new MissingTagException(0x02);
-                if (!container.contains(0x03))
-                    throw new MissingTagException(0x03);
-                if (!container.contains(0x04))
-                    throw new MissingTagException(0x04);
-                if (!container.contains(0x05))
-                    throw new MissingTagException(0x05); // TODO: not sure if 5 can also be omitted
 
                 this.workoutNumber = container.getShort(0x02);
                 this.dataNumber = container.getShort(0x03);
                 this.rawHeader = container.getBytes(0x04);
-                this.rawData = container.getBytes(0x05);
+                this.rawData = container.getBytes(0x05); // TODO: not sure if 5 can also be omitted
 
                 if (container.contains(0x09))
                     innerBitmap = container.getShort(0x09);
@@ -515,31 +477,13 @@ public class Workout {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 HuaweiTLV container = this.tlv.getObject(0x81);
-
-                if (!container.contains(0x02))
-                    throw new MissingTagException(0x02);
-                if (!container.contains(0x08))
-                    throw new MissingTagException(0x08);
-                // TODO: not sure what happens with an empty workout here...
-                if (!container.contains(0x83))
-                    throw new MissingTagException(0x83);
 
                 this.workoutNumber = container.getShort(0x02);
                 this.paceNumber = container.getShort(0x08);
 
                 this.blocks = new ArrayList<>();
                 for (HuaweiTLV blockTlv : container.getObjects(0x83)) {
-                    if (!blockTlv.contains(0x04))
-                        throw new MissingTagException(0x04);
-                    if (!blockTlv.contains(0x05))
-                        throw new MissingTagException(0x05);
-                    if (!blockTlv.contains(0x06))
-                        throw new MissingTagException(0x06);
-
                     Block block = new Block();
                     block.distance = blockTlv.getShort(0x04);
                     block.type = blockTlv.getByte(0x05);
@@ -569,6 +513,4 @@ public class Workout {
         }
 
     }
-
-
 }

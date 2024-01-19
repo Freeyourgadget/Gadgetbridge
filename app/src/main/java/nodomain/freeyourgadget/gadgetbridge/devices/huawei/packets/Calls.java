@@ -49,16 +49,12 @@ public class Calls {
 
         @Override
         public void parseTlv() throws MissingTagException {
-            if (this.tlv.contains(0x01)) {
-                if (this.tlv.getByte(0x01) == 0x01) {
-                    this.action = Action.CALL_REJECT;
-                } else if (this.tlv.getByte(0x01) == 0x02) {
-                    this.action = Action.CALL_ACCEPT;
-                }
-                // TODO: find more values, if there are any
-            } else {
-                throw new MissingTagException(0x01);
+            if (this.tlv.getByte(0x01) == 0x01) {
+                this.action = Action.CALL_REJECT;
+            } else if (this.tlv.getByte(0x01) == 0x02) {
+                this.action = Action.CALL_ACCEPT;
             }
+            // TODO: find more values, if there are any
         }
     }
 }

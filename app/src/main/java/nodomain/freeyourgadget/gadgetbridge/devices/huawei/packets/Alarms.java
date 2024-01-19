@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket.ParseException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
 // TODO: complete responses
@@ -34,18 +35,7 @@ public class Alarms {
         public byte repeat;
         public String name;
 
-        public EventAlarm(HuaweiTLV tlv) throws HuaweiPacket.MissingTagException {
-            if (!tlv.contains(0x03))
-                throw new HuaweiPacket.MissingTagException(0x03);
-            if (!tlv.contains(0x04))
-                throw new HuaweiPacket.MissingTagException(0x04);
-            if (!tlv.contains(0x05))
-                throw new HuaweiPacket.MissingTagException(0x05);
-            if (!tlv.contains(0x06))
-                throw new HuaweiPacket.MissingTagException(0x06);
-            if (!tlv.contains(0x07))
-                throw new HuaweiPacket.MissingTagException(0x07);
-
+        public EventAlarm(HuaweiTLV tlv) throws ParseException {
             this.index = tlv.getByte(0x03);
             this.status = tlv.getBoolean(0x04);
             this.startHour = (byte) ((tlv.getShort(0x05) >> 8) & 0xFF);
@@ -93,18 +83,7 @@ public class Alarms {
         public byte repeat;
         public byte aheadTime;
 
-        public SmartAlarm(HuaweiTLV tlv) throws HuaweiPacket.MissingTagException {
-            if (!tlv.contains(0x03))
-                throw new HuaweiPacket.MissingTagException(0x03);
-            if (!tlv.contains(0x04))
-                throw new HuaweiPacket.MissingTagException(0x04);
-            if (!tlv.contains(0x05))
-                throw new HuaweiPacket.MissingTagException(0x05);
-            if (!tlv.contains(0x06))
-                throw new HuaweiPacket.MissingTagException(0x06);
-            if (!tlv.contains(0x07))
-                throw new HuaweiPacket.MissingTagException(0x07);
-
+        public SmartAlarm(HuaweiTLV tlv) throws ParseException {
             this.index = tlv.getByte(0x03);
             this.status = tlv.getBoolean(0x04);
             this.startHour = (byte) ((tlv.getShort(0x05) >> 8) & 0xFF);
@@ -224,9 +203,6 @@ public class Alarms {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 eventAlarms = new ArrayList<>();
 
                 HuaweiTLV tlv = this.tlv.getObject(0x81);
@@ -262,9 +238,6 @@ public class Alarms {
 
             @Override
             public void parseTlv() throws ParseException {
-                if (!this.tlv.contains(0x81))
-                    throw new MissingTagException(0x81);
-
                 HuaweiTLV tlv = this.tlv.getObject(0x81);
                 if (tlv.contains(0x82)) {
                     this.smartAlarm = new SmartAlarm(tlv.getObject(0x82));

@@ -207,57 +207,35 @@ public class HuaweiTLV {
         return this.valueMap;
     }
 
-    public byte[] getBytes(int tag) {
+    public byte[] getBytes(int tag) throws HuaweiPacket.MissingTagException {
         for (TLV item : valueMap)
             if (item.getTag() == (byte) tag)
                 return item.getValue();
-        return null;
+        throw new HuaweiPacket.MissingTagException(tag);
     }
 
-    public Byte getByte(int tag) {
-        byte[] bytes = getBytes(tag);
-        if (bytes == null) {
-            return null;
-        }
-        return bytes[0];
+    public Byte getByte(int tag) throws HuaweiPacket.MissingTagException {
+        return getBytes(tag)[0];
     }
 
-    public Boolean getBoolean(int tag) {
-        byte[] bytes = getBytes(tag);
-        if (bytes == null) {
-            return null;
-        }
-        return bytes[0] == 1;
+    public Boolean getBoolean(int tag) throws HuaweiPacket.MissingTagException {
+        return getBytes(tag)[0] == 1;
     }
 
-    public Integer getInteger(int tag) {
-        byte[] bytes = getBytes(tag);
-        if (bytes == null) {
-            return null;
-        }
-        return ByteBuffer.wrap(bytes).getInt();
+    public Integer getInteger(int tag) throws HuaweiPacket.MissingTagException {
+        return ByteBuffer.wrap(getBytes(tag)).getInt();
     }
 
-    public Short getShort(int tag) {
-        byte[] bytes = getBytes(tag);
-        if (bytes == null)
-            return null;
-        return ByteBuffer.wrap(bytes).getShort();
+    public Short getShort(int tag) throws HuaweiPacket.MissingTagException {
+        return ByteBuffer.wrap(getBytes(tag)).getShort();
     }
 
-    public String getString(int tag) {
-        byte[] bytes = getBytes(tag);
-        if (bytes == null) {
-            return null;
-        }
-        return new String(bytes, StandardCharsets.UTF_8);
+    public String getString(int tag) throws HuaweiPacket.MissingTagException {
+        return new String(getBytes(tag), StandardCharsets.UTF_8);
     }
 
-    public HuaweiTLV getObject(int tag) {
+    public HuaweiTLV getObject(int tag) throws HuaweiPacket.MissingTagException {
         byte[] bytes = getBytes(tag);
-        if (bytes == null) {
-            return null;
-        }
         return new HuaweiTLV().parse(bytes, 0, bytes.length);
     }
 
@@ -320,7 +298,7 @@ public class HuaweiTLV {
                 .put(CryptoTags.cipherText, encryptedTLV);
     }
 
-    public void decrypt(ParamsProvider paramsProvider) throws CryptoException {
+    public void decrypt(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {
         byte[] key = paramsProvider.getSecretKey();
         byte[] decryptedTLV = HuaweiCrypto.decrypt(paramsProvider.getAuthMode(), getBytes(CryptoTags.cipherText), key, getBytes(CryptoTags.initVector));
         this.valueMap = new ArrayList<>();

@@ -104,7 +104,7 @@ public class FitnessData {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 this.count = this.tlv.getObject(0x81).getShort(0x02);
                 this.complete = true;
             }
@@ -156,7 +156,7 @@ public class FitnessData {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 HuaweiTLV container = this.tlv.getObject(0x81);
                 List<HuaweiTLV> subContainers = container.getObjects(0x83);
 
@@ -255,11 +255,6 @@ public class FitnessData {
             public void parseTlv() throws ParseException {
                 HuaweiTLV container = this.tlv.getObject(0x81);
                 List<HuaweiTLV> subContainers = container.getObjects(0x84);
-
-                if (!container.contains(0x02))
-                    throw new MissingTagException(0x02);
-                if (!container.contains(0x03))
-                    throw new MissingTagException(0x03);
 
                 this.number = container.getShort(0x02);
                 this.timestamp = container.getInteger(0x03);
@@ -394,7 +389,7 @@ public class FitnessData {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws ParseException {
                 HuaweiTLV container = this.tlv.getObject(0x81);
                 List<HuaweiTLV> containers = container.getObjects(0x83);
 
@@ -555,6 +550,8 @@ public class FitnessData {
     }
 
     public static class Type {
+        // TODO: enum?
+
         public static final byte  goal = 0x01;
         public static final byte  motion = 0x00;
         public static final byte  data = 0x01;
