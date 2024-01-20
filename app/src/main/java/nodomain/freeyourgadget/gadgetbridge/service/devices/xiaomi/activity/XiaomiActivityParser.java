@@ -111,11 +111,7 @@ public abstract class XiaomiActivityParser {
 
                 break;
             case ACTIVITY_SLEEP:
-                if (fileId.getDetailType() == XiaomiActivityFileId.DetailType.DETAILS) {
-                    return new SleepDetailsParser();
-                }
-
-                break;
+                return new SleepDetailsParser();
         }
 
         return null;
