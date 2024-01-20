@@ -2696,4 +2696,24 @@
     <string name="updatefirmwareoperation_updateproblem_low_battery">Заряд батареи слишком низок</string>
     <string name="menuitem_buzzer_intensity">Мощность звукоизлучателя</string>
     <string name="prefs_password_4_digits_0_to_9_summary">Пароль должен состоять из 4 цифр</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">Xiaomi Watch S1 Pro</string>
+    <string name="uploadwatchfaceoperation_complete">Установка циферблата завершена</string>
+    <string name="uploadwatchfaceoperation_failed">Установка циферблата не удалась</string>
+    <string name="pref_force_connection_type_title">Принудительная установка типа соединения</string>
+    <string name="pref_force_connection_type_auto">Автоматический</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE (низкое энергопотребление)</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
+    <string name="activity_info">Информация об активности</string>
+    <string name="sony_protocol_v1">Версия 1</string>
+    <string name="sony_protocol_v3">Версия 3</string>
+    <string name="protocol_version">Версия протокола</string>
+    <string name="sony_protocol_v2">Версия 2</string>
+    <string name="flatDistance">Плоское расстояние</string>
+    <string name="devicetype_xiaomi_watch_s1">Xiaomi Watch S1</string>
+    <string name="devicetype_xiaomi_watch_s3">Xiaomi Watch S3</string>
+    <string name="uploading_watchface">Загрузка циферблата…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Загрузка циферблата</string>
+    <string name="pref_force_connection_type_description">Возможно, вам удаться заставить устройство работать с Gadgetbridge, принудительно выставив нужный тип соединения</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
 </resources>
