@@ -227,7 +227,12 @@ public final class BtLEQueue {
     }
 
     protected boolean isConnected() {
-        return mGbDevice.isConnected();
+        if (mGbDevice.isConnected()) {
+            return true;
+        }
+
+        LOG.debug("isConnected(): current state = {}", mGbDevice.getState());
+        return false;
     }
 
     /**
@@ -285,11 +290,12 @@ public final class BtLEQueue {
         return result;
     }
 
-    private void setDeviceConnectionState(State newState) {
-        LOG.debug("new device connection state: " + newState);
-
-        mGbDevice.setState(newState);
-        mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+    private void setDeviceConnectionState(final State newState) {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            LOG.debug("new device connection state: " + newState);
+            mGbDevice.setState(newState);
+            mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+        });
     }
 
     public void disconnect() {
