@@ -400,12 +400,16 @@ public class HuaweiSupportProvider {
         try {
             createSecretKey();
             GetAuthRequest authReq = new GetAuthRequest(this, linkParamsReq);
-            GetBondParamsRequest bondParamsReq = new GetBondParamsRequest(this);
-            GetBondRequest bondReq = new GetBondRequest(this);
-            authReq.nextRequest(bondParamsReq);
-            bondParamsReq.nextRequest(bondReq);
-            bondParamsReq.setFinalizeReq(configureReq);
-            bondReq.setFinalizeReq(configureReq);
+            if (getHuaweiType() == HuaweiDeviceType.BLE) {
+                GetBondParamsRequest bondParamsReq = new GetBondParamsRequest(this);
+                GetBondRequest bondReq = new GetBondRequest(this);
+                authReq.nextRequest(bondParamsReq);
+                bondParamsReq.nextRequest(bondReq);
+                bondParamsReq.setFinalizeReq(configureReq);
+                bondReq.setFinalizeReq(configureReq);
+            } else {
+                authReq.setFinalizeReq(configureReq);
+            }
             authReq.doPerform();
         } catch (IOException e) {
             GB.toast(context, "init Normal Mode of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
