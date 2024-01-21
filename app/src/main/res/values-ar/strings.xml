@@ -440,7 +440,7 @@
 \nأنت ممنوع من تثبيتها!</string>
     <string name="miband_firmware_suggest_whitelist">إذا كنت لا تزال ترغب في المتابعة واستمرت الأمور في العمل بشكل صحيح بعد ذلك ، فالرجاء إخبار مطوري Gadgetbridge بإدراج إصدار البرنامج الثابت %s في القائمة البيضاء.</string>
     <string name="open_fw_installer_info_text">يسمح لك برنامج Firmware / Watchface / App / File Installer بتحميل / تثبيت الملفات المدعومة (البرامج الثابتة ، وواجهات المراقبة ، والتطبيقات ، ونظام تحديد المواقع العالمي (GPS) ، والموارد ، والخطوط ...) على الجهاز. اطلع على مزيد من المعلومات في الويكي: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
-    <string name="pref_title_general_autoconnectonbluetooth">قم بالاتصال بجهاز Gadgetbridge عند تشغيل Bluetooth</string>
+    <string name="pref_title_general_autoconnectonbluetooth">قم بالاتصال بالجهاز/أجهزة Gadgetbridge عند تشغيل Bluetooth</string>
     <string name="open_fw_installer_connect_minimum_one_device">الرجاء توصيل جهاز واحد على الأقل الذي تريد إرسال الملف إليه.</string>
     <string name="pref_summary_minimize_priority_off">يتم عرض الرمز الموجود في شريط الحالة والإشعار في شاشة القفل</string>
     <string name="ignore_bonded_devices_description">سيؤدي تمكين هذا الخيار إلى تجاهل الأجهزة التي تم ربطها / إقرانها بالفعل عند المسح</string>
@@ -2620,4 +2620,92 @@
     <string name="prefs_active_noise_cancelling_transparency">الشفافية</string>
     <string name="devicetype_nothingearstick">نوثينج Ear (Stick)</string>
     <string name="prefs_active_noise_cancelling_light">إلغاء الضوضاء النشطة الخفيفة</string>
+    <string name="devicetype_huawei_watchgt2e">ساعة هواوي جي تي 2 اي</string>
+    <string name="pref_heartrate_automatic_enable">تمكين قياس معدل ضربات القلب التلقائي</string>
+    <string name="pref_spo_automatic_enable">تمكين قياس معدل الأوكسجين التلقائي</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">ساعة شاومي S1 برو</string>
+    <string name="devicetype_xiaomi_watch_s3">ساعة شاومي اس ٣</string>
+    <string name="uploadwatchfaceoperation_complete">اكتمل تثبيت واجهة الساعة</string>
+    <string name="pref_activity_recognize_biking">التعرف على ركوب الدراجات</string>
+    <string name="pref_activity_recognize_walking">التعرف على المشي</string>
+    <string name="flatDistance">مسافة مسطحة</string>
+    <string name="sony_protocol_v1">الإصدار ١</string>
+    <string name="sony_protocol_v2">الإصدار ٢</string>
+    <string name="sony_protocol_v3">الإصدار ٣</string>
+    <string name="protocol_version">إصدار البروتوكول</string>
+    <string name="uploadwatchfaceoperation_in_progress">جارٍ تحميل واجهة الساعة</string>
+    <string name="pref_force_connection_type_bt_classic">بلوتوث كلاسيك</string>
+    <string name="pref_force_connection_type_description">يمكنك محاولة فرض نوع الاتصال في حالة عدم استجابة جهازك لـ Gadgetbridge</string>
+    <string name="devicetype_honor_band3">سوار اونر ٣</string>
+    <string name="devicetype_honor_band4">سوار اونر ٤</string>
+    <string name="devicetype_honor_band5">سوار اونر ٥</string>
+    <string name="devicetype_honor_band6">سوار اونر ٦</string>
+    <string name="devicetype_honor_band7">سوار اونر ٧</string>
+    <string name="pref_activity_recognize_rowing">التعرف على التجديف</string>
+    <string name="pref_activity_recognition_mode_none">لاشيء</string>
+    <string name="pref_enable_call_accept_summary">تمكين قبول المكالمات من الجهاز</string>
+    <string name="pref_enable_call_accept">تمكين قبول المكالمات</string>
+    <string name="pref_force_dnd_support_summary">فرض دعم عدم الإزعاج.
+\nاستخدام على مسؤوليتك الخاصة</string>
+    <string name="huawei_ignore_wakeup_status_end">تجاهل حالة نهاية الاستيقاظ</string>
+    <string name="pref_title_general_reconnectonlytoconnected">أعد الاتصال بالأجهزة المتصلة فقط</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">أعد الاتصال بالأجهزة المتصلة فقط، بدلاً من إعادة الاتصال بجميع الأجهزة</string>
+    <string name="prefs_disconnect_notification_summary">إشعار على الجهاز عند فصله عن BT.</string>
+    <string name="manual">يدوي</string>
+    <string name="dnd_all_day">كل اليوم</string>
+    <string name="devicetype_huawei_band6">سوار هواوي ٦</string>
+    <string name="pref_enable_call_reject_summary">تمكين رفض المكالمات من الجهاز</string>
+    <string name="pref_enable_call_reject">تمكين رفض المكالمات</string>
+    <string name="pref_force_options_summary">تدعي بعض الأجهزة كذباً أنها لا تدعم بعض الخيارات. يمكن استخدام هذه الإعدادات لتمكينها على أي حال.
+\nاستخدام على مسؤوليتك الخاصة
+\nاقرأ الويكي</string>
+    <string name="huawei_reparse_workout_data">إعادة تحليل بيانات التمرين</string>
+    <string name="huawei_ignore_wakeup_status_start_description">قد يساعد في اكتشاف النوم المناسب. مرئية على الفور في عرض الأنشطة اليومية.</string>
+    <string name="pref_summary_debug">أرسل طلب تصحيح إلى جهاز هواوي</string>
+    <string name="pref_title_debug">طلب التصحيح</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">يجب أن تتكون كلمة المرور من 4 أرقام، باستخدام الأرقام فقط</string>
+    <string name="prefs_workmode">وضع العمل</string>
+    <string name="prefs_activity_recognition">إعدادات التعرف على النشاط</string>
+    <string name="pref_activity_recognition_mode_auto">تلقائي</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">بطارية الجهاز منخفضة جدًا</string>
+    <string name="do_not_disturb_lift_wrist_summary">فقط في حالة تفعيل الشاشة عند الرفع</string>
+    <string name="pref_do_not_disturb_not_wear">لا تزعج عندما لا ترتدي</string>
+    <string name="devicetype_huawei_watchgt2">هواوي واتش جي تي 2 (برو)</string>
+    <string name="devicetype_huawei_band4pro">هواوي باند 4 (برو)</string>
+    <string name="devicetype_huawei_band7">سوار هواوي ٧</string>
+    <string name="devicetype_huawei_band_aw70">سوار هواوي (AW70)</string>
+    <string name="devicetype_huawei_band8">سوار هواوي ٨</string>
+    <string name="devicetype_huawei_watch_gt">ساعة هواوي جي تي</string>
+    <string name="devicetype_huawei_watchgt3">هواوي واتش جي تي 3 (برو)</string>
+    <string name="devicetype_huawei_talk_band_b6">هواوي توك باند B6</string>
+    <string name="huawei_alarm_smart_description">لا تقم بإلغاء تحديد خانة اختيار التنبيه الذكي.</string>
+    <string name="huawei_alarm_event_description">لا تحدد خانة اختيار التنبيه الذكي.</string>
+    <string name="huawei_trusleep_title">هواوي ترو سليب™</string>
+    <string name="huawei_trusleep_summary_light">تحسين مراقبة النوم</string>
+    <string name="huawei_trusleep_summary">مراقبة نوعية نومك ونمط التنفس في الوقت الحقيقي.
+\nقم بتحليل أنماط نومك وتشخيص 6 أنواع من مشاكل النوم بدقة.</string>
+    <string name="pref_force_wear_location_summary">فرض دعم موقع wear.
+\nاستخدام على مسؤوليتك الخاصة</string>
+    <string name="huawei_reparse_workout_data_description">لن يقدم هذا شيئا إلا بعد تحديثات معينة</string>
+    <string name="pref_force_dnd_support">فرض دعم عدم الإزعاج</string>
+    <string name="pref_force_wear_location">فرض موقع wear</string>
+    <string name="huawei_ignore_wakeup_status_end_description">قد يساعد في اكتشاف النوم المناسب. مرئية على الفور في عرض الأنشطة اليومية.</string>
+    <string name="huawei_ignore_wakeup_status_start">تجاهل حالة بدء الاستيقاظ</string>
+    <string name="pref_force_smart_alarm_summary">فرض دعم أجهزة الإنذار الذكية.
+\nاستخدام على مسؤوليتك الخاصة</string>
+    <string name="devicetype_miband8pro">سوار شاومي الذكي 8 برو</string>
+    <string name="devicetype_mijia_mho_c303">ميجيا MHO-C303</string>
+    <string name="menuitem_buzzer_intensity">شدة الجرس</string>
+    <string name="pref_force_smart_alarm">فرض التنبيه الذكي</string>
+    <string name="pref_activity_recognize_running">التعرف على الجري</string>
+    <string name="pref_force_options">خيارات القوة</string>
+    <string name="pref_activity_recognition_mode_ask">طلب</string>
+    <string name="pref_disable_find_phone_with_dnd">قم بتعطيل العثور على هاتفي عندما يكون وضع عدم الإزعاج نشطًا</string>
+    <string name="devicetype_xiaomi_watch_s1">ساعة شاومي اس 1</string>
+    <string name="uploadwatchfaceoperation_failed">فشل تثبيت واجهة الساعة</string>
+    <string name="pref_force_connection_type_title">فرض نوع الاتصال</string>
+    <string name="uploading_watchface">جارٍ تحميل واجهة الساعة…</string>
+    <string name="pref_force_connection_type_ble">بلوتوث إل إي</string>
+    <string name="activity_info">معلومات النشاط</string>
+    <string name="pref_force_connection_type_auto">تلقائي</string>
 </resources>
