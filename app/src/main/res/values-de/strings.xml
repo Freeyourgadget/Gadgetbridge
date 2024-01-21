@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="application_name_generic"></string>
-    <string name="title_activity_controlcenter_generic"></string>
+    <string name="application_name_generic"/>
+    <string name="title_activity_controlcenter_generic"/>
     <string name="action_settings">Einstellungen</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Beenden</string>
@@ -1588,8 +1588,8 @@
     <string name="autoExport_lastTime_label">Letzter autom. Export: %1$s</string>
     <string name="activity_db_management_autoexport_location">Standort ermittelt nicht möglich. Wahrscheinlich ein Problem des neueren Android-Berechtigungssystems. Höchstwahrscheinlich funktioniert der autom. Export jetzt nicht.</string>
     <string name="menuitem_email">E-Mail</string>
-    <string name="application_name_banglejs_main"></string>
-    <string name="title_activity_controlcenter_banglejs_main"></string>
+    <string name="application_name_banglejs_main"/>
+    <string name="title_activity_controlcenter_banglejs_main"/>
     <string name="about_description_banglejs_main">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
@@ -1598,7 +1598,7 @@
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
     <string name="application_name_main_nightly"/>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly"></string>
     <string name="about_activity_title_main_nightly">Über Gadgetbridge (Nightly)</string>
     <string name="about_description_main_nightly">Cloudloser und freier quelloffener Ersatz für Closed-Source Android-Gadget-Apps von Anbietern. Nächtliche Veröffentlichungen von Gadgetbridge. Es kann nicht installiert werden, wenn du bereits die Gadgetbridge- oder die Pebble-App installiert hast, da es einen Konflikt mit dem Pebble-Anbieter gibt.</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB läuft</string>
@@ -1824,7 +1824,7 @@
     <string name="about_description_banglejs_nightly">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js wird ausgeführt</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js (Nightly) wird ausgeführt</string>
     <string name="prefs_hourly_chime">Stündlicher Klang</string>
     <string name="prefs_hourly_chime_summary">Die Uhr piept einmal pro Stunde</string>
     <string name="step_streaks_achievements_sharing_message">Meine täglichen Schritterfolge!</string>
@@ -2641,4 +2641,6 @@
     <string name="pref_title_fossil_hr_navigation_instructions">Anweisungen für die Navigation</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Ob die Uhr bei jeder neuen oder geänderten Navigationsanweisung vibrieren soll (nur wenn die App im Vordergrund ist)</string>
     <string name="pref_summary_fossil_hr_navigation_instructions">Konfiguriere das Verhalten der Navigations-App</string>
+    <string name="manual">Manuell</string>
+    <string name="pref_do_not_disturb_not_wear">Bitte-Nicht-Stören wenn nicht getragen</string>
 </resources>
