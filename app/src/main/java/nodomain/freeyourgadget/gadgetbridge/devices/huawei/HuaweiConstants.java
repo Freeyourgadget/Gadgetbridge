@@ -48,6 +48,7 @@ public final class HuaweiConstants {
     public static final String HO_BAND5_NAME = "honor band 5-";
     public static final String HO_BAND6_NAME = "honor band 6-";
     public static final String HO_BAND7_NAME = "honor band 7-";
+    public static final String HO_MAGICWATCH2_NAME = "honor magicwatch 2-";
     public static final String HU_BAND3E_NAME = "huawei band 3e-";
     public static final String HU_BAND4E_NAME = "huawei band 4e-";
     public static final String HU_BAND6_NAME = "huawei band 6-";
