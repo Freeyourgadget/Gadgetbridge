@@ -49,10 +49,14 @@ public class SleepDetailsParser extends XiaomiActivityParser {
     @Override
     public boolean parse(final XiaomiSupport support, final XiaomiActivityFileId fileId, final byte[] bytes) {
         // Seems to come both as DetailType.DETAILS (version 2) and DetailType.SUMMARY (version 4)
-        if (fileId.getVersion() < 2 || fileId.getVersion() > 4) {
+        if (fileId.getVersion() > 4) {
             LOG.warn("Unknown sleep details version {}", fileId.getVersion());
             return false;
         }
+
+        // Stores number of fields which are only present in certain versions of the message
+        // this is required for correct header offset calculation
+        int versionDependentFields = 0;
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
         final byte header = buf.get();
@@ -62,6 +66,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         final int wakeupTime = buf.getInt();
         int sleepQuality = -1;
         if (fileId.getVersion() >= 4) {
+            versionDependentFields += 1;
             sleepQuality = buf.get() & 0xff;
         }
 
@@ -75,36 +80,45 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         sample.setIsAwake(isAwake == 1);
 
         // Heart rate samples
-        if ((header & (1 << 4)) != 0) {
+        if ((header & (1 << (5 - versionDependentFields))) != 0) {
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
-            final int firstRecordTime = buf.getInt();
 
-            // Skip count samples - each sample is a u8
-            //   timestamp of each sample is firstRecordTime + (unit * index)
-            buf.position(buf.position() + count);
+            if (count > 0) {
+                final int firstRecordTime = buf.getInt();
+
+                // Skip count samples - each sample is a u8
+                //   timestamp of each sample is firstRecordTime + (unit * index)
+                buf.position(buf.position() + count);
+            }
         }
 
         // SpO2 samples
-        if ((header & (1 << 3)) != 0) {
+        if ((header & (1 << (4 - versionDependentFields))) != 0) {
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
-            final int firstRecordTime = buf.getInt();
 
-            // Skip count samples - each sample is a u8
-            //   timestamp of each sample is firstRecordTime + (unit * index)
-            buf.position(buf.position() + count);
+            if (count > 0) {
+                final int firstRecordTime = buf.getInt();
+
+                // Skip count samples - each sample is a u8
+                //   timestamp of each sample is firstRecordTime + (unit * index)
+                buf.position(buf.position() + count);
+            }
         }
 
         // snore samples
-        if (fileId.getVersion() >= 3 && (header & (1 << 2)) != 0) {
+        if (fileId.getVersion() >= 3 && (header & (1 << (3 - versionDependentFields))) != 0) {
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
-            final int firstRecordTime = buf.getInt();
 
-            // Skip count samples - each sample is a float
-            //   timestamp of each sample is firstRecordTime + (unit * index)
-            buf.position(buf.position() + count * 4);
+            if (count > 0) {
+                final int firstRecordTime = buf.getInt();
+
+                // Skip count samples - each sample is a float
+                //   timestamp of each sample is firstRecordTime + (unit * index)
+                buf.position(buf.position() + count * 4);
+            }
         }
 
         final List<XiaomiSleepStageSample> stages = new ArrayList<>();
@@ -113,12 +127,6 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         // and we still want to persist whatever we got so far
         boolean stagesParseFailed = false;
         try {
-            // FIXME: Sometimes there's a random zero here..?
-            if (buf.getInt() != 0) {
-                // If it wasn't a zero, rewind
-                buf.position(buf.position() - 4);
-            }
-
             while (buf.remaining() >= 17 && buf.getInt() == 0xFFFCFAFB) {
                 final int headerLen = buf.get() & 0xFF; // this seems to always be 17
 
