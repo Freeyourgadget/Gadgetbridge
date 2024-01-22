@@ -1349,7 +1349,7 @@
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
     <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="pref_title_equalizer_normal">Normal</string>
-    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="pref_header_equalizer"></string>
     <string name="pref_header_system">System</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_equalizer_preset">Equalizer-Voreinstellungen</string>
@@ -1598,7 +1598,7 @@
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_main_nightly">Über Gadgetbridge (Nightly)</string>
     <string name="about_description_main_nightly">Cloudloser und freier quelloffener Ersatz für Closed-Source Android-Gadget-Apps von Anbietern. Nächtliche Veröffentlichungen von Gadgetbridge. Es kann nicht installiert werden, wenn du bereits die Gadgetbridge- oder die Pebble-App installiert hast, da es einen Konflikt mit dem Pebble-Anbieter gibt.</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB läuft</string>
@@ -1860,7 +1860,7 @@
     <string name="seconds_14">14 Sekunden</string>
     <string name="seconds_15">15 Sekunden</string>
     <string name="prefs_always_on_display">Display immer eingeschaltet</string>
-    <string name="smart">Smart</string>
+    <string name="smart"></string>
     <string name="mi2_dnd_always">Immer</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="menuitem_countdown">Countdown</string>
@@ -2407,7 +2407,7 @@
     <string name="prefs_home_icon_left_item">Links</string>
     <string name="prefs_wena3_led_none">Keine LED</string>
     <string name="updatefirmwareoperation_failed_low_mtu">Die aktuelle MTU von %1$d ist zu niedrig,bitte aktiviere eine hohe MTU in den Geräteeinstellungen und trenne/schließe das Gerät neu an.</string>
-    <string name="prefs_wena3_home_icon_name_riiiver">Riiiver</string>
+    <string name="prefs_wena3_home_icon_name_riiiver"></string>
     <string name="pref_message_privacy_mode_bodyonly">Nur Nachrichtentext ausblenden</string>
     <string name="prefs_wena3_home_icon_name_suica">Suica Kontostand</string>
     <string name="prefs_wena3_vibration_strength_item_medium">Mittel</string>
@@ -2677,4 +2677,27 @@
     <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
     <string name="devicetype_honor_band3">Honor Band 3</string>
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
+    <string name="info_menu_structure_set">JSON-Menüstruktur in Gadgetbridge gesetzt</string>
+    <string name="zepp_os_watchface_the_ultima">The Ultima</string>
+    <string name="zepp_os_watchface_city_of_speed">City of Speed</string>
+    <string name="widget_screen">Widget-Bildschirm</string>
+    <string name="widget_screen_min_screens">Es müssen mindestens %1$s Widget-Bildschirme vorhanden sein</string>
+    <string name="widget_screen_no_free_slots_description">Das Gerät hat keine freien Plätze für Widget-Bildschirme (insgesamt: %1$s)</string>
+    <string name="huawei_trusleep_summary">Überwache deine Schlafqualität und dein Atemmuster in Echtzeit.
+\nAnalysiere dein Schlafmuster und diagnostiziere genau 6 Arten von Schlafproblemen.</string>
+    <string name="prefs_wena3_button_action_item_double">Doppelt Drücken</string>
+    <string name="prefs_wena3_day_start_hour_item">Der Tag beginnt um</string>
+    <string name="prefs_wena3_vibration_step_up">Schritt hoch</string>
+    <string name="prefs_wena3_vibration_step_down">Schritt runter</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Kann bei der korrekten Schlaferkennung helfen. Sofort sichtbar in der Ansicht der täglichen Aktivitäten.</string>
+    <string name="huawei_alarm_smart_description">Deaktiviere nicht das Kontrollkästchen für das intelligente Aufwecken.</string>
+    <string name="pref_force_options_summary">Einige Geräte behaupten fälschlicherweise, dass sie einige Optionen nicht unterstützen. Diese Einstellungen können verwendet werden, um sie trotzdem zu aktivieren.
+\nVERWENDUNG AUF EIGENE GEFAHR
+\nLese auf der Webseite</string>
+    <string name="pref_enable_call_reject_summary">Aktiviere das Abweisen von Anrufen vom Gerät</string>
+    <string name="pref_enable_call_accept_summary">Aktiviere die Annahme von Anrufen vom Gerät</string>
+    <string name="huawei_reparse_workout_data">Reparieren der Trainingsdaten</string>
+    <string name="huawei_alarm_event_description">Aktiviere nicht das Kontrollkästchen für das intelligente Aufwecken.</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Kann bei der korrekten Schlaferkennung helfen. Sofort sichtbar in der Ansicht der täglichen Aktivitäten.</string>
+    <string name="widget_screen_delete_confirm_title">Widget-Bildschirm löschen</string>
 </resources>
