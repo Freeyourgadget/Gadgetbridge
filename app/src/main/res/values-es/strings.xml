@@ -2716,4 +2716,5 @@
     <string name="pref_force_connection_type_ble">Bluetooth de baja energía</string>
     <string name="pref_force_connection_type_bt_classic">Bluetooth</string>
     <string name="pref_force_connection_type_description">Puedes intentar forzar el tipo de conexión en caso de que tu dispositivo no responda a Gadgetbridge</string>
+    <string name="flatDistance">Ruta llana</string>
 </resources>
