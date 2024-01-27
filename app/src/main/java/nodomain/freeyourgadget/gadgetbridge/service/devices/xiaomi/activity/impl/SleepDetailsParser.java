@@ -85,7 +85,10 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             final int count = buf.getShort();
 
             if (count > 0) {
-                final int firstRecordTime = buf.getInt();
+                // If version is less than 2 firstRecordTime is bedTime
+                if (fileId.getVersion() >= 2) {
+                    final int firstRecordTime = buf.getInt();
+                }
 
                 // Skip count samples - each sample is a u8
                 //   timestamp of each sample is firstRecordTime + (unit * index)
@@ -99,7 +102,10 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             final int count = buf.getShort();
 
             if (count > 0) {
-                final int firstRecordTime = buf.getInt();
+                // If version is less than 2 firstRecordTime is bedTime
+                if (fileId.getVersion() >= 2) {
+                    final int firstRecordTime = buf.getInt();
+                }
 
                 // Skip count samples - each sample is a u8
                 //   timestamp of each sample is firstRecordTime + (unit * index)
@@ -113,7 +119,10 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             final int count = buf.getShort();
 
             if (count > 0) {
-                final int firstRecordTime = buf.getInt();
+                // If version is less than 2 firstRecordTime is bedTime
+                if (fileId.getVersion() >= 2) {
+                    final int firstRecordTime = buf.getInt();
+                }
 
                 // Skip count samples - each sample is a float
                 //   timestamp of each sample is firstRecordTime + (unit * index)
