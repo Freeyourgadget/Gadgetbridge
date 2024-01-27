@@ -2719,4 +2719,9 @@
     <string name="pref_force_connection_type_title">Wymuś typ połączenia</string>
     <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
     <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
+    <string name="activity_info">Info o aktywności</string>
+    <string name="pref_force_connection_type_description">Możesz spróbować wymusić typ połączenia na wypadek, gdyby urządzenie nie odpowiedziało na Urządzenia na ciele</string>
+    <string name="pref_force_connection_type_auto">Automatycznie</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
 </resources>
