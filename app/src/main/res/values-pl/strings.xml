@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="application_name_generic">Urządzenia na ciele</string>
-    <string name="title_activity_controlcenter_generic">Urządzenia na ciele</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Odpluskwiaj</string>
     <string name="action_quit">Wyjdź</string>
@@ -105,7 +105,7 @@
     <string name="tap_connected_device_for_app_mananger">Kliknij połączone urządzenie, aby uruchomić menadżer aplikacji</string>
     <string name="tap_a_device_to_connect">Dotknij urządzenie aby połączyć</string>
     <string name="cannot_connect_bt_address_invalid_">Nie można połączyć. Nieprawidłowy adres Bluetooth\?</string>
-    <string name="gadgetbridge_running_generic">Urządzenia na ciele uruchomione</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge jest uruchomiony</string>
     <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
     <string name="installation_failed_">Instalacja nie powiodła się</string>
     <string name="installation_successful">Zainstalowano</string>
@@ -903,7 +903,7 @@
     <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
     <string name="controlcenter_set_alias">Ustaw własną nazwę (alias)</string>
     <string name="about_contributors">Współtwórcy</string>
-    <string name="about_activity_title_generic">O Urządzeniach na ciele</string>
+    <string name="about_activity_title_generic">Informacje o Gadgetbridge</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="backstroke">Styl grzbietowy</string>
     <string name="freestyle">Styl dowolny</string>
@@ -1600,9 +1600,9 @@
     <string name="pref_screen_vibration_patterns_summary">Skonfiguruj wzory wibracji dla różnych powiadomień</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
-    <string name="about_activity_title_banglejs_main">O Bangle.js Urządzeń na ciele</string>
-    <string name="application_name_banglejs_main">Bangle.js Urządzeń na ciele</string>
-    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Urządzeń na ciele</string>
+    <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js jest uruchomiony</string>
     <string name="about_activity_title_banglejs_nopebble">O Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1716,12 +1716,12 @@
     <string name="pref_title_banglejs_webview_url">Adres URL programu ładującego aplikacje</string>
     <string name="pref_summary_banglejs_webview_url">Jeśli chcesz mieć niestandardowy program ładujący aplikacje, umieść swój adres URL https://.../android.html tutaj. W przeciwnym razie pozostaw puste miejsce dla https://banglejs.com/apps</string>
     <string name="pref_summary_device_intents">Zezwalaj aplikacjom zegarkowym Bangle.js na wysyłanie intencji Androida i zezwalaj innym aplikacjom na Androida (jak Tasker) na wysyłanie danych do Bangle.js z intencją com.banglejs.uart.tx. Wymaga pozwolenia na wyświetlanie nad innymi aplikacjami, aby działać w tle.</string>
-    <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Urządzeń na ciele, z dodanym dostępem do Internetu.
+    <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
-\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Urządzenia na ciele poniżej.</string>
-    <string name="application_name_main_nightly">Urządzenia na ciele (Wczesna)</string>
-    <string name="title_activity_controlcenter_main_nightly">Urządzenia na ciele Wczesna</string>
-    <string name="about_activity_title_main_nightly">O Urządzenia na ciele Wczesna</string>
+\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">Informacje o Gadgetbridge Nightly</string>
     <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Wczesne Urządzenia na ciele. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Urządzenia na ciele lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
     <string name="gadgetbridge_running_main_nightly">Urządzenia na ciele (Wczesna) działa</string>
     <string name="application_name_main_nopebble">Urządzenia na ciele (Wczesna, bez dostawcy Pebble)</string>
@@ -1752,13 +1752,13 @@
     <string name="open_fw_installer_getting_files_text">Ponieważ nie możemy rozpowszechniać plików oprogramowania sprzętowego, będziesz musiał zdobyć je samodzielnie. Oznacza to, że będziesz musiał szukać plików w plikach apk, online, na forach, na Amazfitwatchfaces (dla urządzeń Miband/Amazfit) i tak dalej.</string>
     <string name="open_fw_installer_connect_minimum_one_device">Proszę podłączyć PRZYNAJMNIEJ JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_write_logfiles_not_available">Inicjalizacja logowania plików nie powiodła się, zapisywanie plików dziennika jest obecnie niedostępne. Uruchom ponownie aplikację, aby spróbować ponownie zainicjować pliki dziennika.</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Urządzenia na ciele (Wczesna)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Urządzenia na ciele (Wczesna)</string>
-    <string name="about_activity_title_banglejs_nightly">O Bangle.js Urządzenia na ciele (Wczesna)</string>
-    <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Urządzenia na ciele, z dodanym dostępem do Internetu.
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">O Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
-\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Urządzenia na ciele poniżej.</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js (Wczesna) działa</string>
+\nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js jest uruchomiony (Nightly)</string>
     <string name="pref_summary_notification_delay_calls">Opóźnienie przed wysłaniem powiadomień o połączeniach przychodzących do urządzenia, w sekundach.</string>
     <string name="world_clock_delete_confirm_description">Czy na pewno chcesz usunąć zegar światowy\?</string>
     <string name="prefs_heartrate_alert_experimental_title">Alarm tętna (eksperymentalny)</string>
