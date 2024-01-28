@@ -24,6 +24,8 @@ import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.media.session.PlaybackState;
 
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,7 +107,12 @@ public class MediaManager {
         }
     }
 
+    @Nullable
     public static MusicSpec extractMusicSpec(final MediaMetadata d) {
+        if (d == null) {
+            return null;
+        }
+
         final MusicSpec musicSpec = new MusicSpec();
 
         try {
@@ -128,7 +135,12 @@ public class MediaManager {
         return musicSpec;
     }
 
+    @Nullable
     public static MusicStateSpec extractMusicStateSpec(final PlaybackState s) {
+        if (s == null) {
+            return null;
+        }
+
         final MusicStateSpec stateSpec = new MusicStateSpec();
 
         try {
