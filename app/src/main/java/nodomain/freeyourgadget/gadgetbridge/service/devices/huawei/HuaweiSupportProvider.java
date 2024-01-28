@@ -400,7 +400,7 @@ public class HuaweiSupportProvider {
         try {
             createSecretKey();
             GetAuthRequest authReq = new GetAuthRequest(this, linkParamsReq);
-            if (getHuaweiType() == HuaweiDeviceType.BLE) {
+            if (getHuaweiType() == HuaweiDeviceType.BLE || getHuaweiType() == HuaweiDeviceType.AW) {
                 GetBondParamsRequest bondParamsReq = new GetBondParamsRequest(this);
                 GetBondRequest bondReq = new GetBondRequest(this);
                 authReq.nextRequest(bondParamsReq);
