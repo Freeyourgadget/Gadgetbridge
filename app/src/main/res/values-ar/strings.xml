@@ -2708,4 +2708,5 @@
     <string name="pref_force_connection_type_ble">بلوتوث إل إي</string>
     <string name="activity_info">معلومات النشاط</string>
     <string name="pref_force_connection_type_auto">تلقائي</string>
+    <string name="devicetype_sony_wi_sp600n">سوني WI-SP600N</string>
 </resources>
