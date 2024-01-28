@@ -2718,4 +2718,6 @@
     <string name="pref_force_connection_type_description">Puedes intentar forzar el tipo de conexión en caso de que tu dispositivo no responda a Gadgetbridge</string>
     <string name="flatDistance">Ruta llana</string>
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
+    <string name="heartrate_bpm_155">155 bpm</string>
+    <string name="heartrate_bpm_165">165 bpm</string>
 </resources>
