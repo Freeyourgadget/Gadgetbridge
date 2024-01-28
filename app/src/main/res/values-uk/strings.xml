@@ -2643,4 +2643,9 @@
     <string name="notification_channel_connection_status_name">Стан з\'єднання</string>
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
     <string name="prefs_active_noise_cancelling_transparency">Прозорість</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Занизький рівень заряду акумулятора пристрою</string>
+    <string name="do_not_disturb_lift_wrist_summary">Лише якщо ввімкнено активування піднесенням руки</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Пароль повинен складатися з 4 цифр, і містити лише цифри</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Повторно з\'єднатися лише з під\'єднаними пристроями, замість з\'єднання з усіма пристроями</string>
+    <string name="prefs_disconnect_notification_summary">Сповіщення на пристрої після від\'єднання від BT.</string>
 </resources>
