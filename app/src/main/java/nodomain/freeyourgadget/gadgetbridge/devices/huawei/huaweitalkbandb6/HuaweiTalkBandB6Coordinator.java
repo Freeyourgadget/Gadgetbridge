@@ -31,6 +31,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class HuaweiTalkBandB6Coordinator extends HuaweiBRCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiTalkBandB6Coordinator.class);
 
+    public HuaweiTalkBandB6Coordinator() {
+        super();
+        getHuaweiCoordinator().setTransactionCrypted(false);
+    }
+
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.HUAWEITALKBANDB6;
