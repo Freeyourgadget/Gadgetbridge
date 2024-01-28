@@ -36,6 +36,7 @@ public class HonorMagicWatch2Coordinator extends HuaweiBRCoordinator {
 
     public HonorMagicWatch2Coordinator() {
         super();
+        getHuaweiCoordinator().setTransactionCrypted(false);
     }
 
     @Override
