@@ -100,7 +100,7 @@ public class BondingUtil {
                             case BluetoothDevice.BOND_BONDED: {
                                 LOG.info("Bonded with " + device.getAddress());
                                 //noinspection StatementWithEmptyBody
-                                if (isLePebble(device) || !bondingInterface.getAttemptToConnect()) {
+                                if (isLePebble(device) || isPebble2(device) || !bondingInterface.getAttemptToConnect()) {
                                     // Do not initiate connection to LE Pebble and some others!
                                 } else {
                                     attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
@@ -294,6 +294,15 @@ public class BondingUtil {
     }
 
     /**
+     * Checks if device is Pebble 2
+     */
+    public static boolean isPebble2(BluetoothDevice device) {
+        return device.getType() == BluetoothDevice.DEVICE_TYPE_LE &&
+                device.getName().startsWith("Pebble ") &&
+                !device.getName().startsWith("Pebble Time LE ");
+    }
+
+    /**
      * Uses the CompanionDeviceManager bonding method
      */
     @RequiresApi(Build.VERSION_CODES.O)
@@ -379,9 +388,15 @@ public class BondingUtil {
 
         GB.toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.pairing_creating_bond_with, device.getName(), device.getAddress()), Toast.LENGTH_LONG, GB.INFO);
         toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_attempting_to_pair, macAddress), Toast.LENGTH_SHORT, GB.INFO);
-        if (GBApplication.getPrefs().getBoolean("enable_companiondevice_pairing", true) &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+        boolean companionPairingEnabled = GBApplication.getPrefs().getBoolean("enable_companiondevice_pairing", true) &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+
+        if (companionPairingEnabled && !isPebble2(device)) {
             companionDeviceManagerBond(bondingInterface, device, macAddress);
+        } else if (isPebble2(device)) {
+            // TODO: start companionDevicePairing after connecting to Pebble 2 but before writing to pairing trigger
+            attemptToFirstConnect(device);
         } else {
             bluetoothBond(bondingInterface, device);
         }
