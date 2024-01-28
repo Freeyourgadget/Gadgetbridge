@@ -37,6 +37,7 @@ public class HuaweiWatchGT2Coordinator extends HuaweiBRCoordinator {
 
     public HuaweiWatchGT2Coordinator() {
         super();
+        getHuaweiCoordinator().setTransactionCrypted(false);
     }
 
     @Override
