@@ -60,7 +60,7 @@ public class StressPacketParser extends OneBytePerSamplePacketParser {
                     gbSample.setUserId(userId);
                     gbSample.setTimestamp(currentSampleDate.getTime());
                     gbSample.setStress(rawSample);
-                    gbSample.setType(StressSample.Type.AUTOMATIC);
+                    gbSample.setTypeNum(StressSample.Type.AUTOMATIC.getNum());
                     samples.add(gbSample);
                 } else {
                     LOG.debug("Discard stress value as out of range: " + rawSample);

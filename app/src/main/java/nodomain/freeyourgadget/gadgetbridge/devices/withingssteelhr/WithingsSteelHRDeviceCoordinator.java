@@ -121,6 +121,11 @@ public class WithingsSteelHRDeviceCoordinator extends AbstractDeviceCoordinator 
     }
 
     @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return true;
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         return true;
     }

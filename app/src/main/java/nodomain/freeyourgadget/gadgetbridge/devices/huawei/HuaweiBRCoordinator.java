@@ -127,6 +127,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return true;
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         // TODO: only name is supported
         return true;

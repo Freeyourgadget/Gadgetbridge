@@ -45,6 +45,11 @@ public class XiaomiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             activityMonitoringPref.setVisible(false);
         }
 
+        final Preference hrAlertActivePref = handler.findPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD);
+        if (hrAlertActivePref != null) {
+            hrAlertActivePref.setVisible(false);
+        }
+
         populateOrHideListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
 
         hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_DISPLAY, Arrays.asList(

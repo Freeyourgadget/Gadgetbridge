@@ -177,6 +177,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HEARTRATE_MEASUREMENT_INTERVAL = "heartrate_measurement_interval";
     public static final String PREF_HEARTRATE_ACTIVITY_MONITORING = "heartrate_activity_monitoring";
     public static final String PREF_HEARTRATE_ALERT_ENABLED = "heartrate_alert_enabled";
+    public static final String PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD = "heartrate_alert_active_high_threshold";
     public static final String PREF_HEARTRATE_ALERT_HIGH_THRESHOLD = "heartrate_alert_threshold";
     public static final String PREF_HEARTRATE_ALERT_LOW_THRESHOLD = "heartrate_alert_low_threshold";
     public static final String PREF_HEARTRATE_STRESS_MONITORING = "heartrate_stress_monitoring";
@@ -262,6 +263,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_ANTILOST_ENABLED = "pref_antilost_enabled";
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
     public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";
+    public static final String PREF_HYDRATION_DND = "pref_hydration_dnd";
+    public static final String PREF_HYDRATION_DND_START = "pref_hydration_dnd_start";
+    public static final String PREF_HYDRATION_DND_END = "pref_hydration_dnd_end";
     public static final String PREF_AMPM_ENABLED = "pref_ampm_enabled";
 
     public static final String PREF_SONYSWR12_LOW_VIBRATION = "vibration_preference";

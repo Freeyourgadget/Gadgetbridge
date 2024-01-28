@@ -108,7 +108,9 @@ public class BleNamesResolver {
 		mServices.put("16187f00-0000-1000-8000-00807f9b34fb", "(Propr: Xiaomi Wear Service - Mi Smart Watch 4C/Redmi Band)");
 		mServices.put("1314f000-1000-9000-7000-301291e21220", "(Propr: Xiaomi Wear Service - Mi Watch/Mi Watch Color/Mi Watch Color Sport)");
 		mServices.put("7495fe00-a7f3-424b-92dd-4a006a3aef56", "(Propr: Xiaomi Wear Service - Mi Watch CN)");
-		
+		//mServices.put("0000fff0-0000-1000-8000-00805f9b34fb", "(Propr: Nothing CMF Command");
+		//mServices.put("02f00000-0000-0000-0000-00000000ffe0", "(Propr: Nothing CMF Data");
+
 		mCharacteristics.put("00002a43-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID");
 		mCharacteristics.put("00002a42-0000-1000-8000-00805f9b34fb", "Alert AlertCategory ID Bit Mask");
 		mCharacteristics.put("00002a06-0000-1000-8000-00805f9b34fb", "Alert Level");
@@ -193,6 +195,11 @@ public class BleNamesResolver {
 		
 		mCharacteristics.put("14702856-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Control)");
 		mCharacteristics.put("14702853-620a-3973-7c78-9cfff0876abd", "(Propr: HPLUS Measurements)");
+		//mCharacteristics.put("0000fff1-0000-1000-8000-00805f9b34fb", "(Propr: Nothing CMF Command Read");
+		//mCharacteristics.put("0000fff2-0000-1000-8000-00805f9b34fb", "(Propr: Nothing CMF Command Write");
+		//mCharacteristics.put("02f00000-0000-0000-0000-00000000ffe1", "(Propr: Nothing CMF Data Write");
+		//mCharacteristics.put("02f00000-0000-0000-0000-00000000ffe2", "(Propr: Nothing CMF Data Read");
+
 		mValueFormats.put(Integer.valueOf(52), "32bit float");
 		mValueFormats.put(Integer.valueOf(50), "16bit float");
 		mValueFormats.put(Integer.valueOf(34), "16bit signed int");

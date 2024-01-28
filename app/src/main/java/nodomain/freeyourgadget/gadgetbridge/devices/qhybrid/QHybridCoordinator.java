@@ -157,6 +157,11 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return isHybridHR();
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         return isHybridHR();
     }

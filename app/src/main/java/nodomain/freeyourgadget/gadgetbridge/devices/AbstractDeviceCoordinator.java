@@ -437,6 +437,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public int getAlarmTitleLimit(GBDevice device) {
+        return -1;
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         return false;
     }

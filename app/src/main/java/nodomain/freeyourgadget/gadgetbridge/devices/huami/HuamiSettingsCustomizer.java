@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -51,6 +52,11 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+        final Preference hrAlertActivePref = handler.findPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD);
+        if (hrAlertActivePref != null) {
+            hrAlertActivePref.setVisible(false);
+        }
+
         // Setup the vibration patterns for all supported notification types
         for (HuamiVibrationPatternNotificationType notificationType : HuamiVibrationPatternNotificationType.values()) {
             final String typeKey = notificationType.name().toLowerCase(Locale.ROOT);

@@ -127,6 +127,11 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return true;
+    }
+
+    @Override
     public boolean supportsAlarmDescription(GBDevice device) {
         // TODO: only name is supported
         return true;

@@ -22,16 +22,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public abstract class AbstractSpo2Sample extends AbstractTimeSample implements Spo2Sample {
-    public abstract int getTypeNum();
-    public abstract void setTypeNum(int num);
+    public int getTypeNum() {
+        return Spo2Sample.Type.UNKNOWN.getNum();
+    }
 
     @Override
     public Type getType() {
         return Type.fromNum(getTypeNum());
-    }
-
-    public void setType(final Type type) {
-        setTypeNum(type.getNum());
     }
 
     @NonNull

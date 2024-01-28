@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900Devi
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.divoom.PixooCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.femometer.FemometerVinca2DeviceCoordinator;
@@ -313,6 +314,7 @@ public enum DeviceType {
     NOTHING_EAR1(Ear1Coordinator.class),
     NOTHING_EAR2(Ear2Coordinator.class),
     NOTHING_EAR_STICK(EarStickCoordinator.class),
+    NOTHING_CMF_WATCH_PRO(CmfWatchProCoordinator.class),
     GALAXY_BUDS_PRO(GalaxyBudsProDeviceCoordinator.class),
     GALAXY_BUDS_LIVE(GalaxyBudsLiveDeviceCoordinator.class),
     GALAXY_BUDS(GalaxyBudsDeviceCoordinator.class),

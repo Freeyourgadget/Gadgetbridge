@@ -426,6 +426,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_ANTILOST_ENABLED);
         addPreferenceHandlerFor(PREF_HYDRATION_SWITCH);
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND_START);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND_END);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
         addPreferenceHandlerFor(PREF_SOUNDS);
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);

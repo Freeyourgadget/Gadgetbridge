@@ -85,7 +85,7 @@ public class FetchStressManualOperation extends AbstractRepeatingFetchOperation 
 
             final HuamiStressSample sample = new HuamiStressSample();
             sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setType(StressSample.Type.MANUAL);
+            sample.setTypeNum(StressSample.Type.MANUAL.getNum());
             sample.setStress(stress);
             samples.add(sample);
         }

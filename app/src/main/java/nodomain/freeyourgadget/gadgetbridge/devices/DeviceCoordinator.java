@@ -344,6 +344,18 @@ public interface DeviceCoordinator {
     boolean supportsAlarmSnoozing();
 
     /**
+     * Returns true if this device/coordinator supports alarm titles
+     * @return
+     */
+    boolean supportsAlarmTitle(GBDevice device);
+
+    /**
+     * Returns the character limit for the alarm title, negative if no limit.
+     * @return
+     */
+    int getAlarmTitleLimit(GBDevice device);
+
+    /**
      * Returns true if this device/coordinator supports alarm descriptions
      * @return
      */

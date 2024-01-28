@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(68, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(70, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -75,6 +75,13 @@ public class GBDaoGenerator {
         addXiaomiSleepStageSamples(schema, user, device);
         addXiaomiManualSamples(schema, user, device);
         addXiaomiDailySummarySamples(schema, user, device);
+        addCmfActivitySample(schema, user, device);
+        addCmfStressSample(schema, user, device);
+        addCmfSpo2Sample(schema, user, device);
+        addCmfSleepSessionSample(schema, user, device);
+        addCmfSleepStageSample(schema, user, device);
+        addCmfHeartRateSample(schema, user, device);
+        addCmfWorkoutGpsSample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -275,7 +282,7 @@ public class GBDaoGenerator {
     private static Entity addHuamiStressSample(Schema schema, Entity user, Entity device) {
         Entity stressSample = addEntity(schema, "HuamiStressSample");
         addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
-        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetter(OVERRIDE);
         stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
         return stressSample;
     }
@@ -283,7 +290,7 @@ public class GBDaoGenerator {
     private static Entity addHuamiSpo2Sample(Schema schema, Entity user, Entity device) {
         Entity spo2sample = addEntity(schema, "HuamiSpo2Sample");
         addCommonTimeSampleProperties("AbstractSpo2Sample", spo2sample, user, device);
-        spo2sample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        spo2sample.addIntProperty("typeNum").notNull().codeBeforeGetter(OVERRIDE);
         spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
         return spo2sample;
     }
@@ -404,6 +411,64 @@ public class GBDaoGenerator {
         sample.addIntProperty("vitalityIncreaseModerate");
         sample.addIntProperty("vitalityIncreaseHigh");
         sample.addIntProperty("vitalityCurrent");
+        return sample;
+    }
+
+    private static Entity addCmfActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "CmfActivitySample");
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.implementsSerializable();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("distance");
+        activitySample.addIntProperty("calories");
+        return activitySample;
+    }
+
+    private static Entity addCmfStressSample(Schema schema, Entity user, Entity device) {
+        Entity stressSample = addEntity(schema, "CmfStressSample");
+        addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
+        stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
+        return stressSample;
+    }
+
+    private static Entity addCmfSpo2Sample(Schema schema, Entity user, Entity device) {
+        Entity spo2sample = addEntity(schema, "CmfSpo2Sample");
+        addCommonTimeSampleProperties("AbstractSpo2Sample", spo2sample, user, device);
+        spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
+        return spo2sample;
+    }
+
+    private static Entity addCmfSleepSessionSample(Schema schema, Entity user, Entity device) {
+        Entity sleepSessionSample = addEntity(schema, "CmfSleepSessionSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sleepSessionSample, user, device);
+        sleepSessionSample.addLongProperty("wakeupTime");
+        sleepSessionSample.addByteArrayProperty("metadata");
+        return sleepSessionSample;
+    }
+
+    private static Entity addCmfSleepStageSample(Schema schema, Entity user, Entity device) {
+        Entity sleepStageSample = addEntity(schema, "CmfSleepStageSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sleepStageSample, user, device);
+        sleepStageSample.addIntProperty("duration").notNull();
+        sleepStageSample.addIntProperty("stage").notNull();
+        return sleepStageSample;
+    }
+
+    private static Entity addCmfHeartRateSample(Schema schema, Entity user, Entity device) {
+        Entity heartRateSample = addEntity(schema, "CmfHeartRateSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", heartRateSample, user, device);
+        heartRateSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return heartRateSample;
+    }
+
+    private static Entity addCmfWorkoutGpsSample(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "CmfWorkoutGpsSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sample, user, device);
+        sample.addIntProperty("latitude");
+        sample.addIntProperty("longitude");
         return sample;
     }
 
@@ -981,7 +1046,7 @@ public class GBDaoGenerator {
     private static Entity addWena3StressSample(Schema schema, Entity user, Entity device) {
         Entity stressSample = addEntity(schema, "Wena3StressSample");
         addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
-        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetter(OVERRIDE);
         stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
         return stressSample;
     }

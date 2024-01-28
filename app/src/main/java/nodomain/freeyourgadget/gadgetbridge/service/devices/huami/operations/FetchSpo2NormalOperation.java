@@ -90,7 +90,7 @@ public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
 
             final HuamiSpo2Sample sample = new HuamiSpo2Sample();
             sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setType(autoMeasurement ? Spo2Sample.Type.AUTOMATIC : Spo2Sample.Type.MANUAL);
+            sample.setTypeNum((autoMeasurement ? Spo2Sample.Type.AUTOMATIC : Spo2Sample.Type.MANUAL).getNum());
             sample.setSpo2(spo2);
             samples.add(sample);
         }

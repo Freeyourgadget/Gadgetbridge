@@ -181,11 +181,6 @@ public class HuaweiSpo2SampleProvider extends AbstractTimeSampleProvider<HuaweiS
         }
 
         @Override
-        public void setTypeNum(int num) {
-            this.typeNum = num;
-        }
-
-        @Override
         public void setTimestamp(long timestamp) {
             this.timestamp = timestamp;
         }

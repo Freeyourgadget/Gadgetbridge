@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -132,10 +133,15 @@ public class AlarmDetails extends AbstractGBActivity {
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
         cbSnooze.setVisibility(snoozeVisibility);
 
-        int descriptionVisibility = supportsDescription() ? View.VISIBLE : View.GONE;
-        title.setVisibility(descriptionVisibility);
+        title.setVisibility(supportsTitle() ? View.VISIBLE : View.GONE);
         title.setText(alarm.getTitle());
-        description.setVisibility(descriptionVisibility);
+
+        final int titleLimit = getAlarmTitleLimit();
+        if (titleLimit > 0) {
+            title.setFilters(new InputFilter[]{new InputFilter.LengthFilter(titleLimit)});
+        }
+
+        description.setVisibility(supportsDescription() ? View.VISIBLE : View.GONE);
         description.setText(alarm.getDescription());
 
         cbMonday.setChecked(alarm.getRepetition(Alarm.ALARM_MON));
@@ -145,7 +151,6 @@ public class AlarmDetails extends AbstractGBActivity {
         cbFriday.setChecked(alarm.getRepetition(Alarm.ALARM_FRI));
         cbSaturday.setChecked(alarm.getRepetition(Alarm.ALARM_SAT));
         cbSunday.setChecked(alarm.getRepetition(Alarm.ALARM_SUN));
-
     }
 
     private boolean supportsSmartWakeup() {
@@ -154,6 +159,22 @@ public class AlarmDetails extends AbstractGBActivity {
             return coordinator.supportsSmartWakeup(device);
         }
         return false;
+    }
+
+    private boolean supportsTitle() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.supportsAlarmTitle(device);
+        }
+        return false;
+    }
+
+    private int getAlarmTitleLimit() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.getAlarmTitleLimit(device);
+        }
+        return -1;
     }
 
     private boolean supportsDescription() {
