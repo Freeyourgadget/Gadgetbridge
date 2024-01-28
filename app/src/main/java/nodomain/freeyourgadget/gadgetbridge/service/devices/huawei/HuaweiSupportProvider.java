@@ -82,6 +82,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherExtendedSupportRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherForecastRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherStartRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSunMoonSupportRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSupportRequest;
@@ -1656,6 +1657,15 @@ public class HuaweiSupportProvider {
                         weatherSettings,
                         weatherSpec
                 );
+
+                if (getHuaweiCoordinator().supportsWeatherForecasts()) {
+                    SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(
+                            this,
+                            weatherSpec
+                    );
+                    sendWeatherCurrentRequest.nextRequest(sendWeatherForecastRequest);
+                }
+
                 sendWeatherCurrentRequest.doPerform();
             } catch (IOException e) {
                 // TODO: Use translatable string
@@ -1680,34 +1690,31 @@ public class HuaweiSupportProvider {
             };
 
             SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this);
-            weatherStartRequest.setFinalizeReq(requestCallback);
             Request lastRequest = weatherStartRequest;
 
             if (getHuaweiCoordinator().supportsWeatherUnit()) {
                 SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
-                weatherUnitRequest.setFinalizeReq(requestCallback);
                 lastRequest.nextRequest(weatherUnitRequest);
                 lastRequest = weatherUnitRequest;
             }
 
             SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
-            weatherSupportRequest.setFinalizeReq(requestCallback);
             lastRequest.nextRequest(weatherSupportRequest);
             lastRequest = weatherSupportRequest;
 
             if (getHuaweiCoordinator().supportsWeatherExtended()) {
                 SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
-                weatherExtendedSupportRequest.setFinalizeReq(requestCallback);
                 lastRequest.nextRequest(weatherExtendedSupportRequest);
                 lastRequest = weatherExtendedSupportRequest;
             }
 
             if (getHuaweiCoordinator().supportsWeatherMoonRiseSet()) {
                 SendWeatherSunMoonSupportRequest weatherSunMoonSupportRequest = new SendWeatherSunMoonSupportRequest(this, weatherSettings);
-                weatherSunMoonSupportRequest.setFinalizeReq(requestCallback);
                 lastRequest.nextRequest(weatherSunMoonSupportRequest);
-//                lastRequest = weatherSunMoonSupportRequest;
+                lastRequest = weatherSunMoonSupportRequest;
             }
+
+            lastRequest.setFinalizeReq(requestCallback);
 
             try {
                 weatherStartRequest.doPerform();

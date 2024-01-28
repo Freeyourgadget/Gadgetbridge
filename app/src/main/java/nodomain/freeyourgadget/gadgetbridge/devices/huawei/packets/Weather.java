@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
@@ -199,6 +201,78 @@ public class Weather {
                 this.sourceSupported = (this.supportedBitmap & 0x02) != 0;
                 this.weatherIconSupported = (this.supportedBitmap & 0x04) != 0;
             }
+        }
+    }
+
+    public static class WeatherForecastDataRequest extends HuaweiPacket {
+        public static final byte id = 0x08;
+
+        public static class TimeData {
+            public int timestamp;
+            public byte icon;
+            public byte temperature;
+        }
+
+        public static class DayData {
+            public int timestamp;
+            public byte icon;
+            public byte highTemperature;
+            public byte lowTemperature;
+            public int sunriseTime;
+            public int sunsetTime;
+            public int moonRiseTime;
+            public int moonSetTime;
+            public byte moonPhase; // TODO: probably enum
+        }
+
+        public WeatherForecastDataRequest(
+                ParamsProvider paramsProvider,
+                List<TimeData> timeDataList,
+                List<DayData> dayDataList
+        ) {
+            super(paramsProvider);
+
+            this.serviceId = Weather.id;
+            this.commandId = id;
+            this.tlv = new HuaweiTLV();
+
+            if (timeDataList != null && !timeDataList.isEmpty()) {
+                HuaweiTLV timeDataTlv = new HuaweiTLV();
+                for (TimeData timeData : timeDataList) {
+                    // TODO: NULLs?
+                    timeDataTlv.put(0x82, new HuaweiTLV()
+                            .put(0x03, timeData.timestamp)
+                            .put(0x04, timeData.icon)
+                            .put(0x05, timeData.temperature)
+                    );
+                }
+                this.tlv.put(0x81, timeDataTlv);
+            }
+//            this.tlv.put(0x81);
+
+            if (dayDataList != null && !dayDataList.isEmpty()) {
+                HuaweiTLV dayDataTlv = new HuaweiTLV();
+                for (DayData dayData : dayDataList) {
+                    // TODO: NULLs?
+                    dayDataTlv.put(0x91, new HuaweiTLV()
+                                    .put(0x12, dayData.timestamp)
+                                    .put(0x13, dayData.icon)
+                                    .put(0x14, dayData.highTemperature)
+                                    .put(0x15, dayData.lowTemperature)
+                                    .put(0x16, dayData.sunriseTime)
+                                    .put(0x17, dayData.sunsetTime)
+                                    .put(0x1a, dayData.moonRiseTime)
+                                    .put(0x1b, dayData.moonSetTime)
+                                    .put(0x1e, dayData.moonPhase)
+                    );
+                }
+                this.tlv.put(0x90, dayDataTlv);
+            }
+//            this.tlv.put(0x90);
+
+            this.isEncrypted = true;
+            this.isSliced = true;
+            this.complete = true;
         }
     }
 
