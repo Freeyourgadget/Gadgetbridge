@@ -23,9 +23,9 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7.MiBand7FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 
-public class MiBand7Support extends Huami2021Support {
+public class MiBand7Support extends ZeppOsSupport {
     @Override
     public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
         return new MiBand7FWHelper(uri, context);

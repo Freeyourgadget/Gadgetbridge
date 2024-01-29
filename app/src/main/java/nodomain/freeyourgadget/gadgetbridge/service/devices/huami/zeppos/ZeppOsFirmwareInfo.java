@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,12 +23,10 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
@@ -39,19 +37,22 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.UIHHContainer;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 
-public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021FirmwareInfo.class);
+public abstract class ZeppOsFirmwareInfo extends AbstractHuamiFirmwareInfo {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFirmwareInfo.class);
 
     private final String preComputedVersion;
     private GBDeviceApp gbDeviceApp;
 
-    public Huami2021FirmwareInfo(final byte[] bytes) {
+    public ZeppOsFirmwareInfo(final byte[] bytes) {
         super(bytes);
         this.preComputedVersion = preComputeVersion();
     }
@@ -333,7 +334,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         return null;
     }
 
-    public Huami2021FirmwareInfo repackFirmwareInUIHH() throws IOException {
+    public ZeppOsFirmwareInfo repackFirmwareInUIHH() throws IOException {
         if (!firmwareType.equals(HuamiFirmwareType.FIRMWARE)) {
             throw new IllegalStateException("Can only repack FIRMWARE");
         }
@@ -341,7 +342,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         final UIHHContainer uihh = packFirmwareInUIHH(getBytes());
 
         try {
-            final Constructor<? extends Huami2021FirmwareInfo> constructor = this.getClass().getConstructor(byte[].class);
+            final Constructor<? extends ZeppOsFirmwareInfo> constructor = this.getClass().getConstructor(byte[].class);
             return constructor.newInstance((Object) uihh.toRawBytes());
         } catch (final Exception e) {
             throw new IOException("Failed to construct new " + getClass().getName(), e);

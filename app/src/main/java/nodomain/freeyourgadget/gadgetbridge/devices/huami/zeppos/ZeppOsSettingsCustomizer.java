@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.hidePrefIfNoneVisible;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils.populateOrHideListPreference;
@@ -44,15 +44,17 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021SettingsCustomizer.class);
+public class ZeppOsSettingsCustomizer extends HuamiSettingsCustomizer {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsSettingsCustomizer.class);
 
-    public Huami2021SettingsCustomizer(final GBDevice device, final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes) {
+    public ZeppOsSettingsCustomizer(final GBDevice device, final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes) {
         super(device, vibrationPatternNotificationTypes);
     }
 
@@ -438,18 +440,18 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         DeviceSettingsUtils.enforceMinMax((EditTextPreference) pref, minValue, maxValue);
     }
 
-    public static final Creator<Huami2021SettingsCustomizer> CREATOR = new Creator<Huami2021SettingsCustomizer>() {
+    public static final Creator<ZeppOsSettingsCustomizer> CREATOR = new Creator<ZeppOsSettingsCustomizer>() {
         @Override
-        public Huami2021SettingsCustomizer createFromParcel(final Parcel in) {
-            final GBDevice device = in.readParcelable(Huami2021SettingsCustomizer.class.getClassLoader());
+        public ZeppOsSettingsCustomizer createFromParcel(final Parcel in) {
+            final GBDevice device = in.readParcelable(ZeppOsSettingsCustomizer.class.getClassLoader());
             final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes = new ArrayList<>();
             in.readList(vibrationPatternNotificationTypes, HuamiVibrationPatternNotificationType.class.getClassLoader());
-            return new Huami2021SettingsCustomizer(device, vibrationPatternNotificationTypes);
+            return new ZeppOsSettingsCustomizer(device, vibrationPatternNotificationTypes);
         }
 
         @Override
-        public Huami2021SettingsCustomizer[] newArray(final int size) {
-            return new Huami2021SettingsCustomizer[size];
+        public ZeppOsSettingsCustomizer[] newArray(final int size) {
+            return new ZeppOsSettingsCustomizer[size];
         }
     };
 }

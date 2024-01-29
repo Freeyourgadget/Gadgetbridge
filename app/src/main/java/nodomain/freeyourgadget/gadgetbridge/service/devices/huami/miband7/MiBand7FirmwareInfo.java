@@ -16,9 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,9 +25,9 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsFirmwareInfo;
 
-public class MiBand7FirmwareInfo extends Huami2021FirmwareInfo {
+public class MiBand7FirmwareInfo extends ZeppOsFirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
         // firmware
         put(26036, "1.20.3.1");

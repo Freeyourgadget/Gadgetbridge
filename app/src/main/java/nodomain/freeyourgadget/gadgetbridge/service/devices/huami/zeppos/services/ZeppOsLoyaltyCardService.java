@@ -31,7 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFor
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -57,7 +57,7 @@ public class ZeppOsLoyaltyCardService extends AbstractZeppOsService {
 
     public static final String PREF_VERSION = "zepp_os_loyalty_cards_version";
 
-    public ZeppOsLoyaltyCardService(final Huami2021Support support) {
+    public ZeppOsLoyaltyCardService(final ZeppOsSupport support) {
         super(support, false);
     }
 

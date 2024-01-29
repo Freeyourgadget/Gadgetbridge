@@ -23,9 +23,9 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband7.AmazfitBand7FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 
-public class AmazfitBand7Support extends Huami2021Support {
+public class AmazfitBand7Support extends ZeppOsSupport {
     @Override
     public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
         return new AmazfitBand7FWHelper(uri, context);

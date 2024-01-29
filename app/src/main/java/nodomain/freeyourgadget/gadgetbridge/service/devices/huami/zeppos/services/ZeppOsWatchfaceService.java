@@ -37,11 +37,10 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -111,7 +110,7 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
 
     final List<GBDeviceApp> watchfaces = new ArrayList<>();
 
-    public ZeppOsWatchfaceService(final Huami2021Support support) {
+    public ZeppOsWatchfaceService(final ZeppOsSupport support) {
         super(support, true);
     }
 

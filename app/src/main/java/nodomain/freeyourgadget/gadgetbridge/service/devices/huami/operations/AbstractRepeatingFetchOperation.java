@@ -82,7 +82,7 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
 
         if (!success) {
             // We need to explicitly ack this, or the next operation will fail fetch will become stuck
-            sendAck2021(true);
+            sendAckZeppOs(true);
             super.handleActivityFetchFinish(false);
             return false;
         }
@@ -112,7 +112,7 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
 
             try {
                 final boolean keepActivityDataOnDevice = HuamiCoordinator.getKeepActivityDataOnDevice(getDevice().getAddress());
-                sendAck2021(keepActivityDataOnDevice);
+                sendAckZeppOs(keepActivityDataOnDevice);
                 startFetching();
                 return true;
             } catch (final IOException ex) {

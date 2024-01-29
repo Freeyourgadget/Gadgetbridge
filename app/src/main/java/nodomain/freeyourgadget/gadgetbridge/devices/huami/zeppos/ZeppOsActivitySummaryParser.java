@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
 
@@ -26,19 +26,20 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.proto.HuamiProtos;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021ActivityDetailsParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021WorkoutTrackActivityType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsActivityDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsActivityType;
 
-public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021ActivitySummaryParser.class);
+public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsActivitySummaryParser.class);
 
     @Override
     public AbstractHuamiActivityDetailsParser getDetailsParser(final BaseActivitySummary summary) {
-        return new Huami2021ActivityDetailsParser(summary);
+        return new ZeppOsActivityDetailsParser(summary);
     }
 
     @Override
@@ -59,12 +60,12 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
         }
 
         if (summaryProto.hasType()) {
-            final Huami2021WorkoutTrackActivityType workoutTrackActivityType = Huami2021WorkoutTrackActivityType
+            final ZeppOsActivityType activityType = ZeppOsActivityType
                     .fromCode((byte) summaryProto.getType().getType());
 
             final int activityKind;
-            if (workoutTrackActivityType != null) {
-                activityKind = workoutTrackActivityType.toActivityKind();
+            if (activityType != null) {
+                activityKind = activityType.toActivityKind();
             } else {
                 LOG.warn("Unknown workout activity type code {}", String.format("0x%X", summaryProto.getType().getType()));
                 activityKind = ActivityKind.TYPE_UNKNOWN;

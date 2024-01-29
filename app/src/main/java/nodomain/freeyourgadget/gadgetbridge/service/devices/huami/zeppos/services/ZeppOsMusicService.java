@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 
@@ -44,7 +44,7 @@ public class ZeppOsMusicService extends AbstractZeppOsService {
     private static final byte BUTTON_VOLUME_UP = 0x05;
     private static final byte BUTTON_VOLUME_DOWN = 0x06;
 
-    public ZeppOsMusicService(final Huami2021Support support) {
+    public ZeppOsMusicService(final ZeppOsSupport support) {
         super(support, false);
     }
 

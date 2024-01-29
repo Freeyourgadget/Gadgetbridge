@@ -27,11 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 
 public class ZeppOsAppsService extends AbstractZeppOsService {
@@ -54,7 +52,7 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
 
     private final List<GBDeviceApp> apps = new ArrayList<>();
 
-    public ZeppOsAppsService(final Huami2021Support support) {
+    public ZeppOsAppsService(final ZeppOsSupport support) {
         super(support, false);
     }
 

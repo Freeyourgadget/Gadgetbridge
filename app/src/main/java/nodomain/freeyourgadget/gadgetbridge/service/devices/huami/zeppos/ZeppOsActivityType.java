@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 /**
  * The workout types, used to start / when workout tracking starts on the band.
  */
-public enum Huami2021WorkoutTrackActivityType {
+public enum ZeppOsActivityType {
     AerobicCombo(0x33),
     Aerobics(0x6d),
     AirWalker(0x90),
@@ -147,11 +147,11 @@ public enum Huami2021WorkoutTrackActivityType {
     Zumba(0x4d),
     ;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021WorkoutTrackActivityType.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsActivityType.class);
 
     private final byte code;
 
-    Huami2021WorkoutTrackActivityType(final int code) {
+    ZeppOsActivityType(final int code) {
         this.code = (byte) code;
     }
 
@@ -210,8 +210,8 @@ public enum Huami2021WorkoutTrackActivityType {
         return ActivityKind.TYPE_UNKNOWN;
     }
 
-    public static Huami2021WorkoutTrackActivityType fromCode(final byte code) {
-        for (final Huami2021WorkoutTrackActivityType type : values()) {
+    public static ZeppOsActivityType fromCode(final byte code) {
+        for (final ZeppOsActivityType type : values()) {
             if (type.getCode() == code) {
                 return type;
             }

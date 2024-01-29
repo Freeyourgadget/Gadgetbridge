@@ -24,14 +24,14 @@ import androidx.annotation.NonNull;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbalance.AmazfitBalanceSupport;
 
-public class AmazfitBalanceCoordinator extends Huami2021Coordinator {
+public class AmazfitBalanceCoordinator extends ZeppOsCoordinator {
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
@@ -49,7 +49,7 @@ public class AmazfitBalanceCoordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
         return new AmazfitBalanceFWInstallHandler(uri, context);
     }
 

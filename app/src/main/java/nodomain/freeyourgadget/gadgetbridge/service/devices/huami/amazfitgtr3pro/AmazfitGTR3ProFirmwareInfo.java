@@ -28,9 +28,9 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsFirmwareInfo;
 
-public class AmazfitGTR3ProFirmwareInfo extends Huami2021FirmwareInfo {
+public class AmazfitGTR3ProFirmwareInfo extends ZeppOsFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR3ProFirmwareInfo.class);
 
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{

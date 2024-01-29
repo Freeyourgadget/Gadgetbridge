@@ -24,12 +24,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts3.AmazfitGTS3FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 
-public class AmazfitGTS3Support extends Huami2021Support {
+public class AmazfitGTS3Support extends ZeppOsSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTS3Support.class);
 
     @Override

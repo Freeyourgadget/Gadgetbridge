@@ -25,12 +25,12 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileTransferService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<Huami2021Support>
+public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<ZeppOsSupport>
         implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsGpxRouteUploadOperation.class);
 
@@ -39,7 +39,7 @@ public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<Huami20
 
     private final ZeppOsFileTransferService fileTransferService;
 
-    public ZeppOsGpxRouteUploadOperation(final Huami2021Support support,
+    public ZeppOsGpxRouteUploadOperation(final ZeppOsSupport support,
                                          final ZeppOsGpxRouteFile file,
                                          final ZeppOsFileTransferService fileTransferService) {
         super(support);

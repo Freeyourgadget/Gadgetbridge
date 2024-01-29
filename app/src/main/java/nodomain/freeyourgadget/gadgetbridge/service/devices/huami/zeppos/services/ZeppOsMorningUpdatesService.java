@@ -32,9 +32,8 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -65,7 +64,7 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
          put((byte) 0x0a, "cycle_tracking");
     }};
 
-    public ZeppOsMorningUpdatesService(Huami2021Support support) {
+    public ZeppOsMorningUpdatesService(ZeppOsSupport support) {
         super(support, false);
     }
 

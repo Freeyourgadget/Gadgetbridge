@@ -28,14 +28,14 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation2021.class);
 
-    public UpdateFirmwareOperation2021(final Uri uri, final Huami2021Support support) {
+    public UpdateFirmwareOperation2021(final Uri uri, final ZeppOsSupport support) {
         super(uri, support);
     }
 
@@ -62,8 +62,8 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     }
 
     @Override
-    public Huami2021Support getSupport() {
-        return (Huami2021Support) super.getSupport();
+    public ZeppOsSupport getSupport() {
+        return (ZeppOsSupport) super.getSupport();
     }
 
     @Override

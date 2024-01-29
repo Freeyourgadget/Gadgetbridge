@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -46,7 +46,7 @@ public class ZeppOsFtpServerService extends AbstractZeppOsService {
 
     private Callback mCallback = null;
 
-    public ZeppOsFtpServerService(final Huami2021Support support) {
+    public ZeppOsFtpServerService(final ZeppOsSupport support) {
         super(support, true);
     }
 

@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,13 +36,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
-public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFWInstallHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractHuami2021FWInstallHandler.class);
+public abstract class AbstractZeppOsFwInstallHandler extends AbstractMiBandFWInstallHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractZeppOsFwInstallHandler.class);
 
-    public AbstractHuami2021FWInstallHandler(final Uri uri, final Context context) {
+    public AbstractZeppOsFwInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }
 
@@ -51,8 +51,8 @@ public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFW
         final AbstractHuamiFirmwareInfo firmwareInfo = getHelper().getFirmwareInfo();
         final boolean shouldCache = firmwareInfo.getFirmwareType().isApp() || firmwareInfo.getFirmwareType().isWatchface();
         if (shouldCache) {
-            if (firmwareInfo instanceof Huami2021FirmwareInfo) {
-                saveToCache((Huami2021FirmwareInfo) firmwareInfo, device);
+            if (firmwareInfo instanceof ZeppOsFirmwareInfo) {
+                saveToCache((ZeppOsFirmwareInfo) firmwareInfo, device);
             } else {
                 LOG.warn("firmwareInfo is {} - this should never happen", firmwareInfo.getClass());
             }
@@ -70,7 +70,7 @@ public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFW
         return (HuamiFWHelper) helper;
     }
 
-    private void saveToCache(final Huami2021FirmwareInfo firmwareInfo, final GBDevice device) {
+    private void saveToCache(final ZeppOsFirmwareInfo firmwareInfo, final GBDevice device) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final File appCacheDir;

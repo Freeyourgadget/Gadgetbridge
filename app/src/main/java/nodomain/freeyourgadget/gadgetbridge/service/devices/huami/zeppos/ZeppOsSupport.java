@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.*;
@@ -78,7 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -105,9 +105,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiPhoneGpsStatus;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsGpxRouteUploadOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
@@ -139,8 +143,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
-public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021Support.class);
+public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferService.Callback {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsSupport.class);
 
     // Tracks whether realtime HR monitoring is already started, so we can just
     // send CONTINUE commands
@@ -203,11 +207,11 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         put(musicService.getEndpoint(), musicService);
     }};
 
-    public Huami2021Support() {
+    public ZeppOsSupport() {
         this(LOG);
     }
 
-    public Huami2021Support(final Logger logger) {
+    public ZeppOsSupport(final Logger logger) {
         super(logger);
     }
 
@@ -343,7 +347,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support sendCalendarEvents(final TransactionBuilder builder) {
+    protected ZeppOsSupport sendCalendarEvents(final TransactionBuilder builder) {
         // We have native calendar sync
         CalendarReceiver.forceSync();
         return this;
@@ -399,7 +403,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support requestBatteryInfo(TransactionBuilder builder) {
+    protected ZeppOsSupport requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info");
 
         writeToChunked2021(builder, CHUNKED2021_ENDPOINT_BATTERY, BATTERY_REQUEST, false);
@@ -408,7 +412,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setFitnessGoal(final TransactionBuilder builder) {
+    protected ZeppOsSupport setFitnessGoal(final TransactionBuilder builder) {
         final int goalSteps = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
         final int goalCalories = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_CALORIES_BURNT, ActivityUser.defaultUserCaloriesBurntGoal);
         final int goalSleep = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_SLEEP_DURATION, ActivityUser.defaultUserSleepDurationGoal);
@@ -430,7 +434,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setUserInfo(final TransactionBuilder builder) {
+    protected ZeppOsSupport setUserInfo(final TransactionBuilder builder) {
         LOG.info("Attempting to set user info...");
 
         final Prefs prefs = GBApplication.getPrefs();
@@ -487,7 +491,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setPassword(final TransactionBuilder builder) {
+    protected ZeppOsSupport setPassword(final TransactionBuilder builder) {
         final boolean passwordEnabled = HuamiCoordinator.getPasswordEnabled(gbDevice.getAddress());
         final String password = HuamiCoordinator.getPassword(gbDevice.getAddress());
 
@@ -714,7 +718,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setHeartrateSleepSupport(final TransactionBuilder builder) {
+    protected ZeppOsSupport setHeartrateSleepSupport(final TransactionBuilder builder) {
         final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(gbDevice.getAddress());
 
         configService.newSetter()
@@ -737,7 +741,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    public Huami2021Support setCurrentTimeWithService(TransactionBuilder builder) {
+    public ZeppOsSupport setCurrentTimeWithService(TransactionBuilder builder) {
         // It seems that the format sent to the Current Time characteristic changed in newer devices
         // to kind-of match the GATT spec, but it doesn't quite respect it?
         // - 11 bytes get sent instead of 10 (extra byte at the end for the offset in quarter-hours?)
@@ -773,8 +777,8 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    public Huami2021Support enableFurtherNotifications(final TransactionBuilder builder,
-                                                       final boolean enable) {
+    public ZeppOsSupport enableFurtherNotifications(final TransactionBuilder builder,
+                                                    final boolean enable) {
         // Nothing to do here, they are already enabled from enableNotifications
         return this;
     }
@@ -849,7 +853,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setTimeFormat(final TransactionBuilder builder) {
+    protected ZeppOsSupport setTimeFormat(final TransactionBuilder builder) {
         final GBPrefs gbPrefs = new GBPrefs(getDevicePrefs());
         final String timeFormat = gbPrefs.getTimeFormat();
 
@@ -876,7 +880,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setDistanceUnit(final TransactionBuilder builder) {
+    protected ZeppOsSupport setDistanceUnit(final TransactionBuilder builder) {
         final MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
         LOG.info("Setting distance unit to {}", unit);
 
@@ -899,7 +903,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support setLanguage(final TransactionBuilder builder) {
+    protected ZeppOsSupport setLanguage(final TransactionBuilder builder) {
         final String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())
                 .getString("language", "auto");
 
@@ -938,7 +942,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Support requestGPSVersion(final TransactionBuilder builder) {
+    protected ZeppOsSupport requestGPSVersion(final TransactionBuilder builder) {
         LOG.warn("Request GPS version not implemented");
         return this;
     }
@@ -1011,7 +1015,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
             // At this point we got the service list from phase 3, so we know which
             // services are supported, and whether they are encrypted or not
 
-            final Huami2021Coordinator coordinator = getCoordinator();
+            final ZeppOsCoordinator coordinator = getCoordinator();
 
             // TODO move this to a service
             setUserInfo(builder);
@@ -1066,8 +1070,8 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
-    protected Huami2021Coordinator getCoordinator() {
-        return (Huami2021Coordinator) gbDevice.getDeviceCoordinator();
+    protected ZeppOsCoordinator getCoordinator() {
+        return (ZeppOsCoordinator) gbDevice.getDeviceCoordinator();
     }
 
     @Override
@@ -1199,7 +1203,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     protected void handle2021Workout(final byte[] payload) {
         switch (payload[0]) {
             case WORKOUT_CMD_APP_OPEN:
-                final Huami2021WorkoutTrackActivityType activityType = Huami2021WorkoutTrackActivityType.fromCode(payload[3]);
+                final ZeppOsActivityType activityType = ZeppOsActivityType.fromCode(payload[3]);
                 final boolean workoutNeedsGps = (payload[2] == 1);
                 final int activityKind;
 

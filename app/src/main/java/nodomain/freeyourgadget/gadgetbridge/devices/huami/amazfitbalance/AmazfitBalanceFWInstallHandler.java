@@ -25,9 +25,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
 
-class AmazfitBalanceFWInstallHandler extends AbstractHuami2021FWInstallHandler {
+class AmazfitBalanceFWInstallHandler extends AbstractZeppOsFwInstallHandler {
     AmazfitBalanceFWInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }

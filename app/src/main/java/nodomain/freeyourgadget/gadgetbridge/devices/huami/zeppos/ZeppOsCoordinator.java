@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,8 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabi
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsGpxRouteInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiExtendedSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -54,7 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
@@ -68,8 +68,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public abstract class Huami2021Coordinator extends HuamiCoordinator {
-    public abstract AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context);
+public abstract class ZeppOsCoordinator extends HuamiCoordinator {
+    public abstract AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context);
 
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
@@ -87,7 +87,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
             }
         }
 
-        final AbstractHuami2021FWInstallHandler handler = createFwInstallHandler(uri, context);
+        final AbstractZeppOsFwInstallHandler handler = createFwInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
@@ -263,7 +263,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
-        return new Huami2021ActivitySummaryParser();
+        return new ZeppOsActivitySummaryParser();
     }
 
     @Override
@@ -313,7 +313,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     /**
      * Returns a superset of all settings supported by Zepp OS Devices. Unsupported settings are removed
-     * by {@link Huami2021SettingsCustomizer}.
+     * by {@link ZeppOsSettingsCustomizer}.
      */
     @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
@@ -491,7 +491,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
-        return new Huami2021SettingsCustomizer(device, getVibrationPatternNotificationTypes(device));
+        return new ZeppOsSettingsCustomizer(device, getVibrationPatternNotificationTypes(device));
     }
 
     @Override

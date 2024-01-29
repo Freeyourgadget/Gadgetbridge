@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import androidx.annotation.Nullable;
 
@@ -36,9 +36,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
 
-public class Huami2021ActivityDetailsParser extends AbstractHuamiActivityDetailsParser {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021ActivityDetailsParser.class);
+public class ZeppOsActivityDetailsParser extends AbstractHuamiActivityDetailsParser {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsActivityDetailsParser.class);
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
 
@@ -56,7 +57,7 @@ public class Huami2021ActivityDetailsParser extends AbstractHuamiActivityDetails
     private final ActivityTrack activityTrack;
     private ActivityPoint lastActivityPoint;
 
-    public Huami2021ActivityDetailsParser(final BaseActivitySummary summary) {
+    public ZeppOsActivityDetailsParser(final BaseActivitySummary summary) {
         this.timestamp = summary.getStartTime();
 
         this.longitude = summary.getBaseLongitude();

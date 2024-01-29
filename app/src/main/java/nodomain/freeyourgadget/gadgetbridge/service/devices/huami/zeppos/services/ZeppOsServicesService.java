@@ -23,7 +23,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 
 public class ZeppOsServicesService extends AbstractZeppOsService {
@@ -34,7 +34,7 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
     public static final byte CMD_GET_LIST = 0x03;
     public static final byte CMD_RET_LIST = 0x04;
 
-    public ZeppOsServicesService(final Huami2021Support support) {
+    public ZeppOsServicesService(final ZeppOsSupport support) {
         super(support, false);
     }
 

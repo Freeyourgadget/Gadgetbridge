@@ -26,19 +26,18 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAlexaService.class);
 
-    private final Huami2021Support mSupport;
+    private final ZeppOsSupport mSupport;
     private boolean encrypted;
 
-    public AbstractZeppOsService(final Huami2021Support support, final boolean encryptedDefault) {
+    public AbstractZeppOsService(final ZeppOsSupport support, final boolean encryptedDefault) {
         this.mSupport = support;
         this.encrypted = encryptedDefault;
     }
@@ -75,13 +74,13 @@ public abstract class AbstractZeppOsService {
         // we will already know the capabilities
     }
 
-    protected Huami2021Support getSupport() {
+    protected ZeppOsSupport getSupport() {
         return mSupport;
     }
 
-    protected Huami2021Coordinator getCoordinator() {
+    protected ZeppOsCoordinator getCoordinator() {
         final DeviceCoordinator coordinator = getSupport().getDevice().getDeviceCoordinator();
-        return (Huami2021Coordinator) coordinator;
+        return (ZeppOsCoordinator) coordinator;
     }
 
     protected Prefs getDevicePrefs() {

@@ -29,7 +29,7 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -46,7 +46,7 @@ public class ZeppOsWifiService extends AbstractZeppOsService {
 
     private Callback mCallback = null;
 
-    public ZeppOsWifiService(final Huami2021Support support) {
+    public ZeppOsWifiService(final ZeppOsSupport support) {
         super(support, true);
     }
 

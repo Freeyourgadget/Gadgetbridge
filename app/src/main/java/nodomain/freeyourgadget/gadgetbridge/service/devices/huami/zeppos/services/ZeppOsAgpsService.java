@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 
 public class ZeppOsAgpsService extends AbstractZeppOsService {
@@ -41,7 +41,7 @@ public class ZeppOsAgpsService extends AbstractZeppOsService {
 
     private Callback mCallback = null;
 
-    public ZeppOsAgpsService(final Huami2021Support support) {
+    public ZeppOsAgpsService(final ZeppOsSupport support) {
         super(support, false);
     }
 

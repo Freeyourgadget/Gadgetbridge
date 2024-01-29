@@ -25,16 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3.AmazfitGTR3Support;
 
-public class AmazfitGTR3Coordinator extends Huami2021Coordinator {
+public class AmazfitGTR3Coordinator extends ZeppOsCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR3Coordinator.class);
 
     @NonNull
@@ -64,7 +63,7 @@ public class AmazfitGTR3Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
         return new AmazfitGTR3FWInstallHandler(uri, context);
     }
 

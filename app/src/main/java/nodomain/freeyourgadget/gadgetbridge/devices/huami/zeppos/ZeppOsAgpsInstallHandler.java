@@ -30,11 +30,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsFile;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
@@ -80,14 +78,14 @@ public class ZeppOsAgpsInstallHandler implements InstallHandler {
         }
 
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        if (!(coordinator instanceof Huami2021Coordinator)) {
-            LOG.warn("Coordinator is not a Huami2021Coordinator: {}", coordinator.getClass());
+        if (!(coordinator instanceof ZeppOsCoordinator)) {
+            LOG.warn("Coordinator is not a ZeppOsCoordinator: {}", coordinator.getClass());
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
             installActivity.setInstallEnabled(false);
             return;
         }
-        final Huami2021Coordinator huami2021coordinator = (Huami2021Coordinator) coordinator;
-        if (!huami2021coordinator.supportsAgpsUpdates()) {
+        final ZeppOsCoordinator zeppOsCoordinator = (ZeppOsCoordinator) coordinator;
+        if (!zeppOsCoordinator.supportsAgpsUpdates()) {
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
             installActivity.setInstallEnabled(false);
             return;

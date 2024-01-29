@@ -36,7 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -58,7 +58,7 @@ public class ZeppOsCannedMessagesService extends AbstractZeppOsService {
     public static final byte CMD_REPLY_SMS_CHECK = 0x0d;
     public static final byte CMD_REPLY_SMS_ALLOW = 0x0e;
 
-    public ZeppOsCannedMessagesService(final Huami2021Support support) {
+    public ZeppOsCannedMessagesService(final ZeppOsSupport support) {
         super(support, false);
     }
 

@@ -25,9 +25,9 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsFirmwareInfo;
 
-public class AmazfitTRex2FirmwareInfo extends Huami2021FirmwareInfo {
+public class AmazfitTRex2FirmwareInfo extends ZeppOsFirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
         // firmware
     }};

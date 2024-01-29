@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.location.Location;
 
@@ -55,8 +55,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.Curre
  * The weather models that the bands expect as an http response to weather requests. Base URL usually
  * is https://api-mifit.huami.com.
  */
-public class Huami2021Weather {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021Weather.class);
+public class ZeppOsWeather {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsWeather.class);
 
     private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
@@ -86,7 +86,7 @@ public class Huami2021Weather {
 
         if (weatherSpec == null) {
             LOG.error("No weather in weather instance");
-            return new Huami2021Weather.ErrorResponse(404, -2001, "Not found");
+            return new ZeppOsWeather.ErrorResponse(404, -2001, "Not found");
         }
 
         switch (path) {
@@ -109,7 +109,7 @@ public class Huami2021Weather {
         }
 
         LOG.error("Unknown weather path {}", path);
-        return new Huami2021Weather.ErrorResponse(404, -2001, "Not found");
+        return new ZeppOsWeather.ErrorResponse(404, -2001, "Not found");
     }
 
     private static int getQueryNum(final Map<String, String> query, final String key, final int defaultValue) {

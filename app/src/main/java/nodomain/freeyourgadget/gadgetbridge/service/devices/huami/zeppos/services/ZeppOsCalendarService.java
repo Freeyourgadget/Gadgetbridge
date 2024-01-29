@@ -27,7 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -49,7 +49,7 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
 
     private int version = -1;
 
-    public ZeppOsCalendarService(final Huami2021Support support) {
+    public ZeppOsCalendarService(final ZeppOsSupport support) {
         super(support, false);
     }
 

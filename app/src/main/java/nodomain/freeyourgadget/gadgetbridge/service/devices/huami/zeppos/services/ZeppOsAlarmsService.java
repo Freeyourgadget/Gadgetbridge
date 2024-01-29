@@ -33,10 +33,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class ZeppOsAlarmsService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAlarmsService.class);
@@ -65,7 +64,7 @@ public class ZeppOsAlarmsService extends AbstractZeppOsService {
     public static final int FLAG_UNKNOWN_2 = 0x02;
     public static final int FLAG_ENABLED = 0x04;
 
-    public ZeppOsAlarmsService(final Huami2021Support support) {
+    public ZeppOsAlarmsService(final ZeppOsSupport support) {
         super(support, false);
     }
 

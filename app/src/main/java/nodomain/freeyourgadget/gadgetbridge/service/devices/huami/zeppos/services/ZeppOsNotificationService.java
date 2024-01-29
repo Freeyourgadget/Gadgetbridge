@@ -39,7 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
@@ -74,7 +74,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
 
     private final ZeppOsFileTransferService fileTransferService;
 
-    public ZeppOsNotificationService(final Huami2021Support support, final ZeppOsFileTransferService fileTransferService) {
+    public ZeppOsNotificationService(final ZeppOsSupport support, final ZeppOsFileTransferService fileTransferService) {
         super(support, true);
         this.fileTransferService = fileTransferService;
     }

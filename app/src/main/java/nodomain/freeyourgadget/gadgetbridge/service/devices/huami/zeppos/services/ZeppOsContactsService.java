@@ -27,7 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -46,7 +46,7 @@ public class ZeppOsContactsService extends AbstractZeppOsService {
 
     public static final String PREF_CONTACTS_SLOT_COUNT = "zepp_os_contacts_slot_count";
 
-    public ZeppOsContactsService(final Huami2021Support support) {
+    public ZeppOsContactsService(final ZeppOsSupport support) {
         super(support, true);
     }
 

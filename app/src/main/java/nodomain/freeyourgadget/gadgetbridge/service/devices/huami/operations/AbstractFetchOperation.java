@@ -45,7 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.AbstractGattListenerWriteAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -163,7 +163,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
     /**
      * Validates that the received data has the expected checksum. Only
-     * relevant for Huami2021Support devices.
+     * relevant for ZeppOsSupport devices.
      *
      * @param crc32 the expected checksum
      * @return whether the checksum was valid
@@ -187,7 +187,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     protected void startFetching(TransactionBuilder builder, byte fetchType, GregorianCalendar sinceWhen) {
         final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
         final HuamiSupport support = getSupport();
-        final boolean isHuami2021 = support instanceof Huami2021Support;
+        final boolean isZeppOs = support instanceof ZeppOsSupport;
         byte[] fetchBytes = BLETypeConversions.join(new byte[]{
                         HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                         fetchType},
@@ -201,9 +201,9 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
                     if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                         handleActivityMetadata(value);
-                        if (expectedDataLength == 0 && isHuami2021) {
+                        if (expectedDataLength == 0 && isZeppOs) {
                             // Nothing to receive, if we try to fetch data it will fail
-                            sendAck2021(true);
+                            sendAckZeppOs(true);
                         } else if (expectedDataLength != 0) {
                             TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
                             newBuilder.notify(characteristicActivityData, true);
@@ -305,7 +305,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         if (value.length == 7 && !validChecksum(BLETypeConversions.toUint32(value, 3))) {
             LOG.warn("Data checksum invalid");
             handleActivityFetchFinish(false);
-            sendAck2021(true);
+            sendAckZeppOs(true);
             return;
         }
 
@@ -319,15 +319,15 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
         final boolean keepActivityDataOnDevice = HuamiCoordinator.getKeepActivityDataOnDevice(getDevice().getAddress());
 
-        sendAck2021(keepActivityDataOnDevice || !handleFinishSuccess);
+        sendAckZeppOs(keepActivityDataOnDevice || !handleFinishSuccess);
     }
 
-    protected void sendAck2021(final boolean keepDataOnDevice) {
-        if (!(getSupport() instanceof Huami2021Support)) {
+    protected void sendAckZeppOs(final boolean keepDataOnDevice) {
+        if (!(getSupport() instanceof ZeppOsSupport)) {
             return;
         }
 
-        LOG.debug("Sending ack 2021, keepDataOnDevice = {}", keepDataOnDevice);
+        LOG.debug("Sending Zepp OS ack, keepDataOnDevice = {}", keepDataOnDevice);
 
         // 0x01 to ACK, mark as saved on phone (drop from band)
         // 0x09 to ACK, but keep it marked as not saved

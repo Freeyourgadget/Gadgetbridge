@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -35,10 +35,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 
-public class Huami2021SupportTest {
+public class ZeppOsSupportTest {
     @Test
     public void testSetCurrentTimeWithService() {
-        final Huami2021Support support = createSupport();
+        final ZeppOsSupport support = createSupport();
 
         final TransactionBuilder testTransactionBuilder = new TransactionBuilder("test");
         support.setCurrentTimeWithService(testTransactionBuilder);
@@ -47,8 +47,8 @@ public class Huami2021SupportTest {
         Assert.assertArrayEquals(new byte[]{-26, 7, 12, 15, 20, 38, 53, 4, 0, 8, 4}, action.getValue());
     }
 
-    private Huami2021Support createSupport() {
-        return new Huami2021Support() {
+    private ZeppOsSupport createSupport() {
+        return new ZeppOsSupport() {
             @Override
             public BluetoothGattCharacteristic getCharacteristic(final UUID uuid) {
                 return new BluetoothGattCharacteristic(null, 0, 0);

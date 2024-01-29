@@ -28,8 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Weather;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsWeather;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -44,7 +44,7 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
     public static final byte RESPONSE_SUCCESS = 0x01;
     public static final byte RESPONSE_NO_INTERNET = 0x02;
 
-    public ZeppOsHttpService(final Huami2021Support support) {
+    public ZeppOsHttpService(final ZeppOsSupport support) {
         super(support, true);
     }
 
@@ -102,7 +102,7 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
         final Map<String, String> query = urlQueryParameters(url);
 
         if (path.startsWith("/weather/")) {
-            final Huami2021Weather.Response response = Huami2021Weather.handleHttpRequest(path, query);
+            final ZeppOsWeather.Response response = ZeppOsWeather.handleHttpRequest(path, query);
             replyHttpSuccess(requestId, response.getHttpStatusCode(), response.toJson());
             return;
         }

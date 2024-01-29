@@ -26,12 +26,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -55,7 +54,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
     private int mChunkSize = -1;
 
-    public ZeppOsFileTransferService(final Huami2021Support support) {
+    public ZeppOsFileTransferService(final ZeppOsSupport support) {
         super(support, false);
     }
 

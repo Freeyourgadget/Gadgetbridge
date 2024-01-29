@@ -68,13 +68,12 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLiftSensitivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.AlwaysOnDisplay;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsMenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -96,7 +95,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
 
     private final Map<ConfigGroup, Byte> mGroupVersions = new HashMap<>();
 
-    public ZeppOsConfigService(final Huami2021Support support) {
+    public ZeppOsConfigService(final ZeppOsSupport support) {
         super(support, true);
     }
 
@@ -571,7 +570,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         switch (configArg) {
             case UPPER_BUTTON_LONG_PRESS:
             case LOWER_BUTTON_PRESS:
-                final String itemHex = MapUtils.reverse(Huami2021MenuType.displayItemNameLookup).get(value);
+                final String itemHex = MapUtils.reverse(ZeppOsMenuType.displayItemNameLookup).get(value);
                 if (itemHex != null) {
                     return itemHex;
                 }
@@ -1049,7 +1048,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             switch (configArg) {
                 case UPPER_BUTTON_LONG_PRESS:
                 case LOWER_BUTTON_PRESS:
-                    decoder = Huami2021MenuType.displayItemNameLookup::get;
+                    decoder = ZeppOsMenuType.displayItemNameLookup::get;
                     break;
                 default:
                     decoder = a -> a; // passthrough

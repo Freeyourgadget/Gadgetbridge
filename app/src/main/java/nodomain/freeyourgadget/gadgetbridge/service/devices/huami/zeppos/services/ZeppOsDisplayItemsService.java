@@ -34,11 +34,10 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsMenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -64,7 +63,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
     public static final byte DISPLAY_ITEMS_SECTION_MORE = 0x02;
     public static final byte DISPLAY_ITEMS_SECTION_DISABLED = 0x03;
 
-    public ZeppOsDisplayItemsService(final Huami2021Support support) {
+    public ZeppOsDisplayItemsService(final ZeppOsSupport support) {
         super(support, true);
     }
 
@@ -149,17 +148,17 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case DISPLAY_ITEMS_MENU:
                 LOG.info("Got {} display items", numberScreens);
                 prefKey = HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
-                idMap = Huami2021MenuType.displayItemNameLookup;
+                idMap = ZeppOsMenuType.displayItemNameLookup;
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
                 LOG.info("Got {} shortcuts", numberScreens);
                 prefKey = HuamiConst.PREF_SHORTCUTS_SORTABLE;
-                idMap = Huami2021MenuType.shortcutsNameLookup;
+                idMap = ZeppOsMenuType.shortcutsNameLookup;
                 break;
             case DISPLAY_ITEMS_CONTROL_CENTER:
                 LOG.info("Got {} control center", numberScreens);
                 prefKey = HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
-                idMap = Huami2021MenuType.controlCenterNameLookup;
+                idMap = ZeppOsMenuType.controlCenterNameLookup;
                 break;
             default:
                 LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
@@ -262,17 +261,17 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case DISPLAY_ITEMS_MENU:
                 LOG.info("Setting menu items");
                 hasMoreSection = getCoordinator().mainMenuHasMoreSection();
-                idMap = MapUtils.reverse(Huami2021MenuType.displayItemNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.displayItemNameLookup);
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
                 LOG.info("Setting shortcuts");
                 hasMoreSection = false;
-                idMap = MapUtils.reverse(Huami2021MenuType.shortcutsNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.shortcutsNameLookup);
                 break;
             case DISPLAY_ITEMS_CONTROL_CENTER:
                 LOG.info("Setting control center");
                 hasMoreSection = false;
-                idMap = MapUtils.reverse(Huami2021MenuType.controlCenterNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.controlCenterNameLookup);
                 break;
             default:
                 LOG.warn("Unknown menu type {}", menuType);

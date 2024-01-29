@@ -22,15 +22,15 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7.MiBand7Support;
 
-public class MiBand7Coordinator extends Huami2021Coordinator {
+public class MiBand7Coordinator extends ZeppOsCoordinator {
     @Override
     public boolean supports(final GBDeviceCandidate candidate) {
         final String name = candidate.getName();
@@ -38,7 +38,7 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
         return new MiBand7FWInstallHandler(uri, context);
     }
 

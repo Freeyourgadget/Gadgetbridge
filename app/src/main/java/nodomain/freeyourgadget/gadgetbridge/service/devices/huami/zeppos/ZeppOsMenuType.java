@@ -15,14 +15,14 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Huami2021MenuType {
+public class ZeppOsMenuType {
     /**
-     * These somewhat match the ones in {@link HuamiMenuType}, but not all. The band sends and
+     * These somewhat match the ones in HuamiMenuType, but not all. The band sends and
      * receives those as 8-digit upper case hex strings.
      */
     public static final Map<String, String> displayItemNameLookup = new HashMap<String, String>() {{

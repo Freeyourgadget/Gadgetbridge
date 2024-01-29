@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -60,7 +60,7 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
 
     private static final String PREF_CAPABILITY = "huami_2021_capability_reminders";
 
-    public ZeppOsRemindersService(final Huami2021Support support) {
+    public ZeppOsRemindersService(final ZeppOsSupport support) {
         super(support, false);
     }
 

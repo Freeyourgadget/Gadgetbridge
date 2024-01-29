@@ -26,9 +26,9 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3.AmazfitGTR3FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 
-public class AmazfitGTR3Support extends Huami2021Support {
+public class AmazfitGTR3Support extends ZeppOsSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR3Support.class);
 
     @Override
