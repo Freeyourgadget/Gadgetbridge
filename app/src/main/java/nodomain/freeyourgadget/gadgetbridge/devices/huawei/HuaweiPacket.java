@@ -55,6 +55,7 @@ public class HuaweiPacket {
         protected byte[] pinCode = null;
 
         protected byte interval;
+        protected byte authAlgo;
 
         public void setAuthVersion(byte authVersion) {
             this.authVersion = authVersion;
@@ -133,6 +134,14 @@ public class HuaweiPacket {
 
         public void setEncryptionCounter(long counter) {
             this.encryptionCounter = counter;
+        }
+
+        public void setAuthAlgo(byte authAlgo) {
+            this.authAlgo = authAlgo;
+        }
+
+        public byte getAuthAlgo () {
+            return this.authAlgo;
         }
     }
 

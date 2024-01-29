@@ -625,8 +625,7 @@ public class DeviceConfig {
             public Request(
                     ParamsProvider paramsProvider,
                     byte[] challenge,
-                    byte[] nonce,
-                    boolean isHiChainLite
+                    byte[] nonce
             ) {
                 super(paramsProvider);
 
@@ -636,8 +635,8 @@ public class DeviceConfig {
                 this.tlv = new HuaweiTLV()
                         .put(0x01, challenge)
                         .put(0x02, nonce);
-                if (isHiChainLite)
-                    this.tlv.put(0x03, (byte)0x02); // Force type 2
+                if (paramsProvider.getAuthMode() == 0x02)
+                    this.tlv.put(0x03, paramsProvider.getAuthAlgo());
                 this.isEncrypted = false;
                 this.complete = true;
             }

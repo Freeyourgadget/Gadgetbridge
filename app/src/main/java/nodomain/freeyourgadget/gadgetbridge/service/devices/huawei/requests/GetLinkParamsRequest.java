@@ -82,5 +82,7 @@ public class GetLinkParamsRequest extends Request {
         paramsProvider.setAuthVersion(((LinkParams.Response) receivedPacket).authVersion);
 
         this.bondState = ((LinkParams.Response) receivedPacket).bondState;
+
+        paramsProvider.setAuthAlgo(((LinkParams.Response) receivedPacket).authAlgo);
     }
 }

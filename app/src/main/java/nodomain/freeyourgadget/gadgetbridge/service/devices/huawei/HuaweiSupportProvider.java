@@ -376,7 +376,7 @@ public class HuaweiSupportProvider {
     protected void initializeDeviceHiChainLiteMode(Request linkParamsReq) {
         try {
             createSecretKey();
-            GetAuthRequest authReq = new GetAuthRequest(this, linkParamsReq, true);
+            GetAuthRequest authReq = new GetAuthRequest(this, linkParamsReq);
             GetBondParamsRequest bondParamsReq = new GetBondParamsRequest(this);
             GetBondRequest bondReq = new GetBondRequest(this);
             authReq.nextRequest(bondParamsReq);

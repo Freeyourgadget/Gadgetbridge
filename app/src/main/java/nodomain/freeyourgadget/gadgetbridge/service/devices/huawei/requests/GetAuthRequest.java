@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,9 +37,10 @@ public class GetAuthRequest extends Request {
 
     protected final byte[] clientNonce;
     protected short authVersion;
-    protected boolean isHiChainLite = false;
+    protected byte authAlgo;
     protected byte[] doubleNonce;
     protected byte[] key = null;
+    protected byte authMode;
 
     public GetAuthRequest(HuaweiSupportProvider support,
             Request linkParamsReq) {
@@ -51,22 +53,17 @@ public class GetAuthRequest extends Request {
                 .put(clientNonce)
                 .array();
         this.authVersion = paramsProvider.getAuthVersion();
-    }
-
-    public GetAuthRequest(HuaweiSupportProvider support,
-                          Request linkParamsReq,
-                          boolean isHiChainLite) {
-        this(support, linkParamsReq);
-        this.isHiChainLite = isHiChainLite;
+        this.authAlgo = paramsProvider.getAuthAlgo();
+        this.authMode = paramsProvider.getAuthMode();
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
-        huaweiCrypto = new HuaweiCrypto(authVersion, isHiChainLite);
+        huaweiCrypto = new HuaweiCrypto(authVersion, authAlgo, authMode);
         byte[] nonce;
 
         try {
-            if (isHiChainLite) {
+            if (authMode == 0x02) {
                 key = paramsProvider.getPinCode();
                 if (authVersion == 0x02)
                     key = paramsProvider.getSecretKey();
@@ -78,10 +75,10 @@ public class GetAuthRequest extends Request {
             byte[] challenge = huaweiCrypto.digestChallenge(key, doubleNonce);
             if (challenge == null)
                 throw new RequestCreationException("Challenge null");
-            return new DeviceConfig.Auth.Request(paramsProvider, challenge, nonce, isHiChainLite).serialize();
+            return new DeviceConfig.Auth.Request(paramsProvider, challenge, nonce).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException e) {
             throw new RequestCreationException("Digest exception", e);
         }
     }
@@ -105,7 +102,7 @@ public class GetAuthRequest extends Request {
                         + StringUtils.bytesToHex(expectedAnswer)
                 );
             }
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException e) {
             throw new ResponseParseException("Challenge response digest exception");
         }
     }

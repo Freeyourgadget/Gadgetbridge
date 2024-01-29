@@ -24,6 +24,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.InvalidKeyException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
@@ -78,15 +79,17 @@ public class HuaweiCrypto {
     public static final long ENCRYPTION_COUNTER_MAX = 0xFFFFFFFF;
 
     protected int authVersion;
-    protected boolean isHiChainLite = false;
+    protected int authMode;
+    protected byte authAlgo;
 
     public HuaweiCrypto(int authVersion) {
         this.authVersion = authVersion;
     }
 
-    public HuaweiCrypto(int authVersion, boolean isHiChainLite) {
+    public HuaweiCrypto(int authVersion, byte authAlgo, int authMode) {
         this(authVersion);
-        this.isHiChainLite = isHiChainLite;
+        this.authMode = authMode;
+        this.authAlgo = authAlgo;
     }
 
     public static byte[] generateNonce() {
@@ -115,26 +118,27 @@ public class HuaweiCrypto {
         return CryptoUtils.calcHmacSha256(digestStep1, nonce);
     }
 
-    public byte[] computeDigestHiChainLite(byte[] message, byte[] key, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException {
+    public byte[] computeDigestHiChainLite(byte[] message, byte[] key, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+        byte[] digestStep1;
         byte[] hashKey = CryptoUtils.digest(key);
         byte[] digestSecret = getDigestSecret();
         for (int i = 0; i < digestSecret.length; i++) {
             digestSecret[i] = (byte) (((0xFF & hashKey[i]) ^ (digestSecret[i] & 0xFF)) & 0xFF);
         }
-        // 2 possibilities:
-        // - type 1 : Pbk (SDK_INT>= 0x17) fallback to MacSha
-        // - type 2 : MacSha
-        // We force type 2 to avoid a new calculation
         byte[] msgToDigest = ByteBuffer.allocate(18)
                 .put(digestSecret)
                 .put(message)
                 .array();
-        byte[] digestStep1 = CryptoUtils.calcHmacSha256(msgToDigest, nonce) ;
+        if (authAlgo == 0x01) {
+            digestStep1 = CryptoUtils.pbkdf2Sha256(msgToDigest, nonce, 0x3e8, 0x100);
+        } else {
+            digestStep1 = CryptoUtils.calcHmacSha256(msgToDigest, nonce);
+        }
         return CryptoUtils.calcHmacSha256(digestStep1, nonce);
     }
 
-    public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException {
-        if (isHiChainLite) {
+    public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+        if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
             if (authVersion == 0x02) {
@@ -149,8 +153,8 @@ public class HuaweiCrypto {
         return computeDigest(MESSAGE_CHALLENGE, nonce);
     }
 
-    public byte[] digestResponse(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException {
-        if (isHiChainLite) {
+    public byte[] digestResponse(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+        if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
             if (authVersion == 0x02) {
