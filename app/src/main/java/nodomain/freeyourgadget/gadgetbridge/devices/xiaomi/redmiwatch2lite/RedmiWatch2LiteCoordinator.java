@@ -28,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
-public class RedmiWatch2Lite extends XiaomiCoordinator {
+public class RedmiWatch2LiteCoordinator extends XiaomiCoordinator {
     @Override
     public boolean isExperimental() {
         return true;
