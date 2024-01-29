@@ -19,11 +19,13 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.annotation.SuppressLint;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -31,8 +33,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class CryptoUtils {
@@ -127,7 +131,12 @@ public class CryptoUtils {
         generatedBytes.rewind();
         generatedBytes.get(result, 0, outputLength);
         return result;
+    }
 
-
+    public static byte[] pbkdf2Sha256(byte[] key, byte[] iv, int count, int length) throws InvalidKeySpecException, NoSuchAlgorithmException  {
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        String keyStr = new String(key, StandardCharsets.UTF_8);
+        PBEKeySpec keySpec = new PBEKeySpec(keyStr.toCharArray(), iv, count, length);
+        return secretKeyFactory.generateSecret(keySpec).getEncoded();
     }
 }
