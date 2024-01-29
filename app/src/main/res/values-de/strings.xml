@@ -2779,4 +2779,5 @@
     <string name="activity_type_cross_country_running">Querfeldeinlauf</string>
     <string name="activity_type_pull_ups">Klimmzüge</string>
     <string name="activity_type_billiards">Billard</string>
+    <string name="devicetype_redmi_watch_2">Redmi Watch 2</string>
 </resources>
