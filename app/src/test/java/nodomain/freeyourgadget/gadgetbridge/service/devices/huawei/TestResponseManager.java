@@ -250,8 +250,9 @@ public class TestResponseManager {
         when(request1.handleResponse((HuaweiPacket) any()))
                 .thenReturn(true);
         Request request2 = Mockito.mock(Request.class);
-        when(request2.handleResponse((HuaweiPacket) any()))
-                .thenReturn(false);
+        // FIXME: Removed due to UnnecessaryStubbingException after mockito-core update
+        //when(request2.handleResponse((HuaweiPacket) any()))
+        //        .thenReturn(false);
 
         List<Request> inputHandlers = Collections.synchronizedList(new ArrayList<Request>());
         inputHandlers.add(request1);
@@ -342,8 +343,9 @@ public class TestResponseManager {
         when(request1.handleResponse((HuaweiPacket) any()))
                 .thenReturn(true);
         Request request2 = Mockito.mock(Request.class);
-        when(request2.handleResponse((HuaweiPacket) any()))
-                .thenReturn(false);
+        // FIXME: Removed due to UnnecessaryStubbingException after mockito-core update
+        //when(request2.handleResponse((HuaweiPacket) any()))
+        //        .thenReturn(false);
 
         List<Request> inputHandlers = Collections.synchronizedList(new ArrayList<Request>());
         inputHandlers.add(request1);
