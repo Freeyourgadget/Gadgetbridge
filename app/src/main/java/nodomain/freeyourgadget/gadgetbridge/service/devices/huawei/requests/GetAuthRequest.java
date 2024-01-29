@@ -67,16 +67,14 @@ public class GetAuthRequest extends Request {
 
         try {
             if (isHiChainLite) {
-                nonce = clientNonce;
                 key = paramsProvider.getPinCode();
                 if (authVersion == 0x02)
                     key = paramsProvider.getSecretKey();
-            } else { // normal mode
-                nonce = ByteBuffer.allocate(18)
-                        .putShort(authVersion)
-                        .put(clientNonce)
-                        .array();
             }
+            nonce = ByteBuffer.allocate(18)
+                    .putShort(authVersion)
+                    .put(clientNonce)
+                    .array();
             byte[] challenge = huaweiCrypto.digestChallenge(key, doubleNonce);
             if (challenge == null)
                 throw new RequestCreationException("Challenge null");
