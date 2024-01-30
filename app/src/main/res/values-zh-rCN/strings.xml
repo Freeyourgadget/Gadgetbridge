@@ -2802,4 +2802,5 @@
     <string name="activity_type_skateboarding">滑板运动</string>
     <string name="activity_type_rock_climbing">攀岩</string>
     <string name="devicetype_honor_magicwatch2">荣耀 MagicWatch 2</string>
+    <string name="devicetype_redmi_watch_2">红米手表2</string>
 </resources>
