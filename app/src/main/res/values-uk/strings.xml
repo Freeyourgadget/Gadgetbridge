@@ -2648,4 +2648,13 @@
     <string name="prefs_password_4_digits_0_to_9_summary">Пароль повинен складатися з 4 цифр, і містити лише цифри</string>
     <string name="pref_summary_general_reconnectonlytoconnected">Повторно з\'єднатися лише з під\'єднаними пристроями, замість з\'єднання з усіма пристроями</string>
     <string name="prefs_disconnect_notification_summary">Сповіщення на пристрої після від\'єднання від BT.</string>
+    <string name="heartrate_bpm_155">155 уд/хв</string>
+    <string name="heartrate_bpm_165">165 уд/хв</string>
+    <string name="heartrate_bpm_175">175 уд/хв</string>
+    <string name="heartrate_bpm_185">185 уд/хв</string>
+    <string name="heartrate_bpm_195">195 уд/хв</string>
+    <string name="heartrate_bpm_205">205 уд/хв</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Повторно під\'єднуватись лише до пов\'язаних пристроїв</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE</string>
 </resources>
