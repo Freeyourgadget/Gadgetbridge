@@ -78,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
@@ -1658,12 +1659,19 @@ public class HuaweiSupportProvider {
                         weatherSpec
                 );
 
+                SendGpsAndTimeToDeviceRequest sendGpsAndTimeToDeviceRequest = new SendGpsAndTimeToDeviceRequest(
+                        this
+                );
+
+                sendWeatherCurrentRequest.nextRequest(sendGpsAndTimeToDeviceRequest);
+
+
                 if (getHuaweiCoordinator().supportsWeatherForecasts()) {
                     SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(
                             this,
                             weatherSpec
                     );
-                    sendWeatherCurrentRequest.nextRequest(sendWeatherForecastRequest);
+                    sendGpsAndTimeToDeviceRequest.nextRequest(sendWeatherForecastRequest);
                 }
 
                 sendWeatherCurrentRequest.doPerform();
