@@ -79,7 +79,7 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     
     @Override
     public int getBondingStyle(){
-        return BONDING_STYLE_NONE;
+        return BONDING_STYLE_ASK;
     }
 
     @Override

@@ -55,11 +55,6 @@ public class HonorMagicWatch2Coordinator extends HuaweiBRCoordinator {
     }
 
     @Override
-    public int getBondingStyle(){
-        return BONDING_STYLE_ASK;
-    }
-
-    @Override
     public boolean supportsSpo2() {
         return true;
     }
