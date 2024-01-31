@@ -640,7 +640,7 @@
     <string name="sports_activity_confirm_delete_description">Biztosan törölni szeretne %d aktivitást\?</string>
     <string name="sports_activity_quick_filter_7days">7 nap</string>
     <string name="activity_summaries">Sportaktivitások</string>
-    <string name="pref_title_support_voip_calls">VoIP alkalmazáshívások engedélyezése</string>
+    <string name="pref_title_support_voip_calls">VoIP alkalmazás hívásainak engedélyezése</string>
     <string name="pref_blacklist_calendars">Naptárak feketelistázása</string>
     <string name="pref_title_auto_export_location">Exportálás helye</string>
     <string name="pref_title_auto_export_enabled">Automatikus exportálás engedélyezve</string>
@@ -1404,7 +1404,7 @@
     <string name="menuitem_running">Futás</string>
     <string name="pref_activity_recognize_biking">kerékpározás felismerése</string>
     <string name="wearmode_pebble">Pebble (cipőcsat)</string>
-    <string name="pref_summary_pebble_gatt_clientonly">Ez csak a Pebble 2 számára van, és kísérleti, próbálja ezt, ha kapcsolódási problémái vannak</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Ez csak a Pebble 2 számára készült és kísérleti, próbálja ezt, ha kapcsolódási problémái vannak.</string>
     <string name="pref_activity_recognize_running">futás felismerése</string>
     <string name="about_description_banglejs_nightly">Android társalkalmazás a Bangle.js számára, amely a Gadgetbridge projektre épül, hozzáadott internet-hozzáféréssel.
 \n
@@ -1415,4 +1415,5 @@
     <string name="pref_title_pebble_enable_bgjs">Háttérbeli JS engedélyezése</string>
     <string name="devicetype_sony_wena3">Sony Wena 3</string>
     <string name="sony_surround_mode_outdoor_stage">Kültéri színpad</string>
+    <string name="notif_export_failed_title">Az adatbázis exportálása meghiúsult. Ellenőrizze a beállításait!</string>
 </resources>
