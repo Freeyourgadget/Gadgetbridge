@@ -580,6 +580,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "intent":
                 handleIntent(json);
                 break;
+            case "file":
+                handleFile(json);
+                break;
             case "gps_power": {
                 boolean status = json.getBoolean("status");
                 LOG.info("Got gps power status: " + status);
@@ -982,6 +985,37 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast(getContext(), "Flag '"+flag+"' isn't implemented or it doesn't exist and was therefore not set.", Toast.LENGTH_LONG, GB.INFO);
         }
         return intent;
+    }
+
+    private void handleFile(JSONObject json) throws JSONException {
+
+        File dir;
+        try {
+            dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(getDevice().getName()));
+            if (!dir.isDirectory()) {
+                if (!dir.mkdir()) {
+                    throw new IOException("Cannot create device specific directory for " + getDevice().getName());
+                }
+            }
+        } catch (IOException e) {
+            LOG.error("Could not get directory to write to with error: " + e);
+            return;
+        }
+        String filename = json.getString("n");
+        String filenameThatCantEscapeDir = filename.replaceAll("/","");
+
+        LOG.debug("Compare filename and filenameThatCantEscapeDir:\n" + filename + "\n" + filenameThatCantEscapeDir);
+        File outputFile = new File(dir, filenameThatCantEscapeDir);
+        String mode = "append";
+        if (json.getString("m").equals("w")) {
+            mode = "write";
+        }
+        try {
+            FileUtils.copyStringToFile(json.getString("c"), outputFile, mode);
+            LOG.info("Writing to "+outputFile);
+        } catch (IOException e) {
+            LOG.warn("Could not write to " + outputFile + "with error: " + e);
+        }
     }
 
     @Override
