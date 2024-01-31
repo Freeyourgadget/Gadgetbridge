@@ -22,17 +22,20 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,6 +44,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
@@ -85,6 +89,31 @@ public class FileUtils {
                 fout.write(buf, 0, bytes);
             }
         }
+    }
+    /*
+    File outputFile = new File(dir, filename);
+    String filenameLogID = "latestFetchedRecorderLog.txt";
+    File outputFileLogID = new File(dir, filenameLogID);
+            LOG.warn("Writing log to " + outputFile.toString());
+            try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
+        writer.write(line);
+        writer.close();
+        //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
+
+        BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
+        writerLogID.write(log);
+        writerLogID.close();
+     */
+    public static void copyStringToFile(String string, File dst, String mode) throws IOException{
+        BufferedWriter writer;
+        if (Objects.equals(mode, "append")) {
+            writer = new BufferedWriter(new FileWriter(dst, true));
+        } else {
+            writer = new BufferedWriter(new FileWriter(dst, false));
+        }
+        writer.write(string);
+        writer.close();
     }
 
     /**
