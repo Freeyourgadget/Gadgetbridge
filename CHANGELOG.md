@@ -2,17 +2,26 @@
 
 #### Next Version (WIP)
 
+* Initial support for Honor Magic Watch 2
 * Initial support for Mijia MHO-C303
+* Initial support for Nothing CMF Watch Pro
 * Initial support for Sony WI-SP600N
+* Experimental support for Redmi Watch 2
 * Experimental support for Xiaomi Smart Band 8 Pro
 * Experimental support for Xiaomi Watch S1 Pro
 * Experimental support for Xiaomi Watch S1
 * Experimental support for Xiaomi Watch S3
 * Redmi Smart Band Pro: Fix password digits
+* Pebble: Fix app configuration page
+* PineTime: Fix weather forecast on InfiniTime's new simple weather
 * Xiaomi: Fix sleep sometimes extending past the wakeup time
 * Xiaomi: Request battery level and charging state periodically
+* Xiaomi: Fix sleep stage parsing for some devices
+* Zepp OS: Improve device discovery
 * Zepp OS: Fix weather not working on some devices
+* Zepp OS: Prevent crash when installing large firmware updates
 * Fix sport activity summary group order
+* Fix reconnection to devices failing occasionally
 
 #### 0.78.0
 * Initial support for Honor Band 3,4,5,6
