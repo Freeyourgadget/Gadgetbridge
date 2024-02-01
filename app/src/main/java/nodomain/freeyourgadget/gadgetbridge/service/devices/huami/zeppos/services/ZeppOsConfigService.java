@@ -107,6 +107,10 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     @Override
     public void handlePayload(final byte[] payload) {
         switch (payload[0]) {
+            case CMD_CAPABILITIES_RESPONSE:
+                handleCapabilitiesResponse(payload);
+                return;
+
             case CMD_ACK:
                 LOG.info("Configuration ACK, status = {}", payload[1]);
                 return;
@@ -125,7 +129,8 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     @Override
-    public void initialize(TransactionBuilder builder) {
+    public void initialize(final TransactionBuilder builder) {
+        write(builder, CMD_CAPABILITIES_REQUEST);
         requestAllConfigs(builder);
     }
 
@@ -150,6 +155,27 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         }
 
         return false;
+    }
+
+    private void handleCapabilitiesResponse(final byte[] payload) {
+        final int version = payload[1] & 0xFF;
+        LOG.info("Got config service version={}", version);
+        if (version > 3) {
+            LOG.error("Unsupported config service version {}", version);
+            return;
+        }
+        final int numGroups = payload[2] & 0xFF;
+        if (payload.length != numGroups + 3) {
+            LOG.error("Unexpected config capabilities response length {} for {} groups", payload.length, numGroups);
+            return;
+        }
+
+        for (int i = 0; i < numGroups; i++) {
+            final ConfigGroup configGroup = ConfigGroup.fromValue(payload[3 + i]);
+            LOG.debug("Got supported config group {}: {}", String.format("0x%02x", payload[3 + i]), configGroup);
+        }
+
+        // TODO: We should only request supported config groups
     }
 
     private boolean sentFitnessGoal = false;

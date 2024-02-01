@@ -72,7 +72,12 @@ public class ZeppOsServicesService extends AbstractZeppOsService {
 
             final AbstractZeppOsService service = getSupport().getService(endpoint);
 
-            LOG.debug("Service: endpoint={} encrypted={} known={}", String.format("%04x", endpoint), encrypted, service != null);
+            LOG.debug(
+                    "Zepp OS Service: endpoint={} encrypted={} name={}",
+                    String.format("%04x", endpoint),
+                    encrypted,
+                    service != null ? service.getClass().getSimpleName() : "unknown"
+            );
 
             if (service != null && encrypted != null) {
                 service.setEncrypted(encrypted);

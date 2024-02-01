@@ -2272,9 +2272,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
-        super.onCharacteristicChanged(gatt, characteristic);
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            // handled upstream
+            return true;
+        }
 
-        UUID characteristicUUID = characteristic.getUuid();
+        final UUID characteristicUUID = characteristic.getUuid();
         if (HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
             return true;
@@ -2317,7 +2320,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic, int status) {
-        super.onCharacteristicRead(gatt, characteristic, status);
+        if (super.onCharacteristicRead(gatt, characteristic, status)) {
+            // handled upstream
+            return true;
+        }
 
         UUID characteristicUUID = characteristic.getUuid();
         if (GattCharacteristic.UUID_CHARACTERISTIC_DEVICE_NAME.equals(characteristicUUID)) {
