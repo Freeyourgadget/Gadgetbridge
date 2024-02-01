@@ -553,6 +553,13 @@ public class HuaweiPacket {
                     default:
                         return this;
                 }
+            case Weather.id:
+                switch (this.commandId) {
+                    case Weather.WeatherForecastData.id:
+                        return new Weather.WeatherForecastData.OutgoingRequest(paramsProvider).fromPacket(this);
+                    default:
+                        return this;
+                }
             default:
                 return this;
         }

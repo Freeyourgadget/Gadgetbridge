@@ -23,7 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather.WeatherForecastDataRequest;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather.WeatherForecastData;
 
 public class SendWeatherForecastRequest extends Request {
     WeatherSpec weatherSpec;
@@ -31,23 +31,23 @@ public class SendWeatherForecastRequest extends Request {
     public SendWeatherForecastRequest(HuaweiSupportProvider support, WeatherSpec weatherSpec) {
         super(support);
         this.serviceId = Weather.id;
-        this.commandId = Weather.WeatherForecastDataRequest.id;
+        this.commandId = Weather.WeatherForecastData.id;
         this.weatherSpec = weatherSpec;
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         // TODO: Weather settings
-        ArrayList<WeatherForecastDataRequest.TimeData> timeDataArrayList = new ArrayList<>(
+        ArrayList<WeatherForecastData.TimeData> timeDataArrayList = new ArrayList<>(
                 this.weatherSpec.hourly.size() // TODO: wrong size
         );
-        ArrayList<WeatherForecastDataRequest.DayData> dayDataArrayList = new ArrayList<>(
+        ArrayList<WeatherForecastData.DayData> dayDataArrayList = new ArrayList<>(
                 this.weatherSpec.forecasts.size() // TODO: wrong size
         );
         // for (WeatherSpec.Hourly hourly : weatherSpec.hourly) {
-        for (int i = 0; i < Math.min(weatherSpec.hourly.size(), 24); i++) { // TODO: min?
+        for (int i = Math.min(weatherSpec.hourly.size(), 24) - 1; i >= 0; i--) { // TODO: min?
             WeatherSpec.Hourly hourly = weatherSpec.hourly.get(i);
-            WeatherForecastDataRequest.TimeData timeData = new WeatherForecastDataRequest.TimeData();
+            WeatherForecastData.TimeData timeData = new WeatherForecastData.TimeData();
             timeData.timestamp = hourly.timestamp;
             timeData.icon = 1; // TODO: hourly.conditionCode conversion
             timeData.temperature = (byte) (hourly.temp - 273);
@@ -55,7 +55,7 @@ public class SendWeatherForecastRequest extends Request {
         }
 
         // Add today as well
-        WeatherForecastDataRequest.DayData today = new WeatherForecastDataRequest.DayData();
+        WeatherForecastData.DayData today = new WeatherForecastData.DayData();
         today.timestamp = weatherSpec.sunRise;
         today.icon = 1; // TODO
         today.highTemperature = (byte) (weatherSpec.todayMaxTemp - 273);
@@ -69,7 +69,7 @@ public class SendWeatherForecastRequest extends Request {
 
         for (int i = 0; i < Math.min(weatherSpec.forecasts.size(), 7); i++) { // TODO: min?
             WeatherSpec.Daily daily = weatherSpec.forecasts.get(i);
-            WeatherForecastDataRequest.DayData dayData = new WeatherForecastDataRequest.DayData();
+            WeatherForecastData.DayData dayData = new WeatherForecastData.DayData();
             dayData.timestamp = daily.sunRise;
             dayData.icon = 1; // TODO: daily.conditionCode conversion
             dayData.highTemperature = (byte) (daily.maxTemp - 273);
@@ -82,7 +82,7 @@ public class SendWeatherForecastRequest extends Request {
             dayDataArrayList.add(dayData);
         }
         try {
-            return new WeatherForecastDataRequest(
+            return new WeatherForecastData.Request(
                     this.paramsProvider,
                     timeDataArrayList,
                     dayDataArrayList
