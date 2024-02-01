@@ -331,6 +331,7 @@ public class HuaweiSupportProvider {
                             initializeDeviceHiChainMode(linkParamsReq);
                         } else if (securityNegoReq.authType == 0x01 || securityNegoReq.authType == 0x02) {
                             LOG.debug("HiChain Lite mode");
+                            // Keep track the gadget is connected
                             initializeDeviceHiChainLiteMode(linkParamsReq);
                         }
                     }

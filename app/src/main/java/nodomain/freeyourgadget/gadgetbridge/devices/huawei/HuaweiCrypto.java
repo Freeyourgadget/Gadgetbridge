@@ -17,7 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
 import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -100,13 +102,15 @@ public class HuaweiCrypto {
     }
 
     private byte[] getDigestSecret() {
+        byte[] digest;
         if (authVersion == 1) {
-            return DIGEST_SECRET_v1;
+            digest = DIGEST_SECRET_v1.clone();
         } else if (authVersion == 2) {
-            return DIGEST_SECRET_v2;
+            digest = DIGEST_SECRET_v2.clone();
         } else {
-            return DIGEST_SECRET_v3;
+            digest = DIGEST_SECRET_v3.clone();
         }
+        return digest;
     }
     public byte[] computeDigest(byte[] message, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException {
         byte[] digestSecret = getDigestSecret();
@@ -118,9 +122,9 @@ public class HuaweiCrypto {
         return CryptoUtils.calcHmacSha256(digestStep1, nonce);
     }
 
-    public byte[] computeDigestHiChainLite(byte[] message, byte[] key, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+    public byte[] computeDigestHiChainLite(byte[] message, byte[] key, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
         byte[] digestStep1;
-        byte[] hashKey = CryptoUtils.digest(key);
+        byte[] hashKey = CryptoUtils.digest(GB.hexdump(key).getBytes("UTF-8"));
         byte[] digestSecret = getDigestSecret();
         for (int i = 0; i < digestSecret.length; i++) {
             digestSecret[i] = (byte) (((0xFF & hashKey[i]) ^ (digestSecret[i] & 0xFF)) & 0xFF);
@@ -130,14 +134,14 @@ public class HuaweiCrypto {
                 .put(message)
                 .array();
         if (authAlgo == 0x01) {
-            digestStep1 = CryptoUtils.pbkdf2Sha256(msgToDigest, nonce, 0x3e8, 0x100);
+            digestStep1 = CryptoUtils.pbkdf2Sha256(GB.hexdump(msgToDigest), GB.hexdump(nonce), 0x3e8, 0x100);
         } else {
             digestStep1 = CryptoUtils.calcHmacSha256(msgToDigest, nonce);
         }
         return CryptoUtils.calcHmacSha256(digestStep1, nonce);
     }
 
-    public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+    public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
         if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
@@ -153,7 +157,7 @@ public class HuaweiCrypto {
         return computeDigest(MESSAGE_CHALLENGE, nonce);
     }
 
-    public byte[] digestResponse(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException {
+    public byte[] digestResponse(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
         if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
@@ -216,9 +220,11 @@ public class HuaweiCrypto {
         return CryptoUtils.decryptAES_CBC_Pad(data, encryptionKey, iv);
     }
 
-    public byte[] decryptPinCode(byte[] message, byte[] iv) throws CryptoException {
+    public byte[] decryptPinCode(byte encryptMethod, byte[] message, byte[] iv) throws CryptoException {
         byte[] secretKey = getDigestSecret();
         try {
+            if (encryptMethod == 0x1)
+                return CryptoUtils.decryptAES_GCM_NoPad(message, secretKey, iv, null);
             return CryptoUtils.decryptAES_CBC_Pad(message, secretKey, iv);
         } catch (Exception e) {
             throw new CryptoException(e);

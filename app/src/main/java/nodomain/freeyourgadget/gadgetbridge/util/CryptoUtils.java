@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.annotation.SuppressLint;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -133,10 +134,9 @@ public class CryptoUtils {
         return result;
     }
 
-    public static byte[] pbkdf2Sha256(byte[] key, byte[] iv, int count, int length) throws InvalidKeySpecException, NoSuchAlgorithmException  {
+    public static byte[] pbkdf2Sha256(String key, String iv, int count, int length) throws InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException {
         SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        String keyStr = new String(key, StandardCharsets.UTF_8);
-        PBEKeySpec keySpec = new PBEKeySpec(keyStr.toCharArray(), iv, count, length);
+        PBEKeySpec keySpec = new PBEKeySpec(key.toCharArray(), iv.getBytes("utf-8"), count, length);
         return secretKeyFactory.generateSecret(keySpec).getEncoded();
     }
 }

@@ -78,6 +78,7 @@ public class DeviceConfig {
             public byte authAlgo = 0x00;
             public byte bondState = 0x00;
             public short interval = 0x0;
+            public byte encryptMethod = 0x00;
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -111,6 +112,9 @@ public class DeviceConfig {
 
                 if (this.tlv.contains(0x09))
                     this.bondState = this.tlv.getByte(0x09);
+
+                if (this.tlv.contains(0x0C))
+                    this.encryptMethod = this.tlv.getByte(0x0C);
             }
         }
     }
@@ -1400,7 +1404,7 @@ public class DeviceConfig {
 
                 HuaweiCrypto huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion());
                 try {
-                    pinCode = huaweiCrypto.decryptPinCode(message, iv);
+                    pinCode = huaweiCrypto.decryptPinCode(paramsProvider.getEncryptMethod(), message, iv);
                 } catch (HuaweiCrypto.CryptoException e) {
                     throw new CryptoException("Could not decrypt pinCode", e);
                 }
@@ -1487,7 +1491,7 @@ public class DeviceConfig {
                 this.tlv = new HuaweiTLV()
                     .put(0x01, authMode);
                 if (authMode == 0x02 || authMode == 0x04)
-                    this.tlv.put(0x02, (byte)0x01);
+                    this.tlv.put(0x02, (byte)0x01); //force to not reconnected else 0x02
                 this.tlv.put(0x05, deviceUUID)
                         .put(0x03, (byte)0x01)
                         .put(0x04, (byte)0x00);

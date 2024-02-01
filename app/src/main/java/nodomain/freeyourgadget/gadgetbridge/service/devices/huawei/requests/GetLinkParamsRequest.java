@@ -84,5 +84,6 @@ public class GetLinkParamsRequest extends Request {
         this.bondState = ((LinkParams.Response) receivedPacket).bondState;
 
         paramsProvider.setAuthAlgo(((LinkParams.Response) receivedPacket).authAlgo);
+        paramsProvider.setEncryptMethod(((LinkParams.Response) receivedPacket).encryptMethod);
     }
 }

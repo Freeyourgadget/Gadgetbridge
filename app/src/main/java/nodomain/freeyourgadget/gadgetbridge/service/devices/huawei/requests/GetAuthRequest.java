@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class GetAuthRequest extends Request {
@@ -73,12 +75,13 @@ public class GetAuthRequest extends Request {
                     .put(clientNonce)
                     .array();
             byte[] challenge = huaweiCrypto.digestChallenge(key, doubleNonce);
+            LOG.debug("challenge: " + GB.hexdump(challenge));
             if (challenge == null)
                 throw new RequestCreationException("Challenge null");
             return new DeviceConfig.Auth.Request(paramsProvider, challenge, nonce).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
-        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | UnsupportedEncodingException e) {
             throw new RequestCreationException("Digest exception", e);
         }
     }
@@ -102,7 +105,7 @@ public class GetAuthRequest extends Request {
                         + StringUtils.bytesToHex(expectedAnswer)
                 );
             }
-        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | UnsupportedEncodingException e) {
             throw new ResponseParseException("Challenge response digest exception");
         }
     }
