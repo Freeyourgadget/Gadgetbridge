@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitfalcon;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -45,11 +44,6 @@ public class AmazfitFalconCoordinator extends ZeppOsCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_falcon;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_FALCON_NAME + ".*");
     }
 
     @Override

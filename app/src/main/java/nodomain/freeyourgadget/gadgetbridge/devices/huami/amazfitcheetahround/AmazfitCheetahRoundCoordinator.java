@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcheetahround;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -45,11 +44,6 @@ public class AmazfitCheetahRoundCoordinator extends ZeppOsCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_cheetah_round;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_CHEETAH_ROUND_NAME + ".*");
     }
 
     @Override

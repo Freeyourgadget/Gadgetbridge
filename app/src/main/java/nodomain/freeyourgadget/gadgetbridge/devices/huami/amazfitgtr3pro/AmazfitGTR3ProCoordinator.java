@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -35,11 +34,6 @@ public class AmazfitGTR3ProCoordinator extends ZeppOsCoordinator {
     @Override
     public Set<Integer> getDeviceSources() {
         return new HashSet<>(Arrays.asList(229, 230, 6095106));
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_GTR3_PRO_NAME + ".*");
     }
 
     @Override

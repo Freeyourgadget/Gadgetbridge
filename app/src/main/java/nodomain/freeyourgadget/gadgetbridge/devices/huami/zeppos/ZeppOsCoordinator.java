@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
@@ -81,6 +82,15 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     protected Map<Integer, String> getCrcMap() {
         // A map from CRC16 to human-readable version for flashable files
         return Collections.emptyMap();
+    }
+
+    @Override
+    protected final Pattern getSupportedDeviceName() {
+        // Most devices use the exact bluetooth name
+        // Some devices have a " XXXX" suffix with the last 4 digits of mac address (eg. Mi Band 7)
+        // *However*, some devices broadcast a 2nd bluetooth device with "-XXXX" suffix, which is only
+        // used for calls and Gadgetbridge can't use for pairing.
+        return Pattern.compile("^" + getDeviceBluetoothName() + "( [A-Z0-9]{4})?$");
     }
 
     @NonNull

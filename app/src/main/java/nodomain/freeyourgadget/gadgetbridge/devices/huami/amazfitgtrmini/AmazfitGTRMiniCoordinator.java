@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtrmini;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -40,11 +39,6 @@ public class AmazfitGTRMiniCoordinator extends ZeppOsCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_gtr_mini;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_GTR_MINI_NAME + ".*");
     }
 
     @Override

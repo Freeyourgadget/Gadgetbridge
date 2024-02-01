@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3;
 
-import androidx.annotation.NonNull;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public class AmazfitGTR3Coordinator extends ZeppOsCoordinator {
     @Override
@@ -37,13 +34,6 @@ public class AmazfitGTR3Coordinator extends ZeppOsCoordinator {
     @Override
     public Set<Integer> getDeviceSources() {
         return new HashSet<>(Arrays.asList(226, 227));
-    }
-
-    @NonNull
-    @Override
-    public boolean supports(final GBDeviceCandidate candidate) {
-        final String name = candidate.getName();
-        return name.startsWith(HuamiConst.AMAZFIT_GTR3_NAME) && !name.contains("Pro");
     }
 
     @Override

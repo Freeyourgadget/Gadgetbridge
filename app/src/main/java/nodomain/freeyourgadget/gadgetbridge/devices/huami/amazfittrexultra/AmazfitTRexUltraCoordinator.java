@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexultra;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -40,11 +39,6 @@ public class AmazfitTRexUltraCoordinator extends ZeppOsCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_trex_ultra;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_TREX_ULTRA + ".*");
     }
 
     @Override

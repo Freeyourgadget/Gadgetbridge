@@ -26,7 +26,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public class MiBand7Coordinator extends ZeppOsCoordinator {
     @Override
@@ -48,12 +47,6 @@ public class MiBand7Coordinator extends ZeppOsCoordinator {
             put(14502, "2.0.0.2");
             put(25658, "2.1.0.1");
         }};
-    }
-
-    @Override
-    public boolean supports(final GBDeviceCandidate candidate) {
-        final String name = candidate.getName();
-        return name.startsWith(HuamiConst.XIAOMI_SMART_BAND7_NAME) && !name.contains("Pro");
     }
 
     @Override

@@ -24,7 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public class AmazfitActiveCoordinator extends ZeppOsCoordinator {
     @Override
@@ -40,12 +39,6 @@ public class AmazfitActiveCoordinator extends ZeppOsCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_active;
-    }
-
-    @Override
-    public boolean supports(final GBDeviceCandidate candidate) {
-        final String name = candidate.getName();
-        return name.startsWith(HuamiConst.AMAZFIT_ACTIVE_NAME) && !name.contains("Edge");
     }
 
     @Override

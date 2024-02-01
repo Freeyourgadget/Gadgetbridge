@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbalance;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -41,12 +40,6 @@ public class AmazfitBalanceCoordinator extends ZeppOsCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_balance;
     }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_BALANCE_NAME + ".*");
-    }
-
 
     @Override
     public boolean supportsContinuousFindDevice() {
