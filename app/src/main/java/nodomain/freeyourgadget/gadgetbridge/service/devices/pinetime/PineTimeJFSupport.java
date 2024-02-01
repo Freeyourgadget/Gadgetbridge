@@ -1021,7 +1021,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         TransactionBuilder forecastBuilder = createTransactionBuilder("SimpleWeatherData");
         safeWriteToCharacteristic(forecastBuilder,
                 PineTimeJFConstants.UUID_CHARACTERISTIC_SIMPLE_WEATHER_DATA,
-                currentPacket.array());
+                forecastPacket.array());
 
         forecastBuilder.queue(getQueue());
     }
