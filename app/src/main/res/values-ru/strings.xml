@@ -2746,4 +2746,11 @@
     <string name="activity_type_hula_hooping">Обруч</string>
     <string name="devicetype_nothing_cmf_watch_pro">CMF Watch Pro</string>
     <string name="activity_type_hunting">Охота</string>
+    <string name="activity_type_fishing">Рыбалка</string>
+    <string name="devicetype_redmi_watch_2">Redmi Watch 2</string>
+    <string name="activity_type_karting">Картинг</string>
+    <string name="activity_type_billiards">Бильярд</string>
+    <string name="activity_type_dodgeball">Вышибалы</string>
+    <string name="activity_type_softball">Софтбол</string>
+    <string name="activity_type_pickleball">Пиклбол</string>
 </resources>
