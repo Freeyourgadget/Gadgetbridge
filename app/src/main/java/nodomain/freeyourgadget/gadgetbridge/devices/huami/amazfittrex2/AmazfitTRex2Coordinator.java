@@ -16,46 +16,35 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex2.AmazfitTRex2Support;
 
 public class AmazfitTRex2Coordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRex2Coordinator.class);
+    @Override
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_TREX_2_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(418, 419));
+    }
 
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_TREX_2_NAME + ".*");
     }
 
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitTRex2Support.class;
-    }
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_trex_2;
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitTRex2FWInstallHandler(uri, context);
     }
 
     @Override

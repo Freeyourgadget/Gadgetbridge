@@ -16,49 +16,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts4.AmazfitGTS4Support;
 
 public class AmazfitGTS4Coordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTS4Coordinator.class);
+    @Override
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_GTS4_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(7995648, 7995649));
+    }
 
     @Override
     public boolean supports(final GBDeviceCandidate candidate) {
-        try {
-            final String name = candidate.getName();
-            if (name != null && name.startsWith(HuamiConst.AMAZFIT_GTS4_NAME) && !name.contains("Mini")) {
-                return true;
-            }
-        } catch (final Exception e) {
-            LOG.error("unable to check device support", e);
-        }
-
-        return false;
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitGTS4Support.class;
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitGTS4FWInstallHandler(uri, context);
+        final String name = candidate.getName();
+        return name.startsWith(HuamiConst.AMAZFIT_GTS4_NAME) && !name.contains("Mini");
     }
 
     @Override
@@ -96,12 +78,10 @@ public class AmazfitGTS4Coordinator extends ZeppOsCoordinator {
         return true;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_gts4;
     }
-
 
     @Override
     public int getDefaultIconResource() {

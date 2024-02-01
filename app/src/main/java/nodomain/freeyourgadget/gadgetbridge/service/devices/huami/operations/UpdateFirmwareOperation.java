@@ -80,7 +80,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    AbstractHuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+    protected AbstractHuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
         HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
@@ -283,7 +283,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         builder.queue(getQueue());
     }
 
-    AbstractHuamiFirmwareInfo getFirmwareInfo() {
+    protected AbstractHuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
 

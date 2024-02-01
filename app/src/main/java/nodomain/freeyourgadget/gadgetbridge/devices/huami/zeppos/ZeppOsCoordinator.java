@@ -28,7 +28,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
@@ -54,7 +57,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsFwInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
@@ -69,7 +74,20 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class ZeppOsCoordinator extends HuamiCoordinator {
-    public abstract AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context);
+    public abstract String getDeviceBluetoothName();
+
+    public abstract Set<Integer> getDeviceSources();
+
+    protected Map<Integer, String> getCrcMap() {
+        // A map from CRC16 to human-readable version for flashable files
+        return Collections.emptyMap();
+    }
+
+    @NonNull
+    @Override
+    public final Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return ZeppOsSupport.class;
+    }
 
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
@@ -87,7 +105,12 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
             }
         }
 
-        final AbstractZeppOsFwInstallHandler handler = createFwInstallHandler(uri, context);
+        final ZeppOsFwInstallHandler handler = new ZeppOsFwInstallHandler(
+                uri,
+                context,
+                getDeviceBluetoothName(),
+                getDeviceSources()
+        );
         return handler.isValid() ? handler : null;
     }
 

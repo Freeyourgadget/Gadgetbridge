@@ -16,31 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexultra;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexultra.AmazfitTRexUltraSupport;
 
 public class AmazfitTRexUltraCoordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRexUltraCoordinator.class);
-
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitTRexUltraSupport.class;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_TREX_ULTRA;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(6553856, 6553857));
     }
 
     @Override
@@ -51,11 +45,6 @@ public class AmazfitTRexUltraCoordinator extends ZeppOsCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_TREX_ULTRA + ".*");
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitTRexUltraFWInstallHandler(uri, context);
     }
 
     @Override

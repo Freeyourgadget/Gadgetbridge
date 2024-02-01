@@ -16,46 +16,35 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcheetahsquare;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcheetahsquare.AmazfitCheetahSquareSupport;
 
 public class AmazfitCheetahSquareCoordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitCheetahSquareCoordinator.class);
-
     @Override
     public boolean isExperimental() {
         return true;
     }
 
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitCheetahSquareSupport.class;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_CHEETAH_SQUARE_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Collections.singletonList(8257793));
     }
 
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_CHEETAH_SQUARE_NAME + ".*");
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitCheetahSquareFWInstallHandler(uri, context);
     }
 
     @Override
@@ -98,12 +87,10 @@ public class AmazfitCheetahSquareCoordinator extends ZeppOsCoordinator {
         return true;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_cheetah_square;
     }
-
 
     @Override
     public int getDefaultIconResource() {

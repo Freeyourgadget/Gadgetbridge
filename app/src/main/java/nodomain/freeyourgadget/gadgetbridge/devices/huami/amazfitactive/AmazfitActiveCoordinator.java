@@ -16,25 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitactive;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitactive.AmazfitActiveSupport;
 
 public class AmazfitActiveCoordinator extends ZeppOsCoordinator {
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitActiveSupport.class;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_ACTIVE_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(8323328));
     }
 
     @Override
@@ -46,11 +46,6 @@ public class AmazfitActiveCoordinator extends ZeppOsCoordinator {
     public boolean supports(final GBDeviceCandidate candidate) {
         final String name = candidate.getName();
         return name.startsWith(HuamiConst.AMAZFIT_ACTIVE_NAME) && !name.contains("Edge");
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitActiveFWInstallHandler(uri, context);
     }
 
     @Override

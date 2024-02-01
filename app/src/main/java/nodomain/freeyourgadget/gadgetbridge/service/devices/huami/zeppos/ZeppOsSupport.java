@@ -38,6 +38,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TEMPERATURE_UNIT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TIME_FORMAT;
 
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
@@ -78,6 +79,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -111,7 +113,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiPhoneGpsS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsFirmwareUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsGpxRouteUploadOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
@@ -143,7 +145,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
-public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferService.Callback {
+public final class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsSupport.class);
 
     // Tracks whether realtime HR monitoring is already started, so we can just
@@ -593,6 +595,11 @@ public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTr
     }
 
     @Override
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(final Uri uri) {
+        throw new UnsupportedOperationException("this method should not be used");
+    }
+
+    @Override
     public void onInstallApp(final Uri uri) {
         final ZeppOsAgpsInstallHandler agpsHandler = new ZeppOsAgpsInstallHandler(uri, getContext());
         if (agpsHandler.isValid()) {
@@ -635,7 +642,7 @@ public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTr
                         return;
                     }
 
-                    new UpdateFirmwareOperation2021(Uri.parse(uihhFile.toURI().toString()), this).perform();
+                    new ZeppOsFirmwareUpdateOperation(Uri.parse(uihhFile.toURI().toString()), this).perform();
                 }
 
             } catch (final Exception e) {
@@ -656,11 +663,13 @@ public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTr
             } catch (final Exception e) {
                 GB.toast(getContext(), "Gpx route file cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             }
-
-            return;
         }
 
-        super.onInstallApp(uri);
+        try {
+            new ZeppOsFirmwareUpdateOperation(uri, this).perform();
+        } catch (final IOException ex) {
+            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+        }
     }
 
     @Override
@@ -999,6 +1008,12 @@ public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTr
         servicesService.requestServices(builder);
     }
 
+    @Override
+    @Deprecated
+    public final HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
+        throw new UnsupportedOperationException("This function should not be used for Zepp OS devices");
+    }
+
     public void addSupportedService(final short endpoint, final boolean encrypted) {
         mSupportedServices.add(endpoint);
         if (encrypted) {
@@ -1052,11 +1067,6 @@ public abstract class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTr
     @Nullable
     public AbstractZeppOsService getService(final short endpoint) {
         return mServiceMap.get(endpoint);
-    }
-
-    @Override
-    public UpdateFirmwareOperation createUpdateFirmwareOperation(final Uri uri) {
-        return new UpdateFirmwareOperation2021(uri, this);
     }
 
     @Override

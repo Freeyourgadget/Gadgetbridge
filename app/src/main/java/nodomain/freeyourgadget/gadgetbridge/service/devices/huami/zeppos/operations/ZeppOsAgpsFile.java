@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.UIHHContainer;
-import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
+import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 public class ZeppOsAgpsFile {
@@ -36,11 +36,11 @@ public class ZeppOsAgpsFile {
     }
 
     public boolean isValid() {
-        if (!ZipFile.isZipFile(zipBytes)) {
+        if (!GBZipFile.isZipFile(zipBytes)) {
             return false;
         }
 
-        final ZipFile zipFile = new ZipFile(zipBytes);
+        final GBZipFile zipFile = new GBZipFile(zipBytes);
 
         try {
             final byte[] manifestBin = zipFile.getFileFromZip("META-INF/MANIFEST.MF");
@@ -67,7 +67,7 @@ public class ZeppOsAgpsFile {
     public byte[] getUihhBytes() {
         final UIHHContainer uihh = new UIHHContainer();
 
-        final ZipFile zipFile = new ZipFile(zipBytes);
+        final GBZipFile zipFile = new GBZipFile(zipBytes);
 
         try {
             uihh.addFile(UIHHContainer.FileType.AGPS_EPO_GR_3, zipFile.getFileFromZip("EPO_GR_3.DAT"));

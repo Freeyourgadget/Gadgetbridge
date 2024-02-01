@@ -16,46 +16,50 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4.AmazfitGTR4Support;
 
 public class AmazfitGTR4Coordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR4Coordinator.class);
+    @Override
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_GTR4_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(7930112, 7930113, 7864577));
+    }
 
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_GTR4_NAME + ".*");
     }
 
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitGTR4Support.class;
+    protected Map<Integer, String> getCrcMap() {
+        return new HashMap<Integer, String>() {{
+            // firmware
+            put(1699, "3.17.0.2");
+            put(20712, "3.18.1.1 (diff from 3.17.0.2)");
+            put(49685, "3.23.3.1 (diff from 3.21.0.1)");
+        }};
     }
 
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_gtr4;
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitGTR4FWInstallHandler(uri, context);
     }
 
     @Override

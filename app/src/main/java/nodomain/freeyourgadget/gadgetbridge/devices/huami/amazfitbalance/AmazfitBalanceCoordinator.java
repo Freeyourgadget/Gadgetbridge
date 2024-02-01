@@ -16,26 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbalance;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbalance.AmazfitBalanceSupport;
 
 public class AmazfitBalanceCoordinator extends ZeppOsCoordinator {
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitBalanceSupport.class;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_BALANCE_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(8519936, 8519937, 8519939));
     }
 
     @Override
@@ -48,10 +47,6 @@ public class AmazfitBalanceCoordinator extends ZeppOsCoordinator {
         return Pattern.compile(HuamiConst.AMAZFIT_BALANCE_NAME + ".*");
     }
 
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitBalanceFWInstallHandler(uri, context);
-    }
 
     @Override
     public boolean supportsContinuousFindDevice() {

@@ -12,10 +12,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
+import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
-public class ZipFileTest extends TestBase {
+public class GBZipFileTest extends TestBase {
     private static final String TEST_FILE_NAME = "manifest.json";
     private static final String TEST_NESTED_FILE_NAME = "directory/manifest.json";
     private static final String TEST_FILE_CONTENTS_1 = "{ \"mykey\": \"myvalue\", \"myarr\": [0, 1, 2, 3] }";
@@ -44,7 +44,7 @@ public class ZipFileTest extends TestBase {
 
         byte[] zipArchive = createZipArchive(TEST_FILE_NAME, contents);
 
-        ZipFile zipFile = new ZipFile(zipArchive);
+        GBZipFile zipFile = new GBZipFile(zipArchive);
         String readContents = new String(zipFile.getFileFromZip(TEST_FILE_NAME));
 
         Assert.assertEquals(contents, readContents);
@@ -56,7 +56,7 @@ public class ZipFileTest extends TestBase {
 
         byte[] zipArchive = createZipArchive(TEST_FILE_NAME, contents);
 
-        ZipFile zipFile = new ZipFile(zipArchive);
+        GBZipFile zipFile = new GBZipFile(zipArchive);
         String readContents = new String(zipFile.getFileFromZip(TEST_FILE_NAME));
 
         Assert.assertEquals(contents, readContents);
@@ -68,7 +68,7 @@ public class ZipFileTest extends TestBase {
 
         byte[] zipArchive = createZipArchive(TEST_FILE_NAME, contents);
 
-        ZipFile zipFile = new ZipFile(zipArchive);
+        GBZipFile zipFile = new GBZipFile(zipArchive);
         String readContents = new String(zipFile.getFileFromZip(TEST_FILE_NAME));
 
         Assert.assertEquals(contents, readContents);
@@ -80,7 +80,7 @@ public class ZipFileTest extends TestBase {
 
         byte[] zipArchive = createZipArchive(TEST_FILE_NAME, contents);
 
-        ZipFile zipFile = new ZipFile(zipArchive);
+        GBZipFile zipFile = new GBZipFile(zipArchive);
         String readContents = new String(zipFile.getFileFromZip(TEST_FILE_NAME));
 
         Assert.assertEquals(contents, readContents);
@@ -92,7 +92,7 @@ public class ZipFileTest extends TestBase {
 
         byte[] zipArchive = createZipArchive(TEST_NESTED_FILE_NAME, contents);
 
-        ZipFile zipFile = new ZipFile(zipArchive);
+        GBZipFile zipFile = new GBZipFile(zipArchive);
         String readContents = new String(zipFile.getFileFromZip(TEST_NESTED_FILE_NAME));
 
         Assert.assertEquals(contents, readContents);
@@ -112,7 +112,7 @@ public class ZipFileTest extends TestBase {
         writeFileToZip(contents3, "file3", zipWriteStream);
         zipWriteStream.close();
 
-        ZipFile zipFile = new ZipFile(baos.toByteArray());
+        GBZipFile zipFile = new GBZipFile(baos.toByteArray());
         String readContents2 = new String(zipFile.getFileFromZip("file2"));
         String readContents1 = new String(zipFile.getFileFromZip("file1"));
         String readContents3 = new String(zipFile.getFileFromZip("file3"));
@@ -132,7 +132,7 @@ public class ZipFileTest extends TestBase {
         writeFileToZip("Hello, World!", "folder1/file3", zipWriteStream);
         zipWriteStream.close();
 
-        final ZipFile zipFile = new ZipFile(baos.toByteArray());
+        final GBZipFile zipFile = new GBZipFile(baos.toByteArray());
         Assert.assertTrue(zipFile.fileExists("file2"));
         Assert.assertTrue(zipFile.fileExists("file1"));
         Assert.assertTrue(zipFile.fileExists("folder1/file3"));

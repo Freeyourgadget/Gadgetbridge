@@ -16,41 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts3;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsFwInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts3.AmazfitGTS3Support;
 
 public class AmazfitGTS3Coordinator extends ZeppOsCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTS3Coordinator.class);
+    @Override
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_GTS3_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(224, 225));
+    }
 
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_GTS3_NAME + ".*");
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitGTS3Support.class;
-    }
-
-    @Override
-    public AbstractZeppOsFwInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitGTS3FWInstallHandler(uri, context);
     }
 
     @Override
@@ -63,12 +52,10 @@ public class AmazfitGTS3Coordinator extends ZeppOsCoordinator {
         return false;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_gts3;
     }
-
 
     @Override
     public int getDefaultIconResource() {

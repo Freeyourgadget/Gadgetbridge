@@ -27,13 +27,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
-import androidx.annotation.Nullable;
-
 /**
  * Utility class for recognition and reading of ZIP archives.
  */
-public class ZipFile {
-    private static final Logger LOG = LoggerFactory.getLogger(ZipFile.class);
+public class GBZipFile {
+    private static final Logger LOG = LoggerFactory.getLogger(GBZipFile.class);
     public static final byte[] ZIP_HEADER = new byte[]{
         0x50, 0x4B, 0x03, 0x04
     };
@@ -44,7 +42,7 @@ public class ZipFile {
      * Open ZIP file from byte array already in memory.
      * @param zipBytes data to handle as a ZIP file.
      */
-    public ZipFile(byte[] zipBytes) {
+    public GBZipFile(byte[] zipBytes) {
         this.zipBytes = zipBytes;
     }
 
@@ -53,7 +51,7 @@ public class ZipFile {
      * This will read the entire file into memory at once.
      * @param inputStream data to handle as a ZIP file.
      */
-    public ZipFile(InputStream inputStream) throws IOException {
+    public GBZipFile(InputStream inputStream) throws IOException {
         this.zipBytes = readAllBytes(inputStream);
     }
 
@@ -118,7 +116,7 @@ public class ZipFile {
         }
     }
 
-    private static byte[] readAllBytes(final InputStream is) throws IOException {
+    public static byte[] readAllBytes(final InputStream is) throws IOException {
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
         int n;

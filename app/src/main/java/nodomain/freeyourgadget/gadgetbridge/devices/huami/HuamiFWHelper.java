@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
@@ -46,42 +45,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     @NonNull
     @Override
     public String getFirmwareKind() {
-        int resId = R.string.kind_invalid;
-        switch (getFirmwareInfo().getFirmwareType()) {
-            case FONT:
-            case FONT_LATIN:
-                resId = R.string.kind_font;
-                break;
-            case GPS:
-                resId = R.string.kind_gps;
-                break;
-            case GPS_ALMANAC:
-                resId = R.string.kind_gps_almanac;
-                break;
-            case GPS_CEP:
-                resId = R.string.kind_gps_cep;
-                break;
-            case AGPS_UIHH:
-                resId = R.string.kind_agps_bundle;
-                break;
-            case RES:
-            case RES_COMPRESSED:
-                resId = R.string.kind_resources;
-                break;
-            case FIRMWARE:
-            case FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG:
-                resId = R.string.kind_firmware;
-                break;
-            case WATCHFACE:
-                resId = R.string.kind_watchface;
-                break;
-            case APP:
-                resId = R.string.kind_app;
-                break;
-            case INVALID:
-                // fall through
-        }
-        return GBApplication.getContext().getString(resId);
+        return GBApplication.getContext().getString(getFirmwareInfo().getFirmwareType().getNameResId());
     }
 
     @Override
