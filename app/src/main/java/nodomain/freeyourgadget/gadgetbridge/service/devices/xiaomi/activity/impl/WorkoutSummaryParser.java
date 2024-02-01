@@ -142,6 +142,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 // TODO
                 break;
             case SPORTS_INDOOR_CYCLING:
+                summary.setActivityKind(ActivityKind.TYPE_INDOOR_CYCLING);
                 parser = getIndoorCyclingParser(fileId);
                 break;
             case SPORTS_FREESTYLE:
