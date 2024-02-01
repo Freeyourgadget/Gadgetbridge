@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -179,6 +180,10 @@ public class HuaweiTLV {
 
     public HuaweiTLV put(int tag, Long value) {
         return put(tag, ByteBuffer.allocate(8).putLong(value).array());
+    }
+
+    public HuaweiTLV put(int tag, Double value) {
+        return put(tag, ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putDouble(value).array());
     }
 
     public HuaweiTLV put(int tag, int value) {
