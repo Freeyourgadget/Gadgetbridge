@@ -88,9 +88,10 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     protected final Pattern getSupportedDeviceName() {
         // Most devices use the exact bluetooth name
         // Some devices have a " XXXX" suffix with the last 4 digits of mac address (eg. Mi Band 7)
-        // *However*, some devices broadcast a 2nd bluetooth device with "-XXXX" suffix, which is only
-        // used for calls and Gadgetbridge can't use for pairing.
-        return Pattern.compile("^" + getDeviceBluetoothName() + "( [A-Z0-9]{4})?$");
+        // *However*, some devices broadcast a 2nd bluetooth device with "-XXXX" suffix, which I believe
+        // is only used for calls, and Gadgetbridge can't use for pairing, but I was not yet able to
+        // fully confirm this, so we still recognize them.
+        return Pattern.compile("^" + getDeviceBluetoothName() + "([- ][A-Z0-9]{4})?$");
     }
 
     @NonNull
