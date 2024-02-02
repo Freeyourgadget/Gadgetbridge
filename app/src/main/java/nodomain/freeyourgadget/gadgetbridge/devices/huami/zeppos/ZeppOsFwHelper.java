@@ -28,12 +28,15 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.zip.CRC32;
@@ -43,10 +46,13 @@ import java.util.zip.ZipFile;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.UIHHContainer;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 public class ZeppOsFwHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFwHelper.class);
@@ -106,7 +112,7 @@ public class ZeppOsFwHelper {
         zpkCacheDir.mkdir();
 
         try {
-            file = File.createTempFile("fwhelper","bin", context.getCacheDir());
+            file = File.createTempFile("fwhelper", "bin", context.getCacheDir());
             file.deleteOnExit();
         } catch (final IOException e) {
             LOG.error("Failed to create temp file for zpk", e);
@@ -136,15 +142,77 @@ public class ZeppOsFwHelper {
             return;
         }
 
-        try (ZipFile zipFile = new ZipFile(file, java.util.zip.ZipFile.OPEN_READ)) {
-            processZipFile(zipFile);
-        } catch (final ZipException e) {
-            LOG.warn("{} is not a valid zip file", uri, e);
-        } catch (final IOException e) {
-            LOG.warn("Error while processing {}", uri, e);
+        final byte[] header = getHeader(file, 4);
+        if (header == null) {
+            return;
         }
 
-        // TODO process as UIHH
+        if (Arrays.equals(header, GBZipFile.ZIP_HEADER)) {
+            try (ZipFile zipFile = new ZipFile(file, java.util.zip.ZipFile.OPEN_READ)) {
+                processZipFile(zipFile);
+            } catch (final ZipException e) {
+                LOG.warn("{} is not a valid zip file", uri, e);
+            } catch (final IOException e) {
+                LOG.warn("Error while processing {}", uri, e);
+            }
+        } else if (Arrays.equals(header, UIHHContainer.UIHH_HEADER)) {
+            // FIXME: This should be refactored to avoid pulling the entire file to memory
+            // However, it's currently only used for agps updates, which are usually just ~140KB
+            try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
+                final byte[] fullFile = FileUtils.readAll(in, 32 * 1024 * 1024); // 32MB
+                processAsUihh(fullFile);
+            } catch (final IOException e) {
+                LOG.error("Failed to read full uihh from file", e);
+            }
+        }
+    }
+
+    private void processAsUihh(byte[] bytes) {
+        final UIHHContainer uihh = UIHHContainer.fromRawBytes(bytes);
+        if (uihh == null) {
+            LOG.warn("Invalid UIHH file");
+            return;
+        }
+
+        final Set<UIHHContainer.FileType> agpsEpoTypes = new HashSet<>();
+        UIHHContainer.FileEntry uihhFirmwareZipFile = null;
+        boolean hasChangelog = false;
+        for (final UIHHContainer.FileEntry file : uihh.getFiles()) {
+            switch (file.getType()) {
+                case FIRMWARE_ZIP:
+                    uihhFirmwareZipFile = file;
+                    continue;
+                case FIRMWARE_CHANGELOG:
+                    hasChangelog = true;
+                    continue;
+                case AGPS_EPO_GR_3:
+                case AGPS_EPO_GAL_7:
+                case AGPS_EPO_BDS_3:
+                    agpsEpoTypes.add(file.getType());
+                    continue;
+                default:
+                    LOG.warn("Unexpected file for {}", file.getType());
+            }
+        }
+
+        if (uihhFirmwareZipFile != null && hasChangelog) {
+            // UIHH firmware update
+            final GBZipFile zipFile = new GBZipFile(uihhFirmwareZipFile.getContent());
+            final byte[] firmwareBin;
+            try {
+                firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+            } catch (final ZipFileException e) {
+                LOG.error("Failed to read zip from UIHH", e);
+                return;
+            }
+
+            if (isCompatibleFirmwareBin(firmwareBin)) {
+                firmwareType = HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
+            }
+        } else if (agpsEpoTypes.size() == 3) {
+            // AGPS EPO update
+            firmwareType = HuamiFirmwareType.AGPS_UIHH;
+        }
     }
 
     private void processZipFile(final ZipFile zipFile) {
@@ -252,7 +320,7 @@ public class ZeppOsFwHelper {
 
             final File zpkFile;
             try {
-                zpkFile = File.createTempFile("zpk","zip", context.getCacheDir());
+                zpkFile = File.createTempFile("zpk", "zip", context.getCacheDir());
                 zpkFile.deleteOnExit();
             } catch (final IOException e) {
                 LOG.error("Failed to create temp file for zpk", e);
@@ -430,6 +498,23 @@ public class ZeppOsFwHelper {
             LOG.error("Failed to read " + path, e);
             return null;
         }
+    }
+
+    @Nullable
+    public static byte[] getHeader(final File file, final int bytes) {
+        final byte[] header = new byte[bytes];
+
+        try (InputStream is = new FileInputStream(file)) {
+            if (is.read(header) != header.length) {
+                LOG.warn("Read unexpected number of header bytes");
+                return null;
+            }
+        } catch (final IOException e) {
+            LOG.error("Error while reading header bytes", e);
+            return null;
+        }
+
+        return header;
     }
 
     public static boolean searchString(final byte[] fwBytes, final String str) {

@@ -642,11 +642,13 @@ public final class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTrans
                         return;
                     }
 
-                    new ZeppOsFirmwareUpdateOperation(Uri.parse(uihhFile.toURI().toString()), this).perform();
+                    new ZeppOsFirmwareUpdateOperation(
+                            Uri.parse(uihhFile.toURI().toString()),
+                            this
+                    ).perform();
                 }
-
             } catch (final Exception e) {
-                GB.toast(getContext(), "AGPS file cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+                GB.toast(getContext(), "AGPS install error: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             }
 
             return;
@@ -661,14 +663,16 @@ public final class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTrans
                         fileTransferService
                 ).perform();
             } catch (final Exception e) {
-                GB.toast(getContext(), "Gpx route file cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+                GB.toast(getContext(), "Gpx install error: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             }
+
+            return;
         }
 
         try {
             new ZeppOsFirmwareUpdateOperation(uri, this).perform();
         } catch (final IOException ex) {
-            GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+            GB.toast(getContext(), "Firmware install error: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
     }
 
