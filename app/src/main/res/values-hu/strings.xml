@@ -1416,4 +1416,139 @@
     <string name="devicetype_sony_wena3">Sony Wena 3</string>
     <string name="sony_surround_mode_outdoor_stage">Kültéri színpad</string>
     <string name="notif_export_failed_title">Az adatbázis exportálása meghiúsult. Ellenőrizze a beállításait!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Ön telepíteni kívánja a %s firmware-t az Amazfit Cor 2 készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy a .fw fájlt, majd ezt követően a .res fájlt is telepíti. A karkötő a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan megegyezik a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!
+\n
+\nTELJESEN TESZTELETLEN, VALÓSZÍNŰLEG A BEATS_W FIRMWARE-t kell feltöltenie, HA A KÉSZÜLÉK NEVE \"Amazfit Band 2\"</string>
+    <string name="fw_upgrade_notice_amazfitgts">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Ön telepíteni kívánja a %s firmware-t az Amazfit Verge Lite készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 4 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_miband5">Ön telepíteni kívánja a %s firmware-t az Mi Band 5 készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_miband6">Ön telepíteni kívánja a %s firmware-t az Mi Band 6 készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 3 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 3 PRO készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 4 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Ön telepíteni kívánja a %s firmware-t az Amazfit T-Rex 2 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Ön telepíteni kívánja a %s firmware-t az Amazfit Bip 3 Pro készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy a .fw fájlt, majd ezt követően a .res fájlt is telepíti. Az órája az .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan megegyezik a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfitx">Ön telepíteni kívánja a %s firmware-t az Amazfit X készülékére.
+\n
+\nKérjük győződjön meg róla, hogy először telepítse a .fw fájlt, majd ezt követően a .res fájlt. A .fw fájl telepítése után a karkötője újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan ugyanaz, mint a korábban telepített.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="fw_upgrade_notice_miband3">Ön telepíteni kívánja a %s firmware-t az Mi Band 3 készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Ön telepíteni kívánja a %s firmware-t az Amazfit T-Rex készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_miband4">Ön telepíteni kívánja a %s firmware-t az Mi Band 4 készülékére.
+\n
+\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_miband7">Ön telepíteni kívánja a %s firmware-t a Xiaomi Smart Band 7 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 4 Mini készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 3 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Ön telepíteni kívánja a %s firmware-t az Amazfit Band 7 készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Ön telepíteni kívánja a %s firmware-t az Amazfit Cheetah Pro készülékére.
+\n
+\nA .zip fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="fw_upgrade_notice_zepp_os">A %s firmware-t készül telepíteni a %s készülékre.
+\n
+\nA .zip fájl telepítése után az órája újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
 </resources>
