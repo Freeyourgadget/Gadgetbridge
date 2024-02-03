@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,12 +47,217 @@ public class Weather {
         public boolean moonPhaseSupported = false;
     }
 
+    public enum WeatherIcon {
+        // Also used for the text on the watch
+        SUNNY,
+        CLOUDY,
+        OVERCAST,
+        SHOWERS,
+        THUNDERSTORMS,
+        THUNDER_AND_HAIL,
+        SLEET,
+        LIGHT_RAIN,
+        RAIN,
+        HEAVY_RAIN,
+        RAIN_STORM,
+        HEAVY_RAIN_STORMS,
+        SEVERE_RAIN_STORMS,
+        SNOW_FLURRIES,
+        LIGHT_SNOW,
+        SNOW,
+        HEAVY_SNOW,
+        SNOWSTORMS,
+        FOG,
+        FREEZING_RAIN,
+        DUST_STORM,
+        LIGHT_TO_MODERATE_RAIN,
+        MODERATE_TO_HEAVY_RAIN,
+        HEAVY_TO_SEVERE_RAIN,
+        HEAVY_TO_TORRENTIAL_RAIN,
+        SEVERE_TO_TORRENTIAL_RAIN,
+        LIGHT_TO_MODERATE_SNOW,
+        MODERATE_TO_HEAVY_SNOW,
+        HEAVY_SNOW_TO_BLIZZARD,
+        DUST,
+        SAND,
+        SANDSTORMS,
+        FREEZING, // misses small/non-moving icon
+        HOT, // misses small/non-moving icon
+        COLD, // misses small/non-moving icon
+        WINDY,
+        HAZY,
+        UNKNOWN // Good to have probably
+    }
+
+    private static byte iconToByte(WeatherIcon weatherIcon) {
+        switch (weatherIcon) {
+            case SUNNY:
+                return 0x00;
+            case CLOUDY:
+                return 0x01;
+            case OVERCAST:
+                return 0x02;
+            case SHOWERS:
+                return 0x03;
+            case THUNDERSTORMS:
+                return 0x04;
+            case THUNDER_AND_HAIL:
+                return 0x05;
+            case SLEET:
+                return 0x06;
+            case LIGHT_RAIN:
+                return 0x07;
+            case RAIN:
+                return 0x08;
+            case HEAVY_RAIN:
+                return 0x09;
+            case RAIN_STORM:
+                return 0x0a;
+            case HEAVY_RAIN_STORMS:
+                return 0x0b;
+            case SEVERE_RAIN_STORMS:
+                return 0x0c;
+            case SNOW_FLURRIES:
+                return 0x0d;
+            case LIGHT_SNOW:
+                return 0x0e;
+            case SNOW:
+                return 0x0f;
+            case HEAVY_SNOW:
+                return 0x10;
+            case SNOWSTORMS:
+                return 0x11;
+            case FOG:
+                return 0x12;
+            case FREEZING_RAIN:
+                return 0x13;
+            case DUST_STORM:
+                return 0x14;
+            case LIGHT_TO_MODERATE_RAIN:
+                return 0x15;
+            case MODERATE_TO_HEAVY_RAIN:
+                return 0x16;
+            case HEAVY_TO_SEVERE_RAIN:
+                return 0x17;
+            case HEAVY_TO_TORRENTIAL_RAIN:
+                return 0x18;
+            case SEVERE_TO_TORRENTIAL_RAIN:
+                return 0x19;
+            case LIGHT_TO_MODERATE_SNOW:
+                return 0x1a;
+            case MODERATE_TO_HEAVY_SNOW:
+                return 0x1b;
+            case HEAVY_SNOW_TO_BLIZZARD:
+                return 0x1c;
+            case DUST:
+                return 0x1d;
+            case SAND:
+                return 0x1e;
+            case SANDSTORMS:
+                return 0x1f;
+            case FREEZING:
+                return 0x20;
+            case HOT:
+                return 0x21;
+            case COLD:
+                return 0x22;
+            case WINDY:
+                return 0x23;
+            case HAZY:
+                return 0x35;
+            default:
+                return 0x63; // Any higher and the current weather breaks
+        }
+    }
+
+    private static WeatherIcon byteToIcon(byte weatherIcon) {
+        switch (weatherIcon) {
+            case 0x00:
+                return WeatherIcon.SUNNY;
+            case 0x01:
+                return WeatherIcon.CLOUDY;
+            case 0x02:
+                return WeatherIcon.OVERCAST;
+            case 0x03:
+                return WeatherIcon.SHOWERS;
+            case 0x04:
+                return WeatherIcon.THUNDERSTORMS;
+            case 0x05:
+                return WeatherIcon.THUNDER_AND_HAIL;
+            case 0x06:
+                return WeatherIcon.SLEET;
+            case 0x07:
+                return WeatherIcon.LIGHT_RAIN;
+            case 0x08:
+                return WeatherIcon.RAIN;
+            case 0x09:
+                return WeatherIcon.HEAVY_RAIN;
+            case 0x0a:
+                return WeatherIcon.RAIN_STORM;
+            case 0x0b:
+                return WeatherIcon.HEAVY_RAIN_STORMS;
+            case 0x0c:
+                return WeatherIcon.SEVERE_RAIN_STORMS;
+            case 0x0d:
+                return WeatherIcon.SNOW_FLURRIES;
+            case 0x0e:
+                return WeatherIcon.LIGHT_SNOW;
+            case 0x0f:
+                return WeatherIcon.SNOW;
+            case 0x10:
+                return WeatherIcon.HEAVY_SNOW;
+            case 0x11:
+                return WeatherIcon.SNOWSTORMS;
+            case 0x12:
+                return WeatherIcon.FOG;
+            case 0x13:
+                return WeatherIcon.FREEZING_RAIN;
+            case 0x14:
+                return WeatherIcon.DUST_STORM;
+            case 0x15:
+                return WeatherIcon.LIGHT_TO_MODERATE_RAIN;
+            case 0x16:
+                return WeatherIcon.MODERATE_TO_HEAVY_RAIN;
+            case 0x17:
+                return WeatherIcon.HEAVY_TO_SEVERE_RAIN;
+            case 0x18:
+                return WeatherIcon.HEAVY_TO_TORRENTIAL_RAIN;
+            case 0x19:
+                return WeatherIcon.SEVERE_TO_TORRENTIAL_RAIN;
+            case 0x1a:
+                return WeatherIcon.LIGHT_TO_MODERATE_SNOW;
+            case 0x1b:
+                return WeatherIcon.MODERATE_TO_HEAVY_SNOW;
+            case 0x1c:
+                return WeatherIcon.HEAVY_SNOW_TO_BLIZZARD;
+            case 0x1d:
+                return WeatherIcon.DUST;
+            case 0x1e:
+                return WeatherIcon.SAND;
+            case 0x1f:
+                return WeatherIcon.SANDSTORMS;
+            case 0x20:
+                return WeatherIcon.FREEZING;
+            case 0x21:
+                return WeatherIcon.HOT;
+            case 0x22:
+                return WeatherIcon.COLD;
+            case 0x23:
+                return WeatherIcon.WINDY;
+            case 0x35:
+                return WeatherIcon.HAZY;
+            default:
+                return WeatherIcon.UNKNOWN;
+        }
+    }
+
     public static class CurrentWeatherRequest extends HuaweiPacket {
         public static final byte id = 0x01;
 
         public CurrentWeatherRequest(
                 ParamsProvider paramsProvider,
                 Settings settings,
+                WeatherIcon icon,
                 Byte windDirection,
                 Byte windSpeed,
                 Byte lowestTemperature,
@@ -74,8 +278,8 @@ public class Weather {
 
             HuaweiTLV tlv81 = new HuaweiTLV();
 
-            if (settings.weatherIconSupported) {
-                tlv81.put(0x02, (byte) 0x01);
+            if (icon != null && settings.weatherIconSupported) {
+                tlv81.put(0x02, iconToByte(icon));
             }
 
             if (settings.windSupported) {
@@ -235,7 +439,7 @@ public class Weather {
 
         public static class TimeData {
             public int timestamp;
-            public byte icon;
+            public WeatherIcon icon;
             public byte temperature;
 
             @Override
@@ -252,7 +456,7 @@ public class Weather {
 
         public static class DayData {
             public int timestamp;
-            public byte icon;
+            public WeatherIcon icon;
             public byte highTemperature;
             public byte lowTemperature;
             public int sunriseTime;
@@ -297,7 +501,7 @@ public class Weather {
                         // TODO: NULLs?
                         timeDataTlv.put(0x82, new HuaweiTLV()
                                 .put(0x03, timeData.timestamp)
-                                .put(0x04, timeData.icon)
+                                .put(0x04, iconToByte(timeData.icon))
                                 .put(0x05, timeData.temperature)
                         );
                     }
@@ -311,7 +515,7 @@ public class Weather {
                         // TODO: NULLs?
                         dayDataTlv.put(0x91, new HuaweiTLV()
                                 .put(0x12, dayData.timestamp)
-                                .put(0x13, dayData.icon)
+                                .put(0x13, iconToByte(dayData.icon))
                                 .put(0x14, dayData.highTemperature)
                                 .put(0x15, dayData.lowTemperature)
                                 .put(0x16, dayData.sunriseTime)
@@ -346,7 +550,7 @@ public class Weather {
                 for (HuaweiTLV timeTlv : this.tlv.getObject(0x81).getObjects(0x82)) {
                     TimeData timeData = new TimeData();
                     timeData.timestamp = timeTlv.getInteger(0x03);
-                    timeData.icon = timeTlv.getByte(0x04);
+                    timeData.icon = byteToIcon(timeTlv.getByte(0x04));
                     timeData.temperature = timeTlv.getByte(0x05);
                     timeDataList.add(timeData);
                 }
@@ -355,7 +559,7 @@ public class Weather {
                 for (HuaweiTLV dayTlv : this.tlv.getObject(0x90).getObjects(0x91)) {
                     DayData dayData = new DayData();
                     dayData.timestamp = dayTlv.getInteger(0x12);
-                    dayData.icon = dayTlv.getByte(0x13);
+                    dayData.icon = byteToIcon(dayTlv.getByte(0x13));
                     dayData.highTemperature = dayTlv.getByte(0x14);
                     dayData.lowTemperature = dayTlv.getByte(0x15);
                     dayData.sunriseTime = dayTlv.getInteger(0x16);

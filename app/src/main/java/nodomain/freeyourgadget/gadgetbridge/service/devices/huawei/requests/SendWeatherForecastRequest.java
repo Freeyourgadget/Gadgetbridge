@@ -49,7 +49,7 @@ public class SendWeatherForecastRequest extends Request {
             WeatherSpec.Hourly hourly = weatherSpec.hourly.get(i);
             WeatherForecastData.TimeData timeData = new WeatherForecastData.TimeData();
             timeData.timestamp = hourly.timestamp;
-            timeData.icon = 1; // TODO: hourly.conditionCode conversion
+            timeData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(hourly.conditionCode); // TODO: hourly.conditionCode conversion
             timeData.temperature = (byte) (hourly.temp - 273);
             timeDataArrayList.add(timeData);
         }
@@ -57,7 +57,7 @@ public class SendWeatherForecastRequest extends Request {
         // Add today as well
         WeatherForecastData.DayData today = new WeatherForecastData.DayData();
         today.timestamp = weatherSpec.sunRise;
-        today.icon = 1; // TODO
+        today.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(weatherSpec.currentConditionCode);
         today.highTemperature = (byte) (weatherSpec.todayMaxTemp - 273);
         today.lowTemperature = (byte) (weatherSpec.todayMinTemp - 273);
         today.sunriseTime = weatherSpec.sunRise;
@@ -71,7 +71,7 @@ public class SendWeatherForecastRequest extends Request {
             WeatherSpec.Daily daily = weatherSpec.forecasts.get(i);
             WeatherForecastData.DayData dayData = new WeatherForecastData.DayData();
             dayData.timestamp = daily.sunRise;
-            dayData.icon = 1; // TODO: daily.conditionCode conversion
+            dayData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(daily.conditionCode);
             dayData.highTemperature = (byte) (daily.maxTemp - 273);
             dayData.lowTemperature = (byte) (daily.minTemp - 273);
             dayData.sunriseTime = daily.sunRise;

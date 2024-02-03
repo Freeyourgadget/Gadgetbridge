@@ -1650,6 +1650,58 @@ public class HuaweiSupportProvider {
         }
     }
 
+    public Weather.WeatherIcon openWeatherMapConditionCodeToHuaweiIcon(int conditionCode) {
+        // More exact first, groups after
+        switch (conditionCode) {
+            case 500:
+                return Weather.WeatherIcon.LIGHT_RAIN;
+            case 501:
+                return Weather.WeatherIcon.RAIN;
+            case 502:
+                return Weather.WeatherIcon.HEAVY_RAIN;
+            case 503:
+                return Weather.WeatherIcon.RAIN_STORM;
+            case 504:
+                return Weather.WeatherIcon.SEVERE_RAIN_STORMS;
+            case 511:
+                return Weather.WeatherIcon.FREEZING_RAIN;
+            case 600:
+                return Weather.WeatherIcon.LIGHT_SNOW;
+            case 601:
+                return Weather.WeatherIcon.SNOW;
+            case 602:
+                return Weather.WeatherIcon.HEAVY_SNOW;
+            case 611:
+                return Weather.WeatherIcon.SLEET;
+            case 701:
+            case 741:
+                return Weather.WeatherIcon.FOG;
+            case 721:
+                return Weather.WeatherIcon.HAZY;
+            case 751:
+                return Weather.WeatherIcon.SAND;
+            case 761:
+                return Weather.WeatherIcon.DUST;
+            case 800:
+                return Weather.WeatherIcon.SUNNY;
+            case 801:
+            case 802:
+                return Weather.WeatherIcon.CLOUDY;
+            case 803:
+            case 804:
+                return Weather.WeatherIcon.OVERCAST;
+        }
+        if (conditionCode >= 200 && conditionCode < 300)
+            return Weather.WeatherIcon.THUNDERSTORMS;
+        if (conditionCode >= 300 && conditionCode < 400)
+            return Weather.WeatherIcon.LIGHT_RAIN;
+        if (conditionCode >= 500 && conditionCode < 600)
+            return Weather.WeatherIcon.RAIN;
+        if (conditionCode >= 600 && conditionCode < 700)
+            return Weather.WeatherIcon.SNOW;
+        return Weather.WeatherIcon.UNKNOWN;
+    }
+
     public void onSendWeather(WeatherSpec weatherSpec) {
         if (weatherSettings != null && weatherSettings.weatherSupported) {
             try {

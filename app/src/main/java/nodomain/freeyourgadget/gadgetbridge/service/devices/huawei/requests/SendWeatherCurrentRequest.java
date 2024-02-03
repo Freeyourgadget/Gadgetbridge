@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class SendWeatherCurrentRequest extends Request {
     Weather.Settings settings;
@@ -48,6 +49,7 @@ public class SendWeatherCurrentRequest extends Request {
             return new Weather.CurrentWeatherRequest(
                     this.paramsProvider,
                     settings,
+                    supportProvider.openWeatherMapConditionCodeToHuaweiIcon(weatherSpec.currentConditionCode),
                     (byte) weatherSpec.windDirection,
                     (byte) weatherSpec.windSpeedAsBeaufort(),
                     (byte) (weatherSpec.todayMinTemp - 273),
