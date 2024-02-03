@@ -363,6 +363,7 @@ public class Weather {
         }
 
         public static class Response extends HuaweiPacket {
+            public int successCode = -1;
             public boolean success = false;
 
             public Response(ParamsProvider paramsProvider) {
@@ -373,7 +374,8 @@ public class Weather {
 
             @Override
             public void parseTlv() throws ParseException {
-                this.success = this.tlv.getInteger(0x7f) == 0x000186A0;
+                this.successCode = this.tlv.getInteger(0x7f);
+                this.success = this.successCode == 0x000186A0 || this.successCode == 0x000186A3;
             }
         }
     }
