@@ -29,7 +29,7 @@ public class TestHuaweiPacket {
     HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider() {
 
         @Override
-        public byte getAuthMode() {
+        public byte getDeviceSupportType() {
             return 0;
         }
 
@@ -62,7 +62,7 @@ public class TestHuaweiPacket {
     HuaweiPacket.ParamsProvider paramsProviderEncrypt = new HuaweiPacket.ParamsProvider() {
 
         @Override
-        public byte getAuthMode() {
+        public byte getDeviceSupportType() {
             return 0;
         }
 
@@ -95,7 +95,7 @@ public class TestHuaweiPacket {
     HuaweiPacket.ParamsProvider paramsProviderSmallSlice = new HuaweiPacket.ParamsProvider() {
 
         @Override
-        public byte getAuthMode() {
+        public byte getDeviceSupportType() {
             return 0;
         }
 

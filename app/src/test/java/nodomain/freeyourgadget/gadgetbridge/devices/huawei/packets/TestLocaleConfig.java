@@ -29,7 +29,7 @@ public class TestLocaleConfig {
 
     HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider() {
         @Override
-        public byte getAuthMode() {
+        public byte getDeviceSupportType() {
             return 0;
         }
 

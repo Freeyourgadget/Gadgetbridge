@@ -74,7 +74,7 @@ public class DeviceConfig {
             public short sliceSize = 0x00f4;
             public byte authVersion = 0x00;
             public byte[] serverNonce = new byte[16];
-            public byte authMode = 0x00;
+            public byte deviceSupportType = 0x00;
             public byte authAlgo = 0x00;
             public byte bondState = 0x00;
             public short interval = 0x0;
@@ -105,7 +105,7 @@ public class DeviceConfig {
                 this.authVersion = (byte)this.tlv.getBytes(0x05)[1];
 
                 if (this.tlv.contains(0x07))
-                    this.authMode = this.tlv.getByte(0x07);
+                    this.deviceSupportType = this.tlv.getByte(0x07);
 
                 if (this.tlv.contains(0x08))
                     this.authAlgo = this.tlv.getByte(0x08);
@@ -607,7 +607,7 @@ public class DeviceConfig {
                 this.tlv = new HuaweiTLV()
                         .put(0x01, challenge)
                         .put(0x02, nonce);
-                if (paramsProvider.getAuthMode() == 0x02)
+                if (paramsProvider.getDeviceSupportType() == 0x02)
                     this.tlv.put(0x03, paramsProvider.getAuthAlgo());
                 this.isEncrypted = false;
                 this.complete = true;

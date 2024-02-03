@@ -26,7 +26,7 @@ public class TestHuaweiTLV {
 
     HuaweiPacket.ParamsProvider secretsProvider = new HuaweiPacket.ParamsProvider() {
         @Override
-        public byte getAuthMode() {
+        public byte getDeviceSupportType() {
             return 0;
         }
 

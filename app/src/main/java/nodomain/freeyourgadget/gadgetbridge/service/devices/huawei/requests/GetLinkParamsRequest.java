@@ -73,7 +73,7 @@ public class GetLinkParamsRequest extends Request {
             throw new ResponseTypeMismatchException(receivedPacket, LinkParams.Response.class);
 
         supportProvider.setProtocolVersion(((LinkParams.Response) receivedPacket).protocolVersion);
-        paramsProvider.setAuthMode(((LinkParams.Response) receivedPacket).authMode);
+        paramsProvider.setDeviceSupportType(((LinkParams.Response) receivedPacket).deviceSupportType);
 
         paramsProvider.setSliceSize(((LinkParams.Response) receivedPacket).sliceSize);
         paramsProvider.setMtu(((LinkParams.Response) receivedPacket).mtu);

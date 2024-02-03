@@ -306,12 +306,12 @@ public class HuaweiSupportProvider {
         // 1 or 3 : HiChain
         // 2 or 8 : HiChainLite -> normal mode
         // 4 : HiChain3
-        byte authMode = paramsProvider.getAuthMode();
+        byte authMode = paramsProvider.getDeviceSupportType();
         return authMode == 0x01 || authMode == 0x03 || authMode == 0x04 || isHiChainLite();
     }
 
     protected boolean isHiChainLite() {
-        byte authMode = paramsProvider.getAuthMode();
+        byte authMode = paramsProvider.getDeviceSupportType();
         return authMode == 0x02;
     }
 

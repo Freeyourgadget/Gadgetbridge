@@ -46,7 +46,7 @@ public class HuaweiPacket {
     public static class ParamsProvider {
 
         protected byte authVersion;
-        protected byte authMode;
+        protected byte deviceSupportType;
         protected byte[] secretKey;
         protected int slicesize = 0xf4;
         protected boolean transactionsCrypted = true;
@@ -67,12 +67,12 @@ public class HuaweiPacket {
             return this.authVersion;
         }
 
-        public void setAuthMode(byte authMode) {
-            this.authMode = authMode;
+        public void setDeviceSupportType(byte deviceSupportType) {
+            this.deviceSupportType = deviceSupportType;
         }
 
-        public byte getAuthMode(){
-            return this.authMode;
+        public byte getDeviceSupportType(){
+            return this.deviceSupportType;
         }
 
         public void setSecretKey(byte[] secretKey) {
@@ -124,7 +124,7 @@ public class HuaweiPacket {
 
         public byte[] getIv() {
             byte[] iv = null;
-            if (this.authMode == 0x04) {
+            if (this.deviceSupportType == 0x04) {
                 iv = HuaweiCrypto.generateNonce();
             } else {
                 ByteBuffer ivCounter = HuaweiCrypto.initializationVector(this.encryptionCounter);
