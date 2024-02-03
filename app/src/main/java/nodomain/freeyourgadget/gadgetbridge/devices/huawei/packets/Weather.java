@@ -72,6 +72,29 @@ public class Weather {
             this.commandId = id;
             this.tlv = new HuaweiTLV();
 
+            HuaweiTLV tlv81 = new HuaweiTLV();
+
+            if (settings.weatherIconSupported) {
+                tlv81.put(0x02, (byte) 0x01);
+            }
+
+            if (settings.windSupported) {
+                short wind = 0;
+                if (windSpeed != null)
+                    wind = (short) windSpeed;
+
+                if (windDirection != null) {
+                    if (windDirection > 0)
+                        wind |= ((short) (windDirection * 8 / 360)) << 8;
+                    else
+                        wind |= ((short) (360 + windDirection) * 8 / 360) << 8;
+                }
+                tlv81.put(0x03, wind);
+            }
+
+            if (settings.weatherIconSupported || settings.windSupported)
+                this.tlv.put(0x81, tlv81);
+
             if (lowestTemperature != null && highestTemperature != null && settings.temperatureSupported) {
                 this.tlv.put(0x85, new HuaweiTLV()
                         .put(0x06, lowestTemperature)

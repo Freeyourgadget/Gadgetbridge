@@ -49,7 +49,7 @@ public class SendWeatherCurrentRequest extends Request {
                     this.paramsProvider,
                     settings,
                     (byte) weatherSpec.windDirection,
-                    (byte) weatherSpec.windSpeed,
+                    (byte) weatherSpec.windSpeedAsBeaufort(),
                     (byte) (weatherSpec.todayMinTemp - 273),
                     (byte) (weatherSpec.todayMaxTemp - 273),
                     pm25,
