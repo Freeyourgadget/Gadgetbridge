@@ -45,7 +45,7 @@ public class SendWeatherForecastRequest extends Request {
                 this.weatherSpec.forecasts.size() // TODO: wrong size
         );
         // for (WeatherSpec.Hourly hourly : weatherSpec.hourly) {
-        for (int i = Math.min(weatherSpec.hourly.size(), 24) - 1; i >= 0; i--) { // TODO: min?
+        for (int i = 0; i < Math.min(weatherSpec.hourly.size(), 24); i++) { // TODO: min?
             WeatherSpec.Hourly hourly = weatherSpec.hourly.get(i);
             WeatherForecastData.TimeData timeData = new WeatherForecastData.TimeData();
             timeData.timestamp = hourly.timestamp;
@@ -70,7 +70,7 @@ public class SendWeatherForecastRequest extends Request {
         for (int i = 0; i < Math.min(weatherSpec.forecasts.size(), 7); i++) { // TODO: min?
             WeatherSpec.Daily daily = weatherSpec.forecasts.get(i);
             WeatherForecastData.DayData dayData = new WeatherForecastData.DayData();
-            dayData.timestamp = daily.sunRise;
+            dayData.timestamp = weatherSpec.timestamp + (60*60*24 * i);
             dayData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(daily.conditionCode);
             dayData.highTemperature = (byte) (daily.maxTemp - 273);
             dayData.lowTemperature = (byte) (daily.minTemp - 273);
