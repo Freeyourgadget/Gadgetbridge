@@ -700,15 +700,17 @@ public class NotificationListener extends NotificationListenerService {
             };
             mHandler.postDelayed(mSetMusicInfoRunnable, 100);
 
-            if (mSetMusicStateRunnable != null) {
-                mHandler.removeCallbacks(mSetMusicStateRunnable);
-            }
-            mSetMusicStateRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    GBApplication.deviceService().onSetMusicState(stateSpec);
+            if (stateSpec != null) {
+                if (mSetMusicStateRunnable != null) {
+                    mHandler.removeCallbacks(mSetMusicStateRunnable);
                 }
-            };
+                mSetMusicStateRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSetMusicState(stateSpec);
+                    }
+                };
+            }
             mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
