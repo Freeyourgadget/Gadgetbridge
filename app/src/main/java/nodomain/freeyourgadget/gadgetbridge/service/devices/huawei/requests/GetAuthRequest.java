@@ -57,11 +57,11 @@ public class GetAuthRequest extends Request {
         this.authVersion = paramsProvider.getAuthVersion();
         this.authAlgo = paramsProvider.getAuthAlgo();
         this.deviceSupportType = paramsProvider.getDeviceSupportType();
+        this.huaweiCrypto = new HuaweiCrypto(authVersion, authAlgo, deviceSupportType);
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
-        huaweiCrypto = new HuaweiCrypto(authVersion, authAlgo, deviceSupportType);
         byte[] nonce;
 
         try {

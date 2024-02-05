@@ -102,7 +102,7 @@ public class Request {
     protected RequestCallback finalizeReq = null;
     // Stop chaining requests and clean support.inProgressRequests from these requests
     protected boolean stopChain = false;
-    protected static HuaweiCrypto huaweiCrypto = null;
+    protected HuaweiCrypto huaweiCrypto = null;
     protected boolean addToResponse = true;
 
     public static class RequestCallback {
