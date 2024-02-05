@@ -74,8 +74,13 @@ public class GetAuthRequest extends Request {
                     .putShort(authVersion)
                     .put(clientNonce)
                     .array();
-            byte[] challenge = huaweiCrypto.digestChallenge(key, doubleNonce);
+            ByteBuffer digestedChallenge = ByteBuffer.wrap(huaweiCrypto.digestChallenge(key, doubleNonce));
+            byte[] challenge = new byte[0x20];
+            digestedChallenge.get(challenge, 0x00, 0x20);
             LOG.debug("challenge: " + GB.hexdump(challenge));
+            byte[] firstKey = new byte[0x10];
+            digestedChallenge.get(firstKey, 0x00, 0x10);
+            paramsProvider.setFirstKey(firstKey);
             if (challenge == null)
                 throw new RequestCreationException("Challenge null");
             return new DeviceConfig.Auth.Request(paramsProvider, challenge, nonce).serialize();
@@ -94,7 +99,10 @@ public class GetAuthRequest extends Request {
             throw new ResponseTypeMismatchException(receivedPacket, DeviceConfig.Auth.Response.class);
 
         try {
-            byte[] expectedAnswer = huaweiCrypto.digestResponse(key, doubleNonce);
+            ByteBuffer digestedChallenge = ByteBuffer.wrap(huaweiCrypto.digestResponse(key, doubleNonce));
+            byte[] expectedAnswer = new byte[0x20];
+            digestedChallenge.get(expectedAnswer, 0x00, 0x20);
+            LOG.debug("challenge: " + GB.hexdump(expectedAnswer));
             if (expectedAnswer == null)
                 throw new ResponseParseException("Challenge null");
             byte[] actualAnswer = ((DeviceConfig.Auth.Response) receivedPacket).challengeResponse;

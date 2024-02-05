@@ -58,6 +58,7 @@ public class HuaweiPacket {
         protected byte interval;
         protected byte authAlgo;
         protected byte encryptMethod;
+        protected byte[] firstKey;
 
         public void setAuthVersion(byte authVersion) {
             this.authVersion = authVersion;
@@ -152,6 +153,14 @@ public class HuaweiPacket {
 
         public byte getEncryptMethod () {
             return this.encryptMethod;
+        }
+
+        public void setFirstKey(byte[] firstKey) {
+            this.firstKey = firstKey;
+        }
+
+        public byte[] getFirstKey() {
+            return firstKey;
         }
     }
 

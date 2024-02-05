@@ -119,7 +119,11 @@ public class HuaweiCrypto {
                                                 .put(message)
                                                 .array();
         byte[] digestStep1 = CryptoUtils.calcHmacSha256(msgToDigest, nonce);
-        return CryptoUtils.calcHmacSha256(digestStep1, nonce);
+        byte[] challenge = ByteBuffer.allocate(0x40)
+                .put(CryptoUtils.calcHmacSha256(digestStep1, nonce))
+                .put(digestStep1)
+                .array();
+        return challenge;
     }
 
     public byte[] computeDigestHiChainLite(byte[] message, byte[] key, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
@@ -138,7 +142,11 @@ public class HuaweiCrypto {
         } else {
             digestStep1 = CryptoUtils.calcHmacSha256(msgToDigest, nonce);
         }
-        return CryptoUtils.calcHmacSha256(digestStep1, nonce);
+        byte[] challenge = ByteBuffer.allocate(0x40)
+                .put(CryptoUtils.calcHmacSha256(digestStep1, nonce))
+                .put(digestStep1)
+                .array();
+        return challenge;
     }
 
     public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
@@ -150,7 +158,11 @@ public class HuaweiCrypto {
                         .put(secretKey)
                         .put(MESSAGE_CHALLENGE)
                         .array();
-                return CryptoUtils.calcHmacSha256(key, nonce);
+                byte[] challenge = ByteBuffer.allocate(0x40)
+                        .put(CryptoUtils.calcHmacSha256(key, nonce))
+                        .put(key)
+                        .array();
+                return challenge;
             }
             return computeDigestHiChainLite(MESSAGE_CHALLENGE, secretKey, nonce);
         }
@@ -166,7 +178,11 @@ public class HuaweiCrypto {
                         .put(secretKey)
                         .put(MESSAGE_RESPONSE)
                         .array();
-                return CryptoUtils.calcHmacSha256(key, nonce);
+                byte[] challenge = ByteBuffer.allocate(0x40)
+                        .put(CryptoUtils.calcHmacSha256(key, nonce))
+                        .put(key)
+                        .array();
+                return challenge;
             }
             return computeDigestHiChainLite(MESSAGE_RESPONSE, secretKey, nonce);
         }
