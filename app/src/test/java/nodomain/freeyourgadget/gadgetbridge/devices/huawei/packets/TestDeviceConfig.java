@@ -413,21 +413,23 @@ public class TestDeviceConfig {
         HuaweiCrypto huaweiCrypto = new HuaweiCrypto(0x01);
         Field tlvField = HuaweiPacket.class.getDeclaredField("tlv");
         tlvField.setAccessible(true);
-
         try {
+            byte[] encryptionKey = huaweiCrypto.createSecretKey(mac);
+            byte[] iv = secretsProvider.getIv();
+            byte[] key = huaweiCrypto.encryptBondingKey(secretsProvider.getEncryptMethod(), secretsProvider.getSecretKey(), encryptionKey, iv);
             HuaweiTLV expectedTlv = new HuaweiTLV()
                     .put(0x01)
                     .put(0x03, (byte) 0x00)
                     .put(0x05, clientSerial)
-                    .put(0x06, huaweiCrypto.encryptBondingKey(secretsProvider.getSecretKey(), mac, secretsProvider.getIv()))
-                    .put(0x07, secretsProvider.getIv());
+                    .put(0x06, key)
+                    .put(0x07, iv);
 
             byte[] serialized = new byte[]{(byte) 0x5A, (byte) 0x00, (byte) 0x44, (byte) 0x00, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x00, (byte) 0x05, (byte) 0x06, (byte) 0x54, (byte) 0x56, (byte) 0x64, (byte) 0x54, (byte) 0x4D, (byte) 0x44, (byte) 0x06, (byte) 0x20, (byte) 0x88, (byte) 0x45, (byte) 0xAA, (byte) 0xB5, (byte) 0x9C, (byte) 0x84, (byte) 0x39, (byte) 0xAE, (byte) 0xD8, (byte) 0xE9, (byte) 0x71, (byte) 0x01, (byte) 0x5D, (byte) 0xC8, (byte) 0x34, (byte) 0x05, (byte) 0xC5, (byte) 0x9A, (byte) 0x6B, (byte) 0xDB, (byte) 0x62, (byte) 0x7D, (byte) 0xC8, (byte) 0xC3, (byte) 0xF4, (byte) 0xCC, (byte) 0x30, (byte) 0x74, (byte) 0x21, (byte) 0xD4, (byte) 0x45, (byte) 0x0E, (byte) 0x07, (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x72, (byte) 0xFC};
             DeviceConfig.Bond.Request request = new DeviceConfig.Bond.Request(
                     secretsProvider,
                     clientSerial,
-                    mac,
-                    huaweiCrypto
+                    key,
+                    iv
             );
 
             Assert.assertEquals(0x01, request.serviceId);
@@ -489,8 +491,7 @@ public class TestDeviceConfig {
         DeviceConfig.Auth.Request request = new DeviceConfig.Auth.Request(
                 secretsProvider,
                 challenge,
-                nonce,
-                false
+                nonce
         );
 
         Assert.assertEquals(0x01, request.serviceId);
