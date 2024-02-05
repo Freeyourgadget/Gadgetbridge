@@ -469,26 +469,21 @@ public class DeviceConfig {
             public Request(
                     ParamsProvider paramsProvider,
                     byte[] clientSerial,
-                    String mac,
-                    HuaweiCrypto huaweiCrypto
-            ) throws CryptoException {
+                    byte[] key,
+                    byte[] iv
+            ) {
                 super(paramsProvider);
                 this.serviceId = DeviceConfig.id;
                 this.commandId = id;
-                byte[] iv = paramsProvider.getIv();
 
-                try {
-                    this.tlv = new HuaweiTLV()
-                            .put(0x01)
-                            .put(0x03, (byte) 0x00)
-                            .put(0x05, clientSerial)
-                            .put(0x06, huaweiCrypto.encryptBondingKey(paramsProvider.getSecretKey(), mac, iv))
-                            .put(0x07, iv);
-                    this.isEncrypted = false;
-                    this.complete = true;
-                } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
-                    throw new CryptoException("Bonding key creation exception", e);
-                }
+                this.tlv = new HuaweiTLV()
+                        .put(0x01)
+                        .put(0x03, (byte) 0x00)
+                        .put(0x05, clientSerial)
+                        .put(0x06, key)
+                        .put(0x07, iv);
+                this.isEncrypted = false;
+                this.complete = true;
             }
         }
 
