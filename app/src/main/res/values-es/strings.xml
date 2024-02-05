@@ -2720,4 +2720,5 @@
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
     <string name="heartrate_bpm_155">155 bpm</string>
     <string name="heartrate_bpm_165">165 bpm</string>
+    <string name="heartrate_bpm_175">175 lpm</string>
 </resources>
