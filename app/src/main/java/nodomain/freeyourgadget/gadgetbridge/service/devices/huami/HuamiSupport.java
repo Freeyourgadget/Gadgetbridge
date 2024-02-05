@@ -1083,8 +1083,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             return;
         }
 
-        final ByteBuffer buf = ByteBuffer.allocate(14 + reminder.getMessage().getBytes().length);
-        buf.order(ByteOrder.LITTLE_ENDIAN);
+        final byte[] reminderMessage = StringUtils.truncate(reminder.getMessage(), coordinator.getMaximumReminderMessageLength())
+                .getBytes(StandardCharsets.UTF_8);
+        final ByteBuffer buf = ByteBuffer.allocate(14 + reminderMessage.length).order(ByteOrder.LITTLE_ENDIAN);
 
         buf.put((byte) 0x0B);
         buf.put((byte) (position & 0xFF));
@@ -1119,16 +1120,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
         buf.put(BLETypeConversions.shortCalendarToRawBytes(cal));
         buf.put((byte) 0x00);
-
-        if (reminder.getMessage().getBytes().length > coordinator.getMaximumReminderMessageLength()) {
-            LOG.warn("The reminder message length {} is longer than {}, will be truncated",
-                    reminder.getMessage().getBytes().length,
-                    coordinator.getMaximumReminderMessageLength()
-            );
-            buf.put(Arrays.copyOf(reminder.getMessage().getBytes(), coordinator.getMaximumReminderMessageLength()));
-        } else {
-            buf.put(reminder.getMessage().getBytes());
-        }
+        buf.put(reminderMessage);
         buf.put((byte) 0x00);
 
         writeToChunked(builder, 2, buf.array());
