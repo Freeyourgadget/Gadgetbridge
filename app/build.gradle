@@ -67,7 +67,7 @@ def getGitHashShort = { ->
             standardOutput = stdout
         }
         return stdout.toString().trim()
-    } catch (ignored){
+    } catch (ignored) {
         return null
     }
 }
@@ -84,9 +84,10 @@ android {
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
 
-        minSdkVersion 21
+        //noinspection OldTargetApi
         targetSdkVersion 33
         compileSdk 33
+        minSdkVersion 21
 
         // Note: always bump BOTH versionCode and versionName!
         versionName "0.79.0"
@@ -94,13 +95,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
         buildConfigField "boolean", "INTERNET_ACCESS", "false"
-        resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
-        resValue "string", "app_name", "@string/application_name_generic"
-        resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_generic"
-        resValue "string", "about_activity_title", "@string/about_activity_title_generic"
-        resValue "string", "about_description", "@string/about_description_generic"
-        resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_generic"
     }
+
     signingConfigs {
         nightly {
             if (System.getProperty("nightly_store_file") != null) {
@@ -122,19 +118,13 @@ android {
             //applicationIdSuffix ""
             //versionNameSuffix ""
         }
+
         banglejs {
             dimension "device_type"
             applicationId "com.espruino.gadgetbridge"
             applicationIdSuffix ".banglejs"
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
-            // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
-            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.bangle.provider"
-            resValue "string", "app_name", "@string/application_name_banglejs_main"
-            resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_main"
-            resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
-            resValue "string", "about_description", "@string/about_description_banglejs_main"
-            resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_main"
             targetSdkVersion 33
             // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions
         }
@@ -150,62 +140,34 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
         }
 
         nightly {
             applicationIdSuffix ".nightly"
             versionNameSuffix "-${getGitHashShort}"
-            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
-            resValue "string", "app_name", "@string/application_name_main_nightly"
-            resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nightly"
-            resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
-            resValue "string", "about_description", "@string/about_description_main_nightly"
-            resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
-
+            minifyEnabled true
             debuggable true
 
             if (System.getProperty("nightly_store_file") != null) {
                 signingConfig signingConfigs.nightly
-
-                //this was conflicting with regular debug type (it should not), so it is only available for CI builds:
-                productFlavors.mainline.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
-                productFlavors.mainline.resValue "string", "app_name", "@string/application_name_main_nightly"
-                productFlavors.mainline.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nightly"
-                productFlavors.mainline.resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
-                productFlavors.mainline.resValue "string", "about_description", "@string/about_description_main_nightly"
-                productFlavors.mainline.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
-
-                //keep the pebble provider for people who want this. In case of need we can create Banglejs Nopebble
-                productFlavors.banglejs.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
-                productFlavors.banglejs.resValue "string", "app_name", "@string/application_name_banglejs_nightly"
-                productFlavors.banglejs.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_nightly"
-                productFlavors.banglejs.resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_nightly"
-                productFlavors.banglejs.resValue "string", "about_description", "@string/about_description_banglejs_nightly"
-                productFlavors.banglejs.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_nightly"
             } else {
                 signingConfig signingConfigs.debug
             }
         }
+
         nopebble {
             applicationIdSuffix ".nightly_nopebble"
             versionNameSuffix "-${getGitHashShort}"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             minifyEnabled true
+            debuggable true
+
             if (System.getProperty("nightly_store_file") != null) {
                 signingConfig signingConfigs.nightly
             } else {
                 signingConfig signingConfigs.debug
             }
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
-            resValue "string", "app_name", "@string/application_name_main_nopebble"
-            resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nopebble"
-            resValue "string", "about_activity_title", "@string/about_activity_title_main_nopebble"
-            resValue "string", "about_description", "@string/about_description_main_nopebble"
-            resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nopebble"
-            debuggable true
         }
 
         applicationVariants.all { variant ->
@@ -221,7 +183,6 @@ android {
                 }
             }
         }
-
     }
 
     lint {
@@ -367,8 +328,8 @@ task pmd(type: Pmd) {
 
 sourceSets {
     main {
-        main.java.srcDirs += "${protobuf.generatedFilesBaseDir}"
-        main.java.srcDirs += "build/generated/source/buildConfig"
+        java.srcDirs += "${protobuf.generatedFilesBaseDir}"
+        java.srcDirs += "build/generated/source/buildConfig"
     }
 }
 
@@ -387,10 +348,10 @@ tasks.withType(SpotBugsTask) {
         xml.enabled = false
         html.enabled = true
         xml {
-            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.xml")
+            destination file("$project.buildDir/reports/spotbugs/spotbugs-output.xml")
         }
         html {
-            destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.html")
+            destination file("$project.buildDir/reports/spotbugs/spotbugs-output.html")
         }
     }
 }

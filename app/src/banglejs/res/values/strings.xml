@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string translatable="false" name="pebble_content_provider">com.getpebble.android.nopebble.bangle.provider</string>
+    <string translatable="false" name="app_name">@string/application_name_banglejs_main</string>
+    <string translatable="false" name="title_activity_controlcenter">@string/title_activity_controlcenter_banglejs_main</string>
+    <string translatable="false" name="about_activity_title">@string/about_activity_title_banglejs_main</string>
+    <string translatable="false" name="about_description">@string/about_description_banglejs_main</string>
+    <string translatable="false" name="gadgetbridge_running">@string/gadgetbridge_running_banglejs_main</string>
+</resources>
