@@ -291,7 +291,7 @@ public class HuaweiTLV {
         byte[] serializedTLV = serialize();
         byte[] key = paramsProvider.getSecretKey();
         byte[] nonce = paramsProvider.getIv();
-        byte[] encryptedTLV = HuaweiCrypto.encrypt(paramsProvider.getDeviceSupportType(), serializedTLV, key, nonce);
+        byte[] encryptedTLV = HuaweiCrypto.encrypt(paramsProvider.getEncryptMethod(), serializedTLV, key, nonce);
         return new HuaweiTLV()
                 .put(CryptoTags.encryption, (byte) 0x01)
                 .put(CryptoTags.initVector, nonce)
@@ -300,7 +300,7 @@ public class HuaweiTLV {
 
     public void decrypt(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {
         byte[] key = paramsProvider.getSecretKey();
-        byte[] decryptedTLV = HuaweiCrypto.decrypt(paramsProvider.getDeviceSupportType(), getBytes(CryptoTags.cipherText), key, getBytes(CryptoTags.initVector));
+        byte[] decryptedTLV = HuaweiCrypto.decrypt(paramsProvider.getEncryptMethod(), getBytes(CryptoTags.cipherText), key, getBytes(CryptoTags.initVector));
         this.valueMap = new ArrayList<>();
         parse(decryptedTLV);
     }
