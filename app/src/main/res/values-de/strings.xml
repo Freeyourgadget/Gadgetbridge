@@ -1889,7 +1889,7 @@
     <string name="heartrate_bpm_40">40 BPM</string>
     <string name="heartrate_bpm_45">45 BPM</string>
     <string name="prefs_relaxation_reminder_title">Erinnerung zur Entspannung</string>
-    <string name="prefs_spo2_alert_threshold">SPO2-Alarmschwelle</string>
+    <string name="prefs_spo2_alert_threshold">SpO2-Alarmschwelle</string>
     <string name="seconds_7">7 Sekunden</string>
     <string name="seconds_8">8 Sekunden</string>
     <string name="seconds_9">9 Sekunden</string>
