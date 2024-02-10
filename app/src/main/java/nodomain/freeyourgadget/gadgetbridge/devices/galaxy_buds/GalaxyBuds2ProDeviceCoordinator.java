@@ -30,7 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class GalaxyBuds2ProDeviceCoordinator extends GalaxyBudsGenericCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Galaxy Buds2 Pro.*");
+        return Pattern.compile("^(Galaxy )?Buds2 Pro.*");
     }
 
     @Override
