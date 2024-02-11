@@ -2715,4 +2715,10 @@
     <string name="pref_force_connection_type_ble">Bluetooth LE</string>
     <string name="pref_force_connection_type_bt_classic">Bluetooth (klassiek)</string>
     <string name="activity_info">Activiteitsinformatie</string>
+    <string name="heartrate_bpm_155">155 bpm</string>
+    <string name="heartrate_bpm_165">165 bpm</string>
+    <string name="heartrate_bpm_175">175 bpm</string>
+    <string name="heartrate_bpm_185">185 bpm</string>
+    <string name="heartrate_bpm_195">195 bpm</string>
+    <string name="heartrate_bpm_205">205 bpm</string>
 </resources>
