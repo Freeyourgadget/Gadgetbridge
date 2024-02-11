@@ -11,8 +11,11 @@
 * Experimental support for Xiaomi Watch S1 Pro
 * Experimental support for Xiaomi Watch S1
 * Experimental support for Xiaomi Watch S3
+* Galaxy Buds2 Pro: Fix recognition of some versions
+* Huawei Watch GT 2: Fix pairing
 * Redmi Smart Band Pro: Fix password digits
 * Pebble: Fix app configuration page
+* Pebble: Fix pairing issue with Pebble 2
 * PineTime: Fix weather forecast on InfiniTime's new simple weather
 * Xiaomi: Fix sleep sometimes extending past the wakeup time
 * Xiaomi: Request battery level and charging state periodically
