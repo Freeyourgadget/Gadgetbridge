@@ -45,6 +45,7 @@ public class GBPrefs {
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
     public static final String DEVICE_AUTO_RECONNECT = "prefs_key_device_auto_reconnect";
+    public static final String DEVICE_AUTO_RECONNECT_SCAN = "prefs_key_device_auto_reconnect_scan";
     public static final String DEVICE_CONNECT_BACK = "prefs_key_device_reconnect_on_acl";
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
@@ -58,6 +59,9 @@ public class GBPrefs {
     public static final String RTL_CONTEXTUAL_ARABIC = "contextualArabic";
     public static boolean AUTO_RECONNECT_DEFAULT = true;
     public static final String PREF_ALLOW_INTENT_API = "prefs_key_allow_bluetooth_intent_api";
+
+    public static final String RECONNECT_SCAN_KEY = "prefs_general_key_auto_reconnect_scan";
+    public static final boolean RECONNECT_SCAN_DEFAULT = false;
 
     public static final String USER_NAME = "mi_user_alias";
     public static final String USER_NAME_DEFAULT = "gadgetbridge-user";
@@ -78,6 +82,10 @@ public class GBPrefs {
     public boolean getAutoReconnect(GBDevice device) {
         SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
         return deviceSpecificPreferences.getBoolean(DEVICE_AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
+    }
+
+    public boolean getAutoReconnectByScan() {
+        return mPrefs.getBoolean(RECONNECT_SCAN_KEY, RECONNECT_SCAN_DEFAULT);
     }
 
     public boolean getAutoStart() {

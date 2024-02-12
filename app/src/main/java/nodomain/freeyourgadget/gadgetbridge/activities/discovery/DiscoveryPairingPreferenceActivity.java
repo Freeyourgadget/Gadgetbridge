@@ -17,12 +17,14 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.discovery;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivityV2 {
     @Override
@@ -38,8 +40,14 @@ public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivity
     public static class DiscoveryPairingPreferenceFragment extends AbstractPreferenceFragment {
         static final String FRAGMENT_TAG = "DISCOVERY_PAIRING_PREFERENCES_FRAGMENT";
 
+        @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.discovery_pairing_preferences, rootKey);
+
+            findPreference("prefs_general_key_auto_reconnect_scan").setOnPreferenceChangeListener((preference, newValue) -> {
+                GB.toast("Please restart GB in order to take effect.", Toast.LENGTH_LONG, GB.INFO);
+                return true;
+            });
         }
     }
 }

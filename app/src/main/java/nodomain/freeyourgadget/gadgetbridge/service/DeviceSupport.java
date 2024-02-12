@@ -114,6 +114,10 @@ public interface DeviceSupport extends EventHandler {
      */
     boolean getAutoReconnect();
 
+    void setScanReconnect(boolean enable);
+
+    boolean getScanReconnect();
+
     /**
      * Returns whether the gatt callback should be implicitly set to the one on the transaction,
      * even if it was not set directly on the transaction. If true, the gatt callback will always
