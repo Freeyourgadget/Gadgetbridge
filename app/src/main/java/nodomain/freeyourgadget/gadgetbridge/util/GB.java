@@ -84,7 +84,6 @@ public class GB {
     public static final int NOTIFICATION_ID_EXPORT_FAILED = 5;
     public static final int NOTIFICATION_ID_PHONE_FIND = 6;
     public static final int NOTIFICATION_ID_GPS = 7;
-    public static final int NOTIFICATION_ID_SCAN = 8;
     public static final int NOTIFICATION_ID_ERROR = 42;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);

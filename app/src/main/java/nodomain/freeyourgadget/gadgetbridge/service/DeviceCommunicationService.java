@@ -97,7 +97,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -274,7 +273,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
     private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
-    private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
     private void sendDeviceConnectedBroadcast(String address){
         if(!allowBluetoothIntentApi){
@@ -370,20 +368,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     LOG.debug("device state update reason");
                     sendDeviceConnectedBroadcast(device.getAddress());
                     sendCachedNotifications(device);
-                }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
-                    String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
-
-                    GBDevice target = GBApplication
-                            .app()
-                            .getDeviceManager()
-                            .getDeviceByAddress(deviceAddress);
-
-                    if(target == null){
-                        Log.e("DeviceCommService", "onReceive: device not found");
-                        return;
-                    }
-
-                    connectToDevice(target);
                 }
             }
         }
@@ -416,19 +400,23 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(enableReceivers, anyDeviceInitialized, features, devicesWithCalendar);
     }
 
-    private void registerInternalReceivers(){
-        IntentFilter localFilter = new IntentFilter();
-        localFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
-        localFilter.addAction(BLEScanService.EVENT_DEVICE_FOUND);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, localFilter);
-    }
+    @Override
+    public void onCreate() {
+        LOG.debug("DeviceCommunicationService is being created");
+        super.onCreate();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+        mFactory = getDeviceSupportFactory();
 
-    private void registerExternalReceivers(){
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
         registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
 
         mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
         registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
+
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
+        }
 
         IntentFilter bluetoothCommandFilter = new IntentFilter();
         bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
@@ -439,22 +427,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         registerReceiver(deviceSettingsReceiver, deviceSettingsIntentFilter);
 
         registerReceiver(intentApiReceiver, intentApiReceiver.buildFilter());
-    }
-
-    @Override
-    public void onCreate() {
-        LOG.debug("DeviceCommunicationService is being created");
-        super.onCreate();
-        mFactory = getDeviceSupportFactory();
-
-        registerInternalReceivers();
-        registerExternalReceivers();
-
-        if (hasPrefs()) {
-            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
-            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
-            reconnectViaScan = getGBPrefs().getAutoReconnectByScan();
-        }
     }
 
     private DeviceSupportFactory getDeviceSupportFactory() {

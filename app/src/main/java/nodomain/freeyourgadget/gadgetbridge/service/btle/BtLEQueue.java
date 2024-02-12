@@ -81,7 +81,6 @@ public final class BtLEQueue {
     private final InternalGattCallback internalGattCallback;
     private final InternalGattServerCallback internalGattServerCallback;
     private boolean mAutoReconnect;
-    private boolean scanReconnect;
     private boolean mImplicitGattCallbackModify = true;
     private boolean mSendWriteRequestResponse = false;
 
@@ -217,10 +216,6 @@ public final class BtLEQueue {
 
     public void setAutoReconnect(boolean enable) {
         mAutoReconnect = enable;
-    }
-
-    public void setScanReconnect(boolean enable){
-        this.scanReconnect = enable;
     }
 
     public void setImplicitGattCallbackModify(final boolean enable) {
@@ -360,12 +355,6 @@ public final class BtLEQueue {
      */
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
-            if(scanReconnect){
-                LOG.info("Waiting for BLE scan before attempting reconnection...");
-                setDeviceConnectionState(State.WAITING_FOR_SCAN);
-                return true;
-            }
-
             LOG.info("Enabling automatic ble reconnect...");
             boolean result = mBluetoothGatt.connect();
             mPauseTransaction = false;

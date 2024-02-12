@@ -2677,7 +2677,4 @@
     <string name="pref_force_connection_type_ble_value" translatable="false">BLE</string>
     <string name="pref_force_connection_type_bt_classic_value" translatable="false">BT_CLASSIC</string>
     <string name="activity_info">Activity info</string>
-    <string name="device_state_waiting_scan">Waiting for device scan</string>
-    <string name="auto_reconnect_ble_scan_title">Reconnect by BLE scan</string>
-    <string name="auto_reconnect_ble_scan_summary">Wait for device scan instead of blind connection attempts</string>
 </resources>
