@@ -145,7 +145,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
-public final class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferService.Callback {
+public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsSupport.class);
 
     // Tracks whether realtime HR monitoring is already started, so we can just
@@ -1014,7 +1014,7 @@ public final class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTrans
 
     @Override
     @Deprecated
-    public final HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
+    public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
         throw new UnsupportedOperationException("This function should not be used for Zepp OS devices");
     }
 

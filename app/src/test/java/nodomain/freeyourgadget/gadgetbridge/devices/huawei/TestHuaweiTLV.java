@@ -288,7 +288,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetBytesEmpty() {
+    public void testGetBytesEmpty() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {}));
@@ -301,7 +301,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetBytes() {
+    public void testGetBytes() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {0x01, 0x02, 0x03}));
@@ -314,7 +314,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetByte() {
+    public void testGetByte() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {0x04}));
@@ -327,7 +327,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetBooleans() {
+    public void testGetBooleans() throws HuaweiPacket.MissingTagException {
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {0x01}));
         input.add(new HuaweiTLV.TLV((byte) 0x02, new byte[] {0x00}));
@@ -340,7 +340,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetInteger() {
+    public void testGetInteger() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {(byte) 0xDE, (byte) 0xAD, (byte) 0xBE, (byte) 0xEF}));
@@ -353,7 +353,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetShort() {
+    public void testGetShort() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {(byte) 0xCA, (byte) 0xFE}));
@@ -366,7 +366,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetString() {
+    public void testGetString() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x77, 0x6F, 0x72, 0x6C, 0x64, 0x21}));
@@ -379,7 +379,7 @@ public class TestHuaweiTLV {
     }
 
     @Test
-    public void testGetObject() {
+    public void testGetObject() throws HuaweiPacket.MissingTagException {
         int tag = 0x01;
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x01, new byte[] {0x01, 0x00}));
@@ -512,7 +512,7 @@ public class TestHuaweiTLV {
      * Following test also depends on the HuaweiCrypto class functioning correctly
      */
     @Test
-    public void testDecrypt() throws HuaweiCrypto.CryptoException {
+    public void testDecrypt() throws HuaweiCrypto.CryptoException, HuaweiPacket.MissingTagException {
         byte[] ciphertext = {(byte) 0x0E, (byte) 0xA0, (byte) 0x01, (byte) 0xBB, (byte) 0x1E, (byte) 0xDA, (byte) 0xCB, (byte) 0x09, (byte) 0x83, (byte) 0x20, (byte) 0x40, (byte) 0x7D, (byte) 0x97, (byte) 0x1B, (byte) 0xF6, (byte) 0xD0};
         ArrayList<HuaweiTLV.TLV> input = new ArrayList<>();
         input.add(new HuaweiTLV.TLV((byte) 0x7C, new byte[] {0x01}));

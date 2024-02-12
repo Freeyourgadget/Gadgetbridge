@@ -245,7 +245,7 @@ public class HuaweiPacket {
     }
 
     public boolean attemptDecrypt() throws ParseException {
-        if (paramsProvider.getSecretKey() == null)
+        if (paramsProvider == null || paramsProvider.getSecretKey() == null)
             return false;
         if (this.tlv == null)
             return false;
