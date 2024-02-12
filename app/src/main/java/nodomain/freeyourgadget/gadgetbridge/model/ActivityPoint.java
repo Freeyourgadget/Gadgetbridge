@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2017-2024 Carsten Pfeiffer, Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.util.Date;
@@ -38,9 +38,7 @@ public class ActivityPoint {
     private Date time;
     private GPSCoordinate location;
     private int heartRate;
-    private long speed4;
-    private long speed5;
-    private long speed6;
+    private float speed = -1;
 
     // e.g. to describe a pause during the activity
     private @Nullable String description;
@@ -85,27 +83,11 @@ public class ActivityPoint {
         this.heartRate = heartRate;
     }
 
-    public long getSpeed4() {
-        return speed4;
+    public float getSpeed() {
+        return speed;
     }
 
-    public void setSpeed4(long speed4) {
-        this.speed4 = speed4;
-    }
-
-    public long getSpeed5() {
-        return speed5;
-    }
-
-    public void setSpeed5(long speed5) {
-        this.speed5 = speed5;
-    }
-
-    public long getSpeed6() {
-        return speed6;
-    }
-
-    public void setSpeed6(long speed6) {
-        this.speed6 = speed6;
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 }

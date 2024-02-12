@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_notifications"
+        android:key="enable_call_accept"
+        android:title="@string/pref_enable_call_accept"
+        android:summary="@string/pref_enable_call_accept_summary" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_notifications"
+        android:key="enable_call_reject"
+        android:title="@string/pref_enable_call_reject"
+        android:summary="@string/pref_enable_call_reject_summary" />
+</PreferenceScreen>

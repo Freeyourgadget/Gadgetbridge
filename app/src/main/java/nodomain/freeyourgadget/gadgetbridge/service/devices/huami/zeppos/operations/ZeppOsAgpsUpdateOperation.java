@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations;
 
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileTransferService;
@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * 4. After successful ack from 3, update is finished. Trigger an AGPS config request from {@link ZeppOsConfigService}
  * to reload the AGPS update and expiration timestamps.
  */
-public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<Huami2021Support>
+public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<ZeppOsSupport>
         implements ZeppOsFileTransferService.Callback, ZeppOsAgpsService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAgpsUpdateOperation.class);
 
@@ -54,7 +54,7 @@ public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<Huami2021Su
     private final ZeppOsFileTransferService fileTransferService;
     private final ZeppOsConfigService configService;
 
-    public ZeppOsAgpsUpdateOperation(final Huami2021Support support,
+    public ZeppOsAgpsUpdateOperation(final ZeppOsSupport support,
                                      final ZeppOsAgpsFile file,
                                      final ZeppOsAgpsService agpsService,
                                      final ZeppOsFileTransferService fileTransferService,

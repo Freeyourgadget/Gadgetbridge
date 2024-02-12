@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020-2023 Petr Kadlec
+/*  Copyright (C) 2023-2024 Petr Kadlec
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveConstants;

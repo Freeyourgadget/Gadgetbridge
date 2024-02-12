@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 Frank Ertl
+/*  Copyright (C) 2023-2024 Andreas Shimokawa, Frank Ertl
 
     This file is part of Gadgetbridge.
 
@@ -13,10 +13,11 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.communication.conversation;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class WorkoutScreenListHandler extends AbstractResponseHandler {
             }
          }
 
-        String workoutActivityTypes = String.join(",", prefValues);
+        String workoutActivityTypes = TextUtils.join(",", prefValues);
         GBDevice device = support.getDevice();
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
         prefs.edit().putString("workout_activity_types_sortable", workoutActivityTypes).apply();

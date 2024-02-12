@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,13 +13,14 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public interface StressSample extends TimeSample {
     enum Type {
         MANUAL(0),
         AUTOMATIC(1),
+        UNKNOWN(2),
         ;
 
         private final int num;
@@ -49,11 +50,7 @@ public interface StressSample extends TimeSample {
     Type getType();
 
     /**
-     * Returns the normalized stress value between 0 and 100:
-     * - 0-39 = relaxed
-     * - 40-59 = mild
-     * - 60-79 = moderate
-     * - 80-100 = high
+     * Returns the stress value between 0 and 100.
      */
     int getStress();
 }

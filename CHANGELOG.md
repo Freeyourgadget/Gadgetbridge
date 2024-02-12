@@ -1,35 +1,136 @@
 ### Changelog
 
-#### Next release (WIP)
+#### 0.79.0
+* Initial support for Honor Magic Watch 2
+* Initial support for Mijia MHO-C303
+* Initial support for Nothing CMF Watch Pro
+* Initial support for Sony WI-SP600N
+* Experimental support for Redmi Watch 2
+* Experimental support for Xiaomi Smart Band 8 Pro
+* Experimental support for Xiaomi Watch S1 Pro
+* Experimental support for Xiaomi Watch S1
+* Experimental support for Xiaomi Watch S3
+* Galaxy Buds2 Pro: Fix recognition of some versions
+* Huawei Watch GT 2: Fix pairing
+* Redmi Smart Band Pro: Fix password digits
+* Pebble: Fix app configuration page
+* Pebble 2: Fix pairing issue
+* PineTime: Fix weather forecast on InfiniTime's new simple weather
+* Xiaomi: Fix sleep sometimes extending past the wakeup time
+* Xiaomi: Request battery level and charging state periodically
+* Xiaomi: Fix sleep stage parsing for some devices
+* Zepp OS: Improve device discovery
+* Zepp OS: Fix weather not working on some devices
+* Zepp OS: Prevent crash when installing large firmware updates
+* Fix sport activity summary group order
+* Fix reconnection to devices failing occasionally
+
+#### 0.78.0
+* Initial support for Honor Band 3,4,5,6
+* Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e
+* Initial support for Huawei Talk Band B6
+* Initial support for Huawei Watch GT, GT 2
+* Initial support for Mijia LYWSD03MMC
+* Initial support for Nothing Ear (2)
+* Initial support for Nothing Ear (Stick)
+* Experimental support for Honor Band 7
+* Experimental support for Redmi Watch 2 Lite
+* Experimental support for Redmi Smart Band Pro
+* Casio GBX100: Add support for snooze alarm
+* Fossil/Skagen Hybrids: Update navigationApp to 1.1
+* Huami: Fetch SpO2 on devices that support it
+* Pebble: Attempt to fix app configuration webview
+* PineTime: Add support for InfiniTime's new simple weather
+* PineTime: Fix freeze and reboot when upgrading firmware
+* Pixoo: Enable sending images (non-persistent)
+* Pixoo: Get and send alarms
+* Pixoo: Set custom device name
+* Pixoo: support "clap hands to turn off screen" and "sleep after silence" settings
+* Xiaomi: Improve activity and workout parsing
+* Xiaomi: Improve stability and fix some crashes
+* Xiaomi: Improve weather
+* Xiaomi: Parse sleep stages
+* Add a notifications channel for connection status notifications
+* Improve automatic connection to all or previous devices
+* Fix devices sometimes staying stuck in a "Connecting" state
+* Map some missing Google Maps navigation actions
+
+#### 0.77.0
 * Initial support for Amazfit Balance
+* Initial support for Amazfit Active
+* Initial support for ColaCao 2021
+* Initial support for ColaCao 2023
 * Initial support for Femometer Vinca II
 * Initial support for Mijia LYWSD02MMC variant
 * Initial support for Sony Wena 3
+* Experimental support for Divoom Pixoo
 * Experimental support for Sony WF-1000XM5
+* Experimental support for Amazfit Active Edge
+* Experimental support for Mi Band 7 Pro (Xiaomi Smart Band 7 Pro)
+* Experimental support for Mi Band 8 (Xiaomi Smart Band 8)
+* Experimental support for Mi Watch Lite
+* Experimental support for Mi Watch Color Sport
+* Experimental support for Redmi Smart Band 2
+* Experimental support for Redmi Watch 3 Active
+* Experimental support for Xiaomi Watch S1 Active
 * Amazfit Band 7: Add alexa menu entries
 * Amazfit GTR 3 Pro: Fix firmware and watchface upload
 * Amazfit T-Rex: Fix activity summary parsing
+* Amazfit T-Rex Pro: Add activate display on lift sensitivity
 * AsteroidOS: Add more supported watch models
 * AsteroidOS: Fix media info
 * AsteroidOS: Fix notification dismissal
 * Bangle.js: Add loyalty cards integration with Catima
+* Bangle.js: Ensure SMS messages have src field set to "SMS Message"
+* Bangle.js: Fix GPS speed
+* Bangle.js: Improve handling of chinese characters
 * Bangle.js: Lower threshold for low battery warning
+* Bangle.js: Recover from device initialization failure
 * Casio GBX100/GBD-200: Fix first connect
+* Casio GB5600/6900/STB-1000: Fix pairing
+* Casio GDB-200: Fix notification timestamp
+* Casio GDB-200: Fixed notification categories and default category
+* Casio GDB-200: Allow preview of notification message alongside title
+* Casio GDB-200: Fixed find my phone feature
+* Intent API: Add debug action for test new function
+* Fossil/Skagen Hybrids: Add new navigation app
+* Fossil/Skagen Hybrids: Allow configuring call rejection method
 * Fossil/Skagen Hybrids: Fix some preference crashes on the nightly
 * Fossil/Skagen Hybrids: Reduce toasts on release builds
+* Fossil/Skagen Hybrids: Show device specific settings in more logical order
+* Huami: Toggle phone silent mode from band
 * Message privacy: Add mode Hide only body
 * Mijia LYWSD02: Add battery
+* Mijia LYWSD02: Add low battery notification
 * Mijia LYWSD02: Set temperature unit
+* Mijia LYWSD02: Fix battery drain while connected
 * PineTime: Display app name for VoIP app calls
+* PineTime: Honor Sync time setting on connect
+* PineTime: Improve notification handling
 * PineTime: Reduce weather memory usage
 * Withings Steel HR: Fix crash when calibrating hands on the nightly
+* Zepp OS: Add blood oxygen graph
 * Zepp OS: Add workout codes for hiking and outdoor swimming
+* Zepp OS: Allow disabling app notifications per device
+* Zepp OS: Attempt to fix activity fetch operation getting stuck
+* Zepp OS: Display swimming activity data
 * Zepp OS: Fix health settings on older Zepp OS versions
 * Zepp OS: Fix setting of unknown button press apps
+* Zepp OS: Fix sunrise and moon dates being off by local time + UTC offset
 * Zepp OS: Map hiking, outdoor swimming, climbing and table tennis activity types
-* Add transliteration for Latvian and Common Symbols
+* Zepp OS: Toggle phone silent mode from band
+* Add transliteration for Latvian, Hungarian, Common Symbols
+* Allow multiple device actions to be triggered for the same event
+* Allow toggling DND through device actions
+* Autodetect OsmAnd package name and make it configurable
+* Improve ASCII transliterator
+* Make GMaps navigation handler follow the "navigation forwarding" setting
+* Support selecting enabled navigation apps
 * Allow ignore notifications from work profile apps
+* Display alias in low battery notification
+* Fix crash when pairing current device as companion
 * Fix emoji when a transliterator is enabled
+* Fix UV Index and rain probability for some weather apps
 * Improve device discovery stability and fix freezes
 * Improve Telegram and COL Reminder notifications
 * Replace old-style preference switch with Material 3 switch

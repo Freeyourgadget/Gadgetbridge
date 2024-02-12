@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, João
-    Paulo Barraca, Matthieu Baerts
+/*  Copyright (C) 2017-2024 Andreas Shimokawa, Daniel Dakhno, Daniele Gobbetti,
+    José Rebelo, Matthieu Baerts, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor;
 
 import android.content.Context;
@@ -90,6 +90,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_device_actions,
+                R.xml.devicesettings_phone_silent_mode,
                 R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration

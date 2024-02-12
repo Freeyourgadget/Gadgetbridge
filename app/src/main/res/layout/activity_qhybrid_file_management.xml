@@ -20,13 +20,13 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="encrypted file"
                 android:id="@+id/qhybrid_switch_encrypted_file" />
 
-            <Switch
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="generate file header"

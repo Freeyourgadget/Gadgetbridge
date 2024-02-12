@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,56 +13,32 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexultra;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexultra.AmazfitTRexUltraSupport;
 
-public class AmazfitTRexUltraCoordinator extends Huami2021Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitTRexUltraCoordinator.class);
-
+public class AmazfitTRexUltraCoordinator extends ZeppOsCoordinator {
     @Override
-    public boolean isExperimental() {
-        return true;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_TREX_ULTRA;
     }
 
-    @NonNull
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitTRexUltraSupport.class;
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(6553856, 6553857));
     }
 
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_trex_ultra;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_TREX_ULTRA + ".*");
-    }
-
-    @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitTRexUltraFWInstallHandler(uri, context);
     }
 
     @Override

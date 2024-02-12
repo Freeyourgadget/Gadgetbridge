@@ -1,6 +1,4 @@
-/*  Copyright (C) 2017-2022 Andreas Shimokawa, Aniruddha Adhikary, Daniele
-    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
-    Taavi Eomäe, Ted Stein, Thomas, Yaron Shahrabani, José Rebelo
+/*  Copyright (C) 2022-2024 Arjan Schrijver, José Rebelo, Petr Kadlec
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
 import java.nio.charset.StandardCharsets;
@@ -32,8 +30,8 @@ public class FlattenToAsciiTransliterator implements Transliterator {
             return txt;
         }
 
-        // Decompose the string into its canonical decomposition (splits base characters from accents/marks)
-        txt = Normalizer.normalize(txt, Normalizer.Form.NFD);
+        // Decompose the string into its compatible decomposition (splits base characters from accents/marks, and changes some characters to compatibility version)
+        txt = Normalizer.normalize(txt, Normalizer.Form.NFKD);
         // Remove all marks (characters intended to be combined with another character), keeping the base glyphs
         txt = txt.replaceAll("\\p{M}", "");
         // Flatten the resulting string to ASCII

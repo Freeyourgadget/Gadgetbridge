@@ -1,4 +1,5 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2021-2024 Damien Gaignon, Daniel Dakhno, José Rebelo,
+    Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
 import android.app.Activity;
@@ -211,6 +212,9 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             put(SonyHeadphonesCapabilities.AutomaticPowerOffByTime, R.xml.devicesettings_automatic_power_off_by_time);
             put(SonyHeadphonesCapabilities.VoiceNotifications, R.xml.devicesettings_sony_headphones_notifications_voice_guide);
         }});
+
+        settings.add(R.xml.devicesettings_header_developer);
+        settings.add(R.xml.devicesettings_sony_headphones_protocol_version);
 
         settings.add(R.xml.devicesettings_sony_headphones_device_info);
 

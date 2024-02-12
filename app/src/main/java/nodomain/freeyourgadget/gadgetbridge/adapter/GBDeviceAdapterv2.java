@@ -1,5 +1,7 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Lem Dulfo, maxirnilian
+/*  Copyright (C) 2016-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs,
+    fparri, José Rebelo, mamucho, maxirnilian, mkusnierz, Petr Vaněk, Taavi
+    Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
@@ -83,12 +85,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -121,6 +126,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 /**
@@ -855,6 +861,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
                             GBApplication.deviceService(device).disconnect();
                         }
+                        removeFromLastDeviceAddressesPref(device);
                         return true;
                     case R.id.controlcenter_device_submenu_set_alias:
                         showSetAliasDialog(device);
@@ -1059,6 +1066,15 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             }
         }
         return false;
+    }
+
+    private void removeFromLastDeviceAddressesPref(GBDevice device) {
+        Set<String> lastDeviceAddresses = GBApplication.getPrefs().getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+        if (lastDeviceAddresses.contains(device.getAddress())) {
+            lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
+            lastDeviceAddresses.remove(device.getAddress());
+            GBApplication.getPrefs().getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
+        }
     }
 
     private void setAppPreferences(GBDevice device) {

@@ -13,6 +13,11 @@
             android:summary="@string/pref_summary_canned_messages_set"
             android:title="@string/pref_title_canned_messages_set" />
 
+        <!--
+            WARNING: Make sure to override getCannedRepliesSlotCount in the device coordinator
+            in order for the options below to show up.
+        -->
+
         <PreferenceCategory
             android:key="pref_key_canned_reply_messages"
             android:title="@string/pref_header_cannned_messages">

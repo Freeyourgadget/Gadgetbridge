@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 José Rebelo
+/*  Copyright (C) 2021-2024 Arjan Schrijver, Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,16 +13,20 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
@@ -61,11 +65,24 @@ public class ConfigureReminders extends AbstractGBActivity {
     private GBReminderListAdapter mGBReminderListAdapter;
     private GBDevice gbDevice;
 
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            if (DeviceService.ACTION_SAVE_REMINDERS.equals(intent.getAction())) {
+                updateRemindersFromDB();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_configure_reminders);
+
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(DeviceService.ACTION_SAVE_REMINDERS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
@@ -116,6 +133,12 @@ public class ConfigureReminders extends AbstractGBActivity {
                 configureReminder(reminder);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     @Override

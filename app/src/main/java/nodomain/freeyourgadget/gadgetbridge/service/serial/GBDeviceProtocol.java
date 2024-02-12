@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
     Julien Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
 import android.location.Location;
@@ -22,14 +22,17 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class GBDeviceProtocol {
 
@@ -158,6 +161,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeSetAlarms(ArrayList<? extends Alarm> alarms)  {
+        return null;
+    }
+
     public byte[] encodeReminders(ArrayList<? extends Reminder> reminders) {
         return null;
     }
@@ -172,5 +179,9 @@ public abstract class GBDeviceProtocol {
 
     public byte[] encodeGpsLocation(Location location) {
         return null;
+    }
+
+    protected Prefs getDevicePrefs() {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
     }
 }

@@ -1,4 +1,23 @@
+/*  Copyright (C) 2020-2024 José Rebelo, Petr Vaněk, Reiner Herrmann,
+    Sebastian Krey
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,9 +121,9 @@ public class ActivitySummaryJsonSummary {
     private JSONObject setSummaryGroupedList(JSONObject summaryDatalist){
         this.groupData = createActivitySummaryGroups(); //structure for grouping activities into groups, when vizualizing
 
-        if (summaryDatalist ==null ) return null;
+        if (summaryDatalist == null) return null;
         Iterator<String> keys = summaryDatalist.keys();
-        JSONObject list=new JSONObject();
+        Map<String, JSONArray> activeGroups = new HashMap<>();
 
         while (keys.hasNext()) {
             String key = keys.next();
@@ -111,27 +131,43 @@ public class ActivitySummaryJsonSummary {
                 JSONObject innerData = (JSONObject) summaryDatalist.get(key);
                 Object value = innerData.get("value");
                 String unit = innerData.getString("unit");
-                String group = getGroup(key);
+                String groupName = getGroup(key);
 
-                if (!list.has(group)) {
-                    list.put(group,new JSONArray());
+                JSONArray group = activeGroups.get(groupName);
+                if (group == null) {
+                    group = new JSONArray();
+                    activeGroups.put(groupName, group);
                 }
 
-                JSONArray tmpl = (JSONArray) list.get(group);
-                JSONObject innernew = new JSONObject();
-                innernew.put("name", key);
-                innernew.put("value", value);
-                innernew.put("unit", unit);
-                tmpl.put(innernew);
-                list.put(group, tmpl);
+                JSONObject item = new JSONObject();
+                item.put("name", key);
+                item.put("value", value);
+                item.put("unit", unit);
+                group.put(item);
             } catch (JSONException e) {
-                LOG.error("SportsActivity", e);
+                LOG.error("SportsActivity internal error building grouped summary", e);
             }
         }
-        return list;
+
+        // Reorder collected groups according to the order set by this.groupData.
+        JSONObject grouped = new JSONObject();
+        Iterator<String> names = this.groupData.keys();
+        while(names.hasNext()) {
+            String groupName = names.next();
+            JSONArray group = activeGroups.get(groupName);
+            if (group != null) {
+                try {
+                    grouped.put(groupName, group);
+                } catch (JSONException e) {
+                    LOG.error("SportsActivity internal error building grouped summary", e);
+                }
+            }
+        }
+        return grouped;
     }
 
     private String getGroup(String searchItem) {
+        // NB: Default group must be present in group JSONObject created by createActivitySummaryGroups
         String defaultGroup = "Activity";
         if (groupData == null) return defaultGroup;
         Iterator<String> keys = groupData.keys();
@@ -151,37 +187,39 @@ public class ActivitySummaryJsonSummary {
         return defaultGroup;
     }
     private JSONObject createActivitySummaryGroups(){
-        final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
-            put("Strokes", Arrays.asList(
-                    "averageStrokeDistance", "averageStrokesPerSecond", "strokes",
-                    "avgStrokeRate", "maxStrokeRate"
-            ));
-            put("Swimming", Arrays.asList(
-                    "swolfIndex", "swimStyle"
-            ));
-            put("Elevation", Arrays.asList(
-                    "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
-                    "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
-                    "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
+        final Map<String, List<String>> groupDefinitions = new LinkedHashMap<String, List<String>>() {{
+            // NB: Default group Activity must be present in this definition, otherwise it wouldn't
+            // be shown.
+            put("Activity", Arrays.asList(
+                    DISTANCE_METERS, STEPS, ACTIVE_SECONDS, CALORIES_BURNT, STRIDE_TOTAL,
+                    HR_AVG, HR_MAX, HR_MIN, STRIDE_AVG, STRIDE_MAX, STRIDE_MIN
             ));
             put("Speed", Arrays.asList(
-                    "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
-                    "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
+                    SPEED_AVG, SPEED_MAX, SPEED_MIN, PACE_AVG_SECONDS_KM, PACE_MIN,
+                    PACE_MAX, "averageSpeed2", CADENCE_AVG, CADENCE_MAX, CADENCE_MIN
             ));
-            put("Activity", Arrays.asList(
-                    "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
-                    "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
+            put("Elevation", Arrays.asList(
+                    ASCENT_METERS, DESCENT_METERS, ALTITUDE_MAX, ALTITUDE_MIN, ALTITUDE_AVG,
+                    ALTITUDE_BASE, ASCENT_SECONDS, DESCENT_SECONDS, FLAT_SECONDS, ASCENT_DISTANCE,
+                    DESCENT_DISTANCE, FLAT_DISTANCE, ELEVATION_GAIN, ELEVATION_LOSS
             ));
             put("HeartRateZones", Arrays.asList(
-                    "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
-                    "hrZoneExtreme"
+                    HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC,
+                    HR_ZONE_EXTREME
+            ));
+            put("Strokes", Arrays.asList(
+                    STROKE_DISTANCE_AVG, STROKE_AVG_PER_SECOND, STROKES,
+                    STROKE_RATE_AVG, STROKE_RATE_MAX
+            ));
+            put("Swimming", Arrays.asList(
+                    SWOLF_INDEX, SWIM_STYLE
             ));
             put("TrainingEffect", Arrays.asList(
-                    "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
-                    "maximumOxygenUptake"
+                    TRAINING_EFFECT_AEROBIC, TRAINING_EFFECT_ANAEROBIC, WORKOUT_LOAD,
+                    MAXIMUM_OXYGEN_UPTAKE
             ));
             put("laps", Arrays.asList(
-                    "averageLapPace", "laps", "laneLength"
+                    LAP_PACE_AVERAGE, LAPS, LANE_LENGTH
             ));
         }};
 

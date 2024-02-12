@@ -1,4 +1,5 @@
-/*  Copyright (C) 2019-2021 Andreas Shimokawa, Cre3per, Taavi Eomäe
+/*  Copyright (C) 2019-2024 Andreas Shimokawa, Arjan Schrijver, Cre3per,
+    Damien Gaignon, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 // TODO: All the commands that aren't supported by GB should be added to device specific settings.
 
 // TODO: It'd be cool if we could change the language. There's no official way to do so, but the

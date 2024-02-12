@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 0nse, Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Pavel Elagin, vanous
+/*  Copyright (C) 2017-2024 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, José Rebelo, Pavel Elagin, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.app.Activity;
@@ -371,14 +371,14 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 
     private ActivityAmounts getActivityAmountsForDay(DBHandler db, Calendar day, GBDevice device) {
 
-        LimitedQueue activityAmountCache = null;
+        LimitedQueue<Integer, ActivityAmounts> activityAmountCache = null;
         ActivityAmounts amounts = null;
 
         Activity activity = getActivity();
         int key = (int) (day.getTimeInMillis() / 1000) + (mOffsetHours * 3600);
         if (activity != null) {
             activityAmountCache = ((ActivityChartsActivity) activity).mActivityAmountCache;
-            amounts = (ActivityAmounts) (activityAmountCache.lookup(key));
+            amounts = activityAmountCache.lookup(key);
         }
 
         if (amounts == null) {

@@ -125,6 +125,10 @@
     <item name="pref_device_action_fitness_app_control_start_value" translatable="false" type="string">FITNESS_CONTROL_START</item>
     <item name="pref_device_action_fitness_app_control_stop_value" translatable="false" type="string">FITNESS_CONTROL_STOP</item>
     <item name="pref_device_action_fitness_app_control_toggle_value" translatable="false" type="string">FITNESS_CONTROL_TOGGLE</item>
+    <item name="pref_device_action_dnd_off_value" translatable="false" type="string">DO_NOT_DISTURB_OFF</item>
+    <item name="pref_device_action_dnd_priority_value" translatable="false" type="string">DO_NOT_DISTURB_PRIORITY</item>
+    <item name="pref_device_action_dnd_alarms_value" translatable="false" type="string">DO_NOT_DISTURB_ALARMS</item>
+    <item name="pref_device_action_dnd_on_value" translatable="false" type="string">DO_NOT_DISTURB_ON</item>
 
     <item name="pref_theme_value_system" translatable="false" type="string">system</item>
     <item name="pref_theme_value_light" translatable="false" type="string">light</item>

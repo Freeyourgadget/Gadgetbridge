@@ -2050,7 +2050,7 @@
     <string name="debugactivity_confirm_remove_device_preferences_title">Odebrat předvolby zařízení\?</string>
     <string name="single_band">Jednoduché Pásmo</string>
     <string name="dual_band">Duální Pásmo</string>
-    <string name="low_power_gps">Nízká spotřeba GPS</string>
+    <string name="low_power_gps">GPS s nízkou spotřebou energie</string>
     <string name="accuracy_first">Upřednostnit přesnost</string>
     <string name="speed_first">Upřednostnit rychlost</string>
     <string name="debugactivity_confirm_remove_device_preferences">Tím se resetují předvolby zařízení pro všechna připojená zařízení. Jste si jisti\?</string>
@@ -2383,4 +2383,8 @@
     <string name="updatefirmwareoperation_failed_low_mtu">Aktuální MTU %1$d je příliš nízké, povolte, prosím, větší MTU v nastavení zařízení. Následně se odpojte a znovu připojte.</string>
     <string name="english_au">Angličtina (Austrálie)</string>
     <string name="english_ca">Angličtina (Kanada)</string>
+    <string name="pref_title_notifications_ignore_work_profile">Ignorovat oznámení z aplikací v pracovním profilu</string>
+    <string name="pref_message_privacy_mode_bodyonly">Skrýt pouze obsah zprávy</string>
+    <string name="pref_title_preview_message_in_title">Ukázat náhled zprávy v názvu</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Neposílat oznámení do hodinek z aplikací v pracovním profilu</string>
 </resources>

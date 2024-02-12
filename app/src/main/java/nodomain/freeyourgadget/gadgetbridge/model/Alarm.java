@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Dmitry
+    Markin, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.io.Serializable;
@@ -32,6 +33,8 @@ public interface Alarm extends Serializable {
     byte ALARM_FRI = 16;
     byte ALARM_SAT = 32;
     byte ALARM_SUN = 64;
+
+    byte ALARM_DAILY = Alarm.ALARM_MON | Alarm.ALARM_TUE | Alarm.ALARM_WED | Alarm.ALARM_THU | Alarm.ALARM_FRI | Alarm.ALARM_SAT | Alarm.ALARM_SUN;
 
     int getPosition();
 

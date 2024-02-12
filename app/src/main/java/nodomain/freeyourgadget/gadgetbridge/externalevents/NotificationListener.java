@@ -1,7 +1,10 @@
-/*  Copyright (C) 2015-2020 abettenburg, Andreas Shimokawa, AndrewBedscastle,
-    Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Frank Slezak, Hasan Ammar,
-    José Rebelo, Julien Pivotto, Kevin Richter, Matthieu Baerts, Normano64,
-    Steffen Liebergeld, Taavi Eomäe, veecue, Zhong Jianxin
+/*  Copyright (C) 2015-2024 abettenburg, Andreas Böhler, Andreas Shimokawa,
+    AndrewBedscastle, Arjan Schrijver, Carsten Pfeiffer, Daniel Dakhno, Daniele
+    Gobbetti, Davis Mosenkovs, Dmitriy Bogdanov, Dmitry Markin, Frank Slezak,
+    gnufella, Gordon Williams, Hasan Ammar, José Rebelo, Julien Pivotto,
+    Kevin Richter, mamucho, Matthieu Baerts, mvn23, Normano64, Petr Kadlec,
+    Petr Vaněk, Steffen Liebergeld, Taavi Eomäe, theghostofheathledger, t-m-w,
+    veecue, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +19,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.ActivityManager;
@@ -83,17 +86,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
@@ -115,9 +107,9 @@ public class NotificationListener extends NotificationListenerService {
     public static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.notificationlistener.action.reply";
 
-    private final LimitedQueue mActionLookup = new LimitedQueue(32);
-    private final LimitedQueue mPackageLookup = new LimitedQueue(64);
-    private final LimitedQueue mNotificationHandleLookup = new LimitedQueue(128);
+    private final LimitedQueue<Integer, NotificationCompat.Action> mActionLookup = new LimitedQueue<>(32);
+    private final LimitedQueue<Integer, String> mPackageLookup = new LimitedQueue<>(64);
+    private final LimitedQueue<Integer, Long> mNotificationHandleLookup = new LimitedQueue<>(128);
 
     private final HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private final HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
@@ -158,7 +150,7 @@ public class NotificationListener extends NotificationListenerService {
 
                 case ACTION_OPEN: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    Long ts = mNotificationHandleLookup.lookup(handle);
                     if (ts == null) {
                         LOG.info("could not lookup handle for open action");
                         break;
@@ -179,7 +171,7 @@ public class NotificationListener extends NotificationListenerService {
                     break;
                 }
                 case ACTION_MUTE:
-                    String packageName = (String) mPackageLookup.lookup(handle);
+                    String packageName = mPackageLookup.lookup(handle);
                     if (packageName == null) {
                         LOG.info("could not lookup handle for mute action");
                         break;
@@ -193,7 +185,7 @@ public class NotificationListener extends NotificationListenerService {
                     break;
                 case ACTION_DISMISS: {
                     StatusBarNotification[] sbns = NotificationListener.this.getActiveNotifications();
-                    Long ts = (Long) mNotificationHandleLookup.lookup(handle);
+                    Long ts = mNotificationHandleLookup.lookup(handle);
                     if (ts == null) {
                         LOG.info("could not lookup handle for dismiss action");
                         break;
@@ -210,7 +202,7 @@ public class NotificationListener extends NotificationListenerService {
                     NotificationListener.this.cancelAllNotifications();
                     break;
                 case ACTION_REPLY:
-                    NotificationCompat.Action wearableAction = (NotificationCompat.Action) mActionLookup.lookup(handle);
+                    NotificationCompat.Action wearableAction = mActionLookup.lookup(handle);
                     String reply = intent.getStringExtra("reply");
                     if (wearableAction != null) {
                         PendingIntent actionIntent = wearableAction.getActionIntent();
@@ -354,6 +346,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
+        notificationSpec.key = sbn.getKey();
         notificationSpec.when = notification.when;
 
         // determinate Source App Name ("Label")
@@ -707,15 +700,17 @@ public class NotificationListener extends NotificationListenerService {
             };
             mHandler.postDelayed(mSetMusicInfoRunnable, 100);
 
-            if (mSetMusicStateRunnable != null) {
-                mHandler.removeCallbacks(mSetMusicStateRunnable);
-            }
-            mSetMusicStateRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    GBApplication.deviceService().onSetMusicState(stateSpec);
+            if (stateSpec != null) {
+                if (mSetMusicStateRunnable != null) {
+                    mHandler.removeCallbacks(mSetMusicStateRunnable);
                 }
-            };
+                mSetMusicStateRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        GBApplication.deviceService().onSetMusicState(stateSpec);
+                    }
+                };
+            }
             mHandler.postDelayed(mSetMusicStateRunnable, 100);
 
             return true;
@@ -730,8 +725,6 @@ public class NotificationListener extends NotificationListenerService {
         logNotification(sbn, false);
 
         notificationStack.remove(sbn.getPackageName());
-
-        googleMapsNotificationHandler.handleRemove(sbn);
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
@@ -750,6 +743,8 @@ public class NotificationListener extends NotificationListenerService {
 
         if (shouldIgnoreSource(sbn)) return;
 
+        googleMapsNotificationHandler.handleRemove(sbn);
+
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
@@ -765,17 +760,16 @@ public class NotificationListener extends NotificationListenerService {
         if (shouldIgnoreNotification(sbn, true)) return;
 
         // Build list of all currently active notifications
-        ArrayList<Integer> activeNotificationsIds = new ArrayList<Integer>();
+        ArrayList<Integer> activeNotificationsIds = new ArrayList<>();
         for (StatusBarNotification notification : getActiveNotifications()) {
-            Object o = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
-            if (o != null) {
-                int id = (int) o;
+            Integer id = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
+            if (id != null) {
                 activeNotificationsIds.add(id);
             }
         }
 
         // Build list of notifications that aren't active anymore
-        ArrayList<Integer> notificationsToRemove = new ArrayList<Integer>();
+        ArrayList<Integer> notificationsToRemove = new ArrayList<>();
         for (int notificationId : notificationsActive) {
             if (!activeNotificationsIds.contains(notificationId)) {
                 notificationsToRemove.add(notificationId);
@@ -786,13 +780,17 @@ public class NotificationListener extends NotificationListenerService {
         notificationsActive.removeAll(notificationsToRemove);
 
         // Send notification remove request to device
-        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for (GBDevice device : devices) {
+            if (!device.isInitialized()) {
+                continue;
+            }
+
             Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
             if (devicePrefs.getBoolean("autoremove_notifications", true)) {
                 for (int id : notificationsToRemove) {
-                    LOG.info("Notification " + id + " removed, will ask device to delete it");
-                    GBApplication.deviceService().onDeleteNotification(id);
+                    LOG.info("Notification {} removed, deleting from {}", id, device.getAliasOrName());
+                    GBApplication.deviceService(device).onDeleteNotification(id);
                 }
             }
         }

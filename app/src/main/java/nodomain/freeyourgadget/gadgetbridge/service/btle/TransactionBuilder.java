@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel
-    Dakhno, Daniele Gobbetti
+/*  Copyright (C) 2015-2024 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Frank Ertl,
+    José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -28,6 +29,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.BondAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
@@ -85,6 +87,11 @@ public class TransactionBuilder {
         return add(
                 new RequestConnectionPriorityAction(priority)
         );
+    }
+
+    public TransactionBuilder bond() {
+        BondAction action = new BondAction();
+        return add(action);
     }
 
     public TransactionBuilder notify(BluetoothGattCharacteristic characteristic, boolean enable) {

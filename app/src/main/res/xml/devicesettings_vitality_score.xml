@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_health"
+        android:key="pref_screen_vitality_score"
+        android:persistent="false"
+        android:title="@string/pref_vitality_score_title">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notifications"
+            android:key="pref_vitality_score_7_day"
+            android:summary="@string/pref_vitality_score_7_day_summary"
+            android:title="@string/pref_vitality_score_7_day_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notifications"
+            android:key="pref_vitality_score_daily"
+            android:summary="@string/pref_vitality_score_daily_summary"
+            android:title="@string/pref_vitality_score_daily_title" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

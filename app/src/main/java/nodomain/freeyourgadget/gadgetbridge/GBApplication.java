@@ -1,6 +1,8 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Martin, Matthieu Baerts, Normano64, odavo32nof, Pauli Salmenrinne,
-    Pavel Elagin, Petr Vaněk, Saul Nunez, Taavi Eomäe
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs,
+    Dmitriy Bogdanov, Joel Beckmeyer, José Rebelo, Kornél Schmidt, Ludovic
+    Jozeau, Martin, Martin.JM, mvn23, Normano64, odavo32nof, Pauli Salmenrinne,
+    Pavel Elagin, Petr Vaněk, Saul Nunez, Taavi Eomäe, x29a
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.annotation.TargetApi;
@@ -54,6 +56,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -121,9 +124,9 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 26;
+    private static final int CURRENT_PREFS_VERSION = 28;
 
-    private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
+    private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static Prefs prefs;
     private static GBPrefs gbPrefs;
     private static LockHandler lockHandler;
@@ -1186,7 +1189,7 @@ public class GBApplication extends Application {
 
         if (oldVersion < 16) {
             // If transliteration was enabled for a device, migrate it to the per-language setting
-            final String defaultLanguagesIfEnabled = "extended_ascii,common_symbols,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,latvian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean";
+            final String defaultLanguagesIfEnabled = "extended_ascii,common_symbols,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,latvian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean,hungarian";
             try (DBHandler db = acquireDB()) {
                 final DaoSession daoSession = db.getDaoSession();
                 final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
@@ -1372,6 +1375,78 @@ public class GBApplication extends Application {
             }
         }
 
+        if (oldVersion < 27) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    for (final Map.Entry<String, ?> entry : deviceSharedPrefs.getAll().entrySet()) {
+                        final String key = entry.getKey();
+                        if (key.startsWith("huami_2021_known_config_")) {
+                            deviceSharedPrefsEdit.putString(
+                                    key.replace("huami_2021_known_config_", "") + "_is_known",
+                                    entry.getValue().toString()
+                            );
+                        } else if (key.endsWith("_huami_2021_possible_values")) {
+                            deviceSharedPrefsEdit.putString(
+                                    key.replace("_huami_2021_possible_values", "") + "_possible_values",
+                                    entry.getValue().toString()
+                            );
+                        }
+                    }
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 28) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    boolean shouldApply = false;
+
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_fellsleep_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_fellsleep_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_fellsleep_action_selection", "UNKNOWN"))
+                        );
+                    }
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_wokeup_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_wokeup_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_wokeup_action_selection", "UNKNOWN"))
+                        );
+                    }
+                    if (!"UNKNOWN".equals(deviceSharedPrefs.getString("events_forwarding_startnonwear_action_selection", "UNKNOWN"))) {
+                        shouldApply = true;
+                        deviceSharedPrefsEdit.putStringSet(
+                                "events_forwarding_startnonwear_action_selections",
+                                Collections.singleton(deviceSharedPrefs.getString("events_forwarding_startnonwear_action_selection", "UNKNOWN"))
+                        );
+                    }
+
+                    if (shouldApply) {
+                        deviceSharedPrefsEdit.apply();
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }
@@ -1408,7 +1483,7 @@ public class GBApplication extends Application {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
-    public static LimitedQueue getIDSenderLookup() {
+    public static LimitedQueue<Integer, String> getIDSenderLookup() {
         return mIDSenderLookup;
     }
 
@@ -1487,6 +1562,10 @@ public class GBApplication extends Application {
 
     public static boolean isNightly() {
         return BuildConfig.APPLICATION_ID.contains("nightly");
+    }
+
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 
     public String getVersion() {

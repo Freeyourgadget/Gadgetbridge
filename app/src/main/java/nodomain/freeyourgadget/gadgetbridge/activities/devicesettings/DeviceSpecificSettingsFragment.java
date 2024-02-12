@@ -1,4 +1,7 @@
-/*  Copyright (C) 2019-2020 Andreas Shimokawa, Cre3per
+/*  Copyright (C) 2019-2024 akasaka / Genjitsu Labs, Alicia Hormann, Andreas
+    Böhler, Andreas Shimokawa, Arjan Schrijver, Cre3per, Damien Gaignon, Daniel
+    Dakhno, Daniele Gobbetti, Davis Mosenkovs, foxstidious, José Rebelo, mamucho,
+    NekoBox, opavlov, Petr Vaněk, Yoran Vulker, Yukai Li, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -13,10 +16,12 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.InputType;
 
@@ -26,11 +31,11 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -44,29 +49,27 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragmen
 import nodomain.freeyourgadget.gadgetbridge.activities.app_specific_notifications.AppSpecificNotificationSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.widgets.WidgetScreensListActivity;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wena3.SonyWena3SettingKeys;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
@@ -144,10 +147,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     ListPreference languageListPreference = findPreference("language");
                     CharSequence[] entries = languageListPreference.getEntries();
                     CharSequence[] values = languageListPreference.getEntryValues();
-                    for (int i=entries.length-1;i>=0;i--) {
-                        if (!ArrayUtils.contains(supportedLanguages,values[i])) {
-                            entries = ArrayUtils.remove(entries,i);
-                            values = ArrayUtils.remove(values,i);
+                    for (int i = entries.length - 1; i >= 0; i--) {
+                        if (!ArrayUtils.contains(supportedLanguages, values[i])) {
+                            entries = ArrayUtils.remove(entries, i);
+                            values = ArrayUtils.remove(values, i);
                         }
                     }
                     languageListPreference.setEntries(entries);
@@ -324,7 +327,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
 
 
-
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DATEFORMAT);
@@ -340,6 +342,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_WEARLOCATION);
         addPreferenceHandlerFor(PREF_VIBRATION_ENABLE);
         addPreferenceHandlerFor(PREF_NOTIFICATION_ENABLE);
+        addPreferenceHandlerFor(PREF_DEVICE_NAME);
         addPreferenceHandlerFor(PREF_SCREEN_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_AUTO_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
@@ -392,12 +395,29 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_START);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_MO);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_TU);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_WE);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_TH);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_FR);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_SA);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_SU);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_LIFT_WRIST);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOT_WEAR);
         addPreferenceHandlerFor(PREF_FIND_PHONE);
         addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
+        addPreferenceHandlerFor(PREF_PREVIEW_MESSAGE_IN_TITLE);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_EMAIL);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_SMS);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_CALL);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_CALENDAR);
+        addPreferenceHandlerFor(PREF_CASIO_ALERT_OTHER);
         addPreferenceHandlerFor(PREF_SCREEN_ON_ON_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_WORKOUT_KEEP_SCREEN_ON);
         addPreferenceHandlerFor(PREF_KEY_VIBRATION);
@@ -406,6 +426,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_ANTILOST_ENABLED);
         addPreferenceHandlerFor(PREF_HYDRATION_SWITCH);
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND_START);
+        addPreferenceHandlerFor(PREF_HYDRATION_DND_END);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
         addPreferenceHandlerFor(PREF_SOUNDS);
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
@@ -512,6 +535,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL_NOTIFICATION);
+        addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL_SECONDARY);
+
+        addPreferenceHandlerFor(PREF_VITALITY_SCORE_7_DAY);
+        addPreferenceHandlerFor(PREF_VITALITY_SCORE_DAILY);
 
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
@@ -532,6 +559,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE);
         addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_STYLE);
         addPreferenceHandlerFor(PREF_WEARDIRECTION);
+        addPreferenceHandlerFor(PREF_WEARMODE);
 
         addPreferenceHandlerFor(PREF_VOLUME);
         addPreferenceHandlerFor(PREF_CROWN_VIBRATION);
@@ -548,6 +576,18 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_VOICE_SERVICE_LANGUAGE);
 
         addPreferenceHandlerFor(PREF_TEMPERATURE_SCALE_CF);
+
+        addPreferenceHandlerFor(PREF_PREFIX_NOTIFICATION_WITH_APP);
+
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_ENABLED);
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_START);
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SCHEDULE_END);
+
+        addPreferenceHandlerFor(PREF_CLAP_HANDS_TO_WAKEUP_DEVICE);
+        addPreferenceHandlerFor(PREF_POWER_SAVING);
+
+        addPreferenceHandlerFor(PREF_HEARTRATE_AUTOMATIC_ENABLE);
+        addPreferenceHandlerFor(PREF_SPO_AUTOMATIC_ENABLE);
 
         addPreferenceHandlerFor("lock");
 
@@ -619,6 +659,15 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     notifyPreferenceChanged(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
                     return true;
                 }
+            });
+        }
+
+        final Preference phoneSilentMode = findPreference(PREF_PHONE_SILENT_MODE);
+        if (phoneSilentMode != null) {
+            phoneSilentMode.setOnPreferenceChangeListener((preference, newVal) -> {
+                final AudioManager audioManager = (AudioManager) requireContext().getSystemService(Context.AUDIO_SERVICE);
+                GBApplication.deviceService(device).onChangePhoneSilentMode(audioManager.getRingerMode());
+                return true;
             });
         }
 
@@ -748,6 +797,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             });
         }
 
+        final Preference widgets = findPreference(PREF_WIDGETS);
+        if (widgets != null) {
+            widgets.setOnPreferenceClickListener(preference -> {
+                final Intent intent = new Intent(getContext(), WidgetScreensListActivity.class);
+                intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                startActivity(intent);
+                return true;
+            });
+        }
+
         final Preference calendarBlacklist = findPreference("blacklist_calendars");
         if (calendarBlacklist != null) {
             calendarBlacklist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -760,12 +819,14 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             });
         }
 
+        final int cannedRepliesSlotCount = coordinator.getCannedRepliesSlotCount(device);
+
         final Preference cannedMessagesDismissCall = findPreference("canned_messages_dismisscall_send");
         if (cannedMessagesDismissCall != null) {
             cannedMessagesDismissCall.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     ArrayList<String> messages = new ArrayList<>();
-                    for (int i = 1; i <= 16; i++) {
+                    for (int i = 1; i <= cannedRepliesSlotCount; i++) {
                         String message = prefs.getString("canned_message_dismisscall_" + i, null);
                         if (message != null && !message.equals("")) {
                             messages.add(message);
@@ -778,14 +839,23 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     return true;
                 }
             });
+
+            // TODO we could use this to auto-create preferences for watches with > 16 slots
+            for (int i = cannedRepliesSlotCount + 1; i <= 16; i++) {
+                final Preference cannedReplyPref = findPreference("canned_message_dismisscall_" + i);
+                if (cannedReplyPref != null) {
+                    cannedReplyPref.setVisible(false);
+                }
+            }
         }
 
         final Preference cannedMessagesGeneric = findPreference("canned_messages_generic_send");
         if (cannedMessagesGeneric != null) {
+
             cannedMessagesGeneric.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(androidx.preference.Preference preference) {
                     final ArrayList<String> messages = new ArrayList<>();
-                    for (int i = 1; i <= 16; i++) {
+                    for (int i = 1; i <= cannedRepliesSlotCount; i++) {
                         String message = prefs.getString("canned_reply_" + i, null);
                         if (message != null && !message.equals("")) {
                             messages.add(message);
@@ -798,6 +868,14 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     return true;
                 }
             });
+
+            // TODO we could use this to auto-create preferences for watches with > 16 slots
+            for (int i = cannedRepliesSlotCount + 1; i <= 16; i++) {
+                final Preference cannedReplyPref = findPreference("canned_reply_" + i);
+                if (cannedReplyPref != null) {
+                    cannedReplyPref.setVisible(false);
+                }
+            }
         }
 
         setInputTypeFor(HuamiConst.PREF_BUTTON_ACTION_BROADCAST_DELAY, InputType.TYPE_CLASS_NUMBER);
@@ -814,15 +892,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         new PasswordCapabilityImpl().registerPreferences(getContext(), coordinator.getPasswordCapability(), this);
         new HeartRateCapability().registerPreferences(getContext(), coordinator.getHeartRateMeasurementIntervals(), this);
 
-        String deviceActionsFellSleepSelection = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION);
+        Set<String> deviceActionsFellSleepSelection = prefs.getStringSet(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS);
         final Preference deviceActionsFellSleepBroadcast = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST);
-        boolean deviceActionsFellSleepSelectionBroadcast = deviceActionsFellSleepSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsFellSleepSelectionBroadcast = deviceActionsFellSleepSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsFellSleep != null) {
             deviceActionsFellSleep.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsFellSleepBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -832,15 +911,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             deviceActionsFellSleepBroadcast.setEnabled(deviceActionsFellSleepSelectionBroadcast);
         }
 
-        String deviceActionsWokeUpSelection = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsWokeUp = findPreference(PREF_DEVICE_ACTION_WOKE_UP_SELECTION);
+        Set<String> deviceActionsWokeUpSelection = prefs.getStringSet(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsWokeUp = findPreference(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS);
         final Preference deviceActionsWokeUpBroadcast = findPreference(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST);
-        boolean deviceActionsWokeUpSelectionBroadcast = deviceActionsWokeUpSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsWokeUpSelectionBroadcast = deviceActionsWokeUpSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsWokeUp != null) {
             deviceActionsWokeUp.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsWokeUpBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -850,15 +930,16 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             deviceActionsWokeUpBroadcast.setEnabled(deviceActionsWokeUpSelectionBroadcast);
         }
 
-        String deviceActionsStartNonWearSelection = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
-        final Preference deviceActionsStartNonWear = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION);
+        Set<String> deviceActionsStartNonWearSelection = prefs.getStringSet(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS, Collections.emptySet());
+        final Preference deviceActionsStartNonWear = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS);
         final Preference deviceActionsStartNonWearBroadcast = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST);
-        boolean deviceActionsStartNonWearSelectionBroadcast = deviceActionsStartNonWearSelection.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
+        boolean deviceActionsStartNonWearSelectionBroadcast = deviceActionsStartNonWearSelection.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
         if (deviceActionsStartNonWear != null) {
             deviceActionsStartNonWear.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    final boolean broadcast = PREF_DEVICE_ACTION_SELECTION_BROADCAST.equals(newVal.toString());
+                    final Set<String> newValSet = (Set<String>) newVal;
+                    final boolean broadcast = newValSet.contains(PREF_DEVICE_ACTION_SELECTION_BROADCAST);
                     Objects.requireNonNull(deviceActionsStartNonWearBroadcast).setEnabled(broadcast);
                     return true;
                 }
@@ -898,6 +979,20 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             }
         }
 
+        // Replace the PAI with the device-specific name
+        if (chartsTabsOrderSelection != null) {
+            final ListPreference chartsTabsListPref = (ListPreference) chartsTabsOrderSelection;
+            final CharSequence[] entries = chartsTabsListPref.getEntries();
+            final CharSequence[] entryValues = chartsTabsListPref.getEntryValues();
+            for (int i = 0; i < entries.length; i++) {
+                if ("pai".equals(entryValues[i].toString())) {
+                    entries[i] = getString(coordinator.getPaiName());
+                    break;
+                }
+            }
+            chartsTabsListPref.setEntries(entries);
+        }
+
         final Preference loyaltyCards = findPreference(LoyaltyCardsSettingsConst.PREF_KEY_LOYALTY_CARDS);
         if (loyaltyCards != null) {
             loyaltyCards.setOnPreferenceClickListener(preference -> {
@@ -909,7 +1004,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
 
         final Preference notificationSettings = findPreference(PREFS_PER_APP_NOTIFICATION_SETTINGS);
-        if(notificationSettings != null) {
+        if (notificationSettings != null) {
             notificationSettings.setOnPreferenceClickListener(preference -> {
                 final Intent intent = new Intent(getContext(), AppSpecificNotificationSettingsActivity.class);
                 intent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());
@@ -932,6 +1027,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
             supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
             if (coordinator.supportsActivityTracking()) {
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_activity_info_header);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
             }
@@ -1000,6 +1096,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         final Set<String> keysWithSummary = new HashSet<>();
 
         keysWithSummary.add(PREF_INACTIVITY_THRESHOLD);
+        keysWithSummary.add(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS);
+        keysWithSummary.add(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS);
+        keysWithSummary.add(PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS);
 
         if (deviceSpecificSettingsCustomizer != null) {
             keysWithSummary.addAll(deviceSpecificSettingsCustomizer.getPreferenceKeysWithSummary());

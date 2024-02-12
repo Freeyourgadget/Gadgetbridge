@@ -78,17 +78,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 33
-    buildToolsVersion "33.0.0"
+
+    namespace 'nodomain.freeyourgadget.gadgetbridge'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
+
         minSdkVersion 21
         targetSdkVersion 33
+        compileSdk 33
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.76.1"
-        versionCode 226
+        versionName "0.79.0"
+        versionCode 229
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
         buildConfigField "boolean", "INTERNET_ACCESS", "false"
@@ -112,8 +114,8 @@ android {
 
     flavorDimensions "device_type"
     productFlavors {
-        main {
-            // Ensure that when starting from scratch, 'main' is selected, not 'banglejs'
+        mainline {
+            // Ensure that when starting from scratch, 'mainline' is selected, not 'banglejs'
             getIsDefault().set(true)
             // the default build product flavor
             dimension "device_type"
@@ -162,20 +164,20 @@ android {
             resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
             resValue "string", "about_description", "@string/about_description_main_nightly"
             resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
-            
+
             debuggable true
 
             if (System.getProperty("nightly_store_file") != null) {
                 signingConfig signingConfigs.nightly
 
                 //this was conflicting with regular debug type (it should not), so it is only available for CI builds:
-                productFlavors.main.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
-                productFlavors.main.resValue "string", "app_name", "@string/application_name_main_nightly"
-                productFlavors.main.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nightly"
-                productFlavors.main.resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
-                productFlavors.main.resValue "string", "about_description", "@string/about_description_main_nightly"
-                productFlavors.main.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
-                
+                productFlavors.mainline.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+                productFlavors.mainline.resValue "string", "app_name", "@string/application_name_main_nightly"
+                productFlavors.mainline.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nightly"
+                productFlavors.mainline.resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
+                productFlavors.mainline.resValue "string", "about_description", "@string/about_description_main_nightly"
+                productFlavors.mainline.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
+
                 //keep the pebble provider for people who want this. In case of need we can create Banglejs Nopebble
                 productFlavors.banglejs.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
                 productFlavors.banglejs.resValue "string", "app_name", "@string/application_name_banglejs_nightly"
@@ -222,10 +224,9 @@ android {
 
     }
 
-
-    lintOptions {
+    lint {
         abortOnError ABORT_ON_CHECK_FAILURE
-        lintConfig file("${project.rootDir}/app/src/main/lint.xml")
+        lintConfig file("$rootDir/app/src/main/lint.xml")
         // If true, generate an HTML report (with issue explanations, sourcecode, etc)
         htmlReport true
         // Optional path to report (default will be lint-results.html in the builddir)
@@ -251,7 +252,7 @@ dependencies {
 //    testImplementation "ch.qos.logback:logback-core:1.1.3"
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     testImplementation "junit:junit:4.13.2"
-    testImplementation "org.mockito:mockito-core:1.10.19"
+    testImplementation "org.mockito:mockito-core:2.28.2"
     testImplementation "org.robolectric:robolectric:4.8.2"
     testImplementation "org.hamcrest:hamcrest-library:1.3"
     testImplementation "com.google.code.gson:gson:2.8.9"
@@ -289,8 +290,14 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
-    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
+    implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
     implementation 'com.android.volley:volley:1.2.1'
+
+    // Bouncy Castle is included directly in GB, to avoid pulling the entire dependency
+    // It's included in the org.bouncycastle.shaded package, to fix conflicts with
+    // roboelectric
+    //implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
+    //implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
 
 // NON-FOSS dependencies
 //    implementation('androidx.core:core-google-shortcuts:1.0.1') {
@@ -399,7 +406,7 @@ tasks.clean.dependsOn(tasks.cleanGenerated)
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.10.0'
+        artifact = 'com.google.protobuf:protoc:3.21.7'
     }
     generateProtoTasks {
         all().each { task ->

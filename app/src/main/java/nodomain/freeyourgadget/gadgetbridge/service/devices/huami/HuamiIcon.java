@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, Lukas
-    Veneziano, Maxim Baz
+/*  Copyright (C) 2017-2024 Andreas Shimokawa, Daniele Gobbetti, Lukas
+    Veneziano, Maxim Baz, musover
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 

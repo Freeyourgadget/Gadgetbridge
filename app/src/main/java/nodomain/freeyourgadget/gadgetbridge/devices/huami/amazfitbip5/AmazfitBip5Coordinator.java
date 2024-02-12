@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,51 +13,27 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip5;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip5.AmazfitBip5Support;
 
-public class AmazfitBip5Coordinator extends Huami2021Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBip5Coordinator.class);
-
+public class AmazfitBip5Coordinator extends ZeppOsCoordinator {
     @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitBip5Support.class;
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_BIP5_NAME;
     }
 
     @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_BIP5_NAME + ".*");
-    }
-
-    @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitBip5FWInstallHandler(uri, context);
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(8454400, 8454401));
     }
 
     @Override
@@ -95,12 +71,10 @@ public class AmazfitBip5Coordinator extends Huami2021Coordinator {
         return true;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_bip5;
     }
-
 
     @Override
     public int getDefaultIconResource() {

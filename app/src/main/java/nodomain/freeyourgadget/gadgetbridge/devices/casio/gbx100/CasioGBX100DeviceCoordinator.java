@@ -1,7 +1,5 @@
-/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo, Johannes Krude
-
-    based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
+/*  Copyright (C) 2020-2024 Andreas Böhler, Damien Gaignon, Daniel Dakhno,
+    foxstidious, Johannes Krude, José Rebelo, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +14,8 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
+/*  Based on code from BlueWatcher, https://github.com/masterjc/bluewatcher */
 package nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100;
 
 import android.app.Activity;
@@ -40,18 +39,42 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDa
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
 public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
+    /** CASIO brand identifier in GB Device name */
+    public static final String CASIO_IDENTIFIER = "CASIO";
+
+    /** Sub-model string for GBX-100 in GB Device name */
+    public static final String GBX_100_SUB_MODEL = "GBX-100";
+    /** Sub-model string for GBD-200 in GB Device name */
+    public static final String GBD_200_SUB_MODEL = "GBD-200";
+    /** Sub-model string for GBD-100 in GB Device name */
+    public static final String GBD_100_SUB_MODEL = "GBD-100";
+    /** Sub-model string for GBD-H1000 in GB Device name */
+    public static final String GBD_H1000_SUB_MODEL = "GBD-H1000";
+
+    public static final String[] VARIANTS = {
+            GBX_100_SUB_MODEL,
+            GBD_200_SUB_MODEL,
+            GBD_100_SUB_MODEL,
+            GBD_H1000_SUB_MODEL};
+
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("CASIO.*(GBX-100|GBD-100|GBD-200|GBD-H1000)");
+        String pattern = CASIO_IDENTIFIER + ".*(";
+        for (int i = 0; i < VARIANTS.length; i++) {
+            pattern += VARIANTS[i];
+            if (i < VARIANTS.length - 1) {
+                pattern += "|";
+            }
+        }
+        pattern += ")";
+        return Pattern.compile(pattern);
     }
 
     @Override
@@ -72,6 +95,11 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return false;
+    }
+
+    @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
     }
 
     @Override
@@ -152,7 +180,9 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
                 R.xml.devicesettings_operating_sounds,
                 R.xml.devicesettings_fake_ring_duration,
                 R.xml.devicesettings_autoremove_message,
-                R.xml.devicesettings_transliteration
+                R.xml.devicesettings_transliteration,
+                R.xml.devicesettings_preview_message_in_title,
+                R.xml.devicesettings_casio_alert
         };
     }
 

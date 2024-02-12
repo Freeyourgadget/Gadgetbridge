@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2022-2024 Andreas Shimokawa, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
@@ -25,6 +25,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -60,19 +61,19 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.WorkoutDetectionCapability;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLiftSensitivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.AlwaysOnDisplay;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsMenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -94,8 +95,8 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
 
     private final Map<ConfigGroup, Byte> mGroupVersions = new HashMap<>();
 
-    public ZeppOsConfigService(final Huami2021Support support) {
-        super(support);
+    public ZeppOsConfigService(final ZeppOsSupport support) {
+        super(support, true);
     }
 
     @Override
@@ -104,13 +105,12 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     @Override
-    public boolean isEncrypted() {
-        return true;
-    }
-
-    @Override
     public void handlePayload(final byte[] payload) {
         switch (payload[0]) {
+            case CMD_CAPABILITIES_RESPONSE:
+                handleCapabilitiesResponse(payload);
+                return;
+
             case CMD_ACK:
                 LOG.info("Configuration ACK, status = {}", payload[1]);
                 return;
@@ -129,7 +129,8 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     @Override
-    public void initialize(TransactionBuilder builder) {
+    public void initialize(final TransactionBuilder builder) {
+        write(builder, CMD_CAPABILITIES_REQUEST);
         requestAllConfigs(builder);
     }
 
@@ -154,6 +155,27 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         }
 
         return false;
+    }
+
+    private void handleCapabilitiesResponse(final byte[] payload) {
+        final int version = payload[1] & 0xFF;
+        LOG.info("Got config service version={}", version);
+        if (version > 3) {
+            LOG.error("Unsupported config service version {}", version);
+            return;
+        }
+        final int numGroups = payload[2] & 0xFF;
+        if (payload.length != numGroups + 3) {
+            LOG.error("Unexpected config capabilities response length {} for {} groups", payload.length, numGroups);
+            return;
+        }
+
+        for (int i = 0; i < numGroups; i++) {
+            final ConfigGroup configGroup = ConfigGroup.fromValue(payload[3 + i]);
+            LOG.debug("Got supported config group {}: {}", String.format("0x%02x", payload[3 + i]), configGroup);
+        }
+
+        // TODO: We should only request supported config groups
     }
 
     private boolean sentFitnessGoal = false;
@@ -574,7 +596,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         switch (configArg) {
             case UPPER_BUTTON_LONG_PRESS:
             case LOWER_BUTTON_PRESS:
-                final String itemHex = MapUtils.reverse(Huami2021MenuType.displayItemNameLookup).get(value);
+                final String itemHex = MapUtils.reverse(ZeppOsMenuType.displayItemNameLookup).get(value);
                 if (itemHex != null) {
                     return itemHex;
                 }
@@ -663,7 +685,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
-        return devicePrefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(config.name()), false);
+        return devicePrefs.getBoolean(DeviceSettingsUtils.getPrefKnownConfig(config.name()), false);
     }
 
     public ConfigSetter newSetter() {
@@ -973,7 +995,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 }
 
                 if (configArg != null && argPrefs != null && configType == configArg.getConfigType(mGroupVersions)) {
-                    prefs.put(Huami2021Coordinator.getPrefKnownConfig(configArg.name()), true);
+                    prefs.put(DeviceSettingsUtils.getPrefKnownConfig(configArg.name()), true);
 
                     // Special cases for "follow phone" preferences. We need to ensure that "auto"
                     // always has precedence
@@ -1052,7 +1074,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             switch (configArg) {
                 case UPPER_BUTTON_LONG_PRESS:
                 case LOWER_BUTTON_PRESS:
-                    decoder = Huami2021MenuType.displayItemNameLookup::get;
+                    decoder = ZeppOsMenuType.displayItemNameLookup::get;
                     break;
                 default:
                     decoder = a -> a; // passthrough
@@ -1062,7 +1084,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), decoder.decode(str.getValue()));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
                             decodeStringValues(possibleValues, decoder)
                     );
                 }
@@ -1147,8 +1169,8 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), new HashSet<>(valuesList));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
-                            String.join(",", decodeByteValues(possibleValues, decoder))
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            TextUtils.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
             }
@@ -1183,7 +1205,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                                 possibleLanguages.add(languageByteToLocale(possibleValue));
                             }
                             possibleLanguages.removeAll(Collections.singleton(null));
-                            prefs.put(Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()), String.join(",", possibleLanguages));
+                            prefs.put(DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()), TextUtils.join(",", possibleLanguages));
                         }
                     }
                     decoder = null;
@@ -1239,8 +1261,8 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 prefs = singletonMap(configArg.getPrefKey(), decoder.decode(value.getValue()));
                 if (includesConstraints) {
                     prefs.put(
-                            Huami2021Coordinator.getPrefPossibleValuesKey(configArg.getPrefKey()),
-                            String.join(",", decodeByteValues(possibleValues, decoder))
+                            DeviceSettingsUtils.getPrefPossibleValuesKey(configArg.getPrefKey()),
+                            TextUtils.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
             }
@@ -1275,7 +1297,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             if (decoded.isEmpty()) {
                 return null;
             }
-            return String.join(",", decoded);
+            return TextUtils.join(",", decoded);
         }
 
         private Map<String, Object> singletonMap(final String key, final Object value) {

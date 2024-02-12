@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 andre, Andreas Shimokawa, Avamander, Carsten
+/*  Copyright (C) 2015-2024 andre, Andreas Shimokawa, Avamander, Carsten
     Pfeiffer, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.content.BroadcastReceiver;

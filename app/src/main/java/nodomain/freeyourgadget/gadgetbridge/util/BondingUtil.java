@@ -1,4 +1,5 @@
-/*  Copyright (C) 2020-2021 Andreas Böhler, Taavi Eomäe
+/*  Copyright (C) 2020-2024 Andreas Böhler, Arjan Schrijver, Daniel Dakhno,
+    José Rebelo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
@@ -68,7 +69,7 @@ public class BondingUtil {
                 if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                     GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     LOG.debug("Pairing receiver: device changed: " + device);
-                    if (activity.getCurrentTarget().getDevice().getAddress().equals(device.getAddress())) {
+                    if (activity.getMacAddress().equals(device.getAddress())) {
                         if (device.isInitialized()) {
                             LOG.info("Device is initialized, finish things up");
                             activity.onBondingComplete(true);
@@ -90,7 +91,7 @@ public class BondingUtil {
             public void onReceive(Context context, Intent intent) {
                 if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(intent.getAction())) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    String bondingMacAddress = bondingInterface.getCurrentTarget().getDevice().getAddress();
+                    String bondingMacAddress = bondingInterface.getMacAddress();
 
                     LOG.info("Bond state changed: " + device + ", state: " + device.getBondState() + ", expected address: " + bondingMacAddress);
                     if (bondingMacAddress != null && bondingMacAddress.equals(device.getAddress())) {
@@ -99,8 +100,8 @@ public class BondingUtil {
                             case BluetoothDevice.BOND_BONDED: {
                                 LOG.info("Bonded with " + device.getAddress());
                                 //noinspection StatementWithEmptyBody
-                                if (isLePebble(device)) {
-                                    // Do not initiate connection to LE Pebble!
+                                if (isLePebble(device) || isPebble2(device) || !bondingInterface.getAttemptToConnect()) {
+                                    // Do not initiate connection to LE Pebble and some others!
                                 } else {
                                     attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
                                 }
@@ -108,7 +109,8 @@ public class BondingUtil {
                             }
                             case BluetoothDevice.BOND_NONE: {
                                 LOG.info("Not bonded with " + device.getAddress() + ", attempting to connect anyway.");
-                                attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
+                                if(bondingInterface.getAttemptToConnect())
+                                    attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
                                 return;
                             }
                             case BluetoothDevice.BOND_BONDING: {
@@ -203,7 +205,7 @@ public class BondingUtil {
                     .setPositiveButton(bondingInterface.getContext().getString(R.string.discovery_yes_pair), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            BondingUtil.tryBondThenComplete(bondingInterface, deviceCandidate);
+                            BondingUtil.tryBondThenComplete(bondingInterface, deviceCandidate.getDevice(), deviceCandidate.getMacAddress());
                         }
                     })
                     .setNegativeButton(R.string.discovery_dont_pair, new DialogInterface.OnClickListener() {
@@ -214,7 +216,7 @@ public class BondingUtil {
                     })
                     .show();
         } else {
-            BondingUtil.tryBondThenComplete(bondingInterface, deviceCandidate);
+            BondingUtil.tryBondThenComplete(bondingInterface, deviceCandidate.getDevice(), deviceCandidate.getMacAddress());
         }
         LOG.debug("Bonding initiated");
     }
@@ -223,8 +225,7 @@ public class BondingUtil {
      * Tries to create a BluetoothDevice bond
      * Do not call directly, use createBond(Activity, GBDeviceCandidate) instead!
      */
-    private static void bluetoothBond(BondingInterface context, GBDeviceCandidate candidate) {
-        BluetoothDevice device = candidate.getDevice();
+    private static void bluetoothBond(BondingInterface context, BluetoothDevice device) {
         if (device.createBond()) {
             // Async, results will be delivered via a broadcast
             LOG.info("Bonding in progress...");
@@ -273,7 +274,7 @@ public class BondingUtil {
             if (deviceToPair != null) {
                 if (bondingInterface.getCurrentTarget().getDevice().getAddress().equals(deviceToPair.getAddress())) {
                     if (deviceToPair.getBondState() != BluetoothDevice.BOND_BONDED) {
-                        BondingUtil.bluetoothBond(bondingInterface, bondingInterface.getCurrentTarget());
+                        BondingUtil.bluetoothBond(bondingInterface, bondingInterface.getCurrentTarget().getDevice());
                     } else {
                         bondingInterface.onBondingComplete(true);
                     }
@@ -293,13 +294,23 @@ public class BondingUtil {
     }
 
     /**
+     * Checks if device is Pebble 2
+     */
+    public static boolean isPebble2(BluetoothDevice device) {
+        return device.getType() == BluetoothDevice.DEVICE_TYPE_LE &&
+                device.getName().startsWith("Pebble ") &&
+                !device.getName().startsWith("Pebble Time LE ");
+    }
+
+    /**
      * Uses the CompanionDeviceManager bonding method
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private static void companionDeviceManagerBond(BondingInterface bondingInterface,
-                                                   final GBDeviceCandidate deviceCandidate) {
+                                                   BluetoothDevice device,
+                                                   String macAddress) {
         BluetoothDeviceFilter deviceFilter = new BluetoothDeviceFilter.Builder()
-                .setAddress(deviceCandidate.getMacAddress())
+                .setAddress(macAddress)
                 .build();
 
         AssociationRequest pairingRequest = new AssociationRequest.Builder()
@@ -308,14 +319,14 @@ public class BondingUtil {
                 .build();
 
         CompanionDeviceManager manager = (CompanionDeviceManager) bondingInterface.getContext().getSystemService(Context.COMPANION_DEVICE_SERVICE);
-        LOG.debug(String.format("Searching for %s associations", deviceCandidate.getMacAddress()));
+        LOG.debug(String.format("Searching for %s associations", macAddress));
         for (String association : manager.getAssociations()) {
             LOG.debug(String.format("Already associated with: %s", association));
-            if (association.equals(deviceCandidate.getMacAddress())) {
+            if (association.equals(macAddress)) {
                 LOG.info("The device has already been bonded through CompanionDeviceManager, using regular");
                 // If it's already "associated", we should immediately pair
                 // because the callback is never called (AFAIK?)
-                BondingUtil.bluetoothBond(bondingInterface, deviceCandidate);
+                BondingUtil.bluetoothBond(bondingInterface, device);
                 return;
             }
         }
@@ -354,9 +365,8 @@ public class BondingUtil {
     /**
      * Use this function to initiate bonding to a GBDeviceCandidate
      */
-    public static void tryBondThenComplete(BondingInterface bondingInterface, GBDeviceCandidate deviceCandidate) {
+    public static void tryBondThenComplete(BondingInterface bondingInterface, BluetoothDevice device, String macAddress) {
         bondingInterface.registerBroadcastReceivers();
-        BluetoothDevice device = deviceCandidate.getDevice();
 
         int bondState = device.getBondState();
         if (bondState == BluetoothDevice.BOND_BONDED) {
@@ -377,12 +387,18 @@ public class BondingUtil {
         }
 
         GB.toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.pairing_creating_bond_with, device.getName(), device.getAddress()), Toast.LENGTH_LONG, GB.INFO);
-        toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_attempting_to_pair, deviceCandidate.getName()), Toast.LENGTH_SHORT, GB.INFO);
-        if (GBApplication.getPrefs().getBoolean("enable_companiondevice_pairing", true) &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            companionDeviceManagerBond(bondingInterface, deviceCandidate);
+        toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_attempting_to_pair, macAddress), Toast.LENGTH_SHORT, GB.INFO);
+
+        boolean companionPairingEnabled = GBApplication.getPrefs().getBoolean("enable_companiondevice_pairing", true) &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+
+        if (companionPairingEnabled && !isPebble2(device)) {
+            companionDeviceManagerBond(bondingInterface, device, macAddress);
+        } else if (isPebble2(device)) {
+            // TODO: start companionDevicePairing after connecting to Pebble 2 but before writing to pairing trigger
+            attemptToFirstConnect(device);
         } else {
-            bluetoothBond(bondingInterface, deviceCandidate);
+            bluetoothBond(bondingInterface, device);
         }
     }
 

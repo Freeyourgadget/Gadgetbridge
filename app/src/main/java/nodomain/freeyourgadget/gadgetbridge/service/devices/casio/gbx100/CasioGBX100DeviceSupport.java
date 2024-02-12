@@ -1,5 +1,4 @@
-/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Sebastian Kranz, Johannes Krude
+/*  Copyright (C) 2023-2024 Andreas Böhler, foxstidious, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
@@ -27,12 +26,15 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySample;
@@ -72,11 +75,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOREMOVE_MESSAGE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CASIO_ALERT_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CASIO_ALERT_CALL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CASIO_ALERT_EMAIL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CASIO_ALERT_OTHER;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_CASIO_ALERT_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FAKE_RING_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_KEY_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_PREVIEW_MESSAGE_IN_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
@@ -255,18 +264,91 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         }
     }
 
+    /**
+     * Sends a notification to the watch module. Overloaded - this method does not specify a subtitle
+     * since subtitle isn't really used yet.
+     * @param icon Icon to use - see {@link CasioConstants}
+     * @param sender Sender (null if none)
+     * @param title Notification title (null if none)
+     * @param message Message body (null if none)
+     * @param id Notification id
+     * @param delete true if sending a delete of notification to the device
+     */
     private void showNotification(byte icon, String sender, String title, String message, int id, boolean delete) {
+        showNotification(icon, sender, title, null, message, id, delete);
+    }
+
+    /**
+     * Sends a notification to the watch module. Overloaded - this method does not specify a subtitle
+     * @param icon Icon to use - see {@link CasioConstants}
+     * @param sender Sender (null if none)
+     * @param title Notification title (null if none)
+     * @param subtitle Message subtitle (null if none)
+     * @param message Message body (null if none)
+     * @param id Notification id
+     */
+    private void showNotification(byte icon, String sender, String title, String subtitle, String message, int id, boolean delete) {
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        boolean showMessagePreview = sharedPreferences.getBoolean(PREF_PREVIEW_MESSAGE_IN_TITLE, true);
+
+        boolean shouldAlert = true;
+        switch (icon) {
+            case CasioConstants.CATEGORY_EMAIL:
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_EMAIL, true);
+                break;
+            case CasioConstants.CATEGORY_OTHER:
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_OTHER, true);
+                break;
+            case CasioConstants.CATEGORY_SNS:
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_SMS, true);
+                break;
+            case CasioConstants.CATEGORY_INCOMING_CALL:
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALL, true);
+                break;
+            case CasioConstants.CATEGORY_SCHEDULE_AND_ALARM:
+                shouldAlert = sharedPreferences.getBoolean(PREF_CASIO_ALERT_CALENDAR, true);
+                break;
+        }
+
+        // If not a call or email, check the sender and if null, promote the title and message preview
+        // as subtitle
+        if (showMessagePreview && icon != CasioConstants.CATEGORY_INCOMING_CALL && icon != CasioConstants.CATEGORY_EMAIL) {
+            if (sender == null) {
+                // Shift title to sender slot
+                sender = title;
+            }
+            //Shift content to title
+            if (message != null) {
+                title = message.substring(0, Math.min(message.length(), 18)) + "..";
+            }
+        }
+
+        // Make sure title and sender are less than 32 characters
         byte[] titleBytes = new byte[0];
-        if(title != null)
+        if(title != null) {
+            if (title.length() > 32) {
+                title = title.substring(0, 30) + "..";
+            }
             titleBytes = title.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] messageBytes = new byte[0];
-        if(message != null)
+        if(message != null) {
             messageBytes = message.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] senderBytes = new byte[0];
-        if(sender != null)
+        if(sender != null) {
+            if (sender.length() > 32) {
+                sender = sender.substring(0, 30) + "..";
+            }
             senderBytes = sender.getBytes(StandardCharsets.UTF_8);
+        }
+
+        byte[] subtitleBytes = new byte[0];
+        if (subtitle != null) {
+            subtitleBytes = subtitle.getBytes(StandardCharsets.UTF_8);
+        }
 
         byte[] arr = new byte[22];
         arr[0] = (byte)(id & 0xff);
@@ -274,25 +356,18 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         arr[2] = (byte) ((id >> 16) & 0xff);
         arr[3] = (byte) ((id >> 24) & 0xff);
         arr[4] = delete ? (byte) 0x02 : (byte) 0x00;
-        arr[5] = (byte) 0x01; // Set to 0x00 to not vibrate/ring for this notification
+        if (shouldAlert) {
+            arr[5] = (byte) 0x01; // Set to 0x0 to vibrate/ring for this notification
+        } else {
+            arr[5] = (byte) 0x00; // Set to 0x00 to not vibrate/ring for this notification
+        }
+
         arr[6] = icon;
-        // These bytes contain a timestamp, not yet decoded / implemented
-        // ASCII Codes:
-        /*arr[7] = (byte) 0x32; // 2
-        arr[8] = (byte) 0x30;   // 0
-        arr[9] = (byte) 0x32;   // 2
-        arr[10] = (byte) 0x30;  // 0
-        arr[11] = (byte) 0x31;  // 1
-        arr[12] = (byte) 0x31;  // 1
-        arr[13] = (byte) 0x31;  // 1
-        arr[14] = (byte) 0x33;  // 3
-        arr[15] = (byte) 0x54;  // T
-        arr[16] = (byte) 0x30;  // 0
-        arr[17] = (byte) 0x39;  // 9
-        arr[18] = (byte) 0x33;  // 3
-        arr[19] = (byte) 0x31;  // 1
-        arr[20] = (byte) 0x35;  // 5
-        arr[21] = (byte) 0x33;*/// 3
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+        String timestamp = dateFormat.format(new Date());
+        System.arraycopy(timestamp.getBytes(), 0, arr, 7, 15);
+
         byte[] copy = Arrays.copyOf(arr, arr.length + 2);
         copy[copy.length-2] = 0;
         copy[copy.length-1] = 0;
@@ -312,9 +387,17 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             System.arraycopy(titleBytes, 0, copy, copy.length - titleBytes.length, titleBytes.length);
         }
         copy = Arrays.copyOf(copy, copy.length + 2);
+
+        // Subtitle
         copy[copy.length-2] = 0;
         copy[copy.length-1] = 0;
-        //subtitle is currently not supported
+        if (subtitleBytes.length > 0) {
+            copy = Arrays.copyOf(copy, copy.length + subtitleBytes.length);
+            copy[copy.length-2-subtitleBytes.length] = (byte)(subtitleBytes.length & 0xff);
+            copy[copy.length-1-subtitleBytes.length] = (byte)((subtitleBytes.length >> 8) & 0xff);
+            System.arraycopy(subtitleBytes, 0, copy, copy.length - subtitleBytes.length, subtitleBytes.length);
+        }
+
         copy = Arrays.copyOf(copy, copy.length + 2);
         copy[copy.length-2] = 0;
         copy[copy.length-1] = 0;
@@ -342,20 +425,25 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     public void onNotification(final NotificationSpec notificationSpec) {
         byte icon;
         boolean autoremove = false;
-        switch (notificationSpec.type.getGenericType()) {
-            case "generic_calendar":
+        switch (notificationSpec.type) {
+            case GENERIC_CALENDAR:
                 icon = CasioConstants.CATEGORY_SCHEDULE_AND_ALARM;
                 break;
-            case "generic_email":
+            case GENERIC_EMAIL:
+            case GMAIL:
+            case GOOGLE_INBOX:
                 icon = CasioConstants.CATEGORY_EMAIL;
                 break;
-            case "generic_sms":
+            case GENERIC_SMS:
                 icon = CasioConstants.CATEGORY_SNS;
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 autoremove = sharedPreferences.getBoolean(PREF_AUTOREMOVE_MESSAGE, false);
                 break;
+            case GENERIC_PHONE:
+                icon = CasioConstants.CATEGORY_INCOMING_CALL;
+                break;
             default:
-                icon = CasioConstants.CATEGORY_SNS;
+                icon = CasioConstants.CATEGORY_OTHER;
                 break;
         }
         LOG.info("onNotification id=" + notificationSpec.getId());
@@ -399,7 +487,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
             evaluateGBDeviceEvent(findPhoneEvent);
 
-            if(!findPhone.equals(getContext().getString(R.string.p_on))) {
+            if(findPhone.equals(getContext().getString(R.string.p_on))) {
                 String duration = sharedPreferences.getString(PREF_FIND_PHONE_DURATION, "0");
 
                 try {
@@ -415,7 +503,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                         this.mFindPhoneHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onReverseFindDevice(false);
+                                GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+                                findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+                                evaluateGBDeviceEvent(findPhoneEvent);
                             }
                         }, iDuration * 1000);
                     }
@@ -448,6 +538,9 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             Alarm alm = alarms.get(i);
             if(alm.getEnabled()) {
                 settings[0] = 0x40;
+                if (alm.getSnooze()) {
+                    settings[0] = 0x50;
+                }
             } else {
                 settings[0] = 0;
             }
@@ -486,7 +579,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
     public void onSetCallState(final CallSpec callSpec) {
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
-                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, "Phone", callSpec.name, callSpec.number, mLastCallId, false);
+                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, callSpec.name, callSpec.number, "Phone Call", mLastCallId, false);
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 boolean fakeRingDuration = sharedPreferences.getBoolean(PREF_FAKE_RING_DURATION, false);
                 if(fakeRingDuration && mFakeRingDurationCounter < CasioConstants.CASIO_FAKE_RING_RETRIES) {
@@ -616,6 +709,14 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                 case PREF_FIND_PHONE:
                 case PREF_FIND_PHONE_DURATION:
                     // No action, we check the shared preferences when the device tries to ring the phone.
+                    break;
+                case PREF_PREVIEW_MESSAGE_IN_TITLE:
+                case PREF_CASIO_ALERT_CALENDAR:
+                case PREF_CASIO_ALERT_CALL:
+                case PREF_CASIO_ALERT_EMAIL:
+                case PREF_CASIO_ALERT_OTHER:
+                case PREF_CASIO_ALERT_SMS:
+                    // No action, we check it when message is received
                     break;
                 default:
             }

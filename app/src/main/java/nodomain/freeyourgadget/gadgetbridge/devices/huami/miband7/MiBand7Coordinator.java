@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2022-2024 Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,40 +13,40 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7.MiBand7Support;
 
-public class MiBand7Coordinator extends Huami2021Coordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand7Coordinator.class);
-
+public class MiBand7Coordinator extends ZeppOsCoordinator {
     @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.XIAOMI_SMART_BAND7_NAME + ".*");
+    public String getDeviceBluetoothName() {
+        return HuamiConst.XIAOMI_SMART_BAND7_NAME;
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new MiBand7FWInstallHandler(uri, context);
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(260, 262, 263, 264, 265));
+    }
+
+    @Override
+    protected Map<Integer, String> getCrcMap() {
+        return new HashMap<Integer, String>() {{
+            // firmware
+            put(26036, "1.20.3.1");
+            put(55449, "1.27.0.4");
+            put(14502, "2.0.0.2");
+            put(25658, "2.1.0.1");
+        }};
     }
 
     @Override
@@ -59,23 +59,15 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
         return false;
     }
 
-    @NonNull
-    @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return MiBand7Support.class;
-    }
-
     @Override
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return false;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_miband7;
     }
-
 
     @Override
     public int getDefaultIconResource() {

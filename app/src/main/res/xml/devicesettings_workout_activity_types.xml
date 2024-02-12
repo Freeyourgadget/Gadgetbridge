@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:defaultValue="@array/pref_workout_activity_types_default"
+        android:dialogTitle="@string/mi5_prefs_workout_activity_types"
+        android:entries="@array/pref_workout_activity_types"
+        android:entryValues="@array/pref_workout_activity_types_values"
+        android:key="workout_activity_types_sortable"
+        android:persistent="true"
+        android:summary="@string/mi5_prefs_workout_activity_types_summary"
+        android:title="@string/mi5_prefs_workout_activity_types" />
+</androidx.preference.PreferenceScreen>

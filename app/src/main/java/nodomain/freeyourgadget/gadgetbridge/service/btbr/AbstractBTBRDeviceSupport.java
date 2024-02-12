@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 Damien Gaignon
+/*  Copyright (C) 2022-2024 Damien Gaignon
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btbr;
 
 import org.slf4j.Logger;
@@ -58,6 +58,12 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
             mQueue = new BtBRQueue(getBluetoothAdapter(), getDevice(), getContext(), this, getSupportedService(), getBufferSize());
         }
         return mQueue.connect();
+    }
+
+    public void disconnect() {
+        if (mQueue != null) {
+            mQueue.disconnect();
+        }
     }
 
     /**
@@ -139,6 +145,9 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
     public void onConnectionEstablished() {
        initializeDevice(createTransactionBuilder("Initializing device")).queue(getQueue());
     }
+
+    @Override
+    public void onFindPhone(boolean start) {}
 
     @Override
     public void onSetFmFrequency(float frequency) {}

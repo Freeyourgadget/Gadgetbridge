@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.ComponentName;
@@ -23,6 +23,8 @@ import android.media.MediaMetadata;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.media.session.PlaybackState;
+
+import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +107,12 @@ public class MediaManager {
         }
     }
 
+    @Nullable
     public static MusicSpec extractMusicSpec(final MediaMetadata d) {
+        if (d == null) {
+            return null;
+        }
+
         final MusicSpec musicSpec = new MusicSpec();
 
         try {
@@ -128,7 +135,12 @@ public class MediaManager {
         return musicSpec;
     }
 
+    @Nullable
     public static MusicStateSpec extractMusicStateSpec(final PlaybackState s) {
+        if (s == null) {
+            return null;
+        }
+
         final MusicStateSpec stateSpec = new MusicStateSpec();
 
         try {

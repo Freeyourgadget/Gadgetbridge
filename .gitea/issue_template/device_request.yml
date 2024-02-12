@@ -1,0 +1,77 @@
+name: Device request
+about: Request for a new device/gadget.
+labels:
+  - device request
+body:
+  - type: markdown
+    attributes:
+      value: >
+        You are trying to submit a request for a device implementation into Gadgetbridge. 
+        **We cannot make any promise that the device will be implemented**, as adding an implementation 
+        for a new device requires either an experienced or a willing to learn developer, 
+        ideally with the device at hand. Without that, you may try to submit a device request 
+        and see if anyone steps up and implements it and you are basically indicating that you 
+        have the device and are willing to help with testing, should anyone try to add 
+        this device to Gadgetbridge.
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to make Gadgetbridge better!
+
+        If you just have a question, please ask first in the user chatroom in Matrix at [`#gadgetbridge:matrix.org`](https://matrix.to/#/#gadgetbridge:matrix.org)
+  - type: checkboxes
+    attributes:
+      label: Please confirm that;
+      options:
+        - label: I have checked the [website](https://gadgetbridge.org) and [gadget list](https://gadgetbridge.org/gadgets/), and I didn't find this device mentioned there.
+          required: true
+        - label: I have searched the [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues), and I didn't find this device mentioned there.
+          required: true
+        - label: I have read and understood the [Codeberg Terms of Use](https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md) for images or other type of content that I included here.
+          required: true
+  - type: input
+    id: gadget
+    attributes:
+      label: Which gadget are you requesting support for?
+      description: Please specify name, manufacturer, model and firmware version if possible.
+      placeholder: e.g. ExampleWatch A1 with 0.1 firmware
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Does this gadget have similarities to other gadgets?
+      description: >
+        If the gadget you request support for has similarities to other gadgets that we currently support,
+        it is more likely for us (still, not guaranteed) to add support for your gadget too.
+  - type: textarea
+    id: info
+    attributes:
+      label: Device information
+      description: >
+        Include all details about the gadget that will be useful to us when implementing a support for this gadget. 
+        
+        Ideally, use an Android Bluetooth scanner app like nRF Connect or BLExplorer and provide screenshots 
+        of the scanned gadget from that app. This provides a name and some available UUIDs, which are needed 
+        for implementation. You may want to blur MAC addresses for privacy reasons.
+      placeholder: If you want to include logs, don't include it here. Use the next text field for that.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Do you have logs?
+      description: >
+        If possible, please attach [logs](https://gadgetbridge.org/internals/topics/logs/)
+        which might help to implement the device support into Gadgetbridge. This will be automatically 
+        formatted into code, so no need for backticks.
+      render: shell
+  - type: dropdown
+    id: source
+    attributes:
+      label: Do you have the gadget and are you able to help us for testing?
+      options:
+        - Yes, I have the gadget and I'm willing to provide further feedback and help testing.
+        - No, I don't have the gadget or/and I'm not able to help during the development.
+    validations:
+      required: true

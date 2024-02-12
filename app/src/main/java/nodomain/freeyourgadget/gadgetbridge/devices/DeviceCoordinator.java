@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Dmitry Markin, JohnnySun, José Rebelo, Matthieu Baerts, Nephiel,
-    Uwe Hermann
+/*  Copyright (C) 2015-2024 akasaka / Genjitsu Labs, Alicia Hormann, Andreas
+    Böhler, Andreas Shimokawa, Arjan Schrijver, Carsten Pfeiffer, Damien Gaignon,
+    Daniel Dakhno, Daniele Gobbetti, Dmitry Markin, JohnnySun, José Rebelo,
+    Matthieu Baerts, Nephiel, Petr Vaněk, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.app.Activity;
@@ -38,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -94,7 +96,7 @@ public interface DeviceCoordinator {
 
     enum ConnectionType{
         BLE(false, true),
-        BL_CLASSIC(true, false),
+        BT_CLASSIC(true, false),
         BOTH(true, true)
         ;
         boolean usesBluetoothClassic, usesBluetoothLE;
@@ -209,6 +211,18 @@ public interface DeviceCoordinator {
     boolean supportsPai();
 
     /**
+     * Returns the device-specific name for PAI (eg. Vitality Score).
+     */
+    @StringRes
+    int getPaiName();
+
+    /**
+     * Returns true if the device is capable of providing the time contribution for each PAI type
+     * (light, moderate, high).
+     */
+    boolean supportsPaiTime();
+
+    /**
      * Returns true if sleep respiratory rate measurement and fetching is supported by
      * the device (with this coordinator).
      */
@@ -235,6 +249,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for stress data, for the device being supported.
      */
     TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the stress ranges (relaxed, mild, moderate, high), so that stress can be categorized.
+     */
+    int[] getStressRanges();
 
     /**
      * Returns the sample provider for temperature data, for the device being supported.
@@ -325,6 +344,18 @@ public interface DeviceCoordinator {
     boolean supportsAlarmSnoozing();
 
     /**
+     * Returns true if this device/coordinator supports alarm titles
+     * @return
+     */
+    boolean supportsAlarmTitle(GBDevice device);
+
+    /**
+     * Returns the character limit for the alarm title, negative if no limit.
+     * @return
+     */
+    int getAlarmTitleLimit(GBDevice device);
+
+    /**
      * Returns true if this device/coordinator supports alarm descriptions
      * @return
      */
@@ -352,6 +383,10 @@ public interface DeviceCoordinator {
      * @return
      */
     boolean supportsAppsManagement(GBDevice device);
+
+    boolean supportsCachedAppManagement(GBDevice device);
+    boolean supportsInstalledAppManagement(GBDevice device);
+    boolean supportsWatchfaceManagement(GBDevice device);
 
     /**
      * Returns the Activity class that will be used to manage device apps.
@@ -448,6 +483,11 @@ public interface DeviceCoordinator {
     int getReminderSlotCount(GBDevice device);
 
     /**
+     * Indicates the maximum number of canned replies available in the device.
+     */
+    int getCannedRepliesSlotCount(GBDevice device);
+
+    /**
      * Indicates the maximum number of slots available for world clocks in the device.
      */
     int getWorldClocksSlotCount();
@@ -541,6 +581,17 @@ public interface DeviceCoordinator {
 
     List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals();
 
+    /**
+     * Whether the device supports screens with configurable widgets.
+     */
+    boolean supportsWidgets(GBDevice device);
+
+    /**
+     * Gets the {@link WidgetManager} for this device. Must not be null if supportsWidgets is true.
+     */
+    @Nullable
+    WidgetManager getWidgetManager(GBDevice device);
+
     boolean supportsNavigation();
 
     int getOrderPriority();
@@ -586,4 +637,6 @@ public interface DeviceCoordinator {
      * What LED patterns for notifications are supported by the device.
      */
     AbstractNotificationPattern[] getNotificationLedPatterns();
+
+    boolean validateAuthKey(String authKey);
 }

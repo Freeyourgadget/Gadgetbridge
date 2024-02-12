@@ -1,6 +1,5 @@
-/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo,
-    Johannes Krude
+/*  Copyright (C) 2015-2024 Andreas Böhler, Arjan Schrijver, Carsten Pfeiffer,
+    Daniel Dakhno, Daniele Gobbetti, Johannes Krude, JohnnySun, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothDevice;
@@ -56,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.AbstractBlePro
 public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport implements GattCallback, GattServerCallback {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBTLEDeviceSupport.class);
 
+    private int mMTU = 23;
     private BtLEQueue mQueue;
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
@@ -389,7 +389,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
-
+        this.mMTU = mtu;
     }
 
     @Override
@@ -415,5 +415,13 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean onDescriptorWriteRequest(BluetoothDevice device, int requestId, BluetoothGattDescriptor descriptor, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
         return false;
+    }
+
+    /**
+     * Gets the current MTU, or 0 if unknown
+     * @return the current MTU, 0 if unknown
+     */
+    public int getMTU() {
+        return mMTU;
     }
 }

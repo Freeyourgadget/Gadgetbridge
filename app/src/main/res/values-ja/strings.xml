@@ -835,4 +835,5 @@
     <string name="blue">青</string>
     <string name="prefs_wena3_button_action_name_activity_screen">アクティビティ画面</string>
     <string name="prefs_wena3_notification_settings_title">通知設定</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge(Nightly)</string>
 </resources>

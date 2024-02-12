@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
@@ -32,12 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsMenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -63,18 +63,13 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
     public static final byte DISPLAY_ITEMS_SECTION_MORE = 0x02;
     public static final byte DISPLAY_ITEMS_SECTION_DISABLED = 0x03;
 
-    public ZeppOsDisplayItemsService(final Huami2021Support support) {
-        super(support);
+    public ZeppOsDisplayItemsService(final ZeppOsSupport support) {
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override
@@ -98,7 +93,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_MENU,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()))
                 );
                 return true;
@@ -106,14 +101,14 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case HuamiConst.PREF_SHORTCUTS_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_SHORTCUTS,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()))
                 );
                 return true;
             case HuamiConst.PREF_CONTROL_CENTER_SORTABLE:
                 setDisplayItems(
                         DISPLAY_ITEMS_CONTROL_CENTER,
-                        new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
+                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
                         new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
                 );
                 return true;
@@ -153,23 +148,23 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case DISPLAY_ITEMS_MENU:
                 LOG.info("Got {} display items", numberScreens);
                 prefKey = HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
-                idMap = Huami2021MenuType.displayItemNameLookup;
+                idMap = ZeppOsMenuType.displayItemNameLookup;
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
                 LOG.info("Got {} shortcuts", numberScreens);
                 prefKey = HuamiConst.PREF_SHORTCUTS_SORTABLE;
-                idMap = Huami2021MenuType.shortcutsNameLookup;
+                idMap = ZeppOsMenuType.shortcutsNameLookup;
                 break;
             case DISPLAY_ITEMS_CONTROL_CENTER:
                 LOG.info("Got {} control center", numberScreens);
                 prefKey = HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
-                idMap = Huami2021MenuType.controlCenterNameLookup;
+                idMap = ZeppOsMenuType.controlCenterNameLookup;
                 break;
             default:
                 LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
                 return;
         }
-        final String allScreensPrefKey = Huami2021Coordinator.getPrefPossibleValuesKey(prefKey);
+        final String allScreensPrefKey = DeviceSettingsUtils.getPrefPossibleValuesKey(prefKey);
 
         final boolean menuHasMoreSection;
 
@@ -266,17 +261,17 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             case DISPLAY_ITEMS_MENU:
                 LOG.info("Setting menu items");
                 hasMoreSection = getCoordinator().mainMenuHasMoreSection();
-                idMap = MapUtils.reverse(Huami2021MenuType.displayItemNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.displayItemNameLookup);
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
                 LOG.info("Setting shortcuts");
                 hasMoreSection = false;
-                idMap = MapUtils.reverse(Huami2021MenuType.shortcutsNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.shortcutsNameLookup);
                 break;
             case DISPLAY_ITEMS_CONTROL_CENTER:
                 LOG.info("Setting control center");
                 hasMoreSection = false;
-                idMap = MapUtils.reverse(Huami2021MenuType.controlCenterNameLookup);
+                idMap = MapUtils.reverse(ZeppOsMenuType.controlCenterNameLookup);
                 break;
             default:
                 LOG.warn("Unknown menu type {}", menuType);

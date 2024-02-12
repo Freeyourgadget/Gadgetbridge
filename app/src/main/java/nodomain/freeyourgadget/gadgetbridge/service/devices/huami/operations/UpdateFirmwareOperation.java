@@ -1,5 +1,4 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.bluetooth.BluetoothGatt;
@@ -81,7 +80,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    AbstractHuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+    protected AbstractHuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
         HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
@@ -284,7 +283,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         builder.queue(getQueue());
     }
 
-    AbstractHuamiFirmwareInfo getFirmwareInfo() {
+    protected AbstractHuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
 

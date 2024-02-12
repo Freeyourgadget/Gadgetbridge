@@ -1,6 +1,4 @@
-/*  Copyright (C) 2017-2022 Andreas Shimokawa, Aniruddha Adhikary, Daniele
-    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
-    Taavi Eomäe, Ted Stein, Thomas, Yaron Shahrabani, José Rebelo
+/*  Copyright (C) 2022-2024 José Rebelo, Petr Kadlec
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
 import java.util.HashMap;
@@ -27,6 +25,7 @@ public class CzechTransliterator extends SimpleTransliterator {
         super(new HashMap<Character, String>() {{
             put('ř',"r"); put('ě',"e"); put('ý',"y"); put('á',"a"); put('í',"i"); put('é',"e");
             put('ó',"o"); put('ú',"u"); put('ů',"u"); put('ď',"d"); put('ť',"t"); put('ň',"n");
+            put('„', "\""); put('“', "\""); put('‚', "'"); put('‘', "'");
         }});
     }
 }

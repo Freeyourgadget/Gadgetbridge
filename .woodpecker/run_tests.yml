@@ -12,5 +12,8 @@ steps:
 #https://github.com/woodpecker-ci/woodpecker/issues/687
 
 when:
-  event:
-    exclude: ['cron', 'deployment']
+  # Everything except cron (nightly) and deployment
+  - event: push
+  - event: pull_request
+  - event: tag
+  - event: manual

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_notifications"
+        android:key="pref_prefix_notification_with_app"
+        android:title="@string/pref_title_prefix_notification_with_app"
+        android:summary="@string/pref_summary_prefix_notification_with_app" />
+</androidx.preference.PreferenceScreen>

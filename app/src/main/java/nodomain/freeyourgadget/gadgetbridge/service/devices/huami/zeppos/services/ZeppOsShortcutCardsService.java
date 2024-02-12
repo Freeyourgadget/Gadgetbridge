@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 Andreas Shimokawa, José Rebelo, Maxime Reyrolle
 
     This file is part of Gadgetbridge.
 
@@ -13,10 +13,12 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE;
+
+import android.text.TextUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +36,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -120,18 +122,13 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
     private int version = 0;
     private int maxCards = 0;
 
-    public ZeppOsShortcutCardsService(final Huami2021Support support) {
-        super(support);
+    public ZeppOsShortcutCardsService(final ZeppOsSupport support) {
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override
@@ -217,8 +214,8 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         }
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
-                .withPreference(SHORTCUT_CARDS_SORTABLE, String.join(",", enabledCards))
-                .withPreference(Huami2021Coordinator.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), String.join(",", allCards));
+                .withPreference(SHORTCUT_CARDS_SORTABLE, TextUtils.join(",", enabledCards))
+                .withPreference(DeviceSettingsUtils.getPrefPossibleValuesKey(SHORTCUT_CARDS_SORTABLE), TextUtils.join(",", allCards));
         getSupport().evaluateGBDeviceEvent(evt);
     }
 

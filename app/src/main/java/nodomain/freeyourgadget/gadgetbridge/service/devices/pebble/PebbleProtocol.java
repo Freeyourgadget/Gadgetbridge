@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Frank Slezak, jcrode, Johann C. Rode, Julien Pivotto, Kevin Richter,
-    Matej Drobnič, Sergio Lopez, Steffen Liebergeld, Uwe Hermann
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Frank Slezak, jcrode, Johann C. Rode, José Rebelo, Julien Pivotto,
+    Kevin Richter, Matej Drobnič, Sergio Lopez, Steffen Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
 import android.util.Base64;

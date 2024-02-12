@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.graphics.Color;
@@ -58,7 +58,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.PaiChartsData> {
@@ -117,6 +116,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         mLineModerateTime = rootView.findViewById(R.id.pai_line_moderate_time);
         mLineHighInc = rootView.findViewById(R.id.pai_line_high_inc);
         mLineHighTime = rootView.findViewById(R.id.pai_line_high_time);
+
+        if (!getChartsHost().getDevice().getDeviceCoordinator().supportsPaiTime()) {
+            mLineLowTime.setVisibility(View.GONE);
+            mLineModerateTime.setVisibility(View.GONE);
+            mLineHighTime.setVisibility(View.GONE);
+        }
 
         setupWeekChart();
         setupTodayPieChart();

@@ -1,7 +1,8 @@
-/*  Copyright (C) 2015-2021 Alberto, Andreas Böhler, Andreas Shimokawa,
-    Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti, Frank Slezak,
-    ivanovlev, José Rebelo, Julien Pivotto, Kasha, Roi Greenberg, Sebastian
-    Kranz, Steffen Liebergeld
+/*  Copyright (C) 2015-2024 Alberto, Andreas Böhler, Andreas Shimokawa,
+    Arjan Schrijver, Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti,
+    Davis Mosenkovs, Frank Slezak, Gabriele Monaco, Gordon Williams, ivanovlev,
+    José Rebelo, Julien Pivotto, Kasha, mvn23, Petr Vaněk, Roi Greenberg,
+    Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
 import android.app.Service;
@@ -176,6 +177,7 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_TITLE, hideMessageDetails ? null : notificationSpec.title)
                 .putExtra(EXTRA_NOTIFICATION_BODY, hideMessageDetails || hideMessageBodyOnly ? null : notificationSpec.body)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.getId())
+                .putExtra(EXTRA_NOTIFICATION_KEY, notificationSpec.key)
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
@@ -258,6 +260,13 @@ public class GBDeviceService implements DeviceService {
     public void onSetPhoneVolume(final float volume) {
         Intent intent = createIntent().setAction(ACTION_SET_PHONE_VOLUME)
                 .putExtra(EXTRA_PHONE_VOLUME, volume);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onChangePhoneSilentMode(int ringerMode) {
+        Intent intent = createIntent().setAction(ACTION_SET_PHONE_SILENT_MODE)
+                .putExtra(EXTRA_PHONE_RINGER_MODE, ringerMode);
         invokeService(intent);
     }
 

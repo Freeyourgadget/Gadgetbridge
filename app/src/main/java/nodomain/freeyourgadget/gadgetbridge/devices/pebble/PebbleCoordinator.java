@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, José Rebelo, Matthieu Baerts
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, José Rebelo,
+    Matthieu Baerts, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import android.app.Activity;
@@ -123,6 +124,11 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     @Override
     public int getAlarmSlotCount(GBDevice device) {
         return 0;
+    }
+
+    @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        return 16;
     }
 
     @Override

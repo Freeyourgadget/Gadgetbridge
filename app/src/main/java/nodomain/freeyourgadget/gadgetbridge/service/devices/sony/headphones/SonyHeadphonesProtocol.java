@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 José Rebelo
+/*  Copyright (C) 2021-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
 import android.content.SharedPreferences;
@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
@@ -99,42 +100,79 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             return null;
         }
 
-        final List<Object> events = new ArrayList<>();
+        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+
+        final List<GBDeviceEvent> events = new ArrayList<>();
 
         if (protocolImpl == null) {
             // Check if we got an init response, which should indicate the protocol version
             if (MessageType.COMMAND_1.equals(messageType) && message.getPayload()[0] == 0x01) {
                 // Init reply, set the protocol version
-                if (message.getPayload().length == 4) {
-                    // WH-1000XM3:      01:00:40:10
-                    // WF-SP800N 1.0.1: 01:00:70:00
-                    protocolImpl = new SonyProtocolImplV1(getDevice());
-                } else if (message.getPayload().length == 8) {
-                    switch (message.getPayload()[2]) {
-                        case 0x01:
-                            // WF-1000XM4 1.1.5: 01:00:01:00:00:00:00:00
-                            protocolImpl = new SonyProtocolImplV2(getDevice());
-                            break;
-                        case 0x03:
-                            // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
-                            // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
-                            // WF-1000XM5 2.0.1: 01:00:03:00:10:04:00:00
-                            protocolImpl = new SonyProtocolImplV3(getDevice());
-                            break;
-                        default:
-                            LOG.error("Unexpected version for payload of length 8: {}", message.getPayload()[2]);
-                            return null;
+
+                final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(
+                        DeviceSettingsPreferenceConst.PREF_SONY_ACTUAL_PROTOCOL_VERSION, null
+                );
+                events.add(eventUpdatePreferences);
+
+                final String protocolVersionPref = prefs.getString("pref_protocol_version", "auto");
+                final String protocolVersion;
+                if (protocolVersionPref.equals("auto")) {
+                    if (message.getPayload().length == 4) {
+                        // WH-1000XM3:      01:00:40:10
+                        // WF-SP800N 1.0.1: 01:00:70:00
+                        // Wi-SP600N:       01:00:40:10
+                        protocolVersion = "v1";
+                    } else if (message.getPayload().length == 8) {
+                        switch (message.getPayload()[2]) {
+                            case 0x01:
+                                // WF-1000XM4 1.1.5: 01:00:01:00:00:00:00:00
+                                protocolVersion = "v2";
+                                break;
+                            case 0x03:
+                                // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
+                                // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
+                                // WF-1000XM5 2.0.1: 01:00:03:00:10:04:00:00
+                                protocolVersion = "v3";
+                                break;
+                            default:
+                                LOG.error("Unexpected version for payload of length 8: {}", message.getPayload()[2]);
+                                return events.toArray(new GBDeviceEvent[0]);
+                        }
+                    } else {
+                        LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
+                        return events.toArray(new GBDeviceEvent[0]);
                     }
                 } else {
-                    LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
-                    return null;
+                    protocolVersion = protocolVersionPref;
+                }
+
+                LOG.info("Sony protocol version: {}/{}", protocolVersionPref, protocolVersion);
+
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_SONY_ACTUAL_PROTOCOL_VERSION,
+                        protocolVersion
+                );
+
+                switch (protocolVersion) {
+                    case "v1":
+                        protocolImpl = new SonyProtocolImplV1(getDevice());
+                        break;
+                    case "v2":
+                        protocolImpl = new SonyProtocolImplV2(getDevice());
+                        break;
+                    case "v3":
+                        protocolImpl = new SonyProtocolImplV3(getDevice());
+                        break;
+                    default:
+                        LOG.warn("Unknown protocol version {}", protocolVersion);
+                        return events.toArray(new GBDeviceEvent[0]);
                 }
             }
         }
 
         if (protocolImpl == null) {
             LOG.error("No protocol implementation, ignoring message");
-            return null;
+            return events.toArray(new GBDeviceEvent[0]);
         }
 
         try {
@@ -146,7 +184,7 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                     break;
                 default:
                     LOG.warn("Unknown message type for {}", message);
-                    return null;
+                    return events.toArray(new GBDeviceEvent[0]);
             }
         } catch (final Exception e) {
             // Don't crash the app if we somehow fail to handle the payload

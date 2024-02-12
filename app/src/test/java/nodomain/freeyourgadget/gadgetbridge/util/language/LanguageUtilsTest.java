@@ -4,9 +4,13 @@ import android.content.SharedPreferences;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CzechTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ExtendedAsciiTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.FlattenToAsciiTransliterator;
 
 import static org.junit.Assert.assertEquals;
@@ -96,9 +100,9 @@ public class LanguageUtilsTest extends TestBase {
         final Transliterator transliterator = LanguageUtils.getTransliterator("bengali");
 
         // input with cyrillic and diacritic letters
-        String[] inputs = { "অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!",
-                "আমার জাভা কোড is so bad! কী আর বলবো!" };
-        String[] outputs = { "oniruddho", "biggaanJaatraa cholchhe cholbe.",
+        String[] inputs = {"অনিরুদ্ধ", "বিজ্ঞানযাত্রা চলছে চলবে।", "আমি সব দেখেশুনে ক্ষেপে গিয়ে করি বাঙলায় চিৎকার!",
+                "আমার জাভা কোড is so bad! কী আর বলবো!"};
+        String[] outputs = {"oniruddho", "biggaanJaatraa cholchhe cholbe.",
                 "aami sob dekheshune kkhepe giye kori baanglaay chitkaar!",
                 "aamaar jaabhaa koD is so bad! kii aar bolbo!"};
 
@@ -190,6 +194,16 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateHungarian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("hungarian");
+
+        String input = "á é í ó ö ő ü ű";
+        String output = transliterator.transliterate(input);
+        String expected = "a e i o o o u u";
+        assertEquals("hungarian transliteration failed", expected, output);
+    }
+
+    @Test
     public void testStringTransliterateCommonSymbols() {
         final Transliterator transliterator = LanguageUtils.getTransliterator("common_symbols");
 
@@ -217,10 +231,21 @@ public class LanguageUtilsTest extends TestBase {
     @Test
     public void testFlattenToAscii() throws Exception {
         final FlattenToAsciiTransliterator transliterator = new FlattenToAsciiTransliterator();
-        String input = "ä ș ț ă";
+        String input = "ä ș ț ă ﬁne";
         String output = transliterator.transliterate(input);
-        String expected = "a s t a";
+        String expected = "a s t a fine";
         assertEquals("flatten to ascii transliteration failed", expected, output);
+    }
+
+    @Test
+    public void testMultitransliterator() throws Exception {
+        final MultiTransliterator multiTransliterator = new MultiTransliterator(Arrays.asList(
+                new CzechTransliterator(),
+                new ExtendedAsciiTransliterator(),
+                new FlattenToAsciiTransliterator()
+        ));
+        assertEquals("Zlutoucky kun upel \"dabelske\" \"ody\"", multiTransliterator.transliterate("Žluťoučký kůň úpěl »ďábelské« „ódy“"));
+        assertEquals("300 Kc", multiTransliterator.transliterate("300\u00A0Kč"));
     }
 
     @Test

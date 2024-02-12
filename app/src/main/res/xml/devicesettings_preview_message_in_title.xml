@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@android:drawable/ic_menu_view"
+        android:key="preview_message_in_title"
+        android:summary="@string/pref_summary_preview_message_in_title"
+        android:title="@string/pref_title_preview_message_in_title" />
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,28 @@
+* Initial support for Honor Band 3,4,5,6
+* Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e
+* Initial support for Huawei Talk Band B6
+* Initial support for Huawei Watch GT, GT 2
+* Initial support for Mijia LYWSD03MMC
+* Initial support for Nothing Ear (2)
+* Initial support for Nothing Ear (Stick)
+* Experimental support for Honor Band 7
+* Experimental support for Redmi Watch 2 Lite
+* Experimental support for Redmi Smart Band Pro
+* Casio GBX100: Add support for snooze alarm
+* Fossil/Skagen Hybrids: Update navigationApp to 1.1
+* Huami: Fetch SpO2 on devices that support it
+* Pebble: Attempt to fix app configuration webview
+* PineTime: Add support for InfiniTime's new simple weather
+* PineTime: Fix freeze and reboot when upgrading firmware
+* Pixoo: Enable sending images (non-persistent)
+* Pixoo: Get and send alarms
+* Pixoo: Set custom device name
+* Pixoo: support "clap hands to turn off screen" and "sleep after silence" settings
+* Xiaomi: Improve activity and workout parsing
+* Xiaomi: Improve stability and fix some crashes
+* Xiaomi: Improve weather
+* Xiaomi: Parse sleep stages
+* Add a notifications channel for connection status notifications
+* Improve automatic connection to all or previous devices
+* Fix devices sometimes staying stuck in a "Connecting" state
+* Map some missing Google Maps navigation actions

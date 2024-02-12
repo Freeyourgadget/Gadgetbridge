@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import org.slf4j.Logger;
@@ -28,8 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Weather;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsWeather;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -44,18 +44,13 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
     public static final byte RESPONSE_SUCCESS = 0x01;
     public static final byte RESPONSE_NO_INTERNET = 0x02;
 
-    public ZeppOsHttpService(final Huami2021Support support) {
-        super(support);
+    public ZeppOsHttpService(final ZeppOsSupport support) {
+        super(support, true);
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override
@@ -107,7 +102,7 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
         final Map<String, String> query = urlQueryParameters(url);
 
         if (path.startsWith("/weather/")) {
-            final Huami2021Weather.Response response = Huami2021Weather.handleHttpRequest(path, query);
+            final ZeppOsWeather.Response response = ZeppOsWeather.handleHttpRequest(path, query);
             replyHttpSuccess(requestId, response.getHttpStatusCode(), response.toJson());
             return;
         }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -38,7 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
@@ -69,23 +70,18 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
 
     // Keep track of Notification ID -> action handle, as BangleJSDeviceSupport.
     // This needs to be simplified.
-    private final LimitedQueue mNotificationReplyAction = new LimitedQueue(16);
+    private final LimitedQueue<Integer, Long> mNotificationReplyAction = new LimitedQueue<>(16);
 
     private final ZeppOsFileTransferService fileTransferService;
 
-    public ZeppOsNotificationService(final Huami2021Support support, final ZeppOsFileTransferService fileTransferService) {
-        super(support);
+    public ZeppOsNotificationService(final ZeppOsSupport support, final ZeppOsFileTransferService fileTransferService) {
+        super(support, true);
         this.fileTransferService = fileTransferService;
     }
 
     @Override
     public short getEndpoint() {
         return ENDPOINT;
-    }
-
-    @Override
-    public boolean isEncrypted() {
-        return true;
     }
 
     @Override
@@ -97,7 +93,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
             case NOTIFICATION_CMD_REPLY:
                 // TODO make this configurable?
                 final int notificationId = BLETypeConversions.toUint32(subarray(payload, 1, 5));
-                final Long replyHandle = (Long) mNotificationReplyAction.lookup(notificationId);
+                final Long replyHandle = mNotificationReplyAction.lookup(notificationId);
                 if (replyHandle == null) {
                     LOG.warn("Failed to find reply handle for notification ID {}", notificationId);
                     return;
@@ -215,6 +211,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     }
 
     public void sendNotification(final NotificationSpec notificationSpec) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring");
+            return;
+        }
+
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         final String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
@@ -289,6 +290,11 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
     }
 
     public void deleteNotification(final int id) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring delete");
+            return;
+        }
+
         LOG.info("Deleting notification {} from band", id);
 
         final ByteBuffer buf = ByteBuffer.allocate(12);

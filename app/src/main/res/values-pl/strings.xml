@@ -39,13 +39,13 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_header_general">Ustawienia ogólne</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem Gadgetbridge, gdy Bluetooth jest włączony</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Połącz urządzenia z Gadgetbridge, gdy Bluetooth jest włączony</string>
     <string name="pref_title_general_autoreconnect">Automatycznie ponów połączenie</string>
     <string name="pref_title_audio_player">Preferowany odtwarzacz muzyki</string>
     <string name="pref_default">Domyślny</string>
     <string name="pref_header_datetime">Data i godzina</string>
     <string name="pref_title_datetime_syctimeonconnect">Synchronizuj czas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia Gadgetbridge podczas łączenia lub gdy czas albo strefa czasowa zmienią się na urządzeniu Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas łączenia lub gdy czas albo strefa czasowa zmienią się na urządzeniu Android</string>
     <string name="pref_title_theme">Motyw</string>
     <string name="pref_theme_light">Jasny</string>
     <string name="pref_theme_dark">Ciemny</string>
@@ -105,14 +105,14 @@
     <string name="tap_connected_device_for_app_mananger">Kliknij połączone urządzenie, aby uruchomić menadżer aplikacji</string>
     <string name="tap_a_device_to_connect">Dotknij urządzenie aby połączyć</string>
     <string name="cannot_connect_bt_address_invalid_">Nie można połączyć. Nieprawidłowy adres Bluetooth\?</string>
-    <string name="gadgetbridge_running_generic">Gadgetbridge działa</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge jest uruchomiony</string>
     <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
     <string name="installation_failed_">Instalacja nie powiodła się</string>
     <string name="installation_successful">Zainstalowano</string>
-    <string name="firmware_install_warning">PRÓBUJESZ ZAINSTALOWAĆ FIRMWARE, POSTĘPUJESZ NA WŁASNĄ ODPOWIEDZIALNOŚĆ . 
-\n 
-\n 
-\n Ten firmware jest przeznaczony dla wersji HW: %s</string>
+    <string name="firmware_install_warning">PRÓBUJESZ ZAINSTALOWAĆ OPROGRAMOWANIE UKŁADOWE, KONTYNUUJ NA WŁASNE RYZYKO.
+\n
+\n
+\n Te oprogramowanie układowe jest przeznaczone dla wersji HW: %s</string>
     <string name="app_install_info">Zamierzasz zainstalować poniższą aplikację:
 \n
 \n%1$s
@@ -220,7 +220,7 @@
     <string name="weeksteps_today_steps_description">Kroków dziś, cel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nie przesyłaj danych aktywności ACK</string>
     <string name="pref_summary_dont_ack_transfers">Jeśli transmisja danych nie zostanie potwierdzona przez opaskę, dane dotyczące aktywności nie zostaną wyczyszczone. Przydatne, jeśli GB jest używany razem z innymi aplikacjami.</string>
-    <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Gadgetbridge jest używany razem z innymi aplikacjami.</string>
+    <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Urządzenia na ciele jest używany razem z innymi aplikacjami.</string>
     <string name="pref_summary_low_latency_fw_update">Może pomóc na urządzeniach gdzie aktualizacja kończy się błędem.</string>
     <string name="live_activity_steps_history">Historia kroków</string>
     <string name="live_activity_current_steps_per_minute">Aktualnie kroków/min</string>
@@ -498,7 +498,7 @@
     <string name="activity_type_not_measured">Nie zmierzono</string>
     <string name="activity_type_activity">Aktywność</string>
     <string name="activity_type_not_worn">Urządzenie nie noszone</string>
-    <string name="activity_type_walking">Chodzenie</string>
+    <string name="activity_type_walking">Spacer</string>
     <string name="activity_type_unknown">Nieznana aktywność</string>
     <string name="activity_summaries">Aktywności sportowe</string>
     <string name="activity_type_biking">Jazda na rowerze</string>
@@ -519,7 +519,7 @@
     <string name="watch9_time_hours">Godziny:</string>
     <string name="watch9_time_seconds">Sekundy:</string>
     <string name="watch9_calibration_button">Kalibruj</string>
-    <string name="share_log_warning">Prosimy pamiętać, że logi Gadgetbridge mogą zawierać wiele informacji osobistych, w tym dane dotyczące zdrowia, unikalne identyfikatory (takie jak adresy MAC urządzeń), preferencje muzyczne itd. Rozważ edycję logów i usunięcie takich informacji zanim wyślesz je przy zgłaszaniu problemu.</string>
+    <string name="share_log_warning">Prosimy pamiętać, że logi Gadgetbridge mogą zawierać wiele informacji osobistych, w tym dane dotyczące zdrowia, unikalne identyfikatory (takie jak adresy MAC urządzeń), preferencje muzyczne itd. Rozważ edycję logów i usunięcie takich informacji, zanim wyślesz je przy zgłaszaniu problemu.</string>
     <string name="warning">Ostrzeżenie!</string>
     <string name="no_data">Brak danych</string>
     <string name="preferences_led_color">Kolor LED</string>
@@ -541,7 +541,7 @@
     <string name="mi2_prefs_do_not_disturb_end">Koniec</string>
     <string name="mi3_prefs_band_screen_unlock">Odblokowanie ekranu opaski</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Przesuń w górę, aby odblokować ekran opaski</string>
-    <string name="norwegian_bokmal">Norwegian Bokmål</string>
+    <string name="norwegian_bokmal">Norweski Bokmål</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Przeniesienie danych z okresu %1$s</string>
     <string name="appwidget_setting_alarm">Ustawienie alarmu na %1$02d:%2$02d</string>
     <string name="error_creating_directory_for_logfiles">Błąd tworzenia folderu na pliki log: %1$s</string>
@@ -682,7 +682,7 @@
     <string name="weeksleepchart_sleep_a_month">Sen w miesiącu</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="pref_summary_expose_hr">Zezwala innym aplikacjom na dostęp do danych HR w czasie rzeczywistym, gdy Gadgetbridge jest połączony</string>
+    <string name="pref_summary_expose_hr">Umożliwia innym aplikacjom dostęp do danych HR w czasie rzeczywistym, gdy Gadgetbridge jest podłączony</string>
     <string name="pref_title_use_custom_font">Użyj niestandardowej czcionki</string>
     <string name="pref_summary_use_custom_font">Włącz tę opcję, jeśli Twoje urządzenie ma niestandardowy firmware czcionek do obsługi emoji</string>
     <string name="activity_db_management_autoexport_label">Automatyczny eksport</string>
@@ -845,7 +845,7 @@
     <string name="pref_title_force_white_color_scheme">Wymuś schemat kolorów czarno na białym</string>
     <string name="pref_summary_force_white_color_scheme">Użyteczne, jeśli twój zegarek ma ciemne wskazówki</string>
     <string name="notification_channel_high_priority_name">Wysoki priorytet</string>
-    <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Gadgetbridge, gdy połączono</string>
+    <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia kiedy zostanie połączone zamiast ikony Gadgetbridge</string>
     <string name="hr_appname_workout">Trening</string>
     <string name="hr_appname_stopwatch">Stoper</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
@@ -903,7 +903,7 @@
     <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
     <string name="controlcenter_set_alias">Ustaw własną nazwę (alias)</string>
     <string name="about_contributors">Współtwórcy</string>
-    <string name="about_activity_title_generic">O Gadgetbridge</string>
+    <string name="about_activity_title_generic">Informacje o Gadgetbridge</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="backstroke">Styl grzbietowy</string>
     <string name="freestyle">Styl dowolny</string>
@@ -1021,7 +1021,7 @@
     <string name="about_links">Linki</string>
     <string name="about_additional_contributions">Dziękujemy wszystkim nie notowanym na liście współtwórcom za udostępnienie kodu, tłumaczenia, wsparcie, pomysły, motywację, zgłoszenia błędów, pieniądze… ✊</string>
     <string name="about_core_team_title">Zespół główny (w kolejności od pierwszego wkładu w kod aplikacji)</string>
-    <string name="about_description_generic">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android.</string>
+    <string name="about_description_generic">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android.</string>
     <string name="activity_summary_edit_name_title">Edytuj etykietę</string>
     <string name="activity_type_pingpong">Ping-pong</string>
     <string name="activity_type_cricket">Krykiet</string>
@@ -1178,7 +1178,7 @@
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="battery_detail_activity_title">Informacje o baterii</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
-    <string name="fw_upgrade_notice_amazfitx">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit X.
+    <string name="fw_upgrade_notice_amazfitx">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit X.
 \n
 \nProszę upewnić się, że zainstalowany został plik .fw, a następnie plik .res. Po zainstalowaniu pliku .fw Twoja opaska zostanie ponownie uruchomiona.
 \n
@@ -1208,7 +1208,7 @@
     <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
     <string name="prefs_sounds_summary">Skonfiguruj, kiedy urządzenie będzie emitować sygnał dźwiękowy</string>
     <string name="prefs_sounds">Dźwięki</string>
-    <string name="fw_upgrade_notice_amazfitneo">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit Neo
 \n
 \nPo zainstalowaniu pliku .fw Twoja opaska zostanie ponownie uruchomiona.
 \n
@@ -1611,19 +1611,19 @@
     <string name="pref_title_banglejs_text_bitmap">Tekst jako bitmapy</string>
     <string name="pref_title_device_internet_access">Zezwól na dostęp do internetu</string>
     <string name="pref_summary_device_internet_access">Zezwól aplikacjom na tym urządzeniu na dostęp do Internetu</string>
-    <string name="heartrate_bpm_100">100 uderzeń</string>
+    <string name="heartrate_bpm_100">100 uderzeń/min</string>
     <string name="world_clock_delete_confirm_title">Usuń \'%1$s\'</string>
     <string name="world_clock_timezone">Strefa czasowa</string>
-    <string name="heartrate_bpm_105">105 uderzeń</string>
-    <string name="heartrate_bpm_110">110 uderzeń</string>
+    <string name="heartrate_bpm_105">105 uderzeń/min</string>
+    <string name="heartrate_bpm_110">110 uderzeń/min</string>
     <string name="heartrate_bpm_112">112 bpm</string>
-    <string name="heartrate_bpm_120">120 uderzeń</string>
-    <string name="heartrate_bpm_125">125 uderzeń</string>
-    <string name="heartrate_bpm_130">130 uderzeń</string>
-    <string name="heartrate_bpm_135">135 uderzeń</string>
-    <string name="heartrate_bpm_140">140 uderzeń</string>
-    <string name="heartrate_bpm_145">145 uderzeń</string>
-    <string name="heartrate_bpm_150">150 uderzeń</string>
+    <string name="heartrate_bpm_120">120 uderzeń/min</string>
+    <string name="heartrate_bpm_125">125 uderzeń/min</string>
+    <string name="heartrate_bpm_130">130 uderzeń/min</string>
+    <string name="heartrate_bpm_135">135 uderzeń/min</string>
+    <string name="heartrate_bpm_140">140 uderzeń/min</string>
+    <string name="heartrate_bpm_145">145 uderzeń/min</string>
+    <string name="heartrate_bpm_150">150 uderzeń/min</string>
     <string name="pref_title_touch_spotify">Spotify</string>
     <string name="pref_voice_detect_duration_5">5 sekund</string>
     <string name="pref_voice_detect_duration_10">10 sekund</string>
@@ -1649,7 +1649,7 @@
     <string name="pref_header_calendar">Kalendarz</string>
     <string name="pref_header_health">Zdrowie</string>
     <string name="pref_header_time">Czas</string>
-    <string name="heartrate_bpm_40">40 uderzeń</string>
+    <string name="heartrate_bpm_40">40 uderzeń/min</string>
     <string name="heartrate_bpm_45">45 uderzeń/min</string>
     <string name="heartrate_bpm_50">50 uderzeń/min</string>
     <string name="spo2_perc_80">80%</string>
@@ -1696,11 +1696,11 @@
     <string name="prefs_spo2_monitoring_description">Automatyczne monitorowanie poziomu tlenu we krwi przez cały dzień</string>
     <string name="prefs_spo2_alert_threshold">Próg alarmowy SPO2</string>
     <string name="pref_sleep_breathing_quality_monitoring">Monitorowanie jakości oddechu podczas snu</string>
-    <string name="fw_upgrade_notice_miband7">Zamierzasz zainstalować oprogramowanie %s na swoim Xiaomi Smart Band 7.
+    <string name="fw_upgrade_notice_miband7">Zamierzasz zainstalować oprogramowanie układowe %s na swoim Xiaomi Smart Band 7.
 \n
 \nTwoja opaska uruchomi się ponownie po zainstalowaniu pliku .zip.
 \n
-\nROBISZ TO NA WŁASNĄ ODPOWIEDZIALNOŚĆ!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="open_fw_installer_connect_maximum_one_device">Proszę podłączyć TYLKO JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_header_connection">Połączenie</string>
     <string name="pref_header_display">Wyświetlanie</string>
@@ -1719,16 +1719,16 @@
     <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
 \nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Wczesna)</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Wczesna</string>
-    <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
-    <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Nightly Gadgetbridge. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Gadgetbridge lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
-    <string name="gadgetbridge_running_main_nightly">Gadgetbridge (Nightly) działa</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, bez dostawcy Pebble)</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Bez Pebble</string>
-    <string name="about_activity_title_main_nopebble">O Gadgetbridge Nightly Bez Pebble</string>
-    <string name="about_description_main_nopebble">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Nightly Gadgetbridge. W tej wersji zmieniono nazwę dostawcy Pebble, aby zapobiec konfliktom, więc niektóre integracje związane z Pebble nie będą działać, ale można ją zainstalować obok istniejącej instalacji Gadgetbridge.</string>
-    <string name="gadgetbridge_running_main_nopebble">Gadgetbridge (Nightly Bez Pebble) działa</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">Informacje o Gadgetbridge Nightly</string>
+    <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wczesne wydanie Gadgetbridge. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Urządzenia na ciele lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
+    <string name="gadgetbridge_running_main_nightly">Gadgetbridge (Nightly) jest uruchomiony</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, No Pebble provider)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly NoPebble</string>
+    <string name="about_activity_title_main_nopebble">Informacje o Gadgetbridge Nightly NoPebble</string>
+    <string name="about_description_main_nopebble">Niewymagający chmury wolny zamiennik dla zamknięto źródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wczesne wydanie Gadgetbridge. W tej wersji zmieniono nazwę dostawcy Pebble, aby zapobiec konfliktom, więc niektóre integracje związane z Pebble nie będą działać, ale można ją zainstalować obok istniejącej instalacji Gadgetbridge.</string>
+    <string name="gadgetbridge_running_main_nopebble">Gadgetbridge (Nightly NoPebble) jest uruchomiona</string>
     <string name="pref_summary_banglejs_text_bitmap">Jeśli słowo nie może być wygenerowane za pomocą czcionki zegarka, wygeneruj je do bitmapy w Gadgetbridge i wyświetl ją na zegarku</string>
     <string name="open_fw_installer_warning_text">Ta funkcja ma potencjał, aby pozostawić z Twojego urządzenia cegłę. To powiedziawszy, taka sytuacja nigdy nie zdarzyła się żadnemu z programistów poprzez flashowanie, ale pamiętaj, że robisz to na własne ryzyko.</string>
     <string name="open_fw_installer_getting_files_title">Pobieranie pliku z oprogramowaniem sprzętowym/aplikacją</string>
@@ -1752,13 +1752,13 @@
     <string name="open_fw_installer_getting_files_text">Ponieważ nie możemy rozpowszechniać plików oprogramowania sprzętowego, będziesz musiał zdobyć je samodzielnie. Oznacza to, że będziesz musiał szukać plików w plikach apk, online, na forach, na Amazfitwatchfaces (dla urządzeń Miband/Amazfit) i tak dalej.</string>
     <string name="open_fw_installer_connect_minimum_one_device">Proszę podłączyć PRZYNAJMNIEJ JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_write_logfiles_not_available">Inicjalizacja logowania plików nie powiodła się, zapisywanie plików dziennika jest obecnie niedostępne. Uruchom ponownie aplikację, aby spróbować ponownie zainicjować pliki dziennika.</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">O Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
 \nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js (Nightly) działa</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js jest uruchomiony (Nightly)</string>
     <string name="pref_summary_notification_delay_calls">Opóźnienie przed wysłaniem powiadomień o połączeniach przychodzących do urządzenia, w sekundach.</string>
     <string name="world_clock_delete_confirm_description">Czy na pewno chcesz usunąć zegar światowy\?</string>
     <string name="prefs_heartrate_alert_experimental_title">Alarm tętna (eksperymentalny)</string>
@@ -1773,11 +1773,11 @@
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
     <string name="controlcenter_set_preferences">Ustaw preferencje</string>
-    <string name="controlcenter_toggle_details">Pokaż detale</string>
+    <string name="controlcenter_toggle_details">Pokaż szczegóły</string>
     <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
     <string name="activity_type_elliptical">Eliptyczna</string>
     <string name="error_deleting_device">Błąd przy usuwaniu urządzenia: %s</string>
-    <string name="notification_gps_title">GPS Gadgetbridge</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="menuitem_unknown_app">Nieznane (%s)</string>
     <string name="devicetype_binary_sensor">Czujnik binarny</string>
     <string name="notification_gps_text">Wysyłanie lokalizacji GPS do %1$d urządzeń</string>
@@ -1928,11 +1928,11 @@
     <string name="supercars_lights_label">Klasyczne</string>
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="dismiss">Odrzuć</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR3. 
-\n 
-\nUrządzenie uruchomi się ponownie po instalacji pliku .zip. 
-\n 
-\nWykonujesz to na własne ryzyko!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR3.
+\n
+\nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_title_third_party_app_device_settings">Pozwól aplikacjom firm trzecich na zmianę ustawień</string>
     <string name="activity_type_dance">Taniec</string>
     <string name="activity_type_indoor_fitness">Ćwiczenia w domu</string>
@@ -1979,7 +1979,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_title_notification_media_ignores_application_list">Lista ignorowanych powiadomień ze stron społecznościowych</string>
     <string name="pref_summary_notification_media_ignores_application_list">Przetwarzaj powiadomienia multimedialne przed listą aplikacji. Jeśli ta preferencja nie jest zaznaczona, aplikacje multimedialne muszą być dozwolone na liście aplikacji, aby elementy sterujące multimediami działały na urządzeniu.</string>
     <string name="pref_workout_detection_categories_summary">Automatyczne wykrywanie kategorii ćwiczeń</string>
@@ -2079,7 +2079,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_header_sound_vibration">Dźwięki i wibracje</string>
     <string name="pref_header_intent_api">Interfejs API intencji</string>
     <string name="pref_text_to_speech">Tekst na mowę</string>
@@ -2105,12 +2105,12 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR 4.
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_agps_expiry_reminder_time">Czas powiadamiania o wygasaniu AGPS</string>
     <string name="pref_workout_detection_title">Kierunek ćwiczeń</string>
     <string name="pref_enable_unsupported_settings_summary">Umożliwi to dostęp do wszystkich dostępnych ustawień, nawet jeśli nie są obsługiwane przez urządzenie. Może to spowodować niestabilność i awarie urządzenia.</string>
@@ -2121,7 +2121,7 @@
 \n
 \nOpaska uruchomi się ponownie po instalacji *.zip.
 \n
-\nKontynuujesz na własne ryzyko!</string>
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
     <string name="pref_gps_combination">Mieszanie GPS</string>
     <string name="pref_gps_satellite_search">Wyszukiwanie satelit</string>
     <string name="pref_crown_vibration">Wibracja koronki</string>
@@ -2129,7 +2129,7 @@
     <string name="pref_cover_to_mute">Przykryj, aby wyciszyć</string>
     <string name="pref_workout_detection_summary">Automatyczny kierunek ćwiczeń</string>
     <string name="pref_screen_notification_profile_todo_list">Lista Do zrobienia</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR 3 Pro.
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR 3 Pro.
 \n
 \nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
 \n
@@ -2147,7 +2147,7 @@
     <string name="stress_relaxed">Zreleksowany</string>
     <string name="kind_gpx_route">Ślad GPX</string>
     <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Ustawienia Mi Band 1/2</string>
-    <string name="croatian">chorwacki</string>
+    <string name="croatian">Chorwacki</string>
     <string name="stop">Zatrzymaj</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
     <string name="long_press">Długie naciśnięcie</string>
@@ -2227,7 +2227,7 @@
     <string name="pref_camera_remote_summary">Umożliwia zegarkowi wyzwalanie aparatu telefonu</string>
     <string name="bluetooth_calls_settings">Ustawienia połączeń Bluetooth</string>
     <string name="bluetooth_calls_pairing">Parowanie połączeń Bluetooth</string>
-    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim Amazfit Cheetah Pro
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit Cheetah Pro
 \n
 \nTwój zegarek zostanie ponownie uruchomiony po instalacji pliku .zip
 \n
@@ -2235,7 +2235,7 @@
     <string name="pref_title_notification_cache_while_disconnected">Pamięć podręczna poza zasięgiem</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">Do określenia lokalizacji używaj tylko dostawcy sieci. Zmniejsza to zużycie energii kosztem dokładności. Konieczne jest ponowne połączenie.</string>
     <string name="pref_title_banglejs_phone_gps_update_interval">Interwał aktualizacji danych GPS</string>
-    <string name="fw_upgrade_notice_zepp_os">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na swoim %s.
+    <string name="fw_upgrade_notice_zepp_os">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Twoim %s.
 \n
 \nTwój zegarek zostanie ponownie uruchomiony po instalacji pliki .zip.
 \n
@@ -2259,7 +2259,7 @@
     <string name="status_icon">Ikona stanu</string>
     <string name="title">Tytuł</string>
     <string name="busy_task_fetch_spo2_data">Pobieranie danych SpO2</string>
-    <string name="french_ca">French (Canada)</string>
+    <string name="french_ca">Francuski (Kanada)</string>
     <string name="double_tap">Podwójne dotknięcie</string>
     <string name="prefs_wena3_button_action_name_qrio_lock">Blokada Qrio</string>
     <string name="pref_app_logs_stop_summary">Zatrzymaj rejestrowanie dzienników aplikacji zegarka</string>
@@ -2274,7 +2274,7 @@
     <string name="loyalty_cards_install">Zainstaluj Catimę</string>
     <string name="prefs_home_icon_left_item">Do lewej</string>
     <string name="prefs_wena3_led_none">Bez LED</string>
-    <string name="spanish_es">Spanish (Spain)</string>
+    <string name="spanish_es">Hiszpański (Hiszpania)</string>
     <string name="activity_type_skiing">Narciarstwo</string>
     <string name="activity_error_share_failed">Udostępnianie pliku nie powiodło się.</string>
     <string name="pref_morning_updates_categories_title">Kategorie porannych aktualizacji</string>
@@ -2289,7 +2289,7 @@
     <string name="pref_message_privacy_mode_bodyonly">Ukryj tylko główną treść</string>
     <string name="prefs_wena3_hint_background_sync">Pozwól urządzeniu Wena okresowo prosić Gadgetbridge o pobranie danych o aktywności z urządzenia</string>
     <string name="pref_morning_updates_categories_summary">Lista kategorii wyświetlana każdego ranka</string>
-    <string name="english_in">English (India)</string>
+    <string name="english_in">Angielski (Indie)</string>
     <string name="prefs_wena3_home_icon_name_suica">Równowaga Suica</string>
     <string name="zepp_os_watchface_business_style">Styl biznesowy</string>
     <string name="prefs_wena3_vibration_strength_item_medium">Średnie</string>
@@ -2353,7 +2353,7 @@
     <string name="prefs_wena3_item_large_font">Większy rozmiar czcionki</string>
     <string name="gpx_route_upload_in_progress">Przesyłanie trasy gpx</string>
     <string name="fossil_hr_pairing_failed">Parowanie z zegarkiem nie powiodło się</string>
-    <string name="english_au">English (Australia)</string>
+    <string name="english_au">Angielski (Australia)</string>
     <string name="prefs_wena3_home_icon_name_energy">Energia ciała</string>
     <string name="permission_request">%1$s umożliwia wysyłanie wiadomości i innych danych z Androida na Twoje urządzenie. Aby to zrobić, wymagany jest dostęp do tych danych i bez niego może nie działać poprawnie.
 \n
@@ -2392,7 +2392,7 @@
     <string name="gpx_route_upload_failed">Przesyłanie trasy Gpx nie powiodło się</string>
     <string name="ftp_server_start_summary">Uruchom serwer FTP na zegarku</string>
     <string name="pref_activity_full_sync_trigger_warning">Spowoduje to pełną synchronizację wszystkich danych dotyczących aktywności z urządzenia. Ukończenie może zająć kilka minut.</string>
-    <string name="pai_day">Dzienny wzrost PAI</string>
+    <string name="pai_day">Dzienny wzrost</string>
     <string name="voice_service">Usługa głosowa</string>
     <string name="prefs_wena3_button_action_item">Akcja przycisku</string>
     <string name="prefs_wena3_auto_power_off_turn_on_time_item">Czas wznowienia działania</string>
@@ -2412,7 +2412,7 @@
     <string name="prefs_wena3_notification_default_call_led">Kolor diody LED połączenia przychodzącego</string>
     <string name="pref_activity_full_sync_trigger_title">Pełna synchronizacja</string>
     <string name="loyalty_cards_syncing">Synchronizowanie %d kart lojalnościowych z urządzeniem</string>
-    <string name="french_fr">French (France)</string>
+    <string name="french_fr">Francuski (Francja)</string>
     <string name="wifi_hotspot_stop_summary">Zatrzymaj hotspot Wi-Fi na zegarku</string>
     <string name="intent_api_allow_debug_commands_title">Zezwalaj na polecenia debugowania</string>
     <string name="fwapp_install_device_not_supported">Nie można zainstalować pliku, urządzenie nie jest obsługiwane.</string>
@@ -2426,14 +2426,14 @@
     <string name="temperature_scale_cf_summary">Wybierz, czy urządzenie ma używać skali Celsjusza czy Fahrenheita.</string>
     <string name="prefs_wena3_menu_icon_title">Ikony Menu</string>
     <string name="withings_bt_calibration_next">Dalej</string>
-    <string name="spanish_mx">Spanish (Mexico)</string>
+    <string name="spanish_mx">Hiszpański (Meksyk)</string>
     <string name="loyalty_cards_sync_starred">Synchronizuj tylko karty oznaczone gwiazdką</string>
     <string name="changelog_full_title">Lista zmian</string>
     <string name="pref_contacts_summary">Skonfiguruj kontakty na zegarku</string>
     <string name="loyalty_cards_install_catima_fail">Nie udało się otworzyć sklepu z aplikacjami, aby zainstalować Catimę</string>
     <string name="preview_image">Miniaturka</string>
     <string name="loyalty_cards_sync">Synchronizuj</string>
-    <string name="english_gb">English (United Kingdom)</string>
+    <string name="english_gb">Angielski (Wielka Brytania)</string>
     <string name="prefs_wena3_notification_default_call_vibration_repetition">Powtórzenie wibracji połączenia przychodzącego</string>
     <string name="intent_api_allow_debug_commands_summary">Zezwalaj na uruchamianie poleceń menu debugowania za pośrednictwem interfejsu Intent API</string>
     <string name="loyalty_cards_sync_options">Opcje synchronizacji</string>
@@ -2446,17 +2446,17 @@
     <string name="activity_type_handball">Piłka ręczna</string>
     <string name="temperature_scale_fahrenheit">Skala Fahrenheita</string>
     <string name="prefs_wena3_vibration_strength_item">Siła wibracji</string>
-    <string name="english_us">English (United States)</string>
+    <string name="english_us">Angielski (Stany Zjednoczone)</string>
     <string name="pref_theme_dynamic_colors_not_available_warning">Dynamiczne kolory nie są dostępne na Twoim urządzeniu, tylko Android 12+ obsługuje tę funkcję. Gadgetbridge użyje domyślnych kolorów Material 3.</string>
     <string name="withings_bt_calibration_previous">Wstecz</string>
     <string name="ftp_server_stop_summary">Zatrzymaj serwer FTP na zegarku</string>
     <string name="changelog_show_full">Więcej…</string>
-    <string name="spanish_us">Spanish (United States)</string>
+    <string name="spanish_us">Hiszpański (Stany Zjednoczone)</string>
     <string name="prefs_wena3_receive_calls_hint">Jeśli ta opcja jest wyłączona, nie będziesz otrzymywać powiadomień o połączeniach przychodzących na urządzeniu Wena</string>
     <string name="zepp_os_watchface_multiple_data">Wiele danych</string>
     <string name="prefs_wena3_button_action_item_long">Długie naciśnięcie</string>
     <string name="prefs_wena3_menu_icon_name_payment">Płatności</string>
-    <string name="latvian">Latvian</string>
+    <string name="latvian">Łotewski</string>
     <string name="prefs_wena3_status_page_title">Strona stanu zamówień</string>
     <string name="single_tap">Pojedyncze dotknięcie</string>
     <string name="prefs_wena3_title_alarm">Ustawienia alarmów</string>
@@ -2468,7 +2468,7 @@
     <string name="prefs_wena3_hint_rich_design">Dodaje zaokrąglone prostokąty wokół ikon ekranu głównego</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">Przebuduj tarczę zegarka, aby uzyskać niestandardowe menu</string>
     <string name="withings_steel_hr">Withings Steel HR</string>
-    <string name="pai_total">Całkowite PAI</string>
+    <string name="pai_total">Całkowite</string>
     <string name="zepp_os_watchface_minimalist">Minimalistyczny</string>
     <string name="loyalty_cards_catima_not_installed">Catima jest potrzebna do zarządzania kartami lojalnościowymi</string>
     <string name="prefs_wena3_notification_default_led">Kolor diody powiadomień</string>
@@ -2481,7 +2481,7 @@
     <string name="contact_phone_number">Numer telefonu</string>
     <string name="fossil_hr_pairing_successful">Parowanie z zegarkiem powiodło się</string>
     <string name="prefs_wena3_item_rich_design">Użyj bogatego projektu</string>
-    <string name="english_ca">English (Canada)</string>
+    <string name="english_ca">Angielski (Kanada)</string>
     <string name="prefs_wena3_day_start_hour_item">Dzień zaczyna się o</string>
     <string name="error_no_bluetooth_connect">Aby skanowanie działało prawidłowo, należy przyznać i włączyć dostęp do połączenia Bluetooth</string>
     <string name="prefs_shortcut_cards_summary">Karty skrótów widoczne po przesunięciu palcem w prawo na tarczy zegarka. To ustawienie nie ma wpływu na automatycznie generowane karty, gdy aplikacja jest uruchomiona.</string>
@@ -2539,4 +2539,250 @@
     <string name="menuitem_thermometer">Termometr</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="fossil_hr_nav_app_not_installed_notify_title">Aplikacja do nawigacji nie jest zainstalowana na zegarku</string>
+    <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
+    <string name="charts_legend_spo2_average">Średnia zawartość tlenu we krwi</string>
+    <string name="devicetype_amazfit_active">Amazfit Active</string>
+    <string name="pref_title_navigation_apps">Aplikacje nawigacyjne</string>
+    <string name="pref_title_navigation_prefs">Preferencje nawigacji</string>
+    <string name="pref_navigation_app_gmaps">Mapy Google</string>
+    <string name="pref_summary_prefix_notification_with_app">Tytuł powiadomienia poprzedź nazwą aplikacji źródłowej</string>
+    <string name="pref_summary_osmand_packagename">Służy do wyboru wersji OsmAnd, z którą chcesz się połączyć</string>
+    <string name="pref_title_prefix_notification_with_app">Nazwa aplikacji w powiadomieniu</string>
+    <string name="pref_title_osmand_packagename">Nazwa pakietu OsmAnd</string>
+    <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
+    <string name="pref_title_casio_alert_other">Alert dla pozostałych powiadomień</string>
+    <string name="pref_title_casio_alert_calendar">Alert powiadomień z kalendarza</string>
+    <string name="devicetype_mi_watch_color_sport">Mi Watch Color Sport</string>
+    <string name="pref_summary_casio_alert_call">Alert (wibracja/beep) dla połączeń przychodzących</string>
+    <string name="devicetype_miband8">Xiaomi Smart Band 8</string>
+    <string name="menuitem_running">Bieganie</string>
+    <string name="pref_sleep_mode_schedule_title">Harmonogram snu</string>
+    <string name="pref_title_casio_alert_call">Alert dla połączeń przychodzących</string>
+    <string name="bedtime">Pora snu</string>
+    <string name="pref_title_casio_alert_email">Alert powiadomień email</string>
+    <string name="pref_summary_casio_alert_email">Alert (wibracja/beep) dla powiadomień email</string>
+    <string name="menuitem_focus">Skupienie</string>
+    <string name="pref_summary_casio_alert_sms">Alert (wibracja/beep) dla powiadomień SMS (wiadomości tekstowych)</string>
+    <string name="pref_title_preview_message_in_title">Pokaż podgląd wiadomości w tytule</string>
+    <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
+    <string name="pref_summary_casio_alert_calendar">Alert (wibracja/beep) dla powiadomień z kalendarza</string>
+    <string name="serial_number">Numer seryjny</string>
+    <string name="danish">Duński</string>
+    <string name="wake_up_time">Pobudka</string>
+    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro</string>
+    <string name="menuitem_stats">Statystyki</string>
+    <string name="pref_summary_casio_alert_other">Alert (wibracja/beep) dla pozostałych powiadomień</string>
+    <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
+    <string name="pref_summary_preview_message_in_title">Pokaż podgląd wiadomości w tytule powiadomienia, jeżeli udzielone jest odpowiednie uprawnienie</string>
+    <string name="pref_sleep_mode_schedule_summary">Wyślij przypomnienie i przed snem wejdź w tryb uśpienia. O zaplanowanej godzinie pobudki zabrzmi alarm.</string>
+    <string name="pref_title_casio_alert_sms">Alert powiadomień SMS</string>
+    <string name="menuitem_alerts">Alerty</string>
+    <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active</string>
+    <string name="devicetype_pixoo">Pixoo</string>
+    <string name="pref_title_goal_secondary">Drugi punkt</string>
+    <string name="pref_summary_send_app_notifications">Wysyłaj powiadomienia do urządzenia</string>
+    <string name="wearmode_band">Opaska (na nadgarstek)</string>
+    <string name="pref_title_send_app_notifications">Wysyłaj powiadomienia</string>
+    <string name="activity_type_trail_run">Bieg szlakiem</string>
+    <string name="widget_layout">Układ widżetu</string>
+    <string name="widget_screen_no_free_slots_description">Urządzenie nie ma wolnych miejsc na ekrany widżetów (łączna liczba miejsc: %1$s)</string>
+    <string name="pref_device_action_dnd_on">Nie przeszkadzać – Włączone</string>
+    <string name="prefs_phone_silent_mode">Tryb cichy telefonu</string>
+    <string name="widget_unknown_workout">Nieznany trening - %s</string>
+    <string name="prefs_wearmode">Tryb noszenia</string>
+    <string name="wearmode_pebble">Pebble (klamra do butów)</string>
+    <string name="widget_move_up">Przesuń w górę</string>
+    <string name="widget_screen_delete_confirm_description">Czy na pewno chcesz usunąć \'%1$s\'?</string>
+    <string name="clap_hands_to_wakeup_device">Klaśnij dłońmi, aby wybudzić ekran</string>"
+    <string name="silent_mode_normal_vibrate">Normalny / Wibracje</string>
+    <string name="pref_vitality_score_7_day_summary">Otrzymuj powiadomienie, gdy Twój wynik witalności osiągnie 30, 60 lub 100 w ciągu ostatnich 7 dni</string>
+    <string name="activity_type_trekking">Trekking</string>
+    <string name="pref_vitality_score_title">Wynik witalności</string>
+    <string name="widget_layout_two">2 widżety</string>
+    <string name="widget_screen_delete_confirm_title">Usuń ekran widżetu</string>
+    <string name="pref_device_action_dnd_alarms">Nie przeszkadzać — tylko alarmy</string>
+    <string name="clap_hands_to_wakeup_device_summary">Ponownie klaśnięcie spowoduje wygaszenie ekranu</string>"
+    <string name="widget_layout_top_1_bot_2">1 góra, 2 dół</string>
+    <string name="devicetype_colacao23">ColaCao 2023</string>
+    <string name="widget_layout_top_2_bot_2">2 góra, 2 dół</string>
+    <string name="devicetype_mijia_lywsd03">Czujnik temperatury i wilgotności Mijia 2</string>
+    <string name="widget_screen_min_screens">Musi być co najmniej %1$s ekranów</string>
+    <string name="silent_mode_vibrate_silent">Wibracje / Cichy</string>
+    <string name="widget">Widżet</string>
+    <string name="pref_vitality_score_daily_summary">Otrzymuj powiadomienie, gdy osiągniesz maksymalną liczbę punktów witalności na dany dzień</string>
+    <string name="devicetype_redmi_smart_band_2">Redmi Smart Band 2</string>
+    <string name="widget_screen">Ekran widżetu</string>
+    <string name="widget_move_down">Przesuń w dół</string>
+    <string name="widget_layout_single">1 widżet</string>
+    <string name="pref_device_action_dnd_priority">Nie przeszkadzać – tylko priorytetowe</string>
+    <string name="not_set">Nie ustawiono</string>
+    <string name="widget_subtype">Podtyp widżetu</string>
+    <string name="standing_time">Czas stania</string>
+    <string name="active_time">Czas aktywności</string>
+    <string name="widget_screen_x">Ekran %s</string>
+    <string name="widget_missing_parts">Wybierz wszystkie widżety</string>
+    <string name="widget_layout_top_2_bot_1">2 góra, 1 dół</string>
+    <string name="devicetype_colacao21">ColaCao 2021</string>
+    <string name="wearmode_necklace">Necklace (pasek na szyję)</string>
+    <string name="pixoo_power_saving_summary">Ekran wyłączy się, gdy mikrofon wykryje przez chwilę ciszę</string>
+    <string name="pref_vitality_score_daily_title">Dzienny postęp</string>
+    <string name="pref_vitality_score_7_day_title">7-dniowy postęp</string>
+    <string name="pref_device_action_dnd_off">Nie przeszkadzać – wyłączone</string>
+    <string name="silent_mode_normal_silent">Normalny / Cichy</string>
+    <string name="activity_type_wrestling">Zapasy</string>
+    <string name="pref_title_fossil_hr_navigation_instructions">Instrukcje nawigacji</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">Konfiguracja zachowania aplikacji do nawigacji w zegarku</string>
+    <string name="pref_summary_fossil_hr_nav_foreground">Określ, czy aplikacja nawigacyjna powinna automatycznie wyświetlać się na pierwszym planie po otrzymaniu instrukcji nawigacyjnych</string>
+    <string name="pref_title_fossil_hr_nav_vibrate">Wibruj przy nowej instrukcji</string>
+    <string name="pref_title_fossil_hr_nav_foreground">Przejdź do pracy na pierwszym planie</string>
+    <string name="prefs_device_name">Nazwa urządzenia</string>
+    <string name="pref_summary_fossil_hr_nav_vibrate">Wibracje zegarka przy każdej nowej lub zmienionej instrukcji nawigacji (tylko gdy aplikacja jest na pierwszym planie)</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
+    <string name="notification_channel_connection_status_name">Stan połączenia</string>
+    <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
+    <string name="devicetype_nothingear2">Nothing Ear (2)</string>
+    <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
+    <string name="prefs_active_noise_cancelling_light">Lekka aktywna redukcja szumów</string>
+    <string name="prefs_active_noise_cancelling_transparency">Przezroczyste</string>
+    <string name="devicetype_huawei_talk_band_b6">Huawei Talk Band B6</string>
+    <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e</string>
+    <string name="devicetype_honor_band4">Honor Band 4</string>
+    <string name="devicetype_honor_band5">Honor Band 5</string>
+    <string name="devicetype_honor_band7">Honor Band 7</string>
+    <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
+    <string name="devicetype_huawei_band4pro">Huawei Band 4 (Pro)</string>
+    <string name="devicetype_huawei_watch_gt">Huawei Watch GT</string>
+    <string name="devicetype_huawei_band8">Huawei Band 8</string>
+    <string name="devicetype_huawei_band7">Huawei Band 7</string>
+    <string name="pref_summary_debug">Wyślij żądanie odpluskwienia do urządzenia Huawei</string>
+    <string name="pref_title_debug">Żądanie odpluskwienia</string>
+    <string name="huawei_trusleep_title">HUAWEI TruSleep ™</string>
+    <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)</string>
+    <string name="devicetype_huawei_band6">Huawei Band 6</string>
+    <string name="devicetype_honor_band3">Honor Band 3</string>
+    <string name="devicetype_honor_band6">Honor Band 6</string>
+    <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
+    <string name="pref_spo_automatic_enable">Włącz automatyczne mierzenie SpO2</string>
+    <string name="manual">Ręcznie</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Połącz się ponownie tylko z połączonymi urządzeniami</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Połącz się ponownie tylko z połączonymi urządzeniami, zamiast ponownego łączenia z wszystkimi urządzeniami</string>
+    <string name="huawei_reparse_workout_data_description">Ta opcja będzie działać dopiero w nowszej wersji aplikacji</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Poziom baterii urządzenia jest zbyt niski</string>
+    <string name="dnd_all_day">Cały dzień</string>
+    <string name="pref_force_options_summary">Niektóre urządzenia fałszywie twierdzą, że nie mają wsparcia dla pewnych funkcji. Tej opcji można użyć by włączyć je pomimo tego.
+\nKONTYNUUJ NA WŁASNE RYZYKO!
+\nPrzeczytaj wiki</string>
+    <string name="prefs_disconnect_notification_summary">Powiadomienie na urządzeniu, po rozłączeniu Bluetooth.</string>
+    <string name="pref_force_options">Wymuś opcje</string>
+    <string name="pref_do_not_disturb_not_wear">Nie przeszkadzać, gdy nie noszone</string>
+    <string name="prefs_workmode">Tryb pracy</string>
+    <string name="huawei_alarm_smart_description">Nie odznaczaj inteligentnego wybudzania.</string>
+    <string name="huawei_alarm_event_description">Nie zaznaczaj inteligentnego wybudzania.</string>
+    <string name="huawei_trusleep_summary">Monitoruj jakość snu i sposób oddychania w czasie rzeczywistym.
+\nPrzeanalizuj swoje wzorce snu i dokładnie zdiagnozuj 6 rodzajów problemów ze snem.</string>
+    <string name="pref_force_smart_alarm">Wymuś inteligentny alarm</string>
+    <string name="huawei_ignore_wakeup_status_start">Ignoruj stan rozpoczęcia wybudzania</string>
+    <string name="huawei_ignore_wakeup_status_start_description">Może pomóc w prawidłowym wykrywaniu snu. Widoczne natychmiast w widoku codziennych aktywności.</string>
+    <string name="huawei_ignore_wakeup_status_end">Ignoruj stan zakończenia wybudzania</string>
+    <string name="huawei_ignore_wakeup_status_end_description">Może pomóc w prawidłowym wykrywaniu snu. Widoczne natychmiast w widoku codziennych aktywności.</string>
+    <string name="huawei_reparse_workout_data">Przeanalizuj ponownie dane treningu</string>
+    <string name="pref_force_smart_alarm_summary">Wymuś obsługę inteligentnych alarmów.
+\nUŻYWAJ NA WŁASNE RYZYKO</string>
+    <string name="pref_force_wear_location">Wymuś lokalizację zużycia</string>
+    <string name="pref_force_wear_location_summary">Wymuszone wsparcie lokalizacji zużycia.
+\nUŻYWAJ NA WŁASNE RYZYKO</string>
+    <string name="menuitem_buzzer_intensity">Intensywność brzęczyka</string>
+    <string name="do_not_disturb_lift_wrist_summary">Jedynie gdy jest włączona opcja: podnieś, aby wybudzić ekran</string>
+    <string name="pref_enable_call_accept_summary">Włącz odbieranie połączeń z poziomu urządzenia</string>
+    <string name="pref_enable_call_accept">Włącz odbieranie połączeń</string>
+    <string name="pref_enable_call_reject">Włącz odrzucanie połączeń</string>
+    <string name="pref_enable_call_reject_summary">Włącz odrzucanie połączeń z poziomu urządzenia</string>
+    <string name="pref_heartrate_automatic_enable">Włącz automatyczny pomiar tętna</string>
+    <string name="pref_disable_find_phone_with_dnd">Wylącz funkcję Znajdź mój telefon, gdy tryb Nie przeszkadzać jest włączony</string>
+    <string name="pref_force_dnd_support_summary">Wymuś tryb Nie Przeszkadzać.
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_force_dnd_support">Wymuś wspacie dla trybu Nie przeszkadzać</string>
+    <string name="huawei_trusleep_summary_light">Poprawione monitorowanie snu</string>
+    <string name="prefs_password_4_digits_0_to_9_summary">Hasło musi składać się z 4 znaków i zawierać jedynie cyfry</string>
+    <string name="flatDistance">Płaski dystans</string>
+    <string name="sony_protocol_v1">Wersja 1</string>
+    <string name="sony_protocol_v2">Wersja 2</string>
+    <string name="sony_protocol_v3">Wersja 3</string>
+    <string name="devicetype_xiaomi_watch_s1">Xiaomi Watch S1</string>
+    <string name="protocol_version">Wersja protokołu</string>
+    <string name="devicetype_xiaomi_watch_s3">Xiaomi Watch S3</string>
+    <string name="devicetype_xiaomi_watch_s1_pro">Xiaomi Watch S1 Pro</string>
+    <string name="uploadwatchfaceoperation_failed">Instalacja tarczy zegarka nie powiodła się</string>
+    <string name="uploadwatchfaceoperation_complete">Instalacja tarczy zegarka zakończona</string>
+    <string name="uploadwatchfaceoperation_in_progress">Wysyłanie tarczy zegarka</string>
+    <string name="uploading_watchface">Wysyłanie tarczy zegarka…</string>
+    <string name="pref_force_connection_type_title">Wymuś typ połączenia</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro</string>
+    <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
+    <string name="activity_info">Info o aktywności</string>
+    <string name="pref_force_connection_type_description">Możesz spróbować wymusić typ połączenia na wypadek, gdyby urządzenie nie odpowiedziało na Gadgetbridge</string>
+    <string name="pref_force_connection_type_auto">Automatycznie</string>
+    <string name="pref_force_connection_type_ble">Bluetooth LE</string>
+    <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
+    <string name="heartrate_bpm_155">155 uderzeń/min</string>
+    <string name="heartrate_bpm_165">165 uderzeń/min</string>
+    <string name="heartrate_bpm_175">175 uderzeń/min</string>
+    <string name="heartrate_bpm_185">185 uderzeń/min</string>
+    <string name="heartrate_bpm_195">195 uderzeń/min</string>
+    <string name="heartrate_bpm_205">205 uderzeń/min</string>
+    <string name="activity_type_cross_trainer">Orbitrek</string>
+    <string name="activity_type_rower">Ergometr wioślarski</string>
+    <string name="activity_type_crossfit">Crossfit</string>
+    <string name="activity_type_physical_training">Trening fizyczny</string>
+    <string name="activity_type_karate">Karate</string>
+    <string name="activity_type_fitness_gaming">Gra fitness</string>
+    <string name="activity_type_aerobic_exercise">Aerobik</string>
+    <string name="activity_type_push_ups">Pompki</string>
+    <string name="activity_type_pull_ups">Podciąganie się</string>
+    <string name="activity_type_plank">Plank</string>
+    <string name="activity_type_trampoline">Trampolina</string>
+    <string name="activity_type_jazz_dance">Taniec jazzowy</string>
+    <string name="activity_type_latin_dance">Taniec latynoski</string>
+    <string name="activity_type_ballet">Balet</string>
+    <string name="activity_type_other_dance">Inny taniec</string>
+    <string name="activity_type_roller_skating">Jazda na rolkach</string>
+    <string name="activity_type_martial_arts">Sztuki walki</string>
+    <string name="activity_type_tai_chi">Tai chi</string>
+    <string name="activity_type_hula_hooping">Hula hop</string>
+    <string name="activity_type_disc_sports">Sporty z dyskiem</string>
+    <string name="activity_type_darts">Rzutki</string>
+    <string name="activity_type_archery">Łucznictwo</string>
+    <string name="activity_type_horse_riding">Jazda konno</string>
+    <string name="activity_type_kite_flying">Puszczanie latawca</string>
+    <string name="activity_type_stairs">Schody</string>
+    <string name="activity_type_fishing">Wędkarstwo</string>
+    <string name="activity_type_horizontal_bar">Drążek</string>
+    <string name="activity_type_parallel_bar">Poręcze symetryczne</string>
+    <string name="activity_type_flexibility">Rozciąganie</string>
+    <string name="activity_type_kabaddi">Kabaddi</string>
+    <string name="activity_type_karting">Karting</string>
+    <string name="activity_type_billiards">Bilard</string>
+    <string name="activity_type_australian_football">Futbol australijski</string>
+    <string name="activity_type_pickleball">Pickleball</string>
+    <string name="activity_type_sailing">Żeglarstwo</string>
+    <string name="activity_type_ice_hockey">Hokej na lodzie</string>
+    <string name="activity_type_snow_sports">Sporty zimowe</string>
+    <string name="activity_type_skateboarding">Jazda na deskorolce</string>
+    <string name="activity_type_rock_climbing">Wspinaczka skałkowa</string>
+    <string name="activity_type_dodgeball">Dwa ognie</string>
+    <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
+    <string name="devicetype_honor_magicwatch2">Honor MagicWatch 2</string>
+    <string name="devicetype_nothing_cmf_watch_pro">CMF Watch Pro</string>
+    <string name="activity_type_outdoor_walking">Spacer na zewnątrz</string>
+    <string name="hydration_dnd_summary">Wyłącz przypomnienia o nawadnianiu dla zadanego przedziału czasu</string>
+    <string name="prefs_heartrate_alert_active_high_threshold">Próg alarmowy tętna podczas intensywnej aktywności</string>
+    <string name="activity_type_indoor_running">Bieg wewnątrz</string>
+    <string name="activity_type_mountain_hike">Wędrówka górska</string>
+    <string name="activity_type_fitness_exercises">Trening fitness</string>
+    <string name="activity_type_taekwondo">Taekwondo</string>
+    <string name="activity_type_fencing">Szermierka</string>
+    <string name="activity_type_kendo">Kendo</string>
+    <string name="activity_type_hunting">Polowanie</string>
+    <string name="activity_type_sit_ups">Przysiady</string>
+    <string name="activity_type_softball">Softball</string>
 </resources>

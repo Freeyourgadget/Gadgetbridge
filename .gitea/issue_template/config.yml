@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://matrix.to/#/#gadgetbridge:matrix.org
+    about: If you just have a question, please ask in the user chatroom in Matrix.
+  - name: Website
+    url: https://gadgetbridge.org
+    about: Visit Gadgetbridge website for FAQ, getting started and common troubleshooting.
+  - name: See supported gadgets
+    url: https://gadgetbridge.org/gadgets/
+    about: List of all supported gadget vendors and models in Gadgetbridge.

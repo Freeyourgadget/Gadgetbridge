@@ -1,143 +1,169 @@
-/*  Copyright (C) 2022 Damien Gaignon
-*
-*    This file is part of Gadgetbridge.
-*
-*    Gadgetbridge is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU Affero General Public License as published
-*    by the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    Gadgetbridge is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU Affero General Public License for more details.
-*
-*    You should have received a copy of the GNU Affero General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/*  Copyright (C) 2022-2024 Damien Gaignon, José Rebelo
+
+    This file is part of Gadgetbridge.
+
+    Gadgetbridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Gadgetbridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btbr;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.os.ParcelUuid;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
+import android.os.Process;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public final class BtBRQueue {
     private static final Logger LOG = LoggerFactory.getLogger(BtBRQueue.class);
+    public static final int HANDLER_SUBJECT_CONNECT = 0;
+    public static final int HANDLER_SUBJECT_PERFORM_TRANSACTION = 1;
 
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
-    private GBDevice mGbDevice;
-    private SocketCallback mCallback;
-    private UUID mService;
+    private final GBDevice mGbDevice;
+    private final SocketCallback mCallback;
+    private final UUID mService;
 
-    private final BlockingQueue<AbstractTransaction> mTransactions = new LinkedBlockingQueue<>();
     private volatile boolean mDisposed;
-    private volatile boolean mCrashed;
 
-    private Context mContext;
-    private CountDownLatch mConnectionLatch;
-    private CountDownLatch mAvailableData;
-    private int mBufferSize;
+    private final Context mContext;
+    private final int mBufferSize;
 
-    private Thread writeThread = new Thread("Gadgetbridge IO writeThread") {
+    private Handler mWriteHandler;
+
+    private final HandlerThread mWriteHandlerThread = new HandlerThread("Write Thread", Process.THREAD_PRIORITY_BACKGROUND) {
         @Override
-        public void run() {
-            LOG.debug("Socket Write Thread started.");
-            
-            while (!mDisposed && !mCrashed) {
-                try {
-                    AbstractTransaction qTransaction = mTransactions.take();
-                    if (!isConnected()) {
-                        LOG.debug("Not connected, waiting for connection...");
-                        setDeviceConnectionState(GBDevice.State.NOT_CONNECTED);
-                        // wait until the connection succeeds before running the actions
-                        // Note that no automatic connection is performed. This has to be triggered
-                        // on the outside typically by the DeviceSupport. The reason is that
-                        // devices have different kinds of initializations and this class has no
-                        // idea about them.
-                        mConnectionLatch = new CountDownLatch(1);
-                        mConnectionLatch.await();
-                        mConnectionLatch = null;
-                    }
-                    LOG.info("Ready for a new message exchange.");
-                    Transaction transaction = (Transaction)qTransaction;
-                    for (BtBRAction action : transaction.getActions()) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("About to run action: " + action);
+        protected void onLooperPrepared() {
+            LOG.debug("Write handler thread's looper prepared, creating write handler");
+            mWriteHandler = new Handler(mWriteHandlerThread.getLooper()) {
+                @SuppressLint("MissingPermission")
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    switch (msg.what) {
+                        case HANDLER_SUBJECT_CONNECT: {
+                            try {
+                                mBtSocket.connect();
+
+                                LOG.info("Connected to RFCOMM socket for {}", mGbDevice.getName());
+                                setDeviceConnectionState(GBDevice.State.CONNECTED);
+
+                                // update thread names to show device names in logs
+                                readThread.setName(String.format(Locale.ENGLISH,
+                                        "Read Thread for %s", mGbDevice.getName()));
+                                mWriteHandlerThread.setName(String.format(Locale.ENGLISH,
+                                        "Write Thread for %s", mGbDevice.getName()));
+
+                                // now that connect has been created, start the threads
+                                readThread.start();
+                                onConnectionEstablished();
+                            } catch (IOException e) {
+                                LOG.error("IO exception while establishing socket connection: ", e);
+                                setDeviceConnectionState(GBDevice.State.NOT_CONNECTED);
+                            }
+
+                            return;
                         }
-                        if (action.run(mBtSocket)) {
-                            LOG.debug("Action ok: " + action);
-                        } else {
-                            LOG.error("Action returned false: " + action);
-                            break;
+                        case HANDLER_SUBJECT_PERFORM_TRANSACTION: {
+                            try {
+                                if (!isConnected()) {
+                                    LOG.debug("Not connected, updating device state to WAITING_FOR_RECONNECT");
+                                    setDeviceConnectionState(GBDevice.State.WAITING_FOR_RECONNECT);
+                                    return;
+                                }
+
+                                if (!(msg.obj instanceof Transaction)) {
+                                    LOG.error("msg.obj is not an instance of Transaction");
+                                    return;
+                                }
+
+                                Transaction transaction = (Transaction) msg.obj;
+
+                                for (BtBRAction action : transaction.getActions()) {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("About to run action: {}", action);
+                                    }
+
+                                    if (action.run(mBtSocket)) {
+                                        LOG.debug("Action ok: {}", action);
+                                    } else {
+                                        LOG.error("Action returned false, cancelling further actions in transaction: {}", action);
+                                        break;
+                                    }
+                                }
+                            } catch (Throwable ex) {
+                                LOG.error("IO Write Thread died: " + ex.getMessage(), ex);
+                            }
+
+                            return;
                         }
                     }
-                }  catch (InterruptedException ignored) {
-                    mConnectionLatch = null;
-                    LOG.debug("Thread interrupted");
-                } catch (Throwable ex) {
-                    LOG.error("IO Write Thread died: " + ex.getMessage(), ex);
-                    mCrashed = true;
-                    mConnectionLatch = null;
+
+                    LOG.warn("Unhandled write handler message {}", msg.what);
                 }
-            }
+            };
         }
     };
 
-    private Thread readThread = new Thread("Gadgetbridge IO readThread") {
+    private Thread readThread = new Thread("Read Thread") {
         @Override
         public void run() {
-            LOG.debug("Queue Read Thread started.");
-            while (!mDisposed && !mCrashed) {
+            byte[] buffer = new byte[mBufferSize];
+            int nRead;
+
+            LOG.debug("Read thread started, entering loop");
+
+            while (!mDisposed) {
                 try {
-                    if (!isConnected()) {
-                        LOG.debug("not connected, waiting for connection...");
-                        // wait until the connection succeeds before running the actions
-                        // Note that no automatic connection is performed. This has to be triggered
-                        // on the outside typically by the DeviceSupport. The reason is that
-                        // devices have different kinds of initializations and this class has no
-                        // idea about them.
-                        mConnectionLatch = new CountDownLatch(1);
-                        mConnectionLatch.await();
-                        mConnectionLatch = null;
+                    nRead = mBtSocket.getInputStream().read(buffer);
+
+                    // safety measure
+                    if (nRead == -1) {
+                        throw new IOException("End of stream");
                     }
-                    if (mAvailableData != null) {
-                        if (mBtSocket.getInputStream().available() == 0) {
-                            mAvailableData.countDown();
-                        }
-                    }
-                    byte[] data = new byte[mBufferSize];
-                    int len = mBtSocket.getInputStream().read(data);
-                    LOG.debug("Received data: " + StringUtils.bytesToHex(data));
-                    mCallback.onSocketRead(Arrays.copyOf(data, len));
-                }  catch (InterruptedException ignored) {
-                    mConnectionLatch = null;
-                    LOG.debug("Thread interrupted");
+                } catch (IOException ex) {
+                    LOG.error("IO exception while reading message from socket, breaking out of read thread: ", ex);
+                    break;
+                }
+
+                LOG.debug("Received {} bytes: {}", nRead, GB.hexdump(buffer, 0, nRead));
+
+                try {
+                    mCallback.onSocketRead(Arrays.copyOf(buffer, nRead));
                 } catch (Throwable ex) {
-                    LOG.error("IO Read Thread died: " + ex.getMessage(), ex);
-                    mCrashed = true;
-                    mConnectionLatch = null;
+                    LOG.error("Failed to process received bytes in onSocketRead callback: ", ex);
                 }
             }
+
+            LOG.debug("Exited read thread loop, calling disconnect()");
+            disconnect();
         }
     };
 
@@ -149,8 +175,7 @@ public final class BtBRQueue {
         mService = supportedService;
         mBufferSize = bufferSize;
 
-        writeThread.start();
-        readThread.start();
+        mWriteHandlerThread.start();
     }
 
     /**
@@ -160,39 +185,34 @@ public final class BtBRQueue {
      *
      * @return <code>true</code> whether the connection attempt was successfully triggered and <code>false</code> if that failed or if there is already a connection
      */
-
-    protected boolean connect() {
+    @SuppressLint("MissingPermission")
+    public boolean connect() {
         if (isConnected()) {
             LOG.warn("Ignoring connect() because already connected.");
             return false;
         }
 
-        LOG.info("Attemping to connect to " + mGbDevice.getName());
+        LOG.info("Attempting to connect to {} ({})", mGbDevice.getName(), mGbDevice.getAddress());
+
+        // stop discovery before connection is made
+        mBtAdapter.cancelDiscovery();
+
+        // revert to original state upon exception
         GBDevice.State originalState = mGbDevice.getState();
         setDeviceConnectionState(GBDevice.State.CONNECTING);
 
         try {
             BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(mGbDevice.getAddress());
-            // UUID should be in a BluetoothSocket class and not in BluetoothSocketCharacteristic
             mBtSocket = btDevice.createRfcommSocketToServiceRecord(mService);
-            mBtSocket.connect();
-            if (mBtSocket.isConnected()) {
-                setDeviceConnectionState(GBDevice.State.CONNECTED);
-            } else {
-                LOG.debug("Connection not established");
-            }
-            if (mConnectionLatch != null) {
-                mConnectionLatch.countDown();
-            }
         } catch (IOException e) {
-            LOG.error("Server socket cannot be started.", e);
+            LOG.error("Unable to connect to RFCOMM endpoint: ", e);
             setDeviceConnectionState(originalState);
             mBtSocket = null;
             return false;
         }
 
-        onConnectionEstablished();
-
+        LOG.debug("Socket created, connecting in handler");
+        mWriteHandler.sendMessageAtFrontOfQueue(mWriteHandler.obtainMessage(HANDLER_SUBJECT_CONNECT));
         return true;
     }
 
@@ -201,37 +221,44 @@ public final class BtBRQueue {
     }
 
     public void disconnect() {
-        if (mBtSocket != null) {
+        if (mWriteHandlerThread.isAlive()) {
+            mWriteHandlerThread.quit();
+        }
+
+        if (mBtSocket != null && mBtSocket.isConnected()) {
             try {
-                mAvailableData = new CountDownLatch(1);
-                mAvailableData.await();
-                mAvailableData = null;
                 mBtSocket.close();
             } catch (IOException e) {
-                LOG.error(e.getMessage());
-            } catch (InterruptedException e) {
-                LOG.error(e.getMessage());
+                LOG.error("IO exception while closing socket in disconnect(): ", e);
             }
         }
     }
 
-    protected boolean isConnected() {
-        return mGbDevice.isConnected();
+    /**
+     * Check whether a connection to the device exists and whether a socket connection has been
+     * initialized and connected
+     * @return true if the Bluetooth device is connected and the socket is ready, false otherwise
+     */
+    private boolean isConnected() {
+        return mGbDevice.isConnected() &&
+                mBtSocket != null &&
+                mBtSocket.isConnected();
     }
 
     /**
-     * Adds a transaction to the end of the queue.
+     * Add a finalized {@link Transaction} to the write handler's queue
      *
-     * @param transaction
+     * @param transaction The transaction to be run in the handler thread's looper
      */
     public void add(Transaction transaction) {
-        LOG.debug("about to add: " + transaction);
+        LOG.debug("Adding transaction to looper message queue: {}", transaction);
+
         if (!transaction.isEmpty()) {
-            mTransactions.add(transaction);
+            mWriteHandler.obtainMessage(HANDLER_SUBJECT_PERFORM_TRANSACTION, transaction).sendToTarget();
         }
     }
 
-    protected void setDeviceConnectionState(GBDevice.State newState) {
+    private void setDeviceConnectionState(GBDevice.State newState) {
         LOG.debug("New device connection state: " + newState);
         mGbDevice.setState(newState);
         mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
@@ -241,12 +268,13 @@ public final class BtBRQueue {
         if (mDisposed) {
             return;
         }
+
         mDisposed = true;
         disconnect();
-        writeThread.interrupt();
-        writeThread = null;
-        readThread.interrupt();
-        readThread = null;
-    }
 
+        if (readThread != null && readThread.isAlive()) {
+            readThread.interrupt();
+            readThread = null;
+        }
+    }
 }

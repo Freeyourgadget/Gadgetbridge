@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno,
-    Daniele Gobbetti, Felix Konstantin Maurer, Pauli Salmenrinne, Taavi Eomäe,
-    Uwe Hermann, Yar
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno,
+    Daniele Gobbetti, Davis Mosenkovs, Dmitriy Bogdanov, Felix Konstantin Maurer,
+    Ganblejs, José Rebelo, Pauli Salmenrinne, Petr Vaněk, Roberto P. Rubio,
+    Taavi Eomäe, Uwe Hermann, Yar
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.app.Activity;
@@ -49,6 +50,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -61,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOrLater;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
@@ -68,6 +71,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_REC
 public class GB {
 
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
+    public static final String NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS = "gadgetbridge connection status";
     public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
     public static final String NOTIFICATION_CHANNEL_ID_LOW_BATTERY = "low_battery";
@@ -116,6 +120,12 @@ public class GB {
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channelGeneral);
 
+            NotificationChannel channelConnwectionStatus = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS,
+                    context.getString(R.string.notification_channel_connection_status_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(channelConnwectionStatus);
+
             NotificationChannel channelHighPriority = new NotificationChannel(
                     NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID,
                     context.getString(R.string.notification_channel_high_priority_name),
@@ -155,7 +165,7 @@ public class GB {
     }
 
     public static Notification createNotification(List<GBDevice> devices, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS);
         if(devices.size() == 0){
             builder.setContentTitle(context.getString(R.string.info_no_devices_connected))
                     .setSmallIcon(R.drawable.ic_notification_disconnected)
@@ -259,7 +269,7 @@ public class GB {
     }
 
     public static Notification createNotification(String text, Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS);
         builder.setTicker(text)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_notification_disconnected)
@@ -271,7 +281,9 @@ public class GB {
             builder.setColor(context.getResources().getColor(R.color.accent));
         }
 
-        if (GBApplication.getPrefs().getString("last_device_address", null) != null) {
+        // A small bug: When "Reconnect only to connected devices" is disabled, the intent will be added even when there are no devices in GB
+        // Not sure whether it is worth the complexity to fix this
+        if (!GBApplication.getPrefs().getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true) || !GBApplication.getPrefs().getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet()).isEmpty()) {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
             PendingIntent reconnectPendingIntent = PendingIntentUtils.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);

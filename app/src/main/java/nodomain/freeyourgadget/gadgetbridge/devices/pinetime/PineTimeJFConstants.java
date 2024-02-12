@@ -1,4 +1,5 @@
-/*  Copyright (C) 2020-2022 Taavi Eomäe, Stephan Lachnit, ITCactus
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, FintasticMan, ITCactus,
+    Patric Gruber, Stephan Lachnit, Taavi Eomäe, uli
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -47,6 +48,9 @@ public class PineTimeJFConstants {
     public static final UUID UUID_SERVICE_WEATHER = UUID.fromString("00040000-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTIC_WEATHER_DATA = UUID.fromString("00040001-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTIC_WEATHER_CONTROL = UUID.fromString("00040002-78fc-48fe-8e23-433b3a1942d0");
+
+    public static final UUID UUID_SERVICE_SIMPLE_WEATHER = UUID.fromString("00050000-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTIC_SIMPLE_WEATHER_DATA = UUID.fromString("00050001-78fc-48fe-8e23-433b3a1942d0");
 
     // since 1.7. https://github.com/InfiniTimeOrg/InfiniTime/blob/develop/doc/MotionService.md
     public static final UUID UUID_SERVICE_MOTION = UUID.fromString("00030000-78fc-48fe-8e23-433b3a1942d0");

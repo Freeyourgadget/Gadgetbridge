@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2024 Andreas Shimokawa, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 
@@ -30,6 +30,7 @@ public class HuamiDeviceEvent {
     public static final byte BUTTON_PRESSED_LONG = 0x0b;
     public static final byte TICK_30MIN = 0x0e; // unsure
     public static final byte FIND_PHONE_STOP = 0x0f;
+    public static final byte SILENT_MODE = 0x10;
     public static final byte MTU_REQUEST = 0x16;
     public static final byte WORKOUT_STARTING = 0x14;
     public static final byte ALARM_CHANGED = 0x1a;

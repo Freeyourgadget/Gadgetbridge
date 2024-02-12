@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020-2021 Andreas Shimokawa
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.net.Uri;
@@ -55,6 +55,7 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
     public static final byte COMMAND_FINALIZE_UPDATE = (byte) 0xd6;
 
     public static final byte REPLY_ERROR_FREE_SPACE = (byte) 0x47;
+    public static final byte REPLY_ERROR_LOW_BATTERY = (byte) 0x22;
 
     protected int mChunkLength = -1;
 
@@ -137,9 +138,13 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
             getSupport().logMessageContent(value);
             int errorMessage = R.string.updatefirmwareoperation_metadata_updateproblem;
             // Display a more specific error message for known errors
+
             if (value[0] == HuamiService.RESPONSE && value[1] == COMMAND_START_TRANSFER && value[2] == REPLY_ERROR_FREE_SPACE) {
                 // Not enough free space on the device
                 errorMessage = R.string.updatefirmwareoperation_updateproblem_free_space;
+            } else if (value[0] == HuamiService.RESPONSE && value[1] == COMMAND_SEND_FIRMWARE_INFO && value[2] == REPLY_ERROR_LOW_BATTERY) {
+                // Battery is too low
+                errorMessage = R.string.updatefirmwareoperation_updateproblem_low_battery;
             }
             displayMessage(getContext(), getContext().getString(errorMessage), Toast.LENGTH_LONG, GB.ERROR);
             done();

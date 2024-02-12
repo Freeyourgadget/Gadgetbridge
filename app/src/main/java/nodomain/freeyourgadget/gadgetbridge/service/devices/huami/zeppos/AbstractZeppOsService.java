@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2022-2024 Daniel Dakhno, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,30 +13,48 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractZeppOsService {
-    private final Huami2021Support mSupport;
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAlexaService.class);
 
-    public AbstractZeppOsService(final Huami2021Support support) {
+    private final ZeppOsSupport mSupport;
+    private boolean encrypted;
+
+    public AbstractZeppOsService(final ZeppOsSupport support, final boolean encryptedDefault) {
         this.mSupport = support;
+        this.encrypted = encryptedDefault;
     }
 
     public abstract short getEndpoint();
 
-    public abstract boolean isEncrypted();
+    public final boolean isEncrypted() {
+        return this.encrypted;
+    }
+
+    public final void setEncrypted(final boolean encrypted) {
+        if (encrypted != this.encrypted) {
+            LOG.warn("Replacing encrypted flag for {}, {} -> {}", this.getClass().getSimpleName(), this.encrypted, encrypted);
+        }
+
+        this.encrypted = encrypted;
+    }
 
     public abstract void handlePayload(final byte[] payload);
 
@@ -52,15 +70,17 @@ public abstract class AbstractZeppOsService {
 
     public void initialize(final TransactionBuilder builder) {
         // Do nothing by default
+        // TODO implement a "quick initialize" that runs for the same firmware + Gb versions, since
+        // we will already know the capabilities
     }
 
-    protected Huami2021Support getSupport() {
+    protected ZeppOsSupport getSupport() {
         return mSupport;
     }
 
-    protected Huami2021Coordinator getCoordinator() {
+    protected ZeppOsCoordinator getCoordinator() {
         final DeviceCoordinator coordinator = getSupport().getDevice().getDeviceCoordinator();
-        return (Huami2021Coordinator) coordinator;
+        return (ZeppOsCoordinator) coordinator;
     }
 
     protected Prefs getDevicePrefs() {
@@ -91,6 +111,7 @@ public abstract class AbstractZeppOsService {
         return getSupport().getContext();
     }
 
+    @Nullable
     protected static Boolean booleanFromByte(final byte b) {
         switch (b) {
             case 0x00:

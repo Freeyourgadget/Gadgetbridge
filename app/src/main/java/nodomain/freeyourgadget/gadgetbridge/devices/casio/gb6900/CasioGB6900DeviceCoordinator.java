@@ -1,7 +1,5 @@
-/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo, Johannes Krude
-
-    based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
+/*  Copyright (C) 2020-2024 Andreas Böhler, Damien Gaignon, Daniel Dakhno,
+    Johannes Krude, José Rebelo, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +14,8 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
+/*  Based on code from BlueWatcher, https://github.com/masterjc/bluewatcher */
 package nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900;
 
 import android.app.Activity;
@@ -54,7 +53,7 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
 
     @Override
     public int getBondingStyle(){
-        return BONDING_STYLE_BOND;
+        return BONDING_STYLE_LAZY;
     }
 
     @Override

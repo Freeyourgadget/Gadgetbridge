@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022 José Rebelo
+/*  Copyright (C) 2022-2024 Arjan Schrijver, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,10 +13,11 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.capabilities;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD;
@@ -82,20 +83,23 @@ public class HeartRateCapability {
             });
         }
 
+        handler.addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD);
         handler.addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
         handler.addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
 
         final ListPreference heartrateMeasurementInterval = handler.findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
+        final ListPreference heartrateAlertActiveHigh = handler.findPreference(PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD);
         final ListPreference heartrateAlertHigh = handler.findPreference(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
         final ListPreference heartrateAlertLow = handler.findPreference(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
         // Newer devices that have low alert threshold can only use it if measurement interval is smart (-1) or 1 minute
-        final boolean hrAlertsNeedSmartOrOne = heartrateAlertHigh != null && heartrateAlertLow != null && heartrateMeasurementInterval != null;
+        final boolean hrAlertsNeedSmartOrOne = heartrateAlertActiveHigh != null && heartrateAlertHigh != null && heartrateAlertLow != null && heartrateMeasurementInterval != null;
         if (hrAlertsNeedSmartOrOne) {
             final boolean hrMonitoringIsSmartOrOne = heartrateMeasurementInterval.getValue().equals("60") ||
                     heartrateMeasurementInterval.getValue().equals("-1");
 
             heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
             heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
+            heartrateAlertActiveHigh.setEnabled(hrMonitoringIsSmartOrOne);
         }
 
         if (heartrateMeasurementInterval != null) {
@@ -129,6 +133,7 @@ public class HeartRateCapability {
                         // Same as above, check if smart or 1 minute
                         final boolean hrMonitoringIsSmartOrOne = newVal.equals("60") || newVal.equals("-1");
 
+                        heartrateAlertActiveHigh.setEnabled(hrMonitoringIsSmartOrOne);
                         heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
                         heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
                     }

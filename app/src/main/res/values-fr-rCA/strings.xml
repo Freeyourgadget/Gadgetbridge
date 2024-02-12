@@ -898,4 +898,6 @@
 \nÀ VOS RISQUES ET PÉRILS!</string>
     <string name="controlcenter_set_alias">Définir un alias</string>
     <string name="find_lost_device_message">Rechercher %1$s\?</string>
+    <string name="pref_title_casio_alert_email">Alerte pour les notifications de courriel</string>
+    <string name="pref_summary_casio_alert_email">Alerte (vibre/bipe) pour les notifications de courriel</string>
 </resources>

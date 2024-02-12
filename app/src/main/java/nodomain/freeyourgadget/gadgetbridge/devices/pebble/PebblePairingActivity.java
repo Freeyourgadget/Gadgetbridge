@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2016-2024 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, José Rebelo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
@@ -125,7 +125,7 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
                 btDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
             BondingUtil.connectThenComplete(this, deviceCandidate);
         } else {
-            BondingUtil.tryBondThenComplete(this, deviceCandidate);
+            BondingUtil.tryBondThenComplete(this, deviceCandidate.getDevice(), deviceCandidate.getDevice().getAddress());
         }
     }
 
@@ -185,6 +185,16 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
     @Override
     public GBDeviceCandidate getCurrentTarget() {
         return this.deviceCandidate;
+    }
+
+    @Override
+    public String getMacAddress() {
+        return deviceCandidate.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
     }
 
     @Override

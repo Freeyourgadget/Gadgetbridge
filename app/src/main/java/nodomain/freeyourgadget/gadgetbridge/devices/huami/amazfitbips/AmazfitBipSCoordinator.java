@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, Nephiel, Petr Vaněk, Zhong Jianxin
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, Daniel Dakhno, José Rebelo,
+    Petr Vaněk, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips;
 
 import android.content.Context;
@@ -96,6 +96,7 @@ public class AmazfitBipSCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_device_actions,
+                R.xml.devicesettings_phone_silent_mode,
                 R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration

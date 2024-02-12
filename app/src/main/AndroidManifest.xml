@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="nodomain.freeyourgadget.gadgetbridge">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Comment in for testing Pebble Emulator
@@ -601,6 +600,10 @@
             android:label="@string/title_activity_set_contacts"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.widgets.WidgetScreensListActivity"
+            android:label="@string/menuitem_widgets"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.ConfigureWorldClocks"
             android:label="@string/pref_world_clocks_title"
             android:parentActivityName=".activities.ControlCenterv2" />
@@ -623,6 +626,12 @@
             android:name=".activities.ContactDetails"
             android:label="@string/title_activity_contact_details"
             android:parentActivityName=".activities.ConfigureReminders"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.widgets.WidgetScreenDetailsActivity"
+            android:label="@string/widget_screen"
+            android:parentActivityName=".activities.widgets.WidgetScreensListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity

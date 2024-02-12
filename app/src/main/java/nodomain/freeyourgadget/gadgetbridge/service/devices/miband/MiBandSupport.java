@@ -1,7 +1,7 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
-    Christian Fischer, Daniele Gobbetti, Dmitry Markin, freezed-or-frozen,
-    JohnnySun, Julien Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen
-    Liebergeld
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, atkyritsis,
+    Carsten Pfeiffer, Christian Fischer, Daniele Gobbetti, Dmitry Markin,
+    freezed-or-frozen, JohnnySun, José Rebelo, Julien Pivotto, Kasha, Sebastian
+    Kranz, Sergey Trofimov, Steffen Liebergeld, Toby Murray
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.miband;
 
 import android.bluetooth.BluetoothGatt;

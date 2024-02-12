@@ -1,0 +1,77 @@
+name: Bug report
+about: Create a report to help us improve.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to make Gadgetbridge better!
+
+        If you just have a question, please ask first in the user chatroom in Matrix at [`#gadgetbridge:matrix.org`](https://matrix.to/#/#gadgetbridge:matrix.org)
+  - type: checkboxes
+    attributes:
+      label: Please confirm that;
+      options:
+        - label: I have checked the [website](https://gadgetbridge.org), and I didn't find a solution to my problem / an answer to my question.
+          required: true
+        - label: I have searched the [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues), and I didn't find a solution to my problem / an answer to my question.
+          required: true
+        - label: I have read and understood the [Codeberg Terms of Use](https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md) for images or other type of content that I included here.
+          required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Where did you get Gadgetbridge from?
+      options:
+        - F-Droid
+        - Gadgetbridge Nightly F-Droid repository
+        - Bangle.js Gadgetbridge from the Play Store
+        - I built it myself from source code
+        - I previously used Gadgetbridge from other sources and then updated to F-Droid version
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: What is your Gadgetbridge version?
+      description: |
+        This can be found in "Menu > About > Version" in Gadgetbridge. 
+        Also include tag / commit SHA if you built Gadgetbridge from the source. 
+      placeholder: e.g. "0.77.0" or "0.77.0-2618adac1" to include commit
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: What happened?
+      description: >
+        Please note that new issues about already solved/documented topics
+        **could be closed without further comments.** Same for too generic or incomplete reports.
+      placeholder: If you want to include logs, don't include it here. Use the next text field for that.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Do you have logs?
+      description: >
+        If possible, please attach [logs](https://gadgetbridge.org/internals/topics/logs/)
+        that might help identifying the problem. This will be automatically formatted into 
+        code, so no need for backticks.
+      render: shell
+  - type: input
+    id: gadget
+    attributes:
+      label: What gadget do you use?
+      description: >
+        Please specify model and firmware version if possible. Leave blank if you believe the
+        issue is not specific to the gadget that you currently use with Gadgetbridge.
+      placeholder: e.g. ExampleWatch A1 with 0.1 firmware
+  - type: input
+    id: android
+    attributes:
+      label: What is your Android version/manufacturer flavor?
+      description: >
+        Android phone manufacturers may customise the Android source code as they wish, so
+        if you are using a phone that running a vendor-exclusive system (like MIUI) or if 
+        you use a custom ROM, make sure to also include the name of the OS/ROM.
+      placeholder: e.g. LineageOS 20 based on Android 13

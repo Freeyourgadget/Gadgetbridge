@@ -1,5 +1,6 @@
-/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Nephiel,
-    odavo32nof, Petr Vaněk, Zhong Jianxin
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Damien Gaignon, jhey, José
+    Rebelo, Maxime Reyrolle, Nephiel, odavo32nof, Petr Vaněk, Raghd Hamzeh,
+    sedy89, Stefan Bora, thermatk, xaos, Yoran Vulker, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -75,6 +76,7 @@ public class HuamiConst {
     public static final String AMAZFIT_FALCON_NAME = "Amazfit Falcon";
 
     public static final String XIAOMI_SMART_BAND7_NAME = "Xiaomi Smart Band 7";
+    public static final String XIAOMI_SMART_BAND7_PRO_NAME = "Xiaomi Smart Band 7 Pro";
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
     public static final String PREF_DISPLAY_ITEMS_SORTABLE = "display_items_sortable";
@@ -96,15 +98,6 @@ public class HuamiConst {
     public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START = "FITNESS_CONTROL_START";
     public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP = "FITNESS_CONTROL_STOP";
     public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE = "FITNESS_CONTROL_TOGGLE";
-
-    public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
-    public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";
-    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION = "events_forwarding_fellsleep_action_selection";
-    public static final String PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST = "prefs_events_forwarding_fellsleep_broadcast";
-    public static final String PREF_DEVICE_ACTION_WOKE_UP_SELECTION = "events_forwarding_wokeup_action_selection";
-    public static final String PREF_DEVICE_ACTION_WOKE_UP_BROADCAST = "prefs_events_forwarding_wokeup_broadcast";
-    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION = "events_forwarding_startnonwear_action_selection";
-    public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
 
     /**
      * The suffixes match the enum {@link nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType}.

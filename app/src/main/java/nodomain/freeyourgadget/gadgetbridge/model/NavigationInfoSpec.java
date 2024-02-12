@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa
+/*  Copyright (C) 2021-2024 Andreas Shimokawa, Arjan Schrijver, Gordon Williams
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public class NavigationInfoSpec {
@@ -34,6 +34,7 @@ public class NavigationInfoSpec {
     public static final int ACTION_ROUNDABOUT_STRAIGHT = 15;
     public static final int ACTION_ROUNDABOUT_UTURN = 16;
     public static final int ACTION_FINISH = 17;
+    public static final int ACTION_MERGE = 18;
 
     // ETA? Total Distance?
     public String instruction;

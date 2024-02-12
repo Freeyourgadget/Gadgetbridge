@@ -1,7 +1,8 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Dmitry Markin, JohnnySun, José Rebelo, Julien
-    Pivotto, Kasha, Michal Novotny, Petr Vaněk, Sebastian Kranz, Sergey Trofimov,
-    Steffen Liebergeld, Taavi Eomäe, Zhong Jianxin
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Arjan Schrijver, beardhatcode,
+    Carsten Pfeiffer, Damien Gaignon, Daniel Dakhno, Daniele Gobbetti, Dmitry
+    Markin, José Rebelo, musover, Nathan Philipp Bo Seddig, NekoBox, Petr
+    Vaněk, Robbert Gurdeep Singh, Sebastian Kranz, Taavi Eomäe, Toby Murray,
+    uli, Yoran Vulker, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +17,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import android.bluetooth.BluetoothAdapter;
@@ -80,18 +81,22 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLiftSensitivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.DisconnectNotificationSetting;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -121,6 +126,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
+import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStatisticsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchTemperatureOperation;
@@ -136,6 +143,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -227,13 +235,6 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_ALARM;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_APP_ALERTS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_EVENT_REMINDER;
@@ -1686,11 +1687,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             this.fetchOperationQueue.add(new FetchPaiOperation(this));
         }
 
-        if (Huami2021Coordinator.experimentalFeatures(getDevice())) {
-            if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
-                this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
-            }
+        if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
+            this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
+        }
 
+        if (ZeppOsCoordinator.experimentalFeatures(getDevice())) {
             if ((dataTypes & RecordedDataTypes.TYPE_HEART_RATE) != 0 && coordinator.supportsHeartRateStats()) {
                 this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
                 this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
@@ -1788,13 +1789,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     private void executeButtonAction(String buttonKey) {
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        String buttonPreference = prefs.getString(buttonKey, PREF_BUTTON_ACTION_SELECTION_OFF);
+        String buttonPreference = getDevicePrefs().getString(buttonKey, PREF_BUTTON_ACTION_SELECTION_OFF);
 
         if (buttonPreference.equals(PREF_BUTTON_ACTION_SELECTION_OFF)) {
             return;
         }
-        if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
+        if (getDevicePrefs().getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
             vibrateOnce();
         }
         switch (buttonPreference) {
@@ -1815,37 +1815,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    protected void handleDeviceAction(String deviceAction, String message) {
-        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
-            return;
-        }
-        switch (deviceAction) {
-            case PREF_BUTTON_ACTION_SELECTION_BROADCAST:
-                sendSystemBroadcast(message);
-                break;
-            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START:
-                OpenTracksController.startRecording(this.getContext());
-                break;
-            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP:
-                OpenTracksController.stopRecording(this.getContext());
-                break;
-            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE:
-                OpenTracksController.toggleRecording(this.getContext());
-                break;
-            default:
-                handleMediaButton(deviceAction);
-        }
-    }
-
-    private void sendSystemBroadcast(String message){
-        if (message !=null) {
-            Intent in = new Intent();
-            in.setAction(message);
-            LOG.info("Sending broadcast " + message);
-            this.getContext().getApplicationContext().sendBroadcast(in);
-        }
-    }
-
     private void sendSystemBroadcastWithButtonId() {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         String requiredButtonPressMessage = prefs.getString(HuamiConst.PREF_BUTTON_ACTION_BROADCAST,
@@ -1857,12 +1826,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         this.getContext().getApplicationContext().sendBroadcast(in);
     }
 
-    private void handleMediaButton(String MediaAction) {
-        if (MediaAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
+    private void handleMediaButton(String mediaAction) {
+        if (mediaAction.equals(PREF_BUTTON_ACTION_SELECTION_OFF)) {
             return;
         }
         GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
-        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(MediaAction);
+        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(mediaAction);
         evaluateGBDeviceEvent(deviceEventMusicControl);
     }
 
@@ -1926,6 +1895,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 LOG.info("find phone stopped");
                 findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
                 evaluateGBDeviceEvent(findPhoneEvent);
+                break;
+            case HuamiDeviceEvent.SILENT_MODE:
+                final boolean silentModeEnabled = value[1] == 1;
+                LOG.info("silent mode = {}", silentModeEnabled);
+                sendPhoneSilentMode(silentModeEnabled);
+                evaluateGBDeviceEvent(new GBDeviceEventSilentMode(silentModeEnabled));
                 break;
             case HuamiDeviceEvent.MUSIC_CONTROL:
                 LOG.info("got music control");
@@ -2190,34 +2165,50 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    protected void processDeviceEvent(int event){
-        LOG.debug("Handling device event: " + event);
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        String deviceActionBroadcastMessage=null;
+    private void sendPhoneSilentMode(final TransactionBuilder builder) {
+        final boolean silentMode = SilentMode.isPhoneInSilenceMode(getDevice().getAddress());
 
-        switch (event) {
+        sendPhoneSilentMode(builder, silentMode);
+    }
+
+    private void sendPhoneSilentMode(final boolean enabled) {
+        try {
+            final TransactionBuilder builder = performInitialized("send phone silent mode");
+            sendPhoneSilentMode(builder, enabled);
+            builder.queue(getQueue());
+        } catch (final Exception ex) {
+            LOG.error("Error while sending phone silent mode", ex);
+        }
+    }
+
+    private void sendPhoneSilentMode(final TransactionBuilder builder, final boolean enabled) {
+        final byte[] cmd = {ENDPOINT_DISPLAY, 0x19, 0x00, (byte) (enabled ? 0x01 : 0x00)};
+
+        writeToConfiguration(builder, cmd);
+    }
+
+    protected void processDeviceEvent(int deviceEvent){
+        LOG.debug("Handling device event: " + deviceEvent);
+        GBDeviceEvent event;
+        switch (deviceEvent) {
             case HuamiDeviceEvent.WOKE_UP:
-                String wakeupAction = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
-                if (wakeupAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
-                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST,
-                        this.getContext().getString(R.string.prefs_events_forwarding_wokeup_broadcast_default_value));
-                handleDeviceAction(wakeupAction, deviceActionBroadcastMessage);
+                event = new GBDeviceEventSleepStateDetection();
+                ((GBDeviceEventSleepStateDetection) event).sleepState = SleepState.AWAKE;
                 break;
             case HuamiDeviceEvent.FELL_ASLEEP:
-                String fellsleepAction = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
-                if (fellsleepAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
-                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST,
-                        this.getContext().getString(R.string.prefs_events_forwarding_fellsleep_broadcast_default_value));
-                handleDeviceAction(fellsleepAction, deviceActionBroadcastMessage);
+                event = new GBDeviceEventSleepStateDetection();
+                ((GBDeviceEventSleepStateDetection) event).sleepState = SleepState.ASLEEP;
                 break;
             case HuamiDeviceEvent.START_NONWEAR:
-                String nonwearAction = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION,PREF_DEVICE_ACTION_SELECTION_OFF);
-                if (nonwearAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) return;
-                deviceActionBroadcastMessage= prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST,
-                        this.getContext().getString(R.string.prefs_events_forwarding_startnonwear_broadcast_default_value));
-                handleDeviceAction(nonwearAction, deviceActionBroadcastMessage);
+                event = new GBDeviceEventWearState();
+                ((GBDeviceEventWearState) event).wearingState = WearingState.NOT_WEARING;
                 break;
+            default:
+                LOG.warn("Unhandled device event {}", deviceEvent);
+                return;
         }
+
+        evaluateGBDeviceEvent(event);
     }
 
     private void handleLongButtonEvent(){
@@ -2281,9 +2272,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
-        super.onCharacteristicChanged(gatt, characteristic);
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            // handled upstream
+            return true;
+        }
 
-        UUID characteristicUUID = characteristic.getUuid();
+        final UUID characteristicUUID = characteristic.getUuid();
         if (HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO.equals(characteristicUUID)) {
             handleBatteryInfo(characteristic.getValue(), BluetoothGatt.GATT_SUCCESS);
             return true;
@@ -2326,7 +2320,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic, int status) {
-        super.onCharacteristicRead(gatt, characteristic, status);
+        if (super.onCharacteristicRead(gatt, characteristic, status)) {
+            // handled upstream
+            return true;
+        }
 
         UUID characteristicUUID = characteristic.getUuid();
         if (GattCharacteristic.UUID_CHARACTERISTIC_DEVICE_NAME.equals(characteristicUUID)) {
@@ -4201,6 +4198,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
 
         requestAlarms(builder);
+        sendPhoneSilentMode(builder);
     }
 
     public abstract HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException;

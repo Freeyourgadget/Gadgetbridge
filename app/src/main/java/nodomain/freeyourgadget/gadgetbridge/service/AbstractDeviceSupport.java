@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo, Pauli Salmenrinne, Sebastian Kranz,
-    Taavi Eomäe
+/*  Copyright (C) 2015-2024 Alicia Hormann, Andreas Böhler, Andreas Shimokawa,
+    Arjan Schrijver, Carsten Pfeiffer, Daniele Gobbetti, Davis Mosenkovs,
+    Dmitriy Bogdanov, foxstidious, Ganblejs, José Rebelo, Pauli Salmenrinne,
+    Petr Vaněk, Taavi Eomäe, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -15,14 +16,13 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.companion.CompanionDeviceManager;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -47,15 +48,18 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -67,6 +71,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -75,10 +81,12 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDevi
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -90,6 +98,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
+import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
@@ -97,9 +107,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlRecei
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 // TODO: support option for a single reminder notification when notifications could not be delivered?
 // conditions: app was running and received notifications, but device was not connected.
@@ -215,9 +226,21 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventUpdatePreferences) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventUpdateDeviceState) {
             handleGBDeviceEvent((GBDeviceEventUpdateDeviceState) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSilentMode) {
+            handleGBDeviceEvent((GBDeviceEventSilentMode) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
             handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventWearState) {
+            handleGBDeviceEvent((GBDeviceEventWearState) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSleepStateDetection) {
+            handleGBDeviceEvent((GBDeviceEventSleepStateDetection) deviceEvent);
         }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventSilentMode deviceEvent) {
+        LOG.info("Got GBDeviceEventSilentMode: enabled = {}", deviceEvent.isEnabled());
+
+        SilentMode.setPhoneSilentMode(getDevice().getAddress(), deviceEvent.isEnabled());
     }
 
     private void handleGBDeviceEvent(final GBDeviceEventFindPhone deviceEvent) {
@@ -460,7 +483,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 break;
             case REPLY:
                 if (deviceEvent.phoneNumber == null) {
-                    deviceEvent.phoneNumber = (String) GBApplication.getIDSenderLookup().lookup((int) (deviceEvent.handle >> 4));
+                    deviceEvent.phoneNumber = GBApplication.getIDSenderLookup().lookup((int) (deviceEvent.handle >> 4));
                 }
                 if (deviceEvent.phoneNumber != null) {
                     LOG.info("Got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
@@ -497,9 +520,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
             // no level available, just "high" or "low"
             if (BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getName()),
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getAliasOrName()),
                         deviceEvent.extendedInfoAvailable() ?
-                                context.getString(R.string.notif_battery_low_extended, gbDevice.getName(),
+                                context.getString(R.string.notif_battery_low_extended, gbDevice.getAliasOrName(),
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges)))
                                 : ""
@@ -515,9 +538,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
                             BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
                     ) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)),
+                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)),
                         deviceEvent.extendedInfoAvailable() ?
-                                context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(deviceEvent.level)) + "\n" +
+                                context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)) + "\n" +
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                                 : ""
@@ -530,6 +553,159 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.sendDeviceUpdateIntent(context);
     }
 
+    /**
+     * Helper method to run specific actions configured in the device preferences, upon wear state
+     * or awake/asleep events.
+     *
+     * @param actions
+     * @param message
+     */
+    private void handleDeviceAction(Set<String> actions, String message) {
+        if (actions.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Handing device actions: {}", TextUtils.join(",", actions));
+
+        final String actionBroadcast = getContext().getString(R.string.pref_device_action_broadcast_value);
+        final String actionFitnessControlStart = getContext().getString(R.string.pref_device_action_fitness_app_control_start_value);
+        final String actionFitnessControlStop = getContext().getString(R.string.pref_device_action_fitness_app_control_stop_value);
+        final String actionFitnessControlToggle = getContext().getString(R.string.pref_device_action_fitness_app_control_toggle_value);
+        final String actionMediaPlay = getContext().getString(R.string.pref_media_play_value);
+        final String actionMediaPause = getContext().getString(R.string.pref_media_pause_value);
+        final String actionMediaPlayPause = getContext().getString(R.string.pref_media_playpause_value);
+        final String actionDndOff = getContext().getString(R.string.pref_device_action_dnd_off_value);
+        final String actionDndpriority = getContext().getString(R.string.pref_device_action_dnd_priority_value);
+        final String actionDndAlarms = getContext().getString(R.string.pref_device_action_dnd_alarms_value);
+        final String actionDndOn = getContext().getString(R.string.pref_device_action_dnd_on_value);
+
+        if (actions.contains(actionBroadcast)) {
+            if (message != null) {
+                Intent in = new Intent();
+                in.setAction(message);
+                LOG.info("Sending broadcast {}", message);
+                getContext().getApplicationContext().sendBroadcast(in);
+            }
+        }
+
+        if (actions.contains(actionFitnessControlStart)) {
+            OpenTracksController.startRecording(getContext());
+        } else if (actions.contains(actionFitnessControlStop)) {
+            OpenTracksController.stopRecording(getContext());
+        } else if (actions.contains(actionFitnessControlToggle)) {
+            OpenTracksController.toggleRecording(getContext());
+        }
+
+        final String mediaAction;
+        if (actions.contains(actionMediaPlayPause)) {
+            mediaAction = actionMediaPlayPause;
+        } else if (actions.contains(actionMediaPause)) {
+            mediaAction = actionMediaPause;
+        } else if (actions.contains(actionMediaPlay)) {
+            mediaAction = actionMediaPlay;
+        } else {
+            mediaAction = null;
+        }
+
+        if (mediaAction != null) {
+            GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
+            deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(mediaAction);
+            evaluateGBDeviceEvent(deviceEventMusicControl);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            final int interruptionFilter;
+            if (actions.contains(actionDndOff)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALL;
+            } else if (actions.contains(actionDndpriority)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_PRIORITY;
+            } else if (actions.contains(actionDndAlarms)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALARMS;
+            } else if (actions.contains(actionDndOn)) {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_NONE;
+            } else {
+                interruptionFilter = NotificationManager.INTERRUPTION_FILTER_UNKNOWN;
+            }
+
+            if (interruptionFilter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN) {
+                LOG.debug("Setting do not disturb to {}", interruptionFilter);
+
+                if (!notificationManager.isNotificationPolicyAccessGranted()) {
+                    LOG.warn("Do not disturb permissions not granted");
+                }
+
+                notificationManager.setInterruptionFilter(interruptionFilter);
+            }
+        }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventSleepStateDetection event) {
+        LOG.debug("Got SLEEP_STATE_DETECTION device event, detected sleep state = {}", event.sleepState);
+
+        if (event.sleepState == SleepState.UNKNOWN) {
+            return;
+        }
+
+        String actionPreferenceKey, messagePreferenceKey;
+        int defaultBroadcastMessageResource;
+
+        switch (event.sleepState) {
+            case AWAKE:
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS;
+                messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
+                defaultBroadcastMessageResource = R.string.prefs_events_forwarding_wokeup_broadcast_default_value;
+                break;
+            case ASLEEP:
+                actionPreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS;
+                messagePreferenceKey = DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
+                defaultBroadcastMessageResource = R.string.prefs_events_forwarding_fellsleep_broadcast_default_value;
+                break;
+            default:
+                LOG.warn("Unable to deduce action and broadcast message preference key for sleep state {}", event.sleepState);
+                return;
+        }
+
+        Set<String> actions = getDevicePrefs().getStringSet(actionPreferenceKey, Collections.emptySet());
+
+        if (actions.isEmpty()) {
+            return;
+        }
+
+        String broadcastMessage = getDevicePrefs().getString(messagePreferenceKey, context.getString(defaultBroadcastMessageResource));
+        handleDeviceAction(actions, broadcastMessage);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventWearState event) {
+        LOG.debug("Got WEAR_STATE device event, wearingState = {}", event.wearingState);
+
+        if (event.wearingState == WearingState.UNKNOWN) {
+            LOG.warn("WEAR_STATE state is UNKNOWN, aborting further evaluation");
+            return;
+        }
+
+        if (event.wearingState != WearingState.NOT_WEARING) {
+            LOG.debug("WEAR_STATE state is not NOT_WEARING, aborting further evaluation");
+        }
+
+        Set<String> actionOnUnwear = getDevicePrefs().getStringSet(
+                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS,
+                Collections.emptySet()
+        );
+
+        // check if an action is set
+        if (actionOnUnwear.isEmpty()) {
+            return;
+        }
+
+        String broadcastMessage = getDevicePrefs().getString(
+                DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST,
+                getContext().getString(R.string.prefs_events_forwarding_startnonwear_broadcast_default_value)
+        );
+
+        handleDeviceAction(actionOnUnwear, broadcastMessage);
+    }
 
     private StoreDataTask createStoreTask(String task, Context context, GBDeviceEventBatteryInfo deviceEvent) {
         return new StoreDataTask(task, context, deviceEvent);
@@ -568,6 +744,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
     }
 
+    protected Prefs getDevicePrefs() {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+    }
+
+    @Override
     public String customStringFilter(String inputString) {
         return inputString;
     }
@@ -631,6 +812,15 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     @Override
     public void onSetPhoneVolume(final float volume) {
+
+    }
+
+    /**
+     * Called when the phone's interruption filter or ringer mode is changed.
+     * @param ringerMode as per {@link android.media.AudioManager#getRingerMode()}
+     */
+    @Override
+    public void onChangePhoneSilentMode(int ringerMode) {
 
     }
 

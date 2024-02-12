@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Daniele Gobbetti, Frank Slezak
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Daniele
+    Gobbetti, Frank Slezak, José Rebelo, mvn23, Petr Kadlec
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class NotificationSpec {
     public int flags;
     private static final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
     private int id;
+    public String key;
     public long when;
     public String sender;
     public String phoneNumber;

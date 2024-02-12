@@ -1,6 +1,5 @@
-/*  Copyright (C) 2017-2022 Andreas Shimokawa, Aniruddha Adhikary, Daniele
-    Gobbetti, ivanovlev, kalaee, lazarosfs, McSym28, M. Hadi, Roi Greenberg,
-    Taavi Eomäe, Ted Stein, Thomas, Yaron Shahrabani, José Rebelo
+/*  Copyright (C) 2022-2024 Cédric Bellegarde, Davis Mosenkovs, José Rebelo,
+    roolx, ssilverr, thirschbuechler
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.language;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_LANGUAGES;
@@ -48,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GeorgianTranslite
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GermanTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GreekTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.HebrewTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.HungarianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.IcelandicTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.KoreanTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.LatvianTransliterator;
@@ -75,6 +75,7 @@ public class LanguageUtils {
         put("german", new GermanTransliterator());
         put("greek", new GreekTransliterator());
         put("hebrew", new HebrewTransliterator());
+        put("hungarian", new HungarianTransliterator());
         put("icelandic", new IcelandicTransliterator());
         put("korean", new KoreanTransliterator());
         put("latvian", new LatvianTransliterator());

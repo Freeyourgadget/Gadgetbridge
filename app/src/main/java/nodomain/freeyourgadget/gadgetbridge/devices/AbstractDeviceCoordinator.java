@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Dmitry Markin, José Rebelo, Matthieu Baerts, Nephiel, Petr Vaněk,
-    Taavi Eomäe
+/*  Copyright (C) 2015-2024 akasaka / Genjitsu Labs, Alicia Hormann, Andreas
+    Shimokawa, Arjan Schrijver, Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti,
+    Davis Mosenkovs, Dmitry Markin, José Rebelo, Matthieu Baerts, Nephiel,
+    Petr Vaněk, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +16,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getPrefs;
@@ -41,7 +42,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -51,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -73,12 +77,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDeviceCoordinator.class);
 
     private Pattern supportedDeviceName = null;
+
     /**
      * This method should return a ReGexp pattern that will matched against a found device
      * to check whether this coordinator supports that device.
@@ -86,17 +92,17 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
      * should be overridden.
      *
      * @return Pattern
-     * */
-    protected Pattern getSupportedDeviceName(){
+     */
+    protected Pattern getSupportedDeviceName() {
         return null;
     }
 
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
-        if(supportedDeviceName == null){
+        if (supportedDeviceName == null) {
             supportedDeviceName = getSupportedDeviceName();
         }
-        if(supportedDeviceName == null){
+        if (supportedDeviceName == null) {
             throw new RuntimeException(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
         }
 
@@ -125,17 +131,19 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public void deleteDevice(final GBDevice gbDevice) throws GBException {
+    public final void deleteDevice(final GBDevice gbDevice) throws GBException {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
             GBApplication.deviceService(gbDevice).disconnect();
         }
         Prefs prefs = getPrefs();
 
-        String lastDevice = prefs.getPreferences().getString("last_device_address", "");
-        if (gbDevice.getAddress().equals(lastDevice)) {
-            LOG.debug("#1605 removing last device");
-            prefs.getPreferences().edit().remove("last_device_address").apply();
+        Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+        if (lastDeviceAddresses.contains(gbDevice.getAddress())) {
+            LOG.debug("#1605 removing last device (one of last devices)");
+            lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
+            lastDeviceAddresses.remove(gbDevice.getAddress());
+            prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
         }
 
         String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
@@ -189,6 +197,15 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
         return null;
+    }
+
+    @Override
+    public int[] getStressRanges() {
+        // 0-39 = relaxed
+        // 40-59 = mild
+        // 60-79 = moderate
+        // 80-100 = high
+        return new int[]{0, 40, 60, 80};
     }
 
     @Override
@@ -281,7 +298,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsFlashing() { return false; }
+    public boolean supportsFlashing() {
+        return false;
+    }
 
     @Nullable
     @Override
@@ -312,6 +331,27 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsAppsManagement(final GBDevice device) {
         return false;
+    }
+
+    @Override
+    public boolean supportsCachedAppManagement(final GBDevice device) {
+        try {
+            return supportsAppsManagement(device) && getAppCacheDir() != null;
+        } catch (final Exception e) {
+            // we failed, but still tried, so it's supported..
+            LOG.error("Failed to get app cache dir", e);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean supportsInstalledAppManagement(final GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsWatchfaceManagement(final GBDevice device) {
+        return supportsAppsManagement(device);
     }
 
     @Nullable
@@ -377,6 +417,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int getPaiName() {
+        return R.string.menuitem_pai;
+    }
+
+    @Override
+    public boolean supportsPaiTime() {
+        return supportsPai();
+    }
+
+    @Override
     public boolean supportsSleepRespiratoryRate() {
         return false;
     }
@@ -384,6 +434,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsAlarmSnoozing() {
         return false;
+    }
+
+    @Override
+    public boolean supportsAlarmTitle(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public int getAlarmTitleLimit(GBDevice device) {
+        return -1;
     }
 
     @Override
@@ -408,6 +468,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public int getReminderSlotCount(final GBDevice device) {
+        return 0;
+    }
+
+    @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
         return 0;
     }
 
@@ -482,15 +547,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         int[] settings = new int[0];
         ConnectionType connectionType = getConnectionType();
 
-        if(connectionType.usesBluetoothLE()){
+        if (connectionType.usesBluetoothLE()) {
             settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_ble);
         }
-        if(connectionType.usesBluetoothClassic()){
+        if (connectionType.usesBluetoothClassic()) {
             settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_bl_classic);
         }
 
         return settings;
     }
+
     @Override
     public int[] getSupportedDeviceSpecificApplicationSettings() {
         return new int[0];
@@ -560,12 +626,23 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         );
     }
 
+    @Override
+    public boolean supportsWidgets(final GBDevice device) {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public WidgetManager getWidgetManager(final GBDevice device) {
+        return null;
+    }
+
     public boolean supportsNavigation() {
         return false;
     }
 
     @Override
-    public int getOrderPriority(){
+    public int getOrderPriority() {
         return 0;
     }
 
@@ -586,27 +663,38 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return R.drawable.ic_device_default_disabled;
     }
 
+    @Override
     public boolean supportsNotificationVibrationPatterns() {
         return false;
     }
 
+    @Override
     public boolean supportsNotificationVibrationRepetitionPatterns() {
         return false;
     }
 
+    @Override
     public boolean supportsNotificationLedPatterns() {
         return false;
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
         return new AbstractNotificationPattern[0];
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationVibrationRepetitionPatterns() {
         return new AbstractNotificationPattern[0];
     }
 
+    @Override
     public AbstractNotificationPattern[] getNotificationLedPatterns() {
         return new AbstractNotificationPattern[0];
+    }
+
+    @Override
+    public boolean validateAuthKey(final String authKey) {
+        return !(authKey.getBytes().length < 34 || !authKey.startsWith("0x"));
     }
 }

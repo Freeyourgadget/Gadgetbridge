@@ -1,5 +1,4 @@
-/*  Copyright (C) 2017-2021 Daniele Gobbetti, João Paulo Barraca, José
-    Rebelo, Quallenauge
+/*  Copyright (C) 2018-2024 Daniel Dakhno, Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.roidmi;
 
 import org.slf4j.Logger;

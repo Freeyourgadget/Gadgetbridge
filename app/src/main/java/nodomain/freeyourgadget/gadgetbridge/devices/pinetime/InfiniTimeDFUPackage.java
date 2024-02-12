@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 Taavi Eomäe
+/*  Copyright (C) 2021-2024 Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

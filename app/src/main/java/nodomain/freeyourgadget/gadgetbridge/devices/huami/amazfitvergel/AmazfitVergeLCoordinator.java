@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2021 Andreas Shimokawa, angelpup, Manuel Ruß
+/*  Copyright (C) 2020-2024 angelpup, Daniel Dakhno, José Rebelo, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel;
 
 import android.content.Context;
@@ -91,6 +91,7 @@ public class AmazfitVergeLCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_buttonactions_with_longpress,
+                R.xml.devicesettings_phone_silent_mode,
                 R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration

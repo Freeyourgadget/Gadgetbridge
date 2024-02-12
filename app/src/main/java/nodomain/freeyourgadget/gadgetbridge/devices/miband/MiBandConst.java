@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, José Rebelo, Michal Novotny, Szymon Tomasz Stefanek
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Christian
+    Fischer, Damien Gaignon, Daniele Gobbetti, José Rebelo, Michal Novotny,
+    Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +15,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;

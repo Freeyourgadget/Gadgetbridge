@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2021 Andreas Böhler, Sebastian Kranz, Taavi Eomäe
+/*  Copyright (C) 2023-2024 Andreas Böhler, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900;
 
 import android.bluetooth.BluetoothDevice;
@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900HandlerThread;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.SetAlarmOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -151,6 +152,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
             setInitialized();
             getDevice().setFirmwareVersion("N/A");
             getDevice().setFirmwareVersion2("N/A");
+            builder.bond();
             return builder;
         }
 

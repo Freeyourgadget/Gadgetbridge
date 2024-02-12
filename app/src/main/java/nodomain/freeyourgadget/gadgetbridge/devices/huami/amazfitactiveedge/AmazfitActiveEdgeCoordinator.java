@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo
+/*  Copyright (C) 2023-2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,44 +13,37 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitactiveedge;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitactiveedge.AmazfitActiveEdgeSupport;
 
-public class AmazfitActiveEdgeCoordinator extends Huami2021Coordinator {
-    @NonNull
+public class AmazfitActiveEdgeCoordinator extends ZeppOsCoordinator {
     @Override
-    public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitActiveEdgeSupport.class;
+    public boolean isExperimental() {
+        return true;
+    }
+
+    @Override
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_ACTIVE_EDGE_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(8388864, 8388865));
     }
 
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_active_edge;
-    }
-
-    @Override
-    protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(HuamiConst.AMAZFIT_ACTIVE_EDGE_NAME + ".*");
-    }
-
-    @Override
-    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
-        return new AmazfitActiveEdgeFWInstallHandler(uri, context);
     }
 
     @Override

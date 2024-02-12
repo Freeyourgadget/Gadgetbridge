@@ -1,6 +1,8 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniel
-    Dakhno, Daniele Gobbetti, Frank Slezak, ivanovlev, JohnnySun, José Rebelo,
-    Julien Pivotto, Kasha, Sebastian Kranz, Steffen Liebergeld, vanous
+/*  Copyright (C) 2015-2024 Andreas Shimokawa, Arjan Schrijver, Carsten
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs, Frank Slezak,
+    Gabriele Monaco, Gordon Williams, ivanovlev, JohnnySun, José Rebelo, Julien
+    Pivotto, Kasha, mvn23, Petr Vaněk, Sebastian Kranz, Steffen Liebergeld,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -15,10 +17,8 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
-
-import androidx.annotation.Nullable;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -40,6 +40,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
     String ACTION_SETMUSICSTATE = PREFIX + ".action.setmusicstate";
     String ACTION_SET_PHONE_VOLUME = PREFIX + ".action.set_phone_volume";
+    String ACTION_SET_PHONE_SILENT_MODE = PREFIX + ".action.set_phone_silent_mode";
     String ACTION_SETNAVIGATIONINFO = PREFIX + ".action.setnavigationinfo";
     String ACTION_REQUEST_DEVICEINFO = PREFIX + ".action.request_deviceinfo";
     String ACTION_REQUEST_APPINFO = PREFIX + ".action.request_appinfo";
@@ -59,6 +60,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_CONSTANT_VIBRATION = PREFIX + ".action.set_constant_vibration";
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_SAVE_ALARMS = PREFIX + ".action.save_alarms";
+    String ACTION_SAVE_REMINDERS = PREFIX + ".action.save_reminders";
     String ACTION_SET_REMINDERS = PREFIX + ".action.set_reminders";
     String ACTION_SET_LOYALTY_CARDS = PREFIX + ".action.set_loyalty_cards";
     String ACTION_SET_WORLD_CLOCKS = PREFIX + ".action.set_world_clocks";
@@ -81,6 +83,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";
+    String EXTRA_NOTIFICATION_KEY = "notification_key";
     String EXTRA_NOTIFICATION_PHONENUMBER = "notification_phonenumber";
     String EXTRA_NOTIFICATION_SENDER = "notification_sender";
     String EXTRA_NOTIFICATION_SOURCENAME = "notification_sourcename";
@@ -114,6 +117,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_MUSIC_POSITION = "music_position";
     String EXTRA_MUSIC_RATE = "music_rate";
     String EXTRA_PHONE_VOLUME = "phone_volume";
+    String EXTRA_PHONE_RINGER_MODE = "ringer_mode";
     String EXTRA_NAVIGATION_INSTRUCTION = "navigation_instruction";
     String EXTRA_NAVIGATION_DISTANCE_TO_TURN = "navigation_distance_to_turn";
     String EXTRA_NAVIGATION_NEXT_ACTION = "navigation_next_action";

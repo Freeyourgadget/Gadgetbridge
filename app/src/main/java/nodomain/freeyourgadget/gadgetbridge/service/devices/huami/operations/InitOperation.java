@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2018-2024 Andreas Shimokawa, Carsten Pfeiffer, Damien
+    Gaignon, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +14,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
 import android.annotation.SuppressLint;
@@ -95,7 +96,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         String authKey = sharedPrefs.getString("authkey", null);
         if (authKey != null && !authKey.isEmpty()) {
             byte[] srcBytes = authKey.trim().getBytes();
-            if (authKey.length() == 34 && authKey.substring(0, 2).equals("0x")) {
+            if (authKey.length() == 34 && authKey.startsWith("0x")) {
                 srcBytes = GB.hexStringToByteArray(authKey.substring(2));
             }
             System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));

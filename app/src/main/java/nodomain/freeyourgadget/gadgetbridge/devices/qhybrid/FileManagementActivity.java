@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020-2021 Daniel Dakhno
+/*  Copyright (C) 2020-2024 Andreas Shimokawa, Arjan Schrijver, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 
@@ -13,7 +13,7 @@
     GNU Affero General Public License for more details.
 
     You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.BroadcastReceiver;
@@ -25,13 +25,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
     private final int REQUEST_CODE_PICK_UPLOAD_FILE = 0;
 
     private Spinner fileTypesSpinner;
-    private Switch encryptedFile;
+    private MaterialSwitch encryptedFile;
     private boolean generateFileHeader = false;
 
     private boolean warningDisplayed = false;
@@ -107,7 +107,7 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
         findViewById(R.id.qhybrid_button_download_file).setOnClickListener(this);
         findViewById(R.id.qhybrid_button_upload_file).setOnClickListener(this);
 
-        ((Switch) findViewById(R.id.sqhybrid_switch_generate_file_header)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((MaterialSwitch) findViewById(R.id.sqhybrid_switch_generate_file_header)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 generateFileHeader = isChecked;
