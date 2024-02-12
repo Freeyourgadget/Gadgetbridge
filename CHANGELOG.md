@@ -1,7 +1,6 @@
 ### Changelog
 
-#### Next Version (WIP)
-
+#### 0.79.0
 * Initial support for Honor Magic Watch 2
 * Initial support for Mijia MHO-C303
 * Initial support for Nothing CMF Watch Pro
@@ -15,7 +14,7 @@
 * Huawei Watch GT 2: Fix pairing
 * Redmi Smart Band Pro: Fix password digits
 * Pebble: Fix app configuration page
-* Pebble: Fix pairing issue with Pebble 2
+* Pebble 2: Fix pairing issue
 * PineTime: Fix weather forecast on InfiniTime's new simple weather
 * Xiaomi: Fix sleep sometimes extending past the wakeup time
 * Xiaomi: Request battery level and charging state periodically

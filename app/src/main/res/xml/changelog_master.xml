@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.79.0" versioncode="229">
+        <change>Initial support for Honor Magic Watch 2</change>
+        <change>Initial support for Mijia MHO-C303</change>
+        <change>Initial support for Nothing CMF Watch Pro</change>
+        <change>Initial support for Sony WI-SP600N</change>
+        <change>Experimental support for Redmi Watch 2</change>
+        <change>Experimental support for Xiaomi Smart Band 8 Pro</change>
+        <change>Experimental support for Xiaomi Watch S1 Pro</change>
+        <change>Experimental support for Xiaomi Watch S1</change>
+        <change>Experimental support for Xiaomi Watch S3</change>
+        <change>Galaxy Buds2 Pro: Fix recognition of some versions</change>
+        <change>Huawei Watch GT 2: Fix pairing</change>
+        <change>Redmi Smart Band Pro: Fix password digits</change>
+        <change>Pebble: Fix app configuration page</change>
+        <change>Pebble 2: Fix pairing issue</change>
+        <change>PineTime: Fix weather forecast on InfiniTime's new simple weather</change>
+        <change>Xiaomi: Fix sleep sometimes extending past the wakeup time</change>
+        <change>Xiaomi: Request battery level and charging state periodically</change>
+        <change>Xiaomi: Fix sleep stage parsing for some devices</change>
+        <change>Zepp OS: Improve device discovery</change>
+        <change>Zepp OS: Fix weather not working on some devices</change>
+        <change>Zepp OS: Prevent crash when installing large firmware updates</change>
+        <change>Fix sport activity summary group order</change>
+        <change>Fix reconnection to devices failing occasionally</change>
+    </release>
     <release version="0.78.0" versioncode="228">
         <change>Initial support for Honor Band 3,4,5,6</change>
         <change>Initial support for Huawei Band 4, 4 Pro, 6, 7, 3e, 4e</change>
