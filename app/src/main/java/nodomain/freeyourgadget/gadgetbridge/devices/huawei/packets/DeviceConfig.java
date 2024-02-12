@@ -332,6 +332,8 @@ public class DeviceConfig {
                     } else
                         throw new SupportedCommandsListException("Unknown tag encountered");
                 }
+                if (this.commandsLists.isEmpty())
+                    throw new SupportedCommandsListException("CommandLists is empty");
             }
         }
 
