@@ -2810,4 +2810,5 @@
     <string name="activity_type_australian_football">Australisches Football</string>
     <string name="activity_type_shot">Shot</string>
     <string name="prefs_wena3_status_page_title">Statusseite bereitstellen</string>
+    <string name="warning_missing_notification_permission">Benachrichtigungen konnten wegen fehlender Berechtigung nicht veröffentlicht werden</string>
 </resources>
