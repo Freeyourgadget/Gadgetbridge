@@ -19,6 +19,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOrLater;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -28,12 +31,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,8 +49,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,10 +62,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.GBApplication.isRunningOreoOrLater;
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
 
 public class GB {
 
@@ -305,7 +300,11 @@ public class GB {
     public static void notify(int id, @NonNull Notification notification, Context context) {
         createNotificationChannels(context);
 
-        NotificationManagerCompat.from(context).notify(id, notification);
+        try {
+            NotificationManagerCompat.from(context).notify(id, notification);
+        } catch (SecurityException e) {
+            toast(context.getString(R.string.warning_missing_notification_permission), Toast.LENGTH_SHORT, WARN);
+        }
     }
 
     public static void removeNotification(int id, Context context) {

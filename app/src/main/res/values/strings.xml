@@ -496,8 +496,8 @@
     <string name="zetime_signaling_beep_twice">Beep twice</string>
     <string name="zetime_signaling_vibrate_beep_once">Vibrate and beep once</string>
     <!-- pixoo specific settings -->
-    <string name="clap_hands_to_wakeup_device">Clap hands to turn up screen</string>"
-    <string name="clap_hands_to_wakeup_device_summary">Clapping again will turn off the screen</string>"
+    <string name="clap_hands_to_wakeup_device">Clap hands to turn up screen</string>
+    <string name="clap_hands_to_wakeup_device_summary">Clapping again will turn off the screen</string>
     <string name="pixoo_power_saving_summary">The screen will turn off after the microphone has detected silence for a while</string>
     <!-- Device specific settings -->
     <string name="title_activity_device_specific_settings">Device specific settings</string>
@@ -2677,4 +2677,5 @@
     <string name="pref_force_connection_type_ble_value" translatable="false">BLE</string>
     <string name="pref_force_connection_type_bt_classic_value" translatable="false">BT_CLASSIC</string>
     <string name="activity_info">Activity info</string>
+    <string name="warning_missing_notification_permission">Could not post ongoing notification due to missing permission</string>
 </resources>

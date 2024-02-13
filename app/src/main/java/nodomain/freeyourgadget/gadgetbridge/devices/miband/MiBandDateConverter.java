@@ -58,8 +58,8 @@ public class MiBandDateConverter {
                     value[offset + 5]);
 
             int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours(deviceAddress);
-	        if(offsetInHours != 0)
-		        timestamp.add(Calendar.HOUR_OF_DAY,-offsetInHours);
+            if (offsetInHours != 0)
+                timestamp.add(Calendar.HOUR_OF_DAY, -offsetInHours);
 
             return timestamp;
         }
@@ -83,8 +83,8 @@ public class MiBandDateConverter {
 	    // shift to -8, so at 6am the device thinks it's still 10pm
 	    // of the day before.
         int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours(deviceAddress);
-	    if(offsetInHours != 0)
-			timestamp.add(Calendar.HOUR_OF_DAY,offsetInHours);
+        if (offsetInHours != 0)
+            timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
 
         return new byte[]{
                 (byte) (timestamp.get(Calendar.YEAR) - 2000),
