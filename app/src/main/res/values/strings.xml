@@ -2684,4 +2684,8 @@
     <string name="warning_missing_notification_permission">Could not post ongoing notification due to missing permission</string>
     <string name="pref_test_features_title">Features</string>
     <string name="pref_test_features_summary">Enabled features for this test device</string>
+    <string name="device_state_waiting_scan">Waiting for device scan</string>
+    <string name="auto_reconnect_ble_scan_title">Reconnect by BLE scan</string>
+    <string name="auto_reconnect_ble_scan_summary">Wait for device scan instead of blind connection attempts</string>
+    <string name="prompt_restart_gadgetbridge">Please restart GB in order to take effect.</string>
 </resources>

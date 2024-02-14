@@ -100,6 +100,16 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void setScanReconnect(boolean enable) {
+        delegate.setScanReconnect(enable);
+    }
+
+    @Override
+    public boolean getScanReconnect(){
+        return delegate.getScanReconnect();
+    }
+
+    @Override
     public boolean getImplicitCallbackModify() {
         return delegate.getImplicitCallbackModify();
     }

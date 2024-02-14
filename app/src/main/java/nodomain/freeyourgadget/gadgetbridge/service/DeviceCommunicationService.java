@@ -97,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -226,8 +227,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     @SuppressLint("StaticFieldLeak") // only used for test cases
     private static DeviceSupportFactory DEVICE_SUPPORT_FACTORY = null;
 
-    private boolean mStarted = false;
-
     private DeviceSupportFactory mFactory;
     private final ArrayList<DeviceStruct> deviceStructs = new ArrayList<>(1);
     private final HashMap<String, ArrayList<Intent>> cachedNotifications = new HashMap<>();
@@ -273,6 +272,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
     private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
+    private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
     private void sendDeviceConnectedBroadcast(String address){
         if(!allowBluetoothIntentApi){
@@ -369,6 +369,20 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     sendDeviceConnectedBroadcast(device.getAddress());
                     sendCachedNotifications(device);
                 }
+            }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
+                String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
+
+                GBDevice target = GBApplication
+                        .app()
+                        .getDeviceManager()
+                        .getDeviceByAddress(deviceAddress);
+
+                if(target == null){
+                    LOG.error("onReceive: device not found");
+                    return;
+                }
+
+                connectToDevice(target);
             }
         }
     };
@@ -400,23 +414,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(enableReceivers, anyDeviceInitialized, features, devicesWithCalendar);
     }
 
-    @Override
-    public void onCreate() {
-        LOG.debug("DeviceCommunicationService is being created");
-        super.onCreate();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
-        mFactory = getDeviceSupportFactory();
+    private void registerInternalReceivers(){
+        IntentFilter localFilter = new IntentFilter();
+        localFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        localFilter.addAction(BLEScanService.EVENT_DEVICE_FOUND);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, localFilter);
+    }
 
+    private void registerExternalReceivers(){
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
         registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
 
         mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
         registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
-
-        if (hasPrefs()) {
-            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
-            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
-        }
 
         IntentFilter bluetoothCommandFilter = new IntentFilter();
         bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
@@ -429,6 +439,46 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         registerReceiver(intentApiReceiver, intentApiReceiver.buildFilter());
     }
 
+    @Override
+    public void onCreate() {
+        LOG.debug("DeviceCommunicationService is being created");
+        super.onCreate();
+        mFactory = getDeviceSupportFactory();
+
+        registerInternalReceivers();
+        registerExternalReceivers();
+
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
+            reconnectViaScan = getGBPrefs().getAutoReconnectByScan();
+        }
+
+        startForeground();
+        if(reconnectViaScan) {
+            scanAllDevices();
+
+            Intent scanServiceIntent = new Intent(this, BLEScanService.class);
+            startService(scanServiceIntent);
+        }
+    }
+
+    private void scanAllDevices(){
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        for(GBDevice device : devices){
+            if(device.getState() != GBDevice.State.NOT_CONNECTED){
+                continue;
+            }
+            boolean shouldAutoConnect = getGBPrefs().getAutoReconnect(device);
+            if(!shouldAutoConnect){
+                continue;
+            }
+            createDeviceStruct(device);
+            device.setState(GBDevice.State.WAITING_FOR_SCAN);
+            device.sendDeviceUpdateIntent(this);
+        }
+    }
+
     private DeviceSupportFactory getDeviceSupportFactory() {
         if (DEVICE_SUPPORT_FACTORY != null) {
             return DEVICE_SUPPORT_FACTORY;
@@ -436,144 +486,136 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return new DeviceSupportFactory(this);
     }
 
+    private void createDeviceStruct(GBDevice target){
+        DeviceStruct registeredStruct = new DeviceStruct();
+        registeredStruct.setDevice(target);
+        registeredStruct.setCoordinator(target.getDeviceCoordinator());
+        deviceStructs.add(registeredStruct);
+    }
+
+    private void connectToDevice(GBDevice device){
+        connectToDevice(device, false);
+    }
+
+    private void connectToDevice(GBDevice device, boolean firstTime){
+        List<GBDevice> gbDevs = null;
+        boolean fromExtra = false;
+
+        Prefs prefs = getPrefs();
+
+        if (device != null) {
+            gbDevs = new ArrayList<>();
+            gbDevs.add(device);
+            fromExtra = true;
+        } else if (prefs.getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true)) {
+            List<GBDevice> gbAllDevs = GBApplication.app().getDeviceManager().getDevices();
+            Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+            if (gbAllDevs != null && !gbAllDevs.isEmpty() && !lastDeviceAddresses.isEmpty()) {
+                gbDevs = new ArrayList<>();
+                for(GBDevice gbDev : gbAllDevs) {
+                    if (lastDeviceAddresses.contains(gbDev.getAddress())) {
+                        gbDevs.add(gbDev);
+                    }
+                }
+            }
+        } else {
+            gbDevs = GBApplication.app().getDeviceManager().getDevices();
+        }
+
+        if(gbDevs == null || gbDevs.size() == 0) {
+            return;
+        }
+
+        for(GBDevice gbDevice : gbDevs) {
+            String btDeviceAddress = gbDevice.getAddress();
+
+            boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+            if (prefs != null && prefs.getPreferences() != null) {
+                autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
+                if(!fromExtra && !autoReconnect) {
+                    continue;
+                }
+                Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+                if (!lastDeviceAddresses.contains(btDeviceAddress)) {
+                    lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
+                    lastDeviceAddresses.add(btDeviceAddress);
+                    prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
+                }
+            }
+
+            if(!fromExtra && !autoReconnect) {
+                continue;
+            }
+
+            DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
+            if(registeredStruct != null){
+                boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
+                if(deviceAlreadyConnected){
+                    break;
+                }
+                try {
+                    removeDeviceSupport(gbDevice);
+                } catch (DeviceNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                createDeviceStruct(gbDevice);
+            }
+
+            try {
+                DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
+                if (deviceSupport != null) {
+                    setDeviceSupport(gbDevice, deviceSupport);
+                    if (firstTime) {
+                        deviceSupport.connectFirstTime();
+                    } else {
+                        deviceSupport.setAutoReconnect(autoReconnect);
+                        deviceSupport.setScanReconnect(reconnectViaScan);
+                        deviceSupport.connect();
+                    }
+                } else {
+                    GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
+                }
+            } catch (Exception e) {
+                GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
+            }
+
+            for(DeviceStruct struct2 : deviceStructs){
+                struct2.getDevice().sendDeviceUpdateIntent(this);
+            }
+        }
+    }
+
     @Override
     public synchronized int onStartCommand(Intent intent, int flags, int startId) {
-
         if (intent == null) {
             LOG.info("no intent");
-            return START_NOT_STICKY;
+            return START_STICKY;
         }
 
         String action = intent.getAction();
-        boolean firstTime = intent.getBooleanExtra(EXTRA_CONNECT_FIRST_TIME, false);
 
         if (action == null) {
             LOG.info("no action");
-            return START_NOT_STICKY;
+            return START_STICKY;
         }
 
         LOG.debug("Service startcommand: " + action);
 
-        if (!action.equals(ACTION_START) && !action.equals(ACTION_CONNECT)) {
-            if (!mStarted) {
-                // using the service before issuing ACTION_START
-                LOG.info("Must start service with " + ACTION_START + " or " + ACTION_CONNECT + " before using it: " + action);
-                return START_NOT_STICKY;
-            }
-
-            // TODO
-            /*if (mDeviceSupport == null || (!isInitialized() && !action.equals(ACTION_DISCONNECT) && (!mDeviceSupport.useAutoConnect() || isConnected()))) {
-                // trying to send notification without valid Bluetooth connection
-                if (mGBDevice != null) {
-                    // at least send back the current device state
-                    mGBDevice.sendDeviceUpdateIntent(this);
-                }
-                return START_STICKY;
-            }*/
-        }
-
         // when we get past this, we should have valid mDeviceSupport and mGBDevice instances
+
+        GBDevice targetDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
         Prefs prefs = getPrefs();
         switch (action) {
-            case ACTION_START:
-                start();
-                break;
             case ACTION_CONNECT:
-                start(); // ensure started
-                List<GBDevice> gbDevs = null;
-                boolean fromExtra = false;
-
-                GBDevice extraDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                if (extraDevice != null) {
-                    gbDevs = new ArrayList<>();
-                    gbDevs.add(extraDevice);
-                    fromExtra = true;
-                } else if (prefs.getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true)) {
-                    List<GBDevice> gbAllDevs = GBApplication.app().getDeviceManager().getDevices();
-                    Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
-                    if (gbAllDevs != null && !gbAllDevs.isEmpty() && !lastDeviceAddresses.isEmpty()) {
-                        gbDevs = new ArrayList<>();
-                        for(GBDevice gbDev : gbAllDevs) {
-                            if (lastDeviceAddresses.contains(gbDev.getAddress())) {
-                                gbDevs.add(gbDev);
-                            }
-                        }
-                    }
-                } else {
-                    gbDevs = GBApplication.app().getDeviceManager().getDevices();
-                }
-
-                if(gbDevs == null || gbDevs.size() == 0) {
-                    return START_NOT_STICKY;
-                }
-
-                for(GBDevice gbDevice : gbDevs) {
-                    String btDeviceAddress = gbDevice.getAddress();
-
-                    boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
-                    if (prefs != null && prefs.getPreferences() != null) {
-                        autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
-                        if(!fromExtra && !autoReconnect) {
-                            continue;
-                        }
-                        Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
-                        if (!lastDeviceAddresses.contains(btDeviceAddress)) {
-                            lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
-                            lastDeviceAddresses.add(btDeviceAddress);
-                            prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
-                        }
-                    }
-
-                    if(!fromExtra && !autoReconnect) {
-                        continue;
-                    }
-
-                    DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
-                    if(registeredStruct != null){
-                        boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
-                        if(deviceAlreadyConnected){
-                            break;
-                        }
-                        try {
-                            removeDeviceSupport(gbDevice);
-                        } catch (DeviceNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }else{
-                        registeredStruct = new DeviceStruct();
-                        registeredStruct.setDevice(gbDevice);
-                        registeredStruct.setCoordinator(gbDevice.getDeviceCoordinator());
-                        deviceStructs.add(registeredStruct);
-                    }
-
-                    try {
-                        DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
-                        if (deviceSupport != null) {
-                            setDeviceSupport(gbDevice, deviceSupport);
-                            if (firstTime) {
-                                deviceSupport.connectFirstTime();
-                            } else {
-                                deviceSupport.setAutoReconnect(autoReconnect);
-                                deviceSupport.connect();
-                            }
-                        } else {
-                            GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
-                        }
-                    } catch (Exception e) {
-                        GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
-                    }
-
-                    for(DeviceStruct struct2 : deviceStructs){
-                        struct2.getDevice().sendDeviceUpdateIntent(this);
-                    }
-                }
+                boolean firstTime = intent.getBooleanExtra(EXTRA_CONNECT_FIRST_TIME, false);
+                connectToDevice(targetDevice, firstTime);
                 break;
             default:
-                GBDevice targetedDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                 ArrayList<GBDevice> targetedDevices = new ArrayList<>();
-                if(targetedDevice != null){
-                    targetedDevices.add(targetedDevice);
+                if(targetDevice != null){
+                    targetedDevices.add(targetDevice);
                 }else{
                     for(GBDevice device : getGBDevices()){
                         if(isDeviceInitialized(device)){
@@ -1042,16 +1084,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         throw new DeviceNotFoundException(device);
     }
 
-    private void start() {
-        if (!mStarted) {
-            GB.createNotificationChannels(this);
-            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
-            mStarted = true;
-        }
-    }
-
-    public boolean isStarted() {
-        return mStarted;
+    private void startForeground() {
+        GB.createNotificationChannels(this);
+        startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
     }
 
     private boolean isDeviceConnected(GBDevice device) {

@@ -434,6 +434,12 @@
             android:name=".devices.pinetime.PineTimeDFUService"
             android:label="PineTime Nordic DFU service" />
 
+        <service
+            android:name=".service.btle.BLEScanService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+
         <receiver
             android:name=".externalevents.GenericWeatherReceiver"
             android:enabled="true"

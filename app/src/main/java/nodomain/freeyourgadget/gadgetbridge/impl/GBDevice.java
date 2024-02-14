@@ -431,33 +431,14 @@ public class GBDevice implements Parcelable {
      * Set simple to true to get this behavior.
      */
     private String getStateString(boolean simple) {
-        switch (mState) {
-            case NOT_CONNECTED:
-                return GBApplication.getContext().getString(R.string.not_connected);
-            case WAITING_FOR_RECONNECT:
-                return GBApplication.getContext().getString(R.string.waiting_for_reconnect);
-            case CONNECTING:
-                return GBApplication.getContext().getString(R.string.connecting);
-            case CONNECTED:
-                if (simple) {
-                    return GBApplication.getContext().getString(R.string.connecting);
-                }
-                return GBApplication.getContext().getString(R.string.connected);
-            case INITIALIZING:
-                if (simple) {
-                    return GBApplication.getContext().getString(R.string.connecting);
-                }
-                return GBApplication.getContext().getString(R.string.initializing);
-            case AUTHENTICATION_REQUIRED:
-                return GBApplication.getContext().getString(R.string.authentication_required);
-            case AUTHENTICATING:
-                return GBApplication.getContext().getString(R.string.authenticating);
-            case INITIALIZED:
-                if (simple) {
-                    return GBApplication.getContext().getString(R.string.connected);
-                }
-                return GBApplication.getContext().getString(R.string.initialized);
-        }
+        try{
+            // TODO: not sure if this is really neccessary...
+            if(simple){
+                return GBApplication.getContext().getString(mState.getSimpleStringId());
+            }
+            return GBApplication.getContext().getString(mState.getStringId());
+        }catch (Exception e){}
+
         return GBApplication.getContext().getString(R.string.unknown_state);
     }
 
@@ -744,20 +725,40 @@ public class GBDevice implements Parcelable {
     }
 
     public enum State {
-        // Note: the order is important!
-        NOT_CONNECTED,
-        WAITING_FOR_RECONNECT,
-        CONNECTING,
-        CONNECTED,
-        INITIALIZING,
-        AUTHENTICATION_REQUIRED, // some kind of pairing is required by the device
-        AUTHENTICATING, // some kind of pairing is requested by the device
+        NOT_CONNECTED(R.string.not_connected),
+        WAITING_FOR_RECONNECT(R.string.waiting_for_reconnect),
+        WAITING_FOR_SCAN(R.string.device_state_waiting_scan),
+        CONNECTING(R.string.connecting),
+        CONNECTED(R.string.connected, R.string.connecting),
+        INITIALIZING(R.string.initializing, R.string.connecting),
+        AUTHENTICATION_REQUIRED(R.string.authentication_required), // some kind of pairing is required by the device
+        AUTHENTICATING(R.string.authenticating), // some kind of pairing is requested by the device
         /**
          * Means that the device is connected AND all the necessary initialization steps
          * have been performed. At the very least, this means that basic information like
          * device name, firmware version, hardware revision (as applicable) is available
          * in the GBDevice.
          */
-        INITIALIZED,
+        INITIALIZED(R.string.initialized, R.string.connected);
+
+
+        private int stringId, simpleStringId;
+
+        State(int stringId, int simpleStringId) {
+            this.stringId = stringId;
+            this.simpleStringId = simpleStringId;
+        }
+
+        State(int stringId) {
+            this(stringId, stringId);
+        }
+
+        public int getStringId() {
+            return stringId;
+        }
+
+        public int getSimpleStringId() {
+            return simpleStringId;
+        }
     }
 }

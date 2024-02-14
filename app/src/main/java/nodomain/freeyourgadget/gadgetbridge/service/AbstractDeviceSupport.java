@@ -127,7 +127,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     protected GBDevice gbDevice;
     private BluetoothAdapter btAdapter;
     private Context context;
-    private boolean autoReconnect;
+    private boolean autoReconnect, scanReconnect;
 
 
 
@@ -169,6 +169,16 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     @Override
     public boolean getAutoReconnect() {
         return autoReconnect;
+    }
+
+    @Override
+    public void setScanReconnect(boolean scanReconnect) {
+        this.scanReconnect = scanReconnect;
+    }
+
+    @Override
+    public boolean getScanReconnect(){
+        return this.scanReconnect;
     }
 
     @Override
