@@ -2796,4 +2796,6 @@
     <string name="activity_type_rock_climbing">تسلق الصخور</string>
     <string name="activity_type_hunting">الصيد</string>
     <string name="activity_type_outdoor_walking">المشي في الهواء الطلق</string>
+    <string name="warning_missing_notification_permission">لا يمكن نشر الإشعار المستمر بسبب فقدان الصلاحيات المطلوبة</string>
+    <string name="devicetype_huawei_watchfit">ساعة هواوي فيت</string>
 </resources>
