@@ -2804,4 +2804,5 @@
     <string name="devicetype_honor_magicwatch2">荣耀 MagicWatch 2</string>
     <string name="devicetype_redmi_watch_2">红米手表2</string>
     <string name="warning_missing_notification_permission">由于缺少权限，无法发布持续通知</string>
+    <string name="devicetype_huawei_watchfit">华为运动手表</string>
 </resources>
