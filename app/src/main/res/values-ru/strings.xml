@@ -2753,4 +2753,6 @@
     <string name="activity_type_dodgeball">Вышибалы</string>
     <string name="activity_type_softball">Софтбол</string>
     <string name="activity_type_pickleball">Пиклбол</string>
+    <string name="warning_missing_notification_permission">Невозможно отправить текущее уведомление из-за отсутствия разрешения</string>
+    <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
 </resources>
