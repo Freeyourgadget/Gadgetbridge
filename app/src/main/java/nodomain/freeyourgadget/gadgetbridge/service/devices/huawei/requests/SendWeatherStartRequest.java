@@ -32,11 +32,13 @@ public class SendWeatherStartRequest extends Request {
     private static final Logger LOG = LoggerFactory.getLogger(SendWeatherStartRequest.class);
 
     public int response = -1;
+    private Weather.Settings weatherSettings;
 
-    public SendWeatherStartRequest(HuaweiSupportProvider support) {
+    public SendWeatherStartRequest(HuaweiSupportProvider support, Weather.Settings weatherSettings) {
         super(support);
         this.serviceId = Weather.id;
         this.commandId = Weather.WeatherStart.id;
+        this.weatherSettings = weatherSettings;
     }
 
     @Override
@@ -55,6 +57,8 @@ public class SendWeatherStartRequest extends Request {
                 this.stopChain();
                 GB.toast(supportProvider.getContext(), "Received non-ok status for WeatherStart response", Toast.LENGTH_SHORT, GB.INFO);
                 LOG.info("Received non-ok status for WeatherStart response");
+            } else {
+                weatherSettings.weatherSupported = true;
             }
         } else {
             this.stopChain();

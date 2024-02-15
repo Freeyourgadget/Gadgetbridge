@@ -27,8 +27,8 @@ public class SendGpsAndTimeToDeviceRequest extends Request {
             return new GpsAndTime.CurrentGPSRequest(
                     this.paramsProvider,
                     (int) (Calendar.getInstance().getTime().getTime() / 1000L) - 60,
-                    prefs.getFloat("location_latitude", 0),
-                    prefs.getFloat("location_longitude", 0)
+                    prefs.getFloat("location_latitude", 0.0F),
+                    prefs.getFloat("location_longitude", 0.0F)
             ).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);

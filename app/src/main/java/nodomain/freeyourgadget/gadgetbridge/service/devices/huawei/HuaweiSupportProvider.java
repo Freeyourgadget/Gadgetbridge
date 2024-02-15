@@ -166,8 +166,6 @@ public class HuaweiSupportProvider {
     private MusicStateSpec musicStateSpec = null;
     private MusicSpec musicSpec = null;
 
-    private Weather.Settings weatherSettings = null;
-
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
     protected ResponseManager responseManager = new ResponseManager(this);
@@ -1703,86 +1701,61 @@ public class HuaweiSupportProvider {
     }
 
     public void onSendWeather(WeatherSpec weatherSpec) {
-        if (weatherSettings != null && weatherSettings.weatherSupported) {
-            try {
-                SendWeatherCurrentRequest sendWeatherCurrentRequest = new SendWeatherCurrentRequest(
-                        this,
-                        weatherSettings,
-                        weatherSpec
-                );
+        // Initialize weather settings and send weather
+        if (!getHuaweiCoordinator().supportsWeather()) {
+            // TODO: exception?
+            return;
+        }
 
-                SendGpsAndTimeToDeviceRequest sendGpsAndTimeToDeviceRequest = new SendGpsAndTimeToDeviceRequest(
-                        this
-                );
+        Weather.Settings weatherSettings = new Weather.Settings();
 
-                sendWeatherCurrentRequest.nextRequest(sendGpsAndTimeToDeviceRequest);
+        SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this, weatherSettings);
+        Request lastRequest = weatherStartRequest;
 
+        if (getHuaweiCoordinator().supportsWeatherUnit()) {
+            SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
+            lastRequest.nextRequest(weatherUnitRequest);
+            lastRequest = weatherUnitRequest;
+        }
 
-                if (getHuaweiCoordinator().supportsWeatherForecasts()) {
-                    SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(
-                            this,
-                            weatherSpec
-                    );
-                    sendGpsAndTimeToDeviceRequest.nextRequest(sendWeatherForecastRequest);
-                }
+        SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
+        lastRequest.nextRequest(weatherSupportRequest);
+        lastRequest = weatherSupportRequest;
 
-                sendWeatherCurrentRequest.doPerform();
-            } catch (IOException e) {
-                // TODO: Use translatable string
-                GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
-                LOG.error("Failed to send weather", e);
-            }
-        } else {
-            // Initialize weather settings
-            if (!getHuaweiCoordinator().supportsWeather()) {
-                // TODO: exception?
-                return;
-            }
+        if (getHuaweiCoordinator().supportsWeatherExtended()) {
+            SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
+            lastRequest.nextRequest(weatherExtendedSupportRequest);
+            lastRequest = weatherExtendedSupportRequest;
+        }
 
-            this.weatherSettings = new Weather.Settings();
+        if (getHuaweiCoordinator().supportsWeatherMoonRiseSet()) {
+            SendWeatherSunMoonSupportRequest weatherSunMoonSupportRequest = new SendWeatherSunMoonSupportRequest(this, weatherSettings);
+            lastRequest.nextRequest(weatherSunMoonSupportRequest);
+            lastRequest = weatherSunMoonSupportRequest;
+        }
 
-            RequestCallback requestCallback = new RequestCallback(this) {
-                @Override
-                public void call() {
-                    this.support.weatherSettings.weatherSupported = true;
-                    this.support.onSendWeather(weatherSpec);
-                }
-            };
+        // End of initialization and start of actually sending weather
 
-            SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this);
-            Request lastRequest = weatherStartRequest;
+        SendWeatherCurrentRequest sendWeatherCurrentRequest = new SendWeatherCurrentRequest(this, weatherSettings, weatherSpec);
+        lastRequest.nextRequest(sendWeatherCurrentRequest);
+        lastRequest = sendWeatherCurrentRequest;
 
-            if (getHuaweiCoordinator().supportsWeatherUnit()) {
-                SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
-                lastRequest.nextRequest(weatherUnitRequest);
-                lastRequest = weatherUnitRequest;
-            }
+        SendGpsAndTimeToDeviceRequest sendGpsAndTimeToDeviceRequest = new SendGpsAndTimeToDeviceRequest(this);
+        lastRequest.nextRequest(sendGpsAndTimeToDeviceRequest);
+        lastRequest = sendGpsAndTimeToDeviceRequest;
 
-            SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
-            lastRequest.nextRequest(weatherSupportRequest);
-            lastRequest = weatherSupportRequest;
+        if (getHuaweiCoordinator().supportsWeatherForecasts()) {
+            SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(this, weatherSpec);
+            lastRequest.nextRequest(sendWeatherForecastRequest);
+            lastRequest = sendWeatherForecastRequest;
+        }
 
-            if (getHuaweiCoordinator().supportsWeatherExtended()) {
-                SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
-                lastRequest.nextRequest(weatherExtendedSupportRequest);
-                lastRequest = weatherExtendedSupportRequest;
-            }
-
-            if (getHuaweiCoordinator().supportsWeatherMoonRiseSet()) {
-                SendWeatherSunMoonSupportRequest weatherSunMoonSupportRequest = new SendWeatherSunMoonSupportRequest(this, weatherSettings);
-                lastRequest.nextRequest(weatherSunMoonSupportRequest);
-                lastRequest = weatherSunMoonSupportRequest;
-            }
-
-            lastRequest.setFinalizeReq(requestCallback);
-
-            try {
-                weatherStartRequest.doPerform();
-            } catch (IOException e) {
-                // TODO: Use translatable string
-                GB.toast(context, "Failed to send initialize weather requests", Toast.LENGTH_SHORT, GB.ERROR, e);
-                LOG.error("Failed to send initialize weather requests", e);
-            }
+        try {
+            weatherStartRequest.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to send weather", e);
         }
     }
 }
