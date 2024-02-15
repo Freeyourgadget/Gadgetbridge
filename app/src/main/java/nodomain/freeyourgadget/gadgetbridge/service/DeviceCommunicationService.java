@@ -1181,6 +1181,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
                 filter.addAction(TimeChangeReceiver.ACTION_DST_CHANGED_OR_PERIODIC_SYNC);
                 registerReceiver(mTimeChangeReceiver, filter);
+                // Ensure alarm is scheduled after registering broadcast receiver
+                // (this is important in case receiver was unregistered when the previous alarm arrived).
+                TimeChangeReceiver.ifEnabledScheduleNextDstChangeOrPeriodicSync(this);
             }
             if (mBlueToothPairingRequestReceiver == null) {
                 mBlueToothPairingRequestReceiver = new BluetoothPairingRequestReceiver(this);

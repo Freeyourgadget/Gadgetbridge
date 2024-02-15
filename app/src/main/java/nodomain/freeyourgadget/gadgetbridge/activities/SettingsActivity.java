@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActi
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -169,6 +170,17 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 pref.setOnPreferenceClickListener(preference -> {
                     Intent enableIntent = new Intent(requireContext(), ZeTimePreferenceActivity.class);
                     startActivity(enableIntent);
+                    return true;
+                });
+            }
+
+            pref = findPreference("datetime_synconconnect");
+            if (pref != null) {
+                pref.setOnPreferenceChangeListener((preference, newVal) -> {
+                    if (Boolean.TRUE.equals(newVal)) {
+                        TimeChangeReceiver.scheduleNextDstChangeOrPeriodicSync(requireContext());
+                        GBApplication.deviceService().onSetTime();
+                    }
                     return true;
                 });
             }

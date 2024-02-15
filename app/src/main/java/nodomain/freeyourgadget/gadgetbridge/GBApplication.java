@@ -246,7 +246,6 @@ public class GBApplication extends Application {
         loadAppsPebbleBlackList();
 
         PeriodicExporter.enablePeriodicExport(context);
-        TimeChangeReceiver.scheduleNextDstChangeOrPeriodicSync(context);
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

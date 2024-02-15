@@ -143,6 +143,12 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         }
     }
 
+    public static void ifEnabledScheduleNextDstChangeOrPeriodicSync(final Context context) {
+        if (GBApplication.getPrefs().getBoolean("datetime_synconconnect", true)) {
+            scheduleNextDstChangeOrPeriodicSync(context);
+        }
+    }
+
     private static boolean canScheduleExactAlarms(final Context context, final AlarmManager am) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             return am.canScheduleExactAlarms();
