@@ -2679,4 +2679,6 @@
     <string name="pref_force_connection_type_bt_classic_value" translatable="false">BT_CLASSIC</string>
     <string name="activity_info">Activity info</string>
     <string name="warning_missing_notification_permission">Could not post ongoing notification due to missing permission</string>
+    <string name="pref_test_features_title">Features</string>
+    <string name="pref_test_features_summary">Enabled features for this test device</string>
 </resources>

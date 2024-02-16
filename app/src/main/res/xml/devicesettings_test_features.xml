@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- the values will be populated by the TestDeviceSpecificSettingsCustomizer -->
+    <MultiSelectListPreference
+        android:defaultValue="@array/empty_array"
+        android:entries="@array/empty_array"
+        android:entryValues="@array/empty_array"
+        android:icon="@drawable/ic_developer_mode"
+        android:key="test_features"
+        android:summary="@string/pref_test_features_summary"
+        android:title="@string/pref_test_features_title" />
+</androidx.preference.PreferenceScreen>
