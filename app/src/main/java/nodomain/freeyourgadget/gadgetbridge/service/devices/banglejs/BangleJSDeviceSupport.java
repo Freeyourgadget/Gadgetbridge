@@ -1221,14 +1221,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             File outputFileLogID = new File(dir, filenameLogID);
             LOG.warn("Writing log to " + outputFile.toString());
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
-                writer.write(line);
-                writer.close();
+                FileUtils.copyStringToFile(line,outputFile,"append");
                 //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
 
-                BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
-                writerLogID.write(log);
-                writerLogID.close();
+                FileUtils.copyStringToFile(log,outputFileLogID,"");
                 //GB.toast(getContext(), "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
             } catch (IOException e) {
                 LOG.warn("Could not write to file", e);
@@ -1953,12 +1949,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             String filename = "latestFetchedRecorderLog.txt";
             File inputFile = new File(dir, filename);
-            BufferedReader reader;
             String lastSyncedID = "";
             try {
-                reader = new BufferedReader(new FileReader(inputFile));
-                lastSyncedID = String.valueOf(reader.readLine());
-                reader.close();
+                lastSyncedID = FileUtils.getStringFromFile(inputFile);
             } catch (IOException ignored) {
             }
             //lastSyncedID = "20230706x"; // DEBUGGING
