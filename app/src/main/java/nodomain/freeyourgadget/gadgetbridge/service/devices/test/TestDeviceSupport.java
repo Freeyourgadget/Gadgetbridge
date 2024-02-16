@@ -21,7 +21,6 @@ import android.os.Handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestFeature;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -41,6 +40,10 @@ public class TestDeviceSupport extends AbstractDeviceSupport {
 
         handler.postDelayed(() -> {
             LOG.info("Initialized");
+
+            getDevice().setFirmwareVersion("1.0.0");
+            getDevice().setFirmwareVersion2("N/A");
+            getDevice().setModel("0.1.7");
 
             if (getCoordinator().supportsLedColor()) {
                 getDevice().setExtraInfo("led_color", 0xff3061e3);
