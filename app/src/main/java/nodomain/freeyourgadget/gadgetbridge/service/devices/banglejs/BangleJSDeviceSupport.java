@@ -151,8 +151,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -731,10 +729,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private String lastRecToFetch;
     private void handleTrksList(JSONObject json) throws JSONException {
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         JSONArray tracksList = json.getJSONArray("list");
+        lastRecToFetch = tracksList.getString(tracksList.length()-1);
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         for (int i = 0; i < tracksList.length(); i ++) {
             requestActivityTrackLog(tracksList.getString(i), i==tracksList.length()-1);
@@ -745,9 +745,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("actTrk says hi!");
         //GB.toast(getContext(), "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
-        String line = json.getString("line");
         LOG.info(log);
-        LOG.info(line);
         File dir;
         try {
             dir = FileUtils.getExternalFilesDir();
@@ -756,465 +754,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         String filename = "recorder.log" + log + ".csv";
 
-        if (line.equals("end of recorder log")) { // TODO: Persist log to database here by reading the now completely transferred csv file from GB storage directory
-
-            File inputFile = new File(dir, filename);
-            try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
-
-                // Read from the previously stored log (see the else-statement below) into a string.
-                BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-                StringBuilder storedLogBuilder = new StringBuilder(reader.readLine() + "\n");
-                while ((line = reader.readLine()) != null) {
-                    storedLogBuilder.append(line).append("\n");
-                }
-                reader.close();
-                String storedLog = String.valueOf(storedLogBuilder);
-                storedLog = storedLog.replace(",",", "); // So all rows (internal arrays) in storedLogArray2 get the same number of entries.
-                LOG.info("Contents of log read from GB storage:\n" + storedLog);
-
-                // Turn the string log into a 2d array in two steps.
-                String[] storedLogArray = storedLog.split("\n") ;
-                String[][] storedLogArray2 = new String[storedLogArray.length][1];
-
-                for (int i = 0; i < storedLogArray.length; i++) {
-                    storedLogArray2[i] = storedLogArray[i].split(",");
-                    for (int j = 0; j < storedLogArray2[i].length;j++) {
-                        storedLogArray2[i][j] = storedLogArray2[i][j].trim(); // Remove the extra spaces we introduced above for getting the same number of entries on all rows.
-                    }
-                }
-
-                LOG.info("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
-
-                // Turn the 2d array into an object for easier access later on.
-                JSONObject storedLogObject = new JSONObject();
-                JSONArray valueArray = new JSONArray();
-                for (int i = 0; i < storedLogArray2[0].length; i++){
-                    for (int j = 1; j < storedLogArray2.length; j++) {
-                        valueArray.put(storedLogArray2[j][i]);
-                    }
-                    storedLogObject.put(storedLogArray2[0][i], valueArray);
-                    valueArray = new JSONArray();
-                }
-
-                // Clean out heartrate==0...
-                if (storedLogObject.has("Heartrate")) {
-                    JSONArray heartrateArray = storedLogObject.getJSONArray("Heartrate");
-                    for (int i = 0; i < heartrateArray.length(); i++){
-                        if (Objects.equals(heartrateArray.getString(i), "0") ||
-                                Objects.equals(heartrateArray.getString(i), "0.0")) {
-                            heartrateArray.put(i,"");
-                        }
-                    }
-                    //storedLogObject.remove("Heartrate");
-                    storedLogObject.put("Heartrate", heartrateArray);
-
-                }
-
-                LOG.info("storedLogObject:\n" + storedLogObject);
-
-                // Calculate and store analytical data (distance, speed, cadence, etc.).
-                JSONObject analyticsObject = new JSONObject();
-                JSONArray calculationsArray = new JSONArray();
-                int logLength = storedLogObject.getJSONArray("Time").length();
-
-                // Add elapsed time since first reading (seconds).
-                valueArray = storedLogObject.getJSONArray("Time");
-                for (int i = 0; i < logLength; i++) {
-                    calculationsArray.put(valueArray.getDouble(i)-valueArray.getDouble(0));
-                }
-                analyticsObject.put("Elapsed Time", calculationsArray);
-
-                valueArray = new JSONArray();
-                calculationsArray = new JSONArray();
-
-                JSONArray valueArray2 = new JSONArray();
-
-                LOG.info("check here 0");
-                // Add analytics based on GPS coordinates.
-                if (storedLogObject.has("Latitude")) {
-                    // Add distance between last and current reading.
-                    valueArray = storedLogObject.getJSONArray("Latitude");
-                    valueArray2 = storedLogObject.getJSONArray("Longitude");
-                    for (int i = 0; i < logLength; i++) {
-                        if (i == 0) {
-                            calculationsArray.put("0");
-                        } else {
-                            String distance;
-                            if (Objects.equals(valueArray.getString(i), "") ||
-                                    Objects.equals(valueArray.getString(i - 1), "")) {
-                                // FIXME: GPS data can be missing for some entries which is handled here.
-                                // Should use more complex logic to be more accurate. Use interpolation.
-                                // Should distances be done via the GPX file we generate instead?
-                                distance = "0";
-                            } else {
-                                distance = distanceFromCoordinatePairs(
-                                        (String) valueArray.get(i - 1),
-                                        (String) valueArray2.get(i - 1),
-                                        (String) valueArray.get(i),
-                                        (String) valueArray2.get(i)
-                                );
-                            }
-                            calculationsArray.put(distance);
-                        }
-                    }
-                    analyticsObject.put("Intermediate Distance", calculationsArray);
-
-                    valueArray = new JSONArray();
-                    valueArray2 = new JSONArray();
-                    calculationsArray = new JSONArray();
-
-                    LOG.info("check here 1");
-                    // Add stride lengths between consecutive readings.
-                    if (storedLogObject.has("Steps")) {
-                        for (int i = 0; i < logLength; i++) {
-                            if (Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
-                                    Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
-                                calculationsArray.put("");
-                            } else if (Objects.equals(analyticsObject.getJSONArray("Intermediate Distance").getString(i), "0")) {
-                                calculationsArray.put("0");
-                            } else {
-                                double steps = storedLogObject.getJSONArray("Steps").getDouble(i);
-                                double calculation =
-                                        analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / steps;
-                                calculationsArray.put(calculation);
-                            }
-                        }
-                        analyticsObject.put("Stride", calculationsArray);
-
-                        calculationsArray = new JSONArray();
-                    }
-
-                    LOG.info("check here 2");
-                } else if (storedLogObject.has("Steps")) {
-                    for (int i = 0; i < logLength; i++) {
-                        if (i==0 ||
-                                Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
-                                Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
-                            calculationsArray.put(0);
-                        } else {
-                            double avgStep = (0.67+0.762)/2; // https://marathonhandbook.com/average-stride-length/  (female+male)/2
-                            double stride = 2*avgStep; // TODO: Depend on user defined stride length?
-                            double calculation = stride * (storedLogObject.getJSONArray("Steps").getDouble(i));
-                            //if (calculation == 0) calculation = 0.001; // To avoid potential division by zero later on.
-                            calculationsArray.put(calculation);
-                        }
-                    }
-                    analyticsObject.put("Intermediate Distance", calculationsArray);
-
-                    calculationsArray = new JSONArray();
-
-                }
-
-                LOG.info("check here 3");
-                if (analyticsObject.has("Intermediate Distance")) {
-                    // Add total distance from start of activity up to each reading.
-                    for (int i = 0; i < logLength; i++) {
-                        if (i==0) {
-                            calculationsArray.put(0);
-                        } else {
-                            double calculation = calculationsArray.getDouble(i-1) + analyticsObject.getJSONArray("Intermediate Distance").getDouble(i);
-                            calculationsArray.put(calculation);
-                        }
-                    }
-                    analyticsObject.put("Total Distance", calculationsArray);
-
-                    calculationsArray = new JSONArray();
-
-                    LOG.info("check here 4");
-                    // Add average speed between last and current reading (m/s).
-                    for (int i = 0; i < logLength; i++) {
-                        if (i==0) {
-                            calculationsArray.put("");
-                        } else {
-                            double timeDiff =
-                                    (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
-                                            analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
-                            if (timeDiff==0) timeDiff = 1; // On older versions of the Recorder Bangle.js app the time reporting could be the same for two data points due to rounding.
-                            double calculation =
-                                    analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / timeDiff;
-                            calculationsArray.put(calculation);
-                        }
-                    }
-                    LOG.info("check " + calculationsArray);
-                    analyticsObject.put("Speed", calculationsArray);
-
-                    calculationsArray = new JSONArray();
-
-                    LOG.info("check here 5");
-                    // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seems to expect s/km).
-                    for (int i = 0; i < logLength; i++) {
-                        String speed = analyticsObject.getJSONArray("Speed").getString(i);
-                        LOG.info("check: " + speed);
-                        if (i==0 || Objects.equals(speed, "0") || Objects.equals(speed, "0.0") || Objects.equals(speed, "")) {
-                            calculationsArray.put("");
-                        } else {
-                            double calculation = (1000.0) * 1/ analyticsObject.getJSONArray("Speed").getDouble(i);
-                            calculationsArray.put(calculation);
-                        }
-                    }
-                    analyticsObject.put("Pace", calculationsArray);
-
-                    calculationsArray = new JSONArray();
-                }
-
-                LOG.info("check here 6");
-                if (storedLogObject.has("Steps")) {
-                    for (int i = 0; i < logLength; i++) {
-                        if (i==0 || Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
-                            calculationsArray.put(0);
-                        } else {
-                            // FIXME: Should cadence be steps/min or half that? https://www.polar.com/blog/what-is-running-cadence/
-                            // The Bangle.js App Loader has Cadence = (steps/min)/2,  https://github.com/espruino/BangleApps/blob/master/apps/recorder/interface.html#L103,
-                            // as discussed here: https://github.com/espruino/BangleApps/pull/3068#issuecomment-1790293879 .
-                            double timeDiff =
-                                    (storedLogObject.getJSONArray("Time").getDouble(i) -
-                                            storedLogObject.getJSONArray("Time").getDouble(i-1));
-                            if (timeDiff==0) timeDiff = 1;
-                            double calculation = 0.5 * 60 *
-                                    (storedLogObject.getJSONArray("Steps").getDouble(i) / timeDiff);
-                            calculationsArray.put(calculation);
-                        }
-                    }
-                    analyticsObject.put("Cadence", calculationsArray);
-
-                    calculationsArray = new JSONArray();
-                }
-                LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
-
-                LOG.info("check here 7");
-                BaseActivitySummary summary = null;
-
-                Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
-                Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0].split("\\.\\d")[0])*1000L);
-                summary = new BaseActivitySummary();
-                summary.setName(log);
-                summary.setStartTime(startTime);
-                summary.setEndTime(endTime);
-                summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
-                summary.setRawDetailsPath(String.valueOf(inputFile));
-
-                JSONObject summaryData = new JSONObject();
-                //     put("Activity", Arrays.asList(
-                //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
-                //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
-                //     ));
-                if (analyticsObject.has("Intermediate Distance")) summaryData =
-                        addSummaryData(summaryData, "distanceMeters",
-                                (float) analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1),
-                                "m");
-                if (storedLogObject.has("Steps"))
-                    summaryData = addSummaryData(summaryData, "steps", sumOfJSONArray(storedLogObject.getJSONArray("Steps")), "steps");
-                //summaryData = addSummaryData(summaryData,"activeSeconds",3,"mm"); // FIXME: Is this suppose to exclude the time of inactivity in a workout?
-                //summaryData = addSummaryData(summaryData,"caloriesBurnt",3,"mm"); // TODO: Should this be calculated on Gadgetbridge side or be reported by Bangle.js?
-                //summaryData = addSummaryData(summaryData,"totalStride",3,"mm"); // FIXME: What is this?
-                if (storedLogObject.has("Heartrate")) {
-                    summaryData = addSummaryData(summaryData, "averageHR", averageOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                    summaryData = addSummaryData(summaryData, "maxHR", maxOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                    summaryData = addSummaryData(summaryData, "minHR", minOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
-                }
-                if (analyticsObject.has("Stride")) {
-                    summaryData = addSummaryData(summaryData, "averageStride",
-                            (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
-                                    (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
-                            "m"); // FIXME: Is this meant to be stride length as I've assumed?
-                    summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
-                    summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
-                }
-
-                //     put("Speed", Arrays.asList(
-                //             "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
-                //             "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
-                //     ));
-                try {
-                    if (analyticsObject.has("Speed")) {
-                        summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
-                        summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                        summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                        summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
-                        //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
-                        //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
-                        //                analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1)),
-                        //        "s/km"
-                        //);
-                        summaryData = addSummaryData(summaryData, "minPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
-                        summaryData = addSummaryData(summaryData, "maxPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
-                        //summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
-                    }
-                    if (analyticsObject.has("Cadence")) {
-                        //summaryData = addSummaryData(summaryData, "averageCadence", averageOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min"); // Is this also calculated automatically then?
-                        summaryData = addSummaryData(summaryData, "averageCadence",
-                                (float) 0.5 * 60 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")) /
-                                        (float) analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength - 1),
-                                "cycles/min"
-                        );
-                        summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
-                        summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
-                    }
-                } catch (Exception e) {
-                    LOG.error(e + ". (thrown when trying to add summary data");
-                }
-                //            private JSONObject createActivitySummaryGroups(){
-                // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
-                //     put("Strokes", Arrays.asList(
-                //             "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
-                //     ));
-
-                //     put("Swimming", Arrays.asList(
-                //             "swolfIndex", "swimStyle"
-                //     ));
-
-                //     put("Elevation", Arrays.asList(
-                //             "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
-                //             "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
-                //             "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
-                //     ));
-                if (storedLogObject.has("Altitude") || storedLogObject.has("Barometer Altitude")) {
-                    String altitudeToUseKey = null;
-                    if (storedLogObject.has("Altitude")) {
-                        altitudeToUseKey = "Altitude";
-                    } else if (storedLogObject.has("Barometer Altitude")) {
-                        altitudeToUseKey = "Barometer Altitude";
-                    }
-                    //summaryData = addSummaryData(summaryData, "ascentMeters", 3, "m");
-                    //summaryData = addSummaryData(summaryData, "descentMeters", 3, "m");
-                    summaryData = addSummaryData(summaryData, "maxAltitude", maxOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
-                    summaryData = addSummaryData(summaryData, "minAltitude", minOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
-                    summaryData = addSummaryData(summaryData, "averageAltitude", averageOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
-                    //summaryData = addSummaryData(summaryData, "baseAltitude", 3, "m");
-                    //summaryData = addSummaryData(summaryData, "ascentSeconds", 3, "s");
-                    //summaryData = addSummaryData(summaryData, "descentSeconds", 3, "s");
-                    //summaryData = addSummaryData(summaryData, "flatSeconds", 3, "s");
-                    //if (analyticsObject.has("Intermittent Distance")) {
-                    //    summaryData = addSummaryData(summaryData, "ascentDistance", 3, "m");
-                    //    summaryData = addSummaryData(summaryData, "descentDistance", 3, "m");
-                    //    summaryData = addSummaryData(summaryData, "flatDistance", 3, "m");
-                    //}
-                    //summaryData = addSummaryData(summaryData, "elevationGain", 3, "mm");
-                    //summaryData = addSummaryData(summaryData, "elevationLoss", 3, "mm");
-                }
-                //     put("HeartRateZones", Arrays.asList(
-                //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
-                //             "hrZoneExtreme"
-                //     ));
-                // TODO: Implement hrZones by doing calculations on Gadgetbridge side or make Bangle.js report this (Karvonen method implemented to a degree in watch app "Run+")?
-                //summaryData = addSummaryData(summaryData,"hrZoneNa",3,"mm");
-                //summaryData = addSummaryData(summaryData,"hrZoneWarmUp",3,"mm");
-                //summaryData = addSummaryData(summaryData,"hrZoneFatBurn",3,"mm");
-                //summaryData = addSummaryData(summaryData,"hrZoneAerobic",3,"mm");
-                //summaryData = addSummaryData(summaryData,"hrZoneAnaerobic",3,"mm");
-                //summaryData = addSummaryData(summaryData,"hrZoneExtreme",3,"mm");
-                //     put("TrainingEffect", Arrays.asList(
-                //             "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
-                //             "maximumOxygenUptake"
-                //     ));
-
-                //     put("Laps", Arrays.asList(
-                //             "averageLapPace", "laps"
-                //     ));
-                // TODO: Does Bangle.js report laps in recorder logs?
-                //summaryData = addSummaryData(summaryData,"averageLapPace",3,"mm");
-                //summaryData = addSummaryData(summaryData,"laps",3,"mm");
-                // }};
-                summary.setSummaryData(summaryData.toString());
-
-                ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
-                track.startNewSegment();
-                track.setBaseTime(startTime);
-                track.setName(log);
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    DaoSession session = dbHandler.getDaoSession();
-                    Device device = DBHelper.getDevice(getDevice(), session);
-                    User user = DBHelper.getUser(session);
-                    track.setDevice(device);
-                    track.setUser(user);
-                } catch (Exception ex) {
-                    GB.toast(getContext(), "Error setting user for activity track.", Toast.LENGTH_LONG, GB.ERROR, ex);
-                }
-                ActivityPoint point = new ActivityPoint();
-                Date timeOfPoint = new Date();
-                for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
-                    timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
-                    point.setTime(timeOfPoint);
-                    if (storedLogObject.has("Longitude")) {
-                        if (!Objects.equals(storedLogObject.getJSONArray("Longitude").getString(i), "")
-                                && !Objects.equals(storedLogObject.getJSONArray("Latitude").getString(i), "")
-                                && !Objects.equals(storedLogObject.getJSONArray("Altitude").getString(i), "")) {
-
-                            point.setLocation(new GPSCoordinate(
-                                            storedLogObject.getJSONArray("Longitude").getDouble(i),
-                                            storedLogObject.getJSONArray("Latitude").getDouble(i),
-                                            storedLogObject.getJSONArray("Altitude").getDouble(i)
-                                    )
-                            );
-                        }
-                    }
-                    if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
-                        point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
-                    }
-                    track.addTrackPoint(point);
-                    LOG.info("Activity Point:\n" + point.getHeartRate());
-                    point = new ActivityPoint();
-                }
-
-                ActivityTrackExporter exporter = createExporter();
-                String trackType = "track";
-                switch (summary.getActivityKind()) {
-                    case ActivityKind.TYPE_CYCLING:
-                        trackType = getContext().getString(R.string.activity_type_biking);
-                        break;
-                    case ActivityKind.TYPE_RUNNING:
-                        trackType = getContext().getString(R.string.activity_type_running);
-                        break;
-                    case ActivityKind.TYPE_WALKING:
-                        trackType = getContext().getString(R.string.activity_type_walking);
-                        break;
-                    case ActivityKind.TYPE_HIKING:
-                        trackType = getContext().getString(R.string.activity_type_hiking);
-                        break;
-                    case ActivityKind.TYPE_CLIMBING:
-                        trackType = getContext().getString(R.string.activity_type_climbing);
-                        break;
-                    case ActivityKind.TYPE_SWIMMING:
-                        trackType = getContext().getString(R.string.activity_type_swimming);
-                        break;
-                }
-
-                String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
-                File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
-
-                try {
-                    exporter.performExport(track, targetFile);
-
-                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                        summary.setGpxTrack(targetFile.getAbsolutePath());
-                        //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
-                    GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
-                }
-
-                //summary.setSummaryData(null); // remove json before saving to database,
-
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    DaoSession session = dbHandler.getDaoSession();
-                    Device device = DBHelper.getDevice(getDevice(), session);
-                    User user = DBHelper.getUser(session);
-                    summary.setDevice(device);
-                    summary.setUser(user);
-                    session.getBaseActivitySummaryDao().insertOrReplace(summary);
-                } catch (Exception ex) {
-                    GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
-                }
-
-                LOG.info("Activity track:\n" + track.getSegments());
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (!json.has("line")) { // if no line was sent with this json object, it signifies that the whole recorder log has been transmitted.
+            parseFetchedRecorderCSV(dir, filename, log);
         } else { // We received a line of the csv, now we append it to the file in storage.
-            // TODO: File manipulation adapted from onFetchRecordedData() - break out to a new function to avoid code duplication?
+
+            String line = json.getString("line");
+            LOG.info(line);
 
             File outputFile = new File(dir, filename);
             String filenameLogID = "latestFetchedRecorderLog.txt";
@@ -1230,8 +775,472 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.warn("Could not write to file", e);
             }
         }
-        if (json.getString("last").equals("true")) {
+
+        if (!json.has("line") && json.getString("log").equals(lastRecToFetch)) {
             getDevice().unsetBusyTask();
+        }
+    }
+
+    private void parseFetchedRecorderCSV(File dir, String filename, String log) {
+
+        File inputFile = new File(dir, filename);
+        try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
+
+            // Read from the previously stored log (see the else-statement below) into a string.
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            StringBuilder storedLogBuilder = new StringBuilder(reader.readLine() + "\n");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                storedLogBuilder.append(line).append("\n");
+            }
+            reader.close();
+            String storedLog = String.valueOf(storedLogBuilder);
+            storedLog = storedLog.replace(",",", "); // So all rows (internal arrays) in storedLogArray2 get the same number of entries.
+            LOG.info("Contents of log read from GB storage:\n" + storedLog);
+
+            // Turn the string log into a 2d array in two steps.
+            String[] storedLogArray = storedLog.split("\n") ;
+            String[][] storedLogArray2 = new String[storedLogArray.length][1];
+
+            for (int i = 0; i < storedLogArray.length; i++) {
+                storedLogArray2[i] = storedLogArray[i].split(",");
+                for (int j = 0; j < storedLogArray2[i].length;j++) {
+                    storedLogArray2[i][j] = storedLogArray2[i][j].trim(); // Remove the extra spaces we introduced above for getting the same number of entries on all rows.
+                }
+            }
+
+            LOG.info("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
+
+            // Turn the 2d array into an object for easier access later on.
+            JSONObject storedLogObject = new JSONObject();
+            JSONArray valueArray = new JSONArray();
+            for (int i = 0; i < storedLogArray2[0].length; i++){
+                for (int j = 1; j < storedLogArray2.length; j++) {
+                    valueArray.put(storedLogArray2[j][i]);
+                }
+                storedLogObject.put(storedLogArray2[0][i], valueArray);
+                valueArray = new JSONArray();
+            }
+
+            // Clean out heartrate==0...
+            if (storedLogObject.has("Heartrate")) {
+                JSONArray heartrateArray = storedLogObject.getJSONArray("Heartrate");
+                for (int i = 0; i < heartrateArray.length(); i++){
+                    if (Objects.equals(heartrateArray.getString(i), "0") ||
+                            Objects.equals(heartrateArray.getString(i), "0.0")) {
+                        heartrateArray.put(i,"");
+                    }
+                }
+                //storedLogObject.remove("Heartrate");
+                storedLogObject.put("Heartrate", heartrateArray);
+
+            }
+
+            LOG.info("storedLogObject:\n" + storedLogObject);
+
+            // Calculate and store analytical data (distance, speed, cadence, etc.).
+            JSONObject analyticsObject = new JSONObject();
+            JSONArray calculationsArray = new JSONArray();
+            int logLength = storedLogObject.getJSONArray("Time").length();
+
+            // Add elapsed time since first reading (seconds).
+            valueArray = storedLogObject.getJSONArray("Time");
+            for (int i = 0; i < logLength; i++) {
+                calculationsArray.put(valueArray.getDouble(i)-valueArray.getDouble(0));
+            }
+            analyticsObject.put("Elapsed Time", calculationsArray);
+
+            valueArray = new JSONArray();
+            calculationsArray = new JSONArray();
+
+            JSONArray valueArray2 = new JSONArray();
+
+            LOG.info("check here 0");
+            // Add analytics based on GPS coordinates.
+            if (storedLogObject.has("Latitude")) {
+                // Add distance between last and current reading.
+                valueArray = storedLogObject.getJSONArray("Latitude");
+                valueArray2 = storedLogObject.getJSONArray("Longitude");
+                for (int i = 0; i < logLength; i++) {
+                    if (i == 0) {
+                        calculationsArray.put("0");
+                    } else {
+                        String distance;
+                        if (Objects.equals(valueArray.getString(i), "") ||
+                                Objects.equals(valueArray.getString(i - 1), "")) {
+                            // FIXME: GPS data can be missing for some entries which is handled here.
+                            // Should use more complex logic to be more accurate. Use interpolation.
+                            // Should distances be done via the GPX file we generate instead?
+                            distance = "0";
+                        } else {
+                            distance = distanceFromCoordinatePairs(
+                                    (String) valueArray.get(i - 1),
+                                    (String) valueArray2.get(i - 1),
+                                    (String) valueArray.get(i),
+                                    (String) valueArray2.get(i)
+                            );
+                        }
+                        calculationsArray.put(distance);
+                    }
+                }
+                analyticsObject.put("Intermediate Distance", calculationsArray);
+
+                valueArray = new JSONArray();
+                valueArray2 = new JSONArray();
+                calculationsArray = new JSONArray();
+
+                LOG.info("check here 1");
+                // Add stride lengths between consecutive readings.
+                if (storedLogObject.has("Steps")) {
+                    for (int i = 0; i < logLength; i++) {
+                        if (Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
+                                Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
+                            calculationsArray.put("");
+                        } else if (Objects.equals(analyticsObject.getJSONArray("Intermediate Distance").getString(i), "0")) {
+                            calculationsArray.put("0");
+                        } else {
+                            double steps = storedLogObject.getJSONArray("Steps").getDouble(i);
+                            double calculation =
+                                    analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / steps;
+                            calculationsArray.put(calculation);
+                        }
+                    }
+                    analyticsObject.put("Stride", calculationsArray);
+
+                    calculationsArray = new JSONArray();
+                }
+
+                LOG.info("check here 2");
+            } else if (storedLogObject.has("Steps")) {
+                for (int i = 0; i < logLength; i++) {
+                    if (i==0 ||
+                            Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "0") ||
+                            Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
+                        calculationsArray.put(0);
+                    } else {
+                        double avgStep = (0.67+0.762)/2; // https://marathonhandbook.com/average-stride-length/  (female+male)/2
+                        double stride = 2*avgStep; // TODO: Depend on user defined stride length?
+                        double calculation = stride * (storedLogObject.getJSONArray("Steps").getDouble(i));
+                        //if (calculation == 0) calculation = 0.001; // To avoid potential division by zero later on.
+                        calculationsArray.put(calculation);
+                    }
+                }
+                analyticsObject.put("Intermediate Distance", calculationsArray);
+
+                calculationsArray = new JSONArray();
+
+            }
+
+            LOG.info("check here 3");
+            if (analyticsObject.has("Intermediate Distance")) {
+                // Add total distance from start of activity up to each reading.
+                for (int i = 0; i < logLength; i++) {
+                    if (i==0) {
+                        calculationsArray.put(0);
+                    } else {
+                        double calculation = calculationsArray.getDouble(i-1) + analyticsObject.getJSONArray("Intermediate Distance").getDouble(i);
+                        calculationsArray.put(calculation);
+                    }
+                }
+                analyticsObject.put("Total Distance", calculationsArray);
+
+                calculationsArray = new JSONArray();
+
+                LOG.info("check here 4");
+                // Add average speed between last and current reading (m/s).
+                for (int i = 0; i < logLength; i++) {
+                    if (i==0) {
+                        calculationsArray.put("");
+                    } else {
+                        double timeDiff =
+                                (analyticsObject.getJSONArray("Elapsed Time").getDouble(i) -
+                                        analyticsObject.getJSONArray("Elapsed Time").getDouble(i-1));
+                        if (timeDiff==0) timeDiff = 1; // On older versions of the Recorder Bangle.js app the time reporting could be the same for two data points due to rounding.
+                        double calculation =
+                                analyticsObject.getJSONArray("Intermediate Distance").getDouble(i) / timeDiff;
+                        calculationsArray.put(calculation);
+                    }
+                }
+                LOG.info("check " + calculationsArray);
+                analyticsObject.put("Speed", calculationsArray);
+
+                calculationsArray = new JSONArray();
+
+                LOG.info("check here 5");
+                // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seems to expect s/km).
+                for (int i = 0; i < logLength; i++) {
+                    String speed = analyticsObject.getJSONArray("Speed").getString(i);
+                    LOG.info("check: " + speed);
+                    if (i==0 || Objects.equals(speed, "0") || Objects.equals(speed, "0.0") || Objects.equals(speed, "")) {
+                        calculationsArray.put("");
+                    } else {
+                        double calculation = (1000.0) * 1/ analyticsObject.getJSONArray("Speed").getDouble(i);
+                        calculationsArray.put(calculation);
+                    }
+                }
+                analyticsObject.put("Pace", calculationsArray);
+
+                calculationsArray = new JSONArray();
+            }
+
+            LOG.info("check here 6");
+            if (storedLogObject.has("Steps")) {
+                for (int i = 0; i < logLength; i++) {
+                    if (i==0 || Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
+                        calculationsArray.put(0);
+                    } else {
+                        // FIXME: Should cadence be steps/min or half that? https://www.polar.com/blog/what-is-running-cadence/
+                        // The Bangle.js App Loader has Cadence = (steps/min)/2,  https://github.com/espruino/BangleApps/blob/master/apps/recorder/interface.html#L103,
+                        // as discussed here: https://github.com/espruino/BangleApps/pull/3068#issuecomment-1790293879 .
+                        double timeDiff =
+                                (storedLogObject.getJSONArray("Time").getDouble(i) -
+                                        storedLogObject.getJSONArray("Time").getDouble(i-1));
+                        if (timeDiff==0) timeDiff = 1;
+                        double calculation = 0.5 * 60 *
+                                (storedLogObject.getJSONArray("Steps").getDouble(i) / timeDiff);
+                        calculationsArray.put(calculation);
+                    }
+                }
+                analyticsObject.put("Cadence", calculationsArray);
+
+                calculationsArray = new JSONArray();
+            }
+            LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
+
+            LOG.info("check here 7");
+            BaseActivitySummary summary = null;
+
+            Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
+            Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0].split("\\.\\d")[0])*1000L);
+            summary = new BaseActivitySummary();
+            summary.setName(log);
+            summary.setStartTime(startTime);
+            summary.setEndTime(endTime);
+            summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
+            summary.setRawDetailsPath(String.valueOf(inputFile));
+
+            JSONObject summaryData = new JSONObject();
+            //     put("Activity", Arrays.asList(
+            //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
+            //             "averageHR", "maxHR", "minHR", "averageStride", "maxStride", "minStride"
+            //     ));
+            if (analyticsObject.has("Intermediate Distance")) summaryData =
+                    addSummaryData(summaryData, "distanceMeters",
+                            (float) analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1),
+                            "m");
+            if (storedLogObject.has("Steps"))
+                summaryData = addSummaryData(summaryData, "steps", sumOfJSONArray(storedLogObject.getJSONArray("Steps")), "steps");
+            //summaryData = addSummaryData(summaryData,"activeSeconds",3,"mm"); // FIXME: Is this suppose to exclude the time of inactivity in a workout?
+            //summaryData = addSummaryData(summaryData,"caloriesBurnt",3,"mm"); // TODO: Should this be calculated on Gadgetbridge side or be reported by Bangle.js?
+            //summaryData = addSummaryData(summaryData,"totalStride",3,"mm"); // FIXME: What is this?
+            if (storedLogObject.has("Heartrate")) {
+                summaryData = addSummaryData(summaryData, "averageHR", averageOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
+                summaryData = addSummaryData(summaryData, "maxHR", maxOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
+                summaryData = addSummaryData(summaryData, "minHR", minOfJSONArray(storedLogObject.getJSONArray("Heartrate")), "bpm");
+            }
+            if (analyticsObject.has("Stride")) {
+                summaryData = addSummaryData(summaryData, "averageStride",
+                        (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
+                                (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
+                        "m"); // FIXME: Is this meant to be stride length as I've assumed?
+                summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
+                summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
+            }
+
+            //     put("Speed", Arrays.asList(
+            //             "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",
+            //             "maxPace", "averageSpeed2", "averageCadence", "maxCadence", "minCadence"
+            //     ));
+            try {
+                if (analyticsObject.has("Speed")) {
+                    summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
+                    summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                    summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                    summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
+                    //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
+                    //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
+                    //                analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1)),
+                    //        "s/km"
+                    //);
+                    summaryData = addSummaryData(summaryData, "minPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    summaryData = addSummaryData(summaryData, "maxPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    //summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
+                }
+                if (analyticsObject.has("Cadence")) {
+                    //summaryData = addSummaryData(summaryData, "averageCadence", averageOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min"); // Is this also calculated automatically then?
+                    summaryData = addSummaryData(summaryData, "averageCadence",
+                            (float) 0.5 * 60 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")) /
+                                    (float) analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength - 1),
+                            "cycles/min"
+                    );
+                    summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
+                    summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
+                }
+            } catch (Exception e) {
+                LOG.error(e + ". (thrown when trying to add summary data");
+            }
+            //            private JSONObject createActivitySummaryGroups(){
+            // final Map<String, List<String>> groupDefinitions = new HashMap<String, List<String>>() {{
+            //     put("Strokes", Arrays.asList(
+            //             "averageStrokeDistance", "averageStrokesPerSecond", "strokes"
+            //     ));
+
+            //     put("Swimming", Arrays.asList(
+            //             "swolfIndex", "swimStyle"
+            //     ));
+
+            //     put("Elevation", Arrays.asList(
+            //             "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
+            //             "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
+            //             "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
+            //     ));
+            //}
+            if (storedLogObject.has("Altitude") || storedLogObject.has("Barometer Altitude")) {
+                String altitudeToUseKey = null;
+                if (storedLogObject.has("Altitude")) {
+                    altitudeToUseKey = "Altitude";
+                } else if (storedLogObject.has("Barometer Altitude")) {
+                    altitudeToUseKey = "Barometer Altitude";
+                }
+                //summaryData = addSummaryData(summaryData, "ascentMeters", 3, "m");
+                //summaryData = addSummaryData(summaryData, "descentMeters", 3, "m");
+                summaryData = addSummaryData(summaryData, "maxAltitude", maxOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                summaryData = addSummaryData(summaryData, "minAltitude", minOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                summaryData = addSummaryData(summaryData, "averageAltitude", averageOfJSONArray(storedLogObject.getJSONArray(altitudeToUseKey)), "m");
+                //summaryData = addSummaryData(summaryData, "baseAltitude", 3, "m");
+                //summaryData = addSummaryData(summaryData, "ascentSeconds", 3, "s");
+                //summaryData = addSummaryData(summaryData, "descentSeconds", 3, "s");
+                //summaryData = addSummaryData(summaryData, "flatSeconds", 3, "s");
+                //if (analyticsObject.has("Intermittent Distance")) {
+                //    summaryData = addSummaryData(summaryData, "ascentDistance", 3, "m");
+                //    summaryData = addSummaryData(summaryData, "descentDistance", 3, "m");
+                //    summaryData = addSummaryData(summaryData, "flatDistance", 3, "m");
+                //}
+                //summaryData = addSummaryData(summaryData, "elevationGain", 3, "mm");
+                //summaryData = addSummaryData(summaryData, "elevationLoss", 3, "mm");
+            }
+            //     put("HeartRateZones", Arrays.asList(
+            //             "hrZoneNa", "hrZoneWarmUp", "hrZoneFatBurn", "hrZoneAerobic", "hrZoneAnaerobic",
+            //             "hrZoneExtreme"
+            //     ));
+            // TODO: Implement hrZones by doing calculations on Gadgetbridge side or make Bangle.js report this (Karvonen method implemented to a degree in watch app "Run+")?
+            //summaryData = addSummaryData(summaryData,"hrZoneNa",3,"mm");
+            //summaryData = addSummaryData(summaryData,"hrZoneWarmUp",3,"mm");
+            //summaryData = addSummaryData(summaryData,"hrZoneFatBurn",3,"mm");
+            //summaryData = addSummaryData(summaryData,"hrZoneAerobic",3,"mm");
+            //summaryData = addSummaryData(summaryData,"hrZoneAnaerobic",3,"mm");
+            //summaryData = addSummaryData(summaryData,"hrZoneExtreme",3,"mm");
+            //     put("TrainingEffect", Arrays.asList(
+            //             "aerobicTrainingEffect", "anaerobicTrainingEffect", "currentWorkoutLoad",
+            //             "maximumOxygenUptake"
+            //     ));
+
+            //     put("Laps", Arrays.asList(
+            //             "averageLapPace", "laps"
+            //     ));
+            // TODO: Does Bangle.js report laps in recorder logs?
+            //summaryData = addSummaryData(summaryData,"averageLapPace",3,"mm");
+            //summaryData = addSummaryData(summaryData,"laps",3,"mm");
+            // }};
+            summary.setSummaryData(summaryData.toString());
+
+            ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
+            track.startNewSegment();
+            track.setBaseTime(startTime);
+            track.setName(log);
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                DaoSession session = dbHandler.getDaoSession();
+                Device device = DBHelper.getDevice(getDevice(), session);
+                User user = DBHelper.getUser(session);
+                track.setDevice(device);
+                track.setUser(user);
+            } catch (Exception ex) {
+                GB.toast(getContext(), "Error setting user for activity track.", Toast.LENGTH_LONG, GB.ERROR, ex);
+            }
+            ActivityPoint point = new ActivityPoint();
+            Date timeOfPoint = new Date();
+            for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
+                timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
+                point.setTime(timeOfPoint);
+                if (storedLogObject.has("Longitude")) {
+                    if (!Objects.equals(storedLogObject.getJSONArray("Longitude").getString(i), "")
+                            && !Objects.equals(storedLogObject.getJSONArray("Latitude").getString(i), "")
+                            && !Objects.equals(storedLogObject.getJSONArray("Altitude").getString(i), "")) {
+
+                        point.setLocation(new GPSCoordinate(
+                                        storedLogObject.getJSONArray("Longitude").getDouble(i),
+                                        storedLogObject.getJSONArray("Latitude").getDouble(i),
+                                        storedLogObject.getJSONArray("Altitude").getDouble(i)
+                                )
+                        );
+                    }
+                }
+                if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
+                    point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
+                }
+                track.addTrackPoint(point);
+                LOG.info("Activity Point:\n" + point.getHeartRate());
+                point = new ActivityPoint();
+            }
+
+            ActivityTrackExporter exporter = createExporter();
+            String trackType = "track";
+            switch (summary.getActivityKind()) {
+                case ActivityKind.TYPE_CYCLING:
+                    trackType = getContext().getString(R.string.activity_type_biking);
+                    break;
+                case ActivityKind.TYPE_RUNNING:
+                    trackType = getContext().getString(R.string.activity_type_running);
+                    break;
+                case ActivityKind.TYPE_WALKING:
+                    trackType = getContext().getString(R.string.activity_type_walking);
+                    break;
+                case ActivityKind.TYPE_HIKING:
+                    trackType = getContext().getString(R.string.activity_type_hiking);
+                    break;
+                case ActivityKind.TYPE_CLIMBING:
+                    trackType = getContext().getString(R.string.activity_type_climbing);
+                    break;
+                case ActivityKind.TYPE_SWIMMING:
+                    trackType = getContext().getString(R.string.activity_type_swimming);
+                    break;
+            }
+
+            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
+            File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+
+            try {
+                exporter.performExport(track, targetFile);
+
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    summary.setGpxTrack(targetFile.getAbsolutePath());
+                    //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
+                GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
+            }
+
+            //summary.setSummaryData(null); // remove json before saving to database,
+
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                DaoSession session = dbHandler.getDaoSession();
+                Device device = DBHelper.getDevice(getDevice(), session);
+                User user = DBHelper.getUser(session);
+                summary.setDevice(device);
+                summary.setUser(user);
+                session.getBaseActivitySummaryDao().insertOrReplace(summary);
+            } catch (Exception ex) {
+                GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
+            }
+
+            LOG.info("Activity track:\n" + track.getSegments());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
 
