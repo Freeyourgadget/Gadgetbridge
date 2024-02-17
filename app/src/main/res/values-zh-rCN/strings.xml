@@ -2805,4 +2805,6 @@
     <string name="devicetype_redmi_watch_2">红米手表2</string>
     <string name="warning_missing_notification_permission">由于缺少权限，无法发布持续通知</string>
     <string name="devicetype_huawei_watchfit">华为运动手表</string>
+    <string name="pref_test_features_title">功能</string>
+    <string name="pref_test_features_summary">该测试设备启用的功能</string>
 </resources>
