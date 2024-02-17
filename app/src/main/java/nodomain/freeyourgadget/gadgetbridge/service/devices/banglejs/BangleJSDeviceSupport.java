@@ -761,12 +761,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             String line = json.getString("line");
             LOG.info(line);
 
+            String mode = "append";
+            if (line.equals("")) {
+                mode = "write";
+            }
+
             File outputFile = new File(dir, filename);
             String filenameLogID = "latestFetchedRecorderLog.txt";
             File outputFileLogID = new File(dir, filenameLogID);
             LOG.warn("Writing log to " + outputFile.toString());
             try {
-                FileUtils.copyStringToFile(line,outputFile,"append");
+                FileUtils.copyStringToFile(line,outputFile,mode);
                 //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
 
                 FileUtils.copyStringToFile(log,outputFileLogID,"");
