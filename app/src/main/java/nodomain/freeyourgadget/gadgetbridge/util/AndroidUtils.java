@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
+import android.os.PowerManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -336,5 +337,17 @@ public class AndroidUtils {
             throw new ClassNotFoundException("App " + packageName + " cannot be found");
         }
         GBApplication.getContext().startActivity(launchIntent);
+    }
+
+    public static PowerManager.WakeLock acquirePartialWakeLock(Context context, String tag, long timeout) {
+        try {
+            PowerManager powermanager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wl = powermanager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Gadgetbridge:" + tag);
+            wl.acquire(timeout);
+            return wl;
+        } catch (final Exception e) {
+            LOG.error("Failed to take partial wake lock {}: ", tag, e);
+            return null;
+        }
     }
 }

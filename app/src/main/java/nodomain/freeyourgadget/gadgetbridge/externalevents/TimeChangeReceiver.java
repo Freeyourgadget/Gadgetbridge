@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
@@ -73,11 +74,14 @@ public class TimeChangeReceiver extends BroadcastReceiver {
                 return;
         }
 
+        // acquire wake lock, otherwise device might enter deep sleep immediately after returning from onReceive()
+        AndroidUtils.acquirePartialWakeLock(context, "TimeSyncWakeLock", 10100);
+
         final Date newTime = GregorianCalendar.getInstance().getTime();
         LOG.info("Time/Timezone changed or periodic sync, syncing with device: {} ({}), {}", DateTimeUtils.formatDate(newTime), newTime.toGMTString(), intent.getAction());
         GBApplication.deviceService().onSetTime();
 
-        // Reschedule the next DST change, since the timezone may have changed
+        // Reschedule the next DST change (since the timezone may have changed) or periodic sync
         scheduleNextDstChangeOrPeriodicSync(context);
     }
 
@@ -122,7 +126,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         boolean scheduledExact = false;
         if (exactAlarm) {
             try {
-                am.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + delayMillis, pi);
+                am.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delayMillis, pi);
                 scheduledExact = true;
             } catch (final Exception e) {
                 LOG.error("Failed to schedule exact alarm for next DST change or periodic time sync", e);
@@ -133,9 +137,9 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         if (!scheduledExact) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + delayMillis, pi);
+                    am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delayMillis, pi);
                 } else {
-                    am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + delayMillis, pi);
+                    am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delayMillis, pi);
                 }
             } catch (final Exception e) {
                 LOG.error("Failed to schedule inexact alarm for next DST change or periodic time sync", e);

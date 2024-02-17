@@ -35,6 +35,9 @@
     <!-- Schedule exact alarms (eg. for DST changes) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
+    <!-- Take wake locks (e.g. for time sync) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- Read loyalty cards from Catima -->
     <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
     <uses-permission android:name="me.hackerchick.catima.debug.READ_CARDS"/>
