@@ -496,7 +496,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Подключаться только в режиме GATT-клиента</string>
     <string name="pref_summary_pebble_gatt_clientonly">Экспериментальные настройки только для Pebble 2. Попробуйте, если связь не очень</string>
     <string name="pref_header_auto_export">Автоматический экспорт данных</string>
-    <string name="pref_title_auto_export_enabled">Автоматический экспорт включён</string>
+    <string name="pref_title_auto_export_enabled">Включить автоматический экспорт</string>
     <string name="pref_title_auto_export_location">Путь для экспорта данных</string>
     <string name="pref_title_auto_export_interval">Интервал экспорта</string>
     <string name="pref_summary_auto_export_interval">Экспортировать раз в %d ч.</string>
@@ -534,7 +534,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="prefs_screen_orientation">Ориентация экрана</string>
-    <string name="pref_auto_fetch">Автоматически получать данные</string>
+    <string name="pref_auto_fetch">Получать данные активности автоматически</string>
     <string name="pref_auto_fetch_summary">Получать данные активности при разблокировке. Работает только при настроенной блокировке экрана!</string>
     <string name="pref_auto_fetch_limit_fetches">Минимальный интервал</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Получать раз в %d мин.</string>
@@ -990,8 +990,8 @@
     <string name="error_retrieving_devices_database">Ошибка при получении устройств из базы данных</string>
     <string name="error_setting_alias">Ошибка настройки псевдонима:</string>
     <string name="error_exporting_device_preferences">Ошибка при экспорте специфичных настроек устройства</string>
-    <string name="pref_check_permission_status_summary">Проверяйте и запрашивайте недостающие разрешения, даже если они могут не понадобиться немедленно. Отключите это, только если ваши устройства действительно не поддерживают ни одну из этих функций. Отсутствие разрешения может вызвать проблемы!</string>
-    <string name="pref_check_permission_status">Проверить статус разрешения</string>
+    <string name="pref_check_permission_status_summary">Проверять и запрашивать недостающие разрешения, даже если в них не всегда есть необходимость. Отключите, если ваши устройства действительно не поддерживают ни одну из этих функций. Отсутствие разрешений может вызвать проблемы в работе!</string>
+    <string name="pref_check_permission_status">Проверять статус разрешений</string>
     <string name="device_requires_key">НЕОБХОДИМ КЛЮЧ, ДОЛГОЕ ЗАЖАТИЕ ДЛЯ ВХОДА</string>
     <string name="device_is_currently_bonded">УЖЕ СВЯЗАНЫ</string>
     <string name="companiondevice_pairing_details">Включает поддержку нового API CompanionDevice (работает только на Android 8 или выше), что повысит надежность, если службу необходимо перезапустить в фоновом режиме, для достижения эффекта требуется повторное сопряжение с помощью Gadgetbridge</string>
@@ -1464,14 +1464,14 @@
 \n
 \nЭто можно использовать для запуска приложения воспроизведения и прослушивания музыки, а также для многих других действий.
 \n
-\nПожалуйста, нажмите \'%2$s\', затем \'%1$s\' и включите \'Поверх других приложений\', затем нажмите \'Назад\' чтобы вернуться к %1$s.
+\nПожалуйста, нажмите «%2$s», затем «%1$s» и включите «Поверх других приложений», затем нажмите «Назад» чтобы вернуться к %1$s.
 \n
-\nЧтобы приостановить запрос разрешений от %1$s, перейдите в \'Настройки\' и снимите флажок \'Проверять статус разрешения\'.
+\nЧтобы прекратить запросы разрешений от %1$s, перейдите в Настройки и выключите «Проверять статус разрешений».
 \n
-\nУбедитесь, что %1$s предоставлены необходимые разрешения, для корректной работы в соответствии с вашими ожиданиями.</string>
-    <string name="permission_notification_listener">%1$s необходимо предоставить доступ к Уведомлениям для того, чтобы была возможность отображения их на часах, когда экран телефона выключен.
+\nДля корректной работы %1$s должны быть выданы все необходимые разрешения.</string>
+    <string name="permission_notification_listener">Для отображения уведомлений на часах при выключенном экране %1$s требуется доступ к Уведомлениям.
 \n
-\nПожалуйста, нажмите \'%2$s\' затем \'%1$s\' и включите функцию \'Доступ к уведомлениям\', затем нажмите \'Назад\' чтобы вернуться к %1$s.</string>
+\nПожалуйста, нажмите «%2$s», затем «%1$s» и включите «Доступ к уведомлениям», затем нажмите «Назад», чтобы вернуться к %1$s.</string>
     <string name="fw_upgrade_notice_miband7">Вы собираетесь установить прошивку %s на свой Xiaomi Smart Band 7.
 \n
 \nПосле установки файла .zip Ваш браслет будет перезагружен.
@@ -1487,7 +1487,7 @@
     <string name="pref_title_notification_use_as_deny">Запретить выбранным приложениям показывать уведомления</string>
     <string name="permission_notification_policy_access">%1$s необходимо предоставить доступ к функции Не беспокоить для того, чтобы была возможность чтения на часах, когда экран телефона выключен.
 \n
-\nПожалуйста, нажмите \'%2$s\', затем \'%1$s\' и включите \'Не беспокоить\', затем нажмите \'Назад\', чтобы вернуться к %1$s.</string>
+\nПожалуйста, нажмите «%2$s», затем «%1$s» и включите «Не беспокоить», затем нажмите «Назад», чтобы вернуться к %1$s.</string>
     <string name="pref_title_banglejs_text_bitmap">Текст в виде растровых изображений</string>
     <string name="open_fw_installer_pick_file">Выбрать файл</string>
     <string name="pref_title_device_internet_access">Разрешить доступ в Интернет</string>
@@ -1517,7 +1517,7 @@
     <string name="pref_title_opentracks_packagename">Название пакета OpenTracks</string>
     <string name="permission_location">%1$s необходимо предоставить доступ к вашему местоположению в фоновом режиме для того, чтобы была возможность оставаться на связи с вашими часами даже при выключенном экране.
 \n
-\nПожалуйста, нажмите \'%2$s\', чтобы принять.</string>
+\nПожалуйста, нажмите «%2$s», чтобы принять.</string>
     <string name="pref_summary_opentracks_packagename">Используется для запуска/остановки записи GPS-трека во внешнем фитнес-приложении.</string>
     <string name="pref_title_notification_delay_calls">Задержка уведомления о вызове</string>
     <string name="pref_title_notifications_generic_settings">Настройки уведомлений Android</string>
@@ -2339,7 +2339,7 @@
 \n
 \nВам будут выведены несколько диалогов с запросами на эти разрешения.
 \n
-\nНажмите \"%2$s\", чтобы продолжить.</string>
+\nНажмите «%2$s», чтобы продолжить.</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
     <string name="pref_device_action_broadcast">Отправить трансляцию</string>
     <string name="prefs_ambient_sound_during_call_summary">Отчётливо слышать свой голос во время звонков</string>
@@ -2755,4 +2755,6 @@
     <string name="activity_type_pickleball">Пиклбол</string>
     <string name="warning_missing_notification_permission">Невозможно отправить текущее уведомление из-за отсутствия разрешения</string>
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
+    <string name="pref_test_features_title">Возможности</string>
+    <string name="pref_test_features_summary">Возможности, включенные для этого тестового устройства</string>
 </resources>
