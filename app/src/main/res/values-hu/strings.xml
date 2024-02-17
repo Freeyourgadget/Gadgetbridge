@@ -1551,4 +1551,53 @@
 \nA .zip fájl telepítése után az órája újraindul.
 \n
 \nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="open_fw_installer_info_text">A Firmware/Watchface/App/File Installer lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Kérjük, CSAK EGY olyan eszközt csatlakoztasson, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Újracsatlakozás csak a csatlakoztatott eszközökhöz, ahelyett, hogy az összes eszközzel újracsatlakozna</string>
+    <string name="pref_display_caller_summary">Bejövő hívások telefonszámának vagy nevének megjelenítése</string>
+    <string name="open_fw_installer_ensure_device_connected">Győződjön meg róla, hogy a %s eszköz csatlakoztatva van</string>
+    <string name="pref_title_notification_prefer_long_text">Hosszú értesítési szöveg előnyben részesítése</string>
+    <string name="pref_title_notification_use_as_deny">Értesítések letiltása kiválasztott alkalmazásokból</string>
+    <string name="pref_title_notification_delay_calls">Hívás értesítési késleltetés</string>
+    <string name="pref_summary_notification_delay_calls">A bejövő hívásokról szóló értesítések készülékre küldésének késleltetése másodpercben.</string>
+    <string name="pref_pair_bluetooth_calls_title">Párosítás bluetooth hívásokhoz</string>
+    <string name="pref_summary_notification_prefer_long_text">Ha elérhető, küldje el a hosszú értesítési szöveget az eszközre</string>
+    <string name="pref_title_notification_use_as_allow">Értesítések engedélyezése kiválasztott alkalmazásokból</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Kérjük, csatlakoztasson LEGALÁBB EGY olyan eszközt, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="open_fw_installer_select_file">Válassza ki a készülékre feltölteni kívánt fájlt: %s</string>
+    <string name="open_fw_installer_getting_files_title">A firmware/alkalmazásfájl megszerzése</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Újracsatlakozás csak a csatlakoztatott eszközökhöz</string>
+    <string name="pref_title_notifications_ignore_low_priority">Alacsony prioritású értesítések figyelmen kívül hagyása</string>
+    <string name="pref_summary_notifications_ignore_work_profile">Ne küldjön értesítéseket a munkaprofilban lévő alkalmazásokból az órára</string>
+    <string name="pref_summary_banglejs_text_bitmap">Ha egy szó nem jeleníthető meg az óra betűtípusával, jelenítse meg bittérképként a Gadgetbridge-ben, és jelenítse meg a bitképet az órán</string>
+    <string name="fw_upgrade_notice_amazfitneo">Ön telepíteni kívánja a %s firmware-t az Amazfit Neo készülékére.
+\n
+\nA .fw fájl telepítése után a karkötője újraindul.
+\n
+\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+    <string name="open_fw_installer_warning_text">Ez a funkció képes tönkretenni a készüléket. Ez azonban még soha nem történt meg egyik fejlesztővel sem a telepítés során, de ne feledje, hogy ezt saját felelősségére teszi.</string>
+    <string name="open_fw_installer_getting_files_text">Mivel a firmware fájlokat nem áll módunkban terjeszteni, a fájlokat saját magának kell beszereznie. Ez azt jelenti, hogy meg kell keresnie a fájlokat az apk fájlokban, az interneten, a fórumokon, az Amazfitwatchfaces-en (Miband/Amazfit készülékek esetében) stb.</string>
+    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="pref_pair_bluetooth_calls_summary">Kattintson ide a párosítási folyamat elindításához</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Hogyan fogadhat bluetooth hívásokat</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Lépjen be a telefonja Bluetooth beállításaiba, és párosítsa az új eszközt, amely megjelenik (hasonló névvel, mint a jelenlegi órája, de egy utótaggal, pl. \"Amazfit GTR 4 - AFC8\".</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Ahhoz, hogy bluetooth hívásokat fogadhasson, párosítania kell a telefonját az óra egy második példányával.</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Érintse meg az alábbi gombot a párosítási folyamat elindításához.</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Engedélyezze az alábbi Bluetooth hívások beállítását.</string>
+    <string name="pref_title_notifications_generic_settings">Android értesítési beállítások</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Ne küldjön alacsony és minimális prioritású értesítéseket az órára</string>
+    <string name="pref_title_notification_media_ignores_application_list">A médiaértesítések figyelmen kívül hagyják az alkalmazáslistát</string>
+    <string name="pref_summary_notification_media_ignores_application_list">A médiaértesítések feldolgozása az alkalmazáslista előtt. Ha ez a beállítás nincs bejelölve, a médiaalkalmazásoknak engedélyezve kell lenniük az alkalmazáslistában ahhoz, hogy a médiavezérlők működjenek az eszközön.</string>
+    <string name="pref_title_notification_use_as">Használja az Alkalmazások listáját…</string>
+    <string name="bluetooth_calls">Bluetooth hívások</string>
+    <string name="pref_title_mb_intents">Broadcast Media gomb közvetlenül</string>
+    <string name="pref_summary_mb_intents">Engedélyezze, ha az eszköz médiavezérlése nem működik bizonyos alkalmazásoknál</string>
+    <string name="bluetooth_calls_pairing">Bluetooth hívások párosítása</string>
+    <string name="pref_theme_black_background">Használjon fekete hátteret a sötét témában</string>
+    <string name="pref_summary_receive_calls_watch">Hívások kezdeményezése és fogadása közvetlenül az órán</string>
+    <string name="bluetooth_calls_settings">Bluetooth hívások beállításai</string>
+    <string name="pref_display_caller_title">Mutassa meg az elérhetőségeket</string>
+    <string name="pref_title_banglejs_text_bitmap">Szöveg bittérképként</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">FIGYELMEZTETÉS: Ha engedélyezi a bluetooth hívásokat a második példány párosítása nélkül, előfordulhat, hogy a hívásértesítések nem a megfelelő módon fognak működni.</string>
+    <string name="pref_title_notifications_ignore_work_profile">Munkaprofil-értesítések figyelmen kívül hagyása</string>
 </resources>
