@@ -146,7 +146,7 @@ public class FossilAppWriter {
         for (String filename : stringsMap.keySet()) {
             output.write((byte)filename.length() + 1);
             output.write(StringUtils.terminateNull(filename).getBytes(StandardCharsets.UTF_8));
-            output.write(shortToLEBytes((short)(stringsMap.get(filename).length() + 1)));
+            output.write(shortToLEBytes((short)(stringsMap.get(filename).getBytes(StandardCharsets.UTF_8).length + 1)));
             output.write(StringUtils.terminateNull(stringsMap.get(filename)).getBytes(StandardCharsets.UTF_8));
         }
         return output.toByteArray();
