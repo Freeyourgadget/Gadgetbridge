@@ -125,11 +125,11 @@ public class AlarmDetails extends AbstractGBActivity {
         timePicker.setCurrentHour(alarm.getHour());
         timePicker.setCurrentMinute(alarm.getMinute());
 
-        cbSmartWakeup.setChecked(alarm.getSmartWakeup());
+        boolean smartAlarmForced = forcedSmartWakeup(alarm.getPosition());
+        cbSmartWakeup.setChecked(alarm.getSmartWakeup() || smartAlarmForced);
         int smartAlarmVisibility = supportsSmartWakeup(alarm.getPosition()) ? View.VISIBLE : View.GONE;
         cbSmartWakeup.setVisibility(smartAlarmVisibility);
-        boolean smartAlarmEnabled = !forcedSmartWakeup(alarm.getPosition());
-        cbSmartWakeup.setEnabled(smartAlarmEnabled);
+        cbSmartWakeup.setEnabled(!smartAlarmForced);
 
         cbSnooze.setChecked(alarm.getSnooze());
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
