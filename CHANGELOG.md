@@ -1,5 +1,8 @@
 ### Changelog
 
+#### Next version (WIP)
+* Periodically (around every 2 days) synchronize time on connected devices
+
 #### 0.79.0
 * Initial support for Honor Magic Watch 2
 * Initial support for Mijia MHO-C303

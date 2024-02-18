@@ -214,7 +214,7 @@
     <string name="pref_default">Default</string>
     <string name="pref_header_datetime">Date and Time</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync time</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sync time to Gadgetbridge device when connecting, and when time or time zone changes on Android device</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sync time to Gadgetbridge device(s) when connecting, when time or time zone changes on Android device, and periodically</string>
     <string name="pref_title_theme">Theme</string>
     <string name="pref_theme_light">Light</string>
     <string name="pref_theme_dark">Dark</string>
