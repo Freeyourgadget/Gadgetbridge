@@ -205,6 +205,11 @@ public class AlarmDetails extends AbstractGBActivity {
     }
 
     private void updateAlarm() {
+        // Set alarm as used and enabled if time has changed
+        if (alarm.getUnused() && alarm.getHour() != timePicker.getCurrentHour() || alarm.getMinute() != timePicker.getCurrentMinute()) {
+            alarm.setUnused(false);
+            alarm.setEnabled(true);
+        }
         alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
         alarm.setSnooze(supportsSnoozing() && cbSnooze.isChecked());
         int repetitionMask = AlarmUtils.createRepetitionMask(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
