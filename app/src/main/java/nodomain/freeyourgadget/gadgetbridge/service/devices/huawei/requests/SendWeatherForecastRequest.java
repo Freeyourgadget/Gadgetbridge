@@ -38,18 +38,16 @@ public class SendWeatherForecastRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         // TODO: Weather settings
-        ArrayList<WeatherForecastData.TimeData> timeDataArrayList = new ArrayList<>(
-                this.weatherSpec.hourly.size() // TODO: wrong size
-        );
-        ArrayList<WeatherForecastData.DayData> dayDataArrayList = new ArrayList<>(
-                this.weatherSpec.forecasts.size() // TODO: wrong size
-        );
-        // for (WeatherSpec.Hourly hourly : weatherSpec.hourly) {
-        for (int i = 0; i < Math.min(weatherSpec.hourly.size(), 24); i++) { // TODO: min?
+        int hourlyCount = Math.min(weatherSpec.hourly.size(), 24);
+        int dayCount = Math.min(weatherSpec.forecasts.size(), 8);
+
+        ArrayList<WeatherForecastData.TimeData> timeDataArrayList = new ArrayList<>(hourlyCount);
+        ArrayList<WeatherForecastData.DayData> dayDataArrayList = new ArrayList<>(dayCount);
+        for (int i = 0; i < hourlyCount; i++) {
             WeatherSpec.Hourly hourly = weatherSpec.hourly.get(i);
             WeatherForecastData.TimeData timeData = new WeatherForecastData.TimeData();
             timeData.timestamp = hourly.timestamp;
-            timeData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(hourly.conditionCode); // TODO: hourly.conditionCode conversion
+            timeData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(hourly.conditionCode);
             timeData.temperature = (byte) (hourly.temp - 273);
             timeDataArrayList.add(timeData);
         }
@@ -67,7 +65,7 @@ public class SendWeatherForecastRequest extends Request {
         today.moonPhase = (byte) 4; // weatherSpec.moonPhase; // TODO: check
         dayDataArrayList.add(today);
 
-        for (int i = 0; i < Math.min(weatherSpec.forecasts.size(), 7); i++) { // TODO: min?
+        for (int i = 0; i < dayCount - 1; i++) {
             WeatherSpec.Daily daily = weatherSpec.forecasts.get(i);
             WeatherForecastData.DayData dayData = new WeatherForecastData.DayData();
             dayData.timestamp = weatherSpec.timestamp + (60*60*24 * (i + 1));

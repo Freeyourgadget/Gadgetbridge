@@ -1703,7 +1703,7 @@ public class HuaweiSupportProvider {
     public void onSendWeather(WeatherSpec weatherSpec) {
         // Initialize weather settings and send weather
         if (!getHuaweiCoordinator().supportsWeather()) {
-            // TODO: exception?
+            LOG.error("onSendWeather called while weather is not supported.");
             return;
         }
 

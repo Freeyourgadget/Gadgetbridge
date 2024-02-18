@@ -251,6 +251,17 @@ public class Weather {
         }
     }
 
+    public enum HuaweiTemperatureFormat {
+        CELSIUS,
+        FAHRENHEIT
+    }
+
+    private static byte temperatureFormatToByte(HuaweiTemperatureFormat temperatureFormat) {
+        if (temperatureFormat == HuaweiTemperatureFormat.FAHRENHEIT)
+            return 1;
+        return 0;
+    }
+
     public static class CurrentWeatherRequest extends HuaweiPacket {
         public static final byte id = 0x01;
 
@@ -265,7 +276,7 @@ public class Weather {
                 Short pm25, // TODO: might be float?
                 String locationName,
                 Byte currentTemperature,
-                Byte temperatureUnit,
+                HuaweiTemperatureFormat temperatureUnit,
                 Short airQualityIndex,
                 Integer observationTime,
                 String sourceName
@@ -314,7 +325,7 @@ public class Weather {
             if (currentTemperature != null && settings.currentTemperatureSupported)
                 this.tlv.put(0x09, currentTemperature);
             if (temperatureUnit != null && settings.unitSupported)
-                this.tlv.put(0x0a, temperatureUnit);
+                this.tlv.put(0x0a, temperatureFormatToByte(temperatureUnit));
             if (airQualityIndex != null && settings.airQualityIndexSupported)
                 this.tlv.put(0x0b, airQualityIndex);
             if (observationTime != null && settings.timeSupported)
@@ -382,12 +393,12 @@ public class Weather {
     public static class WeatherUnitRequest extends HuaweiPacket {
         public static final byte id = 0x05;
 
-        public WeatherUnitRequest(ParamsProvider paramsProvider) {
+        public WeatherUnitRequest(ParamsProvider paramsProvider, HuaweiTemperatureFormat temperatureFormat) {
             super(paramsProvider);
 
             this.serviceId = Weather.id;
             this.commandId = id;
-            this.tlv = new HuaweiTLV().put(0x01, (byte) 0); // TODO: find out what unit is what
+            this.tlv = new HuaweiTLV().put(0x01, temperatureFormatToByte(temperatureFormat));
             this.isEncrypted = true;
             this.complete = true;
         }
@@ -507,7 +518,6 @@ public class Weather {
                     }
                     this.tlv.put(0x81, timeDataTlv);
                 }
-    //            this.tlv.put(0x81);
 
                 if (dayDataList != null && !dayDataList.isEmpty()) {
                     HuaweiTLV dayDataTlv = new HuaweiTLV();
@@ -527,7 +537,6 @@ public class Weather {
                     }
                     this.tlv.put(0x90, dayDataTlv);
                 }
-    //            this.tlv.put(0x90);
 
                 this.isEncrypted = true;
                 this.isSliced = true;

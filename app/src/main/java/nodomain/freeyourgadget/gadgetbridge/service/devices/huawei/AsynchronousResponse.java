@@ -389,7 +389,7 @@ public class AsynchronousResponse {
                 SendWeatherDeviceRequest sendWeatherDeviceRequest = new SendWeatherDeviceRequest(this.support);
                 sendWeatherDeviceRequest.doPerform();
             } catch (IOException e) {
-                e.printStackTrace(); // TODO: Change
+                LOG.error("Could not send weather device request", e);
             }
 
             // TODO: send back weather?
