@@ -1,7 +1,13 @@
 ### Changelog
 
 #### Next version (WIP)
+* Initial support for Huawei Watch Fit
+* Initial support for Xiaomi Redmi Watch 3
+* Fossil/Skagen Hybrids: Fix crash on multi-byte unicode characters in menu
+* Huawei: Add weather support
+* Test Device: Add fake features and data
 * Periodically (around every 2 days) synchronize time on connected devices
+* Set alarm as used and enabled if time has changed
 
 #### 0.79.0
 * Initial support for Honor Magic Watch 2
