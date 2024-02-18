@@ -2994,6 +2994,7 @@
         <item>@string/stats_title</item>
         <item>@string/liveactivity_live_activity</item>
         <item>@string/pref_header_spo2</item>
+        <item>@string/menuitem_temperature</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_values">
@@ -3007,6 +3008,7 @@
         <item>@string/p_speed_zones</item>
         <item>@string/p_live_stats</item>
         <item>@string/p_spo2</item>
+        <item>@string/p_temperature</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">

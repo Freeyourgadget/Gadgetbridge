@@ -19,7 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.test.samples;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
@@ -30,8 +30,19 @@ public class TestTemperatureSampleProvider implements TimeSampleProvider<Tempera
     @NonNull
     @Override
     public List<TemperatureSample> getAllSamples(final long timestampFrom, final long timestampTo) {
-        // TODO fake samples
-        return Collections.emptyList();
+        final List<TemperatureSample> samples = new ArrayList<>();
+
+        int temp = TestDeviceRand.randInt(timestampFrom, 33, 40);
+
+        for (long ts = timestampFrom; ts < timestampTo; ts += 120 * 60 * 1000L) {
+            if (TestDeviceRand.randBool(ts, 0.3f)) {
+                samples.add(new TestTemperatureSample(ts, temp));
+            }
+            temp += TestDeviceRand.randInt(ts, 33 - temp, 40 - temp);
+            break;
+        }
+
+        return samples;
     }
 
     @Override

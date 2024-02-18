@@ -282,6 +282,31 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsSleepMeasurement() {
+        return supports(getTestDevice(), TestFeature.SLEEP_MEASUREMENT);
+    }
+
+    @Override
+    public boolean supportsStepCounter() {
+        return supports(getTestDevice(), TestFeature.STEP_COUNTER);
+    }
+
+    @Override
+    public boolean supportsSpeedzones() {
+        return supports(getTestDevice(), TestFeature.SPEEDZONES);
+    }
+
+    @Override
+    public boolean supportsActivityTabs() {
+        return supports(getTestDevice(), TestFeature.ACTIVITY_TABS);
+    }
+
+    @Override
+    public boolean supportsTemperatureMeasurement() {
+        return supports(getTestDevice(), TestFeature.TEMPERATURE_MEASUREMENT);
+    }
+
+    @Override
     public boolean supportsActivityTracks() {
         return supports(getTestDevice(), TestFeature.ACTIVITY_TRACKS);
     }

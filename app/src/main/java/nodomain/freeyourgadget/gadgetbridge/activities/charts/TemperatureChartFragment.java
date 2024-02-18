@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 
 public class TemperatureChartFragment extends AbstractChartFragment<TemperatureChartFragment.TemperatureChartsData> {
-    protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(TemperatureChartFragment.class);
 
     private LineChart mTemperatureChart;
     private int BACKGROUND_COLOR;
