@@ -16,12 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -29,18 +26,19 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupport
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather.WeatherForecastData;
 
 public class SendWeatherForecastRequest extends Request {
+    Weather.Settings weatherSettings;
     WeatherSpec weatherSpec;
 
-    public SendWeatherForecastRequest(HuaweiSupportProvider support, WeatherSpec weatherSpec) {
+    public SendWeatherForecastRequest(HuaweiSupportProvider support, Weather.Settings weatherSettings, WeatherSpec weatherSpec) {
         super(support);
         this.serviceId = Weather.id;
         this.commandId = Weather.WeatherForecastData.id;
+        this.weatherSettings = weatherSettings;
         this.weatherSpec = weatherSpec;
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
-        // TODO: Weather settings
         int hourlyCount = Math.min(weatherSpec.hourly.size(), 24);
         int dayCount = Math.min(weatherSpec.forecasts.size(), 8);
 
@@ -85,6 +83,7 @@ public class SendWeatherForecastRequest extends Request {
         try {
             return new WeatherForecastData.Request(
                     this.paramsProvider,
+                    this.weatherSettings,
                     timeDataArrayList,
                     dayDataArrayList
             ).serialize();

@@ -263,7 +263,6 @@ public class Weather {
     }
 
     public enum MoonPhase {
-        UNKNOWN, // Good to have probably
         NEW_MOON,
         WAXING_CRESCENT,
         FIRST_QUARTER,
@@ -277,7 +276,7 @@ public class Weather {
     public static MoonPhase degreesToMoonPhase(int degrees) {
         final int leeway = 6; // Give some leeway for the new moon, first quarter, full moon, and third quarter
         if (degrees < 0 || degrees > 360)
-            return MoonPhase.UNKNOWN;
+            return null;
         else if (degrees >= 360 - leeway || degrees <= leeway)
             return MoonPhase.NEW_MOON;
         else if (degrees < 90)
@@ -315,7 +314,7 @@ public class Weather {
             case WANING_CRESCENT:
                 return 8;
             default:
-                return 0;
+                return -1;
         }
     }
 
@@ -338,7 +337,7 @@ public class Weather {
             case 8:
                 return MoonPhase.WANING_CRESCENT;
             default:
-                return MoonPhase.UNKNOWN;
+                return null;
         }
     }
 
@@ -531,7 +530,7 @@ public class Weather {
         public static class TimeData {
             public int timestamp;
             public WeatherIcon icon;
-            public byte temperature;
+            public Byte temperature;
 
             @Override
             public String toString() {
@@ -548,12 +547,12 @@ public class Weather {
         public static class DayData {
             public int timestamp;
             public WeatherIcon icon;
-            public byte highTemperature;
-            public byte lowTemperature;
-            public int sunriseTime;
-            public int sunsetTime;
-            public int moonRiseTime;
-            public int moonSetTime;
+            public Byte highTemperature;
+            public Byte lowTemperature;
+            public Integer sunriseTime;
+            public Integer sunsetTime;
+            public Integer moonRiseTime;
+            public Integer moonSetTime;
             public MoonPhase moonPhase;
 
             @Override
@@ -577,6 +576,7 @@ public class Weather {
         public static class Request extends HuaweiPacket {
             public Request(
                     ParamsProvider paramsProvider,
+                    Settings settings,
                     List<TimeData> timeDataList,
                     List<DayData> dayDataList
             ) {
@@ -589,12 +589,13 @@ public class Weather {
                 if (timeDataList != null && !timeDataList.isEmpty()) {
                     HuaweiTLV timeDataTlv = new HuaweiTLV();
                     for (TimeData timeData : timeDataList) {
-                        // TODO: NULLs?
-                        timeDataTlv.put(0x82, new HuaweiTLV()
-                                .put(0x03, timeData.timestamp)
-                                .put(0x04, iconToByte(timeData.icon))
-                                .put(0x05, timeData.temperature)
-                        );
+                        HuaweiTLV timeTlv = new HuaweiTLV();
+                        timeTlv.put(0x03, timeData.timestamp);
+                        if (timeData.icon != null && settings.weatherIconSupported)
+                            timeTlv.put(0x04, iconToByte(timeData.icon));
+                        if (timeData.temperature != null && (settings.temperatureSupported || settings.currentTemperatureSupported))
+                            timeTlv.put(0x05, timeData.temperature);
+                        timeDataTlv.put(0x82, timeTlv);
                     }
                     this.tlv.put(0x81, timeDataTlv);
                 }
@@ -602,18 +603,29 @@ public class Weather {
                 if (dayDataList != null && !dayDataList.isEmpty()) {
                     HuaweiTLV dayDataTlv = new HuaweiTLV();
                     for (DayData dayData : dayDataList) {
-                        // TODO: NULLs?
-                        dayDataTlv.put(0x91, new HuaweiTLV()
-                                .put(0x12, dayData.timestamp)
-                                .put(0x13, iconToByte(dayData.icon))
-                                .put(0x14, dayData.highTemperature)
-                                .put(0x15, dayData.lowTemperature)
-                                .put(0x16, dayData.sunriseTime)
-                                .put(0x17, dayData.sunsetTime)
-                                .put(0x1a, dayData.moonRiseTime)
-                                .put(0x1b, dayData.moonSetTime)
-                                .put(0x1e, moonPhaseToByte(dayData.moonPhase))
-                        );
+                        HuaweiTLV dayTlv = new HuaweiTLV();
+                        dayTlv.put(0x12, dayData.timestamp);
+                        if (dayData.icon != null && settings.weatherIconSupported)
+                            dayTlv.put(0x13, iconToByte(dayData.icon));
+                        if (settings.temperatureSupported) {
+                            if (dayData.highTemperature != null)
+                                dayTlv.put(0x14, dayData.highTemperature);
+                            if (dayData.lowTemperature != null)
+                                dayTlv.put(0x15, dayData.lowTemperature);
+                        }
+                        if (settings.sunRiseSetSupported) {
+                            if (dayData.sunriseTime != null)
+                                dayTlv.put(0x16, dayData.sunriseTime);
+                            if (dayData.sunsetTime != null)
+                                dayTlv.put(0x17, dayData.sunsetTime);
+                            if (dayData.moonRiseTime != null)
+                                dayTlv.put(0x1a, dayData.moonRiseTime);
+                            if (dayData.moonSetTime != null)
+                                dayTlv.put(0x1b, dayData.moonSetTime);
+                        }
+                        if (dayData.moonPhase != null && settings.moonPhaseSupported)
+                            dayTlv.put(0x1e, moonPhaseToByte(dayData.moonPhase));
+                        dayDataTlv.put(0x91, dayTlv);
                     }
                     this.tlv.put(0x90, dayDataTlv);
                 }
@@ -712,7 +724,7 @@ public class Weather {
         }
 
         public static class Response extends HuaweiPacket {
-            public byte supportedBitmap = 0;
+            public int supportedBitmap = 0;
 
             public boolean sunRiseSetSupported = false;
             public boolean moonPhaseSupported = false;
@@ -727,7 +739,7 @@ public class Weather {
             public void parseTlv() throws ParseException {
                 if (!this.tlv.contains(0x01))
                     throw new MissingTagException(0x01);
-                this.supportedBitmap = this.tlv.getByte(0x01);
+                this.supportedBitmap = this.tlv.getInteger(0x01);
 
                 this.sunRiseSetSupported = (this.supportedBitmap & 0x01) != 0;
                 this.moonPhaseSupported = (this.supportedBitmap & 0x02) != 0;

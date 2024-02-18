@@ -1745,7 +1745,7 @@ public class HuaweiSupportProvider {
         lastRequest = sendGpsAndTimeToDeviceRequest;
 
         if (getHuaweiCoordinator().supportsWeatherForecasts()) {
-            SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(this, weatherSpec);
+            SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(this, weatherSettings, weatherSpec);
             lastRequest.nextRequest(sendWeatherForecastRequest);
             lastRequest = sendWeatherForecastRequest;
         }
