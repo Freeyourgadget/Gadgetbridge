@@ -307,7 +307,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(final GBDevice device) {
+    public boolean supportsSmartWakeup(final GBDevice device, int position) {
         return true;
     }
 

@@ -213,7 +213,7 @@ public class SonyWena3Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
+    public boolean supportsSmartWakeup(GBDevice device, int position) {
         return true;
     }
 

@@ -207,7 +207,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(final GBDevice device) {
+    public boolean supportsSmartWakeup(final GBDevice device, int position) {
         return supports(getTestDevice(), TestFeature.SMART_WAKEUP);
     }
 

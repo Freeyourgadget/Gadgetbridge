@@ -141,11 +141,6 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
     }

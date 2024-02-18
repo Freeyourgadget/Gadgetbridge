@@ -119,11 +119,6 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

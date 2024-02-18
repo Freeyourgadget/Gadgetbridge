@@ -526,11 +526,6 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsFindDevice() {
         return true;
     }

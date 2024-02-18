@@ -308,8 +308,17 @@ public class HuaweiCoordinator {
     public boolean supportsSmartAlarm() {
         return supportsCommandForService(0x08, 0x02) ;
     }
+
     public boolean supportsSmartAlarm(GBDevice gbDevice) {
         return supportsSmartAlarm() || getForceOption(gbDevice, PREF_FORCE_ENABLE_SMART_ALARM);
+    }
+
+    public boolean supportsSmartAlarm(GBDevice gbDevice, int alarmPosition) {
+        return supportsSmartAlarm(gbDevice) && alarmPosition == 0;
+    }
+
+    public boolean forcedSmartWakeup(GBDevice device, int alarmPosition) {
+        return supportsSmartAlarm(device, alarmPosition) && alarmPosition == 0;
     }
 
     /**

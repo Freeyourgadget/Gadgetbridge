@@ -332,10 +332,17 @@ public interface DeviceCoordinator {
     int getAlarmSlotCount(GBDevice device);
 
     /**
-     * Returns true if this device/coordinator supports alarms with smart wakeup
-     * @return
+     * Returns true if this device/coordinator supports an alarm with smart wakeup for the current position
+     * @param alarmPosition Position of the alarm
      */
-    boolean supportsSmartWakeup(GBDevice device);
+    boolean supportsSmartWakeup(GBDevice device, int alarmPosition);
+
+    /**
+     * Returns true if the alarm at the specified position *must* be a smart alarm for this device/coordinator
+     * @param alarmPosition Position of the alarm
+     * @return True if it must be a smart alarm, false otherwise
+     */
+    boolean forcedSmartWakeup(GBDevice device, int alarmPosition);
 
     /**
      * Returns true if this device/coordinator supports alarm snoozing

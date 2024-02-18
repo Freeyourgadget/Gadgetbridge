@@ -81,11 +81,6 @@ public abstract class GalaxyBudsGenericCoordinator extends AbstractBLClassicDevi
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

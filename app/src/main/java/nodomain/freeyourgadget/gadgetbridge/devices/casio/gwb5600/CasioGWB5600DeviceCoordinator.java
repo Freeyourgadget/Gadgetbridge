@@ -116,11 +116,6 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }

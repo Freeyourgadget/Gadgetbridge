@@ -132,11 +132,6 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return PebbleUtils.hasHRM(device.getModel());
     }

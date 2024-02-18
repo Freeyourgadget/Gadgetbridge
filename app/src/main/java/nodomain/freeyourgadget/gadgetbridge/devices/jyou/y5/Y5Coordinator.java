@@ -92,7 +92,7 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
+    public boolean supportsSmartWakeup(GBDevice device, int position) {
         return true;
     }
 

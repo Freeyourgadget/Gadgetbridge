@@ -189,12 +189,6 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device)
-    {
-        return false;
-    }
-
-    @Override
     public boolean supportsWeather()
     {
         return false;

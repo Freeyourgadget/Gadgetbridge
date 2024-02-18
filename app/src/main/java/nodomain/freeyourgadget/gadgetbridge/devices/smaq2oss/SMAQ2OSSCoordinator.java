@@ -107,12 +107,6 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
         return 0;
     }
 
-
-    @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;

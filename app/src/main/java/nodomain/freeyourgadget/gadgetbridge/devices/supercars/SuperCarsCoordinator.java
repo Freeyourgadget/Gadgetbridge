@@ -114,11 +114,6 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Brand Base";
     }

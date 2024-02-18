@@ -112,8 +112,13 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return huaweiCoordinator.supportsSmartAlarm(device);
+    public boolean supportsSmartWakeup(GBDevice device, int position) {
+        return huaweiCoordinator.supportsSmartAlarm(device, position);
+    }
+
+    @Override
+    public boolean forcedSmartWakeup(GBDevice device, int alarmPosition) {
+        return huaweiCoordinator.forcedSmartWakeup(device, alarmPosition);
     }
 
     @Override

@@ -116,10 +116,6 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
         return 3; // FIXME - check the real value
     }
 
-    @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {

@@ -130,11 +130,6 @@ public class ZeTimeCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsRealtimeData() {
         return true;
     }

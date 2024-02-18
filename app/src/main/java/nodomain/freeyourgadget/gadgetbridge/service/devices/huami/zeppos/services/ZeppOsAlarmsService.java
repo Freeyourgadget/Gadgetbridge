@@ -125,7 +125,7 @@ public class ZeppOsAlarmsService extends AbstractZeppOsService {
             if (alarm.getEnabled()) {
                 alarmFlags = FLAG_ENABLED;
             }
-            if (coordinator.supportsSmartWakeup(getSupport().getDevice()) && alarm.getSmartWakeup()) {
+            if (coordinator.supportsSmartWakeup(getSupport().getDevice(), alarm.getPosition()) && alarm.getSmartWakeup()) {
                 alarmFlags |= FLAG_SMART;
             }
             alarmMessage = new byte[]{

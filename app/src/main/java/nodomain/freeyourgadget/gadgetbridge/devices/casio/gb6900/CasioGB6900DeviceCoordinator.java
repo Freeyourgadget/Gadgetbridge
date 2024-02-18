@@ -112,11 +112,6 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

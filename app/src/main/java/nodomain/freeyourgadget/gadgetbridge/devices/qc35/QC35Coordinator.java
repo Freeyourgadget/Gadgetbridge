@@ -100,11 +100,6 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }

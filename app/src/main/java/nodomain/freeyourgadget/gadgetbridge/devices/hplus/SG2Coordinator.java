@@ -53,7 +53,7 @@ public class SG2Coordinator extends HPlusCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
+    public boolean supportsSmartWakeup(GBDevice device, int position) {
         return true;
     }
 

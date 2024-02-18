@@ -126,8 +126,10 @@ public class AlarmDetails extends AbstractGBActivity {
         timePicker.setCurrentMinute(alarm.getMinute());
 
         cbSmartWakeup.setChecked(alarm.getSmartWakeup());
-        int smartAlarmVisibility = supportsSmartWakeup() ? View.VISIBLE : View.GONE;
+        int smartAlarmVisibility = supportsSmartWakeup(alarm.getPosition()) ? View.VISIBLE : View.GONE;
         cbSmartWakeup.setVisibility(smartAlarmVisibility);
+        boolean smartAlarmEnabled = !forcedSmartWakeup(alarm.getPosition());
+        cbSmartWakeup.setEnabled(smartAlarmEnabled);
 
         cbSnooze.setChecked(alarm.getSnooze());
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
@@ -153,10 +155,21 @@ public class AlarmDetails extends AbstractGBActivity {
         cbSunday.setChecked(alarm.getRepetition(Alarm.ALARM_SUN));
     }
 
-    private boolean supportsSmartWakeup() {
+    private boolean supportsSmartWakeup(int position) {
         if (device != null) {
             DeviceCoordinator coordinator = device.getDeviceCoordinator();
-            return coordinator.supportsSmartWakeup(device);
+            return coordinator.supportsSmartWakeup(device, position);
+        }
+        return false;
+    }
+
+    /**
+     * The alarm at this position *must* be a smart alarm
+     */
+    private boolean forcedSmartWakeup(int position) {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.forcedSmartWakeup(device, position);
         }
         return false;
     }
@@ -210,7 +223,7 @@ public class AlarmDetails extends AbstractGBActivity {
             alarm.setUnused(false);
             alarm.setEnabled(true);
         }
-        alarm.setSmartWakeup(supportsSmartWakeup() && cbSmartWakeup.isChecked());
+        alarm.setSmartWakeup(supportsSmartWakeup(alarm.getPosition()) && cbSmartWakeup.isChecked());
         alarm.setSnooze(supportsSnoozing() && cbSnooze.isChecked());
         int repetitionMask = AlarmUtils.createRepetitionMask(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setRepetition(repetitionMask);

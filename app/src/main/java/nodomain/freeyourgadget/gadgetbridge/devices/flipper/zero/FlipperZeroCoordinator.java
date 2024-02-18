@@ -91,11 +91,6 @@ public class FlipperZeroCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public String getManufacturer() {
         return "Flipper devices";
     }
