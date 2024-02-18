@@ -70,7 +70,7 @@ public class SendWeatherForecastRequest extends Request {
         for (int i = 0; i < Math.min(weatherSpec.forecasts.size(), 7); i++) { // TODO: min?
             WeatherSpec.Daily daily = weatherSpec.forecasts.get(i);
             WeatherForecastData.DayData dayData = new WeatherForecastData.DayData();
-            dayData.timestamp = weatherSpec.timestamp + (60*60*24 * i);
+            dayData.timestamp = weatherSpec.timestamp + (60*60*24 * (i + 1));
             dayData.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(daily.conditionCode);
             dayData.highTemperature = (byte) (daily.maxTemp - 273);
             dayData.lowTemperature = (byte) (daily.minTemp - 273);
