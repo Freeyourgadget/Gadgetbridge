@@ -2798,4 +2798,6 @@
     <string name="activity_type_outdoor_walking">المشي في الهواء الطلق</string>
     <string name="warning_missing_notification_permission">لا يمكن نشر الإشعار المستمر بسبب فقدان الصلاحيات المطلوبة</string>
     <string name="devicetype_huawei_watchfit">ساعة هواوي فيت</string>
+    <string name="pref_test_features_title">المميزات</string>
+    <string name="pref_test_features_summary">الميزات الممكنة لهذا الجهاز الاختباري</string>
 </resources>
