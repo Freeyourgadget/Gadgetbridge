@@ -469,6 +469,20 @@ public class Weather {
         }
     }
 
+    public static class WeatherDeviceRequest extends HuaweiPacket {
+        public static final byte id = 0x04;
+
+        public WeatherDeviceRequest(ParamsProvider paramsProvider, int responseValue) {
+            super(paramsProvider);
+
+            this.serviceId = Weather.id;
+            this.commandId = id;
+            this.tlv = new HuaweiTLV().put(0x01, responseValue);
+            this.isEncrypted = false;
+            this.complete = true;
+        }
+    }
+
     public static class WeatherUnitRequest extends HuaweiPacket {
         public static final byte id = 0x05;
 

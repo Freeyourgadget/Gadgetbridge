@@ -36,6 +36,7 @@ public final class HuaweiConstants {
 
     public static final int TAG_RESULT = 127;
     public static final byte[] RESULT_SUCCESS = new byte[]{0x00, 0x01, (byte)0x86, (byte)0xA0};
+    public static final int RESULT_SUCCESS_INT = 0x186a0;
 
     public static class CryptoTags {
         public static final int encryption = 124;

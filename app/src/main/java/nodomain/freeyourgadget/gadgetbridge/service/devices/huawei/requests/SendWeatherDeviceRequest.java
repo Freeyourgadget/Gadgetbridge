@@ -18,14 +18,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 
 public class SendWeatherDeviceRequest extends Request {
-    WeatherSpec weatherSpec;
 
     public SendWeatherDeviceRequest(HuaweiSupportProvider support) {
         super(support);
@@ -36,13 +34,7 @@ public class SendWeatherDeviceRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            // TODO: move this to the weather packet class
-            HuaweiPacket response = new HuaweiPacket(supportProvider.getParamsProvider());
-            response.serviceId = this.serviceId;
-            response.commandId = this.commandId;
-            response.setTlv(new HuaweiTLV().put(0x01, 0x186a0));
-            response.setEncryption(false);
-            return response.serialize();
+            return new Weather.WeatherDeviceRequest(paramsProvider, HuaweiConstants.RESULT_SUCCESS_INT).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }
