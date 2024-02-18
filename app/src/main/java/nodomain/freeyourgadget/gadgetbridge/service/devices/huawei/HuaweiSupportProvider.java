@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon, Martin.JM
+/*  Copyright (C) 2024 Damien Gaignon, Martin.JM, Vitalii Tomin
 
     This file is part of Gadgetbridge.
 
