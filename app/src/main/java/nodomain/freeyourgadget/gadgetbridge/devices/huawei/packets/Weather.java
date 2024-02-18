@@ -262,6 +262,86 @@ public class Weather {
         return 0;
     }
 
+    public enum MoonPhase {
+        UNKNOWN, // Good to have probably
+        NEW_MOON,
+        WAXING_CRESCENT,
+        FIRST_QUARTER,
+        WAXING_GIBBOUS,
+        FULL_MOON,
+        WANING_GIBBOUS,
+        THIRD_QUARTER,
+        WANING_CRESCENT
+    }
+
+    public static MoonPhase degreesToMoonPhase(int degrees) {
+        final int leeway = 6; // Give some leeway for the new moon, first quarter, full moon, and third quarter
+        if (degrees < 0 || degrees > 360)
+            return MoonPhase.UNKNOWN;
+        else if (degrees >= 360 - leeway || degrees <= leeway)
+            return MoonPhase.NEW_MOON;
+        else if (degrees < 90)
+            return MoonPhase.WAXING_CRESCENT;
+        else if (degrees <= 90 + leeway)
+            return MoonPhase.FIRST_QUARTER;
+        else if (degrees < 180 - leeway)
+            return MoonPhase.WAXING_GIBBOUS;
+        else if (degrees <= 180 + leeway)
+            return MoonPhase.FULL_MOON;
+        else if (degrees < 270 - leeway)
+            return MoonPhase.WANING_GIBBOUS;
+        else if (degrees <= 270 + leeway)
+            return MoonPhase.THIRD_QUARTER;
+        else
+            return MoonPhase.WANING_CRESCENT;
+    }
+
+    private static byte moonPhaseToByte (MoonPhase moonPhase) {
+        switch (moonPhase) {
+            case NEW_MOON:
+                return 1;
+            case WAXING_CRESCENT:
+                return 2;
+            case FIRST_QUARTER:
+                return 3;
+            case WAXING_GIBBOUS:
+                return 4;
+            case FULL_MOON:
+                return 5;
+            case WANING_GIBBOUS:
+                return 6;
+            case THIRD_QUARTER:
+                return 7;
+            case WANING_CRESCENT:
+                return 8;
+            default:
+                return 0;
+        }
+    }
+
+    private static MoonPhase byteToMoonPhase(byte moonPhase) {
+        switch (moonPhase) {
+            case 1:
+                return MoonPhase.NEW_MOON;
+            case 2:
+                return MoonPhase.WAXING_CRESCENT;
+            case 3:
+                return MoonPhase.FIRST_QUARTER;
+            case 4:
+                return MoonPhase.WAXING_GIBBOUS;
+            case 5:
+                return MoonPhase.FULL_MOON;
+            case 6:
+                return MoonPhase.WANING_GIBBOUS;
+            case 7:
+                return MoonPhase.THIRD_QUARTER;
+            case 8:
+                return MoonPhase.WANING_CRESCENT;
+            default:
+                return MoonPhase.UNKNOWN;
+        }
+    }
+
     public static class CurrentWeatherRequest extends HuaweiPacket {
         public static final byte id = 0x01;
 
@@ -474,7 +554,7 @@ public class Weather {
             public int sunsetTime;
             public int moonRiseTime;
             public int moonSetTime;
-            public byte moonPhase; // TODO: probably enum
+            public MoonPhase moonPhase;
 
             @Override
             public String toString() {
@@ -532,7 +612,7 @@ public class Weather {
                                 .put(0x17, dayData.sunsetTime)
                                 .put(0x1a, dayData.moonRiseTime)
                                 .put(0x1b, dayData.moonSetTime)
-                                .put(0x1e, dayData.moonPhase)
+                                .put(0x1e, moonPhaseToByte(dayData.moonPhase))
                         );
                     }
                     this.tlv.put(0x90, dayDataTlv);
@@ -575,7 +655,7 @@ public class Weather {
                     dayData.sunsetTime = dayTlv.getInteger(0x17);
                     dayData.moonRiseTime = dayTlv.getInteger(0x1a);
                     dayData.moonSetTime = dayTlv.getInteger(0x1b);
-                    dayData.moonPhase = dayTlv.getByte(0x1e);
+                    dayData.moonPhase = byteToMoonPhase(dayTlv.getByte(0x1e));
                     dayDataList.add(dayData);
                 }
             }

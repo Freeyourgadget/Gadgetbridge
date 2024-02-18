@@ -16,9 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -62,7 +65,7 @@ public class SendWeatherForecastRequest extends Request {
         today.sunsetTime = weatherSpec.sunSet;
         today.moonRiseTime = weatherSpec.moonRise;
         today.moonSetTime = weatherSpec.moonSet;
-        today.moonPhase = (byte) 4; // weatherSpec.moonPhase; // TODO: check
+        today.moonPhase = Weather.degreesToMoonPhase(weatherSpec.moonPhase);
         dayDataArrayList.add(today);
 
         for (int i = 0; i < dayCount - 1; i++) {
@@ -76,7 +79,7 @@ public class SendWeatherForecastRequest extends Request {
             dayData.sunsetTime = daily.sunSet;
             dayData.moonRiseTime = daily.moonRise;
             dayData.moonSetTime = daily.moonSet;
-            dayData.moonPhase = (byte) 4; // daily.moonPhase; // TODO: check
+            dayData.moonPhase = Weather.degreesToMoonPhase(daily.moonPhase);
             dayDataArrayList.add(dayData);
         }
         try {
