@@ -203,12 +203,17 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount(final GBDevice device) {
-        return super.getAlarmSlotCount(device);
+        return 5;
     }
 
     @Override
     public boolean supportsSmartWakeup(final GBDevice device, int position) {
-        return supports(getTestDevice(), TestFeature.SMART_WAKEUP);
+        return supports(getTestDevice(), TestFeature.SMART_WAKEUP) && position <= 2;
+    }
+
+    @Override
+    public boolean forcedSmartWakeup(final GBDevice device, final int alarmPosition) {
+        return supports(getTestDevice(), TestFeature.SMART_WAKEUP_FORCED_SLOT) && alarmPosition == 0;
     }
 
     @Override
