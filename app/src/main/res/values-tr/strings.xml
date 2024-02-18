@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="Cancel">İptal</string>
     <string name="DEVINFO_HR_VER">"Kalp ritmi: "</string>
     <string name="Delete">Sil</string>
@@ -625,7 +625,7 @@
     <string name="pref_title_enable_pebblekit">3. taraf Android Uygulama erişimine izin ver</string>
     <string name="pref_title_expose_hr">3. taraf gerçek zamanlı kalp ritmi erişimi</string>
     <string name="pref_title_force_white_color_scheme">Beyaz üzerinde siyah renk şemasını zorla</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Bluetooth açıkken Gadgetbridge aygıtına bağlan</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Bluetooth açıkken Gadgetbridge aygıt(lar)ına bağlan</string>
     <string name="pref_title_general_autoreconnect">Otomatik yeniden bağlan</string>
     <string name="pref_title_general_autostartonboot">Otomatik başlat</string>
     <string name="pref_title_keep_data_on_device">Etkinlik verilerini aygıtta sakla</string>
@@ -1359,8 +1359,8 @@
     <string name="pref_title_notification_use_as_deny">Seçili uygulamalardan gelen bildirimleri reddet</string>
     <string name="pref_title_notification_use_as_allow">Seçili uygulamalardan gelen bildirimlere izin ver</string>
     <string name="pref_title_message_privacy_mode">Mesaj gizlilik modu</string>
-    <string name="pref_message_privacy_mode_off">İçeriği görüntüle</string>
-    <string name="pref_message_privacy_mode_complete">İçeriği gizle</string>
+    <string name="pref_message_privacy_mode_off">Tüm içeriği görüntüle</string>
+    <string name="pref_message_privacy_mode_complete">Tüm içeriği gizle</string>
     <string name="toast_app_must_be_selected">Yapılandırmak için uygulama seçili olmalıdır</string>
     <string name="prefs_equalizer_preset">Dengeleyici Ön Ayarı</string>
     <string name="pref_title_equalizer_bass_boost">Bas güçlendirme</string>
@@ -1790,7 +1790,7 @@
     <string name="watchface_dialog_title_widget">Widget ayarları</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Metin Bit Eşlemleri Boyutu</string>
     <string name="hybridhr_widget_bg_thin_circle">İnce çember</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">\'Bit Eşlem Olarak Metin\' etkinse, metin hangi boyutta oluşturulmalıdır\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Bit eşlem metin oluşturma için kullanılacak boyut</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2. saat dilimi widget\'ı</string>
     <string name="watchface_dialog_widget_cat_position">Konum</string>
     <string name="watchface_dialog_widget_background">Arka plan</string>
@@ -2188,4 +2188,98 @@
     <string name="french_fr">Fransızca (Fransa)</string>
     <string name="fwapp_install_device_not_supported">Dosya yüklenemedi, aygıt desteklenmiyor.</string>
     <string name="action_changelog">Yenilikler</string>
+    <string name="title_activity_contact_details">Kişi ayrıntıları</string>
+    <string name="num_min">%d dak</string>
+    <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2 ayarları</string>
+    <string name="contact_delete_confirm_title">Kişiyi sil</string>
+    <string name="pai_chart_per_week">Haftalık PAI</string>
+    <string name="pref_title_notification_cache_while_disconnected">Kapsama alanı dışındayken önbelleğe al</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Tüm aygıtlara yeniden bağlanmak yerine yalnızca bağlı aygıtlara yeniden bağlan</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Yalnızca bağlı aygıtlara yeniden bağlan</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Bir aygıt kapsama alanı dışında kaldıktan sonra yeniden bağlandığında kaçırılan bildirimleri gönder</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Bangle aygıtının GPS verilerinin üzerine yazmak için telefonun GPS verilerini kullan</string>
+    <string name="pref_canned_message">Mesaj</string>
+    <string name="pref_title_casio_alert_other">Diğer bildirimler için uyar</string>
+    <string name="pref_title_preview_message_in_title">Başlıkta mesajın ön izlemesini göster</string>
+    <string name="pref_title_casio_alert_call">Gelen çağrılar için uyar</string>
+    <string name="femometer_measurement_mode_precise">Hassas Mod (3 dak)</string>
+    <string name="pref_contacts_summary">Saatte kişileri yapılandırın</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Aygıtta yeterli boş alan yok</string>
+    <string name="busy_task_fetch_statistics">İstatistikler getiriliyor</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_chart_per_month">Aylık PAI</string>
+    <string name="pref_theme_dynamic">Değişken renkler</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Telefon GPS verilerini kullan</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Konumu belirlemek için yalnızca ağ sağlayıcısını kullanın. Bu, doğruluğu etkileyebilir ancak güç tüketimini azaltır. Yeniden bağlantı gereklidir.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">GPS verisi güncelleme aralığı</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">GPS konumunun ne sıklıkta güncelleneceği, ms cinsinden</string>
+    <string name="pref_message_privacy_mode_bodyonly">Yalnızca gövdeyi gizle</string>
+    <string name="pref_summary_preview_message_in_title">Aygıtın izin verdiği ölçüde bir bildirimin başlığında mesajın ön izlemesini gösterir</string>
+    <string name="pref_title_casio_alert_calendar">Takvim bildirimleri için uyar</string>
+    <string name="pref_summary_casio_alert_calendar">Takvim bildirimleri için uyar (titreşim/bip sesi)</string>
+    <string name="pref_title_casio_alert_email">E-posta bildirimleri için uyar</string>
+    <string name="pref_summary_casio_alert_email">E-posta bildirimleri için uyar (titreşim/bip sesi)</string>
+    <string name="pref_title_casio_alert_sms">SMS bildirimleri için uyar</string>
+    <string name="pref_summary_casio_alert_sms">SMS (kısa mesaj) bildirimleri için uyar (titreşim/bip sesi)</string>
+    <string name="pref_summary_casio_alert_other">Diğer kategorideki bildirimler için uyar (titreşim/bip sesi)</string>
+    <string name="pref_summary_casio_alert_call">Gelen çağrılar için uyar (titreşim/bip sesi)</string>
+    <string name="pref_header_navigation">Navigasyon</string>
+    <string name="busy_task_fetch_pai_data">PAI verileri getiriliyor</string>
+    <string name="busy_task_fetch_spo2_data">SpO2 verileri getiriliyor</string>
+    <string name="busy_task_fetch_hr_data">Kalp ritmi verileri getiriliyor</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Uyku solunum hızı verileri getiriliyor</string>
+    <string name="busy_task_fetch_temperature">Sıcaklık verileri getiriliyor</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Amazfit GTR 3 Pro aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="busy_task_fetch_stress_data">Stres verileri getiriliyor</string>
+    <string name="title_activity_set_contacts">Kişileri yapılandır</string>
+    <string name="pref_title_mb_intents">Medya Düğmesi Amaçlarını Doğrudan Yayınla</string>
+    <string name="pref_summary_mb_intents">Aygıt medya denetimi belirli uygulamalar için çalışmıyorsa etkinleştirin</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Konumu belirlemek için yalnızca ağı kullan</string>
+    <string name="pixoo_power_saving_summary">Mikrofon bir süre sessizlik algıladıktan sonra ekran kapanacaktır</string>
+    <string name="clap_hands_to_wakeup_device">Ekranı açmak için el çırp</string>
+    <string name="clap_hands_to_wakeup_device_summary">Tekrar el çırpmak ekranı kapatacaktır</string>
+    <string name="busy_task_fetch_sports_summaries">Spor özetleri getiriliyor</string>
+    <string name="busy_task_fetch_sports_details">Spor ayrıntıları getiriliyor</string>
+    <string name="busy_task_fetch_debug_logs">Hata ayıklama günlükleri getiriliyor</string>
+    <string name="prefs_wearmode">Giyme modu</string>
+    <string name="pref_contacts_title">Kişiler</string>
+    <string name="contact_delete_confirm_description">\'%1$s\' kişisini silmek istediğinizden emin misiniz?</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Amazfit Cheetah Pro aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="fw_upgrade_notice_zepp_os">%s ürün yazılımını %s aygıtınıza kurmak üzeresiniz.
+\n
+\nSaatiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="wearmode_pebble">Pebble (ayakkabı tokası)</string>
+    <string name="wearmode_band">Bileklik (kol bilekliği)</string>
+    <string name="wearmode_necklace">Kolye (boyun askısı)</string>
+    <string name="pref_title_notifications_ignore_work_profile">İş profili bildirimlerini yok say</string>
+    <string name="pref_summary_notifications_ignore_work_profile">İş profilindeki uygulamalardan saate bildirim gönderme</string>
+    <string name="pref_title_send_app_notifications">Bildirim gönder</string>
+    <string name="pref_summary_send_app_notifications">Uygulama bildirimlerini aygıta gönder</string>
+    <string name="gpx_route_upload_failed">GPX güzergahı yüklenmesi başarısız oldu</string>
+    <string name="gpx_route_upload_complete">GPX güzergahı yüklenmesi tamamlandı</string>
+    <string name="heartrate_bpm_155">155 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_165">165 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_175">175 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_185">185 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_195">195 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_205">205 kalp atışı/dakika</string>
+    <string name="contact_no_free_slots_description">Aygıtta kişiler için boş yuva yok (toplam yuva: %1$s)</string>
+    <string name="prefs_heartrate_alert_active_high_threshold">Yüksek etkinlik kalp ritmi uyarı eşiği</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Aygıtın pili çok düşük</string>
+    <string name="gpx_route_upload_in_progress">GPX güzergahı yükleniyor</string>
+    <string name="pref_title_goal_secondary">İkincil hedef</string>
+    <string name="femometer_measurement_mode_title">Ölçüm modu</string>
+    <string name="femometer_measurement_mode_quick">Hızlı Mod (30 sn)</string>
+    <string name="femometer_measurement_mode_normal">Normal Mod (60sn-90sn)</string>
+    <string name="preferences_miband_1_2_warning">Uyarı: Bu tercihler yalnızca Mi Band 1 ve 2 için geçerlidir.</string>
 </resources>
