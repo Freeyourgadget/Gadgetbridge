@@ -345,7 +345,7 @@ public class HuaweiCoordinator {
     }
 
     public boolean supportsWeatherExtended() {
-        return supportsCommandForService(0x0f, 0x05);
+        return supportsCommandForService(0x0f, 0x06);
     }
 
     public boolean supportsWeatherForecasts() {

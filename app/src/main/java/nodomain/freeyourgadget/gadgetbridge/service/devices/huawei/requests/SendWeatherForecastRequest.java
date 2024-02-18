@@ -55,7 +55,7 @@ public class SendWeatherForecastRequest extends Request {
 
         // Add today as well
         WeatherForecastData.DayData today = new WeatherForecastData.DayData();
-        today.timestamp = weatherSpec.sunRise;
+        today.timestamp = weatherSpec.timestamp;
         today.icon = supportProvider.openWeatherMapConditionCodeToHuaweiIcon(weatherSpec.currentConditionCode);
         today.highTemperature = (byte) (weatherSpec.todayMaxTemp - 273);
         today.lowTemperature = (byte) (weatherSpec.todayMinTemp - 273);
