@@ -466,6 +466,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private void scanAllDevices(){
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         for(GBDevice device : devices){
+            if(!device.getDeviceCoordinator().getConnectionType().usesBluetoothLE()){
+                continue;
+            }
             if(device.getState() != GBDevice.State.NOT_CONNECTED){
                 continue;
             }
