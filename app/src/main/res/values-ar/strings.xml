@@ -280,7 +280,7 @@
 \nملاحظة: لا يلزم تثبيت .res و .gps إذا كانت هذه الملفات هي نفسها تماما مثل الملفات المثبتة مسبقا.
 \n
 \nالمضي قدما على مسؤوليتك الخاصة!</string>
-    <string name="pref_summary_datetime_syctimeonconnect">مزامنة الوقت مع جهاز Gadgetbridge عند الاتصال ، وعندما يتغير الوقت أو المنطقة الزمنية على جهاز Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">مزامنة الوقت مع أجهزة Gadgetbridge عند الاتصال، وعندما يتغير الوقت أو المنطقة الزمنية على جهاز اندرويد، وبشكل دوري</string>
     <string name="fw_upgrade_notice_amazfit_gts4">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTS 4.
 \n
 \nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
@@ -2800,4 +2800,5 @@
     <string name="devicetype_huawei_watchfit">ساعة هواوي فيت</string>
     <string name="pref_test_features_title">المميزات</string>
     <string name="pref_test_features_summary">الميزات الممكنة لهذا الجهاز الاختباري</string>
+    <string name="devicetype_redmiwatch3">ساعة ريدمي ٣</string>
 </resources>
