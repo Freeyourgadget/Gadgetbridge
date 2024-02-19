@@ -59,7 +59,7 @@
     <string name="pref_default">Predeterminado</string>
     <string name="pref_header_datetime">Fecha y hora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincroniza la hora en el dispositivo cuando se conecte o se cambie la hora o zona horaria en Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincroniza la hora con el dispositivo o dispositivos Gadgetbridge cuando se conecta, cuando cambia la hora o la zona horaria en el dispositivo Android y periódicamente</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Claro</string>
     <string name="pref_theme_dark">Oscuro</string>
