@@ -1817,7 +1817,7 @@
     <string name="minCadence">Irama Min</string>
     <string name="hrZoneFatBurn">Bakaran Lemak</string>
     <string name="averageStrokeDistance">Jarak Langkah Rata-Rata</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="swimStyle">swimStyle</string>
     <string name="km">km</string>
     <string name="averageStrokesPerSecond">Gaya Rata-Rata</string>
@@ -2259,7 +2259,7 @@
     <string name="pai_chart_per_month">PAI per bulan</string>
     <string name="pai_day">Pemambahan PAI hari</string>
     <string name="pai_plus_num">+%d</string>
-    <string name="pai_total">Jumlah PAI</string>
+    <string name="pai_total">Jumlah</string>
     <string name="pai_chart_per_week">PAI per minggu</string>
     <string name="num_min">%d mnt</string>
     <string name="loyalty_cards_catima_package">Nama paket Catima</string>
@@ -2484,4 +2484,19 @@
     <string name="common_symbols">Simbol Umum</string>
     <string name="pref_title_notifications_ignore_work_profile">Abaikan notifikasi profil kerja</string>
     <string name="pref_summary_notifications_ignore_work_profile">Jangan kirimkan notifikasi dari aplikasi dalam profil kerja ke jam tangan</string>
+    <string name="menuitem_alerts">Peringatan</string>
+    <string name="menuitem_thermometer">Termometer</string>
+    <string name="devicetype_pixoo">Pixoo</string>
+    <string name="menuitem_stats">Statistik</string>
+    <string name="pref_navigation_app_osmand">OsmAnd(+)</string>
+    <string name="yard">yard</string>
+    <string name="menuitem_focus">Fokus</string>
+    <string name="bedtime">Waktu tidur</string>
+    <string name="menuitem_readiness">Kesediaan</string>
+    <string name="call_rejection_method_reject">Tolak</string>
+    <string name="menuitem_running">Berlari</string>
+    <string name="danish">Denmark</string>
+    <string name="zepp_os_watchface_guider">Guider</string>
+    <string name="menuitem_headphone">Headphone</string>
+    <string name="strokes_minute">str/mnt</string>
 </resources>
