@@ -57,7 +57,7 @@
     <string name="pref_default">По умолчанию</string>
     <string name="pref_header_datetime">Дата и время</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронизировать время</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время на добавленном устройстве при подключении, установке времени или часового пояса</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Синхронизировать время на добавленных устройствах при подключении, установке времени или часового пояса и периодически</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_theme_light">Светлая</string>
     <string name="pref_theme_dark">Тёмная</string>
