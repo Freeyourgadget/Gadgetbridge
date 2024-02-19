@@ -289,14 +289,25 @@ public class BLEScanService extends Service {
     BroadcastReceiver deviceStateUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            GBDevice.DeviceUpdateSubject subject =
-                    (GBDevice.DeviceUpdateSubject)
-                            intent.getSerializableExtra(GBDevice.EXTRA_UPDATE_SUBJECT);
+            if(GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
+                GBDevice.DeviceUpdateSubject subject =
+                        (GBDevice.DeviceUpdateSubject)
+                                intent.getSerializableExtra(GBDevice.EXTRA_UPDATE_SUBJECT);
 
-            if(subject != GBDevice.DeviceUpdateSubject.CONNECTION_STATE){
+                if (subject != GBDevice.DeviceUpdateSubject.CONNECTION_STATE) {
+                    return;
+                }
+                restartScan(true);
                 return;
             }
-            restartScan(true);
+            if(GBApplication.ACTION_QUIT.equals(intent.getAction())){
+                LOG.debug("stopping scan service...");
+                if(currentState.isDoingAnyScan()){
+                    scanner.stopScan(scanCallback);
+                }
+                stopSelf();
+                return;
+            }
         }
     };
 
@@ -320,9 +331,12 @@ public class BLEScanService extends Service {
     };
 
     private void registerReceivers(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        filter.addAction(GBApplication.ACTION_QUIT);
         localBroadcastManager.registerReceiver(
                 deviceStateUpdateReceiver,
-                new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED)
+                filter
         );
 
         registerReceiver(
