@@ -2774,4 +2774,6 @@
     <string name="pref_dashboard_select_devices_summary">Combine activity data from specific devices for the totals on the dashboard</string>
     <string name="pref_dashboard_widget_today_hr_interval_title">Heart rate interval</string>
     <string name="pref_dashboard_widget_today_hr_interval_summary">The amount of minutes the chart shows \'worn\' after each successful heart rate measurement</string>
+    <string name="pref_auto_reply_calls_summary">The phone will automatically pick-up incoming phonecalls</string>
+    <string name="pref_auto_reply_calls_title">Automatically answer phone calls</string>
 </resources>

@@ -14,4 +14,10 @@
         android:key="pref_nothing_audiomode"
         android:summary="%s"
         android:title="@string/nothing_prefs_audiomode_title" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_phone"
+        android:key="pref_auto_reply_phonecall"
+        android:summary="@string/pref_auto_reply_calls_summary"
+        android:title="@string/pref_auto_reply_calls_title"/>
 </androidx.preference.PreferenceScreen>

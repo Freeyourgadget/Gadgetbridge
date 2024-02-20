@@ -476,6 +476,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_DISPLAY_CALLER);
         addPreferenceHandlerFor(PREF_NOTIFICATION_DELAY_CALLS);
         addPreferenceHandlerFor(PREF_CALL_REJECT_METHOD);
+        addPreferenceHandlerFor(PREF_AUTO_REPLY_INCOMING_CALL);
 
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
