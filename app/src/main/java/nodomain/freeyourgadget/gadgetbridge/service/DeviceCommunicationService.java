@@ -694,6 +694,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private void handleAction(Intent intent, String action, GBDevice device) throws DeviceNotFoundException {
+        if(ACTION_DISCONNECT.equals(intent.getAction())) {
+            try {
+                removeDeviceSupport(device);
+            } catch (DeviceNotFoundException e) {
+                e.printStackTrace();
+            }
+            device.setState(GBDevice.State.NOT_CONNECTED);
+            device.sendDeviceUpdateIntent(this);
+            updateReceiversState();
+            return;
+        }
+
         DeviceSupport deviceSupport = getDeviceSupport(device);
 
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
@@ -796,16 +808,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 deviceSupport.onFetchRecordedData(dataTypes);
                 break;
             }
-            case ACTION_DISCONNECT:
-                try {
-                    removeDeviceSupport(device);
-                } catch (DeviceNotFoundException e) {
-                    e.printStackTrace();
-                }
-                device.setState(GBDevice.State.NOT_CONNECTED);
-                device.sendDeviceUpdateIntent(this);
-                updateReceiversState();
-                break;
             case ACTION_FIND_DEVICE: {
                 boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
                 deviceSupport.onFindDevice(start);
