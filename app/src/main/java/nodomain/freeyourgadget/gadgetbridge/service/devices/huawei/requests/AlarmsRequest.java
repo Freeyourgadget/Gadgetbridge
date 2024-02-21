@@ -60,6 +60,7 @@ public class AlarmsRequest extends Request {
     }
 
     public void buildSmartAlarm(Alarm alarm) {
+        Integer smartWakeupInterval = alarm.getSmartWakeupInterval();
         this.smartAlarmRequest = new SmartAlarmRequest(
                 paramsProvider,
                 new Alarms.SmartAlarm(
@@ -67,7 +68,7 @@ public class AlarmsRequest extends Request {
                         (byte) alarm.getHour(),
                         (byte) alarm.getMinute(),
                         (byte) alarm.getRepetition(),
-                        (byte) 5 // TODO: setting for ahead time
+                        smartWakeupInterval == null ? 5 : smartWakeupInterval.byteValue()
                 )
         );
     }

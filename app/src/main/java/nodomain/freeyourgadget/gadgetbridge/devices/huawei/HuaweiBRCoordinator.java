@@ -117,6 +117,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
+    public boolean supportsSmartWakeupInterval(GBDevice device, int alarmPosition) {
+        return supportsSmartWakeup(device, alarmPosition);
+    }
+
+    @Override
     public boolean forcedSmartWakeup(GBDevice device, int alarmPosition) {
         return huaweiCoordinator.forcedSmartWakeup(device, alarmPosition);
     }
@@ -133,12 +138,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public boolean supportsAlarmTitle(GBDevice device) {
-        return true;
-    }
-
-    @Override
-    public boolean supportsAlarmDescription(GBDevice device) {
-        // TODO: only name is supported
         return true;
     }
 

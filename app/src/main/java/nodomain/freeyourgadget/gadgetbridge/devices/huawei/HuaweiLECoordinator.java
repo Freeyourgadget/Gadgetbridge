@@ -142,12 +142,6 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
-    public boolean supportsAlarmDescription(GBDevice device) {
-        // TODO: only name is supported
-        return true;
-    }
-
-    @Override
     public boolean supportsWeather() {
         return huaweiCoordinator.supportsWeather();
     }

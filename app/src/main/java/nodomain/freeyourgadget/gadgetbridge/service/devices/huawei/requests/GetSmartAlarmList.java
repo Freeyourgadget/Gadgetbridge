@@ -61,7 +61,7 @@ public class GetSmartAlarmList extends Request {
                             0,
                             smartAlarm.status,
                             true,
-                            null,
+                            (int) smartAlarm.aheadTime,
                             false,
                             smartAlarm.repeat,
                             smartAlarm.startHour,
