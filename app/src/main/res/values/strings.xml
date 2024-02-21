@@ -779,6 +779,8 @@
     <string name="alarm_fri_short">Fri</string>
     <string name="alarm_sat_short">Sat</string>
     <string name="alarm_smart_wakeup">Smart wakeup</string>
+    <string name="alarm_smart_wakeup_interval">Smart wakeup, interval (minutes):</string>
+    <string name="alarm_smart_wakeup_interval_default">Default: 5</string>
     <string name="alarm_snooze">Snooze</string>
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>

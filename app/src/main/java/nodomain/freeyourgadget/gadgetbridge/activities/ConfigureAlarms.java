@@ -147,7 +147,7 @@ public class ConfigureAlarms extends AbstractGBActivity {
     }
 
     private Alarm createDefaultAlarm(@NonNull Device device, @NonNull User user, int position) {
-        return new Alarm(device.getId(), user.getId(), position, false, false, false, 0, 6, 30, false, null, null);
+        return new Alarm(device.getId(), user.getId(), position, false, false, null, false, 0, 6, 30, false, null, null);
     }
 
     @Override

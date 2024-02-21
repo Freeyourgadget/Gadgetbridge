@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniel
-    Dakhno, Daniele Gobbetti, Dmitry Markin, Lem Dulfo, Taavi Eomäe
+    Dakhno, Daniele Gobbetti, Dmitry Markin, Lem Dulfo, Taavi Eomäe, Martin.JM
 
     This file is part of Gadgetbridge.
 
@@ -26,6 +26,8 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.NumberFormat;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -50,6 +52,7 @@ public class AlarmDetails extends AbstractGBActivity {
     private CheckedTextView cbSunday;
     private EditText title;
     private EditText description;
+    private EditText smartWakeupInterval;
     private GBDevice device;
 
     @Override
@@ -65,6 +68,7 @@ public class AlarmDetails extends AbstractGBActivity {
 
         timePicker = findViewById(R.id.alarm_time_picker);
         cbSmartWakeup = findViewById(R.id.alarm_cb_smart_wakeup);
+        smartWakeupInterval = findViewById(R.id.alarm_cb_smart_wakeup_interval);
         cbSnooze = findViewById(R.id.alarm_cb_snooze);
         cbMonday = findViewById(R.id.alarm_cb_monday);
         cbTuesday = findViewById(R.id.alarm_cb_tuesday);
@@ -78,6 +82,7 @@ public class AlarmDetails extends AbstractGBActivity {
         cbSmartWakeup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((CheckedTextView) v).toggle();
+                smartWakeupInterval.setEnabled(((CheckedTextView) v).isChecked());
             }
         });
         cbSnooze.setOnClickListener(new View.OnClickListener() {
@@ -127,9 +132,26 @@ public class AlarmDetails extends AbstractGBActivity {
 
         boolean smartAlarmForced = forcedSmartWakeup(alarm.getPosition());
         cbSmartWakeup.setChecked(alarm.getSmartWakeup() || smartAlarmForced);
-        int smartAlarmVisibility = supportsSmartWakeup(alarm.getPosition()) ? View.VISIBLE : View.GONE;
+        boolean smartAlarmVisible = supportsSmartWakeup(alarm.getPosition());
+        int smartAlarmVisibility = smartAlarmVisible ? View.VISIBLE : View.GONE;
         cbSmartWakeup.setVisibility(smartAlarmVisibility);
-        cbSmartWakeup.setEnabled(!smartAlarmForced);
+        if (smartAlarmForced) {
+            cbSmartWakeup.setEnabled(false);
+            // Force the text to be visible for the "interval" part
+            // Enabled or not can still be seen in the checkmark
+            // TODO: I'd like feedback on this
+            if (GBApplication.isDarkThemeEnabled())
+                cbSmartWakeup.setTextColor(getResources().getColor(R.color.primarytext_dark));
+            else
+                cbSmartWakeup.setTextColor(getResources().getColor(R.color.primarytext_light));
+        }
+        if (smartAlarmVisible)
+            cbSmartWakeup.setText(R.string.alarm_smart_wakeup_interval);
+
+        smartWakeupInterval.setVisibility(supportsSmartWakeupInterval(alarm.getPosition()) ? smartAlarmVisibility : View.GONE);
+        smartWakeupInterval.setEnabled(alarm.getSmartWakeup() || smartAlarmForced);
+        if (alarm.getSmartWakeupInterval() != null)
+            smartWakeupInterval.setText(NumberFormat.getInstance().format(alarm.getSmartWakeupInterval()));
 
         cbSnooze.setChecked(alarm.getSnooze());
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
@@ -159,6 +181,14 @@ public class AlarmDetails extends AbstractGBActivity {
         if (device != null) {
             DeviceCoordinator coordinator = device.getDeviceCoordinator();
             return coordinator.supportsSmartWakeup(device, position);
+        }
+        return false;
+    }
+
+    private boolean supportsSmartWakeupInterval(int position) {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.supportsSmartWakeupInterval(device, position);
         }
         return false;
     }
@@ -224,6 +254,8 @@ public class AlarmDetails extends AbstractGBActivity {
             alarm.setEnabled(true);
         }
         alarm.setSmartWakeup(supportsSmartWakeup(alarm.getPosition()) && cbSmartWakeup.isChecked());
+        String interval = smartWakeupInterval.getText().toString();
+        alarm.setSmartWakeupInterval(interval.equals("") ? null : Integer.parseInt(interval));
         alarm.setSnooze(supportsSnoozing() && cbSnooze.isChecked());
         int repetitionMask = AlarmUtils.createRepetitionMask(cbMonday.isChecked(), cbTuesday.isChecked(), cbWednesday.isChecked(), cbThursday.isChecked(), cbFriday.isChecked(), cbSaturday.isChecked(), cbSunday.isChecked());
         alarm.setRepetition(repetitionMask);

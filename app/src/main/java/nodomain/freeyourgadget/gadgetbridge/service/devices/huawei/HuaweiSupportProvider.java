@@ -733,7 +733,7 @@ public class HuaweiSupportProvider {
             title = context.getString(R.string.alarm_smart_wakeup);
             description = context.getString(R.string.huawei_alarm_smart_description);
         }
-        return new Alarm(device.getId(), user.getId(), position, false, smartWakeup, false, 0, 6, 30, true, title, description);
+        return new Alarm(device.getId(), user.getId(), position, false, smartWakeup, null, false, 0, 6, 30, true, title, description);
     }
 
     private void getAlarms() {

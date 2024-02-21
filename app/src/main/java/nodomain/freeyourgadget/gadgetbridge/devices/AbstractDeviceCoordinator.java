@@ -324,6 +324,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsSmartWakeupInterval(GBDevice device, int alarmPosition) {
+        return false;
+    }
+
+    @Override
     public boolean forcedSmartWakeup(GBDevice device, int alarmPosition) {
         return false;
     }

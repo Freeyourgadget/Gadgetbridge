@@ -338,6 +338,12 @@ public interface DeviceCoordinator {
     boolean supportsSmartWakeup(GBDevice device, int alarmPosition);
 
     /**
+     * Returns true if the smart alarm at the specified position supports setting an interval for this device/coordinator
+     * @param alarmPosition Position of the alarm
+     */
+    boolean supportsSmartWakeupInterval(GBDevice device, int alarmPosition);
+
+    /**
      * Returns true if the alarm at the specified position *must* be a smart alarm for this device/coordinator
      * @param alarmPosition Position of the alarm
      * @return True if it must be a smart alarm, false otherwise
