@@ -142,9 +142,9 @@ public class AlarmDetails extends AbstractGBActivity {
             // Enabled or not can still be seen in the checkmark
             // TODO: I'd like feedback on this
             if (GBApplication.isDarkThemeEnabled())
-                cbSmartWakeup.setTextColor(getResources().getColor(R.color.primarytext_dark));
+                cbSmartWakeup.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
             else
-                cbSmartWakeup.setTextColor(getResources().getColor(R.color.primarytext_light));
+                cbSmartWakeup.setTextColor(getResources().getColor(android.R.color.secondary_text_light));
         }
         if (smartAlarmIntervalSupported)
             cbSmartWakeup.setText(R.string.alarm_smart_wakeup_interval);
