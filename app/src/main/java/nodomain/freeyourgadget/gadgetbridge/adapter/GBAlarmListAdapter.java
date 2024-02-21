@@ -88,6 +88,10 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
         holder.isEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    alarm.setUnused(false);
+                    holder.container.setAlpha(1.0f);
+                }
                 alarm.setEnabled(isChecked);
                 updateInDB(alarm);
             }
@@ -104,6 +108,7 @@ public class GBAlarmListAdapter extends RecyclerView.Adapter<GBAlarmListAdapter.
             public boolean onLongClick(View v) {
                 alarm.setUnused(!alarm.getUnused());
                 holder.container.setAlpha(alarm.getUnused() ? 0.5f : 1.0f);
+                holder.isEnabled.setChecked(false); // This falls through to the onCheckChanged function
                 updateInDB(alarm);
                 return true;
             }
