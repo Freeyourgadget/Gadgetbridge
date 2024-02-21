@@ -44,7 +44,7 @@
     <string name="pref_default">Типовий</string>
     <string name="pref_header_datetime">Дата й час</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронізація часу</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання з Gadgetbridge, а також під час зміни часу або часового поясу в системі Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час під час з\'єднання з Gadgetbridge, після зміни часу або часового поясу в системі Android і періодично</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_theme_light">Світла</string>
     <string name="pref_theme_dark">Темна</string>
@@ -2657,4 +2657,16 @@
     <string name="pref_force_connection_type_bt_classic">Bluetooth Classic</string>
     <string name="pref_title_general_reconnectonlytoconnected">Повторно під\'єднуватись лише до пов\'язаних пристроїв</string>
     <string name="pref_force_connection_type_ble">Bluetooth LE</string>
+    <string name="activity_type_indoor_running">Біг у приміщенні</string>
+    <string name="activity_type_crossfit">Кросфіт</string>
+    <string name="activity_type_functional_training">Функціональне тренування</string>
+    <string name="activity_type_physical_training">Фізична підготовка</string>
+    <string name="activity_type_taekwondo">Тхеквондо</string>
+    <string name="activity_type_karate">Карате</string>
+    <string name="activity_type_ballet">Балет</string>
+    <string name="activity_type_other_dance">Інший танець</string>
+    <string name="activity_type_stairs">Сходи</string>
+    <string name="activity_type_karting">Картинг</string>
+    <string name="activity_type_billiards">Більярд</string>
+    <string name="dnd_all_day">Усі дні</string>
 </resources>
