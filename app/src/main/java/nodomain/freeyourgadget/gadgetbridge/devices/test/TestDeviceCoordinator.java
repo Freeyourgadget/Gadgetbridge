@@ -203,17 +203,29 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount(final GBDevice device) {
+        /*
+          0: Forced smart, no interval
+          1: Forced smart, with interval
+          2: Unforced smart, no interval
+          3: Unforced smart, with interval
+          4: Not smart
+         */
         return 5;
     }
 
     @Override
     public boolean supportsSmartWakeup(final GBDevice device, int position) {
-        return supports(getTestDevice(), TestFeature.SMART_WAKEUP) && position <= 2;
+        return supports(getTestDevice(), TestFeature.SMART_WAKEUP) && position <= 3;
+    }
+
+    @Override
+    public boolean supportsSmartWakeupInterval(GBDevice device, int alarmPosition) {
+        return supports(getTestDevice(), TestFeature.SMART_WAKEUP_INTERVAL) && (alarmPosition == 1 || alarmPosition == 3);
     }
 
     @Override
     public boolean forcedSmartWakeup(final GBDevice device, final int alarmPosition) {
-        return supports(getTestDevice(), TestFeature.SMART_WAKEUP_FORCED_SLOT) && alarmPosition == 0;
+        return supports(getTestDevice(), TestFeature.SMART_WAKEUP_FORCED_SLOT) && alarmPosition <= 1;
     }
 
     @Override

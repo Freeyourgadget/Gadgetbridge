@@ -130,11 +130,12 @@ public class AlarmDetails extends AbstractGBActivity {
         timePicker.setCurrentHour(alarm.getHour());
         timePicker.setCurrentMinute(alarm.getMinute());
 
+        boolean smartAlarmSupported = supportsSmartWakeup(alarm.getPosition());
         boolean smartAlarmForced = forcedSmartWakeup(alarm.getPosition());
+        boolean smartAlarmIntervalSupported = supportsSmartWakeupInterval(alarm.getPosition());
+
         cbSmartWakeup.setChecked(alarm.getSmartWakeup() || smartAlarmForced);
-        boolean smartAlarmVisible = supportsSmartWakeup(alarm.getPosition());
-        int smartAlarmVisibility = smartAlarmVisible ? View.VISIBLE : View.GONE;
-        cbSmartWakeup.setVisibility(smartAlarmVisibility);
+        cbSmartWakeup.setVisibility(smartAlarmSupported ? View.VISIBLE : View.GONE);
         if (smartAlarmForced) {
             cbSmartWakeup.setEnabled(false);
             // Force the text to be visible for the "interval" part
@@ -145,10 +146,10 @@ public class AlarmDetails extends AbstractGBActivity {
             else
                 cbSmartWakeup.setTextColor(getResources().getColor(R.color.primarytext_light));
         }
-        if (smartAlarmVisible)
+        if (smartAlarmIntervalSupported)
             cbSmartWakeup.setText(R.string.alarm_smart_wakeup_interval);
 
-        smartWakeupInterval.setVisibility(supportsSmartWakeupInterval(alarm.getPosition()) ? smartAlarmVisibility : View.GONE);
+        smartWakeupInterval.setVisibility(smartAlarmSupported && smartAlarmIntervalSupported ? View.VISIBLE : View.GONE);
         smartWakeupInterval.setEnabled(alarm.getSmartWakeup() || smartAlarmForced);
         if (alarm.getSmartWakeupInterval() != null)
             smartWakeupInterval.setText(NumberFormat.getInstance().format(alarm.getSmartWakeupInterval()));
