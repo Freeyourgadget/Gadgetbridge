@@ -1811,7 +1811,7 @@
     <string name="devicestatus_upload_validating">A feltöltés ellenőrzése folyamatban van</string>
     <string name="devicestatus_upload_aborted">A feltöltés megszakadt!</string>
     <string name="firmware_update_progress">Feltöltés folyamatban
-\n%1d%%% %.2fkbps sebességgel (átlag %.2fkbps)
+\n%1d%% %.2fkbps sebességgel (átlag %.2fkbps)
 \n%1d rész %1d-ből</string>
     <string name="updatefirmwareoperation_failed_low_mtu">A %1$d jelenlegi MTU értéke túl alacsony, kérjük, engedélyezze a magas MTU értéket az eszköz beállításaiban, és válassza le/csatlakoztassa újra az eszközt.</string>
     <string name="pref_title_third_party_app_device_settings">Engedélyezze a harmadik féltől származó alkalmazások beállításainak módosítását</string>
