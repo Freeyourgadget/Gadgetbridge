@@ -335,6 +335,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, true);
 
+        if (allowHighMTU && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.requestMtu(131);
+        }
         // No need to clear active line with Ctrl-C now - firmwares in 2023 auto-clear on connect
 
         Prefs prefs = GBApplication.getPrefs();
