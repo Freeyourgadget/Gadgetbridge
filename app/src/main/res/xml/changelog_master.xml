@@ -5,6 +5,7 @@
         <change>Initial support for Xiaomi Redmi Watch 3</change>
         <change>Fossil/Skagen Hybrids: Fix crash on multi-byte unicode characters in menu</change>
         <change>Huawei: Add weather support</change>
+	<change>Bangle.js: Support higher MTU</change>
         <change>Test Device: Add fake features and data</change>
         <change>Periodically (around every 2 days) synchronize time on connected devices</change>
         <change>Set alarm as used and enabled if time has changed</change>
