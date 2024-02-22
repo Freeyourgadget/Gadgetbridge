@@ -2133,4 +2133,76 @@
     <string name="menuitem_thermometer">Hőmérő</string>
     <string name="menuitem_readiness">Készenlét</string>
     <string name="zepp_os_watchface_guider">Útikalauz</string>
+    <string name="qhybrid_prompt_million_steps">Kérjük, állítsa a lépésszámot egy millióra az aktiváláshoz.</string>
+    <string name="hr_appname_wellness">Wellness</string>
+    <string name="prefs_fm_preset_instructions">Hosszan nyomja meg a gombot az előbeállítás tárolásához</string>
+    <string name="toast_app_must_not_be_selected">Az alkalmazás nem választható ki a konfiguráláshoz</string>
+    <string name="toast_app_must_be_selected">A konfiguráláshoz ki kell választani az alkalmazást</string>
+    <string name="edittext_notification_filter_words_hint">Adja meg a kívánt szavakat, új sor minden egyes szóhoz</string>
+    <string name="toast_notification_filter_saved_successfully">Értesítési szűrő mentve</string>
+    <string name="toast_notification_filter_words_empty_hint">Kérjük, adjon meg legalább egy szót</string>
+    <string name="pref_title_upper_button_function_short">Felső gomb röviden</string>
+    <string name="pref_title_lower_button_function_double">Alsó gomb duplán</string>
+    <string name="prefs_button_variable_actions">Részletes gombnyomás beállítások</string>
+    <string name="error_no_location_access">Ahhoz, hogy a szkennelés megfelelően működjön, meg kell adni és engedélyezni kell a helyhozzáférést</string>
+    <string name="error_no_bluetooth_connect">A szkennelés megfelelő működéséhez engedélyezni kell a Bluetooth-kapcsolathoz való hozzáférést</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Widget körök rajzolása</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Nyers tevékenységfájlok mentése</string>
+    <string name="permission_granting_mandatory">Mindezek az engedélyek szükségesek, és ha nem adják meg őket, instabilitás léphet fel</string>
+    <string name="permission_notification_policy_access">%1$s hozzáférésre van szüksége a Ne zavarjon beállításokhoz, hogy azokat az óráján tiszteletben tarthassa, amikor a telefon képernyője ki van kapcsolva.
+\n
+\nKérjük, koppintson a \"%2$s\", majd a \"%1$s\" gombra, és engedélyezze a \"Ne zavarjon\" engedélyezését, majd koppintson a \"Vissza\" gombra a %1$s oldalra való visszatéréshez.</string>
+    <string name="note">Jegyzet</string>
+    <string name="pref_invalid_frequency_message">Kérjük, adjon meg egy 87,5 és 108,0 közötti frekvenciát</string>
+    <string name="pref_title_lower_button_short_press_action">Alsó gomb rövid megnyomású művelet</string>
+    <string name="share_log_not_enabled_message">Először engedélyeznie kell a naplózást a Beállítások - Naplófájlok írása menüpontban</string>
+    <string name="quick_alarm_description">Riasztás a modulból</string>
+    <string name="qhybrid_goal_in_steps">Cél lépésenként</string>
+    <string name="prefs_button_single_press_action_selection_title">1. esemény művelet</string>
+    <string name="prefs_button_long_press_action_selection_title">Hosszú gombnyomás művelet</string>
+    <string name="prefs_fm_presets_presets">Előbeállítások</string>
+    <string name="filter_mode">Szűrő mód</string>
+    <string name="gpx_receiver_files_received">Beérkezett GPX fájl(ok):</string>
+    <string name="pref_title_lower_button_function_short">Alsó gomb röviden</string>
+    <string name="pref_title_upper_button_function_long">Felső gomb hosszan</string>
+    <string name="pref_title_middle_button_function_long">Középső gomb hosszan</string>
+    <string name="filter_submode_at_least_one">Legalább egy szót</string>
+    <string name="filter_submode_all">Minden szót</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">második időzóna eltolódás a UTC-hez képest</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">használja a tevékenységmutatót értesítési számlálóként</string>
+    <string name="pref_title_middle_button_function_short">Középső gomb röviden</string>
+    <string name="prefs_button_double_press_action_selection_title">2. esemény művelet</string>
+    <string name="prefs_button_triple_press_action_selection_title">3. esemény művelet</string>
+    <string name="gpx_receiver_activity_title">GPX-vevő Gadgetbridge</string>
+    <string name="gpx_receiver_overwrite_some_files">Néhány fájl már létezik. Felülírja?</string>
+    <string name="error_version_check_extreme_caution">FIGYELEM: Hiba a verzióinformáció ellenőrzésénél! Nem szabad folytatni! \"%s\" verziónév láttam</string>
+    <string name="share_log_warning">Kérjük, ne feledje, hogy a Gadgetbridge olyan fájlokat naplóz, amelyek sok személyes adatot tartalmazhatnak, többek között egészségügyi adatokat, egyedi azonosítókat (például az eszköz MAC-címét), zenei preferenciákat stb. Fontolja meg a fájl szerkesztését és ezen információk eltávolítását, mielőtt elküldi a fájlt egy nyilvános hibajelentésre.</string>
+    <string name="pref_title_upper_button_long_press_action">Felső gomb hosszú megnyomású művelet</string>
+    <string name="pref_title_lower_button_function_long">Alsó gomb hosszan</string>
+    <string name="pref_title_middle_button_function_double">Középső gomb duplán</string>
+    <string name="error_no_bluetooth_scan">A szkennelés megfelelő működéséhez biztosítani és engedélyezni kell a Bluetooth szkennelési hozzáférést</string>
+    <string name="permission_request">A %1$s lehetővé teszi, hogy üzeneteket és egyéb adatokat küldjön Androidról az eszközére. Ehhez engedélyre van szüksége az adatokhoz való hozzáféréshez, és e nélkül előfordulhat, hogy nem működik megfelelően.
+\n
+\nMost megjelenik néhány Android párbeszédpanel, amelyek ezeket az engedélyeket kérik.
+\n
+\nA folytatáshoz érintse meg a „%2$s” elemet.</string>
+    <string name="permission_notification_listener">A %1$s-nek hozzáférésre van szüksége az Értesítésekhez, hogy megjeleníthesse azokat az óráján, amikor a telefon képernyője ki van kapcsolva.
+\n
+\nKérjük, koppintson a \'%2$s\', majd a \'%1$s\' elemre, és engedélyezze az \'Értesítési hozzáférés engedélyezése\' opciót, majd koppintson a \'Vissza\' elemre a %1$s oldalra való visszatéréshez.</string>
+    <string name="permission_location">A %1$s-nak hozzáférésre van szüksége az Ön helymeghatározásához a háttérben, hogy akkor is kapcsolatban maradhasson az órájával, amikor a képernyője ki van kapcsolva.
+\n
+\nKérjük, koppintson a \'%2$s\' gombra a beleegyezéshez.</string>
+    <string name="permission_display_over_other_apps">%1$s engedélyre van szüksége a más alkalmazások feletti megjelenítéshez, hogy a Bangle.js órák tevékenységeket indíthassanak intenteken keresztül, amikor %1$s a háttérben van.
+\n
+\nEz használható egy zenei alkalmazás elindítására és egy dal lejátszására, és sok más dologra.
+\n
+\nKérjük, koppintson a \'%2$s\', majd a \'%1$s\' elemre, és engedélyezze a \'Megjelenítés engedélyezése más alkalmazások felett\' opciót, majd koppintson a \'Vissza\' elemre a %1$s elemhez való visszatéréshez.
+\n
+\nAz engedélyek kérésének leállításához a %1$s menjen a \'Beállítások\' menüpontba, és törölje a \'Jogosultsági állapot ellenőrzése\' jelölőnégyzetet.
+\n
+\nGyőződjön meg róla, hogy a %1$s megkapja az elvárt működéshez szükséges engedélyeket.</string>
+    <string name="text_receiver_activity_title">Szöveg küldése az eszközre</string>
+    <string name="pref_title_upper_button_function_double">Felső gomb duplán</string>
+    <string name="companiondevice_pairing">Társeszköz párosítás</string>
+    <string name="qhybrid_time_shift">időeltolódás</string>
 </resources>
