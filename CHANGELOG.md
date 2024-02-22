@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next version (WIP)
+#### 0.79.1
 * Initial support for Huawei Watch Fit
 * Initial support for Xiaomi Redmi Watch 3
 * Fossil/Skagen Hybrids: Fix crash on multi-byte unicode characters in menu

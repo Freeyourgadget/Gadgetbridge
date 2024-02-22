@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.79.1" versioncode="230">
+        <change>Initial support for Huawei Watch Fit</change>
+        <change>Initial support for Xiaomi Redmi Watch 3</change>
+        <change>Fossil/Skagen Hybrids: Fix crash on multi-byte unicode characters in menu</change>
+        <change>Huawei: Add weather support</change>
+        <change>Test Device: Add fake features and data</change>
+        <change>Periodically (around every 2 days) synchronize time on connected devices</change>
+        <change>Set alarm as used and enabled if time has changed</change>
+    </release>
     <release version="0.79.0" versioncode="229">
         <change>Initial support for Honor Magic Watch 2</change>
         <change>Initial support for Mijia MHO-C303</change>
