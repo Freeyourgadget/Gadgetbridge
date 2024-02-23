@@ -27,7 +27,7 @@ public abstract class AbstractHybridHRActivitySample extends AbstractActivitySam
 
     @Override
     public int getRawIntensity() {
-        return getCalories();
+        return getSteps();
     }
 
     @Override

@@ -71,7 +71,7 @@ public class HybridHRActivitySampleProvider extends AbstractSampleProvider<Hybri
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity / 63f;
+        return Math.min(rawIntensity / 128f, 1f);
     }
 
     @Override
