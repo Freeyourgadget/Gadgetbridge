@@ -554,20 +554,25 @@ public class FossilWatchAdapter extends WatchAdapter {
                     provider.addGBActivitySamples(samples);
 
                     queueWrite(new FileDeleteRequest(getHandle()));
+                    GB.updateTransferNotification(null, "", false, 100, getContext());
                     if (BuildConfig.DEBUG)
-                        GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                        GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                     GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
                 }
+                getDeviceSupport().getDevice().unsetBusyTask();
                 getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
             }
 
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
                 if(error == FILE_LOOKUP_ERROR.FILE_EMPTY && BuildConfig.DEBUG){
-                    GB.toast("activity file empty", Toast.LENGTH_SHORT, GB.INFO);
+                    GB.toast("No activity data to sync", Toast.LENGTH_SHORT, GB.INFO);
                 }
+                getDeviceSupport().getDevice().unsetBusyTask();
+                GB.updateTransferNotification(null, "", false, 100, getContext());
+                getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
             }
         });
     }

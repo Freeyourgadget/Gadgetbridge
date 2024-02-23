@@ -1250,12 +1250,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
+                            GB.updateTransferNotification(null, "", false, 100, getContext());
                             if (BuildConfig.DEBUG)
                                 GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
                         }
+                        getDeviceSupport().getDevice().unsetBusyTask();
                         getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
                     }
                 });
@@ -1265,10 +1267,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
                 if (error == FILE_LOOKUP_ERROR.FILE_EMPTY) {
                     if (BuildConfig.DEBUG)
-                        GB.toast("activity file empty yet", Toast.LENGTH_LONG, GB.ERROR);
+                        GB.toast("No activity data to sync", Toast.LENGTH_SHORT, GB.INFO);
                 } else {
                     throw new RuntimeException("strange lookup stuff");
                 }
+                getDeviceSupport().getDevice().unsetBusyTask();
+                GB.updateTransferNotification(null, "", false, 100, getContext());
                 getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
             }
         });

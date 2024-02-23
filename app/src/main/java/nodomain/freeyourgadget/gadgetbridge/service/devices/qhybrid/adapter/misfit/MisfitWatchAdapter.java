@@ -467,6 +467,9 @@ public class MisfitWatchAdapter extends WatchAdapter {
         requestQueue.add(new GetCurrentStepCountRequest());
         // requestQueue.add(new ListFilesRequest());
         queueWrite(new ActivityPointGetRequest());
+        getDeviceSupport().getDevice().unsetBusyTask();
+        GB.updateTransferNotification(null, "", false, 100, getContext());
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
     }
 
     @Override
