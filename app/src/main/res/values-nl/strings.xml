@@ -57,7 +57,7 @@
     <string name="pref_default">Standaard</string>
     <string name="pref_header_datetime">Datum en tijd</string>
     <string name="pref_title_datetime_syctimeonconnect">Sync tijd</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchroniseer de tijd naar het Gadgetbridge-apparaat wanneer u verbinding maakt en wanneer de tijd of tijdzone op uw Android-apparaat verandert</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchroniseer de tijd naar alle apparaten wanneer u verbinding maakt, wanneer de tijd of tijdzone op uw Android-apparaat verandert en periodiek</string>
     <string name="pref_title_theme">Thema</string>
     <string name="pref_theme_light">Licht</string>
     <string name="pref_theme_dark">Donker</string>
@@ -2803,4 +2803,9 @@
     <string name="activity_type_outdoor_walking">Buiten wandelen</string>
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
     <string name="devicetype_honor_magicwatch2">Honor MagicWatch 2</string>
+    <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
+    <string name="pref_test_features_title">Functies</string>
+    <string name="pref_test_features_summary">Beschikbare functies op dit testapparaat</string>
+    <string name="warning_missing_notification_permission">Kon permanente notificatie niet plaatsen vanwege missende permissie</string>
+    <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
 </resources>
