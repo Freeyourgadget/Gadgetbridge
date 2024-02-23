@@ -39,8 +39,6 @@ public class AutoStartReceiver extends BroadcastReceiver {
             if (GBApplication.getPrefs().getBoolean("general_autoconnectonbluetooth", false)) {
                 Log.i(TAG, "Autoconnect is enabled, attempting to connect");
                 GBApplication.deviceService().connect();
-            } else {
-                GBApplication.deviceService().start();
             }
             Log.i(TAG, "Going to enable periodic exporter");
             PeriodicExporter.enablePeriodicExport(context);

@@ -30,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 public interface DeviceService extends EventHandler {
     String PREFIX = "nodomain.freeyourgadget.gadgetbridge.devices";
 
-    String ACTION_START = PREFIX + ".action.start";
     String ACTION_CONNECT = PREFIX + ".action.connect";
     String ACTION_NOTIFICATION = PREFIX + ".action.notification";
     String ACTION_DELETE_NOTIFICATION = PREFIX + ".action.delete_notification";
@@ -165,8 +164,6 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CALENDAREVENT_LOCATION = "calendarevent_location";
     String EXTRA_CALENDAREVENT_CALNAME = "calendarevent_calname";
     String EXTRA_CALENDAREVENT_COLOR = "calendarevent_color";
-
-    void start();
 
     void connect();
 

@@ -374,8 +374,6 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
 
-        GBApplication.deviceService().start();
-
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             launchDiscoveryActivity();
         } else {

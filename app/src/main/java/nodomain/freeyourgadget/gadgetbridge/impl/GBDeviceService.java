@@ -127,12 +127,6 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void start() {
-        Intent intent = createIntent().setAction(ACTION_START);
-        invokeService(intent);
-    }
-
-    @Override
     public void connect() {
         connect(false);
     }
