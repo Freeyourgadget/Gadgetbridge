@@ -2815,4 +2815,6 @@
     <string name="pref_test_features_title">Funktionen</string>
     <string name="pref_test_features_summary">Aktivierte Funktionen für dieses Testgerät</string>
     <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
+    <string name="alarm_smart_wakeup_interval">Intelligentes Weckintervall:</string>
+    <string name="alarm_smart_wakeup_interval_default">5 Minuten</string>
 </resources>
