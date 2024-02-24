@@ -2808,4 +2808,6 @@
     <string name="pref_test_features_title">功能</string>
     <string name="pref_test_features_summary">该测试设备启用的功能</string>
     <string name="devicetype_redmiwatch3">红米手表3</string>
+    <string name="alarm_smart_wakeup_interval">智能唤醒间隔：</string>
+    <string name="alarm_smart_wakeup_interval_default">5 分钟</string>
 </resources>
