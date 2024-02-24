@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
@@ -153,6 +154,27 @@ public class AlarmDetails extends AbstractGBActivity {
         smartWakeupInterval.setEnabled(alarm.getSmartWakeup() || smartAlarmForced);
         if (alarm.getSmartWakeupInterval() != null)
             smartWakeupInterval.setText(NumberFormat.getInstance().format(alarm.getSmartWakeupInterval()));
+        smartWakeupInterval.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        if (dend >= 3) // Limit length
+                            return "";
+
+                        String strValue = dest.subSequence(0, dstart) + source.subSequence(start, end).toString() + dest.subSequence(dend, dest.length());
+                        try {
+                            int value = Integer.parseInt(strValue);
+                            if (value > 255) {
+                                smartWakeupInterval.setText("255");
+                                smartWakeupInterval.setSelection(3); // Move cursor to end
+                            }
+                        } catch (NumberFormatException e) {
+                            return "";
+                        }
+                        return null;
+                    }
+                }
+        });
 
         cbSnooze.setChecked(alarm.getSnooze());
         int snoozeVisibility = supportsSnoozing() ? View.VISIBLE : View.GONE;
