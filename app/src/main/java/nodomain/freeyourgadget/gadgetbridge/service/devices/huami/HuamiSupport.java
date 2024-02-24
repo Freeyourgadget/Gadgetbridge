@@ -128,19 +128,19 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
 import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStatisticsOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchTemperatureOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateRestingOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchPaiOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSleepRespiratoryRateOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSpo2NormalOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressAutoOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressManualOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchStatisticsOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchTemperatureOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchHeartRateManualOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchHeartRateMaxOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchHeartRateRestingOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchPaiOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchSleepRespiratoryRateOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchSpo2NormalOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchStressAutoOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchStressManualOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
@@ -176,10 +176,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotific
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation2021;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchActivityOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.init.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.init.InitOperation2021;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.update.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -1675,7 +1675,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
 
         if ((dataTypes & RecordedDataTypes.TYPE_DEBUGLOGS) != 0 && coordinator.supportsDebugLogs()) {
-            this.fetchOperationQueue.add(new HuamiFetchDebugLogsOperation(this));
+            this.fetchOperationQueue.add(new FetchDebugLogsOperation(this));
         }
 
         if ((dataTypes & RecordedDataTypes.TYPE_STRESS) != 0 && coordinator.supportsStressMeasurement()) {

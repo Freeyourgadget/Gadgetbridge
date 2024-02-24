@@ -14,15 +14,16 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -31,64 +32,61 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiStressSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiHeartRateManualSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiHeartRateManualSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
- * An operation that fetches auto stress data.
+ * An operation that fetches manual HR measurement data.
  */
-public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(FetchStressAutoOperation.class);
+public class FetchHeartRateManualOperation extends AbstractRepeatingFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(FetchHeartRateManualOperation.class);
 
-    public FetchStressAutoOperation(final HuamiSupport support) {
-        super(support, HuamiFetchDataType.STRESS_AUTOMATIC);
+    public FetchHeartRateManualOperation(final HuamiSupport support) {
+        super(support, HuamiFetchDataType.MANUAL_HEART_RATE);
     }
 
     @Override
     protected String taskDescription() {
-        return getContext().getString(R.string.busy_task_fetch_stress_data);
+        return getContext().getString(R.string.busy_task_fetch_hr_data);
     }
 
     @Override
     protected boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes) {
-        final List<HuamiStressSample> samples = new ArrayList<>();
-
-        for (byte b : bytes) {
-            if (b == -1) {
-                timestamp.add(Calendar.MINUTE, 1);
-                continue;
-            }
-
-            // 0-39 = relaxed
-            // 40-59 = mild
-            // 60-79 = moderate
-            // 80-100 = high
-            final int stress = b & 0xff;
-
-            LOG.trace("Stress (auto) at {}: {}", timestamp.getTime(), stress);
-
-            final HuamiStressSample sample = new HuamiStressSample();
-            sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setTypeNum(StressSample.Type.AUTOMATIC.getNum());
-            sample.setStress(stress);
-            samples.add(sample);
-
-            timestamp.add(Calendar.MINUTE, 1);
+        if (bytes.length % 6 != 0) {
+            LOG.warn("Unexpected buffered manual heart rate data size {} is not a multiple of 6", bytes.length);
+            return false;
         }
 
-        timestamp.add(Calendar.MINUTE, -1);
+        final List<HuamiHeartRateManualSample> samples = new ArrayList<>();
+
+        final ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+
+        while (buffer.position() < bytes.length) {
+            final long currentTimestamp = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
+            timestamp.setTimeInMillis(currentTimestamp);
+
+            final byte utcOffsetInQuarterHours = buffer.get();
+            final int hr = buffer.get() & 0xff;
+
+            LOG.trace("Manual HR at {} + {}: {}", timestamp.getTime(), utcOffsetInQuarterHours, hr);
+
+            final HuamiHeartRateManualSample sample = new HuamiHeartRateManualSample();
+            sample.setTimestamp(timestamp.getTimeInMillis());
+            sample.setHeartRate(hr);
+            sample.setUtcOffset(utcOffsetInQuarterHours * 900000);
+            samples.add(sample);
+        }
 
         return persistSamples(samples);
     }
 
-    protected boolean persistSamples(final List<HuamiStressSample> samples) {
+    protected boolean persistSamples(final List<HuamiHeartRateManualSample> samples) {
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
 
@@ -96,17 +94,17 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
             final User user = DBHelper.getUser(session);
 
             final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
-            final HuamiStressSampleProvider sampleProvider = coordinator.getStressSampleProvider(getDevice(), session);
+            final HuamiHeartRateManualSampleProvider sampleProvider = coordinator.getHeartRateManualSampleProvider(getDevice(), session);
 
-            for (final HuamiStressSample sample : samples) {
+            for (final HuamiHeartRateManualSample sample : samples) {
                 sample.setDevice(device);
                 sample.setUser(user);
             }
 
-            LOG.debug("Will persist {} auto stress samples", samples.size());
+            LOG.debug("Will persist {} heart rate manual samples", samples.size());
             sampleProvider.addSamples(samples);
         } catch (final Exception e) {
-            GB.toast(getContext(), "Error saving auto stress samples", Toast.LENGTH_LONG, GB.ERROR, e);
+            GB.toast(getContext(), "Error saving heart rate manual samples", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;
         }
 
@@ -115,6 +113,6 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return "lastStressAutoTimeMillis";
+        return "lastHeartRateManualTimeMillis";
     }
 }

@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
 import android.widget.Toast;
 
@@ -36,16 +36,15 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(HuamiFetchDebugLogsOperation.class);
+public class FetchDebugLogsOperation extends AbstractFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(FetchDebugLogsOperation.class);
 
     private FileOutputStream logOutputStream;
 
-    public HuamiFetchDebugLogsOperation(HuamiSupport support) {
+    public FetchDebugLogsOperation(HuamiSupport support) {
         super(support);
         setName("fetch debug logs");
     }

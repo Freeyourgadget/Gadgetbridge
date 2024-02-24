@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
 import android.widget.Toast;
 
@@ -32,72 +32,61 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSpo2SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSleepRespiratoryRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSpo2Sample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
- * An operation that fetches SPO2 data for normal (manual and automatic) measurements.
+ * An operation that fetches sleep respiratory rate data.
  */
-public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(FetchSpo2NormalOperation.class);
+public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(FetchSleepRespiratoryRateOperation.class);
 
-    public FetchSpo2NormalOperation(final HuamiSupport support) {
-        super(support, HuamiFetchDataType.SPO2_NORMAL);
+    public FetchSleepRespiratoryRateOperation(final HuamiSupport support) {
+        super(support, HuamiFetchDataType.SLEEP_RESPIRATORY_RATE);
     }
 
     @Override
     protected String taskDescription() {
-        return getContext().getString(R.string.busy_task_fetch_spo2_data);
+        return getContext().getString(R.string.busy_task_fetch_sleep_respiratory_rate_data);
     }
 
     @Override
     protected boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes) {
-        if ((bytes.length - 1) % 65 != 0) {
-            LOG.error("Unexpected length for spo2 data {}, not divisible by 65", bytes.length);
+        if (bytes.length % 8 != 0) {
+            LOG.error("Unexpected length for sleep respiratory rate data {}, not divisible by 8", bytes.length);
             return false;
         }
+
+        final List<HuamiSleepRespiratoryRateSample> samples = new ArrayList<>();
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
 
-        final int version = buf.get() & 0xff;
-        if (version != 2) {
-            LOG.error("Unknown normal spo2 data version {}", version);
-            return false;
-        }
-
-        final List<HuamiSpo2Sample> samples = new ArrayList<>();
-
         while (buf.position() < bytes.length) {
             final long timestampSeconds = buf.getInt();
-            final byte spo2raw = buf.get();
-            final boolean autoMeasurement = (spo2raw < 0);
-            final byte spo2 = (byte) (spo2raw < 0 ? spo2raw + 128 : spo2raw);
-
-            final byte[] unknown = new byte[60]; // starts with a few spo2 values, but mostly zeroes after?
-            buf.get(unknown);
+            final byte utcOffsetInQuarterHours = buf.get();
+            final int respiratoryRate = buf.get() & 0xff;
+            final byte unknown1 = buf.get(); // always 0?
+            final byte unknown2 = buf.get(); // mostly 1, sometimes 2, 4 when waking up?
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.trace("SPO2 at {}: {} auto={}", timestamp.getTime(), spo2, autoMeasurement);
-
-            final HuamiSpo2Sample sample = new HuamiSpo2Sample();
+            LOG.trace("Sleep Respiratory Rate at {} + {}: respiratoryRate={} unknown1={} unknown2={}", timestamp.getTime(), respiratoryRate, utcOffsetInQuarterHours, unknown1, unknown2);
+            final HuamiSleepRespiratoryRateSample sample = new HuamiSleepRespiratoryRateSample();
             sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setTypeNum((autoMeasurement ? Spo2Sample.Type.AUTOMATIC : Spo2Sample.Type.MANUAL).getNum());
-            sample.setSpo2(spo2);
+            sample.setUtcOffset(utcOffsetInQuarterHours * 900000);
+            sample.setRate(respiratoryRate);
             samples.add(sample);
         }
 
         return persistSamples(samples);
     }
 
-    protected boolean persistSamples(final List<HuamiSpo2Sample> samples) {
+    protected boolean persistSamples(final List<HuamiSleepRespiratoryRateSample> samples) {
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
 
@@ -105,17 +94,17 @@ public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
             final User user = DBHelper.getUser(session);
 
             final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
-            final HuamiSpo2SampleProvider sampleProvider = coordinator.getSpo2SampleProvider(getDevice(), session);
+            final HuamiSleepRespiratoryRateSampleProvider sampleProvider = coordinator.getSleepRespiratoryRateSampleProvider(getDevice(), session);
 
-            for (final HuamiSpo2Sample sample : samples) {
+            for (final HuamiSleepRespiratoryRateSample sample : samples) {
                 sample.setDevice(device);
                 sample.setUser(user);
             }
 
-            LOG.debug("Will persist {} normal spo2 samples", samples.size());
+            LOG.debug("Will persist {} sleep respiratory rate samples", samples.size());
             sampleProvider.addSamples(samples);
         } catch (final Exception e) {
-            GB.toast(getContext(), "Error saving normal spo2 samples", Toast.LENGTH_LONG, GB.ERROR, e);
+            GB.toast(getContext(), "Error saving sleep respiratory rate samples", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;
         }
 
@@ -124,6 +113,6 @@ public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return "lastSpo2normalTimeMillis";
+        return "lastSleepRespiratoryRateTimeMillis";
     }
 }

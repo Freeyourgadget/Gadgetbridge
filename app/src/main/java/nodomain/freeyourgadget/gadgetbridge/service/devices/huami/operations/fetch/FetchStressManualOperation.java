@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
 import android.widget.Toast;
 
@@ -32,62 +32,66 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSleepRespiratoryRateSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
- * An operation that fetches sleep respiratory rate data.
+ * An operation that fetches manual stress data.
  */
-public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(FetchSleepRespiratoryRateOperation.class);
+public class FetchStressManualOperation extends AbstractRepeatingFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(FetchStressManualOperation.class);
 
-    public FetchSleepRespiratoryRateOperation(final HuamiSupport support) {
-        super(support, HuamiFetchDataType.SLEEP_RESPIRATORY_RATE);
+    public FetchStressManualOperation(final HuamiSupport support) {
+        super(support, HuamiFetchDataType.STRESS_MANUAL);
     }
 
     @Override
     protected String taskDescription() {
-        return getContext().getString(R.string.busy_task_fetch_sleep_respiratory_rate_data);
+        return getContext().getString(R.string.busy_task_fetch_stress_data);
     }
 
     @Override
     protected boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes) {
-        if (bytes.length % 8 != 0) {
-            LOG.error("Unexpected length for sleep respiratory rate data {}, not divisible by 8", bytes.length);
+        if (bytes.length % 5 != 0) {
+            LOG.info("Unexpected buffered stress data size {} is not a multiple of 5", bytes.length);
             return false;
         }
 
-        final List<HuamiSleepRespiratoryRateSample> samples = new ArrayList<>();
+        final ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        final GregorianCalendar lastSyncTimestamp = new GregorianCalendar();
 
-        final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        final List<HuamiStressSample> samples = new ArrayList<>();
 
-        while (buf.position() < bytes.length) {
-            final long timestampSeconds = buf.getInt();
-            final byte utcOffsetInQuarterHours = buf.get();
-            final int respiratoryRate = buf.get() & 0xff;
-            final byte unknown1 = buf.get(); // always 0?
-            final byte unknown2 = buf.get(); // mostly 1, sometimes 2, 4 when waking up?
+        while (buffer.position() < bytes.length) {
+            final long currentTimestamp = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
 
-            timestamp.setTimeInMillis(timestampSeconds * 1000L);
+            // 0-39 = relaxed
+            // 40-59 = mild
+            // 60-79 = moderate
+            // 80-100 = high
+            final int stress = buffer.get() & 0xff;
+            timestamp.setTimeInMillis(currentTimestamp);
 
-            LOG.trace("Sleep Respiratory Rate at {} + {}: respiratoryRate={} unknown1={} unknown2={}", timestamp.getTime(), respiratoryRate, utcOffsetInQuarterHours, unknown1, unknown2);
-            final HuamiSleepRespiratoryRateSample sample = new HuamiSleepRespiratoryRateSample();
+            LOG.trace("Stress (manual) at {}: {}", lastSyncTimestamp.getTime(), stress);
+
+            final HuamiStressSample sample = new HuamiStressSample();
             sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setUtcOffset(utcOffsetInQuarterHours * 900000);
-            sample.setRate(respiratoryRate);
+            sample.setTypeNum(StressSample.Type.MANUAL.getNum());
+            sample.setStress(stress);
             samples.add(sample);
         }
 
         return persistSamples(samples);
     }
 
-    protected boolean persistSamples(final List<HuamiSleepRespiratoryRateSample> samples) {
+    protected boolean persistSamples(final List<HuamiStressSample> samples) {
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
 
@@ -95,17 +99,17 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
             final User user = DBHelper.getUser(session);
 
             final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
-            final HuamiSleepRespiratoryRateSampleProvider sampleProvider = coordinator.getSleepRespiratoryRateSampleProvider(getDevice(), session);
+            final HuamiStressSampleProvider sampleProvider = coordinator.getStressSampleProvider(getDevice(), session);
 
-            for (final HuamiSleepRespiratoryRateSample sample : samples) {
+            for (final HuamiStressSample sample : samples) {
                 sample.setDevice(device);
                 sample.setUser(user);
             }
 
-            LOG.debug("Will persist {} sleep respiratory rate samples", samples.size());
+            LOG.debug("Will persist {} manual stress samples", samples.size());
             sampleProvider.addSamples(samples);
         } catch (final Exception e) {
-            GB.toast(getContext(), "Error saving sleep respiratory rate samples", Toast.LENGTH_LONG, GB.ERROR, e);
+            GB.toast(getContext(), "Error saving manual stress samples", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;
         }
 
@@ -114,6 +118,6 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
 
     @Override
     protected String getLastSyncTimeKey() {
-        return "lastSleepRespiratoryRateTimeMillis";
+        return "lastStressManualTimeMillis";
     }
 }

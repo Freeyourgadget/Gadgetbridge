@@ -14,16 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -38,19 +37,17 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
- * An operation that fetches manual stress data.
+ * An operation that fetches auto stress data.
  */
-public class FetchStressManualOperation extends AbstractRepeatingFetchOperation {
-    private static final Logger LOG = LoggerFactory.getLogger(FetchStressManualOperation.class);
+public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
+    private static final Logger LOG = LoggerFactory.getLogger(FetchStressAutoOperation.class);
 
-    public FetchStressManualOperation(final HuamiSupport support) {
-        super(support, HuamiFetchDataType.STRESS_MANUAL);
+    public FetchStressAutoOperation(final HuamiSupport support) {
+        super(support, HuamiFetchDataType.STRESS_AUTOMATIC);
     }
 
     @Override
@@ -60,34 +57,32 @@ public class FetchStressManualOperation extends AbstractRepeatingFetchOperation 
 
     @Override
     protected boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes) {
-        if (bytes.length % 5 != 0) {
-            LOG.info("Unexpected buffered stress data size {} is not a multiple of 5", bytes.length);
-            return false;
-        }
-
-        final ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
-        final GregorianCalendar lastSyncTimestamp = new GregorianCalendar();
-
         final List<HuamiStressSample> samples = new ArrayList<>();
 
-        while (buffer.position() < bytes.length) {
-            final long currentTimestamp = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
+        for (byte b : bytes) {
+            if (b == -1) {
+                timestamp.add(Calendar.MINUTE, 1);
+                continue;
+            }
 
             // 0-39 = relaxed
             // 40-59 = mild
             // 60-79 = moderate
             // 80-100 = high
-            final int stress = buffer.get() & 0xff;
-            timestamp.setTimeInMillis(currentTimestamp);
+            final int stress = b & 0xff;
 
-            LOG.trace("Stress (manual) at {}: {}", lastSyncTimestamp.getTime(), stress);
+            LOG.trace("Stress (auto) at {}: {}", timestamp.getTime(), stress);
 
             final HuamiStressSample sample = new HuamiStressSample();
             sample.setTimestamp(timestamp.getTimeInMillis());
-            sample.setTypeNum(StressSample.Type.MANUAL.getNum());
+            sample.setTypeNum(StressSample.Type.AUTOMATIC.getNum());
             sample.setStress(stress);
             samples.add(sample);
+
+            timestamp.add(Calendar.MINUTE, 1);
         }
+
+        timestamp.add(Calendar.MINUTE, -1);
 
         return persistSamples(samples);
     }
@@ -107,10 +102,10 @@ public class FetchStressManualOperation extends AbstractRepeatingFetchOperation 
                 sample.setUser(user);
             }
 
-            LOG.debug("Will persist {} manual stress samples", samples.size());
+            LOG.debug("Will persist {} auto stress samples", samples.size());
             sampleProvider.addSamples(samples);
         } catch (final Exception e) {
-            GB.toast(getContext(), "Error saving manual stress samples", Toast.LENGTH_LONG, GB.ERROR, e);
+            GB.toast(getContext(), "Error saving auto stress samples", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;
         }
 
@@ -119,6 +114,6 @@ public class FetchStressManualOperation extends AbstractRepeatingFetchOperation 
 
     @Override
     protected String getLastSyncTimeKey() {
-        return "lastStressManualTimeMillis";
+        return "lastStressAutoTimeMillis";
     }
 }
