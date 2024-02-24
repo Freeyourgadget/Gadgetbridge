@@ -344,7 +344,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected Huami2021ChunkedEncoder huami2021ChunkedEncoder;
     protected Huami2021ChunkedDecoder huami2021ChunkedDecoder;
 
-    private final Queue<AbstractFetchOperation> fetchOperationQueue = new LinkedList<>();
+    private final LinkedList<AbstractFetchOperation> fetchOperationQueue = new LinkedList<>();
 
     public HuamiSupport() {
         this(LOG);
@@ -1723,6 +1723,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     public AbstractFetchOperation getNextFetchOperation() {
         return fetchOperationQueue.poll();
+    }
+
+    public LinkedList<AbstractFetchOperation> getFetchOperationQueue() {
+        return fetchOperationQueue;
     }
 
     @Override

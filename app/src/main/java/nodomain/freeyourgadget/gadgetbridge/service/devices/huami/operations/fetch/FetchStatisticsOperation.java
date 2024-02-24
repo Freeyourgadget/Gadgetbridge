@@ -19,12 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 
 /**
@@ -50,14 +48,6 @@ public class FetchStatisticsOperation extends AbstractRepeatingFetchOperation {
         timestamp.setTime(new Date());
 
         return true;
-    }
-
-    @Override
-    protected GregorianCalendar getLastSuccessfulSyncTime() {
-        // One minute ago - we don't really care about this data, and we don't want to fetch it all
-        final GregorianCalendar sinceWhen = BLETypeConversions.createCalendar();
-        sinceWhen.add(Calendar.MINUTE, -1);
-        return sinceWhen;
     }
 
     @Override

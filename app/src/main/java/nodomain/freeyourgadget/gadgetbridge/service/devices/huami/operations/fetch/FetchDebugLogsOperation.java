@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FetchDebugLogsOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchDebugLogsOperation.class);
@@ -81,11 +80,11 @@ public class FetchDebugLogsOperation extends AbstractFetchOperation {
 
     @Override
     protected String getLastSyncTimeKey() {
-        return null;
+        return "lastDebugTimeMillis";
     }
 
     @Override
-    protected boolean handleActivityFetchFinish(boolean success) {
+    protected boolean processBufferedData() {
         LOG.info("{} data has finished", getName());
         try {
             logOutputStream.close();
@@ -95,7 +94,7 @@ public class FetchDebugLogsOperation extends AbstractFetchOperation {
             return false;
         }
 
-        return super.handleActivityFetchFinish(success);
+        return true;
     }
 
     @Override
@@ -106,29 +105,12 @@ public class FetchDebugLogsOperation extends AbstractFetchOperation {
     }
 
     @Override
-    protected void handleActivityNotif(byte[] value) {
-        if (!isOperationRunning()) {
-            LOG.error("ignoring notification because operation is not running. Data length: " + value.length);
-            getSupport().logMessageContent(value);
-            return;
-        }
-
-        if ((byte) (lastPacketCounter + 1) == value[0]) {
-            lastPacketCounter++;
-            bufferActivityData(value);
-        } else {
-            GB.toast("Error " + getName() + " invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
-            handleActivityFetchFinish(false);
-        }
-    }
-
-    @Override
     protected void bufferActivityData(@NonNull byte[] value) {
         try {
             logOutputStream.write(value, 1, value.length - 1);
         } catch (final IOException e) {
             LOG.warn("could not write to output stream", e);
-            handleActivityFetchFinish(false);
+            operationValid = false;
         }
     }
 }

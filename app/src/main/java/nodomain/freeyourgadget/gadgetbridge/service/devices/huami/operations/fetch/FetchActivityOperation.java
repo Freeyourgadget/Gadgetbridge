@@ -130,11 +130,6 @@ public class FetchActivityOperation extends AbstractRepeatingFetchOperation {
     }
 
     @Override
-    protected void postActivityFetchFinish(final boolean success) {
-        GB.signalActivityDataFinish();
-    }
-
-    @Override
     protected boolean validChecksum(final int crc32) {
         // TODO actually check it
         LOG.warn("Checksum not implemented for activity data, assuming it's valid");

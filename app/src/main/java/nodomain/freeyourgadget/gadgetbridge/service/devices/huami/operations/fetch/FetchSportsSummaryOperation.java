@@ -17,19 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -43,7 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -53,7 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsSummaryOperation.class);
 
-    private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
     public FetchSportsSummaryOperation(HuamiSupport support, int fetchCount) {
         super(support);
         setName("fetching sport summaries");
@@ -68,125 +61,56 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     @Override
     protected void startFetching(TransactionBuilder builder) {
         LOG.info("start" + getName());
-        GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
+        final GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         startFetching(builder, HuamiFetchDataType.SPORTS_SUMMARIES.getCode(), sinceWhen);
     }
 
     @Override
-    protected boolean handleActivityFetchFinish(boolean success) {
-        LOG.info(getName() + " has finished round " + fetchCount);
+    protected boolean processBufferedData() {
+        LOG.info("{} has finished round {}", getName(), fetchCount);
 
+        if (buffer.size() < 2) {
+            LOG.warn("Buffer size {} too small for activity summary", buffer.size());
+            return false;
+        }
 
-        BaseActivitySummary summary = null;
         final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
         final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(getDevice());
 
-        boolean parseSummarySuccess = true;
+        BaseActivitySummary summary = new BaseActivitySummary();
+        summary.setStartTime(getLastStartTimestamp().getTime()); // due to a bug this has to be set
+        summary.setRawSummaryData(buffer.toByteArray());
+        try {
+            summary = summaryParser.parseBinaryData(summary);
+        } catch (final Exception e) {
+            GB.toast(getContext(), "Failed to parse activity summary", Toast.LENGTH_LONG, GB.ERROR, e);
+            return false;
+        }
 
-        if (success && buffer.size() > 0) {
-            summary = new BaseActivitySummary();
-            summary.setStartTime(getLastStartTimestamp().getTime()); // due to a bug this has to be set
+        if (summary == null) {
+            return false;
+        }
+
+        summary.setSummaryData(null); // remove json before saving to database,
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            final DaoSession session = dbHandler.getDaoSession();
+            final Device device = DBHelper.getDevice(getDevice(), session);
+            final User user = DBHelper.getUser(session);
+            summary.setDevice(device);
+            summary.setUser(user);
             summary.setRawSummaryData(buffer.toByteArray());
-            try {
-                summary = summaryParser.parseBinaryData(summary);
-            } catch (final Exception e) {
-                GB.toast(getContext(), "Failed to parse activity summary", Toast.LENGTH_LONG, GB.ERROR, e);
-                summary = null;
-                parseSummarySuccess = false;
-            }
-
-            if (summary != null) {
-                summary.setSummaryData(null); // remove json before saving to database,
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    DaoSession session = dbHandler.getDaoSession();
-                    Device device = DBHelper.getDevice(getDevice(), session);
-                    User user = DBHelper.getUser(session);
-                    summary.setDevice(device);
-                    summary.setUser(user);
-                    summary.setRawSummaryData(buffer.toByteArray());
-                    session.getBaseActivitySummaryDao().insertOrReplace(summary);
-                } catch (Exception ex) {
-                    GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
-                    parseSummarySuccess = false;
-                }
-            }
+            session.getBaseActivitySummaryDao().insertOrReplace(summary);
+        } catch (final Exception ex) {
+            GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
+            return false;
         }
 
-        final boolean superSuccess = super.handleActivityFetchFinish(success);
-        boolean getDetailsSuccess = true;
+        final AbstractHuamiActivityDetailsParser detailsParser = ((HuamiActivitySummaryParser) summaryParser).getDetailsParser(summary);
+        final FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey(), fetchCount);
+        getSupport().getFetchOperationQueue().add(0, nextOperation);
 
-        if (summary != null) {
-            final AbstractHuamiActivityDetailsParser detailsParser = ((HuamiActivitySummaryParser) summaryParser).getDetailsParser(summary);
-
-            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey(), fetchCount);
-            try {
-                nextOperation.perform();
-            } catch (IOException ex) {
-                GB.toast(getContext(), "Unable to fetch activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-                getDetailsSuccess = false;
-            }
-        }
-
-        return parseSummarySuccess && superSuccess && getDetailsSuccess;
+        return true;
     }
-
-    @Override
-    protected boolean validChecksum(int crc32) {
-        return crc32 == CheckSums.getCRC32(buffer.toByteArray());
-    }
-
-    @Override
-    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        LOG.warn("characteristic read: " + characteristic.getUuid() + ": " + Logging.formatBytes(characteristic.getValue()));
-        return super.onCharacteristicRead(gatt, characteristic, status);
-    }
-
-    /**
-     * Method to handle the incoming activity data.
-     * There are two kind of messages we currently know:
-     * - the first one is 11 bytes long and contains metadata (how many bytes to expect, when the data starts, etc.)
-     * - the second one is 20 bytes long and contains the actual activity data
-     * <p/>
-     * The first message type is parsed by this method, for every other length of the value param, bufferActivityData is called.
-     *
-     * @param value
-     */
-    @Override
-    protected void handleActivityNotif(byte[] value) {
-        LOG.warn("sports summary data: " + Logging.formatBytes(value));
-
-        if (!isOperationRunning()) {
-            LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
-            getSupport().logMessageContent(value);
-            return;
-        }
-
-        if (value.length < 2) {
-            LOG.error("unexpected sports summary data length: " + value.length);
-            getSupport().logMessageContent(value);
-            return;
-        }
-
-        if ((byte) (lastPacketCounter + 1) == value[0]) {
-            lastPacketCounter++;
-            bufferActivityData(value);
-        } else {
-            GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
-            handleActivityFetchFinish(false);
-        }
-    }
-
-    /**
-     * Buffers the given activity summary data. If the total size is reached,
-     * it is converted to an object and saved in the database.
-     *
-     * @param value
-     */
-    @Override
-    protected void bufferActivityData(byte[] value) {
-        buffer.write(value, 1, value.length - 1); // skip the counter
-    }
-
 
     @Override
     protected String getLastSyncTimeKey() {

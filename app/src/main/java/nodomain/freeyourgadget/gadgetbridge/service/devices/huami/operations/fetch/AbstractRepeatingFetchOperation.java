@@ -16,30 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.widget.Toast;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.Logging;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * A repeating fetch operation. This operation repeats the fetch up to a certain number of times, or
@@ -48,8 +38,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  */
 public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRepeatingFetchOperation.class);
-
-    private final ByteArrayOutputStream byteStreamBuffer = new ByteArrayOutputStream(140);
 
     protected final HuamiFetchDataType dataType;
 
@@ -77,21 +65,14 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
     protected abstract boolean handleActivityData(GregorianCalendar timestamp, byte[] bytes);
 
     @Override
-    protected boolean handleActivityFetchFinish(final boolean success) {
-        LOG.info("{} has finished round {}: {}, got {} bytes in buffer", getName(), fetchCount, success, byteStreamBuffer.size());
+    protected boolean processBufferedData() {
+        LOG.info("{} has finished round {}, got {} bytes in buffer", getName(), fetchCount, buffer.size());
 
-        if (!success) {
-            // We need to explicitly ack this, or the next operation will fail fetch will become stuck
-            sendAckZeppOs(true);
-            super.handleActivityFetchFinish(false);
-            return false;
+        if (buffer.size() == 0) {
+            return true;
         }
 
-        if (byteStreamBuffer.size() == 0) {
-            return super.handleActivityFetchFinish(true);
-        }
-
-        final byte[] bytes = byteStreamBuffer.toByteArray();
+        final byte[] bytes = buffer.toByteArray();
         final GregorianCalendar timestamp = (GregorianCalendar) this.startTimestamp.clone();
 
         // Uncomment to dump the bytes to external storage for debugging
@@ -100,7 +81,6 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
         final boolean handleSuccess = handleActivityData(timestamp, bytes);
 
         if (!handleSuccess) {
-            super.handleActivityFetchFinish(false);
             return false;
         }
 
@@ -108,63 +88,12 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
         saveLastSyncTimestamp(timestamp);
 
         if (needsAnotherFetch(timestamp)) {
-            byteStreamBuffer.reset();
+            buffer.reset();
 
-            try {
-                final boolean keepActivityDataOnDevice = HuamiCoordinator.getKeepActivityDataOnDevice(getDevice().getAddress());
-                sendAckZeppOs(keepActivityDataOnDevice);
-                startFetching();
-                return true;
-            } catch (final IOException ex) {
-                LOG.error("Error starting another round of " + getName(), ex);
-                super.handleActivityFetchFinish(false);
-                return false;
-            }
+            getSupport().getFetchOperationQueue().add(0, this);
         }
 
-        final boolean superSuccess = super.handleActivityFetchFinish(true);
-        postActivityFetchFinish(superSuccess);
-        return superSuccess;
-    }
-
-    protected void postActivityFetchFinish(final boolean success) {
-
-    }
-
-    @Override
-    protected boolean validChecksum(final int crc32) {
-        return crc32 == CheckSums.getCRC32(byteStreamBuffer.toByteArray());
-    }
-
-    @Override
-    public boolean onCharacteristicRead(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, final int status) {
-        LOG.debug("characteristic read: {}: {}", characteristic.getUuid(), Logging.formatBytes(characteristic.getValue()));
-        return super.onCharacteristicRead(gatt, characteristic, status);
-    }
-
-    @Override
-    protected void handleActivityNotif(final byte[] value) {
-        LOG.debug("{} data: {}", getName(), Logging.formatBytes(value));
-
-        if (!isOperationRunning()) {
-            LOG.error("ignoring {} notification because operation is not running. Data length: {}", getName(), value.length);
-            getSupport().logMessageContent(value);
-            return;
-        }
-
-        if ((byte) (lastPacketCounter + 1) == value[0]) {
-            // TODO we should handle skipped or repeated bytes more gracefully
-            lastPacketCounter++;
-            bufferActivityData(value);
-        } else {
-            GB.toast("Error " + getName() + ", invalid package counter: " + value[0] + ", last was: " + lastPacketCounter, Toast.LENGTH_LONG, GB.ERROR);
-            handleActivityFetchFinish(false);
-        }
-    }
-
-    @Override
-    protected void bufferActivityData(final byte[] value) {
-        byteStreamBuffer.write(value, 1, value.length - 1); // skip the counter
+        return true;
     }
 
     private boolean needsAnotherFetch(final GregorianCalendar lastSyncTimestamp) {
