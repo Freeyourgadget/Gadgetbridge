@@ -2688,4 +2688,11 @@
     <string name="auto_reconnect_ble_scan_title">Reconnect by BLE scan</string>
     <string name="auto_reconnect_ble_scan_summary">Wait for device scan instead of blind connection attempts</string>
     <string name="prompt_restart_gadgetbridge">Please restart GB in order to take effect.</string>
+    <string name="waiting_for_bluetooth">Waiting for bluetooth…</string>
+    <string name="error_scan_failed">"Scan failed: %d"</string>
+    <string name="scan_not_scanning">Not scanning</string>
+    <string name="scan_scanning_all_devices">Scanning all devices</string>
+    <string name="scan_scanning_single_device">Scanning 1 device</string>
+    <string name="scan_scanning_multiple_devices">Scanning %d devices</string>
+    <string name="scan_service_title">Scan service</string>
 </resources>

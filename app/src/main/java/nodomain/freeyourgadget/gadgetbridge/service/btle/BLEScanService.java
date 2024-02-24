@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -26,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -96,7 +94,7 @@ public class BLEScanService extends Service {
 
             LOG.error("onScanFailed: " + errorCode);
 
-            updateNotification("Scan failed: " + errorCode);
+            updateNotification(getString(R.string.error_scan_failed, errorCode));
         }
     };
 
@@ -116,7 +114,7 @@ public class BLEScanService extends Service {
         this.startForeground();
 
         if(scanner == null){
-            updateNotification("Waiting for bluetooth...");
+            updateNotification(getString(R.string.waiting_for_bluetooth));
         }else{
             restartScan(true);
         }
@@ -164,15 +162,15 @@ public class BLEScanService extends Service {
 
     private Notification createNotification(boolean isScanning, int scannedDevicesCount){
         int icon = R.drawable.ic_bluetooth;
-        String content = "Not scanning";
+        String content = getString(R.string.scan_not_scanning);
         if(isScanning){
             icon = R.drawable.ic_bluetooth_searching;
             if(scannedDevicesCount == 1) {
-                content = String.format("Scanning %d device", scannedDevicesCount);
+                content = getString(R.string.scan_scanning_single_device);
             }else if(scannedDevicesCount > 1){
-                content = String.format("Scanning %d devices", scannedDevicesCount);
+                content = getString(R.string.scan_scanning_multiple_devices, scannedDevicesCount);
             }else{
-                content = "Scanning all devices";
+                content = getString(R.string.scan_scanning_all_devices);
             }
         }
 
@@ -183,7 +181,7 @@ public class BLEScanService extends Service {
 
         return new NotificationCompat
                 .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Scan service")
+                .setContentTitle(getString(R.string.scan_service_title))
                 .setContentText(content)
                 .setSmallIcon(icon)
                 .build();
@@ -231,60 +229,8 @@ public class BLEScanService extends Service {
     }
 
     private void handleScanDevice(Intent intent){
-        /*
-        GBDevice device = intent.getParcelableExtra(EXTRA_DEVICE);
-        if(device == null){
-            return;
-        }
-        scanForDevice(device);
-         */
         restartScan(true);
     }
-
-
-    /*private boolean isDeviceIncludedInCurrentFilters(GBDevice device){
-        for(ScanFilter currentFilter : currentFilters){
-            if(device.getAddress().equals(currentFilter.getDeviceAddress())){
-                return true;
-            }
-        }
-        return false;
-    }
-    */
-
-    /*
-    private void stopScanningForDevice(GBDevice device){
-        this.stopScanningForDevice(device.getAddress());
-    }
-     */
-
-    /*
-    private void stopScanningForDevice(String deviceAddress){
-        currentFilters.removeIf(scanFilter -> scanFilter
-                .getDeviceAddress()
-                .equals(deviceAddress)
-        );
-
-        restartScan(true);
-    }
-    */
-
-    /*
-    private void scanForDevice(GBDevice device){
-        if(isDeviceIncludedInCurrentFilters(device)){
-            // already scanning for device
-            return;
-        }
-        ScanFilter deviceFilter = new ScanFilter.Builder()
-                .setDeviceAddress(device.getAddress())
-                .build();
-
-        currentFilters.add(deviceFilter);
-
-        // restart scan here
-        restartScan(true);
-    }
-    */
 
     BroadcastReceiver deviceStateUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -321,7 +267,7 @@ public class BLEScanService extends Service {
             switch(state) {
                 case BluetoothAdapter.STATE_OFF:
                 case BluetoothAdapter.STATE_TURNING_OFF:
-                    updateNotification("Waiting for bluetooth...");
+                    updateNotification(getString(R.string.waiting_for_bluetooth));
                     break;
                 case BluetoothAdapter.STATE_ON:
                     restartScan(true);
