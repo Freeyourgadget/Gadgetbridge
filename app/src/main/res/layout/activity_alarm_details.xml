@@ -23,16 +23,6 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_vertical_margin">
 
-            <androidx.appcompat.widget.AppCompatCheckedTextView
-                android:id="@+id/alarm_cb_snooze"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
-                android:gravity="center"
-                android:text="@string/alarm_snooze"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
             <EditText
                 android:id="@+id/alarm_title"
                 android:layout_width="match_parent"
@@ -52,6 +42,16 @@
                 android:inputType="textMultiLine"
                 android:maxLength="256"
                 android:singleLine="false" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/alarm_cb_snooze"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:gravity="center"
+                android:text="@string/alarm_snooze"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <androidx.appcompat.widget.AppCompatCheckedTextView
                 android:id="@+id/alarm_cb_smart_wakeup"
