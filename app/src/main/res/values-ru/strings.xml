@@ -233,7 +233,7 @@
     <string name="alarm_thu_short">Чт</string>
     <string name="alarm_fri_short">Пт</string>
     <string name="alarm_sat_short">Сб</string>
-    <string name="alarm_smart_wakeup">\"Умное\" пробуждение</string>
+    <string name="alarm_smart_wakeup">Умное пробуждение</string>
     <string name="user_feedback_miband_set_alarms_failed">При настройке будильника произошла ошибка, попробуйте ещё раз.</string>
     <string name="user_feedback_miband_set_alarms_ok">Будильники отправлены на устройство.</string>
     <string name="chart_no_data_synchronize">Нет данных. Синхронизировать устройство?</string>
@@ -2758,4 +2758,6 @@
     <string name="pref_test_features_title">Возможности</string>
     <string name="pref_test_features_summary">Возможности, включенные для этого тестового устройства</string>
     <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
+    <string name="alarm_smart_wakeup_interval_default">5 минут</string>
+    <string name="alarm_smart_wakeup_interval">Интервал умного пробуждения:</string>
 </resources>
