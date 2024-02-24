@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 
 /**
  * An operation that fetches statistics from /storage/statistics/ (hm_statis_data* files). We do not
@@ -36,7 +36,7 @@ public class FetchStatisticsOperation extends AbstractRepeatingFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchStatisticsOperation.class);
 
     public FetchStatisticsOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_STATISTICS, "statistics data");
+        super(support, HuamiFetchDataType.STATISTICS);
     }
 
     @Override

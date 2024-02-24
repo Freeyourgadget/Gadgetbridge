@@ -24,8 +24,8 @@ import java.nio.ByteOrder;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -35,7 +35,7 @@ public class FetchTemperatureOperation extends AbstractRepeatingFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchTemperatureOperation.class);
 
     public FetchTemperatureOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_TEMPERATURE, "body temperature data");
+        super(support, HuamiFetchDataType.TEMPERATURE);
     }
 
     @Override

@@ -31,7 +31,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -39,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiStressSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -49,7 +48,7 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchStressAutoOperation.class);
 
     public FetchStressAutoOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_STRESS_AUTOMATIC, "auto stress data");
+        super(support, HuamiFetchDataType.STRESS_AUTOMATIC);
     }
 
     @Override

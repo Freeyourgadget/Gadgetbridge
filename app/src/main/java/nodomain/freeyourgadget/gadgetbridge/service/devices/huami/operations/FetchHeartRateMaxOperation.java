@@ -32,7 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiHeartRateMaxSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -40,7 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiHeartRateMaxSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -50,7 +49,7 @@ public class FetchHeartRateMaxOperation extends AbstractRepeatingFetchOperation 
     private static final Logger LOG = LoggerFactory.getLogger(FetchHeartRateMaxOperation.class);
 
     public FetchHeartRateMaxOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_MAX_HEART_RATE, "max hr data");
+        super(support, HuamiFetchDataType.MAX_HEART_RATE);
     }
 
     @Override

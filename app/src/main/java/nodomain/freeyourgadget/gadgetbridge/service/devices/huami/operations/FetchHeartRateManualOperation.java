@@ -33,15 +33,13 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiHeartRateManualSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuamiHeartRateManualSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiHeartRateManualSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -51,7 +49,7 @@ public class FetchHeartRateManualOperation extends AbstractRepeatingFetchOperati
     private static final Logger LOG = LoggerFactory.getLogger(FetchHeartRateManualOperation.class);
 
     public FetchHeartRateManualOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_MANUAL_HEART_RATE, "manual hr data");
+        super(support, HuamiFetchDataType.MANUAL_HEART_RATE);
     }
 
     @Override

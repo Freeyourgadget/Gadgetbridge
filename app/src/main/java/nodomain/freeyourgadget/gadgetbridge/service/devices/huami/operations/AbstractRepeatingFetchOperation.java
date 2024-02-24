@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -51,19 +52,19 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
 
     private final ByteArrayOutputStream byteStreamBuffer = new ByteArrayOutputStream(140);
 
-    protected final byte dataType;
+    protected final HuamiFetchDataType dataType;
 
-    public AbstractRepeatingFetchOperation(final HuamiSupport support, final byte dataType, final String dataName) {
+    public AbstractRepeatingFetchOperation(final HuamiSupport support, final HuamiFetchDataType dataType) {
         super(support);
         this.dataType = dataType;
-        setName("fetching " + dataName);
+        setName("fetching " + dataType.name());
     }
 
     @Override
     protected void startFetching(final TransactionBuilder builder) {
         final GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         LOG.info("start {} since {}", getName(), sinceWhen.getTime());
-        startFetching(builder, dataType, sinceWhen);
+        startFetching(builder, dataType.getCode(), sinceWhen);
     }
 
     /**

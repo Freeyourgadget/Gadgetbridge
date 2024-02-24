@@ -32,14 +32,13 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSleepRespiratoryRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -49,7 +48,7 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
     private static final Logger LOG = LoggerFactory.getLogger(FetchSleepRespiratoryRateOperation.class);
 
     public FetchSleepRespiratoryRateOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_SLEEP_RESPIRATORY_RATE, "sleep respiratory rate data");
+        super(support, HuamiFetchDataType.SLEEP_RESPIRATORY_RATE);
     }
 
     @Override

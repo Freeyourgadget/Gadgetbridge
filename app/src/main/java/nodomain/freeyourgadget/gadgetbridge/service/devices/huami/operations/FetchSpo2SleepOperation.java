@@ -24,9 +24,8 @@ import java.nio.ByteOrder;
 import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 
 /**
  * An operation that fetches SPO2 data for sleep measurements (this requires sleep breathing quality enabled).
@@ -35,7 +34,7 @@ public class FetchSpo2SleepOperation extends AbstractRepeatingFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSpo2SleepOperation.class);
 
     public FetchSpo2SleepOperation(final HuamiSupport support) {
-        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_SPO2_SLEEP, "spo2 sleep data");
+        super(support, HuamiFetchDataType.SPO2_SLEEP);
     }
 
     @Override

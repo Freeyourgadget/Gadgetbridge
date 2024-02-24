@@ -33,10 +33,10 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.HuamiFetchDataType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -77,7 +77,7 @@ public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
 
         GregorianCalendar sinceWhen = BLETypeConversions.createCalendar();
         sinceWhen.add(Calendar.DAY_OF_MONTH, -10);
-        startFetching(builder, AmazfitBipService.COMMAND_ACTIVITY_DATA_TYPE_DEBUGLOGS, sinceWhen);
+        startFetching(builder, HuamiFetchDataType.DEBUG_LOGS.getCode(), sinceWhen);
     }
 
     @Override
