@@ -2785,4 +2785,12 @@
     <string name="activity_type_hunting">Polowanie</string>
     <string name="activity_type_sit_ups">Przysiady</string>
     <string name="activity_type_softball">Softball</string>
+    <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
+    <string name="devicetype_redmi_watch_2">Redmi Watch 2</string>
+    <string name="pref_test_features_title">Funkcje</string>
+    <string name="alarm_smart_wakeup_interval_default">5 minut</string>
+    <string name="activity_type_cross_country_running">Bieg przełajowy</string>
+    <string name="activity_type_belly_dance">Taniec brzucha</string>
+    <string name="alarm_smart_wakeup_interval">Inteligentny interwał budzenia:</string>
+    <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
 </resources>
