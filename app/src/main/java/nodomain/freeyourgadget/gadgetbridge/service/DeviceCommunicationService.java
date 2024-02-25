@@ -1133,13 +1133,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return false;
     }
 
-    private boolean isDeviceReconnecting(GBDevice device) {
-        for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().getAddress().compareToIgnoreCase(device.getAddress()) == 0){
-                return struct.getDevice().getStateOrdinal() == GBDevice.State.WAITING_FOR_RECONNECT.ordinal();
+    private boolean deviceStateEquals(GBDevice device, GBDevice.State... states){
+        if((device = getDeviceByAddressOrNull(device.getAddress())) != null){
+            for(GBDevice.State possibleState : states){
+                if(device.getState() == possibleState){
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    private boolean isDeviceReconnecting(GBDevice device) {
+        return deviceStateEquals(device, GBDevice.State.WAITING_FOR_RECONNECT, GBDevice.State.WAITING_FOR_SCAN);
     }
 
     private boolean deviceHasCalendarReceiverRegistered(GBDevice device){
