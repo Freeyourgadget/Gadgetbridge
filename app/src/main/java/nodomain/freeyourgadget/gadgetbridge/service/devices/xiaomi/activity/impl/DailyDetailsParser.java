@@ -112,7 +112,7 @@ public class DailyDetailsParser extends XiaomiActivityParser {
                     sample.setSpo2(buf.get() & 0xff);
                     int stress = buf.get() & 0xff;
                     if (stress != 0xff) {
-                        sample.setStress(buf.get() & 0xff);
+                        sample.setStress(stress);
                     }
                 }
             }
