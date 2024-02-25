@@ -2695,4 +2695,5 @@
     <string name="scan_scanning_single_device">Scanning 1 device</string>
     <string name="scan_scanning_multiple_devices">Scanning %d devices</string>
     <string name="scan_service_title">Scan service</string>
+    <string name="notification_channel_scan_service_name">Scan service</string>
 </resources>
