@@ -181,7 +181,7 @@ public class BLEScanService extends Service {
 
         return new NotificationCompat
                 .Builder(this, GB.NOTIFICATION_CHANNEL_ID_SCAN_SERVICE)
-                .setContentTitle(getString(R.string.scan_service_title))
+                .setContentTitle(getString(R.string.notification_channel_scan_service_name))
                 .setContentText(content)
                 .setSmallIcon(icon)
                 .build();
