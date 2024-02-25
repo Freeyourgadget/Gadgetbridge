@@ -220,6 +220,11 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             stagesParseFailed = true;
         }
 
+        if (summaries.isEmpty()) {
+            // We did not manage to find sleep stage samples - ensure we at least persist the base one
+            summaries.add(sample);
+        }
+
         // save all the samples that we got
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
