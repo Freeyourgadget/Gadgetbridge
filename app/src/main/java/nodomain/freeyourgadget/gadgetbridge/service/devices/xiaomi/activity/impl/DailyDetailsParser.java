@@ -88,7 +88,12 @@ public class DailyDetailsParser extends XiaomiActivityParser {
             final XiaomiActivitySample sample = new XiaomiActivitySample();
             sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000));
 
-            sample.setSteps(buf.getShort());
+            // we only need the first 14 bits of the 2 bytes
+            // FIXME we should parse the header
+            final byte[] steps = new byte[2];
+            buf.get(steps);
+            final int stepsNum = (steps[0] & 0xff) | (((steps[1] >> 2) & 0xff) << 8);
+            sample.setSteps(stepsNum);
 
             final int calories = buf.get() & 0xff;
             final int unk2 = buf.get() & 0xff;
@@ -105,7 +110,10 @@ public class DailyDetailsParser extends XiaomiActivityParser {
                 if (version == 3) {
                     // TODO gadgets with versions 2 also should have stress, but the values don't make sense
                     sample.setSpo2(buf.get() & 0xff);
-                    sample.setStress(buf.get() & 0xff);
+                    int stress = buf.get() & 0xff;
+                    if (stress != 0xff) {
+                        sample.setStress(buf.get() & 0xff);
+                    }
                 }
             }
 
