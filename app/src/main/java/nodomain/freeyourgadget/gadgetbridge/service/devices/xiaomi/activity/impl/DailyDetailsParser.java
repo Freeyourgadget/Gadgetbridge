@@ -49,19 +49,13 @@ public class DailyDetailsParser extends XiaomiActivityParser {
     public boolean parse(final XiaomiSupport support, final XiaomiActivityFileId fileId, final byte[] bytes) {
         final int version = fileId.getVersion();
         final int headerSize;
-        final int sampleSize;
         switch (version) {
             case 1:
-                headerSize = 4;
-                sampleSize = 7;
-                break;
             case 2:
                 headerSize = 4;
-                sampleSize = 10;
                 break;
             case 3:
                 headerSize = 5;
-                sampleSize = 12;
                 break;
             default:
                 LOG.warn("Unable to parse daily details version {}", fileId.getVersion());
@@ -74,38 +68,83 @@ public class DailyDetailsParser extends XiaomiActivityParser {
 
         LOG.debug("Daily Details Header: {}", GB.hexdump(header));
 
-        if ((buf.limit() - buf.position()) % sampleSize != 0) {
-            LOG.warn("Remaining data in the buffer is not a multiple of {}", sampleSize);
-            return false;
-        }
+        final XiaomiComplexActivityParser complexParser = new XiaomiComplexActivityParser(header, buf);
 
         final Calendar timestamp = Calendar.getInstance();
         timestamp.setTime(fileId.getTimestamp());
 
         final List<XiaomiActivitySample> samples = new ArrayList<>();
-
         while (buf.position() < buf.limit()) {
+            complexParser.reset();
+
             final XiaomiActivitySample sample = new XiaomiActivitySample();
             sample.setTimestamp((int) (timestamp.getTimeInMillis() / 1000));
 
-            sample.setSteps(buf.getShort());
+            int includeExtraEntry = 0;
+            if (complexParser.nextGroup(16)) {
+                // TODO what's the first bit?
 
-            final int calories = buf.get() & 0xff;
-            final int unk2 = buf.get() & 0xff;
-            final int distance = buf.getShort(); // not just walking, includes workouts like cycling
+                if (complexParser.hasSecond()) {
+                    includeExtraEntry = complexParser.get(1, 1);
+                }
+                if (complexParser.hasThird()) {
+                    sample.setSteps(complexParser.get(2, 14));
+                }
+            }
 
-            // TODO persist calories and distance, add UI
+            if (complexParser.nextGroup(8)) {
+                // TODO activity type?
+                if (complexParser.hasSecond()) {
+                    final int calories = complexParser.get(2, 6);
+                }
+            }
 
-            sample.setHeartRate(buf.get() & 0xff);
+            if (complexParser.nextGroup(8)) {
+                // TODO
+            }
 
-            if (version >= 2) {
-                final byte[] unknown2 = new byte[3];
-                buf.get(unknown2);  // TODO intensity and kind? energy?
+            if (complexParser.nextGroup(16)) {
+                // TODO distance
+            }
 
-                if (version == 3) {
-                    // TODO gadgets with versions 2 also should have stress, but the values don't make sense
-                    sample.setSpo2(buf.get() & 0xff);
-                    sample.setStress(buf.get() & 0xff);
+            if (complexParser.nextGroup(8)) {
+                if (complexParser.hasFirst()) {
+                    // hr, 8 bits
+                    sample.setHeartRate(complexParser.get(0, 8));
+                }
+            }
+
+            if (complexParser.nextGroup(8)) {
+                if (complexParser.hasFirst()) {
+                    // energy, 8 bits
+                }
+            }
+
+            if (complexParser.nextGroup(16)) {
+                // TODO
+            }
+
+            if (version >= 3) {
+                if (complexParser.nextGroup(8)) {
+                    if (complexParser.hasFirst()) {
+                        // spo2, 8 bits
+                        sample.setSpo2(complexParser.get(0, 8));
+                    }
+                }
+                if (complexParser.nextGroup(8)) {
+                    if (complexParser.hasFirst()) {
+                        // stress, 8 bits
+                        final int stress = complexParser.get(0, 8);
+                        if (stress != 255) {
+                            sample.setStress(stress);
+                        }
+                    }
+                }
+            }
+
+            if (includeExtraEntry == 1) {
+                if (complexParser.nextGroup(8)) {
+                    // TODO
                 }
             }
 
