@@ -310,7 +310,7 @@ public class GBDevice implements Parcelable {
     }
 
     public boolean isConnected() {
-        return mState.ordinal() >= State.CONNECTED.ordinal();
+        return mState.equalsOrHigherThan(State.CONNECTED);
     }
 
     public boolean isInitializing() {
@@ -761,8 +761,8 @@ public class GBDevice implements Parcelable {
             return simpleStringId;
         }
 
-        boolean equalsOrHigherThan(State otherState){
-            return ordinal() >= otherState.ordinal();
+        public boolean equalsOrHigherThan(State otherState){
+            return compareTo(otherState) >= 0;
         }
     }
 }

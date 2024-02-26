@@ -1145,7 +1145,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private boolean isDeviceReconnecting(GBDevice device) {
-        return deviceStateEquals(device, GBDevice.State.WAITING_FOR_RECONNECT, GBDevice.State.WAITING_FOR_SCAN);
+        if((device = getDeviceByAddressOrNull(device.getAddress())) != null){
+            return device.getState().equalsOrHigherThan(GBDevice.State.NOT_CONNECTED);
+        }
+        return false;
     }
 
     private boolean deviceHasCalendarReceiverRegistered(GBDevice device){
