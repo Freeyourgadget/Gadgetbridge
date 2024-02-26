@@ -2801,4 +2801,6 @@
     <string name="pref_test_features_title">المميزات</string>
     <string name="pref_test_features_summary">الميزات الممكنة لهذا الجهاز الاختباري</string>
     <string name="devicetype_redmiwatch3">ساعة ريدمي ٣</string>
+    <string name="alarm_smart_wakeup_interval_default">5 دقائق</string>
+    <string name="alarm_smart_wakeup_interval">الفاصل الزمني للاستيقاظ الذكي:</string>
 </resources>
