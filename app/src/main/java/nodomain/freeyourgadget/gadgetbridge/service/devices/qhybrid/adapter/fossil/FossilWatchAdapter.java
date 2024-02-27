@@ -555,10 +555,11 @@ public class FossilWatchAdapter extends WatchAdapter {
 
                     queueWrite(new FileDeleteRequest(getHandle()));
                     GB.updateTransferNotification(null, "", false, 100, getContext());
-                    if (BuildConfig.DEBUG)
-                        GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
+                    GB.signalActivityDataFinish();
+                    LOG.debug("Synchronized activity data");
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    LOG.error("Error saving steps data: ", ex);
                     GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
                 }
                 getDeviceSupport().getDevice().unsetBusyTask();
@@ -567,8 +568,8 @@ public class FossilWatchAdapter extends WatchAdapter {
 
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
-                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY && BuildConfig.DEBUG){
-                    GB.toast("No activity data to sync", Toast.LENGTH_SHORT, GB.INFO);
+                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+                    LOG.debug("No activity data to sync");
                 }
                 getDeviceSupport().getDevice().unsetBusyTask();
                 GB.updateTransferNotification(null, "", false, 100, getContext());

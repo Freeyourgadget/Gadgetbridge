@@ -86,7 +86,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
@@ -1251,10 +1250,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
                             GB.updateTransferNotification(null, "", false, 100, getContext());
-                            if (BuildConfig.DEBUG)
-                                GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
+                            GB.signalActivityDataFinish();
+                            LOG.debug("Synchronized activity data");
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                            LOG.error("Error saving steps data: ", ex);
                             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
                         }
                         getDeviceSupport().getDevice().unsetBusyTask();
@@ -1266,8 +1266,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             @Override
             public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
                 if (error == FILE_LOOKUP_ERROR.FILE_EMPTY) {
-                    if (BuildConfig.DEBUG)
-                        GB.toast("No activity data to sync", Toast.LENGTH_SHORT, GB.INFO);
+                    LOG.debug("No activity data to sync");
                 } else {
                     throw new RuntimeException("strange lookup stuff");
                 }
