@@ -143,7 +143,7 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             DeviceDao deviceDao = session.getDeviceDao();
-            Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Type.eq(1), DeviceDao.Properties.Identifier.like("%" + expectedSuffix)).build();
+            Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.TypeName.eq("PEBBLE"), DeviceDao.Properties.Identifier.like("%" + expectedSuffix)).build();
 
             List<Device> devices = query.list();
             if (devices.size() == 0) {
