@@ -643,8 +643,8 @@
     <string name="pref_summary_expose_hr">Разрешает другим приложениям доступ к датчику сердцебиения при активном соединении через Gadgetbridge</string>
     <string name="pref_title_expose_hr">Доступ к пульсометру</string>
     <string name="pref_display_add_device_fab">Кнопка подключения нового устройства</string>
-    <string name="pref_display_add_device_fab_on">Всегда отображать</string>
-    <string name="pref_display_add_device_fab_off">Когда нет добавленных устройств</string>
+    <string name="pref_display_add_device_fab_on">Отображается всегда</string>
+    <string name="pref_display_add_device_fab_off">Отображается при отсутствии добавленных устройств</string>
     <string name="prefs_button_single_press_action_selection_title">Реакция на Событие 1</string>
     <string name="prefs_button_double_press_action_selection_title">Реакция на Событие 2</string>
     <string name="prefs_button_triple_press_action_selection_title">Реакция на Событие 3</string>
@@ -999,7 +999,7 @@
     <string name="require_location_provider">Местоположение должно быть включено</string>
     <string name="devicetype_pinetime_jf">PineTime (Прошивка JF)</string>
     <string name="devicetype_tlw64">TLW64</string>
-    <string name="activity_summary_detail">Детали спортивной деятельности</string>
+    <string name="activity_summary_detail">Подробности спортивной деятельности</string>
     <string name="activity_type_yoga">Йога</string>
     <string name="activity_type_jump_roping">Скакалка</string>
     <string name="activity_type_elliptical_trainer">Эллиптический тренажер</string>
@@ -1348,7 +1348,7 @@
     <string name="controlcenter_start_configure_reminders">Настроить напоминания</string>
     <string name="title_activity_reminder_details">Настройки напоминания</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Расстояние вычисляется по количеству шагов и ширине шага (настраивается в разделе Настройки - About you)</string>
-    <string name="pref_title_notification_use_as">Используйте список приложений, чтобы…</string>
+    <string name="pref_title_notification_use_as">Использовать список приложений, чтобы…</string>
     <string name="reminder_repeat">Повтор</string>
     <string name="reminder_date">Дата</string>
     <string name="reminder_time">Время</string>
@@ -1874,7 +1874,7 @@
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="info_connected_count">%d устройств подключено</string>
-    <string name="controlcenter_toggle_details">Показать детали</string>
+    <string name="controlcenter_toggle_details">Показать подробности</string>
     <string name="controlcenter_folder_name">Имя папки:</string>
     <string name="connection_over_ble">Подключение по BLE</string>
     <string name="auto_reconnect_ble_summary">Периодически пытаться переподключиться</string>
