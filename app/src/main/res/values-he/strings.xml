@@ -2546,4 +2546,25 @@
     <string name="pref_summary_osmand_packagename">משמש לבחירת גרסת ה־OsmAnd אליה להתחבר</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">האם על השעון לרטוט על כל הנחיית ניווט חדשה או עדכנית (רק כשהיישומון ברקע)</string>
     <string name="pref_summary_fossil_hr_nav_foreground">האם על יישומון הניווט לקפוץ לחזית אוטומטית כשהוא מקבל הנחיות ניווט</string>
+    <string name="pref_force_dnd_support">אילוץ תמיכה ב„לא להפריע”</string>
+    <string name="pref_title_prefix_notification_with_app">שם היישומון בהתראה</string>
+    <string name="pref_summary_fossil_hr_navigation_instructions">הגדרת התנהגות יישומון הניווט בשעון</string>
+    <string name="pref_device_action_dnd_alarms">לא להפריע - התראות בלבד</string>
+    <string name="huawei_alarm_smart_description">לא לבטל את תיבת סימון ההשכמה החכמה.</string>
+    <string name="huawei_alarm_event_description">לא לסמן את תיבת סימון ההשכמה החכמה.</string>
+    <string name="devicetype_miband8">Xiaomi Smart Band 8‎</string>
+    <string name="devicetype_miband7pro">Xiaomi Smart Band 7 Pro‎</string>
+    <string name="pref_device_action_dnd_priority">לא להפריע - דחוף בלבד</string>
+    <string name="pref_device_action_dnd_off">לא להפריע - כבוי</string>
+    <string name="pref_device_action_dnd_on">לא להפריע - פעיל</string>
+    <string name="pref_enable_call_accept_summary">הפעלת קבלת שיחות מהמכשיר</string>
+    <string name="devicetype_xiaomi_watch_s1_active">Xiaomi Watch S1 Active‎</string>
+    <string name="devicetype_mijia_lywsd03">חיישן טמפרטורה ולחות 2 של Mijia</string>
+    <string name="devicetype_miband8pro">Xiaomi Smart Band 8 Pro‎</string>
+    <string name="fossil_hr_nav_app_not_installed_notify_title">לא מותקן יישומון ניווט בשעון</string>
+    <string name="pref_do_not_disturb_not_wear">לא להפריע כשלא נענד</string>
+    <string name="pref_enable_call_reject_summary">הפעלת דחיית שיחות מהמכשיר</string>
+    <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)‎</string>
+    <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)‎</string>
+    <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active‎</string>
 </resources>
