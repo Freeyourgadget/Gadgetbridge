@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -102,14 +103,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
-    private Handler handler = new Handler();
-    private final Runnable batteryStateRequestRunnable = new Runnable() {
-        @Override
-        public void run() {
-            getSupport().sendCommand("get device status", COMMAND_TYPE, CMD_DEVICE_STATE_GET);
-            getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
-            handler.postDelayed(this, BATTERY_STATE_REQUEST_INTERVAL);
-        }
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable batteryStateRequestRunnable = () -> {
+        getSupport().sendCommand("get device status", COMMAND_TYPE, CMD_DEVICE_STATE_GET);
+        getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
     };
 
     private WearingState currentWearingState = WearingState.UNKNOWN;
@@ -135,7 +132,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().sendCommand("get widget parts", COMMAND_TYPE, CMD_WIDGET_PARTS_GET);
         getSupport().sendCommand("get workout types", COMMAND_TYPE, CMD_WORKOUT_TYPES_GET);
 
-        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
+        rearmBatteryStateRequestTimer();
     }
 
     @Override
@@ -368,8 +365,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         getSupport().evaluateGBDeviceEvent(batteryInfo);
 
         // reset battery level request timer
-        handler.removeCallbacks(batteryStateRequestRunnable);
-        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
+        rearmBatteryStateRequestTimer();
     }
 
     private void setPassword() {
@@ -800,8 +796,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         // TODO: handle activity state
 
         // reset battery level refresh timer
-        handler.removeCallbacks(batteryStateRequestRunnable);
-        handler.postDelayed(batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
+        rearmBatteryStateRequestTimer();
     }
 
     public void handleDeviceState(XiaomiProto.DeviceState deviceState) {
@@ -982,5 +977,15 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     public void onUploadProgress(final int stringResource, final int progressPercent, final boolean ongoing) {
         getSupport().getConnectionSpecificSupport().onUploadProgress(stringResource, progressPercent, ongoing);
+    }
+
+    private void rearmBatteryStateRequestTimer() {
+        this.handler.removeCallbacks(this.batteryStateRequestRunnable);
+        this.handler.postDelayed(this.batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
+    }
+
+    @Override
+    public void onDisconnect() {
+        this.handler.removeCallbacks(this.batteryStateRequestRunnable);
     }
 }

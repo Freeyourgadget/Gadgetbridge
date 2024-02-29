@@ -203,6 +203,13 @@ public class XiaomiSupport extends AbstractDeviceSupport {
         this.cachedFirmwareVersion = version;
     }
 
+    public void onDisconnect() {
+        // propagate disconnection to services
+        for (AbstractXiaomiService service : mServiceMap.values()) {
+            service.onDisconnect();
+        }
+    }
+
     public void handleCommandBytes(final byte[] plainValue) {
         LOG.debug("Got command: {}", GB.hexdump(plainValue));
 

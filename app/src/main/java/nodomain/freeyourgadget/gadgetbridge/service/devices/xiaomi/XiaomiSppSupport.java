@@ -94,6 +94,18 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         protected UUID getSupportedService() {
             return XiaomiUuids.UUID_SERVICE_SERIAL_PORT_PROFILE;
         }
+
+        @Override
+        public void disconnect() {
+            mXiaomiSupport.onDisconnect();
+            super.disconnect();
+        }
+
+        @Override
+        public void dispose() {
+            mXiaomiSupport.onDisconnect();
+            super.dispose();
+        }
     };
 
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();

@@ -223,6 +223,12 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
             if (characteristicActivityData != null)
                 characteristicActivityData.setMtu(mtu);
         }
+
+        @Override
+        public void disconnect() {
+            mXiaomiSupport.onDisconnect();
+            super.disconnect();
+        }
     };
 
     public XiaomiBleSupport(final XiaomiSupport xiaomiSupport) {
