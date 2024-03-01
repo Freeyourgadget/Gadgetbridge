@@ -754,15 +754,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         String filename = "recorder.log" + log + ".csv";
 
-        if (!json.has("line")) { // if no line was sent with this json object, it signifies that the whole recorder log has been transmitted.
+        if (!json.has("lines")) { // if no lines was sent with this json object, it signifies that the whole recorder log has been transmitted.
             parseFetchedRecorderCSV(dir, filename, log);
-        } else { // We received a line of the csv, now we append it to the file in storage.
+        } else { // We received a lines of the csv, now we append it to the file in storage.
 
-            String line = json.getString("line");
-            LOG.info(line);
+            String lines = json.getString("lines");
+            LOG.info(lines);
 
             String mode = "append";
-            if (line.equals("")) {
+            if (lines.equals("")) {
                 mode = "write";
             }
 
@@ -771,7 +771,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             File outputFileLogID = new File(dir, filenameLogID);
             LOG.warn("Writing log to " + outputFile.toString());
             try {
-                FileUtils.copyStringToFile(line,outputFile,mode);
+                FileUtils.copyStringToFile(lines,outputFile,mode);
                 //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
 
                 FileUtils.copyStringToFile(log,outputFileLogID,"");
@@ -781,7 +781,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
 
-        if (!json.has("line") && json.getString("log").equals(lastRecToFetch)) {
+        if (!json.has("lines") && json.getString("log").equals(lastRecToFetch)) {
             getDevice().unsetBusyTask();
         }
     }
