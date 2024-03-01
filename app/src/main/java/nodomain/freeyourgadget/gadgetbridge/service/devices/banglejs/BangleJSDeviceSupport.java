@@ -730,15 +730,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private String lastRecToFetch;
+    private JSONArray tracksList;
     private void handleTrksList(JSONObject json) throws JSONException {
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
-        JSONArray tracksList = json.getJSONArray("list");
+        tracksList = json.getJSONArray("list");
         lastRecToFetch = tracksList.getString(tracksList.length()-1);
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
-        for (int i = 0; i < tracksList.length(); i ++) {
-            requestActivityTrackLog(tracksList.getString(i), i==tracksList.length()-1);
-        }
+        //for (int i = 0; i < tracksList.length(); i ++) {
+        //    requestActivityTrackLog(tracksList.getString(i), i==tracksList.length()-1);
+        //}
+        requestActivityTrackLog(tracksList.getString(0), 1==tracksList.length());
+        tracksList.remove(0);
     }
 
     private void handleActTrk(JSONObject json) throws JSONException {
@@ -754,8 +757,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         String filename = "recorder.log" + log + ".csv";
 
-        if (!json.has("lines")) { // if no lines was sent with this json object, it signifies that the whole recorder log has been transmitted.
+        if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             parseFetchedRecorderCSV(dir, filename, log);
+            if (tracksList.length()==0) {
+                getDevice().unsetBusyTask();
+            } else {
+                requestActivityTrackLog(tracksList.getString(0), 1==tracksList.length());
+                tracksList.remove(0);
+            }
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
             String lines = json.getString("lines");
@@ -781,9 +790,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
 
-        if (!json.has("lines") && json.getString("log").equals(lastRecToFetch)) {
-            getDevice().unsetBusyTask();
-        }
+        //if (!json.has("lines") && json.getString("log").equals(lastRecToFetch)) {
+        //    getDevice().unsetBusyTask();
+        //}
     }
 
     private void parseFetchedRecorderCSV(File dir, String filename, String log) {
