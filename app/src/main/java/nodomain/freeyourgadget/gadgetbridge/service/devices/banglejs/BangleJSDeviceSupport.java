@@ -860,7 +860,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
             JSONArray valueArray2 = new JSONArray();
 
-            LOG.info("check here 0");
+            //LOG.info("check here 0");
             // Add analytics based on GPS coordinates.
             if (storedLogObject.has("Latitude")) {
                 // Add distance between last and current reading.
@@ -894,7 +894,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 valueArray2 = new JSONArray();
                 calculationsArray = new JSONArray();
 
-                LOG.info("check here 1");
+                //LOG.info("check here 1");
                 // Add stride lengths between consecutive readings.
                 if (storedLogObject.has("Steps")) {
                     for (int i = 0; i < logLength; i++) {
@@ -915,7 +915,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     calculationsArray = new JSONArray();
                 }
 
-                LOG.info("check here 2");
+                //LOG.info("check here 2");
             } else if (storedLogObject.has("Steps")) {
                 for (int i = 0; i < logLength; i++) {
                     if (i==0 ||
@@ -936,7 +936,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
             }
 
-            LOG.info("check here 3");
+            //LOG.info("check here 3");
             if (analyticsObject.has("Intermediate Distance")) {
                 // Add total distance from start of activity up to each reading.
                 for (int i = 0; i < logLength; i++) {
@@ -951,7 +951,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 calculationsArray = new JSONArray();
 
-                LOG.info("check here 4");
+                //LOG.info("check here 4");
                 // Add average speed between last and current reading (m/s).
                 for (int i = 0; i < logLength; i++) {
                     if (i==0) {
@@ -966,16 +966,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         calculationsArray.put(calculation);
                     }
                 }
-                LOG.info("check " + calculationsArray);
+                //LOG.info("check " + calculationsArray);
                 analyticsObject.put("Speed", calculationsArray);
 
                 calculationsArray = new JSONArray();
 
-                LOG.info("check here 5");
+                //LOG.info("check here 5");
                 // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seems to expect s/km).
                 for (int i = 0; i < logLength; i++) {
                     String speed = analyticsObject.getJSONArray("Speed").getString(i);
-                    LOG.info("check: " + speed);
+                    //LOG.info("check: " + speed);
                     if (i==0 || Objects.equals(speed, "0") || Objects.equals(speed, "0.0") || Objects.equals(speed, "")) {
                         calculationsArray.put("");
                     } else {
@@ -988,7 +988,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 calculationsArray = new JSONArray();
             }
 
-            LOG.info("check here 6");
+            //LOG.info("check here 6");
             if (storedLogObject.has("Steps")) {
                 for (int i = 0; i < logLength; i++) {
                     if (i==0 || Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
@@ -1010,9 +1010,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 calculationsArray = new JSONArray();
             }
-            LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
+            //LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
 
-            LOG.info("check here 7");
+            //LOG.info("check here 7");
             BaseActivitySummary summary = null;
 
             Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
