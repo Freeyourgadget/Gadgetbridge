@@ -1165,6 +1165,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             ActivityPoint point = new ActivityPoint();
             Date timeOfPoint = new Date();
             boolean hasGPXReading = false;
+            boolean hasHRMReading = false;
             for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
                 timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
                 point.setTime(timeOfPoint);
@@ -1185,6 +1186,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
                     point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
+
+                    if (!hasHRMReading) hasHRMReading = true;
                 }
                 track.addTrackPoint(point);
                 LOG.info("Activity Point:\n" + point.getHeartRate());
@@ -1217,7 +1220,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
             File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
-            if (hasGPXReading) {
+            if (hasGPXReading /*|| hasHRMReading*/) {
                 try {
                     exporter.performExport(track, targetFile);
 
