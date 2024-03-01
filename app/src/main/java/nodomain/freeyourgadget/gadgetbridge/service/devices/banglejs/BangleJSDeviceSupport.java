@@ -1164,6 +1164,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             ActivityPoint point = new ActivityPoint();
             Date timeOfPoint = new Date();
+            boolean hasGPXReading = false;
             for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
                 timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
                 point.setTime(timeOfPoint);
@@ -1178,6 +1179,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                         storedLogObject.getJSONArray("Altitude").getDouble(i)
                                 )
                         );
+
+                        if (!hasGPXReading) hasGPXReading = true;
                     }
                 }
                 if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
@@ -1214,17 +1217,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
             File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
-            try {
-                exporter.performExport(track, targetFile);
+            if (hasGPXReading) {
+                try {
+                    exporter.performExport(track, targetFile);
 
-                try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    summary.setGpxTrack(targetFile.getAbsolutePath());
-                    //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                        summary.setGpxTrack(targetFile.getAbsolutePath());
+                        //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
+                    GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
-            } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
-                GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
             }
 
             //summary.setSummaryData(null); // remove json before saving to database,
