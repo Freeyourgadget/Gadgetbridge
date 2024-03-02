@@ -735,13 +735,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         tracksList = json.getJSONArray("list");
-        lastRecToFetch = tracksList.getString(tracksList.length()-1);
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
+        if (tracksList.length()==0) {
+            getDevice().unsetBusyTask();
+        } else {
+            lastRecToFetch = tracksList.getString(tracksList.length()-1);
+            requestActivityTrackLog(tracksList.getString(0), 1==tracksList.length());
+            tracksList.remove(0);
+        }
         //for (int i = 0; i < tracksList.length(); i ++) {
         //    requestActivityTrackLog(tracksList.getString(i), i==tracksList.length()-1);
         //}
-        requestActivityTrackLog(tracksList.getString(0), 1==tracksList.length());
-        tracksList.remove(0);
     }
 
     private void handleActTrk(JSONObject json) throws JSONException {
