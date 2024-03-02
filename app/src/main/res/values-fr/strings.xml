@@ -2810,4 +2810,8 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_fossil_hr_navigation_instructions">Configurer sur la montre le comportement de la navigation</string>
     <string name="pref_title_fossil_hr_nav_foreground">Venir au premier plan</string>
     <string name="pref_summary_fossil_hr_nav_foreground">Si l\'application de navigation doit automatiquement passer au premier plan quand elle reçoit une instruction de navigation</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Reconnecte uniquement aux appareils connectés, au lieu de reconnecter à tous les appareils</string>
+    <string name="clap_hands_to_wakeup_device">Frapper des mains pour allumer l\'écran</string>
+    <string name="clap_hands_to_wakeup_device_summary">Frapper des mains à nouveau éteindra l\'écran</string>
+    <string name="pixoo_power_saving_summary">L\'écran s\'éteindra lorsque le microphone aura détecté un long silence</string>
 </resources>
