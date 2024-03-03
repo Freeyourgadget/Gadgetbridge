@@ -90,20 +90,12 @@ public class FileUtils {
             }
         }
     }
-    /*
-    File outputFile = new File(dir, filename);
-    String filenameLogID = "latestFetchedRecorderLog.txt";
-    File outputFileLogID = new File(dir, filenameLogID);
-            LOG.warn("Writing log to " + outputFile.toString());
-            try {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
-        writer.write(line);
-        writer.close();
-        //GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
 
-        BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
-        writerLogID.write(log);
-        writerLogID.close();
+    /**
+     * Copies the contents of the given string to the destination file.
+     * @param string the contents to write.
+     * @param dst the file to write to
+     * @throws IOException
      */
     public static void copyStringToFile(String string, File dst, String mode) throws IOException{
         BufferedWriter writer;
