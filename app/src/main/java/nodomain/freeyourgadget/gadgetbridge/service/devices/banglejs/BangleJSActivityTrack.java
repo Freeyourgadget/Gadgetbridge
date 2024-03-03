@@ -117,8 +117,9 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         } else {
             currPacketCount = 0;
         }
-        if (false && currPacketCount != prevPacketCount+1) {
+        if (currPacketCount != prevPacketCount+1) {
             LOG.error("Activity Track Packets came out of order - aborting.");
+            LOG.info("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
             device.unsetBusyTask();
             GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
@@ -143,12 +144,16 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             if (tracksList.length()==0) {
                 device.unsetBusyTask();
                 GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
-                returnArray = new JSONArray().put(null).put(tracksList).put(-1);
+                int resetPacketCount = -1;
+                LOG.info("packetCount reset1: " + resetPacketCount);
+                returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
                 return returnArray;
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
-                returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(currPacketCount);
+                int resetPacketCount = -1;
+                LOG.info("packetCount reset2: " + resetPacketCount);
+                returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
                 return returnArray;
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
@@ -176,6 +181,8 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             }
         }
 
+
+        LOG.info("packetCount should not be reached: " + currPacketCount);
         returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
         return returnArray;
     }
