@@ -84,7 +84,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         if (tracksList.length()==0) {
             device.unsetBusyTask();
             device.sendDeviceUpdateIntent(context);
-            GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
+            GB.updateTransferNotification(null, "", false, 100, context);
             return null;
         } else {
             return tracksList;
@@ -124,7 +124,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
             device.unsetBusyTask();
             device.sendDeviceUpdateIntent(context);
-            GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
+            GB.updateTransferNotification(null, "", false, 100, context);
             return returnArray;
         }
 
@@ -146,7 +146,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             if (tracksList.length()==0) {
                 device.unsetBusyTask();
                 device.sendDeviceUpdateIntent(context);
-                GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
+                GB.updateTransferNotification(null, "", false, 100, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
