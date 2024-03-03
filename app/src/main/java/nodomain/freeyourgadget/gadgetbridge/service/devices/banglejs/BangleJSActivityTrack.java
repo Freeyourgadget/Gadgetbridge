@@ -83,6 +83,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         if (tracksList.length()==0) {
             device.unsetBusyTask();
+            device.sendDeviceUpdateIntent(context);
             GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
             return null;
         } else {
@@ -122,6 +123,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             LOG.info("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
             device.unsetBusyTask();
+            device.sendDeviceUpdateIntent(context);
             GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
             return returnArray;
         }
@@ -143,19 +145,19 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             parseFetchedRecorderCSV(dir, filename, log, device, context);
             if (tracksList.length()==0) {
                 device.unsetBusyTask();
+                device.sendDeviceUpdateIntent(context);
                 GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
-                return returnArray;
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset2: " + resetPacketCount);
                 returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
-                return returnArray;
             }
+            return returnArray;
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
             String lines = json.getString("lines");
