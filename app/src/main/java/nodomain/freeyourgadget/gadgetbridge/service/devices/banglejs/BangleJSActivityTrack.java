@@ -103,7 +103,28 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
        return o; 
     }
 
-    public static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, GBDevice device, Context context) throws JSONException {
+    private void stopFunc() {
+
+    }
+
+    public static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
+        JSONArray returnArray;
+
+        JSONObject stopObj = new JSONObject().put("t","fetchRec").put("id","stop");
+        int currPacketCount;
+        if (json.has("cnt")) {
+            currPacketCount = json.getInt("cnt");
+        } else {
+            currPacketCount = 0;
+        }
+        if (false && currPacketCount != prevPacketCount+1) {
+            LOG.error("Activity Track Packets came out of order - aborting.");
+            returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
+            device.unsetBusyTask();
+            GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
+            return returnArray;
+        }
+
         LOG.info("actTrk says hi!");
         //GB.toast(context, "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
@@ -112,7 +133,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         try {
             dir = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
-            JSONArray returnArray = new JSONArray().put(null).put(tracksList);
+            returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
             return returnArray;
         }
         String filename = "recorder.log" + log + ".csv";
@@ -122,10 +143,12 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             if (tracksList.length()==0) {
                 device.unsetBusyTask();
                 GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_activity_data), "", false, 100, context);
+                returnArray = new JSONArray().put(null).put(tracksList).put(-1);
+                return returnArray;
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
-                JSONArray returnArray = new JSONArray().put(requestTrackObj).put(tracksList);
+                returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(currPacketCount);
                 return returnArray;
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
@@ -153,7 +176,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             }
         }
 
-        JSONArray returnArray = new JSONArray().put(null).put(tracksList);
+        returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
         return returnArray;
     }
 
