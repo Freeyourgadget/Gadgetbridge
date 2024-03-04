@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -1018,44 +1019,61 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
     }
 
+    static private void addElementsToList(ArrayList<Integer> list, int[]... elements){
+        for(int[] array : elements){
+            for(int item : array){
+                list.add(item);
+            }
+        }
+    }
+
     static DeviceSpecificSettingsFragment newInstance(GBDevice device, DeviceSettingsActivity.MENU_ENTRY_POINTS applicationSpecificSettings) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        int[] supportedSettings = new int[0];
+        ArrayList<Integer> supportedSettings = new ArrayList<>();
         String[] supportedLanguages = null;
 
         if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
-            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_pairingkey_explanation);
+            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
+            supportedSettings.add(R.xml.devicesettings_pairingkey_explanation);
             if (device.getType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_protocol);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_auth_protocol_explanation);
+                supportedSettings.add(R.xml.devicesettings_miband6_new_protocol);
+                supportedSettings.add(R.xml.devicesettings_miband6_new_auth_protocol_explanation);
             }
         } else { //device/application settings
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
             supportedLanguages = coordinator.getSupportedLanguageSettings(device);
             if (supportedLanguages != null) {
-                supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
+                supportedSettings.add(R.xml.devicesettings_language_generic);
             }
+            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
             final int[] supportedAuthSettings = coordinator.getSupportedDeviceSpecificAuthenticationSettings();
             if (supportedAuthSettings != null && supportedAuthSettings.length > 0) {
-                supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_header_authentication);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, supportedAuthSettings);
+                supportedSettings.add(R.xml.devicesettings_header_authentication);
+                addElementsToList(supportedSettings, supportedAuthSettings);
             }
 
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
-            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
+            addElementsToList(
+                    supportedSettings,
+                    coordinator.getSupportedDeviceSpecificConnectionSettings(),
+                    coordinator.getSupportedDeviceSpecificApplicationSettings());
             if (coordinator.supportsActivityTracking()) {
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_activity_info_header);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
+                supportedSettings.addAll(Arrays.asList(
+                        R.xml.devicesettings_activity_info_header,
+                        R.xml.devicesettings_chartstabs,
+                        R.xml.devicesettings_device_card_activity_card_preferences
+                ));
             }
-            supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_settings_third_party_apps);
+            supportedSettings.add(R.xml.devicesettings_settings_third_party_apps);
+        }
+
+        int[] supportedSettingsInts = new int[supportedSettings.size()];
+        for(int i = 0; i < supportedSettings.size(); i++){
+            supportedSettingsInts[i] = supportedSettings.get(i);
         }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
         final String settingsFileSuffix = device.getAddress();
         final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
-        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
+        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettingsInts, supportedLanguages);
         fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);
         fragment.setDevice(device);
 
