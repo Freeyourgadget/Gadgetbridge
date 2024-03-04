@@ -84,7 +84,6 @@ public class DeviceCommunicationServiceTestCase extends TestBase {
 
     @Test
     public void ensureConnected() {
-        mDeviceService.start();
         // connection goes synchronously here
         mDeviceService.forDevice(getDevice()).connect();
         Mockito.verify(mockSupport, Mockito.times(1)).connect();

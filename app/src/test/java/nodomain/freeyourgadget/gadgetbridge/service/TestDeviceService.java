@@ -48,11 +48,6 @@ class TestDeviceService extends GBDeviceService {
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
-
-    @Override
     protected void stopService(Intent intent) {
         super.stopService(intent);
         serviceController.destroy();
