@@ -42,9 +42,21 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSActivityTrack.class);
 
+    private static void signalStartFetching(GBDevice device, Context context) {
+        GB.updateTransferNotification(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details),"", true, 0, context);
+        device.setBusyTask(context.getString(R.string.busy_task_fetch_sports_details));
+        GB.toast(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+    }
+
+    private static void signalDoneFetching(GBDevice device, Context context) {
+        device.unsetBusyTask();
+        device.sendDeviceUpdateIntent(context);
+        GB.updateTransferNotification(null, "", false, 100, context);
+        GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+    }
+
     public static JSONObject compileTrackListRequest(GBDevice device, Context context) {
-        GB.updateTransferNotification(context.getString(R.string.busy_task_fetch_sports_summaries),"", true, 0, context);
-        device.setBusyTask(context.getString(R.string.busy_task_fetch_sports_summaries));
+        signalStartFetching(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
         File dir;
         try {
@@ -82,9 +94,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         if (tracksList.length()==0) {
-            device.unsetBusyTask();
-            device.sendDeviceUpdateIntent(context);
-            GB.updateTransferNotification(null, "", false, 100, context);
+            signalDoneFetching(device, context);
             return null;
         } else {
             return tracksList;
@@ -104,10 +114,6 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
        return o; 
     }
 
-    private void stopFunc() {
-
-    }
-
     public static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
         JSONArray returnArray;
 
@@ -122,9 +128,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             LOG.error("Activity Track Packets came out of order - aborting.");
             LOG.info("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
-            device.unsetBusyTask();
-            device.sendDeviceUpdateIntent(context);
-            GB.updateTransferNotification(null, "", false, 100, context);
+            signalDoneFetching(device, context);
             return returnArray;
         }
 
@@ -144,9 +148,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             parseFetchedRecorderCSV(dir, filename, log, device, context);
             if (tracksList.length()==0) {
-                device.unsetBusyTask();
-                device.sendDeviceUpdateIntent(context);
-                GB.updateTransferNotification(null, "", false, 100, context);
+                signalDoneFetching(device, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
