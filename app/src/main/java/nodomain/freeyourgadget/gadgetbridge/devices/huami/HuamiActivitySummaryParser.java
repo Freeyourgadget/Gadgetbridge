@@ -64,12 +64,13 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         short version = buffer.getShort(); // version
         LOG.debug("Got sport summary version " + version + " total bytes=" + buffer.capacity());
         int activityKind = ActivityKind.TYPE_UNKNOWN;
+        int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
         try {
-            int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
             HuamiSportsActivityType activityType = HuamiSportsActivityType.fromCode(rawKind);
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
             LOG.error("Error mapping activity kind: " + ex.getMessage(), ex);
+            addSummaryData("Raw Activity Kind", rawKind, UNIT_NONE);
         }
         summary.setActivityKind(activityKind);
 
