@@ -1023,23 +1023,14 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         int[] supportedSettings = new int[0];
         String[] supportedLanguages = null;
 
-        if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.APPLICATION_SETTINGS)) { //assemble device settings specific to the application
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
-            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
-            if (coordinator.supportsActivityTracking()) {
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_activity_info_header);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
-                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
-            }
-            supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_settings_third_party_apps);
-        } else if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
+        if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
             supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_pairingkey_explanation);
             if (device.getType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_protocol);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_auth_protocol_explanation);
             }
-        } else { //device settings
+        } else { //device/application settings
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
             supportedLanguages = coordinator.getSupportedLanguageSettings(device);
             if (supportedLanguages != null) {
@@ -1050,6 +1041,15 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_header_authentication);
                 supportedSettings = ArrayUtils.addAll(supportedSettings, supportedAuthSettings);
             }
+
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
+            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
+            if (coordinator.supportsActivityTracking()) {
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_activity_info_header);
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
+            }
+            supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_settings_third_party_apps);
         }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
