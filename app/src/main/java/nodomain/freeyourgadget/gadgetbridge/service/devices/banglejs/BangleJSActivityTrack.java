@@ -246,6 +246,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
     }
 
     private static void parseFetchedRecorderCSV(File dir, String filename, String log, GBDevice device, Context context) {
+        stopTimeoutTask(); // Parsing can take a while if there are many data. Restart at end of parsing.
 
         File inputFile = new File(dir, filename);
         try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
@@ -724,6 +725,8 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+        stopAndRestartTimeout(device,context);
     }
 
 
