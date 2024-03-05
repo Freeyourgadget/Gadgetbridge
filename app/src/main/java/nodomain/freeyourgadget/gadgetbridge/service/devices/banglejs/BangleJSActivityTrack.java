@@ -480,12 +480,17 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             summary.setName(log);
             summary.setStartTime(startTime);
             summary.setEndTime(endTime);
-            summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
-            if (analyticsObject.has("speed")) {
-                if (3 > averageOfJSONArray(analyticsObject.getJSONArray("Speed"))) {
-                    summary.setActivityKind(ActivityKind.TYPE_WALKING);
+            int activityKind;
+            if (analyticsObject.has("Speed")) {
+                if ((float) 3 > averageOfJSONArray(analyticsObject.getJSONArray("Speed"))) {
+                    activityKind = ActivityKind.TYPE_WALKING;
+                } else {
+                    activityKind = ActivityKind.TYPE_RUNNING;
                 }
+            } else {
+                activityKind = ActivityKind.TYPE_ACTIVITY;
             }
+            summary.setActivityKind(activityKind); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
             summary.setRawDetailsPath(String.valueOf(inputFile));
 
             JSONObject summaryData = new JSONObject();
