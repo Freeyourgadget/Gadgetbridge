@@ -13,9 +13,6 @@
         android:id="@+id/controlcenter_device_submenu_set_alias"
         android:title="@string/controlcenter_set_alias" />
     <item
-        android:id="@+id/controlcenter_device_submenu_set_preferences"
-        android:title="@string/controlcenter_set_preferences" />
-    <item
         android:id="@+id/controlcenter_device_submenu_show_details"
         android:title="@string/controlcenter_toggle_details" />
     <item

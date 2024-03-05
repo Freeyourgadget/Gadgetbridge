@@ -866,9 +866,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     case R.id.controlcenter_device_submenu_set_alias:
                         showSetAliasDialog(device);
                         return true;
-                    case R.id.controlcenter_device_submenu_set_preferences:
-                        setAppPreferences(device);
-                        return true;
                     case R.id.controlcenter_device_submenu_remove:
                         showRemoveDeviceDialog(device);
                         return true;
