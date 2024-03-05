@@ -58,8 +58,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
-    static Timer timeout;
-    static TimerTask timeoutTask;
+    private static Timer timeout;
+    private static TimerTask timeoutTask;
 
     //we are going to use a handler to be able
 
@@ -727,7 +727,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         return exporter;
     }
 
-    protected static JSONObject addSummaryData(JSONObject summaryData, String key, float value, String unit) {
+    private static JSONObject addSummaryData(JSONObject summaryData, String key, float value, String unit) {
         if (value > 0) {
             try {
                 JSONObject innerData = new JSONObject();
