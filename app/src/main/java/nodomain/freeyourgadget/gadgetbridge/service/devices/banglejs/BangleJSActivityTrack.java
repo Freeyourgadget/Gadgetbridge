@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -42,21 +44,21 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSActivityTrack.class);
 
-    private static void signalStartFetching(GBDevice device, Context context) {
+    private static void signalFetchingStarted(GBDevice device, Context context) {
         GB.updateTransferNotification(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details),"", true, 0, context);
         device.setBusyTask(context.getString(R.string.busy_task_fetch_sports_details));
         GB.toast(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
-    private static void signalDoneFetching(GBDevice device, Context context) {
+    private static void signalFetchingEnded(GBDevice device, Context context) {
         device.unsetBusyTask();
         device.sendDeviceUpdateIntent(context);
         GB.updateTransferNotification(null, "", false, 100, context);
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
-    public static JSONObject compileTrackListRequest(GBDevice device, Context context) {
-        signalStartFetching(device, context);
+    public static JSONObject compileTracksListRequest(GBDevice device, Context context) {
+        signalFetchingStarted(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
         File dir;
         try {
@@ -88,13 +90,13 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         return o;
     }
 
-    public static JSONArray handleTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
+    public static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         if (tracksList.length()==0) {
-            signalDoneFetching(device, context);
+            signalFetchingEnded(device, context);
             return null;
         } else {
             return tracksList;
@@ -107,7 +109,6 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             o.put("t", "fetchRec");
             o.put("id", id);
             o.put("last", String.valueOf(isLastId));
-            //uartTxJSON("requestActivityTrackLog", o);
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
@@ -128,7 +129,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             LOG.error("Activity Track Packets came out of order - aborting.");
             LOG.info("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
-            signalDoneFetching(device, context);
+            signalFetchingEnded(device, context);
             return returnArray;
         }
 
@@ -148,7 +149,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             parseFetchedRecorderCSV(dir, filename, log, device, context);
             if (tracksList.length()==0) {
-                signalDoneFetching(device, context);
+                signalFetchingEnded(device, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
@@ -196,7 +197,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         File inputFile = new File(dir, filename);
         try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
 
-            // Read from the previously stored log (see the else-statement below) into a string.
+            // Read from the previously stored log into a string.
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
             StringBuilder storedLogBuilder = new StringBuilder(reader.readLine() + "\n");
             String line;
@@ -427,6 +428,11 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             summary.setStartTime(startTime);
             summary.setEndTime(endTime);
             summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
+            if (analyticsObject.has("speed")) {
+                if (3 > averageOfJSONArray(analyticsObject.getJSONArray("Speed"))) {
+                    summary.setActivityKind(ActivityKind.TYPE_WALKING);
+                }
+            }
             summary.setRawDetailsPath(String.valueOf(inputFile));
 
             JSONObject summaryData = new JSONObject();
@@ -463,7 +469,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             //     ));
             try {
                 if (analyticsObject.has("Speed")) {
-                    summaryData = addSummaryData(summaryData,"averageSpeed",averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
+                    summaryData = addSummaryData(summaryData,"averageSpeed", averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
                     summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
                     summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
                     summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?

@@ -564,9 +564,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "act":
                 handleActivity(json);
                 break;
-            case "trksList":
-                //handleTrksList(json);
-                tracksList = BangleJSActivityTrack.handleTrksList(json, getDevice(), getContext());
+            case "actTrksList":
+                tracksList = BangleJSActivityTrack.handleActTrksList(json, getDevice(), getContext());
                 if (tracksList!=null) {
                     JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                     uartTxJSON("requestActivityTrackLog", requestTrackObj);
@@ -1409,7 +1408,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
-            JSONObject requestTracksListObj = BangleJSActivityTrack.compileTrackListRequest(getDevice(), getContext());
+            JSONObject requestTracksListObj = BangleJSActivityTrack.compileTracksListRequest(getDevice(), getContext());
             uartTxJSON("requestActivityTracksList", requestTracksListObj);
         }
         if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
