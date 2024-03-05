@@ -213,7 +213,6 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 LOG.info("packetCount reset2: " + resetPacketCount);
                 returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
             }
-            return returnArray;
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
             String lines = json.getString("lines");
@@ -237,11 +236,11 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
             } catch (IOException e) {
                 LOG.warn("Could not write to file", e);
             }
+
+            LOG.info("packetCount continue: " + currPacketCount);
+            returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
         }
 
-
-        LOG.info("packetCount should not be reached: " + currPacketCount);
-        returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
         return returnArray;
     }
 
