@@ -41,7 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class BangleJSActivityTrack extends BangleJSDeviceSupport {
+class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSActivityTrack.class);
 
@@ -106,7 +106,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         startTimeout(device, context);
     }
 
-    public static JSONObject compileTracksListRequest(GBDevice device, Context context) {
+    static JSONObject compileTracksListRequest(GBDevice device, Context context) {
         stopAndRestartTimeout(device, context);
         signalFetchingStarted(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
@@ -140,7 +140,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         return o;
     }
 
-    public static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
+    static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
@@ -154,7 +154,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         }
     }
 
-    public static JSONObject compileTrackRequest(String id, Boolean isLastId) {
+    static JSONObject compileTrackRequest(String id, Boolean isLastId) {
         JSONObject o = new JSONObject();
         try {
             o.put("t", "fetchRec");
@@ -166,7 +166,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
        return o; 
     }
 
-    public static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
+    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
 
         JSONArray returnArray;
