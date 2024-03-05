@@ -61,21 +61,15 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
     private static Timer timeout;
     private static TimerTask timeoutTask;
 
-    //we are going to use a handler to be able
-
     private static void startTimeout(GBDevice device, Context context) {
-        //set a new Timer
         timeout = new Timer();
 
-        //initialize the TimerTask's job
         initializeTimeoutTask(device, context);
 
-        //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timeout.schedule(timeoutTask, 5000); //
+        timeout.schedule(timeoutTask, 5000);
     }
 
     private static void stopTimeoutTask() {
-        //stop the timer, if it's not already null
         if (timeout != null) {
             timeout.cancel();
             timeout = null;
