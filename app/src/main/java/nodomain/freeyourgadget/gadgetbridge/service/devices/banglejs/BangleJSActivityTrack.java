@@ -5,7 +5,6 @@ import static java.lang.Math.sqrt;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -71,7 +70,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         timeout = new Timer();
 
         //initialize the TimerTask's job
-        initializeTimerTask(device, context);
+        initializeTimeoutTask(device, context);
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
         timeout.schedule(timeoutTask, 5000); //
@@ -85,7 +84,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         }
     }
 
-    private static void initializeTimerTask(GBDevice device, Context context) {
+    private static void initializeTimeoutTask(GBDevice device, Context context) {
 
         timeoutTask = new TimerTask() {
             public void run() {
