@@ -57,6 +57,17 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
+    TimerTask timeoutTask = new TimerTask() {
+        @Override
+        public void run() {
+            signalFetchingEnded(getDevice(), getContext());
+            LOG.warn("Activity Track fetching timed out.");
+        }
+    };
+
+    private Timer timer = new Timer("Activity Fetching Timeout");
+    timer. // FIXME: I don't get any hints for timer here, so I must be doing something wrong.
+
     public static JSONObject compileTracksListRequest(GBDevice device, Context context) {
         signalFetchingStarted(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
