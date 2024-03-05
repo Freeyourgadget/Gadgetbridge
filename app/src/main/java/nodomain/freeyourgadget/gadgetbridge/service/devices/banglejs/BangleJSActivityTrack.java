@@ -5,6 +5,7 @@ import static java.lang.Math.sqrt;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -93,6 +94,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 handler.post(new Runnable() {
                     public void run() {
                         signalFetchingEnded(device, context);
+                        LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
                         GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
                     }
                 });
