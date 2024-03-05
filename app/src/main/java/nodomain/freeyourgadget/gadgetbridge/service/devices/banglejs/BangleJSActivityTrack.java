@@ -4,7 +4,6 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 
 import android.content.Context;
-import android.os.Handler;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -63,7 +62,6 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
     static TimerTask timeoutTask;
 
     //we are going to use a handler to be able
-    static final Handler handler = new Handler();
 
     private static void startTimeout(GBDevice device, Context context) {
         //set a new Timer
@@ -88,15 +86,9 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
         timeoutTask = new TimerTask() {
             public void run() {
-
-                //use a handler to run a toast that shows the current timestamp
-                handler.post(new Runnable() {
-                    public void run() {
                         signalFetchingEnded(device, context);
                         LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
                         GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
-                    }
-                });
             }
         };
     }
