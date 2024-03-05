@@ -109,7 +109,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         File inputFile = new File(dir, filename);
         String lastSyncedID = "";
         try {
-            lastSyncedID = FileUtils.getStringFromFile(inputFile);
+            lastSyncedID = FileUtils.getStringFromFile(inputFile).replace("\n","");
         } catch (IOException ignored) {
         }
         //lastSyncedID = "20230706x"; // DEBUGGING
