@@ -98,10 +98,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         startTimeout(device, context);
     }
 
-    static JSONObject compileTracksListRequest(GBDevice device, Context context) {
-        stopAndRestartTimeout(device, context);
-        signalFetchingStarted(device, context);
-        //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
+    private static String getLatestFetchedRecorderLog() {
         File dir;
         try {
             dir = FileUtils.getExternalFilesDir();
@@ -119,6 +116,43 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
         LOG.info("Last Synced log ID: " + lastSyncedID);
         //requestActivityTracksList(lastSyncedID);
+
+        return lastSyncedID;
+    }
+
+    private static void setLatestFetchedRecorderLog(File dir, String log) {
+
+        String filenameLogID = "latestFetchedRecorderLog.txt";
+        File outputFileLogID = new File(dir, filenameLogID);
+        try {
+            FileUtils.copyStringToFile(log,outputFileLogID,"");
+            //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            LOG.warn("Could not write to file", e);
+        }
+    }
+
+    private static void writeToRecorderCSV(String lines, File dir, String filename) {
+        String mode = "append";
+        if (lines.equals("")) {
+            mode = "write";
+        }
+
+        File outputFile = new File(dir, filename);
+        try {
+            FileUtils.copyStringToFile(lines,outputFile,mode);
+            //GB.toast(context, "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            LOG.warn("Could not write to file", e);
+        }
+    }
+
+    static JSONObject compileTracksListRequest(GBDevice device, Context context) {
+        stopAndRestartTimeout(device, context);
+        signalFetchingStarted(device, context);
+        //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
+
+        String lastSyncedID = getLatestFetchedRecorderLog();
 
         JSONObject o = new JSONObject();
         try {
@@ -182,6 +216,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         //GB.toast(context, "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
         LOG.info(log);
+        String filename = "recorder.log" + log + ".csv";
         File dir;
         try {
             dir = FileUtils.getExternalFilesDir();
@@ -189,9 +224,9 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
             return returnArray;
         }
-        String filename = "recorder.log" + log + ".csv";
 
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
+            setLatestFetchedRecorderLog(dir, log);
             parseFetchedRecorderCSV(dir, filename, log, device, context);
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
@@ -210,24 +245,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             String lines = json.getString("lines");
             LOG.info(lines);
 
-            String mode = "append";
-            if (lines.equals("")) {
-                mode = "write";
-            }
-
-            File outputFile = new File(dir, filename);
-            String filenameLogID = "latestFetchedRecorderLog.txt";
-            File outputFileLogID = new File(dir, filenameLogID);
-            LOG.warn("Writing log to " + outputFile.toString());
-            try {
-                FileUtils.copyStringToFile(lines,outputFile,mode);
-                //GB.toast(context, "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
-
-                FileUtils.copyStringToFile(log,outputFileLogID,"");
-                //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
-            } catch (IOException e) {
-                LOG.warn("Could not write to file", e);
-            }
+            writeToRecorderCSV(lines, dir, filename);
 
             LOG.info("packetCount continue: " + currPacketCount);
             returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
