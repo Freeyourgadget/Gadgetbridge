@@ -649,6 +649,7 @@
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
     <string name="busy_task_fetch_sports_summaries">Fetching sports summaries</string>
     <string name="busy_task_fetch_sports_details">Fetching sports details</string>
+    <string name="busy_task_fetch_sports_details_interrupted">Fetching sports details was interrupted</string>
     <string name="busy_task_fetch_debug_logs">Fetching debug logs</string>
     <string name="busy_task_fetch_stress_data">Fetching stress data</string>
     <string name="busy_task_fetch_pai_data">Fetching PAI data</string>

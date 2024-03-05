@@ -93,7 +93,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 handler.post(new Runnable() {
                     public void run() {
                         signalFetchingEnded(device, context);
-                        GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+                        GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
                     }
                 });
             }
