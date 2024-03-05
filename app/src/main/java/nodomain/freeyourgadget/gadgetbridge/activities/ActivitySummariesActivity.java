@@ -96,7 +96,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                     if (device.isBusy()) {
                         swipeLayout.setRefreshing(true);
                     } else {
-                        boolean wasBusy = swipeLayout.isRefreshing(); // FIXME: This check of swipeLayout.isRefreshing does not cover the case where fetching was initiated by user clicking the blue button with a circle-arrow. In that case no auto-reload will happen.
+                        boolean wasBusy = swipeLayout.isRefreshing();
                         swipeLayout.setRefreshing(false);
                         if (wasBusy) {
                             refresh();
@@ -383,6 +383,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
     private void fetchTrackData() {
         if (mGBDevice.isInitialized() && !mGBDevice.isBusy()) {
+            swipeLayout.setRefreshing(true);
             GBApplication.deviceService(mGBDevice).onFetchRecordedData(RecordedDataTypes.TYPE_GPS_TRACKS);
         } else {
             swipeLayout.setRefreshing(false);
