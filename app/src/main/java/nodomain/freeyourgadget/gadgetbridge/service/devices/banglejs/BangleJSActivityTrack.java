@@ -4,6 +4,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,24 +52,61 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
     }
 
     private static void signalFetchingEnded(GBDevice device, Context context) {
+        stopTimeoutTask();
         device.unsetBusyTask();
         device.sendDeviceUpdateIntent(context);
         GB.updateTransferNotification(null, "", false, 100, context);
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
-    TimerTask timeoutTask = new TimerTask() {
-        @Override
-        public void run() {
-            signalFetchingEnded(getDevice(), getContext());
-            LOG.warn("Activity Track fetching timed out.");
-        }
-    };
+    static Timer timeout;
+    static TimerTask timeoutTask;
 
-    private Timer timer = new Timer("Activity Fetching Timeout");
-    timer. // FIXME: I don't get any hints for timer here, so I must be doing something wrong.
+    //we are going to use a handler to be able
+    static final Handler handler = new Handler();
+
+    private static void startTimeout(GBDevice device, Context context) {
+        //set a new Timer
+        timeout = new Timer();
+
+        //initialize the TimerTask's job
+        initializeTimerTask(device, context);
+
+        //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
+        timeout.schedule(timeoutTask, 5000); //
+    }
+
+    private static void stopTimeoutTask() {
+        //stop the timer, if it's not already null
+        if (timeout != null) {
+            timeout.cancel();
+            timeout = null;
+        }
+    }
+
+    private static void initializeTimerTask(GBDevice device, Context context) {
+
+        timeoutTask = new TimerTask() {
+            public void run() {
+
+                //use a handler to run a toast that shows the current timestamp
+                handler.post(new Runnable() {
+                    public void run() {
+                        signalFetchingEnded(device, context);
+                        GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+                    }
+                });
+            }
+        };
+    }
+
+    private static void stopAndRestartTimeout(GBDevice device, Context context) {
+        stopTimeoutTask();
+        startTimeout(device, context);
+    }
 
     public static JSONObject compileTracksListRequest(GBDevice device, Context context) {
+        stopAndRestartTimeout(device, context);
         signalFetchingStarted(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
         File dir;
@@ -102,6 +140,7 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
     }
 
     public static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
+        stopAndRestartTimeout(device, context);
         LOG.info("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         JSONArray tracksList = json.getJSONArray("list");
@@ -127,6 +166,8 @@ public class BangleJSActivityTrack extends BangleJSDeviceSupport {
     }
 
     public static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
+        stopAndRestartTimeout(device, context);
+
         JSONArray returnArray;
 
         JSONObject stopObj = new JSONObject().put("t","fetchRec").put("id","stop");
