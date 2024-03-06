@@ -2803,4 +2803,15 @@
     <string name="devicetype_redmiwatch3">ساعة ريدمي ٣</string>
     <string name="alarm_smart_wakeup_interval_default">5 دقائق</string>
     <string name="alarm_smart_wakeup_interval">الفاصل الزمني للاستيقاظ الذكي:</string>
+    <string name="auto_reconnect_ble_scan_summary">انتظر فحص الجهاز بدلاً من محاولات الاتصال العمياء</string>
+    <string name="scan_scanning_single_device">فحص جهاز واحد</string>
+    <string name="notification_channel_scan_service_name">خدمة الفحص</string>
+    <string name="device_state_waiting_scan">في انتظار فحص الجهاز</string>
+    <string name="auto_reconnect_ble_scan_title">أعد الاتصال عن طريق فحص BLE</string>
+    <string name="prompt_restart_gadgetbridge">يرجى إعادة تشغيل GB حتى تدخل التغييرات حيز التنفيذ.</string>
+    <string name="waiting_for_bluetooth">في انتظار البلوتوث…</string>
+    <string name="error_scan_failed">فشل الفحص: %d</string>
+    <string name="scan_not_scanning">لا يتم الفحص</string>
+    <string name="scan_scanning_all_devices">فحص جميع الأجهزة</string>
+    <string name="scan_scanning_multiple_devices">جارٍ فحص %d جهاز</string>
 </resources>
