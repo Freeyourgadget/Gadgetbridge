@@ -58,15 +58,6 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }
 
-    static JSONArray makeDeepCopyOfJSONArray(JSONArray tracksList) throws JSONException {
-        JSONArray tracksListIntact = new JSONArray();
-        String[] tmpTracksList = tracksList.join(",").replace("\"","").split(","); // Hacky way to get a sort of deep copy.
-        for (int i = 0; i<tmpTracksList.length; i++) {
-            tracksListIntact.put(tmpTracksList[i]);
-        }
-        return tracksListIntact;
-    }
-
     private static Timer timeout;
     private static TimerTask timeoutTask;
 
@@ -195,7 +186,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
        return o; 
     }
 
-    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, JSONArray tracksListIntact, int prevPacketCount, GBDevice device, Context context) throws JSONException {
+    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
 
         JSONArray returnArray;
@@ -230,14 +221,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             setLatestFetchedRecorderLog(dir, log);
-            if (tracksList.length()==0) { // All data from all Recorder logs have been fetched.
-                LOG.warn("tracksListIntact:\n" + tracksListIntact);
-                for (int i = 0; i<tracksListIntact.length(); i++){
-                    String currLog = tracksListIntact.getString(i);
-                    LOG.info("currLog: " + currLog);
-                    String currFilename = "recorder.log" + currLog + ".csv";
-                    parseFetchedRecorderCSV(dir, currFilename, currLog, device, context);
-                }
+            parseFetchedRecorderCSV(dir, filename, log, device, context); // TODO: Parsing could be done after we fetched all recorder logs instead, making the fetching quicker and maybe less prone to user errors.
+            if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
@@ -245,7 +230,6 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
-                LOG.warn("tracksListIntact2:\n" + tracksListIntact);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset2: " + resetPacketCount);
                 returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
