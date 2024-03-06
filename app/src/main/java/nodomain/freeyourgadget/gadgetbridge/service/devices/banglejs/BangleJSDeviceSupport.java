@@ -514,8 +514,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    JSONArray tracksList;
-    int packetCount;
+    private JSONArray tracksList;
+    private int packetCount;
     private void handleUartRxJSON(JSONObject json) throws JSONException {
         String packetType = json.getString("t");
         switch (packetType) {
