@@ -6,6 +6,8 @@ import static java.lang.Math.sqrt;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,9 +91,15 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
         timeoutTask = new TimerTask() {
             public void run() {
-                        signalFetchingEnded(device, context);
-                        LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
-                        GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
+
+                try {
+                    parseFetchedRecorderCSVs(getDir(), tracksListIntactPrivate, device, context);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                signalFetchingEnded(device, context);
+                LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
+                GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
             }
         };
     }
@@ -102,12 +110,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
     }
 
     private static String getLatestFetchedRecorderLog() {
-        File dir;
-        try {
-            dir = FileUtils.getExternalFilesDir();
-        } catch (IOException e) {
-            return null;
-        }
+        File dir = getDir();
+        if (dir == null) return null;
         String filename = "latestFetchedRecorderLog.txt";
         File inputFile = new File(dir, filename);
         String lastSyncedID = "";
@@ -121,6 +125,17 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         //requestActivityTracksList(lastSyncedID);
 
         return lastSyncedID;
+    }
+
+    @Nullable
+    private static File getDir() {
+        File dir;
+        try {
+            dir = FileUtils.getExternalFilesDir();
+        } catch (IOException e) {
+            return null;
+        }
+        return dir;
     }
 
     private static void setLatestFetchedRecorderLog(File dir, String log) {
@@ -137,8 +152,9 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static void writeToRecorderCSV(String lines, File dir, String filename) {
         String mode = "append";
-        if (lines.equals("")) {
+        if (lines.equals("erase")) {
             mode = "write";
+            lines = "";
         }
 
         File outputFile = new File(dir, filename);
@@ -195,8 +211,13 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
        return o; 
     }
 
+    private static JSONArray tracksListIntactPrivate;
+    private static String lastCompletelyFetchedLog = "";
+
     static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, JSONArray tracksListIntact, int prevPacketCount, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
+
+        tracksListIntactPrivate = tracksListIntact;
 
         JSONArray returnArray;
 
@@ -231,21 +252,17 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             setLatestFetchedRecorderLog(dir, log);
             if (tracksList.length()==0) { // All data from all Recorder logs have been fetched.
-                LOG.warn("tracksListIntact:\n" + tracksListIntact);
-                for (int i = 0; i<tracksListIntact.length(); i++){
-                    String currLog = tracksListIntact.getString(i);
-                    LOG.info("currLog: " + currLog);
-                    String currFilename = "recorder.log" + currLog + ".csv";
-                    parseFetchedRecorderCSV(dir, currFilename, currLog, device, context);
-                }
+                parseFetchedRecorderCSVs(dir, tracksListIntact, device, context);
                 signalFetchingEnded(device, context);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
+                lastCompletelyFetchedLog = log;
+                LOG.info("completelyFetched1: " + lastCompletelyFetchedLog);
                 tracksList.remove(0);
-                LOG.warn("tracksListIntact2:\n" + tracksListIntact);
+                LOG.warn("tracksListIntact2(String) tracksList.getString(0):\n" + tracksListIntact);
                 int resetPacketCount = -1;
                 LOG.info("packetCount reset2: " + resetPacketCount);
                 returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
@@ -264,8 +281,19 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         return returnArray;
     }
 
+    private static void parseFetchedRecorderCSVs(File dir, JSONArray tracksListIntact, GBDevice device, Context context) throws JSONException {
+        for (int i = 0; i<tracksListIntact.length(); i++){
+            String currLog = tracksListIntact.getString(i);
+            LOG.info("currLog: " + currLog);
+            String currFilename = "recorder.log" + currLog + ".csv";
+            parseFetchedRecorderCSV(dir, currFilename, currLog, device, context);
+            LOG.info("completelyfetched2: "+ lastCompletelyFetchedLog);
+            if (Objects.equals(currLog, lastCompletelyFetchedLog)) return;
+        }
+    }
+
     private static void parseFetchedRecorderCSV(File dir, String filename, String log, GBDevice device, Context context) {
-        stopTimeoutTask(); // Parsing can take a while if there are many data. Restart at end of parsing.
+        //stopTimeoutTask(); // Parsing can take a while if there are many data. Restart at end of parsing.
 
         File inputFile = new File(dir, filename);
         try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
@@ -745,7 +773,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             throw new RuntimeException(e);
         }
 
-        stopAndRestartTimeout(device,context);
+    //    stopAndRestartTimeout(device,context);
     }
 
 
