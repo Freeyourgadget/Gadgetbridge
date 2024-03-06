@@ -2799,4 +2799,15 @@
     <string name="widget_screen_delete_confirm_description">Apakah Anda yakin ingin menghapus \'%1$s\'?</string>
     <string name="widget_screen_x">Layar %s</string>
     <string name="widget_layout_single">1 widget</string>
+    <string name="auto_reconnect_ble_scan_title">Hubungkan ulang dengan pemindaian BLE</string>
+    <string name="prompt_restart_gadgetbridge">Silakan mulai ulang GB untuk menerapkan.</string>
+    <string name="scan_scanning_all_devices">Memindai semua perangkat</string>
+    <string name="notification_channel_scan_service_name">Pindai perangkat</string>
+    <string name="device_state_waiting_scan">Menunggu pemindaian perangkat</string>
+    <string name="auto_reconnect_ble_scan_summary">Tunggu pemindaian perangkat daripada percobaan koneksi buta</string>
+    <string name="waiting_for_bluetooth">Menunggu Bluetooth…</string>
+    <string name="error_scan_failed">Pemindaian gagal: %d</string>
+    <string name="scan_not_scanning">Tidak memindai</string>
+    <string name="scan_scanning_single_device">Memindai 1 perangkat</string>
+    <string name="scan_scanning_multiple_devices">Memindai %d perangkat</string>
 </resources>
