@@ -106,6 +106,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             LOG.debug("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
             signalFetchingEnded(device, context);
+            stopTimeoutTask();
             return returnArray;
         }
 
