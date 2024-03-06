@@ -2810,4 +2810,15 @@
     <string name="devicetype_redmiwatch3">红米手表3</string>
     <string name="alarm_smart_wakeup_interval">智能唤醒间隔：</string>
     <string name="alarm_smart_wakeup_interval_default">5 分钟</string>
+    <string name="auto_reconnect_ble_scan_title">通过低功耗蓝牙扫描重新连接</string>
+    <string name="device_state_waiting_scan">正在等待设备扫描</string>
+    <string name="auto_reconnect_ble_scan_summary">等待设备扫描而不是盲目连接尝试</string>
+    <string name="prompt_restart_gadgetbridge">请重新启动 Gadgetbridge 才能生效。</string>
+    <string name="waiting_for_bluetooth">等待蓝牙…</string>
+    <string name="error_scan_failed">扫描失败： %d</string>
+    <string name="scan_not_scanning">不扫描</string>
+    <string name="scan_scanning_all_devices">扫描所有设备</string>
+    <string name="scan_scanning_single_device">正在扫描一个设备</string>
+    <string name="scan_scanning_multiple_devices">正在扫描 %d 个设备</string>
+    <string name="notification_channel_scan_service_name">扫描服务</string>
 </resources>
