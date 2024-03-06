@@ -229,6 +229,11 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
             return;
         }
 
+        if (mNotificationPackageName.lookup(id) == null) {
+            LOG.warn("Unable to lookup notification {} to delete", id);
+            return;
+        }
+
         final XiaomiProto.NotificationId notificationId = XiaomiProto.NotificationId.newBuilder()
                 .setId(id)
                 .setPackage(mNotificationPackageName.lookup(id))
