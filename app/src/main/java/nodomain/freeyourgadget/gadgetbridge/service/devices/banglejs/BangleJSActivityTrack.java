@@ -221,7 +221,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
             setLatestFetchedRecorderLog(dir, log);
-            parseFetchedRecorderCSV(dir, filename, log, device, context);
+            parseFetchedRecorderCSV(dir, filename, log, device, context); // TODO: Parsing could be done after we fetched all recorder logs instead, making the fetching quicker and maybe less prone to user errors.
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
                 int resetPacketCount = -1;
