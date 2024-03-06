@@ -128,8 +128,9 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static void writeToRecorderCSV(String lines, File dir, String filename) {
         String mode = "append";
-        if (lines.equals("")) {
+        if (lines.equals("erase")) {
             mode = "write";
+            lines = "";
         }
 
         File outputFile = new File(dir, filename);
