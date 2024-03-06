@@ -674,6 +674,11 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 signalFetchingEnded(device, context);
                 LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
                 GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
+                // TODO: We could send a stop message back to Bangle.js here if we want to hinder
+                //  the potential event it would start sending lines again after Gadgetbridge
+                //  determined the fetch had been interrupted. On the other hand I think if we
+                //  started receiving lines again, they would only be appended to the file in
+                //  storage and the fetch would continue as if nothing happend.
             }
         };
     }
