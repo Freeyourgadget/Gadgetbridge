@@ -57,7 +57,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             o.put("id", lastSyncedID);
             //uartTxJSON("requestActivityTracksList", o);
         } catch (JSONException e) {
-            LOG.info("JSONException: " + e.getLocalizedMessage());
+            LOG.error("JSONException: " + e.getLocalizedMessage());
         }
 
         return o;
@@ -65,7 +65,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
-        LOG.info("trksList says hi!");
+        LOG.debug("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
         JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
@@ -84,7 +84,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             o.put("id", id);
             o.put("last", String.valueOf(isLastId));
         } catch (JSONException e) {
-            LOG.info("JSONException: " + e.getLocalizedMessage());
+            LOG.error("JSONException: " + e.getLocalizedMessage());
         }
        return o; 
     }
@@ -103,16 +103,16 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         }
         if (currPacketCount != prevPacketCount+1) {
             LOG.error("Activity Track Packets came out of order - aborting.");
-            LOG.info("packetCount Aborting: " + prevPacketCount);
+            LOG.debug("packetCount Aborting: " + prevPacketCount);
             returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
             signalFetchingEnded(device, context);
             return returnArray;
         }
 
-        LOG.info("actTrk says hi!");
+        LOG.debug("actTrk says hi!");
         //GB.toast(context, "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
-        LOG.info(log);
+        LOG.debug(log);
         String filename = "recorder.log" + log + ".csv";
         File dir;
         try {
@@ -128,23 +128,23 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
                 int resetPacketCount = -1;
-                LOG.info("packetCount reset1: " + resetPacketCount);
+                LOG.debug("packetCount reset1: " + resetPacketCount);
                 returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
                 int resetPacketCount = -1;
-                LOG.info("packetCount reset2: " + resetPacketCount);
+                LOG.debug("packetCount reset2: " + resetPacketCount);
                 returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
             String lines = json.getString("lines");
-            LOG.info(lines);
+            LOG.debug(lines);
 
             writeToRecorderCSV(lines, dir, filename);
 
-            LOG.info("packetCount continue: " + currPacketCount);
+            LOG.debug("packetCount continue: " + currPacketCount);
             returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
         }
 
@@ -167,7 +167,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             reader.close();
             String storedLog = String.valueOf(storedLogBuilder);
             storedLog = storedLog.replace(",",", "); // So all rows (internal arrays) in storedLogArray2 get the same number of entries.
-            LOG.info("Contents of log read from GB storage:\n" + storedLog);
+            LOG.debug("Contents of log read from GB storage:\n" + storedLog);
 
             // Turn the string log into a 2d array in two steps.
             String[] storedLogArray = storedLog.split("\n") ;
@@ -180,7 +180,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 }
             }
 
-            LOG.info("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
+            LOG.debug("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
 
             // Turn the 2d array into an object for easier access later on.
             JSONObject storedLogObject = new JSONObject();
@@ -207,7 +207,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
             }
 
-            LOG.info("storedLogObject:\n" + storedLogObject);
+            LOG.debug("storedLogObject:\n" + storedLogObject);
 
             // Calculate and store analytical data (distance, speed, cadence, etc.).
             JSONObject analyticsObject = new JSONObject();
@@ -226,7 +226,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
             JSONArray valueArray2 = new JSONArray();
 
-            //LOG.info("check here 0");
+            //LOG.debug("check here 0");
             // Add analytics based on GPS coordinates.
             if (storedLogObject.has("Latitude")) {
                 // Add distance between last and current reading.
@@ -260,7 +260,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 valueArray2 = new JSONArray();
                 calculationsArray = new JSONArray();
 
-                //LOG.info("check here 1");
+                //LOG.debug("check here 1");
                 // Add stride lengths between consecutive readings.
                 if (storedLogObject.has("Steps")) {
                     for (int i = 0; i < logLength; i++) {
@@ -281,7 +281,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                     calculationsArray = new JSONArray();
                 }
 
-                //LOG.info("check here 2");
+                //LOG.debug("check here 2");
             } else if (storedLogObject.has("Steps")) {
                 for (int i = 0; i < logLength; i++) {
                     if (i==0 ||
@@ -302,7 +302,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
             }
 
-            //LOG.info("check here 3");
+            //LOG.debug("check here 3");
             if (analyticsObject.has("Intermediate Distance")) {
                 // Add total distance from start of activity up to each reading.
                 for (int i = 0; i < logLength; i++) {
@@ -317,7 +317,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
                 calculationsArray = new JSONArray();
 
-                //LOG.info("check here 4");
+                //LOG.debug("check here 4");
                 // Add average speed between last and current reading (m/s).
                 for (int i = 0; i < logLength; i++) {
                     if (i==0) {
@@ -332,16 +332,16 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                         calculationsArray.put(calculation);
                     }
                 }
-                //LOG.info("check " + calculationsArray);
+                //LOG.debug("check " + calculationsArray);
                 analyticsObject.put("Speed", calculationsArray);
 
                 calculationsArray = new JSONArray();
 
-                //LOG.info("check here 5");
+                //LOG.debug("check here 5");
                 // Add average pace between last and current reading (s/km). (Was gonna do this as min/km but summary seems to expect s/km).
                 for (int i = 0; i < logLength; i++) {
                     String speed = analyticsObject.getJSONArray("Speed").getString(i);
-                    //LOG.info("check: " + speed);
+                    //LOG.debug("check: " + speed);
                     if (i==0 || Objects.equals(speed, "0") || Objects.equals(speed, "0.0") || Objects.equals(speed, "")) {
                         calculationsArray.put("");
                     } else {
@@ -354,7 +354,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 calculationsArray = new JSONArray();
             }
 
-            //LOG.info("check here 6");
+            //LOG.debug("check here 6");
             if (storedLogObject.has("Steps")) {
                 for (int i = 0; i < logLength; i++) {
                     if (i==0 || Objects.equals(storedLogObject.getJSONArray("Steps").getString(i), "")) {
@@ -376,9 +376,9 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
                 calculationsArray = new JSONArray();
             }
-            //LOG.info("check here AnalyticsObject:\n" + analyticsObject.toString());
+            //LOG.debug("check here AnalyticsObject:\n" + analyticsObject.toString());
 
-            //LOG.info("check here 7");
+            //LOG.debug("check here 7");
             BaseActivitySummary summary = null;
 
             Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
@@ -566,7 +566,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                     if (!hasHRMReading) hasHRMReading = true;
                 }
                 track.addTrackPoint(point);
-                LOG.info("Activity Point:\n" + point.getHeartRate());
+                LOG.debug("Activity Point:\n" + point.getHeartRate());
                 point = new ActivityPoint();
             }
 
@@ -624,7 +624,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                 GB.toast(context, "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
             }
 
-            LOG.info("Activity track:\n" + track.getSegments());
+            LOG.debug("Activity track:\n" + track.getSegments());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -713,7 +713,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             FileUtils.copyStringToFile(log,outputFileLogID,"");
             //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
         } catch (IOException e) {
-            LOG.warn("Could not write to file", e);
+            LOG.error("Could not write to file", e);
         }
     }
 
@@ -729,7 +729,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             FileUtils.copyStringToFile(lines,outputFile,mode);
             //GB.toast(context, "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
         } catch (IOException e) {
-            LOG.warn("Could not write to file", e);
+            LOG.error("Could not write to file", e);
         }
     }
 

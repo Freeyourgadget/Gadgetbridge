@@ -574,12 +574,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 break;
             case "actTrk":
-                LOG.info("packetCount1: " + packetCount);
+                LOG.debug("packetCount1: " + packetCount);
                 JSONArray returnArray = BangleJSActivityTrack.handleActTrk(json, tracksList, packetCount, getDevice(), getContext());
                 if (!returnArray.isNull(0)) uartTxJSON("requestActivityTrackLog", returnArray.getJSONObject(0));
                 tracksList = returnArray.getJSONArray(1);
                 packetCount = returnArray.getInt(2);
-                LOG.info("packetCount2: " + packetCount);
+                LOG.debug("packetCount2: " + packetCount);
                 break;
             case "http":
                 handleHttp(json);
