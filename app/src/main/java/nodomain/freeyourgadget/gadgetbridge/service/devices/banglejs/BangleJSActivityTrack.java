@@ -44,104 +44,6 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSActivityTrack.class);
 
-    private static void signalFetchingStarted(GBDevice device, Context context) {
-        GB.updateTransferNotification(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details),"", true, 0, context);
-        device.setBusyTask(context.getString(R.string.busy_task_fetch_sports_details));
-        GB.toast(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
-    }
-
-    private static void signalFetchingEnded(GBDevice device, Context context) {
-        stopTimeoutTask();
-        device.unsetBusyTask();
-        device.sendDeviceUpdateIntent(context);
-        GB.updateTransferNotification(null, "", false, 100, context);
-        GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
-    }
-
-    private static Timer timeout;
-    private static TimerTask timeoutTask;
-
-    private static void startTimeout(GBDevice device, Context context) {
-        timeout = new Timer();
-
-        initializeTimeoutTask(device, context);
-
-        timeout.schedule(timeoutTask, 5000);
-    }
-
-    private static void stopTimeoutTask() {
-        if (timeout != null) {
-            timeout.cancel();
-            timeout = null;
-        }
-    }
-
-    private static void initializeTimeoutTask(GBDevice device, Context context) {
-
-        timeoutTask = new TimerTask() {
-            public void run() {
-                        signalFetchingEnded(device, context);
-                        LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
-                        GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
-            }
-        };
-    }
-
-    private static void stopAndRestartTimeout(GBDevice device, Context context) {
-        stopTimeoutTask();
-        startTimeout(device, context);
-    }
-
-    private static String getLatestFetchedRecorderLog() {
-        File dir;
-        try {
-            dir = FileUtils.getExternalFilesDir();
-        } catch (IOException e) {
-            return null;
-        }
-        String filename = "latestFetchedRecorderLog.txt";
-        File inputFile = new File(dir, filename);
-        String lastSyncedID = "";
-        try {
-            lastSyncedID = FileUtils.getStringFromFile(inputFile).replace("\n","");
-        } catch (IOException ignored) {
-        }
-        //lastSyncedID = "20230706x"; // DEBUGGING
-
-        LOG.info("Last Synced log ID: " + lastSyncedID);
-        //requestActivityTracksList(lastSyncedID);
-
-        return lastSyncedID;
-    }
-
-    private static void setLatestFetchedRecorderLog(File dir, String log) {
-
-        String filenameLogID = "latestFetchedRecorderLog.txt";
-        File outputFileLogID = new File(dir, filenameLogID);
-        try {
-            FileUtils.copyStringToFile(log,outputFileLogID,"");
-            //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
-        } catch (IOException e) {
-            LOG.warn("Could not write to file", e);
-        }
-    }
-
-    private static void writeToRecorderCSV(String lines, File dir, String filename) {
-        String mode = "append";
-        if (lines.equals("erase")) {
-            mode = "write";
-            lines = "";
-        }
-
-        File outputFile = new File(dir, filename);
-        try {
-            FileUtils.copyStringToFile(lines,outputFile,mode);
-            //GB.toast(context, "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
-        } catch (IOException e) {
-            LOG.warn("Could not write to file", e);
-        }
-    }
-
     static JSONObject compileTracksListRequest(GBDevice device, Context context) {
         stopAndRestartTimeout(device, context);
         signalFetchingStarted(device, context);
@@ -733,6 +635,103 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         stopAndRestartTimeout(device,context);
     }
 
+    private static void signalFetchingStarted(GBDevice device, Context context) {
+        GB.updateTransferNotification(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details),"", true, 0, context);
+        device.setBusyTask(context.getString(R.string.busy_task_fetch_sports_details));
+        GB.toast(context.getString(R.string.activity_detail_start_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+    }
+
+    private static void signalFetchingEnded(GBDevice device, Context context) {
+        stopTimeoutTask();
+        device.unsetBusyTask();
+        device.sendDeviceUpdateIntent(context);
+        GB.updateTransferNotification(null, "", false, 100, context);
+        GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
+    }
+
+    private static Timer timeout;
+    private static TimerTask timeoutTask;
+
+    private static void startTimeout(GBDevice device, Context context) {
+        timeout = new Timer();
+
+        initializeTimeoutTask(device, context);
+
+        timeout.schedule(timeoutTask, 5000);
+    }
+
+    private static void stopTimeoutTask() {
+        if (timeout != null) {
+            timeout.cancel();
+            timeout = null;
+        }
+    }
+
+    private static void initializeTimeoutTask(GBDevice device, Context context) {
+
+        timeoutTask = new TimerTask() {
+            public void run() {
+                signalFetchingEnded(device, context);
+                LOG.warn(context.getString(R.string.busy_task_fetch_sports_details_interrupted));
+                GB.toast(context.getString(R.string.busy_task_fetch_sports_details_interrupted), Toast.LENGTH_LONG, GB.INFO);
+            }
+        };
+    }
+
+    private static void stopAndRestartTimeout(GBDevice device, Context context) {
+        stopTimeoutTask();
+        startTimeout(device, context);
+    }
+
+    private static String getLatestFetchedRecorderLog() {
+        File dir;
+        try {
+            dir = FileUtils.getExternalFilesDir();
+        } catch (IOException e) {
+            return null;
+        }
+        String filename = "latestFetchedRecorderLog.txt";
+        File inputFile = new File(dir, filename);
+        String lastSyncedID = "";
+        try {
+            lastSyncedID = FileUtils.getStringFromFile(inputFile).replace("\n","");
+        } catch (IOException ignored) {
+        }
+        //lastSyncedID = "20230706x"; // DEBUGGING
+
+        LOG.info("Last Synced log ID: " + lastSyncedID);
+        //requestActivityTracksList(lastSyncedID);
+
+        return lastSyncedID;
+    }
+
+    private static void setLatestFetchedRecorderLog(File dir, String log) {
+
+        String filenameLogID = "latestFetchedRecorderLog.txt";
+        File outputFileLogID = new File(dir, filenameLogID);
+        try {
+            FileUtils.copyStringToFile(log,outputFileLogID,"");
+            //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            LOG.warn("Could not write to file", e);
+        }
+    }
+
+    private static void writeToRecorderCSV(String lines, File dir, String filename) {
+        String mode = "append";
+        if (lines.equals("erase")) {
+            mode = "write";
+            lines = "";
+        }
+
+        File outputFile = new File(dir, filename);
+        try {
+            FileUtils.copyStringToFile(lines,outputFile,mode);
+            //GB.toast(context, "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            LOG.warn("Could not write to file", e);
+        }
+    }
 
     private static ActivityTrackExporter createExporter() {
         GPXExporter exporter = new GPXExporter();
