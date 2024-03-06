@@ -2822,4 +2822,15 @@
     <string name="info_fossil_rebuild_watchface_custom_menu">Özel menü için lütfen saat arayüzünüzü yeniden oluşturun</string>
     <string name="devicetype_miband2_hrx">Mi Band HRX</string>
     <string name="activity_info">Etkinlik bilgileri</string>
+    <string name="device_state_waiting_scan">Aygıt taraması bekleniyor</string>
+    <string name="auto_reconnect_ble_scan_title">BLE taraması ile yeniden bağlan</string>
+    <string name="auto_reconnect_ble_scan_summary">Kör bağlantı denemeleri yerine aygıt taraması için bekle</string>
+    <string name="prompt_restart_gadgetbridge">Etkili olması için lütfen GB\'yi yeniden başlatın.</string>
+    <string name="waiting_for_bluetooth">Bluetooth bekleniyor…</string>
+    <string name="error_scan_failed">Tarama başarısız: %d</string>
+    <string name="scan_not_scanning">Taranmıyor</string>
+    <string name="scan_scanning_all_devices">Tüm aygıtlar taranıyor</string>
+    <string name="scan_scanning_single_device">1 aygıt taranıyor</string>
+    <string name="scan_scanning_multiple_devices">%d aygıt taranıyor</string>
+    <string name="notification_channel_scan_service_name">Tarama hizmeti</string>
 </resources>
