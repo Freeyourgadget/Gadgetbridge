@@ -443,8 +443,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                     //                analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1)),
                     //        "s/km"
                     //);
-                    summaryData = addSummaryData(summaryData, "minPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
-                    summaryData = addSummaryData(summaryData, "maxPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    summaryData = addSummaryData(summaryData, "minPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    summaryData = addSummaryData(summaryData, "maxPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
                     //summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
                 }
                 if (analyticsObject.has("Cadence")) {
