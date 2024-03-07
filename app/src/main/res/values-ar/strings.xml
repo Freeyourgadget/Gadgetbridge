@@ -2814,4 +2814,5 @@
     <string name="scan_not_scanning">لا يتم الفحص</string>
     <string name="scan_scanning_all_devices">فحص جميع الأجهزة</string>
     <string name="scan_scanning_multiple_devices">جارٍ فحص %d جهاز</string>
+    <string name="devicetype_miband8active">سوار شاومي الذكي 8 اكتيف</string>
 </resources>
