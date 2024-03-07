@@ -2821,4 +2821,5 @@
     <string name="scan_scanning_single_device">正在扫描一个设备</string>
     <string name="scan_scanning_multiple_devices">正在扫描 %d 个设备</string>
     <string name="notification_channel_scan_service_name">扫描服务</string>
+    <string name="devicetype_miband8active">小米智能手环8 运动版</string>
 </resources>
