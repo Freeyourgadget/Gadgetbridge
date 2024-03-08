@@ -1065,10 +1065,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             supportedSettings.add(R.xml.devicesettings_settings_third_party_apps);
         }
 
-        int[] supportedSettingsInts = new int[supportedSettings.size()];
-        for(int i = 0; i < supportedSettings.size(); i++){
-            supportedSettingsInts[i] = supportedSettings.get(i);
-        }
+        int[] supportedSettingsInts = ArrayUtils.toPrimitive(supportedSettings.toArray(new Integer[0]));
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
         final String settingsFileSuffix = device.getAddress();
