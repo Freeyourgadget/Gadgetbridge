@@ -2812,4 +2812,16 @@
     <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
     <string name="alarm_smart_wakeup_interval_default">5 minutos</string>
     <string name="alarm_smart_wakeup_interval">Intervalo de activación inteligente:</string>
+    <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="device_state_waiting_scan">Esperando por el escaneo del dispositivo</string>
+    <string name="auto_reconnect_ble_scan_title">Reconexión por escaneado BLE</string>
+    <string name="auto_reconnect_ble_scan_summary">Esperar a la exploración del dispositivo en lugar de intentos ciegos de conexión</string>
+    <string name="prompt_restart_gadgetbridge">Por favor, reinicie GB para que surta efecto.</string>
+    <string name="waiting_for_bluetooth">Esperando al bluetooth…</string>
+    <string name="error_scan_failed">Fallo en el escaneo: %d</string>
+    <string name="scan_not_scanning">Sin escanear</string>
+    <string name="scan_scanning_all_devices">Escanear todos los dispositivos</string>
+    <string name="scan_scanning_multiple_devices">Escaneando %d dispositivos</string>
+    <string name="scan_scanning_single_device">Escaneando dispositivo</string>
+    <string name="notification_channel_scan_service_name">Servicio de escaneado</string>
 </resources>
