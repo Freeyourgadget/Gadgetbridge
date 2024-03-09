@@ -1,9 +1,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -17,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Timer;
@@ -49,7 +53,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         signalFetchingStarted(device, context);
         //GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
 
-        String lastSyncedID = getLatestFetchedRecorderLog();
+        String lastSyncedID = getLatestFetchedRecorderLog(device);
 
         JSONObject o = new JSONObject();
         try {
@@ -124,7 +128,7 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         }
 
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
-            setLatestFetchedRecorderLog(dir, log);
+            setLatestFetchedRecorderLog(log, device);
             parseFetchedRecorderCSV(dir, filename, log, device, context); // I tried refactoring to parse all fetched logs in one go at the end instead. But that only gave me more troubles. This seems like a more stable approach at least in the Bangle.js case.
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
@@ -382,8 +386,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             //LOG.debug("check here 7");
             BaseActivitySummary summary = null;
 
-            Date startTime = new Date(Long.parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
-            Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0].split("\\.\\d")[0])*1000L);
+            Date startTime = new Date(parseLong(storedLogArray2[1][0].split("\\.\\d")[0])*1000L);
+            Date endTime = new Date(parseLong(storedLogArray2[storedLogArray2.length-1][0].split("\\.\\d")[0])*1000L);
             summary = new BaseActivitySummary();
             summary.setName(log);
             summary.setStartTime(startTime);
@@ -689,38 +693,94 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
         startTimeout(device, context);
     }
 
-    private static String getLatestFetchedRecorderLog() {
-        File dir;
-        try {
-            dir = FileUtils.getExternalFilesDir();
-        } catch (IOException e) {
-            return null;
-        }
-        String filename = "latestFetchedRecorderLog.txt";
-        File inputFile = new File(dir, filename);
-        String lastSyncedID = "";
-        try {
-            lastSyncedID = FileUtils.getStringFromFile(inputFile).replace("\n","");
-        } catch (IOException ignored) {
-        }
-        //lastSyncedID = "20230706x"; // DEBUGGING
+    private static String getLatestFetchedRecorderLog(GBDevice device) {
+        // "lastSportsActivityTimeMillis" is what
+        // `ActivitySummaryActivity.resetFetchTimestampToChosenDate()` uses, so we have to
+        // control if the user changed that value, and if so recompile a new sync id from that info.
 
-        LOG.info("Last Synced log ID: " + lastSyncedID);
-        //requestActivityTracksList(lastSyncedID);
+        String lastSyncedId = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).
+                getString("lastSportsActivityIdBangleJS","19700101a");
+        LOG.debug("lastSyncedId: " + lastSyncedId);
 
-        return lastSyncedID;
+        long lastSportsActivityTimeMillis = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).
+                getLong("lastSportsActivityTimeMillis",0);
+        LOG.debug("lastSportsActivityTimeMillis: " + lastSportsActivityTimeMillis);
+
+        Calendar dateFromId = parseCalendarFromBangleJSLogId(lastSyncedId);
+        Calendar dateFromMillis = parseCalendarFromMillis(lastSportsActivityTimeMillis);
+
+        LOG.debug("lastSyncedIdMillis: " + dateFromId.getTimeInMillis());
+
+       int intMillis = parseInt(compileDateStringFromCalendar(dateFromMillis));
+       int intBangle = parseInt(lastSyncedId.substring(0,lastSyncedId.length()-1));
+
+        LOG.debug("intMillis: " + intMillis);
+        LOG.debug("intBangle: " + intBangle);
+
+        //if (dateFromMillis.before(dateFromId)) { // This would not work b/c the millis didn't ever become the same in my testing, even if compiled from the same sync id string.
+        if (intMillis < intBangle) {
+            dateFromMillis.add(Calendar.DATE, -1); // We want the day before so we fetch from the day the user reset to.
+            int year = dateFromMillis.get(Calendar.YEAR);
+            int month = dateFromMillis.get(Calendar.MONTH);
+            int dayBefore = dateFromMillis.get(Calendar.DATE);
+
+
+            String yearString = String.valueOf(year);
+            String monthString = String.valueOf(month);
+            if (month<10) monthString = "0" + monthString;
+            String dayBeforeString = String.valueOf(dayBefore);
+            if (dayBefore<10) dayBeforeString = "0" + dayBeforeString;
+            String letter = "z";
+
+            return yearString + monthString + dayBeforeString + letter;
+        } else {
+           return lastSyncedId;
+        }
     }
 
-    private static void setLatestFetchedRecorderLog(File dir, String log) {
+    private static void setLatestFetchedRecorderLog(String log, GBDevice device) {
+        Calendar date = parseCalendarFromBangleJSLogId(log);
 
-        String filenameLogID = "latestFetchedRecorderLog.txt";
-        File outputFileLogID = new File(dir, filenameLogID);
-        try {
-            FileUtils.copyStringToFile(log,outputFileLogID,"");
-            //GB.toast(context, "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
-        } catch (IOException e) {
-            LOG.error("Could not write to file", e);
-        }
+        SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
+        editor.remove("lastSportsActivityIdBangleJS"); //FIXME: key reconstruction is BAD (FIXME inherited from `ActivitySummaryActivity`.
+        editor.remove("lastSportsActivityTimeMillis"); //FIXME: key reconstruction is BAD
+        editor.putString("lastSportsActivityIdBangleJS", log);
+        editor.putLong("lastSportsActivityTimeMillis", date.getTimeInMillis());
+        editor.apply();
+    }
+
+    private static Calendar parseCalendarFromBangleJSLogId(String log) {
+        int year = parseInt(log.substring(0,4));
+        int month = parseInt(log.substring(4,6));
+        int day = parseInt(log.substring(6,8));
+
+        LOG.debug("DateFromId: " + year+ "|"+ month + "|" +day);
+
+        Calendar date = Calendar.getInstance();
+        date.set(year,month,day);
+
+        return date;
+    }
+
+    private static Calendar parseCalendarFromMillis(long millis) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(millis);
+
+        return date;
+    }
+
+    private static String compileDateStringFromCalendar(Calendar date) {
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DATE);
+
+        String yearString = String.valueOf(year);
+        String monthString = String.valueOf(month);
+        if (month<10) monthString = "0" + monthString;
+        String dayString = String.valueOf(day);
+        if (day<10) dayString = "0" + dayString;
+
+        return yearString + monthString + dayString;
     }
 
     private static void writeToRecorderCSV(String lines, File dir, String filename) {
