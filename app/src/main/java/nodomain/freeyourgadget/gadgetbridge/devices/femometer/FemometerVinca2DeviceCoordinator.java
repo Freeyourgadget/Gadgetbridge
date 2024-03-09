@@ -100,6 +100,34 @@ public class FemometerVinca2DeviceCoordinator extends AbstractDeviceCoordinator 
     }
 
     @Override
+    public boolean supportsTemperatureMeasurement() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsActivityTracking() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSleepMeasurement() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsStepCounter() {
+        return false;
+    }
+    @Override
+    public boolean supportsSpeedzones() {
+        return false;
+    }
+    @Override
+    public boolean supportsActivityTabs() {
+        return false;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_volume,

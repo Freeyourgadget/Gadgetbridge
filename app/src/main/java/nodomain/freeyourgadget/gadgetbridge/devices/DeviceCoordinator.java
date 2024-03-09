@@ -192,6 +192,17 @@ public interface DeviceCoordinator {
      */
     boolean supportsStressMeasurement();
 
+    boolean supportsSleepMeasurement();
+    boolean supportsStepCounter();
+    boolean supportsSpeedzones();
+    boolean supportsActivityTabs();
+
+    /**
+     * Returns true if measurement and fetching of body temperature is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsTemperatureMeasurement();
+
     /**
      * Returns true if SpO2 measurement and fetching is supported by the device
      * (with this coordinator).

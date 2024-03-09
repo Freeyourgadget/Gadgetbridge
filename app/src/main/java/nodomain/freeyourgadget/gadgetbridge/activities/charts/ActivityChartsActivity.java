@@ -79,8 +79,13 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
             tabList = new ArrayList<>(Arrays.asList(myTabs.split(",")));
         }
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        if (!coordinator.supportsRealtimeData()) {
-            tabList.remove("livestats");
+        if (!coordinator.supportsActivityTabs()) {
+            tabList.remove("activity");
+            tabList.remove("activitylist");
+        }
+        if (!coordinator.supportsSleepMeasurement()) {
+            tabList.remove("sleep");
+            tabList.remove("sleepweek");
         }
         if (!coordinator.supportsStressMeasurement()) {
             tabList.remove("stress");
@@ -90,6 +95,18 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         }
         if (!coordinator.supportsSpo2()) {
             tabList.remove("spo2");
+        }
+        if (!coordinator.supportsStepCounter()) {
+            tabList.remove("stepsweek");
+        }
+        if (!coordinator.supportsSpeedzones()) {
+            tabList.remove("speedzones");
+        }
+        if (!coordinator.supportsRealtimeData()) {
+            tabList.remove("livestats");
+        }
+        if (!coordinator.supportsTemperatureMeasurement()) {
+            tabList.remove("temperature");
         }
         return tabList;
     }
@@ -132,6 +149,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new LiveActivityFragment();
                 case "spo2":
                     return new Spo2ChartFragment();
+                case "temperature":
+                    return new TemperatureChartFragment();
             }
             return null;
         }
@@ -180,6 +199,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.liveactivity_live_activity);
                 case "spo2":
                     return getString(R.string.pref_header_spo2);
+                case "temperature":
+                    return getString(R.string.temperature);
             }
             return super.getPageTitle(position);
         }
