@@ -8,7 +8,7 @@
         android:summary="@string/pref_explanation_authkey_new_protocol" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-6#new-auth-protocol"
+            android:data="https://gadgetbridge.org/gadgets/wearables/xiaomi/#device__xiaomi_mi_band_6"
             />
     </Preference>
 

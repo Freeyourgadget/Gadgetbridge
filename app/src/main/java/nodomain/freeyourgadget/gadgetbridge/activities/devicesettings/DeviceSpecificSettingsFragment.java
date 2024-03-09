@@ -96,11 +96,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
     private GBDevice device;
 
-    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
+    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
         args.putIntArray("supportedSettings", supportedSettings);
-        args.putStringArray("supportedLanguages", supportedLanguages);
         setArguments(args);
     }
 
@@ -144,19 +143,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 } else {
                     addPreferencesFromResource(setting);
                 }
-                if (setting == R.xml.devicesettings_language_generic) {
-                    ListPreference languageListPreference = findPreference("language");
-                    CharSequence[] entries = languageListPreference.getEntries();
-                    CharSequence[] values = languageListPreference.getEntryValues();
-                    for (int i = entries.length - 1; i >= 0; i--) {
-                        if (!ArrayUtils.contains(supportedLanguages, values[i])) {
-                            entries = ArrayUtils.remove(entries, i);
-                            values = ArrayUtils.remove(values, i);
-                        }
-                    }
-                    languageListPreference.setEntries(entries);
-                    languageListPreference.setEntryValues(values);
-                }
             }
         } else {
             // Now, this is ugly: search all the xml files for the rootKey
@@ -196,6 +182,22 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
+
+        final ListPreference languageListPreference = findPreference("language");
+        if (languageListPreference != null) {
+            final String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+            CharSequence[] entries = languageListPreference.getEntries();
+            CharSequence[] values = languageListPreference.getEntryValues();
+            for (int i = entries.length - 1; i >= 0; i--) {
+                if (!ArrayUtils.contains(supportedLanguages, values[i])) {
+                    entries = ArrayUtils.remove(entries, i);
+                    values = ArrayUtils.remove(values, i);
+                }
+            }
+            languageListPreference.setEntries(entries);
+            languageListPreference.setEntryValues(values);
+        }
+
         String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
         boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 
@@ -1033,15 +1035,10 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         String[] supportedLanguages = null;
 
         if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
-            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
             supportedSettings.add(R.xml.devicesettings_pairingkey_explanation);
-            if (device.getType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
-                supportedSettings.add(R.xml.devicesettings_miband6_new_protocol);
-                supportedSettings.add(R.xml.devicesettings_miband6_new_auth_protocol_explanation);
-            }
+            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
         } else { //device/application settings
-            supportedLanguages = coordinator.getSupportedLanguageSettings(device);
-            if (supportedLanguages != null) {
+            if (coordinator.getSupportedLanguageSettings(device) != null) {
                 supportedSettings.add(R.xml.devicesettings_language_generic);
             }
             addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
@@ -1070,7 +1067,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
         final String settingsFileSuffix = device.getAddress();
         final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
-        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettingsInts, supportedLanguages);
+        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettingsInts);
         fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);
         fragment.setDevice(device);
 

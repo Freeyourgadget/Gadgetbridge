@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreferenceCompat
         android:defaultValue="false"
+        android:icon="@drawable/ic_mtu"
         android:key="force_new_protocol"
         android:summary="@string/pref_summary_huami_force_new_protocol"
         android:title="@string/pref_title_huami_force_new_protocol" />
