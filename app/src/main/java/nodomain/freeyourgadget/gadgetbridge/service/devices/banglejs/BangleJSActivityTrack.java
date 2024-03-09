@@ -405,6 +405,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             summary.setActivityKind(activityKind); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
             summary.setRawDetailsPath(String.valueOf(inputFile));
 
+
+            // FIXME: Many summaryData entries are commented out below. They currently don't report feasible results. Logic and calculation inside this function needs to be fixed.
             JSONObject summaryData = new JSONObject();
             //     put("Activity", Arrays.asList(
             //             "distanceMeters", "steps", "activeSeconds", "caloriesBurnt", "totalStride",
@@ -429,8 +431,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                         (float) (analyticsObject.getJSONArray("Total Distance").getDouble(logLength - 1) /
                                 (0.5 * sumOfJSONArray(storedLogObject.getJSONArray("Steps")))),
                         "m"); // FIXME: Is this meant to be stride length as I've assumed?
-                summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
-                summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
+                //summaryData = addSummaryData(summaryData, "maxStride", maxOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
+                //summaryData = addSummaryData(summaryData, "minStride", minOfJSONArray(analyticsObject.getJSONArray("Stride")), "m");
             }
 
             //     put("Speed", Arrays.asList(
@@ -440,16 +442,16 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
             try {
                 if (analyticsObject.has("Speed")) {
                     summaryData = addSummaryData(summaryData,"averageSpeed", averageOfJSONArray(analyticsObject.getJSONArray("Speed")),"m/s"); // This seems to be calculated somewhere else automatically.
-                    summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                    summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
-                    summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
+                    //summaryData = addSummaryData(summaryData, "maxSpeed", maxOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                    //summaryData = addSummaryData(summaryData, "minSpeed", minOfJSONArray(analyticsObject.getJSONArray("Speed")), "m/s");
+                    //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds", averageOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km"); // Is this also calculated automatically then?
                     //summaryData = addSummaryData(summaryData, "averageKMPaceSeconds",
                     //        (float) (1000.0 * analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength-1) /
                     //                analyticsObject.getJSONArray("Total Distance").getDouble(logLength-1)),
                     //        "s/km"
                     //);
-                    summaryData = addSummaryData(summaryData, "minPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
-                    summaryData = addSummaryData(summaryData, "maxPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    //summaryData = addSummaryData(summaryData, "minPace", maxOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
+                    //summaryData = addSummaryData(summaryData, "maxPace", minOfJSONArray(analyticsObject.getJSONArray("Pace")), "s/km");
                     //summaryData = addSummaryData(summaryData,"averageSpeed2",3,"mm");
                 }
                 if (analyticsObject.has("Cadence")) {
@@ -459,8 +461,8 @@ class BangleJSActivityTrack extends BangleJSDeviceSupport {
                                     (float) analyticsObject.getJSONArray("Elapsed Time").getDouble(logLength - 1),
                             "cycles/min"
                     );
-                    summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
-                    summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
+                    //summaryData = addSummaryData(summaryData, "maxCadence", maxOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
+                    //summaryData = addSummaryData(summaryData, "minCadence", minOfJSONArray(analyticsObject.getJSONArray("Cadence")), "cycles/min");
                 }
             } catch (Exception e) {
                 LOG.error(e + ". (thrown when trying to add summary data");
