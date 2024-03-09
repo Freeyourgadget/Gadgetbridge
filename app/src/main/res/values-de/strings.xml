@@ -2829,4 +2829,5 @@
     <string name="auto_reconnect_ble_scan_title">Wiederherstellung der Verbindung durch BLE-Scan</string>
     <string name="prompt_restart_gadgetbridge">Bitte Gadgetbridge neu starten, damit es wirksam wird.</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="temperature">Temperatur</string>
 </resources>
