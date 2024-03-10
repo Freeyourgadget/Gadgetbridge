@@ -2767,4 +2767,5 @@
     <string name="auto_reconnect_ble_scan_title">Переподключение при сканировании BLE</string>
     <string name="error_scan_failed">Поиск не удался: %d</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="temperature">Температура</string>
 </resources>
