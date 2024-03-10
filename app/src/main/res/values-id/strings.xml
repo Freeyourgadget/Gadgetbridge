@@ -2811,4 +2811,5 @@
     <string name="scan_scanning_single_device">Memindai 1 perangkat</string>
     <string name="scan_scanning_multiple_devices">Memindai %d perangkat</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="temperature">Suhu</string>
 </resources>
