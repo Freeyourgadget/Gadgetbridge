@@ -123,6 +123,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt.HuaweiW
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt2.HuaweiWatchGT2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt2e.HuaweiWatchGT2eCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt3.HuaweiWatchGT3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt4.HuaweiWatchGT4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16DeviceCoordinator;
@@ -358,6 +359,7 @@ public enum DeviceType {
     HONORBAND7(HonorBand7Coordinator.class),
     HONORMAGICWATCH2(HonorMagicWatch2Coordinator.class),
     HUAWEIWATCHGT3(HuaweiWatchGT3Coordinator.class),
+    HUAWEIWATCHGT4(HuaweiWatchGT4Coordinator.class),
     HUAWEIBAND8(HuaweiBand8Coordinator.class),
     HUAWEIWATCHFIT(HuaweiWatchFitCoordinator.class),
     VESC(VescCoordinator.class),

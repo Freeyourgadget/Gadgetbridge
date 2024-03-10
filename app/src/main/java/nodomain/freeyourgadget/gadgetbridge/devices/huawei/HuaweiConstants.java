@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon
+/*  Copyright (C) 2024 Damien Gaignon, Vitalii Tomin
 
     This file is part of Gadgetbridge.
 
@@ -64,6 +64,7 @@ public final class HuaweiConstants {
     public static final String HU_BAND8_NAME = "huawei band 8-";
     public static final String HU_WATCHGT3_NAME = "huawei watch gt 3-";
     public static final String HU_WATCHGT3PRO_NAME = "huawei watch gt 3 pro-";
+    public static final String HU_WATCHGT4_NAME = "huawei watch gt 4-";
     public static final String HU_WATCHFIT_NAME = "huawei watch fit-";
 
     public static final String PREF_HUAWEI_ADDRESS = "huawei_address";
