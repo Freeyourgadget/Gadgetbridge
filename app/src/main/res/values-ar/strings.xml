@@ -2815,4 +2815,5 @@
     <string name="scan_scanning_all_devices">فحص جميع الأجهزة</string>
     <string name="scan_scanning_multiple_devices">جارٍ فحص %d جهاز</string>
     <string name="devicetype_miband8active">سوار شاومي الذكي 8 اكتيف</string>
+    <string name="temperature">الحرارة</string>
 </resources>
