@@ -971,7 +971,7 @@
     <string name="ascentSeconds">עלייה</string>
     <string name="laps">הקפות</string>
     <string name="swimStyle">סגנון שחייה</string>
-    <string name="swolfIndex">ציון swolf</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="averageLapPace">קצב ממוצע להקפה</string>
     <string name="activity_detail_duration_label">משך</string>
     <string name="averageStride">פסיעה ממוצעת</string>
@@ -2673,4 +2673,52 @@
     <string name="pref_title_navigation_apps">יישומוני ניווט</string>
     <string name="pref_force_connection_type_title">אכיפת סוג חיבור</string>
     <string name="pref_title_fossil_hr_nav_vibrate">רטט עם קבלת הנחיות חדשות</string>
+    <string name="menuitem_workout_shortcuts">קיצורי אימונים</string>
+    <string name="devicetype_redmi_watch_2">Redmi Watch 2‎</string>
+    <string name="pref_force_smart_alarm_summary">אילוץ תמיכה בהתראות חכמות
+\nעל אחריותך בלבד</string>
+    <string name="huawei_ignore_wakeup_status_end">התעלמות ממצב סיום השכמה</string>
+    <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro‎</string>
+    <string name="laneLength">אורך המסלול</string>
+    <string name="pref_force_wear_location_summary">אילוץ תמיכה במקום ענידה
+\nעל אחריותך בלבד</string>
+    <string name="pref_force_wear_location">אילוץ מקום ענידה</string>
+    <string name="devicetype_huawei_talk_band_b6">Huawei Talk Band B6‎</string>
+    <string name="yard">יארד</string>
+    <string name="pref_force_smart_alarm">אילוץ התראה חכמה</string>
+    <string name="pref_summary_prefix_notification_with_app">להוסיף לפני כותרת ההתראה את שם יישומון המקור</string>
+    <string name="strokes_minute">חתירות/דק׳</string>
+    <string name="alarm_smart_wakeup_interval">הפרשי השכמה חכמה:</string>
+    <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e‎</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite‎</string>
+    <string name="activity_type_cross_trainer">אימון משולב</string>
+    <string name="activity_type_stair_stepper">מכשיר מדרגות</string>
+    <string name="activity_type_sit_ups">כפיפות בטן</string>
+    <string name="activity_type_ice_hockey">הוקי קרח</string>
+    <string name="activity_type_skating">החלקה</string>
+    <string name="activity_type_shot">הדיפת כדור ברזל</string>
+    <string name="activity_type_lacross">לקרוס</string>
+    <string name="activity_type_pickleball">פיקלבול</string>
+    <string name="activity_type_australian_football">פוטבול אוסטרלי</string>
+    <string name="activity_type_dodgeball">מחניים</string>
+    <string name="activity_type_softball">סופטבול</string>
+    <string name="activity_type_snow_sports">ספורט שלג</string>
+    <string name="activity_type_curling">קרלינג</string>
+    <string name="devicetype_redmi_smart_band_2">‎Redmi Smart Band 2</string>
+    <string name="devicetype_redmiwatch3">Redmi Watch 3‎</string>
+    <string name="devicetype_huawei_band4pro">Huawei Band 4 (Pro)‎</string>
+    <string name="devicetype_huawei_watch_gt">Huawei Watch GT‎</string>
+    <string name="menuitem_readiness">מוכנות</string>
+    <string name="menuitem_thermometer">מד חום</string>
+    <string name="menuitem_zepp_pay">Zepp Pay‎</string>
+    <string name="menuitem_apps_shortcuts">קיצורי יישומונים</string>
+    <string name="menuitem_body_composition">הרכב גוף</string>
+    <string name="menuitem_buzzer_intensity">עוצמת זמזם</string>
+    <string name="huawei_ignore_wakeup_status_start">התעלמות ממצב התחלת השכמה</string>
+    <string name="pref_force_dnd_support_summary">אילוץ תמיכה ב„לא להפריע”
+\nעל אחריותך בלבד</string>
+    <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite‎</string>
+    <string name="devicetype_huawei_watchfit">Huawei Watch Fit‎</string>
+    <string name="temperature">טמפרטורה</string>
+    <string name="activity_type_sailing">שייט</string>
 </resources>
