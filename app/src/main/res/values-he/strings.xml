@@ -56,16 +56,16 @@
     <string name="pref_theme_light">בהירה</string>
     <string name="pref_theme_dark">כהה</string>
     <string name="pref_title_language">שפה</string>
-    <string name="pref_title_minimize_priority">הסתרת ההתראות של Gadgetbridge</string>
+    <string name="pref_title_minimize_priority">הסתרת ההודעות של Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">הסמל בשורת המצב והדיווח במסך הנעילה מופיעים</string>
     <string name="pref_summary_minimize_priority_on">הסמל בשורת המצב והדיווח במסך הנעילה מוסתרים</string>
-    <string name="pref_header_notifications">דיווחים</string>
+    <string name="pref_header_notifications">הודעות</string>
     <string name="pref_title_notifications_repetitions">חזרות</string>
     <string name="pref_title_notifications_call">שיחות טלפון</string>
     <string name="pref_title_notifications_sms">מסרונים</string>
-    <string name="pref_title_notifications_pebblemsg">הודעות Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">תמיכה ביישומונים ששולחים דיווחים ל־Pebble באמצעות PebbleKit.</string>
-    <string name="pref_title_notifications_generic">תמיכה בדיווחים גנריים</string>
+    <string name="pref_title_notifications_pebblemsg">מסרי Pebble</string>
+    <string name="pref_summary_notifications_pebblemsg">תמיכה ביישומונים ששולחים הודעות ל־Pebble באמצעות PebbleKit.</string>
+    <string name="pref_title_notifications_generic">תמיכה בהודעות גנריות</string>
     <string name="pref_title_whenscreenon">…גם כאשר המסך פעיל</string>
     <string name="pref_title_notification_filter">לא להפריע</string>
     <string name="pref_summary_notification_filter">לחסום את כל ההתראות כאשר מצב לא להפריע מופעל בטלפון</string>
@@ -524,8 +524,8 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="devicetype_miband3">Mi Band 3</string>
-    <string name="blacklist_all_for_notifications">הוספת כולם לרשימה השחורה של ההתראות</string>
-    <string name="whitelist_all_for_notifications">הוספת כולם לרשימת ההיתר של ההתראות</string>
+    <string name="blacklist_all_for_notifications">הוספת כולם לרשימה השחורה של ההודעות</string>
+    <string name="whitelist_all_for_notifications">הוספת כולם לרשימת ההיתר של ההודעות</string>
     <string name="pref_auto_fetch">אחזור אוטומטי של נתוני פעילות</string>
     <string name="pref_auto_fetch_summary">האחזור מתבצע בעת שחרור נעילת המסך. עובד רק אם הוגדר מנגנון נעילה!</string>
     <string name="pref_auto_fetch_limit_fetches">זמן מזערי בין אחזורים</string>
@@ -560,7 +560,7 @@
     <string name="you_slept">שנתך החלה ב־%1$s ונמשכה עד %2$s</string>
     <string name="you_did_not_sleep">לא ישנת</string>
     <string name="norwegian_bokmal">נורווגית ספרותית</string>
-    <string name="pref_title_notifications_timeout">זמן מזערי בין התראות</string>
+    <string name="pref_title_notifications_timeout">זמן מזערי בין הודעות</string>
     <string name="no_limit">ללא הגבלה</string>
     <string name="seconds_5">5 שניות</string>
     <string name="seconds_10">10 שניות</string>
@@ -1326,7 +1326,7 @@
     <string name="nothing_prefs_audiomode_title">מצב שמע</string>
     <string name="uncheck_all_applications">ביטול סימון כל היישומונים</string>
     <string name="pref_title_notification_use_as_allow">לאפשר התראות מהיישומונים הנבחרים</string>
-    <string name="title_activity_notification_management">הגדרות התראה</string>
+    <string name="title_activity_notification_management">הגדרות הודעה</string>
     <string name="pref_title_message_privacy_mode">מצב פרטיות הודעות</string>
     <string name="pref_header_notification_application_settings">הגדרות נפרדות לכל יישומון</string>
     <string name="toast_app_must_not_be_selected">יישומון צריך להיות לא מסומן כדי שיוגדר</string>
@@ -1730,8 +1730,8 @@
     <string name="estonian">אסטונית</string>
     <string name="info_no_devices_connected">אין התקנים מחוברים</string>
     <string name="info_connected_count">%d התקנים מחוברים</string>
-    <string name="pref_title_notification_delay_calls">השהיית התראת שיחה</string>
-    <string name="pref_summary_notification_delay_calls">השהיה בטרם שליחת התראות שיחות נכנסות להתקן, בשניות.</string>
+    <string name="pref_title_notification_delay_calls">השהיית הודעת שיחה</string>
+    <string name="pref_summary_notification_delay_calls">השהיה בטרם שליחת הודעות על שיחות נכנסות להתקן, בשניות.</string>
     <string name="prefs_password_summary">לנעול את הצמיד עם סיסמה כשהוא לא נענד</string>
     <string name="prefs_password_enabled">סיסמה מופעלת</string>
     <string name="prefs_password_4_digits_1_to_4_summary">הסיסמה חייבת להיות באורך 4 ספרות ועם המספרים 1 עד 4</string>
@@ -1888,8 +1888,8 @@
 \nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
 \n
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
-    <string name="pref_title_notifications_ignore_low_priority">להתעלם מהתראות בעדיפות נמוכה</string>
-    <string name="pref_summary_notifications_ignore_low_priority">לא לשלוח התראות בעדיפות נמוכה ומזערית לשעון</string>
+    <string name="pref_title_notifications_ignore_low_priority">להתעלם מהודעות בעדיפות נמוכה</string>
+    <string name="pref_summary_notifications_ignore_low_priority">לא לשלוח הודעות בעדיפות נמוכה ומזערית לשעון</string>
     <string name="devicetype_flipper_zero">‎Flipper zero</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">לאפשר שליטה בחיבור ה־Bluetooth דרך API של Intent</string>
     <string name="pref_summary_notification_prefer_long_text">אם ניתן, לשלוח את הטקסט הארוך של ההתראה למכשיר</string>
@@ -2161,7 +2161,7 @@
     <string name="pref_pair_bluetooth_calls_help_summary">כדי לקבל שיחות Bluetooth יש לצמד את הטלפון שלך עם מופע שני של השעון.</string>
     <string name="pref_summary_receive_calls_watch">התקשרות ומענה לשיחות ישירות מהשעון</string>
     <string name="pref_morning_updates_categories_summary">רשימת הקטגוריות להצגה בכל בוקר</string>
-    <string name="pref_pair_bluetooth_calls_help_warning">אזהרה: כדי להפעיל שיחות Bluetooth מבלי לצמד למופע השני, התראות שיחה לא תעבודנה כמתוכנן.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">אזהרה: כדי להפעיל שיחות Bluetooth מבלי לצמד למופע השני, הודעות שיחה לא תעבודנה כמתוכנן.</string>
     <string name="pref_title_notification_cache_while_disconnected">שמירה במטמון תוך חריגה מהטווח</string>
     <string name="pref_summary_notification_cache_while_disconnected">לשלוח התראות שהוחמצו כאשר ההתקן מתחבר מחדש לאחר היציאה מהטווח</string>
     <string name="pref_switch_controls_anc_ambient_off">ביטול רעשים →← הקפי →← כבוי</string>
@@ -2278,8 +2278,8 @@
     <string name="loyalty_cards_catima_not_compatible">גרסת ה־Catima המותקנת לא תואמת ל־Gadgetbridge. נא לעדכן את Catima ואת Gadgetbridge לגרסאות העדכניות ביותר.</string>
     <string name="loyalty_cards_catima">Catima</string>
     <string name="loyalty_cards_open_catima">פתיחת Catima</string>
-    <string name="pai_total">PAI כולל</string>
-    <string name="pai_day">צמיחת PAI יומית</string>
+    <string name="pai_total">סך הכול</string>
+    <string name="pai_day">עלייה יומית</string>
     <string name="loyalty_cards_sync_groups">קבוצות לסנכרון</string>
     <string name="loyalty_cards_sync_title">סנכרון כרטיסי מועדון</string>
     <string name="loyalty_cards_catima_package">שם חבילת Catima</string>
@@ -2492,8 +2492,8 @@
     <string name="pref_message_privacy_mode_bodyonly">הסתרת הגוף בלבד</string>
     <string name="latvian">לטבית</string>
     <string name="common_symbols">סימנים נפוצים</string>
-    <string name="pref_title_notifications_ignore_work_profile">התעלמות מהתראות פרופיל עבודה</string>
-    <string name="pref_summary_notifications_ignore_work_profile">לא לשלוח התראות מיישומונים בפרופיל העבודה של השעון</string>
+    <string name="pref_title_notifications_ignore_work_profile">התעלמות מהודעות פרופיל עבודה</string>
+    <string name="pref_summary_notifications_ignore_work_profile">לא לשלוח הודעות מיישומונים בפרופיל העבודה של השעון</string>
     <string name="femometer_measurement_mode_title">מצב מדידה</string>
     <string name="femometer_measurement_mode_quick">מצב מהיר (30 שנ׳)</string>
     <string name="femometer_measurement_mode_normal">מצב רגיל (60‏-90 שנ׳)</string>
@@ -2721,4 +2721,46 @@
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit‎</string>
     <string name="temperature">טמפרטורה</string>
     <string name="activity_type_sailing">שייט</string>
+    <string name="activity_type_wrestling">היאבקות</string>
+    <string name="activity_type_trail_run">ריצת מסלול</string>
+    <string name="pref_spo_automatic_enable">הפעלת מדידה אוטומטית של חמצן בדם</string>
+    <string name="pref_enable_call_reject">הפעלת דחיית שיחות</string>
+    <string name="huawei_trusleep_summary_light">מעקב שינה משופר</string>
+    <string name="pref_force_options">אילוץ אפשרויות</string>
+    <string name="activity_type_high_jump">קפיצה לגובה</string>
+    <string name="activity_type_long_jump">קפיצה לרוחק</string>
+    <string name="activity_type_javelin">הטלת כידון</string>
+    <string name="activity_type_plank">פלאנק</string>
+    <string name="activity_type_pull_ups">עליית מתח</string>
+    <string name="activity_type_smith_machine">מכונת סמית׳</string>
+    <string name="activity_type_battle_rope">חבל קרוספיט</string>
+    <string name="activity_type_push_ups">שכיבות סמיכה</string>
+    <string name="activity_type_track_and_field">אתלטיקה קלה</string>
+    <string name="activity_type_flexibility">גמישות</string>
+    <string name="activity_type_hula_hooping">חישוק הולה הופ</string>
+    <string name="activity_type_tai_chi">טאי צ׳י</string>
+    <string name="activity_type_martial_arts">אומנות לחימה</string>
+    <string name="activity_type_other_dance">ריקוד אחר</string>
+    <string name="activity_type_ballet">בלט</string>
+    <string name="activity_type_latin_dance">ריקוד לטיני</string>
+    <string name="activity_type_jazz_dance">ריקוד ג׳אז</string>
+    <string name="activity_type_belly_dance">ריקודי בטן</string>
+    <string name="activity_type_dumbbell">הרמת משקוליות</string>
+    <string name="activity_type_trampoline">טרמפולינה</string>
+    <string name="activity_type_stairs">מדרגות</string>
+    <string name="activity_type_kite_flying">העפת עפיפונים</string>
+    <string name="activity_type_horse_riding">רכיבה על סוסים</string>
+    <string name="activity_type_archery">קשתות</string>
+    <string name="activity_type_darts">חיצים</string>
+    <string name="activity_type_billiards">ביליארד</string>
+    <string name="activity_type_karting">קרטינג</string>
+    <string name="activity_type_kabaddi">קבאדי</string>
+    <string name="activity_type_mind_and_body">נפש וגוף</string>
+    <string name="activity_type_fishing">דיג</string>
+    <string name="activity_type_outdoor_walking">הליכה בחוץ</string>
+    <string name="activity_type_hunting">ציד</string>
+    <string name="activity_type_rock_climbing">קיר טיפוס</string>
+    <string name="activity_type_skateboarding">סקייטבורד</string>
+    <string name="pref_enable_call_accept">הפעלת קבלת שיחות</string>
+    <string name="pref_heartrate_automatic_enable">הפעלת מדידת דופק אוטומטית</string>
 </resources>
