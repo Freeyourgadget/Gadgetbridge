@@ -2824,4 +2824,5 @@
     <string name="scan_scanning_multiple_devices">Escaneando %d dispositivos</string>
     <string name="scan_scanning_single_device">Escaneando dispositivo</string>
     <string name="notification_channel_scan_service_name">Servicio de escaneado</string>
+    <string name="temperature">Temperatura</string>
 </resources>
