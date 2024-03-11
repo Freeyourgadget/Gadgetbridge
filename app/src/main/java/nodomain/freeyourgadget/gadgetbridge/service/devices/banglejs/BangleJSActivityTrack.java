@@ -44,7 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-class BangleJSActivityTrack extends BangleJSDeviceSupport {
+class BangleJSActivityTrack {
 
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSActivityTrack.class);
 
