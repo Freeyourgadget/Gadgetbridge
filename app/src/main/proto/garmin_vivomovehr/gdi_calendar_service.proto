@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message CalendarService {
+  optional CalendarServiceRequest calendar_request = 1;
+  optional CalendarServiceResponse calendar_response = 2;
+
+  message CalendarServiceRequest {
+    optional uint32 begin = 1;
+    optional uint32 end = 2;
+  }
+
+  message CalendarServiceResponse {
+    optional uint32 unknown = 1;
+    repeated CalendarEvent calendar_event = 2;
+  }
+
+  message CalendarEvent {
+    optional string title = 2;
+    optional string location = 3 [default = ""];
+    optional string description = 4 [default = ""];
+    optional uint32 begin = 5;
+    optional uint32 end = 6;
+    optional bool all_day = 7;
+  }
+}

@@ -143,7 +143,7 @@ public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_vivomove_hr;
+        return R.string.devicetype_garmin_vivomove_hr;
     }
 
     @Override

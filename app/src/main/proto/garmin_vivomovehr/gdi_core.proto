@@ -47,6 +47,14 @@ message CoreService {
         }
     }
 
+    enum DataType {
+        SIGNIFICANT_LOCATION = 0;
+        GENERAL_LOCATION = 1;
+        REALTIME_TRACKING = 2;
+        INREACH_TRACKING = 3;
+        TRACKING_EVENT = 4;
+    }
+
     message LocationUpdatedSetEnabledRequest {
         optional bool enabled = 1;
         repeated Request requests = 2;
@@ -56,17 +64,30 @@ message CoreService {
         optional DataType requested = 1;
         optional float min_update_threshold = 2;
         optional float distance_threshold = 3;
-
-        enum DataType {
-            SIGNIFICANT_LOCATION = 0;
-            GENERAL_LOCATION = 1;
-            REALTIME_TRACKING = 2;
-            INREACH_TRACKING = 3;
-        }
     }
 
     message LocationUpdatedSetEnabledResponse {
-        // TODO
+        optional Status status = 1;
+        repeated Requested requests = 2;
+
+
+        enum Status {
+        OK = 1;
+        UNAVAILABLE = 2;
+        UNKNOWN3 = 3;
+        UNKNOWN4 = 4;
+        }
+
+        message Requested {
+                optional DataType requested = 1;
+                optional RequestedStatus status = 2;
+
+                enum RequestedStatus {
+                OK = 1;
+                KO = 2;
+                }
+
+        }
     }
 
     message LocationUpdatedNotification {
@@ -74,6 +95,19 @@ message CoreService {
     }
 
     message LocationData {
-        // TODO
+        required LatLon position=1;
+        required float altitude=2;
+        required uint32 timestamp=3;
+        required float h_accuracy=4;
+        required float v_accuracy=5;
+        required DataType position_type=6;
+        required float bearing=9;
+        required float speed=10;
     }
+
+    message LatLon {
+        required sint32 lat = 1;
+        required sint32 lon = 2;
+    }
+
 }
