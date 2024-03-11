@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon
+/*  Copyright (C) 2024 Damien Gaignon, Vitalii Tomin
 
     This file is part of Gadgetbridge.
 
@@ -35,6 +35,32 @@ public class AccountRelated {
 				this.tlv = new HuaweiTLV()
 						.put(0x01);
 
+				this.complete = true;
+			}
+		}
+
+		public static class Response extends HuaweiPacket {
+			public Response (ParamsProvider paramsProvider) {
+				super(paramsProvider);
+			}
+		}
+	}
+
+	public static class SendExtendedAccountToDevice {
+		public static final byte id = 0x05;
+
+		public static class Request extends HuaweiPacket {
+			public Request (ParamsProvider paramsProvider, boolean accountPairingOptimization) {
+				super(paramsProvider);
+
+				this.serviceId = AccountRelated.id;
+				this.commandId = id;
+
+				this.tlv = new HuaweiTLV()
+						.put(0x01);
+				if (accountPairingOptimization) {
+					this.tlv.put(0x03, (byte)0x01);
+				}
 				this.complete = true;
 			}
 		}

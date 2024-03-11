@@ -369,7 +369,21 @@ public class HuaweiCoordinator {
     }
 
     public boolean supportsAccount() {
-        return supportsCommandForService(0x1A, 0x05) || supportsCommandForService(0x1A, 0x06);
+        return supportsCommandForService(0x1A, 0x01);
+    }
+
+    public boolean supportsAccountJudgment() {
+        return supportsCommandForService(0x1A, 0x05);
+    }
+
+    public boolean supportsAccountSwitch() {
+        return supportsCommandForService(0x1A, 0x06);
+    }
+
+    public boolean supportsDiffAccountPairingOptimization() {
+        if (supportsExpandCapability())
+            return supportsExpandCapability(0xac);
+        return false;
     }
 
     public boolean supportsMusic() {

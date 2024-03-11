@@ -78,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
@@ -595,9 +596,13 @@ public class HuaweiSupportProvider {
                 GetExpandCapabilityRequest expandCapabilityReq = new GetExpandCapabilityRequest(this);
                 expandCapabilityReq.doPerform();
             }
-            if (getHuaweiCoordinator().supportsAccount()) { // GetAccountJudgment
+            if (getHuaweiCoordinator().supportsAccount()) {
                 SendAccountRequest sendAccountReq = new SendAccountRequest(this);
                 sendAccountReq.doPerform();
+            }
+            if (getHuaweiCoordinator().supportsAccountJudgment() && getHuaweiCoordinator().supportsAccountSwitch()) {
+                SendExtendedAccountRequest sendExtendedAccountRequest = new SendExtendedAccountRequest(this);
+                sendExtendedAccountRequest.doPerform();
             }
             if (getHuaweiCoordinator().supportsActivityType()) {
                 GetActivityTypeRequest activityTypeReq = new GetActivityTypeRequest(this);

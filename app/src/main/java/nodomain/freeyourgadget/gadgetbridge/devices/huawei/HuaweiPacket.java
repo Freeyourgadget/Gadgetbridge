@@ -520,6 +520,8 @@ public class HuaweiPacket {
                 switch(this.commandId) {
                     case AccountRelated.SendAccountToDevice.id:
                         return new AccountRelated.SendAccountToDevice.Response(paramsProvider).fromPacket(this);
+                    case AccountRelated.SendExtendedAccountToDevice.id:
+                        return new AccountRelated.SendExtendedAccountToDevice.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
