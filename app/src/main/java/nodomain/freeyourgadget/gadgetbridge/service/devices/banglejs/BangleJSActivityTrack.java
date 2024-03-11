@@ -777,13 +777,7 @@ class BangleJSActivityTrack {
         int month = date.get(Calendar.MONTH);
         int day = date.get(Calendar.DATE);
 
-        String yearString = String.valueOf(year);
-        String monthString = String.valueOf(month);
-        if (month<10) monthString = "0" + monthString;
-        String dayString = String.valueOf(day);
-        if (day<10) dayString = "0" + dayString;
-
-        return yearString + monthString + dayString;
+        return String.format("%d%02d%02d", year, month, day);
     }
 
     private static void writeToRecorderCSV(String lines, File dir, String filename) {
