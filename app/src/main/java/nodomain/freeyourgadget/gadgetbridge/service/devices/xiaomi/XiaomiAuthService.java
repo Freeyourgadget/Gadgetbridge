@@ -114,8 +114,15 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
                 // Watch nonce
                 final XiaomiProto.Command command = handleWatchNonce(cmd.getAuth().getWatchNonce());
+
                 if (command == null) {
-                    getSupport().disconnect();
+                    LOG.error("handleWatchNonce returned null, disconnecting");
+                    final GBDevice device = getSupport().getDevice();
+
+                    if (device != null) {
+                        GBApplication.deviceService(device).disconnect();
+                    }
+
                     return;
                 }
 

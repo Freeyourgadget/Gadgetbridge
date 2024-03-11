@@ -35,8 +35,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -162,8 +162,8 @@ public final class BtBRQueue {
                 }
             }
 
-            LOG.debug("Exited read thread loop, calling disconnect()");
-            disconnect();
+            LOG.debug("Exited read thread loop, disconnecting");
+            GBApplication.deviceService(mGbDevice).disconnect();
         }
     };
 
@@ -232,6 +232,9 @@ public final class BtBRQueue {
                 LOG.error("IO exception while closing socket in disconnect(): ", e);
             }
         }
+
+        mBtSocket = null;
+        setDeviceConnectionState(GBDevice.State.NOT_CONNECTED);
     }
 
     /**

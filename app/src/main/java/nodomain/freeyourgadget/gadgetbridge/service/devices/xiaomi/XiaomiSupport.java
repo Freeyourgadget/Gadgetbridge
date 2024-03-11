@@ -171,9 +171,10 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     @Override
     public void dispose() {
-        if (getConnectionSpecificSupport() != null) {
-            getConnectionSpecificSupport().dispose();
-            connectionSupport = null;
+        if (this.connectionSupport != null) {
+            XiaomiConnectionSupport connectionSupport = this.connectionSupport;
+            this.connectionSupport = null;
+            connectionSupport.dispose();
         }
     }
 
@@ -200,12 +201,6 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     public void setCachedFirmwareVersion(String version) {
         this.cachedFirmwareVersion = version;
-    }
-
-    public void disconnect() {
-        if (getConnectionSpecificSupport() != null) {
-            getConnectionSpecificSupport().disconnect();
-        }
     }
 
     public void handleCommandBytes(final byte[] plainValue) {

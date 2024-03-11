@@ -158,11 +158,6 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         this.commsSupport.setContext(device, adapter, context);
     }
 
-    @Override
-    public void disconnect() {
-        this.commsSupport.disconnect();
-    }
-
     private int findNextPossiblePreamble(final byte[] haystack) {
         for (int i = 1; i + 2 < haystack.length; i++) {
             // check if first byte matches

@@ -241,11 +241,6 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         this.commsSupport.setContext(device, adapter, context);
     }
 
-    @Override
-    public void disconnect() {
-        this.commsSupport.disconnect();
-    }
-
     public void sendCommand(final String taskName, final XiaomiProto.Command command) {
         if (this.characteristicCommandWrite == null) {
             // Can sometimes happen in race conditions when connecting + receiving calendar event or weather updates
