@@ -68,6 +68,10 @@ public class CalendarEvent {
         return end;
     }
 
+    public int getEndSeconds() {
+        return (int) (end / 1000);
+    }
+
     public long getDuration() {
         return end - begin;
     }
