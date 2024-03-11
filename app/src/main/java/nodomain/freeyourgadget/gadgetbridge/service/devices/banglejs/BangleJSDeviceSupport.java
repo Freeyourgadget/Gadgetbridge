@@ -1407,11 +1407,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             fetchActivityData(getLastSuccessfulSyncTime());
         }
 
-        if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
+        if ((dataTypes & RecordedDataTypes.TYPE_GPS_TRACKS) !=0) {
             JSONObject requestTracksListObj = BangleJSActivityTrack.compileTracksListRequest(getDevice(), getContext());
             uartTxJSON("requestActivityTracksList", requestTracksListObj);
         }
-        if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
+        if ((dataTypes & RecordedDataTypes.TYPE_DEBUGLOGS) !=0) {
             File dir;
             try {
                 dir = FileUtils.getExternalFilesDir();
