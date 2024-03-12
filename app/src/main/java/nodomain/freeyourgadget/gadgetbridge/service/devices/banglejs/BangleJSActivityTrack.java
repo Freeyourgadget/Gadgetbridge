@@ -94,22 +94,23 @@ class BangleJSActivityTrack {
        return o; 
     }
 
-    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, int prevPacketCount, GBDevice device, Context context) throws JSONException {
+    private static int lastPacketCount = -1;
+    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
 
         JSONArray returnArray;
 
         JSONObject stopObj = new JSONObject().put("t","fetchRec").put("id","stop");
         int currPacketCount;
-        if (json.has("cnt")) {
-            currPacketCount = json.getInt("cnt");
-        } else {
+        if (!json.has("cnt")) {
             currPacketCount = 0;
+        } else {
+            currPacketCount = json.getInt("cnt");
         }
-        if (currPacketCount != prevPacketCount+1) {
+        if (currPacketCount != lastPacketCount+1) {
             LOG.error("Activity Track Packets came out of order - aborting.");
-            LOG.debug("packetCount Aborting: " + prevPacketCount);
-            returnArray = new JSONArray().put(stopObj).put(tracksList).put(prevPacketCount);
+            LOG.debug("packetCount Aborting: " + lastPacketCount);
+            returnArray = new JSONArray().put(stopObj).put(tracksList);
             signalFetchingEnded(device, context);
             stopTimeoutTask();
             return returnArray;
@@ -124,7 +125,8 @@ class BangleJSActivityTrack {
         try {
             dir = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
-            returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
+            returnArray = new JSONArray().put(null).put(tracksList);
+            resetPacketCount();
             return returnArray;
         }
 
@@ -133,15 +135,14 @@ class BangleJSActivityTrack {
             parseFetchedRecorderCSV(dir, filename, log, device, context); // I tried refactoring to parse all fetched logs in one go at the end instead. But that only gave me more troubles. This seems like a more stable approach at least in the Bangle.js case.
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
-                int resetPacketCount = -1;
-                LOG.debug("packetCount reset1: " + resetPacketCount);
-                returnArray = new JSONArray().put(null).put(tracksList).put(resetPacketCount);
+                LOG.debug("packetCount reset1: " + lastPacketCount);
+                returnArray = new JSONArray().put(null).put(tracksList);
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
-                int resetPacketCount = -1;
-                LOG.debug("packetCount reset2: " + resetPacketCount);
-                returnArray = new JSONArray().put(requestTrackObj).put(tracksList).put(resetPacketCount);
+                resetPacketCount();
+                LOG.debug("packetCount reset2: " + lastPacketCount);
+                returnArray = new JSONArray().put(requestTrackObj).put(tracksList);
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
@@ -150,11 +151,16 @@ class BangleJSActivityTrack {
 
             writeToRecorderCSV(lines, dir, filename);
 
-            LOG.debug("packetCount continue: " + currPacketCount);
-            returnArray = new JSONArray().put(null).put(tracksList).put(currPacketCount);
+            lastPacketCount += 1;
+            LOG.debug("packetCount continue: " + lastPacketCount);
+            returnArray = new JSONArray().put(null).put(tracksList);
         }
 
         return returnArray;
+    }
+
+    private static void resetPacketCount() {
+        lastPacketCount = -1;
     }
 
     private static void parseFetchedRecorderCSV(File dir, String filename, String log, GBDevice device, Context context) {
@@ -651,6 +657,7 @@ class BangleJSActivityTrack {
 
     private static void signalFetchingEnded(GBDevice device, Context context) {
         stopTimeoutTask();
+        resetPacketCount();
         device.unsetBusyTask();
         device.sendDeviceUpdateIntent(context);
         GB.updateTransferNotification(null, "", false, 100, context);
