@@ -562,14 +562,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "act":
                 handleActivity(json);
                 break;
-            case "actTrksList":
+            case "actTrksList": {
                 JSONObject requestTrackObj = BangleJSActivityTrack.handleActTrksList(json, getDevice(), getContext());
                 uartTxJSON("requestActivityTrackLog", requestTrackObj);
-                break;
-            case "actTrk":
-                requestTrackObj = BangleJSActivityTrack.handleActTrk(json, getDevice(), getContext());
+            } break;
+            case "actTrk": {
+                JSONObject requestTrackObj = BangleJSActivityTrack.handleActTrk(json, getDevice(), getContext());
                 if (requestTrackObj!=null) uartTxJSON("requestActivityTrackLog", requestTrackObj);
-                break;
+            } break;
             case "http":
                 handleHttp(json);
                 break;
