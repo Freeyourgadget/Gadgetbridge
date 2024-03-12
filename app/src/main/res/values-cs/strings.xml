@@ -49,14 +49,14 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Nastavení</string>
     <string name="pref_header_general">Obecná nastavení</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Připojit Gadgetbridge k zařízení při zapnutí Bluetooth</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Připojit Gadgetbridge k zařízením při zapnutí Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Spouštět automaticky</string>
     <string name="pref_title_general_autoreconnect">Automatické znovupřipojení</string>
     <string name="pref_title_audio_player">Preferovaný přehrávač hudby</string>
     <string name="pref_default">Výchozí</string>
     <string name="pref_header_datetime">Datum a čas</string>
     <string name="pref_title_datetime_syctimeonconnect">Synchronizovat čas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchronizovat čas během připojení k zařízení a při změně času v Androidu</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizovat čas během připojení k zařízením, při změně času v Androidu a periodicky</string>
     <string name="pref_title_theme">Téma</string>
     <string name="pref_theme_light">Světlé</string>
     <string name="pref_theme_dark">Tmavé</string>
@@ -940,7 +940,7 @@
     <string name="ascentSeconds">Stoupající</string>
     <string name="laps">Bazénů</string>
     <string name="swimStyle">Plavecký styl</string>
-    <string name="swolfIndex">Hodnocení swolf</string>
+    <string name="swolfIndex">SWOLF</string>
     <string name="averageLapPace">Průměrné Tempo Bazénu</string>
     <string name="averageStrokesPerSecond">Průměrné Záběry</string>
     <string name="averageStrokeDistance">Průměrná Délka Záběru</string>
@@ -1332,8 +1332,8 @@
     <string name="pref_header_notification_application_settings">Nastavení jednotlivých aplikací</string>
     <string name="pref_title_notification_use_as_allow">Povolení notifikací z vybraných aplikací</string>
     <string name="pref_title_message_privacy_mode">Nastavení soukromí pro oznámení</string>
-    <string name="pref_message_privacy_mode_off">Zobrazit text v oznámení</string>
-    <string name="pref_message_privacy_mode_complete">Skrýt text v oznámení</string>
+    <string name="pref_message_privacy_mode_off">Zobrazit všechen text</string>
+    <string name="pref_message_privacy_mode_complete">Skrýt všechen text</string>
     <string name="pref_applications_settings">Seznam aplikací</string>
     <string name="toast_app_must_be_selected">Aplikace musí být označena, aby ji bylo možno konfigurovat</string>
     <string name="toast_app_must_not_be_selected">Aplikace nesmí být označena, aby ji bylo možno konfigurovat</string>
@@ -1877,7 +1877,7 @@
     <string name="menuitem_workout_history">Historie cvičení</string>
     <string name="menuitem_female_health">Ženské zdraví</string>
     <string name="menuitem_workout_status">Stav cvičení</string>
-    <string name="permission_display_over_other_apps">"%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
+    <string name="permission_display_over_other_apps">%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
 \n
 \nToho lze využít ke spouštění hudební aplikace pro přehrání skladby a mnoha dalších věcí.
 \n
@@ -1885,7 +1885,7 @@
 \n
 \nPro zrušení opakovaného dotazování %1$s o povolení, jděte do \'Nastavení\' vypněte \'Ověřovat stav oprávnění\'.
 \n
-\nUjistěte se, že jste  %1$s poskytli požadovaná oprávnění pro funkce dle vašich očekáváni."</string>
+\nUjistěte se, že jste %1$s poskytli požadovaná oprávnění pro funkce dle vašich očekáváni.</string>
     <string name="pref_header_heartrate_alerts">Upozornění na tepovou frekvenci</string>
     <string name="pref_header_stress">Stres</string>
     <string name="pref_header_spo2">Krevní kyslík</string>
@@ -1927,7 +1927,7 @@
     <string name="menuitem_calendar">Kalendář</string>
     <string name="appmanager_watchface_activate">Aktivovat</string>
     <string name="appmanager_app_download">Stáhnout do mezipaměti</string>
-    <string name="appmanager_download_started">Začalo stahování aplikace</string>
+    <string name="appmanager_download_started">Stahování aplikace začalo</string>
     <string name="appmanager_downloaded_to_cache">Staženo %s do mezipaměti</string>
     <string name="appmanager_download_app_error">Chyba při stahování aplikace</string>
     <string name="pref_title_overwrite_settings_on_connection">Přepsat nastavení při připojení</string>
@@ -2257,7 +2257,7 @@
     <string name="contact_phone_number">Telefonní číslo</string>
     <string name="pref_enable_unsupported_settings_summary">To umožní přístup ke všem dostupným nastavením, i když tato nejsou zařízením podporována. To může způsobit nestabilitu a restary zařízení.</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
-    <string name="pai_day">PAI Denní přírůstek</string>
+    <string name="pai_day">Denní přírůstek</string>
     <string name="loyalty_cards_install">Instalace Catima</string>
     <string name="croatian">Chorvatština</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (pouze s Galaxy Wearable aplikací)</string>
@@ -2278,7 +2278,7 @@
     <string name="menuitem_one_tap_measuring">Měření jednotapů</string>
     <string name="activity_type_weightlifting">Vzpírání</string>
     <string name="stress_high">Vysoký</string>
-    <string name="pai_total">PAI Celkový</string>
+    <string name="pai_total">Celkový</string>
     <string name="sony_speak_to_chat_summary">Automaticky vypnut potlačení hluku při promluvení.</string>
     <string name="screenshot_taken">Screenshot pořízen</string>
     <string name="menuitem_total_workout">Celkový trénink</string>
@@ -2387,4 +2387,22 @@
     <string name="pref_message_privacy_mode_bodyonly">Skrýt pouze obsah zprávy</string>
     <string name="pref_title_preview_message_in_title">Ukázat náhled zprávy v názvu</string>
     <string name="pref_summary_notifications_ignore_work_profile">Neposílat oznámení do hodinek z aplikací v pracovním profilu</string>
+    <string name="pref_title_casio_alert_call">Upozornění na příchozí hovory</string>
+    <string name="pref_summary_casio_alert_call">Upozornit (vibrovat/pípnout) na příchozí hovory</string>
+    <string name="pref_summary_casio_alert_email">Upozornit (vibrovat/pípnout) na oznámení e-mailů</string>
+    <string name="pref_summary_casio_alert_sms">Upozornit (vibrovat/pípnout) na oznámení SMS</string>
+    <string name="pref_summary_casio_alert_other">Upozornit (vibrovat/pípnout) na oznámení ostatních kategorií</string>
+    <string name="pref_title_casio_alert_email">Upozornění na oznámení e-mailů</string>
+    <string name="pref_title_casio_alert_sms">Upozornění na oznámení SMS</string>
+    <string name="pref_title_casio_alert_other">Upozornění na ostatní oznámení</string>
+    <string name="info_menu_structure_removed">Struktura menu odstraněna</string>
+    <string name="pref_title_casio_alert_calendar">Upozornění pro oznámení kalendáře</string>
+    <string name="pref_summary_casio_alert_calendar">Upozornit (vibrovat/pípnout) na oznámení kalendáře</string>
+    <string name="pref_title_send_app_notifications">Poslat oznámení</string>
+    <string name="pref_summary_send_app_notifications">Poslat oznámení aplikací do zařízení</string>
+    <string name="spanish_mx">Španělština (Mexiko)</string>
+    <string name="spanish_us">Španělština (Spojené státy)</string>
+    <string name="french_fr">Francouzština (Francie)</string>
+    <string name="french_ca">Francouzština (Kanada)</string>
+    <string name="info_menu_structure_contents">Struktura menu: %s</string>
 </resources>
