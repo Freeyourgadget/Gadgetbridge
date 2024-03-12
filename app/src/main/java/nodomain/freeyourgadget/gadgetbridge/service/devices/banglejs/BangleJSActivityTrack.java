@@ -69,7 +69,7 @@ class BangleJSActivityTrack {
     }
 
     private static JSONArray tracksList;
-    static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
+    static JSONObject handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
         tracksList = json.getJSONArray("list");
         LOG.debug("trksList says hi!");
@@ -79,27 +79,17 @@ class BangleJSActivityTrack {
             signalFetchingEnded(device, context);
             return null;
         } else {
-            return tracksList;
+            JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
+            tracksList.remove(0);
+            return requestTrackObj;
         }
-    }
-
-    static JSONObject compileTrackRequest(String id, Boolean isLastId) {
-        JSONObject o = new JSONObject();
-        try {
-            o.put("t", "fetchRec");
-            o.put("id", id);
-            o.put("last", String.valueOf(isLastId));
-        } catch (JSONException e) {
-            LOG.error("JSONException: " + e.getLocalizedMessage());
-        }
-       return o; 
     }
 
     private static int lastPacketCount = -1;
-    static JSONArray handleActTrk(JSONObject json, GBDevice device, Context context) throws JSONException {
+    static JSONObject handleActTrk(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
 
-        JSONArray returnArray;
+        JSONObject returnObj;
 
         JSONObject stopObj = new JSONObject().put("t","fetchRec").put("id","stop");
         int currPacketCount;
@@ -111,10 +101,9 @@ class BangleJSActivityTrack {
         if (currPacketCount != lastPacketCount+1) {
             LOG.error("Activity Track Packets came out of order - aborting.");
             LOG.debug("packetCount Aborting: " + lastPacketCount);
-            returnArray = new JSONArray().put(stopObj);
             signalFetchingEnded(device, context);
             stopTimeoutTask();
-            return returnArray;
+            return stopObj;
         }
 
         LOG.debug("actTrk says hi!");
@@ -126,9 +115,8 @@ class BangleJSActivityTrack {
         try {
             dir = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
-            returnArray = new JSONArray().put(null);
             resetPacketCount();
-            return returnArray;
+            return null;
         }
 
         if (!json.has("lines")) { // if no lines were sent with this json object, it signifies that the whole recorder log has been transmitted.
@@ -137,13 +125,13 @@ class BangleJSActivityTrack {
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
                 LOG.debug("packetCount reset1: " + lastPacketCount);
-                returnArray = new JSONArray().put(null);
+                returnObj = null;
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
                 resetPacketCount();
                 LOG.debug("packetCount reset2: " + lastPacketCount);
-                returnArray = new JSONArray().put(requestTrackObj);
+                returnObj = requestTrackObj;
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
@@ -154,14 +142,10 @@ class BangleJSActivityTrack {
 
             lastPacketCount += 1;
             LOG.debug("packetCount continue: " + lastPacketCount);
-            returnArray = new JSONArray().put(null);
+            returnObj = null;
         }
 
-        return returnArray;
-    }
-
-    private static void resetPacketCount() {
-        lastPacketCount = -1;
+        return returnObj;
     }
 
     private static void parseFetchedRecorderCSV(File dir, String filename, String log, GBDevice device, Context context) {
@@ -648,6 +632,22 @@ class BangleJSActivityTrack {
         }
 
         stopAndRestartTimeout(device,context);
+    }
+
+    private static void resetPacketCount() {
+        lastPacketCount = -1;
+    }
+
+    private static JSONObject compileTrackRequest(String id, Boolean isLastId) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("t", "fetchRec");
+            o.put("id", id);
+            o.put("last", String.valueOf(isLastId));
+        } catch (JSONException e) {
+            LOG.error("JSONException: " + e.getLocalizedMessage());
+        }
+        return o;
     }
 
     private static void signalFetchingStarted(GBDevice device, Context context) {
