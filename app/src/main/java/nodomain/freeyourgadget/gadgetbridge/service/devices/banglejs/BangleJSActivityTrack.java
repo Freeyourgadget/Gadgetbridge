@@ -626,9 +626,9 @@ class BangleJSActivityTrack {
             LOG.debug("Activity track:\n" + track.getSegments());
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOG.error("IOException when parsing fetched CSV: " + e);
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            LOG.error("JSONException when parsing fetched CSV: " + e);
         }
 
         stopAndRestartTimeout(device,context);
