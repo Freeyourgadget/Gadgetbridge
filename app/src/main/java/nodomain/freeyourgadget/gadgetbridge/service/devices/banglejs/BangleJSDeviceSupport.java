@@ -514,7 +514,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private JSONArray tracksList;
     private void handleUartRxJSON(JSONObject json) throws JSONException {
         String packetType = json.getString("t");
         switch (packetType) {
@@ -564,17 +563,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 handleActivity(json);
                 break;
             case "actTrksList":
-                tracksList = BangleJSActivityTrack.handleActTrksList(json, getDevice(), getContext());
+                JSONArray tracksList = BangleJSActivityTrack.handleActTrksList(json, getDevice(), getContext());
                 if (tracksList!=null) {
                     JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                     uartTxJSON("requestActivityTrackLog", requestTrackObj);
-                    tracksList.remove(0);
                 }
                 break;
             case "actTrk":
-                JSONArray returnArray = BangleJSActivityTrack.handleActTrk(json, tracksList, getDevice(), getContext());
+                JSONArray returnArray = BangleJSActivityTrack.handleActTrk(json, getDevice(), getContext());
                 if (!returnArray.isNull(0)) uartTxJSON("requestActivityTrackLog", returnArray.getJSONObject(0));
-                tracksList = returnArray.getJSONArray(1);
                 break;
             case "http":
                 handleHttp(json);

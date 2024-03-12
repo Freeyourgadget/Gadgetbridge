@@ -68,11 +68,12 @@ class BangleJSActivityTrack {
         return o;
     }
 
+    private static JSONArray tracksList;
     static JSONArray handleActTrksList(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
+        tracksList = json.getJSONArray("list");
         LOG.debug("trksList says hi!");
         //GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
-        JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         if (tracksList.length()==0) {
             signalFetchingEnded(device, context);
@@ -95,7 +96,7 @@ class BangleJSActivityTrack {
     }
 
     private static int lastPacketCount = -1;
-    static JSONArray handleActTrk(JSONObject json, JSONArray tracksList, GBDevice device, Context context) throws JSONException {
+    static JSONArray handleActTrk(JSONObject json, GBDevice device, Context context) throws JSONException {
         stopAndRestartTimeout(device, context);
 
         JSONArray returnArray;
@@ -110,7 +111,7 @@ class BangleJSActivityTrack {
         if (currPacketCount != lastPacketCount+1) {
             LOG.error("Activity Track Packets came out of order - aborting.");
             LOG.debug("packetCount Aborting: " + lastPacketCount);
-            returnArray = new JSONArray().put(stopObj).put(tracksList);
+            returnArray = new JSONArray().put(stopObj);
             signalFetchingEnded(device, context);
             stopTimeoutTask();
             return returnArray;
@@ -125,7 +126,7 @@ class BangleJSActivityTrack {
         try {
             dir = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
-            returnArray = new JSONArray().put(null).put(tracksList);
+            returnArray = new JSONArray().put(null);
             resetPacketCount();
             return returnArray;
         }
@@ -136,13 +137,13 @@ class BangleJSActivityTrack {
             if (tracksList.length()==0) {
                 signalFetchingEnded(device, context);
                 LOG.debug("packetCount reset1: " + lastPacketCount);
-                returnArray = new JSONArray().put(null).put(tracksList);
+                returnArray = new JSONArray().put(null);
             } else {
                 JSONObject requestTrackObj = BangleJSActivityTrack.compileTrackRequest(tracksList.getString(0), 1==tracksList.length());
                 tracksList.remove(0);
                 resetPacketCount();
                 LOG.debug("packetCount reset2: " + lastPacketCount);
-                returnArray = new JSONArray().put(requestTrackObj).put(tracksList);
+                returnArray = new JSONArray().put(requestTrackObj);
             }
         } else { // We received a lines of the csv, now we append it to the file in storage.
 
@@ -153,7 +154,7 @@ class BangleJSActivityTrack {
 
             lastPacketCount += 1;
             LOG.debug("packetCount continue: " + lastPacketCount);
-            returnArray = new JSONArray().put(null).put(tracksList);
+            returnArray = new JSONArray().put(null);
         }
 
         return returnArray;
