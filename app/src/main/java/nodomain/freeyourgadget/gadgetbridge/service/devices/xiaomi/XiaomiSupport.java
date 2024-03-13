@@ -42,6 +42,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiFWHelper;
@@ -399,7 +400,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     @Override
     public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
-        weatherService.onSendWeather(weatherSpecs.get(0));
+        weatherService.onSendWeather(weatherSpecs);
     }
 
     @Override
@@ -517,6 +518,11 @@ public class XiaomiSupport extends AbstractDeviceSupport {
         } catch (final Exception e) {
             LOG.error("Failed to parse from storage", e);
         }
+    }
+
+    public void setFeatureSupported(final String featureKey, final boolean supported) {
+        LOG.debug("Setting feature {} -> {}", featureKey, supported ? "supported" : "not supported");
+        evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(featureKey, supported));
     }
 
     private static final String[] EMOJI_SOURCE = new String[]{

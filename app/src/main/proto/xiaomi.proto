@@ -734,127 +734,95 @@ message NotificationIconPackage {
 
 message Weather {
   optional WeatherCurrent current = 1;
-  optional WeatherDaily daily = 2;
+  optional WeatherForecast forecast = 2;
 
-  // 10, 6 request without payload?
+  // response to 10, 5 (get location list) | payload of 10, 6 (set, update location list) | payload of 10, 8 (remove)
+  optional WeatherLocations locations = 4;
 
-  // 10, 5 set current | 10, 7 create | 10, 8 delete
-  optional WeatherCurrentLocation currentLocation = 4;
-  // 10, 7 create
-  optional WeatherLocation create = 5;
+  // indication payload of 10, 3 (requested update) | payload of 10, 7 (set current, add to list)
+  optional WeatherLocation location = 5;
 
   // 10, 10
-  optional WeatherTemperatureUnit temperatureUnit = 6;
+  optional WeatherPrefs prefs = 6;
 }
 
 message WeatherCurrent {
-  optional WeatherCurrentTimeLocation timeLocation = 1;
-  optional uint32 weatherCondition = 2;
-  optional WeatherCurrentTemperature temperature = 3;
-  optional WeatherCurrentHumidity humidity= 4;
-  optional WeatherCurrentWind wind = 5;
-  optional WeatherCurrentUVIndex uv = 6;
-  optional WeatherCurrentAQI AQI = 7;
-  optional WeatherCurrentWarning warning = 8; // Seems to be an array?
+  optional WeatherMetadata metadata = 1;
+  required uint32 weatherCondition = 2;
+  optional WeatherUnitValue temperature = 3;
+  optional WeatherUnitValue humidity = 4;
+  optional WeatherUnitValue wind = 5;
+  optional WeatherUnitValue uv = 6;
+  optional WeatherUnitValue aqi = 7;
+  optional WeatherWarnings warning = 8; // Seems to be an array?
   optional float pressure = 9;
 }
-message WeatherCurrentTimeLocation {
-  optional string timestamp = 1;
-  optional string unk2 = 2;
-  optional string currentLocationString = 3;
-  optional string currentLocationCode = 4;
-  optional bool unk5 = 5; // default location?
+
+message WeatherMetadata {
+  required string publicationTimestamp = 1;
+  required string cityName = 2;
+  required string locationName = 3;
+  optional string locationKey = 4;
+  optional bool isCurrentLocation = 5; // default location?
 }
 
-message WeatherCurrentTemperature {
-  optional string symbol = 1;
-  optional sint32 degrees = 2;
+message WeatherUnitValue {
+  required string unit = 1;
+  required sint32 value = 2;
 }
 
-message WeatherCurrentHumidity {
-  optional string symbol = 1;
-  optional sint32 humidity = 2;
+message WeatherWarnings {
+  repeated WeatherWarning warning = 1;
 }
 
-message WeatherCurrentWind {
-  optional string symbol = 1;
-  optional sint32 wind = 2;
+message WeatherWarning {
+  required string type = 1;
+  required string level = 2;
+  optional string title = 3;
+  optional string description = 4;
+  optional string id = 5;
 }
 
-message WeatherCurrentUVIndex {
-  optional string unk1 = 1;
-  optional sint32 index = 2;
+message WeatherLocations {
+  repeated WeatherLocation location = 1;
 }
 
-message WeatherCurrentAQI {
-  optional string AQIText = 1;
-  optional sint32 AQI = 2;
+message WeatherForecast {
+  required WeatherMetadata metadata = 1;
+  required ForecastEntries entries = 2;
 }
 
-message WeatherCurrentWarning {
-  repeated WeatherCurrentWarning1 currentWarning1 = 1;
+message ForecastEntries {
+  repeated ForecastEntry entry = 1;
 }
 
-message WeatherCurrentWarning1 {
-  optional string currentWarningText = 1;
-  optional string currentWarningSeverityText = 2;
-  optional string currentWarningTitle = 3;
-  optional string currentWarningDescription = 4;
-  optional string unk5 = 5;
-}
-
-message WeatherCurrentLocation {
-  optional WeatherLocation location = 1;
-}
-
-message WeatherDaily {
-  required WeatherCurrentTimeLocation timeLocation = 1;
-  required WeatherDailyList dailyList = 2;
-}
-
-message WeatherDailyList {
-  repeated WeatherDailyForecastDay forecastDay = 1;
-}
-
-message WeatherDailyForecastDay {
-  optional DailyAQI AQI = 1;
-  optional DailyUnk2 unk2 = 2;
-  optional DailyHighLowTemp highLowTemp = 3;
+message ForecastEntry {
+  optional WeatherUnitValue aqi = 1;
+  optional WeatherRange conditionRange = 2;
+  optional WeatherRange temperatureRange = 3;
   optional string temperatureSymbol = 4;
-  optional DailySunriseSunset sunriseSunset = 5;
+  optional WeatherSunriseSunset sunriseSunset = 5;
+  optional WeatherUnitValue wind = 6;
 }
 
-message DailyAQI {
-  optional string AQIText = 1;
-  optional sint32 AQI = 2;
+message WeatherRange {
+  required sint32 from = 1;
+  required sint32 to = 2;
 }
 
-message DailyUnk2 {
-  optional sint32 unk1 = 1;
-  optional sint32 unk2 = 2;
-}
-
-message DailyHighLowTemp {
-  optional sint32 low = 1;
-  optional sint32 high = 2;
-}
-
-message DailySunriseSunset {
-  optional string sunrise = 1;
-  optional string sunset = 2;
+message WeatherSunriseSunset {
+  required string sunrise = 1;
+  required string sunset = 2;
 }
 
 message WeatherLocation {
-  optional string code = 1;
+  required string code = 1;
   optional string name = 2;
 }
 
-message WeatherUnknown1 {
-  optional float unknown12 = 12;
-}
-
-message WeatherTemperatureUnit {
-  optional uint32 unit = 1; // 1 celsius 2 fahrenheit
+message WeatherPrefs {
+  optional uint32 temperatureScale = 1; // 1 celsius 2 fahrenheit
+  optional uint32 weatherWarningsEnabled = 2; // 0 = unsupported, 1 = enabled, 2 = disabled
 }
 
 //

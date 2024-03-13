@@ -55,6 +55,7 @@ public final class XiaomiPreferences {
     public static final String FEAT_SCREEN_ON_ON_NOTIFICATIONS = "feat_screen_on_on_notifications";
     public static final String FEAT_CAMERA_REMOTE = "feat_camera_remote";
     public static final String FEAT_WIDGETS = "feat_widgets";
+    public static final String FEAT_MULTIPLE_WEATHER_LOCATIONS = "feat_multiple_weather_locations";
 
     private XiaomiPreferences() {
         // util class

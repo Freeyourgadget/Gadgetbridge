@@ -72,9 +72,4 @@ public class XiaomiWatchS1ActiveCoordinator extends XiaomiCoordinator {
     public int getDisabledIconResource() {
         return R.drawable.ic_device_miwatch_disabled;
     }
-
-    @Override
-    public boolean supportsMultipleWeatherLocations() {
-        return true;
-    }
 }

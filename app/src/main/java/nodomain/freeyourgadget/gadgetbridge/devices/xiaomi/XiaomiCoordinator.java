@@ -568,10 +568,6 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
     }
 
-    public boolean supportsMultipleWeatherLocations() {
-        return false;
-    }
-
     public boolean supports(final GBDevice device, final String feature) {
         return getPrefs(device).getBoolean(feature, false);
     }

@@ -67,9 +67,4 @@ public class MiBand7ProCoordinator extends XiaomiCoordinator {
         // no PAI nor vitality score
         return false;
     }
-
-    @Override
-    public boolean supportsMultipleWeatherLocations() {
-        return true;
-    }
 }

@@ -68,11 +68,6 @@ public class RedmiWatch3Coordinator extends XiaomiCoordinator {
     }
 
     @Override
-    public boolean supportsMultipleWeatherLocations() {
-        return true;
-    }
-
-    @Override
     public int getContactsSlotCount(final GBDevice device) {
         return 10; // TODO:verify
     }
