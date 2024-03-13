@@ -1025,7 +1025,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             receivedLine += packetStr;
             while (receivedLine.contains("\n")) {
                 int p = receivedLine.indexOf("\n");
-                String line =  receivedLine.substring(0,p-1);
+                String line = receivedLine.substring(0,(p>0) ? (p-1) : 0);
                 receivedLine = receivedLine.substring(p+1);
                 handleUartRxLine(line);
             }
