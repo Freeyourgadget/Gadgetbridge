@@ -555,7 +555,7 @@
     <string name="blacklist_all_for_notifications">Összes értesítés feketelistája</string>
     <string name="check_all_applications">Az összes alkalmazás kijelölése</string>
     <string name="uncheck_all_applications">Az összes alkalmazás kijelölésének törlése</string>
-    <string name="about_activity_title_generic">Gadgetbridge névjegye</string>
+    <string name="about_activity_title_generic">A Gadgetbridge névjegye</string>
     <string name="appmanager_app_share">Megosztás</string>
     <string name="button_watchface_select_image">Háttérkép megváltoztatása</string>
     <string name="about_links">Linkek</string>
@@ -690,7 +690,7 @@
         <item quantity="one">%d óra</item>
         <item quantity="other">%d óra</item>
     </plurals>
-    <string name="about_activity_title_main_nightly">Gadgetbridge nightly névjegye</string>
+    <string name="about_activity_title_main_nightly">A Gadgetbridge nightly névjegye</string>
     <string name="single_band">Egy karkötő</string>
     <string name="menuitem_last_workout">Utolsó edzés</string>
     <string name="pref_show_changelog">Változásnapló megjelenítése induláskor</string>
@@ -993,7 +993,7 @@
     <string name="devicetype_itag">iTag</string>
     <string name="sony_ambient_sound">Mód</string>
     <string name="prefs_right">Jobb</string>
-    <string name="balanced">Kiegyrnsúlyozott</string>
+    <string name="balanced">Kiegyensúlyozott</string>
     <string name="averageAltitude">Átlagos</string>
     <string name="all_satellites">Összes műhold</string>
     <string name="pref_theme_dynamic">Dinamikus színek</string>
