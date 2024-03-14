@@ -1410,6 +1410,46 @@ public class DeviceConfig {
         // TODO: implement parsing this request for the log parser support
     }
 
+    public static class AcceptAgreement {
+        public static final int id = 0x30;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+
+                this.serviceId = DeviceConfig.id;
+                this.commandId = id;
+
+                int timestamp = (int) (System.currentTimeMillis() / 1000);
+
+                HuaweiTLV software = new HuaweiTLV()
+                                .put(0x03, "software_update_service_statement")
+                                .put(0x04, 0x01)
+                                .put(0x05, "20230508-20230508-0-0")
+                                .put(0x06, timestamp);
+                HuaweiTLV device_information = new HuaweiTLV()
+                                .put(0x03, "device_information_management")
+                                .put(0x04,0x01)
+                                .put(0x05, "20230508-20230508-0-0")
+                                .put(0x06,timestamp);
+
+                HuaweiTLV user_license = new HuaweiTLV()
+                                .put(0x03, "user_license_agreement")
+                                .put(0x04,0x01)
+                                .put(0x05, "20230508-20230508-0-0")
+                                .put(0x06,timestamp);
+                HuaweiTLV tlvList = new HuaweiTLV()
+                        .put(0x82, software)
+                        .put(0x82,device_information)
+                        .put(0x82,user_license);
+                this.tlv = new HuaweiTLV()
+                        .put(0x81, tlvList);
+            }
+        }
+        
+    }
+
+
     public static class SettingRelated {
         public static final int id = 0x31;
 

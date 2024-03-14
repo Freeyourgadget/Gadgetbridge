@@ -75,6 +75,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
@@ -596,22 +597,27 @@ public class HuaweiSupportProvider {
                 GetExpandCapabilityRequest expandCapabilityReq = new GetExpandCapabilityRequest(this);
                 expandCapabilityReq.doPerform();
             }
-            if (getHuaweiCoordinator().supportsAccount()) {
-                SendAccountRequest sendAccountReq = new SendAccountRequest(this);
-                sendAccountReq.doPerform();
-            }
             if (getHuaweiCoordinator().supportsAccountJudgment() && getHuaweiCoordinator().supportsAccountSwitch()) {
                 SendExtendedAccountRequest sendExtendedAccountRequest = new SendExtendedAccountRequest(this);
                 sendExtendedAccountRequest.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsActivityType()) {
-                GetActivityTypeRequest activityTypeReq = new GetActivityTypeRequest(this);
-                activityTypeReq.doPerform();
             }
             if (getHuaweiCoordinator().supportsSettingRelated()) { // GetSettingRelated
                 GetSettingRelatedRequest getSettingRelatedReq = new GetSettingRelatedRequest(this);
                 getSettingRelatedReq.doPerform();
             }
+            if (getHuaweiCoordinator().supportsAcceptAgreement()) {
+	            AcceptAgreementsRequest acceptAgreementsRequest = new AcceptAgreementsRequest(this);
+		        acceptAgreementsRequest.doPerform();
+            }
+            if (getHuaweiCoordinator().supportsAccount()) {
+                SendAccountRequest sendAccountReq = new SendAccountRequest(this);
+                sendAccountReq.doPerform();
+            }
+            if (getHuaweiCoordinator().supportsActivityType()) {
+                GetActivityTypeRequest activityTypeReq = new GetActivityTypeRequest(this);
+                activityTypeReq.doPerform();
+            }
+
             if (getHuaweiCoordinator().supportsConnectStatus()) {
                 GetConnectStatusRequest getConnectStatusReq = new GetConnectStatusRequest(this);
                 getConnectStatusReq.doPerform();

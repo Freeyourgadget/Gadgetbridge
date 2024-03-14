@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon, Martin.JM
+/*  Copyright (C) 2024 Damien Gaignon, Martin.JM, Vitalii Tomin
 
     This file is part of Gadgetbridge.
 
@@ -241,6 +241,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsQueryDndLiftWristDisturbType() {
         return supportsCommandForService(0x01, 0x1d);
+    }
+
+    public boolean supportsAcceptAgreement() {
+        return supportsCommandForService(0x01, 0x30);
     }
 
     public boolean supportsSettingRelated() {
