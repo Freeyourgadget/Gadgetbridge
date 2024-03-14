@@ -2763,4 +2763,5 @@
     <string name="activity_type_skateboarding">סקייטבורד</string>
     <string name="pref_enable_call_accept">הפעלת קבלת שיחות</string>
     <string name="pref_heartrate_automatic_enable">הפעלת מדידת דופק אוטומטית</string>
+    <string name="activity_type_roller_skating">החלקה על גלגיליות</string>
 </resources>
