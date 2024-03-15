@@ -246,7 +246,7 @@ public class HuaweiSupportProvider {
         return builder;
     }
 
-    protected void initializeDevice(Request linkParamsReq) {
+    protected void initializeDevice(final Request linkParamsReq) {
         deviceMac = this.gbDevice.getAddress();
         createRandomMacAddress();
         createAndroidID();
@@ -276,9 +276,9 @@ public class HuaweiSupportProvider {
         }
     }
 
-    protected void initializeDeviceCheckStatus(Request linkParamsReq) {
+    protected void initializeDeviceCheckStatus(final Request linkParamsReq) {
         try {
-            GetDeviceStatusRequest deviceStatusReq = new GetDeviceStatusRequest(this, true);
+            final GetDeviceStatusRequest deviceStatusReq = new GetDeviceStatusRequest(this, true);
             RequestCallback finalizeReq = new RequestCallback() {
                 @Override
                 public void call() {
@@ -330,16 +330,16 @@ public class HuaweiSupportProvider {
         return (authType ^ 0x01) == 0x04 || (authType ^ 0x02) == 0x04;
     }
 
-    protected void initializeDeviceDealHiChain(Request linkParamsReq) {
+    protected void initializeDeviceDealHiChain(final Request linkParamsReq) {
         try {
             if (isHiChain()) {
-                GetSecurityNegotiationRequest securityNegoReq = new GetSecurityNegotiationRequest(this);
+                final GetSecurityNegotiationRequest securityNegoReq = new GetSecurityNegotiationRequest(this);
                 RequestCallback securityFinalizeReq = new RequestCallback(this) {
                     @Override
                     public void call() {
                         if (securityNegoReq.authType == 0x0186A0 || isHiChain3(securityNegoReq.authType)) {
                             LOG.debug("HiChain mode");
-                            initializeDeviceHiChainMode(linkParamsReq);
+                            initializeDeviceHiChainMode(securityNegoReq.authType);
                         } else if (securityNegoReq.authType == 0x01 || securityNegoReq.authType == 0x02) {
                             LOG.debug("HiChain Lite mode");
                             // Keep track the gadget is connected
@@ -369,11 +369,11 @@ public class HuaweiSupportProvider {
         }
     };
 
-    protected void initializeDeviceHiChainMode(Request linkParamsReq) {
+    protected void initializeDeviceHiChainMode(int authType) {
         try {
             GetHiChainRequest hiChainReq = new GetHiChainRequest(this, needsAuth);
             hiChainReq.setFinalizeReq(configureReq);
-            if (((GetLinkParamsRequest)linkParamsReq).bondState == 0x00 || ((GetLinkParamsRequest)linkParamsReq).bondState == 0x02) {
+            if (paramsProvider.getPinCode() == null & ((authType ^ 0x04) == 0x01) ) {
                 GetPincodeRequest pincodeReq = new GetPincodeRequest(this);
                 pincodeReq.nextRequest(hiChainReq);
                 pincodeReq.doPerform();
