@@ -150,6 +150,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM4Coordinator;
@@ -335,6 +336,7 @@ public enum DeviceType {
     SONY_WF_1000XM3(SonyWF1000XM3Coordinator.class),
     SONY_WH_1000XM2(SonyWH1000XM2Coordinator.class),
     SONY_WF_1000XM4(SonyWF1000XM4Coordinator.class),
+    SONY_LINKBUDS(SonyLinkBudsCoordinator.class),
     SONY_LINKBUDS_S(SonyLinkBudsSCoordinator.class),
     SONY_WH_1000XM5(SonyWH1000XM5Coordinator.class),
     SONY_WF_1000XM5(SonyWF1000XM5Coordinator.class),

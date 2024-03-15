@@ -533,6 +533,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE);
         addPreferenceHandlerFor(PREF_SONY_SPEAK_TO_CHAT_TIMEOUT);
         addPreferenceHandlerFor(PREF_SONY_CONNECT_TWO_DEVICES);
+        addPreferenceHandlerFor(PREF_SONY_ADAPTIVE_VOLUME_CONTROL);
+        addPreferenceHandlerFor(PREF_SONY_WIDE_AREA_TAP);
         addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);

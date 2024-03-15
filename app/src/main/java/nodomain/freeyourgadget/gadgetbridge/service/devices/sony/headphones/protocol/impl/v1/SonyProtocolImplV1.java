@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AdaptiveVolumeControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakT
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.WideAreaTap;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.deviceevents.SonyHeadphonesEnqueueRequestEvent;
@@ -139,6 +141,18 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         }
 
         return new Request(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
+    }
+
+    @Override
+    public Request setAdaptiveVolumeControl(final AdaptiveVolumeControl config) {
+        LOG.warn("Adaptive volume control not implemented for V1");
+        return null;
+    }
+
+    @Override
+    public Request getAdaptiveVolumeControl() {
+        LOG.warn("Adaptive volume control not implemented for V1");
+        return null;
     }
 
     @Override
@@ -282,6 +296,18 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                         config.getCode()[1]
                 }
         );
+    }
+
+    @Override
+    public Request setWideAreaTap(final WideAreaTap config) {
+        LOG.warn("Adaptive volume control not implemented for V1");
+        return null;
+    }
+
+    @Override
+    public Request getWideAreaTap() {
+        LOG.warn("Adaptive volume control not implemented for V1");
+        return null;
     }
 
     public Request getButtonModes() {
@@ -631,6 +657,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, getAmbientSoundControlButtonMode());
             put(SonyHeadphonesCapabilities.QuickAccess, getQuickAccess());
             put(SonyHeadphonesCapabilities.Volume, getVolume());
+            put(SonyHeadphonesCapabilities.AdaptiveVolumeControl, getAdaptiveVolumeControl());
+            put(SonyHeadphonesCapabilities.WideAreaTap, getWideAreaTap());
         }};
 
         for (Map.Entry<SonyHeadphonesCapabilities, Request> capabilityEntry : capabilityRequestMap.entrySet()) {

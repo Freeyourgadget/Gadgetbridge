@@ -20,6 +20,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AdaptiveVolumeControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
@@ -35,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakT
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.WideAreaTap;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
@@ -60,6 +62,11 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request setAmbientSoundControl(final AmbientSoundControl config);
 
+
+    public abstract Request setAdaptiveVolumeControl(final AdaptiveVolumeControl config);
+
+    public abstract Request getAdaptiveVolumeControl();
+
     public abstract Request setSpeakToChatEnabled(final SpeakToChatEnabled config);
 
     public abstract Request getSpeakToChatEnabled();
@@ -83,6 +90,10 @@ public abstract class AbstractSonyProtocolImpl {
     public abstract Request getAutomaticPowerOff();
 
     public abstract Request setAutomaticPowerOff(final AutomaticPowerOff config);
+
+    public abstract Request setWideAreaTap(final WideAreaTap config);
+
+    public abstract Request getWideAreaTap();
 
     public abstract Request getButtonModes();
 

@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AdaptiveVolumeControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
@@ -44,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakT
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.WideAreaTap;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
@@ -103,6 +105,29 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         buf.put((byte) (ambientSoundControl.getAmbientSound()));
 
         return new Request(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
+    }
+
+    @Override
+    public Request setAdaptiveVolumeControl(final AdaptiveVolumeControl config) {
+        return new Request(
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        (byte) 0x0a,
+                        (byte) (config.isEnabled() ? 0x00 : 0x01) // this is reversed on V2...?
+                }
+        );
+    }
+
+    @Override
+    public Request getAdaptiveVolumeControl() {
+        return new Request(
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        (byte) 0x0a
+                }
+        );
     }
 
     @Override
@@ -229,6 +254,30 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
                         (byte) 0x05,
                         config.getCode()[0],
                         config.getCode()[1]
+                }
+        );
+    }
+
+    @Override
+    public Request setWideAreaTap(final WideAreaTap config) {
+        return new Request(
+                PayloadTypeV1.TOUCH_SENSOR_SET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.TOUCH_SENSOR_SET.getCode(),
+                        (byte) 0xd1,
+                        (byte) 0x00,
+                        (byte) (config.isEnabled() ? 0x00 : 0x01) // this is reversed on V2...?
+                }
+        );
+    }
+
+    @Override
+    public Request getWideAreaTap() {
+        return new Request(
+                PayloadTypeV1.TOUCH_SENSOR_GET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.TOUCH_SENSOR_GET.getCode(),
+                        (byte) 0xd1
                 }
         );
     }
@@ -627,6 +676,31 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         return Collections.singletonList(event);
     }
 
+    public List<? extends GBDeviceEvent> handleAdaptiveVolumeControl(final byte[] payload) {
+        if (payload.length != 3) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        if (payload[1] != 0x0a) {
+            LOG.warn("Not adaptive volume control, ignoring");
+            return Collections.emptyList();
+        }
+
+        final Boolean disabled = booleanFromByte(payload[2]);
+        if (disabled == null) {
+            LOG.warn("Unknown adaptive volume control code {}", String.format("%02x", payload[2]));
+            return Collections.emptyList();
+        }
+
+        LOG.debug("Adaptive volume control: {}", !disabled);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(new AdaptiveVolumeControl(!disabled).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
     @Override
     public List<? extends GBDeviceEvent> handleSpeakToChatEnabled(final byte[] payload) {
         if (payload.length != 4) {
@@ -649,6 +723,40 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
 
         final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
                 .withPreferences(new SpeakToChatEnabled(!disabled).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
+    @Override
+    public List<? extends GBDeviceEvent> handleSpeakToChatConfig(final byte[] payload) {
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        if (payload[1] != 0x0c) {
+            LOG.warn("Not speak to chat config, ignoring");
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig.Sensitivity sensitivity = SpeakToChatConfig.Sensitivity.fromCode(payload[2]);
+        if (sensitivity == null) {
+            LOG.warn("Unknown sensitivity code {}", String.format("%02x", payload[2]));
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig.Timeout timeout = SpeakToChatConfig.Timeout.fromCode(payload[3]);
+        if (timeout == null) {
+            LOG.warn("Unknown timeout code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig speakToChatConfig = new SpeakToChatConfig(false, sensitivity, timeout);
+
+        LOG.debug("Speak to chat config: {}", speakToChatConfig);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(speakToChatConfig.toPreferences());
 
         return Collections.singletonList(event);
     }
@@ -680,6 +788,11 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
     }
 
     public List<? extends GBDeviceEvent> handleAmbientSoundControlButtonMode(final byte[] payload) {
+        if (payload.length == 4 && payload[1] == 0x0c) {
+            // FIXME split this
+            return handleSpeakToChatConfig(payload);
+        }
+
         if (payload.length != 7) {
             LOG.warn("Unexpected payload length {}", payload.length);
             return Collections.emptyList();
@@ -815,6 +928,8 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
                 return handlePauseWhenTakenOff(payload);
             case 0x03:
                 return handleButtonModes(payload);
+            case 0x0a:
+                return handleAdaptiveVolumeControl(payload);
             case 0x0c:
                 return handleSpeakToChatEnabled(payload);
             case 0x0d:
@@ -844,8 +959,37 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
 
     @Override
     public List<? extends GBDeviceEvent> handleTouchSensor(final byte[] payload) {
-        LOG.warn("Touch sensor not implemented for V2");
-        return Collections.emptyList();
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        if (payload[1] != (byte) 0xd1) {
+            LOG.warn("Not wide area tap");
+            return Collections.emptyList();
+        }
+
+        boolean enabled;
+
+        // reversed?
+        switch (payload[3]) {
+            case 0x00:
+                enabled = true;
+                break;
+            case 0x01:
+                enabled = false;
+                break;
+            default:
+                LOG.warn("Unknown wide area tap code {}", String.format("%02x", payload[3]));
+                return Collections.emptyList();
+        }
+
+        LOG.debug("Wide Area Tap: {}", enabled);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(new WideAreaTap(enabled).toPreferences());
+
+        return Collections.singletonList(event);
     }
 
     @Override

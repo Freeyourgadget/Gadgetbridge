@@ -1521,6 +1521,7 @@
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="devicetype_honor_band3">Honor Band 3</string>
@@ -2174,6 +2175,7 @@
     <string name="pref_header_stress">Stress</string>
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
+    <string name="pref_header_sony_sound_control">Sound Control</string>
     <string name="pref_header_sony_device_info">Device Information</string>
     <string name="stress_relaxed">Relaxed</string>
     <string name="stress_mild">Mild</string>
@@ -2238,6 +2240,10 @@
     <string name="sony_equalizer_clear_bass">Clear Bass</string>
     <string name="sony_audio_upsampling">Audio Upsampling</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
+    <string name="pref_wide_area_tap_summary">Recognize taps between cheeks and ears</string>
+    <string name="pref_wide_area_tap_title">Wide area tap</string>
+    <string name="pref_adaptive_volume_control_summary">Increase volume automatically when ambient sound is loud</string>
+    <string name="pref_adaptive_volume_control_title">Adaptive volume control</string>
     <string name="sony_speak_to_chat">Speak-to-chat</string>
     <string name="sony_speak_to_chat_summary">Turn off noise cancelling automatically when you start talking.</string>
     <string name="sony_speak_to_chat_sensitivity">Voice Detection Sensitivity</string>

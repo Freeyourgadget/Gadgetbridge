@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AdaptiveVolumeControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
@@ -47,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceN
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.WideAreaTap;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Message;
@@ -126,6 +128,7 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                         // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
                         // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
                         // WF-1000XM5 2.0.1: 01:00:03:00:10:04:00:00
+                        // LinkBuds   1.0.3: 01:00:02:00:10:00:00:00
                         protocolVersion = "v2";
                     } else {
                         LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
@@ -259,6 +262,12 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE:
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_TIMEOUT:
                 configRequest = protocolImpl.setSpeakToChatConfig(SpeakToChatConfig.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_ADAPTIVE_VOLUME_CONTROL:
+                configRequest = protocolImpl.setAdaptiveVolumeControl(AdaptiveVolumeControl.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_WIDE_AREA_TAP:
+                configRequest = protocolImpl.setWideAreaTap(WideAreaTap.fromPreferences(prefs));
                 break;
             default:
                 LOG.warn("Unknown config '{}'", config);

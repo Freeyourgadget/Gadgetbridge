@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022-2024 Daniel Dakhno, José Rebelo
+/*  Copyright (C) 2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -24,35 +24,50 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 
-public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
+public class SonyLinkBudsCoordinator extends SonyHeadphonesCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(".*WH-1000XM4.*");
-    }
-
-    @Override
-    public int getDeviceNameResource() {
-        return R.string.devicetype_sony_wh_1000xm4;
+        // TODO fully exclude LE_LinkBuds?
+        return Pattern.compile("^LinkBuds$");
     }
 
     @Override
     public List<SonyHeadphonesCapabilities> getCapabilities() {
         return Arrays.asList(
-                // TODO: Function of [CUSTOM] button
-                // TODO R.xml.devicesettings_connect_two_devices,
-                SonyHeadphonesCapabilities.BatterySingle,
-                SonyHeadphonesCapabilities.AmbientSoundControl,
-                SonyHeadphonesCapabilities.WindNoiseReduction,
+                SonyHeadphonesCapabilities.BatteryDual,
+                SonyHeadphonesCapabilities.BatteryCase,
                 SonyHeadphonesCapabilities.SpeakToChatEnabled,
                 SonyHeadphonesCapabilities.SpeakToChatConfig,
-                SonyHeadphonesCapabilities.SpeakToChatFocusOnVoice,
-                SonyHeadphonesCapabilities.AncOptimizer,
+                SonyHeadphonesCapabilities.AdaptiveVolumeControl,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,
-                SonyHeadphonesCapabilities.TouchSensorSingle,
+                SonyHeadphonesCapabilities.ButtonModesLeftRight,
                 SonyHeadphonesCapabilities.PauseWhenTakenOff,
                 SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff,
+                SonyHeadphonesCapabilities.WideAreaTap,
                 SonyHeadphonesCapabilities.VoiceNotifications
+                // TODO spacial sound optimization
+                // TODO factory reset
         );
+    }
+
+    @Override
+    public boolean preferServiceV2() {
+        return true;
+    }
+
+    @Override
+    public int getDeviceNameResource() {
+        return R.string.devicetype_sony_linkbuds;
+    }
+
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_galaxy_buds;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_galaxy_buds_disabled;
     }
 }

@@ -32,6 +32,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_STATUS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE;
 
 import android.app.ProgressDialog;
@@ -54,6 +55,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -117,6 +119,8 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
+        final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) device.getDeviceCoordinator();
+
         // Only enable the focus on voice check and voice level slider if the ambient sound control mode is ambient sound
 
         final ListPreference ambientSoundControl = handler.findPreference(PREF_SONY_AMBIENT_SOUND_CONTROL);
@@ -184,6 +188,12 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
                     return true;
                 }
             });
+        }
+
+        // Hide unsupported preferences
+        final Preference speakToChatFocusVoice = handler.findPreference(PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE);
+        if (speakToChatFocusVoice != null && !coordinator.supports(SonyHeadphonesCapabilities.SpeakToChatFocusOnVoice)) {
+            speakToChatFocusVoice.setVisible(false);
         }
     }
 

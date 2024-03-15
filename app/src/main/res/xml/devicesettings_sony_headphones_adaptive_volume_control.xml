@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_header_sony_ambient_sound_control"
+        android:title="@string/pref_header_sony_sound_control">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_adaptive_volume_control"
+            android:summary="@string/pref_adaptive_volume_control_summary"
+            android:title="@string/pref_adaptive_volume_control_title" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

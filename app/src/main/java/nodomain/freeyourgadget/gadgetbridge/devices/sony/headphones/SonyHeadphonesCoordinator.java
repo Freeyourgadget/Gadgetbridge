@@ -176,15 +176,19 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
                 settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control);
             }
 
-            if (supports(SonyHeadphonesCapabilities.SpeakToChatConfig)) {
-                settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings);
-            } else if (supports(SonyHeadphonesCapabilities.SpeakToChatEnabled)) {
-                settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_simple);
-            }
-
             if (supports(SonyHeadphonesCapabilities.AncOptimizer)) {
                 settings.add(R.xml.devicesettings_sony_headphones_anc_optimizer);
             }
+        }
+
+        if (supports(SonyHeadphonesCapabilities.AdaptiveVolumeControl)) {
+            settings.add(R.xml.devicesettings_sony_headphones_adaptive_volume_control);
+        }
+
+        if (supports(SonyHeadphonesCapabilities.SpeakToChatConfig)) {
+            settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings);
+        } else if (supports(SonyHeadphonesCapabilities.SpeakToChatEnabled)) {
+            settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_simple);
         }
 
         addSettingsUnderHeader(settings, R.xml.devicesettings_header_other, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
@@ -198,6 +202,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
         }});
 
         addSettingsUnderHeader(settings, R.xml.devicesettings_header_system, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
+            put(SonyHeadphonesCapabilities.WideAreaTap, R.xml.devicesettings_sony_headphones_wide_area_tap);
             put(SonyHeadphonesCapabilities.ButtonModesLeftRight, R.xml.devicesettings_sony_headphones_button_modes_left_right);
             put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, R.xml.devicesettings_sony_headphones_ambient_sound_control_button_modes);
             put(SonyHeadphonesCapabilities.QuickAccess, R.xml.devicesettings_sony_headphones_quick_access);
