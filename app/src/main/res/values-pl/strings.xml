@@ -2793,4 +2793,8 @@
     <string name="activity_type_belly_dance">Taniec brzucha</string>
     <string name="alarm_smart_wakeup_interval">Inteligentny interwał budzenia:</string>
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
+    <string name="temperature">Temperatura</string>
+    <string name="activity_type_long_jump">Skok w dal</string>
+    <string name="activity_type_high_jump">Skok wzwyż</string>
+    <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
 </resources>
