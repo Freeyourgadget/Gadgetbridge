@@ -54,7 +54,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.AbstractSonyProtocolImpl;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.SonyProtocolImplV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v2.SonyProtocolImplV2;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v3.SonyProtocolImplV3;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class SonyHeadphonesProtocol extends GBDeviceProtocol {
@@ -123,21 +122,11 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                         // Wi-SP600N:       01:00:40:10
                         protocolVersion = "v1";
                     } else if (message.getPayload().length == 8) {
-                        switch (message.getPayload()[2]) {
-                            case 0x01:
-                                // WF-1000XM4 1.1.5: 01:00:01:00:00:00:00:00
-                                protocolVersion = "v2";
-                                break;
-                            case 0x03:
-                                // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
-                                // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
-                                // WF-1000XM5 2.0.1: 01:00:03:00:10:04:00:00
-                                protocolVersion = "v3";
-                                break;
-                            default:
-                                LOG.error("Unexpected version for payload of length 8: {}", message.getPayload()[2]);
-                                return events.toArray(new GBDeviceEvent[0]);
-                        }
+                        // WF-1000XM4 1.1.5: 01:00:01:00:00:00:00:00
+                        // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
+                        // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
+                        // WF-1000XM5 2.0.1: 01:00:03:00:10:04:00:00
+                        protocolVersion = "v3";
                     } else {
                         LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
                         return events.toArray(new GBDeviceEvent[0]);
@@ -159,9 +148,6 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                         break;
                     case "v2":
                         protocolImpl = new SonyProtocolImplV2(getDevice());
-                        break;
-                    case "v3":
-                        protocolImpl = new SonyProtocolImplV3(getDevice());
                         break;
                     default:
                         LOG.warn("Unknown protocol version {}", protocolVersion);

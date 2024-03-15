@@ -33,6 +33,11 @@ public enum PayloadTypeV2 {
     AUTOMATIC_POWER_OFF_SET(MessageType.COMMAND_1, 0x28),
     AUTOMATIC_POWER_OFF_NOTIFY(MessageType.COMMAND_1, 0x29),
 
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_GET(MessageType.COMMAND_1, 0xfa),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_RET(MessageType.COMMAND_1, 0xfb),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_SET(MessageType.COMMAND_1, 0xfc),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_NOTIFY(MessageType.COMMAND_1, 0xfd),
+
     UNKNOWN(MessageType.UNKNOWN, 0xff);
 
     private final MessageType messageType;
