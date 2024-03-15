@@ -520,7 +520,7 @@ class BangleJSActivityTrack {
             //     ));
             // TODO: Does Bangle.js report laps in recorder logs?
             //summaryData = addSummaryData(summaryData,ActivitySummaryEntries.LAP_PACE_AVERAGE,3,"mm");
-            summaryData = addSummaryData(summaryData,ActivitySummaryEntries.LAPS,3,"mm");
+            //summaryData = addSummaryData(summaryData,ActivitySummaryEntries.LAPS,3,"mm");
             // }};
             summary.setSummaryData(summaryData.toString());
 
