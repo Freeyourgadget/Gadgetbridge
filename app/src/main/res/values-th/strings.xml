@@ -1,4 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_activity_title_generic">เกี่ยวกับ Gadgetbridge</string>
+    <string name="application_name_generic"></string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge กำลังทำงาน</string>
+    <string name="about_description_generic">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ</string>
+    <string name="title_activity_controlcenter_generic"></string>
+    <string name="about_activity_title_banglejs_main">เกี่ยวกับ Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js กำลังทำงานอยู่</string>
+    <string name="application_name_banglejs_nightly"></string>
+    <string name="title_activity_controlcenter_banglejs_nightly"></string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js กำลังทำงานอยู่</string>
+    <string name="about_activity_title_main_nightly">เกี่ยวกับ Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_main_nightly"></string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB กำลังทำงานอยู่</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly โดยไม่มี Pebble provider)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly แบบไม่มี Pebbleล</string>
+    <string name="about_activity_title_main_nopebble">เกี่ยวกับ Gadgetbridge Nightly แบบไม่มี Pebbleล</string>
+    <string name="action_settings">การตั้งค่า</string>
+    <string name="action_debug">ดีบั้ก</string>
+    <string name="action_quit">ออก</string>
+    <string name="action_donate">บริจาค</string>
+    <string name="action_changelog">ประวัติการเปลี่ยนแปลง</string>
+    <string name="controlcenter_fetch_activity_data">ซิงโครไนซ์</string>
+    <string name="controlcenter_find_device">หาอุปกรณ์</string>
+    <string name="find_lost_device_message">หา %1$s?</string>
+    <string name="controlcenter_take_screenshot">บันทึกภาพหน้าจอ</string>
+    <string name="controlcenter_power_off">ปิดอุปกรณ์</string>
+    <string name="controlcenter_power_off_confirm_title">ปิดอุปกรณ์</string>
+    <string name="controlcenter_change_led_color">เปลี่ยนสี LED</string>
+    <string name="controlcenter_power_off_confirm_description">แน่ใจหรือว่าจะปิดอุปกรณ์?</string>
+    <string name="controlcenter_change_fm_frequency">เปลี่ยนความถี่ FM</string>
+    <string name="controlcenter_connect">เชื่อมต่อ…</string>
+    <string name="controlcenter_disconnect">ตัดการเชื่อมต่อ</string>
+    <string name="controlcenter_delete_device_name">ลบ %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">นี่จะเป็นการลบอุปกรณ์และข้อมูลที่เกี่ยวข้องทั้งหมด!</string>
+    <string name="controlcenter_set_alias">ตั้งชื่อเรียก</string>
+    <string name="controlcenter_navigation_drawer_open">เปิดลิ้นชักการนำทาง</string>
+    <string name="controlcenter_navigation_drawer_close">ปิดลิ้นชักการนำทาง</string>
+    <string name="controlcenter_snackbar_need_longpress">แตะการ์ดค้างไว้เพื่อตัดการเชื่อมต่อ</string>
+    <string name="controlcenter_snackbar_disconnecting">กำลังตัดการเชื่อมต่อ</string>
+    <string name="controlcenter_snackbar_connecting">กำลังเชี่อมต่อ…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">ถ่ายภาพหน้าจอของอุปกรณ์นี้</string>
+    <string name="controlcenter_calibrate_device">ปรับเทียบอุปกรณ์</string>
+    <string name="controlcenter_get_heartrate_measurement">วัดอัตราชีพจรของหัวใจ</string>
+    <string name="accuracy">ความแม่นยำ</string>
+    <string name="balanced">สมดุล</string>
+    <string name="power_saving">ประหยัดพลังงาน</string>
+    <string name="custom">ยืนยัน</string>
+    <string name="low_power_gps">GPS พลังงานต่ำ</string>
+    <string name="all_satellites">ดาวเทียมทั้งหมด</string>
+    <string name="speed_first">ความเร็วก่อน</string>
+    <string name="accuracy_first">แม่นยำก่อน</string>
+    <string name="device_card_activity_card_title">ข้อมูลกิจกรรมบนการ์ดของอุปกรณ์</string>
+    <string name="device_card_activity_card_title_summary">เลือกว่าจะให้กิจกรรมใดแสดงบนการ์ดของอุปกรณ์</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">ระยะทางจะถูกคำนวนจากจำนวนและระยะก้าว(ปรับได้ในการต้้งค่า - เกี่ยวกับคุณ)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">แสดงจำนวนก้าวทั้งหมด</string>
+    <string name="battery_detail_activity_title">ข้อมูลแบตเตอรี่</string>
+    <string name="battery_level">ระดับแบตเตอรี่</string>
+    <string name="calendar_day">วัน</string>
+    <string name="calendar_week">สัปดาห์</string>
+    <string name="calendar_two_weeks">สองสัปดาห์</string>
+    <string name="calendar_month">เดือน</string>
+    <string name="calendar_three_months">สามเดือน</string>
+    <string name="calendar_six_months">หกเดือน</string>
+    <string name="calendar_year">ปี</string>
+    <string name="title_activity_debug">ดีบั้ก</string>
+    <string name="debugactivity_really_factoryreset_title">คืนค่าเรื่มต้นจากโรงงาน?</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">ลบการตั้งค่าของอุปกรณ์?</string>
+    <string name="about_activity_title_banglejs_nightly">เกี่ยวกับ Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_main_nightly">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปแก็ดเจ็ตต่างๆจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ เวอร์ชั่น Nightly ของ Gadgetbridge ไม่สามารถติดตั้งซ้อนได้หากคุณมีแอป Gadgetbridge หรือ Pebble ติดตั้งอยู่แล้ว เนื่องจากการขัดแย้งกันของ Pebble provider</string>
+    <string name="controlcenter_delete_device">ลบอุปกรณ์</string>
+    <string name="prefs_activity_in_device_card_title">แสดงข้อมูลกิจกรรมบนการ์ดของอุปกรณ์</string>
+    <string name="prefs_activity_in_device_card_title_summary">แสดงจำนวนก้าวเดินปัจจุบัน ระยะทางหรือการนอนหลับบนการ์ดของอุปกรณ์</string>
+    <string name="prefs_activity_in_device_card_sleep_title">การนอน</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">แสดงระยะเวลาการนอน</string>
+    <string name="about_description_banglejs_main">แอป Android ที่ใช้คู่กับ Bangle.js ที่สร้างขึ้นมาจากโครงการ Gadgetbridge อีกที โดยเพื่มเชื่อมต่ออินเตอร์เน็ตเข้ามา
+\n
+\nเนื่องจากนโยบายของ Google Play เราจึงไม่สามารถเพื่มช่องการบริจาคในแอปได้โดยตรง แต่ถ้าคุณชอบแอปนี้โปรดพิจารณาบริจาคผ่านหน้าหลักของ Gadgetbridge ด้านล่างนี้</string>
+    <string name="about_description_banglejs_nightly">แอป Android ที่ใช้คู่กับ Bangle.js ที่สร้างขึ้นมาจากโครงการ Gadgetbridge อีกที โดยเพื่มเชื่อมต่ออินเตอร์เน็ตเข้ามา
+\n
+\nเนื่องจากนโยบายของ Google Play เราจึงไม่สามารถเพื่มช่องการบริจาคในแอปได้โดยตรง แต่ถ้าคุณชอบแอปนี้โปรดพิจารณาบริจาคผ่านหน้าหลักของ Gadgetbridge ด้านล่างนี้</string>
+    <string name="debugactivity_really_factoryreset">การคืนค่าโรงงานจะลบข้อมูลทุกอย่างของอุปกรณ์ Xiaomi/Huami (ที่รองรับ) และยังเปลี่ยนที่อยู่ Bluetooth MAC address ฉะนั้น Gadgetbridge จะมองเห็นเป็นอุปกรณ์ใหม่</string>
 </resources>
