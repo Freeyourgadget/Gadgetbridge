@@ -2812,4 +2812,10 @@
     <string name="scan_scanning_multiple_devices">Memindai %d perangkat</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="temperature">Suhu</string>
+    <string name="pref_adaptive_volume_control_title">Kontrol volume adaptif</string>
+    <string name="pref_wide_area_tap_title">Ketukan area luas</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="pref_header_sony_sound_control">Kontrol Suara</string>
+    <string name="pref_wide_area_tap_summary">Kenali ketukan antara pipi dan telinga</string>
+    <string name="pref_adaptive_volume_control_summary">Naikkan volume secara otomatis ketika suara sekitar keras</string>
 </resources>
