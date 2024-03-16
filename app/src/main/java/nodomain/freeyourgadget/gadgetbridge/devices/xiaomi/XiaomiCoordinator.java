@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
+import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiUuids;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
@@ -123,6 +124,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // 51-80 = moderate
         // 81-100 = high
         return new int[]{1, 26, 51, 81};
+    }
+
+    @Override
+    public TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(final GBDevice device, final DaoSession session) {
+        return new XiaomiTemperatureSampleProvider(device, session);
     }
 
     @Override

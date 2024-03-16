@@ -58,4 +58,9 @@ public class XiaomiWatchS1ProCoordinator extends XiaomiCoordinator {
     public boolean supportsFindDevice() {
         return false;
     }
+
+    @Override
+    public boolean supportsTemperatureMeasurement() {
+        return true;
+    }
 }

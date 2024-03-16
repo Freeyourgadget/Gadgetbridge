@@ -67,6 +67,9 @@ public class ManualSamplesParser extends XiaomiActivityParser {
             final int type = buf.get() & 0xff;
 
             final int value;
+            // FIXME: This is incomplete - the type is actually composed of 2 nibbles that
+            // define the data length + type
+            // see https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3517#issuecomment-1516353
             switch (type) {
                 case XiaomiManualSampleProvider.TYPE_HR:
                 case XiaomiManualSampleProvider.TYPE_SPO2:
@@ -74,8 +77,10 @@ public class ManualSamplesParser extends XiaomiActivityParser {
                     value = buf.get() & 0xff;
                     break;
                 case XiaomiManualSampleProvider.TYPE_TEMPERATURE:
+                    // FIXME: This is actually 2 2-byte values, see the comment linked above
                     value = buf.getInt();
                     break;
+                // TODO blood pressure, see the comment linked above
                 default:
                     LOG.warn("Unknown sample type {}", type);
                     // We need to abort parsing, as we don't know the sample size
