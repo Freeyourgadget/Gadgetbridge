@@ -2816,4 +2816,10 @@
     <string name="scan_scanning_multiple_devices">جارٍ فحص %d جهاز</string>
     <string name="devicetype_miband8active">سوار شاومي الذكي 8 اكتيف</string>
     <string name="temperature">الحرارة</string>
+    <string name="pref_header_sony_sound_control">التحكم في الصوت</string>
+    <string name="pref_wide_area_tap_summary">التعرف على النقرات بين الخدين والأذنين</string>
+    <string name="devicetype_sony_linkbuds">سماعات سوني لينك بودز</string>
+    <string name="pref_wide_area_tap_title">منطقة واسعة للنقر</string>
+    <string name="pref_adaptive_volume_control_title">التحكم التكيفي في مستوى الصوت</string>
+    <string name="pref_adaptive_volume_control_summary">قم بزيادة مستوى الصوت تلقائيًا عندما يكون الصوت المحيط مرتفعًا</string>
 </resources>
