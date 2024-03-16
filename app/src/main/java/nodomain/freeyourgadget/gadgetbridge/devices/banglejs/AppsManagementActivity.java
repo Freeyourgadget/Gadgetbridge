@@ -315,6 +315,10 @@ public class AppsManagementActivity extends AbstractGBActivity {
             fileChooserCallback = null;
         }
         if (requestCode == CREATE_FILE) { // showSaveFileDialog
+            if (resultCode == Activity.RESULT_CANCELED || intent == null || intent.getData() == null) {
+                return;
+            }
+
             OutputStream os = null;
             try {
                 os = getContentResolver().openOutputStream(intent.getData());
