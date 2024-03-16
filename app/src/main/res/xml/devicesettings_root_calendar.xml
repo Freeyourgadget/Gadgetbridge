@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_calendar_today"
+        android:key="pref_screen_calendar"
+        android:persistent="false"
+        android:title="@string/pref_header_calendar">
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -269,6 +269,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
             supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw220);
         }
+        supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_custom_deviceicon);
         return supportedSettings;
     }
 
@@ -282,13 +283,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificAuthenticationSettings() {
         return new int[]{
                 R.xml.devicesettings_pairingkey
-        };
-    }
-
-    @Override
-    public int[] getSupportedDeviceSpecificApplicationSettings() {
-        return new int[]{
-                R.xml.devicesettings_custom_deviceicon,
         };
     }
 

@@ -465,13 +465,6 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificApplicationSettings() {
-        return new int[]{
-                R.xml.devicesettings_custom_deviceicon,
-        };
-    }
-
-    @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
 

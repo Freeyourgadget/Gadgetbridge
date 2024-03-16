@@ -36,6 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -562,13 +563,6 @@ public interface DeviceCoordinator {
     int[] getSupportedDeviceSpecificConnectionSettings();
 
     /**
-     * Returns device specific settings related to the application itself
-     * charts settings and so on
-     * @return int[]
-     */
-    int[] getSupportedDeviceSpecificApplicationSettings();
-
-    /**
      * Returns device specific settings related to the Auth key
      * @return int[]
      */
@@ -576,8 +570,18 @@ public interface DeviceCoordinator {
 
     /**
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
+     *
+     * @deprecated use getDeviceSpecificSettings
      */
+    @Deprecated
     int[] getSupportedDeviceSpecificSettings(GBDevice device);
+
+    /**
+     * Returns the device-specific settings supported by this specific device. See
+     * {@link DeviceSpecificSettings} for more information
+     */
+    @Nullable
+    DeviceSpecificSettings getDeviceSpecificSettings(GBDevice device);
 
     /**
      * Returns the {@link DeviceSpecificSettingsCustomizer}, allowing for the customization of the devices specific settings screen.

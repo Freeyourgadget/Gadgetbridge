@@ -25,19 +25,19 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.InputType;
 
-import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceScreen;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -59,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
@@ -96,10 +95,15 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
     private GBDevice device;
 
-    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings) {
+    private void setSettingsFileSuffix(String settingsFileSuffix) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
-        args.putIntArray("supportedSettings", supportedSettings);
+        setArguments(args);
+    }
+
+    private void setDeviceSpecificSettings(final DeviceSpecificSettings deviceSpecificSettings) {
+        final Bundle args = getArguments() != null ? getArguments() : new Bundle();
+        args.putParcelable("deviceSpecificSettings", deviceSpecificSettings);
         setArguments(args);
     }
 
@@ -122,12 +126,11 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             return;
         }
         String settingsFileSuffix = arguments.getString("settingsFileSuffix", null);
-        int[] supportedSettings = arguments.getIntArray("supportedSettings");
-        String[] supportedLanguages = arguments.getStringArray("supportedLanguages");
+        DeviceSpecificSettings deviceSpecificSettings = arguments.getParcelable("deviceSpecificSettings");
         this.deviceSpecificSettingsCustomizer = arguments.getParcelable("deviceSpecificSettingsCustomizer");
         this.device = arguments.getParcelable("device");
 
-        if (settingsFileSuffix == null || supportedSettings == null) {
+        if (settingsFileSuffix == null || deviceSpecificSettings == null) {
             return;
         }
 
@@ -136,7 +139,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         if (rootKey == null) {
             // we are the main preference screen
             boolean first = true;
-            for (int setting : supportedSettings) {
+            for (int setting : deviceSpecificSettings.getRootScreens()) {
                 if (first) {
                     setPreferencesFromResource(setting, null);
                     first = false;
@@ -145,16 +148,47 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 }
             }
         } else {
-            // Now, this is ugly: search all the xml files for the rootKey
-            for (int setting : supportedSettings) {
-                try {
-                    setPreferencesFromResource(setting, rootKey);
-                } catch (Exception ignore) {
-                    continue;
+            // First attempt to find a known screen for this key
+            final List<Integer> screenSettings = deviceSpecificSettings.getScreen(rootKey);
+            if (screenSettings != null) {
+                boolean first = true;
+                for (int setting : screenSettings) {
+                    if (first) {
+                        // Use the root key here to set the root screen, so that the actionbar title gets updated
+                        setPreferencesFromResource(setting, rootKey);
+                        first = false;
+                    } else {
+                        addPreferencesFromResource(setting);
+                    }
                 }
-                break;
+            } else {
+                // Now, this is ugly: search all the xml files for the rootKey
+                // This means that this device is using the deprecated getSupportedDeviceSpecificSettings,
+                // or that we're on a sub-screen
+                final List<Integer> allScreens = deviceSpecificSettings.getAllScreens();
+                for (int setting : allScreens) {
+                    try {
+                        setPreferencesFromResource(setting, rootKey);
+                    } catch (Exception ignore) {
+                        continue;
+                    }
+                    break;
+                }
             }
         }
+
+        // Since all root preference screens are empty, clicking them will not do anything
+        // add on-click listeners
+        for (final DeviceSpecificSettingsScreen value : DeviceSpecificSettingsScreen.values()) {
+            final PreferenceScreen prefScreen = findPreference(value.getKey());
+            if (prefScreen != null) {
+                prefScreen.setOnPreferenceClickListener(p -> {
+                    onNavigateToScreen(prefScreen);
+                    return true;
+                });
+            }
+        }
+
         setChangeListener();
     }
 
@@ -1023,53 +1057,56 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
     }
 
-    static private void addElementsToList(ArrayList<Integer> list, int[]... elements){
-        for(int[] array : elements){
-            for(int item : array){
-                list.add(item);
-            }
-        }
-    }
-
     static DeviceSpecificSettingsFragment newInstance(GBDevice device, DeviceSettingsActivity.MENU_ENTRY_POINTS applicationSpecificSettings) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        ArrayList<Integer> supportedSettings = new ArrayList<>();
-        String[] supportedLanguages = null;
+
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
         if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
-            supportedSettings.add(R.xml.devicesettings_pairingkey_explanation);
-            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_pairingkey_explanation);
+            for (final int s : coordinator.getSupportedDeviceSpecificAuthenticationSettings()) {
+                deviceSpecificSettings.addRootScreen(s);
+            }
         } else { //device/application settings
             if (coordinator.getSupportedLanguageSettings(device) != null) {
-                supportedSettings.add(R.xml.devicesettings_language_generic);
+                deviceSpecificSettings.addRootScreen(R.xml.devicesettings_language_generic);
             }
-            addElementsToList(supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
+            DeviceSpecificSettings coordinatorDeviceSettings = coordinator.getDeviceSpecificSettings(device);
+            if (coordinatorDeviceSettings != null) {
+                deviceSpecificSettings.mergeFrom(coordinatorDeviceSettings);
+            }
             final int[] supportedAuthSettings = coordinator.getSupportedDeviceSpecificAuthenticationSettings();
             if (supportedAuthSettings != null && supportedAuthSettings.length > 0) {
-                supportedSettings.add(R.xml.devicesettings_header_authentication);
-                addElementsToList(supportedSettings, supportedAuthSettings);
+                deviceSpecificSettings.addRootScreen(
+                        DeviceSpecificSettingsScreen.AUTHENTICATION,
+                        supportedAuthSettings
+                );
             }
 
-            addElementsToList(
-                    supportedSettings,
-                    coordinator.getSupportedDeviceSpecificConnectionSettings(),
-                    coordinator.getSupportedDeviceSpecificApplicationSettings());
+            deviceSpecificSettings.addRootScreen(
+                    DeviceSpecificSettingsScreen.CONNECTION,
+                    coordinator.getSupportedDeviceSpecificConnectionSettings()
+            );
+
             if (coordinator.supportsActivityTracking()) {
-                supportedSettings.addAll(Arrays.asList(
-                        R.xml.devicesettings_activity_info_header,
+                deviceSpecificSettings.addRootScreen(
+                        DeviceSpecificSettingsScreen.ACTIVITY_INFO,
                         R.xml.devicesettings_chartstabs,
                         R.xml.devicesettings_device_card_activity_card_preferences
-                ));
+                );
             }
-            supportedSettings.add(R.xml.devicesettings_settings_third_party_apps);
-        }
 
-        int[] supportedSettingsInts = ArrayUtils.toPrimitive(supportedSettings.toArray(new Integer[0]));
+            deviceSpecificSettings.addRootScreen(
+                    DeviceSpecificSettingsScreen.DEVELOPER,
+                    R.xml.devicesettings_settings_third_party_apps
+            );
+        }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
         final String settingsFileSuffix = device.getAddress();
         final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
-        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettingsInts);
+        fragment.setSettingsFileSuffix(settingsFileSuffix);
+        fragment.setDeviceSpecificSettings(deviceSpecificSettings);
         fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);
         fragment.setDevice(device);
 

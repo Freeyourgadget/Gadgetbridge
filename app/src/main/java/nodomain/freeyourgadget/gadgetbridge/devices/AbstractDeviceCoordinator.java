@@ -51,6 +51,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -590,13 +591,18 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificApplicationSettings() {
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[0];
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[0];
+    public DeviceSpecificSettings getDeviceSpecificSettings(GBDevice device) {
+        final int[] settings = getSupportedDeviceSpecificSettings(device);
+        if (settings == null || settings.length == 0) {
+            return null;
+        }
+
+        return new DeviceSpecificSettings(settings);
     }
 
     @Override
