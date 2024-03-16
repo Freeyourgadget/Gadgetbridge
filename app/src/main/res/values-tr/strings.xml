@@ -2835,4 +2835,10 @@
     <string name="notification_channel_scan_service_name">Tarama hizmeti</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="temperature">Sıcaklık</string>
+    <string name="pref_wide_area_tap_summary">Yanaklar ve kulaklar arasındaki dokunuşları tanı</string>
+    <string name="pref_wide_area_tap_title">Geniş alan dokunuşu</string>
+    <string name="pref_adaptive_volume_control_summary">Ortam sesi yüksek olduğunda sesi otomatik olarak artır</string>
+    <string name="pref_adaptive_volume_control_title">Uyarlanabilir ses seviyesi denetimi</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="pref_header_sony_sound_control">Ses Denetimi</string>
 </resources>
