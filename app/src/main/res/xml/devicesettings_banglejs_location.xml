@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:key="pref_header_location"
-        android:title="@string/pref_header_location">
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:icon="@drawable/ic_gps_location"
-            android:key="banglejs_gps_update"
-            android:summary="@string/pref_summary_banglejs_phone_gps_enbale"
-            android:title="@string/pref_title_banglejs_phone_gps_enbale" />
-        <EditTextPreference
-            android:defaultValue="1000"
-            android:dependency="banglejs_gps_update"
-            android:icon="@drawable/ic_access_time"
-            android:inputType="number"
-            android:key="banglejs_gps_update_interval"
-            android:summary="@string/pref_summary_banglejs_phone_gps_update_interval"
-            android:title="@string/pref_title_banglejs_phone_gps_update_interval" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:dependency="banglejs_gps_update"
-            android:icon="@drawable/ic_gps_location"
-            android:key="banglejs_gps_use_network_only"
-            android:summary="@string/pref_summary_banglejs_phone_gps_network_only"
-            android:title="@string/pref_title_banglejs_phone_gps_network_only" />
-    </PreferenceCategory>
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_gps_location"
+        android:key="banglejs_gps_update"
+        android:summary="@string/pref_summary_banglejs_phone_gps_enbale"
+        android:title="@string/pref_title_banglejs_phone_gps_enbale" />
+    <EditTextPreference
+        android:defaultValue="1000"
+        android:dependency="banglejs_gps_update"
+        android:icon="@drawable/ic_access_time"
+        android:inputType="number"
+        android:key="banglejs_gps_update_interval"
+        android:summary="@string/pref_summary_banglejs_phone_gps_update_interval"
+        android:title="@string/pref_title_banglejs_phone_gps_update_interval" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:dependency="banglejs_gps_update"
+        android:icon="@drawable/ic_gps_location"
+        android:key="banglejs_gps_use_network_only"
+        android:summary="@string/pref_summary_banglejs_phone_gps_network_only"
+        android:title="@string/pref_title_banglejs_phone_gps_network_only" />
 </androidx.preference.PreferenceScreen>

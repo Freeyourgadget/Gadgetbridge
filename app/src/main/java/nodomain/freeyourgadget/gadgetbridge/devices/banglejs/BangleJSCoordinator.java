@@ -36,7 +36,9 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -172,33 +174,47 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        final List<Integer> settings = new ArrayList<>();
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
-        settings.add(R.xml.devicesettings_banglejs_location);
+        deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.LOCATION,
+                R.xml.devicesettings_banglejs_location
+        );
 
-        settings.add(R.xml.devicesettings_header_notifications);
-        settings.add(R.xml.devicesettings_text_bitmaps);
-        settings.add(R.xml.devicesettings_transliteration);
+        deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.NOTIFICATIONS,
+                R.xml.devicesettings_text_bitmaps,
+                R.xml.devicesettings_transliteration
+        );
 
-        settings.add(R.xml.devicesettings_header_calendar);
-        settings.add(R.xml.devicesettings_sync_calendar);
+        deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.CALENDAR,
+                R.xml.devicesettings_sync_calendar
+        );
 
-        settings.add(R.xml.devicesettings_header_connection);
-        settings.add(R.xml.devicesettings_high_mtu);
-        if (BuildConfig.INTERNET_ACCESS)
-            settings.add(R.xml.devicesettings_device_internet_access);
+        final List<Integer> connection = deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.CONNECTION,
+                R.xml.devicesettings_high_mtu
+        );
+        if (BuildConfig.INTERNET_ACCESS) {
+            connection.add(R.xml.devicesettings_device_internet_access);
+        }
 
-        settings.add(R.xml.devicesettings_banglejs_activity);
+        deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.ACTIVITY_INFO,
+                R.xml.devicesettings_banglejs_activity
+        );
 
-        settings.add(R.xml.devicesettings_header_apps);
-        settings.add(R.xml.devicesettings_loyalty_cards);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_loyalty_cards);
 
-        settings.add(R.xml.devicesettings_header_developer);
-        settings.add(R.xml.devicesettings_banglejs_apploader);
-        settings.add(R.xml.devicesettings_device_intents);
+        deviceSpecificSettings.addRootScreen(
+                DeviceSpecificSettingsScreen.DEVELOPER,
+                R.xml.devicesettings_banglejs_apploader,
+                R.xml.devicesettings_device_intents
+        );
 
-        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
+        return deviceSpecificSettings;
     }
 
     @Override
