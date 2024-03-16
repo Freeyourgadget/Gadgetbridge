@@ -171,6 +171,13 @@ public class AppsManagementActivity extends AbstractGBActivity {
             LOG.info("WebView RX: " + data);
             bangleTxData(data);
         }
+
+        /// Called from the WebView to download a file
+        @JavascriptInterface
+        public void saveFile(String filename, String mimetype, String b64) {
+            LOG.info("WebView save file: {}", filename);
+            showSaveFileDialog(filename, mimetype, Base64.decode(b64, Base64.DEFAULT));
+        }
      }
 
     // Called when data received from Bangle.js - push data to the WebView
@@ -196,7 +203,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    public void showSaveFileDialog(String fileName, String mimeType, byte data[]) {
+    public void showSaveFileDialog(String fileName, String mimeType, byte[] data) {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         if (mimeType!=null) intent.setType(mimeType);
