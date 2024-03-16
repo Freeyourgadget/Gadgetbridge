@@ -2823,4 +2823,10 @@
     <string name="notification_channel_scan_service_name">扫描服务</string>
     <string name="devicetype_miband8active">小米智能手环8 运动版</string>
     <string name="temperature">温度</string>
+    <string name="pref_wide_area_tap_summary">识别脸颊和耳朵之间的轻拍</string>
+    <string name="pref_wide_area_tap_title">大范围触击</string>
+    <string name="pref_header_sony_sound_control">声音控制</string>
+    <string name="pref_adaptive_volume_control_summary">环境声音变大时自动增大音量</string>
+    <string name="pref_adaptive_volume_control_title">自适应音量控制</string>
+    <string name="devicetype_sony_linkbuds">索尼 LinkBuds</string>
 </resources>
