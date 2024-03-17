@@ -2818,4 +2818,12 @@
     <string name="pref_header_sony_sound_control">Kontrol Suara</string>
     <string name="pref_wide_area_tap_summary">Kenali ketukan antara pipi dan telinga</string>
     <string name="pref_adaptive_volume_control_summary">Naikkan volume secara otomatis ketika suara sekitar keras</string>
+    <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Anda akan memasang perangkat tegar %s pada Amazfit Bip 3 Anda.
+\n
+\nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw.
+\n
+\nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
 </resources>
