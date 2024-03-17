@@ -2829,4 +2829,12 @@
     <string name="pref_adaptive_volume_control_summary">环境声音变大时自动增大音量</string>
     <string name="pref_adaptive_volume_control_title">自适应音量控制</string>
     <string name="devicetype_sony_linkbuds">索尼 LinkBuds</string>
+    <string name="devicetype_amazfit_bip3">华米 Bip 3</string>
+    <string name="fw_upgrade_notice_amazfitbip3">您即将在您的华米 Bip 3 上安装 %s 固件。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手表将会在安装了 .fw 文件后自动重启。
+\n
+\n备注：如果即将安装的 .res 文件的版本与当前已安装相同，您无需再次安装。
+\n
+\n风险自担！</string>
 </resources>
