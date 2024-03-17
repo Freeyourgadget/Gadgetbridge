@@ -2830,4 +2830,9 @@
     <string name="prompt_restart_gadgetbridge">Bitte Gadgetbridge neu starten, damit es wirksam wird.</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="temperature">Temperatur</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="pref_header_sony_sound_control">Klangkontrolle</string>
+    <string name="pref_wide_area_tap_summary">Klopfen zwischen Wangen und Ohren erkennen</string>
+    <string name="pref_adaptive_volume_control_summary">Automatische Erhöhung der Lautstärke bei lauten Umgebungsgeräuschen</string>
+    <string name="pref_adaptive_volume_control_title">Adaptive Lautstärkeregelung</string>
 </resources>
