@@ -82,7 +82,7 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

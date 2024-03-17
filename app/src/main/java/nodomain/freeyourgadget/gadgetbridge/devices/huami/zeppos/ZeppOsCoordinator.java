@@ -126,7 +126,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return true;
     }
 

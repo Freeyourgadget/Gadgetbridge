@@ -111,7 +111,7 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

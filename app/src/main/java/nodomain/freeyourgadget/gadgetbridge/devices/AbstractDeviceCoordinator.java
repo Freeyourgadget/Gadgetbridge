@@ -310,7 +310,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

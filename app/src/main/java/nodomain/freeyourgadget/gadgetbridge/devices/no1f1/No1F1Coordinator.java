@@ -92,7 +92,7 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

@@ -113,8 +113,8 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
-        return false;
+    public boolean supportsScreenshots(final GBDevice device) {
+        return device.getModel() != null && device.getModel().equals("2");
     }
 
     @Override

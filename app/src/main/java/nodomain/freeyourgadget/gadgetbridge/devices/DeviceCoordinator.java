@@ -332,7 +332,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    boolean supportsScreenshots();
+    boolean supportsScreenshots(GBDevice device);
 
     /**
      * Returns the number of alarms this device/coordinator supports

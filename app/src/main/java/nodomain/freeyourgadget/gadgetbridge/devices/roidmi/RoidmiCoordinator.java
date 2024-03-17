@@ -80,7 +80,7 @@ public abstract class RoidmiCoordinator extends AbstractBLClassicDeviceCoordinat
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

@@ -133,7 +133,7 @@ public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

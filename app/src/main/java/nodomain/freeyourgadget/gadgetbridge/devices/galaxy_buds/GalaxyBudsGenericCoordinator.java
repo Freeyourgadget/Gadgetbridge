@@ -71,7 +71,7 @@ public abstract class GalaxyBudsGenericCoordinator extends AbstractBLClassicDevi
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

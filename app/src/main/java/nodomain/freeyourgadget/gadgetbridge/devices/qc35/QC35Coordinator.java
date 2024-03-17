@@ -90,7 +90,7 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

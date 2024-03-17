@@ -197,7 +197,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return supports(getTestDevice(), TestFeature.SCREENSHOTS);
     }
 

@@ -443,7 +443,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
 
         //take screenshot
-        holder.takeScreenshotView.setVisibility((device.isInitialized() && coordinator.supportsScreenshots()) ? View.VISIBLE : View.GONE);
+        holder.takeScreenshotView.setVisibility((device.isInitialized() && coordinator.supportsScreenshots(device)) ? View.VISIBLE : View.GONE);
         holder.takeScreenshotView.setOnClickListener(new View.OnClickListener()
 
                                                      {

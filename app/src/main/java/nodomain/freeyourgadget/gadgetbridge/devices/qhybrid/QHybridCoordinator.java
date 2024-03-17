@@ -127,7 +127,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean supportsFlashing() { return false; }
 
     @Override
-    public boolean supportsScreenshots() {
+    public boolean supportsScreenshots(final GBDevice device) {
         return false;
     }
 

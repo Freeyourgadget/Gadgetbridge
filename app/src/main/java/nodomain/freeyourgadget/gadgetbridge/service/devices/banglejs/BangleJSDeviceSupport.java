@@ -109,6 +109,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
@@ -509,7 +510,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.error("UART RX JSON parse failure: "+ e.getLocalizedMessage());
                 GB.toast(getContext(), "Malformed JSON from Bangle.js: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
-
+        } else if (line.startsWith("data:image/bmp;base64,")) {
+            LOG.debug("Got screenshot bmp");
+            final byte[] screenshotBytes = Base64.decode(line.substring(21), Base64.DEFAULT);
+            final GBDeviceEventScreenshot gbDeviceEventScreenshot = new GBDeviceEventScreenshot(screenshotBytes);
+            evaluateGBDeviceEvent(gbDeviceEventScreenshot);
         } else {
             LOG.info("UART RX line started with "+(int)line.charAt(0)+" - ignoring");
         }
@@ -1517,6 +1522,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             uartTxJSON("onSetConstantVibration", o);
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void onScreenshotReq() {
+        try {
+            final TransactionBuilder builder = performInitialized("screenshot");
+            uartTx(builder, "\u0010g.dump()\n");
+            builder.queue(getQueue());
+        } catch (final IOException e) {
+            GB.toast(getContext(), "Failed to get screenshot: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
 
