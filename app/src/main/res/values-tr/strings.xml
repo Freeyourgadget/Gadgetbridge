@@ -264,21 +264,21 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitcor">AmazFit Core aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!
 \n
@@ -301,14 +301,14 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband4">Mi Band 4 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fwapp_install_device_not_ready">Dosya kurulamıyor, aygıt hazır değil.</string>
@@ -945,7 +945,7 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasın kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1194,7 +1194,7 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="calendar_year">Yıl</string>
@@ -1232,7 +1232,7 @@
 \n
 \nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_miband6">Mi Band 6</string>
@@ -2178,16 +2178,16 @@
     <string name="bluetooth_calls">Bluetooth aramaları</string>
     <string name="pref_pair_bluetooth_calls_summary">Eşleştirme işlemini başlatmak için buraya tıklayın</string>
     <string name="french_ca">Fransızca (Kanada)</string>
-    <string name="fw_upgrade_notice_amazfitbip3pro">Amazfit Bip 3 Pro cihazınıza %s yazılım dosyasını yüklemek üzeresiniz.
+    <string name="fw_upgrade_notice_amazfitbip3pro">Amazfit Bip 3 Pro aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, ardından .res dosyasını yüklediğinizden emin olun. Saatiniz .fw dosyasını yükledikten sonra yeniden başlayacaktır.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Eğer aynı .res dosyası zaten yüklü ise bir daha yüklemenize gerek yoktur.
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="french_fr">Fransızca (Fransa)</string>
-    <string name="fwapp_install_device_not_supported">Dosya yüklenemedi, aygıt desteklenmiyor.</string>
-    <string name="action_changelog">Yenilikler</string>
+    <string name="fwapp_install_device_not_supported">Dosya kurulamadı, aygıt desteklenmiyor.</string>
+    <string name="action_changelog">Değişiklik günlüğü</string>
     <string name="title_activity_contact_details">Kişi ayrıntıları</string>
     <string name="num_min">%d dak</string>
     <string name="preferences_miband_1_2_settings" tools:ignore="TypographyFractions">Mi Band 1/2 ayarları</string>
@@ -2841,4 +2841,12 @@
     <string name="pref_adaptive_volume_control_title">Uyarlanabilir ses seviyesi denetimi</string>
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
     <string name="pref_header_sony_sound_control">Ses Denetimi</string>
+    <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Amazfit Bip 3 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
