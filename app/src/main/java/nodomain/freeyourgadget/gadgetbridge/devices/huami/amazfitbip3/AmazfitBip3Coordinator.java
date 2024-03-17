@@ -14,15 +14,12 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip3pro;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip3;
 
 import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;
 
@@ -31,19 +28,17 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip3pro.AmazfitBip3ProSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip3.AmazfitBip3Support;
 
-public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBip3ProCoordinator.class);
-
+public class AmazfitBip3Coordinator extends HuamiCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Amazfit Bip 3 Pro", Pattern.CASE_INSENSITIVE);
+        return Pattern.compile("^Amazfit Bip 3$", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final AmazfitBip3ProFWInstallHandler handler = new AmazfitBip3ProFWInstallHandler(uri, context);
+        final AmazfitBip3FWInstallHandler handler = new AmazfitBip3FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
@@ -156,15 +151,13 @@ public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return AmazfitBip3ProSupport.class;
+        return AmazfitBip3Support.class;
     }
-
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_amazfit_bip3_pro;
+        return R.string.devicetype_amazfit_bip3;
     }
-
 
     @Override
     public int getDefaultIconResource() {
