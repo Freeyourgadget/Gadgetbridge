@@ -2825,4 +2825,18 @@
     <string name="scan_scanning_single_device">Escaneando dispositivo</string>
     <string name="notification_channel_scan_service_name">Servicio de escaneado</string>
     <string name="temperature">Temperatura</string>
+    <string name="pref_header_sony_sound_control">Control del sonido</string>
+    <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
+    <string name="pref_wide_area_tap_summary">Reconocer palpitaciones entre las mejillas y las orejas</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="pref_wide_area_tap_title">Huella de amplio alcance</string>
+    <string name="pref_adaptive_volume_control_summary">Sube el volumen automáticamente cuando el sonido ambiente sea alto</string>
+    <string name="pref_adaptive_volume_control_title">Control adaptativo del volumen</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Estás a punto de instalar el firmware %s en tu Amazfit Bip 3.
+\n
+\nPor favor, asegúrate de instalar el archivo .fw, y después el archivo .res. Tu reloj se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar el archivo .res si es exactamente el mismo que el instalado anteriormente.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
 </resources>
