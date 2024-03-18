@@ -544,7 +544,7 @@ class BangleJSActivityTrack {
             boolean hasHRMReading = false;
             for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
                 timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
-                point.setTime(timeOfPoint);
+                point.setTime((Date) timeOfPoint.clone());
                 if (storedLogObject.has("Longitude")) {
                     if (!Objects.equals(storedLogObject.getJSONArray("Longitude").getString(i), "")
                             && !Objects.equals(storedLogObject.getJSONArray("Latitude").getString(i), "")
