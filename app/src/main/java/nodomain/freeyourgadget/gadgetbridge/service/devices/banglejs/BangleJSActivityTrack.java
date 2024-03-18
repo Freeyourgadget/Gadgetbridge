@@ -115,6 +115,7 @@ class BangleJSActivityTrack {
         try {
             dir = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
+            LOG.error("Failed at getting external files directory with error: " + e);
             resetPacketCount();
             return null;
         }
