@@ -1634,4 +1634,5 @@
     <string name="gps_bds">GPS + BDS</string>
     <string name="custom">Personalizado</string>
     <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="temperature">Temperatura</string>
 </resources>
