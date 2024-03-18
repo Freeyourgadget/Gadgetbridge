@@ -30,7 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiManualSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiManualSampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class XiaomiManualSampleProvider extends AbstractTimeSampleProvider<XiaomiManualSample> {
@@ -52,13 +51,13 @@ public class XiaomiManualSampleProvider extends AbstractTimeSampleProvider<Xiaom
     @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
-        return XiaomiSleepStageSampleDao.Properties.Timestamp;
+        return XiaomiManualSampleDao.Properties.Timestamp;
     }
 
     @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
-        return XiaomiSleepStageSampleDao.Properties.DeviceId;
+        return XiaomiManualSampleDao.Properties.DeviceId;
     }
 
     @Override
