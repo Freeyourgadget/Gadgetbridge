@@ -593,7 +593,7 @@ class BangleJSActivityTrack {
                     break;
             }
 
-            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
+            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + "-" + storedLogObject.getJSONArray("Time").getString(0) + ".gpx");
             File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
             if (hasGPXReading /*|| hasHRMReading*/) {
