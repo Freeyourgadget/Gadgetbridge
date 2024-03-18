@@ -200,7 +200,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "spo2":
                     return getString(R.string.pref_header_spo2);
                 case "temperature":
-                    return getString(R.string.temperature);
+                    return getString(R.string.menuitem_temperature);
             }
             return super.getPageTitle(position);
         }

@@ -906,7 +906,6 @@
     <string name="minutes_10">10 minutes</string>
     <string name="minutes_30">30 minutes</string>
     <string name="liveactivity_live_activity">Live activity</string>
-    <string name="temperature">Temperature</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="lack_of_step">Lack of steps: %1$d</string>
     <string name="overstep">Overstep: %1$d</string>

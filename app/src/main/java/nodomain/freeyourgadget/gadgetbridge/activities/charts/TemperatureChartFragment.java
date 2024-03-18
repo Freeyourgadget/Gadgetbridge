@@ -183,7 +183,7 @@ public class TemperatureChartFragment extends AbstractChartFragment<TemperatureC
                 }
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, getString(R.string.temperature));
+            LineDataSet dataSet = new LineDataSet(entries, getString(R.string.menuitem_temperature));
             dataSet.setLineWidth(2.2f);
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             dataSet.setCubicIntensity(0.1f);
