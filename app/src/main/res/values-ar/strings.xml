@@ -2822,4 +2822,12 @@
     <string name="pref_wide_area_tap_title">منطقة واسعة للنقر</string>
     <string name="pref_adaptive_volume_control_title">التحكم التكيفي في مستوى الصوت</string>
     <string name="pref_adaptive_volume_control_summary">قم بزيادة مستوى الصوت تلقائيًا عندما يكون الصوت المحيط مرتفعًا</string>
+    <string name="devicetype_amazfit_bip3">امازفيت بيب 3</string>
+    <string name="fw_upgrade_notice_amazfitbip3">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Bip 3.
+\n
+\nالرجاء التأكد من تثبيت ملف .fw، وبعد ذلك ملف .res. سيتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت ‎.res إذا كان هو نفسه الذي تم تثبيته مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
 </resources>
