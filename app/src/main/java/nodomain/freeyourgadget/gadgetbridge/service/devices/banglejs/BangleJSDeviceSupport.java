@@ -382,11 +382,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             /* Convert a string, escaping chars we can't send over out UART connection */
             String s = (String)v;
             StringBuilder json = new StringBuilder("\"");
+            boolean hasUnicode = false;
             //String rawString = "";
             for (int i=0;i<s.length();i++) {
-                int ch = (int)s.charAt(i); // 0..255
-                int nextCh = (int)(i+1<s.length() ? s.charAt(i+1) : 0); // 0..255
+                int ch = (int)s.charAt(i); // unicode, so 0..65535 (usually)
+                int nextCh = (int)(i+1<s.length() ? s.charAt(i+1) : 0); // 0..65535
                 //rawString = rawString+ch+",";
+                if (ch>255) hasUnicode = true;
                 if (ch<8) {
                     // if the next character is a digit, it'd be interpreted
                     // as a 2 digit octal character, so we can't use `\0` to escape it
@@ -407,7 +409,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else json.append(s.charAt(i));
             }
             // if it was less characters to send base64, do that!
-            if (json.length() > 5+(s.length()*4/3)) {
+            if (!hasUnicode && (json.length() > 5+(s.length()*4/3))) {
                 byte[] bytes = s.getBytes(StandardCharsets.ISO_8859_1);
                 return "atob(\""+Base64.encodeToString(bytes, Base64.DEFAULT).replaceAll("\n","")+"\")";
             }
