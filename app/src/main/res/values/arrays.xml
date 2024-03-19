@@ -2986,9 +2986,9 @@
     <string-array name="pref_charts_tabs_items">
         <item>@string/activity_sleepchart_activity_and_sleep</item>
         <item>@string/charts_activity_list</item>
-        <item>@string/weeksleepchart_sleep_a_week</item>
-        <item>@string/weeksleepchart_sleep_a_month</item>
-        <item>@string/weekstepschart_steps_a_month</item>
+        <item>@string/sleepchart_your_sleep</item>
+        <item>@string/weekstepschart_steps_a_week_or_month</item>
+        <item>@string/weekstepschart_steps_a_week_or_month</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>

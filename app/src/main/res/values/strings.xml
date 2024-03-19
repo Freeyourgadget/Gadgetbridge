@@ -1107,6 +1107,8 @@
     <string name="pref_title_chart_heartrate_color">Heart rate color</string>
     <string name="weekstepschart_steps_a_month">Steps per month</string>
     <string name="weeksleepchart_sleep_a_month">Sleep per month</string>
+    <string name="weekstepschart_steps_a_week_or_month">Steps per week/month</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">Sleep per week/month</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">Sleep range</string>
     <string name="pref_chart_sleep_rolling_24_on">Past 24 hours</string>
     <string name="pref_chart_sleep_rolling_24_off">Noon to noon</string>
