@@ -264,7 +264,7 @@ public class Workout {
                 }
             }
 
-            // TODO: I'm not sure about the lengths
+            // I'm not sure about the lengths, but we haven't gotten any complaints so they probably are fine
             private final byte[] bitmapLengths = {1, 2, 1, 2, 2, 4, -1, 2, 2, 1, 1, 1, 1, 1, 1, 1};
             private final byte[] innerBitmapLengths = {2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1};
 

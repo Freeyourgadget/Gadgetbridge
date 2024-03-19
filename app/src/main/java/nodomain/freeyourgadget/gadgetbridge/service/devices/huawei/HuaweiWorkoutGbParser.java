@@ -24,13 +24,11 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -42,7 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.entities.activity.ActivityType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -232,177 +229,302 @@ public class HuaweiWorkoutGbParser {
             typeJson.put("unit", "");
             jsonObject.put("Type", typeJson);
 
-            JSONObject strokesJson = new JSONObject();
-            strokesJson.put("value", summary.getStrokes());
-            strokesJson.put("unit", "");
-            jsonObject.put("Strokes", strokesJson);
+            if (summary.getStrokes() != -1) {
+                JSONObject strokesJson = new JSONObject();
+                strokesJson.put("value", summary.getStrokes());
+                strokesJson.put("unit", "");
+                jsonObject.put("Strokes", strokesJson);
+            }
 
-            JSONObject avgStrokeRateJson = new JSONObject();
-            avgStrokeRateJson.put("value", summary.getAvgStrokeRate());
-            avgStrokeRateJson.put("unit", "");
-            jsonObject.put("Average reported stroke rate", avgStrokeRateJson);
+            if (summary.getAvgStrokeRate() != -1) {
+                JSONObject avgStrokeRateJson = new JSONObject();
+                avgStrokeRateJson.put("value", summary.getAvgStrokeRate());
+                avgStrokeRateJson.put("unit", "");
+                jsonObject.put("Average reported stroke rate", avgStrokeRateJson);
+            }
 
-            JSONObject poolLengthJson = new JSONObject();
-            poolLengthJson.put("value", summary.getPoolLength());
-            poolLengthJson.put("unit", "cm");
-            jsonObject.put("Pool length", poolLengthJson);
+            if (summary.getPoolLength() != -1) {
+                JSONObject poolLengthJson = new JSONObject();
+                poolLengthJson.put("value", summary.getPoolLength());
+                poolLengthJson.put("unit", "cm");
+                jsonObject.put("Pool length", poolLengthJson);
+            }
 
-            JSONObject lapsJson = new JSONObject();
-            lapsJson.put("value", summary.getLaps());
-            lapsJson.put("unit", "");
-            jsonObject.put("Laps", lapsJson);
+            if (summary.getLaps() != -1) {
+                JSONObject lapsJson = new JSONObject();
+                lapsJson.put("value", summary.getLaps());
+                lapsJson.put("unit", "");
+                jsonObject.put("Laps", lapsJson);
+            }
 
-            JSONObject avgSwolfJson = new JSONObject();
-            avgSwolfJson.put("value", summary.getAvgSwolf());
-            avgSwolfJson.put("unit", "");
-            jsonObject.put("Average reported swolf", avgSwolfJson);
+            if (summary.getAvgSwolf() != -1) {
+                JSONObject avgSwolfJson = new JSONObject();
+                avgSwolfJson.put("value", summary.getAvgSwolf());
+                avgSwolfJson.put("unit", "");
+                jsonObject.put("Average reported swolf", avgSwolfJson);
+            }
 
             boolean unknownData = false;
             if (dataSamples.size() != 0) {
                 int speed = 0;
+                int speedCount = 0;
+                boolean stepRatePresent = false;
                 int stepRate = 0;
+                int avgStepRate = 0;
                 int cadence = 0;
+                int cadenceCount = 0;
                 int stepLength = 0;
+                int stepLengthCount = 0;
                 int groundContactTime = 0;
+                int groundContactTimeCount = 0;
                 int impact = 0;
+                int impactCount = 0;
                 int maxImpact = 0;
                 int swingAngle = 0;
+                int swingAngleCount = 0;
+                boolean footLandingPresent = false;
                 int foreFootLanding = 0;
                 int midFootLanding = 0;
                 int backFootLanding = 0;
                 int eversionAngle = 0;
+                int eversionAngleCount = 0;
                 int maxEversionAngle = 0;
                 int swolf = 0;
+                int swolfCount = 0;
                 int maxSwolf = 0;
                 int strokeRate = 0;
+                int strokeRateCount = 0;
                 int maxStrokeRate = 0;
+                int heartRate = 0;
+                int heartRateCount = 0;
+                int maxHeartRate = 0;
+                int minHeartRate = Integer.MAX_VALUE;
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
-                    speed += dataSample.getSpeed();
-                    stepRate += dataSample.getStepRate();
-                    cadence += dataSample.getCadence();
-                    stepLength += dataSample.getStepLength();
-                    groundContactTime += dataSample.getGroundContactTime();
-                    impact += dataSample.getImpact();
-                    if (dataSample.getImpact() > maxImpact)
-                        maxImpact = dataSample.getImpact();
-                    swingAngle += dataSample.getSwingAngle();
-                    foreFootLanding += dataSample.getForeFootLanding();
-                    midFootLanding += dataSample.getMidFootLanding();
-                    backFootLanding += dataSample.getBackFootLanding();
-                    eversionAngle += dataSample.getEversionAngle();
-                    if (dataSample.getEversionAngle() > maxEversionAngle)
-                        maxEversionAngle = dataSample.getEversionAngle();
-                    swolf += dataSample.getSwolf();
-                    if (dataSample.getSwolf() > maxSwolf)
-                        maxSwolf = dataSample.getSwolf();
-                    strokeRate += dataSample.getStrokeRate();
-                    if (dataSample.getStrokeRate() > maxStrokeRate)
-                        maxStrokeRate = dataSample.getStrokeRate();
+                    if (dataSample.getSpeed() != -1) {
+                        speed += dataSample.getSpeed();
+                        speedCount += 1;
+                    }
+                    if (dataSample.getStepRate() != -1) {
+                        stepRate += dataSample.getStepRate();
+                        stepRatePresent = true;
+                    }
+                    if (dataSample.getCadence() != -1) {
+                        cadence += dataSample.getCadence();
+                        cadenceCount += 1;
+                    }
+                    if (dataSample.getStepLength() != -1) {
+                        stepLength += dataSample.getStepLength();
+                        stepLengthCount += 1;
+                    }
+                    if (dataSample.getGroundContactTime() != -1) {
+                        groundContactTime += dataSample.getGroundContactTime();
+                        groundContactTimeCount += 1;
+                    }
+                    if (dataSample.getImpact() != -1) {
+                        impact += dataSample.getImpact();
+                        impactCount += 1;
+                        if (dataSample.getImpact() > maxImpact)
+                            maxImpact = dataSample.getImpact();
+                    }
+                    if (dataSample.getSwingAngle() != -1) {
+                        swingAngle += dataSample.getSwingAngle();
+                        swingAngleCount += 1;
+                    }
+                    if (dataSample.getForeFootLanding() != -1) {
+                        foreFootLanding += dataSample.getForeFootLanding();
+                        footLandingPresent = true;
+                    }
+                    if (dataSample.getMidFootLanding() != -1) {
+                        midFootLanding += dataSample.getMidFootLanding();
+                        footLandingPresent = true;
+                    }
+                    if (dataSample.getBackFootLanding() != -1) {
+                        backFootLanding += dataSample.getBackFootLanding();
+                        footLandingPresent = true;
+                    }
+                    if (dataSample.getEversionAngle() != -1) {
+                        eversionAngle += dataSample.getEversionAngle();
+                        eversionAngleCount += 1;
+                        if (dataSample.getEversionAngle() > maxEversionAngle)
+                            maxEversionAngle = dataSample.getEversionAngle();
+                    }
+                    if (dataSample.getSwolf() != -1) {
+                        swolf += dataSample.getSwolf();
+                        swolfCount += 1;
+                        if (dataSample.getSwolf() > maxSwolf)
+                            maxSwolf = dataSample.getSwolf();
+                    }
+                    if (dataSample.getStrokeRate() != -1) {
+                        strokeRate += dataSample.getStrokeRate();
+                        strokeRateCount += 1;
+                        if (dataSample.getStrokeRate() > maxStrokeRate)
+                            maxStrokeRate = dataSample.getStrokeRate();
+                    }
+                    if (dataSample.getHeartRate() != -1 && dataSample.getHeartRate() != 0) {
+                        int hr = dataSample.getHeartRate() & 0xff;
+                        heartRate += hr;
+                        heartRateCount += 1;
+                        if (hr > maxHeartRate)
+                            maxHeartRate = hr;
+                        if (hr < minHeartRate)
+                            minHeartRate = hr;
+                    }
                     if (dataSample.getDataErrorHex() != null)
                         unknownData = true;
                 }
-                // Average the things that should probably be averaged
-                speed = speed / dataSamples.size();
-                cadence = cadence / dataSamples.size();
-                int avgStepRate = stepRate / (summary.getDuration() / 60); // steps per minute
 
-                stepLength = stepLength / dataSamples.size();
-                groundContactTime = groundContactTime / dataSamples.size();
-                impact = impact / dataSamples.size();
-                swingAngle = swingAngle / dataSamples.size();
-                eversionAngle = eversionAngle / dataSamples.size();
-                swolf = swolf / dataSamples.size();
-                strokeRate = strokeRate / dataSamples.size();
+                // Average the things that should be averaged
+                if (speedCount > 0)
+                    speed = speed / speedCount;
+                if (cadenceCount > 0)
+                    cadence = cadence / cadenceCount;
+                if (summary.getDuration() > 60)
+                    avgStepRate = stepRate / (summary.getDuration() / 60); // steps per minute
+                if (stepLengthCount > 0)
+                    stepLength = stepLength / stepLengthCount;
+                if (groundContactTimeCount > 0)
+                    groundContactTime = groundContactTime / groundContactTimeCount;
+                if (impactCount > 0)
+                    impact = impact / impactCount;
+                if (swingAngleCount > 0)
+                    swingAngle = swingAngle / swingAngleCount;
+                if (eversionAngleCount > 0)
+                    eversionAngle = eversionAngle / eversionAngleCount;
+                if (swolfCount > 0)
+                    swolf = swolf / swolfCount;
+                if (strokeRateCount > 0)
+                    strokeRate = strokeRate / strokeRateCount;
+                if (heartRateCount > 0)
+                    heartRate = heartRate / heartRateCount;
 
-                JSONObject speedJson = new JSONObject();
-                speedJson.put("value", speed);
-                speedJson.put("unit", "cm/s");
-                jsonObject.put("Reported speed (avg)", speedJson);
+                if (speedCount > 0) {
+                    JSONObject speedJson = new JSONObject();
+                    speedJson.put("value", speed);
+                    speedJson.put("unit", "cm/s");
+                    jsonObject.put("Reported speed (avg)", speedJson);
+                }
 
-                JSONObject stepRateSumJson = new JSONObject();
-                stepRateSumJson.put("value", stepRate);
-                stepRateSumJson.put("unit", "");
-                jsonObject.put("Step rate (sum)", stepRateSumJson);
+                if (stepRatePresent) {
+                    JSONObject stepRateSumJson = new JSONObject();
+                    stepRateSumJson.put("value", stepRate);
+                    stepRateSumJson.put("unit", "");
+                    jsonObject.put("Step rate (sum)", stepRateSumJson);
 
-                JSONObject stepRateAvgJson = new JSONObject();
-                stepRateAvgJson.put("value", avgStepRate);
-                stepRateAvgJson.put("unit", "steps/min");
-                jsonObject.put("Step rate (avg)", stepRateAvgJson);
+                    JSONObject stepRateAvgJson = new JSONObject();
+                    stepRateAvgJson.put("value", avgStepRate);
+                    stepRateAvgJson.put("unit", "steps/min");
+                    jsonObject.put("Step rate (avg)", stepRateAvgJson);
+                }
 
-                JSONObject cadenceJson = new JSONObject();
-                cadenceJson.put("value", cadence);
-                cadenceJson.put("unit", "steps/min");
-                jsonObject.put("Cadence (avg)", cadenceJson);
+                if (cadenceCount > 0) {
+                    JSONObject cadenceJson = new JSONObject();
+                    cadenceJson.put("value", cadence);
+                    cadenceJson.put("unit", "steps/min");
+                    jsonObject.put("Cadence (avg)", cadenceJson);
+                }
 
-                JSONObject stepLengthJson = new JSONObject();
-                stepLengthJson.put("value", stepLength);
-                stepLengthJson.put("unit", "cm");
-                jsonObject.put("Step Length (avg)", stepLengthJson);
+                if (stepLengthCount > 0) {
+                    JSONObject stepLengthJson = new JSONObject();
+                    stepLengthJson.put("value", stepLength);
+                    stepLengthJson.put("unit", "cm");
+                    jsonObject.put("Step Length (avg)", stepLengthJson);
+                }
 
-                JSONObject groundContactTimeJson = new JSONObject();
-                groundContactTimeJson.put("value", groundContactTime);
-                groundContactTimeJson.put("unit", "milliseconds");
-                jsonObject.put("Ground contact time (avg)", groundContactTimeJson);
+                if (groundContactTimeCount > 0) {
+                    JSONObject groundContactTimeJson = new JSONObject();
+                    groundContactTimeJson.put("value", groundContactTime);
+                    groundContactTimeJson.put("unit", "milliseconds");
+                    jsonObject.put("Ground contact time (avg)", groundContactTimeJson);
+                }
 
-                JSONObject impactJson = new JSONObject();
-                impactJson.put("value", impact);
-                impactJson.put("unit", "g");
-                jsonObject.put("Impact (avg)", impactJson);
+                if (impactCount > 0) {
+                    JSONObject impactJson = new JSONObject();
+                    impactJson.put("value", impact);
+                    impactJson.put("unit", "g");
+                    jsonObject.put("Impact (avg)", impactJson);
 
-                JSONObject maxImpactJson = new JSONObject();
-                maxImpactJson.put("value", maxImpact);
-                maxImpactJson.put("unit", "g");
-                jsonObject.put("Impact (max)", maxImpactJson);
+                    JSONObject maxImpactJson = new JSONObject();
+                    maxImpactJson.put("value", maxImpact);
+                    maxImpactJson.put("unit", "g");
+                    jsonObject.put("Impact (max)", maxImpactJson);
+                }
 
-                JSONObject swingAngleJson = new JSONObject();
-                swingAngleJson.put("value", swingAngle);
-                swingAngleJson.put("unit", "degrees");
-                jsonObject.put("Swing angle (avg)", swingAngleJson);
+                if (swingAngleCount > 0) {
+                    JSONObject swingAngleJson = new JSONObject();
+                    swingAngleJson.put("value", swingAngle);
+                    swingAngleJson.put("unit", "degrees");
+                    jsonObject.put("Swing angle (avg)", swingAngleJson);
+                }
 
-                JSONObject foreFootLandingJson = new JSONObject();
-                foreFootLandingJson.put("value", foreFootLanding);
-                foreFootLandingJson.put("unit", "");
-                jsonObject.put("Fore foot landings", foreFootLandingJson);
+                if (footLandingPresent) {
+                    JSONObject foreFootLandingJson = new JSONObject();
+                    foreFootLandingJson.put("value", foreFootLanding);
+                    foreFootLandingJson.put("unit", "");
+                    jsonObject.put("Fore foot landings", foreFootLandingJson);
 
-                JSONObject midFootLandingJson = new JSONObject();
-                midFootLandingJson.put("value", midFootLanding);
-                midFootLandingJson.put("unit", "");
-                jsonObject.put("Mid foot landings", midFootLandingJson);
+                    JSONObject midFootLandingJson = new JSONObject();
+                    midFootLandingJson.put("value", midFootLanding);
+                    midFootLandingJson.put("unit", "");
+                    jsonObject.put("Mid foot landings", midFootLandingJson);
 
-                JSONObject backFootLandingJson = new JSONObject();
-                backFootLandingJson.put("value", backFootLanding);
-                backFootLandingJson.put("unit", "");
-                jsonObject.put("Back foot landings", backFootLandingJson);
+                    JSONObject backFootLandingJson = new JSONObject();
+                    backFootLandingJson.put("value", backFootLanding);
+                    backFootLandingJson.put("unit", "");
+                    jsonObject.put("Back foot landings", backFootLandingJson);
+                }
 
-                JSONObject eversionAngleJson = new JSONObject();
-                eversionAngleJson.put("value", eversionAngle);
-                eversionAngleJson.put("unit", "degrees");
-                jsonObject.put("Eversion angle (avg)", eversionAngleJson);
+                if (eversionAngleCount > 0) {
+                    JSONObject eversionAngleJson = new JSONObject();
+                    eversionAngleJson.put("value", eversionAngle);
+                    eversionAngleJson.put("unit", "degrees");
+                    jsonObject.put("Eversion angle (avg)", eversionAngleJson);
 
-                JSONObject maxEversionAngleJson = new JSONObject();
-                maxEversionAngleJson.put("value", maxEversionAngle);
-                maxEversionAngleJson.put("unit", "degrees");
-                jsonObject.put("Eversion angle (max)", maxEversionAngleJson);
+                    JSONObject maxEversionAngleJson = new JSONObject();
+                    maxEversionAngleJson.put("value", maxEversionAngle);
+                    maxEversionAngleJson.put("unit", "degrees");
+                    jsonObject.put("Eversion angle (max)", maxEversionAngleJson);
+                }
 
-                JSONObject swolfJson = new JSONObject();
-                swolfJson.put("value", swolf);
-                swolfJson.put("unit", "");
-                jsonObject.put("Swolf (avg calculated)", swolfJson);
+                if (swolfCount > 0) {
+                    JSONObject swolfJson = new JSONObject();
+                    swolfJson.put("value", swolf);
+                    swolfJson.put("unit", "");
+                    jsonObject.put("Swolf (avg calculated)", swolfJson);
 
-                JSONObject maxSwolfJson = new JSONObject();
-                maxSwolfJson.put("value", maxSwolf);
-                maxSwolfJson.put("unit", "");
-                jsonObject.put("Swolf (max)", maxSwolfJson);
+                    JSONObject maxSwolfJson = new JSONObject();
+                    maxSwolfJson.put("value", maxSwolf);
+                    maxSwolfJson.put("unit", "");
+                    jsonObject.put("Swolf (max)", maxSwolfJson);
+                }
 
-                JSONObject strokeRateJson = new JSONObject();
-                strokeRateJson.put("value", strokeRate);
-                strokeRateJson.put("unit", "");
-                jsonObject.put("Stroke rate (avg calculated)", strokeRateJson);
+                if (strokeRateCount > 0) {
+                    JSONObject strokeRateJson = new JSONObject();
+                    strokeRateJson.put("value", strokeRate);
+                    strokeRateJson.put("unit", "");
+                    jsonObject.put("Stroke rate (avg calculated)", strokeRateJson);
 
-                JSONObject maxStrokeRateJson = new JSONObject();
-                maxStrokeRateJson.put("value", maxStrokeRate);
-                maxStrokeRateJson.put("unit", "");
-                jsonObject.put("Stroke rate (max)", maxStrokeRateJson);
+                    JSONObject maxStrokeRateJson = new JSONObject();
+                    maxStrokeRateJson.put("value", maxStrokeRate);
+                    maxStrokeRateJson.put("unit", "");
+                    jsonObject.put("Stroke rate (max)", maxStrokeRateJson);
+                }
+
+                if (heartRateCount > 0) {
+                    JSONObject heartRateJson = new JSONObject();
+                    heartRateJson.put("value", heartRate);
+                    heartRateJson.put("unit", "bpm");
+                    jsonObject.put("Heart rate (avg)", heartRateJson);
+
+                    JSONObject maxHeartRateJson = new JSONObject();
+                    maxHeartRateJson.put("value", maxHeartRate);
+                    maxHeartRateJson.put("unit", "bpm");
+                    jsonObject.put("Heart rate (max)", maxHeartRateJson);
+
+                    JSONObject minHeartRateJson = new JSONObject();
+                    minHeartRateJson.put("value", minHeartRate);
+                    minHeartRateJson.put("unit", "bpm");
+                    jsonObject.put("Heart rate (min)", minHeartRateJson);
+                }
             }
 
             ListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator();
