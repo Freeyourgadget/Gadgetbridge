@@ -95,7 +95,7 @@ public class XiaomiTemperatureSampleProvider implements TimeSampleProvider<Tempe
             // first 2 bytes are body temperature
             // last 2 bytes are skin temperature
             // since the body temperature seems to always be 0, we only display skin temperature
-            this.temperature = (sample.getValue() & 0xffff);
+            this.temperature = (sample.getValue() & 0xffff) / 100f;
         }
 
         @Override
