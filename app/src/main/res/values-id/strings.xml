@@ -2826,4 +2826,6 @@
 \nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang.
 \n
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="weekstepschart_steps_a_week_or_month">Langkah per minggu/bulan</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">Tidur per minggu/bulan</string>
 </resources>
