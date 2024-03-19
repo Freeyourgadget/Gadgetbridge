@@ -2839,4 +2839,6 @@
 \nNota: No es necesario instalar el archivo .res si es exactamente el mismo que el instalado anteriormente.
 \n
 \n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="weekstepschart_steps_a_week_or_month">Pasos a la semana/al mes</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">Horas de sueño por semana/mes</string>
 </resources>
