@@ -610,7 +610,7 @@ class BangleJSActivityTrack {
                         summary.setGpxTrack(targetFile.getAbsolutePath());
                         //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        LOG.error("Could not add gpx track to summary:" + e);
                     }
                 } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
                     GB.toast(context, "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
