@@ -110,7 +110,7 @@ class BangleJSActivityTrack {
         //GB.toast(context, "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
         LOG.debug(log);
-        String filename = "recorder.log" + log + ".csv";
+        String filename = "recorder.log" + log + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".csv";
         File dir;
         try {
             dir = FileUtils.getExternalFilesDir();
@@ -593,7 +593,7 @@ class BangleJSActivityTrack {
                     break;
             }
 
-            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + "-" + storedLogObject.getJSONArray("Time").getString(0) + ".gpx");
+            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".gpx");
             File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
             if (hasGPXReading /*|| hasHRMReading*/) {
