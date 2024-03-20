@@ -2849,4 +2849,6 @@
 \nNot: Daha önce kurulanla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">Haftalık/aylık uyku</string>
+    <string name="weekstepschart_steps_a_week_or_month">Haftalık/aylık adım</string>
 </resources>
