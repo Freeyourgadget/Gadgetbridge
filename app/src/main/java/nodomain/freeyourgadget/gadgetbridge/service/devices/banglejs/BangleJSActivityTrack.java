@@ -110,7 +110,7 @@ class BangleJSActivityTrack {
         //GB.toast(context, "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
         String log = json.getString("log");
         LOG.debug(log);
-        String filename = "recorder.log" + log + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".csv";
+        String filename = "recorder.log" + log + ".csv";
         File dir;
         try {
             dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(device.getName()));
@@ -598,7 +598,7 @@ class BangleJSActivityTrack {
                     break;
             }
 
-            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".gpx");
+            String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
             dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(device.getName()));
             File targetFile = new File(dir, fileName);
 
