@@ -2837,4 +2837,6 @@
 \n备注：如果即将安装的 .res 文件的版本与当前已安装相同，您无需再次安装。
 \n
 \n风险自担！</string>
+    <string name="weekstepschart_steps_a_week_or_month">每周/每月步数</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">每周/每月睡眠</string>
 </resources>
