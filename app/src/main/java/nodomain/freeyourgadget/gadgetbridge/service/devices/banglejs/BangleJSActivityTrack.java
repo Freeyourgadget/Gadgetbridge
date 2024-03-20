@@ -113,7 +113,12 @@ class BangleJSActivityTrack {
         String filename = "recorder.log" + log + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".csv";
         File dir;
         try {
-            dir = FileUtils.getExternalFilesDir();
+            dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(device.getName()));
+            if (!dir.isDirectory()) {
+                if (!dir.mkdir()) {
+                    throw new IOException("Cannot create device specific directory for " + device.getName());
+                }
+            }
         } catch (IOException e) {
             LOG.error("Failed at getting external files directory with error: " + e);
             resetPacketCount();
@@ -594,7 +599,8 @@ class BangleJSActivityTrack {
             }
 
             String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + "-" + device.getName().substring(device.getName().length()-4, device.getName().length()) + ".gpx");
-            File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+            dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(device.getName()));
+            File targetFile = new File(dir, fileName);
 
             if (hasGPXReading /*|| hasHRMReading*/) {
                 try {
