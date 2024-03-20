@@ -100,13 +100,10 @@ public class FileUtils {
     public static void copyStringToFile(String string, File dst, String mode) throws IOException {
         boolean append = true;
         if (!Objects.equals(mode, "append")) append = false;
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(dst, append));
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dst, append))) {
             writer.write(string);
-            writer.close();
-        } catch (IOException e) {
-            throw e;
-        };
+        }
     }
 
     /**
