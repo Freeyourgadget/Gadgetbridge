@@ -1871,6 +1871,9 @@
     <string name="strokes">Total Strokes</string>
     <string name="averageLapPace">Average Lap Pace</string>
     <string name="swolfIndex">SWOLF</string>
+    <string name="swolfAvg">Average swolf</string>
+    <string name="swolfMax">Maximum swolf</string>
+    <string name="swolfMin">Minimum swolf</string>
     <string name="swimStyle">Swim Style</string>
     <string name="laneLength">Lane Length</string>
     <string name="laps">Laps</string>
@@ -1879,6 +1882,23 @@
     <string name="flatSeconds">Flat</string>
     <string name="baseAltitude">Base Elevation</string>
     <string name="averageSpeed">Average Speed</string>
+    <string name="stepRateSum">Sum of step rate</string>
+    <string name="stepRateAvg">Average step rate</string>
+    <string name="stepLengthAvg">Average Step Length</string>
+    <string name="groundContactTimeAvg">Average ground contact time</string>
+    <string name="impactAvg">Average impact</string>
+    <string name="impactMax">Maximum impact</string>
+    <string name="swingAngleAvg">Average swing angle</string>
+    <string name="foreFootLandings">Fore foot landings</string>
+    <string name="midFootLandings">Mid foot landings</string>
+    <string name="backFootLandings">Back foot landings</string>
+    <string name="eversionAngleAvg">Average eversion angle</string>
+    <string name="eversionAngleMax">Max eversion angle</string>
+    <string name="fmtPaceDistance">Pace %d distance</string>
+    <string name="fmtPaceType">Pace %d type</string>
+    <string name="fmtPacePace">Pace %d pace</string>
+    <string name="fmtPaceCorrection">Pace %d correction</string>
+    <string name="unknownDataEncountered">Unknown data encountered</string>
     <!-- activity summary units-->
     <string name="meters">m</string>
     <string name="cm">cm</string>
@@ -1893,6 +1913,7 @@
     <string name="strokes_minute">str/min</string>
     <string name="strokes_unit">str</string>
     <string name="seconds">sec</string>
+    <string name="milliseconds">milliseconds</string>
     <string name="swolf_index">swolf index</string>
     <string name="swim_style">swim style</string>
     <string name="laps_unit">laps</string>
@@ -1904,6 +1925,7 @@
     <string name="bpm">bpm</string>
     <string name="km">km</string>
     <string name="mi">mi</string>
+    <string name="degrees">degrees</string>
     <!-- activity summary groups-->
     <string name="Strokes">Strokes</string>
     <string name="Swimming">Swimming</string>
