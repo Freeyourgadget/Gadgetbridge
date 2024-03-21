@@ -24,9 +24,10 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 
+import de.greenrobot.dao.query.CloseableListIterator;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -535,45 +536,59 @@ public class HuaweiWorkoutGbParser {
                 }
             }
 
-            ListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator();
-            int count = 0;
-            int pace = 0;
-            while (it.hasNext()) {
-                int index = it.nextIndex();
-                HuaweiWorkoutPaceSample sample = it.next();
+            try (CloseableListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator()) {
+                HashMap<Byte, Integer> typeCount = new HashMap<>();
+                HashMap<Byte, Integer> typePace = new HashMap<>();
 
-                count += 1;
-                pace += sample.getPace();
+                while (it.hasNext()) {
+                    int index = it.nextIndex();
+                    HuaweiWorkoutPaceSample sample = it.next();
 
-                JSONObject paceDistance = new JSONObject();
-                paceDistance.put("value", sample.getDistance());
-                paceDistance.put("unit", GBApplication.getContext().getString(R.string.km));
-                jsonObject.put(String.format(GBApplication.getLanguage() , GBApplication.getContext().getString(R.string.fmtPaceDistance), index), paceDistance);
+                    int count = 1;
+                    int pace = sample.getPace();
 
-                JSONObject paceType = new JSONObject();
-                paceType.put("value", sample.getType());
-                paceType.put("unit", ""); // TODO: not sure
-                jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceType), index), paceType);
+                    Integer previousCount = typeCount.get(sample.getType());
+                    Integer previousPace = typePace.get(sample.getType());
+                    if (previousCount != null)
+                        count += previousCount;
+                    if (previousPace != null)
+                        pace += previousPace;
+                    typeCount.put(sample.getType(), count);
+                    typePace.put(sample.getType(), pace);
 
-                JSONObject pacePace = new JSONObject();
-                pacePace.put("value", sample.getPace());
-                pacePace.put("unit", GBApplication.getContext().getString(R.string.seconds_km));
-                jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPacePace), index), pacePace);
+                    JSONObject paceDistance = new JSONObject();
+                    paceDistance.put("value", sample.getDistance());
+                    paceDistance.put("unit", GBApplication.getContext().getString(R.string.km));
+                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceDistance), index), paceDistance);
 
-                if (sample.getCorrection() != 0) {
-                    JSONObject paceCorrection = new JSONObject();
-                    paceCorrection.put("value", sample.getCorrection() / 10);
-                    paceCorrection.put("unit", GBApplication.getContext().getString(R.string.meters));
-                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceCorrection), index), paceCorrection);
+                    JSONObject paceType = new JSONObject();
+                    paceType.put("value", sample.getType());
+                    paceType.put("unit", ""); // TODO: find out types
+                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceType), index), paceType);
+
+                    JSONObject pacePace = new JSONObject();
+                    pacePace.put("value", sample.getPace());
+                    pacePace.put("unit", "seconds_km");
+                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPacePace), index), pacePace);
+
+                    if (sample.getCorrection() != 0) {
+                        JSONObject paceCorrection = new JSONObject();
+                        paceCorrection.put("value", sample.getCorrection() / 10);
+                        paceCorrection.put("unit", GBApplication.getContext().getString(R.string.meters));
+                        jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceCorrection), index), paceCorrection);
+                    }
                 }
-            }
 
-            if (count != 0) {
-                // TODO: should probably be split on type?
-                JSONObject avgPace = new JSONObject();
-                avgPace.put("value", pace / count);
-                avgPace.put("unit", "seconds_km");
-                jsonObject.put("Average pace", avgPace); // TODO: translatable string
+                for (Byte key : typeCount.keySet()) {
+                    Integer count = typeCount.get(key);
+                    Integer pace = typePace.get(key);
+                    if (count == null || pace == null)
+                        continue;
+                    JSONObject avgPace = new JSONObject();
+                    avgPace.put("value", pace / count);
+                    avgPace.put("unit", "seconds_km");
+                    jsonObject.put(String.format(GBApplication.getContext().getString(R.string.fmtPaceTypeAverage), key), avgPace);
+                }
             }
 
             if (unknownData) {
