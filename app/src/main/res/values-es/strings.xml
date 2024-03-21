@@ -2841,4 +2841,6 @@
 \n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
     <string name="weekstepschart_steps_a_week_or_month">Pasos a la semana/al mes</string>
     <string name="weeksleepchart_sleep_a_week_or_month">Horas de sueño por semana/mes</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
 </resources>
