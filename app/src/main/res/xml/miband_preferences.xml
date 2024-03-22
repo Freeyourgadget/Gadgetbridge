@@ -13,7 +13,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_message_outline"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_sms"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_sms">
 
@@ -49,7 +49,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_phone"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_incoming_call"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_incoming_call">
 
@@ -79,7 +79,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_email"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_email"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_email">
 
@@ -114,7 +114,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_message_outline"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_chat"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_chat">
 
@@ -149,7 +149,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_person"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_social"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_social">
 
@@ -184,7 +184,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_access_alarms"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_alarm_clock"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_alarm_clock">
 
@@ -219,7 +219,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_map"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_navigation"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_navigation">
 
@@ -254,7 +254,7 @@
 
         <PreferenceScreen
             android:icon="@drawable/ic_notifications"
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic">
 
