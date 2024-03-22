@@ -2843,4 +2843,5 @@
     <string name="weeksleepchart_sleep_a_week_or_month">Horas de sueño por semana/mes</string>
     <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="busy_task_fetch_sports_details_interrupted">Se interrumpió la búsqueda de los detalles deportivos</string>
 </resources>
