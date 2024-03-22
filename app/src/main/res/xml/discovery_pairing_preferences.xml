@@ -4,13 +4,6 @@
 
     <SwitchPreferenceCompat
         android:defaultValue="false"
-        android:key="enable_companiondevice_pairing"
-        android:layout="@layout/preference_checkbox"
-        android:summary="@string/companiondevice_pairing_details"
-        android:title="@string/companiondevice_pairing"
-        app:iconSpaceReserved="false" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
         android:key="discover_unsupported_devices"
         android:layout="@layout/preference_checkbox"
         android:summary="@string/discover_unsupported_devices_description"
