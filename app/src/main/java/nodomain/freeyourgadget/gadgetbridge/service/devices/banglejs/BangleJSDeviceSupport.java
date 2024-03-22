@@ -49,6 +49,7 @@ import android.os.Build;
 import android.util.Base64;
 import android.widget.Toast;
 
+import androidx.core.text.HtmlCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.volley.AuthFailureError;
@@ -1547,6 +1548,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        String description = calendarEventSpec.description;
+        if (description != null) {
+            // remove any HTML formatting
+            if (description.startsWith("<html"))
+                description = androidx.core.text.HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+            // Replace "-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-" lines from Google meet
+            description = ("\n"+description+"\n").replaceAll("\n-[:~-]*\n","");
+            // replace double newlines and trim beginning and end
+            description = description.replaceAll("\n\\s*\n","\n").trim();
+        }
         try {
             JSONObject o = new JSONObject();
             o.put("t", "calendar");
@@ -1555,7 +1566,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("timestamp", calendarEventSpec.timestamp);
             o.put("durationInSeconds", calendarEventSpec.durationInSeconds);
             o.put("title", renderUnicodeAsImage(cropToLength(calendarEventSpec.title,40)));
-            o.put("description", renderUnicodeAsImage(cropToLength(calendarEventSpec.description,200)));
+            o.put("description", renderUnicodeAsImage(cropToLength(description,200)));
             o.put("location", renderUnicodeAsImage(cropToLength(calendarEventSpec.location,40)));
             o.put("calName", cropToLength(calendarEventSpec.calName,20));
             o.put("color", calendarEventSpec.color);
