@@ -2846,4 +2846,7 @@
 \nVORGEHEN AUF EIGENE GEFAHR!</string>
     <string name="weeksleepchart_sleep_a_week_or_month">Schlaf pro Woche/Monat</string>
     <string name="weekstepschart_steps_a_week_or_month">Schritte pro Woche/Monat</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="busy_task_fetch_sports_details_interrupted">Das Abrufen von Sportdaten wurde unterbrochen</string>
 </resources>
