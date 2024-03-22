@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:key="ignore_bonded_devices"
-        android:layout="@layout/preference_checkbox"
-        android:summary="@string/ignore_bonded_devices_description"
-        android:title="@string/ignore_bonded_devices"
-        app:iconSpaceReserved="false" />
-    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="enable_companiondevice_pairing"
         android:layout="@layout/preference_checkbox"

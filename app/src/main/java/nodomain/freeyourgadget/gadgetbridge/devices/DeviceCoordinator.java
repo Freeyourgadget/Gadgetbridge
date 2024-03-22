@@ -458,6 +458,12 @@ public interface DeviceCoordinator {
     int getBondingStyle();
 
     /**
+     * Whether it is recommended to unbind the device before pairing due to compatibility issues. Returns false
+     * if the device is known to pair without issues even when already bound in Android bluetooth settings.
+     */
+    boolean suggestUnbindBeforePair();
+
+    /**
      * Returns true if this device is in an experimental state / not tested.
      */
     boolean isExperimental();

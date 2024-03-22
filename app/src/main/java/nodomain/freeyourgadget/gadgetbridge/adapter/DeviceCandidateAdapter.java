@@ -17,7 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -30,7 +29,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -76,9 +74,6 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         final List<String> statusLines = new ArrayList<>();
         if (device.isBonded()) {
             statusLines.add(getContext().getString(R.string.device_is_currently_bonded));
-            if (!GBApplication.getPrefs().getBoolean("ignore_bonded_devices", true)) { // This could be passed to the constructor instead
-                deviceImageView.setImageResource(coordinator.getDisabledIconResource());
-            }
         }
 
         if (!deviceType.isSupported()) {

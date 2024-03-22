@@ -1812,8 +1812,6 @@
     <string name="error_exporting_device_preferences">Error exporting device specific preferences</string>
     <string name="error_setting_alias">Error setting alias: </string>
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
-    <string name="ignore_bonded_devices">Ignore bonded devices</string>
-    <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="discover_unsupported_devices">Discover unsupported devices</string>
     <string name="discover_unsupported_devices_description">Enabling this option will display all discovered bluetooth devices when scanning. Short tap will copy device name and mac address to clipboard. Long press will launch `Add test device` dialog. Can cause potential app freezing issues.</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
@@ -2709,4 +2707,6 @@
     <string name="scan_scanning_single_device">Scanning 1 device</string>
     <string name="scan_scanning_multiple_devices">Scanning %d devices</string>
     <string name="notification_channel_scan_service_name">Scan service</string>
+    <string name="unbind_before_pair_title">Already bound</string>
+    <string name="unbind_before_pair_message">This device is already bound in Android settings, which can make pairing fail for some devices.\n\nIf adding the device fails, please remove it in Android settings and try again.</string>
 </resources>

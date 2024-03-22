@@ -24,13 +24,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -55,14 +53,11 @@ public final class GBScanEventProcessor implements Runnable {
 
     private static final ParcelUuid ZERO_UUID = ParcelUuid.fromString("00000000-0000-0000-0000-000000000000");
 
-    // Devices that can be ignored by just the address (eg. already bonded)
-    private final Set<String> devicesToIgnore = new HashSet<>();
     private final Map<String, GBDeviceCandidate> candidatesByAddress = new LinkedHashMap<>();
 
     private final BlockingQueue<String> eventsToProcessQueue = new LinkedBlockingQueue<>();
     private final Map<String, List<GBScanEvent>> eventsToProcessMap = new HashMap<>();
 
-    private boolean ignoreBonded = true;
     private boolean discoverUnsupported = false;
 
     private volatile boolean running = false;
@@ -121,14 +116,9 @@ public final class GBScanEventProcessor implements Runnable {
     }
 
     public void clear() {
-        devicesToIgnore.clear();
         candidatesByAddress.clear();
         eventsToProcessMap.clear();
         eventsToProcessQueue.clear();
-    }
-
-    public void setIgnoreBonded(boolean ignoreBonded) {
-        this.ignoreBonded = ignoreBonded;
     }
 
     public void setDiscoverUnsupported(boolean discoverUnsupported) {
@@ -203,11 +193,6 @@ public final class GBScanEventProcessor implements Runnable {
             return false;
         }
 
-        if (devicesToIgnore.contains(address)) {
-            LOG.trace("Ignoring {} events for {}", events.size(), address);
-            return false;
-        }
-
         LOG.debug("Processing {} events for {}", events.size(), address);
 
         GBDeviceCandidate candidate = candidatesByAddress.get(address);
@@ -226,12 +211,6 @@ public final class GBScanEventProcessor implements Runnable {
         } else {
             previousName = candidate.getName();
             previousUuids = candidate.getServiceUuids();
-        }
-
-        if (candidate.isBonded() && ignoreBonded) {
-            LOG.trace("Ignoring already bonded device {}", address);
-            devicesToIgnore.add(address);
-            return false;
         }
 
         // Update the device with the remaining events

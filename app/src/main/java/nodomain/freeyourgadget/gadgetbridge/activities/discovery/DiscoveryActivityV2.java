@@ -611,6 +611,22 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
             }
         }
 
+        if (coordinator.suggestUnbindBeforePair() && deviceCandidate.isBonded()) {
+            new MaterialAlertDialogBuilder(getContext())
+                    .setTitle(R.string.unbind_before_pair_title)
+                    .setMessage(R.string.unbind_before_pair_message)
+                    .setIcon(R.drawable.ic_warning_gray)
+                    .setPositiveButton(R.string.ok, (dialog, whichButton) -> {
+                        startPair(deviceCandidate, coordinator);
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            startPair(deviceCandidate, coordinator);
+        }
+    }
+
+    private void startPair(final GBDeviceCandidate deviceCandidate, final DeviceCoordinator coordinator) {
         final Class<? extends Activity> pairingActivity = coordinator.getPairingActivity();
         if (pairingActivity != null) {
             final Intent intent = new Intent(this, pairingActivity);
@@ -784,7 +800,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
     private void loadSettings() {
         final Prefs prefs = GBApplication.getPrefs();
-        deviceFoundProcessor.setIgnoreBonded(prefs.getBoolean("ignore_bonded_devices", true));
         deviceFoundProcessor.setDiscoverUnsupported(prefs.getBoolean("discover_unsupported_devices", false));
     }
 

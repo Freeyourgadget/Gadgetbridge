@@ -383,6 +383,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean suggestUnbindBeforePair() {
+        return true;
+    }
+
+    @Override
     public boolean isExperimental() {
         return false;
     }
