@@ -1,7 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufStatusMessage.ProtobufStatusCode.NO_ERROR;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GenericStatusMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
+
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage.ProtobufChunkStatus.KEPT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage.ProtobufStatusCode.NO_ERROR;
 
 public class ProtobufMessage extends GFDIMessage {
 
@@ -13,10 +17,6 @@ public class ProtobufMessage extends GFDIMessage {
     private final int protobufDataLength;
     private final byte[] messageBytes;
     private final boolean sendOutgoing;
-
-    public ProtobufMessage(int messageType, int requestId, int dataOffset, int totalProtobufLength, int protobufDataLength, byte[] messageBytes) {
-        this(messageType, requestId, dataOffset, totalProtobufLength, protobufDataLength, messageBytes, true);
-    }
 
     public ProtobufMessage(int messageType, int requestId, int dataOffset, int totalProtobufLength, int protobufDataLength, byte[] messageBytes, boolean sendOutgoing) {
         this.messageType = messageType;
@@ -30,8 +30,15 @@ public class ProtobufMessage extends GFDIMessage {
         if (isComplete()) {
             this.statusMessage = new GenericStatusMessage(messageType, GFDIMessage.Status.ACK);
         } else {
-            this.statusMessage = new ProtobufStatusMessage(messageType, GFDIMessage.Status.ACK, requestId, dataOffset, NO_ERROR, NO_ERROR);
+            this.statusMessage = new ProtobufStatusMessage(messageType, GFDIMessage.Status.ACK, requestId, dataOffset, KEPT, NO_ERROR);
         }
+    }
+    public ProtobufMessage(int messageType, int requestId, int dataOffset, int totalProtobufLength, int protobufDataLength, byte[] messageBytes) {
+        this(messageType, requestId, dataOffset, totalProtobufLength, protobufDataLength, messageBytes, true);
+    }
+
+    public void setStatusMessage(ProtobufStatusMessage protobufStatusMessage) {
+        this.statusMessage = protobufStatusMessage;
     }
 
     public static ProtobufMessage parseIncoming(MessageReader reader, int messageType) {

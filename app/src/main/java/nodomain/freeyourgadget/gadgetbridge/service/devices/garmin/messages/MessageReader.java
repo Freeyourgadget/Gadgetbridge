@@ -13,7 +13,6 @@ public class MessageReader {
     protected static final Logger LOG = LoggerFactory.getLogger(MessageReader.class);
 
     private final ByteBuffer byteBuffer;
-
     private final int payloadSize;
 
     public MessageReader(byte[] data) {
@@ -31,6 +30,10 @@ public class MessageReader {
 
     public boolean isEof() {
         return !byteBuffer.hasRemaining();
+    }
+
+    public boolean isEndOfPayload() {
+        return byteBuffer.position() >= payloadSize - 2;
     }
 
     public int getPosition() {
@@ -99,7 +102,6 @@ public class MessageReader {
         return byteBuffer.capacity();
     }
 
-
     private void checkSize() {
         if (payloadSize > getCapacity()) {
             LOG.error("Received GFDI packet with invalid length: {} vs {}", payloadSize, getCapacity());
@@ -116,12 +118,13 @@ public class MessageReader {
         }
     }
 
-
     public void warnIfLeftover() {
         if (byteBuffer.hasRemaining() && byteBuffer.position() < (byteBuffer.limit() - 2)) {
+            int pos = byteBuffer.position();
             int numBytes = (byteBuffer.limit() - 2) - byteBuffer.position();
             byte[] leftover = new byte[numBytes];
             byteBuffer.get(leftover);
+            byteBuffer.position(pos);
             LOG.warn("Leftover bytes when parsing message. Bytes: {}, complete message: {}", GB.hexdump(leftover), GB.hexdump(byteBuffer.array()));
         }
     }

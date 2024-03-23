@@ -1,27 +1,31 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
 
 import androidx.annotation.Nullable;
+
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class ProtobufStatusMessage extends GFDIStatusMessage {
 
     private final Status status;
     private final int requestId;
     private final int dataOffset;
-    private final ProtobufStatusCode protobufStatus;
-    private final ProtobufStatusCode error; //TODO: why is this duplicated?
+    private final ProtobufChunkStatus protobufChunkStatus;
+    private final ProtobufStatusCode protobufStatusCode;
     private final int messageType;
     private final boolean sendOutgoing;
 
-    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufStatusCode protobufStatus, ProtobufStatusCode error) {
-        this(messageType, status, requestId, dataOffset, protobufStatus, error, true);
+    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode) {
+        this(messageType, status, requestId, dataOffset, protobufChunkStatus, protobufStatusCode, true);
     }
-    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufStatusCode protobufStatus, ProtobufStatusCode error, boolean sendOutgoing) {
+
+    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode, boolean sendOutgoing) {
         this.messageType = messageType;
         this.status = status;
         this.requestId = requestId;
         this.dataOffset = dataOffset;
-        this.protobufStatus = protobufStatus;
-        this.error = error;
+        this.protobufChunkStatus = protobufChunkStatus;
+        this.protobufStatusCode = protobufStatusCode;
         this.sendOutgoing = sendOutgoing;
     }
 
@@ -29,7 +33,7 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         final Status status = Status.fromCode(reader.readByte());
         final int requestID = reader.readShort();
         final int dataOffset = reader.readInt();
-        final ProtobufStatusCode protobufStatus = ProtobufStatusCode.fromCode(reader.readByte());
+        final ProtobufChunkStatus protobufStatus = ProtobufChunkStatus.fromCode(reader.readByte());
         final ProtobufStatusCode error = ProtobufStatusCode.fromCode(reader.readByte());
 
         reader.warnIfLeftover();
@@ -40,12 +44,12 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         return dataOffset;
     }
 
-    public ProtobufStatusCode getProtobufStatus() {
-        return protobufStatus;
+    public ProtobufChunkStatus getProtobufChunkStatus() {
+        return protobufChunkStatus;
     }
 
-    public ProtobufStatusCode getError() {
-        return error;
+    public ProtobufStatusCode getProtobufStatusCode() {
+        return protobufStatusCode;
     }
 
     public int getMessageType() {
@@ -58,8 +62,8 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
 
     public boolean isOK() {
         return this.status.equals(Status.ACK) &&
-                this.protobufStatus.equals(ProtobufStatusCode.NO_ERROR) &&
-                this.error.equals(ProtobufStatusCode.NO_ERROR);
+                this.protobufChunkStatus.equals(ProtobufChunkStatus.KEPT) &&
+                this.protobufStatusCode.equals(ProtobufStatusCode.NO_ERROR);
     }
 
     @Override
@@ -71,8 +75,8 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         writer.writeByte(status.ordinal());
         writer.writeShort(requestId);
         writer.writeInt(dataOffset);
-        writer.writeByte(protobufStatus.code);
-        writer.writeByte(error.code);
+        writer.writeByte(protobufChunkStatus.ordinal());
+        writer.writeByte(protobufStatusCode.code);
         return sendOutgoing;
     }
 
@@ -80,9 +84,25 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         return status;
     }
 
+    public enum ProtobufChunkStatus { //based on the observations of the combination with the StatusCode
+        KEPT,
+        DISCARDED,
+        ;
+
+        @Nullable
+        public static ProtobufChunkStatus fromCode(final int code) {
+            for (final ProtobufChunkStatus status : ProtobufChunkStatus.values()) {
+                if (status.ordinal() == code) {
+                    return status;
+                }
+            }
+
+            return null;
+        }
+    }
+
     public enum ProtobufStatusCode {
         NO_ERROR(0),
-        UNKNOWN_ERROR(1),
         UNKNOWN_REQUEST_ID(100),
         DUPLICATE_PACKET(101),
         MISSING_PACKET(102),

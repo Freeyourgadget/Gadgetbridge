@@ -1,4 +1,6 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
+
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class GenericStatusMessage extends GFDIStatusMessage {
 
