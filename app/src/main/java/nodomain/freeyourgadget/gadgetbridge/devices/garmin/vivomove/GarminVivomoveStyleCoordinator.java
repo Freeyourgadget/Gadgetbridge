@@ -45,4 +45,11 @@ public class GarminVivomoveStyleCoordinator extends AbstractBLEDeviceCoordinator
         return true;
     }
 
+
+    @Override
+    public boolean supportsWeather() {
+        return true;
+    }
+
+
 }

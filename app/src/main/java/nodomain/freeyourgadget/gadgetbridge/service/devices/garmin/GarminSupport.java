@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,6 +19,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
@@ -26,6 +29,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitWeatherConditions;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalDefinitionsEnum;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ConfigurationMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MusicControlEntityUpdateMessage;
@@ -129,11 +135,93 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
+    @Override
+    public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
+        sendWeatherConditions(weatherSpecs.get(0));
+    }
+
+    private void sendWeatherConditions(WeatherSpec weather) {
+        List<RecordData> weatherData = new ArrayList<>();
+
+        try {
+
+            RecordData today = new RecordData(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
+            today.setFieldByName("weather_report", 0); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
+            today.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+            today.setFieldByName("observed_at_time", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+            today.setFieldByName("temperature", weather.currentTemp - 273.15);
+            today.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
+            today.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
+            today.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
+            today.setFieldByName("wind_direction", weather.windDirection);
+            today.setFieldByName("precipitation_probability", weather.precipProbability);
+            today.setFieldByName("wind_speed", Math.round(weather.windSpeed));
+            today.setFieldByName("temperature_feels_like", weather.feelsLikeTemp - 273.15);
+            today.setFieldByName("relative_humidity", weather.currentHumidity);
+            today.setFieldByName("observed_location_lat", weather.latitude);
+            today.setFieldByName("observed_location_long", weather.longitude);
+            today.setFieldByName("location", weather.location);
+            weatherData.add(today);
+
+            for (int hour = 0; hour <= 11; hour++) {
+                if (hour < weather.hourly.size()) {
+                    WeatherSpec.Hourly hourly = weather.hourly.get(hour);
+                    RecordData weatherHourlyForecast = new RecordData(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
+                    weatherHourlyForecast.setFieldByName("weather_report", 1); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
+                    weatherHourlyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(hourly.timestamp));
+                    weatherHourlyForecast.setFieldByName("temperature", hourly.temp - 273.15);
+                    weatherHourlyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(hourly.conditionCode));
+                    weatherHourlyForecast.setFieldByName("wind_direction", hourly.windDirection);
+                    weatherHourlyForecast.setFieldByName("wind_speed", Math.round(hourly.windSpeed));
+                    weatherHourlyForecast.setFieldByName("precipitation_probability", hourly.precipProbability);
+                    weatherHourlyForecast.setFieldByName("relative_humidity", hourly.humidity);
+//                weatherHourlyForecast.setFieldByName("dew_point", 0); // dew_point sint8
+                    weatherHourlyForecast.setFieldByName("uv_index", hourly.uvIndex);
+//                weatherHourlyForecast.setFieldByName("air_quality", 0); // air_quality enum
+                    weatherData.add(weatherHourlyForecast);
+                }
+            }
+//
+            RecordData todayDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+            todayDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
+            todayDailyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+            todayDailyForecast.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
+            todayDailyForecast.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
+            todayDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
+            todayDailyForecast.setFieldByName("precipitation_probability", weather.precipProbability);
+            todayDailyForecast.setFieldByName("day_of_week", GarminTimeUtils.unixTimeToGarminDayOfWeek(weather.timestamp));
+            weatherData.add(todayDailyForecast);
+
+
+            for (int day = 0; day < 4; day++) {
+                if (day < weather.forecasts.size()) {
+                    WeatherSpec.Daily daily = weather.forecasts.get(day);
+                    int ts = weather.timestamp + (day + 1) * 24 * 60 * 60; //TODO: is this needed?
+                    RecordData weatherDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+                    weatherDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
+                    weatherDailyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+                    weatherDailyForecast.setFieldByName("low_temperature", daily.minTemp - 273.15);
+                    weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp - 273.15);
+                    weatherDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(daily.conditionCode));
+                    weatherDailyForecast.setFieldByName("precipitation_probability", daily.precipProbability);
+                    weatherDailyForecast.setFieldByName("day_of_week", GarminTimeUtils.unixTimeToGarminDayOfWeek(ts));
+                    weatherData.add(weatherDailyForecast);
+                }
+            }
+
+            byte[] message = new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDataMessage(weatherData).getOutgoingMessage();
+            communicator.sendMessage(message);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+        }
+
+    }
+
     private void completeInitialization() {
 
-        enableWeather();
 
         onSetTime();
+        enableWeather();
 
         //following is needed for vivomove style
         communicator.sendMessage(new SystemEventMessage(SystemEventMessage.GarminSystemEventType.SYNC_READY, 0).getOutgoingMessage());
@@ -158,9 +246,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     private void enableWeather() {
-        final Map<SetDeviceSettingsMessage.GarminDeviceSetting, Object> settings = new LinkedHashMap<>(2);
+        final Map<SetDeviceSettingsMessage.GarminDeviceSetting, Object> settings = new LinkedHashMap<>(1);
         settings.put(SetDeviceSettingsMessage.GarminDeviceSetting.WEATHER_CONDITIONS_ENABLED, true);
-        settings.put(SetDeviceSettingsMessage.GarminDeviceSetting.WEATHER_ALERTS_ENABLED, true);
         communicator.sendMessage(new SetDeviceSettingsMessage(settings).getOutgoingMessage());
     }
 
