@@ -2784,4 +2784,7 @@
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="weekstepschart_steps_a_week_or_month">Шагов за неделю/месяц</string>
     <string name="weeksleepchart_sleep_a_week_or_month">Сон за неделю/месяц</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="busy_task_fetch_sports_details_interrupted">Получение подробностей о спорте было прервано</string>
 </resources>
