@@ -57,7 +57,7 @@ public class AccountRelated {
 				this.commandId = id;
 
 				this.tlv = new HuaweiTLV()
-						.put(0x01);
+						.put(0x01, (byte)0x00);
 				if (accountPairingOptimization) {
 					this.tlv.put(0x03, (byte)0x01);
 				}
