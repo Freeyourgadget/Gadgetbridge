@@ -513,7 +513,7 @@ public class FitnessData {
     }
 
     public static class MediumToStrengthThreshold {
-        public static final byte id = 0x23;
+        public static final byte id = 0x29;
 
         public static class Request extends HuaweiPacket {
             public Request(ParamsProvider paramsProvider,
