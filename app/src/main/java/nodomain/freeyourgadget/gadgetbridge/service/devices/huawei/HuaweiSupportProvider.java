@@ -457,8 +457,6 @@ public class HuaweiSupportProvider {
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, "p_on");
                 editor.apply();
-//                initializeAlarms();
-                setNavigateOnRotate();
                 setTrusleep();
             }
             onSetTime();
@@ -627,6 +625,9 @@ public class HuaweiSupportProvider {
             }
             if (getHuaweiCoordinator().supportsWearLocation(getDevice())) {
                 setWearLocation();
+            }
+            if (getHuaweiCoordinator().supportsRotateToCycleInfo()) {
+                setNavigateOnRotate();
             }
             if (getHuaweiCoordinator().supportsQueryDndLiftWristDisturbType()) {
                 GetDndLiftWristTypeRequest getDndLiftWristTypeReq = new GetDndLiftWristTypeRequest(this);
