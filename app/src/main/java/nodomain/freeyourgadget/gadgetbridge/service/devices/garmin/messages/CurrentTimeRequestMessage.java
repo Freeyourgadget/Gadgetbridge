@@ -4,7 +4,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.GarminTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 
 public class CurrentTimeRequestMessage extends GFDIMessage {
     private final int referenceID;

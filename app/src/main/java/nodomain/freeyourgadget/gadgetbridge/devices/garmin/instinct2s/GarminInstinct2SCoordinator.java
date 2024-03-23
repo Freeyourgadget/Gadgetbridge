@@ -44,4 +44,10 @@ public class GarminInstinct2SCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean supportsFindDevice() {
         return true;
     }
+
+    @Override
+    public boolean supportsWeather() {
+        return true;
+    }
+
 }
