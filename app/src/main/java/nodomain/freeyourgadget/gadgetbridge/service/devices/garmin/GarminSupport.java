@@ -30,9 +30,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Conf
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MusicControlEntityUpdateMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetDeviceSettingsMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
@@ -100,6 +100,14 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
         evaluateGBDeviceEvent(parsedMessage.getGBDeviceEvent());
 
+        if (parsedMessage instanceof ProtobufMessage) {
+            ProtobufMessage protobufMessage = protocolBufferHandler.processIncoming((ProtobufMessage) parsedMessage);
+            if (protobufMessage != null) {
+                communicator.sendMessage(protobufMessage.getOutgoingMessage());
+                communicator.sendMessage(protobufMessage.getAckBytestream());
+            }
+        }
+
         communicator.sendMessage(parsedMessage.getAckBytestream());
 
         byte[] response = parsedMessage.getOutgoingMessage();
@@ -110,14 +118,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
         if (parsedMessage instanceof ConfigurationMessage) { //the last forced message exchange
             completeInitialization();
-        }
-
-        if (parsedMessage instanceof ProtobufMessage) {
-            ProtobufMessage protobufMessage = protocolBufferHandler.processIncoming((ProtobufMessage) parsedMessage);
-            if (protobufMessage != null) {
-                communicator.sendMessage(protobufMessage.getOutgoingMessage());
-                communicator.sendMessage(protobufMessage.getAckBytestream());
-            }
         }
 
         if (parsedMessage instanceof ProtobufStatusMessage) {

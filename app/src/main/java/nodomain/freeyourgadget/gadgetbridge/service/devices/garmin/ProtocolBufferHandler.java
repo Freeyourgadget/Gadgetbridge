@@ -20,7 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufStatusMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
@@ -75,13 +75,14 @@ public class ProtocolBufferHandler {
             }
             if (!processed) {
                 LOG.warn("Unknown protobuf request: {}", smart);
+                message.setStatusMessage(new ProtobufStatusMessage(message.getMessageType(), GFDIMessage.Status.ACK, message.getRequestId(), message.getDataOffset(), ProtobufStatusMessage.ProtobufChunkStatus.DISCARDED, ProtobufStatusMessage.ProtobufStatusCode.UNKNOWN_REQUEST_ID));
             }
         }
         return null;
     }
 
     public ProtobufMessage processIncoming(ProtobufStatusMessage statusMessage) {
-        LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufStatus(), statusMessage.getError());
+        LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
         //TODO: check status and react accordingly, right now we blindly proceed to next chunk
         if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId()) && statusMessage.isOK()) {
             final ProtobufFragment protobufFragment = chunkedFragmentsMap.get(statusMessage.getRequestId());

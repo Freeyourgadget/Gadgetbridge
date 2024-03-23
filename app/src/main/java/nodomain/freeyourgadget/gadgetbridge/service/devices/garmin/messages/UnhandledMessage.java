@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GenericStatusMessage;
+
 public class UnhandledMessage extends GFDIMessage {
 
     private final int messageType;

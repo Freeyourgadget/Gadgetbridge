@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GFDIStatusMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GenericStatusMessage;
 
 public abstract class GFDIMessage {
     public static final int MESSAGE_RESPONSE = 5000; //TODO: MESSAGE_STATUS is a better name?
@@ -51,9 +54,9 @@ public abstract class GFDIMessage {
 
         final int messageType = messageReader.readShort();
         try {
-//            Class<? extends GFDIMessage> objectClass = GarminMessage.fromId(messageType);
-            Method m = GarminMessage.fromId(messageType).getMethod("parseIncoming", MessageReader.class, int.class);
-            return GarminMessage.fromId(messageType).cast(m.invoke(null, messageReader, messageType));
+//            Class<? extends GFDIMessage> objectClass = GarminMessage.getClassFromId(messageType);
+            Method m = GarminMessage.getClassFromId(messageType).getMethod("parseIncoming", MessageReader.class, int.class);
+            return GarminMessage.getClassFromId(messageType).cast(m.invoke(null, messageReader, messageType));
         } catch (Exception e) {
             LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message);
             return new UnhandledMessage(messageType);
@@ -65,6 +68,7 @@ public abstract class GFDIMessage {
     public byte[] getOutgoingMessage() {
         response.clear();
         boolean toSend = generateOutgoing();
+        response.order(ByteOrder.LITTLE_ENDIAN);
         if (!toSend)
             return null;
         addLengthAndChecksum();
@@ -99,6 +103,7 @@ public abstract class GFDIMessage {
         RESPONSE(5000, GFDIStatusMessage.class), //TODO: STATUS is a better name?
         SYSTEM_EVENT(5030, SystemEventMessage.class),
         DEVICE_INFORMATION(5024, DeviceInformationMessage.class),
+        DEVICE_SETTINGS(5026, SetDeviceSettingsMessage.class),
         FIND_MY_PHONE(5039, FindMyPhoneRequestMessage.class),
         CANCEL_FIND_MY_PHONE(5040, FindMyPhoneRequestMessage.class),
         MUSIC_CONTROL(5041, MusicControlMessage.class),
@@ -117,7 +122,7 @@ public abstract class GFDIMessage {
             this.objectClass = objectClass;
         }
 
-        public static Class<? extends GFDIMessage> fromId(final int id) {
+        public static Class<? extends GFDIMessage> getClassFromId(final int id) {
             for (final GarminMessage garminMessage : GarminMessage.values()) {
                 if (garminMessage.getId() == id) {
                     return garminMessage.getObjectClass();
@@ -126,6 +131,14 @@ public abstract class GFDIMessage {
             return null;
         }
 
+        public static GarminMessage fromId(final int id) {
+            for (final GarminMessage garminMessage : GarminMessage.values()) {
+                if (garminMessage.getId() == id) {
+                    return garminMessage;
+                }
+            }
+            return null;
+        }
         public int getId() {
             return id;
         }
