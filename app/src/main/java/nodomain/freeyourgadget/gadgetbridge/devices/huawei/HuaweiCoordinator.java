@@ -137,7 +137,7 @@ public class HuaweiCoordinator {
     public void printCommandsPerService() {
         StringBuilder msg = new StringBuilder();
         for(Map.Entry<Integer, byte[]> entry : commandsPerService.entrySet()) {
-            msg.append("ServiceID: ").append(entry.getKey()).append(" => Commands: ");
+            msg.append("ServiceID: ").append(Integer.toHexString(entry.getKey())).append(" => Commands: ");
             for (byte b: entry.getValue()) {
                 msg.append(Integer.toHexString(b)).append(" ");
             }
