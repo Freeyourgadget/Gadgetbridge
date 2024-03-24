@@ -297,7 +297,7 @@ public class CmfWatchProCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false; // TODO weather is not implemented
+        return true;
     }
 
     @Override

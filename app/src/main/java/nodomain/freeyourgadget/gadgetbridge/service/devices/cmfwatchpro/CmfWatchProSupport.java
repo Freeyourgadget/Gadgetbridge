@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -584,7 +585,68 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
 
     @Override
     public void onSendWeather(final WeatherSpec weatherSpec) {
-        // TODO onSendWeather
+        // TODO consider adjusting the condition code for clear/sunny so "clear" at night doesn't show a sunny icon (perhaps 23 decimal)?
+        // Each weather entry takes up 9 bytes
+        // There are 7 of those weather entries - 7*9 bytes
+        // Then there are 24-hour entries of temp and weather condition (2 bytes each)
+        // Then finally the location name as bytes - allow for 30 bytes, watch auto-scrolls
+        final ByteBuffer buf = ByteBuffer.allocate((7*9) + (24*2) + 30).order(ByteOrder.BIG_ENDIAN);
+        // start with the current day's weather
+        buf.put(Weather.mapToCmfCondition(weatherSpec.currentConditionCode));
+        buf.put((byte) (weatherSpec.currentTemp - 273 + 100)); // convert Kelvin to C, add 100
+        buf.put((byte) (weatherSpec.todayMaxTemp - 273 + 100)); // convert Kelvin to C, add 100
+        buf.put((byte) (weatherSpec.todayMinTemp - 273 + 100)); // convert Kelvin to C, add 100
+        buf.put((byte) weatherSpec.currentHumidity);
+        buf.putShort((short) weatherSpec.airQuality.aqi);
+        buf.put((byte) weatherSpec.uvIndex); // UV index isn't shown. uvi decimal/100, so 0x07 = 700 UVI.
+        buf.put((byte) weatherSpec.windSpeed); // isn't shown by watch, unsure of correct units
+
+        // find out how many future days' forecasts are available
+        int maxForecastsAvailable = weatherSpec.forecasts.size();
+        // For each day of the forecast
+        for (int i=0; i < 6; i++) {
+            if (i < maxForecastsAvailable) {
+                WeatherSpec.Daily forecastDay = weatherSpec.forecasts.get(i);
+                buf.put((byte) (Weather.mapToCmfCondition(forecastDay.conditionCode)));  // weather condition flag
+                buf.put((byte) (forecastDay.maxTemp - 273 + 100)); // temp in C (not shown in future days' forecasts)
+                buf.put((byte) (forecastDay.maxTemp - 273 + 100)); // max temp in C, + 100
+                buf.put((byte) (forecastDay.minTemp - 273 + 100)); // min temp in C, + 100
+                buf.put((byte) forecastDay.humidity); // humidity as a %
+                try { // AQI data might not be available for the full 7 day forecast.
+                    buf.putShort((short) weatherSpec.airQuality.aqi);
+                } catch (java.lang.NullPointerException ex) {
+                    buf.putShort((short) 0);
+                }
+                buf.put((byte) forecastDay.uvIndex); // UV index isn't shown. uvi decimal/100, so 0x07 = 700 UVI.
+                buf.put((byte) forecastDay.windSpeed); // isn't shown by watch, unsure of correct units
+            } else {
+                // we need to provide a dummy forecast as there's no data available
+                buf.put((byte) 0x00); // NULL weather condition
+                buf.put((byte) 0x01); // -99 C temp temp
+                buf.put((byte) 0x01); // -99 C max temp
+                buf.put((byte) 0x01); // -99 C min temp
+                buf.put((byte) 0x00); // 0 humidity
+                buf.putShort((short) 0); // aqi
+                buf.put((byte) 0x00); // 0 UV index
+                buf.put((byte) 0x00); // 0 wind speed
+            }
+
+        }
+        // now add the hourly data for today - just condition and temperature
+        int maxHourlyForecastsAvailable = weatherSpec.hourly.size();
+        for (int i=0; i < 24; i++) {
+            if (i < maxHourlyForecastsAvailable) {
+                WeatherSpec.Hourly forecastHr = weatherSpec.hourly.get(i);
+                buf.put((byte) (forecastHr.temp - 273 + 100)); // temperature
+                buf.put((byte) forecastHr.conditionCode); // condition
+            } else {
+                buf.put((byte) (weatherSpec.currentTemp - 273 + 100)); // assume current temp
+                buf.put((byte) (Weather.mapToCmfCondition(weatherSpec.currentConditionCode))); // current condition
+            }
+        }
+        // place name - watch scrolls after ~10 chars
+        buf.put(StringUtils.truncate(weatherSpec.location, 30).getBytes(StandardCharsets.UTF_8));
+        sendCommand("send weather", CmfCommand.WEATHER_SET_1, buf.array());
     }
 
     @Override

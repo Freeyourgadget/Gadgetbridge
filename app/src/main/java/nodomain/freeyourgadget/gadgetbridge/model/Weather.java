@@ -889,6 +889,151 @@ public class Weather {
                 return 5;
         }
     }
+    public static byte mapToCmfCondition(int openWeatherMapCondition) {
+/* deducted values:
+    1 = sunny
+    2 = cloudy
+    3 = overcast
+    4 = showers
+    5 = snow showers
+    6 = fog
+
+    9 = thunder showers
+
+    14 = sleet
+
+    19 = hot (extreme)
+    20 = cold (extreme)
+
+    21 = strong wind
+    22 = (night) sunny - with moon
+    23 = (night) sunny with stars
+    24 = (night) cloudy - with moon
+    25 = sun with haze
+    26 = cloudy (sun with cloud)
+ */
+        switch (openWeatherMapCondition) {
+//Group 2xx: Thunderstorm
+            case 210:  //light thunderstorm::  //11d
+            case 200:  //thunderstorm with light rain:  //11d
+            case 201:  //thunderstorm with rain:  //11d
+            case 202:  //thunderstorm with heavy rain:  //11d
+            case 230:  //thunderstorm with light drizzle:  //11d
+            case 231:  //thunderstorm with drizzle:  //11d
+            case 232:  //thunderstorm with heavy drizzle:  //11d
+            case 211:  //thunderstorm:  //11d
+            case 212:  //heavy thunderstorm:  //11d
+            case 221:  //ragged thunderstorm:  //11d
+                return 9;
+
+//Group 90x: Extreme
+            case 901:  //tropical storm
+//Group 7xx: Atmosphere
+            case 781:  //tornado:  //[[file:50d.png]]
+//Group 90x: Extreme
+            case 900:  //tornado
+// Group 7xx: Atmosphere
+            case 771:  //squalls:  //[[file:50d.png]]
+//Group 9xx: Additional
+            case 960:  //storm
+            case 961:  //violent storm
+            case 902:  //hurricane
+            case 962:  //hurricane
+                return 21;
+
+//Group 3xx: Drizzle
+            case 300:  //light intensity drizzle:  //09d
+            case 301:  //drizzle:  //09d
+            case 302:  //heavy intensity drizzle:  //09d
+            case 310:  //light intensity drizzle rain:  //09d
+            case 311:  //drizzle rain:  //09d
+            case 312:  //heavy intensity drizzle rain:  //09d
+            case 313:  //shower rain and drizzle:  //09d
+            case 314:  //heavy shower rain and drizzle:  //09d
+            case 321:  //shower drizzle:  //09d
+//Group 5xx: Rain
+            case 500:  //light rain:  //10d
+            case 501:  //moderate rain:  //10d
+            case 502:  //heavy intensity rain:  //10d
+            case 503:  //very heavy rain:  //10d
+            case 504:  //extreme rain:  //10d
+            case 520:  //light intensity shower rain:  //09d
+            case 521:  //shower rain:  //09d
+            case 522:  //heavy intensity shower rain:  //09d
+            case 531:  //ragged shower rain:  //09d
+                return 4;
+
+//Group 90x: Extreme
+            case 906:  //hail
+            case 615:  //light rain and snow:  //[[file:13d.png]]
+            case 616:  //rain and snow:  //[[file:13d.png]]
+            case 511:  //freezing rain:  //13d
+                return 14;
+
+//Group 6xx: Snow
+            case 611:  //sleet:  //[[file:13d.png]]
+            case 612:  //shower sleet:  //[[file:13d.png]]
+//Group 6xx: Snow
+            case 600:  //light snow:  //[[file:13d.png]]
+            case 601:  //snow:  //[[file:13d.png]]
+//Group 6xx: Snow
+            case 602:  //heavy snow:  //[[file:13d.png]]
+//Group 6xx: Snow
+            case 620:  //light shower snow:  //[[file:13d.png]]
+            case 621:  //shower snow:  //[[file:13d.png]]
+            case 622:  //heavy shower snow:  //[[file:13d.png]]
+                return 5;
+
+
+//Group 7xx: Atmosphere
+            case 701:  //mist:  //[[file:50d.png]]
+            case 711:  //smoke:  //[[file:50d.png]]
+            case 721:  //haze:  //[[file:50d.png]]
+            case 731:  //sandcase  dust whirls:  //[[file:50d.png]]
+            case 741:  //fog:  //[[file:50d.png]]
+            case 751:  //sand:  //[[file:50d.png]]
+            case 761:  //dust:  //[[file:50d.png]]
+            case 762:  //volcanic ash:  //[[file:50d.png]]
+                return 6;
+
+//Group 800: Clear
+            case 800:  //clear sky:  //[[file:01d.png]] [[file:01n.png]]
+                return 1;
+
+//Group 90x: Extreme
+            case 904:  //hot
+                return 19;
+
+//Group 80x: Clouds
+            case 801:  //few clouds:  //[[file:02d.png]] [[file:02n.png]]
+            case 802:  //scattered clouds:  //[[file:03d.png]] [[file:03d.png]]
+                return 26;
+            case 803:  //broken clouds:  //[[file:04d.png]] [[file:03d.png]]
+                return 2;
+
+//Group 80x: Clouds
+            case 804:  //overcast clouds:  //[[file:04d.png]] [[file:04d.png]]
+                return 3;
+
+//Group 9xx: Additional
+            case 905:  //windy
+            case 951:  //calm
+            case 952:  //light breeze
+            case 953:  //gentle breeze
+            case 954:  //moderate breeze
+            case 955:  //fresh breeze
+            case 956:  //strong breeze
+            case 957:  //high windcase  near gale
+            case 958:  //gale
+            case 959:  //severe gale
+                return 21;
+
+            default:
+//Group 90x: Extreme
+            case 903:  //cold
+                return 20;
+        }
+    }
 
     public static byte mapToFitProCondition(int openWeatherMapCondition) {
         switch (openWeatherMapCondition) {
