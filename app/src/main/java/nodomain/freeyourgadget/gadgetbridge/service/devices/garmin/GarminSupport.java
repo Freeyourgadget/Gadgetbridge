@@ -189,7 +189,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             todayDailyForecast.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
             todayDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
             todayDailyForecast.setFieldByName("precipitation_probability", weather.precipProbability);
-            todayDailyForecast.setFieldByName("day_of_week", GarminTimeUtils.unixTimeToGarminDayOfWeek(weather.timestamp));
+            todayDailyForecast.setFieldByName("day_of_week", weather.timestamp);
             weatherData.add(todayDailyForecast);
 
 
@@ -204,7 +204,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp - 273.15);
                     weatherDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(daily.conditionCode));
                     weatherDailyForecast.setFieldByName("precipitation_probability", daily.precipProbability);
-                    weatherDailyForecast.setFieldByName("day_of_week", GarminTimeUtils.unixTimeToGarminDayOfWeek(ts));
+                    weatherDailyForecast.setFieldByName("day_of_week", ts);
                     weatherData.add(weatherDailyForecast);
                 }
             }
