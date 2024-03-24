@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 //see https://github.com/dtcooper/python-fitparse/blob/master/fitparse/records.py
 public enum BaseType {
     ENUM(0x00, new BaseTypeByte(true, 0xFF)),
-    SINT8(0x01, new BaseTypeByte(false, 0xFF)),
+    SINT8(0x01, new BaseTypeByte(false, 0x7F)),
     UINT8(0x02, new BaseTypeByte(true, 0xFF)),
     SINT16(0x83, new BaseTypeShort(false, 0x7FFF)),
     UINT16(0x84, new BaseTypeShort(true, 0xFFFF)),
