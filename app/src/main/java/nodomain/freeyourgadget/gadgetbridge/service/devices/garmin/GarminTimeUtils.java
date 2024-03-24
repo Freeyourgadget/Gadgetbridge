@@ -5,7 +5,7 @@ import org.threeten.bp.ZoneId;
 
 public class GarminTimeUtils {
 
-    private static final int GARMIN_TIME_EPOCH = 631065600;
+    public static final int GARMIN_TIME_EPOCH = 631065600;
 
     public static int unixTimeToGarminTimestamp(int unixTime) {
         return unixTime - GARMIN_TIME_EPOCH;

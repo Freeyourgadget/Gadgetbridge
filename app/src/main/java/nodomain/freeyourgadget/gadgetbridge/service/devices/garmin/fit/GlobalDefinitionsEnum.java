@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
 
 public enum GlobalDefinitionsEnum {
     TODAY_WEATHER_CONDITIONS(MesgType.TODAY_WEATHER_CONDITIONS, new RecordDefinition(
@@ -13,8 +14,8 @@ public enum GlobalDefinitionsEnum {
             ByteOrder.BIG_ENDIAN,
             MesgType.TODAY_WEATHER_CONDITIONS,
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
-                    new FieldDefinition(253, 4, BaseType.UINT32, "timestamp"),
-                    new FieldDefinition(9, 4, BaseType.UINT32, "observed_at_time"),
+                    new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
+                    new FieldDefinitionTimestamp(9, 4, BaseType.UINT32, "observed_at_time"),
                     new FieldDefinition(1, 1, BaseType.SINT8, "temperature"),
                     new FieldDefinition(14, 1, BaseType.SINT8, "low_temperature"),
                     new FieldDefinition(13, 1, BaseType.SINT8, "high_temperature"),
@@ -33,7 +34,7 @@ public enum GlobalDefinitionsEnum {
             ByteOrder.BIG_ENDIAN,
             MesgType.HOURLY_WEATHER_FORECAST,
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
-                    new FieldDefinition(253, 4, BaseType.UINT32, "timestamp"),
+                    new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
                     new FieldDefinition(1, 1, BaseType.SINT8, "temperature"),
                     new FieldDefinition(2, 1, BaseType.ENUM, "condition"),
                     new FieldDefinition(3, 2, BaseType.UINT16, "wind_direction"),
@@ -49,7 +50,7 @@ public enum GlobalDefinitionsEnum {
             ByteOrder.BIG_ENDIAN,
             MesgType.DAILY_WEATHER_FORECAST,
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
-                    new FieldDefinition(253, 4, BaseType.UINT32, "timestamp"),
+                    new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
                     new FieldDefinition(14, 1, BaseType.SINT8, "low_temperature"),
                     new FieldDefinition(13, 1, BaseType.SINT8, "high_temperature"),
                     new FieldDefinition(2, 1, BaseType.ENUM, "condition"),

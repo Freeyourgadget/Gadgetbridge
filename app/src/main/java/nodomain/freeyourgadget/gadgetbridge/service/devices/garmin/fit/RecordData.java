@@ -29,7 +29,7 @@ public class RecordData {
 
         for (FieldDefinition fieldDef :
                 recordDefinition.getFieldDefinitions()) {
-            fieldDataList.add(new FieldData(fieldDef.getBaseType(), totalSize, fieldDef.getSize(), fieldDef.getName(), fieldDef.getLocalNumber(), fieldDef.getScale(), fieldDef.getOffset()));
+            fieldDataList.add(new FieldData(fieldDef, totalSize));
             totalSize += fieldDef.getSize();
 
         }
@@ -90,10 +90,10 @@ public class RecordData {
         StringBuilder oBuilder = new StringBuilder();
         for (FieldData fieldData :
                 fieldDataList) {
-            if (fieldData.getName() != null) {
+            if (fieldData.getName() != null && !fieldData.getName().equals("")) {
                 oBuilder.append(fieldData.getName());
             } else {
-                oBuilder.append(fieldData.getNumber());
+                oBuilder.append("unknown_" + fieldData.getNumber());
             }
             oBuilder.append(": ");
             oBuilder.append(fieldData.decode());
@@ -104,45 +104,46 @@ public class RecordData {
     }
 
 
-    private class FieldData {
-        private final BaseType baseType;
+    public FieldData getFieldByNumber(int number) {
+        for (FieldData fieldData :
+                fieldDataList) {
+            if (number == fieldData.getNumber()) {
+                return fieldData;
+            }
+        }
+        return null;
+    }
+
+
+    public class FieldData {
+        private FieldDefinition fieldDefinition;
         private final int position;
         private final int size;
-        private final String name;
-        private final int scale;
-        private final int offset;
-        private final int number;
-        public FieldData(BaseType baseType, int position, int size, String name, int number, int scale, int offset) {
-            this.baseType = baseType;
+
+        public FieldData(FieldDefinition fieldDefinition, int position) {
+            this.fieldDefinition = fieldDefinition;
             this.position = position;
-            this.size = size;
-            this.name = name;
-            this.number = number;
-            this.scale = scale;
-            this.offset = offset;
+            this.size = fieldDefinition.getSize();
         }
 
-        public BaseType getBaseType() {
-            return baseType;
-        }
 
         public String getName() {
-            return name;
+            return fieldDefinition.getName();
         }
 
         public int getNumber() {
-            return number;
+            return fieldDefinition.getLocalNumber();
         }
 
         public void invalidate() {
             goToPosition();
-            if (STRING.equals(getBaseType())) {
+            if (STRING.equals(fieldDefinition.getBaseType())) {
                 for (int i = 0; i < size; i++) {
                     valueHolder.put((byte) 0);
                 }
                 return;
             }
-            baseType.invalidate(valueHolder);
+            fieldDefinition.invalidate(valueHolder);
         }
 
         private void goToPosition() {
@@ -159,18 +160,18 @@ public class RecordData {
                 throw new IllegalArgumentException("Array of values not supported yet"); //TODO: handle arrays
             Object o = objects[0];
             goToPosition();
-            if (STRING.equals(getBaseType())) {
+            if (STRING.equals(fieldDefinition.getBaseType())) {
                 final byte[] bytes = ((String) o).getBytes(StandardCharsets.UTF_8);
                 valueHolder.put(Arrays.copyOf(bytes, Math.min(this.size - 1, bytes.length)));
                 valueHolder.put((byte) 0);
                 return;
             }
-            getBaseType().encode(valueHolder, o, scale, offset);
+            fieldDefinition.encode(valueHolder, o);
         }
 
         public Object decode() {
             goToPosition();
-            if (STRING.equals(getBaseType())) {
+            if (STRING.equals(fieldDefinition.getBaseType())) {
                 final byte[] bytes = new byte[size];
                 valueHolder.get(bytes);
                 final int zero = ArrayUtils.indexOf((byte) 0, bytes);
@@ -180,7 +181,8 @@ public class RecordData {
                 return new String(bytes, 0, zero, StandardCharsets.UTF_8);
             }
             //TODO: handle arrays
-            return getBaseType().decode(valueHolder, scale, offset);
+            return fieldDefinition.decode(valueHolder);
+
         }
     }
 }

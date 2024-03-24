@@ -1,16 +1,18 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import java.nio.ByteBuffer;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
-public class FieldDefinition {
+public class FieldDefinition implements FieldInterface {
     private final int localNumber;
     private final int size;
-    private final BaseType baseType;
+    protected final BaseType baseType;
     private final String name;
-    private final int scale;
-    private final int offset;
+    protected final int scale;
+    protected final int offset;
 
     public FieldDefinition(int localNumber, int size, BaseType baseType, String name, int scale, int offset) {
         this.localNumber = localNumber;
@@ -70,4 +72,18 @@ public class FieldDefinition {
         writer.writeByte(baseType.getIdentifier());
     }
 
+    @Override
+    public Object decode(ByteBuffer byteBuffer) {
+        return baseType.decode(byteBuffer, scale, offset);
+    }
+
+    @Override
+    public void encode(ByteBuffer byteBuffer, Object o) {
+        baseType.encode(byteBuffer, o, scale, offset);
+    }
+
+    @Override
+    public void invalidate(ByteBuffer byteBuffer) {
+        baseType.invalidate(byteBuffer);
+    }
 }

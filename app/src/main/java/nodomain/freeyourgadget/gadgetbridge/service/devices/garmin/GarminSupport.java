@@ -147,8 +147,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             RecordData today = new RecordData(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
             today.setFieldByName("weather_report", 0); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
-            today.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
-            today.setFieldByName("observed_at_time", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+            today.setFieldByName("timestamp", weather.timestamp);
+            today.setFieldByName("observed_at_time", weather.timestamp);
             today.setFieldByName("temperature", weather.currentTemp - 273.15);
             today.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
             today.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
@@ -168,7 +168,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     WeatherSpec.Hourly hourly = weather.hourly.get(hour);
                     RecordData weatherHourlyForecast = new RecordData(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
                     weatherHourlyForecast.setFieldByName("weather_report", 1); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
-                    weatherHourlyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(hourly.timestamp));
+                    weatherHourlyForecast.setFieldByName("timestamp", hourly.timestamp);
                     weatherHourlyForecast.setFieldByName("temperature", hourly.temp - 273.15);
                     weatherHourlyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(hourly.conditionCode));
                     weatherHourlyForecast.setFieldByName("wind_direction", hourly.windDirection);
@@ -184,7 +184,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 //
             RecordData todayDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
             todayDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
-            todayDailyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+            todayDailyForecast.setFieldByName("timestamp", weather.timestamp);
             todayDailyForecast.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
             todayDailyForecast.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
             todayDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
@@ -199,7 +199,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     int ts = weather.timestamp + (day + 1) * 24 * 60 * 60; //TODO: is this needed?
                     RecordData weatherDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
                     weatherDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
-                    weatherDailyForecast.setFieldByName("timestamp", GarminTimeUtils.unixTimeToGarminTimestamp(weather.timestamp));
+                    weatherDailyForecast.setFieldByName("timestamp", weather.timestamp);
                     weatherDailyForecast.setFieldByName("low_temperature", daily.minTemp - 273.15);
                     weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp - 273.15);
                     weatherDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(daily.conditionCode));
