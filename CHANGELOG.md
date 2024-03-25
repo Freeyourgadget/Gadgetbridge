@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next release (WIP)
+#### 0.80.0
 * Initial support for Amazfit Bip 3
 * Initial support for Huawei Band 8
 * Initial support for Huawei Watch GT 4
@@ -11,16 +11,19 @@
 * Bangle.js: Set filename on save file dialogs
 * Bangle.js: Improve communication stability
 * Bangle.js: Sync activity tracks
+* Bangle.js: remove unwanted charaters from calendar events
 * Femometer Vinca II: Add temperature charts
 * Fossil/Skagen Hybrids: Remove activity fetching toasts and add finished signal
 * Fossil/Skagen Hybrids: Use steps instead of calories for activity intensity
 * Fossil/Skagen Hybrids: Mark device busy and show transfer notification while syncing
 * Huami/Zepp OS: Fix activity sync getting stuck sometimes
+* Mi Band 1/2: Fix vibration settings preference screens
 * Huawei: Add smart wakeup interval
 * Pebble: Fix pairing with LE counterpart
 * Xiaomi Watch S1 Pro: Add temperature charts
 * Xiaomi: Fix sleep sync failing when sleep stages are not found
 * Xiaomi: Improve activity sync
+* Nothing CMF Watch Pro: Fix music playback status
 * Allow for device settings sub-screens (#3620)
 * Device connection: Add support for scan before BLE connection
 * Misc UI improvements (alarms, chart settings)

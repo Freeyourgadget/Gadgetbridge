@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.80.0" versioncode="231">
+        <change>* Initial support for Amazfit Bip 3</change>
+        <change>* Initial support for Huawei Band 8</change>
+        <change>* Initial support for Huawei Watch GT 4</change>
+        <change>* Initial support for Huawei Watch Ultimate</change>
+        <change>* Initial support for Sony LinkBuds</change>
+        <change>* Initial support for Xiaomi Smart Band 8 Active</change>
+        <change>* Bangle.js: Fix crash when file save is cancelled</change>
+        <change>* Bangle.js: Set filename on save file dialogs</change>
+        <change>* Bangle.js: Improve communication stability</change>
+        <change>* Bangle.js: Sync activity tracks</change>
+        <change>* Bangle.js: remove unwanted charaters from calendar events</change>
+        <change>* Femometer Vinca II: Add temperature charts</change>
+        <change>* Fossil/Skagen Hybrids: Remove activity fetching toasts and add finished signal</change>
+        <change>* Fossil/Skagen Hybrids: Use steps instead of calories for activity intensity</change>
+        <change>* Fossil/Skagen Hybrids: Mark device busy and show transfer notification while syncing</change>
+        <change>* Huami/Zepp OS: Fix activity sync getting stuck sometimes</change>
+        <change>* Mi Band 1/2: Fix vibration settings preference screens</change>
+        <change>* Huawei: Add smart wakeup interval</change>
+        <change>* Pebble: Fix pairing with LE counterpart</change>
+        <change>* Xiaomi Watch S1 Pro: Add temperature charts</change>
+        <change>* Xiaomi: Fix sleep sync failing when sleep stages are not found</change>
+        <change>* Xiaomi: Improve activity sync</change>
+        <change>* Nothing CMF Watch Pro: Fix music playback status</change>
+        <change>* Allow for device settings sub-screens (#3620)</change>
+        <change>* Device connection: Add support for scan before BLE connection</change>
+        <change>* Misc UI improvements (alarms, chart settings)</change>
+    </release>
     <release version="0.79.1" versioncode="230">
         <change>Initial support for Huawei Watch Fit</change>
         <change>Initial support for Xiaomi Redmi Watch 3</change>
