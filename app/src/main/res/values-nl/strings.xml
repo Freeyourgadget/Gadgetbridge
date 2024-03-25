@@ -2808,4 +2808,37 @@
     <string name="pref_test_features_summary">Beschikbare functies op dit testapparaat</string>
     <string name="warning_missing_notification_permission">Kon permanente notificatie niet plaatsen vanwege missende permissie</string>
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
+    <string name="pref_wide_area_tap_title">Groot gebied aanraken</string>
+    <string name="weekstepschart_steps_a_week_or_month">Stappen per week/maand</string>
+    <string name="weeksleepchart_sleep_a_week_or_month">Slaap per week/maand</string>
+    <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="auto_reconnect_ble_scan_title">Opnieuw verbinden via BLE-scan</string>
+    <string name="pref_wide_area_tap_summary">Herken aanraken tussen wangen en oren</string>
+    <string name="pref_adaptive_volume_control_title">Automatisch volume</string>
+    <string name="prompt_restart_gadgetbridge">Herstart Gadgetbridge om de functie te activeren.</string>
+    <string name="waiting_for_bluetooth">Wachten op Bluetooth…</string>
+    <string name="auto_reconnect_ble_scan_summary">Wacht op apparaatscan in plaats van actief te verbinden</string>
+    <string name="fw_upgrade_notice_amazfitbip3">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip 3.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft de .res niet te installeren als deze exact dezelfde is als degene die ervoor al was geïnstalleerd.
+\n
+\nGA VERDER OP EIGEN RISICO!</string>
+    <string name="busy_task_fetch_sports_details_interrupted">Ophalen van sportgegevens is onderbroken</string>
+    <string name="pref_adaptive_volume_control_summary">Verhoog volume automatisch bij veel omgevingsgeluid</string>
+    <string name="pref_header_sony_sound_control">Geluidsinstellingen</string>
+    <string name="error_scan_failed">Scan mislukt: %d</string>
+    <string name="scan_scanning_all_devices">Scannen voor alle apparaten</string>
+    <string name="scan_not_scanning">Niet aan het scannen</string>
+    <string name="scan_scanning_single_device">Scannen voor 1 apparaat</string>
+    <string name="scan_scanning_multiple_devices">Scannen voor %d apparaten</string>
+    <string name="notification_channel_scan_service_name">Scan-service</string>
+    <string name="device_state_waiting_scan">Wachten op apparaatscan</string>
+    <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="alarm_smart_wakeup_interval_default">5 minuten</string>
+    <string name="alarm_smart_wakeup_interval">Interval slim wekken:</string>
 </resources>
