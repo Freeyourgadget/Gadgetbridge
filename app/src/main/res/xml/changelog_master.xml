@@ -24,7 +24,7 @@
         <change>* Xiaomi: Fix sleep sync failing when sleep stages are not found</change>
         <change>* Xiaomi: Improve activity sync</change>
         <change>* Nothing CMF Watch Pro: Fix music playback status</change>
-        <change>* Allow for device settings sub-screens (#3620)</change>
+        <change>* Allow for device settings sub-screens</change>
         <change>* Device connection: Add support for scan before BLE connection</change>
         <change>* Misc UI improvements (alarms, chart settings)</change>
     </release>
