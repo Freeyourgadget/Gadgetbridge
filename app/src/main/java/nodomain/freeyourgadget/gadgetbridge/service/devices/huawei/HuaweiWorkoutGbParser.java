@@ -128,6 +128,8 @@ public class HuaweiWorkoutGbParser {
                 return ActivityKind.TYPE_WALKING;
             case 6:
                 return ActivityKind.TYPE_SWIMMING;
+            case 5:
+                return ActivityKind.TYPE_CYCLING;
             case 7:
                 return ActivityKind.TYPE_INDOOR_CYCLING;
             case 129:
