@@ -7,6 +7,7 @@
 * Initial support for Huawei Watch Ultimate
 * Initial support for Sony LinkBuds
 * Initial support for Xiaomi Smart Band 8 Active
+* Bangle.js: Allow saving files on phone from watch
 * Bangle.js: Fix crash when file save is cancelled
 * Bangle.js: Set filename on save file dialogs
 * Bangle.js: Improve communication stability
@@ -18,6 +19,7 @@
 * Fossil/Skagen Hybrids: Mark device busy and show transfer notification while syncing
 * Huami/Zepp OS: Fix activity sync getting stuck sometimes
 * Mi Band 1/2: Fix vibration settings preference screens
+* Huawei: Add cycling workout type 
 * Huawei: Add smart wakeup interval
 * Pebble: Fix pairing with LE counterpart
 * Xiaomi Watch S1 Pro: Add temperature charts
