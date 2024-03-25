@@ -375,12 +375,10 @@ public class BondingUtil {
             return;
         }
 
-        final boolean companionPairingAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
-
         if (bondState == BluetoothDevice.BOND_BONDED) {
             GB.toast(bondingInterface.getContext().getString(R.string.pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
-            if (companionPairingAvailable && !isPebble2(device)) {
-                // If CompanionDeviceManager is enabled, skip connection and go bond
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device)) {
+                // If CompanionDeviceManager is available, skip connection and go bond
                 // TODO: It would theoretically be nice to check if it's already been granted,
                 //  but re-bond works
                 askCompanionPairing(bondingInterface, device, macAddress);
@@ -392,7 +390,7 @@ public class BondingUtil {
 
         GB.toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.pairing_creating_bond_with, device.getName(), device.getAddress()), Toast.LENGTH_LONG, GB.INFO);
 
-        if (companionPairingAvailable && !isPebble2(device)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device)) {
             askCompanionPairing(bondingInterface, device, macAddress);
         } else if (isPebble2(device)) {
             // TODO: start companionDevicePairing after connecting to Pebble 2 but before writing to pairing trigger
