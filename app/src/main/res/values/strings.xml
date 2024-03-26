@@ -1935,6 +1935,7 @@
     <string name="Speed">Speed</string>
     <string name="Activity">Activity</string>
     <string name="Steps">Steps</string>
+    <string name="RunningForm">Running Form</string>
     <!-- Sports Activity Detail -->
     <string name="activity_detail_start_label">Start</string>
     <string name="activity_detail_end_label">End</string>

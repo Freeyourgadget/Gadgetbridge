@@ -191,12 +191,14 @@ public class ActivitySummaryJsonSummary {
             // NB: Default group Activity must be present in this definition, otherwise it wouldn't
             // be shown.
             put("Activity", Arrays.asList(
-                    DISTANCE_METERS, STEPS, ACTIVE_SECONDS, CALORIES_BURNT, STRIDE_TOTAL,
-                    HR_AVG, HR_MAX, HR_MIN, STRIDE_AVG, STRIDE_MAX, STRIDE_MIN
+                    DISTANCE_METERS, STEPS, STEP_RATE_SUM, ACTIVE_SECONDS, CALORIES_BURNT,
+                    STRIDE_TOTAL, HR_AVG, HR_MAX, HR_MIN, STRIDE_AVG, STRIDE_MAX, STRIDE_MIN,
+                    STEP_LENGTH_AVG
             ));
             put("Speed", Arrays.asList(
                     SPEED_AVG, SPEED_MAX, SPEED_MIN, PACE_AVG_SECONDS_KM, PACE_MIN,
-                    PACE_MAX, "averageSpeed2", CADENCE_AVG, CADENCE_MAX, CADENCE_MIN
+                    PACE_MAX, "averageSpeed2", CADENCE_AVG, CADENCE_MAX, CADENCE_MIN,
+                    STEP_RATE_AVG
             ));
             put("Elevation", Arrays.asList(
                     ASCENT_METERS, DESCENT_METERS, ALTITUDE_MAX, ALTITUDE_MIN, ALTITUDE_AVG,
@@ -212,7 +214,7 @@ public class ActivitySummaryJsonSummary {
                     STROKE_RATE_AVG, STROKE_RATE_MAX
             ));
             put("Swimming", Arrays.asList(
-                    SWOLF_INDEX, SWIM_STYLE
+                    SWOLF_INDEX, SWOLF_AVG, SWOLF_MAX, SWOLF_MIN, SWIM_STYLE
             ));
             put("TrainingEffect", Arrays.asList(
                     TRAINING_EFFECT_AEROBIC, TRAINING_EFFECT_ANAEROBIC, WORKOUT_LOAD,
@@ -220,6 +222,11 @@ public class ActivitySummaryJsonSummary {
             ));
             put("laps", Arrays.asList(
                     LAP_PACE_AVERAGE, LAPS, LANE_LENGTH
+            ));
+            put("RunningForm", Arrays.asList(
+                    GROUND_CONTACT_TIME_AVG, IMPACT_AVG, IMPACT_MAX, SWING_ANGLE_AVG,
+                    FORE_FOOT_LANDINGS, MID_FOOT_LANDINGS, BACK_FOOT_LANDINGS,
+                    EVERSION_ANGLE_AVG, EVERSION_ANGLE_MAX
             ));
         }};
 
