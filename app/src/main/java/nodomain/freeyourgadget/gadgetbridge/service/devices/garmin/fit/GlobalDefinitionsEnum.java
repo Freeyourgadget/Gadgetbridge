@@ -6,7 +6,10 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionDayOfWeek;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTemperature;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherCondition;
 
 public enum GlobalDefinitionsEnum {
     TODAY_WEATHER_CONDITIONS(MesgType.TODAY_WEATHER_CONDITIONS, new RecordDefinition(
@@ -16,14 +19,14 @@ public enum GlobalDefinitionsEnum {
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
                     new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
                     new FieldDefinitionTimestamp(9, 4, BaseType.UINT32, "observed_at_time"),
-                    new FieldDefinition(1, 1, BaseType.SINT8, "temperature"),
-                    new FieldDefinition(14, 1, BaseType.SINT8, "low_temperature"),
-                    new FieldDefinition(13, 1, BaseType.SINT8, "high_temperature"),
-                    new FieldDefinition(2, 1, BaseType.ENUM, "condition"),
+                    new FieldDefinitionTemperature(1, 1, BaseType.SINT8, "temperature"),
+                    new FieldDefinitionTemperature(14, 1, BaseType.SINT8, "low_temperature"),
+                    new FieldDefinitionTemperature(13, 1, BaseType.SINT8, "high_temperature"),
+                    new FieldDefinitionWeatherCondition(2, 1, BaseType.ENUM, "condition"),
                     new FieldDefinition(3, 2, BaseType.UINT16, "wind_direction"),
                     new FieldDefinition(5, 1, BaseType.UINT8, "precipitation_probability"),
                     new FieldDefinition(4, 2, BaseType.UINT16, "wind_speed", 298, 0),
-                    new FieldDefinition(6, 1, BaseType.SINT8, "temperature_feels_like"),
+                    new FieldDefinitionTemperature(6, 1, BaseType.SINT8, "temperature_feels_like"),
                     new FieldDefinition(7, 1, BaseType.UINT8, "relative_humidity"),
                     new FieldDefinition(10, 4, BaseType.SINT32, "observed_location_lat"),
                     new FieldDefinition(11, 4, BaseType.SINT32, "observed_location_long"),
@@ -35,8 +38,8 @@ public enum GlobalDefinitionsEnum {
             MesgType.HOURLY_WEATHER_FORECAST,
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
                     new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
-                    new FieldDefinition(1, 1, BaseType.SINT8, "temperature"),
-                    new FieldDefinition(2, 1, BaseType.ENUM, "condition"),
+                    new FieldDefinitionTemperature(1, 1, BaseType.SINT8, "temperature"),
+                    new FieldDefinitionWeatherCondition(2, 1, BaseType.ENUM, "condition"),
                     new FieldDefinition(3, 2, BaseType.UINT16, "wind_direction"),
                     new FieldDefinition(4, 2, BaseType.UINT16, "wind_speed", 298, 0),
                     new FieldDefinition(5, 1, BaseType.UINT8, "precipitation_probability"),
@@ -51,11 +54,11 @@ public enum GlobalDefinitionsEnum {
             MesgType.DAILY_WEATHER_FORECAST,
             Arrays.asList(new FieldDefinition(0, 1, BaseType.ENUM, "weather_report"),
                     new FieldDefinitionTimestamp(253, 4, BaseType.UINT32, "timestamp"),
-                    new FieldDefinition(14, 1, BaseType.SINT8, "low_temperature"),
-                    new FieldDefinition(13, 1, BaseType.SINT8, "high_temperature"),
-                    new FieldDefinition(2, 1, BaseType.ENUM, "condition"),
+                    new FieldDefinitionTemperature(14, 1, BaseType.SINT8, "low_temperature"),
+                    new FieldDefinitionTemperature(13, 1, BaseType.SINT8, "high_temperature"),
+                    new FieldDefinitionWeatherCondition(2, 1, BaseType.ENUM, "condition"),
                     new FieldDefinition(5, 1, BaseType.UINT8, "precipitation_probability"),
-                    new FieldDefinition(12, 1, BaseType.ENUM, "day_of_week")))),
+                    new FieldDefinitionDayOfWeek(12, 1, BaseType.ENUM, "day_of_week")))),
     ;
 
     private final MesgType mesgType;

@@ -3,16 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseType
 import java.nio.ByteBuffer;
 
 public class BaseTypeInt implements BaseTypeInterface {
-    private final int min;
-    private final int max;
-    private final int invalid;
+    private final long min;
+    private final long max;
+    private final long invalid;
     private final boolean unsigned;
     private final int size = 4;
 
-    BaseTypeInt(boolean unsigned, int invalid) {
+    BaseTypeInt(boolean unsigned, long invalid) {
         if (unsigned) {
             this.min = 0;
-            this.max = 0xffffffff;
+            this.max = 0xffffffffL;
         } else {
             this.min = Integer.MIN_VALUE;
             this.max = Integer.MAX_VALUE;
@@ -27,23 +27,23 @@ public class BaseTypeInt implements BaseTypeInterface {
 
     @Override
     public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
-        if (unsigned) {
-            long i = ((byteBuffer.getInt() & 0xffffffffL) + offset) / scale;
-            return i;
-        } else {
-            int i = (byteBuffer.getInt() + offset) / scale;
-            if (i < min || i > max)
-                return invalid;
-            return i;
-        }
-
+        long i = unsigned ? Integer.toUnsignedLong(byteBuffer.getInt()) : byteBuffer.getInt();
+        if (i < min || i > max)
+            return null;
+        if (i == invalid)
+            return null;
+        return (int) ((i + offset) / scale);
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+        if (null == o) {
+            invalidate(byteBuffer);
+            return;
+        }
         long l = ((Number) o).longValue() * scale - offset;
-        if (!unsigned && (l < min || l > max)) {
-            byteBuffer.putInt((int) invalid);
+        if (l < min || l > max) {
+            invalidate(byteBuffer);
             return;
         }
         byteBuffer.putInt((int) l);

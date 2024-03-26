@@ -1,21 +1,22 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
 public class BaseTypeLong implements BaseTypeInterface {
     private final int size = 8;
-    private final double min;
-    private final double max;
-    private final double invalid;
+    private final BigInteger min;
+    private final BigInteger max;
+    private final long invalid;
     private final boolean unsigned;
 
     BaseTypeLong(boolean unsigned, long invalid) {
         if (unsigned) {
-            this.min = 0;
-            this.max = 0xFFFFFFFFFFFFFFFFL;
+            this.min = BigInteger.valueOf(0);
+            this.max = BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL);
         } else {
-            this.min = Long.MIN_VALUE;
-            this.max = Long.MAX_VALUE;
+            this.min = BigInteger.valueOf(Long.MIN_VALUE);
+            this.max = BigInteger.valueOf(Long.MAX_VALUE);
         }
         this.invalid = invalid;
         this.unsigned = unsigned;
@@ -27,24 +28,26 @@ public class BaseTypeLong implements BaseTypeInterface {
 
     @Override
     public Object decode(ByteBuffer byteBuffer, int scale, int offset) {
-        if (unsigned) {
-            return ((byteBuffer.getLong() & 0xFFFFFFFFFFFFFFFFL + offset) / scale);
-        } else {
-            long l = (byteBuffer.getLong() + offset) / scale;
-            if (l < min || l > max)
-                return invalid;
-            return l;
-        }
+        BigInteger i = unsigned ? BigInteger.valueOf(byteBuffer.getLong() & 0xFFFFFFFFFFFFFFFFL) : BigInteger.valueOf(byteBuffer.getLong());
+        if (!unsigned && (i.compareTo(min) < 0 || i.compareTo(max) > 0))
+            return null;
+        if (i.compareTo(BigInteger.valueOf(invalid)) == 0)
+            return null;
+        return (i.longValue() + offset) / scale;
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
-        long l = ((Number) o).longValue() * scale - offset;
-        if (!unsigned && (l < min || l > max)) {
-            byteBuffer.putLong((long) invalid);
+        if (null == o) {
+            invalidate(byteBuffer);
             return;
         }
-        byteBuffer.putLong(l);
+        BigInteger i = BigInteger.valueOf(((Number) o).longValue() * scale - offset);
+        if (!unsigned && (i.compareTo(min) < 0 || i.compareTo(max) > 0)) {
+            invalidate(byteBuffer);
+            return;
+        }
+        byteBuffer.putLong(i.longValue());
     }
 
     @Override

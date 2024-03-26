@@ -7,13 +7,11 @@ public class BaseTypeFloat implements BaseTypeInterface {
     private final double min;
     private final double max;
     private final double invalid;
-    private final boolean unsigned;
 
     BaseTypeFloat() {
         this.min = -Float.MAX_VALUE;
         this.max = Float.MAX_VALUE;
         this.invalid = Float.intBitsToFloat(0xFFFFFFFF);
-        this.unsigned = false;
     }
 
     public int getByteSize() {
@@ -22,14 +20,24 @@ public class BaseTypeFloat implements BaseTypeInterface {
 
     @Override
     public Object decode(ByteBuffer byteBuffer, int scale, int offset) {
-        return (byteBuffer.getFloat() + offset) / scale;
+        float f = byteBuffer.getFloat();
+        if (f < min || f > max) {
+            return null;
+        }
+        if (Float.isNaN(f) || f == invalid)
+            return null;
+        return (f + offset) / scale;
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+        if (null == o) {
+            invalidate(byteBuffer);
+            return;
+        }
         float f = ((Number) o).floatValue() * scale - offset;
-        if (!unsigned && (f < min || f > max)) {
-            byteBuffer.putFloat((float) invalid);
+        if (f < min || f > max) {
+            invalidate(byteBuffer);
             return;
         }
         byteBuffer.putFloat((float) f);
