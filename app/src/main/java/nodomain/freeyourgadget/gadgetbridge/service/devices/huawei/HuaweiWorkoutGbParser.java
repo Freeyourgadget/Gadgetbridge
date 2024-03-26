@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -199,70 +200,69 @@ public class HuaweiWorkoutGbParser {
 
             JSONObject jsonObject = new JSONObject();
 
-            // The first few should get auto translated in ActivitySummariesAdapter:fill_dashboard
             JSONObject calories = new JSONObject();
             calories.put("value", summary.getCalories());
-            calories.put("unit", "calories_unit");
-            jsonObject.put("caloriesBurnt", calories);
+            calories.put("unit", ActivitySummaryEntries.UNIT_KCAL);
+            jsonObject.put(ActivitySummaryEntries.CALORIES_BURNT, calories);
 
             JSONObject distance = new JSONObject();
             distance.put("value", summary.getDistance());
-            distance.put("unit", "meters");
-            jsonObject.put("distanceMeters", distance);
+            distance.put("unit", ActivitySummaryEntries.UNIT_METERS);
+            jsonObject.put(ActivitySummaryEntries.DISTANCE_METERS, distance);
 
             JSONObject steps = new JSONObject();
             steps.put("value", summary.getStepCount());
-            steps.put("unit", "steps_unit");
-            jsonObject.put("steps", steps);
+            steps.put("unit", ActivitySummaryEntries.UNIT_STEPS);
+            jsonObject.put(ActivitySummaryEntries.STEPS, steps);
 
             JSONObject time = new JSONObject();
             time.put("value", summary.getDuration());
-            time.put("unit", "seconds");
-            jsonObject.put("activeSeconds", time);
+            time.put("unit", ActivitySummaryEntries.UNIT_SECONDS);
+            jsonObject.put(ActivitySummaryEntries.ACTIVE_SECONDS, time);
 
             JSONObject status = new JSONObject();
             status.put("value", summary.getStatus() & 0xFF);
             status.put("unit", "");
-            jsonObject.put(GBApplication.getContext().getString(R.string.status), status);
+            jsonObject.put(ActivitySummaryEntries.STATUS, status);
 
             JSONObject typeJson = new JSONObject();
             typeJson.put("value", summary.getType() & 0xFF);
             typeJson.put("unit", "");
-            jsonObject.put(GBApplication.getContext().getString(R.string.watchface_dialog_widget_type), typeJson);
+            jsonObject.put(ActivitySummaryEntries.TYPE, typeJson);
 
             if (summary.getStrokes() != -1) {
                 JSONObject strokesJson = new JSONObject();
                 strokesJson.put("value", summary.getStrokes());
-                strokesJson.put("unit", GBApplication.getContext().getString(R.string.strokes_unit));
-                jsonObject.put(GBApplication.getContext().getString(R.string.Strokes), strokesJson);
+                strokesJson.put("unit", ActivitySummaryEntries.UNIT_STROKES);
+                jsonObject.put(ActivitySummaryEntries.STROKES, strokesJson);
             }
 
             if (summary.getAvgStrokeRate() != -1) {
                 JSONObject avgStrokeRateJson = new JSONObject();
                 avgStrokeRateJson.put("value", summary.getAvgStrokeRate());
                 avgStrokeRateJson.put("unit", ""); // TODO: find out unit
-                jsonObject.put(GBApplication.getContext().getString(R.string.avgStrokeRate), avgStrokeRateJson);
+                jsonObject.put(ActivitySummaryEntries.STROKE_RATE_AVG, avgStrokeRateJson);
             }
 
             if (summary.getPoolLength() != -1) {
                 JSONObject poolLengthJson = new JSONObject();
                 poolLengthJson.put("value", summary.getPoolLength());
-                poolLengthJson.put("unit", GBApplication.getContext().getString(R.string.cm));
-                jsonObject.put(GBApplication.getContext().getString(R.string.laneLength), poolLengthJson);
+                poolLengthJson.put("unit", ActivitySummaryEntries.UNIT_CM);
+                jsonObject.put(ActivitySummaryEntries.LANE_LENGTH, poolLengthJson);
             }
 
             if (summary.getLaps() != -1) {
                 JSONObject lapsJson = new JSONObject();
                 lapsJson.put("value", summary.getLaps());
-                lapsJson.put("unit", GBApplication.getContext().getString(R.string.laps_unit));
-                jsonObject.put(GBApplication.getContext().getString(R.string.laps), lapsJson);
+                lapsJson.put("unit", ActivitySummaryEntries.UNIT_LAPS);
+                jsonObject.put(ActivitySummaryEntries.LAPS, lapsJson);
             }
 
             if (summary.getAvgSwolf() != -1) {
                 JSONObject avgSwolfJson = new JSONObject();
                 avgSwolfJson.put("value", summary.getAvgSwolf());
                 avgSwolfJson.put("unit", "");
-                jsonObject.put(GBApplication.getContext().getString(R.string.swolfAvg), avgSwolfJson);
+                jsonObject.put(ActivitySummaryEntries.SWOLF_AVG, avgSwolfJson);
             }
 
             boolean unknownData = false;
@@ -404,135 +404,135 @@ public class HuaweiWorkoutGbParser {
                 if (speedCount > 0) {
                     JSONObject speedJson = new JSONObject();
                     speedJson.put("value", speed / 10);
-                    speedJson.put("unit", GBApplication.getContext().getString(R.string.meters_second));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.averageSpeed), speedJson);
+                    speedJson.put("unit", ActivitySummaryEntries.UNIT_METERS_PER_SECOND);
+                    jsonObject.put(ActivitySummaryEntries.SPEED_AVG, speedJson);
                 }
 
                 if (stepRatePresent) {
                     JSONObject stepRateSumJson = new JSONObject();
                     stepRateSumJson.put("value", stepRate);
-                    stepRateSumJson.put("unit", GBApplication.getContext().getString(R.string.steps_unit));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.stepRateSum), stepRateSumJson);
+                    stepRateSumJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
+                    jsonObject.put(ActivitySummaryEntries.STEP_RATE_SUM, stepRateSumJson);
 
                     JSONObject stepRateAvgJson = new JSONObject();
                     stepRateAvgJson.put("value", avgStepRate);
-                    stepRateAvgJson.put("unit", GBApplication.getContext().getString(R.string.spm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.stepRateAvg), stepRateAvgJson);
+                    stepRateAvgJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
+                    jsonObject.put(ActivitySummaryEntries.STEP_RATE_AVG, stepRateAvgJson);
                 }
 
                 if (cadenceCount > 0) {
                     JSONObject cadenceJson = new JSONObject();
                     cadenceJson.put("value", cadence);
-                    cadenceJson.put("unit", GBApplication.getContext().getString(R.string.spm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.averageCadence), cadenceJson);
+                    cadenceJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
+                    jsonObject.put(ActivitySummaryEntries.CADENCE_AVG, cadenceJson);
                 }
 
                 if (stepLengthCount > 0) {
                     JSONObject stepLengthJson = new JSONObject();
                     stepLengthJson.put("value", stepLength);
-                    stepLengthJson.put("unit", GBApplication.getContext().getString(R.string.cm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.stepLengthAvg), stepLengthJson);
+                    stepLengthJson.put("unit", ActivitySummaryEntries.UNIT_CM);
+                    jsonObject.put(ActivitySummaryEntries.STEP_LENGTH_AVG, stepLengthJson);
                 }
 
                 if (groundContactTimeCount > 0) {
                     JSONObject groundContactTimeJson = new JSONObject();
                     groundContactTimeJson.put("value", groundContactTime);
-                    groundContactTimeJson.put("unit", GBApplication.getContext().getString(R.string.milliseconds));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.groundContactTimeAvg), groundContactTimeJson);
+                    groundContactTimeJson.put("unit", ActivitySummaryEntries.UNIT_MILLISECONDS);
+                    jsonObject.put(ActivitySummaryEntries.GROUND_CONTACT_TIME_AVG, groundContactTimeJson);
                 }
 
                 if (impactCount > 0) {
                     JSONObject impactJson = new JSONObject();
                     impactJson.put("value", impact);
                     impactJson.put("unit", "g");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.impactAvg), impactJson);
+                    jsonObject.put(ActivitySummaryEntries.IMPACT_AVG, impactJson);
 
                     JSONObject maxImpactJson = new JSONObject();
                     maxImpactJson.put("value", maxImpact);
                     maxImpactJson.put("unit", "g");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.impactMax), maxImpactJson);
+                    jsonObject.put(ActivitySummaryEntries.IMPACT_MAX, maxImpactJson);
                 }
 
                 if (swingAngleCount > 0) {
                     JSONObject swingAngleJson = new JSONObject();
                     swingAngleJson.put("value", swingAngle);
-                    swingAngleJson.put("unit", GBApplication.getContext().getString(R.string.degrees));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.swingAngleAvg), swingAngleJson);
+                    swingAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
+                    jsonObject.put(ActivitySummaryEntries.SWING_ANGLE_AVG, swingAngleJson);
                 }
 
                 if (footLandingPresent) {
                     JSONObject foreFootLandingJson = new JSONObject();
                     foreFootLandingJson.put("value", foreFootLanding);
                     foreFootLandingJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.foreFootLandings), foreFootLandingJson);
+                    jsonObject.put(ActivitySummaryEntries.FORE_FOOT_LANDINGS, foreFootLandingJson);
 
                     JSONObject midFootLandingJson = new JSONObject();
                     midFootLandingJson.put("value", midFootLanding);
                     midFootLandingJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.midFootLandings), midFootLandingJson);
+                    jsonObject.put(ActivitySummaryEntries.MID_FOOT_LANDINGS, midFootLandingJson);
 
                     JSONObject backFootLandingJson = new JSONObject();
                     backFootLandingJson.put("value", backFootLanding);
                     backFootLandingJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.backFootLandings), backFootLandingJson);
+                    jsonObject.put(ActivitySummaryEntries.BACK_FOOT_LANDINGS, backFootLandingJson);
                 }
 
                 if (eversionAngleCount > 0) {
                     JSONObject eversionAngleJson = new JSONObject();
                     eversionAngleJson.put("value", eversionAngle);
-                    eversionAngleJson.put("unit", GBApplication.getContext().getString(R.string.degrees));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.eversionAngleAvg), eversionAngleJson);
+                    eversionAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
+                    jsonObject.put(ActivitySummaryEntries.EVERSION_ANGLE_AVG, eversionAngleJson);
 
                     JSONObject maxEversionAngleJson = new JSONObject();
                     maxEversionAngleJson.put("value", maxEversionAngle);
-                    maxEversionAngleJson.put("unit", GBApplication.getContext().getString(R.string.degrees));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.eversionAngleMax), maxEversionAngleJson);
+                    maxEversionAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
+                    jsonObject.put(ActivitySummaryEntries.EVERSION_ANGLE_MAX, maxEversionAngleJson);
                 }
 
                 if (swolfCount > 0) {
                     JSONObject swolfJson = new JSONObject();
                     swolfJson.put("value", swolf);
                     swolfJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.swolfAvg), swolfJson);
+                    jsonObject.put(ActivitySummaryEntries.SWOLF_AVG, swolfJson);
 
                     JSONObject maxSwolfJson = new JSONObject();
                     maxSwolfJson.put("value", maxSwolf);
                     maxSwolfJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.swolfMax), maxSwolfJson);
+                    jsonObject.put(ActivitySummaryEntries.SWOLF_MAX, maxSwolfJson);
 
                     JSONObject minSwolfJson = new JSONObject();
                     minSwolfJson.put("value", minSwolf);
                     minSwolfJson.put("unit", "");
-                    jsonObject.put(GBApplication.getContext().getString(R.string.swolfMin), minSwolfJson);
+                    jsonObject.put(ActivitySummaryEntries.SWOLF_MIN, minSwolfJson);
                 }
 
                 if (strokeRateCount > 0) {
                     JSONObject strokeRateJson = new JSONObject();
                     strokeRateJson.put("value", strokeRate);
                     strokeRateJson.put("unit", ""); // TODO: find out unit?
-                    jsonObject.put(GBApplication.getContext().getString(R.string.avgStrokeRate), strokeRateJson);
+                    jsonObject.put(ActivitySummaryEntries.STROKE_RATE_AVG, strokeRateJson);
 
                     JSONObject maxStrokeRateJson = new JSONObject();
                     maxStrokeRateJson.put("value", maxStrokeRate);
                     maxStrokeRateJson.put("unit", ""); // TODO: find out unit?
-                    jsonObject.put(GBApplication.getContext().getString(R.string.maxStrokeRate), maxStrokeRateJson);
+                    jsonObject.put(ActivitySummaryEntries.STROKE_RATE_MAX, maxStrokeRateJson);
                 }
 
                 if (heartRateCount > 0) {
                     JSONObject heartRateJson = new JSONObject();
                     heartRateJson.put("value", heartRate);
-                    heartRateJson.put("unit", GBApplication.getContext().getString(R.string.bpm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.averageHR), heartRateJson);
+                    heartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
+                    jsonObject.put(ActivitySummaryEntries.HR_AVG, heartRateJson);
 
                     JSONObject maxHeartRateJson = new JSONObject();
                     maxHeartRateJson.put("value", maxHeartRate);
-                    maxHeartRateJson.put("unit", GBApplication.getContext().getString(R.string.bpm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.maxHR), maxHeartRateJson);
+                    maxHeartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
+                    jsonObject.put(ActivitySummaryEntries.HR_MAX, maxHeartRateJson);
 
                     JSONObject minHeartRateJson = new JSONObject();
                     minHeartRateJson.put("value", minHeartRate);
-                    minHeartRateJson.put("unit", GBApplication.getContext().getString(R.string.bpm));
-                    jsonObject.put(GBApplication.getContext().getString(R.string.minHR), minHeartRateJson);
+                    minHeartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
+                    jsonObject.put(ActivitySummaryEntries.HR_MIN, minHeartRateJson);
                 }
             }
 
@@ -558,7 +558,7 @@ public class HuaweiWorkoutGbParser {
 
                     JSONObject paceDistance = new JSONObject();
                     paceDistance.put("value", sample.getDistance());
-                    paceDistance.put("unit", GBApplication.getContext().getString(R.string.km));
+                    paceDistance.put("unit", ActivitySummaryEntries.UNIT_KILOMETERS);
                     jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceDistance), index), paceDistance);
 
                     JSONObject paceType = new JSONObject();
@@ -568,13 +568,13 @@ public class HuaweiWorkoutGbParser {
 
                     JSONObject pacePace = new JSONObject();
                     pacePace.put("value", sample.getPace());
-                    pacePace.put("unit", "seconds_km");
+                    pacePace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
                     jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPacePace), index), pacePace);
 
                     if (sample.getCorrection() != 0) {
                         JSONObject paceCorrection = new JSONObject();
                         paceCorrection.put("value", sample.getCorrection() / 10);
-                        paceCorrection.put("unit", GBApplication.getContext().getString(R.string.meters));
+                        paceCorrection.put("unit", ActivitySummaryEntries.UNIT_METERS);
                         jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceCorrection), index), paceCorrection);
                     }
                 }
@@ -586,7 +586,7 @@ public class HuaweiWorkoutGbParser {
                         continue;
                     JSONObject avgPace = new JSONObject();
                     avgPace.put("value", pace / count);
-                    avgPace.put("unit", "seconds_km");
+                    avgPace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
                     jsonObject.put(String.format(GBApplication.getContext().getString(R.string.fmtPaceTypeAverage), key), avgPace);
                 }
             }

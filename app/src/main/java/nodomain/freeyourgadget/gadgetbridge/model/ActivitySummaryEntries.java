@@ -17,6 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public class ActivitySummaryEntries {
+    public static final String STATUS = "status";
+    public static final String TYPE = "watchface_dialog_widget_type"; // TODO: change this?
+
     public static final String TIME_START = "startTime";
     public static final String TIME_END = "endTime";
     public static final String ACTIVE_SECONDS = "activeSeconds";
@@ -35,6 +38,10 @@ public class ActivitySummaryEntries {
     public static final String FLAT_DISTANCE = "flatDistance";
     public static final String FLAT_SECONDS = "flatSeconds";
 
+    public static final String STEP_RATE_SUM = "stepRateSum";
+    public static final String STEP_RATE_AVG = "stepRateAvg";
+    public static final String STEP_LENGTH_AVG = "stepLengthAvg";
+
     public static final String CADENCE_AVG = "averageCadence";
     public static final String CADENCE_MAX = "maxCadence";
     public static final String CADENCE_MIN = "minCadence";
@@ -42,6 +49,16 @@ public class ActivitySummaryEntries {
     public static final String SPEED_AVG = "averageSpeed";
     public static final String SPEED_MAX = "maxSpeed";
     public static final String SPEED_MIN = "minSpeed";
+
+    public static final String GROUND_CONTACT_TIME_AVG = "groundContactTimeAvg";
+    public static final String IMPACT_AVG = "impactAvg";
+    public static final String IMPACT_MAX = "impactMax";
+    public static final String SWING_ANGLE_AVG = "swingAngleAvg";
+    public static final String FORE_FOOT_LANDINGS = "foreFootLandings";
+    public static final String MID_FOOT_LANDINGS = "midFootLandings";
+    public static final String BACK_FOOT_LANDINGS = "backFootLandings";
+    public static final String EVERSION_ANGLE_AVG = "eversionAngleAvg";
+    public static final String EVERSION_ANGLE_MAX = "eversionAngleMax";
 
     public static final String DISTANCE_METERS = "distanceMeters";
     public static final String ELEVATION_GAIN = "elevationGain";
@@ -78,6 +95,9 @@ public class ActivitySummaryEntries {
 
     public static final String SWIM_STYLE = "swimStyle";
     public static final String SWOLF_INDEX = "swolfIndex";
+    public static final String SWOLF_AVG = "swolfAvg";
+    public static final String SWOLF_MAX = "swolfMax";
+    public static final String SWOLF_MIN = "swolfMin";
 
     public static final String CALORIES_BURNT = "caloriesBurnt";
     public static final String TRAINING_EFFECT_AEROBIC = "aerobicTrainingEffect";
@@ -91,11 +111,13 @@ public class ActivitySummaryEntries {
     public static final String UNIT_UNIX_EPOCH_SECONDS = "unix_epoch_seconds";
     public static final String UNIT_KCAL = "calories_unit";
     public static final String UNIT_LAPS = "laps_unit";
+    public static final String UNIT_KILOMETERS = "km";
     public static final String UNIT_METERS = "meters";
     public static final String UNIT_ML_KG_MIN = "ml/kg/min";
     public static final String UNIT_NONE = "";
     public static final String UNIT_HOURS = "hours";
     public static final String UNIT_SECONDS = "seconds";
+    public static final String UNIT_MILLISECONDS = "milliseconds";
     public static final String UNIT_SECONDS_PER_KM = "seconds_km";
     public static final String UNIT_SECONDS_PER_M = "seconds_m";
     public static final String UNIT_METERS_PER_SECOND = "meters_second";
@@ -106,4 +128,5 @@ public class ActivitySummaryEntries {
     public static final String UNIT_STROKES_PER_MINUTE = "strokes_minute";
     public static final String UNIT_STROKES_PER_SECOND = "strokes_second";
     public static final String UNIT_YARD = "yard";
+    public static final String UNIT_DEGREES = "degrees";
 }
