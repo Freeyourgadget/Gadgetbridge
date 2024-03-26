@@ -86,6 +86,36 @@ public class RecordData {
         }
     }
 
+    public Object getFieldByNumber(int number) {
+        for (FieldData fieldData :
+                fieldDataList) {
+            if (fieldData.getNumber() == number) {
+                return fieldData.decode();
+            }
+        }
+        throw new IllegalArgumentException("Unknown field number " + number);
+    }
+
+    public Object getFieldByName(String name) {
+        for (FieldData fieldData :
+                fieldDataList) {
+            if (fieldData.getName().equals(name)) {
+                return fieldData.decode();
+            }
+        }
+        throw new IllegalArgumentException("Unknown field name " + name);
+    }
+
+    public int[] getFieldsNumbers() {
+        int[] arr = new int[fieldDataList.size()];
+        int count = 0;
+        for (FieldData fieldData : fieldDataList) {
+            int number = fieldData.getNumber();
+            arr[count++] = number;
+        }
+        return arr;
+    }
+
     public String toString() {
         StringBuilder oBuilder = new StringBuilder();
         for (FieldData fieldData :
@@ -102,20 +132,7 @@ public class RecordData {
 
         return oBuilder.toString();
     }
-
-
-    public FieldData getFieldByNumber(int number) {
-        for (FieldData fieldData :
-                fieldDataList) {
-            if (number == fieldData.getNumber()) {
-                return fieldData;
-            }
-        }
-        return null;
-    }
-
-
-    public class FieldData {
+    private class FieldData {
         private FieldDefinition fieldDefinition;
         private final int position;
         private final int size;

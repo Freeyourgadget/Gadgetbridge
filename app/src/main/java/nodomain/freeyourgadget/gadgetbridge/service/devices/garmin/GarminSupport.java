@@ -29,7 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitWeatherConditions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalDefinitionsEnum;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ConfigurationMessage;
@@ -144,19 +143,18 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         List<RecordData> weatherData = new ArrayList<>();
 
         try {
-
             RecordData today = new RecordData(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
             today.setFieldByName("weather_report", 0); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
             today.setFieldByName("timestamp", weather.timestamp);
             today.setFieldByName("observed_at_time", weather.timestamp);
-            today.setFieldByName("temperature", weather.currentTemp - 273.15);
-            today.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
-            today.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
-            today.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
+            today.setFieldByName("temperature", weather.currentTemp);
+            today.setFieldByName("low_temperature", weather.todayMinTemp);
+            today.setFieldByName("high_temperature", weather.todayMaxTemp);
+            today.setFieldByName("condition", weather.currentConditionCode);
             today.setFieldByName("wind_direction", weather.windDirection);
             today.setFieldByName("precipitation_probability", weather.precipProbability);
             today.setFieldByName("wind_speed", Math.round(weather.windSpeed));
-            today.setFieldByName("temperature_feels_like", weather.feelsLikeTemp - 273.15);
+            today.setFieldByName("temperature_feels_like", weather.feelsLikeTemp);
             today.setFieldByName("relative_humidity", weather.currentHumidity);
             today.setFieldByName("observed_location_lat", weather.latitude);
             today.setFieldByName("observed_location_long", weather.longitude);
@@ -169,8 +167,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     RecordData weatherHourlyForecast = new RecordData(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
                     weatherHourlyForecast.setFieldByName("weather_report", 1); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
                     weatherHourlyForecast.setFieldByName("timestamp", hourly.timestamp);
-                    weatherHourlyForecast.setFieldByName("temperature", hourly.temp - 273.15);
-                    weatherHourlyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(hourly.conditionCode));
+                    weatherHourlyForecast.setFieldByName("temperature", hourly.temp);
+                    weatherHourlyForecast.setFieldByName("condition", hourly.conditionCode);
                     weatherHourlyForecast.setFieldByName("wind_direction", hourly.windDirection);
                     weatherHourlyForecast.setFieldByName("wind_speed", Math.round(hourly.windSpeed));
                     weatherHourlyForecast.setFieldByName("precipitation_probability", hourly.precipProbability);
@@ -185,9 +183,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             RecordData todayDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
             todayDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
             todayDailyForecast.setFieldByName("timestamp", weather.timestamp);
-            todayDailyForecast.setFieldByName("low_temperature", weather.todayMinTemp - 273.15);
-            todayDailyForecast.setFieldByName("high_temperature", weather.todayMaxTemp - 273.15);
-            todayDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(weather.currentConditionCode));
+            todayDailyForecast.setFieldByName("low_temperature", weather.todayMinTemp);
+            todayDailyForecast.setFieldByName("high_temperature", weather.todayMaxTemp);
+            todayDailyForecast.setFieldByName("condition", weather.currentConditionCode);
             todayDailyForecast.setFieldByName("precipitation_probability", weather.precipProbability);
             todayDailyForecast.setFieldByName("day_of_week", weather.timestamp);
             weatherData.add(todayDailyForecast);
@@ -200,9 +198,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     RecordData weatherDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
                     weatherDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
                     weatherDailyForecast.setFieldByName("timestamp", weather.timestamp);
-                    weatherDailyForecast.setFieldByName("low_temperature", daily.minTemp - 273.15);
-                    weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp - 273.15);
-                    weatherDailyForecast.setFieldByName("condition", FitWeatherConditions.openWeatherCodeToFitWeatherStatus(daily.conditionCode));
+                    weatherDailyForecast.setFieldByName("low_temperature", daily.minTemp);
+                    weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp);
+                    weatherDailyForecast.setFieldByName("condition", daily.conditionCode);
                     weatherDailyForecast.setFieldByName("precipitation_probability", daily.precipProbability);
                     weatherDailyForecast.setFieldByName("day_of_week", ts);
                     weatherData.add(weatherDailyForecast);

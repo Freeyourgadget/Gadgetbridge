@@ -29,17 +29,23 @@ public class BaseTypeByte implements BaseTypeInterface {
 
     @Override
     public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
-        int i = (byteBuffer.get() + offset) / scale;
-        if (i < min || i > max)
-            return invalid;
-        return i;
+        int b = unsigned ? Byte.toUnsignedInt(byteBuffer.get()) : byteBuffer.get();
+        if (b < min || b > max)
+            return null;
+        if (b == invalid)
+            return null;
+        return (b + offset) / scale;
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+        if (null == o) {
+            invalidate(byteBuffer);
+            return;
+        }
         int i = ((Number) o).intValue() * scale - offset;
-        if (!unsigned && (i < min || i > max)) {
-            byteBuffer.put((byte) invalid);
+        if (i < min || i > max) {
+            invalidate(byteBuffer);
             return;
         }
         byteBuffer.put((byte) i);

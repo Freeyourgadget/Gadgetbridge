@@ -2,8 +2,21 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+
+import java.math.BigInteger;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FieldDefinition;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.MesgType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
@@ -97,4 +110,258 @@ public class GarminSupportTest {
         }
     }
 
+    @Test
+    public void testBaseFields() {
+
+        RecordDefinition recordDefinition = new RecordDefinition(new RecordHeader((byte) 6), ByteOrder.LITTLE_ENDIAN, MesgType.TODAY_WEATHER_CONDITIONS, 123); //just some random data
+        List<FieldDefinition> fieldDefinitionList = new ArrayList<>();
+        for (BaseType baseType :
+                BaseType.values()) {
+            fieldDefinitionList.add(new FieldDefinition(baseType.getIdentifier(), baseType.getSize(), baseType, baseType.name()));
+
+        }
+        recordDefinition.setFieldDefinitions(fieldDefinitionList);
+
+        RecordData test = new RecordData(recordDefinition);
+
+        for (BaseType baseType :
+                BaseType.values()) {
+            System.out.println(baseType.getIdentifier());
+            Object startVal, endVal;
+
+            switch (baseType.name()) {
+                case "ENUM":
+                case "UINT8":
+                case "BASE_TYPE_BYTE":
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) 0xff - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = -1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "SINT8":
+                    startVal = (int) Byte.MIN_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Byte.MAX_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Byte.MIN_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "SINT16":
+                    startVal = (int) Short.MIN_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Short.MAX_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Short.MIN_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT16":
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) 0xffff - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = -1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "SINT32":
+                    startVal = (int) Integer.MIN_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Integer.MAX_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) Integer.MIN_VALUE - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT32":
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (long) 0xffffffffL - 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, (long) ((int) endVal & 0xffffffffL));
+                    startVal = 0xffffffff;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "FLOAT32":
+                    startVal = 0.0f;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = -Float.MAX_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = Float.MAX_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (double) -Float.MAX_VALUE * 2;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "FLOAT64":
+                    startVal = 0.0d;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = Double.MIN_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = Double.MAX_VALUE;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (double) -Double.MAX_VALUE * 2;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT8Z":
+                    startVal = 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) 0xff;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    startVal = -1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT16Z":
+                    startVal = 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (int) 0xffff;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = -1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT32Z":
+                    startVal = 1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = (long) 0xffffffffL;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, (long) ((int) endVal & 0xffffffffL));
+                    startVal = -1;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    startVal = 0;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "SINT64":
+                    startVal = BigInteger.valueOf(Long.MIN_VALUE);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(((BigInteger) startVal).longValue(), endVal);
+                    startVal = BigInteger.valueOf(Long.MAX_VALUE - 1);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(((BigInteger) startVal).longValue(), endVal);
+                    startVal = BigInteger.valueOf(Long.MAX_VALUE);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT64":
+                    startVal = 0L;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL - 1);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(((BigInteger) startVal).longValue() & 0xFFFFFFFFFFFFFFFFL, endVal);
+                    startVal = BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "UINT64Z":
+                    startVal = 1L;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(startVal, endVal);
+                    startVal = BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL);
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertEquals(((BigInteger) startVal).longValue() & 0xFFFFFFFFFFFFFFFFL, endVal);
+                    startVal = 0L;
+                    test.setFieldByName(baseType.name(), startVal);
+                    endVal = test.getFieldByName(baseType.name());
+                    Assert.assertNull(endVal);
+                    break;
+                case "STRING":
+                    //TODO
+                    break;
+                default:
+                    System.out.println(baseType.name());
+                    Assert.assertFalse(true); //we should not end up here, if it happen we forgot a case in the switch
+            }
+
+        }
+
+    }
+
+    @Test
+    public void runningTest() {
+        System.out.println(Instant.ofEpochSecond(System.currentTimeMillis()).atZone(ZoneId.systemDefault()).getDayOfWeek().getValue());
+    }
 }

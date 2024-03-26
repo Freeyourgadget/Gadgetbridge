@@ -10,7 +10,7 @@ public enum BaseType {
     SINT16(0x83, new BaseTypeShort(false, 0x7FFF)),
     UINT16(0x84, new BaseTypeShort(true, 0xFFFF)),
     SINT32(0x85, new BaseTypeInt(false, 0x7FFFFFFF)),
-    UINT32(0x86, new BaseTypeInt(true, 0xFFFFFFFF)),
+    UINT32(0x86, new BaseTypeInt(true, 0xFFFFFFFFL)),
     STRING(0x07, new BaseTypeByte(true, 0x00)),
     FLOAT32(0x88, new BaseTypeFloat()),
     FLOAT64(0x89, new BaseTypeDouble()),

@@ -27,23 +27,23 @@ public class BaseTypeShort implements BaseTypeInterface {
 
     @Override
     public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
-        if (unsigned) {
-            int s = (((byteBuffer.getShort() & 0xffff) + offset) / scale);
-            return s;
-        } else {
-            short s = (short) ((byteBuffer.getShort() + offset) / scale);
-            if (s < min || s > max)
-                return invalid;
-            return s;
-        }
-
+        int s = unsigned ? Short.toUnsignedInt(byteBuffer.getShort()) : byteBuffer.getShort();
+        if (s < min || s > max)
+            return null;
+        if (s == invalid)
+            return null;
+        return (s + offset) / scale;
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+        if (null == o) {
+            invalidate(byteBuffer);
+            return;
+        }
         int i = ((Number) o).intValue() * scale - offset;
-        if (!unsigned && (i < min || i > max)) {
-            byteBuffer.putShort((short) invalid);
+        if (i < min || i > max) {
+            invalidate(byteBuffer);
             return;
         }
         byteBuffer.putShort((short) i);

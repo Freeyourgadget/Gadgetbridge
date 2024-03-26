@@ -9,7 +9,7 @@ public class BaseTypeDouble implements BaseTypeInterface {
     private final double invalid;
 
     BaseTypeDouble() {
-        this.min = Double.MIN_VALUE;
+        this.min = -Double.MAX_VALUE;
         this.max = Double.MAX_VALUE;
         this.invalid = Double.longBitsToDouble(0xFFFFFFFFFFFFFFFFL);
     }
@@ -20,14 +20,24 @@ public class BaseTypeDouble implements BaseTypeInterface {
 
     @Override
     public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
-        return (byteBuffer.getDouble() + offset) / scale;
+        double d = byteBuffer.getDouble();
+        if (d < min || d > max) {
+            return null;
+        }
+        if (Double.isNaN(d) || d == invalid)
+            return null;
+        return (d + offset) / scale;
     }
 
     @Override
     public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+        if (null == o) {
+            invalidate(byteBuffer);
+            return;
+        }
         double d = ((Number) o).doubleValue() * scale - offset;
         if (d < min || d > max) {
-            byteBuffer.putDouble(invalid);
+            invalidate(byteBuffer);
             return;
         }
         byteBuffer.putDouble(d);
