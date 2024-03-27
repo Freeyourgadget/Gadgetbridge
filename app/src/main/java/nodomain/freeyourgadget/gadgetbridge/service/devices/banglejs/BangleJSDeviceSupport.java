@@ -649,8 +649,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
          * they use a handle that was provided in an action list on the onNotification.. event  */
         if (deviceEvtNotificationControl.event == GBDeviceEventNotificationControl.Event.REPLY) {
             Long foundHandle = mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
-            if (foundHandle!=null)
+            LOG.debug("Got notification reply: handle={} foundHandle={}", deviceEvtNotificationControl.handle, foundHandle);
+            if (foundHandle != null) {
                 deviceEvtNotificationControl.handle = foundHandle;
+            }
         }
         evaluateGBDeviceEvent(deviceEvtNotificationControl);
     }
@@ -1280,7 +1282,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (notificationSpec.attachedActions!=null)
             for (int i=0;i<notificationSpec.attachedActions.size();i++) {
                 NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
-                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY) {
+                if (action.type == NotificationSpec.Action.TYPE_WEARABLE_REPLY || action.type == NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
                     mNotificationReplyAction.add(notificationSpec.getId(), action.handle);
                     canReply = true;
                 }
