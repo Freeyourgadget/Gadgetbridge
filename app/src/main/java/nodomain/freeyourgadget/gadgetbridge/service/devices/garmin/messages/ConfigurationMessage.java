@@ -8,11 +8,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 public class ConfigurationMessage extends GFDIMessage {
     public final Set<GarminCapability> OUR_CAPABILITIES = GarminCapability.ALL_CAPABILITIES;
     private final byte[] incomingConfigurationPayload;
-    private final int messageType;
     private final byte[] ourConfigurationPayload = GarminCapability.setToBinary(OUR_CAPABILITIES);
 
-    public ConfigurationMessage(int messageType, byte[] configurationPayload) {
-        this.messageType = messageType;
+    public ConfigurationMessage(GarminMessage garminMessage, byte[] configurationPayload) {
+        this.garminMessage = garminMessage;
         if (configurationPayload.length > 255)
             throw new IllegalArgumentException("Too long payload");
         this.incomingConfigurationPayload = configurationPayload;
@@ -20,12 +19,12 @@ public class ConfigurationMessage extends GFDIMessage {
         Set<GarminCapability> capabilities = GarminCapability.setFromBinary(configurationPayload);
         LOG.info("Received configuration message; capabilities: {}", GarminCapability.setToString(capabilities));
 
-        this.statusMessage = this.getStatusMessage(messageType);
+        this.statusMessage = this.getStatusMessage();
     }
 
-    public static ConfigurationMessage parseIncoming(MessageReader reader, int messageType) {
+    public static ConfigurationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int endOfPayload = reader.readByte();
-        ConfigurationMessage configurationMessage = new ConfigurationMessage(messageType, reader.readBytes(endOfPayload - reader.getPosition()));
+        ConfigurationMessage configurationMessage = new ConfigurationMessage(garminMessage, reader.readBytes(endOfPayload - reader.getPosition()));
         reader.warnIfLeftover();
         return configurationMessage;
     }
@@ -34,7 +33,7 @@ public class ConfigurationMessage extends GFDIMessage {
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // placeholder for packet size
-        writer.writeShort(messageType);
+        writer.writeShort(garminMessage.getId());
         writer.writeByte(ourConfigurationPayload.length);
         writer.writeBytes(ourConfigurationPayload);
         return true;

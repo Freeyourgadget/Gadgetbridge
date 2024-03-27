@@ -7,25 +7,25 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Mess
 public abstract class GFDIStatusMessage extends GFDIMessage {
     private Status status;
 
-    public static GFDIStatusMessage parseIncoming(MessageReader reader, int messageType) {
-        final GarminMessage garminMessage = GFDIMessage.GarminMessage.fromId(reader.readShort());
-        if (GarminMessage.PROTOBUF_REQUEST.equals(garminMessage) || GarminMessage.PROTOBUF_RESPONSE.equals(garminMessage)) {
-            return ProtobufStatusMessage.parseIncoming(reader, messageType);
-        } else if (GarminMessage.FIT_DEFINITION.equals(garminMessage)) {
-            return FitDefinitionStatusMessage.parseIncoming(reader, messageType);
-        } else if (GarminMessage.FIT_DATA.equals(garminMessage)) {
-            return FitDataStatusMessage.parseIncoming(reader, messageType);
+    public static GFDIStatusMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
+        final GarminMessage originalGarminMessage = GFDIMessage.GarminMessage.fromId(reader.readShort());
+        if (GarminMessage.PROTOBUF_REQUEST.equals(originalGarminMessage) || GarminMessage.PROTOBUF_RESPONSE.equals(originalGarminMessage)) {
+            return ProtobufStatusMessage.parseIncoming(reader, garminMessage);
+        } else if (GarminMessage.FIT_DEFINITION.equals(originalGarminMessage)) {
+            return FitDefinitionStatusMessage.parseIncoming(reader, garminMessage);
+        } else if (GarminMessage.FIT_DATA.equals(originalGarminMessage)) {
+            return FitDataStatusMessage.parseIncoming(reader, garminMessage);
         } else {
             final Status status = Status.fromCode(reader.readByte());
 
             if (Status.ACK == status) {
-                LOG.info("Received ACK for message {}", garminMessage.name());
+                LOG.info("Received ACK for message {}", originalGarminMessage.name());
             } else {
-                LOG.warn("Received {} for message {}", status, garminMessage.name());
+                LOG.warn("Received {} for message {}", status, originalGarminMessage.name());
             }
 
             reader.warnIfLeftover();
-            return new GenericStatusMessage(messageType, status);
+            return new GenericStatusMessage(garminMessage, status);
         }
     }
 

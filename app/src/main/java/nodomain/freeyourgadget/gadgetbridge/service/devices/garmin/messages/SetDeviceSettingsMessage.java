@@ -6,6 +6,7 @@ public class SetDeviceSettingsMessage extends GFDIMessage {
     private final Map<GarminDeviceSetting, Object> settings;
 
     public SetDeviceSettingsMessage(Map<GarminDeviceSetting, Object> settings) {
+        this.garminMessage = GarminMessage.DEVICE_SETTINGS;
         this.settings = settings;
         final int settingsCount = settings.size();
         if (settingsCount == 0) throw new IllegalArgumentException("Empty settings");
@@ -17,7 +18,7 @@ public class SetDeviceSettingsMessage extends GFDIMessage {
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(GarminMessage.DEVICE_SETTINGS.getId());
+        writer.writeShort(this.garminMessage.getId());
         writer.writeByte(settings.size());
         for (Map.Entry<GarminDeviceSetting, Object> settingPair : settings.entrySet()) {
             final GarminDeviceSetting setting = settingPair.getKey();

@@ -10,6 +10,7 @@ public class MusicControlEntityUpdateMessage extends GFDIMessage {
     public MusicControlEntityUpdateMessage(Map<MusicEntity, String> attributes) {
 
         this.attributes = attributes;
+        this.garminMessage = GarminMessage.MUSIC_CONTROL_ENTITY_UPDATE;
 
     }
 
@@ -17,7 +18,7 @@ public class MusicControlEntityUpdateMessage extends GFDIMessage {
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(GarminMessage.MUSIC_CONTROL_ENTITY_UPDATE.getId());
+        writer.writeShort(this.garminMessage.getId());
 
         for (Map.Entry<MusicEntity, String> entry : attributes.entrySet()) {
             MusicEntity a = entry.getKey();

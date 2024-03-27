@@ -225,30 +225,30 @@ public class ProtocolBufferHandler {
         if (null == protobufPayload)
             return null;
         final int requestId = getNextProtobufRequestId();
-        return prepareProtobufMessage(protobufPayload.toByteArray(), GFDIMessage.GarminMessage.PROTOBUF_REQUEST.getId(), requestId);
+        return prepareProtobufMessage(protobufPayload.toByteArray(), GFDIMessage.GarminMessage.PROTOBUF_REQUEST, requestId);
     }
 
     private ProtobufMessage prepareProtobufResponse(GdiSmartProto.Smart protobufPayload, int requestId) {
         if (null == protobufPayload)
             return null;
-        return prepareProtobufMessage(protobufPayload.toByteArray(), GFDIMessage.GarminMessage.PROTOBUF_RESPONSE.getId(), requestId);
+        return prepareProtobufMessage(protobufPayload.toByteArray(), GFDIMessage.GarminMessage.PROTOBUF_RESPONSE, requestId);
     }
 
-    private ProtobufMessage prepareProtobufMessage(byte[] bytes, int messageType, int requestId) {
+    private ProtobufMessage prepareProtobufMessage(byte[] bytes, GFDIMessage.GarminMessage garminMessage, int requestId) {
         if (bytes == null || bytes.length == 0)
             return null;
-        LOG.info("Preparing protobuf message. Type{}, #{}, {}B: {}", messageType, requestId, bytes.length, GB.hexdump(bytes, 0, bytes.length));
+        LOG.info("Preparing protobuf message. Type{}, #{}, {}B: {}", garminMessage, requestId, bytes.length, GB.hexdump(bytes, 0, bytes.length));
 
         if (bytes.length > maxChunkSize) {
             chunkedFragmentsMap.put(requestId, new ProtobufFragment(bytes));
-            return new ProtobufMessage(messageType,
+            return new ProtobufMessage(garminMessage,
                     requestId,
                     0,
                     bytes.length,
                     maxChunkSize,
                     ArrayUtils.subarray(bytes, 0, maxChunkSize));
         }
-        return new ProtobufMessage(messageType, requestId, 0, bytes.length, bytes.length, bytes);
+        return new ProtobufMessage(garminMessage, requestId, 0, bytes.length, bytes.length, bytes);
     }
 
     class ProtobufFragment {

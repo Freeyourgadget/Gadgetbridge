@@ -6,12 +6,11 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 public class MusicControlMessage extends GFDIMessage {
 
     private static final MusicControlCapabilitiesMessage.GarminMusicControlCommand[] commands = MusicControlCapabilitiesMessage.GarminMusicControlCommand.values();
-    final int messageType;
     private final GBDeviceEventMusicControl event;
 
-    public MusicControlMessage(int messageType, MusicControlCapabilitiesMessage.GarminMusicControlCommand command) {
+    public MusicControlMessage(GarminMessage garminMessage, MusicControlCapabilitiesMessage.GarminMusicControlCommand command) {
         this.event = new GBDeviceEventMusicControl();
-        this.messageType = messageType;
+        this.garminMessage = garminMessage;
         switch (command) {
             case TOGGLE_PLAY_PAUSE:
                 event.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
@@ -24,14 +23,14 @@ public class MusicControlMessage extends GFDIMessage {
                 break;
         }
 
-        this.statusMessage = this.getStatusMessage(messageType);
+        this.statusMessage = this.getStatusMessage();
     }
 
-    public static MusicControlMessage parseIncoming(MessageReader reader, int messageType) {
+    public static MusicControlMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         MusicControlCapabilitiesMessage.GarminMusicControlCommand command = commands[reader.readByte()];
 
         reader.warnIfLeftover();
-        return new MusicControlMessage(messageType, command);
+        return new MusicControlMessage(garminMessage, command);
     }
 
     public GBDeviceEventMusicControl getGBDeviceEvent() {

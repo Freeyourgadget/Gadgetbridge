@@ -12,15 +12,14 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
     private final int dataOffset;
     private final ProtobufChunkStatus protobufChunkStatus;
     private final ProtobufStatusCode protobufStatusCode;
-    private final int messageType;
     private final boolean sendOutgoing;
 
-    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode) {
-        this(messageType, status, requestId, dataOffset, protobufChunkStatus, protobufStatusCode, true);
+    public ProtobufStatusMessage(GarminMessage garminMessage, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode) {
+        this(garminMessage, status, requestId, dataOffset, protobufChunkStatus, protobufStatusCode, true);
     }
 
-    public ProtobufStatusMessage(int messageType, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode, boolean sendOutgoing) {
-        this.messageType = messageType;
+    public ProtobufStatusMessage(GarminMessage garminMessage, Status status, int requestId, int dataOffset, ProtobufChunkStatus protobufChunkStatus, ProtobufStatusCode protobufStatusCode, boolean sendOutgoing) {
+        this.garminMessage = garminMessage;
         this.status = status;
         this.requestId = requestId;
         this.dataOffset = dataOffset;
@@ -29,7 +28,7 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         this.sendOutgoing = sendOutgoing;
     }
 
-    public static ProtobufStatusMessage parseIncoming(MessageReader reader, int messageType) {
+    public static ProtobufStatusMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final Status status = Status.fromCode(reader.readByte());
         final int requestID = reader.readShort();
         final int dataOffset = reader.readInt();
@@ -37,7 +36,7 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         final ProtobufStatusCode error = ProtobufStatusCode.fromCode(reader.readByte());
 
         reader.warnIfLeftover();
-        return new ProtobufStatusMessage(messageType, status, requestID, dataOffset, protobufStatus, error, false);
+        return new ProtobufStatusMessage(garminMessage, status, requestID, dataOffset, protobufStatus, error, false);
     }
 
     public int getDataOffset() {
@@ -52,8 +51,8 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         return protobufStatusCode;
     }
 
-    public int getMessageType() {
-        return messageType;
+    public GarminMessage getMessageType() {
+        return garminMessage;
     }
 
     public int getRequestId() {
@@ -71,7 +70,7 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
         writer.writeShort(GarminMessage.RESPONSE.getId());
-        writer.writeShort(messageType);
+        writer.writeShort(garminMessage.getId());
         writer.writeByte(status.ordinal());
         writer.writeShort(requestId);
         writer.writeInt(dataOffset);

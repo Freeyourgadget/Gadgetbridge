@@ -9,19 +9,19 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHea
 public class FitDefinitionMessage extends GFDIMessage {
 
     private final List<RecordDefinition> recordDefinitions;
-    private final int messageType;
 
-    public FitDefinitionMessage(List<RecordDefinition> recordDefinitions, int messageType) {
+    public FitDefinitionMessage(List<RecordDefinition> recordDefinitions, GarminMessage garminMessage) {
         this.recordDefinitions = recordDefinitions;
-        this.messageType = messageType;
+        this.garminMessage = garminMessage;
+        this.statusMessage = this.getStatusMessage();
     }
 
     public FitDefinitionMessage(List<RecordDefinition> recordDefinitions) {
         this.recordDefinitions = recordDefinitions;
-        this.messageType = GarminMessage.FIT_DEFINITION.getId();
+        this.garminMessage = GarminMessage.FIT_DEFINITION;
     }
 
-    public static FitDefinitionMessage parseIncoming(MessageReader reader, int messageType) {
+    public static FitDefinitionMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         List<RecordDefinition> recordDefinitions = new ArrayList<>();
 
         while (!reader.isEndOfPayload()) {
@@ -29,7 +29,7 @@ public class FitDefinitionMessage extends GFDIMessage {
             recordDefinitions.add(RecordDefinition.parseIncoming(reader, recordHeader));
         }
 
-        return new FitDefinitionMessage(recordDefinitions, messageType);
+        return new FitDefinitionMessage(recordDefinitions, garminMessage);
     }
 
     public List<RecordDefinition> getRecordDefinitions() {
@@ -40,7 +40,7 @@ public class FitDefinitionMessage extends GFDIMessage {
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(messageType);
+        writer.writeShort(garminMessage.getId());
         for (RecordDefinition recordDefinition : recordDefinitions) {
             recordDefinition.generateOutgoingPayload(writer);
         }

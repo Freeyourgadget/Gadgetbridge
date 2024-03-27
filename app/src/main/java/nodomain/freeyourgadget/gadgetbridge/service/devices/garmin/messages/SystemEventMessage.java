@@ -8,13 +8,14 @@ public class SystemEventMessage extends GFDIMessage {
     public SystemEventMessage(GarminSystemEventType eventType, Object value) {
         this.eventType = eventType;
         this.value = value;
+        this.garminMessage = GarminMessage.SYSTEM_EVENT;
     }
 
     @Override
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(GarminMessage.SYSTEM_EVENT.getId());
+        writer.writeShort(this.garminMessage.getId());
         writer.writeByte(eventType.ordinal());
         if (value instanceof String) {
             writer.writeString((String) value);
