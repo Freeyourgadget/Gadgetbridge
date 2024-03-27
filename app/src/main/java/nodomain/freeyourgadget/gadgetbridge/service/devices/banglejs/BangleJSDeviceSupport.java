@@ -1276,11 +1276,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        boolean canReply = false;
         if (notificationSpec.attachedActions!=null)
             for (int i=0;i<notificationSpec.attachedActions.size();i++) {
                 NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
-                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY)
-                    mNotificationReplyAction.add(notificationSpec.getId(), ((long) notificationSpec.getId() << 4) + i + 1);
+                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY) {
+                    mNotificationReplyAction.add(notificationSpec.getId(), action.handle);
+                    canReply = true;
+                }
             }
         // sourceName isn't set for SMS messages
         String src = notificationSpec.sourceName;
@@ -1297,6 +1300,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("body", renderUnicodeAsImage(cropToLength(notificationSpec.body, 400)));
             o.put("sender", renderUnicodeAsImage(cropToLength(notificationSpec.sender,40)));
             o.put("tel", notificationSpec.phoneNumber);
+            if (canReply) o.put("reply", true);
             uartTxJSON("onNotification", o);
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());

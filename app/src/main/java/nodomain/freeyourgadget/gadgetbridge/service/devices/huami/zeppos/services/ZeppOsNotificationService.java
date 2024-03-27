@@ -272,7 +272,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
                         case NotificationSpec.Action.TYPE_WEARABLE_REPLY:
                         case NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR:
                             hasReply = true;
-                            mNotificationReplyAction.add(notificationSpec.getId(), ((long) notificationSpec.getId() << 4) + i + 1);
+                            mNotificationReplyAction.add(notificationSpec.getId(), action.handle);
                             break;
                         default:
                             break;

@@ -433,9 +433,9 @@ public class NotificationListener extends NotificationListenerService {
                 } else {
                     wearableAction.type = NotificationSpec.Action.TYPE_WEARABLE_SIMPLE;
                 }
-
                 notificationSpec.attachedActions.add(wearableAction);
-                mActionLookup.add((notificationSpec.getId() << 4) + notificationSpec.attachedActions.size(), act);
+                wearableAction.handle = (notificationSpec.getId() << 4) + notificationSpec.attachedActions.size();
+                mActionLookup.add((int)wearableAction.handle, act);
                 LOG.info("Found wearable action: {} - {}  {}", notificationSpec.attachedActions.size(), act.getTitle(), sbn.getTag());
             }
         }
