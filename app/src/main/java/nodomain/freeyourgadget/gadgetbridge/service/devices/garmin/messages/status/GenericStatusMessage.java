@@ -4,20 +4,24 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Mess
 
 public class GenericStatusMessage extends GFDIStatusMessage {
 
-    private final int messageType;
+    private int messageType; // for unsupported message types
     private final Status status;
 
-    public GenericStatusMessage(int originalRequestID, Status status) {
-        this.messageType = originalRequestID;
+    public GenericStatusMessage(GarminMessage originalMessage, Status status) {
+        this.garminMessage = originalMessage;
         this.status = status;
     }
 
+    public GenericStatusMessage(int messageType, Status status) {
+        this.messageType = messageType;
+        this.status = status;
+    }
     @Override
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
         writer.writeShort(GarminMessage.RESPONSE.getId());
-        writer.writeShort(messageType);
+        writer.writeShort(messageType != 0 ? messageType : garminMessage.getId());
         writer.writeByte(status.ordinal());
         return true;
     }

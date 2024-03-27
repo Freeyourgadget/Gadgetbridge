@@ -4,19 +4,18 @@ public class MusicControlCapabilitiesMessage extends GFDIMessage {
 
     private final int supportedCapabilities;
     private final GarminMusicControlCommand[] commands = GarminMusicControlCommand.values();
-    private final int messageType;
 
-    public MusicControlCapabilitiesMessage(int messageType, int supportedCapabilities) {
-        this.messageType = messageType;
+    public MusicControlCapabilitiesMessage(GarminMessage garminMessage, int supportedCapabilities) {
+        this.garminMessage = garminMessage;
         this.supportedCapabilities = supportedCapabilities;
-        this.statusMessage = this.getStatusMessage(messageType);
+        this.statusMessage = this.getStatusMessage();
     }
 
-    public static MusicControlCapabilitiesMessage parseIncoming(MessageReader reader, int messageType) {
+    public static MusicControlCapabilitiesMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int supportedCapabilities = reader.readByte();
 
         reader.warnIfLeftover();
-        return new MusicControlCapabilitiesMessage(messageType, supportedCapabilities);
+        return new MusicControlCapabilitiesMessage(garminMessage, supportedCapabilities);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class MusicControlCapabilitiesMessage extends GFDIMessage {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
         writer.writeShort(GarminMessage.RESPONSE.getId());
-        writer.writeShort(messageType);
+        writer.writeShort(this.garminMessage.getId());
         writer.writeByte(Status.ACK.ordinal());
         writer.writeByte(commands.length);
         for (GarminMusicControlCommand command : commands) {

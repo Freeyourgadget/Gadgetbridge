@@ -8,19 +8,18 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUti
 
 public class CurrentTimeRequestMessage extends GFDIMessage {
     private final int referenceID;
-    private final int messageType;
 
-    public CurrentTimeRequestMessage(int messageType, int referenceID) {
-        this.messageType = messageType;
+    public CurrentTimeRequestMessage(int referenceID, GarminMessage garminMessage) {
+        this.garminMessage = garminMessage;
         this.referenceID = referenceID;
-        this.statusMessage = this.getStatusMessage(messageType);
+        this.statusMessage = this.getStatusMessage();
     }
 
-    public static CurrentTimeRequestMessage parseIncoming(MessageReader reader, int messageType) {
+    public static CurrentTimeRequestMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int referenceID = reader.readInt();
 
         reader.warnIfLeftover();
-        return new CurrentTimeRequestMessage(messageType, referenceID);
+        return new CurrentTimeRequestMessage(referenceID, garminMessage);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
         writer.writeShort(GarminMessage.RESPONSE.getId());
-        writer.writeShort(messageType);
+        writer.writeShort(this.garminMessage.getId());
         writer.writeByte(Status.ACK.ordinal());
         writer.writeInt(referenceID);
         writer.writeInt(garminTimestamp);

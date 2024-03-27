@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,15 +32,16 @@ public abstract class GFDIMessage {
     protected static final Logger LOG = LoggerFactory.getLogger(GFDIMessage.class);
     protected final ByteBuffer response = ByteBuffer.allocate(1000);
     protected GFDIStatusMessage statusMessage;
+    protected GarminMessage garminMessage;
 
     public static GFDIMessage parseIncoming(byte[] message) {
         final MessageReader messageReader = new MessageReader(message);
 
         final int messageType = messageReader.readShort();
         try {
-//            Class<? extends GFDIMessage> objectClass = GarminMessage.getClassFromId(messageType);
-            Method m = GarminMessage.getClassFromId(messageType).getMethod("parseIncoming", MessageReader.class, int.class);
-            return GarminMessage.getClassFromId(messageType).cast(m.invoke(null, messageReader, messageType));
+            GarminMessage garminMessage = GarminMessage.fromId(messageType);
+            Method m = garminMessage.objectClass.getMethod("parseIncoming", MessageReader.class, GarminMessage.class);
+            return garminMessage.objectClass.cast(m.invoke(null, messageReader, garminMessage));
         } catch (Exception e) {
             LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message);
             return new UnhandledMessage(messageType);
@@ -61,8 +64,8 @@ public abstract class GFDIMessage {
         return packet;
     }
 
-    protected GFDIStatusMessage getStatusMessage(int messageType) {
-        return new GenericStatusMessage(messageType, Status.ACK);
+    protected GFDIStatusMessage getStatusMessage() {
+        return new GenericStatusMessage(garminMessage, Status.ACK);
     }
 
     public GBDeviceEvent getGBDeviceEvent() {
@@ -116,6 +119,7 @@ public abstract class GFDIMessage {
             return null;
         }
 
+        @Nullable
         public static GarminMessage fromId(final int id) {
             for (final GarminMessage garminMessage : GarminMessage.values()) {
                 if (garminMessage.getId() == id) {

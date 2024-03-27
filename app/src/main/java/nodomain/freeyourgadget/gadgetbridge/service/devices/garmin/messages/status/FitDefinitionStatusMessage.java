@@ -8,10 +8,9 @@ public class FitDefinitionStatusMessage extends GFDIStatusMessage {
 
     private final Status status;
     private final FitDefinitionStatusCode fitDefinitionStatusCode;
-    private final int messageType;
 
-    public FitDefinitionStatusMessage(int messageType, Status status, FitDefinitionStatusCode fitDefinitionStatusCode) {
-        this.messageType = messageType;
+    public FitDefinitionStatusMessage(GarminMessage garminMessage, Status status, FitDefinitionStatusCode fitDefinitionStatusCode) {
+        this.garminMessage = garminMessage;
         this.status = status;
         this.fitDefinitionStatusCode = fitDefinitionStatusCode;
         switch (fitDefinitionStatusCode) {
@@ -23,12 +22,12 @@ public class FitDefinitionStatusMessage extends GFDIStatusMessage {
         }
     }
 
-    public static FitDefinitionStatusMessage parseIncoming(MessageReader reader, int messageType) {
+    public static FitDefinitionStatusMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final Status status = Status.fromCode(reader.readByte());
         final FitDefinitionStatusCode fitDefinitionStatusCode = FitDefinitionStatusCode.fromCode(reader.readByte());
 
         reader.warnIfLeftover();
-        return new FitDefinitionStatusMessage(messageType, status, fitDefinitionStatusCode);
+        return new FitDefinitionStatusMessage(garminMessage, status, fitDefinitionStatusCode);
     }
 
     public enum FitDefinitionStatusCode {

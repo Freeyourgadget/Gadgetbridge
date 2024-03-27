@@ -6,24 +6,25 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 
 public class FindMyPhoneRequestMessage extends GFDIMessage {
     private final int duration;
-    private final int messageType;
 
-    public FindMyPhoneRequestMessage(int messageType, int duration) {
-        this.messageType = messageType;
+    public FindMyPhoneRequestMessage(GarminMessage garminMessage, int duration) {
+        this.garminMessage = garminMessage;
         this.duration = duration;
+
+        this.statusMessage = getStatusMessage();
     }
 
-    public static FindMyPhoneRequestMessage parseIncoming(MessageReader reader, int messageType) {
+    public static FindMyPhoneRequestMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int duration = reader.readByte();
 
         reader.warnIfLeftover();
-        return new FindMyPhoneRequestMessage(messageType, duration);
+        return new FindMyPhoneRequestMessage(garminMessage, duration);
     }
 
     @Override
     public GBDeviceEvent getGBDeviceEvent() {
         final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
-        findPhoneEvent.event = messageType == GarminMessage.FIND_MY_PHONE.getId() ? GBDeviceEventFindPhone.Event.START : GBDeviceEventFindPhone.Event.STOP;
+        findPhoneEvent.event = garminMessage == GarminMessage.FIND_MY_PHONE ? GBDeviceEventFindPhone.Event.START : GBDeviceEventFindPhone.Event.STOP;
         return findPhoneEvent;
     }
 

@@ -12,7 +12,6 @@ public class DeviceInformationMessage extends GFDIMessage {
     final int ourUnitNumber = -1;
     final int ourSoftwareVersion = 7791;
     final int ourMaxPacketSize = -1;
-    private final int messageType;
     private final int incomingProtocolVersion;
     private final int ourProtocolVersion = 150;
     private final int incomingProductNumber;
@@ -25,8 +24,8 @@ public class DeviceInformationMessage extends GFDIMessage {
     private final String deviceModel;
     // dual-pairing flags & MAC addresses...
 
-    public DeviceInformationMessage(int messageType, int protocolVersion, int productNumber, String unitNumber, int softwareVersion, int maxPacketSize, String bluetoothFriendlyName, String deviceName, String deviceModel) {
-        this.messageType = messageType;
+    public DeviceInformationMessage(GarminMessage garminMessage, int protocolVersion, int productNumber, String unitNumber, int softwareVersion, int maxPacketSize, String bluetoothFriendlyName, String deviceName, String deviceModel) {
+        this.garminMessage = garminMessage;
         this.incomingProtocolVersion = protocolVersion;
         this.incomingProductNumber = productNumber;
         this.incomingUnitNumber = unitNumber;
@@ -35,9 +34,11 @@ public class DeviceInformationMessage extends GFDIMessage {
         this.bluetoothFriendlyName = bluetoothFriendlyName;
         this.deviceName = deviceName;
         this.deviceModel = deviceModel;
+
+        this.statusMessage = getStatusMessage();
     }
 
-    public static DeviceInformationMessage parseIncoming(MessageReader reader, int messageType) {
+    public static DeviceInformationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int protocolVersion = reader.readShort();
         final int productNumber = reader.readShort();
         final String unitNumber = Long.toString(reader.readInt() & 0xFFFFFFFFL);
@@ -48,7 +49,7 @@ public class DeviceInformationMessage extends GFDIMessage {
         final String deviceModel = reader.readString();
 
         reader.warnIfLeftover();
-        return new DeviceInformationMessage(messageType, protocolVersion, productNumber, unitNumber, softwareVersion, maxPacketSize, bluetoothFriendlyName, deviceName, deviceModel);
+        return new DeviceInformationMessage(garminMessage, protocolVersion, productNumber, unitNumber, softwareVersion, maxPacketSize, bluetoothFriendlyName, deviceName, deviceModel);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class DeviceInformationMessage extends GFDIMessage {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // placeholder for packet size
         writer.writeShort(GarminMessage.RESPONSE.getId());
-        writer.writeShort(messageType);
+        writer.writeShort(this.garminMessage.getId());
         writer.writeByte(Status.ACK.ordinal());
         writer.writeShort(ourProtocolVersion);
         writer.writeShort(ourProductNumber);

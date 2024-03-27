@@ -9,19 +9,18 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHea
 
 public class FitDataMessage extends GFDIMessage {
     private final List<RecordData> recordDataList;
-    private final int messageType;
 
-    public FitDataMessage(List<RecordData> recordDataList, int messageType) {
+    public FitDataMessage(List<RecordData> recordDataList, GarminMessage garminMessage) {
         this.recordDataList = recordDataList;
-        this.messageType = messageType;
+        this.garminMessage = garminMessage;
     }
 
     public FitDataMessage(List<RecordData> recordDataList) {
         this.recordDataList = recordDataList;
-        this.messageType = GarminMessage.FIT_DATA.getId();
+        this.garminMessage = GarminMessage.FIT_DATA;
     }
 
-    public static FitDataMessage parseIncoming(MessageReader reader, int messageType) {
+    public static FitDataMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         List<RecordData> recordDataList = new ArrayList<>();
 
 
@@ -34,7 +33,7 @@ public class FitDataMessage extends GFDIMessage {
             recordDataList.add(recordData);
         }
 
-        return new FitDataMessage(recordDataList, messageType);
+        return new FitDataMessage(recordDataList, garminMessage);
     }
 
     public List<RecordData> getRecordDataList() {
@@ -45,7 +44,7 @@ public class FitDataMessage extends GFDIMessage {
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(messageType);
+        writer.writeShort(this.garminMessage.getId());
         for (RecordData recordData : recordDataList) {
             recordData.generateOutgoingDataPayload(writer);
         }
