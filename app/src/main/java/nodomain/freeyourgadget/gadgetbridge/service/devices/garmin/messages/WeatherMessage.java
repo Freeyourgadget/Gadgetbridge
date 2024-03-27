@@ -1,33 +1,13 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalDefinitionsEnum;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
 
 public class WeatherMessage extends GFDIMessage {
-    private final int format;
-    private final int latitude;
-    private final int longitude;
-    private final int hoursOfForecast;
-
-
-    private final List<RecordDefinition> weatherDefinitions;
-
+    private final WeatherRequestDeviceEvent weatherRequestDeviceEvent;
     public WeatherMessage(int format, int latitude, int longitude, int hoursOfForecast, GarminMessage garminMessage) {
-        this.format = format;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.hoursOfForecast = hoursOfForecast;
+
         this.garminMessage = garminMessage;
-
-
-        weatherDefinitions = new ArrayList<>(3);
-        weatherDefinitions.add(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
-        weatherDefinitions.add(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
-        weatherDefinitions.add(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
-
+        weatherRequestDeviceEvent = new WeatherRequestDeviceEvent(format, latitude, longitude, hoursOfForecast);
         this.statusMessage = this.getStatusMessage();
 
     }
@@ -41,14 +21,13 @@ public class WeatherMessage extends GFDIMessage {
         return new WeatherMessage(format, latitude, longitude, hoursOfForecast, garminMessage);
     }
 
+    public WeatherRequestDeviceEvent getGBDeviceEvent() {
+        return weatherRequestDeviceEvent;
+    }
+
     @Override
     protected boolean generateOutgoing() {
-        final MessageWriter writer = new MessageWriter(response);
-        writer.writeShort(0); // packet size will be filled below
-        writer.writeShort(GarminMessage.FIT_DEFINITION.getId());
-        for (RecordDefinition definition : weatherDefinitions) {
-            definition.generateOutgoingPayload(writer);
-        }
-        return true;
+        return false;
     }
+
 }
