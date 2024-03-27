@@ -16,9 +16,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
@@ -29,8 +31,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalDefinitionsEnum;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ConfigurationMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MusicControlEntityUpdateMessage;
@@ -135,12 +139,31 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     @Override
+    public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
+        if (deviceEvent instanceof WeatherRequestDeviceEvent) {
+            WeatherSpec weather = Weather.getInstance().getWeatherSpec();
+            if (weather != null) {
+                sendWeatherConditions(weather);
+            }
+
+        }
+        super.evaluateGBDeviceEvent(deviceEvent);
+    }
+
+    @Override
     public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
         sendWeatherConditions(weatherSpecs.get(0));
     }
 
     private void sendWeatherConditions(WeatherSpec weather) {
         List<RecordData> weatherData = new ArrayList<>();
+
+        List<RecordDefinition> weatherDefinitions = new ArrayList<>(3);
+        weatherDefinitions.add(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
+        weatherDefinitions.add(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
+        weatherDefinitions.add(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+
+        communicator.sendMessage(new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDefinitionMessage(weatherDefinitions).getOutgoingMessage());
 
         try {
             RecordData today = new RecordData(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
