@@ -18,15 +18,18 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Intent;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -63,14 +66,10 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(AsteroidOSConstants.NOTIFICATION_SERVICE_UUID);
         addSupportedService(AsteroidOSConstants.MEDIA_SERVICE_UUID);
 
-        IntentListener mListener = new IntentListener() {
-            @Override
-            public void notify(Intent intent) {
-                String action = intent.getAction();
-                if (BatteryInfoProfile.ACTION_BATTERY_INFO.equals(action)) {
-                    handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
-
-                }
+        IntentListener mListener = intent -> {
+            String action = intent.getAction();
+            if (BatteryInfoProfile.ACTION_BATTERY_INFO.equals(action)) {
+                handleBatteryInfo(Objects.requireNonNull(intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO)));
             }
         };
 
@@ -79,7 +78,7 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedProfile(batteryInfoProfile);
     }
 
-    private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
+    private void handleBatteryInfo(@NonNull nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
         batteryCmd.level = info.getPercentCharged();
         handleGBDeviceEvent(batteryCmd);
     }
@@ -91,12 +90,12 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         UUID characteristicUUID = characteristic.getUuid();
 
         if (characteristicUUID.equals(AsteroidOSConstants.MEDIA_COMMANDS_CHAR)) {
-            handleMediaCommand(gatt, characteristic);
+            handleMediaCommand(characteristic);
             return true;
         }
 
         LOG.info("Characteristic changed UUID: " + characteristicUUID);
-        LOG.info("Characteristic changed value: " + characteristic.getValue().toString());
+        LOG.info("Characteristic changed value: " + Arrays.toString(characteristic.getValue()));
         return false;
     }
 
@@ -266,10 +265,9 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /**
      * Handles a media command sent from the AsteroidOS device
-     * @param gatt The bluetooth device's GATT info
      * @param characteristic The Characteristic information
      */
-    public void handleMediaCommand (BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+    public void handleMediaCommand (BluetoothGattCharacteristic characteristic) {
         LOG.info("handle media command");
         AsteroidOSMediaCommand command = new AsteroidOSMediaCommand(characteristic.getValue()[0]);
         GBDeviceEventMusicControl event = command.toMusicControlEvent();
