@@ -1280,7 +1280,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (notificationSpec.attachedActions!=null)
             for (int i=0;i<notificationSpec.attachedActions.size();i++) {
                 NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
-                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY) {
+                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY ||
+                    action.type==NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
                     mNotificationReplyAction.add(notificationSpec.getId(), action.handle);
                     canReply = true;
                 }
