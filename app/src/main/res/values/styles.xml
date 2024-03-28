@@ -31,6 +31,8 @@
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
         <item name="alternate_row_background">@color/alternate_row_background_light</item>
         <item name="sports_activity_summary_background">@color/chart_heartrate_fill</item>
+
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
     <!-- dark theme -->
@@ -66,11 +68,13 @@
         <item name="alternate_row_background">@color/alternate_row_background_dark</item>
         <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
 
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
     <!-- black theme -->
     <style name="GadgetbridgeThemeBlack" parent="GadgetbridgeThemeDark">
         <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
     </style>
 
     <!-- Material 3 dynamic color (Material You) themes -->
@@ -87,6 +91,7 @@
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
@@ -101,6 +106,7 @@
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
         <item name="android:windowBackground">@android:color/black</item>
