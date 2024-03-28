@@ -9,6 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.unknown.UnknownDeviceSupport;
 
 public class ScannableDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
@@ -17,7 +18,7 @@ public class ScannableDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificApplicationSettings() {
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_scannable
         };
@@ -36,7 +37,7 @@ public class ScannableDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return null;
+        return UnknownDeviceSupport.class;
     }
 
     @Override
