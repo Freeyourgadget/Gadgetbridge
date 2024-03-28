@@ -255,6 +255,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private OsmandEventReceiver mOsmandAidlHelper = null;
 
+    private HashMap<String, Long> deviceLastScannedTimestamps = new HashMap<>();
+
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
             "com.android.music.playstatechanged",
@@ -270,19 +272,24 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private final String COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
     private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
+    private final String ACTION_DEVICE_SCANNED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_SCANNED";
     private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
     private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
-    private void sendDeviceConnectedBroadcast(String address){
+    private void sendDeviceAPIBroadcast(String address, String action){
         if(!allowBluetoothIntentApi){
             GB.log("not sending API event due to settings", GB.INFO, null);
             return;
         }
-        Intent intent = new Intent(ACTION_DEVICE_CONNECTED);
+        Intent intent = new Intent(action);
         intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
 
         sendBroadcast(intent);
+    }
+
+    private void sendDeviceConnectedBroadcast(String address){
+        sendDeviceAPIBroadcast(address, ACTION_DEVICE_CONNECTED);
     }
 
     BroadcastReceiver bluetoothCommandReceiver = new BroadcastReceiver() {
@@ -368,6 +375,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     LOG.debug("device state update reason");
                     sendDeviceConnectedBroadcast(device.getAddress());
                     sendCachedNotifications(device);
+                }else if(subject == GBDevice.DeviceUpdateSubject.CONNECTION_STATE && (device.getState() == GBDevice.State.SCANNED)){
+                    sendDeviceAPIBroadcast(device.getAddress(), ACTION_DEVICE_SCANNED);
                 }
             }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
                 String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
@@ -379,6 +388,44 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
                 if(target == null){
                     LOG.error("onReceive: device not found");
+                    return;
+                }
+
+                if(!target.getDeviceCoordinator().isConnectable()){
+                    int actualRSSI = intent.getIntExtra(BLEScanService.EXTRA_RSSI, 0);
+                    Prefs prefs = new Prefs(
+                            GBApplication.getDeviceSpecificSharedPrefs(target.getAddress())
+                    );
+                    long timeoutSeconds = prefs.getLong("devicesetting_scannable_debounce", 60);
+                    long minimumUnseenSeconds = prefs.getLong("devicesetting_scannable_unseen", 0);
+                    int thresholdRSSI = prefs.getInt("devicesetting_scannable_rssi", -100);
+
+                    if(actualRSSI < thresholdRSSI){
+                        LOG.debug("ignoring {} since RSSI is too low ({} < {})", deviceAddress, actualRSSI, thresholdRSSI);
+                        return;
+                    }
+
+                    Long lastSeenTimestamp = deviceLastScannedTimestamps.get(deviceAddress);
+                    deviceLastScannedTimestamps.put(deviceAddress, System.currentTimeMillis());
+
+                    if(lastSeenTimestamp != null){
+                        long secondsSince = (System.currentTimeMillis() - lastSeenTimestamp) / 1000;
+                        if(secondsSince < minimumUnseenSeconds){
+                            LOG.debug("ignoring {}, since only {} seconds passed (< {})", deviceAddress, secondsSince, minimumUnseenSeconds);
+                            return;
+                        }
+                    }
+
+                    target.setState(GBDevice.State.SCANNED);
+                    target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+                    new Handler().postDelayed(() -> {
+                        if(target.getState() != GBDevice.State.SCANNED){
+                            return;
+                        }
+                        deviceLastScannedTimestamps.put(target.getAddress(), System.currentTimeMillis());
+                        target.setState(GBDevice.State.WAITING_FOR_SCAN);
+                        target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+                    }, timeoutSeconds * 1000);
                     return;
                 }
 
@@ -501,6 +548,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private void connectToDevice(GBDevice device, boolean firstTime){
+        if(!device.getDeviceCoordinator().isConnectable()){
+            GB.toast("Cannot connect to Scannable Device", Toast.LENGTH_SHORT, GB.INFO);
+            return;
+        }
+
         List<GBDevice> gbDevs = null;
         boolean fromExtra = false;
 

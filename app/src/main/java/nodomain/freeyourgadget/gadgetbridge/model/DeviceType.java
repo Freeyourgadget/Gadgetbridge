@@ -151,6 +151,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qc35.QC35Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.scannable.ScannableDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsCoordinator;
@@ -374,6 +375,7 @@ public enum DeviceType {
     SONY_WENA_3(SonyWena3Coordinator.class),
     FEMOMETER_VINCA2(FemometerVinca2DeviceCoordinator.class),
     PIXOO(PixooCoordinator.class),
+    SCANNABLE(ScannableDeviceCoordinator.class),
     TEST(TestDeviceCoordinator.class);
 
     private DeviceCoordinator coordinator;

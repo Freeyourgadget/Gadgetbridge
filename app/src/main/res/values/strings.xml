@@ -2711,4 +2711,12 @@
     <string name="unbind_before_pair_message">This device is already bound in Android settings, which can make pairing fail for some devices.\n\nIf adding the device fails, please remove it in Android settings and try again.</string>
     <string name="companion_pairing_request_title">Companion device</string>
     <string name="companion_pairing_request_description">Pair this device as companion?.\n\nThis is recommended for some functions such as find device, and provides a better connection.</string>
+    <string name="devicetype_scannable">Scannable device</string>
+    <string name="state_scanned">Scanned</string>
+    <string name="devicesetting_scannable_debounce">Scannable debounce timeout (seconds)</string>
+    <string name="devicesetting_scannable_minimum_unseen">Minimum unseen time (seconds)</string>
+    <string name="devicesetting_scannable_rssi">Minimal RSSI threshold</string>
+    <string name="devicesetting_scannable_debounce_summary">After being scanned, the device will stick as scanned and ignored for the specified amount of time</string>
+    <string name="devicesetting_scannable_minimum_unseen_summary">After being scanned, the device has to be unseen for this amount of time before being registered again</string>
+    <string name="devicesetting_scannable_rssi_summary">The minimum RSSI threshold for detection</string>
 </resources>

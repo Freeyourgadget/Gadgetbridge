@@ -124,6 +124,14 @@ public interface DeviceCoordinator {
     ConnectionType getConnectionType();
 
     /**
+     * Returns false is the Device is not connectable,
+     * only scannable, like beacons
+     *
+     * @return boolean
+     */
+    boolean isConnectable();
+
+    /**
      * Checks whether this coordinator handles the given candidate.
      *
      * @param candidate

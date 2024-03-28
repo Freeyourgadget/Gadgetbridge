@@ -1005,10 +1005,15 @@ public class DebugActivity extends AbstractGBActivity {
             return;
         }
         DeviceType deviceType = DeviceType.values()[(int) deviceKey];
+        String deviceName = deviceType.name();
+        int deviceNameResource = deviceType.getDeviceCoordinator().getDeviceNameResource();
+        if(deviceNameResource != 0){
+            deviceName = context.getString(deviceNameResource);
+        }
         try (
             DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
-            GBDevice gbDevice = new GBDevice(deviceMac, deviceType.name(), "", null, deviceType);
+            GBDevice gbDevice = new GBDevice(deviceMac, deviceName, "", null, deviceType);
             gbDevice.setFirmwareVersion("N/A");
             gbDevice.setFirmwareVersion2("N/A");
 
@@ -1018,7 +1023,7 @@ public class DebugActivity extends AbstractGBActivity {
             Device device = DBHelper.getDevice(gbDevice, daoSession); //the addition happens here
             Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
             LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
-            GB.toast(context, "Added test device: " + deviceType.name(), Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(context, "Added test device: " + deviceName, Toast.LENGTH_SHORT, GB.INFO);
 
         } catch (
                 Exception e) {

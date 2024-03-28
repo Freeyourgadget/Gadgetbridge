@@ -258,6 +258,16 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         holder.root.setBackgroundColor(Color.argb(alpha, 0, 0, 0));
     }
 
+    void handleDeviceConnect(GBDevice device){
+        if(!device.getDeviceCoordinator().isConnectable()){
+            device.setState(GBDevice.State.WAITING_FOR_SCAN);
+            device.sendDeviceUpdateIntent(GBApplication.getContext(), GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+            return;
+        }
+
+        GBApplication.deviceService(device).connect();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GBDevice device = devicesListWithFolders.get(position);
@@ -298,7 +308,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         createDynamicShortcut(device);
                     }
-                    GBApplication.deviceService(device).connect();
+                    handleDeviceConnect(device);
                 }
             }
         });
@@ -853,7 +863,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     case R.id.controlcenter_device_submenu_connect:
                         if (device.getState() != GBDevice.State.CONNECTED) {
                             showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
-                            GBApplication.deviceService(device).connect();
+                            handleDeviceConnect(device);
                         }
                         return true;
                     case R.id.controlcenter_device_submenu_disconnect:

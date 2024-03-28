@@ -62,6 +62,7 @@ public class BLEScanService extends Service {
 
     public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
     public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
+    public static final String EXTRA_RSSI = "EXTRA_RSSI";
 
     // 5 minutes scan restart interval
     private final int DELAY_SCAN_RESTART = 5 * 60 * 1000;
@@ -100,6 +101,7 @@ public class BLEScanService extends Service {
 
             Intent intent = new Intent(EVENT_DEVICE_FOUND);
             intent.putExtra(EXTRA_DEVICE_ADDRESS, device.getAddress());
+            intent.putExtra(EXTRA_RSSI, result.getRssi());
             localBroadcastManager.sendBroadcast(intent);
 
             // device found, attempt connection
