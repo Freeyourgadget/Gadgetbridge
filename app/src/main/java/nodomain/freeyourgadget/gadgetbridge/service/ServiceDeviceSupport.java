@@ -474,11 +474,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        if (checkBusy("send weather event")) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        if (checkBusy("send weather events")) {
             return;
         }
-        delegate.onSendWeather(weatherSpec);
+        delegate.onSendWeather(weatherSpecs);
     }
 
     @Override

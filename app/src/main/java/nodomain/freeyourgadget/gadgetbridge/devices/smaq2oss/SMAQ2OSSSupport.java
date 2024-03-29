@@ -260,7 +260,8 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         try {
             TransactionBuilder builder;
             builder = performInitialized("Sending current weather");

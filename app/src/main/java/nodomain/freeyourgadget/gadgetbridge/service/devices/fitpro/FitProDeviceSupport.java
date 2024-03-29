@@ -550,7 +550,8 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         LOG.debug("FitPro send weather");
         short todayMax = (short) (weatherSpec.todayMaxTemp - 273);
         short todayMin = (short) (weatherSpec.todayMinTemp - 273);

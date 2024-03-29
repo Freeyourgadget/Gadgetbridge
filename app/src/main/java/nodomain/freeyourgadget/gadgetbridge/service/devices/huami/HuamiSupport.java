@@ -3101,7 +3101,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
         if (!coordinator.supportsWeather()) {
             return;
@@ -3117,6 +3117,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if (gbDevice.getType() == DeviceType.AMAZFITBIP && version.compareTo(new Version("0.0.8.74")) < 0) {
             supportsConditionString = false;
         }
+
+        final WeatherSpec weatherSpec = weatherSpecs.get(0);
 
         MiBandConst.DistanceUnit unit = HuamiCoordinator.getDistanceUnit();
         int tz_offset_hours = SimpleTimeZone.getDefault().getOffset(weatherSpec.timestamp * 1000L) / (1000 * 60 * 60);

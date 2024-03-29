@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import lineageos.weather.LineageWeatherManager;
@@ -201,8 +202,9 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
                 gbForecast.conditionCode = Weather.mapToOpenWeatherMapCondition(LineageOSToYahooCondition(cmForecast.getConditionCode()));
                 weatherSpec.forecasts.add(gbForecast);
             }
-            Weather.getInstance().setWeatherSpec(weatherSpec);
-            GBApplication.deviceService().onSendWeather(weatherSpec);
+            ArrayList<WeatherSpec> weatherSpecs = new ArrayList<>(Collections.singletonList(weatherSpec));
+            Weather.getInstance().setWeatherSpec(weatherSpecs);
+            GBApplication.deviceService().onSendWeather(weatherSpecs);
         } else {
             LOG.info("request has returned null for WeatherInfo");
         }

@@ -584,7 +584,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         try {
             TransactionBuilder builder = performInitialized("sendWeather");
 

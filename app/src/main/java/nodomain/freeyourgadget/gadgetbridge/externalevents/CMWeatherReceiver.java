@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import cyanogenmod.weather.CMWeatherManager;
@@ -176,8 +177,9 @@ public class CMWeatherReceiver extends BroadcastReceiver implements CMWeatherMan
                 gbForecast.conditionCode = Weather.mapToOpenWeatherMapCondition(CMtoYahooCondintion(cmForecast.getConditionCode()));
                 weatherSpec.forecasts.add(gbForecast);
             }
-            Weather.getInstance().setWeatherSpec(weatherSpec);
-            GBApplication.deviceService().onSendWeather(weatherSpec);
+            ArrayList<WeatherSpec> weatherSpecs = new ArrayList<>(Collections.singletonList(weatherSpec));
+            Weather.getInstance().setWeatherSpec(weatherSpecs);
+            GBApplication.deviceService().onSendWeather(weatherSpecs);
         } else {
             LOG.info("request has returned null for WeatherInfo");
         }

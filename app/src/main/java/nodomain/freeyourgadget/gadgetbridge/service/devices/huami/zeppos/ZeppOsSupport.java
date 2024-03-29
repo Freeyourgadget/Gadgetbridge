@@ -837,7 +837,9 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     }
 
     @Override
-    public void onSendWeather(final WeatherSpec weatherSpec) {
+    public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
+        final WeatherSpec weatherSpec = weatherSpecs.get(0);
+
         // Weather is not sent directly to the bands, they send HTTP requests for each location.
         // When we have a weather update, set the default location to that location on the band.
         // TODO: Support for multiple weather locations

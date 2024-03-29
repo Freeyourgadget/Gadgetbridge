@@ -599,7 +599,8 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         if(weatherSpec.forecasts.size() < 4) return;
 
         ArrayList<WeatherDay> days = new ArrayList<>();

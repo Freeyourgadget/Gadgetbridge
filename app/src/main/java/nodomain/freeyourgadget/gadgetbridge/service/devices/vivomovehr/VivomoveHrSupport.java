@@ -115,6 +115,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -936,8 +937,8 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
     private boolean foreground;
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        sendWeatherConditions(weatherSpec);
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        sendWeatherConditions(weatherSpecs.get(0));
     }
 
     private final Map<Integer, DirectoryEntry> filesToDownload = new ConcurrentHashMap<>();

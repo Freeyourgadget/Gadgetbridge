@@ -398,8 +398,8 @@ public class XiaomiSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(final WeatherSpec weatherSpec) {
-        weatherService.onSendWeather(weatherSpec);
+    public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
+        weatherService.onSendWeather(weatherSpecs.get(0));
     }
 
     @Override

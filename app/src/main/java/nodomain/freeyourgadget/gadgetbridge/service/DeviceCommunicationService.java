@@ -1031,9 +1031,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_SEND_WEATHER: {
-                WeatherSpec weatherSpec = intent.getParcelableExtra(EXTRA_WEATHER);
-                if (weatherSpec != null) {
-                    deviceSupport.onSendWeather(weatherSpec);
+                ArrayList<WeatherSpec> weatherSpecs = (ArrayList<WeatherSpec>) intent.getSerializableExtra(EXTRA_WEATHER);
+                if (weatherSpecs != null && !weatherSpecs.isEmpty()) {
+                    deviceSupport.onSendWeather(weatherSpecs);
                 }
                 break;
             }

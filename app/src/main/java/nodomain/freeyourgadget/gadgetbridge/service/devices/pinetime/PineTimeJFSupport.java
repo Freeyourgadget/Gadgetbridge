@@ -1027,7 +1027,9 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
+
         if (this.firmwareVersionMajor < 1 || (this.firmwareVersionMajor == 1 && this.firmwareVersionMinor <= 7)) {
             // Not supported
             return;

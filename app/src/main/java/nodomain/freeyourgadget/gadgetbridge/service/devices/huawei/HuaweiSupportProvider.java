@@ -1712,12 +1712,14 @@ public class HuaweiSupportProvider {
         return Weather.WeatherIcon.UNKNOWN;
     }
 
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
         // Initialize weather settings and send weather
         if (!getHuaweiCoordinator().supportsWeather()) {
             LOG.error("onSendWeather called while weather is not supported.");
             return;
         }
+
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
 
         Weather.Settings weatherSettings = new Weather.Settings();
 

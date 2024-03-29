@@ -1644,7 +1644,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         try {
             JSONObject o = new JSONObject();
             o.put("t", "weather");

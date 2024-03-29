@@ -584,7 +584,8 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
     }
 
     @Override
-    public void onSendWeather(final WeatherSpec weatherSpec) {
+    public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) {
+        final WeatherSpec weatherSpec = weatherSpecs.get(0);
         // TODO consider adjusting the condition code for clear/sunny so "clear" at night doesn't show a sunny icon (perhaps 23 decimal)?
         // Each weather entry takes up 9 bytes
         // There are 7 of those weather entries - 7*9 bytes

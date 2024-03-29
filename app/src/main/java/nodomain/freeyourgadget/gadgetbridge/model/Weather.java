@@ -17,6 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,28 +28,47 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Weather {
     private static final Logger LOG = LoggerFactory.getLogger(Weather.class);
 
-    private WeatherSpec weatherSpec = null;
+    private final ArrayList<WeatherSpec> weatherSpecs = new ArrayList<>();
 
     private JSONObject reconstructedOWMForecast = null;
 
     private File cacheFile;
 
-    public WeatherSpec getWeatherSpec() {
-        return weatherSpec;
+    private Weather() {
+        // Use getInstance
     }
 
-    public void setWeatherSpec(WeatherSpec weatherSpec) {
-        this.weatherSpec = weatherSpec;
+    @Nullable
+    public WeatherSpec getWeatherSpec() {
+        if (weatherSpecs.isEmpty()) {
+            return null;
+        }
+
+        return weatherSpecs.get(0);
+    }
+
+    public List<WeatherSpec> getWeatherSpecs() {
+        return weatherSpecs;
+    }
+
+    public void setWeatherSpec(final List<WeatherSpec> newWeatherSpecs) {
+        weatherSpecs.clear();
+        weatherSpecs.addAll(newWeatherSpecs);
         saveToCache();
     }
 
     public JSONObject createReconstructedOWMWeatherReply() {
+        final WeatherSpec weatherSpec = getWeatherSpec();
         if (weatherSpec == null) {
             return null;
         }
@@ -208,6 +229,7 @@ public class Weather {
 
         }
     }
+
     public static int mapToYahooCondition(int openWeatherMapCondition) {
         // openweathermap.org conditions:
         // http://openweathermap.org/weather-conditions
@@ -1133,24 +1155,29 @@ public class Weather {
      * @param enabled whether caching is enabled
      */
     public void setCacheFile(final File cacheDir, final boolean enabled) {
+        // FIXME: Do not use serializable for this
+
         cacheFile = new File(cacheDir, "weatherCache.bin");
 
         if (enabled) {
             LOG.info("Setting weather cache file to {}", cacheFile.getPath());
 
-            if (cacheFile.isFile() && weatherSpec == null) {
-                try (final FileInputStream f = new FileInputStream(cacheFile)) {
-                    final ObjectInputStream o = new ObjectInputStream(f);
-
-                    weatherSpec = (WeatherSpec) o.readObject();
-
-                    o.close();
+            if (cacheFile.isFile() && weatherSpecs.isEmpty()) {
+                try (final ObjectInputStream o = new ObjectInputStream(new FileInputStream(cacheFile))) {
+                    final ArrayList<WeatherSpec> cachedSpecs = (ArrayList<WeatherSpec>) o.readObject();
+                    weatherSpecs.addAll(cachedSpecs);
+                } catch (final ObjectStreamException e) {
+                    LOG.error("Failed to deserialize weather from cache", e);
+                    // keep cacheFile set - it's most likely an older version
+                } catch (final IOException e) {
+                    LOG.error("Failed to read weather cache file", e);
+                    // Something is wrong with the file
+                    cacheFile = null;
                 } catch (final Throwable e) {
                     LOG.error("Failed to read weather from cache", e);
-                    weatherSpec = null;
-                    cacheFile = null;
+                    // keep cacheFile set - it's most likely an older version
                 }
-            } else if (weatherSpec != null) {
+            } else if (!weatherSpecs.isEmpty()) {
                 saveToCache();
             }
         } else {
@@ -1171,20 +1198,14 @@ public class Weather {
      * Save the current weather to cache, if a cache file is enabled and the weather is not null.
      */
     public void saveToCache() {
-        if (weatherSpec == null || cacheFile == null) {
+        if (weatherSpecs.isEmpty() || cacheFile == null) {
             return;
         }
 
         LOG.info("Loading weather from cache {}", cacheFile.getPath());
 
-        try {
-            final FileOutputStream f = new FileOutputStream(cacheFile);
-            final ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(weatherSpec);
-
-            o.close();
-            f.close();
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(cacheFile))) {
+            o.writeObject(weatherSpecs);
         } catch (final Throwable e) {
             LOG.error("Failed to save weather to cache", e);
         }

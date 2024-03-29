@@ -372,9 +372,4 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
-    }
 }

@@ -128,7 +128,7 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        supportProvider.onSendWeather(weatherSpec);
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        supportProvider.onSendWeather(weatherSpecs);
     }
 }

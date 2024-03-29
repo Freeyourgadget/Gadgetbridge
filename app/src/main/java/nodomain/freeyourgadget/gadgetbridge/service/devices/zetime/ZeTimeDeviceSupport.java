@@ -597,7 +597,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         byte[] weather = new byte[weatherSpec.location.getBytes(StandardCharsets.UTF_8).length + 26]; // 26 bytes for weatherdata and overhead
         weather[0] = ZeTimeConstants.CMD_PREAMBLE;
         weather[1] = ZeTimeConstants.CMD_PUSH_WEATHER_DATA;

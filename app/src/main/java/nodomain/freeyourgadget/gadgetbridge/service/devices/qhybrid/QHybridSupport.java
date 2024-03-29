@@ -695,8 +695,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        watchAdapter.onSendWeather(weatherSpec);
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        watchAdapter.onSendWeather(weatherSpecs.get(0));
     }
 
     @Override

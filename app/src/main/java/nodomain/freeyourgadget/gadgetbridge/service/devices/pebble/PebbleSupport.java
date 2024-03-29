@@ -226,9 +226,9 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
         if (reconnect()) {
-            super.onSendWeather(weatherSpec);
+            super.onSendWeather(weatherSpecs);
         }
     }
 }

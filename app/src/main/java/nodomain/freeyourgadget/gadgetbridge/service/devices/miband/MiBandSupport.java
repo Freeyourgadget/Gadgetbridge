@@ -1209,11 +1209,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
-    }
-
     /**
      * Analyse and decode sensor data from ADXL362 accelerometer
      * @param value to decode

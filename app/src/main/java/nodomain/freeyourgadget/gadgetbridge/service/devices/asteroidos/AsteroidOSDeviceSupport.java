@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
@@ -215,7 +216,8 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
+        WeatherSpec weatherSpec = weatherSpecs.get(0);
         AsteroidOSWeather asteroidOSWeather = new AsteroidOSWeather(weatherSpec);
         TransactionBuilder builder = new TransactionBuilder("send weather info");
         // Send city name

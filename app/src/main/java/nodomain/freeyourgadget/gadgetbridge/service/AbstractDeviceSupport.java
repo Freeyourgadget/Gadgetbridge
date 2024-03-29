@@ -1156,11 +1156,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     /**
      * If the device can receive weather information, this method can be
-     * overridden and implemented by the device support class.
-     * @param weatherSpec weather information
+     * overridden and implemented by the device support class. It's guaranteed
+     * that there is always at least one weatherSpec, with the first being the
+     * primary weather (not necessarily current location).
+     * @param weatherSpecs weather information
      */
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
 
     }
 

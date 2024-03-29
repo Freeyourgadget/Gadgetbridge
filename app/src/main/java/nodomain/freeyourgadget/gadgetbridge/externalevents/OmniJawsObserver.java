@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
@@ -136,8 +138,9 @@ public class OmniJawsObserver extends ContentObserver {
                     }
                 }
 
-                Weather.getInstance().setWeatherSpec(weatherSpec);
-                GBApplication.deviceService().onSendWeather(weatherSpec);
+                ArrayList<WeatherSpec> weatherSpecs = new ArrayList<>(Collections.singletonList(weatherSpec));
+                Weather.getInstance().setWeatherSpec(weatherSpecs);
+                GBApplication.deviceService().onSendWeather(weatherSpecs);
 
             } finally {
                 c.close();

@@ -374,10 +374,9 @@ public class DebugActivity extends AbstractGBActivity {
                         weatherSpec.forecasts.add(gbForecast);
                     }
 
-                    Weather.getInstance().setWeatherSpec(weatherSpec);
+                    Weather.getInstance().setWeatherSpec(new ArrayList<>(Collections.singletonList(weatherSpec)));
                 }
-
-                GBApplication.deviceService().onSendWeather(Weather.getInstance().getWeatherSpec());
+                GBApplication.deviceService().onSendWeather(new ArrayList<>(Collections.singletonList(Weather.getInstance().getWeatherSpec())));
             }
         });
 
@@ -385,18 +384,27 @@ public class DebugActivity extends AbstractGBActivity {
         showCachedWeatherButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                final String weatherInfo = getWeatherInfo();
+                final List<WeatherSpec> weatherSpecs = Weather.getInstance().getWeatherSpecs();
+
+                if (weatherSpecs == null || weatherSpecs.isEmpty()) {
+                    displayWeatherInfo(null);
+                    return;
+                } else if (weatherSpecs.size() == 1) {
+                    displayWeatherInfo(weatherSpecs.get(0));
+                    return;
+                }
+
+                final String[] weatherLocations = new String[weatherSpecs.size()];
+
+                for (int i = 0; i < weatherSpecs.size(); i++) {
+                    weatherLocations[i] = weatherSpecs.get(i).location;
+                }
 
                 new MaterialAlertDialogBuilder(DebugActivity.this)
                         .setCancelable(true)
-                        .setTitle("Cached Weather Data")
-                        .setMessage(weatherInfo)
-                        .setPositiveButton(R.string.ok, (dialog, which) -> {
-                        })
-                        .setNeutralButton(android.R.string.copy, (dialog, which) -> {
-                            final ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Weather Info", weatherInfo);
-                            clipboard.setPrimaryClip(clip);
+                        .setTitle("Choose Location")
+                        .setItems(weatherLocations, (dialog, which) -> displayWeatherInfo(weatherSpecs.get(which)))
+                        .setNegativeButton("Cancel", (dialog, which) -> {
                         })
                         .show();
             }
@@ -1045,14 +1053,30 @@ public class DebugActivity extends AbstractGBActivity {
         return TextUtils.join(separator, mac).toUpperCase(Locale.ROOT);
     }
 
-    private String getWeatherInfo() {
+    private void displayWeatherInfo(final WeatherSpec weatherSpec) {
+        final String weatherInfo = getWeatherInfo(weatherSpec);
+
+        new MaterialAlertDialogBuilder(DebugActivity.this)
+                .setCancelable(true)
+                .setTitle("Cached Weather Data")
+                .setMessage(weatherInfo)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                })
+                .setNeutralButton(android.R.string.copy, (dialog, which) -> {
+                    final ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Weather Info", weatherInfo);
+                    clipboard.setPrimaryClip(clip);
+                })
+                .show();
+    }
+
+    private String getWeatherInfo(final WeatherSpec weatherSpec) {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT);
 
         final StringBuilder builder = new StringBuilder();
-        WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
 
         if (weatherSpec == null)
-            return "Weather cache is empty...";
+            return "Weather cache is empty.";
 
         builder.append("Location: ").append(weatherSpec.location).append("\n");
         builder.append("Timestamp: ").append(weatherSpec.timestamp).append("\n");

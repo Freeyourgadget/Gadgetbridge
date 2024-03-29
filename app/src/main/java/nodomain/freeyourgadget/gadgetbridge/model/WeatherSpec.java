@@ -64,7 +64,7 @@ public class WeatherSpec implements Parcelable, Serializable {
     public int sunSet; // unix epoch timestamp, in seconds
     public int moonRise; // unix epoch timestamp, in seconds
     public int moonSet; // unix epoch timestamp, in seconds
-    public int moonPhase; // deg
+    public int moonPhase; // deg [0, 360[
     public float latitude;
     public float longitude;
     public int feelsLikeTemp; // kelvin
