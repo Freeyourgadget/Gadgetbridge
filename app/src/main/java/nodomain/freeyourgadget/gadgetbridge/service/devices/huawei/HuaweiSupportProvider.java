@@ -607,10 +607,6 @@ public class HuaweiSupportProvider {
 	            AcceptAgreementsRequest acceptAgreementsRequest = new AcceptAgreementsRequest(this);
 		        acceptAgreementsRequest.doPerform();
             }
-            if (getHuaweiCoordinator().supportsAccount()) {
-                SendAccountRequest sendAccountReq = new SendAccountRequest(this);
-                sendAccountReq.doPerform();
-            }
             if (getHuaweiCoordinator().supportsActivityType()) {
                 GetActivityTypeRequest activityTypeReq = new GetActivityTypeRequest(this);
                 activityTypeReq.doPerform();
