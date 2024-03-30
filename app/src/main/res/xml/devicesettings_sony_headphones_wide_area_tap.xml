@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_touch"
         android:key="pref_wide_area_tap"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_wide_area_tap_summary"
         android:title="@string/pref_wide_area_tap_title" />
 </androidx.preference.PreferenceScreen>

@@ -17,30 +17,35 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_rotate_left"
             android:key="crown_vibration"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_crown_vibration" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_warning_gray"
             android:key="alert_tone"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_alert_tone" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_volume_off"
             android:key="cover_to_mute"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_cover_to_mute" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_vibration"
             android:key="vibrate_for_alert"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_vibrate_for_alert" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_voice"
             android:key="text_to_speech"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_text_to_speech" />
     </PreferenceScreen>
 </androidx.preference.PreferenceScreen>

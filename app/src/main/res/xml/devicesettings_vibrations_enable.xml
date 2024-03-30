@@ -5,6 +5,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_vibration"
         android:key="vibration_enable"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/enable_vibrations_summary"
         android:title="@string/prefs_vibration_enable" />
 </androidx.preference.PreferenceScreen>

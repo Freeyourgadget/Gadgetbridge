@@ -14,12 +14,14 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_running_enabled"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_running"/>
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_running_ask_first"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_ask_first"
                 android:summary="@string/pref_workout_detection_ask_first_summary"
                 android:icon="@drawable/ic_warning_gray"
@@ -40,12 +42,14 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_biking_enabled"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_biking"/>
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_biking_ask_first"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_ask_first"
                 android:summary="@string/pref_workout_detection_ask_first_summary"
                 android:icon="@drawable/ic_warning_gray"
@@ -66,12 +70,14 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_walking_enabled"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_walking"/>
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_walking_ask_first"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_ask_first"
                 android:summary="@string/pref_workout_detection_ask_first_summary"
                 android:icon="@drawable/ic_warning_gray"
@@ -92,12 +98,14 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_rowing_enabled"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_enabled"
                 android:summary="@string/pref_workout_detection_summary"
                 android:icon="@drawable/ic_activity_rowing"/>
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="activity_recognize_rowing_ask_first"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_workout_detection_ask_first"
                 android:summary="@string/pref_workout_detection_ask_first_summary"
                 android:icon="@drawable/ic_warning_gray"
@@ -140,12 +148,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="fossil_hr_nav_auto_foreground"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_fossil_hr_nav_foreground"
             android:summary="@string/pref_summary_fossil_hr_nav_foreground"
             android:icon="@drawable/ic_info"/>
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="fossil_hr_nav_vibrate"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_fossil_hr_nav_vibrate"
             android:summary="@string/pref_summary_fossil_hr_nav_vibrate"
             android:icon="@drawable/ic_action_find_lost_device"/>

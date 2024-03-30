@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_notifications"
         android:key="disable_find_phone_with_dnd"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/pref_disable_find_phone_with_dnd" />
 </PreferenceScreen>

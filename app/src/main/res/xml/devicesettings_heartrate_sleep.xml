@@ -11,6 +11,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_sleep"
             android:key="heartrate_sleep_detection"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/miband_prefs_hr_sleep_detection" />
 
         <ListPreference

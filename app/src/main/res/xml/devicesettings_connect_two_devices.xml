@@ -5,6 +5,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_devices_other"
         android:key="pref_sony_connect_two_devices"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sony_connect_two_devices" />
 
 </androidx.preference.PreferenceScreen>

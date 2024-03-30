@@ -4,5 +4,6 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_touch"
         android:key="pref_sony_touch_sensor"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sony_touch_sensor" />
 </androidx.preference.PreferenceScreen>

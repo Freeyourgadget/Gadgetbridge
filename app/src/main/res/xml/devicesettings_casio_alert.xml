@@ -4,30 +4,35 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_email"
         android:key="casio_alert_email"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_casio_alert_email"
         android:title="@string/pref_title_casio_alert_email" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@drawable/ic_message_outline"
         android:key="casio_alert_sms"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_casio_alert_sms"
         android:title="@string/pref_title_casio_alert_sms" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@android:drawable/ic_menu_call"
         android:key="casio_alert_call"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_casio_alert_call"
         android:title="@string/pref_title_casio_alert_call" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@android:drawable/ic_menu_my_calendar"
         android:key="casio_alert_calendar"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_casio_alert_calendar"
         android:title="@string/pref_title_casio_alert_calendar" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@android:drawable/ic_menu_help"
         android:key="casio_alert_other"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_casio_alert_other"
         android:title="@string/pref_title_casio_alert_other" />
 </androidx.preference.PreferenceScreen>

@@ -59,6 +59,7 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="zepp_os_alexa_ask_more_input"
+                android:layout="@layout/preference_checkbox"
                 android:summary="Continue listening after sending the reply"
                 android:title="Ask for more input" />
 

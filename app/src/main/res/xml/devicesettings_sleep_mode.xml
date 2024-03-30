@@ -10,6 +10,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_sleep"
             android:key="pref_sleep_mode_sleep_screen"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_sleep_mode_sleep_screen_summary"
             android:title="@string/pref_sleep_mode_sleep_screen_title" />
 
@@ -17,6 +18,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_auto_awesome"
             android:key="pref_sleep_mode_smart_enable"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_sleep_mode_smart_enable_summary"
             android:title="@string/pref_sleep_mode_smart_enable_title" />
     </PreferenceScreen>

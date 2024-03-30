@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_vibration"
         android:key="pref_antilost_enabled"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/lefun_prefs_antilost_summary"
         android:title="@string/lefun_prefs_antilost_title" />
 </androidx.preference.PreferenceScreen>

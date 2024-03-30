@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_translate"
         android:key="banglejs_text_bitmap"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_banglejs_text_bitmap"
         android:title="@string/pref_title_banglejs_text_bitmap" />
     <EditTextPreference

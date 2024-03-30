@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_block"
         android:key="autoremove_message"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/prefs_autoremove_message" />
 </androidx.preference.PreferenceScreen>

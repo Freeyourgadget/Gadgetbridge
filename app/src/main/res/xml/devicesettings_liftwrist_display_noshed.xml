@@ -4,5 +4,6 @@
         android:icon="@drawable/ic_arrow_upward"
         android:defaultValue="false"
         android:key="activate_display_on_lift_wrist_noshed"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/mi2_prefs_activate_display_on_lift" />
 </androidx.preference.PreferenceScreen>

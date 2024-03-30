@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_verified"
         android:defaultValue="false"
         android:key="relax_firmware_checks"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_relax_firmware_checks"
         android:title="@string/pref_title_relax_firmware_checks" />
 </androidx.preference.PreferenceScreen>

@@ -7,6 +7,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_gps_location"
             android:key="banglejs_gps_update"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_banglejs_phone_gps_enbale"
             android:title="@string/pref_title_banglejs_phone_gps_enbale" />
         <EditTextPreference
@@ -22,6 +23,7 @@
             android:dependency="banglejs_gps_update"
             android:icon="@drawable/ic_gps_location"
             android:key="banglejs_gps_use_network_only"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_banglejs_phone_gps_network_only"
             android:title="@string/pref_title_banglejs_phone_gps_network_only" />
     </PreferenceCategory>

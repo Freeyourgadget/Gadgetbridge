@@ -18,6 +18,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="zetime_activity_tracking"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/zetime_activity_tracking_summary"
             android:title="@string/zetime_activity_tracking"
             app:iconSpaceReserved="false" />
@@ -80,6 +81,7 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="inactivity_warnings_enable"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/mi2_prefs_inactivity_warnings_summary"
                 android:title="@string/mi2_prefs_inactivity_warnings"
                 app:iconSpaceReserved="false" />
@@ -116,36 +118,43 @@
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_mo"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_mo"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_tu"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_tu"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_we"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_we"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_th"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_th"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_fr"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_fr"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_sa"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_sa"
                     app:iconSpaceReserved="false" />
                 <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="inactivity_warnings_su"
+                    android:layout="@layout/preference_checkbox"
                     android:title="@string/zetime_prefs_inactivity_su"
                     app:iconSpaceReserved="false" />
             </PreferenceCategory>
@@ -163,6 +172,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="zetime_handmove_display"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/zetime_handmove_display_summary"
             android:title="@string/zetime_handmove_display"
             app:iconSpaceReserved="false" />
@@ -188,6 +198,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="zetime_dont_del_actdata"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_keep_data_on_device"
             android:title="@string/pref_title_keep_data_on_device"
             app:iconSpaceReserved="false" />
@@ -255,6 +266,7 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="zetime_heartrate_alarm_enable"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/zetime_title_heart_rate_alarm_summary"
                 android:title="@string/zetime_heart_rate_alarm_enable"
                 app:iconSpaceReserved="false" />

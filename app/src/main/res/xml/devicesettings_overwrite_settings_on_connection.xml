@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_settings_applications"
         android:key="overwrite_settings_on_connection"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_overwrite_settings_on_connection"
         android:title="@string/pref_title_overwrite_settings_on_connection" />
 </androidx.preference.PreferenceScreen>

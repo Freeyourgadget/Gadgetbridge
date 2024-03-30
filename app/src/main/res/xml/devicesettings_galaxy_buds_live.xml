@@ -5,6 +5,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_hearing"
         android:key="pref_galaxy_buds_live_anc"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/prefs_active_noise_cancelling_summary"
         android:title="@string/prefs_active_noise_cancelling" />
 
@@ -28,6 +29,7 @@
                 android:disableDependentsState="true"
                 android:icon="@drawable/ic_lock_open"
                 android:key="pref_galaxy_buds_lock_touch"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_touch_lock_summary"
                 android:title="@string/prefs_touch_lock" />
             <ListPreference
@@ -53,6 +55,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_videogame"
             android:key="pref_galaxy_buds_game_mode"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_game_mode_summary"
             android:title="@string/prefs_game_mode" />
 
@@ -60,6 +63,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_engineering"
             android:key="pref_galaxy_buds_live_pressure_relief"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pressure_relief_summary"
             android:title="@string/prefs_pressure_relief" />
     </PreferenceCategory>

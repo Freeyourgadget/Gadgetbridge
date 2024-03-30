@@ -25,6 +25,7 @@
             android:defaultValue="true"
             android:icon="@drawable/ic_voice"
             android:key="pref_sony_focus_voice"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/sony_ambient_sound_focus_voice" />
 
     </PreferenceCategory>

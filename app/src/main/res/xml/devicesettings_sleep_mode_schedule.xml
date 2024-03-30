@@ -10,6 +10,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_sleep"
             android:key="sleep_mode_schedule_enabled"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_sleep_mode_schedule_summary"
             android:title="@string/pref_sleep_mode_schedule_title" />
 

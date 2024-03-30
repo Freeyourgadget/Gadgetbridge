@@ -94,14 +94,14 @@
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_widget_custom_hide_text"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_dialog_widget_timeout_hide_text"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_widget_custom_show_circle"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_dialog_widget_timeout_show_circle"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>

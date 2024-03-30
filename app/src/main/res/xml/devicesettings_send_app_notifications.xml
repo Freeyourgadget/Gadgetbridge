@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_notifications"
         android:key="send_app_notifications"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_send_app_notifications"
         android:title="@string/pref_title_send_app_notifications" />
 </androidx.preference.PreferenceScreen>

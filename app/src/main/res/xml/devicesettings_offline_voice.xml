@@ -19,18 +19,21 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_rotate_left"
             android:key="offline_voice_respond_turn_wrist"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/offline_voice_respond_turn_wrist" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_always_on_display"
             android:key="offline_voice_respond_screen_on"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/offline_voice_respond_screen_on" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_always_on_display"
             android:key="offline_voice_response_during_screen_lighting"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/offline_voice_response_during_screen_lighting" />
     </PreferenceScreen>
 </androidx.preference.PreferenceScreen>

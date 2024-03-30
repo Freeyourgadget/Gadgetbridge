@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_rotate_left"
         android:key="fake_ring_duration"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/prefs_fake_ring_duration" />
 </androidx.preference.PreferenceScreen>

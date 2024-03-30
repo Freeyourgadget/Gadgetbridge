@@ -10,6 +10,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_hydration_switch"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/lefun_prefs_hydration_reminder_title" />
         <EditTextPreference
             android:defaultValue="60"
@@ -21,6 +22,7 @@
             android:defaultValue="false"
             android:dependency="screen_hydration_reminder"
             android:key="pref_hydration_dnd"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/hydration_dnd_summary"
             android:title="@string/mi2_prefs_do_not_disturb" />
 

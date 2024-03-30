@@ -11,11 +11,13 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="save_raw_activity_files"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_qhybrid_save_raw_activity_files" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="dangerous_external_intents"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/qhybrid_pref_title_external_intents"
             android:summary="@string/qhybrid_pref_summary_external_intents" />
 
@@ -30,6 +32,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="enable_on_device_confirmation"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/qhybrid_title_on_device_confirmation"
             android:summary="@string/qhybrid_summary_on_device_confirmation" />
 

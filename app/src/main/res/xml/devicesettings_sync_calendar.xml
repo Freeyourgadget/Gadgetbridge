@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_calendar_sync"
         android:key="sync_calendar"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_sync_calendar"
         android:title="@string/pref_title_sync_caldendar" />
     <Preference

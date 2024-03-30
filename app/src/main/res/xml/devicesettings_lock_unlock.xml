@@ -4,5 +4,6 @@
         android:icon="@drawable/ic_lock_open"
         android:defaultValue="false"
         android:key="lock"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/pref_title_lock_unlock" />
 </androidx.preference.PreferenceScreen>

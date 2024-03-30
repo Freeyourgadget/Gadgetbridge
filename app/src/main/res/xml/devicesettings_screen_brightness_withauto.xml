@@ -10,6 +10,7 @@
             android:defaultValue="true"
             android:icon="@drawable/ic_wb_sunny"
             android:key="screen_auto_brightness"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_screen_auto_brightness_summary"
             android:title="@string/pref_screen_auto_brightness_title" />
 

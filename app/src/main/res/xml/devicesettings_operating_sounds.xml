@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_radio"
         android:key="operating_sounds"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/prefs_operating_sounds" />
 </androidx.preference.PreferenceScreen>

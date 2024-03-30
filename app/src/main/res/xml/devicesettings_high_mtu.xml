@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_mtu"
         android:defaultValue="true"
         android:key="allow_high_mtu"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_allow_high_mtu"
         android:title="@string/pref_title_allow_high_mtu" />
 </androidx.preference.PreferenceScreen>

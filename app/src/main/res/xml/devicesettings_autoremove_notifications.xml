@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_done_all"
         android:defaultValue="true"
         android:key="autoremove_notifications"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_autoremove_notifications"
         android:title="@string/pref_title_autoremove_notifications" />
 </androidx.preference.PreferenceScreen>

@@ -4,12 +4,14 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_notifications"
         android:key="enable_call_accept"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/pref_enable_call_accept"
         android:summary="@string/pref_enable_call_accept_summary" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:icon="@drawable/ic_notifications"
         android:key="enable_call_reject"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/pref_enable_call_reject"
         android:summary="@string/pref_enable_call_reject_summary" />
 </PreferenceScreen>

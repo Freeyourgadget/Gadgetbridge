@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_wb_sunny"
         android:key="autolight"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/prefs_autolight" />
 </androidx.preference.PreferenceScreen>

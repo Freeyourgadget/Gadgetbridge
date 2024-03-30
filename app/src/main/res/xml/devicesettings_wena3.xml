@@ -6,6 +6,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="pref_wena3_background_sync"
+            android:layout="@layout/preference_checkbox"
             android:icon="@drawable/ic_access_time"
             android:title="@string/prefs_wena3_item_background_sync"
             android:summary="@string/prefs_wena3_hint_background_sync" />
@@ -56,6 +57,7 @@
         <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_receive_calls_item"
             android:key="pref_wena3_receive_calls"
+            android:layout="@layout/preference_checkbox"
             android:icon="@drawable/ic_phone"
             android:summary="@string/prefs_wena3_receive_calls_hint"
             android:defaultValue="true"
@@ -99,6 +101,7 @@
         <SwitchPreferenceCompat
             android:title="@string/mi2_prefs_activate_display_on_lift"
             android:key="pref_screen_lift_wrist"
+            android:layout="@layout/preference_checkbox"
             android:icon="@drawable/ic_watch"
             android:summary="@string/prefs_wena3_hint_lift_wrist"
             android:defaultValue="false"
@@ -107,18 +110,21 @@
             android:title="@string/prefs_wena3_item_weather_statusbar"
             android:icon="@drawable/ic_wb_sunny"
             android:key="pref_wena3_weather_in_statusbar"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_wena3_hint_weather_statusbar"
             android:defaultValue="true" />
         <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_item_rich_design"
             android:icon="@drawable/ic_auto_awesome"
             android:key="pref_wena3_rich_design_mode"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_wena3_hint_rich_design"
             android:defaultValue="false" />
         <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_item_large_font"
             android:icon="@drawable/ic_font_size"
             android:key="pref_wena3_large_font_size"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_wena3_hint_large_font"
             android:defaultValue="false"/>
         <com.mobeta.android.dslv.DragSortListPreference
@@ -193,6 +199,7 @@
         <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_vibration_smart_item"
             android:key="pref_wena3_vibration_smart"
+            android:layout="@layout/preference_checkbox"
             android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory

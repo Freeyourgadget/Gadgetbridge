@@ -12,6 +12,7 @@
                 android:defaultValue="false"
                 android:icon="@drawable/ic_hearing"
                 android:key="pref_galaxy_buds_ambient_mode"
+                android:layout="@layout/preference_checkbox"
                 android:summary="Hear surrounding sounds"
                 android:title="@string/prefs_ambient_sound" />
             <SwitchPreferenceCompat
@@ -19,6 +20,7 @@
                 android:dependency="pref_galaxy_buds_ambient_mode"
                 android:icon="@drawable/ic_voice"
                 android:key="pref_galaxy_buds_ambient_voice_focus"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_ambient_voice_summary"
                 android:title="@string/prefs_ambient_voice_focus" />
 
@@ -43,6 +45,7 @@
                 android:defaultValue="false"
                 android:icon="@drawable/ic_graphic_eq"
                 android:key="pref_galaxy_buds_equalizer"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_equalizer_summary"
                 android:title="@string/prefs_equalizer" />
             <SwitchPreferenceCompat
@@ -50,6 +53,7 @@
                 android:dependency="pref_galaxy_buds_equalizer"
                 android:icon="@drawable/ic_music_note"
                 android:key="pref_galaxy_buds_equalizer_dolby"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_dolby_summary"
                 android:title="@string/prefs_dolby_mode" />
             <ListPreference
@@ -74,6 +78,7 @@
                 android:disableDependentsState="true"
                 android:icon="@drawable/ic_lock_open"
                 android:key="pref_galaxy_buds_lock_touch"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_touch_lock_summary"
                 android:title="@string/prefs_touch_lock" />
             <ListPreference
@@ -99,6 +104,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_videogame"
             android:key="pref_galaxy_buds_game_mode"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_game_mode_summary"
             android:title="@string/prefs_game_mode" />
     </PreferenceCategory>

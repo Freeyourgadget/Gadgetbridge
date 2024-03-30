@@ -31,8 +31,8 @@
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_wrist_flick_relative"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_setting_wrist_flick_move_relative"
             app:iconSpaceReserved="false" />
         <EditTextPreference
@@ -93,20 +93,20 @@
 
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_power_saving_display"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_setting_power_saving_display"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_power_saving_hands"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_setting_power_saving_hands"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
             android:key="pref_hybridhr_watchface_light_up_on_notification"
+            android:layout="@layout/preference_checkbox"
             android:persistent="false"
-            android:singleLineTitle="false"
             android:title="@string/watchface_setting_light_up_on_notification"
             app:iconSpaceReserved="false" />
 

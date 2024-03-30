@@ -3,12 +3,14 @@
     <SwitchPreferenceCompat
         android:icon="@drawable/ic_power_settings_new"
         android:key="pref_key_clap_hands_to_wakeup_device"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/clap_hands_to_wakeup_device"
         android:summary="@string/clap_hands_to_wakeup_device_summary"
         android:defaultValue="false" />
     <SwitchPreferenceCompat
         android:icon="@drawable/ic_music_note"
         android:key="pref_key_power_saving"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/power_saving"
         android:summary="@string/pixoo_power_saving_summary"
         android:defaultValue="false" />

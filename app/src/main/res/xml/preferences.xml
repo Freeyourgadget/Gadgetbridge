@@ -381,30 +381,35 @@
 
             <SwitchPreferenceCompat
                 android:key="prefs_key_allow_bluetooth_intent_api"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api"
                 android:title="@string/activity_prefs_allow_bluetooth_intent_api"
                 app:iconSpaceReserved="false" />
 
             <SwitchPreferenceCompat
                 android:key="intent_api_allow_activity_sync"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_allow_activity_sync_summary"
                 android:title="@string/intent_api_allow_activity_sync_title"
                 app:iconSpaceReserved="false" />
 
             <SwitchPreferenceCompat
                 android:key="intent_api_allow_trigger_export"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_allow_trigger_export_summary"
                 android:title="@string/intent_api_allow_trigger_export_title"
                 app:iconSpaceReserved="false" />
 
             <SwitchPreferenceCompat
                 android:key="intent_api_broadcast_export"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_broadcast_export_summary"
                 android:title="@string/intent_api_broadcast_export_title"
                 app:iconSpaceReserved="false" />
 
             <SwitchPreferenceCompat
                 android:key="intent_api_allow_debug_commands"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_allow_debug_commands_summary"
                 android:title="@string/intent_api_allow_debug_commands_title"
                 app:iconSpaceReserved="false" />

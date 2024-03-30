@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_language"
         android:key="device_intents"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_device_intents"
         android:title="@string/pref_title_device_intents" />
 </androidx.preference.PreferenceScreen>

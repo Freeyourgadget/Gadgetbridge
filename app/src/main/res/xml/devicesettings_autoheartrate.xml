@@ -13,12 +13,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_autoheartrate_switch"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/prefs_autoheartrate_measurement" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:dependency="pref_autoheartrate_switch"
             android:key="pref_autoheartrate_sleep"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/prefs_autoheartrate_sleep" />
 
         <ListPreference

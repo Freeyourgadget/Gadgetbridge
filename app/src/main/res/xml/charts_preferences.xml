@@ -27,6 +27,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="chart_heartrate_color"
+            android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_chart_heartrate_color_orange"
             android:summaryOn="@string/pref_chart_heartrate_color_red"
             android:title="@string/pref_title_chart_heartrate_color"
@@ -35,12 +36,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="charts_allow_swipe"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_charts_swipe"
             app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="chart_sleep_range_24h"
+            android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_chart_sleep_rolling_24_off"
             android:summaryOn="@string/pref_chart_sleep_rolling_24_on"
             android:title="@string/pref_title_chart_sleep_rolling_24_hour"
@@ -49,12 +52,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="charts_show_average"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_title_charts_average"
             app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="charts_range"
+            android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
             android:title="@string/pref_title_charts_range"
@@ -63,6 +68,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="charts_show_ongoing_activity"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/show_ongoing_activity"
             app:iconSpaceReserved="false" />
 

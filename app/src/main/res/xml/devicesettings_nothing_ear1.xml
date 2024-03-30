@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_extension"
         android:key="pref_nothing_inear_detection"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/nothing_prefs_inear_summary"
         android:title="@string/nothing_prefs_inear_title" />
     <ListPreference

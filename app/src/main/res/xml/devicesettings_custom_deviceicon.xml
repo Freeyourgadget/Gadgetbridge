@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_devices_other"
         android:defaultValue="true"
         android:key="use_custom_deviceicon"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_custom_deviceicon"
         android:title="@string/pref_title_custom_deviceicon" />
 </androidx.preference.PreferenceScreen>

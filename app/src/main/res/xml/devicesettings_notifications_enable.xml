@@ -5,6 +5,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_notifications"
         android:key="notification_enable"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/enable_notifications_summary"
         android:title="@string/prefs_notifications_enable" />
 </androidx.preference.PreferenceScreen>

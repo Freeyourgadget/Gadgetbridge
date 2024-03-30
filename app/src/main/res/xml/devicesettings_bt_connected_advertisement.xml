@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_settings_remote"
         android:key="bt_connected_advertisement"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_connected_advertisement"
         android:title="@string/pref_title_connected_advertisement"/>
 </androidx.preference.PreferenceScreen>

@@ -16,6 +16,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_smart_button"
             android:key="button_action_enable"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/mi2_prefs_button_action_summary"
             android:title="@string/mi2_prefs_button_action" />
 
@@ -24,6 +25,7 @@
             android:icon="@drawable/ic_vibration"
             android:dependency="button_action_enable"
             android:key="button_action_vibrate"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/mi2_prefs_button_action_vibrate_summary"
             android:title="@string/mi2_prefs_button_action_vibrate" />
 

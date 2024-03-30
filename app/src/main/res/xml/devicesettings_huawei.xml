@@ -10,6 +10,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_notifications"
             android:key="notification_enable"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/prefs_notifications_enable"
             android:summary="@string/enable_notifications_summary"/>
 
@@ -17,6 +18,7 @@
             android:icon="@drawable/ic_signal_cellular_connected_no_internet_4_bar"
             android:defaultValue="false"
             android:key="disconnect_notification_noshed"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/prefs_disconnect_notification"
             android:summary="@string/prefs_disconnect_notification_summary"/>
 
@@ -33,6 +35,7 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="inactivity_warnings_enable"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/mi2_prefs_inactivity_warnings"
                 android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
 
@@ -125,6 +128,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_arrow_upward"
             android:key="do_not_disturb_lift_wrist"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/mi2_prefs_do_not_disturb_lift_wrist"
             android:summary="@string/do_not_disturb_lift_wrist_summary"/>
 
@@ -132,6 +136,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_notification_disconnected"
             android:key="do_not_disturb_not_wear"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_do_not_disturb_not_wear" />
 
         <!-- workaround for missing toolbar -->
@@ -184,6 +189,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="huawei_reparse_workout_data"
+            android:layout="@layout/preference_checkbox"
             android:title="Reparse workout data"
             android:summary="This will only do something after certain updates" />
 
@@ -197,6 +203,7 @@
                 android:icon="@drawable/ic_access_time"
                 android:defaultValue="false"
                 android:key="pref_force_enable_smart_alarm"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_force_smart_alarm"
                 android:summary="@string/pref_force_smart_alarm_summary"/>
 
@@ -204,6 +211,7 @@
                 android:icon="@drawable/ic_switch_left"
                 android:defaultValue="false"
                 android:key="pref_force_enable_wear_location"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_force_wear_location"
                 android:summary="@string/pref_force_wear_location_summary" />
 
@@ -211,6 +219,7 @@
                 android:icon="@drawable/ic_block"
                 android:defaultValue="false"
                 android:key="pref_force_dnd_support"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_force_dnd_support"
                 android:summary="@string/pref_force_dnd_support_summary" />
 
@@ -218,6 +227,7 @@
                 android:icon="@drawable/ic_activity_sleep"
                 android:defaultValue="false"
                 android:key="pref_force_ignore_wakeup_status_start"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/huawei_ignore_wakeup_status_start"
                 android:summary="@string/huawei_ignore_wakeup_status_start_description"/>
 
@@ -225,6 +235,7 @@
                 android:icon="@drawable/ic_activity_sleep"
                 android:defaultValue="false"
                 android:key="pref_force_ignore_wakeup_status_end"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/huawei_ignore_wakeup_status_end"
                 android:summary="@string/huawei_ignore_wakeup_status_end_description"/>
         </PreferenceCategory>

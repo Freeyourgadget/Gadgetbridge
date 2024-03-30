@@ -34,6 +34,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_arrow_upward"
             android:key="do_not_disturb_lift_wrist"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/mi2_prefs_do_not_disturb_lift_wrist"
             android:summary="@string/do_not_disturb_lift_wrist_summary"/>
 

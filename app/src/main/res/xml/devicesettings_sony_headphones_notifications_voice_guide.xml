@@ -4,5 +4,6 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_notifications"
         android:key="pref_sony_notification_voice_guide"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sony_notification_voice_guide" />
 </androidx.preference.PreferenceScreen>

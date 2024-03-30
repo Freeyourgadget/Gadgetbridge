@@ -15,12 +15,14 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_filter_b_and_w"
         android:key="force_white_color_scheme"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_force_white_color_scheme"
         android:title="@string/pref_title_force_white_color_scheme" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_circle"
         android:key="widget_draw_circles"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/pref_qhybrid_title_widget_draw_circles" />
 
 </androidx.preference.PreferenceScreen>

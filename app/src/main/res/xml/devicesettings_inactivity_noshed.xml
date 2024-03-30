@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_chair"
         android:defaultValue="false"
         android:key="inactivity_warnings_enable_noshed"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/mi2_prefs_inactivity_warnings"
         android:summary="@string/mi2_prefs_inactivity_warnings_summary"/>
 </androidx.preference.PreferenceScreen>

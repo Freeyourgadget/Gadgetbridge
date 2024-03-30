@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_settings_remote"
         android:key="expose_hr_thirdparty"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_expose_hr"
         android:title="@string/pref_title_expose_hr" />
 </androidx.preference.PreferenceScreen>

@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_person"
         android:key="display_caller"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_display_caller_summary"
         android:title="@string/pref_display_caller_title" />
 </androidx.preference.PreferenceScreen>

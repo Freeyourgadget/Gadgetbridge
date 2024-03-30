@@ -10,6 +10,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"
             android:title="@string/mi2_prefs_inactivity_warnings" />
 
@@ -29,6 +30,7 @@
             android:defaultValue="false"
             android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_dnd"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/mi2_prefs_inactivity_warnings_dnd_summary"
             android:title="@string/mi2_prefs_do_not_disturb" />
 

@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_extension"
         android:key="pref_sony_audio_upsampling"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sony_audio_upsampling" />
 </androidx.preference.PreferenceScreen>

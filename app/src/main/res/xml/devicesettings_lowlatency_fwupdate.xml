@@ -4,6 +4,7 @@
         android:icon="@drawable/ic_mtu"
         android:defaultValue="true"
         android:key="low_latency_fw_update"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_low_latency_fw_update"
         android:title="@string/pref_title_low_latency_fw_update" />
 </androidx.preference.PreferenceScreen>

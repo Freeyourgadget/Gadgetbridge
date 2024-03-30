@@ -58,6 +58,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_list_numbered"
             android:key="loyalty_cards_sync_groups_only"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/loyalty_cards_sync_groups_only" />
 
         <MultiSelectListPreference
@@ -75,12 +76,14 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_archive"
             android:key="loyalty_cards_sync_archived"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/loyalty_cards_sync_archived" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:icon="@drawable/ic_star_gray"
             android:key="loyalty_cards_sync_starred"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/loyalty_cards_sync_starred" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

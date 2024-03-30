@@ -4,6 +4,7 @@
         android:defaultValue="true"
         android:icon="@drawable/ic_timer"
         android:key="huami_truncate_fetch_operation_timestamps"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_huami_truncate_fetch_operation_timestamps_summary"
         android:title="@string/pref_huami_truncate_fetch_operation_timestamps_title" />
 </androidx.preference.PreferenceScreen>

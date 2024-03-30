@@ -4,5 +4,6 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_rotate_left"
         android:key="rotate_wrist_to_cycle_info"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/mi2_prefs_rotate_wrist_to_switch_info" />
 </androidx.preference.PreferenceScreen>

@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_camera_remote"
         android:key="camera_remote"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_camera_remote_summary"
         android:title="@string/pref_camera_remote_title" />
 </androidx.preference.PreferenceScreen>

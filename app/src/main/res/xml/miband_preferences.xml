@@ -296,6 +296,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="mi_setup_bt_pairing"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_setup_bt_pairing"
             android:title="@string/pref_title_setup_bt_pairing"
             app:iconSpaceReserved="false" />
@@ -309,6 +310,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="mi_dont_ack_transfer"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_keep_data_on_device"
             android:title="@string/pref_title_keep_data_on_device"
             app:iconSpaceReserved="false" />

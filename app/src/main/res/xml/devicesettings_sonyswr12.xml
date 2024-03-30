@@ -3,12 +3,14 @@
     <SwitchPreferenceCompat
         android:icon="@drawable/ic_bolt"
         android:key="stamina_preference"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sonyswr12_settings_stamina"
         android:defaultValue="false"
         android:summary="@string/sonyswr12_settings_stamina_summary" />
     <SwitchPreferenceCompat
         android:icon="@drawable/ic_vibration"
         android:key="vibration_preference"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/sonyswr12_settings_low_vibration"
         android:defaultValue="false"
         android:summary="@string/sonyswr12_settings_low_vibration_summary" />

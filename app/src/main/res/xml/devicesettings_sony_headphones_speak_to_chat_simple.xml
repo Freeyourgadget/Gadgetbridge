@@ -5,6 +5,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_voice"
         android:key="pref_sony_speak_to_chat"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/sony_speak_to_chat_summary"
         android:title="@string/sony_speak_to_chat" />
 

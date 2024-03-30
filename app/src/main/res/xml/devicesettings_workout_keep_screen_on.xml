@@ -4,6 +4,7 @@
         android:defaultValue="false"
         android:icon="@drawable/ic_always_on_display"
         android:key="workout_keep_screen_on"
+        android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_workout_keep_screen_on_summary"
         android:title="@string/pref_workout_keep_screen_on_title" />
 </androidx.preference.PreferenceScreen>

@@ -15,12 +15,14 @@
                 android:defaultValue="false"
                 android:icon="@drawable/ic_activity_sleep"
                 android:key="heartrate_sleep_detection"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/miband_prefs_hr_sleep_detection" />
 
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:icon="@drawable/ic_activity_sleep"
                 android:key="heartrate_sleep_breathing_quality_monitoring"
+                android:layout="@layout/preference_checkbox"
                 android:title="@string/pref_sleep_breathing_quality_monitoring" />
         </PreferenceCategory>
 
@@ -44,6 +46,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_activity_unknown_small"
             android:key="heartrate_activity_monitoring"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/prefs_activity_monitoring_description"
             android:title="@string/prefs_activity_monitoring_title" />
 
@@ -91,6 +94,7 @@
                 android:defaultValue="false"
                 android:icon="@drawable/ic_mood_bad"
                 android:key="heartrate_stress_monitoring"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_stress_monitoring_description"
                 android:title="@string/prefs_stress_monitoring_title" />
 
@@ -98,6 +102,7 @@
                 android:defaultValue="false"
                 android:dependency="heartrate_stress_monitoring"
                 android:key="heartrate_stress_relaxation_reminder"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_relaxation_reminder_description"
                 android:title="@string/prefs_relaxation_reminder_title" />
         </PreferenceCategory>
@@ -110,6 +115,7 @@
             <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="spo2_all_day_monitoring_enabled"
+                android:layout="@layout/preference_checkbox"
                 android:summary="@string/prefs_spo2_monitoring_description"
                 android:title="@string/prefs_spo2_monitoring_title" />
 

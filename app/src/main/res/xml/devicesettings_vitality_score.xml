@@ -10,6 +10,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_notifications"
             android:key="pref_vitality_score_7_day"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_vitality_score_7_day_summary"
             android:title="@string/pref_vitality_score_7_day_title" />
 
@@ -17,6 +18,7 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_notifications"
             android:key="pref_vitality_score_daily"
+            android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_vitality_score_daily_summary"
             android:title="@string/pref_vitality_score_daily_title" />
     </PreferenceScreen>

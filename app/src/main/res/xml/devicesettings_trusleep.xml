@@ -12,6 +12,7 @@
             android:icon="@drawable/ic_access_time"
             android:defaultValue="false"
             android:key="trusleep"
+            android:layout="@layout/preference_checkbox"
             android:title="@string/huawei_trusleep_title"
             android:summary="@string/huawei_trusleep_summary"/>
 
