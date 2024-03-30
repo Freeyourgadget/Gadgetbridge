@@ -30,6 +30,7 @@ public enum DeviceSpecificSettingsScreen {
     NOTIFICATIONS("pref_screen_notifications", R.xml.devicesettings_root_notifications),
     DATE_TIME("pref_screen_date_time", R.xml.devicesettings_root_date_time),
     WORKOUT("pref_screen_workout", R.xml.devicesettings_root_workout),
+    HEALTH("pref_screen_health", R.xml.devicesettings_root_health),
     ;
 
     private final String key;
