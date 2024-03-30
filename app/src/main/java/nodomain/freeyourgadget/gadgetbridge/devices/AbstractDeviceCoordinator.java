@@ -104,7 +104,8 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             supportedDeviceName = getSupportedDeviceName();
         }
         if (supportedDeviceName == null) {
-            throw new RuntimeException(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
+            LOG.error(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
+            return false;
         }
 
         return supportedDeviceName.matcher(candidate.getName()).matches();
