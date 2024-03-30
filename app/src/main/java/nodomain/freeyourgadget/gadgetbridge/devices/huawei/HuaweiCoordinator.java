@@ -30,6 +30,8 @@ import org.slf4j.Logger;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications.NotificationConstraintsType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -177,36 +179,59 @@ public class HuaweiCoordinator {
         return notificationConstraints.get(which);
     }
 
-    public int[] genericHuaweiSupportedDeviceSpecificSettings(int[] additionalDeviceSpecificSettings) {
-        // Add all settings in the default table
-        // Hide / show table in HuaweiSettingsCustommizer
-        List<Integer> dynamicSupportedDeviceSpecificSettings = new ArrayList<>();
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
-        // Could be limited to 0x04 0x01, but I don't know if that'll work properly
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_allow_accept_reject_calls);
+        // Health
+        if (supportsInactivityWarnings())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_inactivity_sheduled);
+        if (supportsTruSleep())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_trusleep);
+        if (supportsHeartRate())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_heartrate_automatic_enable);
+        if (supportsSPo2())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_spo_automatic_enable);
 
-        // Only supported on specific devices
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_huawei);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_trusleep);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_wearlocation);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_dateformat);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_timeformat);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_workmode);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_liftwrist_display_noshed);
-        dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_rotatewrist_cycleinfo);
+        // Notifications
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_notifications_enable);
+        if (supportsNotificationOnBluetoothLoss())
+            notifications.add(R.xml.devicesettings_disconnectnotification_noshed);
+        if (supportsDoNotDisturb(device))
+            notifications.add(R.xml.devicesettings_donotdisturb_allday_liftwirst_notwear);
 
-        int size = dynamicSupportedDeviceSpecificSettings.size();
-        if (additionalDeviceSpecificSettings != null)
-            size += additionalDeviceSpecificSettings.length;
-        int[] result = new int[size];
+        // Workout
 
-        for (int i = 0; i < dynamicSupportedDeviceSpecificSettings.size(); i++)
-            result[i] = dynamicSupportedDeviceSpecificSettings.get(i);
+        // Other
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_find_phone);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_disable_find_phone_with_dnd);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_allow_accept_reject_calls);
 
-        if (additionalDeviceSpecificSettings != null)
-            System.arraycopy(additionalDeviceSpecificSettings, 0, result, dynamicSupportedDeviceSpecificSettings.size(), additionalDeviceSpecificSettings.length);
+        // Time
+        if (supportsDateFormat()) {
+            final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
+            dateTime.add(R.xml.devicesettings_dateformat);
+            dateTime.add(R.xml.devicesettings_timeformat);
+        }
 
-        return result;
+        // Display
+        if (supportsWearLocation(device))
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_wearlocation);
+        if (supportsAutoWorkMode())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_workmode);
+        if (supportsActivateOnLift())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_liftwrist_display_noshed);
+        if (supportsRotateToCycleInfo())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_rotatewrist_cycleinfo);
+        // Currently on main setting menu.
+        /*if (supportsLanguageSetting())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_language_generic);*/
+
+        // Developer
+        final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        developer.add(R.xml.devicesettings_huawei_debug);
+
+        return deviceSpecificSettings;
     }
 
     public boolean supportsDateFormat() {
@@ -299,6 +324,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsFitnessRestHeartRate() {
         return supportsCommandForService(0x07, 0x23);
+    }
+
+    public boolean supportsSPo2() {
+        return supportsCommandForService(0x07, 0x24);
     }
 
     public boolean supportsFitnessThresholdValue() {
@@ -475,5 +504,22 @@ public class HuaweiCoordinator {
 
     public boolean isTransactionCrypted() {
         return this.transactionCrypted;
+    }
+
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "cs_CZ",
+                "de_DE",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "it_IT",
+                "pt_BR",
+                "ru_RU",
+                "tr_TR",
+                "zh_CN",
+                "zh_TW",
+        };
     }
 }

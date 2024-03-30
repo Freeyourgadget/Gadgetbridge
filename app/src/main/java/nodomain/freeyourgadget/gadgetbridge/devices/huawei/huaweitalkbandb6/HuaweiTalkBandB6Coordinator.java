@@ -47,11 +47,6 @@ public class HuaweiTalkBandB6Coordinator extends HuaweiBRCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return getHuaweiCoordinator().genericHuaweiSupportedDeviceSpecificSettings(null);
-    }
-
-    @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_huawei_talk_band_b6;
     }

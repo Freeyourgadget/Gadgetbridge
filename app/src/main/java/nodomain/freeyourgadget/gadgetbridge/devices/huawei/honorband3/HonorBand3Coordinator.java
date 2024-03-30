@@ -52,15 +52,6 @@ public class HonorBand3Coordinator extends HuaweiLECoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return getHuaweiCoordinator().genericHuaweiSupportedDeviceSpecificSettings(new int[]{
-                R.xml.devicesettings_heartrate_automatic_enable,
-                R.xml.devicesettings_find_phone,
-                R.xml.devicesettings_disable_find_phone_with_dnd,
-        });
-    }
-
-    @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_honor_band3;
     }

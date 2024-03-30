@@ -31,6 +31,7 @@ import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
@@ -76,7 +77,12 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     public Class<? extends Activity> getPairingActivity() {
         return null;
     }
-    
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return huaweiCoordinator.getSupportedLanguageSettings(device);
+    }
+
     @Override
     public int getBondingStyle(){
         return BONDING_STYLE_ASK;
@@ -193,7 +199,7 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public boolean supportsMusicInfo() {
-        return getHuaweiCoordinator().supportsMusic();
+        return huaweiCoordinator.supportsMusic();
     }
 
     @Override
@@ -206,8 +212,8 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
         return new HuaweiSampleProvider(device, session);
     }
 
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{};
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        return huaweiCoordinator.getDeviceSpecificSettings(device);
     }
 
     @Override

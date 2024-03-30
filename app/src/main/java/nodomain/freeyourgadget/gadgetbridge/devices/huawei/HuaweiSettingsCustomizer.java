@@ -112,77 +112,6 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         handler.addPreferenceHandlerFor(PREF_HUAWEI_TRUSLEEP);
         handler.addPreferenceHandlerFor(PREF_HUAWEI_DEBUG_REQUEST);
 
-        // Only supported on specific devices
-        final ListPreference languageSetting = handler.findPreference(PREF_LANGUAGE);
-        if (languageSetting != null) {
-            languageSetting.setVisible(false);
-            if (this.coordinator.supportsLanguageSetting())
-                languageSetting.setVisible(true);
-        }
-
-        final Preference dnd = handler.findPreference("screen_do_not_disturb");
-        if (dnd != null) {
-            dnd.setVisible(false);
-            if (this.coordinator.supportsDoNotDisturb(handler.getDevice()))
-                dnd.setVisible(true);
-        }
-
-        final Preference trusleep = handler.findPreference(PREF_HUAWEI_TRUSLEEP);
-        if (trusleep != null) {
-            trusleep.setVisible(false);
-            if (this.coordinator.supportsTruSleep())
-                trusleep.setVisible(true);
-        }
-
-//        if (this.coordinator.supportsHeartRate())
-//            dynamicSupportedDeviceSpecificSettings.add(R.xml.devicesettings_heartrate_automatic_enable);
-
-        final Preference inactivity = handler.findPreference("screen_inactivity");
-        if (inactivity != null) {
-            inactivity.setVisible(false);
-            if (this.coordinator.supportsInactivityWarnings())
-                inactivity.setVisible(true);
-        }
-
-        final ListPreference wearLocation = handler.findPreference(PREF_WEARLOCATION);
-        if (wearLocation != null) {
-            wearLocation.setVisible(false);
-            if (this.coordinator.supportsWearLocation(handler.getDevice()))
-                wearLocation.setVisible(true);
-        }
-
-        final ListPreference date = handler.findPreference(PREF_DATEFORMAT);
-        final ListPreference time = handler.findPreference(PREF_TIMEFORMAT);
-        if (date != null) {
-            date.setVisible(false);
-            time.setVisible(false);
-            if (this.coordinator.supportsDateFormat()) {
-                date.setVisible(true);
-                time.setVisible(true);
-            }
-        }
-
-        final ListPreference workmode = handler.findPreference(PREF_HUAWEI_WORKMODE);
-        if (workmode != null) {
-            workmode.setVisible(false);
-            if (this.coordinator.supportsAutoWorkMode())
-                workmode.setVisible(true);
-        }
-
-        final SwitchPreferenceCompat liftwirst = handler.findPreference(PREF_LIFTWRIST_NOSHED);
-        if (liftwirst != null) {
-            liftwirst.setVisible(false);
-            if (this.coordinator.supportsActivateOnLift())
-                liftwirst.setVisible(true);
-        }
-
-        final SwitchPreferenceCompat rotatewirst = handler.findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-        if (rotatewirst != null) {
-            rotatewirst.setVisible(false);
-            if (this.coordinator.supportsRotateToCycleInfo())
-                rotatewirst.setVisible(true);
-        }
-
         final Preference forceOptions = handler.findPreference(PREF_FORCE_OPTIONS);
         if (forceOptions != null) {
             forceOptions.setVisible(false);
@@ -201,13 +130,6 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
                     forceWearLocation.setVisible(true);
                 }
             }
-        }
-
-        final SwitchPreferenceCompat disconnectNotification = handler.findPreference(PREF_DISCONNECTNOTIF_NOSHED);
-        if (disconnectNotification != null) {
-            disconnectNotification.setVisible(false);
-            if (this.coordinator.supportsNotificationOnBluetoothLoss())
-                disconnectNotification.setVisible(true);
         }
 
         final SwitchPreferenceCompat reparseWorkout = handler.findPreference("huawei_reparse_workout_data");

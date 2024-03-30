@@ -60,13 +60,6 @@ public class HuaweiWatchGT2Coordinator extends HuaweiBRCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return getHuaweiCoordinator().genericHuaweiSupportedDeviceSpecificSettings(new int[]{
-                R.xml.devicesettings_spo_automatic_enable,
-        });
-    }
-
-    @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_huawei_watchgt2;
     }

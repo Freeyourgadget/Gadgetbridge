@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:icon="@drawable/ic_warning"
+        android:key="debug_huawei_request"
+        android:maxLength="16"
+        android:summary="@string/pref_summary_debug"
+        android:title="@string/pref_title_debug" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="huawei_reparse_workout_data"
+        android:layout="@layout/preference_checkbox"
+        android:title="Reparse workout data"
+        android:summary="This will only do something after certain updates" />
+
+    <PreferenceCategory
+        android:key="pref_force_options"
+        android:title="@string/pref_force_options">
+
+        <Preference
+            android:icon="@drawable/ic_settings"
+            android:summary="@string/pref_force_options_summary"/>
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_access_time"
+            android:defaultValue="false"
+            android:key="pref_force_enable_smart_alarm"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_force_smart_alarm"
+            android:summary="@string/pref_force_smart_alarm_summary"/>
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_switch_left"
+            android:defaultValue="false"
+            android:key="pref_force_enable_wear_location"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_force_wear_location"
+            android:summary="@string/pref_force_wear_location_summary" />
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_block"
+            android:defaultValue="false"
+            android:key="pref_force_dnd_support"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_force_dnd_support"
+            android:summary="@string/pref_force_dnd_support_summary" />
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_activity_sleep"
+            android:defaultValue="false"
+            android:key="pref_force_ignore_wakeup_status_start"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/huawei_ignore_wakeup_status_start"
+            android:summary="@string/huawei_ignore_wakeup_status_start_description"/>
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_activity_sleep"
+            android:defaultValue="false"
+            android:key="pref_force_ignore_wakeup_status_end"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/huawei_ignore_wakeup_status_end"
+            android:summary="@string/huawei_ignore_wakeup_status_end_description"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

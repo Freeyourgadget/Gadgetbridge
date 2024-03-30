@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_block"
+        android:key="screen_do_not_disturb"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_do_not_disturb_summary"
+        android:title="@string/mi2_prefs_do_not_disturb">
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/do_not_disturb_allday"
+            android:entryValues="@array/mi2_do_not_disturb_values"
+            android:key="do_not_disturb"
+            android:summary="%s"
+            android:title="@string/mi2_prefs_do_not_disturb" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="do_not_disturb_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="23:59"
+            android:key="do_not_disturb_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_arrow_upward"
+            android:key="do_not_disturb_lift_wrist"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/mi2_prefs_do_not_disturb_lift_wrist"
+            android:summary="@string/do_not_disturb_lift_wrist_summary"/>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notification_disconnected"
+            android:key="do_not_disturb_not_wear"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_do_not_disturb_not_wear" />
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/zetime_prefs_inactivity_repetitions">
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_mo"
+                android:title="@string/zetime_prefs_inactivity_mo" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_tu"
+                android:title="@string/zetime_prefs_inactivity_tu" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_we"
+                android:title="@string/zetime_prefs_inactivity_we" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_th"
+                android:title="@string/zetime_prefs_inactivity_th" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_fr"
+                android:title="@string/zetime_prefs_inactivity_fr" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_sa"
+                android:title="@string/zetime_prefs_inactivity_sa" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_do_not_disturb_su"
+                android:title="@string/zetime_prefs_inactivity_su" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+
+</androidx.preference.PreferenceScreen>
