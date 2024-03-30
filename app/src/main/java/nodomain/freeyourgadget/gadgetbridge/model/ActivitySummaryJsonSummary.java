@@ -123,7 +123,13 @@ public class ActivitySummaryJsonSummary {
 
         if (summaryDatalist == null) return null;
         Iterator<String> keys = summaryDatalist.keys();
-        Map<String, JSONArray> activeGroups = new HashMap<>();
+
+        final Map<String, JSONArray> activeGroups = new LinkedHashMap<>();
+        // Initialize activeGroups with the initial expected order and empty arrays
+        final Iterator<String> names = this.groupData.keys();
+        while (names.hasNext()) {
+            activeGroups.put(names.next(), new JSONArray());
+        }
 
         while (keys.hasNext()) {
             String key = keys.next();
@@ -131,10 +137,12 @@ public class ActivitySummaryJsonSummary {
                 JSONObject innerData = (JSONObject) summaryDatalist.get(key);
                 Object value = innerData.get("value");
                 String unit = innerData.getString("unit");
-                String groupName = getGroup(key);
+                // Use the group if specified in the entry, otherwise fallback to the array below
+                String groupName = innerData.optString("group", getGroup(key));
 
                 JSONArray group = activeGroups.get(groupName);
                 if (group == null) {
+                    // This group is not defined in createActivitySummaryGroups - add it to the end
                     group = new JSONArray();
                     activeGroups.put(groupName, group);
                 }
@@ -149,18 +157,18 @@ public class ActivitySummaryJsonSummary {
             }
         }
 
-        // Reorder collected groups according to the order set by this.groupData.
-        JSONObject grouped = new JSONObject();
-        Iterator<String> names = this.groupData.keys();
-        while(names.hasNext()) {
-            String groupName = names.next();
-            JSONArray group = activeGroups.get(groupName);
-            if (group != null) {
-                try {
-                    grouped.put(groupName, group);
-                } catch (JSONException e) {
-                    LOG.error("SportsActivity internal error building grouped summary", e);
-                }
+        // Convert activeGroups to the expected JSONObject
+        // activeGroups is already ordered
+        final JSONObject grouped = new JSONObject();
+        for (final Map.Entry<String, JSONArray> entry : activeGroups.entrySet()) {
+            if (entry.getValue().length() == 0) {
+                // empty group
+                continue;
+            }
+            try {
+                grouped.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+                LOG.error("SportsActivity internal error building grouped summary", e);
             }
         }
         return grouped;
@@ -222,6 +230,8 @@ public class ActivitySummaryJsonSummary {
             ));
             put("laps", Arrays.asList(
                     LAP_PACE_AVERAGE, LAPS, LANE_LENGTH
+            ));
+            put("Pace", Arrays.asList(
             ));
             put("RunningForm", Arrays.asList(
                     GROUND_CONTACT_TIME_AVG, IMPACT_AVG, IMPACT_MAX, SWING_ANGLE_AVG,

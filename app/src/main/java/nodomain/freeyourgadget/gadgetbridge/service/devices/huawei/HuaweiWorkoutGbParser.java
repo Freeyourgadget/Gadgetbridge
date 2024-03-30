@@ -559,22 +559,26 @@ public class HuaweiWorkoutGbParser {
                     JSONObject paceDistance = new JSONObject();
                     paceDistance.put("value", sample.getDistance());
                     paceDistance.put("unit", ActivitySummaryEntries.UNIT_KILOMETERS);
+                    paceDistance.put("group", ActivitySummaryEntries.GROUP_PACE);
                     jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceDistance), index), paceDistance);
 
                     JSONObject paceType = new JSONObject();
                     paceType.put("value", sample.getType());
                     paceType.put("unit", ""); // TODO: find out types
+                    paceType.put("group", ActivitySummaryEntries.GROUP_PACE);
                     jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceType), index), paceType);
 
                     JSONObject pacePace = new JSONObject();
                     pacePace.put("value", sample.getPace());
                     pacePace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
+                    pacePace.put("group", ActivitySummaryEntries.GROUP_PACE);
                     jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPacePace), index), pacePace);
 
                     if (sample.getCorrection() != 0) {
                         JSONObject paceCorrection = new JSONObject();
                         paceCorrection.put("value", sample.getCorrection() / 10);
                         paceCorrection.put("unit", ActivitySummaryEntries.UNIT_METERS);
+                        paceCorrection.put("group", ActivitySummaryEntries.GROUP_PACE);
                         jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceCorrection), index), paceCorrection);
                     }
                 }
@@ -587,6 +591,7 @@ public class HuaweiWorkoutGbParser {
                     JSONObject avgPace = new JSONObject();
                     avgPace.put("value", pace / count);
                     avgPace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
+                    avgPace.put("group", ActivitySummaryEntries.GROUP_PACE);
                     jsonObject.put(String.format(GBApplication.getContext().getString(R.string.fmtPaceTypeAverage), key), avgPace);
                 }
             }

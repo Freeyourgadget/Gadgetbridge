@@ -129,4 +129,6 @@ public class ActivitySummaryEntries {
     public static final String UNIT_STROKES_PER_SECOND = "strokes_second";
     public static final String UNIT_YARD = "yard";
     public static final String UNIT_DEGREES = "degrees";
+
+    public static final String GROUP_PACE = "Pace";
 }

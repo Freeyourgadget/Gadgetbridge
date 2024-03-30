@@ -1927,6 +1927,7 @@
     <string name="km">km</string>
     <string name="mi">mi</string>
     <string name="degrees">degrees</string>
+    <string name="Pace">Pace</string>
     <!-- activity summary groups-->
     <string name="Strokes">Strokes</string>
     <string name="Swimming">Swimming</string>
