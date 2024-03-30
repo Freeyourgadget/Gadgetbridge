@@ -44,13 +44,12 @@ public class SendNotificationRequest extends Request {
 
     public static byte getNotificationType(NotificationType type) {
         switch (type.getGenericType()) {
+            case "generic":
             case "generic_social":
             case "generic_chat":
-                return Notifications.NotificationType.weChat;
+                return Notifications.NotificationType.generic;
             case "generic_email":
                 return Notifications.NotificationType.email;
-            case "generic":
-                return Notifications.NotificationType.generic;
             default:
                 return Notifications.NotificationType.sms;
         }
