@@ -98,6 +98,7 @@ import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFormat;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -1276,6 +1277,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        if (!getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS, true)) {
+            LOG.debug("App notifications disabled - ignoring");
+            return;
+        }
+
         boolean canReply = false;
         if (notificationSpec.attachedActions!=null)
             for (int i=0;i<notificationSpec.attachedActions.size();i++) {
