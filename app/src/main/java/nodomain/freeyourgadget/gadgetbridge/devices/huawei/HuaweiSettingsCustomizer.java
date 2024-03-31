@@ -112,6 +112,7 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         handler.addPreferenceHandlerFor(PREF_FORCE_OPTIONS);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_SMART_ALARM);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_WEAR_LOCATION);
+        handler.addPreferenceHandlerFor(PREF_FORCE_DND_SUPPORT);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
 
         handler.addPreferenceHandlerFor(PREF_HUAWEI_WORKMODE);
