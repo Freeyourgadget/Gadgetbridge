@@ -36,7 +36,7 @@ public class MiBand8ActiveCoordinator extends XiaomiCoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("^Xiaomi Smart Band 8 Active [A-Z0-9]{4}$");
+        return Pattern.compile("^Xiaomi( Smart)? Band 8 Active [A-Z0-9]{4}$");
     }
 
     @Nullable
