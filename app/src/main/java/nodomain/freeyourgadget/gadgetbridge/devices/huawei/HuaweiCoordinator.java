@@ -322,6 +322,10 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x07, 0x17);
     }
 
+    public boolean supportsHeartRate(GBDevice gbDevice) {
+        return supportsHeartRate() || getForceOption(gbDevice, PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
+    }
+
     public boolean supportsFitnessRestHeartRate() {
         return supportsCommandForService(0x07, 0x23);
     }

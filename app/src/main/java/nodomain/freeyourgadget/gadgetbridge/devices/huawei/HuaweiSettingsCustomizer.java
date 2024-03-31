@@ -98,6 +98,11 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             if (this.coordinator.supportsWearLocation(handler.getDevice())) {
                 wearLocation.setVisible(true);
             }
+            final ListPreference heartRate = handler.findPreference(PREF_HEARTRATE_AUTOMATIC_ENABLE);
+            heartRate.setVisible(false);
+            if (this.coordinator.supportsHeartRate(handler.getDevice())) {
+                heartRate.setVisible(true);
+            }
         }
     }
 
@@ -107,6 +112,7 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         handler.addPreferenceHandlerFor(PREF_FORCE_OPTIONS);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_SMART_ALARM);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_WEAR_LOCATION);
+        handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
 
         handler.addPreferenceHandlerFor(PREF_HUAWEI_WORKMODE);
         handler.addPreferenceHandlerFor(PREF_HUAWEI_TRUSLEEP);
@@ -117,7 +123,8 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             forceOptions.setVisible(false);
             boolean supportsSmartAlarm = this.coordinator.supportsSmartAlarm();
             boolean supportsWearLocation = this.coordinator.supportsWearLocation();
-            if (!supportsSmartAlarm || !supportsWearLocation) {
+            boolean supportsHeartRate = this.coordinator.supportsHeartRate();
+            if (!supportsSmartAlarm || !supportsWearLocation || !supportsHeartRate) {
                 forceOptions.setVisible(true);
                 final SwitchPreferenceCompat forceSmartAlarm = handler.findPreference(PREF_FORCE_ENABLE_SMART_ALARM);
                 forceSmartAlarm.setVisible(false);
@@ -128,6 +135,11 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
                 forceWearLocation.setVisible(false);
                 if (!supportsWearLocation) {
                     forceWearLocation.setVisible(true);
+                }
+                final SwitchPreferenceCompat forceHeartRate = handler.findPreference(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
+                forceHeartRate.setVisible(false);
+                if (!supportsHeartRate) {
+                    forceHeartRate.setVisible(true);
                 }
             }
         }

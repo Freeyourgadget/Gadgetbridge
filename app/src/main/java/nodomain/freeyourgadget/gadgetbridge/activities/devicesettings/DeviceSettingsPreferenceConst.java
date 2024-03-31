@@ -418,6 +418,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_FORCE_ENABLE_SMART_ALARM = "pref_force_enable_smart_alarm";
     public static final String PREF_FORCE_ENABLE_WEAR_LOCATION = "pref_force_enable_wear_location";
     public static final String PREF_FORCE_DND_SUPPORT = "pref_force_dnd_support";
+    public static final String PREF_FORCE_ENABLE_HEARTRATE_SUPPORT = "pref_force_enable_heartrate_support";
     public static final String PREF_IGNORE_WAKEUP_STATUS_START = "pref_force_ignore_wakeup_status_start";
     public static final String PREF_IGNORE_WAKEUP_STATUS_END = "pref_force_ignore_wakeup_status_end";
 

@@ -48,6 +48,14 @@
             android:summary="@string/pref_force_dnd_support_summary" />
 
         <SwitchPreferenceCompat
+            android:icon="@drawable/ic_heartrate"
+            android:defaultValue="false"
+            android:key="pref_force_enable_heartrate_support"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_force_enable_heartrate_support"
+            android:summary="@string/pref_force_enable_heartrate_support_summary" />
+
+        <SwitchPreferenceCompat
             android:icon="@drawable/ic_activity_sleep"
             android:defaultValue="false"
             android:key="pref_force_ignore_wakeup_status_start"
