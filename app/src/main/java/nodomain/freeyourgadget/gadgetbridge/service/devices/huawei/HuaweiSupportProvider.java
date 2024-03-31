@@ -374,7 +374,7 @@ public class HuaweiSupportProvider {
         try {
             GetHiChainRequest hiChainReq = new GetHiChainRequest(this, needsAuth);
             hiChainReq.setFinalizeReq(configureReq);
-            if (paramsProvider.getPinCode() == null & ((authType ^ 0x04) == 0x01) ) {
+            if (paramsProvider.getPinCode() == null) {
                 GetPincodeRequest pincodeReq = new GetPincodeRequest(this);
                 pincodeReq.nextRequest(hiChainReq);
                 pincodeReq.doPerform();
