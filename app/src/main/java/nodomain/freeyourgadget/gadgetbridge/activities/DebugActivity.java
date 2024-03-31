@@ -376,7 +376,9 @@ public class DebugActivity extends AbstractGBActivity {
 
                     Weather.getInstance().setWeatherSpec(new ArrayList<>(Collections.singletonList(weatherSpec)));
                 }
-                GBApplication.deviceService().onSendWeather(new ArrayList<>(Collections.singletonList(Weather.getInstance().getWeatherSpec())));
+
+                final ArrayList<WeatherSpec> specs = new ArrayList<>(Weather.getInstance().getWeatherSpecs());
+                GBApplication.deviceService().onSendWeather(specs);
             }
         });
 
