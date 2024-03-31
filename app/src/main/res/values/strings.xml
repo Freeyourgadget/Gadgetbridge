@@ -2408,6 +2408,8 @@
     <string name="pref_force_dnd_support_summary">Force Do Not Disturb support.\nUSE AT YOUR OWN RISK</string>
     <string name="pref_force_enable_heartrate_support">Force heart rate support</string>
     <string name="pref_force_enable_heartrate_support_summary">Force enable heart rate support.\nUSE AT YOUR OWN RISK</string>
+    <string name="pref_force_enable_spo2_support">Force SpO2 support</string>
+    <string name="pref_force_enable_spo2_support_summary">Force enable SpO2 support.\nUSE AT YOUR OWN RISK</string>
     <string name="huawei_ignore_wakeup_status_start">Ignore wakeup start status</string>
     <string name="huawei_ignore_wakeup_status_start_description">May help with proper sleep detection. Visible immediately in the daily activities view.</string>
     <string name="huawei_ignore_wakeup_status_end">Ignore wakeup end status</string>

@@ -334,6 +334,10 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x07, 0x24);
     }
 
+    public boolean supportsSPo2(GBDevice gbDevice) {
+        return supportsSPo2() || getForceOption(gbDevice, PREF_FORCE_ENABLE_SPO2_SUPPORT);
+    }
+
     public boolean supportsFitnessThresholdValue() {
         return supportsCommandForService(0x07, 0x29);
     }

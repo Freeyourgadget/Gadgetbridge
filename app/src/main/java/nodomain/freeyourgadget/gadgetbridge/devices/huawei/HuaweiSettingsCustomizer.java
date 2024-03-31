@@ -103,6 +103,11 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             if (this.coordinator.supportsHeartRate(handler.getDevice())) {
                 heartRate.setVisible(true);
             }
+            final ListPreference spo2 = handler.findPreference(PREF_SPO_AUTOMATIC_ENABLE);
+            spo2.setVisible(false);
+            if (this.coordinator.supportsSPo2(handler.getDevice())) {
+                spo2.setVisible(true);
+            }
         }
     }
 
@@ -114,6 +119,7 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_WEAR_LOCATION);
         handler.addPreferenceHandlerFor(PREF_FORCE_DND_SUPPORT);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
+        handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_SPO2_SUPPORT);
 
         handler.addPreferenceHandlerFor(PREF_HUAWEI_WORKMODE);
         handler.addPreferenceHandlerFor(PREF_HUAWEI_TRUSLEEP);
@@ -125,7 +131,8 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             boolean supportsSmartAlarm = this.coordinator.supportsSmartAlarm();
             boolean supportsWearLocation = this.coordinator.supportsWearLocation();
             boolean supportsHeartRate = this.coordinator.supportsHeartRate();
-            if (!supportsSmartAlarm || !supportsWearLocation || !supportsHeartRate) {
+            boolean supportsSpO2 = this.coordinator.supportsSPo2();
+            if (!supportsSmartAlarm || !supportsWearLocation || !supportsHeartRate || !supportsSpO2) {
                 forceOptions.setVisible(true);
                 final SwitchPreferenceCompat forceSmartAlarm = handler.findPreference(PREF_FORCE_ENABLE_SMART_ALARM);
                 forceSmartAlarm.setVisible(false);
@@ -141,6 +148,11 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
                 forceHeartRate.setVisible(false);
                 if (!supportsHeartRate) {
                     forceHeartRate.setVisible(true);
+                }
+                final SwitchPreferenceCompat forceSpO2 = handler.findPreference(PREF_FORCE_ENABLE_SPO2_SUPPORT);
+                forceSpO2.setVisible(false);
+                if (!supportsSpO2) {
+                    forceSpO2.setVisible(true);
                 }
             }
         }
