@@ -1,5 +1,23 @@
 ### Changelog
 
+#### Next release (WIP)
+
+* AsteroidOS: Added icons to the notifications
+* Bangle.js: Add screenshot support
+* Bangle.js: Add setting to disable notifications
+* Bangle.js: Fix message reply
+* Huawei: Add cycling workout type
+* Huawei: Improve connection and reconnection
+* Huawei: Improve notification icons
+* Huawei: Improve workout parsing
+* Nothing CMF Watch Pro: Add weather support
+* Xiaomi Smart Band 8 Active: Fix discovery
+* Xiaomi: Improve weather support, add multiple locations
+* Set navbar color to match theme
+* Add support for scannable-only devices
+* Simplify pairing of bonded and companion devices
+* Prevent text cutoff on all checkbox preferences
+
 #### 0.80.0
 * Initial support for Amazfit Bip 3
 * Initial support for Huawei Band 8
