@@ -52,7 +52,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -100,7 +99,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -536,91 +534,111 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return new DeviceSupportFactory(this);
     }
 
-    private void createDeviceStruct(GBDevice target){
+    private DeviceStruct createDeviceStruct(GBDevice target){
         DeviceStruct registeredStruct = new DeviceStruct();
         registeredStruct.setDevice(target);
         registeredStruct.setCoordinator(target.getDeviceCoordinator());
         deviceStructs.add(registeredStruct);
+        return registeredStruct;
     }
 
     private void connectToDevice(GBDevice device){
         connectToDevice(device, false);
     }
 
-    private void connectToDevice(GBDevice device, boolean firstTime){
-        if(!device.getDeviceCoordinator().isConnectable()){
-            GB.toast("Cannot connect to Scannable Device", Toast.LENGTH_SHORT, GB.INFO);
-            return;
-        }
-
-        List<GBDevice> gbDevs = null;
+    private void connectToDevice(@Nullable final GBDevice device, boolean firstTime) {
+        final List<GBDevice> gbDevs = new ArrayList<>();
         boolean fromExtra = false;
 
-        Prefs prefs = getPrefs();
+        final Prefs prefs = getPrefs();
 
         if (device != null) {
-            gbDevs = new ArrayList<>();
+            if (!device.getDeviceCoordinator().isConnectable()) {
+                GB.toast("Cannot connect to Scannable Device", Toast.LENGTH_SHORT, GB.INFO);
+                return;
+            }
+
             gbDevs.add(device);
             fromExtra = true;
-        } else if (prefs.getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true)) {
+        } else {
             List<GBDevice> gbAllDevs = GBApplication.app().getDeviceManager().getDevices();
-            Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
-            if (gbAllDevs != null && !gbAllDevs.isEmpty() && !lastDeviceAddresses.isEmpty()) {
-                gbDevs = new ArrayList<>();
-                for(GBDevice gbDev : gbAllDevs) {
-                    if (lastDeviceAddresses.contains(gbDev.getAddress())) {
-                        gbDevs.add(gbDev);
+
+            if (gbAllDevs != null && !gbAllDevs.isEmpty()) {
+                if (prefs.getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true)) {
+                    Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+
+                    if (lastDeviceAddresses != null && !lastDeviceAddresses.isEmpty()) {
+                        for (final GBDevice gbDev : gbAllDevs) {
+                            // TODO volatile address
+                            if (lastDeviceAddresses.contains(gbDev.getAddress())) {
+                                gbDevs.add(gbDev);
+                            }
+                        }
                     }
+                } else {
+                    gbDevs.addAll(gbAllDevs);
                 }
             }
-        } else {
-            gbDevs = GBApplication.app().getDeviceManager().getDevices();
         }
 
-        if(gbDevs == null || gbDevs.size() == 0) {
+        if (gbDevs.isEmpty()) {
             return;
         }
 
-        for(GBDevice gbDevice : gbDevs) {
+        final List<DeviceStruct> shouldGetNotifiedOfUpdate = new ArrayList<>();
+
+        for (GBDevice gbDevice : gbDevs) {
+            if (!gbDevice.getDeviceCoordinator().isConnectable()) {
+                // we cannot connect to beacons, skip this device
+                continue;
+            }
+
             String btDeviceAddress = gbDevice.getAddress();
 
             boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
             if (prefs != null && prefs.getPreferences() != null) {
                 autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
-                if(!fromExtra && !autoReconnect) {
+                if (!fromExtra && !autoReconnect) {
                     continue;
                 }
-                Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+
+                final Set<String> lastDeviceAddresses = prefs.getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet());
+
                 if (!lastDeviceAddresses.contains(btDeviceAddress)) {
-                    lastDeviceAddresses = new HashSet<String>(lastDeviceAddresses);
                     lastDeviceAddresses.add(btDeviceAddress);
                     prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
                 }
             }
 
-            if(!fromExtra && !autoReconnect) {
+            if (!fromExtra && !autoReconnect) {
                 continue;
             }
 
             DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
-            if(registeredStruct != null){
-                boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
-                if(deviceAlreadyConnected){
-                    break;
+            if (registeredStruct == null) {
+                registeredStruct = createDeviceStruct(gbDevice);
+            } else {
+                final GBDevice deviceFromStruct = registeredStruct.getDevice();
+
+                if (isDeviceConnecting(deviceFromStruct) || isDeviceConnected(deviceFromStruct)) {
+                    continue;
                 }
+
                 try {
                     removeDeviceSupport(gbDevice);
-                } catch (DeviceNotFoundException e) {
-                    e.printStackTrace();
+                } catch (final DeviceNotFoundException e) {
+                    LOG.error("connectToDevice(): Failed to remove device support: {}", e, e);
                 }
-            }else{
-                createDeviceStruct(gbDevice);
             }
 
+            shouldGetNotifiedOfUpdate.add(registeredStruct);
+
             try {
-                DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
+                final DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
+
                 if (deviceSupport != null) {
                     setDeviceSupport(gbDevice, deviceSupport);
+
                     if (firstTime) {
                         deviceSupport.connectFirstTime();
                     } else {
@@ -634,10 +652,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             } catch (Exception e) {
                 GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
             }
+        }
 
-            for(DeviceStruct struct2 : deviceStructs){
-                struct2.getDevice().sendDeviceUpdateIntent(this);
-            }
+        for (final DeviceStruct struct : shouldGetNotifiedOfUpdate) {
+            struct.getDevice().sendDeviceUpdateIntent(this);
         }
     }
 
