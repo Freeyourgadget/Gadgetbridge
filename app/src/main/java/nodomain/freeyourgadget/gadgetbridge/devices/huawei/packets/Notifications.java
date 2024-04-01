@@ -17,13 +17,18 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
 import java.nio.ByteBuffer;
-import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
 public class Notifications {
     public static final byte id = 0x02;
+    public static final byte[] defaultConstraints = new byte[]{
+            (short)0x02, (short)0x0F,
+            (short)0x00, (short)0x02, (short)0x1E,
+            (short)0x00, (short)0x02, (short)0x1E,
+            (short)0x00, (short)0x02, (short)0x1E
+    };
 
     public static class NotificationActionRequest extends HuaweiPacket {
         public static final byte id = 0x01;
@@ -51,11 +56,9 @@ public class Notifications {
                 ParamsProvider paramsProvider,
                 short notificationId,
                 byte notificationType,
-                byte titleEncoding,
+                int encoding,
                 String titleContent,
-                byte senderEncoding,
                 String senderContent,
-                byte bodyEncoding,
                 String bodyContent,
                 String sourceAppId
         ) {
@@ -74,22 +77,22 @@ public class Notifications {
             HuaweiTLV subTlv = new HuaweiTLV();
             if (titleContent != null)
                 subTlv.put(0x8D, new HuaweiTLV()
-                        .put(0x0E, (byte) 0x03)
-                        .put(0x0F, titleEncoding)
+                        .put(0x0E, (byte) TextType.title)
+                        .put(0x0F, (byte) encoding)
                         .put(0x10, titleContent)
                 );
 
             if (senderContent != null)
                 subTlv.put(0x8D, new HuaweiTLV()
-                        .put(0x0E, (byte) 0x02)
-                        .put(0x0F, senderEncoding)
+                        .put(0x0E, (byte) TextType.sender)
+                        .put(0x0F, (byte) encoding)
                         .put(0x10, senderContent)
                 );
 
             if (bodyContent != null)
                 subTlv.put(0x8D, new HuaweiTLV()
-                        .put(0x0E, (byte) 0x01)
-                        .put(0x0F, bodyEncoding)
+                        .put(0x0E, (byte) TextType.text)
+                        .put(0x0F, (byte) encoding)
                         .put(0x10, bodyContent)
                 );
 
@@ -142,29 +145,30 @@ public class Notifications {
 
             @Override
             public void parseTlv() throws ParseException {
-                this.constraints = ByteBuffer.allocate(14);
-                List<HuaweiTLV> subContainers = this.tlv
+                this.constraints = ByteBuffer.allocate(22);
+                HuaweiTLV container = this.tlv
                         .getObject(0x81)
                         .getObject(0x82)
-                        .getObjects(0x90);
-                for (HuaweiTLV subContainer : subContainers) {
-                    HuaweiTLV subSubContainer = subContainer.getObject(0x91);
-                    if (subSubContainer.getByte(0x12) == 0x01)
-                        putByteBuffer(constraints, NotificationConstraintsType.contentLength,subSubContainer.getBytes(0x14));
-                    if (subSubContainer.getByte(0x12) == 0x05) {
-                        constraints.put(NotificationConstraintsType.yellowPagesSupport,(byte)0x01);
-                        constraints.put(NotificationConstraintsType.yellowPagesFormat,subSubContainer.getByte(0x13));
-                        putByteBuffer(constraints, NotificationConstraintsType.yellowPagesLength,subSubContainer.getBytes(0x14));
+                        .getObject(0x90);
+                for (HuaweiTLV subContainer : container.getObjects(0x91)) {
+                    if (subContainer.getByte(0x12) == 0x01) {
+                        putByteBuffer(constraints, NotificationConstraintsType.contentFormat, new byte[] {0x02}); //Always 0x02 even if gadget report 0x03
+                        putByteBuffer(constraints, NotificationConstraintsType.contentLength, subContainer.getBytes(0x14));
                     }
-                    if (subSubContainer.getByte(0x12) == 0x06) {
-                        constraints.put(NotificationConstraintsType.contentSignSupport,(byte)0x01);
-                        constraints.put(NotificationConstraintsType.contentSignFormat,subSubContainer.getByte(0x13));
-                        putByteBuffer(constraints, NotificationConstraintsType.contentSignLength,subSubContainer.getBytes(0x14));
+                    if (subContainer.getByte(0x12) == 0x05) {
+                        constraints.putShort(NotificationConstraintsType.yellowPagesSupport,(short)0x01);
+                        putByteBuffer(constraints, NotificationConstraintsType.yellowPagesFormat,subContainer.getBytes(0x13));
+                        putByteBuffer(constraints, NotificationConstraintsType.yellowPagesLength,subContainer.getBytes(0x14));
                     }
-                    if (subSubContainer.getByte(0x12) == 0x07 ) {
-                        constraints.put(NotificationConstraintsType.incomingNumberSupport,(byte)0x01);
-                        constraints.put(NotificationConstraintsType.incomingNumberFormat,subSubContainer.getByte(0x13));
-                        putByteBuffer(constraints, NotificationConstraintsType.incomingNumberLength,subSubContainer.getBytes(0x14));
+                    if (subContainer.getByte(0x12) == 0x06) {
+                        constraints.putShort(NotificationConstraintsType.contentSignSupport,(short)0x01);
+                        putByteBuffer(constraints, NotificationConstraintsType.contentSignFormat,subContainer.getBytes(0x13));
+                        putByteBuffer(constraints, NotificationConstraintsType.contentSignLength,subContainer.getBytes(0x14));
+                    }
+                    if (subContainer.getByte(0x12) == 0x07 ) {
+                        constraints.putShort(NotificationConstraintsType.incomingNumberSupport,(short)0x01);
+                        putByteBuffer(constraints, NotificationConstraintsType.incomingNumberFormat,subContainer.getBytes(0x13));
+                        putByteBuffer(constraints, NotificationConstraintsType.incomingNumberLength,subContainer.getBytes(0x14));
                     }
                 }
                 constraints.rewind();
@@ -174,22 +178,21 @@ public class Notifications {
 
     public static class NotificationConstraintsType {
         // TODO: enum?
-
-        public static final byte contentLength = 0x00;
-        public static final byte yellowPagesSupport = 0x02;
-        public static final byte yellowPagesFormat = 0x03;
-        public static final byte yellowPagesLength = 0x04;
-        public static final byte contentSignSupport = 0x06;
-        public static final byte contentSignFormat = 0x07;
-        public static final byte contentSignLength = 0x08;
-        public static final byte incomingNumberSupport = 0x0A;
-        public static final byte incomingNumberFormat = 0x0B;
-        public static final byte incomingNumberLength = 0x0C;
+        public static final byte contentFormat = 0x00;
+        public static final byte contentLength = 0x02;
+        public static final byte yellowPagesSupport = 0x04;
+        public static final byte yellowPagesFormat = 0x06;
+        public static final byte yellowPagesLength = 0x08;
+        public static final byte contentSignSupport = 0x0A;
+        public static final byte contentSignFormat = 0x0C;
+        public static final byte contentSignLength = 0x0E;
+        public static final byte incomingNumberSupport = 0x10;
+        public static final byte incomingNumberFormat = 0x12;
+        public static final byte incomingNumberLength = 0x14;
     }
 
     public static class NotificationType {
         // TODO: enum?
-
         public static final byte call = 0x01;
         public static final byte sms = 0x02;
         public static final byte weChat = 0x03;
@@ -202,7 +205,6 @@ public class Notifications {
 
     public static class TextType {
         // TODO: enum?
-
         public static final int text = 0x01;
         public static final int sender = 0x02;
         public static final int title = 0x03;
@@ -212,13 +214,6 @@ public class Notifications {
         public static final int train = 0x08;
         public static final int warmRemind = 0x09;
         public static final int weather = 0x0A;
-    }
-
-    public static class TextEncoding {
-        // TODO: enum?
-
-        public static final byte unknown = 0x01;
-        public static final byte standard = 0x02;
     }
 
     public static class NotificationStateRequest extends HuaweiPacket {

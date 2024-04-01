@@ -63,30 +63,32 @@ public class SendNotificationRequest extends Request {
         else
             title = notificationSpec.sourceName;
 
+        String body = notificationSpec.body;
+        if (body.length() > supportProvider.getHuaweiCoordinator().getContentLength()) {
+            body = notificationSpec.body.substring(0x0, supportProvider.getHuaweiCoordinator().getContentLength() - 0xC);
+            body += "...";
+        }
         this.packet = new Notifications.NotificationActionRequest(
                 paramsProvider,
                 supportProvider.getNotificationId(),
                 getNotificationType(notificationSpec.type),
-                Notifications.TextEncoding.standard,
+                supportProvider.getHuaweiCoordinator().getContentFormat(),
                 title,
-                Notifications.TextEncoding.standard,
                 notificationSpec.sender,
-                Notifications.TextEncoding.standard,
-                notificationSpec.body,
+                body,
                 notificationSpec.sourceAppId
         );
     }
 
     public void buildNotificationTLVFromCallSpec(CallSpec callSpec) {
+
         this.packet = new Notifications.NotificationActionRequest(
                 paramsProvider,
                 supportProvider.getNotificationId(),
                 Notifications.NotificationType.call,
-                Notifications.TextEncoding.standard,
+                supportProvider.getHuaweiCoordinator().getContentFormat(),
                 callSpec.name,
-                Notifications.TextEncoding.standard,
                 callSpec.name,
-                Notifications.TextEncoding.standard,
                 callSpec.name,
                 null
         );

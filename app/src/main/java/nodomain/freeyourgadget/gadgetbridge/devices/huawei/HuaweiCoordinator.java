@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications.NotificationConstraintsType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -68,8 +69,8 @@ public class HuaweiCoordinator {
                     this.notificationConstraints = ByteBuffer.wrap(GB.hexStringToByteArray(
                                     getCapabilitiesSharedPreferences().getString(
                                             key,
-                                            "00F00002001E0002001E0002001E")
-                    ));
+                                            GB.hexdump(Notifications.defaultConstraints)
+                    )));
             }
         }
     }
@@ -176,7 +177,7 @@ public class HuaweiCoordinator {
     }
 
     private int getNotificationConstraint(byte which) {
-        return notificationConstraints.get(which);
+        return (int)notificationConstraints.getShort(which);
     }
 
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
@@ -469,32 +470,36 @@ public class HuaweiCoordinator {
         return supportsNotificationConstraint(NotificationConstraintsType.incomingNumberSupport);
     }
 
-    public byte getYellowPagesFormat() {
-        return (byte)getNotificationConstraint(NotificationConstraintsType.yellowPagesFormat);
+    public int getContentFormat() {
+        return getNotificationConstraint(NotificationConstraintsType.contentFormat);
     }
 
-    public byte getContentSignFormat() {
-        return (byte)getNotificationConstraint(NotificationConstraintsType.contentSignFormat);
+    public int getYellowPagesFormat() {
+        return getNotificationConstraint(NotificationConstraintsType.yellowPagesFormat);
     }
 
-    public byte getIncomingFormatFormat() {
-        return (byte)getNotificationConstraint(NotificationConstraintsType.incomingNumberFormat);
+    public int getContentSignFormat() {
+        return getNotificationConstraint(NotificationConstraintsType.contentSignFormat);
     }
 
-    public short getContentLength() {
-        return (short)getNotificationConstraint(NotificationConstraintsType.contentLength);
+    public int getIncomingFormatFormat() {
+        return getNotificationConstraint(NotificationConstraintsType.incomingNumberFormat);
     }
 
-    public short getYellowPagesLength() {
-        return (short)getNotificationConstraint(NotificationConstraintsType.yellowPagesLength);
+    public int getContentLength() {
+        return getNotificationConstraint(NotificationConstraintsType.contentLength);
     }
 
-    public short getContentSignLength() {
-        return (short)getNotificationConstraint(NotificationConstraintsType.contentSignLength);
+    public int getYellowPagesLength() {
+        return getNotificationConstraint(NotificationConstraintsType.yellowPagesLength);
     }
 
-    public short getIncomingNumberLength() {
-        return (short)getNotificationConstraint(NotificationConstraintsType.incomingNumberLength);
+    public int getContentSignLength() {
+        return getNotificationConstraint(NotificationConstraintsType.contentSignLength);
+    }
+
+    public int getIncomingNumberLength() {
+        return getNotificationConstraint(NotificationConstraintsType.incomingNumberLength);
     }
 
     public int getAlarmSlotCount(GBDevice gbDevice) {

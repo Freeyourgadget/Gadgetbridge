@@ -37,11 +37,9 @@ public class StopNotificationRequest extends Request {
                     paramsProvider,
                     supportProvider.getNotificationId(),
                     Notifications.NotificationType.stopNotification,
-                    Notifications.TextEncoding.standard,
+                    supportProvider.getHuaweiCoordinator().getContentFormat(),
                     null,
-                    Notifications.TextEncoding.standard,
                     null,
-                    Notifications.TextEncoding.standard,
                     null,
                     null
             ).serialize();

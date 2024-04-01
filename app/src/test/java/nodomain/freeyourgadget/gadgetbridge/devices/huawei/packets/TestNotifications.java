@@ -64,11 +64,9 @@ public class TestNotifications {
     public void testNotificationActionRequest() throws NoSuchFieldException, IllegalAccessException, HuaweiPacket.CryptoException {
         short notificationId = 0x01;
         byte notificationType = 0x02;
-        byte titleEncoding = 0x02;
+        byte encoding = 0x02;
         String titleContent = "Title";
-        byte senderEncoding = 0x02;
         String senderContent = "Sender";
-        byte bodyEncoding = 0x02;
         String bodyContent = "Body";
         String sourceAppId = "SourceApp";
 
@@ -83,17 +81,17 @@ public class TestNotifications {
                         .put(0x8C, new HuaweiTLV()
                                 .put(0x8D, new HuaweiTLV()
                                         .put(0x0E, (byte) 0x03)
-                                        .put(0x0F, titleEncoding)
+                                        .put(0x0F, encoding)
                                         .put(0x10, titleContent)
                                 )
                                 .put(0x8D, new HuaweiTLV()
                                         .put(0x0E, (byte) 0x02)
-                                        .put(0x0F, senderEncoding)
+                                        .put(0x0F, encoding)
                                         .put(0x10, senderContent)
                                 )
                                 .put(0x8D, new HuaweiTLV()
                                         .put(0x0E, (byte) 0x01)
-                                        .put(0x0F, bodyEncoding)
+                                        .put(0x0F, encoding)
                                         .put(0x10, bodyContent)
                                 )
                         )
@@ -104,11 +102,9 @@ public class TestNotifications {
                 secretsProvider,
                 notificationId,
                 notificationType,
-                titleEncoding,
+                encoding,
                 titleContent,
-                senderEncoding,
                 senderContent,
-                bodyEncoding,
                 bodyContent,
                 sourceAppId
         );
