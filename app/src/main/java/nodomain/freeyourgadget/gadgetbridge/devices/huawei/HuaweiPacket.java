@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelated;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
@@ -500,6 +501,16 @@ public class HuaweiPacket {
                         return new Workout.WorkoutData.Response(paramsProvider).fromPacket(this);
                     case Workout.WorkoutPace.id:
                         return new Workout.WorkoutPace.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
+            case GpsAndTime.id:
+                switch (this.commandId) {
+                    case GpsAndTime.GpsParameters.id:
+                        return new GpsAndTime.GpsParameters.Response(paramsProvider).fromPacket(this);
+                    case GpsAndTime.GpsData.id:
+                        return new GpsAndTime.GpsData.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
