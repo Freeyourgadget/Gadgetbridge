@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import android.location.Location;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
@@ -122,5 +124,10 @@ public class HuaweiBRSupport extends AbstractBTBRDeviceSupport {
     @Override
     public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
         supportProvider.onSendWeather(weatherSpecs);
+    }
+
+    @Override
+    public void onSetGpsLocation(Location location) {
+        supportProvider.onSetGpsLocation(location);
     }
 }

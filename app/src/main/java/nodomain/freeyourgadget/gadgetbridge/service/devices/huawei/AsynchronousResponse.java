@@ -45,9 +45,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Menstrual;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationListener;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendMenstrualModifyTimeRequest;
@@ -98,6 +101,7 @@ public class AsynchronousResponse {
             handlePhoneInfo(response);
             handleMenstrualModifyTime(response);
             handleWeatherCheck(response);
+            handleGpsRequest(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -393,6 +397,16 @@ public class AsynchronousResponse {
             }
 
             // TODO: send back weather?
+        }
+    }
+
+    private void handleGpsRequest(HuaweiPacket response) {
+        if (response.serviceId == GpsAndTime.id && response.commandId == GpsAndTime.GpsStatus.id) {
+            if (!(response instanceof GpsAndTime.GpsStatus.Response)) {
+                // TODO: exception?
+                return;
+            }
+            support.setGps(((GpsAndTime.GpsStatus.Response) response).enableGps);
         }
     }
 }

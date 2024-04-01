@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier;
@@ -50,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupp
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -62,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -77,10 +81,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
@@ -107,7 +113,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Alar
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.DebugRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetActivityTypeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request.RequestCallback;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAuthRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetBatteryLevelRequest;
@@ -168,6 +173,8 @@ public class HuaweiSupportProvider {
     private MusicStateSpec musicStateSpec = null;
     private MusicSpec musicSpec = null;
 
+    private GpsAndTime.GpsParameters.Response gpsParametersResponse = null;
+
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
     protected ResponseManager responseManager = new ResponseManager(this);
@@ -218,6 +225,39 @@ public class HuaweiSupportProvider {
         } else {
             brSupport.evaluateGBDeviceEvent(deviceEvent);
         }
+    }
+
+    public void setGps(boolean start) {
+        EventHandler handler;
+        if (isBLE())
+            handler = leSupport;
+        else
+            handler = brSupport;
+        if (start) {
+            if (!GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false))
+                return;
+            if (gpsParametersResponse == null) {
+                GetGpsParameterRequest gpsParameterRequest = new GetGpsParameterRequest(this);
+                gpsParameterRequest.setFinalizeReq(new RequestCallback() {
+                    @Override
+                    public void call() {
+                        GBLocationManager.start(getContext(), handler);
+                    }
+                });
+                try {
+                    gpsParameterRequest.doPerform();
+                } catch (IOException e) {
+                    GB.toast(context, "Failed to get GPS parameters", Toast.LENGTH_SHORT, GB.ERROR, e);
+                    LOG.error("Failed to get GPS parameters", e);
+                }
+            } else
+                GBLocationManager.start(getContext(), handler);
+        } else
+            GBLocationManager.stop(getContext(), handler);
+    }
+
+    public void setGpsParametersResponse(GpsAndTime.GpsParameters.Response response) {
+        this.gpsParametersResponse = response;
     }
 
     protected nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder initializeDevice(nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
@@ -1766,6 +1806,23 @@ public class HuaweiSupportProvider {
             // TODO: Use translatable string
             GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Failed to send weather", e);
+        }
+    }
+
+    public void onSetGpsLocation(Location location) {
+        if (gpsParametersResponse == null) {
+            GB.toast(context, "Received location without knowing supported parameters", Toast.LENGTH_SHORT, GB.ERROR);
+            LOG.error("Received location without knowing supported parameters");
+            return;
+        }
+
+        SendGpsDataRequest sendGpsDataRequest = new SendGpsDataRequest(this, location, gpsParametersResponse);
+        try {
+            sendGpsDataRequest.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to send GPS data", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to send GPS data", e);
         }
     }
 }

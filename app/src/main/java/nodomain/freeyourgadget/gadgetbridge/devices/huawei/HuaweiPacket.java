@@ -509,6 +509,8 @@ public class HuaweiPacket {
                 switch (this.commandId) {
                     case GpsAndTime.GpsParameters.id:
                         return new GpsAndTime.GpsParameters.Response(paramsProvider).fromPacket(this);
+                    case GpsAndTime.GpsStatus.id:
+                        return new GpsAndTime.GpsStatus.Response(paramsProvider).fromPacket(this);
                     case GpsAndTime.GpsData.id:
                         return new GpsAndTime.GpsData.Response(paramsProvider).fromPacket(this);
                     default:

@@ -202,6 +202,7 @@ public class HuaweiCoordinator {
             notifications.add(R.xml.devicesettings_donotdisturb_allday_liftwirst_notwear);
 
         // Workout
+        deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.WORKOUT, R.xml.devicesettings_workout_send_gps_to_band);
 
         // Other
         deviceSpecificSettings.addRootScreen(R.xml.devicesettings_find_phone);
