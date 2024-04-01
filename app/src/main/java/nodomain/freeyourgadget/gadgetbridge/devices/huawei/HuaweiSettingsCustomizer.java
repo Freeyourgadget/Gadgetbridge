@@ -62,20 +62,10 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
             SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
             boolean statusLiftWrist = sharedPrefs.getBoolean(PREF_LIFTWRIST_NOSHED, false);
 
-            dndStart.setEnabled(false);
-            dndEnd.setEnabled(false);
-            dndNotWear.setEnabled(false);
-            dndLifWrist.setEnabled(false);
-            if (dndState.equals("scheduled")) {
-                dndStart.setEnabled(true);
-                dndEnd.setEnabled(true);
-            }
-            if (statusLiftWrist && !dndState.equals("off")) {
-                dndLifWrist.setEnabled(true);
-            }
-            if (dndState.equals("off")) {
-                dndNotWear.setEnabled(true);
-            }
+            dndStart.setEnabled(dndState.equals("scheduled"));
+            dndEnd.setEnabled(dndState.equals("scheduled"));
+            dndLifWrist.setEnabled(statusLiftWrist && !dndState.equals("off"));
+            dndNotWear.setEnabled(dndState.equals("off"));
         }
         if (preference.getKey().equals("huawei_reparse_workout_data")) {
             if (((SwitchPreferenceCompat) preference).isChecked()) {
@@ -88,26 +78,17 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         }
         if (preference.getKey().equals(PREF_FORCE_OPTIONS)) {
             final Preference dnd = handler.findPreference("screen_do_not_disturb");
-            if (dnd != null) {
-                dnd.setVisible(false);
-                if (this.coordinator.supportsDoNotDisturb(handler.getDevice()))
-                    dnd.setVisible(true);
-            }
+            if (dnd != null)
+                dnd.setVisible(this.coordinator.supportsDoNotDisturb(handler.getDevice()));
             final ListPreference wearLocation = handler.findPreference(PREF_WEARLOCATION);
-            wearLocation.setVisible(false);
-            if (this.coordinator.supportsWearLocation(handler.getDevice())) {
-                wearLocation.setVisible(true);
-            }
+            if (wearLocation != null)
+                wearLocation.setVisible(this.coordinator.supportsWearLocation(handler.getDevice()));
             final ListPreference heartRate = handler.findPreference(PREF_HEARTRATE_AUTOMATIC_ENABLE);
-            heartRate.setVisible(false);
-            if (this.coordinator.supportsHeartRate(handler.getDevice())) {
-                heartRate.setVisible(true);
-            }
+            if (heartRate != null)
+                heartRate.setVisible(this.coordinator.supportsHeartRate(handler.getDevice()));
             final ListPreference spo2 = handler.findPreference(PREF_SPO_AUTOMATIC_ENABLE);
-            spo2.setVisible(false);
-            if (this.coordinator.supportsSPo2(handler.getDevice())) {
-                spo2.setVisible(true);
-            }
+            if (spo2 != null)
+                spo2.setVisible(this.coordinator.supportsSPo2(handler.getDevice()));
         }
     }
 
@@ -127,34 +108,19 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
 
         final Preference forceOptions = handler.findPreference(PREF_FORCE_OPTIONS);
         if (forceOptions != null) {
-            forceOptions.setVisible(false);
             boolean supportsSmartAlarm = this.coordinator.supportsSmartAlarm();
             boolean supportsWearLocation = this.coordinator.supportsWearLocation();
             boolean supportsHeartRate = this.coordinator.supportsHeartRate();
             boolean supportsSpO2 = this.coordinator.supportsSPo2();
-            if (!supportsSmartAlarm || !supportsWearLocation || !supportsHeartRate || !supportsSpO2) {
-                forceOptions.setVisible(true);
-                final SwitchPreferenceCompat forceSmartAlarm = handler.findPreference(PREF_FORCE_ENABLE_SMART_ALARM);
-                forceSmartAlarm.setVisible(false);
-                if (!supportsSmartAlarm) {
-                    forceSmartAlarm.setVisible(true);
-                }
-                final SwitchPreferenceCompat forceWearLocation = handler.findPreference(PREF_FORCE_ENABLE_WEAR_LOCATION);
-                forceWearLocation.setVisible(false);
-                if (!supportsWearLocation) {
-                    forceWearLocation.setVisible(true);
-                }
-                final SwitchPreferenceCompat forceHeartRate = handler.findPreference(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
-                forceHeartRate.setVisible(false);
-                if (!supportsHeartRate) {
-                    forceHeartRate.setVisible(true);
-                }
-                final SwitchPreferenceCompat forceSpO2 = handler.findPreference(PREF_FORCE_ENABLE_SPO2_SUPPORT);
-                forceSpO2.setVisible(false);
-                if (!supportsSpO2) {
-                    forceSpO2.setVisible(true);
-                }
-            }
+            forceOptions.setVisible(!supportsSmartAlarm || !supportsWearLocation || !supportsHeartRate || !supportsSpO2);
+            final SwitchPreferenceCompat forceSmartAlarm = handler.findPreference(PREF_FORCE_ENABLE_SMART_ALARM);
+            forceSmartAlarm.setVisible(!supportsSmartAlarm);
+            final SwitchPreferenceCompat forceWearLocation = handler.findPreference(PREF_FORCE_ENABLE_WEAR_LOCATION);
+            forceWearLocation.setVisible(!supportsWearLocation);
+            final SwitchPreferenceCompat forceHeartRate = handler.findPreference(PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
+            forceHeartRate.setVisible(!supportsHeartRate);
+            final SwitchPreferenceCompat forceSpO2 = handler.findPreference(PREF_FORCE_ENABLE_SPO2_SUPPORT);
+            forceSpO2.setVisible(!supportsSpO2);
         }
 
         final SwitchPreferenceCompat reparseWorkout = handler.findPreference("huawei_reparse_workout_data");
