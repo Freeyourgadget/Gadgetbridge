@@ -585,8 +585,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             return;
         }
 
-        final List<DeviceStruct> shouldGetNotifiedOfUpdate = new ArrayList<>();
-
         for (GBDevice gbDevice : gbDevs) {
             if (!gbDevice.getDeviceCoordinator().isConnectable()) {
                 // we cannot connect to beacons, skip this device
@@ -631,8 +629,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
             }
 
-            shouldGetNotifiedOfUpdate.add(registeredStruct);
-
             try {
                 final DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
 
@@ -652,10 +648,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             } catch (Exception e) {
                 GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
             }
-        }
 
-        for (final DeviceStruct struct : shouldGetNotifiedOfUpdate) {
-            struct.getDevice().sendDeviceUpdateIntent(this);
+            registeredStruct.getDevice().sendDeviceUpdateIntent(this);
         }
     }
 
