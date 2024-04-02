@@ -14,7 +14,6 @@ public class MusicControlCapabilitiesMessage extends GFDIMessage {
     public static MusicControlCapabilitiesMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int supportedCapabilities = reader.readByte();
 
-        reader.warnIfLeftover();
         return new MusicControlCapabilitiesMessage(garminMessage, supportedCapabilities);
     }
 

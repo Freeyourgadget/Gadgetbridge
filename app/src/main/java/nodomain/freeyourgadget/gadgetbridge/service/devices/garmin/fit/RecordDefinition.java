@@ -4,7 +4,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class RecordDefinition {
@@ -33,34 +33,32 @@ public class RecordDefinition {
         this(recordHeader, byteOrder, mesgType, globalMesgNum, null, null);
     }
 
-    public static RecordDefinition parseIncoming(MessageReader reader, RecordHeader recordHeader) {
+    public static RecordDefinition parseIncoming(GarminByteBufferReader garminByteBufferReader, RecordHeader recordHeader) {
         if (!recordHeader.isDefinition())
             return null;
-        reader.readByte();//ignore
-        ByteOrder byteOrder = reader.readByte() == 0x01 ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
-        reader.setByteOrder(byteOrder);
-        final int globalMesgNum = reader.readShort();
+        garminByteBufferReader.readByte();//ignore
+        ByteOrder byteOrder = garminByteBufferReader.readByte() == 0x01 ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
+        garminByteBufferReader.setByteOrder(byteOrder);
+        final int globalMesgNum = garminByteBufferReader.readShort();
 
         RecordDefinition definitionMessage = new RecordDefinition(recordHeader, byteOrder, recordHeader.getMesgType(), globalMesgNum);
 
-        final int numFields = reader.readByte();
+        final int numFields = garminByteBufferReader.readByte();
         List<FieldDefinition> fieldDefinitions = new ArrayList<>(numFields);
         for (int i = 0; i < numFields; i++) {
-            fieldDefinitions.add(FieldDefinition.parseIncoming(reader));
+            fieldDefinitions.add(FieldDefinition.parseIncoming(garminByteBufferReader));
         }
 
         definitionMessage.setFieldDefinitions(fieldDefinitions);
 
         if (recordHeader.isDeveloperData()) {
-            final int numDevFields = reader.readByte();
+            final int numDevFields = garminByteBufferReader.readByte();
             List<DevFieldDefinition> devFieldDefinitions = new ArrayList<>(numDevFields);
             for (int i = 0; i < numDevFields; i++) {
-                devFieldDefinitions.add(DevFieldDefinition.parseIncoming(reader));
+                devFieldDefinitions.add(DevFieldDefinition.parseIncoming(garminByteBufferReader));
             }
             definitionMessage.setDevFieldDefinitions(devFieldDefinitions);
         }
-
-        reader.warnIfLeftover();
 
         return definitionMessage;
     }

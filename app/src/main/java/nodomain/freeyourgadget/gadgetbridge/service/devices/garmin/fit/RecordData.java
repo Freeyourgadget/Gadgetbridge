@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
@@ -44,10 +43,10 @@ public class RecordData {
 
     }
 
-    public void parseDataMessage(MessageReader reader) {
-        reader.setByteOrder(valueHolder.order());
+    public void parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
+        garminByteBufferReader.setByteOrder(valueHolder.order());
         for (FieldData fieldData : fieldDataList) {
-            fieldData.parseDataMessage(reader);
+            fieldData.parseDataMessage(garminByteBufferReader);
         }
     }
 
@@ -167,9 +166,9 @@ public class RecordData {
             valueHolder.position(position);
         }
 
-        public void parseDataMessage(MessageReader reader) {
+        private void parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
             goToPosition();
-            valueHolder.put(reader.readBytes(size));
+            valueHolder.put(garminByteBufferReader.readBytes(size));
         }
 
         public void encode(Object... objects) {

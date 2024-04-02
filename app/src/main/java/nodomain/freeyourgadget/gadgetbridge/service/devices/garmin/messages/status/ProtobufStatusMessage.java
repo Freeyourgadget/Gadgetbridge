@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.sta
 
 import androidx.annotation.Nullable;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class ProtobufStatusMessage extends GFDIStatusMessage {
@@ -35,7 +34,6 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         final ProtobufChunkStatus protobufStatus = ProtobufChunkStatus.fromCode(reader.readByte());
         final ProtobufStatusCode error = ProtobufStatusCode.fromCode(reader.readByte());
 
-        reader.warnIfLeftover();
         return new ProtobufStatusMessage(garminMessage, status, requestID, dataOffset, protobufStatus, error, false);
     }
 

@@ -25,7 +25,6 @@ public class ConfigurationMessage extends GFDIMessage {
     public static ConfigurationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int endOfPayload = reader.readByte();
         ConfigurationMessage configurationMessage = new ConfigurationMessage(garminMessage, reader.readBytes(endOfPayload - reader.getPosition()));
-        reader.warnIfLeftover();
         return configurationMessage;
     }
 
