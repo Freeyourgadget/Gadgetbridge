@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalDefinitionsEnum;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.LocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ConfigurationMessage;
@@ -159,14 +159,14 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         List<RecordData> weatherData = new ArrayList<>();
 
         List<RecordDefinition> weatherDefinitions = new ArrayList<>(3);
-        weatherDefinitions.add(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
-        weatherDefinitions.add(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
-        weatherDefinitions.add(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+        weatherDefinitions.add(LocalMessage.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
+        weatherDefinitions.add(LocalMessage.HOURLY_WEATHER_FORECAST.getRecordDefinition());
+        weatherDefinitions.add(LocalMessage.DAILY_WEATHER_FORECAST.getRecordDefinition());
 
         communicator.sendMessage(new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDefinitionMessage(weatherDefinitions).getOutgoingMessage());
 
         try {
-            RecordData today = new RecordData(GlobalDefinitionsEnum.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
+            RecordData today = new RecordData(LocalMessage.TODAY_WEATHER_CONDITIONS.getRecordDefinition());
             today.setFieldByName("weather_report", 0); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
             today.setFieldByName("timestamp", weather.timestamp);
             today.setFieldByName("observed_at_time", weather.timestamp);
@@ -187,7 +187,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             for (int hour = 0; hour <= 11; hour++) {
                 if (hour < weather.hourly.size()) {
                     WeatherSpec.Hourly hourly = weather.hourly.get(hour);
-                    RecordData weatherHourlyForecast = new RecordData(GlobalDefinitionsEnum.HOURLY_WEATHER_FORECAST.getRecordDefinition());
+                    RecordData weatherHourlyForecast = new RecordData(LocalMessage.HOURLY_WEATHER_FORECAST.getRecordDefinition());
                     weatherHourlyForecast.setFieldByName("weather_report", 1); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
                     weatherHourlyForecast.setFieldByName("timestamp", hourly.timestamp);
                     weatherHourlyForecast.setFieldByName("temperature", hourly.temp);
@@ -203,7 +203,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 }
             }
 //
-            RecordData todayDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+            RecordData todayDailyForecast = new RecordData(LocalMessage.DAILY_WEATHER_FORECAST.getRecordDefinition());
             todayDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
             todayDailyForecast.setFieldByName("timestamp", weather.timestamp);
             todayDailyForecast.setFieldByName("low_temperature", weather.todayMinTemp);
@@ -218,7 +218,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 if (day < weather.forecasts.size()) {
                     WeatherSpec.Daily daily = weather.forecasts.get(day);
                     int ts = weather.timestamp + (day + 1) * 24 * 60 * 60; //TODO: is this needed?
-                    RecordData weatherDailyForecast = new RecordData(GlobalDefinitionsEnum.DAILY_WEATHER_FORECAST.getRecordDefinition());
+                    RecordData weatherDailyForecast = new RecordData(LocalMessage.DAILY_WEATHER_FORECAST.getRecordDefinition());
                     weatherDailyForecast.setFieldByName("weather_report", 2); // 0 = current, 1 = hourly_forecast, 2 = daily_forecast
                     weatherDailyForecast.setFieldByName("timestamp", weather.timestamp);
                     weatherDailyForecast.setFieldByName("low_temperature", daily.minTemp);

@@ -3,17 +3,18 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 import java.nio.ByteBuffer;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
 
 public class DevFieldDefinition {
     public final ByteBuffer valueHolder;
-    private final int localNumber;
+    private final int fieldDefinitionNumber;
     private final int size;
     private final int developerDataIndex;
-    private final String name;
+    private BaseType baseType;
+    private String name;
 
-    public DevFieldDefinition(int localNumber, int size, int developerDataIndex, String name) {
-        this.localNumber = localNumber;
+    public DevFieldDefinition(int fieldDefinitionNumber, int size, int developerDataIndex, String name) {
+        this.fieldDefinitionNumber = fieldDefinitionNumber;
         this.size = size;
         this.developerDataIndex = developerDataIndex;
         this.name = name;
@@ -29,8 +30,20 @@ public class DevFieldDefinition {
 
     }
 
-    public int getLocalNumber() {
-        return localNumber;
+    public BaseType getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(BaseType baseType) {
+        this.baseType = baseType;
+    }
+
+    public int getDeveloperDataIndex() {
+        return developerDataIndex;
+    }
+
+    public int getFieldDefinitionNumber() {
+        return fieldDefinitionNumber;
     }
 
     public int getSize() {
@@ -41,16 +54,7 @@ public class DevFieldDefinition {
         return name;
     }
 
-    public void generateOutgoingPayload(MessageWriter writer) { //TODO
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public Object decode() { //TODO
-        return null;
-    }
-
-
-    public void encode(Object o) { //TODO
-    }
-
-
 }

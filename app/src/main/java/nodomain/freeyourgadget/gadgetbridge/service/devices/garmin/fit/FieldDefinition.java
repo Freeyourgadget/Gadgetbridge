@@ -7,15 +7,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FieldDefinition implements FieldInterface {
-    private final int localNumber;
-    private final int size;
     protected final BaseType baseType;
-    private final String name;
     protected final int scale;
     protected final int offset;
+    private final int number;
+    private final int size;
+    private final String name;
 
-    public FieldDefinition(int localNumber, int size, BaseType baseType, String name, int scale, int offset) {
-        this.localNumber = localNumber;
+    public FieldDefinition(int number, int size, BaseType baseType, String name, int scale, int offset) {
+        this.number = number;
         this.size = size;
         this.baseType = baseType;
         this.name = name;
@@ -23,34 +23,25 @@ public class FieldDefinition implements FieldInterface {
         this.offset = offset;
     }
 
-    public FieldDefinition(int localNumber, int size, BaseType baseType, String name) {
-        this(localNumber, size, baseType, name, 1, 0);
+    public FieldDefinition(int number, int size, BaseType baseType, String name) {
+        this(number, size, baseType, name, 1, 0);
     }
 
-    public static FieldDefinition parseIncoming(GarminByteBufferReader garminByteBufferReader) {
-        int localNumber = garminByteBufferReader.readByte();
+    public static FieldDefinition parseIncoming(GarminByteBufferReader garminByteBufferReader, GlobalFITMessage globalFITMessage) {
+        int number = garminByteBufferReader.readByte();
         int size = garminByteBufferReader.readByte();
         int baseTypeIdentifier = garminByteBufferReader.readByte();
         BaseType baseType = BaseType.fromIdentifier(baseTypeIdentifier);
 
-        if (size % baseType.getSize() != 0) {
-            baseType = BaseType.BASE_TYPE_BYTE;
+        FieldDefinition global = globalFITMessage.getFieldDefinition(number, size);
+        if (null != global && global.getBaseType().equals(baseType)) {
+            return global;
         }
-
-        return new FieldDefinition(localNumber, size, baseType, "");
-
+        return new FieldDefinition(number, size, baseType, "");
     }
 
-    public int getScale() {
-        return scale;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public int getLocalNumber() {
-        return localNumber;
+    public int getNumber() {
+        return number;
     }
 
     public int getSize() {
@@ -66,7 +57,7 @@ public class FieldDefinition implements FieldInterface {
     }
 
     public void generateOutgoingPayload(MessageWriter writer) {
-        writer.writeByte(localNumber);
+        writer.writeByte(number);
         writer.writeByte(size);
         writer.writeByte(baseType.getIdentifier());
     }
