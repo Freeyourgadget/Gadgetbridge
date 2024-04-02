@@ -1,15 +1,21 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import androidx.annotation.Nullable;
+
+import java.util.Objects;
+
 public class RecordHeader {
     private final boolean definition;
     private final boolean developerData;
-    private final MesgType mesgType;
+    private final LocalMessage localMessage;
+    private final int rawLocalMessageType;
     private final Integer timeOffset;
 
-    public RecordHeader(boolean definition, boolean developerData, MesgType mesgType, Integer timeOffset) {
+    public RecordHeader(boolean definition, boolean developerData, LocalMessage localMessage, Integer timeOffset) {
         this.definition = definition;
         this.developerData = developerData;
-        this.mesgType = mesgType;
+        this.localMessage = localMessage;
+        this.rawLocalMessageType = localMessage.getType();
         this.timeOffset = timeOffset;
     }
 
@@ -18,14 +24,15 @@ public class RecordHeader {
         if ((header & 0x80) == 0x80) { //compressed timestamp TODO add support
             definition = false;
             developerData = false;
-            mesgType = MesgType.fromIdentifier((header >> 5) & 0x3);
+            rawLocalMessageType = (header >> 5) & 0x3;
             timeOffset = header & 0x1f;
         } else {
             definition = ((header & 0x40) == 0x40);
             developerData = ((header & 0x20) == 0x20);
-            mesgType = MesgType.fromIdentifier(header & 0xf);
+            rawLocalMessageType = header & 0xf;
             timeOffset = null;
         }
+        localMessage = LocalMessage.fromType(rawLocalMessageType);
     }
 
     public boolean isDeveloperData() {
@@ -36,14 +43,15 @@ public class RecordHeader {
         return definition;
     }
 
-    public MesgType getMesgType() {
-        return mesgType;
+    @Nullable
+    public LocalMessage getLocalMessage() {
+        return localMessage;
     }
 
     public byte generateOutgoingDefinitionPayload() {
         if (!definition && !developerData)
-            return (byte) (timeOffset | (((byte) mesgType.getIdentifier()) << 5));
-        byte base = (byte) mesgType.getIdentifier();
+            return (byte) (timeOffset | (((byte) localMessage.getType()) << 5));
+        byte base = (byte) (null == localMessage ? rawLocalMessageType : localMessage.getType());
         if (definition)
             base = (byte) (base | 0x40);
         if (developerData)
@@ -54,11 +62,37 @@ public class RecordHeader {
 
     public byte generateOutgoingDataPayload() { //TODO: unclear if correct
         if (!definition && !developerData)
-            return (byte) (timeOffset | (((byte) mesgType.getIdentifier()) << 5));
-        byte base = (byte) mesgType.getIdentifier();
+            return (byte) (timeOffset | (((byte) localMessage.getType()) << 5));
+        byte base = (byte) (null == localMessage ? rawLocalMessageType : localMessage.getType());
         if (developerData)
             base = (byte) (base | 0x20);
 
         return base;
+    }
+
+    public String toString() {
+        return "Local Message: " + (null == localMessage ? "raw: " + rawLocalMessageType : "type: " + localMessage.name());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RecordHeader that = (RecordHeader) o;
+
+        if (definition != that.definition) return false;
+        if (rawLocalMessageType != that.rawLocalMessageType) return false;
+        if (localMessage != that.localMessage) return false;
+        return Objects.equals(timeOffset, that.timeOffset);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (definition ? 1 : 0);
+        result = 31 * result + (localMessage != null ? localMessage.hashCode() : 0);
+        result = 31 * result + rawLocalMessageType;
+        result = 31 * result + (timeOffset != null ? timeOffset.hashCode() : 0);
+        return result;
     }
 }
