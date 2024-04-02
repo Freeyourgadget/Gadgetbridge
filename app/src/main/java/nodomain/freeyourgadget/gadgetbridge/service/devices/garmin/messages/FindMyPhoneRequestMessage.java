@@ -17,7 +17,6 @@ public class FindMyPhoneRequestMessage extends GFDIMessage {
     public static FindMyPhoneRequestMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int duration = reader.readByte();
 
-        reader.warnIfLeftover();
         return new FindMyPhoneRequestMessage(garminMessage, duration);
     }
 

@@ -29,7 +29,6 @@ public class MusicControlMessage extends GFDIMessage {
     public static MusicControlMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         MusicControlCapabilitiesMessage.GarminMusicControlCommand command = commands[reader.readByte()];
 
-        reader.warnIfLeftover();
         return new MusicControlMessage(garminMessage, command);
     }
 

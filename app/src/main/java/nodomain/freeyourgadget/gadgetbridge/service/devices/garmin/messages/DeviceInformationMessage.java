@@ -48,7 +48,6 @@ public class DeviceInformationMessage extends GFDIMessage {
         final String deviceName = reader.readString();
         final String deviceModel = reader.readString();
 
-        reader.warnIfLeftover();
         return new DeviceInformationMessage(garminMessage, protocolVersion, productNumber, unitNumber, softwareVersion, maxPacketSize, bluetoothFriendlyName, deviceName, deviceModel);
     }
 

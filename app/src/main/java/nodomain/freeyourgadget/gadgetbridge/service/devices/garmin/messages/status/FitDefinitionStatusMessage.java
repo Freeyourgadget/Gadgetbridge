@@ -2,8 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.sta
 
 import androidx.annotation.Nullable;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
-
 public class FitDefinitionStatusMessage extends GFDIStatusMessage {
 
     private final Status status;
@@ -26,7 +24,6 @@ public class FitDefinitionStatusMessage extends GFDIStatusMessage {
         final Status status = Status.fromCode(reader.readByte());
         final FitDefinitionStatusCode fitDefinitionStatusCode = FitDefinitionStatusCode.fromCode(reader.readByte());
 
-        reader.warnIfLeftover();
         return new FitDefinitionStatusMessage(garminMessage, status, fitDefinitionStatusCode);
     }
 

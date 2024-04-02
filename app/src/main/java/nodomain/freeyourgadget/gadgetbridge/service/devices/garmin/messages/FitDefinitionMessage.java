@@ -24,7 +24,7 @@ public class FitDefinitionMessage extends GFDIMessage {
     public static FitDefinitionMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         List<RecordDefinition> recordDefinitions = new ArrayList<>();
 
-        while (!reader.isEndOfPayload()) {
+        while (reader.remaining() > 0) {
             RecordHeader recordHeader = new RecordHeader((byte) reader.readByte());
             recordDefinitions.add(RecordDefinition.parseIncoming(reader, recordHeader));
         }

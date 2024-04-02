@@ -2,8 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FieldDefinition implements FieldInterface {
@@ -27,11 +27,10 @@ public class FieldDefinition implements FieldInterface {
         this(localNumber, size, baseType, name, 1, 0);
     }
 
-    public static FieldDefinition parseIncoming(MessageReader reader) {
-        int localNumber = reader.readByte();
-        int size = reader.readByte();
-        int baseTypeIdentifier = reader.readByte();
-
+    public static FieldDefinition parseIncoming(GarminByteBufferReader garminByteBufferReader) {
+        int localNumber = garminByteBufferReader.readByte();
+        int size = garminByteBufferReader.readByte();
+        int baseTypeIdentifier = garminByteBufferReader.readByte();
         BaseType baseType = BaseType.fromIdentifier(baseTypeIdentifier);
 
         if (size % baseType.getSize() != 0) {

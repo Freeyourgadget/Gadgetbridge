@@ -18,7 +18,6 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
     public static CurrentTimeRequestMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final int referenceID = reader.readInt();
 
-        reader.warnIfLeftover();
         return new CurrentTimeRequestMessage(referenceID, garminMessage);
     }
 

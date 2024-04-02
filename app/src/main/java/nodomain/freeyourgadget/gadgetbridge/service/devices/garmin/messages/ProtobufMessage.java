@@ -48,7 +48,6 @@ public class ProtobufMessage extends GFDIMessage {
         final int protobufDataLength = reader.readInt();
         final byte[] messageBytes = reader.readBytes(protobufDataLength);
 
-        reader.warnIfLeftover();
         return new ProtobufMessage(garminMessage, requestID, dataOffset, totalProtobufLength, protobufDataLength, messageBytes, false);
     }
 

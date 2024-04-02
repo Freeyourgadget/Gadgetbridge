@@ -10,8 +10,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GFDIStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GenericStatusMessage;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class GFDIMessage {
     public static final int MESSAGE_REQUEST = 5001;
@@ -45,6 +47,8 @@ public abstract class GFDIMessage {
         } catch (Exception e) {
             LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message);
             return new UnhandledMessage(messageType);
+        } finally {
+            messageReader.warnIfLeftover();
         }
     }
 
@@ -156,4 +160,53 @@ public abstract class GFDIMessage {
 
     }
 
+    protected static class MessageReader extends GarminByteBufferReader {
+
+        private final int payloadSize;
+
+        public MessageReader(byte[] data) {
+            super(data);
+            this.byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+            this.payloadSize = readShort(); //includes CRC
+            checkSize();
+            checkCRC();
+            this.byteBuffer.limit(payloadSize - 2); //remove CRC
+        }
+
+        public int remaining() {
+            return byteBuffer.remaining();
+        }
+
+        public void skip(int offset) {
+            if (remaining() < offset) throw new IllegalStateException();
+            byteBuffer.position(byteBuffer.position() + offset);
+        }
+
+        private void checkSize() {
+            if (payloadSize != byteBuffer.capacity()) {
+                LOG.error("Received GFDI packet with invalid length: {} vs {}", payloadSize, byteBuffer.capacity());
+                throw new IllegalArgumentException("Received GFDI packet with invalid length");
+            }
+        }
+
+        private void checkCRC() {
+            final int crc = Short.toUnsignedInt(byteBuffer.getShort(payloadSize - 2));
+            final int correctCrc = ChecksumCalculator.computeCrc(byteBuffer.asReadOnlyBuffer(), 0, payloadSize - 2);
+            if (crc != correctCrc) {
+                LOG.error("Received GFDI packet with invalid CRC: {} vs {}", crc, correctCrc);
+                throw new IllegalArgumentException("Received GFDI packet with invalid CRC");
+            }
+        }
+
+        public void warnIfLeftover() {
+            if (byteBuffer.hasRemaining() && byteBuffer.position() < (byteBuffer.limit())) {
+                int pos = byteBuffer.position();
+                int numBytes = (byteBuffer.limit()) - byteBuffer.position();
+                byte[] leftover = new byte[numBytes];
+                byteBuffer.get(leftover);
+                byteBuffer.position(pos);
+                LOG.warn("Leftover bytes when parsing message. Bytes: {}, complete message: {}", GB.hexdump(leftover), GB.hexdump(byteBuffer.array()));
+            }
+        }
+    }
 }

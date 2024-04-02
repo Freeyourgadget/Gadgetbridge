@@ -24,7 +24,7 @@ public class FitDataMessage extends GFDIMessage {
         List<RecordData> recordDataList = new ArrayList<>();
 
 
-        while (!reader.isEndOfPayload()) {
+        while (reader.remaining() > 0) {
             RecordHeader recordHeader = new RecordHeader((byte) reader.readByte());
             if (recordHeader.isDefinition())
                 return null;
