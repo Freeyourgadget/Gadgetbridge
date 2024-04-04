@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/bottom_nav_dashboard">
+
+    <fragment
+        android:id="@+id/bottom_nav_dashboard"
+        android:name="nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/dashboard_to_devices"
+            app:destination="@id/bottom_nav_devices" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottom_nav_devices"
+        android:name="nodomain.freeyourgadget.gadgetbridge.activities.DevicesFragment"
+        android:label="fragment_devices"
+        tools:layout="@layout/fragment_devices">
+        <action
+            android:id="@+id/devices_to_dashboard"
+            app:destination="@id/bottom_nav_dashboard" />
+    </fragment>
+</navigation>

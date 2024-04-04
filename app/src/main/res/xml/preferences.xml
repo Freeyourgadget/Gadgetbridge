@@ -58,6 +58,11 @@
             android:title="@string/pref_title_audio_player"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="pref_category_dashboard"
+            android:title="@string/bottom_nav_dashboard"
+            app:iconSpaceReserved="false" />
+
         <PreferenceScreen
             android:key="pref_screen_theme"
             android:title="@string/pref_title_theme"

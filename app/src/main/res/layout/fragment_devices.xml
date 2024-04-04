@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2"
-    tools:showIn="@layout/activity_controlcenterv2_app_bar_main">
-
+    tools:context=".activities.DevicesFragment">
 
     <ImageView
         android:id="@+id/no_items_bg"
@@ -25,5 +23,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:divider="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_add"
+        android:layout_margin="16dp" />
 
 </RelativeLayout>

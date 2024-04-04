@@ -104,4 +104,12 @@ public class GBChangeLog extends ChangeLog {
 
         return builder.create();
     }
+
+    public static GBChangeLog createChangeLog(Context context) {
+        String css = GBChangeLog.DEFAULT_CSS;
+        css += "body { "
+                + "color: " + AndroidUtils.getTextColorHex(context) + "; "
+                + "}";
+        return new GBChangeLog(context, css);
+    }
 }

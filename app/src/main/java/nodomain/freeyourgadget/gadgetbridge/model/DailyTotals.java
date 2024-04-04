@@ -18,7 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
 public class DailyTotals {
@@ -78,17 +75,17 @@ public class DailyTotals {
     }
 
     public long[] getDailyTotalsForDevice(GBDevice device, Calendar day, DBHandler handler) {
-            ActivityAnalysis analysis = new ActivityAnalysis();
-            ActivityAmounts amountsSteps;
-            ActivityAmounts amountsSleep;
+        ActivityAnalysis analysis = new ActivityAnalysis();
+        ActivityAmounts amountsSteps;
+        ActivityAmounts amountsSleep;
 
-            amountsSteps = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, 0, device));
-            amountsSleep = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, -12, device));
+        amountsSteps = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, 0, device));
+        amountsSleep = analysis.calculateActivityAmounts(getSamplesOfDay(handler, day, -12, device));
 
-            long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
-            long steps = getTotalsStepsForActivityAmounts(amountsSteps);
+        long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
+        long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
-            return new long[]{steps, sleep[0] + sleep[1] + sleep[2]};
+        return new long[]{steps, sleep[0] + sleep[1] + sleep[2]};
     }
 
     private long[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {

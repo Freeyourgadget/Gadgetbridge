@@ -2417,7 +2417,7 @@
     <string name="huawei_reparse_workout_data">"Reparse workout data"</string>
     <string name="huawei_reparse_workout_data_description">"This will only do something after certain updates"</string>
 
-    <string name="info_no_devices_connected">no devices connected</string>
+    <string name="info_no_devices_connected">No devices connected</string>
     <string name="info_connected_count">%d devices connected</string>
     <string name="controlcenter_set_parent_folder">Set parent folder</string>
     <string name="controlcenter_set_preferences">Set preferences</string>
@@ -2748,4 +2748,30 @@
     <string name="devicesetting_scannable_debounce_summary">After being scanned, the device will stick as scanned and ignored for the specified amount of time</string>
     <string name="devicesetting_scannable_minimum_unseen_summary">After being scanned, the device has to be unseen for this amount of time before being registered again</string>
     <string name="devicesetting_scannable_rssi_summary">The minimum RSSI threshold for detection</string>
+    <string name="error_showing_changelog">Error showing Changelog</string>
+    <string name="activity_type_worn">Worn</string>
+    <string name="dashboard_settings">Dashboard settings</string>
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_devices">Devices</string>
+    <string name="pref_dashboard_first_title">Show dashboard first</string>
+    <string name="pref_dashboard_first_summary">Show the dashboard when Gadgetbridge starts, instead of the devices screen</string>
+    <string name="pref_dashboard_cards_title">Show widgets on cards</string>
+    <string name="pref_dashboard_cards_summary">Draw cards around the widgets on the dashboard</string>
+    <string name="pref_dashboard_widget_settings">Widget settings</string>
+    <string name="pref_dashboard_widget_today_title">Activity chart</string>
+    <string name="pref_dashboard_widget_today_24h_title">24h mode</string>
+    <string name="pref_dashboard_widget_double_size_title">Double size</string>
+    <string name="pref_dashboard_widget_show_legend_title">Show legend</string>
+    <string name="pref_dashboard_widget_goals_chart_title">Goals chart</string>
+    <string name="pref_dashboard_devices_to_include">Devices to include</string>
+    <string name="pref_dashboard_all_devices_title">All devices</string>
+    <string name="pref_dashboard_select_devices_title">Select devices...</string>
+    <string name="pref_dashboard_widgets_order_summary">Select which widgets are enabled and in what order they are displayed on the dashboard</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Show the activity in a single 24h circle instead of a double 12h circle</string>
+    <string name="pref_dashboard_widget_double_size_summary">Allow the widget to take up two columns on the dashboard</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Show a legend below the widget explaining the colors</string>
+    <string name="pref_dashboard_all_devices_summary">Combine activity data from all added devices for the totals on the dashboard</string>
+    <string name="pref_dashboard_select_devices_summary">Combine activity data from specific devices for the totals on the dashboard</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Heart rate interval</string>
+    <string name="pref_dashboard_widget_today_hr_interval_summary">The amount of minutes the chart shows \'worn\' after each successful heart rate measurement</string>
 </resources>

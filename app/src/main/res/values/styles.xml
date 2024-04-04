@@ -145,6 +145,7 @@
     </style>
     <style name="GadgetbridgeThemeDynamic.ActionBar" parent="Widget.Material3.ActionBar.Solid">
         <item name="background">?attr/colorSurface</item>
+        <item name="elevation">0dp</item>
     </style>
     <style name="GadgetbridgeTheme.DrawerButtonStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>

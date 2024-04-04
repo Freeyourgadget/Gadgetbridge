@@ -129,6 +129,10 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.DashboardPreferencesActivity"
+            android:label="@string/dashboard_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
             android:name=".activities.AboutUserPreferencesActivity"
             android:label="@string/activity_prefs_about_you"
             android:parentActivityName=".activities.AboutUserPreferencesActivity" />
@@ -848,6 +852,11 @@
             android:name=".externalevents.opentracks.OpenTracksController"
             android:label="OpenTracks controller and intent receiver"
             android:exported="true"/>
+
+        <activity
+            android:name=".activities.dashboard.DashboardCalendarActivity"
+            android:label="@string/menuitem_calendar"
+            android:parentActivityName=".activities.ControlCenterv2" />
     </application>
 
 </manifest>

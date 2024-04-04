@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:key="pref_key_dashboard_general"
+        android:title="@string/pref_header_general"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="dashboard_as_default_view"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_dashboard_first_title"
+            android:summary="@string/pref_dashboard_first_summary"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="dashboard_cards_enabled"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_dashboard_cards_title"
+            android:summary="@string/pref_dashboard_cards_summary"
+            app:iconSpaceReserved="false" />
+        <com.mobeta.android.dslv.DragSortListPreference
+            android:defaultValue="@array/pref_dashboard_widgets_order_values"
+            android:dialogTitle="@string/menuitem_widgets"
+            android:entries="@array/pref_dashboard_widgets_order"
+            android:entryValues="@array/pref_dashboard_widgets_order_values"
+            android:key="pref_dashboard_widgets_order"
+            android:persistent="true"
+            android:summary="@string/pref_dashboard_widgets_order_summary"
+            android:title="@string/menuitem_widgets"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_dashboard_widgets"
+        android:title="@string/pref_dashboard_widget_settings"
+        app:iconSpaceReserved="false">
+        <PreferenceScreen
+            android:key="pref_key_dashboard_today"
+            android:title="@string/pref_dashboard_widget_today_title"
+            app:iconSpaceReserved="false">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="dashboard_widget_today_24h"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_today_24h_title"
+                android:summary="@string/pref_dashboard_widget_today_24h_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="dashboard_widget_today_2columns"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_double_size_title"
+                android:summary="@string/pref_dashboard_widget_double_size_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="dashboard_widget_today_legend"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_show_legend_title"
+                android:summary="@string/pref_dashboard_widget_show_legend_summary"
+                app:iconSpaceReserved="false" />
+            <EditTextPreference
+                android:defaultValue="1"
+                android:inputType="number"
+                android:key="dashboard_widget_today_hr_interval"
+                android:maxLength="4"
+                android:summary="@string/pref_dashboard_widget_today_hr_interval_summary"
+                android:title="@string/pref_dashboard_widget_today_hr_interval_title"
+                app:iconSpaceReserved="false" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_key_dashboard_goals"
+            android:title="@string/pref_dashboard_widget_goals_chart_title"
+            app:iconSpaceReserved="false">
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="dashboard_widget_goals_2columns"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_double_size_title"
+                android:summary="@string/pref_dashboard_widget_double_size_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="dashboard_widget_goals_legend"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_show_legend_title"
+                android:summary="@string/pref_dashboard_widget_show_legend_summary"
+                app:iconSpaceReserved="false" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_dashboard_devices"
+        android:title="@string/pref_dashboard_devices_to_include"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="dashboard_devices_all"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_dashboard_all_devices_title"
+            android:summary="@string/pref_dashboard_all_devices_summary"
+            android:disableDependentsState="true"
+            app:iconSpaceReserved="false" />
+        <MultiSelectListPreference
+            android:dependency="dashboard_devices_all"
+            android:dialogTitle="@string/pref_dashboard_select_devices_title"
+            android:entries="@array/empty_array"
+            android:entryValues="@array/empty_array"
+            android:key="dashboard_devices_multiselect"
+            android:title="@string/pref_dashboard_select_devices_title"
+            android:summary="@string/pref_dashboard_select_devices_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

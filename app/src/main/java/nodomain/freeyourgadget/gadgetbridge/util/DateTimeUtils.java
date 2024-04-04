@@ -21,7 +21,6 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
-import java.io.IOException;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -206,12 +205,9 @@ public class DateTimeUtils {
      * @param days
      */
     public static int shiftDays(int time, int days) {
-        int newTime = time + ((24 * 3600) - 1) * days;
         Calendar day = Calendar.getInstance();
-        day.setTimeInMillis(newTime * 1000L);
-        day.set(Calendar.HOUR_OF_DAY, 0);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
+        day.setTimeInMillis(time * 1000L);
+        day.add(Calendar.DAY_OF_YEAR, days);
         return (int) (day.getTimeInMillis() / 1000);
     }
 
@@ -225,4 +221,28 @@ public class DateTimeUtils {
         return (int) TimeUnit.MILLISECONDS.toDays((time2 - time1) * 1000L);
     }
 
+    /**
+     * Determine whether two Calendar instances are on the same day
+     *
+     * @param calendar1 The first calendar to compare
+     * @param calendar2 The second calendar to compare
+     * @return true if the Calendar instances are on the same day
+     */
+    public static boolean isSameDay(Calendar calendar1, Calendar calendar2) {
+        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+                && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+                && calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * Determine whether two Calendar instances are in the same month
+     *
+     * @param calendar1 The first calendar to compare
+     * @param calendar2 The second calendar to compare
+     * @return true if the Calendar instances are in the same month
+     */
+    public static boolean isSameMonth(Calendar calendar1, Calendar calendar2) {
+        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+                && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
+    }
 }

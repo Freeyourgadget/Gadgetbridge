@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.DashboardFragment">
+
+    <item
+        android:id="@+id/dashboard_show_calendar"
+        android:icon="@drawable/ic_calendar_from"
+        android:title="@string/menuitem_calendar"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -845,7 +845,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         boolean deviceConnected = device.getState() != GBDevice.State.NOT_CONNECTED;
 
         PopupMenu menu = new PopupMenu(v.getContext(), v);
-        menu.inflate(R.menu.activity_controlcenterv2_device_submenu);
+        menu.inflate(R.menu.fragment_devices_device_submenu);
 
         final boolean detailsShown = expandedDeviceAddress.equals(device.getAddress());
         boolean showInfoIcon = device.hasDeviceInfos() && !device.isBusy();
