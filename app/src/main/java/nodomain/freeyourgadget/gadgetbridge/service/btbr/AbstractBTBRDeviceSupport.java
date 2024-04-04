@@ -24,11 +24,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.CheckInitializedAction;
 
 /**
  * Abstract base class for devices connected through a serial protocol, like RFCOMM BT or TCP socket.
@@ -143,7 +144,19 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
     }
 
     public void onConnectionEstablished() {
-       initializeDevice(createTransactionBuilder("Initializing device")).queue(getQueue());
+        try {
+            initializeDevice(createTransactionBuilder("Initializing device")).queue(getQueue());
+        } catch (final Exception ex) {
+            final GBDevice device = getDevice();
+
+            if (device != null) {
+                logger.error("Exception raised while initializing device {} (address {}), disconnecting", device.getName(), device.getAddress(), ex);
+                device.setState(GBDevice.State.WAITING_FOR_RECONNECT);
+                device.sendDeviceUpdateIntent(getContext());
+            } else {
+                logger.error("Exception raised while initializing unknown device", ex);
+            }
+        }
     }
 
     @Override
