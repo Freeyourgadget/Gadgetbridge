@@ -202,7 +202,8 @@ public class HuaweiCoordinator {
             notifications.add(R.xml.devicesettings_donotdisturb_allday_liftwirst_notwear);
 
         // Workout
-        deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.WORKOUT, R.xml.devicesettings_workout_send_gps_to_band);
+        if (supportsSendingGps())
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.WORKOUT, R.xml.devicesettings_workout_send_gps_to_band);
 
         // Other
         deviceSpecificSettings.addRootScreen(R.xml.devicesettings_find_phone);
@@ -409,6 +410,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsWorkoutsTrustHeartRate() {
         return supportsCommandForService(0x17, 0x17);
+    }
+
+    public boolean supportsSendingGps() {
+        return supportsCommandForService(0x18, 0x02);
     }
 
     public boolean supportsAccount() {
