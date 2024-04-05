@@ -32,9 +32,9 @@ public enum BaseType {
     }
 
     public static BaseType fromIdentifier(int identifier) {
-        for (final BaseType status : BaseType.values()) {
-            if (status.getIdentifier() == identifier) {
-                return status;
+        for (final BaseType baseType : BaseType.values()) {
+            if (baseType.getIdentifier() == identifier) {
+                return baseType;
             }
         }
         throw new IllegalArgumentException("Unknown type " + identifier);

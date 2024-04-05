@@ -11,6 +11,10 @@ public class GarminByteBufferReader {
         this.byteBuffer = ByteBuffer.wrap(data);
     }
 
+    public int remaining() {
+        return byteBuffer.remaining();
+    }
+
     public ByteBuffer asReadOnlyBuffer() {
         return byteBuffer.asReadOnlyBuffer();
     }
