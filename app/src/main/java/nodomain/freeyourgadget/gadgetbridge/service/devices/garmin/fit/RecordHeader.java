@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import androidx.annotation.Nullable;
 
-import java.util.Objects;
 
 public class RecordHeader {
     private final boolean definition;
@@ -10,6 +9,7 @@ public class RecordHeader {
     private final LocalMessage localMessage;
     private final int rawLocalMessageType;
     private final Integer timeOffset;
+    private long referenceTimestamp;
 
     public RecordHeader(boolean definition, boolean developerData, LocalMessage localMessage, Integer timeOffset) {
         this.definition = definition;
@@ -33,6 +33,22 @@ public class RecordHeader {
             timeOffset = null;
         }
         localMessage = LocalMessage.fromType(rawLocalMessageType);
+    }
+
+    public void setReferenceTimestamp(long referenceTimestamp) {
+        this.referenceTimestamp = referenceTimestamp;
+    }
+
+    public Integer getTimeOffset() {
+        return timeOffset;
+    }
+
+    public boolean isCompressedTimestamp() {
+        return timeOffset != null;
+    }
+
+    public Long getResultingTimestamp() {
+        return referenceTimestamp + timeOffset;
     }
 
     public boolean isDeveloperData() {
@@ -81,18 +97,14 @@ public class RecordHeader {
 
         RecordHeader that = (RecordHeader) o;
 
-        if (definition != that.definition) return false;
         if (rawLocalMessageType != that.rawLocalMessageType) return false;
-        if (localMessage != that.localMessage) return false;
-        return Objects.equals(timeOffset, that.timeOffset);
+        return localMessage == that.localMessage;
     }
 
     @Override
     public int hashCode() {
-        int result = (definition ? 1 : 0);
-        result = 31 * result + (localMessage != null ? localMessage.hashCode() : 0);
+        int result = (localMessage != null ? localMessage.hashCode() : 0);
         result = 31 * result + rawLocalMessageType;
-        result = 31 * result + (timeOffset != null ? timeOffset.hashCode() : 0);
         return result;
     }
 }

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
@@ -18,16 +19,16 @@ public class RecordData {
 
     private final RecordHeader recordHeader;
     private final GlobalFITMessage globalFITMessage;
-    protected ByteBuffer valueHolder;
     private final List<FieldData> fieldDataList;
+    protected ByteBuffer valueHolder;
 
-    public RecordData(RecordDefinition recordDefinition) {
+    public RecordData(RecordDefinition recordDefinition, RecordHeader recordHeader) {
         if (null == recordDefinition.getFieldDefinitions())
             throw new IllegalArgumentException("Cannot create record data without FieldDefinitions " + recordDefinition);
 
         fieldDataList = new ArrayList<>();
 
-        this.recordHeader = recordDefinition.getRecordHeader();
+        this.recordHeader = recordHeader;
         this.globalFITMessage = recordDefinition.getGlobalFITMessage();
 
         int totalSize = 0;
@@ -38,7 +39,7 @@ public class RecordData {
             totalSize += fieldDef.getSize();
         }
 
-        if (recordHeader.isDefinition() && recordDefinition.getDevFieldDefinitions() != null) {
+        if (recordDefinition.getDevFieldDefinitions() != null) {
             for (DevFieldDefinition fieldDef :
                     recordDefinition.getDevFieldDefinitions()) {
                 FieldDefinition temp = new FieldDefinition(fieldDef.getFieldDefinitionNumber(), fieldDef.getSize(), fieldDef.getBaseType(), fieldDef.getName());
@@ -57,15 +58,23 @@ public class RecordData {
 
     }
 
+    public RecordData(RecordDefinition recordDefinition) {
+        this(recordDefinition, recordDefinition.getRecordHeader());
+    }
+
     public GlobalFITMessage getGlobalFITMessage() {
         return globalFITMessage;
     }
 
-    public void parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
+    public Long parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
         garminByteBufferReader.setByteOrder(valueHolder.order());
+        Long referenceTimestamp = null;
         for (FieldData fieldData : fieldDataList) {
-            fieldData.parseDataMessage(garminByteBufferReader);
+            Long runningTimestamp = fieldData.parseDataMessage(garminByteBufferReader);
+            if (runningTimestamp != null)
+                referenceTimestamp = runningTimestamp;
         }
+        return referenceTimestamp;
     }
 
     public void generateOutgoingDataPayload(MessageWriter writer) {
@@ -133,9 +142,20 @@ public class RecordData {
         return arr;
     }
 
+    public Long getComputedTimestamp() {
+        for (FieldData fieldData : fieldDataList) {
+            if (fieldData.getNumber() == 253 || fieldData.fieldDefinition instanceof FieldDefinitionTimestamp)
+                return (long) fieldData.decode();
+        }
+        if (recordHeader.isCompressedTimestamp())
+            return (long) recordHeader.getResultingTimestamp();
+        return null;
+    }
+
     @NonNull
     public String toString() {
         StringBuilder oBuilder = new StringBuilder();
+        oBuilder.append(System.lineSeparator());
         for (FieldData fieldData :
                 fieldDataList) {
             if (fieldData.getName() != null && !fieldData.getName().equals("")) {
@@ -155,7 +175,8 @@ public class RecordData {
             }
             oBuilder.append(" ");
         }
-
+        if (recordHeader.isCompressedTimestamp())
+            oBuilder.append("compressed_timestamp: " + getComputedTimestamp());
         return oBuilder.toString();
     }
 
@@ -201,9 +222,12 @@ public class RecordData {
             valueHolder.position(position);
         }
 
-        private void parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
+        private Long parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
             goToPosition();
             valueHolder.put(garminByteBufferReader.readBytes(size));
+            if (fieldDefinition instanceof FieldDefinitionTimestamp)
+                return (Long) decode();
+            return null;
         }
 
         private void encode(Object... objects) {

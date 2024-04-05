@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FieldDefinition implements FieldInterface {
@@ -32,6 +33,8 @@ public class FieldDefinition implements FieldInterface {
         int size = garminByteBufferReader.readByte();
         int baseTypeIdentifier = garminByteBufferReader.readByte();
         BaseType baseType = BaseType.fromIdentifier(baseTypeIdentifier);
+        if (number == 253 && size == 4 && baseType.equals(BaseType.UINT32))
+            return new FieldDefinitionTimestamp(number, size, baseType, "253_timestamp");
 
         FieldDefinition global = globalFITMessage.getFieldDefinition(number, size);
         if (null != global && global.getBaseType().equals(baseType)) {

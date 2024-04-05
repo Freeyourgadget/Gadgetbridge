@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FieldDefinition;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalFITMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.LocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
@@ -365,57 +366,6 @@ public class GarminSupportTest {
 
     }
 
-    private String fitFileParser(byte[] fileContents) {
-        StringBuilder oBuilder = new StringBuilder();
-
-        GarminByteBufferReader garminByteBufferReader = new GarminByteBufferReader(fileContents);
-        garminByteBufferReader.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        //parseHeader
-        int headerSize = garminByteBufferReader.readByte(); //1
-        int protocolVersion = garminByteBufferReader.readByte(); //2
-        int profileVersion = garminByteBufferReader.readShort(); //4
-        int dataSize = garminByteBufferReader.readInt(); //8
-        int magic = garminByteBufferReader.readInt(); //12
-        Assert.assertEquals(0x5449462E, magic);
-        int headerCrc = garminByteBufferReader.readShort();
-        Assert.assertEquals(ChecksumCalculator.computeCrc(fileContents, 0, headerSize - 2), headerCrc);
-        //end of parse header
-
-        Map<RecordHeader, RecordDefinition> recordDefinitionMap = new HashMap<>(); //questo va bene qui (ultimo vince)
-        Map<RecordHeader, RecordData> recordDataMap = new HashMap<>();
-        List<RecordData> developerFieldDescriptionData = new ArrayList<>();
-
-        while (garminByteBufferReader.getPosition() < fileContents.length - 2) {
-            byte rawRecordHeader = (byte) garminByteBufferReader.readByte();
-            RecordHeader recordHeader = new RecordHeader(rawRecordHeader);
-            if (recordHeader.isDefinition()) {
-                final RecordDefinition recordDefinition = RecordDefinition.parseIncoming(garminByteBufferReader, recordHeader);
-                if (recordDefinition != null) {
-                    if (recordHeader.isDeveloperData()) {
-                        recordDefinition.populateDevFields(developerFieldDescriptionData);
-                    }
-                    oBuilder.append(recordDefinition.toString());
-                    recordDefinitionMap.put(recordHeader, recordDefinition);
-                    recordDataMap.put(new RecordHeader(recordHeader.generateOutgoingDataPayload()), new RecordData(recordDefinition));
-                }
-            } else {
-                final RecordData recordData = recordDataMap.get(recordHeader);
-                if (recordData != null) {
-                    recordData.parseDataMessage(garminByteBufferReader);
-                    if (GlobalFITMessage.FIELD_DESCRIPTION.equals(recordData.getGlobalFITMessage())) {
-                        developerFieldDescriptionData.add(recordData);
-                    }
-                    oBuilder.append(recordData.toString());
-                }
-            }
-            oBuilder.append(System.lineSeparator());
-        }
-        garminByteBufferReader.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        int fileCrc = garminByteBufferReader.readShort();
-        Assert.assertEquals(ChecksumCalculator.computeCrc(fileContents, headerSize, fileContents.length - headerSize - 2), fileCrc);
-
-        return oBuilder.toString();
-    }
     @Test
     public void TestFitFileSettings2() {
 
@@ -478,37 +428,38 @@ public class GarminSupportTest {
                 "020b00004b00007f00090309070001000401000501000601000701000801" +
                 "000901000a01000b45646765203531300000ffffffffffffff09ef");//https://github.com/polyvertex/fitdecode/blob/48b6554d8a3baf33f8b5b9b2fd079fcbe9ac8ce2/tests/files/Settings2.fit
 
-        String expectedOutput = "Local Message: raw: 0 Global Message Number: FILE_ID\n" +
-                "serial_number(UINT32Z/4): 3889965805 time_created(UINT32/4): null manufacturer(UINT16/2): 1 product(UINT16/2): 1561 number(UINT16/2): null type(ENUM/1): settings \n" +
-                "Local Message: raw: 1 Global Message Number: FILE_CREATOR\n" +
-                "software_version(UINT16/2): 340 hardware_version(UINT8/1): null \n" +
-                "Local Message: raw: 2 Global Message Number: DEVICE_SETTINGS\n" +
-                "utc_offset(UINT32/4): 0 time_offset(UINT32/4): 0 active_time_zone(UINT8/1): 0 unknown_3(ENUM/1): 0 time_mode(ENUM/1): 0 time_zone_offset(SINT8/1): 0 unknown_10(ENUM/1): 3 unknown_11(ENUM/1): 0 backlight_mode(ENUM/1): 2 unknown_13(UINT8/1): 0 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 50 unknown_16(ENUM/1): null unknown_17(ENUM/1): null unknown_18(ENUM/1): null unknown_21(ENUM/1): 1 unknown_22(ENUM/1): 0 unknown_26(ENUM/1): 254 unknown_27(ENUM/1): 0 unknown_29(ENUM/1): 0 unknown_52(ENUM/1): 0 unknown_53(ENUM/1): 1 \n" +
-                "Local Message: raw: 3 Global Message Number: USER_PROFILE\n" +
-                "friendly_name(STRING/8): edge510 weight(UINT16/2): 78 gender(ENUM/1): 1 age(UINT8/1): 41 height(UINT8/1): 183 language(ENUM/1): english elev_setting(ENUM/1): metric weight_setting(ENUM/1): metric resting_heart_rate(UINT8/1): 60 default_max_biking_heart_rate(UINT8/1): 185 default_max_heart_rate(UINT8/1): 185 hr_setting(ENUM/1): 1 speed_setting(ENUM/1): metric dist_setting(ENUM/1): metric power_setting(ENUM/1): 1 activity_class(ENUM/1): 168 position_setting(ENUM/1): 2 temperature_setting(ENUM/1): metric unknown_24(UINT8/1): null \n" +
-                "Local Message: raw: 4 Global Message Number: UNK_4\n" +
-                "unknown_254(UINT16/2): 0 unknown_1(UINT16Z/2): 50008 unknown_0(UINT8/1): 1 unknown_3(UINT8Z/1): 1 \n" +
-                "Local Message: raw: 5 Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/4): EVO unknown_3(UINT32/4): 45719172 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 0 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 47617 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 80 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: type: TODAY_WEATHER_CONDITIONS Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/5): P2SL unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 1 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 28209 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 90 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,118,190] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: raw: 7 Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/9): LANGSTER unknown_3(UINT32/4): 1231891 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 2 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 10851 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 0 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: raw: 8 Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/2): M unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [53,39,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 3 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 31337 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 0 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: type: HOURLY_WEATHER_FORECAST Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/7): Bike 5 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 4 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "unknown_0(STRING/7): Bike 6 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 5 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "unknown_0(STRING/7): Bike 7 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 6 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "unknown_0(STRING/7): Bike 8 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 7 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "unknown_0(STRING/7): Bike 9 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 8 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: type: DAILY_WEATHER_FORECAST Global Message Number: UNK_6\n" +
-                "unknown_0(STRING/8): Bike 10 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 9 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 \n" +
-                "Local Message: raw: 11 Global Message Number: CONNECTIVITY\n" +
-                "name(STRING/9): Edge 510 bluetooth_enabled(ENUM/1): 0 live_tracking_enabled(ENUM/1): null weather_conditions_enabled(ENUM/1): null weather_alerts_enabled(ENUM/1): null auto_activity_upload_enabled(ENUM/1): null course_download_enabled(ENUM/1): null workout_download_enabled(ENUM/1): null gps_ephemeris_download_enabled(ENUM/1): null \n";
+        String expectedOutput = "{\n" +
+                "Local Message: raw: 0 Global Message Number: FILE_ID=[\n" +
+                "serial_number(UINT32Z/4): 3889965805 time_created(UINT32/4): null manufacturer(UINT16/2): 1 product(UINT16/2): 1561 number(UINT16/2): null type(ENUM/1): settings ], \n" +
+                "Local Message: raw: 1 Global Message Number: FILE_CREATOR=[\n" +
+                "software_version(UINT16/2): 340 hardware_version(UINT8/1): null ], \n" +
+                "Local Message: raw: 2 Global Message Number: DEVICE_SETTINGS=[\n" +
+                "utc_offset(UINT32/4): 0 time_offset(UINT32/4): 0 active_time_zone(UINT8/1): 0 unknown_3(ENUM/1): 0 time_mode(ENUM/1): 0 time_zone_offset(SINT8/1): 0 unknown_10(ENUM/1): 3 unknown_11(ENUM/1): 0 backlight_mode(ENUM/1): 2 unknown_13(UINT8/1): 0 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 50 unknown_16(ENUM/1): null unknown_17(ENUM/1): null unknown_18(ENUM/1): null unknown_21(ENUM/1): 1 unknown_22(ENUM/1): 0 unknown_26(ENUM/1): 254 unknown_27(ENUM/1): 0 unknown_29(ENUM/1): 0 unknown_52(ENUM/1): 0 unknown_53(ENUM/1): 1 ], \n" +
+                "Local Message: raw: 3 Global Message Number: USER_PROFILE=[\n" +
+                "friendly_name(STRING/8): edge510 weight(UINT16/2): 78 gender(ENUM/1): 1 age(UINT8/1): 41 height(UINT8/1): 183 language(ENUM/1): english elev_setting(ENUM/1): metric weight_setting(ENUM/1): metric resting_heart_rate(UINT8/1): 60 default_max_biking_heart_rate(UINT8/1): 185 default_max_heart_rate(UINT8/1): 185 hr_setting(ENUM/1): 1 speed_setting(ENUM/1): metric dist_setting(ENUM/1): metric power_setting(ENUM/1): 1 activity_class(ENUM/1): 168 position_setting(ENUM/1): 2 temperature_setting(ENUM/1): metric unknown_24(UINT8/1): null ], \n" +
+                "Local Message: raw: 4 Global Message Number: UNK_4=[\n" +
+                "unknown_254(UINT16/2): 0 unknown_1(UINT16Z/2): 50008 unknown_0(UINT8/1): 1 unknown_3(UINT8Z/1): 1 ], \n" +
+                "Local Message: raw: 5 Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/4): EVO unknown_3(UINT32/4): 45719172 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 0 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 47617 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 80 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: type: TODAY_WEATHER_CONDITIONS Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/5): P2SL unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 1 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 28209 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 90 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,118,190] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: raw: 7 Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/9): LANGSTER unknown_3(UINT32/4): 1231891 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 2 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 10851 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 0 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: raw: 8 Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/2): M unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [53,39,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 3 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): 31337 unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 1 unknown_19(UINT8/1): 0 unknown_20(UINT8/1): 1 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): 5 unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: type: HOURLY_WEATHER_FORECAST Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/7): Bike 5 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 4 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 , \n" +
+                "unknown_0(STRING/7): Bike 6 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 5 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 , \n" +
+                "unknown_0(STRING/7): Bike 7 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 6 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 , \n" +
+                "unknown_0(STRING/7): Bike 8 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 7 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 , \n" +
+                "unknown_0(STRING/7): Bike 9 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 8 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: type: DAILY_WEATHER_FORECAST Global Message Number: UNK_6=[\n" +
+                "unknown_0(STRING/8): Bike 10 unknown_3(UINT32/4): 0 unknown_39(UINT8Z/4): [39,53,,] unknown_41(UINT8Z/12): [23,21,19,18,17,16,15,14,13,12,11,] unknown_254(UINT16/2): 9 unknown_4(UINT16Z/2): null unknown_5(UINT16Z/2): null unknown_6(UINT16Z/2): null unknown_7(UINT16Z/2): null unknown_8(UINT16/2): 2096 unknown_9(UINT16/2): 0 unknown_10(UINT16/2): 95 unknown_11(UINT16/2): 500 unknown_42(UINT16Z/2): null unknown_1(ENUM/1): null unknown_2(ENUM/1): null unknown_12(UINT8/1): 1 unknown_13(UINT8/1): 1 unknown_14(UINT8/1): 0 unknown_15(UINT8/1): 0 unknown_16(UINT8/1): 0 unknown_17(UINT8/1): 0 unknown_18(UINT8/1): 0 unknown_19(UINT8/1): 254 unknown_20(UINT8/1): 0 unknown_21(UINT8Z/1): null unknown_22(UINT8Z/1): null unknown_23(UINT8Z/1): null unknown_24(UINT8Z/1): null unknown_35(UINT8/3): [0,50,] unknown_36(ENUM/1): 4 unknown_37(UINT8/1): null unknown_38(UINT8Z/1): 2 unknown_40(UINT8Z/1): 11 unknown_43(UINT8Z/1): null unknown_44(ENUM/1): 0 ], \n" +
+                "Local Message: raw: 11 Global Message Number: CONNECTIVITY=[\n" +
+                "name(STRING/9): Edge 510 bluetooth_enabled(ENUM/1): 0 live_tracking_enabled(ENUM/1): null weather_conditions_enabled(ENUM/1): null weather_alerts_enabled(ENUM/1): null auto_activity_upload_enabled(ENUM/1): null course_download_enabled(ENUM/1): null workout_download_enabled(ENUM/1): null gps_ephemeris_download_enabled(ENUM/1): null ]}";
 
-
-        Assert.assertEquals(expectedOutput, fitFileParser(fileContents));
+        FitFile fitFile = FitFile.parseIncoming(fileContents);
+        Assert.assertEquals(expectedOutput, fitFile.toString());
 
     }
 
@@ -516,17 +467,19 @@ public class GarminSupportTest {
     public void TestFitFileDevelopersField() {
         byte[] fileContents = GB.hexStringToByteArray("0e206806a20000002e464954bed040000100000401028400010002028403048c00000f042329000006a540000100cf0201100d030102000101020305080d1522375990e97962db0040000100ce05000102010102020102031107080a0700000001646f7567686e7574735f6561726e656400646f7567686e7574730060000100140403010204010205048606028401000100008c580000c738b98001008f5a00032c808e400200905c0005a9388a1003d39e");//https://github.com/polyvertex/fitdecode/blob/48b6554d8a3baf33f8b5b9b2fd079fcbe9ac8ce2/tests/files/DeveloperData.fit
 
-        String expectedOutput = "Local Message: raw: 0 Global Message Number: FILE_ID\n" +
-                "manufacturer(UINT16/2): 15 type(ENUM/1): activity product(UINT16/2): 9001 serial_number(UINT32Z/4): 1701 \n" +
-                "Local Message: raw: 0 Global Message Number: DEVELOPER_DATA\n" +
-                "application_id(BASE_TYPE_BYTE/16): [1,1,2,3,5,8,13,21,34,55,89,144,233,121,98,219] developer_data_index(UINT8/1): 0 \n" +
-                "Local Message: raw: 0 Global Message Number: FIELD_DESCRIPTION\n" +
-                "developer_data_index(UINT8/1): 0 field_definition_number(UINT8/1): 0 fit_base_type_id(UINT8/1): 1 field_name(STRING/17): doughnuts_earned units(STRING/10): doughnuts \n" +
-                "Local Message: raw: 0 Global Message Number: RECORD\n" +
-                "heart_rate(UINT8/1): 140 unknown_4(UINT8/1): 88 unknown_5(UINT32/4): 51000 unknown_6(UINT16/2): 47488 doughnuts_earned(SINT8/1): 1 \n" +
-                "heart_rate(UINT8/1): 143 unknown_4(UINT8/1): 90 unknown_5(UINT32/4): 208000 unknown_6(UINT16/2): 36416 doughnuts_earned(SINT8/1): 2 \n" +
-                "heart_rate(UINT8/1): 144 unknown_4(UINT8/1): 92 unknown_5(UINT32/4): 371000 unknown_6(UINT16/2): 35344 doughnuts_earned(SINT8/1): 3 \n";
+        String expectedOutput = "{\n" +
+                "Local Message: raw: 0 Global Message Number: FILE_ID=[\n" +
+                "manufacturer(UINT16/2): 15 type(ENUM/1): activity product(UINT16/2): 9001 serial_number(UINT32Z/4): 1701 ], \n" +
+                "Local Message: raw: 0 Global Message Number: DEVELOPER_DATA=[\n" +
+                "application_id(BASE_TYPE_BYTE/16): [1,1,2,3,5,8,13,21,34,55,89,144,233,121,98,219] developer_data_index(UINT8/1): 0 ], \n" +
+                "Local Message: raw: 0 Global Message Number: FIELD_DESCRIPTION=[\n" +
+                "developer_data_index(UINT8/1): 0 field_definition_number(UINT8/1): 0 fit_base_type_id(UINT8/1): 1 field_name(STRING/17): doughnuts_earned units(STRING/10): doughnuts ], \n" +
+                "Local Message: raw: 0 Global Message Number: RECORD=[\n" +
+                "heart_rate(UINT8/1): 140 unknown_4(UINT8/1): 88 unknown_5(UINT32/4): 51000 unknown_6(UINT16/2): 47488 doughnuts_earned(SINT8/1): 1 , \n" +
+                "heart_rate(UINT8/1): 143 unknown_4(UINT8/1): 90 unknown_5(UINT32/4): 208000 unknown_6(UINT16/2): 36416 doughnuts_earned(SINT8/1): 2 , \n" +
+                "heart_rate(UINT8/1): 144 unknown_4(UINT8/1): 92 unknown_5(UINT32/4): 371000 unknown_6(UINT16/2): 35344 doughnuts_earned(SINT8/1): 3 ]}";
 
-        Assert.assertEquals(expectedOutput, fitFileParser(fileContents));
+        FitFile fitFile = FitFile.parseIncoming(fileContents);
+        Assert.assertEquals(expectedOutput, fitFile.toString());
     }
 }

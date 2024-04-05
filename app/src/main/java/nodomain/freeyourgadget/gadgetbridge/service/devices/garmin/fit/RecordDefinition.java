@@ -123,7 +123,7 @@ public class RecordDefinition {
 
     @NonNull
     public String toString() {
-        return recordHeader.toString() +
+        return System.lineSeparator() + recordHeader.toString() +
                 " Global Message Number: " + globalFITMessage.name();
     }
 

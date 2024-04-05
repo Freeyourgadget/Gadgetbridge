@@ -173,10 +173,6 @@ public abstract class GFDIMessage {
             this.byteBuffer.limit(payloadSize - 2); //remove CRC
         }
 
-        public int remaining() {
-            return byteBuffer.remaining();
-        }
-
         public void skip(int offset) {
             if (remaining() < offset) throw new IllegalStateException();
             byteBuffer.position(byteBuffer.position() + offset);
