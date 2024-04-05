@@ -17,7 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.nothing;
 
 import android.os.Parcel;
+import android.text.InputType;
 
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
@@ -32,6 +34,18 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class EarSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
+    public static final Creator<EarSettingsCustomizer> CREATOR = new Creator<EarSettingsCustomizer>() {
+        @Override
+        public EarSettingsCustomizer createFromParcel(final Parcel in) {
+            return new EarSettingsCustomizer();
+        }
+
+        @Override
+        public EarSettingsCustomizer[] newArray(final int size) {
+            return new EarSettingsCustomizer[size];
+        }
+    };
+
     @Override
     public void onPreferenceChange(final Preference preference, final DeviceSpecificSettingsHandler handler) {
     }
@@ -62,24 +76,28 @@ public class EarSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
                 ((ListPreference) audioModePref).setEntryValues(entryValues.toArray(new CharSequence[0]));
             }
         }
+        final Preference autoReplyPref = handler.findPreference(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL);
+        final Preference autoReplyDelay = handler.findPreference(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY);
+
+        if (autoReplyPref != null && autoReplyDelay != null) {
+
+            autoReplyDelay.setEnabled(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL, false));
+
+            autoReplyPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                autoReplyDelay.setEnabled((Boolean) newValue);
+                return true;
+            });
+
+            ((EditTextPreference) autoReplyDelay).setOnBindEditTextListener(editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER));
+
+        }
+
     }
 
     @Override
     public Set<String> getPreferenceKeysWithSummary() {
         return Collections.emptySet();
     }
-
-    public static final Creator<EarSettingsCustomizer> CREATOR = new Creator<EarSettingsCustomizer>() {
-        @Override
-        public EarSettingsCustomizer createFromParcel(final Parcel in) {
-            return new EarSettingsCustomizer();
-        }
-
-        @Override
-        public EarSettingsCustomizer[] newArray(final int size) {
-            return new EarSettingsCustomizer[size];
-        }
-    };
 
     @Override
     public int describeContents() {

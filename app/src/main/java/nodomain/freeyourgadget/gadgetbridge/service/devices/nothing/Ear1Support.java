@@ -30,10 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.GBTextToSpeech;
 
 public class Ear1Support extends AbstractSerialDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(Ear1Support.class);
-
+    private GBTextToSpeech gbTextToSpeech;
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
@@ -42,19 +43,30 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
         if (!prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL, false))
             return;
 
-        if(CallSpec.CALL_INCOMING != callSpec.command)
+        final int delayMillis = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY, "15")) * 1000;
+
+        if (CallSpec.CALL_INCOMING != callSpec.command)
             return;
 
-        LOG.debug("Incoming call, scheduling auto answer in 10 seconds.");
-        Looper mainLooper = Looper.getMainLooper();
-        new Handler(mainLooper).postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (!gbTextToSpeech.isConnected()) { // schedule the automatic reply here, if the speech to text is not connected. Else it's done by the callback, and the timeout starts after the name or number have been spoken
+            Looper mainLooper = Looper.getMainLooper();
+            LOG.debug("Incoming call, scheduling auto answer in {} seconds.", delayMillis / 1000);
+
+            new Handler(mainLooper).postDelayed(() -> {
                 GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
                 callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
                 evaluateGBDeviceEvent(callCmd);
+            }, delayMillis); //15s
+        }
+        String speechText = callSpec.name;
+        if (callSpec.name.equals(callSpec.number)) {
+            StringBuilder numberSpeller = new StringBuilder();
+            for (char c : callSpec.number.toCharArray()) {
+                numberSpeller.append(c).append(" ");
             }
-        }, 15000); //15s
+            speechText = numberSpeller.toString();
+        }
+        gbTextToSpeech.speak(speechText);
 
     }
 
@@ -71,6 +83,7 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
     @Override
     public boolean connect() {
         getDeviceIOThread().start();
+        gbTextToSpeech = new GBTextToSpeech(getContext(), new UtteranceProgressListener());
         return true;
     }
 
@@ -92,5 +105,38 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
     protected GBDeviceIoThread createDeviceIOThread() {
         return new NothingIOThread(getDevice(), getContext(), (NothingProtocol) getDeviceProtocol(),
                 Ear1Support.this, getBluetoothAdapter());
+    }
+
+    @Override
+    public void dispose() {
+        gbTextToSpeech.shutdown();
+        super.dispose();
+    }
+
+    private class UtteranceProgressListener extends android.speech.tts.UtteranceProgressListener {
+        @Override
+        public void onStart(String utteranceId) {
+//            LOG.debug("UtteranceProgressListener onStart.");
+        }
+
+        @Override
+        public void onDone(String utteranceId) {
+//            LOG.debug("UtteranceProgressListener onDone.");
+            SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+            final int delayMillis = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY, "15")) * 1000;
+
+
+            Looper mainLooper = Looper.getMainLooper();
+            new Handler(mainLooper).postDelayed(() -> {
+                GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
+                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
+                evaluateGBDeviceEvent(callCmd);
+            }, delayMillis); //15s
+        }
+
+        @Override
+        public void onError(String utteranceId) {
+            LOG.error("UtteranceProgressListener returned error.");
+        }
     }
 }

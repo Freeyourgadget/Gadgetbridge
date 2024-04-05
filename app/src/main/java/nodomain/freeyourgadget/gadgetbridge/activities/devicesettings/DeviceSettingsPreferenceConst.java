@@ -438,4 +438,5 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_FORCE_CONNECTION_TYPE = "pref_force_connection_type";
 
     public static final String PREF_AUTO_REPLY_INCOMING_CALL = "pref_auto_reply_phonecall";
+    public static final String PREF_AUTO_REPLY_INCOMING_CALL_DELAY = "pref_auto_reply_phonecall_delay";
 }
