@@ -326,10 +326,20 @@ public class BLEScanService extends Service {
         unregisterReceiver(bluetoothStateChangedReceiver);
     }
 
+    private boolean hasBluetoothPermission(){
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.R){
+            // workaround. Cannot give bluetooth permission on Android O
+            LOG.warn("Running on android 11, skipping bluetooth permission check");
+            return ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        }
+        return ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED;
+    }
+
     private void restartScan(boolean applyFilters) {
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+        if (!hasBluetoothPermission()) {
             // this should never happen
             LOG.error("No BLUETOOTH_SCAN permission");
+            updateNotification("Missing Bluetooth scan permissions");
             return;
         }
 
