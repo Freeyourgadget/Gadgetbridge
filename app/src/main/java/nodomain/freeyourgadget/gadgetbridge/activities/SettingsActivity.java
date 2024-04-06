@@ -421,6 +421,15 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 });
             }
 
+            pref = findPreference("pref_category_sleepasandroid");
+            if (pref != null) {
+                pref.setOnPreferenceClickListener(preference -> {
+                    Intent enableIntent = new Intent(requireContext(), SleepAsAndroidPreferencesActivity.class);
+                    startActivity(enableIntent);
+                    return true;
+                });
+            }
+
             final Preference theme = findPreference("pref_key_theme");
             final Preference amoled_black = findPreference("pref_key_theme_amoled_black");
 

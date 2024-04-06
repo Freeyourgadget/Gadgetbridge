@@ -30,6 +30,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -63,7 +64,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -128,6 +128,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
 import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
+import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.AbstractFetchOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchStatisticsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.fetch.FetchTemperatureOperation;
@@ -346,6 +347,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     private final LinkedList<AbstractFetchOperation> fetchOperationQueue = new LinkedList<>();
 
+    protected SleepAsAndroidSender sleepAsAndroidSender;
     public HuamiSupport() {
         this(LOG);
     }
@@ -372,6 +374,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     public void setContext(final GBDevice gbDevice, final BluetoothAdapter btAdapter, final Context context) {
         super.setContext(gbDevice, btAdapter, context);
         this.mediaManager = new MediaManager(context);
+
     }
 
     @Override
@@ -405,6 +408,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 }
             } else {
                 new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
+            }
+            if (sleepAsAndroidSender == null) {
+                sleepAsAndroidSender = new SleepAsAndroidSender(gbDevice);
             }
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
             characteristicChunked = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
@@ -2612,6 +2618,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                         MiBand2SampleProvider provider = new MiBand2SampleProvider(gbDevice, session);
                         MiBandActivitySample sample = createActivitySample(device, user, ts, provider);
                         sample.setHeartRate(getHeartrateBpm());
+                        sleepAsAndroidSender.onHrChanged(sample.getHeartRate(), 0);
+
 //                        sample.setSteps(getSteps());
                         sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                         sample.setRawKind(HuamiConst.TYPE_ACTIVITY); // to make it visible in the charts TODO: add a MANUAL kind for that?

@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
+import static java.lang.Thread.sleep;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
@@ -41,6 +42,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +70,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -79,6 +84,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
@@ -91,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidAction;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -139,6 +146,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -151,9 +159,10 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     // Tracks whether realtime HR monitoring is already started, so we can just
     // send CONTINUE commands
     private boolean heartRateRealtimeStarted;
-
+    private ScheduledExecutorService heartRateRealtimeScheduler;
     // Keep track of whether the rawSensor is enabled
     private boolean rawSensor = false;
+    private ScheduledExecutorService rawSensorScheduler;
 
     // Services
     private final ZeppOsServicesService servicesService = new ZeppOsServicesService(this);
@@ -868,6 +877,169 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     }
 
     @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+        // Validate if our device can work with an action
+        try {
+            sleepAsAndroidSender.validateAction(action);
+        } catch (UnsupportedOperationException e) {
+            return;
+        }
+
+        // Consult the SleepAsAndroid documentation for a set of actions and their extra
+        // https://docs.sleep.urbandroid.org/devs/wearable_api.html
+        switch (action) {
+            case SleepAsAndroidAction.CHECK_CONNECTED:
+                sleepAsAndroidSender.confirmConnected();
+                break;
+            // Received when the app starts sleep tracking
+            case SleepAsAndroidAction.START_TRACKING:
+                enableRealtimeHeartRateMeasurement(true);
+                enableRawSensor(true);
+                sleepAsAndroidSender.startTracking();
+                break;
+            // Received when the app stops sleep tracking
+            case SleepAsAndroidAction.STOP_TRACKING:
+                enableRealtimeHeartRateMeasurement(false);
+                enableRawSensor(false);
+                sleepAsAndroidSender.stopTracking();
+                break;
+            // Received when the app pauses sleep tracking
+//            case SleepAsAndroidAction.SET_PAUSE:
+//                long pauseTimestamp = extras.getLong("TIMESTAMP");
+//                long delay = pauseTimestamp > 0 ? pauseTimestamp - System.currentTimeMillis() : 0;
+//                setRawSensor(delay > 0);
+//                enableRealtimeSamplesTimer(delay > 0);
+//                sleepAsAndroidSender.pauseTracking(delay);
+//                break;
+            // Same as above but controlled by a boolean value
+            case SleepAsAndroidAction.SET_SUSPENDED:
+                boolean suspended = extras.getBoolean("SUSPENDED", false);
+                setRawSensor(!suspended);
+                enableRealtimeSamplesTimer(!suspended);
+                sleepAsAndroidSender.pauseTracking(suspended);
+            // Received when the app changes the batch size for the movement data
+            case SleepAsAndroidAction.SET_BATCH_SIZE:
+                long batchSize = extras.getLong("SIZE", 12L);
+                sleepAsAndroidSender.setBatchSize(batchSize);
+                break;
+            // Received when the app requests the wearable to vibrate
+            case SleepAsAndroidAction.HINT:
+                int repeat = extras.getInt("REPEAT");
+                for (int i = 0; i < repeat; i++) {
+                    sendFindDeviceCommand(true);
+                    try {
+                        sleep(500);
+                        sendFindDeviceCommand(false);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
+            // Received when the app sends a notificaation
+            case SleepAsAndroidAction.SHOW_NOTIFICATION:
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.title = extras.getString("TITLE");
+                notificationSpec.body = extras.getString("BODY");
+                notificationService.sendNotification(notificationSpec);
+                break;
+            // Received when the app updates an alarm (Snoozing included too)
+            // It's better to use SleepAsAndroidAction.START_ALARM and .STOP_ALARM where possible to have more control over the alarm.
+            // Using .UPDATE_ALARM will let Gadgetbridge know when an alarm was set but not when it was dismissed.
+            case SleepAsAndroidAction.UPDATE_ALARM:
+                long alarmTimestamp = extras.getLong("TIMESTAMP");
+
+                // Sets the alarm at a giver hour and minute
+                // Snoozing from the app will create a new alarm in the future
+                setSleepAsAndroidAlarm(alarmTimestamp);
+                break;
+            // Received when an app alarm is stopped
+            case SleepAsAndroidAction.STOP_ALARM:
+                // Manually stop an alarm
+                break;
+            // Received when an app alarm starts
+            case SleepAsAndroidAction.START_ALARM:
+                // Manually start an alarm
+                break;
+            default:
+                LOG.warn("Received unsupported " + action);
+                break;
+        }
+    }
+
+    private void setSleepAsAndroidAlarm(long alarmTimestamp) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Timestamp(alarmTimestamp).getTime());
+        Alarm alarm = AlarmUtils.createSingleShot(SleepAsAndroidSender.getAlarmSlot(), false, false, calendar);
+        ArrayList<Alarm> alarms = new ArrayList<>(1);
+        alarms.add(alarm);
+
+        GBApplication.deviceService(gbDevice).onSetAlarms(alarms);
+    }
+
+    private ScheduledExecutorService startRealtimeHeartRateMeasurement() {
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (heartRateRealtimeStarted) {
+                    onEnableRealtimeHeartRateMeasurement(true);
+                }
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
+        return service;
+    }
+
+    private void stopRealtimeHeartRateMeasurement() {
+        if (heartRateRealtimeScheduler != null) {
+            heartRateRealtimeScheduler.shutdown();
+            heartRateRealtimeScheduler = null;
+        }
+    }
+
+    private void enableRealtimeHeartRateMeasurement(boolean enable) {
+        onEnableRealtimeHeartRateMeasurement(enable);
+        if (enable) {
+            heartRateRealtimeScheduler = startRealtimeHeartRateMeasurement();
+        }
+        else {
+            stopRealtimeHeartRateMeasurement();
+        }
+
+    }
+
+    private void stopRawSensors() {
+        if (rawSensorScheduler != null) {
+            rawSensorScheduler.shutdown();
+            rawSensorScheduler = null;
+        }
+    }
+
+    private ScheduledExecutorService startRawSensors() {
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (rawSensor) {
+                    setRawSensor(true);
+                }
+            }
+        }, 0, 10000, TimeUnit.MILLISECONDS);
+        return service;
+    }
+
+    private void enableRawSensor(boolean enable) {
+        setRawSensor(enable);
+        if (enable) {
+            rawSensorScheduler = startRawSensors();
+        }
+        else {
+            stopRawSensors();
+        }
+
+    }
+
+    @Override
     protected ZeppOsSupport setTimeFormat(final TransactionBuilder builder) {
         final GBPrefs gbPrefs = new GBPrefs(getDevicePrefs());
         final String timeFormat = gbPrefs.getTimeFormat();
@@ -1136,6 +1308,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
                 final float gx = (x * gravity) / scaleFactor;
                 final float gy = (y * gravity) / scaleFactor;
                 final float gz = (z * gravity) / scaleFactor;
+                sleepAsAndroidSender.onAccelChanged(gx, gy, gz);
 
                 LOG.info("Raw sensor g: x={} y={} z={}", gx, gy, gz);
             }

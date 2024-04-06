@@ -63,6 +63,11 @@
             android:title="@string/bottom_nav_dashboard"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="pref_category_sleepasandroid"
+            android:title="@string/sleepasandroid_settings"
+            app:iconSpaceReserved="false" />
+
         <PreferenceScreen
             android:key="pref_screen_theme"
             android:title="@string/pref_title_theme"

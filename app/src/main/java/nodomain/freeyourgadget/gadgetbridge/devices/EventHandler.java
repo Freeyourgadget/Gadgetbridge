@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -148,4 +149,6 @@ public interface EventHandler {
     void onPowerOff();
 
     void onSetGpsLocation(Location location);
+
+    void onSleepAsAndroidAction(String action, Bundle extras);
 }

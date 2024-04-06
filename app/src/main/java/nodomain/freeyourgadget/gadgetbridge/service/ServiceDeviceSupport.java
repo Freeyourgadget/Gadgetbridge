@@ -22,12 +22,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.UUID;
 
@@ -511,5 +511,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetGpsLocation(location);
+    }
+
+    @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+        if (checkBusy("sleep as android")) {
+            return;
+        }
+        delegate.onSleepAsAndroidAction(action, extras);
     }
 }

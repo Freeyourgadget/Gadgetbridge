@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
@@ -545,6 +545,16 @@ public class GBDeviceService implements DeviceService {
     public void onSetGpsLocation(Location location) {
         Intent intent = createIntent().setAction(ACTION_SET_GPS_LOCATION);
         intent.putExtra(EXTRA_GPS_LOCATION, location);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+        Intent intent = createIntent().setAction(ACTION_SLEEP_AS_ANDROID);
+        intent.putExtra(EXTRA_SLEEP_AS_ANDROID_ACTION, action);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
         invokeService(intent);
     }
 }

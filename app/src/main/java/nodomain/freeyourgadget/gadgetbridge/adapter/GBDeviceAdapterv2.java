@@ -843,7 +843,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
     private void showDeviceSubmenu(final View v, final GBDevice device) {
         boolean deviceConnected = device.getState() != GBDevice.State.NOT_CONNECTED;
-
         PopupMenu menu = new PopupMenu(v.getContext(), v);
         menu.inflate(R.menu.fragment_devices_device_submenu);
 

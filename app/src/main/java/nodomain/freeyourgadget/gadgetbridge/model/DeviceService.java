@@ -79,6 +79,9 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_GPS_LOCATION = PREFIX + ".action.set_gps_location";
     String ACTION_SET_LED_COLOR = PREFIX + ".action.set_led_color";
     String ACTION_POWER_OFF = PREFIX + ".action.power_off";
+
+    String ACTION_SLEEP_AS_ANDROID = ".action.sleep_as_android";
+    String EXTRA_SLEEP_AS_ANDROID_ACTION = "sleepasandroid_action";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
     String EXTRA_NOTIFICATION_FLAGS = "notification_flags";
     String EXTRA_NOTIFICATION_ID = "notification_id";

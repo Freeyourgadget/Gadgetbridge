@@ -82,6 +82,8 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SilentModeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGermanyReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidAction;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -145,6 +147,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         private boolean supportsMusicInfo = false;
         private boolean supportsNavigation = false;
 
+        private boolean supportsSleepAsAndroid = false;
+
         public boolean supportsWeather() {
             return supportsWeather;
         }
@@ -185,6 +189,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             this.supportsNavigation = supportsNavigation;
         }
 
+        public boolean supportsSleepAsAndroid() { return supportsSleepAsAndroid; }
+
+        public void setSupportsSleepAsAndroid(boolean supportsSleepAsAndroid) {
+            this.supportsSleepAsAndroid = supportsSleepAsAndroid;
+        }
+
         public void logicalOr(DeviceCoordinator operand){
             if(operand.supportsCalendarEvents()){
                 setSupportsCalendarEvents(true);
@@ -200,6 +210,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if(operand.supportsNavigation()){
                 setSupportsNavigation(true);
+            }
+            if (operand.supportsSleepAsAndroid()) {
+                setSupportsSleepAsAndroid(true);
             }
         }
     }
@@ -253,6 +266,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private final IntentApiReceiver intentApiReceiver = new IntentApiReceiver();
 
     private OsmandEventReceiver mOsmandAidlHelper = null;
+
+    private SleepAsAndroidReceiver mSleepAsAndroidReceiver = null;
 
     private HashMap<String, Long> deviceLastScannedTimestamps = new HashMap<>();
 
@@ -1069,6 +1084,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 final Location location = intent.getParcelableExtra(EXTRA_GPS_LOCATION);
                 deviceSupport.onSetGpsLocation(location);
                 break;
+            case ACTION_SLEEP_AS_ANDROID:
+                if(device.getDeviceCoordinator().supportsSleepAsAndroid() && GBApplication.getPrefs().getString("sleepasandroid_device", new String()).equals(device.getAddress()))
+                {
+                    final String sleepAsAndroidAction = intent.getStringExtra(EXTRA_SLEEP_AS_ANDROID_ACTION);
+                    deviceSupport.onSleepAsAndroidAction(sleepAsAndroidAction, intent.getExtras());
+                }
+                break;
         }
     }
 
@@ -1355,6 +1377,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
             }
 
+            if (features.supportsSleepAsAndroid())
+            {
+                if (mSleepAsAndroidReceiver == null) {
+                    mSleepAsAndroidReceiver = new SleepAsAndroidReceiver();
+                    registerReceiver(mSleepAsAndroidReceiver, new IntentFilter());
+                }
+            }
+
             if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
                     features.supportsActivityDataFetching() && mGBAutoFetchReceiver == null) {
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
@@ -1421,6 +1451,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mGenericWeatherReceiver != null) {
                 unregisterReceiver(mGenericWeatherReceiver);
                 mGenericWeatherReceiver = null;
+            }
+            if (mSleepAsAndroidReceiver != null) {
+                unregisterReceiver(mSleepAsAndroidReceiver);
+                mSleepAsAndroidReceiver = null;
             }
         }
     }

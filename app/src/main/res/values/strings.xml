@@ -2796,4 +2796,20 @@
     <string name="pref_summary_bottom_navigation_bar_off">Switch between main screens only using horizontal swiping</string>
     <string name="pref_dashboard_widget_today_upside_down_title">Midnight at bottom</string>
     <string name="pref_dashboard_widget_today_upside_down_summary">In 24h mode, draw midnight at the bottom, midday at the top of the chart</string>
+
+    <string name="sleepasandroid_settings">Sleep As Android</string>
+    <string name="pref_sleepasandroid_enable_summary">Enable Sleep As Android integration</string>
+    <string name="pref_sleepasandroid_device_title">Provider device</string>
+    <string name="pref_sleepasandroid_device_summary">Select device as Sleep As Android data provider</string>
+    <string name="pref_sleepasandroid_features_title">Features</string>
+    <string name="pref_sleepasandroid_features_summary">Support differs from device to device</string>
+    <string name="pref_sleepasandroid_feat_alarms">Alarms</string>
+    <string name="pref_sleepasandroid_slot_title">Alarms slot</string>
+    <string name="pref_sleepasandroid_slot_summary">Which alarm slot to use when setting alarms</string>
+    <string name="alarm_slot_reset">Alarm slot has been set to default</string>
+    <string name="pref_sleepasandroid_feat_notifications">Notifications</string>
+    <string name="pref_sleepasandroid_feat_movement">Accelerometer</string>
+    <string name="pref_sleepasandroid_feat_heartrate">Heart rate</string>
+    <string name="pref_sleepasandroid_feat_oximetry">Oximetry</string>
+    <string name="pref_sleepasandroid_feat_spo2">SPO2</string>
 </resources>

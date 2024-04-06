@@ -110,6 +110,24 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/GadgetbridgeTheme"
         tools:replace="android:label">
+        <receiver
+            android:name=".externalevents.sleepasandroid.SleepAsAndroidReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.urbandroid.sleep.watch.START_TRACKING" />
+                <action android:name="com.urbandroid.sleep.watch.STOP_TRACKING" />
+                <action android:name="com.urbandroid.sleep.watch.SET_PAUSE" />
+                <action android:name="com.urbandroid.sleep.watch.SET_SUSPENDED" />
+                <action android:name="com.urbandroid.sleep.watch.SET_BATCH_SIZE" />
+                <action android:name="com.urbandroid.sleep.watch.START_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.STOP_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.UPDATE_ALARM" />
+                <action android:name="com.urbandroid.sleep.watch.SHOW_NOTIFICATION" />
+                <action android:name="com.urbandroid.sleep.watch.HINT" />
+                <action android:name="com.urbandroid.sleep.watch.CHECK_CONNECTED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
@@ -131,6 +149,10 @@
         <activity
             android:name=".activities.DashboardPreferencesActivity"
             android:label="@string/dashboard_settings"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.SleepAsAndroidPreferencesActivity"
+            android:label="@string/sleepasandroid_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.AboutUserPreferencesActivity"

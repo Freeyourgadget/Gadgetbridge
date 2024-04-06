@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 
 /**
  * This interface is implemented at least once for every supported gadget device.
@@ -512,6 +514,11 @@ public interface DeviceCoordinator {
     boolean supportsMusicInfo();
 
     /**
+     * Indicates whether the device supports features required by Sleep As Android
+     */
+    boolean supportsSleepAsAndroid();
+
+    /**
      * Indicates the maximum reminder message length.
      */
     int getMaximumReminderMessageLength();
@@ -568,6 +575,12 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports unicode emojis.
      */
     boolean supportsUnicodeEmojis();
+
+    /**
+     * Returns the set of supported sleep as Android features
+      * @return Set
+     */
+    Set<SleepAsAndroidFeature> getSleepAsAndroidFeatures();
 
     /**
      * Returns device specific settings related to connection

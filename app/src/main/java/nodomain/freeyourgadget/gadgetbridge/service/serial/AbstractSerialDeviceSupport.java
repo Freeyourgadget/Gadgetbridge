@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
 import android.location.Location;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -32,6 +32,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 
@@ -1180,5 +1181,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     @Override
     public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
 
+    }
+
+    @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+        
     }
 }
