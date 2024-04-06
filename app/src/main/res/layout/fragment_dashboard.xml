@@ -20,33 +20,34 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:orientation="horizontal">
+                <Button
+                    android:id="@+id/arrow_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:text="\u003C"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_alignParentLeft="true" />
                 <TextView
                     android:id="@+id/dashboard_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:text="@string/activity_summary_today"
                     android:textStyle="bold"
-                    android:textSize="30sp" />
-                <TextView
-                    android:id="@+id/arrow_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\u003C"
-                    android:textStyle="bold"
-                    android:textSize="40sp"
-                    android:paddingHorizontal="8dp"
-                    android:layout_toLeftOf="@+id/arrow_right" />
-                <TextView
+                    android:textSize="25sp"
+                    android:layout_centerInParent="true"/>
+                <Button
                     android:id="@+id/arrow_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="0dp"
                     android:text="\u003E"
                     android:textStyle="bold"
-                    android:textSize="40sp"
-                    android:paddingHorizontal="8dp"
-                    android:layout_alignParentEnd="true"/>
+                    android:textSize="20sp"
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
 
             <androidx.core.widget.NestedScrollView
