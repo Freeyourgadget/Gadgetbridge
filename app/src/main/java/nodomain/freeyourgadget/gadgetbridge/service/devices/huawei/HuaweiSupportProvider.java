@@ -163,7 +163,7 @@ public class HuaweiSupportProvider {
     private Context context;
     private HuaweiCoordinatorSupplier.HuaweiDeviceType huaweiType;
 
-    private boolean needsAuth = false;
+    private boolean firstConnection = false;
     protected byte protocolVersion;
     public String deviceMac; //get it from GB
     protected String macAddress;
@@ -412,7 +412,7 @@ public class HuaweiSupportProvider {
 
     protected void initializeDeviceHiChainMode(int authType) {
         try {
-            GetHiChainRequest hiChainReq = new GetHiChainRequest(this, needsAuth);
+            GetHiChainRequest hiChainReq = new GetHiChainRequest(this, firstConnection);
             hiChainReq.setFinalizeReq(configureReq);
             if (paramsProvider.getPinCode() == null) {
                 GetPincodeRequest pincodeReq = new GetPincodeRequest(this);
@@ -491,7 +491,7 @@ public class HuaweiSupportProvider {
             productInformationReq.nextRequest(setTimeReq);
             setTimeReq.nextRequest(supportedServicesReq);
             productInformationReq.doPerform();
-            if (needsAuth) {
+            if (firstConnection) {
                 // Workaround to enable PREF_HUAWEI_ROTATE_WRIST_TO_SWITCH_INFO preference
                 SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceMac);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -556,8 +556,8 @@ public class HuaweiSupportProvider {
         return paramsProvider;
     }
 
-    public void setNeedsAuth(boolean needsAuth) {
-        this.needsAuth = needsAuth;
+    public void setFirstConnection(boolean firstConnection) {
+        this.firstConnection = firstConnection;
     }
 
     protected void createRandomMacAddress() {
@@ -623,7 +623,7 @@ public class HuaweiSupportProvider {
 
         // Setup the alarms
         if (!getHuaweiCoordinator().supportsChangingAlarm()) {
-            if (needsAuth) {
+            if (firstConnection) {
                 // TODO: not really sure if this is necessary, but it probably won't do any harm
                 initializeAlarms();
             }

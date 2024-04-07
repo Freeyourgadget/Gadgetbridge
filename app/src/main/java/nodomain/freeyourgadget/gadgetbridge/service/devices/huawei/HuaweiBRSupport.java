@@ -51,7 +51,7 @@ public class HuaweiBRSupport extends AbstractBTBRDeviceSupport {
 
     @Override
     public boolean connectFirstTime() {
-        supportProvider.setNeedsAuth(true);
+        supportProvider.setFirstConnection(true);
         return connect();
     }
 

@@ -57,7 +57,7 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public boolean connectFirstTime() {
-        supportProvider.setNeedsAuth(true);
+        supportProvider.setFirstConnection(true);
         return connect();
     }
 
