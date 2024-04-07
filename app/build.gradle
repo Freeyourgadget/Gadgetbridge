@@ -269,8 +269,8 @@ dependencies {
 //    }
 
     // JSR-310 timezones backport for Android, since we're still API 21
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.0'
-    testImplementation 'org.threeten:threetenbp:1.6.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.7'
+    testImplementation 'org.threeten:threetenbp:1.6.9'
 
     // Android SDK bundles org.json, but we need an actual implementation to replace the stubs in tests
     testImplementation 'org.json:json:20240303'
