@@ -35,6 +35,7 @@ public class DeviceInformationMessage extends GFDIMessage {
         this.deviceName = deviceName;
         this.deviceModel = deviceModel;
 
+        GFDIMessage.setMaxPacketSize(maxPacketSize);
         this.statusMessage = getStatusMessage();
     }
 

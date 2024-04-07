@@ -32,9 +32,18 @@ public abstract class GFDIMessage {
     public static final int MESSAGE_SYNC_REQUEST = 5037;
     public static final int MESSAGE_AUTH_NEGOTIATION = 5101;
     protected static final Logger LOG = LoggerFactory.getLogger(GFDIMessage.class);
+    private static int maxPacketSize = 375; //safe default?
     protected final ByteBuffer response = ByteBuffer.allocate(1000);
     protected GFDIStatusMessage statusMessage;
     protected GarminMessage garminMessage;
+
+    public static int getMaxPacketSize() {
+        return maxPacketSize;
+    }
+
+    public static void setMaxPacketSize(int maxPacketSize) {
+        GFDIMessage.maxPacketSize = maxPacketSize;
+    }
 
     public static GFDIMessage parseIncoming(byte[] message) {
         final MessageReader messageReader = new MessageReader(message);
@@ -48,7 +57,7 @@ public abstract class GFDIMessage {
             LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message);
             return new UnhandledMessage(messageType);
         } finally {
-            messageReader.warnIfLeftover();
+            messageReader.warnIfLeftover(messageType);
         }
     }
 
@@ -194,14 +203,14 @@ public abstract class GFDIMessage {
             }
         }
 
-        public void warnIfLeftover() {
+        public void warnIfLeftover(int messageType) {
             if (byteBuffer.hasRemaining() && byteBuffer.position() < (byteBuffer.limit())) {
                 int pos = byteBuffer.position();
                 int numBytes = (byteBuffer.limit()) - byteBuffer.position();
                 byte[] leftover = new byte[numBytes];
                 byteBuffer.get(leftover);
                 byteBuffer.position(pos);
-                LOG.warn("Leftover bytes when parsing message. Bytes: {}, complete message: {}", GB.hexdump(leftover), GB.hexdump(byteBuffer.array()));
+                LOG.warn("Leftover bytes when parsing message type {}. Bytes: {}, complete message: {}", messageType, GB.hexdump(leftover), GB.hexdump(byteBuffer.array()));
             }
         }
     }
