@@ -21,11 +21,17 @@ import androidx.annotation.StringRes;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public enum WidgetLayout {
+    // Square screen layouts, 2x2
     TOP_1_BOT_2(R.string.widget_layout_top_1_bot_2, WidgetType.WIDE, WidgetType.SMALL, WidgetType.SMALL),
     TOP_2_BOT_1(R.string.widget_layout_top_2_bot_1, WidgetType.SMALL, WidgetType.SMALL, WidgetType.SMALL),
     TOP_2_BOT_2(R.string.widget_layout_top_2_bot_2, WidgetType.SMALL, WidgetType.SMALL, WidgetType.SMALL, WidgetType.SMALL),
-    SINGLE(R.string.widget_layout_single, WidgetType.TALL),
+    TWO_BY_TWO_SINGLE(R.string.widget_layout_single, WidgetType.LARGE),
+
+    // Narrow screen layouts, 2x1
+    ONE_BY_TWO_SINGLE(R.string.widget_layout_single, WidgetType.TALL),
     TWO(R.string.widget_layout_two, WidgetType.SMALL, WidgetType.SMALL),
+
+    // TODO Portrait screen layouts, 2x3
     ;
 
     @StringRes

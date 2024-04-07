@@ -20,5 +20,6 @@ public enum WidgetType {
     SMALL, // 1x1
     TALL,  // 1x2
     WIDE,  // 2x1
+    LARGE, // 2x2
     ;
 }

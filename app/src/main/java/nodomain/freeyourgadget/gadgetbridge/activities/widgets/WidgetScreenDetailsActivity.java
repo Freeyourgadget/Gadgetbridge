@@ -194,7 +194,8 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
                 updateWidget(cardWidgetBotLeft, labelWidgetBotLeft, 2);
                 updateWidget(cardWidgetBotRight, labelWidgetBotRight, 3);
                 break;
-            case SINGLE:
+            case ONE_BY_TWO_SINGLE:
+            case TWO_BY_TWO_SINGLE:
                 updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, -1);
                 updateWidget(cardWidgetTopRight, labelWidgetTopRight, -1);
                 updateWidget(cardWidgetCenter, labelWidgetCenter, 0);
@@ -202,9 +203,9 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
                 updateWidget(cardWidgetBotRight, labelWidgetBotRight, -1);
                 break;
             case TWO:
-                updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, 0);
-                updateWidget(cardWidgetTopRight, labelWidgetTopRight, 1);
-                updateWidget(cardWidgetCenter, labelWidgetCenter, -1);
+                updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, -1);
+                updateWidget(cardWidgetTopRight, labelWidgetTopRight, 0);
+                updateWidget(cardWidgetCenter, labelWidgetCenter, 1);
                 updateWidget(cardWidgetBotLeft, labelWidgetBotLeft, -1);
                 updateWidget(cardWidgetBotRight, labelWidgetBotRight, -1);
                 break;

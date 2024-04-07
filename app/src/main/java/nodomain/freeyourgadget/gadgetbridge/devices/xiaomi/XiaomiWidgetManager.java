@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -25,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -60,29 +63,40 @@ public class XiaomiWidgetManager implements WidgetManager {
     @Override
     public List<WidgetLayout> getSupportedWidgetLayouts() {
         final List<WidgetLayout> layouts = new ArrayList<>();
-        final Set<WidgetType> partTypes = new HashSet<>();
 
-        final XiaomiProto.WidgetParts rawWidgetParts = getRawWidgetParts();
-
-        for (final XiaomiProto.WidgetPart widgetPart : rawWidgetParts.getWidgetPartList()) {
-            partTypes.add(fromRawWidgetType(widgetPart.getType()));
+        final XiaomiProto.WidgetScreens widgetScreens = getRawWidgetScreens();
+        if (!widgetScreens.hasWidgetsCapabilities() || !widgetScreens.getWidgetsCapabilities().hasSupportedLayoutStyles()) {
+            return Collections.emptyList();
         }
 
-        if (partTypes.contains(WidgetType.WIDE) && partTypes.contains(WidgetType.SMALL)) {
-            layouts.add(WidgetLayout.TOP_1_BOT_2);
-            layouts.add(WidgetLayout.TOP_2_BOT_1);
-            layouts.add(WidgetLayout.TOP_2_BOT_2);
-        }
+        final int supportedBitmap = getRawWidgetScreens().getWidgetsCapabilities().getSupportedLayoutStyles();
 
-        if (partTypes.contains(WidgetType.TALL)) {
-            layouts.add(WidgetLayout.SINGLE);
-
-            if (partTypes.contains(WidgetType.SMALL)) {
-                layouts.add(WidgetLayout.TWO);
+        // highest known layout style is 0x4000 (1 << 14)
+        for (int i = 0; i < 15; i++) {
+            final int layoutStyleId = 1 << i;
+            if ((supportedBitmap & layoutStyleId) != 0) {
+                layouts.add(fromRawLayout(layoutStyleId));
             }
         }
 
         return layouts;
+    }
+
+    private static Collection<WidgetPartSubtype> convertWorkoutTypesToPartSubtypes(final Collection<XiaomiWorkoutType> workoutTypes) {
+        final List<WidgetPartSubtype> subtypes = new ArrayList<>(workoutTypes.size());
+
+        // convert workout types to subtypes
+        for (final XiaomiWorkoutType workoutType : workoutTypes) {
+            subtypes.add(new WidgetPartSubtype(
+                    String.valueOf(workoutType.getCode()),
+                    workoutType.getName()
+            ));
+        }
+
+        // sort by name before returning
+        Collections.sort(subtypes, (it, other) -> it.getName().compareToIgnoreCase(other.getName()));
+
+        return subtypes;
     }
 
     @Override
@@ -94,41 +108,29 @@ public class XiaomiWidgetManager implements WidgetManager {
         final Set<String> seenNames = new HashSet<>();
         final Set<String> duplicatedNames = new HashSet<>();
 
+        // get supported workout types and convert to subtypes for workout widgets
+        final Collection<WidgetPartSubtype> subtypes = convertWorkoutTypesToPartSubtypes(XiaomiWorkoutType.getWorkoutTypesSupportedByDevice(getDevice()));
+
         for (final XiaomiProto.WidgetPart widgetPart : rawWidgetParts.getWidgetPartList()) {
-            final WidgetType type = fromRawWidgetType(widgetPart.getType());
+            final WidgetPart convertedPart = fromRawWidgetPart(widgetPart, subtypes);
 
-            if (type != null && type.equals(targetWidgetType)) {
-                final WidgetPart newPart = new WidgetPart(
-                        String.valueOf(widgetPart.getId()),
-                        widgetPart.getTitle(),
-                        type
-                );
-
-                if (widgetPart.getFunction() == 16) {
-                    if (StringUtils.isBlank(newPart.getName())) {
-                        newPart.setName(GBApplication.getContext().getString(R.string.menuitem_workout));
-                    }
-
-                    final List<XiaomiWorkoutType> workoutTypes = XiaomiPreferences.getWorkoutTypes(getDevice());
-                    for (final XiaomiWorkoutType workoutType : workoutTypes) {
-                        newPart.getSupportedSubtypes().add(
-                                new WidgetPartSubtype(
-                                        String.valueOf(workoutType.getCode()),
-                                        workoutType.getName()
-                                )
-                        );
-                        Collections.sort(newPart.getSupportedSubtypes(), (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-                    }
-                }
-
-                if (seenNames.contains(newPart.getFullName())) {
-                    duplicatedNames.add(newPart.getFullName());
-                } else {
-                    seenNames.add(newPart.getFullName());
-                }
-
-                parts.add(newPart);
+            if (convertedPart == null) {
+                continue;
             }
+
+            if (!convertedPart.getType().equals(targetWidgetType)) {
+                continue;
+            }
+
+            final String convertedPartName = convertedPart.getName();
+            if (seenNames.contains(convertedPartName)) {
+                duplicatedNames.add(convertedPartName);
+            } else {
+                seenNames.add(convertedPartName);
+            }
+
+            parts.add(convertedPart);
+            seenNames.add(convertedPart.getName());
         }
 
         // Ensure that all names are unique
@@ -138,66 +140,94 @@ public class XiaomiWidgetManager implements WidgetManager {
             }
         }
 
+        Collections.sort(parts, (it, other) -> it.getName().compareToIgnoreCase(other.getName()));
         return parts;
+    }
+
+    private WidgetPart fromRawWidgetPart(final XiaomiProto.WidgetPart widgetPart, final Collection<WidgetPartSubtype> subtypes) {
+        final WidgetType type = fromRawWidgetType(widgetPart.getType());
+
+        if (type == null) {
+            LOG.warn("Unknown widget type {}", widgetPart.getType());
+            return null;
+        }
+
+        final String stringifiedId = String.valueOf(widgetPart.getId());
+        final WidgetPart convertedPart = new WidgetPart(
+                stringifiedId,
+                GBApplication.getContext().getString(R.string.widget_name_untitled, stringifiedId),
+                type
+        );
+
+        if (!TextUtils.isEmpty(widgetPart.getTitle())) {
+            convertedPart.setName(widgetPart.getTitle());
+        } else {
+            // some models do not provide the name of the widget in the screens list, resolve it here
+            final XiaomiProto.WidgetPart resolvedPart = findRawPart(widgetPart.getType(), widgetPart.getId());
+            if (resolvedPart != null) {
+                convertedPart.setName(resolvedPart.getTitle());
+            }
+        }
+
+        if (widgetPart.getFunction() == 16) {
+            if (StringUtils.isBlank(convertedPart.getName())) {
+                convertedPart.setName(GBApplication.getContext().getString(R.string.menuitem_workout));
+            }
+
+            if (subtypes != null) {
+                convertedPart.getSupportedSubtypes().addAll(subtypes);
+
+                if (widgetPart.getSubType() != 0) {
+                    final String widgetSubtype = String.valueOf(widgetPart.getSubType());
+
+                    for (final WidgetPartSubtype availableSubtype : subtypes) {
+                        if (availableSubtype.getId().equals(widgetSubtype)) {
+                            convertedPart.setSubtype(availableSubtype);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((widgetPart.getId() & 256) != 0) {
+            convertedPart.setName(GBApplication.getContext().getString(R.string.widget_name_colored_tile, convertedPart.getName()));
+        }
+
+        return convertedPart;
     }
 
     @Override
     public List<WidgetScreen> getWidgetScreens() {
         final XiaomiProto.WidgetScreens rawWidgetScreens = getRawWidgetScreens();
 
-        final List<WidgetScreen> ret = new ArrayList<>(rawWidgetScreens.getWidgetScreenCount());
+        final List<WidgetScreen> convertedScreens = new ArrayList<>(rawWidgetScreens.getWidgetScreenCount());
+        final Collection<WidgetPartSubtype> workoutTypes = convertWorkoutTypesToPartSubtypes(XiaomiWorkoutType.getWorkoutTypesSupportedByDevice(getDevice()));
 
-        final List<XiaomiWorkoutType> workoutTypes = XiaomiPreferences.getWorkoutTypes(getDevice());
+        for (final XiaomiProto.WidgetScreen rawScreen : rawWidgetScreens.getWidgetScreenList()) {
+            final WidgetLayout layout = fromRawLayout(rawScreen.getLayout());
 
-        for (final XiaomiProto.WidgetScreen widgetScreen : rawWidgetScreens.getWidgetScreenList()) {
-            final WidgetLayout layout = fromRawLayout(widgetScreen.getLayout());
+            final List<WidgetPart> convertedParts = new ArrayList<>(rawScreen.getWidgetPartCount());
 
-            final List<WidgetPart> parts = new ArrayList<>(widgetScreen.getWidgetPartCount());
+            for (final XiaomiProto.WidgetPart rawPart : rawScreen.getWidgetPartList()) {
+                final WidgetPart convertedPart = fromRawWidgetPart(rawPart, workoutTypes);
 
-            for (final XiaomiProto.WidgetPart widgetPart : widgetScreen.getWidgetPartList()) {
-                final WidgetType type = fromRawWidgetType(widgetPart.getType());
-
-                final WidgetPart newPart = new WidgetPart(
-                        String.valueOf(widgetPart.getId()),
-                        "Unknown (" + widgetPart.getId() + ")",
-                        type
-                );
-
-                // Find the name
-                final XiaomiProto.WidgetPart rawPart1 = findRawPart(widgetPart.getType(), widgetPart.getId());
-                if (rawPart1 != null) {
-                    newPart.setName(rawPart1.getTitle());
+                if (convertedPart == null) {
+                    LOG.warn("Widget cannot be converted, result was null for following raw widget: {}", rawPart);
+                    continue;
                 }
 
-                if (widgetPart.getFunction() == 16) {
-                    if (StringUtils.isBlank(newPart.getName())) {
-                        newPart.setName(GBApplication.getContext().getString(R.string.menuitem_workout));
-                    }
-                }
-
-                // Get the proper subtype, if any
-                if (widgetPart.getSubType() != 0) {
-                    for (final XiaomiWorkoutType workoutType : workoutTypes) {
-                        if (workoutType.getCode() == widgetPart.getSubType()) {
-                            newPart.setSubtype(new WidgetPartSubtype(
-                                    String.valueOf(workoutType.getCode()),
-                                    workoutType.getName()
-                            ));
-                        }
-                    }
-                }
-
-                parts.add(newPart);
+                convertedParts.add(convertedPart);
             }
 
-            ret.add(new WidgetScreen(
-                    String.valueOf(widgetScreen.getId()),
+            convertedScreens.add(new WidgetScreen(
+                    String.valueOf(rawScreen.getId()),
                     layout,
-                    parts
+                    convertedParts
             ));
         }
 
-        return ret;
+        return convertedScreens;
     }
 
     @Override
@@ -219,26 +249,9 @@ public class XiaomiWidgetManager implements WidgetManager {
     public void saveScreen(final WidgetScreen widgetScreen) {
         final XiaomiProto.WidgetScreens rawWidgetScreens = getRawWidgetScreens();
 
-        final int layoutNum;
-        switch (widgetScreen.getLayout()) {
-            case TOP_2_BOT_2:
-                layoutNum = 1;
-                break;
-            case TOP_1_BOT_2:
-                layoutNum = 2;
-                break;
-            case TOP_2_BOT_1:
-                layoutNum = 4;
-                break;
-            case TWO:
-                layoutNum = 256;
-                break;
-            case SINGLE:
-                layoutNum = 512;
-                break;
-            default:
-                LOG.warn("Unknown widget screens layout {}", widgetScreen.getLayout());
-                return;
+        final int layoutNum = toRawLayout(widgetScreen.getLayout());
+        if (layoutNum == -1) {
+            return;
         }
 
         XiaomiProto.WidgetScreen.Builder rawScreen = null;
@@ -265,6 +278,8 @@ public class XiaomiWidgetManager implements WidgetManager {
         rawScreen.setLayout(layoutNum);
         rawScreen.clearWidgetPart();
 
+        final Collection<XiaomiWorkoutType> workoutTypes = XiaomiWorkoutType.getWorkoutTypesSupportedByDevice(getDevice());
+
         for (final WidgetPart newPart : widgetScreen.getParts()) {
             // Find the existing raw part
             final XiaomiProto.WidgetPart knownRawPart = findRawPart(
@@ -274,14 +289,21 @@ public class XiaomiWidgetManager implements WidgetManager {
 
             final XiaomiProto.WidgetPart.Builder newRawPartBuilder = XiaomiProto.WidgetPart.newBuilder(knownRawPart);
 
+            // TODO only support subtypes on widget with type 16
             if (newPart.getSubtype() != null) {
-                // Get the workout type as subtype
-                final List<XiaomiWorkoutType> workoutTypes = XiaomiPreferences.getWorkoutTypes(getDevice());
-                for (final XiaomiWorkoutType workoutType : workoutTypes) {
-                    if (newPart.getSubtype().getId().equals(String.valueOf(workoutType.getCode()))) {
-                        newRawPartBuilder.setSubType(workoutType.getCode());
-                        break;
+                try {
+                    final int rawSubtype = Integer.parseInt(newPart.getSubtype().getId());
+
+                    // Get the workout type as subtype
+                    for (final XiaomiWorkoutType workoutType : workoutTypes) {
+                        if (rawSubtype == workoutType.getCode()) {
+                            newRawPartBuilder.setSubType(workoutType.getCode());
+                            break;
+                        }
                     }
+                } catch (final NumberFormatException ex) {
+                    LOG.error("Failed to convert workout type {} to a number, defaulting to 1", newPart.getSubtype());
+                    newRawPartBuilder.setSubType(1);
                 }
             }
 
@@ -355,6 +377,8 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return WidgetType.WIDE;
             case 3:
                 return WidgetType.TALL;
+            case 4:
+                return WidgetType.LARGE;
             default:
                 LOG.warn("Unknown widget type {}", rawType);
                 return null;
@@ -369,6 +393,8 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return 2;
             case TALL:
                 return 3;
+            case LARGE:
+                return 4;
             default:
                 throw new IllegalArgumentException("Unknown widget type " + widgetType);
         }
@@ -377,19 +403,54 @@ public class XiaomiWidgetManager implements WidgetManager {
     @Nullable
     private WidgetLayout fromRawLayout(final int rawLayout) {
         switch (rawLayout) {
-            case 1:
+            case 1: // 2x2, top 2x small, bottom 2x small
                 return WidgetLayout.TOP_2_BOT_2;
-            case 2:
+            case 2: // 2x2, top wide, bottom 2x small
                 return WidgetLayout.TOP_1_BOT_2;
-            case 4:
+            case 4: // 2x2, top 2x small, bottom wide
                 return WidgetLayout.TOP_2_BOT_1;
-            case 256:
+            case 128: // 2x2, full screen
+                return WidgetLayout.TWO_BY_TWO_SINGLE;
+            case 256: // 1x2, top small, bottom small
                 return WidgetLayout.TWO;
-            case 512:
-                return WidgetLayout.SINGLE;
+            case 512: // 1x2, full screen
+                return WidgetLayout.ONE_BY_TWO_SINGLE;
+            case 8: // 2x2, left tall, right 2x square
+            case 16: // 2x2, left 2x square, right tall
+            case 32: // 2x2, top wide, bottom wide
+            case 64: // 2x2, left tall, right tall
+            case 1024: // 2x3, top 2x square, bottom 2x2 square
+            case 2048: // 2x3, top 2x2 square, bottom 2x square
+            case 4096: // 2x3, top wide, bottom 2x2 square
+            case 8192: // 2x3, top 2x2 square, bottom wide
+            case 16384: // 2x3, full screen
             default:
                 LOG.warn("Unknown widget screens layout {}", rawLayout);
                 return null;
+        }
+    }
+
+    private int toRawLayout(final WidgetLayout layout) {
+        if (layout == null) {
+            return -1;
+        }
+
+        switch (layout) {
+            case TOP_2_BOT_2:
+                return 1;
+            case TOP_1_BOT_2:
+                return 2;
+            case TOP_2_BOT_1:
+                return 4;
+            case TWO_BY_TWO_SINGLE:
+                return 128;
+            case TWO:
+                return 256;
+            case ONE_BY_TWO_SINGLE:
+                return 512;
+            default:
+                LOG.warn("Widget layout {} cannot be converted to raw variant", layout);
+                return -1;
         }
     }
 

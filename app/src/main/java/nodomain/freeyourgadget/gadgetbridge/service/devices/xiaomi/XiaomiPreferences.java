@@ -91,22 +91,4 @@ public final class XiaomiPreferences {
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         return prefs.getBoolean("keep_activity_data_on_device", false);
     }
-
-    // FIXME this function should not be here
-    public static List<XiaomiWorkoutType> getWorkoutTypes(final GBDevice gbDevice) {
-        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        final List<String> codes = prefs.getList(PREF_WORKOUT_TYPES, Collections.emptyList());
-        final List<XiaomiWorkoutType> ret = new ArrayList<>(codes.size());
-        for (final String code : codes) {
-            final int codeInt = Integer.parseInt(code);
-            final int codeNameStringRes = XiaomiWorkoutType.mapWorkoutName(codeInt);
-            ret.add(new XiaomiWorkoutType(
-                    codeInt,
-                    codeNameStringRes != -1 ?
-                            GBApplication.getContext().getString(codeNameStringRes) :
-                            GBApplication.getContext().getString(R.string.widget_unknown_workout, code)
-            ));
-        }
-        return ret;
-    }
 }

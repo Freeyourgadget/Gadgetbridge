@@ -238,7 +238,13 @@ message WidgetScreens {
 message WidgetsCapabilities {
   optional uint32 minWidgets = 1; // 1
   optional uint32 maxWidgets = 2; // 7
-  optional uint32 unknown3 = 3; // 768
+
+  // bitmap:
+  // - 0b0000_0011_0000_0000 (768) on bands
+  // - 0b0000_0000_0000_0111 (7) on some square/round devices (Watch S1 Active)
+  // - 0b0000_0000_1000_0111 (135) on some square/round devices (Redmi Watch 4)
+  // - 0b0111_1100_0000_0000 (31744) on portrait devices (Band 8 Pro)
+  optional uint32 supportedLayoutStyles = 3;
 }
 
 message WidgetScreen {
