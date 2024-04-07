@@ -414,7 +414,7 @@ public class HuaweiSupportProvider {
         try {
             GetHiChainRequest hiChainReq = new GetHiChainRequest(this, firstConnection);
             hiChainReq.setFinalizeReq(configureReq);
-            if (paramsProvider.getPinCode() == null) {
+            if (firstConnection) {
                 GetPincodeRequest pincodeReq = new GetPincodeRequest(this);
                 pincodeReq.nextRequest(hiChainReq);
                 pincodeReq.doPerform();
