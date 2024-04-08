@@ -21,6 +21,12 @@ public class MusicControlMessage extends GFDIMessage {
             case SKIP_TO_PREVIOUS_ITEM:
                 event.event = GBDeviceEventMusicControl.Event.PREVIOUS;
                 break;
+            case VOLUME_UP:
+                event.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                break;
+            case VOLUME_DOWN:
+                event.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                break;
         }
 
         this.statusMessage = this.getStatusMessage();
