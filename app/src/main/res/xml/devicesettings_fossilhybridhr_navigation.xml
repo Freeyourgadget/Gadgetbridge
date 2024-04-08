@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:icon="@drawable/baseline_merge_24"
+        android:title="@string/pref_title_fossil_hr_navigation_instructions"
+        android:summary="@string/pref_summary_fossil_hr_navigation_instructions"
+        android:key="navigation_app_config">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="fossil_hr_nav_auto_foreground"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_fossil_hr_nav_foreground"
+            android:summary="@string/pref_summary_fossil_hr_nav_foreground"
+            android:icon="@drawable/ic_info"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="fossil_hr_nav_vibrate"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_fossil_hr_nav_vibrate"
+            android:summary="@string/pref_summary_fossil_hr_nav_vibrate"
+            android:icon="@drawable/ic_action_find_lost_device"/>
+
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>

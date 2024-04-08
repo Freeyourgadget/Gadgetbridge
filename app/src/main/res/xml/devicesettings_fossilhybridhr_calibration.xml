@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="@string/qhybrid_title_calibration"
+        android:icon="@drawable/ic_sensor_calibration"
+        android:summary="@string/qhybrid_summary_calibration">
+        <intent
+            android:targetPackage="@string/applicationId"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CalibrationActivity" />
+    </Preference>
+
+</androidx.preference.PreferenceScreen>

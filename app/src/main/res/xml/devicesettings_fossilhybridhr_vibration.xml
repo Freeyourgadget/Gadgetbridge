@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:defaultValue="2"
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_strength"
+        android:max="3"
+        android:title="@string/pref_title_vibration_strength"
+        app:showSeekBarValue="true" />
+
+</androidx.preference.PreferenceScreen>

@@ -198,6 +198,7 @@
     <string name="pref_header_calendar">Calendar</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_header_display">Display</string>
+    <string name="pref_header_generic">Generic</string>
     <string name="pref_header_health">Health</string>
     <string name="pref_header_sound_vibration">Sound &amp; Vibration</string>
     <string name="pref_header_offline_voice">Offline Voice</string>

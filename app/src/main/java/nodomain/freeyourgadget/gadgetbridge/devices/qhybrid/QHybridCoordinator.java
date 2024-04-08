@@ -27,7 +27,6 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -246,31 +247,37 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
         if (!isHybridHR()) {
-            return new int[0];
+            return deviceSpecificSettings;
         }
-        //Settings applicable to all firmware versions
-        int[] supportedSettings = new int[]{
-                R.xml.devicesettings_inactivity,
-                R.xml.devicesettings_fossilhybridhr_all_fw,
-                R.xml.devicesettings_autoremove_notifications,
-                R.xml.devicesettings_canned_dismisscall_16,
-                R.xml.devicesettings_reject_call_method,
-                R.xml.devicesettings_transliteration,
-                R.xml.devicesettings_fossilhybridhr_dev
-        };
+        final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         // Firmware version specific settings
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("3.0"))) {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw300);
+            generic.add(R.xml.devicesettings_fossilhybridhr_pre_fw300);
         } else {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_post_fw300);
+            generic.add(R.xml.devicesettings_fossilhybridhr_post_fw300);
         }
         if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
-            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw220);
+            generic.add(R.xml.devicesettings_fossilhybridhr_pre_fw220);
         }
-        supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_custom_deviceicon);
-        return supportedSettings;
+        // Settings applicable to all firmware versions
+        generic.add(R.xml.devicesettings_fossilhybridhr_calibration);
+        generic.add(R.xml.devicesettings_fossilhybridhr_navigation);
+        final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
+        health.add(R.xml.devicesettings_fossilhybridhr_workout_detection);
+        health.add(R.xml.devicesettings_inactivity);
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_fossilhybridhr_vibration);
+        notifications.add(R.xml.devicesettings_autoremove_notifications);
+        notifications.add(R.xml.devicesettings_canned_dismisscall_16);
+        notifications.add(R.xml.devicesettings_reject_call_method);
+        notifications.add(R.xml.devicesettings_transliteration);
+        notifications.add(R.xml.devicesettings_custom_deviceicon);
+        final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        developer.add(R.xml.devicesettings_fossilhybridhr_dev);
+        return deviceSpecificSettings;
     }
 
     @NonNull
