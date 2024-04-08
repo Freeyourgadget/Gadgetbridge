@@ -228,8 +228,7 @@ dependencies {
     implementation "androidx.palette:palette:1.0.0"
     implementation "androidx.activity:activity:1.7.2"
     implementation "androidx.fragment:fragment:1.6.2"
-    implementation "androidx.navigation:navigation-fragment:2.6.0"
-    implementation "androidx.navigation:navigation-ui:2.6.0"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     implementation "com.google.android.material:material:1.9.0"
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

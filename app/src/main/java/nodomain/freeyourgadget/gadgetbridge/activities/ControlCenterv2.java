@@ -41,6 +41,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -58,11 +59,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.navigation.NavController;
-import androidx.navigation.NavGraph;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,8 +87,10 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -104,6 +108,9 @@ public class ControlCenterv2 extends AppCompatActivity
             = "nodomain.freeyourgadget.gadgetbridge.activities.controlcenter.requestlocationpermissions";
     private boolean isLanguageInvalid = false;
     private boolean isThemeInvalid = false;
+    private ViewPager2 viewPager;
+    private FragmentStateAdapter pagerAdapter;
+    private SwipeRefreshLayout swipeLayout;
     private static PhoneStateListener fakeStateListener;
 
     //needed for KK compatibility
@@ -133,6 +140,12 @@ public class ControlCenterv2 extends AppCompatActivity
                     break;
                 case ACTION_REQUEST_LOCATION_PERMISSIONS:
                     checkAndRequestLocationPermissions();
+                    break;
+                case GBDevice.ACTION_DEVICE_CHANGED:
+                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                    if (dev != null && !dev.isBusy()) {
+                        swipeLayout.setRefreshing(false);
+                    }
                     break;
             }
         }
@@ -165,6 +178,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
         Prefs prefs = GBApplication.getPrefs();
 
+        // Determine availability of device with activity tracking functionality
         boolean activityTrackerAvailable = false;
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         for (GBDevice dev : devices) {
@@ -174,21 +188,26 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
 
-        NavHostFragment navHostFragment = (NavHostFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        NavController navController = navHostFragment.getNavController();
-        if (!prefs.getBoolean("dashboard_as_default_view", true) || !activityTrackerAvailable) {
-            NavGraph navGraph = navController.getNavInflater().inflate(R.navigation.main);
-            navGraph.setStartDestination(R.id.bottom_nav_devices);
-            navController.setGraph(navGraph);
-        }
-        BottomNavigationView navigationView = findViewById(R.id.bottom_nav_bar);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        navigationView.setVisibility(activityTrackerAvailable ? View.VISIBLE : View.GONE);
-
+        // Initialize drawer
         NavigationView drawerNavigationView = findViewById(R.id.nav_view);
         drawerNavigationView.setNavigationItemSelectedListener(this);
 
+        // Initialize bottom navigation
+        BottomNavigationView navigationView = findViewById(R.id.bottom_nav_bar);
+        navigationView.setVisibility(activityTrackerAvailable ? View.VISIBLE : View.GONE);
+        navigationView.setOnItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.bottom_nav_dashboard:
+                    viewPager.setCurrentItem(0, true);
+                    break;
+                case R.id.bottom_nav_devices:
+                    viewPager.setCurrentItem(1, true);
+                    break;
+            }
+            return true;
+        });
+
+        // Initialize actionbar
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -196,7 +215,6 @@ public class ControlCenterv2 extends AppCompatActivity
                 this, drawer, toolbar, R.string.controlcenter_navigation_drawer_open, R.string.controlcenter_navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         if (GBApplication.areDynamicColorsEnabled()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = getTheme();
@@ -208,6 +226,53 @@ public class ControlCenterv2 extends AppCompatActivity
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         }
 
+        // Configure ViewPager2 with fragment adapter and default fragment
+        viewPager = findViewById(R.id.dashboard_viewpager);
+        pagerAdapter = new MainFragmentsPagerAdapter(this);
+        viewPager.setAdapter(pagerAdapter);
+        if (!prefs.getBoolean("dashboard_as_default_view", true) || !activityTrackerAvailable) {
+            viewPager.setCurrentItem(1, false);
+            navigationView.getMenu().getItem(1).setChecked(true);
+        }
+
+        // Sync ViewPager changes with BottomNavigationView
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                navigationView.getMenu().getItem(position).setChecked(true);
+            }
+        });
+
+        // Make sure the SwipeRefreshLayout doesn't interfere with the ViewPager2
+        viewPager.getChildAt(viewPager.getCurrentItem()).setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                swipeLayout.setEnabled(false);
+            } else {
+                swipeLayout.setEnabled(true);
+            }
+            return false;
+        });
+
+        // Set pull-down-to-refresh action
+        swipeLayout = findViewById(R.id.dashboard_swipe_layout);
+        swipeLayout.setOnRefreshListener(() -> {
+            // Signal DeviceCommunicationService to fetch activity for all connected devices
+            Intent intent = new Intent(getApplicationContext(), DeviceCommunicationService.class);
+            intent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA)
+                .putExtra(DeviceService.EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
+            startService(intent);
+            // Hide 'refreshing' animation immediately if no health devices are connected
+            List<GBDevice> devices1 = GBApplication.app().getDeviceManager().getDevices();
+            for (GBDevice dev : devices1) {
+                if (dev.getDeviceCoordinator().supportsActivityTracking() && dev.isInitialized()) {
+                    return;
+                }
+            }
+            swipeLayout.setRefreshing(false);
+            GB.toast(getString(R.string.info_no_devices_connected), Toast.LENGTH_LONG, GB.WARN);
+        });
+
+        // Set up local intent listener
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
         filterLocal.addAction(GBApplication.ACTION_THEME_CHANGE);
@@ -215,6 +280,7 @@ public class ControlCenterv2 extends AppCompatActivity
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         filterLocal.addAction(ACTION_REQUEST_PERMISSIONS);
         filterLocal.addAction(ACTION_REQUEST_LOCATION_PERMISSIONS);
+        filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         /*
@@ -668,6 +734,26 @@ public class ControlCenterv2 extends AppCompatActivity
                         }
                     });
             return builder.create();
+        }
+    }
+
+    private class MainFragmentsPagerAdapter extends FragmentStateAdapter {
+        public MainFragmentsPagerAdapter(FragmentActivity fa) {
+            super(fa);
+        }
+
+        @Override
+        public Fragment createFragment(int position) {
+            if (position == 0) {
+                return new DashboardFragment();
+            } else {
+                return new DevicesFragment();
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2;
         }
     }
 }

@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +36,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.gridlayout.widget.GridLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -65,12 +63,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardSleepW
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStepsWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardTodayWidget;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class DashboardFragment extends Fragment {
@@ -81,7 +75,6 @@ public class DashboardFragment extends Fragment {
     private TextView arrowLeft;
     private TextView arrowRight;
     private GridLayout gridLayout;
-    private SwipeRefreshLayout swipeLayout;
     private DashboardTodayWidget todayWidget;
     private DashboardGoalsWidget goalsWidget;
     private DashboardStepsWidget stepsWidget;
@@ -119,26 +112,6 @@ public class DashboardFragment extends Fragment {
         setHasOptionsMenu(true);
         textViewDate = dashboardView.findViewById(R.id.dashboard_date);
         gridLayout = dashboardView.findViewById(R.id.dashboard_gridlayout);
-        swipeLayout = dashboardView.findViewById(R.id.dashboard_swipe_layout);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Signal DeviceCommunicationService to fetch activity for all connected devices
-                Intent intent = new Intent(requireContext(), DeviceCommunicationService.class);
-                intent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA)
-                    .putExtra(DeviceService.EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
-                requireContext().startService(intent);
-                // Hide 'refreshing' animation immediately if no health devices are connected
-                List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
-                for (GBDevice dev : devices) {
-                    if (dev.getDeviceCoordinator().supportsActivityTracking() && dev.isInitialized()) {
-                        return;
-                    }
-                }
-                swipeLayout.setRefreshing(false);
-                GB.toast(getString(R.string.info_no_devices_connected), Toast.LENGTH_LONG, GB.WARN);
-            }
-        });
 
         // Increase column count on landscape, tablets and open foldables
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -164,14 +137,6 @@ public class DashboardFragment extends Fragment {
             dashboardData = (DashboardData) savedInstanceState.getSerializable("dashboard_data");
         }
 
-        // Make sure the widget fragments are (re)instantiated when drawing the dashboard
-        todayWidget = null;
-        goalsWidget = null;
-        stepsWidget = null;
-        distanceWidget = null;
-        activeTimeWidget = null;
-        sleepWidget = null;
-
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         filterLocal.addAction(ACTION_CONFIG_CHANGE);
@@ -183,7 +148,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        draw();
         if (isConfigChanged) {
             isConfigChanged = false;
             fullRefresh();
@@ -246,7 +210,6 @@ public class DashboardFragment extends Fragment {
     }
 
     private void refresh() {
-        swipeLayout.setRefreshing(false);
         day.set(Calendar.HOUR_OF_DAY, 23);
         day.set(Calendar.MINUTE, 59);
         day.set(Calendar.SECOND, 59);
@@ -336,7 +299,7 @@ public class DashboardFragment extends Fragment {
         FragmentContainerView fragment = new FragmentContainerView(requireActivity());
         int fragmentId = View.generateViewId();
         fragment.setId(fragmentId);
-        getParentFragmentManager()
+        getChildFragmentManager()
                 .beginTransaction()
                 .replace(fragmentId, widgetObj)
                 .commit();

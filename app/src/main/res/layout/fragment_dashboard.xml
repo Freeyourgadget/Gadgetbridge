@@ -1,65 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.DashboardFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/dashboard_swipe_layout"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/arrow_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="\u003C"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true" />
+        <TextView
+            android:id="@+id/dashboard_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_summary_today"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_centerInParent="true"/>
+        <Button
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="\u003E"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/arrow_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="0dp"
-                    android:text="\u003C"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:layout_alignParentLeft="true" />
-                <TextView
-                    android:id="@+id/dashboard_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_summary_today"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:layout_centerInParent="true"/>
-                <Button
-                    android:id="@+id/arrow_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="0dp"
-                    android:text="\u003E"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:layout_alignParentRight="true" />
-            </RelativeLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.gridlayout.widget.GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/dashboard_gridlayout"
-                    app:columnCount="2" />
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+            android:id="@+id/dashboard_gridlayout"
+            app:columnCount="2" />
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
