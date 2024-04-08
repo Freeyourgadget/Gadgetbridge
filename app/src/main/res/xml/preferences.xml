@@ -26,14 +26,6 @@
             android:summary="@string/pref_summary_general_reconnectonlytoconnected"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:enabled="false"
-            android:key="general_autocreconnect"
-            android:layout="@layout/preference_checkbox"
-            android:summary="setting has been moved to device specific settings"
-            android:title="@string/pref_title_general_autoreconnect"
-            app:iconSpaceReserved="false" />
-        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="display_add_device_fab"
             android:layout="@layout/preference_checkbox"
