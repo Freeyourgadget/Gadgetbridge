@@ -16,15 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds;
 
-import androidx.annotation.NonNull;
-
+import java.util.List;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GalaxyBudsLiveDeviceCoordinator extends GalaxyBudsGenericCoordinator {
     @Override
@@ -45,14 +44,13 @@ public class GalaxyBudsLiveDeviceCoordinator extends GalaxyBudsGenericCoordinato
         return new BatteryConfig[]{battery1, battery2, battery3};
     }
 
-
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_galaxy_buds_live,
-        };
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+        final List<Integer> audio = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.AUDIO);
+        audio.add(R.xml.devicesettings_galaxy_buds_live);
+        return deviceSpecificSettings;
     }
-
 
     @Override
     public int getDeviceNameResource() {

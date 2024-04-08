@@ -195,6 +195,7 @@
     <string name="pref_header_general">General settings</string>
     <string name="pref_header_other">Other</string>
     <string name="pref_header_system">System</string>
+    <string name="pref_header_audio">Audio</string>
     <string name="pref_header_calendar">Calendar</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_header_display">Display</string>

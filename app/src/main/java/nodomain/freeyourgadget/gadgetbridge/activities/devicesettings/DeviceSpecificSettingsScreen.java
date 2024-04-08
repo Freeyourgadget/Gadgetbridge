@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public enum DeviceSpecificSettingsScreen {
     ACTIVITY_INFO("pref_screen_activity_info", R.xml.devicesettings_root_activity_info),
+    AUDIO("pref_screen_audio", R.xml.devicesettings_root_audio),
     AUTHENTICATION("pref_screen_authentication", R.xml.devicesettings_root_authentication),
     CALENDAR("pref_screen_calendar", R.xml.devicesettings_root_calendar),
     CONNECTION("pref_screen_connection", R.xml.devicesettings_root_connection),
