@@ -2698,11 +2698,13 @@
     <string name="widget_layout_top_1_bot_2">1 top, 2 bottom</string>
     <string name="widget_layout_top_2_bot_1">2 top, 1 bottom</string>
     <string name="widget_layout_top_2_bot_2">2 top, 2 bottom</string>
+    <string name="widget_layout_single">1 widget</string>
+    <string name="widget_layout_two">2 widgets</string>
+    <string name="widget_layout_top_wide_bot_large">Wide above, large below</string>
+    <string name="widget_layout_top_large_bot_wide">Large above, wide below</string>
     <string name="widget_layout">Widget layout</string>
     <string name="widget_subtype">Widget Subtype</string>
     <string name="widget_screen_x">Screen %s</string>
-    <string name="widget_layout_single">1 widget</string>
-    <string name="widget_layout_two">2 widgets</string>
     <string name="widget_move_up">Move up</string>
     <string name="widget_move_down">Move down</string>
     <string name="widget_missing_parts">Please select all widgets</string>

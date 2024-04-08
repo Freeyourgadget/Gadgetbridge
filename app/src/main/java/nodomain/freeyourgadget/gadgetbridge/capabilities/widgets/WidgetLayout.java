@@ -31,7 +31,12 @@ public enum WidgetLayout {
     ONE_BY_TWO_SINGLE(R.string.widget_layout_single, WidgetType.TALL),
     TWO(R.string.widget_layout_two, WidgetType.SMALL, WidgetType.SMALL),
 
-    // TODO Portrait screen layouts, 2x3
+    // Portrait 2x3 screen layouts
+    TOP_2_BOT_2X2(R.string.widget_layout_top_2_bot_1, WidgetType.SMALL, WidgetType.SMALL, WidgetType.LARGE),
+    TOP_2X2_BOT_2(R.string.widget_layout_top_1_bot_2, WidgetType.LARGE, WidgetType.SMALL, WidgetType.SMALL),
+    TOP_1_BOT_2X2(R.string.widget_layout_top_wide_bot_large, WidgetType.WIDE, WidgetType.LARGE),
+    TOP_2X2_BOT_1(R.string.widget_layout_top_large_bot_wide, WidgetType.LARGE, WidgetType.WIDE),
+    TWO_BY_THREE_SINGLE(R.string.widget_layout_single, WidgetType.PORTRAIT_LARGE),
     ;
 
     @StringRes

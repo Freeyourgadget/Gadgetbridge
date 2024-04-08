@@ -379,6 +379,8 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return WidgetType.TALL;
             case 4:
                 return WidgetType.LARGE;
+            case 5:
+                return WidgetType.PORTRAIT_LARGE;
             default:
                 LOG.warn("Unknown widget type {}", rawType);
                 return null;
@@ -395,6 +397,8 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return 3;
             case LARGE:
                 return 4;
+            case PORTRAIT_LARGE:
+                return 5;
             default:
                 throw new IllegalArgumentException("Unknown widget type " + widgetType);
         }
@@ -415,15 +419,20 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return WidgetLayout.TWO;
             case 512: // 1x2, full screen
                 return WidgetLayout.ONE_BY_TWO_SINGLE;
-            case 8: // 2x2, left tall, right 2x square
-            case 16: // 2x2, left 2x square, right tall
+            case 1024: // 2x3, top 2x small, bottom 2x2 square
+                return WidgetLayout.TOP_2_BOT_2X2;
+            case 2048: // 2x3, top 2x2 square, bottom 2x small
+                return WidgetLayout.TOP_2X2_BOT_2;
+            case 4096: // 2x3, top wide, bottom 2x2 small
+                return WidgetLayout.TOP_1_BOT_2X2;
+            case 8192: // 2x3, top 2x2 small, bottom wide
+                return WidgetLayout.TOP_2X2_BOT_1;
+            case 16384: // 2x3, full screen
+                return WidgetLayout.TWO_BY_THREE_SINGLE;
+            case 8: // 2x2, left tall, right 2x small
+            case 16: // 2x2, left 2x small, right tall
             case 32: // 2x2, top wide, bottom wide
             case 64: // 2x2, left tall, right tall
-            case 1024: // 2x3, top 2x square, bottom 2x2 square
-            case 2048: // 2x3, top 2x2 square, bottom 2x square
-            case 4096: // 2x3, top wide, bottom 2x2 square
-            case 8192: // 2x3, top 2x2 square, bottom wide
-            case 16384: // 2x3, full screen
             default:
                 LOG.warn("Unknown widget screens layout {}", rawLayout);
                 return null;
@@ -448,6 +457,16 @@ public class XiaomiWidgetManager implements WidgetManager {
                 return 256;
             case ONE_BY_TWO_SINGLE:
                 return 512;
+            case TOP_2_BOT_2X2:
+                return 1024;
+            case TOP_2X2_BOT_2:
+                return 2048;
+            case TOP_1_BOT_2X2:
+                return 4096;
+            case TOP_2X2_BOT_1:
+                return 8192;
+            case TWO_BY_THREE_SINGLE:
+                return 16384;
             default:
                 LOG.warn("Widget layout {} cannot be converted to raw variant", layout);
                 return -1;

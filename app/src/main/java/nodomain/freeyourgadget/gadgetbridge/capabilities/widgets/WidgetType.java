@@ -21,5 +21,6 @@ public enum WidgetType {
     TALL,  // 1x2
     WIDE,  // 2x1
     LARGE, // 2x2
+    PORTRAIT_LARGE, // 2x3
     ;
 }

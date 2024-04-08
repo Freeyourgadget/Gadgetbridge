@@ -174,6 +174,7 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
 
         switch (widgetScreen.getLayout()) {
             case TOP_1_BOT_2:
+            case TOP_2X2_BOT_2:
                 updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, -1);
                 updateWidget(cardWidgetTopRight, labelWidgetTopRight, -1);
                 updateWidget(cardWidgetCenter, labelWidgetCenter, 0);
@@ -181,6 +182,7 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
                 updateWidget(cardWidgetBotRight, labelWidgetBotRight, 2);
                 break;
             case TOP_2_BOT_1:
+            case TOP_2_BOT_2X2:
                 updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, 0);
                 updateWidget(cardWidgetTopRight, labelWidgetTopRight, 1);
                 updateWidget(cardWidgetCenter, labelWidgetCenter, 2);
@@ -196,6 +198,7 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
                 break;
             case ONE_BY_TWO_SINGLE:
             case TWO_BY_TWO_SINGLE:
+            case TWO_BY_THREE_SINGLE:
                 updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, -1);
                 updateWidget(cardWidgetTopRight, labelWidgetTopRight, -1);
                 updateWidget(cardWidgetCenter, labelWidgetCenter, 0);
@@ -203,6 +206,8 @@ public class WidgetScreenDetailsActivity extends AbstractGBActivity {
                 updateWidget(cardWidgetBotRight, labelWidgetBotRight, -1);
                 break;
             case TWO:
+            case TOP_1_BOT_2X2:
+            case TOP_2X2_BOT_1:
                 updateWidget(cardWidgetTopLeft, labelWidgetTopLeft, -1);
                 updateWidget(cardWidgetTopRight, labelWidgetTopRight, 0);
                 updateWidget(cardWidgetCenter, labelWidgetCenter, 1);
