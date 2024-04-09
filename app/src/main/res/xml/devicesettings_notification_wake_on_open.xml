@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_notifications"
+        android:key="notification_wake_on_open"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_summary_notification_wake_on_open"
+        android:title="@string/pref_title_notification_wake_on_open" />
+</androidx.preference.PreferenceScreen>

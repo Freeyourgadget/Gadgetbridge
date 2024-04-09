@@ -233,6 +233,8 @@
     <string name="pref_title_notifications_call">Phone Calls</string>
     <string name="pref_title_notification_delay_calls">Call notification delay</string>
     <string name="pref_summary_notification_delay_calls">Delay before sending incoming call notifications to the device, in seconds.</string>
+    <string name="pref_title_notification_wake_on_open">Auto wake and unlock</string>
+    <string name="pref_summary_notification_wake_on_open">Wake and unlock the Android device when the gadget sends a OPEN response back. Needs to be in a trusted state.</string>
     <string name="pref_summary_receive_calls_watch">Perform and receive calls directly on the watch</string>
     <string name="bluetooth_calls">Bluetooth calls</string>
     <string name="bluetooth_calls_pairing">Bluetooth calls pairing</string>
