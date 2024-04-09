@@ -115,6 +115,14 @@ public class XiaomiSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void setAutoReconnect(boolean enabled) {
+        super.setAutoReconnect(enabled);
+        if (this.connectionSupport != null) {
+            this.connectionSupport.setAutoReconnect(enabled);
+        }
+    }
+
+    @Override
     public boolean getImplicitCallbackModify() {
         return false;
     }

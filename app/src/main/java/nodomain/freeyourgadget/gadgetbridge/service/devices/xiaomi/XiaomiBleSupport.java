@@ -63,6 +63,11 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         }
 
         @Override
+        public boolean getAutoReconnect() {
+            return mXiaomiSupport.getAutoReconnect();
+        }
+
+        @Override
         protected TransactionBuilder initializeDevice(final TransactionBuilder builder) {
             XiaomiUuids.XiaomiBleUuidSet uuidSet = null;
             BluetoothGattCharacteristic btCharacteristicCommandRead = null;
@@ -265,6 +270,11 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         }
 
         this.characteristicDataUpload.write(taskName, chunk, callback);
+    }
+
+    @Override
+    public void setAutoReconnect(boolean enabled) {
+        this.commsSupport.setAutoReconnect(enabled);
     }
 
     /**

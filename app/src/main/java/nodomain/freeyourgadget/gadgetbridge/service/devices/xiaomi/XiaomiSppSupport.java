@@ -323,4 +323,10 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
             callback.onSend();
         }
     }
+
+    @Override
+    public void setAutoReconnect(boolean enabled) {
+        // for sanity, but this is not supposed to be set on BT Classic devices
+        this.commsSupport.setAutoReconnect(enabled);
+    }
 }
