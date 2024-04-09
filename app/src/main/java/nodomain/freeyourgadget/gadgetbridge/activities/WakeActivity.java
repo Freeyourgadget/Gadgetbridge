@@ -35,6 +35,15 @@ public class WakeActivity extends Activity {
     First try to start the activity you want to start with an intent and then start this activity with a second intent, both initiated on the Bangle.js, or other device.
      */
 
+    public static void start(final Context context) {
+        Intent intent = new Intent(context, WakeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        context.startActivity(intent);
+    }
+
     private void dismissKeyguard() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setTurnScreenOn(true);
