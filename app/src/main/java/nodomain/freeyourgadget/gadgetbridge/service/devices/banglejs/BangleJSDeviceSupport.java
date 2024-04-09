@@ -27,6 +27,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_USE_NETWORK_ONLY;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_NOTIFICATION_WAKE_ON_OPEN;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.getUser;
 import static nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants.PREF_BANGLEJS_ACTIVITY_FULL_SYNC_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants.PREF_BANGLEJS_ACTIVITY_FULL_SYNC_STATUS;
@@ -98,6 +99,7 @@ import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.WakeActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.BarcodeFormat;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
@@ -637,9 +639,21 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
      * Handle "notify" packet, used to send notification control from device to GB
      */
     private void handleNotificationControl(JSONObject json) throws JSONException {
+
+        String response = json.getString("n").toUpperCase();
+        LOG.debug("Notification response: " + response);
+
+        // Wake the Android device if the setting is toggled on by user.
+        // Doesn't work if run after the notification handling below for some reason (which
+        // I'd rather do since the screen would only be opened once the content was ready).
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        if (devicePrefs.getBoolean(PREF_NOTIFICATION_WAKE_ON_OPEN, false) && response.equals("OPEN")) {
+            WakeActivity.start(getContext());
+        }
+
         GBDeviceEventNotificationControl deviceEvtNotificationControl = new GBDeviceEventNotificationControl();
         // .title appears unused
-        deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.valueOf(json.getString("n").toUpperCase());
+        deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.valueOf(response);
         if (json.has("id"))
             deviceEvtNotificationControl.handle = json.getInt("id");
         if (json.has("tel"))
