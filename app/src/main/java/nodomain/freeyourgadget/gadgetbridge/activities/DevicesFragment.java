@@ -178,8 +178,6 @@ public class DevicesFragment extends Fragment {
 
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startActivity(new Intent(getActivity(), DiscoveryActivityV2.class));
-        } else {
-            GBApplication.deviceService().requestDeviceInfo();
         }
 
         return currentView;

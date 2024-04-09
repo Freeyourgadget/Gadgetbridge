@@ -294,6 +294,8 @@ public class ControlCenterv2 extends AppCompatActivity
                 GB.toast(this, getString(R.string.error_showing_changelog), Toast.LENGTH_LONG, GB.ERROR);
             }
         }
+
+        GBApplication.deviceService().requestDeviceInfo();
     }
 
     @Override
