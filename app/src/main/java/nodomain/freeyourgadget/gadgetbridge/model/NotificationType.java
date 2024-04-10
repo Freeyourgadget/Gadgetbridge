@@ -99,6 +99,8 @@ public enum NotificationType {
             case GENERIC_EMAIL:
             case GENERIC_NAVIGATION:
             case GENERIC_SMS:
+            case GENERIC_PHONE:
+            case GENERIC_CALENDAR:
             case GENERIC_ALARM_CLOCK:
                 return getFixedValue();
             case FACEBOOK:
