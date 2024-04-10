@@ -244,7 +244,7 @@ public class ControlCenterv2 extends AppCompatActivity
         });
 
         // Make sure the SwipeRefreshLayout doesn't interfere with the ViewPager2
-        viewPager.getChildAt(viewPager.getCurrentItem()).setOnTouchListener((v, event) -> {
+        viewPager.getChildAt(0).setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 swipeLayout.setEnabled(false);
             } else {
