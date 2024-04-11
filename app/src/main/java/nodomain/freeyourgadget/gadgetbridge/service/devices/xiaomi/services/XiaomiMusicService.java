@@ -85,13 +85,18 @@ public class XiaomiMusicService extends AbstractXiaomiService {
                     case BUTTON_NEXT:
                         deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
                         break;
-                    case BUTTON_VOLUME:
-                        if (music.getMediaKey().getVolume() > 0) {
+                    case BUTTON_VOLUME: {
+                        final int requestedVolume = music.getMediaKey().getVolume();
+                        final int currentVolume = MediaManager.getPhoneVolume(getSupport().getContext());
+
+                        if (requestedVolume > currentVolume) {
                             deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
                         } else {
                             deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
                         }
+
                         break;
+                    }
                     default:
                         LOG.warn("Unexpected media button key {}", music.getMediaKey().getKey());
                         return;
