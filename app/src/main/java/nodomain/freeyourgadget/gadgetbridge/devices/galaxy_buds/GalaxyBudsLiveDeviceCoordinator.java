@@ -49,6 +49,8 @@ public class GalaxyBudsLiveDeviceCoordinator extends GalaxyBudsGenericCoordinato
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
         final List<Integer> audio = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.AUDIO);
         audio.add(R.xml.devicesettings_galaxy_buds_live);
+        final List<Integer> callsAndNotif = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+        callsAndNotif.add(R.xml.devicesettings_headphones);
         return deviceSpecificSettings;
     }
 

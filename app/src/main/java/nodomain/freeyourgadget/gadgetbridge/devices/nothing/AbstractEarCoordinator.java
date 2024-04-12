@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -74,10 +75,11 @@ public abstract class AbstractEarCoordinator extends AbstractBLClassicDeviceCoor
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_nothing_ear1
-        };
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_nothing_ear1);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_headphones);
+        return deviceSpecificSettings;
     }
 
     @Override

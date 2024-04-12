@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_phone"
+        android:key="pref_auto_reply_phonecall"
+        android:summary="@string/pref_auto_reply_calls_summary"
+        android:title="@string/pref_auto_reply_calls_title"/>
+    <EditTextPreference
+        android:icon="@drawable/ic_timer"
+        android:digits="123"
+        android:dependency="pref_auto_reply_phonecall"
+        android:inputType="numberDecimal"
+        android:key="pref_auto_reply_phonecall_delay"
+        android:summary="@string/pref_auto_reply_calls_delay_summary"
+        android:title="@string/pref_auto_reply_calls_delay_title"
+        app:defaultValue="15" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_voice"
+        android:key="pref_speak_notifications_aloud"
+        android:summary="@string/pref_speak_notifications_aloud_summary"
+        android:title="@string/pref_speak_notifications_aloud_title" />
+</androidx.preference.PreferenceScreen>

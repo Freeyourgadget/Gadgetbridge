@@ -2789,4 +2789,5 @@
     <string name="pref_auto_reply_calls_delay_title">Automatic Answer Delay</string>
     <string name="pref_speak_notifications_aloud_summary">Notifications will be read aloud through the headphones</string>
     <string name="pref_speak_notifications_aloud_title">Speak Notifications Aloud</string>
+    <string name="pref_header_calls_and_notifications">Calls and notifications</string>
 </resources>

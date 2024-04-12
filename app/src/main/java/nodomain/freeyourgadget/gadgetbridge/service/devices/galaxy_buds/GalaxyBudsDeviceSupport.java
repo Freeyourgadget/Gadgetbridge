@@ -16,22 +16,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds;
 
-import android.net.Uri;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.AbstractHeadphoneDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
-public class GalaxyBudsDeviceSupport extends AbstractSerialDeviceSupport {
+public class GalaxyBudsDeviceSupport extends AbstractHeadphoneDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(GalaxyBudsDeviceSupport.class);
-
 
     @Override
     public void onSendConfiguration(String config) {
@@ -41,12 +34,6 @@ public class GalaxyBudsDeviceSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onTestNewFunction() {
         super.onTestNewFunction();
-    }
-
-    @Override
-    public boolean connect() {
-        getDeviceIOThread().start();
-        return true;
     }
 
     @Override
