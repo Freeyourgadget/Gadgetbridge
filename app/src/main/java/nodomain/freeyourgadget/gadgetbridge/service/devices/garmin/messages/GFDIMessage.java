@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GFDIStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.GenericStatusMessage;
@@ -17,14 +18,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class GFDIMessage {
     public static final int MESSAGE_REQUEST = 5001;
-    public static final int MESSAGE_DOWNLOAD_REQUEST = 5002;
-    public static final int MESSAGE_UPLOAD_REQUEST = 5003;
-    public static final int MESSAGE_FILE_TRANSFER_DATA = 5004;
-    public static final int MESSAGE_CREATE_FILE_REQUEST = 5005;
     public static final int MESSAGE_DIRECTORY_FILE_FILTER_REQUEST = 5007;
     public static final int MESSAGE_FILE_READY = 5009;
     public static final int MESSAGE_BATTERY_STATUS = 5023;
-    public static final int MESSAGE_SUPPORTED_FILE_TYPES_REQUEST = 5031;
     public static final int MESSAGE_NOTIFICATION_SOURCE = 5033;
     public static final int MESSAGE_GNCS_CONTROL_POINT_REQUEST = 5034;
     public static final int MESSAGE_GNCS_DATA_SOURCE = 5035;
@@ -99,12 +95,21 @@ public abstract class GFDIMessage {
 
     public enum GarminMessage {
         RESPONSE(5000, GFDIStatusMessage.class), //TODO: STATUS is a better name?
+        DOWNLOAD_REQUEST(5002, DownloadRequestMessage.class),
+        UPLOAD_REQUEST(5003, UploadRequestMessage.class),
+        FILE_TRANSFER_DATA(5004, FileTransferDataMessage.class),
+        CREATE_FILE(5005, CreateFileMessage.class),
         FIT_DEFINITION(5011, FitDefinitionMessage.class),
         FIT_DATA(5012, FitDataMessage.class),
         WEATHER_REQUEST(5014, WeatherMessage.class),
         DEVICE_INFORMATION(5024, DeviceInformationMessage.class),
         DEVICE_SETTINGS(5026, SetDeviceSettingsMessage.class),
         SYSTEM_EVENT(5030, SystemEventMessage.class),
+        SUPPORTED_FILE_TYPES_REQUEST(5031, SupportedFileTypesMessage.class),
+        NOTIFICATION_UPDATE(5033, NotificationUpdateMessage.class),
+        NOTIFICATION_CONTROL(5034, NotificationControlMessage.class),
+        NOTIFICATION_DATA(5035, NotificationDataMessage.class),
+        NOTIFICATION_SUBSCRIPTION(5036, NotificationSubscriptionMessage.class),
         FIND_MY_PHONE(5039, FindMyPhoneRequestMessage.class),
         CANCEL_FIND_MY_PHONE(5040, FindMyPhoneRequestMessage.class),
         MUSIC_CONTROL(5041, MusicControlMessage.class),

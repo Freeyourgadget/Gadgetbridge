@@ -105,6 +105,7 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         MISSING_PACKET(102),
         EXCEEDED_TOTAL_PROTOBUF_LENGTH(103),
         PROTOBUF_PARSE_ERROR(200),
+        UNKNOWN(201),
         ;
 
         private final int code;
