@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -57,6 +58,8 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
                 callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
                 evaluateGBDeviceEvent(callCmd);
             }, delayMillis); //15s
+
+            return;
         }
         String speechText = callSpec.name;
         if (callSpec.name.equals(callSpec.number)) {
@@ -68,6 +71,26 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
         }
         gbTextToSpeech.speak(speechText);
 
+    }
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+
+        if (!prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SPEAK_NOTIFICATIONS_ALOUD, false))
+            return;
+
+        if (gbTextToSpeech.isConnected()) {
+
+            String notificationSpeller = new StringBuilder()
+                    .append(notificationSpec.sourceName == null ? "" : notificationSpec.sourceName).append(". ")
+                    .append(notificationSpec.title == null ? "" : notificationSpec.title).append(": ")
+                    .append(notificationSpec.body == null ? "" : notificationSpec.body).toString();
+
+
+            gbTextToSpeech.speakNotification(notificationSpeller);
+
+        }
     }
 
     @Override
@@ -122,16 +145,18 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
         @Override
         public void onDone(String utteranceId) {
 //            LOG.debug("UtteranceProgressListener onDone.");
-            SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
-            final int delayMillis = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY, "15")) * 1000;
+            if (utteranceId.equals("call")) {
+                SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+                final int delayMillis = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY, "15")) * 1000;
 
 
-            Looper mainLooper = Looper.getMainLooper();
-            new Handler(mainLooper).postDelayed(() -> {
-                GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
-                callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
-                evaluateGBDeviceEvent(callCmd);
-            }, delayMillis); //15s
+                Looper mainLooper = Looper.getMainLooper();
+                new Handler(mainLooper).postDelayed(() -> {
+                    GBDeviceEventCallControl callCmd = new GBDeviceEventCallControl();
+                    callCmd.event = GBDeviceEventCallControl.Event.ACCEPT;
+                    evaluateGBDeviceEvent(callCmd);
+                }, delayMillis); //15s
+            }
         }
 
         @Override

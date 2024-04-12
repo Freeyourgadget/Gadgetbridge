@@ -47,7 +47,13 @@ public class GBTextToSpeech {
         Bundle params = new Bundle();
         // Put the audio stream type into the Bundle
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_RING);
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, params, "utteranceId");
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, params, "call");
+    }
+
+    public void speakNotification(String text) {
+        Bundle params = new Bundle();
+        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, params, "notification");
     }
 
     public void shutdown() {

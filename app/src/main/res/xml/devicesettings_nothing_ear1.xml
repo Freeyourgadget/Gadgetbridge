@@ -29,4 +29,10 @@
         android:summary="@string/pref_auto_reply_calls_delay_summary"
         android:title="@string/pref_auto_reply_calls_delay_title"
         app:defaultValue="15" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_voice"
+        android:key="pref_speak_notifications_aloud"
+        android:summary="@string/pref_speak_notifications_aloud_summary"
+        android:title="@string/pref_speak_notifications_aloud_title" />
 </androidx.preference.PreferenceScreen>
