@@ -4,8 +4,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Mess
 
 public class GenericStatusMessage extends GFDIStatusMessage {
 
-    private int messageType; // for unsupported message types
     private final Status status;
+    private int messageType; // for unsupported message types
 
     public GenericStatusMessage(GarminMessage originalMessage, Status status) {
         this.garminMessage = originalMessage;
@@ -16,6 +16,7 @@ public class GenericStatusMessage extends GFDIStatusMessage {
         this.messageType = messageType;
         this.status = status;
     }
+
     @Override
     protected boolean generateOutgoing() {
         final MessageWriter writer = new MessageWriter(response);

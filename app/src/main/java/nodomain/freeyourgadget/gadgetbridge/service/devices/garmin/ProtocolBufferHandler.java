@@ -25,7 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
-public class ProtocolBufferHandler {
+public class ProtocolBufferHandler implements MessageHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProtocolBufferHandler.class);
     private final GarminSupport deviceSupport;
@@ -43,7 +43,16 @@ public class ProtocolBufferHandler {
         return lastProtobufRequestId;
     }
 
-    ProtobufMessage processIncoming(ProtobufMessage message) {
+    public ProtobufMessage handle(GFDIMessage protobufMessage) {
+        if (protobufMessage instanceof ProtobufMessage) {
+            return processIncoming((ProtobufMessage) protobufMessage);
+        } else if (protobufMessage instanceof ProtobufStatusMessage) {
+            return processIncoming((ProtobufStatusMessage) protobufMessage);
+        }
+        return null;
+    }
+
+    private ProtobufMessage processIncoming(ProtobufMessage message) {
         ProtobufFragment protobufFragment = processChunkedMessage(message);
 
         if (protobufFragment.isComplete()) { //message is now complete
@@ -81,7 +90,7 @@ public class ProtocolBufferHandler {
         return null;
     }
 
-    public ProtobufMessage processIncoming(ProtobufStatusMessage statusMessage) {
+    private ProtobufMessage processIncoming(ProtobufStatusMessage statusMessage) {
         LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
         //TODO: check status and react accordingly, right now we blindly proceed to next chunk
         if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId()) && statusMessage.isOK()) {
@@ -251,7 +260,7 @@ public class ProtocolBufferHandler {
         return new ProtobufMessage(garminMessage, requestId, 0, bytes.length, bytes.length, bytes);
     }
 
-    class ProtobufFragment {
+    private class ProtobufFragment {
         private final byte[] fragmentBytes;
         private final int totalLength;
 

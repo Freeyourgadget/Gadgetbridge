@@ -15,8 +15,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FitFile {
