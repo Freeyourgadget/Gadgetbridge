@@ -1489,6 +1489,7 @@
     <string name="devicetype_garmin_vivomove_hr">Garmin Vivomove HR</string>
     <string name="devicetype_garmin_vivomove_style">Vívomove Style</string>
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
+    <string name="devicetype_garmin_forerunner_245">Garmin Forerunner 245</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_liveview">LiveView</string>
