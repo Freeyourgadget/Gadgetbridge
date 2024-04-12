@@ -179,6 +179,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // COL Reminder
         put("com.colapps.reminder", NotificationType.COL_REMINDER);
+
+        //Deltachat
+        put("com.b44t.messenger", NotificationType.DELTACHAT);
     }
 
 }

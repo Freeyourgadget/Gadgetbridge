@@ -73,7 +73,8 @@ public enum NotificationType {
     WECHAT(PebbleIconID.NOTIFICATION_WECHAT, PebbleColor.KellyGreen),
     WHATSAPP(PebbleIconID.NOTIFICATION_WHATSAPP, PebbleColor.IslamicGreen),
     YAHOO_MAIL(PebbleIconID.NOTIFICATION_YAHOO_MAIL, PebbleColor.Indigo),
-    COL_REMINDER(PebbleIconID.NOTIFICATION_REMINDER, PebbleColor.IslamicGreen);
+    COL_REMINDER(PebbleIconID.NOTIFICATION_REMINDER, PebbleColor.IslamicGreen),
+    DELTACHAT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon);
 
     // Note: if you add any more constants, update all clients as well
 
@@ -130,6 +131,7 @@ public enum NotificationType {
             case LINE:
             case VIBER:
             case DISCORD:
+            case DELTACHAT:
                 return "generic_chat";
             case GMAIL:
             case GOOGLE_INBOX:
