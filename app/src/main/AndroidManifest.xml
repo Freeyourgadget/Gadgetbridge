@@ -822,7 +822,7 @@
             android:label="@string/gpx_receiver_activity_title"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
