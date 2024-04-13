@@ -46,11 +46,15 @@ public abstract class GFDIMessage {
 
         final int messageType = messageReader.readShort();
         try {
-            GarminMessage garminMessage = GarminMessage.fromId(messageType);
-            Method m = garminMessage.objectClass.getMethod("parseIncoming", MessageReader.class, GarminMessage.class);
+            final GarminMessage garminMessage = GarminMessage.fromId(messageType);
+            if (garminMessage == null) {
+                LOG.warn("Unknown message type {}, message {}", messageType, message);
+                return new UnhandledMessage(messageType);
+            }
+            final Method m = garminMessage.objectClass.getMethod("parseIncoming", MessageReader.class, GarminMessage.class);
             return garminMessage.objectClass.cast(m.invoke(null, messageReader, garminMessage));
-        } catch (Exception e) {
-            LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message);
+        } catch (final Exception e) {
+            LOG.error("UNHANDLED GFDI MESSAGE TYPE {}, MESSAGE {}", messageType, message, e);
             return new UnhandledMessage(messageType);
         } finally {
             messageReader.warnIfLeftover(messageType);
@@ -110,8 +114,8 @@ public abstract class GFDIMessage {
         NOTIFICATION_CONTROL(5034, NotificationControlMessage.class),
         NOTIFICATION_DATA(5035, NotificationDataMessage.class),
         NOTIFICATION_SUBSCRIPTION(5036, NotificationSubscriptionMessage.class),
-        FIND_MY_PHONE(5039, FindMyPhoneRequestMessage.class),
-        CANCEL_FIND_MY_PHONE(5040, FindMyPhoneRequestMessage.class),
+        FIND_MY_PHONE_REQUEST(5039, FindMyPhoneRequestMessage.class),
+        FIND_MY_PHONE_CANCEL(5040, FindMyPhoneCancelMessage.class),
         MUSIC_CONTROL(5041, MusicControlMessage.class),
         MUSIC_CONTROL_CAPABILITIES(5042, MusicControlCapabilitiesMessage.class),
         PROTOBUF_REQUEST(5043, ProtobufMessage.class),
