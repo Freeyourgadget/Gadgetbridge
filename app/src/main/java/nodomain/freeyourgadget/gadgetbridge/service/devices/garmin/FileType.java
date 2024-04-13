@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
-import android.util.Pair;
-
 import androidx.annotation.Nullable;
 
 public class FileType {
@@ -37,43 +35,45 @@ public class FileType {
     }
 
     public enum FILETYPE { //TODO: add specialized method to parse each file type to the enum?
-        ACTIVITY(Pair.create(128, 4)),
-        MONITOR(Pair.create(128, 32)),
-        CHANGELOG(Pair.create(128, 41)),
-        METRICS(Pair.create(128, 44)),
-        SLEEP(Pair.create(128, 49)),
+        ACTIVITY(128, 4),
+        MONITOR(128, 32),
+        CHANGELOG(128, 41),
+        METRICS(128, 44),
+        SLEEP(128, 49),
 
         //"virtual" and/or undocumented file types
-        DIRECTORY(Pair.create(0, 0)),
-//        SETTINGS(Pair.create(128,2)),
+        DIRECTORY(0, 0),
+        //SETTINGS(Pair.create(128,2)),
         ;
 
-        private final Pair<Integer, Integer> type;
+        private final int type;
+        private final int subtype;
 
-        FILETYPE(Pair<Integer, Integer> pair) {
-            this.type = pair;
+        FILETYPE(final int type, final int subtype) {
+            this.type = type;
+            this.subtype = subtype;
         }
 
         @Nullable
         public static FILETYPE fromDataTypeSubType(int dataType, int subType) {
             for (FILETYPE ft :
                     FILETYPE.values()) {
-                if (ft.type.first == dataType && ft.type.second == subType)
+                if (ft.type == dataType && ft.subtype == subType)
                     return ft;
             }
             return null;
         }
 
         public int getType() {
-            return type.first;
+            return type;
         }
 
         public int getSubType() {
-            return type.second;
+            return subtype;
         }
 
         public boolean isFitFile() {
-            return type.first == 128;
+            return type == 128;
         }
     }
 }
