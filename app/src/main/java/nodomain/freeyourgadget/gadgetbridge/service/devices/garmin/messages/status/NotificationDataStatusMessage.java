@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
 
-
 public class NotificationDataStatusMessage extends GFDIStatusMessage {
     private final Status status;
     private final TransferStatus transferStatus;
@@ -19,7 +18,7 @@ public class NotificationDataStatusMessage extends GFDIStatusMessage {
         }
         final TransferStatus transferStatus = TransferStatus.fromId(reader.readByte());
 
-        if (!transferStatus.equals(TransferStatus.OK)) {
+        if (!TransferStatus.OK.equals(transferStatus)) {
             LOG.warn("Received {} / {} for message {}", status, transferStatus, garminMessage);
         } else {
             LOG.info("Received {} / {} for message {}", status, transferStatus, garminMessage);

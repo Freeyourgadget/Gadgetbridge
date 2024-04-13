@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
-
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 

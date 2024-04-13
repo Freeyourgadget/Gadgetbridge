@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 import java.util.ArrayList;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.LocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
 
@@ -20,14 +21,19 @@ public class FitDataMessage extends GFDIMessage {
     }
 
     public static FitDataMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
-        List<RecordData> recordDataList = new ArrayList<>();
-
+        final List<RecordData> recordDataList = new ArrayList<>();
 
         while (reader.remaining() > 0) {
             RecordHeader recordHeader = new RecordHeader((byte) reader.readByte());
             if (recordHeader.isDefinition())
                 return null;
-            RecordData recordData = new RecordData(recordHeader.getLocalMessage().getRecordDefinition());
+            LocalMessage localMessage = recordHeader.getLocalMessage();
+            if (localMessage == null) {
+                LOG.warn("Local message is null");
+
+                return null;
+            }
+            RecordData recordData = new RecordData(localMessage.getRecordDefinition());
             recordData.parseDataMessage(reader);
             recordDataList.add(recordData);
         }
@@ -49,5 +55,4 @@ public class FitDataMessage extends GFDIMessage {
         }
         return true;
     }
-
 }

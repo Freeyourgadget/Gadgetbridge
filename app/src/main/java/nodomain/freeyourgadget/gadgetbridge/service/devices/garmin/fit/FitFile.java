@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +139,7 @@ public class FitFile {
 
     }
 
+    @NonNull
     @Override
     public String toString() {
         return dataRecords.toString();

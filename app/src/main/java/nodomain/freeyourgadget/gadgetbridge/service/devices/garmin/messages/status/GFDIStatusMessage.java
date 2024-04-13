@@ -9,6 +9,7 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
     public static GFDIStatusMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         int originalMessageType = reader.readShort();
         final GarminMessage originalGarminMessage = GFDIMessage.GarminMessage.fromId(originalMessageType);
+
         if (GarminMessage.PROTOBUF_REQUEST.equals(originalGarminMessage) || GarminMessage.PROTOBUF_RESPONSE.equals(originalGarminMessage)) {
             return ProtobufStatusMessage.parseIncoming(reader, originalGarminMessage);
         } else if (GarminMessage.NOTIFICATION_DATA.equals(originalGarminMessage)) {
@@ -23,7 +24,7 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
             return CreateFileStatusMessage.parseIncoming(reader, originalGarminMessage);
         } else if (GarminMessage.SUPPORTED_FILE_TYPES_REQUEST.equals(originalGarminMessage)) {
             SupportedFileTypesStatusMessage supportedFileTypesStatusMessage = SupportedFileTypesStatusMessage.parseIncoming(reader, garminMessage);
-            LOG.info(supportedFileTypesStatusMessage.toString());
+            LOG.info("{}", supportedFileTypesStatusMessage);
             return supportedFileTypesStatusMessage;
         } else if (GarminMessage.FIT_DEFINITION.equals(originalGarminMessage)) {
             return FitDefinitionStatusMessage.parseIncoming(reader, originalGarminMessage);
@@ -33,7 +34,7 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
             final Status status = Status.fromCode(reader.readByte());
 
             if (Status.ACK == status) {
-                LOG.info("Received ACK for message {}", originalGarminMessage.name());
+                LOG.info("Received ACK for message {}", originalGarminMessage);
             } else {
                 LOG.warn("Received {} for message {}", status, (null == originalGarminMessage) ? originalMessageType : originalGarminMessage.name());
             }
@@ -50,5 +51,4 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
     protected Status getStatus() {
         return status;
     }
-
 }

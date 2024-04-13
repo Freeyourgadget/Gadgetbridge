@@ -22,8 +22,12 @@ public class FitDefinitionStatusMessage extends GFDIStatusMessage {
 
     public static FitDefinitionStatusMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
         final Status status = Status.fromCode(reader.readByte());
-        final FitDefinitionStatusCode fitDefinitionStatusCode = FitDefinitionStatusCode.fromCode(reader.readByte());
-
+        final int fitDefinitionStatusCodeByte = reader.readByte();
+        final FitDefinitionStatusCode fitDefinitionStatusCode = FitDefinitionStatusCode.fromCode(fitDefinitionStatusCodeByte);
+        if (fitDefinitionStatusCode == null) {
+            LOG.warn("Unknown fit definition status code {}", fitDefinitionStatusCodeByte);
+            return null;
+        }
         return new FitDefinitionStatusMessage(garminMessage, status, fitDefinitionStatusCode);
     }
 

@@ -54,7 +54,6 @@ public class GarminByteBufferReader {
     public String readString() {
         final int size = readByte();
         byte[] bytes = new byte[size];
-        if (byteBuffer.remaining() < size) throw new IllegalStateException();
         byteBuffer.get(bytes);
         return new String(bytes, StandardCharsets.UTF_8);
     }
@@ -62,7 +61,6 @@ public class GarminByteBufferReader {
     public byte[] readBytes(int size) {
         byte[] bytes = new byte[size];
 
-        if (byteBuffer.remaining() < size) throw new IllegalStateException();
         byteBuffer.get(bytes);
 
         return bytes;

@@ -262,7 +262,7 @@ public class NotificationsHandler implements MessageHandler {
         }
     }
 
-    class Upload {
+    public static class Upload {
 
         private NotificationFragment currentlyUploading;
 
@@ -292,7 +292,7 @@ public class NotificationsHandler implements MessageHandler {
 
     }
 
-    class NotificationFragment {
+    public static class NotificationFragment {
         private final int dataSize;
         private final ByteBuffer dataHolder;
         private final int maxBlockSize = 300;
@@ -330,5 +330,4 @@ public class NotificationsHandler implements MessageHandler {
             this.runningCrc = runningCrc;
         }
     }
-
 }

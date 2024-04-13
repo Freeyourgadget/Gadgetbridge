@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
@@ -86,6 +87,8 @@ public class RecordHeader {
         return base;
     }
 
+    @NonNull
+    @Override
     public String toString() {
         return "Local Message: " + (null == localMessage ? "raw: " + rawLocalMessageType : "type: " + localMessage.name());
     }
