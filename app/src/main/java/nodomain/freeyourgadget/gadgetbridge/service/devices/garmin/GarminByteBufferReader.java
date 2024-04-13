@@ -24,8 +24,6 @@ public class GarminByteBufferReader {
     }
 
     public int readByte() {
-        if (!byteBuffer.hasRemaining()) throw new IllegalStateException();
-
         return Byte.toUnsignedInt(byteBuffer.get());
     }
 
@@ -34,32 +32,22 @@ public class GarminByteBufferReader {
     }
 
     public int readShort() {
-        if (byteBuffer.remaining() < 2) throw new IllegalStateException();
-
         return Short.toUnsignedInt(byteBuffer.getShort());
     }
 
     public int readInt() {
-        if (byteBuffer.remaining() < 4) throw new IllegalStateException();
-
         return byteBuffer.getInt();
     }
 
     public long readLong() {
-        if (byteBuffer.remaining() < 8) throw new IllegalStateException();
-
         return byteBuffer.getLong();
     }
 
     public float readFloat32() {
-        if (byteBuffer.remaining() < 4) throw new IllegalStateException();
-
         return byteBuffer.getFloat();
     }
 
     public double readFloat64() {
-        if (byteBuffer.remaining() < 8) throw new IllegalStateException();
-
         return byteBuffer.getDouble();
     }
 
@@ -79,5 +67,4 @@ public class GarminByteBufferReader {
 
         return bytes;
     }
-
 }
