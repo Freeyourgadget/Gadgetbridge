@@ -150,6 +150,7 @@ public abstract class GFDIMessage {
             }
             return null;
         }
+
         public int getId() {
             return id;
         }
@@ -178,7 +179,7 @@ public abstract class GFDIMessage {
 
     }
 
-    protected static class MessageReader extends GarminByteBufferReader {
+    public static class MessageReader extends GarminByteBufferReader {
 
         private final int payloadSize;
 

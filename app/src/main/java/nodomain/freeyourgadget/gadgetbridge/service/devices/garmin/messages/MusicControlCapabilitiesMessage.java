@@ -34,7 +34,7 @@ public class MusicControlCapabilitiesMessage extends GFDIMessage {
         return true;
     }
 
-    enum GarminMusicControlCommand {
+    public enum GarminMusicControlCommand {
         TOGGLE_PLAY_PAUSE,
         SKIP_TO_NEXT_ITEM,
         SKIP_TO_PREVIOUS_ITEM,

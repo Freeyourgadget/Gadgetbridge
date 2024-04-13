@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
 
-
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 
 public class CreateFileStatusMessage extends GFDIStatusMessage {
@@ -31,7 +30,7 @@ public class CreateFileStatusMessage extends GFDIStatusMessage {
         final int subType = reader.readByte();
         final FileType.FILETYPE filetype = FileType.FILETYPE.fromDataTypeSubType(dataType, subType);
         final int fileNumber = reader.readShort();
-        if (!createStatus.equals(CreateStatus.OK)) {
+        if (!CreateStatus.OK.equals(createStatus)) {
             LOG.warn("Received {} / {} for message {}", status, createStatus, garminMessage);
         } else {
             LOG.info("Received {} / {} for message {}", status, createStatus, garminMessage);
@@ -51,7 +50,7 @@ public class CreateFileStatusMessage extends GFDIStatusMessage {
         return status.equals(Status.ACK) && createStatus.equals(CreateStatus.OK);
     }
 
-    enum CreateStatus {
+    public enum CreateStatus {
         OK,
         DUPLICATE,
         NO_SPACE,

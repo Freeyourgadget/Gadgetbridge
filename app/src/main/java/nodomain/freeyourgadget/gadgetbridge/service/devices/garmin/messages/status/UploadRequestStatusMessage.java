@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
 
-
 public class UploadRequestStatusMessage extends GFDIStatusMessage {
     private final Status status;
     private final UploadStatus uploadStatus;
@@ -28,7 +27,7 @@ public class UploadRequestStatusMessage extends GFDIStatusMessage {
         final int maxFileSize = reader.readInt();
         final int crcSeed = reader.readShort();
 
-        if (!uploadStatus.equals(UploadStatus.OK)) {
+        if (!UploadStatus.OK.equals(uploadStatus)) {
             LOG.warn("Received {} / {} for message {}", status, uploadStatus, garminMessage);
         } else {
             LOG.info("Received {} / {} for message {}", status, uploadStatus, garminMessage);
@@ -48,7 +47,7 @@ public class UploadRequestStatusMessage extends GFDIStatusMessage {
         return status.equals(Status.ACK) && uploadStatus.equals(UploadStatus.OK);
     }
 
-    enum UploadStatus {
+    public enum UploadStatus {
         OK,
         INDEX_UNKNOWN,
         INDEX_NOT_WRITEABLE,

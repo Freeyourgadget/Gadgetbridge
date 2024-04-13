@@ -1,6 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status;
 
-
 public class DownloadRequestStatusMessage extends GFDIStatusMessage {
     private final Status status;
     private final DownloadStatus downloadStatus;
@@ -22,7 +21,7 @@ public class DownloadRequestStatusMessage extends GFDIStatusMessage {
         final DownloadStatus downloadStatus = DownloadStatus.fromId(reader.readByte());
         final int maxFileSize = reader.readInt();
 
-        if (!downloadStatus.equals(DownloadStatus.OK)) {
+        if (!DownloadStatus.OK.equals(downloadStatus)) {
             LOG.warn("Received {} / {} for message {}", status, downloadStatus, garminMessage);
         } else {
             LOG.info("Received {} / {} for message {}", status, downloadStatus, garminMessage);
@@ -38,7 +37,7 @@ public class DownloadRequestStatusMessage extends GFDIStatusMessage {
         return status.equals(Status.ACK) && downloadStatus.equals(DownloadStatus.OK);
     }
 
-    enum DownloadStatus { //was DownloadRequestResponseMessage
+    public enum DownloadStatus { //was DownloadRequestResponseMessage
         OK,
         INDEX_UNKNOWN,
         INDEX_NOT_READABLE,

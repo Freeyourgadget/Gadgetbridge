@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +78,7 @@ public class FileTransferHandler implements MessageHandler {
 //    }
 
 
-    class Download {
+    public class Download {
         private FileFragment currentlyDownloading;
 
         public FileFragment getCurrentlyDownloading() {
@@ -126,7 +128,7 @@ public class FileTransferHandler implements MessageHandler {
                 outputFile.setLastModified(currentlyDownloading.directoryEntry.fileDate.getTime());
 
             } catch (IOException e) {
-                LOG.error("IOException: " + e);
+                LOG.error("Failed to save file", e);
             }
 
             LOG.debug("FILE DOWNLOAD COMPLETE {}", currentlyDownloading.getFileName());
@@ -156,8 +158,7 @@ public class FileTransferHandler implements MessageHandler {
         }
     }
 
-    class Upload {
-
+    public static class Upload {
         private FileFragment currentlyUploading;
 
         private UploadRequestMessage setCreateFileStatusMessage(CreateFileStatusMessage createFileStatusMessage) {
@@ -216,7 +217,7 @@ public class FileTransferHandler implements MessageHandler {
 
     }
 
-    class FileFragment {
+    public static class FileFragment {
         private final DirectoryEntry directoryEntry;
         private final int maxBlockSize = 500;
         private int dataSize;
@@ -290,7 +291,7 @@ public class FileTransferHandler implements MessageHandler {
         }
     }
 
-    class DirectoryEntry {
+    public static class DirectoryEntry {
         private final int fileIndex;
         private final FileType.FILETYPE filetype;
         private final int fileNumber;
@@ -321,6 +322,7 @@ public class FileTransferHandler implements MessageHandler {
             return getFiletype().name() + "_" + getFileIndex() + (getFiletype().isFitFile() ? ".fit" : "");
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "DirectoryEntry{" +
