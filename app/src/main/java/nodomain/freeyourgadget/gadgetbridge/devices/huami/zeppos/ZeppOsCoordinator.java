@@ -420,7 +420,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
         //
         // Notifications
         //
-        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
         if (supportsBluetoothPhoneCalls(device)) {
             notifications.add(R.xml.devicesettings_phone_calls_watch_pair);
         } else {
