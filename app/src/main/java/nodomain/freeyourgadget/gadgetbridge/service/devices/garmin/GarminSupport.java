@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -55,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetD
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SupportedFileTypesMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
@@ -68,7 +70,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private ICommunicator communicator;
     private MusicStateSpec musicStateSpec;
     private Timer musicStateTimer;
-    private List<FileType> supportedFileTypeList;
+    private final List<FileType> supportedFileTypeList = new ArrayList<>();
 
     public GarminSupport() {
         super(LOG);
@@ -218,11 +220,23 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             notificationsHandler.setEnabled(enable);
             LOG.info("NOTIFICATIONS ARE NOW {}", enable ? "ON" : "OFF");
         } else if (deviceEvent instanceof SupportedFileTypesDeviceEvent) {
-            this.supportedFileTypeList = ((SupportedFileTypesDeviceEvent) deviceEvent).getSupportedFileTypes();
-            sendOutgoingMessage(fileTransferHandler.initiateDownload());
+            this.supportedFileTypeList.clear();
+            this.supportedFileTypeList.addAll(((SupportedFileTypesDeviceEvent) deviceEvent).getSupportedFileTypes());
         }
 
         super.evaluateGBDeviceEvent(deviceEvent);
+    }
+
+    @Override
+    public void onFetchRecordedData(final int dataTypes) {
+        if (this.supportedFileTypeList.isEmpty()) {
+            LOG.warn("No known supported file types");
+            return;
+        }
+
+        // FIXME respect dataTypes?
+
+        sendOutgoingMessage(fileTransferHandler.initiateDownload());
     }
 
     @Override
@@ -346,6 +360,12 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     private void processDownloadQueue() {
         if (!filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
+            if (!gbDevice.isBusy()) {
+                GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), "", true, 0, getContext());
+                getDevice().setBusyTask(getContext().getString(R.string.busy_task_fetch_activity_data));
+                getDevice().sendDeviceUpdateIntent(getContext());
+            }
+
             try {
                 FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
                 while (checkFileExists(directoryEntry.getFileName())) {
@@ -359,7 +379,19 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     LOG.debug("File: {} already downloaded, not downloading again, from inside.", directoryEntry.getFileName());
                 }
             } catch (NoSuchElementException e) {
-                //ignore
+                // we ran out of files to download
+                // FIXME this is ugly
+                if (gbDevice.isBusy() && gbDevice.getBusyTask().equals(getContext().getString(R.string.busy_task_fetch_activity_data))) {
+                    getDevice().unsetBusyTask();
+                    GB.updateTransferNotification(null, "", false, 100, getContext());
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                }
+            }
+        } else if (filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
+            if (gbDevice.isBusy() && gbDevice.getBusyTask().equals(getContext().getString(R.string.busy_task_fetch_activity_data))) {
+                getDevice().unsetBusyTask();
+                GB.updateTransferNotification(null, "", false, 100, getContext());
+                getDevice().sendDeviceUpdateIntent(getContext());
             }
         }
     }
