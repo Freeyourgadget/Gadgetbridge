@@ -51,7 +51,7 @@ public class HuaweiUtil {
         byte[] id = now.getTimeZone().getID().getBytes();
         return ByteBuffer.allocate(6 + id.length)
             .putInt((int)(now.getTimeInMillis() / 1000))
-            .put((byte)(zoneRawOffset < 0 ? (zoneRawOffset / 3600 + 128) : zoneRawOffset / 3600) )
+            .put((byte)(zoneRawOffset < 0 ? (-zoneRawOffset / 3600 + 128) : zoneRawOffset / 3600) )
             .put((byte)(zoneRawOffset / 60 % 60))
             .put(id)
             .array();
