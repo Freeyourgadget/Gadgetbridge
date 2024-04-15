@@ -65,7 +65,7 @@ public class SendNotificationRequest extends Request {
 
         String body = notificationSpec.body;
         if (body.length() > supportProvider.getHuaweiCoordinator().getContentLength()) {
-            body = notificationSpec.body.substring(0x0, supportProvider.getHuaweiCoordinator().getContentLength() - 0xC);
+            body = notificationSpec.body.substring(0x0, supportProvider.getHuaweiCoordinator().getContentLength() - 0xD);
             body += "...";
         }
         this.packet = new Notifications.NotificationActionRequest(
