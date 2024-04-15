@@ -8,6 +8,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 public interface ICommunicator {
     void sendMessage(byte[] message);
 
+    void onMtuChanged(final int mtu);
+
     void initializeDevice(TransactionBuilder builder);
 
     boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);

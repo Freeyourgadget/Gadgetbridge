@@ -65,7 +65,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements CmfCharacteristic.Handler {
     private static final Logger LOG = LoggerFactory.getLogger(CmfWatchProSupport.class);
@@ -175,11 +174,6 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         super.setContext(device, adapter, context);
 
         mediaManager = new MediaManager(context);
-    }
-
-    @Override
-    protected Prefs getDevicePrefs() {
-        return super.getDevicePrefs();
     }
 
     @Override

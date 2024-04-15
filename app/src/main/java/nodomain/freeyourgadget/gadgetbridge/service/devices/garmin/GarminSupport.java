@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
@@ -53,7 +55,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetD
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SupportedFileTypesMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
@@ -120,9 +121,27 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             return builder;
         }
 
+        if (getDevicePrefs().getBoolean(PREF_ALLOW_HIGH_MTU, true)) {
+            builder.requestMtu(515);
+        }
+
         communicator.initializeDevice(builder);
 
         return builder;
+    }
+
+    @Override
+    public void onMtuChanged(final BluetoothGatt gatt, final int mtu, final int status) {
+        if (mtu < 23) {
+            LOG.warn("Ignoring mtu of {}, too low", mtu);
+            return;
+        }
+        if (!getDevicePrefs().getBoolean(PREF_ALLOW_HIGH_MTU, true)) {
+            LOG.warn("Ignoring mtu change to {} - high mtu is disabled", mtu);
+            return;
+        }
+
+        communicator.onMtuChanged(mtu);
     }
 
     @Override

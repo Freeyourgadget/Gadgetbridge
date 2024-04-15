@@ -20,6 +20,11 @@ public class CommunicatorV1 implements ICommunicator {
     }
 
     @Override
+    public void onMtuChanged(final int mtu) {
+
+    }
+
+    @Override
     public void initializeDevice(final TransactionBuilder builder) {
 
     }
