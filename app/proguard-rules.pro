@@ -34,6 +34,12 @@
 }
 -keepattributes JavascriptInterface
 
+# Keep parseIncoming for GFDIMessage classes, as it is called by reflection in GFDIMessage#parseIncoming
+-keep public class * extends nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage
+-keepclassmembers class * extends nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage {
+    public static *** parseIncoming(...);
+}
+
 # https://github.com/tony19/logback-android/issues/29
 -dontwarn javax.mail.**
 
