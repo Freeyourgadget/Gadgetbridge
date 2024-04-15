@@ -43,6 +43,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityDataFetching() {
+        return true;
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return true;
     }
