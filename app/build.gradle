@@ -252,7 +252,7 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
-    implementation 'com.google.protobuf:protobuf-javalite:3.21.7'
+    implementation 'com.google.protobuf:protobuf-javalite:3.25.3'
     implementation 'com.android.volley:volley:1.2.1'
 
     // Bouncy Castle is included directly in GB, to avoid pulling the entire dependency
@@ -371,7 +371,7 @@ tasks.clean.dependsOn(tasks.cleanGenerated)
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.21.7'
+        artifact = 'com.google.protobuf:protoc:3.25.3'
     }
     generateProtoTasks {
         all().each { task ->
