@@ -385,6 +385,10 @@
             android:summary="@string/pref_cache_weather_summary"
             android:title="@string/pref_cache_weather"
             app:iconSpaceReserved="false" />
+        <Preference
+            android:key="pref_show_first_run_screen"
+            android:title="Show first run screen"
+            app:iconSpaceReserved="false" />
 
         <PreferenceCategory
             android:key="pref_screen_intent_api"

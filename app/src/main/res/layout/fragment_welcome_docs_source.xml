@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Open Source"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:text="Gadgetbridge is an open source app. It is developed by the community, for the community.\n\nAnyone is welcome to contribute via code, documentation, testing and donations.\n\nGadgetbridge contains no ads and no tracking. It works only locally on your Android device, so it is 100% privacy friendly.\n\nVisit our website for more information, documentation and links to our communication channels." />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_engineering"
+                app:tint="?attr/colorPrimary" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
