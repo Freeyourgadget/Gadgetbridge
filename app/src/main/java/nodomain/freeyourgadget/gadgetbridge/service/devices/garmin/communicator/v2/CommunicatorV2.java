@@ -23,7 +23,7 @@ public class CommunicatorV2 implements ICommunicator {
     public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND = UUID.fromString("6a4e2822-667b-11e3-949a-0800200c9a66"); //VivomoveConstants.UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND;
     public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE = UUID.fromString("6a4e2812-667b-11e3-949a-0800200c9a66"); //VivomoveConstants.UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE;
 
-    public static final int MAX_WRITE_SIZE = 20; //VivomoveConstants.MAX_WRITE_SIZE
+    public int maxWriteSize = 20; //VivomoveConstants.MAX_WRITE_SIZE
     private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV2.class);
     public final CobsCoDec cobsCoDec;
     private final GarminSupport mSupport;
@@ -36,7 +36,13 @@ public class CommunicatorV2 implements ICommunicator {
     }
 
     @Override
+    public void onMtuChanged(final int mtu) {
+        maxWriteSize = mtu - 3;
+    }
+
+    @Override
     public void initializeDevice(final TransactionBuilder builder) {
+
         builder.notify(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE), true);
         builder.write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), closeAllServices());
     }
@@ -53,10 +59,10 @@ public class CommunicatorV2 implements ICommunicator {
 //        LOG.debug("SENDING MESSAGE: {} - COBS ENCODED: {}", GB.hexdump(message), GB.hexdump(payload));
         final TransactionBuilder builder = new TransactionBuilder("sendMessage()");
         int remainingBytes = payload.length;
-        if (remainingBytes > MAX_WRITE_SIZE - 1) {
+        if (remainingBytes > maxWriteSize - 1) {
             int position = 0;
             while (remainingBytes > 0) {
-                final byte[] fragment = Arrays.copyOfRange(payload, position, position + Math.min(remainingBytes, MAX_WRITE_SIZE - 1));
+                final byte[] fragment = Arrays.copyOfRange(payload, position, position + Math.min(remainingBytes, maxWriteSize - 1));
                 builder.write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), ArrayUtils.addAll(new byte[]{(byte) gfdiHandle}, fragment));
                 position += fragment.length;
                 remainingBytes -= fragment.length;
@@ -168,6 +174,4 @@ public class CommunicatorV2 implements ICommunicator {
             return null;
         }
     }
-
-
 }
