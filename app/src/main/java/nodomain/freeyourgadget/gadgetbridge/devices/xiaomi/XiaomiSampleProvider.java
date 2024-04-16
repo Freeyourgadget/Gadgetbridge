@@ -98,59 +98,79 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
     }
 
     /**
+     * See {@link nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.SleepDetailsParser}
+     */
+    private static int getActivityKindForSample(final XiaomiSleepStageSample sample) {
+        switch (sample.getStage()) {
+            case 2:
+                return ActivityKind.TYPE_DEEP_SLEEP;
+            case 3:
+                return ActivityKind.TYPE_LIGHT_SLEEP;
+            case 4:
+                return ActivityKind.TYPE_REM_SLEEP;
+            default: // default to awake
+                return ActivityKind.TYPE_UNKNOWN;
+        }
+    }
+
+    /**
      * Overlay sleep states on activity samples, since they are stored on a separate table.
      *
-     * @implNote This currently needs to look back a further 24h, so that we are sure that we
-     * got the sleep start of a sleep session at the start of the samples, if any. This is especially
-     * noticeable if the charts are configured in a noon-to-noon setting. FIXME: This is not ideal,
-     * and we may need to rethink the way sleep samples are persisted in the database for Xiaomi devices.
+     * @implNote In order to determine whether a sleep session was ongoing at the start of the
+     * given range and what the detected sleep stage was at that time, the last sleep stage and
+     * sleep time sample before the given range will be queried and included in the results if
+     * found.
      */
     public void overlaySleep(final List<XiaomiActivitySample> samples, final int timestamp_from, final int timestamp_to) {
         final RangeMap<Long, Integer> stagesMap = new RangeMap<>();
 
         final XiaomiSleepStageSampleProvider sleepStagesSampleProvider = new XiaomiSleepStageSampleProvider(getDevice(), getSession());
-        final List<XiaomiSleepStageSample> stageSamples = sleepStagesSampleProvider.getAllSamples(
-                timestamp_from * 1000L - 86400000L,
+
+        // Retrieve the last stage before this time range, as the user could have been asleep during
+        // the range transition
+        final XiaomiSleepStageSample lastSleepStageBeforeRange = sleepStagesSampleProvider.getLastSampleBefore(timestamp_from * 1000L);
+
+        if (lastSleepStageBeforeRange != null) {
+            LOG.debug("Last sleep stage before range: ts={}, stage={}", lastSleepStageBeforeRange.getTimestamp(), lastSleepStageBeforeRange.getStage());
+            stagesMap.put(lastSleepStageBeforeRange.getTimestamp(), getActivityKindForSample(lastSleepStageBeforeRange));
+        }
+
+        // Retrieve all sleep stage samples during the range
+        final List<XiaomiSleepStageSample> sleepStagesInRange = sleepStagesSampleProvider.getAllSamples(
+                timestamp_from * 1000L,
                 timestamp_to * 1000L
         );
-        if (!stageSamples.isEmpty()) {
+
+        if (!sleepStagesInRange.isEmpty()) {
             // We got actual sleep stages
-            LOG.debug("Found {} sleep stage samples between {} and {}", stageSamples.size(), timestamp_from, timestamp_to);
+            LOG.debug("Found {} sleep stage samples between {} and {}", sleepStagesInRange.size(), timestamp_from, timestamp_to);
 
-            for (final XiaomiSleepStageSample stageSample : stageSamples) {
-                final int activityKind;
-
-                switch (stageSample.getStage()) {
-                    case 2: // deep
-                        activityKind = ActivityKind.TYPE_DEEP_SLEEP;
-                        break;
-                    case 3: // light
-                        activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
-                        break;
-                    case 4: // rem
-                        activityKind = ActivityKind.TYPE_REM_SLEEP;
-                        break;
-                    case 0: // final awake
-                    case 1: // ?
-                    case 5: // awake during the night
-                    default:
-                        activityKind = ActivityKind.TYPE_UNKNOWN;
-                        break;
-                }
-                stagesMap.put(stageSample.getTimestamp(), activityKind);
+            for (final XiaomiSleepStageSample stageSample : sleepStagesInRange) {
+                stagesMap.put(stageSample.getTimestamp(), getActivityKindForSample(stageSample));
             }
         }
 
-        // Fetch bed and wakeup times as well.
         final XiaomiSleepTimeSampleProvider sleepTimeSampleProvider = new XiaomiSleepTimeSampleProvider(getDevice(), getSession());
-        final List<XiaomiSleepTimeSample> sleepTimeSamples = sleepTimeSampleProvider.getAllSamples(
-                timestamp_from * 1000L - 86400000L,
+
+        // Find last sleep sample before the requested range, as the recorded wake up time may be
+        // in the current range
+        final XiaomiSleepTimeSample lastSleepTimesBeforeRange = sleepTimeSampleProvider.getLastSampleBefore(timestamp_from * 1000L);
+
+        if (lastSleepTimesBeforeRange != null) {
+            stagesMap.put(lastSleepTimesBeforeRange.getWakeupTime(), ActivityKind.TYPE_UNKNOWN);
+            stagesMap.put(lastSleepTimesBeforeRange.getTimestamp(), ActivityKind.TYPE_LIGHT_SLEEP);
+        }
+
+        // Find all wake up and sleep samples in the current time range
+        final List<XiaomiSleepTimeSample> sleepTimesInRange = sleepTimeSampleProvider.getAllSamples(
+                timestamp_from * 1000L,
                 timestamp_to * 1000L
         );
-        if (!sleepTimeSamples.isEmpty()) {
-            LOG.debug("Found {} sleep samples between {} and {}", sleepTimeSamples.size(), timestamp_from, timestamp_to);
-            for (final XiaomiSleepTimeSample stageSample : sleepTimeSamples) {
-                if (stageSamples.isEmpty()) {
+
+        if (!sleepTimesInRange.isEmpty()) {
+            LOG.debug("Found {} sleep samples between {} and {}", sleepTimesInRange.size(), timestamp_from, timestamp_to);
+            for (final XiaomiSleepTimeSample stageSample : sleepTimesInRange) {
+                if (sleepStagesInRange.isEmpty()) {
                     // Only overlay them as light sleep if we don't have actual sleep stages
                     stagesMap.put(stageSample.getTimestamp(), ActivityKind.TYPE_LIGHT_SLEEP);
                 }

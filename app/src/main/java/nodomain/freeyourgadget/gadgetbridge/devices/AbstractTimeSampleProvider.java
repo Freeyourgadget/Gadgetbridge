@@ -100,6 +100,25 @@ public abstract class AbstractTimeSampleProvider<T extends AbstractTimeSample> i
         return samples.get(0);
     }
 
+    public T getLastSampleBefore(final long timestampTo) {
+        final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+
+        final Property deviceIdSampleProp = getDeviceIdentifierSampleProperty();
+        final Property timestampSampleProp = getTimestampSampleProperty();
+        final List<T> samples = getSampleDao().queryBuilder()
+                .where(deviceIdSampleProp.eq(dbDevice.getId()),
+                        timestampSampleProp.le(timestampTo))
+                .orderDesc(getTimestampSampleProperty())
+                .limit(1)
+                .list();
+
+        return !samples.isEmpty() ? samples.get(0) : null;
+    }
+
     @Nullable
     @Override
     public T getFirstSample() {
