@@ -81,6 +81,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 
         // Heart rate samples
         if ((header & (1 << (5 - versionDependentFields))) != 0) {
+            LOG.debug("Heart rate samples from offset {}", Integer.toHexString(buf.position()));
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
 
@@ -98,6 +99,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 
         // SpO2 samples
         if ((header & (1 << (4 - versionDependentFields))) != 0) {
+            LOG.debug("SpO₂ samples from offset {}", Integer.toHexString(buf.position()));
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
 
@@ -115,6 +117,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 
         // snore samples
         if (fileId.getVersion() >= 3 && (header & (1 << (3 - versionDependentFields))) != 0) {
+            LOG.debug("Snore level samples from offset {}", Integer.toHexString(buf.position()));
             final int unit = buf.getShort(); // Time unit (i.e sample rate)
             final int count = buf.getShort();
 
@@ -131,26 +134,25 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         }
 
         final List<XiaomiSleepStageSample> stages = new ArrayList<>();
+        LOG.debug("Sleep stage packets from offset {}", Integer.toHexString(buf.position()));
 
         // Do not crash if we face a buffer underflow, as the next parsing is not 100% fool-proof,
         // and we still want to persist whatever we got so far
         boolean stagesParseFailed = false;
         try {
-            while (buf.remaining() >= 17 && buf.getInt() == 0xFFFCFAFB) {
+            while (buf.remaining() >= 17) {
+                if (!readStagePacketHeader(buf)) {
+                    break;
+                }
+
                 final int headerLen = buf.get() & 0xFF; // this seems to always be 17
 
                 // This timestamp is kind of weird, is seems to sometimes be in seconds
                 // and other times in nanoseconds. Message types 16 and 17 are in seconds
                 final long ts = buf.getLong();
-                final int unk = buf.get() & 0xFF;
+                final int parity = buf.get() & 0xFF; // sum of stage bit count should be uneven
                 final int type = buf.get() & 0xFF;
-
                 final int dataLen = ((buf.get() & 0xFF) << 8) | (buf.get() & 0xFF);
-
-                final byte[] data = new byte[dataLen];
-                buf.get(data);
-
-                final ByteBuffer dataBuf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN);
 
                 // Known types:
                 //  - acc_unk = 0,
@@ -161,6 +163,17 @@ public class SleepDetailsParser extends XiaomiActivityParser {
                 //  - switch_ts_unk2 = 13,
                 //  - Summary = 16,
                 //  - Stages = 17
+
+                if (type == 0x2 || type == 0x3 || type == 0x9 || type == 0xc || type == 0xd || type == 0xe || type == 0xf) {
+                    // the bytes reserved for the data length are believed to be flags, as they
+                    // do not actually have any data following the headers
+                    continue;
+                }
+
+                final byte[] data = new byte[dataLen];
+                buf.get(data);
+
+                final ByteBuffer dataBuf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN);
 
                 if (type == 16) {
                     final int data_0 = dataBuf.get() & 0xFF;
@@ -193,11 +206,10 @@ public class SleepDetailsParser extends XiaomiActivityParser {
                     sample.setAwakeDuration(wake_duration);
 
                     // FIXME: This is an array, but we end up persisting only the last sample, since
-                    // the timestamp is the primary key
+                    //        the timestamp is the primary key
                     summaries.add(sample);
                     sample = null;
-                }
-                else if (type == 17) { // Stages
+                } else if (type == 17) { // Stages
                     long currentTime = ts * 1000;
                     for (int i = 0; i < dataLen / 2; i++) {
                         // when the change to the phase occurs
@@ -250,7 +262,6 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 
                 sampleProvider.addSample(summary);
             }
-
         } catch (final Exception e) {
             GB.toast(support.getContext(), "Error saving sleep sample", Toast.LENGTH_LONG, GB.ERROR);
             LOG.error("Error saving sleep sample", e);
@@ -282,10 +293,23 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             }
         }
 
-        return stagesParseFailed;
+        return !stagesParseFailed;
     }
 
-    static private int decodeStage(int rawStage) {
+    private static boolean readStagePacketHeader(final ByteBuffer buffer) {
+        while (buffer.remaining() >= 17) {
+            if (buffer.getInt() != 0xfffcfafb) {
+                // rollback to second byte of header
+                buffer.position(buffer.position() - 3);
+                continue;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    private static int decodeStage(int rawStage) {
         switch (rawStage) {
             case 0:
                 return 5; // AWAKE
