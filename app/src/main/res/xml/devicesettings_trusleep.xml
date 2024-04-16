@@ -8,7 +8,6 @@
         android:summary="@string/huawei_trusleep_summary_light">
 
         <SwitchPreferenceCompat
-            android:enabled="false"
             android:icon="@drawable/ic_access_time"
             android:defaultValue="false"
             android:key="trusleep"

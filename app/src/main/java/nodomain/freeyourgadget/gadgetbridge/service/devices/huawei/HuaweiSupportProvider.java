@@ -492,7 +492,6 @@ public class HuaweiSupportProvider {
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, "p_on");
                 editor.apply();
-                setTrusleep();
             }
             onSetTime();
             getBatteryLevel();
@@ -714,6 +713,9 @@ public class HuaweiSupportProvider {
             }
             if (getHuaweiCoordinator().supportsActivityReminder()) {
                 setActivityReminder();
+            }
+            if (getHuaweiCoordinator().supportsTruSleep()) {
+                setTrusleep();
             }
             if (getHuaweiCoordinator().supportsPromptPushMessage() && getProtocolVersion() == 2) {
                 GetNotificationCapabilitiesRequest getNotificationCapabilitiesReq = new GetNotificationCapabilitiesRequest(this);
