@@ -33,6 +33,14 @@
             android:summaryOn="@string/pref_display_add_device_fab_on"
             android:title="@string/pref_display_add_device_fab"
             app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="display_bottom_navigation_bar"
+            android:layout="@layout/preference_checkbox"
+            android:summaryOff="@string/pref_summary_bottom_navigation_bar_off"
+            android:summaryOn="@string/pref_summary_bottom_navigation_bar_on"
+            android:title="@string/pref_title_bottom_navigation_bar"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"

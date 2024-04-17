@@ -194,7 +194,11 @@ public class ControlCenterv2 extends AppCompatActivity
 
         // Initialize bottom navigation
         BottomNavigationView navigationView = findViewById(R.id.bottom_nav_bar);
-        navigationView.setVisibility(activityTrackerAvailable ? View.VISIBLE : View.GONE);
+        if (activityTrackerAvailable && prefs.getBoolean("display_bottom_navigation_bar", true)) {
+            navigationView.setVisibility(View.VISIBLE);
+        } else {
+            navigationView.setVisibility(View.GONE);
+        }
         navigationView.setOnItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.bottom_nav_dashboard:
