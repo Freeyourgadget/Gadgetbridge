@@ -2,27 +2,20 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
 
 import java.math.BigInteger;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FieldDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalFITMessage;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.LocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 

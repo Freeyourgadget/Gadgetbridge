@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.DownloadRequestMessage;
@@ -319,7 +320,9 @@ public class FileTransferHandler implements MessageHandler {
         }
 
         public String getFileName() {
-            return getFiletype().name() + "_" + getFileIndex() + (getFiletype().isFitFile() ? ".fit" : "");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            String dateString = dateFormat.format(fileDate);
+            return getFiletype().name() + "_" + getFileIndex() + "_" + dateString + (getFiletype().isFitFile() ? ".fit" : "");
         }
 
         @NonNull

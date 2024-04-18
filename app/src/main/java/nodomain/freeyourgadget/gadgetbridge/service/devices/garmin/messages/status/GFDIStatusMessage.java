@@ -26,6 +26,8 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
             SupportedFileTypesStatusMessage supportedFileTypesStatusMessage = SupportedFileTypesStatusMessage.parseIncoming(reader, garminMessage);
             LOG.info("{}", supportedFileTypesStatusMessage);
             return supportedFileTypesStatusMessage;
+        } else if (GarminMessage.SET_FILE_FLAG.equals(originalGarminMessage)) {
+            return SetFileFlagsStatusMessage.parseIncoming(reader, garminMessage);
         } else if (GarminMessage.FIT_DEFINITION.equals(originalGarminMessage)) {
             return FitDefinitionStatusMessage.parseIncoming(reader, originalGarminMessage);
         } else if (GarminMessage.FIT_DATA.equals(originalGarminMessage)) {
