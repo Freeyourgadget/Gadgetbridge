@@ -103,6 +103,7 @@ public abstract class GFDIMessage {
         UPLOAD_REQUEST(5003, UploadRequestMessage.class),
         FILE_TRANSFER_DATA(5004, FileTransferDataMessage.class),
         CREATE_FILE(5005, CreateFileMessage.class),
+        SET_FILE_FLAG(5008, SetFileFlagsMessage.class),
         FIT_DEFINITION(5011, FitDefinitionMessage.class),
         FIT_DATA(5012, FitDataMessage.class),
         WEATHER_REQUEST(5014, WeatherMessage.class),
