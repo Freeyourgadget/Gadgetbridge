@@ -47,6 +47,14 @@
                 android:summary="@string/pref_dashboard_widget_today_24h_summary"
                 app:iconSpaceReserved="false" />
             <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="dashboard_widget_today_24h_upside_down"
+                android:dependency="dashboard_widget_today_24h"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_today_upside_down_title"
+                android:summary="@string/pref_dashboard_widget_today_upside_down_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:key="dashboard_widget_today_2columns"
                 android:layout="@layout/preference_checkbox"

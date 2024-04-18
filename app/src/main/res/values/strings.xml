@@ -2794,4 +2794,6 @@
     <string name="pref_title_bottom_navigation_bar">Bottom navigation bar</string>
     <string name="pref_summary_bottom_navigation_bar_on">Switch between main screens using the navigation bar or horizontal swiping</string>
     <string name="pref_summary_bottom_navigation_bar_off">Switch between main screens only using horizontal swiping</string>
+    <string name="pref_dashboard_widget_today_upside_down_title">Midnight at bottom</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">In 24h mode, draw midnight at the bottom, midday at the top of the chart</string>
 </resources>

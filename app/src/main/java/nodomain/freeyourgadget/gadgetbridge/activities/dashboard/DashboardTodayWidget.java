@@ -137,6 +137,9 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     }
 
     private void draw() {
+        Prefs prefs = GBApplication.getPrefs();
+        boolean upsideDown24h = prefs.getBoolean("dashboard_widget_today_24h_upside_down", false);
+
         // Prepare circular chart
         long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
         int width = 500;
@@ -183,7 +186,16 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         textPaint.setTextSize(hourTextPixels);
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect textBounds = new Rect();
-        if (mode_24h) {
+        if (mode_24h && upsideDown24h) {
+            textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
+            canvas.drawText(hours.get(6), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
+            textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
+            canvas.drawText(hours.get(12), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
+            textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
+            canvas.drawText(hours.get(18), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
+            textPaint.getTextBounds(hours.get(24), 0, hours.get(24).length(), textBounds);
+            canvas.drawText(hours.get(24), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
+        } else if (mode_24h) {
             textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
             canvas.drawText(hours.get(6), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
             textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
@@ -216,6 +228,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         // Draw generalized activities on circular chart
         long secondIndex = dashboardData.timeFrom;
         long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
+        int startAngle = mode_24h && upsideDown24h ? 90 : 270;
         synchronized (dashboardData.generalizedActivities) {
             for (DashboardFragment.DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
                 // Determine margin depending on 24h/12h mode
@@ -224,15 +237,15 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (!mode_24h && secondIndex < midDaySecond && activity.timeFrom >= midDaySecond) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_unknown);
-                    canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
+                    canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
                     secondIndex = midDaySecond;
                 }
                 if (activity.timeFrom > secondIndex) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_unknown);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (activity.timeFrom - secondIndex) / degreeFactor, false, paint);
+                    canvas.drawArc(margin, margin, width - margin, height - margin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (activity.timeFrom - secondIndex) / degreeFactor, false, paint);
                 }
-                float start_angle = 270 + (activity.timeFrom - dashboardData.timeFrom) / degreeFactor;
+                float start_angle = startAngle + (activity.timeFrom - dashboardData.timeFrom) / degreeFactor;
                 float sweep_angle = (activity.timeTo - activity.timeFrom) / degreeFactor;
                 if (activity.activityKind == ActivityKind.TYPE_NOT_MEASURED) {
                     paint.setStrokeWidth(barWidth / 3f);
@@ -271,11 +284,11 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             // Fill inner bar up until current time
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
-            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
+            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
             // Fill inner bar up until midday
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
-            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, 270 + (currentTime - dashboardData.timeFrom) / degreeFactor, (midDaySecond - currentTime) / degreeFactor, false, paint);
+            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (currentTime - dashboardData.timeFrom) / degreeFactor, (midDaySecond - currentTime) / degreeFactor, false, paint);
             // Fill outer bar up until midnight
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
@@ -287,24 +300,24 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             if (!mode_24h && secondIndex < midDaySecond) {
                 paint.setStrokeWidth(barWidth / 3f);
                 paint.setColor(color_unknown);
-                canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
+                canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
                 secondIndex = midDaySecond;
             }
             // Fill outer bar up until current time
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
+            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
             // Fill outer bar up until midnight
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, 270 + (currentTime - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - currentTime) / degreeFactor, false, paint);
+            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (currentTime - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - currentTime) / degreeFactor, false, paint);
         }
         // Only when displaying a past day
         if (secondIndex < dashboardData.timeTo && currentTime > dashboardData.timeTo) {
             // Fill outer bar up until midnight
             paint.setStrokeWidth(barWidth / 3f);
             paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, 270 + (secondIndex - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - secondIndex) / degreeFactor, false, paint);
+            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - secondIndex) / degreeFactor, false, paint);
         }
 
         todayChart.setImageBitmap(todayBitmap);
