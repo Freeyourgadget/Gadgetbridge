@@ -1,7 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 
-import java.util.Calendar;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.zone.ZoneOffsetTransition;
+import org.threeten.bp.zone.ZoneRules;
+
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
@@ -23,13 +27,17 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
 
     @Override
     protected boolean generateOutgoing() {
-        long now = System.currentTimeMillis();
-        final TimeZone timeZone = TimeZone.getDefault();
-        final Calendar calendar = Calendar.getInstance(timeZone);
-        calendar.setTimeInMillis(now);
-        int dstOffset = calendar.get(Calendar.DST_OFFSET) / 1000;
-        int timeZoneOffset = timeZone.getOffset(now) / 1000;
-        int garminTimestamp = GarminTimeUtils.javaMillisToGarminTimestamp(now);
+
+        final Instant now = Instant.now();
+        final ZoneRules zoneRules = ZoneId.systemDefault().getRules();
+        final int dstOffset = (int) zoneRules.getDaylightSavings(now).getSeconds();
+        final int timeZoneOffset = TimeZone.getDefault().getOffset(now.toEpochMilli()) / 1000;
+        final int garminTimestamp = GarminTimeUtils.unixTimeToGarminTimestamp((int) now.getEpochSecond());
+        final ZoneOffsetTransition nextTransitionStart = zoneRules.nextTransition(now);
+
+        final int nextTransitionStartsTs = (int) nextTransitionStart.toEpochSecond();
+        final int nextTransitionEndsTs = (int) zoneRules.nextTransition(nextTransitionStart.getInstant()).toEpochSecond();
+
 
         LOG.info("Processing current time request #{}: time={}, DST={}, ofs={}", referenceID, garminTimestamp, dstOffset, timeZoneOffset);
 
@@ -41,10 +49,8 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
         writer.writeInt(referenceID);
         writer.writeInt(garminTimestamp);
         writer.writeInt(timeZoneOffset);
-        // TODO: next DST start/end
-        writer.writeInt(0);
-        writer.writeInt(0);
-
+        writer.writeInt(GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionEndsTs));
+        writer.writeInt(GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionStartsTs));
         return true;
     }
 }
