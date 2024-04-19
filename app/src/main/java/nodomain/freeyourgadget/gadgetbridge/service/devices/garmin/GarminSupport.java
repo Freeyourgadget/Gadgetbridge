@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
-
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
@@ -41,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.NotificationSubscriptionDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.SupportedFileTypesDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
@@ -53,11 +52,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MusicControlEntityUpdateMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetDeviceSettingsMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetFileFlagsMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SupportedFileTypesMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 
 
 public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommunicator.Callback {
@@ -222,6 +224,11 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         } else if (deviceEvent instanceof SupportedFileTypesDeviceEvent) {
             this.supportedFileTypeList.clear();
             this.supportedFileTypeList.addAll(((SupportedFileTypesDeviceEvent) deviceEvent).getSupportedFileTypes());
+        } else if (deviceEvent instanceof FileDownloadedDeviceEvent) {
+            LOG.debug("FILE DOWNLOAD COMPLETE {}", ((FileDownloadedDeviceEvent) deviceEvent).directoryEntry.getFileName());
+
+            if (false) // delete file from watch upon successful download TODO: add device setting
+                sendOutgoingMessage(new SetFileFlagsMessage(((FileDownloadedDeviceEvent) deviceEvent).directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
         }
 
         super.evaluateGBDeviceEvent(deviceEvent);
@@ -369,8 +376,10 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             try {
                 FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
                 while (checkFileExists(directoryEntry.getFileName())) {
-                    directoryEntry = filesToDownload.remove();
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
+                    if (false) // delete file from watch if already downloaded TODO: add device setting
+                        sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+                    directoryEntry = filesToDownload.remove();
                 }
                 DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
                 if (downloadRequestMessage != null) {
