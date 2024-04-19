@@ -13,6 +13,7 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.DownloadRequestMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FileTransferDataMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
@@ -132,7 +133,9 @@ public class FileTransferHandler implements MessageHandler {
                 LOG.error("Failed to save file", e);
             }
 
-            LOG.debug("FILE DOWNLOAD COMPLETE {}", currentlyDownloading.getFileName());
+            FileDownloadedDeviceEvent fileDownloadedDeviceEvent = new FileDownloadedDeviceEvent();
+            fileDownloadedDeviceEvent.directoryEntry = currentlyDownloading.directoryEntry;
+            deviceSupport.evaluateGBDeviceEvent(fileDownloadedDeviceEvent);
         }
 
         private void parseDirectoryEntries() {
