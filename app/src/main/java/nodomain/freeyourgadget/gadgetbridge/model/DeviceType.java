@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDev
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.forerunner245.GarminForerunner245Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2s.GarminInstinct2SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.venu3.GarminVenu3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive5.GarminVivoActive5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivomove.GarminVivomoveStyleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
@@ -337,6 +338,8 @@ public enum DeviceType {
     GARMIN_INSTINCT_2S(GarminInstinct2SCoordinator.class),
     GARMIN_VIVOMOVE_STYLE(GarminVivomoveStyleCoordinator.class),
     GARMIN_VENU_3(GarminVenu3Coordinator.class),
+
+    GARMIN_VIVOACTIVE_5(GarminVivoActive5Coordinator.class),
     VIBRATISSIMO(VibratissimoCoordinator.class),
     SONY_SWR12(SonySWR12DeviceCoordinator.class),
     LIVEVIEW(LiveviewCoordinator.class),
