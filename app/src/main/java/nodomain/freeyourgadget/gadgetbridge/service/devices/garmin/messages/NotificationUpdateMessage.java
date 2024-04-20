@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 import org.apache.commons.lang3.EnumUtils;
 
+import java.util.EnumSet;
+
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 
 public class NotificationUpdateMessage extends GFDIMessage {
@@ -10,13 +12,16 @@ public class NotificationUpdateMessage extends GFDIMessage {
     final private NotificationType notificationType;
     final private int count; //how many notifications of the same type are present
     final private int notificationId;
+    final private boolean hasActions;
+    final private boolean useLegacyActions = false;
 
-    public NotificationUpdateMessage(NotificationUpdateType notificationUpdateType, NotificationType notificationType, int count, int notificationId) {
+    public NotificationUpdateMessage(NotificationUpdateType notificationUpdateType, NotificationType notificationType, int count, int notificationId, boolean hasActions) {
         this.garminMessage = GarminMessage.NOTIFICATION_UPDATE;
         this.notificationUpdateType = notificationUpdateType;
         this.notificationType = notificationType;
         this.count = count;
         this.notificationId = notificationId;
+        this.hasActions = hasActions;
     }
 
     @Override
@@ -29,25 +34,32 @@ public class NotificationUpdateMessage extends GFDIMessage {
         writer.writeByte(getCategoryValue(this.notificationType));
         writer.writeByte(this.count);
         writer.writeInt(this.notificationId);
-        writer.writeByte(0); //unk (extra flags)
+        writer.writeByte(this.useLegacyActions ? 0x00 : 0x03);
 
         return true;
     }
 
     private int getCategoryFlags(NotificationType notificationType) {
+        EnumSet<NotificationFlag> flags = EnumSet.noneOf(NotificationFlag.class);
+        if (this.hasActions && this.useLegacyActions) { //only needed for legacy actions
+            flags.add(NotificationFlag.ACTION_ACCEPT);
+            flags.add(NotificationFlag.ACTION_DECLINE);
+        }
+
         switch (notificationType.getGenericType()) {
             case "generic_phone":
             case "generic_email":
             case "generic_sms":
             case "generic_chat":
-                return (int) EnumUtils.generateBitVector(NotificationFlag.class, NotificationFlag.FOREGROUND);
+                flags.add(NotificationFlag.FOREGROUND);
+                break;
             case "generic_navigation":
             case "generic_social":
             case "generic_alarm_clock":
             case "generic":
-                return (int) EnumUtils.generateBitVector(NotificationFlag.class, NotificationFlag.BACKGROUND);
+                flags.add(NotificationFlag.BACKGROUND);
         }
-        return 1;
+        return (int) EnumUtils.generateBitVector(NotificationFlag.class, flags);
     }
 
     private int getCategoryValue(NotificationType notificationType) {
@@ -79,6 +91,10 @@ public class NotificationUpdateMessage extends GFDIMessage {
     enum NotificationFlag { //was AncsEventFlag
         BACKGROUND,
         FOREGROUND,
+        UNK,
+        ACTION_ACCEPT, //only needed for legacy actions
+        ACTION_DECLINE, //only needed for legacy actions
+
     }
 
     enum NotificationCategory { //was AncsCategory
