@@ -172,7 +172,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             return; //message cannot be handled
         }
 
-        evaluateGBDeviceEvent(parsedMessage.getGBDeviceEvent());
 
         /*
         the handler elaborates the followup message but might change the status message since it does
@@ -188,6 +187,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 break;
             }
         }
+
+        evaluateGBDeviceEvent(parsedMessage.getGBDeviceEvent());
 
         communicator.sendMessage(parsedMessage.getAckBytestream()); //send status message
 

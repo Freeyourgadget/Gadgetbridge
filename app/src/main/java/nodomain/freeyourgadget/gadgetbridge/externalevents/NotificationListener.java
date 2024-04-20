@@ -221,6 +221,8 @@ public class NotificationListener extends NotificationListenerService {
                         } catch (PendingIntent.CanceledException e) {
                             LOG.warn("replyToLastNotification error: " + e.getLocalizedMessage());
                         }
+                    } else {
+                        LOG.warn("Received ACTION_REPLY but cannot find the corresponding wearableAction");
                     }
                     break;
             }

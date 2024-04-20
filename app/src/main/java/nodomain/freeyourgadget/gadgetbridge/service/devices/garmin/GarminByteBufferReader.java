@@ -58,6 +58,20 @@ public class GarminByteBufferReader {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
+    public String readNullTerminatedString() {
+        int position = byteBuffer.position();
+        int size = 0;
+        while (byteBuffer.hasRemaining()) {
+            if (byteBuffer.get() == 0)
+                break;
+            size++;
+        }
+        byteBuffer.position(position);
+        byte[] bytes = new byte[size];
+        byteBuffer.get(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
     public byte[] readBytes(int size) {
         byte[] bytes = new byte[size];
 
