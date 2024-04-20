@@ -82,7 +82,7 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
 
     @Override
     public float normalizeIntensity(int rawIntensity) {
-        return rawIntensity / 256.0f;
+        return rawIntensity / 2048.0f;
     }
 
     @Override
