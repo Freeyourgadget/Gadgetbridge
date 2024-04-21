@@ -12,6 +12,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.DownloadRequestMessage;
@@ -30,6 +32,15 @@ public class FileTransferHandler implements MessageHandler {
     private final GarminSupport deviceSupport;
     private final Download download;
     private final Upload upload;
+
+    private static final Set<FileType.FILETYPE> FILE_TYPES_TO_PROCESS = new HashSet<FileType.FILETYPE>() {{
+        add(FileType.FILETYPE.DIRECTORY);
+        add(FileType.FILETYPE.ACTIVITY);
+        add(FileType.FILETYPE.MONITOR);
+        add(FileType.FILETYPE.METRICS);
+        add(FileType.FILETYPE.CHANGELOG);
+        add(FileType.FILETYPE.SLEEP);
+    }};
 
     public FileTransferHandler(GarminSupport deviceSupport) {
         this.deviceSupport = deviceSupport;
@@ -155,6 +166,8 @@ public class FileTransferHandler implements MessageHandler {
                 final Date fileDate = new Date(GarminTimeUtils.garminTimestampToJavaMillis(reader.readInt()));//16
                 final DirectoryEntry directoryEntry = new DirectoryEntry(fileIndex, filetype, fileNumber, specificFlags, fileFlags, fileSize, fileDate);
                 if (directoryEntry.filetype == null) //silently discard unsupported files
+                    continue;
+                if (!FILE_TYPES_TO_PROCESS.contains(directoryEntry.filetype))
                     continue;
                 deviceSupport.addFileToDownloadList(directoryEntry);
             }
@@ -325,7 +338,7 @@ public class FileTransferHandler implements MessageHandler {
         public String getFileName() {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
             String dateString = dateFormat.format(fileDate);
-            return getFiletype().name() + "_" + getFileIndex() + "_" + dateString + (getFiletype().isFitFile() ? ".fit" : "");
+            return getFiletype().name() + "_" + getFileIndex() + "_" + dateString + (getFiletype().isFitFile() ? ".fit" : ".bin");
         }
 
         @NonNull

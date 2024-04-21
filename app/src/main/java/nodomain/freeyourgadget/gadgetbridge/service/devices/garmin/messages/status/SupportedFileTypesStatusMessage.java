@@ -33,7 +33,7 @@ public class SupportedFileTypesStatusMessage extends GFDIStatusMessage {
             final String garminDeviceFileType = reader.readString();
             FileType fileType = new FileType(fileDataType, fileSubType, garminDeviceFileType);
             if (fileType.getFileType() == null) {
-                LOG.warn("Watch supports a filetype that we do not support: {}", garminDeviceFileType);
+                LOG.warn("Watch supports a filetype that we do not support: {}/{}: {}", fileDataType, fileSubType, garminDeviceFileType);
                 continue;
             }
             types.add(fileType);
