@@ -35,15 +35,38 @@ public class FileType {
     }
 
     public enum FILETYPE { //TODO: add specialized method to parse each file type to the enum?
+        // virtual/undocumented
+        DIRECTORY(0, 0),
+
+        // fit files
         ACTIVITY(128, 4),
+        WORKOUTS(128, 5),
+        SCHEDULES(128, 7),
+        LOCATION(128, 8),
+        TOTALS(128, 10),
+        GOALS(128, 11),
+        SUMMARY(128, 20),
+        RECORDS(128, 29),
         MONITOR(128, 32),
+        CLUBS(128, 37),
+        SCORE(128, 38),
+        ADJUSTMENTS(128, 39),
         CHANGELOG(128, 41),
         METRICS(128, 44),
         SLEEP(128, 49),
+        MUSCLE_MAP(128, 59),
+        ECG(128, 61),
+        BENCHMARK(128, 62),
+        HRV_STATUS(128, 68),
+        HSA(128, 70),
+        FBT_BACKUP(128, 72),
+        SKIN_TEMP(128, 73),
+        FBT_PTD_BACKUP(128, 74),
 
-        //"virtual" and/or undocumented file types
-        DIRECTORY(0, 0),
-        //SETTINGS(Pair.create(128,2)),
+        // Other files
+        ERROR_SHUTDOWN_REPORTS(255, 245),
+        IQ_ERROR_REPORTS(255, 244),
+        ULF_LOGS(255, 247),
         ;
 
         private final int type;
