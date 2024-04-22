@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.os.Build;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 
 public class DeviceInformationMessage extends GFDIMessage {
@@ -82,7 +85,8 @@ public class DeviceInformationMessage extends GFDIMessage {
         return true;
     }
 
-    public GBDeviceEventVersionInfo getGBDeviceEvent() {
+    @Override
+    public List<GBDeviceEvent> getGBDeviceEvent() {
         LOG.info(
                 "Received device information: protocol {}, product {}, unit {}, SW {}, max packet {}, BT name {}, device name {}, device model {}",
                 incomingProtocolVersion,
@@ -98,7 +102,7 @@ public class DeviceInformationMessage extends GFDIMessage {
         GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
         versionCmd.fwVersion = getSoftwareVersionStr();
         versionCmd.hwVersion = deviceModel;
-        return versionCmd;
+        return Collections.singletonList(versionCmd);
     }
 
     private String getSoftwareVersionStr() {

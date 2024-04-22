@@ -1,5 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import java.util.Collections;
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
 
 public class WeatherMessage extends GFDIMessage {
@@ -21,8 +25,8 @@ public class WeatherMessage extends GFDIMessage {
         return new WeatherMessage(format, latitude, longitude, hoursOfForecast, garminMessage);
     }
 
-    public WeatherRequestDeviceEvent getGBDeviceEvent() {
-        return weatherRequestDeviceEvent;
+    public List<GBDeviceEvent> getGBDeviceEvent() {
+        return Collections.singletonList(weatherRequestDeviceEvent);
     }
 
     @Override

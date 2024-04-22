@@ -1,6 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -111,8 +113,8 @@ public class NotificationControlMessage extends GFDIMessage {
     }
 
     @Override
-    public GBDeviceEvent getGBDeviceEvent() {
-        return deviceEvent;
+    public List<GBDeviceEvent> getGBDeviceEvent() {
+        return Collections.singletonList(deviceEvent);
     }
 
     public NotificationsHandler.LegacyNotificationAction getLegacyNotificationAction() {

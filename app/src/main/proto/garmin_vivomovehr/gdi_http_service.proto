@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message HttpService {
+  enum Method {
+    UNKNOWN_METHOD = 0;
+    GET = 1;
+    PUT = 2;
+    POST = 3;
+    DELETE = 4;
+    PATCH = 5;
+    HEAD = 6;
+  }
+
+  enum Status {
+    UNKNOWN_STATUS = 0;
+    OK = 100;
+    NETWORK_REQUEST_TIMED_OUT = 200;
+    FILE_TOO_LARGE = 300;
+    DATA_TRANSFER_ITEM_FAILURE = 400;
+  }
+
+  optional RawRequest rawRequest = 5;
+  optional RawResponse rawResponse = 6;
+
+  message RawRequest {
+    required string url = 1;
+    optional Method method = 3;
+    repeated Header header = 5;
+  }
+
+  message RawResponse {
+    optional Status status = 1;
+    optional uint32 httpStatus = 2;
+    optional bytes body = 3;
+    repeated Header header = 5;
+  }
+
+  message Header {
+    required string key = 1;
+    required string value = 2;
+  }
+}

@@ -1,6 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 
+import java.util.Collections;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 
@@ -16,10 +19,10 @@ public class FindMyPhoneCancelMessage extends GFDIMessage {
     }
 
     @Override
-    public GBDeviceEvent getGBDeviceEvent() {
+    public List<GBDeviceEvent> getGBDeviceEvent() {
         final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
         findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
-        return findPhoneEvent;
+        return Collections.singletonList(findPhoneEvent);
     }
 
     @Override

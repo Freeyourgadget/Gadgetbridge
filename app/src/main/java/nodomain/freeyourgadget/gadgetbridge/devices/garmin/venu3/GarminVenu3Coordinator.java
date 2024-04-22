@@ -15,10 +15,4 @@ public class GarminVenu3Coordinator extends GarminCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_garmin_vivomove_style;
     }
-
-    @Override
-    public boolean supportsWeather() {
-        // FIXME: It's not working
-        return false;
-    }
 }

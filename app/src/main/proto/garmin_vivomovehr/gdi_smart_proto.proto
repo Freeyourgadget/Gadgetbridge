@@ -7,12 +7,14 @@ option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
 import "garmin_vivomovehr/gdi_device_status.proto";
 import "garmin_vivomovehr/gdi_find_my_watch.proto";
 import "garmin_vivomovehr/gdi_core.proto";
+import "garmin_vivomovehr/gdi_http_service.proto";
 import "garmin_vivomovehr/gdi_sms_notification.proto";
 import "garmin_vivomovehr/gdi_calendar_service.proto";
 import "garmin_vivomovehr/gdi_settings_service.proto";
 
 message Smart {
     optional CalendarService calendar_service = 1;
+    optional HttpService http_service = 2;
     optional DeviceStatusService device_status_service = 8;
     optional FindMyWatchService find_my_watch_service = 12;
     optional CoreService core_service = 13;

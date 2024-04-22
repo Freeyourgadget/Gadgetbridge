@@ -1,6 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 
+import java.util.Collections;
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 
 public class MusicControlMessage extends GFDIMessage {
@@ -38,8 +42,8 @@ public class MusicControlMessage extends GFDIMessage {
         return new MusicControlMessage(garminMessage, command);
     }
 
-    public GBDeviceEventMusicControl getGBDeviceEvent() {
-        return event;
+    public List<GBDeviceEvent> getGBDeviceEvent() {
+        return Collections.singletonList(event);
     }
 
     @Override

@@ -2,8 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.sta
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.SupportedFileTypesDeviceEvent;
 
@@ -41,7 +43,7 @@ public class SupportedFileTypesStatusMessage extends GFDIStatusMessage {
     }
 
     @Override
-    public SupportedFileTypesDeviceEvent getGBDeviceEvent() {
-        return new SupportedFileTypesDeviceEvent(fileTypeInfoList);
+    public List<GBDeviceEvent> getGBDeviceEvent() {
+        return Collections.singletonList(new SupportedFileTypesDeviceEvent(fileTypeInfoList));
     }
 }
