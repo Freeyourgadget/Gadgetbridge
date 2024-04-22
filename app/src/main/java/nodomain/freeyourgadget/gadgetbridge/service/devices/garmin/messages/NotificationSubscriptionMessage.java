@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import java.util.Collections;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.NotificationSubscriptionDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.NotificationSubscriptionStatusMessage;
@@ -25,10 +28,10 @@ public class NotificationSubscriptionMessage extends GFDIMessage {
     }
 
     @Override
-    public GBDeviceEvent getGBDeviceEvent() {
+    public List<GBDeviceEvent> getGBDeviceEvent() {
         NotificationSubscriptionDeviceEvent notificationSubscriptionDeviceEvent = new NotificationSubscriptionDeviceEvent();
         notificationSubscriptionDeviceEvent.enable = this.enable;
-        return notificationSubscriptionDeviceEvent;
+        return Collections.singletonList(notificationSubscriptionDeviceEvent);
     }
 
     @Override

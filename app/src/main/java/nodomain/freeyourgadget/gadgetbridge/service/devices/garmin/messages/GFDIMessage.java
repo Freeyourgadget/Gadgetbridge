@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Collections;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.ChecksumCalculator;
@@ -81,8 +83,8 @@ public abstract class GFDIMessage {
         return new GenericStatusMessage(garminMessage, Status.ACK);
     }
 
-    public GBDeviceEvent getGBDeviceEvent() {
-        return null;
+    public List<GBDeviceEvent> getGBDeviceEvent() {
+        return Collections.emptyList();
     }
 
     public byte[] getAckBytestream() {

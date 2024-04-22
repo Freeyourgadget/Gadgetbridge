@@ -19,8 +19,10 @@ import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmsNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.HttpHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
@@ -81,6 +83,13 @@ public class ProtocolBufferHandler implements MessageHandler {
             }
             if (smart.hasSmsNotificationService()) {
                 return prepareProtobufResponse(processProtobufSmsNotificationMessage(smart.getSmsNotificationService()), message.getRequestId());
+            }
+            if (smart.hasHttpService()) {
+                final GdiHttpService.HttpService response = HttpHandler.handle(smart.getHttpService());
+                if (response == null) {
+                    return null;
+                }
+                return prepareProtobufResponse(GdiSmartProto.Smart.newBuilder().setHttpService(response).build(), message.getRequestId());
             }
             if (smart.hasDeviceStatusService()) {
                 processed = true;

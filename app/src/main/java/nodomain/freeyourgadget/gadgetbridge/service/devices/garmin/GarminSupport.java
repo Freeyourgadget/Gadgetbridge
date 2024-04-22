@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -23,6 +24,8 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -191,7 +194,10 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             }
         }
 
-        evaluateGBDeviceEvent(parsedMessage.getGBDeviceEvent());
+        final List<GBDeviceEvent> events = parsedMessage.getGBDeviceEvent();
+        for (final GBDeviceEvent event : events) {
+            evaluateGBDeviceEvent(event);
+        }
 
         communicator.sendMessage(parsedMessage.getAckBytestream()); //send status message
 
@@ -272,7 +278,17 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         communicator.sendMessage(message.getOutgoingMessage());
     }
 
+    private boolean supports(final GarminCapability capability) {
+        return getDevicePrefs().getStringSet(GarminPreferences.PREF_GARMIN_CAPABILITIES, Collections.emptySet())
+                .contains(capability.name());
+    }
+
     private void sendWeatherConditions(WeatherSpec weather) {
+        if (!supports(GarminCapability.WEATHER_CONDITIONS)) {
+            // Device does not support sending weather as fit
+            return;
+        }
+
         List<RecordData> weatherData = new ArrayList<>();
 
         List<RecordDefinition> weatherDefinitions = new ArrayList<>(3);

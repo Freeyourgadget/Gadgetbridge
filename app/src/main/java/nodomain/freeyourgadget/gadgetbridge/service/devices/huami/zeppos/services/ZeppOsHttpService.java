@@ -31,6 +31,7 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsWeather;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.util.HttpUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ZeppOsHttpService extends AbstractZeppOsService {
@@ -99,7 +100,7 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
         }
 
         final String path = url.getPath();
-        final Map<String, String> query = urlQueryParameters(url);
+        final Map<String, String> query = HttpUtils.urlQueryParameters(url);
 
         if (path.startsWith("/weather/")) {
             final ZeppOsWeather.Response response = ZeppOsWeather.handleHttpRequest(path, query);
@@ -109,25 +110,6 @@ public class ZeppOsHttpService extends AbstractZeppOsService {
 
         LOG.error("Unhandled URL {}", url);
         replyHttpNoInternet(requestId);
-    }
-
-    private Map<String, String> urlQueryParameters(final URL url) {
-        final Map<String, String> queryParameters = new HashMap<>();
-        final String[] pairs = url.getQuery().split("&");
-        for (final String pair : pairs) {
-            final String[] parts = pair.split("=", 2);
-            try {
-                final String key = URLDecoder.decode(parts[0], "UTF-8");
-                if (parts.length == 2) {
-                    queryParameters.put(key, URLDecoder.decode(parts[1], "UTF-8"));
-                } else {
-                    queryParameters.put(key, "");
-                }
-            } catch (final Exception e) {
-                LOG.error("Failed to decode query", e);
-            }
-        }
-        return queryParameters;
     }
 
     private void replyHttpNoInternet(final byte requestId) {

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 public class CobsCoDec {
     private static final long BUFFER_TIMEOUT = 1500L; // turn this value up while debugging
-    private final ByteBuffer byteBuffer = ByteBuffer.allocate(1000);
+    private final ByteBuffer byteBuffer = ByteBuffer.allocate(10_000);
     private long lastUpdate;
     private byte[] cobsDecodedMessage;
 
