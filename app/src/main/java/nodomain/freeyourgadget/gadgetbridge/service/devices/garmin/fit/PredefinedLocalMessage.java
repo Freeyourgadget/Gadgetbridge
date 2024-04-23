@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import java.nio.ByteOrder;
 import java.util.List;
 
-public enum LocalMessage {
+public enum PredefinedLocalMessage {
     TODAY_WEATHER_CONDITIONS(6, GlobalFITMessage.WEATHER,
             new int[]{0, 253, 9, 1, 14, 13, 2, 3, 5, 4, 6, 7, 10, 11, 8}
     ),
@@ -20,17 +20,17 @@ public enum LocalMessage {
     private final GlobalFITMessage globalFITMessage;
     private final int[] globalDefinitionIds;
 
-    LocalMessage(int type, GlobalFITMessage globalFITMessage, int[] globalDefinitionIds) {
+    PredefinedLocalMessage(int type, GlobalFITMessage globalFITMessage, int[] globalDefinitionIds) {
         this.type = type;
         this.globalFITMessage = globalFITMessage;
         this.globalDefinitionIds = globalDefinitionIds;
     }
 
     @Nullable
-    public static LocalMessage fromType(int type) {
-        for (final LocalMessage localMessage : LocalMessage.values()) {
-            if (localMessage.getType() == type) {
-                return localMessage;
+    public static PredefinedLocalMessage fromType(int type) {
+        for (final PredefinedLocalMessage predefinedLocalMessage : PredefinedLocalMessage.values()) {
+            if (predefinedLocalMessage.getType() == type) {
+                return predefinedLocalMessage;
             }
         }
         return null;
