@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:key="pref_key_garmin_default_reply_suffix"
+        android:summary="@string/pref_summary_garmin_default_reply_suffix"
+        android:title="@string/pref_title_garmin_default_reply_suffix">
+
+    </SwitchPreferenceCompat>
+</androidx.preference.PreferenceScreen>

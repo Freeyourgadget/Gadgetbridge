@@ -8,16 +8,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmsNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
@@ -32,6 +35,8 @@ public class ProtocolBufferHandler implements MessageHandler {
     private final Map<Integer, ProtobufFragment> chunkedFragmentsMap;
     private final int maxChunkSize = 375; //tested on Vívomove Style
     private int lastProtobufRequestId;
+
+    private Map<GdiSmsNotification.SmsNotificationService.CannedListType, String[]> cannedListTypeMap;
 
     public ProtocolBufferHandler(GarminSupport deviceSupport) {
         this.deviceSupport = deviceSupport;
@@ -73,6 +78,9 @@ public class ProtocolBufferHandler implements MessageHandler {
             }
             if (smart.hasCalendarService()) {
                 return prepareProtobufResponse(processProtobufCalendarRequest(smart.getCalendarService()), message.getRequestId());
+            }
+            if (smart.hasSmsNotificationService()) {
+                return prepareProtobufResponse(processProtobufSmsNotificationMessage(smart.getSmsNotificationService()), message.getRequestId());
             }
             if (smart.hasDeviceStatusService()) {
                 processed = true;
@@ -220,6 +228,62 @@ public class ProtocolBufferHandler implements MessageHandler {
 //        return null;
 //    }
 
+    private GdiSmartProto.Smart processProtobufSmsNotificationMessage(GdiSmsNotification.SmsNotificationService smsNotificationService) {
+        if (smsNotificationService.hasSmsCannedListRequest()) {
+            if (null == this.cannedListTypeMap || this.cannedListTypeMap.isEmpty()) {
+                this.cannedListTypeMap = new HashMap<>();
+
+                List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes = smsNotificationService.getSmsCannedListRequest().getRequestedTypesList();
+                for (GdiSmsNotification.SmsNotificationService.CannedListType type :
+                        requestedTypes) {
+                    if (GdiSmsNotification.SmsNotificationService.CannedListType.SMS_MESSAGE_RESPONSE.equals(type)) {
+                        final ArrayList<String> messages = new ArrayList<>();
+                        for (int i = 1; i <= 16; i++) {
+                            String message = deviceSupport.getDevicePrefs().getString("canned_reply_" + i, null);
+                            if (message != null && !message.isEmpty()) {
+                                messages.add(message);
+                            }
+                        }
+                        if (!messages.isEmpty())
+                            this.cannedListTypeMap.put(type, messages.toArray(new String[0]));
+                    } else if (GdiSmsNotification.SmsNotificationService.CannedListType.PHONE_CALL_RESPONSE.equals(type)) {
+                        final ArrayList<String> messages = new ArrayList<>();
+                        for (int i = 1; i <= 16; i++) {
+                            String message = deviceSupport.getDevicePrefs().getString("canned_message_dismisscall_" + i, null);
+                            if (message != null && !message.isEmpty()) {
+                                messages.add(message);
+                            }
+                        }
+                        if (!messages.isEmpty())
+                            this.cannedListTypeMap.put(type, messages.toArray(new String[0]));
+                    }
+                }
+
+            }
+
+            List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes = smsNotificationService.getSmsCannedListRequest().getRequestedTypesList();
+
+            GdiSmsNotification.SmsNotificationService.SmsCannedListResponse.Builder builder = GdiSmsNotification.SmsNotificationService.SmsCannedListResponse.newBuilder()
+                    .setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.SUCCESS);
+            for (GdiSmsNotification.SmsNotificationService.CannedListType requestedType : requestedTypes) {
+                if (this.cannedListTypeMap.containsKey(requestedType)) {
+                    builder.addLists(GdiSmsNotification.SmsNotificationService.SmsCannedList.newBuilder()
+                            .addAllResponse(Arrays.asList(this.cannedListTypeMap.get(requestedType)))
+                            .setType(requestedType)
+                    );
+                } else {
+                    builder.setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.GENERIC_ERROR);
+                    LOG.error("Missing canned messages data for type {}", requestedType);
+                }
+            }
+
+            return GdiSmartProto.Smart.newBuilder().setSmsNotificationService(GdiSmsNotification.SmsNotificationService.newBuilder().setSmsCannedListResponse(builder)).build();
+        } else {
+            LOG.warn("Protobuf smsNotificationService request not implemented: {}", smsNotificationService);
+            return null;
+        }
+    }
+
     private void processProtobufFindMyWatchResponse(GdiFindMyWatch.FindMyWatchService findMyWatchService) {
         if (findMyWatchService.hasCancelRequest()) {
             LOG.info("Watch found");
@@ -258,6 +322,36 @@ public class ProtocolBufferHandler implements MessageHandler {
                     ArrayUtils.subarray(bytes, 0, maxChunkSize));
         }
         return new ProtobufMessage(garminMessage, requestId, 0, bytes.length, bytes.length, bytes);
+    }
+
+    public ProtobufMessage setCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        final GdiSmsNotification.SmsNotificationService.CannedListType cannedListType;
+        switch (cannedMessagesSpec.type) {
+            case CannedMessagesSpec.TYPE_REJECTEDCALLS:
+                cannedListType = GdiSmsNotification.SmsNotificationService.CannedListType.PHONE_CALL_RESPONSE;
+                break;
+            case CannedMessagesSpec.TYPE_GENERIC:
+            case CannedMessagesSpec.TYPE_NEWSMS:
+                cannedListType = GdiSmsNotification.SmsNotificationService.CannedListType.SMS_MESSAGE_RESPONSE;
+                break;
+            default:
+                LOG.warn("Unknown canned messages type, ignoring.");
+                return null;
+        }
+
+        if (null == this.cannedListTypeMap) {
+            this.cannedListTypeMap = new HashMap<>();
+        }
+        this.cannedListTypeMap.put(cannedListType, cannedMessagesSpec.cannedMessages);
+
+        GdiSmartProto.Smart smart = GdiSmartProto.Smart.newBuilder()
+                .setSmsNotificationService(GdiSmsNotification.SmsNotificationService.newBuilder()
+                        .setSmsCannedListChangedNotification(
+                                GdiSmsNotification.SmsNotificationService.SmsCannedListChangedNotification.newBuilder().addChangedType(cannedListType)
+                        )
+                ).build();
+
+        return prepareProtobufRequest(smart);
     }
 
     private class ProtobufFragment {

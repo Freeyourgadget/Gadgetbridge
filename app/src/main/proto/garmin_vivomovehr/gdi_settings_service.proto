@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message SettingsService {
+  optional ChangeRequest change_request = 5;
+  optional ChangeResponse change_response = 6;
+}
+
+message ChangeRequest {
+  optional uint32 pointer1 = 1;
+  optional uint32 pointer2 = 2;
+  optional Switch enable = 3;
+
+  message Switch {
+    required bool value = 1;
+  }
+}
+
+message ChangeResponse {
+  optional ResponseStatus status = 1;
+}
+
+enum ResponseStatus {
+  SUCCESS = 0;
+  GENERIC_ERROR = 1;
+}

@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -32,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -60,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GARMIN_DEFAULT_REPLY_SUFFIX;
 
 
 public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommunicator.Callback {
@@ -364,6 +367,28 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         gbDevice.sendDeviceUpdateIntent(getContext());
 
         sendOutgoingMessage(new SupportedFileTypesMessage());
+
+        sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+    }
+
+    private ProtobufMessage toggleDefaultReplySuffix(boolean value) {
+        final GdiSettingsService.SettingsService.Builder enableSignature = GdiSettingsService.SettingsService.newBuilder()
+                .setChangeRequest(
+                        GdiSettingsService.ChangeRequest.newBuilder()
+                                .setPointer1(65566) //TODO: this might be device specific, tested on Instinct 2s
+                                .setPointer2(3) //TODO: this might be device specific, tested on Instinct 2s
+                                .setEnable(GdiSettingsService.ChangeRequest.Switch.newBuilder().setValue(value)));
+
+        return protocolBufferHandler.prepareProtobufRequest(
+                GdiSmartProto.Smart.newBuilder()
+                        .setSettingsService(enableSignature).build());
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        if (PREF_GARMIN_DEFAULT_REPLY_SUFFIX.equals(config)) {
+            sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+        }
     }
 
     private void processDownloadQueue() {
@@ -449,6 +474,11 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                         .setFindMyWatchService(a).build());
 
         sendOutgoingMessage(findMyWatch);
+    }
+
+    @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        sendOutgoingMessage(protocolBufferHandler.setCannedMessages(cannedMessagesSpec));
     }
 
     @Override

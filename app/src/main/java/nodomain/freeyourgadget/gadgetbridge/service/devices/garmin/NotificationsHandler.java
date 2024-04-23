@@ -179,8 +179,8 @@ public class NotificationsHandler implements MessageHandler {
         deviceEvtNotificationControl.handle = notificationSpec.getId();
         final GBDeviceEventCallControl deviceEvtCallControl = new GBDeviceEventCallControl();
         switch (message.getNotificationAction()) {
-            case REPLY_CUSTOM_MESSAGES:
-            case REPLY_STANDARD_MESSAGES:
+            case REPLY_INCOMING_CALL:
+            case REPLY_MESSAGES:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                 deviceEvtNotificationControl.reply = message.getActionString();
                 if (notificationSpec.type.equals(NotificationType.GENERIC_PHONE)) {
@@ -339,7 +339,7 @@ public class NotificationsHandler implements MessageHandler {
 
             final List<byte[]> garminActions = new ArrayList<>();
             if (notificationSpec.type.equals(NotificationType.GENERIC_PHONE)) {
-                garminActions.add(encodeNotificationAction(NotificationAction.REPLY_STANDARD_MESSAGES, " ")); //text is not shown on watch
+                garminActions.add(encodeNotificationAction(NotificationAction.REPLY_INCOMING_CALL, " ")); //text is not shown on watch
                 garminActions.add(encodeNotificationAction(NotificationAction.REJECT_INCOMING_CALL, " ")); //text is not shown on watch
                 garminActions.add(encodeNotificationAction(NotificationAction.ACCEPT_INCOMING_CALL, " ")); //text is not shown on watch
             }
@@ -347,7 +347,7 @@ public class NotificationsHandler implements MessageHandler {
                 for (NotificationSpec.Action action : notificationSpec.attachedActions) {
                     switch (action.type) {
                         case NotificationSpec.Action.TYPE_WEARABLE_REPLY:
-                            garminActions.add(encodeNotificationAction(NotificationAction.REPLY_STANDARD_MESSAGES, action.title));
+                            garminActions.add(encodeNotificationAction(NotificationAction.REPLY_MESSAGES, action.title));
                             break;
                         case NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS:
                             garminActions.add(encodeNotificationAction(NotificationAction.DISMISS_NOTIFICATION, action.title));
@@ -389,8 +389,8 @@ public class NotificationsHandler implements MessageHandler {
     }
 
     public enum NotificationAction {
-        REPLY_CUSTOM_MESSAGES(94, NotificationActionIconPosition.RIGHT), // uses the customized replies (set through protobuf??) does nothing if not available and on watches that do not support custom replies
-        REPLY_STANDARD_MESSAGES(95, NotificationActionIconPosition.BOTTOM), // uses predefined replies
+        REPLY_INCOMING_CALL(94, NotificationActionIconPosition.BOTTOM),
+        REPLY_MESSAGES(95, NotificationActionIconPosition.BOTTOM),
         ACCEPT_INCOMING_CALL(96, NotificationActionIconPosition.RIGHT),
         REJECT_INCOMING_CALL(97, NotificationActionIconPosition.LEFT),
         DISMISS_NOTIFICATION(98, NotificationActionIconPosition.LEFT),
