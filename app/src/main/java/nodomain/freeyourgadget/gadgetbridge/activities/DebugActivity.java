@@ -221,6 +221,12 @@ public class DebugActivity extends AbstractGBActivity {
                     replyAction.title = "Reply";
                     replyAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR;
                     notificationSpec.attachedActions.add(replyAction);
+                } else if (notificationSpec.type == NotificationType.CONVERSATIONS) {
+                    // REPLY action
+                    NotificationSpec.Action replyAction = new NotificationSpec.Action();
+                    replyAction.title = "Reply";
+                    replyAction.type = NotificationSpec.Action.TYPE_WEARABLE_REPLY;
+                    notificationSpec.attachedActions.add(replyAction);
                 }
 
                 GBApplication.deviceService().onNotification(notificationSpec);
