@@ -60,12 +60,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetD
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetFileFlagsMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SupportedFileTypesMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.NotificationSubscriptionStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GARMIN_DEFAULT_REPLY_SUFFIX;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
 
 
 public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommunicator.Callback {
@@ -230,7 +232,22 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         } else if (deviceEvent instanceof NotificationSubscriptionDeviceEvent) {
             final boolean enable = ((NotificationSubscriptionDeviceEvent) deviceEvent).enable;
             notificationsHandler.setEnabled(enable);
-            LOG.info("NOTIFICATIONS ARE NOW {}", enable ? "ON" : "OFF");
+
+            final NotificationSubscriptionStatusMessage.NotificationStatus finalStatus;
+            if (getDevicePrefs().getBoolean(PREF_SEND_APP_NOTIFICATIONS, true)) {
+                finalStatus = NotificationSubscriptionStatusMessage.NotificationStatus.ENABLED;
+            } else {
+                finalStatus = NotificationSubscriptionStatusMessage.NotificationStatus.DISABLED;
+            }
+
+            LOG.info("NOTIFICATIONS ARE NOW enabled={}, status={}", enable, finalStatus);
+
+            sendOutgoingMessage(new NotificationSubscriptionStatusMessage(
+                    GFDIMessage.Status.ACK,
+                    finalStatus,
+                    enable,
+                    0
+            ));
         } else if (deviceEvent instanceof SupportedFileTypesDeviceEvent) {
             this.supportedFileTypeList.clear();
             this.supportedFileTypeList.addAll(((SupportedFileTypesDeviceEvent) deviceEvent).getSupportedFileTypes());
@@ -261,7 +278,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
+    public void onNotification(final NotificationSpec notificationSpec) {
         sendOutgoingMessage(notificationsHandler.onNotification(notificationSpec));
     }
 
@@ -406,8 +423,15 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     @Override
     public void onSendConfiguration(String config) {
-        if (PREF_GARMIN_DEFAULT_REPLY_SUFFIX.equals(config)) {
-            sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+        switch (config) {
+            case PREF_GARMIN_DEFAULT_REPLY_SUFFIX:
+                sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+                break;
+            case PREF_SEND_APP_NOTIFICATIONS:
+                NotificationSubscriptionDeviceEvent notificationSubscriptionDeviceEvent = new NotificationSubscriptionDeviceEvent();
+                notificationSubscriptionDeviceEvent.enable = true; // actual status is fetched from preferences
+                evaluateGBDeviceEvent(notificationSubscriptionDeviceEvent);
+                break;
         }
     }
 

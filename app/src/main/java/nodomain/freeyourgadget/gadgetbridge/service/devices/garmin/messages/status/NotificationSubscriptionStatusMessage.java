@@ -33,7 +33,8 @@ public class NotificationSubscriptionStatusMessage extends GFDIStatusMessage {
     }
 
     public enum NotificationStatus {
-        OK,
+        ENABLED,
+        DISABLED
         ;
 
         public static NotificationStatus fromId(int id) {

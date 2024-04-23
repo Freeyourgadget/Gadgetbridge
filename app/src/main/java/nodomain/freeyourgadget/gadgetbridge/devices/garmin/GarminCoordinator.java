@@ -39,9 +39,10 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
         final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
         connection.add(R.xml.devicesettings_high_mtu);
 
-        if (getCannedRepliesSlotCount(device) > 0) {
-            final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_send_app_notifications);
 
+        if (getCannedRepliesSlotCount(device) > 0) {
             notifications.add(R.xml.devicesettings_garmin_default_reply_suffix);
             notifications.add(R.xml.devicesettings_canned_reply_16);
             notifications.add(R.xml.devicesettings_canned_dismisscall_16);

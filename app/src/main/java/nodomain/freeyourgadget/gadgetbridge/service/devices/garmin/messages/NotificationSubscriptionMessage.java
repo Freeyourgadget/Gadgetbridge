@@ -17,7 +17,8 @@ public class NotificationSubscriptionMessage extends GFDIMessage {
         this.enable = enable;
         this.unk = unk;
 
-        this.statusMessage = new NotificationSubscriptionStatusMessage(Status.ACK, NotificationSubscriptionStatusMessage.NotificationStatus.OK, enable, unk);
+        // We do not set the status message here so we can reply with the proper notifications status
+        // from the device event
     }
 
     public static NotificationSubscriptionMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
