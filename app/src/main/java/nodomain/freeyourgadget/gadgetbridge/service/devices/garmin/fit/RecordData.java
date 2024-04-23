@@ -180,8 +180,8 @@ public class RecordData {
         return oBuilder.toString();
     }
 
-    public LocalMessage getLocalMessage() {
-        return recordHeader.getLocalMessage();
+    public PredefinedLocalMessage getPredefinedLocalMessage() {
+        return recordHeader.getPredefinedLocalMessage();
     }
 
     private class FieldData {

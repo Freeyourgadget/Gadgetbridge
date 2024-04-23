@@ -7,21 +7,25 @@ import androidx.annotation.Nullable;
 public class RecordHeader {
     private final boolean definition;
     private final boolean developerData;
-    private final LocalMessage localMessage;
+    private final PredefinedLocalMessage predefinedLocalMessage;
     private final int rawLocalMessageType;
     private final Integer timeOffset;
     private long referenceTimestamp;
 
-    public RecordHeader(boolean definition, boolean developerData, LocalMessage localMessage, Integer timeOffset) {
+    public RecordHeader(boolean definition, boolean developerData, PredefinedLocalMessage predefinedLocalMessage, Integer timeOffset) {
         this.definition = definition;
         this.developerData = developerData;
-        this.localMessage = localMessage;
-        this.rawLocalMessageType = localMessage.getType();
+        this.predefinedLocalMessage = predefinedLocalMessage;
+        this.rawLocalMessageType = predefinedLocalMessage.getType();
         this.timeOffset = timeOffset;
     }
 
     //see https://github.com/polyvertex/fitdecode/blob/master/fitdecode/reader.py#L512
     public RecordHeader(byte header) {
+        this(header, false);
+    }
+
+    public RecordHeader(byte header, boolean inferLocalMessage) {
         if ((header & 0x80) == 0x80) { //compressed timestamp TODO add support
             definition = false;
             developerData = false;
@@ -33,8 +37,12 @@ public class RecordHeader {
             rawLocalMessageType = header & 0xf;
             timeOffset = null;
         }
-        localMessage = LocalMessage.fromType(rawLocalMessageType);
+        if (inferLocalMessage)
+            predefinedLocalMessage = PredefinedLocalMessage.fromType(rawLocalMessageType);
+        else
+            predefinedLocalMessage = null;
     }
+
 
     public void setReferenceTimestamp(long referenceTimestamp) {
         this.referenceTimestamp = referenceTimestamp;
@@ -61,14 +69,14 @@ public class RecordHeader {
     }
 
     @Nullable
-    public LocalMessage getLocalMessage() {
-        return localMessage;
+    public PredefinedLocalMessage getPredefinedLocalMessage() {
+        return predefinedLocalMessage;
     }
 
     public byte generateOutgoingDefinitionPayload() {
         if (!definition && !developerData)
-            return (byte) (timeOffset | (((byte) localMessage.getType()) << 5));
-        byte base = (byte) (null == localMessage ? rawLocalMessageType : localMessage.getType());
+            return (byte) (timeOffset | (((byte) predefinedLocalMessage.getType()) << 5));
+        byte base = (byte) (null == predefinedLocalMessage ? rawLocalMessageType : predefinedLocalMessage.getType());
         if (definition)
             base = (byte) (base | 0x40);
         if (developerData)
@@ -79,8 +87,8 @@ public class RecordHeader {
 
     public byte generateOutgoingDataPayload() { //TODO: unclear if correct
         if (!definition && !developerData)
-            return (byte) (timeOffset | (((byte) localMessage.getType()) << 5));
-        byte base = (byte) (null == localMessage ? rawLocalMessageType : localMessage.getType());
+            return (byte) (timeOffset | (((byte) predefinedLocalMessage.getType()) << 5));
+        byte base = (byte) (null == predefinedLocalMessage ? rawLocalMessageType : predefinedLocalMessage.getType());
         if (developerData)
             base = (byte) (base | 0x20);
 
@@ -90,7 +98,7 @@ public class RecordHeader {
     @NonNull
     @Override
     public String toString() {
-        return "Local Message: " + (null == localMessage ? "raw: " + rawLocalMessageType : "type: " + localMessage.name());
+        return "Local Message: " + (null == predefinedLocalMessage ? "raw: " + rawLocalMessageType : "type: " + predefinedLocalMessage.name());
     }
 
     @Override
@@ -101,12 +109,12 @@ public class RecordHeader {
         RecordHeader that = (RecordHeader) o;
 
         if (rawLocalMessageType != that.rawLocalMessageType) return false;
-        return localMessage == that.localMessage;
+        return predefinedLocalMessage == that.predefinedLocalMessage;
     }
 
     @Override
     public int hashCode() {
-        int result = (localMessage != null ? localMessage.hashCode() : 0);
+        int result = (predefinedLocalMessage != null ? predefinedLocalMessage.hashCode() : 0);
         result = 31 * result + rawLocalMessageType;
         return result;
     }

@@ -14,26 +14,22 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Mess
 public class RecordDefinition {
     private final RecordHeader recordHeader;
     private final GlobalFITMessage globalFITMessage;
-    private final LocalMessage localMessage;
+    private final PredefinedLocalMessage predefinedLocalMessage;
     private final java.nio.ByteOrder byteOrder;
     private List<FieldDefinition> fieldDefinitions;
     private List<DevFieldDefinition> devFieldDefinitions;
 
-    public RecordDefinition(RecordHeader recordHeader, ByteOrder byteOrder, LocalMessage localMessage, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions, List<DevFieldDefinition> devFieldDefinitions) {
+    public RecordDefinition(RecordHeader recordHeader, ByteOrder byteOrder, PredefinedLocalMessage predefinedLocalMessage, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions, List<DevFieldDefinition> devFieldDefinitions) {
         this.recordHeader = recordHeader;
         this.byteOrder = byteOrder;
-        this.localMessage = localMessage;
+        this.predefinedLocalMessage = predefinedLocalMessage;
         this.globalFITMessage = globalFITMessage;
         this.fieldDefinitions = fieldDefinitions;
         this.devFieldDefinitions = devFieldDefinitions;
     }
 
-    public RecordDefinition(ByteOrder byteOrder, LocalMessage localMessage, List<FieldDefinition> fieldDefinitions) {
-        this(new RecordHeader(true, false, localMessage, null), byteOrder, localMessage, localMessage.getGlobalFITMessage(), fieldDefinitions, null);
-    }
-
-    public RecordDefinition(ByteOrder byteOrder, LocalMessage localMessage) {
-        this(new RecordHeader(true, false, localMessage, null), byteOrder, localMessage, localMessage.getGlobalFITMessage(), localMessage.getLocalFieldDefinitions(), null);
+    public RecordDefinition(ByteOrder byteOrder, PredefinedLocalMessage predefinedLocalMessage) {
+        this(new RecordHeader(true, false, predefinedLocalMessage, null), byteOrder, predefinedLocalMessage, predefinedLocalMessage.getGlobalFITMessage(), predefinedLocalMessage.getLocalFieldDefinitions(), null);
     }
 
     public RecordDefinition(ByteOrder byteOrder, RecordHeader recordHeader, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions) {
@@ -118,7 +114,7 @@ public class RecordDefinition {
     }
 
     public String getName() {
-        return localMessage != null ? localMessage.name() : "unknown_" + globalFITMessage;
+        return predefinedLocalMessage != null ? predefinedLocalMessage.name() : "unknown_" + globalFITMessage;
     }
 
     @NonNull
