@@ -356,7 +356,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             });
         }
 
-
+        addPreferenceHandlerFor(PREF_SEND_APP_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DATEFORMAT);
