@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.HttpUtils;
 
 public class HttpHandler {
@@ -28,7 +29,13 @@ public class HttpHandler {
             //.serializeNulls()
             .create();
 
-    public static GdiHttpService.HttpService handle(final GdiHttpService.HttpService httpService) {
+    private final EphemerisHandler ephemerisHandler;
+
+    public HttpHandler(GarminSupport deviceSupport) {
+        ephemerisHandler = new EphemerisHandler(deviceSupport);
+    }
+
+    public GdiHttpService.HttpService handle(final GdiHttpService.HttpService httpService) {
         if (httpService.hasRawRequest()) {
             final GdiHttpService.HttpService.RawResponse rawResponse = handleRawRequest(httpService.getRawRequest());
             if (rawResponse != null) {
@@ -44,7 +51,7 @@ public class HttpHandler {
         return null;
     }
 
-    public static GdiHttpService.HttpService.RawResponse handleRawRequest(final GdiHttpService.HttpService.RawRequest rawRequest) {
+    public GdiHttpService.HttpService.RawResponse handleRawRequest(final GdiHttpService.HttpService.RawRequest rawRequest) {
         final String urlString = rawRequest.getUrl();
         LOG.debug("Got rawRequest: {} - {}", rawRequest.getMethod(), urlString);
 
@@ -58,53 +65,81 @@ public class HttpHandler {
 
         final String path = url.getPath();
         final Map<String, String> query = HttpUtils.urlQueryParameters(url);
-        final Map<String, String> requestHeaders = headersToMap(rawRequest.getHeaderList());
 
-        final byte[] responseBody;
-        final List<GdiHttpService.HttpService.Header> responseHeaders = new ArrayList<>();
         if (path.startsWith("/weather/")) {
-            LOG.debug("Got weather request for {}", path);
-            final Object obj = WeatherHandler.handleWeatherRequest(path, query);
-            if (obj == null) {
+            LOG.info("Got weather request for {}", path);
+            final Object weatherData = WeatherHandler.handleWeatherRequest(path, query);
+            if (weatherData == null) {
                 return null;
             }
-            final String json = GSON.toJson(obj);
+            final String json = GSON.toJson(weatherData);
             LOG.debug("Weather response: {}", json);
-
-            final byte[] stringBytes = json.getBytes(StandardCharsets.UTF_8);
-
-            if ("gzip".equals(requestHeaders.get("accept-encoding"))) {
-                responseHeaders.add(
-                        GdiHttpService.HttpService.Header.newBuilder()
-                                .setKey("Content-Encoding")
-                                .setValue("gzip")
-                                .build()
-                );
-
-                final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                try (GZIPOutputStream gzos = new GZIPOutputStream(baos)) {
-                    gzos.write(stringBytes);
-                    gzos.finish();
-                    gzos.flush();
-                    responseBody = baos.toByteArray();
-                } catch (final Exception e) {
-                    LOG.error("Failed to compress response", e);
-                    return null;
-                }
-            } else {
-                responseBody = stringBytes;
+            return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json");
+        } else if (path.startsWith("/ephemeris/")) {
+            LOG.info("Got ephemeris request for {}", path);
+            byte[] ephemerisData = ephemerisHandler.handleEphemerisRequest(path, query);
+            if (ephemerisData == null) {
+                return null;
             }
-
-            responseHeaders.add(
-                    GdiHttpService.HttpService.Header.newBuilder()
-                            .setKey("Content-Type")
-                            .setValue("application/json")
-                            .build()
-            );
+            LOG.debug("Successfully obtained ephemeris data (length: {})", ephemerisData.length);
+            return createRawResponse(rawRequest, ephemerisData, "application/x-tar");
         } else {
             LOG.warn("Unhandled path {}", urlString);
             return null;
         }
+    }
+
+    private static GdiHttpService.HttpService.RawResponse createRawResponse(
+            final GdiHttpService.HttpService.RawRequest rawRequest,
+            final byte[] data,
+            final String contentType
+    ) {
+        if (rawRequest.hasUseDataXfer() && rawRequest.getUseDataXfer()) {
+            LOG.debug("Data will be returned using data_xfer");
+            int id = DataTransferHandler.registerData(data);
+            return GdiHttpService.HttpService.RawResponse.newBuilder()
+                    .setStatus(GdiHttpService.HttpService.Status.OK)
+                    .setHttpStatus(200)
+                    .setXferData(
+                            GdiHttpService.HttpService.DataTransferItem.newBuilder()
+                                    .setId(id)
+                                    .setSize(data.length)
+                                    .build()
+                    )
+                    .build();
+        }
+
+        final Map<String, String> requestHeaders = headersToMap(rawRequest.getHeaderList());
+        final List<GdiHttpService.HttpService.Header> responseHeaders = new ArrayList<>();
+        final byte[] responseBody;
+        if ("gzip".equals(requestHeaders.get("accept-encoding"))) {
+            responseHeaders.add(
+                    GdiHttpService.HttpService.Header.newBuilder()
+                            .setKey("Content-Encoding")
+                            .setValue("gzip")
+                            .build()
+            );
+
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try (GZIPOutputStream gzos = new GZIPOutputStream(baos)) {
+                gzos.write(data);
+                gzos.finish();
+                gzos.flush();
+                responseBody = baos.toByteArray();
+            } catch (final Exception e) {
+                LOG.error("Failed to compress response", e);
+                return null;
+            }
+        } else {
+            responseBody = data;
+        }
+
+        responseHeaders.add(
+                GdiHttpService.HttpService.Header.newBuilder()
+                        .setKey("Content-Type")
+                        .setValue(contentType)
+                        .build()
+        );
 
         return GdiHttpService.HttpService.RawResponse.newBuilder()
                 .setStatus(GdiHttpService.HttpService.Status.OK)

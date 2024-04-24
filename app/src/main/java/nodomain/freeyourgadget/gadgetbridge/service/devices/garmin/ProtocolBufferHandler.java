@@ -24,11 +24,13 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDataTransferService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmsNotification;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.DataTransferHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.HttpHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
@@ -45,12 +47,16 @@ public class ProtocolBufferHandler implements MessageHandler {
     private final Map<Integer, ProtobufFragment> chunkedFragmentsMap;
     private final int maxChunkSize = 375; //tested on Vívomove Style
     private int lastProtobufRequestId;
+    private final HttpHandler httpHandler;
+    private final DataTransferHandler dataTransferHandler;
 
     private final Map<GdiSmsNotification.SmsNotificationService.CannedListType, String[]> cannedListTypeMap = new HashMap<>();
 
     public ProtocolBufferHandler(GarminSupport deviceSupport) {
         this.deviceSupport = deviceSupport;
         chunkedFragmentsMap = new HashMap<>();
+        httpHandler = new HttpHandler(deviceSupport);
+        dataTransferHandler = new DataTransferHandler();
     }
 
     private int getNextProtobufRequestId() {
@@ -91,11 +97,18 @@ public class ProtocolBufferHandler implements MessageHandler {
                 return prepareProtobufResponse(processProtobufSmsNotificationMessage(smart.getSmsNotificationService()), message.getRequestId());
             }
             if (smart.hasHttpService()) {
-                final GdiHttpService.HttpService response = HttpHandler.handle(smart.getHttpService());
+                final GdiHttpService.HttpService response = httpHandler.handle(smart.getHttpService());
                 if (response == null) {
                     return null;
                 }
                 return prepareProtobufResponse(GdiSmartProto.Smart.newBuilder().setHttpService(response).build(), message.getRequestId());
+            }
+            if (smart.hasDataTransferService()) {
+                final GdiDataTransferService.DataTransferService response = dataTransferHandler.handle(smart.getDataTransferService(), message.getRequestId());
+                if (response == null) {
+                    return null;
+                }
+                return prepareProtobufResponse(GdiSmartProto.Smart.newBuilder().setDataTransferService(response).build(), message.getRequestId());
             }
             if (smart.hasDeviceStatusService()) {
                 processed = true;
@@ -116,6 +129,9 @@ public class ProtocolBufferHandler implements MessageHandler {
     private ProtobufMessage processIncoming(ProtobufStatusMessage statusMessage) {
         LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
         //TODO: check status and react accordingly, right now we blindly proceed to next chunk
+        if (statusMessage.isOK()) {
+            DataTransferHandler.onDataSuccessfullyReceived(statusMessage.getRequestId());
+        }
         if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId()) && statusMessage.isOK()) {
             final ProtobufFragment protobufFragment = chunkedFragmentsMap.get(statusMessage.getRequestId());
             LOG.debug("Protobuf message #{} found in queue: {}", statusMessage.getRequestId(), GB.hexdump(protobufFragment.fragmentBytes));
