@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
@@ -14,6 +15,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
@@ -67,5 +69,18 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return true;
+    }
+
+    @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        if (getPrefs(device).getBoolean(GarminPreferences.PREF_FEAT_CANNED_MESSAGES, false)) {
+            return 16;
+        }
+
+        return 0;
+    }
+
+    protected static Prefs getPrefs(final GBDevice device) {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
     }
 }
