@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+
+message DataTransferService {
+  enum Status {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    INVALID_ID = 2;
+    INVALID_OFFSET = 3;
+  }
+
+  optional DataDownloadRequest dataDownloadRequest = 1;
+  optional DataDownloadResponse dataDownloadResponse = 2;
+
+  message DataDownloadRequest {
+    required uint32 id = 1;
+    required uint32 offset = 2;
+    optional uint32 maxChunkSize = 3;
+  }
+
+  message DataDownloadResponse {
+    required Status status = 1;
+    required uint32 id = 2;
+    required uint32 offset = 3;
+    optional bytes payload = 4;
+  }
+}

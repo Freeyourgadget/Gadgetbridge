@@ -30,13 +30,20 @@ message HttpService {
     required string url = 1;
     optional Method method = 3;
     repeated Header header = 5;
+    optional bool useDataXfer = 6;
   }
 
   message RawResponse {
     optional Status status = 1;
     optional uint32 httpStatus = 2;
     optional bytes body = 3;
+    optional DataTransferItem xferData = 4;
     repeated Header header = 5;
+  }
+
+  message DataTransferItem {
+    required uint32 id = 1;
+    required uint32 size = 2;
   }
 
   message Header {
