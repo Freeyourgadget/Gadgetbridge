@@ -12,8 +12,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
@@ -38,7 +41,7 @@ public class ProtocolBufferHandler implements MessageHandler {
     private final int maxChunkSize = 375; //tested on Vívomove Style
     private int lastProtobufRequestId;
 
-    private Map<GdiSmsNotification.SmsNotificationService.CannedListType, String[]> cannedListTypeMap;
+    private final Map<GdiSmsNotification.SmsNotificationService.CannedListType, String[]> cannedListTypeMap = new HashMap<>();
 
     public ProtocolBufferHandler(GarminSupport deviceSupport) {
         this.deviceSupport = deviceSupport;
@@ -239,9 +242,12 @@ public class ProtocolBufferHandler implements MessageHandler {
 
     private GdiSmartProto.Smart processProtobufSmsNotificationMessage(GdiSmsNotification.SmsNotificationService smsNotificationService) {
         if (smsNotificationService.hasSmsCannedListRequest()) {
-            if (null == this.cannedListTypeMap || this.cannedListTypeMap.isEmpty()) {
-                this.cannedListTypeMap = new HashMap<>();
+            LOG.debug("Got request for sms canned list");
 
+            // Mark canned messages as supported
+            deviceSupport.evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(GarminPreferences.PREF_FEAT_CANNED_MESSAGES, true));
+
+            if (this.cannedListTypeMap.isEmpty()) {
                 List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes = smsNotificationService.getSmsCannedListRequest().getRequestedTypesList();
                 for (GdiSmsNotification.SmsNotificationService.CannedListType type :
                         requestedTypes) {
@@ -277,7 +283,7 @@ public class ProtocolBufferHandler implements MessageHandler {
             for (GdiSmsNotification.SmsNotificationService.CannedListType requestedType : requestedTypes) {
                 if (this.cannedListTypeMap.containsKey(requestedType)) {
                     builder.addLists(GdiSmsNotification.SmsNotificationService.SmsCannedList.newBuilder()
-                            .addAllResponse(Arrays.asList(this.cannedListTypeMap.get(requestedType)))
+                            .addAllResponse(Arrays.asList(Objects.requireNonNull(this.cannedListTypeMap.get(requestedType))))
                             .setType(requestedType)
                     );
                 } else {
@@ -348,9 +354,6 @@ public class ProtocolBufferHandler implements MessageHandler {
                 return null;
         }
 
-        if (null == this.cannedListTypeMap) {
-            this.cannedListTypeMap = new HashMap<>();
-        }
         this.cannedListTypeMap.put(cannedListType, cannedMessagesSpec.cannedMessages);
 
         GdiSmartProto.Smart smart = GdiSmartProto.Smart.newBuilder()
