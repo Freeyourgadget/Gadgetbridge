@@ -130,7 +130,7 @@ public class ProtocolBufferHandler implements MessageHandler {
         LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
         //TODO: check status and react accordingly, right now we blindly proceed to next chunk
         if (statusMessage.isOK()) {
-            DataTransferHandler.onDataSuccessfullyReceived(statusMessage.getRequestId());
+            DataTransferHandler.onDataChunkSuccessfullyReceived(statusMessage.getRequestId());
         }
         if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId()) && statusMessage.isOK()) {
             final ProtobufFragment protobufFragment = chunkedFragmentsMap.get(statusMessage.getRequestId());

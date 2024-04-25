@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDataTransferService;
@@ -16,7 +17,7 @@ public class DataTransferHandler {
     private static final Logger LOG = LoggerFactory.getLogger(DataTransferHandler.class);
     private static final AtomicInteger idCounter = new AtomicInteger(0);
     private static final Map<Integer, Data> dataById = new HashMap<>();
-    private static final Map<Integer, RequestInfo> requestInfoById = new HashMap<>();
+    private static final Map<Integer, ChunkInfo> unprocessedChunksByRequestId = new HashMap<>();
 
     public GdiDataTransferService.DataTransferService handle(
             final GdiDataTransferService.DataTransferService dataTransferService,
@@ -64,7 +65,7 @@ public class DataTransferHandler {
                     .setOffset(offset)
                     .build();
         }
-        requestInfoById.put(requestId, new RequestInfo(dataId, chunk.length));
+        unprocessedChunksByRequestId.put(requestId, new ChunkInfo(dataId, offset, offset + chunk.length));
         return GdiDataTransferService.DataTransferService.DataDownloadResponse.newBuilder()
                 .setStatus(GdiDataTransferService.DataTransferService.Status.SUCCESS)
                 .setId(dataId)
@@ -80,32 +81,37 @@ public class DataTransferHandler {
         return id;
     }
 
-    public static void onDataSuccessfullyReceived(final int requestId) {
-        final RequestInfo requestInfo = requestInfoById.get(requestId);
-        requestInfoById.remove(requestId);
-        if (requestInfo == null) {
+    public static void onDataChunkSuccessfullyReceived(final int requestId) {
+        final ChunkInfo chunkInfo = unprocessedChunksByRequestId.get(requestId);
+        if (chunkInfo == null) {
             return;
         }
-        final Data data = dataById.get(requestInfo.dataId);
+        unprocessedChunksByRequestId.remove(requestId);
+        final Data data = dataById.get(chunkInfo.dataId);
         if (data == null) {
             return;
         }
-        int dataLeft = data.onDataSuccessfullyReceived(requestInfo.requestDataLength);
-        if (dataLeft == 0) {
-            LOG.info("Data successfully sent to the device (id: {}, size: {})", requestInfo.dataId, data.data.length);
-            dataById.remove(requestInfo.dataId);
+        data.onDataChunkSuccessfullyReceived(chunkInfo);
+        if (data.isDataSuccessfullySent()) {
+            LOG.info("Data successfully sent to the device (id: {}, size: {})", chunkInfo.dataId, data.data.length);
+            dataById.remove(chunkInfo.dataId);
         } else {
-            LOG.debug("Data chunk successfully sent to the device (dataId: {}, requestId: {}, data left: {})", requestInfo.dataId, requestId, dataLeft);
+            LOG.debug(
+                    "Data chunk successfully sent to the device (dataId: {}, requestId: {}): {}-{}/{}",
+                    chunkInfo.dataId, requestId, chunkInfo.start, chunkInfo.end, data.data.length
+            );
         }
     }
 
-    private static class RequestInfo {
+    private static class ChunkInfo {
         private final int dataId;
-        private final int requestDataLength;
+        private final int start;
+        private final int end;
 
-        private RequestInfo(int dataId, int requestDataLength) {
+        private ChunkInfo(int dataId, int start, int end) {
             this.dataId = dataId;
-            this.requestDataLength = requestDataLength;
+            this.start = start;
+            this.end = end;
         }
     }
 
@@ -113,11 +119,11 @@ public class DataTransferHandler {
         // TODO Wouldn't it be better to store data as streams?
         // Because now we have to store the whole data in RAM.
         private final byte[] data;
-        private final AtomicInteger dataLeft;
+        private final TreeMap<Integer, ChunkInfo> chunksReceivedByDevice;
 
         private Data(byte[] data) {
             this.data = data;
-            this.dataLeft = new AtomicInteger(data.length);
+            chunksReceivedByDevice = new TreeMap<>();
         }
 
         private byte[] getDataChunk(final int offset, final int maxChunkSize) {
@@ -127,11 +133,28 @@ public class DataTransferHandler {
             return Arrays.copyOfRange(data, offset, Math.min(offset + maxChunkSize, data.length));
         }
 
-        private int onDataSuccessfullyReceived(int chunkSize) {
-            // TODO Does this work properly?
-            // Problems can arise when the app receives two ACKs for the same data.
-            // It can be solved by storing information about what data was ACKed instead of just dataLeft variable.
-            return dataLeft.addAndGet(-chunkSize);
+        private void onDataChunkSuccessfullyReceived(ChunkInfo newlyReceivedChunk) {
+            final ChunkInfo alreadyReceivedChunk = chunksReceivedByDevice.get(newlyReceivedChunk.start);
+            if (alreadyReceivedChunk == null || alreadyReceivedChunk.end < newlyReceivedChunk.end) {
+                chunksReceivedByDevice.put(newlyReceivedChunk.start, newlyReceivedChunk);
+            }
+        }
+
+        private boolean isDataSuccessfullySent() {
+            Integer previousChunkEnd = null;
+            for (Map.Entry<Integer, ChunkInfo> chunkEntry : chunksReceivedByDevice.entrySet()) {
+                if (previousChunkEnd == null && chunkEntry.getKey() != 0) {
+                    // The head of the data wasn't received by the device.
+                    return false;
+                }
+                if (previousChunkEnd != null && chunkEntry.getKey() > previousChunkEnd) {
+                    // There is some gap between received chunks.
+                    return false;
+                }
+                previousChunkEnd = chunkEntry.getValue().end;
+            }
+            // Check if the end of the last chunk matches the data size.
+            return previousChunkEnd != null && data.length == previousChunkEnd;
         }
     }
 }
