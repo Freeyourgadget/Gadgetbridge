@@ -57,7 +57,7 @@ public class SerbianTransliterator extends SimpleTransliterator {
 
             // Not in the table, pulled from Croatian
             put('Ć', "C");  put('ć', "c");
-            put('Đ', "D");  put('đ', "d");
+            put('Đ', "Dj");  put('đ', "dj");
             put('Š', "S");  put('š', "s");
             put('Ž', "z");  put('ž', "z");
 
