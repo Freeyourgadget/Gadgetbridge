@@ -70,12 +70,11 @@ message CoreService {
         optional Status status = 1;
         repeated Requested requests = 2;
 
-
         enum Status {
-        OK = 1;
-        UNAVAILABLE = 2;
-        UNKNOWN3 = 3;
-        UNKNOWN4 = 4;
+            OK = 1;
+            UNAVAILABLE = 2;
+            UNKNOWN3 = 3;
+            UNKNOWN4 = 4;
         }
 
         message Requested {
@@ -83,8 +82,8 @@ message CoreService {
                 optional RequestedStatus status = 2;
 
                 enum RequestedStatus {
-                OK = 1;
-                KO = 2;
+                    OK = 1;
+                    KO = 2;
                 }
 
         }

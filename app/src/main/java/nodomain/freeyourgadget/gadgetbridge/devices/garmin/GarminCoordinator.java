@@ -38,10 +38,8 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
-        final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
-        connection.add(R.xml.devicesettings_high_mtu);
-
         final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+
         notifications.add(R.xml.devicesettings_send_app_notifications);
 
         if (getCannedRepliesSlotCount(device) > 0) {
@@ -49,6 +47,12 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
             notifications.add(R.xml.devicesettings_canned_reply_16);
             notifications.add(R.xml.devicesettings_canned_dismisscall_16);
         }
+
+        final List<Integer> location = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.LOCATION);
+        location.add(R.xml.devicesettings_workout_send_gps_to_band);
+
+        final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
+        connection.add(R.xml.devicesettings_high_mtu);
 
         final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
         developer.add(R.xml.devicesettings_keep_activity_data_on_device);

@@ -30,6 +30,7 @@ public enum DeviceSpecificSettingsScreen {
     DEVELOPER("pref_screen_developer", R.xml.devicesettings_root_developer),
     DISPLAY("pref_screen_display", R.xml.devicesettings_root_display),
     GENERIC("pref_screen_generic", R.xml.devicesettings_root_generic),
+    LOCATION("pref_screen_location", R.xml.devicesettings_root_location),
     NOTIFICATIONS("pref_screen_notifications", R.xml.devicesettings_root_notifications),
     DATE_TIME("pref_screen_date_time", R.xml.devicesettings_root_date_time),
     WORKOUT("pref_screen_workout", R.xml.devicesettings_root_workout),
