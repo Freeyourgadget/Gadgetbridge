@@ -55,7 +55,7 @@ public class NotificationsHandler implements MessageHandler {
         final byte[] bytes = entry.getKey().getNotificationSpecAttribute(notificationSpec, entry.getValue());
         messageWriter.writeShort(bytes.length);
         messageWriter.writeBytes(bytes);
-//        LOG.info("ATTRIBUTE:{} value:{} length:{}", entry.getKey(), new String(bytes), bytes.length);
+//        LOG.info("ATTRIBUTE:{} value:{}/{} length:{}", entry.getKey(), new String(bytes), GB.hexdump(bytes), bytes.length);
     }
 
 
@@ -183,7 +183,7 @@ public class NotificationsHandler implements MessageHandler {
             case REPLY_MESSAGES:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                 deviceEvtNotificationControl.reply = message.getActionString();
-                if (notificationSpec.type.equals(NotificationType.GENERIC_PHONE)) {
+                if (notificationSpec.type.equals(NotificationType.GENERIC_PHONE) || notificationSpec.type.equals(NotificationType.GENERIC_SMS)) {
                     deviceEvtNotificationControl.phoneNumber = notificationSpec.phoneNumber;
                 } else {
                     deviceEvtNotificationControl.handle = mNotificationReplyAction.lookup(notificationSpec.getId()); //handle of wearable action is needed
@@ -267,7 +267,7 @@ public class NotificationsHandler implements MessageHandler {
         MESSAGE_SIZE(4),
         DATE(5),
         //        POSITIVE_ACTION_LABEL(6), //needed only for legacy notification actions
-        //        NEGATIVE_ACTION_LABEL(7), //needed only for legacy notification actions
+        NEGATIVE_ACTION_LABEL(7), //needed only for legacy notification actions
         // Garmin extensions
 //        PHONE_NUMBER(126, true),
         ACTIONS(127, false, true),
@@ -312,7 +312,10 @@ public class NotificationsHandler implements MessageHandler {
                     toReturn = NOTIFICATION_DATE_FORMAT.format(new Date(notificationTimestamp));
                     break;
                 case TITLE:
-                    toReturn = notificationSpec.title == null ? "" : notificationSpec.title;
+                    if (NotificationType.GENERIC_SMS.equals(notificationSpec.type))
+                        toReturn = notificationSpec.sender == null ? "" : notificationSpec.sender;
+                    else
+                        toReturn = notificationSpec.title == null ? "" : notificationSpec.title;
                     break;
                 case SUBTITLE:
                     toReturn = notificationSpec.subject == null ? "" : notificationSpec.subject;
