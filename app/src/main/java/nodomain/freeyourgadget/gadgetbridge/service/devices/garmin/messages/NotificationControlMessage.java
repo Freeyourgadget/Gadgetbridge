@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +77,7 @@ public class NotificationControlMessage extends GFDIMessage {
     }
 
     private static Map<NotificationsHandler.NotificationAttribute, Integer> createGetNotificationAttributesCommand(MessageReader reader) {
-        final Map<NotificationsHandler.NotificationAttribute, Integer> notificationAttributesMap = new HashMap<>();
+        final Map<NotificationsHandler.NotificationAttribute, Integer> notificationAttributesMap = new LinkedHashMap<>();
         while (reader.remaining() > 0) {
             final int attributeID = reader.readByte();
 

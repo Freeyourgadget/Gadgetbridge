@@ -34,17 +34,64 @@ public class NotificationUpdateMessage extends GFDIMessage {
         writer.writeByte(getCategoryValue(this.notificationType));
         writer.writeByte(this.count);
         writer.writeInt(this.notificationId);
-        writer.writeByte(this.useLegacyActions ? 0x00 : 0x03);
+        writer.writeByte(getNotificationPhoneFlags());
 
         return true;
     }
 
+    private int getNotificationPhoneFlags() {
+        EnumSet<NotificationPhoneFlags> flags = EnumSet.noneOf(NotificationPhoneFlags.class);
+        if (this.hasActions)
+            flags.add(NotificationPhoneFlags.NEW_ACTIONS);
+        if (this.useLegacyActions)
+            flags.add(NotificationPhoneFlags.LEGACY_ACTIONS);
+
+        return (int) EnumUtils.generateBitVector(NotificationPhoneFlags.class, flags);
+
+    }
+
+    //no image
+    //00 updatetype
+    // 12 flags
+    // 00 notif type
+    // 00 count
+    // 03000000
+    // 02
+
+
+    //image
+    //00
+    // 12
+    // 00
+    // 00
+    // 04000000
+    // 06
+
+    //0F00
+    // A913
+    // 00
+    // 12
+    // 0C
+    // 00
+    // 471D2A66
+    // 02
+    // BC14
+
+    //0F00
+    // A913
+    // 00
+    // 11
+    // 00
+    // 00
+    // 461D2A66
+    // 00
+    // 8C00
     private int getCategoryFlags(NotificationType notificationType) {
         EnumSet<NotificationFlag> flags = EnumSet.noneOf(NotificationFlag.class);
         if (this.hasActions && this.useLegacyActions) { //only needed for legacy actions
             flags.add(NotificationFlag.ACTION_ACCEPT);
-            flags.add(NotificationFlag.ACTION_DECLINE);
         }
+        flags.add(NotificationFlag.ACTION_DECLINE);
 
         switch (notificationType.getGenericType()) {
             case "generic_phone":
@@ -111,5 +158,13 @@ public class NotificationUpdateMessage extends GFDIMessage {
         LOCATION,
         ENTERTAINMENT,
         SMS
+
+    }
+
+    enum NotificationPhoneFlags {
+        LEGACY_ACTIONS,
+        NEW_ACTIONS,
+        HAS_ATTACHMENTS,
+        ;
     }
 }
