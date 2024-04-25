@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.calendar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public class CalendarEvent {
     private final String organizer;
     private final int color;
     private final boolean allDay;
-    private List<Long> remindersAbsoluteTs;
+    private List<Long> remindersAbsoluteTs = new ArrayList<>();
 
     public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay, String organizer) {
         this.begin = begin;

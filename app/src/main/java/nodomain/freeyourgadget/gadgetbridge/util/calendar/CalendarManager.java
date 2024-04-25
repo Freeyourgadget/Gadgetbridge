@@ -139,7 +139,7 @@ public class CalendarManager {
                         LOG.debug("Reminder Method: {}, Minutes: {}", method, minutes);
 
                         if (method == 1) //METHOD_ALERT
-                            reminders.add(calEvent.getBegin() + minutes * 60 * 1000);
+                            reminders.add(calEvent.getBegin() - minutes * 60 * 1000L);
 
                     }
                     reminderCursor.close();
