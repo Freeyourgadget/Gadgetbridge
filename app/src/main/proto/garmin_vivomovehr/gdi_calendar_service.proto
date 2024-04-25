@@ -11,19 +11,38 @@ message CalendarService {
   message CalendarServiceRequest {
     optional uint32 begin = 1;
     optional uint32 end = 2;
+    optional bool include_organizer = 3 [default = false];
+    optional bool include_title = 4 [default = true];
+    optional bool include_location = 5 [default = true];
+    optional bool include_description = 6 [default = false];
+    optional bool include_start_date = 7 [default = true];
+    optional bool include_end_date = 8 [default = false];
+    optional bool include_all_day = 9 [default = false];
+    optional uint32 max_organizer_length = 10;
+    optional uint32 max_title_length = 11;
+    optional uint32 max_location_length = 12;
+    optional uint32 max_description_length = 13;
+    optional uint32 max_events = 14;
   }
 
   message CalendarServiceResponse {
-    optional uint32 unknown = 1;
+    enum ResponseStatus {
+      UNKNOWN_RESPONSE_STATUS = 0;
+      OK = 1;
+      INVALID_DATE_RANGE = 2;
+    }
+    optional ResponseStatus status = 1;
     repeated CalendarEvent calendar_event = 2;
   }
 
   message CalendarEvent {
+    optional string organizer = 1;
     optional string title = 2;
     optional string location = 3 [default = ""];
     optional string description = 4 [default = ""];
-    optional uint32 begin = 5;
-    optional uint32 end = 6;
+    optional uint32 start_date = 5;
+    optional uint32 end_date = 6;
     optional bool all_day = 7;
+    repeated uint32 reminder_time_in_secs = 8;
   }
 }

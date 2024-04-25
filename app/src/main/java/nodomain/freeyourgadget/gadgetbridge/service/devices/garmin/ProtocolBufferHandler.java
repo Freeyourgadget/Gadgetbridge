@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,16 +156,33 @@ public class ProtocolBufferHandler implements MessageHandler {
                     LOG.debug("CalendarService Skipping event {} that is out of requested time range", mEvt.getTitle());
                     continue;
                 }
+                if (!calendarServiceRequest.getIncludeAllDay() && mEvt.isAllDay()) {
+                    LOG.debug("CalendarService Skipping event {} that is AllDay", mEvt.getTitle());
+                    continue;
+                }
 
-                watchEvents.add(GdiCalendarService.CalendarService.CalendarEvent.newBuilder()
-                        .setTitle(mEvt.getTitle())
+                if (watchEvents.size() >= calendarServiceRequest.getMaxEvents() * 2) { //NOTE: Tested with values higher than double of the reported max without issues
+                    LOG.debug("Reached the maximum number of events supported by the watch");
+                    break;
+                }
+
+                final GdiCalendarService.CalendarService.CalendarEvent.Builder event = GdiCalendarService.CalendarService.CalendarEvent.newBuilder()
+                        .setTitle(mEvt.getTitle().substring(0, Math.min(mEvt.getTitle().length(), calendarServiceRequest.getMaxTitleLength())))
                         .setAllDay(mEvt.isAllDay())
-                        .setBegin(mEvt.getBeginSeconds())
-                        .setEnd(mEvt.getEndSeconds())
-                        .setLocation(StringUtils.defaultString(mEvt.getLocation()))
-                        .setDescription(StringUtils.defaultString(mEvt.getDescription()))
-                        .build()
-                );
+                        .setStartDate(mEvt.getBeginSeconds())
+                        .setEndDate(mEvt.getEndSeconds());
+
+                if (calendarServiceRequest.getIncludeLocation() && mEvt.getLocation() != null) {
+                    event.setLocation(mEvt.getLocation().substring(0, Math.min(mEvt.getLocation().length(), calendarServiceRequest.getMaxLocationLength())));
+                }
+
+                if (calendarServiceRequest.getIncludeDescription() && mEvt.getDescription() != null) {
+                    event.setDescription(mEvt.getDescription().substring(0, Math.min(mEvt.getDescription().length(), calendarServiceRequest.getMaxDescriptionLength())));
+                }
+                if (calendarServiceRequest.getIncludeOrganizer() && mEvt.getOrganizer() != null) {
+                    event.setDescription(mEvt.getOrganizer().substring(0, Math.min(mEvt.getOrganizer().length(), calendarServiceRequest.getMaxOrganizerLength())));
+                }
+                watchEvents.add(event.build());
             }
 
             LOG.debug("CalendarService Sending {} events to watch", watchEvents.size());
@@ -174,7 +190,7 @@ public class ProtocolBufferHandler implements MessageHandler {
                     GdiCalendarService.CalendarService.newBuilder().setCalendarResponse(
                             GdiCalendarService.CalendarService.CalendarServiceResponse.newBuilder()
                                     .addAllCalendarEvent(watchEvents)
-                                    .setUnknown(1)
+                                    .setStatus(GdiCalendarService.CalendarService.CalendarServiceResponse.ResponseStatus.OK)
                     )
             ).build();
         }
@@ -182,7 +198,7 @@ public class ProtocolBufferHandler implements MessageHandler {
         return GdiSmartProto.Smart.newBuilder().setCalendarService(
                 GdiCalendarService.CalendarService.newBuilder().setCalendarResponse(
                         GdiCalendarService.CalendarService.CalendarServiceResponse.newBuilder()
-                                .setUnknown(0)
+                                .setStatus(GdiCalendarService.CalendarService.CalendarServiceResponse.ResponseStatus.UNKNOWN_RESPONSE_STATUS)
                 )
         ).build();
     }
