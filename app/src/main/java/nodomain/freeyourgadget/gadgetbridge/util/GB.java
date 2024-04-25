@@ -500,27 +500,6 @@ public class GB {
         }
     }
 
-    public static void createGpsNotification(Context context, int numDevices) {
-        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0, notificationIntent, 0, false);
-
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_GPS)
-                .setTicker(context.getString(R.string.notification_gps_title))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(context.getString(R.string.notification_gps_title))
-                .setContentText(context.getString(R.string.notification_gps_text, numDevices))
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_gps_location)
-                .setOngoing(true);
-
-        notify(NOTIFICATION_ID_GPS, nb.build(), context);
-    }
-
-    public static void removeGpsNotification(Context context) {
-        removeNotification(NOTIFICATION_ID_GPS, context);
-    }
-
     private static Notification createInstallNotification(String text, boolean ongoing,
                                                           int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);

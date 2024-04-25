@@ -106,7 +106,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -659,7 +659,7 @@ public class DebugActivity extends AbstractGBActivity {
         stopPhoneGpsLocationListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GBLocationManager.stopAll(getBaseContext());
+                GBLocationService.stop(DebugActivity.this, null);
             }
         });
 

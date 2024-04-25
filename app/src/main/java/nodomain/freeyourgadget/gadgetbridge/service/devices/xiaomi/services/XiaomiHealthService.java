@@ -48,7 +48,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -664,7 +665,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         if (!gpsStarted) {
             gpsStarted = true;
             gpsFixAcquired = false;
-            GBLocationManager.start(getSupport().getContext(), getSupport());
+            GBLocationService.start(getSupport().getContext(), getSupport().getDevice(), GBLocationProviderType.GPS, 1000);
         }
 
         gpsTimeoutHandler.removeCallbacksAndMessages(null);
@@ -673,7 +674,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             LOG.debug("Timed out waiting for workout");
             gpsStarted = false;
             gpsFixAcquired = false;
-            GBLocationManager.stop(getSupport().getContext(), getSupport());
+            GBLocationService.stop(getSupport().getContext(), getSupport().getDevice());
         }, 5000);
     }
 
@@ -696,7 +697,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             case WORKOUT_FINISHED:
                 gpsStarted = false;
                 gpsFixAcquired = false;
-                GBLocationManager.stop(getSupport().getContext(), getSupport());
+                GBLocationService.stop(getSupport().getContext(), getSupport().getDevice());
                 if (startOnPhone) {
                     OpenTracksController.stopRecording(getSupport().getContext());
                 }

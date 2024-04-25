@@ -44,7 +44,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier;
@@ -65,7 +64,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -228,11 +228,6 @@ public class HuaweiSupportProvider {
     }
 
     public void setGps(boolean start) {
-        EventHandler handler;
-        if (isBLE())
-            handler = leSupport;
-        else
-            handler = brSupport;
         if (start) {
             if (!GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false))
                 return;
@@ -241,7 +236,7 @@ public class HuaweiSupportProvider {
                 gpsParameterRequest.setFinalizeReq(new RequestCallback() {
                     @Override
                     public void call() {
-                        GBLocationManager.start(getContext(), handler);
+                        GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, 1000);
                     }
                 });
                 try {
@@ -251,9 +246,9 @@ public class HuaweiSupportProvider {
                     LOG.error("Failed to get GPS parameters", e);
                 }
             } else
-                GBLocationManager.start(getContext(), handler);
+                GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, 1000);
         } else
-            GBLocationManager.stop(getContext(), handler);
+            GBLocationService.stop(getContext(), getDevice());
     }
 
     public void setGpsParametersResponse(GpsAndTime.GpsParameters.Response response) {

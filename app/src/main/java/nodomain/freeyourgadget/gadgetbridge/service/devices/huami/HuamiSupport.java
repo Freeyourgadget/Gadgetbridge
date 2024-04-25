@@ -30,7 +30,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -117,7 +116,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
@@ -2010,7 +2010,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             if (sendGpsToBand) {
                 lastPhoneGpsSent = 0;
                 sendPhoneGps(HuamiPhoneGpsStatus.SEARCHING, null);
-                GBLocationManager.start(getContext(), this);
+                GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, 1000);
             } else {
                 sendPhoneGps(HuamiPhoneGpsStatus.DISABLED, null);
             }
@@ -2030,7 +2030,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected void onWorkoutEnd() {
         final boolean startOnPhone = HuamiCoordinator.getWorkoutStartOnPhone(getDevice().getAddress());
 
-        GBLocationManager.stop(getContext(), this);
+        GBLocationService.stop(getContext(), getDevice());
 
         if (startOnPhone) {
             LOG.info("Stopping OpenTracks recording");

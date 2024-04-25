@@ -22,35 +22,30 @@ import android.location.LocationListener;
 /**
  * An abstract location provider, which periodically sends a location update to the provided {@link LocationListener}.
  */
-public abstract class AbstractLocationProvider {
+public abstract class GBLocationProvider {
+    private final Context context;
     private final LocationListener locationListener;
 
-    public AbstractLocationProvider(final LocationListener locationListener) {
+    public GBLocationProvider(final Context context, final LocationListener locationListener) {
+        this.context = context;
         this.locationListener = locationListener;
     }
 
-    protected final LocationListener getLocationListener() {
+    public final Context getContext() {
+        return this.context;
+    }
+
+    public final LocationListener getLocationListener() {
         return this.locationListener;
     }
 
     /**
      * Start sending periodic location updates.
-     *
-     * @param context the {@link Context}.
      */
-    abstract void start(final Context context);
-
-    /**
-     * Start sending periodic location updates.
-     *
-     * @param context the {@link Context}.
-     */
-    abstract void start(final Context context, final int interval);
+    public abstract void start(final int interval);
 
     /**
      * Stop sending periodic location updates.
-     *
-     * @param context the {@link Context}.
      */
-    abstract void stop(final Context context);
+    public abstract void stop();
 }

@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.externalevents.gps;
+package nodomain.freeyourgadget.gadgetbridge.externalevents.gps.providers;
 
 import android.content.Context;
 import android.location.Location;
@@ -26,13 +26,14 @@ import android.os.SystemClock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProvider;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
 
 /**
  * A mock location provider which keeps updating the location at a constant speed, starting from the
  * last known location. Useful for local tests.
  */
-public class MockLocationProvider extends AbstractLocationProvider {
+public class MockLocationProvider extends GBLocationProvider {
     private static final Logger LOG = LoggerFactory.getLogger(MockLocationProvider.class);
 
     private Location previousLocation = new CurrentPosition().getLastKnownLocation();
@@ -40,12 +41,12 @@ public class MockLocationProvider extends AbstractLocationProvider {
     /**
      * Interval between location updates, in milliseconds.
      */
-    private final int interval = 1000;
+    private static final int DEFAULT_INTERVAL = 1000;
 
     /**
      * Difference between location updates, in degrees.
      */
-    private final float coordDiff = 0.0002f;
+    private static final float COORD_DIFF = 0.0002f;
 
     /**
      * Whether the handler is running.
@@ -54,50 +55,40 @@ public class MockLocationProvider extends AbstractLocationProvider {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    private final Runnable locationUpdateRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (!running) {
-                return;
-            }
-
-            final Location newLocation = new Location(previousLocation);
-            newLocation.setLatitude(previousLocation.getLatitude() + coordDiff);
-            newLocation.setTime(System.currentTimeMillis());
-            newLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-
-            getLocationListener().onLocationChanged(newLocation);
-
-            previousLocation = newLocation;
-
-            if (running) {
-                handler.postDelayed(this, interval);
-            }
-        }
-    };
-
-    public MockLocationProvider(LocationListener locationListener) {
-        super(locationListener);
+    public MockLocationProvider(final Context context, final LocationListener locationListener) {
+        super(context, locationListener);
     }
 
     @Override
-    void start(final Context context) {
+    public void start(final int interval) {
         LOG.info("Starting mock location provider");
 
         running = true;
-        handler.postDelayed(locationUpdateRunnable, interval);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!running) {
+                    return;
+                }
+
+                final Location newLocation = new Location(previousLocation);
+                newLocation.setLatitude(previousLocation.getLatitude() + COORD_DIFF);
+                newLocation.setTime(System.currentTimeMillis());
+                newLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+
+                getLocationListener().onLocationChanged(newLocation);
+
+                previousLocation = newLocation;
+
+                if (running) {
+                    handler.postDelayed(this, interval);
+                }
+            }
+        }, interval > 0 ? interval : DEFAULT_INTERVAL);
     }
 
     @Override
-    void start(final Context context, int minInterval) {
-        LOG.info("Starting mock location provider");
-
-        running = true;
-        handler.postDelayed(locationUpdateRunnable, interval);
-    }
-
-    @Override
-    void stop(final Context context) {
+    public void stop() {
         LOG.info("Stopping mock location provider");
 
         running = false;

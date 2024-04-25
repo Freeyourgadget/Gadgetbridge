@@ -21,10 +21,14 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.SystemClock;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 /**
  * An implementation of a {@link LocationListener} that forwards the location updates to the
@@ -33,18 +37,18 @@ import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 public class GBLocationListener implements LocationListener {
     private static final Logger LOG = LoggerFactory.getLogger(GBLocationListener.class);
 
-    private final EventHandler eventHandler;
+    private final GBDevice device;
 
     private Location previousLocation;
     // divide by 3.6 to get km/h to m/s
     private static final double SPEED_THRESHOLD = 1.0 / 3.6;
 
-    public GBLocationListener(final EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
+    public GBLocationListener(final GBDevice device) {
+        this.device = device;
     }
 
     @Override
-    public void onLocationChanged(final Location location) {
+    public void onLocationChanged(@NonNull final Location location) {
         LOG.info("Location changed: {}", location);
 
         // Correct the location time
@@ -61,16 +65,16 @@ public class GBLocationListener implements LocationListener {
 
         previousLocation = location;
 
-        eventHandler.onSetGpsLocation(location);
+        GBApplication.deviceService(device).onSetGpsLocation(location);
     }
 
     @Override
-    public void onProviderDisabled(final String provider) {
+    public void onProviderDisabled(@NonNull final String provider) {
         LOG.info("onProviderDisabled: {}", provider);
     }
 
     @Override
-    public void onProviderEnabled(final String provider) {
+    public void onProviderEnabled(@NonNull final String provider) {
         LOG.info("onProviderDisabled: {}", provider);
     }
 

@@ -82,7 +82,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SilentModeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGermanyReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidAction;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -140,7 +140,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
     }
 
-    private class FeatureSet{
+    private static class FeatureSet {
         private boolean supportsWeather = false;
         private boolean supportsActivityDataFetching = false;
         private boolean supportsCalendarEvents = false;
@@ -256,7 +256,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
-    private List<CalendarReceiver> mCalendarReceiver = new ArrayList<>();
+    private final List<CalendarReceiver> mCalendarReceiver = new ArrayList<>();
     private CMWeatherReceiver mCMWeatherReceiver = null;
     private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
     private TinyWeatherForecastGermanyReceiver mTinyWeatherForecastGermanyReceiver = null;
@@ -264,6 +264,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private OmniJawsObserver mOmniJawsObserver = null;
     private final DeviceSettingsReceiver deviceSettingsReceiver = new DeviceSettingsReceiver();
     private final IntentApiReceiver intentApiReceiver = new IntentApiReceiver();
+    private GBLocationService locationService = null;
 
     private OsmandEventReceiver mOsmandAidlHelper = null;
 
@@ -1343,6 +1344,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mSilentModeReceiver, filter);
             }
 
+            if (locationService == null) {
+                locationService = new GBLocationService(this);
+                LocalBroadcastManager.getInstance(this).registerReceiver(locationService, locationService.buildFilter());
+            }
+
             if (mOsmandAidlHelper == null && features.supportsNavigation()) {
                 mOsmandAidlHelper = new OsmandEventReceiver(this.getApplication());
             }
@@ -1424,6 +1430,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mSilentModeReceiver != null) {
                 unregisterReceiver(mSilentModeReceiver);
                 mSilentModeReceiver = null;
+            }
+            if (locationService != null) {
+                LocalBroadcastManager.getInstance(this).unregisterReceiver(locationService);
+                locationService.stopAll();
+                locationService = null;
             }
             if (mCMWeatherReceiver != null) {
                 unregisterReceiver(mCMWeatherReceiver);

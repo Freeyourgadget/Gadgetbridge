@@ -1,4 +1,4 @@
-/*  Copyright (C) 2022-2024 Lukas, LukasEdl
+/*  Copyright (C) 2022-2024 José Rebelo, LukasEdl
 
     This file is part of Gadgetbridge.
 
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.externalevents.gps;
+package nodomain.freeyourgadget.gadgetbridge.externalevents.gps.providers;
 
 import android.Manifest;
 import android.content.Context;
@@ -27,54 +27,52 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProvider;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * A location provider that uses the phone GPS, using {@link LocationManager}.
  */
-public class PhoneNetworkLocationProvider extends AbstractLocationProvider {
-    private static final Logger LOG = LoggerFactory.getLogger(PhoneNetworkLocationProvider.class);
+public class PhoneLocationProvider extends GBLocationProvider {
+    private static final Logger LOG = LoggerFactory.getLogger(PhoneLocationProvider.class);
 
-    private static final int INTERVAL_MIN_TIME = 1000;
+    private final String provider;
+
     private static final int INTERVAL_MIN_DISTANCE = 0;
 
-    public PhoneNetworkLocationProvider(LocationListener locationListener) {
-        super(locationListener);
+    public PhoneLocationProvider(final Context context, final LocationListener locationListener, final String provider) {
+        super(context, locationListener);
+        this.provider = provider;
     }
 
     @Override
-    void start(final Context context) {
-        start(context, INTERVAL_MIN_TIME);
-    }
+    public void start(final int interval) {
+        LOG.info("Starting phone gps location provider");
 
-    @Override
-    void start(Context context, int interval) {
-        LOG.info("Starting phone network location provider");
-
-        if (!GB.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) && !GB.checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        if (!GB.checkPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) && !GB.checkPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
             GB.toast("Location permission not granted", Toast.LENGTH_SHORT, GB.ERROR);
             return;
         }
 
-        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(getLocationListener());
         locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                interval,
+                provider,
+                interval > 0 ? interval : 1_000,
                 INTERVAL_MIN_DISTANCE,
                 getLocationListener(),
                 Looper.getMainLooper()
         );
 
-        final Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        LOG.debug("Last known network location: {}", lastKnownLocation);
+        final Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LOG.debug("Last known gps location: {}", lastKnownLocation);
     }
 
     @Override
-    void stop(final Context context) {
-        LOG.info("Stopping phone network location provider");
+    public void stop() {
+        LOG.info("Stopping phone gps location provider");
 
-        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(getLocationListener());
     }
 }

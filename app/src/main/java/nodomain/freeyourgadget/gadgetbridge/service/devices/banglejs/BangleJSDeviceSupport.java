@@ -120,8 +120,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.LocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -215,7 +215,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (!gpsUpdateSetup)
             return;
         LOG.info("Stop location updates");
-        GBLocationManager.stop(getContext(), this);
+        GBLocationService.stop(getContext(), getDevice());
         gpsUpdateSetup = false;
     }
 
@@ -1140,14 +1140,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Using combined GPS and NETWORK based location: " + onlyUseNetworkGPS);
             if (!onlyUseNetworkGPS) {
                 try {
-                    GBLocationManager.start(getContext(), this, LocationProviderType.GPS, intervalLength);
+                    GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, intervalLength);
                 } catch (IllegalArgumentException e) {
                     LOG.warn("GPS provider could not be started", e);
                 }
             }
 
             try {
-                GBLocationManager.start(getContext(), this, LocationProviderType.NETWORK, intervalLength);
+                GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.NETWORK, intervalLength);
             } catch (IllegalArgumentException e) {
                 LOG.warn("NETWORK provider could not be started", e);
             }
