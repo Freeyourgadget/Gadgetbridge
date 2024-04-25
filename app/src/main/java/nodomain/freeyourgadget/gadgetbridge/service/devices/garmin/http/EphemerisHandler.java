@@ -21,6 +21,7 @@ public class EphemerisHandler {
     }
 
     public byte[] handleEphemerisRequest(final String path, final Map<String, String> query) {
+        // TODO Return status code 304 (Not Modified) when we don't have newer data and "if-none-match" is set.
         try {
             final File exportDirectory = deviceSupport.getWritableExportDirectory();
             final File ephemerisDataFile = new File(exportDirectory, "CPE.BIN");
