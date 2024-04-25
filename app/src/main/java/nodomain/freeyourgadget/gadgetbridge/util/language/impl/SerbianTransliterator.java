@@ -60,6 +60,9 @@ public class SerbianTransliterator extends SimpleTransliterator {
             put('Đ', "D");  put('đ', "d");
             put('Š', "S");  put('š', "s");
             put('Ž', "z");  put('ž', "z");
+
+            // Suggested in #3727
+            put('Č', "C"); put('č', "c");
         }}, false);
     }
 }
