@@ -25,22 +25,25 @@ public class CalendarEventTest extends TestBase {
     @Test
     public void testHashCode() {
         CalendarEvent c1 =
-                new CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+                new CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, null);
         CalendarEvent c2 =
-                new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+                new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, null);
         CalendarEvent c3 =
-                new CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+                new CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, null);
+        CalendarEvent c4 =
+                new CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, "some");
 
         assertEquals(c1.hashCode(), c1.hashCode());
         assertNotEquals(c1.hashCode(), c2.hashCode());
         assertNotEquals(c2.hashCode(), c3.hashCode());
+        assertNotEquals(c3.hashCode(), c4.hashCode());
     }
 
 
     @Test
     public void testSync() {
         List<CalendarEvent> eventList = new ArrayList<>();
-        eventList.add(new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
+        eventList.add(new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, null));
 
         GBDevice dummyGBDevice = createDummyGDevice("00:00:01:00:03");
         dummyGBDevice.setState(GBDevice.State.INITIALIZED);
@@ -49,7 +52,7 @@ public class CalendarEventTest extends TestBase {
 
         testCR.syncCalendar(eventList);
 
-        eventList.add(new CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
+        eventList.add(new CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false, null));
         testCR.syncCalendar(eventList);
 
         CalendarSyncStateDao calendarSyncStateDao = daoSession.getCalendarSyncStateDao();

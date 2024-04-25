@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -60,10 +59,12 @@ public class CalendarManager {
             Instances.TITLE,
             Instances.DESCRIPTION,
             Instances.EVENT_LOCATION,
+            Instances.ORGANIZER,
             Instances.CALENDAR_DISPLAY_NAME,
             CalendarContract.Calendars.ACCOUNT_NAME,
             Instances.CALENDAR_COLOR,
-            Instances.ALL_DAY
+            Instances.ALL_DAY,
+            Instances.EVENT_ID //needed for reminders
     };
 
     private static final int lookahead_days = 7;
@@ -98,26 +99,54 @@ public class CalendarManager {
                 return calendarEventList;
             }
             while (evtCursor.moveToNext()) {
-                long start = evtCursor.getLong(1);
-                long end = evtCursor.getLong(2);
+                long start = evtCursor.getLong(evtCursor.getColumnIndexOrThrow(Instances.BEGIN));
+                long end = evtCursor.getLong(evtCursor.getColumnIndexOrThrow(Instances.END));
                 if (end == 0) {
                     LOG.info("no end time, will parse duration string");
                     Time time = new Time(); //FIXME: deprecated FTW
-                    time.parse(evtCursor.getString(3));
+                    time.parse(evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.DURATION)));
                     end = start + time.toMillis(false);
                 }
                 CalendarEvent calEvent = new CalendarEvent(
                         start,
                         end,
-                        evtCursor.getLong(0),
-                        evtCursor.getString(4),
-                        evtCursor.getString(5),
-                        evtCursor.getString(6),
-                        evtCursor.getString(7),
-                        evtCursor.getString(8),
-                        evtCursor.getInt(9),
-                        !evtCursor.getString(10).equals("0")
+                        evtCursor.getLong(evtCursor.getColumnIndexOrThrow(Instances._ID)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.TITLE)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.DESCRIPTION)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.EVENT_LOCATION)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.CALENDAR_DISPLAY_NAME)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_NAME)),
+                        evtCursor.getInt(evtCursor.getColumnIndexOrThrow(Instances.CALENDAR_COLOR)),
+                        !evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.ALL_DAY)).equals("0"),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.ORGANIZER))
                 );
+
+
+                // Query reminders for this event
+                final Cursor reminderCursor = mContext.getContentResolver().query(
+                        CalendarContract.Reminders.CONTENT_URI,
+                        null,
+                        CalendarContract.Reminders.EVENT_ID + " = ?",
+                        new String[]{String.valueOf(evtCursor.getLong(evtCursor.getColumnIndexOrThrow(Instances.EVENT_ID)))},
+                        null
+                );
+
+                if (reminderCursor != null && reminderCursor.getCount() > 0) {
+                    final List<Long> reminders = new ArrayList<>();
+                    while (reminderCursor.moveToNext()) {
+                        int minutes = reminderCursor.getInt(reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders.MINUTES));
+                        int method = reminderCursor.getInt(reminderCursor.getColumnIndexOrThrow(CalendarContract.Reminders.METHOD));
+                        LOG.debug("Reminder Method: {}, Minutes: {}", method, minutes);
+
+                        if (method == 1) //METHOD_ALERT
+                            reminders.add(calEvent.getBegin() + minutes * 60 * 1000);
+
+                    }
+                    reminderCursor.close();
+
+                    calEvent.setRemindersAbsoluteTs(reminders);
+                }
+
                 if (!calendarIsBlacklisted(calEvent.getUniqueCalName())) {
                     calendarEventList.add(calEvent);
                 } else {

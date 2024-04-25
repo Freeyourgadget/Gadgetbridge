@@ -16,21 +16,24 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.calendar;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CalendarEvent {
-    private long begin;
-    private long end;
-    private long id;
-    private String title;
-    private String description;
-    private String location;
-    private String calName;
-    private String calAccountName;
-    private int color;
-    private boolean allDay;
+    private final long begin;
+    private final long end;
+    private final long id;
+    private final String title;
+    private final String description;
+    private final String location;
+    private final String calName;
+    private final String calAccountName;
+    private final String organizer;
+    private final int color;
+    private final boolean allDay;
+    private List<Long> remindersAbsoluteTs;
 
-    public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay) {
+    public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay, String organizer) {
         this.begin = begin;
         this.end = end;
         this.id = id;
@@ -41,6 +44,15 @@ public class CalendarEvent {
         this.calAccountName = calAccountName;
         this.color = color;
         this.allDay = allDay;
+        this.organizer = organizer;
+    }
+
+    public List<Long> getRemindersAbsoluteTs() {
+        return remindersAbsoluteTs;
+    }
+
+    public void setRemindersAbsoluteTs(List<Long> remindersAbsoluteTs) {
+        this.remindersAbsoluteTs = remindersAbsoluteTs;
     }
 
     public long getBegin() {
@@ -74,6 +86,10 @@ public class CalendarEvent {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getOrganizer() {
+        return organizer;
     }
 
     public String getDescription() {
@@ -117,7 +133,9 @@ public class CalendarEvent {
                     Objects.equals(this.getCalName(), e.getCalName()) &&
                     Objects.equals(this.getCalAccountName(), e.getCalAccountName()) &&
                     (this.getColor() == e.getColor()) &&
-                    (this.isAllDay() == e.isAllDay());
+                    (this.isAllDay() == e.isAllDay()) &&
+                    Objects.equals(this.getOrganizer(), e.getOrganizer()) &&
+                    Objects.equals(this.getRemindersAbsoluteTs(), e.getRemindersAbsoluteTs());
         } else {
             return false;
         }
@@ -135,6 +153,8 @@ public class CalendarEvent {
         result = 31 * result + Objects.hash(calAccountName);
         result = 31 * result + Integer.valueOf(color).hashCode();
         result = 31 * result + Boolean.valueOf(allDay).hashCode();
+        result = 31 * result + Objects.hash(organizer);
+        result = 31 * result + Objects.hash(remindersAbsoluteTs);
         return result;
     }
 }
