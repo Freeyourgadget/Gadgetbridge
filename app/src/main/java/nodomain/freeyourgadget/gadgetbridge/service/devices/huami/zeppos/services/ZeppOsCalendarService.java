@@ -143,10 +143,12 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
         buf.putInt(calendarEventSpec.timestamp + calendarEventSpec.durationInSeconds);
 
         // Remind
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
+        if (calendarEventSpec.reminders != null && !calendarEventSpec.reminders.isEmpty()) {
+            buf.putInt((int) (calendarEventSpec.reminders.get(0) / 1000L));
+        } else {
+            buf.putInt(0);
+        }
+
         // Repeat
         buf.put((byte) 0x00); // ?
         buf.put((byte) 0x00); // ?
@@ -231,7 +233,10 @@ public class ZeppOsCalendarService extends AbstractZeppOsService {
             final int endTime = BLETypeConversions.toUint32(payload, i);
             i += 4;
 
-            // ? 00 00 00 00 00 00 00 00 ff ff ff ff
+            final int reminderTime = BLETypeConversions.toUint32(payload, i);
+            i += 4;
+
+            // ? 00 00 00 00 ff ff ff ff
             i += 12;
 
             boolean allDay = (payload[i] == 0x01);

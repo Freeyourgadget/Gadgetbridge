@@ -17,6 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.ArrayList;
+
 public class CalendarEventSpec {
     public static final byte TYPE_UNKNOWN = 0;
     public static final byte TYPE_SUNRISE = 1;
@@ -32,4 +34,5 @@ public class CalendarEventSpec {
     public String calName;
     public int color;
     public boolean allDay;
+    public ArrayList<Long> reminders; // unix epoch millis
 }

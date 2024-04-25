@@ -860,6 +860,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
                 calendarEventSpec.allDay = intent.getBooleanExtra(EXTRA_CALENDAREVENT_ALLDAY, false);
+                calendarEventSpec.reminders =  (ArrayList<Long>) intent.getSerializableExtra(EXTRA_CALENDAREVENT_REMINDERS);
                 calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
                 calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
                 calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);

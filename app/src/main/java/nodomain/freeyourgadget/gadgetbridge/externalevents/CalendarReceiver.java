@@ -26,6 +26,7 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
@@ -188,6 +189,7 @@ public class CalendarReceiver extends BroadcastReceiver {
                 calendarEventSpec.id = i;
                 calendarEventSpec.title = calendarEvent.getTitle();
                 calendarEventSpec.allDay = calendarEvent.isAllDay();
+                calendarEventSpec.reminders = new ArrayList<>(calendarEvent.getRemindersAbsoluteTs());
                 calendarEventSpec.timestamp = calendarEvent.getBeginSeconds();
                 calendarEventSpec.durationInSeconds = calendarEvent.getDurationSeconds(); //FIXME: leads to problems right now
                 if (calendarEvent.isAllDay()) {
