@@ -2812,4 +2812,6 @@
     <string name="pref_sleepasandroid_feat_heartrate">Heart rate</string>
     <string name="pref_sleepasandroid_feat_oximetry">Oximetry</string>
     <string name="pref_sleepasandroid_feat_spo2">SPO2</string>
+    <string name="pref_title_huawei_account">Huawei Account</string>
+    <string name="pref_summary_huawei_account">Huawei account used in pairing process. Setting it allows to pair without factory reset.</string>
 </resources>

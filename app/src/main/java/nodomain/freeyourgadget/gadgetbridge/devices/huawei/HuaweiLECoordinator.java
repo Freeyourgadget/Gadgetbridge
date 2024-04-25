@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -82,7 +83,12 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     public String[] getSupportedLanguageSettings(GBDevice device) {
         return huaweiCoordinator.getSupportedLanguageSettings(device);
     }
-    
+
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
+        return new int[]{R.xml.devicesettings_huawei_account};
+    }
+
     @Override
     public int getBondingStyle(){
         return BONDING_STYLE_NONE;

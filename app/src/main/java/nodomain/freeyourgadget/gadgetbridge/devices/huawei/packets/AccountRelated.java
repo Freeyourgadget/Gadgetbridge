@@ -26,15 +26,18 @@ public class AccountRelated {
 		public static final byte id = 0x01;
 
 		public static class Request extends HuaweiPacket {
-			public Request (ParamsProvider paramsProvider) {
+			public Request (ParamsProvider paramsProvider, String account) {
 				super(paramsProvider);
 
 				this.serviceId = AccountRelated.id;
 				this.commandId = id;
 
-				this.tlv = new HuaweiTLV()
-						.put(0x01);
-
+				this.tlv = new HuaweiTLV();
+				if (account.length() > 0) {
+					tlv.put(0x01, account);
+				} else {
+					tlv.put(0x01);
+				}
 				this.complete = true;
 			}
 		}
@@ -50,14 +53,19 @@ public class AccountRelated {
 		public static final byte id = 0x05;
 
 		public static class Request extends HuaweiPacket {
-			public Request (ParamsProvider paramsProvider, boolean accountPairingOptimization) {
+			public Request (ParamsProvider paramsProvider, boolean accountPairingOptimization, String account) {
 				super(paramsProvider);
 
 				this.serviceId = AccountRelated.id;
 				this.commandId = id;
 
-				this.tlv = new HuaweiTLV()
-						.put(0x01, (byte)0x00);
+				this.tlv = new HuaweiTLV();
+				if (account.length() > 0) {
+					tlv.put(0x01, account);
+				} else {
+					tlv.put(0x01, (byte)0x00);
+				}
+
 				if (accountPairingOptimization) {
 					this.tlv.put(0x03, (byte)0x01);
 				}
