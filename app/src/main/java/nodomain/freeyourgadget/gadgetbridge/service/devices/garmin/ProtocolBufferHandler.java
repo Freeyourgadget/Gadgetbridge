@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
+import android.location.Location;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -13,9 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
@@ -28,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.HttpHand
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
@@ -76,9 +82,7 @@ public class ProtocolBufferHandler implements MessageHandler {
             }
             boolean processed = false;
             if (smart.hasCoreService()) { //TODO: unify request and response???
-                processed = true;
-                processProtobufCoreResponse(smart.getCoreService());
-//                return prepareProtobufResponse(processProtobufCoreRequest(smart.getCoreService()), message.getRequestId());
+                return prepareProtobufResponse(processProtobufCoreRequest(smart.getCoreService()), message.getRequestId());
             }
             if (smart.hasCalendarService()) {
                 return prepareProtobufResponse(processProtobufCalendarRequest(smart.getCalendarService()), message.getRequestId());
@@ -203,14 +207,6 @@ public class ProtocolBufferHandler implements MessageHandler {
         ).build();
     }
 
-    private void processProtobufCoreResponse(GdiCore.CoreService coreService) {
-        if (coreService.hasSyncResponse()) {
-            final GdiCore.CoreService.SyncResponse syncResponse = coreService.getSyncResponse();
-            LOG.info("Received sync status: {}", syncResponse.getStatus());
-        }
-        LOG.warn("Unknown CoreService response: {}", coreService);
-    }
-
     private void processProtobufDeviceStatusResponse(GdiDeviceStatus.DeviceStatusService deviceStatusService) {
         if (deviceStatusService.hasRemoteDeviceBatteryStatusResponse()) {
             final GdiDeviceStatus.DeviceStatusService.RemoteDeviceBatteryStatusResponse batteryStatusResponse = deviceStatusService.getRemoteDeviceBatteryStatusResponse();
@@ -229,32 +225,81 @@ public class ProtocolBufferHandler implements MessageHandler {
         LOG.warn("Unknown DeviceStatusService response: {}", deviceStatusService);
     }
 
-//    private GdiSmartProto.Smart processProtobufCoreRequest(GdiCore.CoreService coreService) {
-//        if (coreService.hasLocationUpdatedSetEnabledRequest()) { //TODO: enable location support in devicesupport
-//            LOG.debug("Location CoreService: {}", coreService);
-//
-//            final GdiCore.CoreService.LocationUpdatedSetEnabledRequest locationUpdatedSetEnabledRequest = coreService.getLocationUpdatedSetEnabledRequest();
-//
-//            LOG.info("Received locationUpdatedSetEnabledRequest status: {}", locationUpdatedSetEnabledRequest.getEnabled());
-//
-//            GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Builder response = GdiCore.CoreService.LocationUpdatedSetEnabledResponse.newBuilder()
-//                            .setStatus(GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Status.OK);
-//
-//            //TODO: check and follow the preference in coordinator (see R.xml.devicesettings_workout_send_gps_to_band )
-//            if(locationUpdatedSetEnabledRequest.getEnabled()) {
-//                response.addRequests(GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.newBuilder()
-//                        .setRequested(locationUpdatedSetEnabledRequest.getRequests(0).getRequested())
-//                        .setStatus(GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.RequestedStatus.OK));
-//            }
-//
-//            deviceSupport.processLocationUpdateRequest(locationUpdatedSetEnabledRequest.getEnabled(), locationUpdatedSetEnabledRequest.getRequestsList());
-//
-//            return GdiSmartProto.Smart.newBuilder().setCoreService(
-//                    GdiCore.CoreService.newBuilder().setLocationUpdatedSetEnabledResponse(response)).build();
-//        }
-//        LOG.warn("Unknown CoreService request: {}", coreService);
-//        return null;
-//    }
+    private GdiSmartProto.Smart processProtobufCoreRequest(GdiCore.CoreService coreService) {
+        if (coreService.hasSyncResponse()) {
+            final GdiCore.CoreService.SyncResponse syncResponse = coreService.getSyncResponse();
+            LOG.info("Received sync status: {}", syncResponse.getStatus());
+            return null;
+        }
+
+        if (coreService.hasGetLocationRequest()) {
+            LOG.info("Got location request");
+            final Location location = new CurrentPosition().getLastKnownLocation();
+            final GdiCore.CoreService.GetLocationResponse.Builder response = GdiCore.CoreService.GetLocationResponse.newBuilder();
+            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+                response.setStatus(GdiCore.CoreService.GetLocationResponse.Status.NO_VALID_LOCATION);
+            } else {
+                response.setStatus(GdiCore.CoreService.GetLocationResponse.Status.OK)
+                        .setLocationData(GarminUtils.toLocationData(location, GdiCore.CoreService.DataType.GENERAL_LOCATION));
+            }
+            return GdiSmartProto.Smart.newBuilder().setCoreService(
+                    GdiCore.CoreService.newBuilder().setGetLocationResponse(response)).build();
+        }
+
+        if (coreService.hasLocationUpdatedSetEnabledRequest()) {
+            final GdiCore.CoreService.LocationUpdatedSetEnabledRequest locationUpdatedSetEnabledRequest = coreService.getLocationUpdatedSetEnabledRequest();
+
+            LOG.info("Received locationUpdatedSetEnabledRequest status: {}", locationUpdatedSetEnabledRequest.getEnabled());
+
+            GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Builder response = GdiCore.CoreService.LocationUpdatedSetEnabledResponse.newBuilder()
+                    .setStatus(GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Status.OK);
+
+            final boolean sendGpsPref = deviceSupport.getDevicePrefs().getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false);
+
+            GdiCore.CoreService.Request realtimeRequest = null;
+
+            if (locationUpdatedSetEnabledRequest.getEnabled()) {
+                for (final GdiCore.CoreService.Request request : locationUpdatedSetEnabledRequest.getRequestsList()) {
+                    final GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.RequestedStatus requestedStatus;
+                    if (GdiCore.CoreService.DataType.REALTIME_TRACKING.equals(request.getRequested())) {
+                        realtimeRequest = request;
+                        if (sendGpsPref) {
+                            requestedStatus = GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.RequestedStatus.OK;
+                        } else {
+                            requestedStatus = GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.RequestedStatus.KO;
+                        }
+                    } else {
+                        requestedStatus = GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.RequestedStatus.KO;
+                    }
+
+                    response.addRequests(
+                            GdiCore.CoreService.LocationUpdatedSetEnabledResponse.Requested.newBuilder()
+                                    .setRequested(request.getRequested())
+                                    .setStatus(requestedStatus)
+                    );
+                }
+            }
+
+            if (sendGpsPref) {
+                if (realtimeRequest != null) {
+                    GBLocationService.start(
+                            deviceSupport.getContext(),
+                            deviceSupport.getDevice(),
+                            GBLocationProviderType.GPS,
+                            1000 // TODO from realtimeRequest
+                    );
+                } else {
+                    GBLocationService.stop(deviceSupport.getContext(), deviceSupport.getDevice());
+                }
+            }
+
+            return GdiSmartProto.Smart.newBuilder().setCoreService(
+                    GdiCore.CoreService.newBuilder().setLocationUpdatedSetEnabledResponse(response)).build();
+        }
+
+        LOG.warn("Unknown CoreService request: {}", coreService);
+        return null;
+    }
 
     private GdiSmartProto.Smart processProtobufSmsNotificationMessage(GdiSmsNotification.SmsNotificationService smsNotificationService) {
         if (smsNotificationService.hasSmsCannedListRequest()) {

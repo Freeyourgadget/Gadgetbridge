@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.location.Location;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -34,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSettingsService;
@@ -98,8 +101,10 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     @Override
     public void dispose() {
-        super.dispose();
+        LOG.info("Garmin dispose()");
+        GBLocationService.stop(getContext(), getDevice());
         stopMusicTimer();
+        super.dispose();
     }
 
     private void stopMusicTimer() {
@@ -598,5 +603,18 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         return dir;
     }
 
+    @Override
+    public void onSetGpsLocation(final Location location) {
+        final GdiCore.CoreService.LocationUpdatedNotification.Builder locationUpdatedNotification = GdiCore.CoreService.LocationUpdatedNotification.newBuilder()
+                .addLocationData(
+                        GarminUtils.toLocationData(location, GdiCore.CoreService.DataType.REALTIME_TRACKING)
+                );
 
+        final ProtobufMessage locationUpdatedNotificationRequest = protocolBufferHandler.prepareProtobufRequest(
+                GdiSmartProto.Smart.newBuilder().setCoreService(
+                        GdiCore.CoreService.newBuilder().setLocationUpdatedNotification(locationUpdatedNotification)
+                ).build()
+        );
+        sendOutgoingMessage(locationUpdatedNotificationRequest);
+    }
 }
