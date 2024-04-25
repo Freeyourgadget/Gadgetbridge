@@ -18,14 +18,19 @@ package nodomain.freeyourgadget.gadgetbridge.util.language;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import java.text.Normalizer;
 import java.util.Map;
 
 public class SimpleTransliterator implements Transliterator {
     private final Map<Character, String> transliterateMap;
+    private final boolean convertToLowercase;
+
+    public SimpleTransliterator(final Map<Character, String> transliterateMap, final boolean convertToLowercase) {
+        this.transliterateMap = transliterateMap;
+        this.convertToLowercase = convertToLowercase;
+    }
 
     public SimpleTransliterator(final Map<Character, String> transliterateMap) {
-        this.transliterateMap = transliterateMap;
+        this(transliterateMap, true);
     }
 
     @Override
@@ -46,14 +51,14 @@ public class SimpleTransliterator implements Transliterator {
         return message;
     }
 
-    private String transliterate(char c) {
-        final char lowerChar = Character.toLowerCase(c);
+    private String transliterate(final char c) {
+        final char sourceChar = convertToLowercase ? Character.toLowerCase(c) : c;
 
-        if (transliterateMap.containsKey(lowerChar)) {
-            final String replace = transliterateMap.get(lowerChar);
+        if (transliterateMap.containsKey(sourceChar)) {
+            final String replace = transliterateMap.get(sourceChar);
 
-            if (lowerChar != c) {
-                return WordUtils.capitalize(replace);
+            if (sourceChar != c) {
+                return convertToLowercase ? WordUtils.capitalize(replace) : replace;
             }
 
             return replace;

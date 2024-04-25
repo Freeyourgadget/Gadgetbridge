@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -42,6 +44,34 @@ public class LanguageUtilsTest extends TestBase {
         String result = "Prosto tekct";
 
         assertEquals("Transliteration failed", result, output);
+    }
+
+    @Test
+    public void testStringTransliterateSerbian() throws Exception {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("serbian");
+
+        final Map<String, String> tests = new LinkedHashMap<String, String>() {{
+            put("Тхе qицк брон фоx јумпед овер тхе лаз* дог", "The qick bron fox jumped over the laz* dog");
+            put("Српска ћирилица", "Srpska cirilica");
+            put("Novak Đoković", "Novak Dokovic");
+            put("Џ, Њ and Љ", "Dz, Nj and Lj");
+            put("Љуљачка", "Ljuljacka");
+            put("Наковањ", "Nakovanj");
+            put("Качкаваљ", "Kackavalj");
+            put("Чачак", "Cacak");
+            put("Ч, ч", "C, c");
+            put("Ћ, ћ", "C, c");
+            put("Ж, ж", "Z, z");
+            put("Ш, ш", "S, s");
+            put("Ђ, ђ", "D, d");
+            put("Џ, џ", "Dz, dz");
+            put("Њ, њ", "Nj, nj");
+            put("Љ, љ", "Lj, lj");
+        }};
+
+        for (final Map.Entry<String, String> e : tests.entrySet()) {
+            assertEquals("Transliteration failed for " + e.getKey(), e.getValue(), transliterator.transliterate(e.getKey()));
+        }
     }
 
     @Test
