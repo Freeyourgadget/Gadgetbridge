@@ -3,14 +3,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class EphemerisHandler {
     private static final Logger LOG = LoggerFactory.getLogger(EphemerisHandler.class);
@@ -21,21 +22,30 @@ public class EphemerisHandler {
     }
 
     public byte[] handleEphemerisRequest(final String path, final Map<String, String> query) {
-        // TODO Return status code 304 (Not Modified) when we don't have newer data and "if-none-match" is set.
         try {
-            final File exportDirectory = deviceSupport.getWritableExportDirectory();
-            final File ephemerisDataFile = new File(exportDirectory, "CPE.BIN");
-            if (!ephemerisDataFile.exists() || !ephemerisDataFile.isFile()) {
-                throw new IOException("Cannot locate CPE.BIN file in export/import directory.");
+            final File agpsFile = deviceSupport.getAgpsFile();
+            if (!agpsFile.exists() || !agpsFile.isFile()) {
+                LOG.info("File with AGPS data does not exist.");
+                return null;
             }
-            final byte[] bytes = new byte[(int) ephemerisDataFile.length()];
-            final BufferedInputStream bis = new BufferedInputStream(new FileInputStream(ephemerisDataFile));
-            final DataInputStream dis = new DataInputStream(bis);
-            dis.readFully(bytes);
-            return bytes;
+            try(InputStream agpsIn = new FileInputStream(agpsFile)) {
+                final byte[] rawBytes = FileUtils.readAll(agpsIn, 1024 * 1024); // 1MB, they're usually ~60KB
+                LOG.info("Sending new AGPS data to the device.");
+                return rawBytes;
+            }
         } catch (IOException e) {
             LOG.error("Unable to obtain ephemeris data.", e);
             return null;
         }
+    }
+
+    public Callable<Void> getOnDataSuccessfullySentListener() {
+        return () -> {
+            LOG.info("AGPS data successfully sent to the device.");
+            if (deviceSupport.getAgpsFile().delete()) {
+                LOG.info("AGPS data was deleted from the cache folder.");
+            }
+            return null;
+        };
     }
 }
