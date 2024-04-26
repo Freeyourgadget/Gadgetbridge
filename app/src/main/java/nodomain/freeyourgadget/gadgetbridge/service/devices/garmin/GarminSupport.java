@@ -3,11 +3,14 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.location.Location;
+import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminAgpsInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
@@ -616,6 +620,25 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
+    @Override
+    public void onInstallApp(final Uri uri) {
+        final GarminAgpsInstallHandler agpsHandler = new GarminAgpsInstallHandler(uri, getContext());
+        if (agpsHandler.isValid()) {
+            try {
+                // Write the AGPS update to a temporary file in cache, so we can load it when requested
+                final File agpsFile = getAgpsFile();
+                try (FileOutputStream outputStream = new FileOutputStream(agpsFile)) {
+                    outputStream.write(agpsHandler.getFile().getBytes());
+                    LOG.info("AGPS file successfully written to the cache directory.");
+                } catch (final IOException e) {
+                    LOG.error("Failed to write AGPS bytes to temporary directory", e);
+                }
+            } catch (final Exception e) {
+                GB.toast(getContext(), "AGPS install error: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+        }
+    }
+
     private boolean checkFileExists(String fileName) {
         File dir;
         try {
@@ -647,4 +670,20 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         );
         sendOutgoingMessage(locationUpdatedNotificationRequest);
     }
+
+    public File getAgpsFile() throws IOException {
+        return new File(getAgpsCacheDirectory(), "CPE.BIN");
+    }
+
+    private File getAgpsCacheDirectory() throws IOException {
+        final File cacheDir = getContext().getCacheDir();
+        final File agpsCacheDir = new File(cacheDir, "garmin-agps");
+        if (agpsCacheDir.mkdir()) {
+            LOG.info("AGPS cache directory for Garmin devices successfully created.");
+        } else if (!agpsCacheDir.exists() || !agpsCacheDir.isDirectory()) {
+            throw new IOException("Cannot create/locate AGPS directory for Garmin devices.");
+        }
+        return agpsCacheDir;
+    }
+
 }

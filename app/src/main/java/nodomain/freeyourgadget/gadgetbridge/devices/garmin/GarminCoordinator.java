@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import java.util.List;
@@ -10,6 +13,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -91,5 +95,21 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsUnicodeEmojis() {
         return true;
+    }
+
+    @Override
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        if (supportsAgpsUpdates()) {
+            final GarminAgpsInstallHandler agpsInstallHandler = new GarminAgpsInstallHandler(uri, context);
+            if (agpsInstallHandler.isValid()) {
+                return agpsInstallHandler;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean supportsAgpsUpdates() {
+        return false;
     }
 }

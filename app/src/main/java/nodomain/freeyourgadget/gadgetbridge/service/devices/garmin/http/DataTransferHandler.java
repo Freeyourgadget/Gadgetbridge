@@ -5,17 +5,22 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDataTransferService;
 
 public class DataTransferHandler {
     private static final Logger LOG = LoggerFactory.getLogger(DataTransferHandler.class);
-    private static final AtomicInteger idCounter = new AtomicInteger(0);
+    private static final AtomicInteger idCounter = new AtomicInteger((new Random()).nextInt(Integer.MAX_VALUE / 2));
     private static final Map<Integer, Data> dataById = new HashMap<>();
     private static final Map<Integer, ChunkInfo> unprocessedChunksByRequestId = new HashMap<>();
 
@@ -94,6 +99,13 @@ public class DataTransferHandler {
         data.onDataChunkSuccessfullyReceived(chunkInfo);
         if (data.isDataSuccessfullySent()) {
             LOG.info("Data successfully sent to the device (id: {}, size: {})", chunkInfo.dataId, data.data.length);
+            for (Callable<Void> listener : data.onDataSuccessfullySentListeners) {
+                try {
+                    listener.call();
+                } catch (Exception e) {
+                    LOG.error("Data listener failed.", e);
+                }
+            }
             dataById.remove(chunkInfo.dataId);
         } else {
             LOG.debug(
@@ -101,6 +113,10 @@ public class DataTransferHandler {
                     chunkInfo.dataId, requestId, chunkInfo.start, chunkInfo.end, data.data.length
             );
         }
+    }
+
+    public static void addOnDataSuccessfullySentListener(final int dataId, final Callable<Void> listener) {
+        Objects.requireNonNull(dataById.get(dataId)).onDataSuccessfullySentListeners.add(listener);
     }
 
     private static class ChunkInfo {
@@ -120,10 +136,12 @@ public class DataTransferHandler {
         // Because now we have to store the whole data in RAM.
         private final byte[] data;
         private final TreeMap<Integer, ChunkInfo> chunksReceivedByDevice;
+        private final List<Callable<Void>> onDataSuccessfullySentListeners;
 
         private Data(byte[] data) {
             this.data = data;
             chunksReceivedByDevice = new TreeMap<>();
+            onDataSuccessfullySentListeners = new ArrayList<>();
         }
 
         private byte[] getDataChunk(final int offset, final int maxChunkSize) {

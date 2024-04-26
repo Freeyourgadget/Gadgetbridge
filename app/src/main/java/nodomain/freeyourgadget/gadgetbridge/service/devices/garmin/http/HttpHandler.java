@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.zip.GZIPOutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
@@ -52,6 +53,7 @@ public class HttpHandler {
     }
 
     public GdiHttpService.HttpService.RawResponse handleRawRequest(final GdiHttpService.HttpService.RawRequest rawRequest) {
+        // TODO Return status code 304 (Not Modified) when we don't have newer data and "if-none-match" is set.
         final String urlString = rawRequest.getUrl();
         LOG.debug("Got rawRequest: {} - {}", rawRequest.getMethod(), urlString);
 
@@ -74,15 +76,15 @@ public class HttpHandler {
             }
             final String json = GSON.toJson(weatherData);
             LOG.debug("Weather response: {}", json);
-            return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json");
+            return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json", null);
         } else if (path.startsWith("/ephemeris/")) {
             LOG.info("Got ephemeris request for {}", path);
-            byte[] ephemerisData = ephemerisHandler.handleEphemerisRequest(path, query);
+            final byte[] ephemerisData = ephemerisHandler.handleEphemerisRequest(path, query);
             if (ephemerisData == null) {
                 return null;
             }
             LOG.debug("Successfully obtained ephemeris data (length: {})", ephemerisData.length);
-            return createRawResponse(rawRequest, ephemerisData, "application/x-tar");
+            return createRawResponse(rawRequest, ephemerisData, "application/x-tar", ephemerisHandler.getOnDataSuccessfullySentListener());
         } else {
             LOG.warn("Unhandled path {}", urlString);
             return null;
@@ -92,11 +94,15 @@ public class HttpHandler {
     private static GdiHttpService.HttpService.RawResponse createRawResponse(
             final GdiHttpService.HttpService.RawRequest rawRequest,
             final byte[] data,
-            final String contentType
-    ) {
+            final String contentType,
+            final Callable<Void> onDataSuccessfullySentListener
+            ) {
         if (rawRequest.hasUseDataXfer() && rawRequest.getUseDataXfer()) {
             LOG.debug("Data will be returned using data_xfer");
             int id = DataTransferHandler.registerData(data);
+            if (onDataSuccessfullySentListener != null) {
+                DataTransferHandler.addOnDataSuccessfullySentListener(id, onDataSuccessfullySentListener);
+            }
             return GdiHttpService.HttpService.RawResponse.newBuilder()
                     .setStatus(GdiHttpService.HttpService.Status.OK)
                     .setHttpStatus(200)
