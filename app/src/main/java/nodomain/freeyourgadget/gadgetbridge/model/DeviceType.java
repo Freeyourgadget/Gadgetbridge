@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDev
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.forerunner245.GarminForerunner245Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2s.GarminInstinct2SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2solar.GarminInstinct2SolarCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2soltac.GarminInstinct2SolTacCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.venu3.GarminVenu3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive4s.GarminVivoActive4SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive5.GarminVivoActive5Coordinator;
@@ -202,6 +203,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmismartbandpro.Red
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch2.RedmiWatch2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch2lite.RedmiWatch2LiteCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch3.RedmiWatch3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch3active.RedmiWatch3ActiveCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch4.RedmiWatch4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.watchs1.XiaomiWatchS1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.watchs1active.XiaomiWatchS1ActiveCoordinator;
@@ -209,7 +211,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.watchs1pro.XiaomiWatc
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.watchs3.XiaomiWatchS3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch3active.RedmiWatch3ActiveCoordinator;
 
 /**
  * For every supported device, a device type constant must exist.
@@ -339,6 +340,7 @@ public enum DeviceType {
     GARMIN_FORERUNNER_245(GarminForerunner245Coordinator.class),
     GARMIN_INSTINCT_2S(GarminInstinct2SCoordinator.class),
     GARMIN_INSTINCT_2_SOLAR(GarminInstinct2SolarCoordinator.class),
+    GARMIN_INSTINCT_2_SOLTAC(GarminInstinct2SolTacCoordinator.class),
     GARMIN_VIVOMOVE_STYLE(GarminVivomoveStyleCoordinator.class),
     GARMIN_VENU_3(GarminVenu3Coordinator.class),
     GARMIN_VIVOACTIVE_4S(GarminVivoActive4SCoordinator.class),
