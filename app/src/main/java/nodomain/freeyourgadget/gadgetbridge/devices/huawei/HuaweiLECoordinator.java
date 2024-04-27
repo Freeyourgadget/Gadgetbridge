@@ -14,6 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
+
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
 import android.app.Activity;
@@ -32,11 +33,13 @@ import java.util.List;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -170,12 +173,31 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
+        return huaweiCoordinator.getAppManagerActivity();
     }
 
     @Override
+    public boolean supportsAppListFetching() {
+        return huaweiCoordinator.getSupportsAppListFetching();
+    }
+    @Override
     public boolean supportsAppsManagement(GBDevice device) {
-        return false;
+        return huaweiCoordinator.getSupportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsWatchfaceManagement(GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsInstalledAppManagement(GBDevice device) {
+        return huaweiCoordinator.getSupportsInstalledAppManagement(device);
+    }
+
+    @Override
+    public boolean supportsCachedAppManagement(GBDevice device) {
+        return huaweiCoordinator.getSupportsCachedAppManagement(device);
     }
 
     @Override
@@ -210,7 +232,7 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        return huaweiCoordinator.getInstallHandler(uri, context);
     }
 
     @Override

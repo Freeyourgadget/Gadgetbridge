@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -79,14 +80,17 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetWatchfaceParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
@@ -178,6 +182,9 @@ public class HuaweiSupportProvider {
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
     protected ResponseManager responseManager = new ResponseManager(this);
+    protected HuaweiUploadManager huaweiUploadManager = new HuaweiUploadManager(this);
+
+    protected HuaweiWatchfaceManager huaweiWatchfaceManager = new HuaweiWatchfaceManager(this);
 
     public HuaweiCoordinatorSupplier getCoordinator() {
         return ((HuaweiCoordinatorSupplier) this.gbDevice.getDeviceCoordinator());
@@ -185,6 +192,9 @@ public class HuaweiSupportProvider {
 
     public HuaweiCoordinator getHuaweiCoordinator() {
         return getCoordinator().getHuaweiCoordinator();
+    }
+    public HuaweiWatchfaceManager getHuaweiWatchfaceManager() {
+        return huaweiWatchfaceManager;
     }
 
     public HuaweiSupportProvider(HuaweiBRSupport support) {
@@ -724,6 +734,11 @@ public class HuaweiSupportProvider {
             if (getHuaweiCoordinator().supportsNotificationAlert() && getProtocolVersion() == 2) {
                 GetNotificationConstraintsRequest getNotificationConstraintsReq = new GetNotificationConstraintsRequest(this);
                 getNotificationConstraintsReq.doPerform();
+            }
+
+            if (getHuaweiCoordinator().supportsWatchfaceParams()) {
+                GetWatchfaceParams getWatchfaceParams = new GetWatchfaceParams(this);
+                getWatchfaceParams.doPerform();
             }
         } catch (IOException e) {
             GB.toast(getContext(), "Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR,
@@ -1822,4 +1837,66 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to send GPS data", e);
         }
     }
+
+    public void onInstallApp(Uri uri) {
+        LOG.info("enter onAppInstall uri: "+uri);
+        HuaweiFwHelper huaweiFwHelper = new HuaweiFwHelper(uri, getContext());
+        huaweiUploadManager.setBytes(huaweiFwHelper.getBytes());
+        huaweiUploadManager.setFileType(huaweiFwHelper.getFileType());
+        if (huaweiFwHelper.isWatchface()) {
+            huaweiUploadManager.setFileName(huaweiWatchfaceManager.getRandomName());
+        } else {
+            huaweiUploadManager.setFileName(huaweiFwHelper.getFileName());
+        }
+
+        try {
+            SendFileUploadInfo sendFileUploadInfo = new SendFileUploadInfo(this, huaweiUploadManager);
+            sendFileUploadInfo.doPerform();
+        } catch (IOException e) {
+            GB.toast(context, "Failed to send file upload info", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to send file upload info", e);
+        }
+    }
+
+    public void onUploadProgress(int textRsrc, int progressPercent, boolean ongoing) {
+        try {
+            if (isBLE()) {
+                nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder leBuilder = createLeTransactionBuilder("FetchRecordedData");
+                leBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction(
+                        context.getString(textRsrc),
+                        ongoing,
+                        progressPercent,
+                        context
+                ));
+                leBuilder.queue(leSupport.getQueue());
+            } else {
+                nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder brBuilder = createBrTransactionBuilder("FetchRecordedData");
+                brBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetProgressAction(
+                        context.getString(textRsrc),
+                        ongoing,
+                        progressPercent,
+                        context));
+                brBuilder.queue(brSupport.getQueue());
+
+            }
+
+        } catch (final Exception e) {
+            LOG.error("Failed to update progress notification", e);
+        }
+    }
+
+    public void onAppInfoReq() {
+        huaweiWatchfaceManager.requestWatchfaceList();
+    }
+    
+    public void onAppStart(final UUID uuid, boolean start) {
+        if (start) {
+            huaweiWatchfaceManager.setWatchface(uuid);
+        }
+    }
+
+    public void onAppDelete(final UUID uuid) {
+        huaweiWatchfaceManager.deleteWatchface(uuid);
+    }
+
 }

@@ -33,6 +33,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
@@ -170,12 +171,31 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
+        return huaweiCoordinator.getAppManagerActivity();
     }
 
     @Override
+    public boolean supportsAppListFetching() {
+        return huaweiCoordinator.getSupportsAppListFetching();
+    }
+    @Override
     public boolean supportsAppsManagement(GBDevice device) {
-        return false;
+        return huaweiCoordinator.getSupportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsWatchfaceManagement(GBDevice device) {
+        return supportsAppsManagement(device);
+    }
+
+    @Override
+    public boolean supportsInstalledAppManagement(GBDevice device) {
+        return huaweiCoordinator.getSupportsInstalledAppManagement(device);
+    }
+
+    @Override
+    public boolean supportsCachedAppManagement(GBDevice device) {
+        return huaweiCoordinator.getSupportsCachedAppManagement(device);
     }
 
     @Override
@@ -208,9 +228,10 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
         return huaweiCoordinator.supportsMusic();
     }
 
+
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        return huaweiCoordinator.getInstallHandler(uri, context);
     }
 
     @Override

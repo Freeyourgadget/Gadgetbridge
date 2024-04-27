@@ -16,8 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -30,10 +32,13 @@ import org.slf4j.Logger;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications.NotificationConstraintsType;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -49,7 +54,11 @@ public class HuaweiCoordinator {
     byte notificationCapabilities = -0x01;
     ByteBuffer notificationConstraints = null;
 
+    private Watchface.WatchfaceDeviceParams watchfaceDeviceParams;
+
     private final HuaweiCoordinatorSupplier parent;
+
+
     private boolean transactionCrypted=true;
 
     public HuaweiCoordinator(HuaweiCoordinatorSupplier parent) {
@@ -74,6 +83,7 @@ public class HuaweiCoordinator {
             }
         }
     }
+
 
     private SharedPreferences getCapabilitiesSharedPreferences() {
         return GBApplication.getContext().getSharedPreferences("huawei_coordinator_capatilities" + parent.getDeviceType().name(), Context.MODE_PRIVATE);
@@ -380,6 +390,8 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x0c, 0x01);
     }
 
+    public boolean supportsWatchfaceParams(){ return supportsCommandForService(0x27, 0x01);}
+
     public boolean supportsWeather() {
         return supportsCommandForService(0x0f, 0x01);
     }
@@ -540,5 +552,44 @@ public class HuaweiCoordinator {
                 "zh_CN",
                 "zh_TW",
         };
+
     }
+
+    public short getWidth() {
+        return watchfaceDeviceParams.width;
+    }
+
+    public short getHeight() {
+        return watchfaceDeviceParams.height;
+    }
+
+    public void setWatchfaceDeviceParams(Watchface.WatchfaceDeviceParams watchfaceDeviceParams) {
+        this.watchfaceDeviceParams = watchfaceDeviceParams;
+    }
+
+    public Class<? extends Activity> getAppManagerActivity() {
+        return AppManagerActivity.class;
+    }
+
+    public boolean getSupportsAppListFetching() {
+        return true;
+    }
+
+    public boolean getSupportsAppsManagement(GBDevice device) {
+        return true;
+    }
+
+    public boolean getSupportsInstalledAppManagement(GBDevice device) {
+        return false;
+    }
+
+    public boolean getSupportsCachedAppManagement(GBDevice device) {
+        return false;
+    }
+
+    public InstallHandler getInstallHandler(Uri uri, Context context) {
+        HuaweiInstallHandler handler = new HuaweiInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
+    }
+
 }

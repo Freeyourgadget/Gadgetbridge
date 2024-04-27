@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelated;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
@@ -40,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class HuaweiPacket {
@@ -539,6 +541,28 @@ public class HuaweiPacket {
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
                 }
+            case FileUpload.id:
+                switch(this.commandId) {
+                    case FileUpload.FileNextChunkParams.id:
+                        return new FileUpload.FileNextChunkParams(paramsProvider).fromPacket(this);
+                    case FileUpload.FileUploadConsultAck.id:
+                        return new FileUpload.FileUploadConsultAck.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
+            case Watchface.id:
+                switch (this.commandId) {
+                    case Watchface.WatchfaceParams.id:
+                        return new Watchface.WatchfaceParams.Response(paramsProvider).fromPacket(this);
+                    case Watchface.DeviceWatchInfo.id:
+                        return new Watchface.DeviceWatchInfo.Response(paramsProvider).fromPacket(this);
+                    case Watchface.WatchfaceNameInfo.id:
+                        return new Watchface.WatchfaceNameInfo.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
             default:
                 this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                 return this;
@@ -659,6 +683,62 @@ public class HuaweiPacket {
         finalBuffer.put(buffer.array());
         finalBuffer.putShort((short)crc16);
         retv.add(finalBuffer.array());
+        return retv;
+    }
+
+    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize) {
+        List<byte[]> retv = new ArrayList<>();
+        int headerLength = 5; // Magic + (short)(bodyLength + 1) + 0x00
+        int sliceHeaderLenght =7;
+
+        int footerLength = 2; //CRC16
+
+        int packetCount = (int) Math.ceil(((double) fileChunk.length ) / (double) unitSize);
+
+        ByteBuffer buffer = ByteBuffer.wrap(fileChunk);
+
+        byte fileType = 0x01; //TODO: 1 - watchface, 2 - music
+        int sliceStart = uploadPosition;
+
+        for (int i = 0; i < packetCount; i++) {
+
+            short contentSize = (short) Math.min(unitSize, buffer.remaining());
+            short packetSize = (short)(contentSize + headerLength + sliceHeaderLenght + footerLength);
+            ByteBuffer packet = ByteBuffer.allocate(packetSize);
+
+            int start = packet.position();
+            packet.put((byte) 0x5a);                                // Magic byte
+            packet.putShort((short) (packetSize - headerLength));   // Length
+
+            packet.put((byte) 0x00);
+            packet.put(this.serviceId);
+            packet.put(this.commandId);
+
+            packet.put(fileType);                                      // Slice
+            packet.put((byte)i);                                       // Flag
+            packet.putInt(sliceStart);
+
+            byte[] packetContent = new byte[contentSize];
+            buffer.get(packetContent);
+            packet.put(packetContent);                              // Packet databyte[] packetContent = new byte[contentSize];
+
+            int length = packet.position() - start;
+            if (length != packetSize - footerLength) {
+                // TODO: exception?
+                LOG.error(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
+            }
+
+            byte[] complete = new byte[length];
+            packet.position(start);
+            packet.get(complete, 0, length);
+            int crc16 = CheckSums.getCRC16(complete, 0x0000);
+
+            packet.putShort((short) crc16);                         // CRC16
+
+            sliceStart += contentSize;
+
+            retv.add(packet.array());
+        }
         return retv;
     }
 
