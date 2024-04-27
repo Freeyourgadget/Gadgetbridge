@@ -15,4 +15,14 @@ public class GarminForerunner245Coordinator extends GarminCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_garmin_forerunner_245;
     }
+
+    @Override
+    public boolean supportsFlashing() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAgpsUpdates() {
+        return true;
+    }
 }
