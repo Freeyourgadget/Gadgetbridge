@@ -14,26 +14,16 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Mess
 public class RecordDefinition {
     private final RecordHeader recordHeader;
     private final GlobalFITMessage globalFITMessage;
-    private final PredefinedLocalMessage predefinedLocalMessage;
     private final java.nio.ByteOrder byteOrder;
     private List<FieldDefinition> fieldDefinitions;
     private List<DevFieldDefinition> devFieldDefinitions;
 
-    public RecordDefinition(RecordHeader recordHeader, ByteOrder byteOrder, PredefinedLocalMessage predefinedLocalMessage, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions, List<DevFieldDefinition> devFieldDefinitions) {
+    public RecordDefinition(RecordHeader recordHeader, ByteOrder byteOrder, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions, List<DevFieldDefinition> devFieldDefinitions) {
         this.recordHeader = recordHeader;
         this.byteOrder = byteOrder;
-        this.predefinedLocalMessage = predefinedLocalMessage;
         this.globalFITMessage = globalFITMessage;
         this.fieldDefinitions = fieldDefinitions;
         this.devFieldDefinitions = devFieldDefinitions;
-    }
-
-    public RecordDefinition(ByteOrder byteOrder, PredefinedLocalMessage predefinedLocalMessage) {
-        this(new RecordHeader(true, false, predefinedLocalMessage, null), byteOrder, predefinedLocalMessage, predefinedLocalMessage.getGlobalFITMessage(), predefinedLocalMessage.getLocalFieldDefinitions(), null);
-    }
-
-    public RecordDefinition(ByteOrder byteOrder, RecordHeader recordHeader, GlobalFITMessage globalFITMessage, List<FieldDefinition> fieldDefinitions) {
-        this(recordHeader, byteOrder, null, globalFITMessage, fieldDefinitions, null);
     }
 
     public static RecordDefinition parseIncoming(GarminByteBufferReader garminByteBufferReader, RecordHeader recordHeader) {
@@ -45,7 +35,7 @@ public class RecordDefinition {
         final int globalMesgNum = garminByteBufferReader.readShort();
         final GlobalFITMessage globalFITMessage = GlobalFITMessage.fromNumber(globalMesgNum);
 
-        RecordDefinition definitionMessage = new RecordDefinition(byteOrder, recordHeader, globalFITMessage, null);
+        RecordDefinition definitionMessage = new RecordDefinition(recordHeader, byteOrder, globalFITMessage, null, null);
 
         final int numFields = garminByteBufferReader.readByte();
         List<FieldDefinition> fieldDefinitions = new ArrayList<>(numFields);
@@ -113,33 +103,24 @@ public class RecordDefinition {
         }
     }
 
-    public String getName() {
-        return predefinedLocalMessage != null ? predefinedLocalMessage.name() : "unknown_" + globalFITMessage;
-    }
-
     @NonNull
     public String toString() {
         return System.lineSeparator() + recordHeader.toString() +
                 " Global Message Number: " + globalFITMessage.name();
     }
 
-    public void populateDevFields(List<RecordData> developerFieldData) {
-        for (DevFieldDefinition devFieldDef :
-                getDevFieldDefinitions()) {
-            for (RecordData recordData :
-                    developerFieldData) {
-                try {
-                    if (devFieldDef.getFieldDefinitionNumber() == (int) recordData.getFieldByName("field_definition_number") &&
-                            devFieldDef.getDeveloperDataIndex() == (int) recordData.getFieldByName("developer_data_index")) {
-                        BaseType baseType = BaseType.fromIdentifier((int) recordData.getFieldByName("fit_base_type_id"));
-                        devFieldDef.setBaseType(baseType);
-                        devFieldDef.setName((String) recordData.getFieldByName("field_name"));
-                    }
-                } catch (Exception e) {
-                    //ignore
+    public void populateDevFields(RecordData recordData) {
+        for (DevFieldDefinition devFieldDef : getDevFieldDefinitions()) {
+            try {
+                if (devFieldDef.getFieldDefinitionNumber() == (int) recordData.getFieldByName("field_definition_number") &&
+                        devFieldDef.getDeveloperDataIndex() == (int) recordData.getFieldByName("developer_data_index")) {
+                    BaseType baseType = BaseType.fromIdentifier((int) recordData.getFieldByName("fit_base_type_id"));
+                    devFieldDef.setBaseType(baseType);
+                    devFieldDef.setName((String) recordData.getFieldByName("field_name"));
                 }
+            } catch (Exception e) {
+                //ignore
             }
         }
-
     }
 }

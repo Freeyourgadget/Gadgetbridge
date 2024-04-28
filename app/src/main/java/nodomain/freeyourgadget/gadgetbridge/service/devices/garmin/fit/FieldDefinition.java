@@ -1,5 +1,8 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.ByteBuffer;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
@@ -8,6 +11,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FieldDefinition implements FieldInterface {
+    protected static final Logger LOG = LoggerFactory.getLogger(FieldDefinition.class);
+
     protected final BaseType baseType;
     protected final int scale;
     protected final int offset;
@@ -33,13 +38,19 @@ public class FieldDefinition implements FieldInterface {
         int size = garminByteBufferReader.readByte();
         int baseTypeIdentifier = garminByteBufferReader.readByte();
         BaseType baseType = BaseType.fromIdentifier(baseTypeIdentifier);
-        if (number == 253 && size == 4 && baseType.equals(BaseType.UINT32))
-            return new FieldDefinitionTimestamp(number, size, baseType, "253_timestamp");
-
         FieldDefinition global = globalFITMessage.getFieldDefinition(number, size);
-        if (null != global && global.getBaseType().equals(baseType)) {
-            return global;
+        if (global != null) {
+            if (global.getBaseType().equals(baseType)) {
+                return global;
+            } else {
+                LOG.warn("Global is of type {}, but message declares {}", global.getBaseType(), baseType);
+            }
         }
+
+        if (number == 253 && size == 4 && baseType.equals(BaseType.UINT32)) {
+            return new FieldDefinitionTimestamp(number, size, baseType, "253_timestamp");
+        }
+
         return new FieldDefinition(number, size, baseType, "");
     }
 
