@@ -16,10 +16,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDat
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
+import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
-public class GarminSupportTest {
+public class GarminSupportTest extends TestBase {
     //test strings from https://github.com/themarpe/cobs-java/blob/master/tests-java/Tests.java
     static final byte[] test_string_0 = new byte[]{0, 0, 0, 0};
     static final byte[] test_string_1 = new byte[]{0, '1', '2', '3', '4', '5'};
