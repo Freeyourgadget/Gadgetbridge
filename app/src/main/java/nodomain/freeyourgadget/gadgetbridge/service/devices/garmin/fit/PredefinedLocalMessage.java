@@ -36,12 +36,16 @@ public enum PredefinedLocalMessage {
         return null;
     }
 
-    public List<FieldDefinition> getLocalFieldDefinitions() {
-        return globalFITMessage.getFieldDefinitions(globalDefinitionIds);
-    }
-
     public RecordDefinition getRecordDefinition() {
-        return new RecordDefinition(ByteOrder.BIG_ENDIAN, this);
+        final RecordHeader recordHeader = new RecordHeader(true, false, type, null);
+        final List<FieldDefinition> fieldDefinitions = globalFITMessage.getFieldDefinitions(globalDefinitionIds);
+        return new RecordDefinition(
+                recordHeader,
+                ByteOrder.BIG_ENDIAN,
+                globalFITMessage,
+                fieldDefinitions,
+                null
+        );
     }
 
     public int getType() {

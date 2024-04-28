@@ -13,27 +13,27 @@ import java.io.InputStream;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecordDataFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 
 public class FitFile {
     protected static final Logger LOG = LoggerFactory.getLogger(FitFile.class);
     private final Header header;
-    private final Map<RecordDefinition, List<RecordData>> dataRecords;
+    private final List<RecordData> dataRecords;
     private final boolean canGenerateOutput;
 
-    public FitFile(Header header, Map<RecordDefinition, List<RecordData>> dataRecords) {
+    public FitFile(Header header, List<RecordData> dataRecords) {
         this.header = header;
         this.dataRecords = dataRecords;
         this.canGenerateOutput = false;
     }
 
-    public FitFile(LinkedHashMap<RecordDefinition, List<RecordData>> dataRecords) {
+    public FitFile(List<RecordData> dataRecords) {
         this.dataRecords = dataRecords;
         this.header = new Header(true, 16, 21117);
         this.canGenerateOutput = true;
@@ -64,35 +64,42 @@ public class FitFile {
 
         final Header header = Header.parseIncomingHeader(garminByteBufferReader);
 
-        Map<RecordHeader, RecordDefinition> recordDefinitionMap = new HashMap<>(); //needed because the headers can be redefined in the file. The last header wins
-        Map<RecordDefinition, List<RecordData>> dataRecords = new LinkedHashMap<>();
+        // needed because the headers can be redefined in the file. The last header for a local message number wins
+        Map<Integer, RecordDefinition> recordDefinitionMap = new HashMap<>();
+        List<RecordData> dataRecords = new ArrayList<>();
         Long referenceTimestamp = null;
 
         while (garminByteBufferReader.getPosition() < header.getHeaderSize() + header.getDataSize()) {
             byte rawRecordHeader = (byte) garminByteBufferReader.readByte();
             RecordHeader recordHeader = new RecordHeader(rawRecordHeader);
-            if (recordHeader.isCompressedTimestamp()) {
-                referenceTimestamp += recordHeader.getTimeOffset();
-                recordHeader.setReferenceTimestamp(referenceTimestamp);
+            final Integer timeOffset = recordHeader.getTimeOffset();
+            if (timeOffset != null) {
+                if (referenceTimestamp == null) {
+                    throw new IllegalArgumentException("Got compressed timestamp without knowing current timestamp");
+                }
+
+                if (timeOffset >= (referenceTimestamp & 0x1FL)) {
+                    referenceTimestamp = (referenceTimestamp & ~0x1FL) + timeOffset;
+                } else if (timeOffset < (referenceTimestamp & 0x1FL)) {
+                    referenceTimestamp = (referenceTimestamp & ~0x1FL) + timeOffset + 0x20;
+                }
             }
             if (recordHeader.isDefinition()) {
                 final RecordDefinition recordDefinition = RecordDefinition.parseIncoming(garminByteBufferReader, recordHeader);
                 if (recordDefinition != null) {
                     if (recordHeader.isDeveloperData())
-                        for (RecordDefinition rd : dataRecords.keySet()) {
+                        for (RecordData rd : dataRecords) {
                             if (GlobalFITMessage.FIELD_DESCRIPTION.equals(rd.getGlobalFITMessage()))
-                                recordDefinition.populateDevFields(dataRecords.get(rd));
+                                recordDefinition.populateDevFields(rd);
                         }
-                    recordDefinitionMap.put(recordHeader, recordDefinition);
-                    dataRecords.put(recordDefinition, new ArrayList<>());
+                    recordDefinitionMap.put(recordHeader.getLocalMessageType(), recordDefinition);
                 }
             } else {
-                final RecordDefinition referenceRecordDefinition = recordDefinitionMap.get(recordHeader);
-                final List<RecordData> myList = dataRecords.get(referenceRecordDefinition);
+                final RecordDefinition referenceRecordDefinition = recordDefinitionMap.get(recordHeader.getLocalMessageType());
                 if (referenceRecordDefinition != null) {
-                    final RecordData runningData = new RecordData(referenceRecordDefinition, recordHeader);
-                    myList.add(runningData);
-                    Long newTimestamp = runningData.parseDataMessage(garminByteBufferReader);
+                    final RecordData runningData = FitRecordDataFactory.create(referenceRecordDefinition, recordHeader);
+                    dataRecords.add(runningData);
+                    Long newTimestamp = runningData.parseDataMessage(garminByteBufferReader, referenceTimestamp);
                     if (newTimestamp != null)
                         referenceTimestamp = newTimestamp;
                 }
@@ -108,11 +115,15 @@ public class FitFile {
 
     public List<RecordData> getRecordsByGlobalMessage(GlobalFITMessage globalFITMessage) {
         final List<RecordData> filtered = new ArrayList<>();
-        for (RecordDefinition rd : dataRecords.keySet()) {
+        for (RecordData rd : dataRecords) {
             if (globalFITMessage.equals(rd.getGlobalFITMessage()))
-                filtered.addAll(dataRecords.get(rd));
+                filtered.add(rd);
         }
         return filtered;
+    }
+
+    public List<RecordData> getRecords() {
+        return dataRecords;
     }
 
     public void generateOutgoingDataPayload(MessageWriter writer) {
@@ -121,15 +132,14 @@ public class FitFile {
 
         MessageWriter temporary = new MessageWriter();
         temporary.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        for (Map.Entry<RecordDefinition, List<RecordData>> entry : dataRecords.entrySet()) {
-            RecordDefinition key = entry.getKey();
-            List<RecordData> valueList = entry.getValue();
-
-            key.generateOutgoingPayload(temporary);
-            for (RecordData rd :
-                    valueList) {
-                rd.generateOutgoingDataPayload(temporary);
+        RecordDefinition prevDefinition = null;
+        for (final RecordData rd : dataRecords) {
+            if (!rd.getRecordDefinition().equals(prevDefinition)) {
+                rd.getRecordDefinition().generateOutgoingPayload(temporary);
+                prevDefinition = rd.getRecordDefinition();
             }
+
+            rd.generateOutgoingDataPayload(temporary);
         }
         this.header.setDataSize(temporary.getSize());
 
@@ -145,7 +155,7 @@ public class FitFile {
         return dataRecords.toString();
     }
 
-    static class Header {
+    public static class Header {
         public static final int MAGIC = 0x5449462E;
 
         private final int headerSize;

@@ -28,7 +28,7 @@ public class FieldDefinitionLanguage extends FieldDefinition {
         baseType.encode(byteBuffer, o, scale, offset);
     }
 
-    private enum Language {
+    public enum Language {
         english(0),
         italian(2),
         ;

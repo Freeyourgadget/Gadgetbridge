@@ -87,9 +87,28 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(3, BaseType.UINT8, "heart_rate"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
+    public static GlobalFITMessage DEVICE_INFO = new GlobalFITMessage(23, "DEVICE_INFO", Arrays.asList(
+            new FieldDefinitionPrimitive(2, BaseType.UINT16, "manufacturer"),
+            new FieldDefinitionPrimitive(3, BaseType.UINT32Z, "serial_number"),
+            new FieldDefinitionPrimitive(4, BaseType.UINT16, "product"),
+            new FieldDefinitionPrimitive(5, BaseType.UINT16, "software_version"),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
     public static GlobalFITMessage FILE_CREATOR = new GlobalFITMessage(49, "FILE_CREATOR", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT16, "software_version"),
             new FieldDefinitionPrimitive(1, BaseType.UINT8, "hardware_version")
+    ));
+    public static GlobalFITMessage MONITORING = new GlobalFITMessage(55, "MONITORING", Arrays.asList(
+            new FieldDefinitionPrimitive(2, BaseType.UINT32, "distance"),
+            new FieldDefinitionPrimitive(3, BaseType.UINT32, "cycles"),
+            new FieldDefinitionPrimitive(4, BaseType.UINT32, "active_time"),
+            new FieldDefinitionPrimitive(5, BaseType.ENUM, "activity_type"),
+            new FieldDefinitionPrimitive(19, BaseType.UINT16, "active_calories"),
+            new FieldDefinitionPrimitive(29, BaseType.UINT16, "duration_min"),
+            new FieldDefinitionPrimitive(24, BaseType.BASE_TYPE_BYTE, "current_activity_type_intensity"),
+            new FieldDefinitionPrimitive(26, BaseType.UINT16, "timestamp_16"),
+            new FieldDefinitionPrimitive(27, BaseType.UINT8, "heart_rate"),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
     public static GlobalFITMessage CONNECTIVITY = new GlobalFITMessage(127, "CONNECTIVITY", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.ENUM, "bluetooth_enabled"),
@@ -144,8 +163,19 @@ public class GlobalFITMessage {
     public static GlobalFITMessage ALARM_SETTINGS = new GlobalFITMessage(222, "ALARM_SETTINGS", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT16, "time", FieldDefinitionFactory.FIELD.ALARM)
     ));
+    public static GlobalFITMessage STRESS_LEVEL = new GlobalFITMessage(227, "STRESS_LEVEL", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.SINT16, "stress_level_value"),
+            new FieldDefinitionPrimitive(1, BaseType.UINT32, "stress_level_time", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
 
-    public static Map<Integer, GlobalFITMessage> KNOWNMESSAGES = new HashMap<Integer, GlobalFITMessage>() {{
+    public static GlobalFITMessage SLEEP_STAGE = new GlobalFITMessage(275, "SLEEP_STAGE", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.ENUM, "sleep_stage", FieldDefinitionFactory.FIELD.SLEEP_STAGE),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+    public static GlobalFITMessage SLEEP_STATS = new GlobalFITMessage(346, "SLEEP_STATS", Arrays.asList(
+    ));
+
+    public static Map<Integer, GlobalFITMessage> KNOWN_MESSAGES = new HashMap<Integer, GlobalFITMessage>() {{
         put(0, FILE_ID);
         put(2, DEVICE_SETTINGS);
         put(3, USER_PROFILE);
@@ -153,13 +183,18 @@ public class GlobalFITMessage {
         put(12, SPORT);
         put(15, GOALS);
         put(20, RECORD);
+        put(23, DEVICE_INFO);
         put(49, FILE_CREATOR);
+        put(55, MONITORING);
         put(127, CONNECTIVITY);
         put(128, WEATHER);
         put(159, WATCHFACE_SETTINGS);
         put(206, FIELD_DESCRIPTION);
         put(207, DEVELOPER_DATA);
         put(222, ALARM_SETTINGS);
+        put(227, STRESS_LEVEL);
+        put(275, SLEEP_STAGE);
+        put(346, SLEEP_STATS);
     }};
     private final int number;
     private final String name;
@@ -173,7 +208,7 @@ public class GlobalFITMessage {
     }
 
     public static GlobalFITMessage fromNumber(final int number) {
-        final GlobalFITMessage found = KNOWNMESSAGES.get(number);
+        final GlobalFITMessage found = KNOWN_MESSAGES.get(number);
         if (found != null) {
             return found;
         }
@@ -186,6 +221,10 @@ public class GlobalFITMessage {
 
     public int getNumber() {
         return number;
+    }
+
+    public List<FieldDefinitionPrimitive> getFieldDefinitionPrimitives() {
+        return fieldDefinitionPrimitives;
     }
 
     @Nullable
@@ -206,6 +245,25 @@ public class GlobalFITMessage {
     }
 
     @Nullable
+    public FieldDefinition getFieldDefinition(String name) {
+        for (FieldDefinitionPrimitive fieldDefinitionPrimitive :
+                fieldDefinitionPrimitives) {
+            if (fieldDefinitionPrimitive.name.equals(name)) {
+                return FieldDefinitionFactory.create(
+                        fieldDefinitionPrimitive.number,
+                        fieldDefinitionPrimitive.size,
+                        fieldDefinitionPrimitive.type,
+                        fieldDefinitionPrimitive.baseType,
+                        fieldDefinitionPrimitive.name,
+                        fieldDefinitionPrimitive.scale,
+                        fieldDefinitionPrimitive.offset
+                );
+            }
+        }
+        return null;
+    }
+
+    @Nullable
     public FieldDefinition getFieldDefinition(int id, int size) {
         if (null == fieldDefinitionPrimitives)
             return null;
@@ -218,7 +276,7 @@ public class GlobalFITMessage {
         return null;
     }
 
-    static class FieldDefinitionPrimitive {
+    public static class FieldDefinitionPrimitive {
         private final int number;
         private final BaseType baseType;
         private final String name;
@@ -251,6 +309,34 @@ public class GlobalFITMessage {
 
         public FieldDefinitionPrimitive(int number, BaseType baseType, String name, int scale, int offset) {
             this(number, baseType, baseType.getSize(), name, null, scale, offset);
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public BaseType getBaseType() {
+            return baseType;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public FieldDefinitionFactory.FIELD getType() {
+            return type;
+        }
+
+        public int getScale() {
+            return scale;
+        }
+
+        public int getOffset() {
+            return offset;
+        }
+
+        public int getSize() {
+            return size;
         }
     }
 }

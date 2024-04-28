@@ -25,7 +25,7 @@ public class FitDefinitionMessage extends GFDIMessage {
         List<RecordDefinition> recordDefinitions = new ArrayList<>();
 
         while (reader.remaining() > 0) {
-            RecordHeader recordHeader = new RecordHeader((byte) reader.readByte(), true);
+            RecordHeader recordHeader = new RecordHeader((byte) reader.readByte());
             recordDefinitions.add(RecordDefinition.parseIncoming(reader, recordHeader));
         }
 

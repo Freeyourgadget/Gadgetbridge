@@ -24,17 +24,20 @@ public class FitDataMessage extends GFDIMessage {
         final List<RecordData> recordDataList = new ArrayList<>();
 
         while (reader.remaining() > 0) {
-            RecordHeader recordHeader = new RecordHeader((byte) reader.readByte(), true);
+            RecordHeader recordHeader = new RecordHeader((byte) reader.readByte());
             if (recordHeader.isDefinition())
                 return null;
-            PredefinedLocalMessage predefinedLocalMessage = recordHeader.getPredefinedLocalMessage();
+            PredefinedLocalMessage predefinedLocalMessage = PredefinedLocalMessage.fromType(recordHeader.getLocalMessageType());
             if (predefinedLocalMessage == null) {
                 LOG.warn("Local message is null");
 
                 return null;
             }
-            RecordData recordData = new RecordData(predefinedLocalMessage.getRecordDefinition());
-            recordData.parseDataMessage(reader);
+            RecordData recordData = new RecordData(
+                    predefinedLocalMessage.getRecordDefinition(),
+                    predefinedLocalMessage.getRecordDefinition().getRecordHeader()
+            );
+            recordData.parseDataMessage(reader, null);
             recordDataList.add(recordData);
         }
 

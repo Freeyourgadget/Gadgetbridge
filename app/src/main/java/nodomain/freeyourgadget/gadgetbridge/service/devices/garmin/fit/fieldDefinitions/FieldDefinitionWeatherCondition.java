@@ -142,7 +142,7 @@ public class FieldDefinitionWeatherCondition extends FieldDefinition {
         }
     }
 
-    enum Condition {
+    public enum Condition {
         CLEAR,
         PARTLY_CLOUDY,
         MOSTLY_CLOUDY,

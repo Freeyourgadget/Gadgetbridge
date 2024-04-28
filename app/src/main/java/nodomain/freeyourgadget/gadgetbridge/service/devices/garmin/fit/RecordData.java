@@ -6,28 +6,35 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminByteBufferReader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.MessageWriter;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GBToStringBuilder;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType.STRING;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class RecordData {
 
+    private final RecordDefinition recordDefinition;
     private final RecordHeader recordHeader;
     private final GlobalFITMessage globalFITMessage;
     private final List<FieldData> fieldDataList;
     protected ByteBuffer valueHolder;
 
-    public RecordData(RecordDefinition recordDefinition, RecordHeader recordHeader) {
+    private Long computedTimestamp = null;
+
+    public RecordData(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
         if (null == recordDefinition.getFieldDefinitions())
             throw new IllegalArgumentException("Cannot create record data without FieldDefinitions " + recordDefinition);
 
         fieldDataList = new ArrayList<>();
 
+        this.recordDefinition = recordDefinition;
         this.recordHeader = recordHeader;
         this.globalFITMessage = recordDefinition.getGlobalFITMessage();
 
@@ -58,21 +65,24 @@ public class RecordData {
 
     }
 
-    public RecordData(RecordDefinition recordDefinition) {
-        this(recordDefinition, recordDefinition.getRecordHeader());
-    }
-
     public GlobalFITMessage getGlobalFITMessage() {
         return globalFITMessage;
     }
 
-    public Long parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
+    public RecordDefinition getRecordDefinition() {
+        return recordDefinition;
+    }
+
+    public Long parseDataMessage(final GarminByteBufferReader garminByteBufferReader, final Long currentTimestamp) {
         garminByteBufferReader.setByteOrder(valueHolder.order());
+        computedTimestamp = currentTimestamp;
         Long referenceTimestamp = null;
         for (FieldData fieldData : fieldDataList) {
             Long runningTimestamp = fieldData.parseDataMessage(garminByteBufferReader);
-            if (runningTimestamp != null)
+            if (runningTimestamp != null) {
+                computedTimestamp = runningTimestamp;
                 referenceTimestamp = runningTimestamp;
+            }
         }
         return referenceTimestamp;
     }
@@ -119,7 +129,7 @@ public class RecordData {
                 return fieldData.decode();
             }
         }
-        throw new IllegalArgumentException("Unknown field number " + number);
+        return null;
     }
 
     public Object getFieldByName(String name) {
@@ -129,7 +139,7 @@ public class RecordData {
                 return fieldData.decode();
             }
         }
-        throw new IllegalArgumentException("Unknown field name " + name);
+        return null;
     }
 
     public int[] getFieldsNumbers() {
@@ -143,45 +153,41 @@ public class RecordData {
     }
 
     public Long getComputedTimestamp() {
-        for (FieldData fieldData : fieldDataList) {
-            if (fieldData.getNumber() == 253 || fieldData.fieldDefinition instanceof FieldDefinitionTimestamp)
-                return (long) fieldData.decode();
-        }
-        if (recordHeader.isCompressedTimestamp())
-            return (long) recordHeader.getResultingTimestamp();
-        return null;
+        return computedTimestamp;
     }
 
     @NonNull
+    @Override
     public String toString() {
-        StringBuilder oBuilder = new StringBuilder();
-        oBuilder.append(System.lineSeparator());
-        for (FieldData fieldData :
-                fieldDataList) {
-            if (fieldData.getName() != null && !fieldData.getName().equals("")) {
-                oBuilder.append(fieldData.getName());
-            } else {
-                oBuilder.append("unknown_" + fieldData.getNumber());
-            }
-            oBuilder.append(fieldData);
-            oBuilder.append(": ");
-            Object o = fieldData.decode();
-            if (o instanceof Object[]) {
-                oBuilder.append("[");
-                oBuilder.append(org.apache.commons.lang3.StringUtils.join((Object[]) o, ","));
-                oBuilder.append("]");
-            } else {
-                oBuilder.append(o);
-            }
-            oBuilder.append(" ");
-        }
-        if (recordHeader.isCompressedTimestamp())
-            oBuilder.append("compressed_timestamp: " + getComputedTimestamp());
-        return oBuilder.toString();
-    }
+        final GBToStringBuilder tsb = new GBToStringBuilder(this);
 
-    public PredefinedLocalMessage getPredefinedLocalMessage() {
-        return recordHeader.getPredefinedLocalMessage();
+        if (this.getClass().getName().equals(RecordData.class.getName())) {
+            tsb.append(globalFITMessage.name());
+        }
+
+        if (computedTimestamp != null) {
+            tsb.append(new Date(computedTimestamp * 1000L));
+        }
+
+        for (FieldData fieldData : fieldDataList) {
+            final String fieldName;
+            if (!StringUtils.isBlank(fieldData.getName())) {
+                fieldName = fieldData.getName();
+            } else {
+                fieldName = "unknown_" + fieldData.getNumber() + fieldData;
+            }
+            Object o = fieldData.decode();
+            final String fieldValueString;
+            if (o == null) {
+                fieldValueString = null;
+            } else if (o instanceof Object[]) {
+                fieldValueString = "[" + StringUtils.join((Object[]) o, ",") + "]";
+            } else {
+                fieldValueString = o.toString();
+            }
+            tsb.append(fieldName, fieldValueString);
+        }
+        return tsb.build();
     }
 
     private class FieldData {
@@ -225,7 +231,7 @@ public class RecordData {
         private Long parseDataMessage(GarminByteBufferReader garminByteBufferReader) {
             goToPosition();
             valueHolder.put(garminByteBufferReader.readBytes(size));
-            if (fieldDefinition instanceof FieldDefinitionTimestamp)
+            if (fieldDefinition.getNumber() == 253)
                 return (Long) decode();
             return null;
         }

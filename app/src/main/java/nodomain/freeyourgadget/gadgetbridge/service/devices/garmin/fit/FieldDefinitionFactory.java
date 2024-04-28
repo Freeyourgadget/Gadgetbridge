@@ -8,16 +8,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionLanguage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTemperature;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherCondition;
 
 public class FieldDefinitionFactory {
-
-    public static FieldDefinition create(int localNumber, int size, BaseType baseType, String name, int scale, int offset) {
-        return new FieldDefinition(localNumber, size, baseType, name, scale, offset);
-    }
-
     public static FieldDefinition create(int localNumber, int size, FIELD field, BaseType baseType, String name, int scale, int offset) {
         if (null == field) {
             return new FieldDefinition(localNumber, size, baseType, name, scale, offset);
@@ -43,6 +39,8 @@ public class FieldDefinitionFactory {
                 return new FieldDefinitionWeatherCondition(localNumber, size, baseType, name);
             case LANGUAGE:
                 return new FieldDefinitionLanguage(localNumber, size, baseType, name);
+            case SLEEP_STAGE:
+                return new FieldDefinitionSleepStage(localNumber, size, baseType, name);
             default:
                 return new FieldDefinition(localNumber, size, baseType, name);
         }
@@ -59,5 +57,6 @@ public class FieldDefinitionFactory {
         TIMESTAMP,
         WEATHER_CONDITION,
         LANGUAGE,
+        SLEEP_STAGE,
     }
 }
