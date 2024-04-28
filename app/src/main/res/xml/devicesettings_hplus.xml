@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue="5"
+        android:icon="@drawable/ic_always_on_display"
+        android:key="hplus_screentime"
+        android:title="@string/pref_title_screentime"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:icon="@drawable/ic_heart"
+        android:key="hplus_alldayhr"
+        android:layout="@layout/preference_checkbox"
+        android:title="@string/prefs_title_all_day_heart_rate" />
+</PreferenceScreen>

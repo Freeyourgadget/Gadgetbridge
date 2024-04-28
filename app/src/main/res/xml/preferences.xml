@@ -286,11 +286,6 @@
             android:title="@string/pref_title_pebble_settings">
         </Preference>
         <Preference
-            android:icon="@drawable/ic_device_hplus"
-            android:key="pref_key_hplus"
-            android:title="@string/preferences_hplus_settings">
-        </Preference>
-        <Preference
             android:icon="@drawable/ic_device_zetime"
             android:key="pref_key_zetime"
             android:title="@string/zetime_title_settings" />
