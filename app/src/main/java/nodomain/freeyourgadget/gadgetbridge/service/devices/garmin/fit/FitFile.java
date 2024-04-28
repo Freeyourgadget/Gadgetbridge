@@ -192,7 +192,7 @@ public class FitFile {
             if (hasCRC) {
                 int incomingCrc = garminByteBufferReader.readShort();
 
-                if (incomingCrc != ChecksumCalculator.computeCrc(garminByteBufferReader.asReadOnlyBuffer(), 0, headerSize - 2)) {
+                if (incomingCrc != 0 && incomingCrc != ChecksumCalculator.computeCrc(garminByteBufferReader.asReadOnlyBuffer(), 0, headerSize - 2)) {
                     throw new IllegalArgumentException("Wrong CRC for header in FIT file");
                 }
                 //            LOG.info("Fit File Header didn't have CRC, no check performed.");
