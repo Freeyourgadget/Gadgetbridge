@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon, Martin.JM
+/*  Copyright (C) 2024 Damien Gaignon, Martin.JM, Vitalii Tomin
 
     This file is part of Gadgetbridge.
 
@@ -68,6 +68,34 @@ public class FitnessData {
                 HuaweiTLV containerTlv = new HuaweiTLV().put(0x82, subTlv);
                 this.tlv = new HuaweiTLV()
                         .put(0x81, containerTlv);
+            }
+        }
+    }
+
+    public static class UserInfo {
+        public static final byte id = 0x02;
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider,
+                           int height,
+                           int weight,
+                           int age,
+                           int birthdayEncoded,
+                           byte gender) {
+                super(paramsProvider);
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+
+                byte bmi1 = (byte)Math.round(0.42f * height);
+                byte bmi2 = (byte)Math.round(0.83f * height);
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x01, (byte)height)
+                        .put(0x02, (byte)weight)
+                        .put(0x03, (byte)age)
+                        .put(0x04, birthdayEncoded)
+                        .put(0x05, gender)
+                        .put(0x06, bmi1)
+                        .put(0x07, bmi2);
             }
         }
     }

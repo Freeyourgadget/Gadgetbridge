@@ -93,6 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetWatchfaceParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendCameraRemoteSetupEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFitnessUserInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadInfo;
@@ -514,6 +515,7 @@ public class HuaweiSupportProvider {
             }
             onSetTime();
             getBatteryLevel();
+            sendUserInfo();
             if (isBLE()) {
                 assert leBuilder != null;
                 leBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZED, context));
@@ -986,6 +988,12 @@ public class HuaweiSupportProvider {
                         // But it will disappear after reconnection - until it is enabled again
                         GB.toast(context, context.getString(R.string.toast_setting_requires_reconnect), Toast.LENGTH_SHORT, GB.INFO);
                     }
+                case ActivityUser.PREF_USER_WEIGHT_KG:
+                case ActivityUser.PREF_USER_HEIGHT_CM:
+                case ActivityUser.PREF_USER_GENDER:
+                case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+                    sendUserInfo();
+                    break;
             }
         } catch (IOException e) {
             // TODO: Use translatable string
@@ -1597,6 +1605,17 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to get battery Level", e);
         }
     }
+
+    public void sendUserInfo() {
+        try {
+            SendFitnessUserInfoRequest sendFitnessUserInfoRequest = new SendFitnessUserInfoRequest(this);
+            sendFitnessUserInfoRequest.doPerform();
+        } catch (IOException e) {
+            GB.toast(context, "Failed to set user info", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to set user info", e);
+        }
+    }
+
 
     public void setActivateOnLift() {
         try {
