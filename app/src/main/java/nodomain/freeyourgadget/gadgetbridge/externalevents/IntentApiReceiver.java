@@ -53,6 +53,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
     public static final String COMMAND_TRIGGER_EXPORT = "nodomain.freeyourgadget.gadgetbridge.command.TRIGGER_EXPORT";
     public static final String COMMAND_DEBUG_SEND_NOTIFICATION = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SEND_NOTIFICATION";
     public static final String COMMAND_DEBUG_INCOMING_CALL = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_INCOMING_CALL";
+    public static final String COMMAND_DEBUG_END_CALL = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_END_CALL";
     public static final String COMMAND_DEBUG_SET_DEVICE_ADDRESS = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SET_DEVICE_ADDRESS";
     public static final String COMMAND_DEBUG_TEST_NEW_FUNCTION = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_TEST_NEW_FUNCTION";
 
@@ -168,6 +169,18 @@ public class IntentApiReceiver extends BroadcastReceiver {
                 }
                 GBApplication.deviceService().onSetCallState(callSpec);
                 break;
+
+            case COMMAND_DEBUG_END_CALL:
+                if (!prefs.getBoolean("intent_api_allow_debug_commands", false)) {
+                    LOG.warn(msgDebugNotAllowed);
+                    return;
+                }
+                LOG.info("Triggering Debug End Call");
+                CallSpec callSpecEnd = new CallSpec();
+                callSpecEnd.command = CallSpec.CALL_END;
+                GBApplication.deviceService().onSetCallState(callSpecEnd);
+                break;
+
             case COMMAND_DEBUG_SET_DEVICE_ADDRESS:
                 if (!prefs.getBoolean("intent_api_allow_debug_commands", false)) {
                     LOG.warn(msgDebugNotAllowed);
@@ -193,6 +206,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
         intentFilter.addAction(COMMAND_TRIGGER_EXPORT);
         intentFilter.addAction(COMMAND_DEBUG_SEND_NOTIFICATION);
         intentFilter.addAction(COMMAND_DEBUG_INCOMING_CALL);
+        intentFilter.addAction(COMMAND_DEBUG_END_CALL);
         intentFilter.addAction(COMMAND_DEBUG_SET_DEVICE_ADDRESS);
         intentFilter.addAction(COMMAND_DEBUG_TEST_NEW_FUNCTION);
         return intentFilter;
