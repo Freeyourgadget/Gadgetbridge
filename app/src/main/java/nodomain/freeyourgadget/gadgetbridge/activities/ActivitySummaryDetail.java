@@ -71,6 +71,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -518,6 +519,14 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
                         if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
                             value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
+                        } else if (unit.equals("minutes_km") || unit.equals("minutes_mi")) {
+                            // Format pace
+                            value_field.setText(String.format(
+                                    Locale.getDefault(),
+                                    "%d:%02d %s",
+                                    (int) Math.floor(value), (int) Math.round(60 * (value - (int) Math.floor(value))),
+                                    getStringResourceByName(unit)
+                            ));
                         } else {
                             value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
                         }
