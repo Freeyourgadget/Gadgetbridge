@@ -22,10 +22,14 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiBRCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSpo2SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 
 public class HuaweiWatchUltimateCoordinator extends HuaweiBRCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiWatchUltimateCoordinator.class);
@@ -43,6 +47,21 @@ public class HuaweiWatchUltimateCoordinator extends HuaweiBRCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("(" + HuaweiConstants.HU_WATCHULTIMATE_NAME + ").*", Pattern.CASE_INSENSITIVE);
+    }
+
+    @Override
+    public boolean supportsHeartRateMeasurement(GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSpo2() {
+        return true;
+    }
+
+    @Override
+    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
+        return new HuaweiSpo2SampleProvider(device, session);
     }
 
     @Override
