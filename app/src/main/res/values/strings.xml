@@ -2926,4 +2926,9 @@
     <string name="battery_percentage_str">%1$s%%</string>
     <string name="pref_fetch_unknown_files_title">Fetch unknown files</string>
     <string name="pref_fetch_unknown_files_summary">Fetch unknown activity files from the watch. They will not be processed, but will be saved in the phone.</string>
+
+    <string name="pref_header_deprecated_functionalities">Deprecated functionalities</string>
+    <string name="pref_header_deprecated_functionalities_title">The following functionalities have been deprecated and will be removed soon from the software.\nIf you need to enable one of the following settings be sure to get in touch with the project team.</string>
+    <string name="prefs_key_enable_deprecated_smsreceiver_title">Enable the deprecated SMS Receiver</string>
+    <string name="prefs_key_enable_deprecated_smsreceiver_summary">Use the deprecated SMS Receiver instead of handling SMS through android notification</string>
 </resources>

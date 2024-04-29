@@ -40,6 +40,9 @@ public class SMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Prefs prefs = GBApplication.getPrefs();
+        if (!prefs.getBoolean("prefs_key_enable_deprecated_smsreceiver", false)) {
+            return;
+        }
         if ("never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
             return;
         }

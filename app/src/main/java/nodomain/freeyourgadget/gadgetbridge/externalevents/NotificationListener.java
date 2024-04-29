@@ -828,18 +828,18 @@ public class NotificationListener extends NotificationListenerService {
             LOG.info("Ignoring notification, is a system event");
             return true;
         }
-
-        if (source.equals("com.moez.QKSMS") ||
-                source.equals("com.android.mms") ||
-                source.equals("com.sonyericsson.conversations") ||
-                source.equals("com.android.messaging") ||
-                source.equals("org.smssecure.smssecure")) {
-            if (!"never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
-                LOG.info("Ignoring notification, it's an sms notification");
-                return true;
+        if (prefs.getBoolean("prefs_key_enable_deprecated_smsreceiver", false)) {
+            if (source.equals("com.moez.QKSMS") ||
+                    source.equals("com.android.mms") ||
+                    source.equals("com.sonyericsson.conversations") ||
+                    source.equals("com.android.messaging") ||
+                    source.equals("org.smssecure.smssecure")) {
+                if (!"never".equals(prefs.getString("notification_mode_sms", "when_screen_off"))) {
+                    LOG.info("Ignoring notification, it's an sms notification");
+                    return true;
+                }
             }
         }
-
         if (GBApplication.getPrefs().getString("notification_list_is_blacklist", "true").equals("true")) {
             if (GBApplication.appIsNotifBlacklisted(source)) {
                 LOG.info("Ignoring notification, application is blacklisted");

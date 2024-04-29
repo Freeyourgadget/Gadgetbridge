@@ -47,6 +47,11 @@ import android.util.TypedValue;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,11 +108,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.TLW64;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.WATCHXPLUS;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
-
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -1528,6 +1528,7 @@ public class GBApplication extends Application {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
+    @Deprecated
     public static LimitedQueue<Integer, String> getIDSenderLookup() {
         return mIDSenderLookup;
     }

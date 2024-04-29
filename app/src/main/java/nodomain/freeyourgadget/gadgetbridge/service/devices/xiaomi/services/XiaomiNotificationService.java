@@ -487,14 +487,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         LOG.debug("Sending SMS message '{}' to number '{}' and rejecting call", message, phoneNumber);
 
-        final GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
-        devEvtNotificationControl.handle = -1;
-        devEvtNotificationControl.phoneNumber = phoneNumber;
-        devEvtNotificationControl.reply = message;
-        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-        getSupport().evaluateGBDeviceEvent(devEvtNotificationControl);
-
         final GBDeviceEventCallControl rejectCallCmd = new GBDeviceEventCallControl(GBDeviceEventCallControl.Event.REJECT);
+        rejectCallCmd.phoneNumber = phoneNumber;
+        rejectCallCmd.reply = message;
         getSupport().evaluateGBDeviceEvent(rejectCallCmd);
 
         // FIXME probably premature

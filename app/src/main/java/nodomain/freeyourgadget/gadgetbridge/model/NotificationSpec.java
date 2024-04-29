@@ -28,6 +28,7 @@ public class NotificationSpec {
     public String key;
     public long when;
     public String sender;
+    @Deprecated
     public String phoneNumber;
     public String title;
     public String subject;

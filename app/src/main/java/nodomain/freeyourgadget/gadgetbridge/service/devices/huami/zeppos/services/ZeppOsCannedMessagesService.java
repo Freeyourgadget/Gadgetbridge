@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
-import static org.apache.commons.lang3.ArrayUtils.subarray;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 
@@ -31,14 +29,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
+import static org.apache.commons.lang3.ArrayUtils.subarray;
 
 public class ZeppOsCannedMessagesService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsCannedMessagesService.class);
@@ -170,14 +169,10 @@ public class ZeppOsCannedMessagesService extends AbstractZeppOsService {
         }
 
         LOG.debug("Sending SMS message '{}' to number '{}' and rejecting call", message, phoneNumber);
-        final GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
-        devEvtNotificationControl.handle = -1;
-        devEvtNotificationControl.phoneNumber = phoneNumber;
-        devEvtNotificationControl.reply = message;
-        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-        evaluateGBDeviceEvent(devEvtNotificationControl);
 
         final GBDeviceEventCallControl rejectCallCmd = new GBDeviceEventCallControl(GBDeviceEventCallControl.Event.REJECT);
+        rejectCallCmd.phoneNumber = phoneNumber;
+        rejectCallCmd.reply = message;
         evaluateGBDeviceEvent(rejectCallCmd);
 
         ackCannedSmsReply(true); // FIXME probably premature

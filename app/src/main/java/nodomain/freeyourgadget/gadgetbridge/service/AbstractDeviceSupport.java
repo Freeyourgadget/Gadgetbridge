@@ -74,15 +74,16 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemo
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendSMS;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSilentMode;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSleepStateDetection;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
@@ -100,13 +101,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
 import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
-import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -241,6 +242,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventWearState) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventSleepStateDetection) {
             handleGBDeviceEvent((GBDeviceEventSleepStateDetection) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventSendSMS) {
+            handleGBDeviceEvent((GBDeviceEventSendSMS) deviceEvent);
         }
     }
 
@@ -338,10 +341,25 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             context.sendBroadcast(broadcastIntent);
             return;
         }
+        if (callEvent.event == GBDeviceEventCallControl.Event.REJECT
+                && callEvent.phoneNumber != null
+                && callEvent.reply != null) {
+            LOG.info("Got notification reply for SMS from " + callEvent.phoneNumber + " : " + callEvent.reply);
+            sendSms(callEvent.phoneNumber, callEvent.reply);
+        }
         Intent callIntent = new Intent(GBCallControlReceiver.ACTION_CALLCONTROL);
         callIntent.putExtra("event", callEvent.event.ordinal());
         callIntent.setPackage(context.getPackageName());
         context.sendBroadcast(callIntent);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventSendSMS deviceEvent) {
+        sendSms(deviceEvent.phoneNumber, deviceEvent.message);
+    }
+
+    private void sendSms(String phoneNumber, String message) {
+        LOG.debug("Invoking system SmsManager to send SMS");
+        SmsManager.getDefault().sendTextMessage(phoneNumber, null, message, null, null);
     }
 
     protected void handleGBDeviceEvent(GBDeviceEventCameraRemote cameraRemoteEvent) {
@@ -496,12 +514,18 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 action = NotificationListener.ACTION_MUTE;
                 break;
             case REPLY:
-                if (deviceEvent.phoneNumber == null) {
-                    deviceEvent.phoneNumber = GBApplication.getIDSenderLookup().lookup((int) (deviceEvent.handle >> 4));
-                }
-                if (deviceEvent.phoneNumber != null) {
-                    LOG.info("Got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
-                    SmsManager.getDefault().sendTextMessage(deviceEvent.phoneNumber, null, deviceEvent.reply, null, null);
+                final Prefs prefs = GBApplication.getPrefs();
+                if (prefs.getBoolean("prefs_key_enable_deprecated_smsreceiver", false)) {
+                    if (deviceEvent.phoneNumber == null) {
+                        deviceEvent.phoneNumber = GBApplication.getIDSenderLookup().lookup((int) (deviceEvent.handle >> 4));
+                    }
+                    if (deviceEvent.phoneNumber != null) {
+                        LOG.info("Got notification reply for SMS from " + deviceEvent.phoneNumber + " : " + deviceEvent.reply);
+                        sendSms(deviceEvent.phoneNumber, deviceEvent.reply);
+                    } else {
+                        LOG.info("Got notification reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
+                        action = NotificationListener.ACTION_REPLY;
+                    }
                 } else {
                     LOG.info("Got notification reply for notification id " + deviceEvent.handle + " : " + deviceEvent.reply);
                     action = NotificationListener.ACTION_REPLY;

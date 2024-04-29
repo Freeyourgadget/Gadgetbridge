@@ -22,8 +22,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -108,9 +106,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceive
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.language.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.language.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static class DeviceStruct{
@@ -842,11 +842,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.sourceAppId = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCEAPPID);
                 notificationSpec.iconId = intent.getIntExtra(EXTRA_NOTIFICATION_ICONID, 0);
                 notificationSpec.dndSuppressed = intent.getIntExtra(EXTRA_NOTIFICATION_DNDSUPPRESSED, 0);
-
-                if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
-                    GBApplication.getIDSenderLookup().add(notificationSpec.getId(), notificationSpec.phoneNumber);
+                final Prefs prefs = GBApplication.getPrefs();
+                if (prefs.getBoolean("prefs_key_enable_deprecated_smsreceiver", false)) {
+                    if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
+                        GBApplication.getIDSenderLookup().add(notificationSpec.getId(), notificationSpec.phoneNumber);
+                    }
                 }
-
                 //TODO: check if at least one of the attached actions is a reply action instead?
                 if ((notificationSpec.attachedActions != null && notificationSpec.attachedActions.size() > 0)
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {

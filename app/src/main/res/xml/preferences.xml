@@ -422,4 +422,24 @@
                 app:iconSpaceReserved="false" />
         </PreferenceCategory>
     </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="pref_screen_deprecated_functionalities"
+        android:title="@string/pref_header_deprecated_functionalities"
+        app:iconSpaceReserved="false">
+
+        <PreferenceCategory
+            android:key="pref_key_deprecated_functionalities"
+            android:title="@string/pref_header_deprecated_functionalities_title"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false">
+
+            <SwitchPreferenceCompat
+                android:key="prefs_key_enable_deprecated_smsreceiver"
+                android:layout="@layout/preference_checkbox"
+                android:summary="@string/prefs_key_enable_deprecated_smsreceiver_summary"
+                android:title="@string/prefs_key_enable_deprecated_smsreceiver_title"
+                app:iconSpaceReserved="false" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>
