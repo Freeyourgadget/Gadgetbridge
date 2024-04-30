@@ -1907,6 +1907,9 @@
     <string name="fmtPaceCorrection">Pace %d correction</string>
     <string name="fmtPaceTypeAverage">Pace Type %d average</string>
     <string name="unknownDataEncountered">Unknown data encountered</string>
+    <string name="cyclingPowerAverage">Average cycling power</string>
+    <string name="cyclingPowerMin">Min cycling power</string>
+    <string name="cyclingPowerMax">Max cycling power</string>
     <!-- activity summary units-->
     <string name="meters">m</string>
     <string name="cm">cm</string>

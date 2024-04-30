@@ -106,7 +106,9 @@ public class HuaweiWorkoutGbParser {
                             responseData.eversionAngle,
                             responseData.swolf,
                             responseData.strokeRate,
-                            dataErrorHex
+                            dataErrorHex,
+                            responseData.calories,
+                            responseData.cyclingPower
                     );
 
                     dbHandler.getDaoSession().getHuaweiWorkoutDataSampleDao().insertOrReplace(dataSample);
@@ -301,6 +303,11 @@ public class HuaweiWorkoutGbParser {
                 int heartRateCount = 0;
                 int maxHeartRate = 0;
                 int minHeartRate = Integer.MAX_VALUE;
+                int sumCalories = 0;
+                int minCyclingPower = Integer.MAX_VALUE;
+                int maxCyclingPower = 0;
+                int cyclingPower = 0;
+                int cyclingPowerCount = 0;
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
                     if (dataSample.getSpeed() != -1) {
                         speed += dataSample.getSpeed();
@@ -373,6 +380,17 @@ public class HuaweiWorkoutGbParser {
                         if (hr < minHeartRate)
                             minHeartRate = hr;
                     }
+                    if (dataSample.getCalories() != -1)
+                        sumCalories += dataSample.getCalories();
+                    if (dataSample.getCyclingPower() != -1) {
+                        int cp = dataSample.getCyclingPower();
+                        cyclingPower += cp;
+                        cyclingPowerCount += 1;
+                        if (cp > maxCyclingPower)
+                            maxCyclingPower = cp;
+                        if (cp < minCyclingPower)
+                            minCyclingPower = cp;
+                    }
                     if (dataSample.getDataErrorHex() != null)
                         unknownData = true;
                 }
@@ -400,6 +418,8 @@ public class HuaweiWorkoutGbParser {
                     strokeRate = strokeRate / strokeRateCount;
                 if (heartRateCount > 0)
                     heartRate = heartRate / heartRateCount;
+                if (cyclingPowerCount > 0)
+                    cyclingPower = cyclingPower / cyclingPowerCount;
 
                 if (speedCount > 0) {
                     JSONObject speedJson = new JSONObject();
@@ -533,6 +553,30 @@ public class HuaweiWorkoutGbParser {
                     minHeartRateJson.put("value", minHeartRate);
                     minHeartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
                     jsonObject.put(ActivitySummaryEntries.HR_MIN, minHeartRateJson);
+                }
+
+                if (sumCalories > 0) {
+                    JSONObject caloriesSumJson = new JSONObject();
+                    caloriesSumJson.put("value", sumCalories);
+                    caloriesSumJson.put("unit", ActivitySummaryEntries.UNIT_KCAL);
+                    jsonObject.put(ActivitySummaryEntries.CALORIES_BURNT, caloriesSumJson);
+                }
+
+                if (cyclingPowerCount > 0) {
+                    JSONObject cyclingPowerJson = new JSONObject();
+                    cyclingPowerJson.put("value", cyclingPower);
+                    cyclingPowerJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_AVERAGE, cyclingPowerJson);
+
+                    JSONObject minCyclingPowerJson = new JSONObject();
+                    minCyclingPowerJson.put("value", minCyclingPower);
+                    minCyclingPowerJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_MIN, minCyclingPowerJson);
+
+                    JSONObject maxCyclingPowerJson = new JSONObject();
+                    maxCyclingPowerJson.put("value", maxCyclingPower);
+                    maxCyclingPowerJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_MAX, maxCyclingPowerJson);
                 }
             }
 

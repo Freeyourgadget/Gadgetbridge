@@ -239,12 +239,15 @@ public class Workout {
                 public byte swolf = -1;
                 public short strokeRate = -1;
 
+                public short calories = -1;
+                public short cyclingPower = -1;
+
                 public int timestamp = -1; // Calculated timestamp for this data point
 
                 @Override
                 public String toString() {
                     return "Data{" +
-                            "unknownData=" + unknownData +
+                            "unknownData=" + Arrays.toString(unknownData) +
                             ", heartRate=" + heartRate +
                             ", speed=" + speed +
                             ", stepRate=" + stepRate +
@@ -259,13 +262,15 @@ public class Workout {
                             ", eversionAngle=" + eversionAngle +
                             ", swolf=" + swolf +
                             ", strokeRate=" + strokeRate +
+                            ", calories=" + calories +
+                            ", cyclingPower=" + cyclingPower +
                             ", timestamp=" + timestamp +
                             '}';
                 }
             }
 
             // I'm not sure about the lengths, but we haven't gotten any complaints so they probably are fine
-            private final byte[] bitmapLengths = {1, 2, 1, 2, 2, 4, -1, 2, 2, 1, 1, 1, 1, 1, 1, 1};
+            private final byte[] bitmapLengths = {1, 2, 1, 2, 2, 4, -1, 2, 2, 2, 1, 1, 1, 1, 1, 1};
             private final byte[] innerBitmapLengths = {2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1};
 
             public short workoutNumber;
@@ -409,6 +414,12 @@ public class Workout {
                                             }
                                         }
                                     }
+                                    break;
+                                case 7:
+                                    data.calories = buf.getShort();
+                                    break;
+                                case 8:
+                                    data.cyclingPower = buf.getShort();
                                     break;
                                 default:
                                     data.unknownData = this.tlv.serialize();
