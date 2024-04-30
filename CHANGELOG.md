@@ -2,21 +2,60 @@
 
 #### Next release (WIP)
 
+* Experimental support for Redmi Watch 4
+* Introduce new Dashboard view
 * AsteroidOS: Added icons to the notifications
 * Bangle.js: Add screenshot support
 * Bangle.js: Add setting to disable notifications
+* Bangle.js: Allow wake phone when opening notification response from watch
+* Bangle.js: Fix activity intensity normalization
 * Bangle.js: Fix message reply
+* Fossil/Skagen Hybrids: Update device settings to new structure
+* Galaxy Buds Live: Update device settings to new structure
+* HPlus: Migrate global preferences to device-specific
 * Huawei: Add cycling workout type
+* Huawei: Add enable HeartRate and SpO2 force option
+* Huawei: Add huawei account support (pair without resetting watch)
+* Huawei: Add support for workout calories and cycling power
+* Huawei: Ask pincode only on first connection
+* Huawei: Enable sleep detection
+* Huawei: File upload and watchface management
+* Huawei: Fix force DND support
+* Huawei: Fix long notification
+* Huawei: Fix TimeZone offset calculation
 * Huawei: Improve connection and reconnection
 * Huawei: Improve notification icons
 * Huawei: Improve workout parsing
+* Huawei: Rework settings menu with sub-screens
+* Huawei: Support sending GPS to band
+* Huawei Watch GT4: Add HR and SpO support
+* Huawei Watch Ultimate: Add HR and SpO support
+* Intent API: Added debug end call
+* Mi Band 6: Add menu items for NFC shortcuts
 * Nothing CMF Watch Pro: Add weather support
+* Nothing Earbuds: Add adjustable delay for auto-pick-up of calls
+* Nothing Earbuds: Add option to auto-reply to incoming phone calls
+* Nothing Earbuds: Add option to read aloud incoming notifications
 * Xiaomi Smart Band 8 Active: Fix discovery
+* Xiaomi: Fix some crashes
+* Xiaomi: Improve reconnection
 * Xiaomi: Improve weather support, add multiple locations
-* Set navbar color to match theme
+* Xiaomi: Sync calendar event reminders
+* Zepp OS: Add support for Sleep as Android
+* Zepp OS: Sync calendar event reminders
+* Add Armenian and Serbian transliterators
+* Add GENERIC_PHONE and GENERIC_CALENDAR NotificationType handling
 * Add support for scannable-only devices
+* Fix crash when connecting on some phones
+* Fix crash when enabling bluetooth
+* Fix receiving shared gpx files
+* Format pace as mm:ss
+* Set navbar color to match theme
 * Simplify pairing of bonded and companion devices
-* Prevent text cutoff on all checkbox preferences
+* Recognize "Delta Chat" as generic chat
+* Remove deprecated general auto-reconnect preference
+* Refactor location service
+* Fix text cutoff on all checkbox preferences
 
 #### 0.80.0
 * Initial support for Amazfit Bip 3
