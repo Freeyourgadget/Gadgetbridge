@@ -1492,6 +1492,7 @@
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
     <string name="devicetype_garmin_instinct_2_solar">Garmin Instinct 2 Solar</string>
     <string name="devicetype_garmin_instinct_2_soltac">Instinct 2 SolTac</string>
+    <string name="devicetype_garmin_instinct_crossover">Instinct Crossover</string>
     <string name="devicetype_garmin_forerunner_245">Garmin Forerunner 245</string>
     <string name="devicetype_garmin_vivoactive_4s">Vívoactive 4S</string>
     <string name="devicetype_garmin_vivoactive_5">Vivoactive 5</string>
