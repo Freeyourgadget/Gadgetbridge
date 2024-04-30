@@ -53,7 +53,7 @@ public class LanguageUtilsTest extends TestBase {
         final Map<String, String> tests = new LinkedHashMap<String, String>() {{
             put("Тхе qицк брон фоx јумпед овер тхе лаз* дог", "The qick bron fox jumped over the laz* dog");
             put("Српска ћирилица", "Srpska cirilica");
-            put("Novak Đoković", "Novak Dokovic");
+            put("Novak Đoković", "Novak Djokovic");
             put("Џ, Њ and Љ", "Dz, Nj and Lj");
             put("Љуљачка", "Ljuljacka");
             put("Наковањ", "Nakovanj");
@@ -63,7 +63,7 @@ public class LanguageUtilsTest extends TestBase {
             put("Ћ, ћ", "C, c");
             put("Ж, ж", "Z, z");
             put("Ш, ш", "S, s");
-            put("Ђ, ђ", "D, d");
+            put("Ђ, ђ", "Dj, dj");
             put("Џ, џ", "Dz, dz");
             put("Њ, њ", "Nj, nj");
             put("Љ, љ", "Lj, lj");

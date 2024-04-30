@@ -179,10 +179,6 @@
             android:label="@string/pref_title_pebble_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
-            android:name=".devices.hplus.HPlusSettingsActivity"
-            android:label="@string/preferences_hplus_settings"
-            android:parentActivityName=".activities.SettingsActivity" />
-        <activity
             android:name=".devices.zetime.ZeTimePreferenceActivity"
             android:label="@string/zetime_title_settings"
             android:parentActivityName=".activities.SettingsActivity" />

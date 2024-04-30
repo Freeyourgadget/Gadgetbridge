@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -326,8 +327,8 @@ public class BLEScanService extends Service {
         unregisterReceiver(bluetoothStateChangedReceiver);
     }
 
-    private boolean hasBluetoothPermission(){
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.R){
+    private boolean hasBluetoothPermission() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
             // workaround. Cannot give bluetooth permission on Android O
             LOG.warn("Running on android 11, skipping bluetooth permission check");
             return ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -335,6 +336,7 @@ public class BLEScanService extends Service {
         return ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED;
     }
 
+    @SuppressLint("MissingPermission") // linter does not recognize the usage of hasBluetoothPermission
     private void restartScan(boolean applyFilters) {
         if (!hasBluetoothPermission()) {
             // this should never happen
@@ -357,7 +359,9 @@ public class BLEScanService extends Service {
             return;
         }
         if (currentState.isDoingAnyScan()) {
-            scanner.stopScan(scanCallback);
+            if (hasBluetoothPermission()) {
+                scanner.stopScan(scanCallback);
+            }
         }
         ArrayList<ScanFilter> scanFilters = null;
 
@@ -375,7 +379,7 @@ public class BLEScanService extends Service {
                 }
             }
 
-            if (scanFilters.size() == 0) {
+            if (scanFilters.isEmpty()) {
                 // no need to start scanning
                 LOG.debug("restartScan: stopping BLE scan, no devices");
                 currentState = ScanningState.NOT_SCANNING;
