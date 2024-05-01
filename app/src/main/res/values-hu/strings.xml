@@ -8,15 +8,15 @@
     <string name="controlcenter_fetch_activity_data">Szinkronizálás</string>
     <string name="controlcenter_find_device">Elveszett eszköz keresése</string>
     <string name="controlcenter_take_screenshot">Képernyőkép készítése</string>
-    <string name="controlcenter_disconnect">A kapcsolat megszakadt</string>
+    <string name="controlcenter_disconnect">Leválasztás</string>
     <string name="controlcenter_delete_device">Eszköz törlése</string>
     <string name="controlcenter_delete_device_name">%1$s törlése</string>
     <string name="controlcenter_delete_device_dialogmessage">Az eszköz és az összes hozzátartozó adat törlésre kerül!</string>
     <string name="controlcenter_navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="controlcenter_navigation_drawer_close">Navigációs fiók bezárása</string>
-    <string name="controlcenter_snackbar_need_longpress">Nyomja hosszan a lekapcsolódáshoz</string>
-    <string name="controlcenter_snackbar_disconnecting">Kapcsolat megszakítása</string>
-    <string name="controlcenter_snackbar_connecting">Kapcsolódás…</string>
+    <string name="controlcenter_snackbar_need_longpress">Nyomja hosszan a leválasztáshoz</string>
+    <string name="controlcenter_snackbar_disconnecting">Leválasztás...</string>
+    <string name="controlcenter_snackbar_connecting">Párosítás…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Képernyőkép készítése az eszközről</string>
     <string name="title_activity_debug">Hibakeresés</string>
     <!--Strings related to AppManager-->
@@ -179,10 +179,10 @@
     <string name="android_pairing_hint">Használja az Android Bluetooth párosítási párbeszédpanelét az eszköz párosításához.</string>
     <string name="title_activity_mi_band_pairing">Párosítsa a Mi Band-jét</string>
     <string name="pairing">%s párosítása…</string>
-    <string name="pairing_creating_bond_with">Összeköttetés létesítése ezzel: %1$s (%2$s)</string>
+    <string name="pairing_creating_bond_with">Párosítás ezzel: %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">Sikertelen párosítás ezzel: %1$s (%2$s)</string>
-    <string name="pairing_in_progress">Összeköttetés folyamatban ezzel: %1$s (%2$s)</string>
-    <string name="pairing_already_bonded">%1$s (%2$s) már össze van köttetve, kapcsolódás…</string>
+    <string name="pairing_in_progress">Párosítás folyamatban ezzel: %1$s (%2$s)</string>
+    <string name="pairing_already_bonded">Már párosítva van ezzel: %1$s (%2$s), csatlakozás…</string>
     <string name="message_cannot_pair_no_mac">Nincs átadott MAC-cím, nem lehet párosítani.</string>
     <string name="preferences_category_device_specific_settings">Eszközspecifikus beállítások</string>
     <string name="preferences_miband_settings">MI Band / Amazfit beállítások</string>
@@ -407,16 +407,16 @@
     <string name="mi2_dnd_automatic">Automatikus (alvásérzékelés)</string>
     <string name="mi2_dnd_scheduled">Időzített (idő intervallum)</string>
     <string name="discovery_attempting_to_pair">Párosítás megkísérlése ezzel: %1$s</string>
-    <string name="discovery_bonding_failed_immediately">Az összeköttetés a(z) %1$s eszközzel azonnal megszakadt.</string>
+    <string name="discovery_bonding_failed_immediately">A párosítás a(z) %1$s eszközzel váratlanul megszakadt.</string>
     <string name="discovery_trying_to_connect_to">Kapcsolódás megkísérlése ezzel: %1$s</string>
     <string name="discovery_enable_bluetooth">Engedélyezze a Bluetooth-ot az eszközök felderítéséhez.</string>
-    <string name="discovery_successfully_bonded">Összeköttetve ezzel: %1$s.</string>
+    <string name="discovery_successfully_bonded">Párosítva ezzel: %1$s.</string>
     <string name="discovery_pair_title">%1$s párosítása?</string>
     <string name="discovery_pair_question">Válassza ki a párosítást az eszköz párosításához. Ha ez nem sikerül, próbálja meg újra párosítás nélkül.</string>
     <string name="discovery_yes_pair">Párosítás</string>
     <string name="discovery_dont_pair">Ne párosítsa</string>
     <string name="action_donate">Adományozás</string>
-    <string name="controlcenter_connect">Kapcsolódás…</string>
+    <string name="controlcenter_connect">Párosítás…</string>
     <string name="pref_title_weather">Időjárás</string>
     <string name="pref_auto_fetch">Aktivitásadatok automatikus lekérdezése</string>
     <string name="horizontal">Vízszintes</string>
@@ -466,11 +466,11 @@
     <string name="minutes_30">30 perc</string>
     <string name="notif_battery_low">%1$s akkumulátora merül</string>
     <string name="notif_battery_low_extended">%1$s akkumulátora alacsony szinten: %2$s</string>
-    <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a csatlakoztatott eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
+    <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a párosított eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="prefs_title_heartrate_measurement_interval">Egész napos pulzusmérés</string>
     <string name="prefs_screen_orientation">Képernyő tájolása</string>
-    <string name="pref_summary_sync_calendar">Naptár értesítések bekapcsolása, akkor is, ha le van kapcsolódva a telefonról</string>
+    <string name="pref_summary_sync_calendar">Naptár értesítések bekapcsolása, akkor is, ha a készülék le van választva a telefonról</string>
     <string name="fw_upgrade_notice_amazfitcor">A(z) %s firmware-t kívánja telepíteni az Amazfit Cor készülékére.
 \n
 \nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
@@ -1262,7 +1262,7 @@
     <string name="appmanager_download_started">Az alkalmazás letöltése elindult</string>
     <string name="power_saving">Energiatakarékos</string>
     <string name="gadgetbridge_running_banglejs_main">A Bangle.js fut</string>
-    <string name="debugactivity_confirm_remove_device_preferences">Ez a művelet az összes kapcsolódott eszköz beállítását alap helyzetbe helyezi. Biztos benne?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Ez a művelet az összes párosított eszköz beállítását alap helyzetbe helyezi. Biztos benne?</string>
     <string name="gps_gnolass">GPS + GLONASS</string>
     <string name="gps_bds">GPS + BDS</string>
     <string name="low_power_gps">Alacsony energiájú GPS</string>
@@ -1316,7 +1316,7 @@
     <string name="zepp_os_watchface_emerald_moonlight">Smaragd holdfény</string>
     <string name="activity_data_management_directory_content_title">Exportálás/importálás könyvtár tartalma</string>
     <string name="silent_mode_normal_vibrate">Normál / rezgés</string>
-    <string name="prefs_disconnect_notification">Lekapcsolódási értesítés</string>
+    <string name="prefs_disconnect_notification">Leválasztás értesítés</string>
     <string name="prefs_wena3_vibration_continuous">Folyamatos</string>
     <string name="fossil_hr_connection_not_confirmed">A kapcsolódás nincs megerősítve az órán, hitelesítés nélküli mód használata</string>
     <string name="zepp_os_watchface_vibrant">Élénk</string>
@@ -1331,7 +1331,7 @@
     <string name="enable_vibrations_summary">Rezgés hívásokhoz, üzenetekhez, értesítésekhez és többhöz</string>
     <string name="zepp_os_watchface_red_fantasy">Vörös fantázia</string>
     <string name="prefs_hr_alarm_activity">Pulzus riasztás sport aktivitás közben</string>
-    <string name="devicestatus_disconnecting">Az eszköz lekapcsolódik!</string>
+    <string name="devicestatus_disconnecting">Az eszköz leválasztódik!</string>
     <string name="prefs_wena3_vibration_basic">Alap</string>
     <string name="activity_DB_clean_export_directory_warning_title">Törli a fájlokat az exportálás/importálás könyvtárból?</string>
     <string name="prefs_wena3_notification_vibration_repetition_2">Kétszer</string>
@@ -1354,7 +1354,7 @@
     <string name="qhybrid_title_watchface">Számlap konfiguráció</string>
     <string name="pref_title_notification_cache_while_disconnected">Gyorsítótárazás, amíg hatótávon kívül van</string>
     <string name="discovery_bluetooth_le_scan">Bluetooth LE keresés:</string>
-    <string name="devicestatus_disconnected">Az eszköz lekapcsolódott!</string>
+    <string name="devicestatus_disconnected">Az eszköz leválasztódott!</string>
     <string name="controlcenter_get_heartrate_measurement">Legyen pulzusmérés</string>
     <string name="zepp_os_watchface_lightning_flash">Villámlás</string>
     <string name="prefs_wena3_vibration_siren">Sziréna</string>
@@ -1365,10 +1365,10 @@
     <string name="prefs_wena3_notification_vibration_repetition_0">Folyamatosan</string>
     <string name="activity_prefs_discovery_pairing">Felderítési és párosítási beállítások</string>
     <string name="prefs_wena3_notification_vibration_repetition_4">Négyszer</string>
-    <string name="pref_summary_notification_cache_while_disconnected">Kihagyott értesítések elküldése, amikor az eszköz újrakapcsolódik, miután hatótávon kívül volt</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Kihagyott értesítések elküldése, amikor az eszköz újracsatlakozik, miután hatótávon kívül volt</string>
     <string name="prefs_wena3_vibration_strength_item">Rezgés erőssége</string>
     <string name="zetime_title_heart_rate_alarm_summary">Az óra figyelmeztetni fog, amikor a pulzus átlépi a határokat.</string>
-    <string name="lefun_prefs_antilost_summary">A karkötő rezegni fog, ha a telefon lekapcsolódik a karkötőről</string>
+    <string name="lefun_prefs_antilost_summary">A karkötő rezegni fog, ha a telefon leválsztódik a készülékről</string>
     <string name="zepp_os_watchface_multiple_data">Sok adat</string>
     <string name="about_description_main_nightly">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait. A Gadgetbridge korai hozzáférésű kiadásai. Nem telepíthető, ha már telepítve van a Gadgetbridge vagy a Pebble alkalmazás, a Pebble szolgáltató konfliktusa miatt.</string>
     <string name="ignore_bonded_devices">Összeköttetett eszközök ignorálása</string>
@@ -1558,10 +1558,10 @@
 \n
 \nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
     <string name="open_fw_installer_info_text">A Firmware/Számlap/Alkalmazás/Fájl telepítő lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben talál: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
-    <string name="open_fw_installer_connect_maximum_one_device">CSAK EGY olyan eszközt csatlakoztasson, amelyre el szeretné küldeni a fájlt.</string>
-    <string name="pref_summary_general_reconnectonlytoconnected">Újrakapcsolódáss csak a csatlakoztatott eszközökhöz, ahelyett, hogy az összes eszközzel újrakapcsolódna</string>
+    <string name="open_fw_installer_connect_maximum_one_device">CSAK EGY olyan eszközt párosítson, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Újrakapcsolódás csak a párosított eszközökhöz, ahelyett, hogy az összes eszközzel újrakapcsolódna</string>
     <string name="pref_display_caller_summary">Bejövő hívások telefonszámának vagy nevének megjelenítése</string>
-    <string name="open_fw_installer_ensure_device_connected">Győződjön meg róla, hogy a(z) %s eszköz csatlakoztatva van</string>
+    <string name="open_fw_installer_ensure_device_connected">Győződjön meg róla, hogy a(z) %s eszköz páérosítva van</string>
     <string name="pref_title_notification_prefer_long_text">Hosszú értesítési szöveg előnyben részesítése</string>
     <string name="pref_title_notification_use_as_deny">Értesítések letiltása kiválasztott alkalmazásokból</string>
     <string name="pref_title_notification_delay_calls">Hívás értesítési késleltetés</string>
@@ -1569,7 +1569,7 @@
     <string name="pref_pair_bluetooth_calls_title">Párosítás bluetooth hívásokhoz</string>
     <string name="pref_summary_notification_prefer_long_text">Ha elérhető, küldje el a hosszú értesítési szöveget az eszközre</string>
     <string name="pref_title_notification_use_as_allow">Értesítések engedélyezése kiválasztott alkalmazásokból</string>
-    <string name="open_fw_installer_connect_minimum_one_device">Csatlakoztasson LEGALÁBB EGY olyan eszközt, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Párosítson LEGALÁBB EGY olyan eszközt, amelyre el szeretné küldeni a fájlt.</string>
     <string name="open_fw_installer_select_file">Válassza ki a készülékre feltölteni kívánt fájlt: %s</string>
     <string name="open_fw_installer_getting_files_title">A firmware/alkalmazásfájl megszerzése</string>
     <string name="pref_title_general_reconnectonlytoconnected">Újrakapcsolódás csak a csatlakoztatott eszközökhöz</string>
@@ -1819,7 +1819,7 @@
     <string name="firmware_update_progress">Feltöltés folyamatban
 \n%1d%% %.2fkbps sebességgel (átlag %.2fkbps)
 \n%1d rész %1d-ből</string>
-    <string name="updatefirmwareoperation_failed_low_mtu">A %1$d jelenlegi MTU értéke túl alacsony, engedélyezze a magas MTU értéket az eszköz beállításaiban, és válassza le/csatlakoztassa újra az eszközt.</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">A %1$d jelenlegi MTU értéke túl alacsony, engedélyezze a magas MTU értéket az eszköz beállításaiban, és válassza az eszköz leválasztását/párosítását.</string>
     <string name="pref_title_third_party_app_device_settings">Engedélyezze a harmadik féltől származó alkalmazások beállításainak módosítását</string>
     <string name="pref_summary_third_party_app_device_settings">Engedélyezze más telepített harmadik féltől származó alkalmazások számára az eszközbeállítások intenten keresztül történő beállítását.</string>
     <string name="activity_type_hand_cycling">Kézi kerékpározás</string>
@@ -1915,7 +1915,7 @@
     <string name="pref_enable_unsupported_settings_summary">Ez lehetővé teszi az összes elérhető beállításhoz való hozzáférést, még akkor is, ha azokat az eszköz nem támogatja. Ez instabilitást és összeomlást okozhat az eszközön.</string>
     <string name="miband_prefs_reserve_reminder_calendar">Emlékeztetők a közelgő eseményekre való foglaláshoz</string>
     <string name="pref_sleep_breathing_quality_monitoring">Alvási légzés minőségének ellenőrzése</string>
-    <string name="prefs_disconnect_notification_summary">Értesítés a készüléken a BT-ről való leválasztáskor.</string>
+    <string name="prefs_disconnect_notification_summary">Értesítés a készüléken a BT-ról való leválasztáskor.</string>
     <string name="hydration_dnd_summary">Kapcsolja ki a hidratálási figyelmeztetéseket egy bizonyos időintervallumra</string>
     <string name="prefs_always_on_display">Mindig megjelenítve</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Aktiválja a kijelzőt emeléskor a Ne zavarjanak módban</string>
@@ -2367,4 +2367,27 @@
     <string name="pref_summary_physical_buttons">Az óra fizikai gombjainak beállítása</string>
     <string name="qhybrid_pref_title_actions">Műveletek</string>
     <string name="button_watchface_settings">Óra számlap beállítások</string>
+    <string name="stepRateSum">Lépésszám összege</string>
+    <string name="impactMax">Maximum hatás</string>
+    <string name="impactAvg">Hatás átlag</string>
+    <string name="swingAngleAvg">Lengésszög átlag</string>
+    <string name="eversionAngleAvg">Kifordulási szög átlag</string>
+    <string name="fmtPaceDistance">Ütem %d távolság</string>
+    <string name="stepRateAvg">Lépésszám átlag</string>
+    <string name="stepLengthAvg">Lépéshossz átlag</string>
+    <string name="groundContactTimeAvg">Talajjal való érintkezési idő átlag</string>
+    <string name="foreFootLandings">Lábfej leérkezés</string>
+    <string name="backFootLandings">Lábsarok leérkezés</string>
+    <string name="activity_detail_share_raw_summary">Nyers összefoglaló megosztása</string>
+    <string name="midFootLandings">Talpközép leérkezés</string>
+    <string name="eversionAngleMax">Maximális kifordulási szög</string>
+    <string name="fmtPaceType">Ütem %d típus</string>
+    <string name="fmtPacePace">Ütem %d ütem</string>
+    <string name="gps_track">GPS nyomvonal</string>
+    <string name="fmtPaceCorrection">Ütem %d korrekció</string>
+    <string name="fmtPaceTypeAverage">Ütem típus %d átlag</string>
+    <string name="unknownDataEncountered">Ismeretlen adatok</string>
+    <string name="activity_detail_show_gps_label">GPS nyomvonal megjelenítése</string>
+    <string name="activity_detail_share_gps_label">GPS nyomvonal megosztása</string>
+    <string name="activity_detail_share_raw_details">Nyers részletek megosztása</string>
 </resources>
