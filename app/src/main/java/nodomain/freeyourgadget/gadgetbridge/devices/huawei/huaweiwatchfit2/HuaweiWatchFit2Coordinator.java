@@ -35,11 +35,6 @@ public class HuaweiWatchFit2Coordinator extends HuaweiBRCoordinator {
     }
 
     @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
-    @Override
     public DeviceType getDeviceType() {
         return DeviceType.HUAWEIWATCHFIT2;
     }
