@@ -2841,4 +2841,12 @@
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="alarm_smart_wakeup_interval_default">5 minuten</string>
     <string name="alarm_smart_wakeup_interval">Interval slim wekken:</string>
+    <string name="companion_pairing_request_title">Bijbehorend apparaat</string>
+    <string name="unbind_before_pair_title">Al gekoppeld</string>
+    <string name="unbind_before_pair_message">Dit apparaat is al gekoppeld aan de Android-instellingen, waardoor het koppelen op sommige apparaten kan mislukken.
+\n
+\nAls het toevoegen van het apparaat mislukt, verwijder het dan in de Android-instellingen en probeer het opnieuw.</string>
+    <string name="companion_pairing_request_description">Koppel je dit apparaat als begeleider?
+\n
+\nDit wordt aanbevolen voor sommige functies zoals zoeken naar apparaten en biedt een betere verbinding.</string>
 </resources>
