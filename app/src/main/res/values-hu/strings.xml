@@ -8,14 +8,14 @@
     <string name="controlcenter_fetch_activity_data">Szinkronizálás</string>
     <string name="controlcenter_find_device">Elveszett eszköz keresése</string>
     <string name="controlcenter_take_screenshot">Képernyőkép készítése</string>
-    <string name="controlcenter_disconnect">Lekapcsolódás</string>
+    <string name="controlcenter_disconnect">A kapcsolat megszakadt</string>
     <string name="controlcenter_delete_device">Eszköz törlése</string>
     <string name="controlcenter_delete_device_name">%1$s törlése</string>
     <string name="controlcenter_delete_device_dialogmessage">Az eszköz és az összes hozzátartozó adat törlésre kerül!</string>
     <string name="controlcenter_navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="controlcenter_navigation_drawer_close">Navigációs fiók bezárása</string>
     <string name="controlcenter_snackbar_need_longpress">Nyomja hosszan a lekapcsolódáshoz</string>
-    <string name="controlcenter_snackbar_disconnecting">Lekapcsolódás</string>
+    <string name="controlcenter_snackbar_disconnecting">Kapcsolat megszakítása</string>
     <string name="controlcenter_snackbar_connecting">Kapcsolódás…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Képernyőkép készítése az eszközről</string>
     <string name="title_activity_debug">Hibakeresés</string>
@@ -39,30 +39,30 @@
     <string name="app_move_to_top">A tetejére mozgatás</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/alkalmazás telepítő</string>
-    <string name="fw_upgrade_notice">A(z) %s firmware-t tervezi telepíteni.</string>
-    <string name="fw_multi_upgrade_notice">Ön a(z) %1$s és %2$s firmware-változatokat tervezi telepíteni a Mi Bandjére a mostani helyett.</string>
+    <string name="fw_upgrade_notice">A(z) %s firmware-t kívánja telepíteni.</string>
+    <string name="fw_multi_upgrade_notice">A(z) %1$s és a(z) %2$s firmware-változatokat kívánja telepíteni az Mi készülékére a mostani helyett.</string>
     <string name="miband_firmware_known">Ez a firmware tesztelt és kompatibilis a Gadgetbridge-dzsel.</string>
     <string name="miband_firmware_unknown_warning">Ez a firmware nincs tesztelve, lehetséges, hogy nem kompatibilis a Gadgetbridge-dzsel.
 \n
 \nNEM javasoljuk, ezen firmware telepítését!</string>
-    <string name="miband_firmware_suggest_whitelist">Ha ennek ellenére is telepíteni szeretné, és a dolgok jól működnek utána, kérjük jelezze a Gadgetbridge fejlesztőinek, hogy fehérlistára tehessék a(z) %s firmware-változatot.</string>
+    <string name="miband_firmware_suggest_whitelist">Ha ennek ellenére is telepíteni szeretné, és a dolgok jól működnek utána, jelezze a Gadgetbridge fejlesztőinek, hogy fehérlistára tehessék a(z) %s firmware-változatot.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Beállítások</string>
     <string name="pref_header_general">Általános beállítások</string>
     <string name="pref_title_general_autoconnectonbluetooth">Kapcsolódjon a Gadgetbridge eszköz(ök)höz a Bluetooth bekapcsolásakor</string>
-    <string name="pref_title_general_autostartonboot">Automatikus indulás</string>
+    <string name="pref_title_general_autostartonboot">Automatikus indítás</string>
     <string name="pref_title_general_autoreconnect">Automatikus újrakapcsolódás</string>
-    <string name="pref_title_audio_player">Preferált zenelejátszó</string>
+    <string name="pref_title_audio_player">Előnyben részesített zenelejátszó</string>
     <string name="pref_default">Alapértelmezett</string>
     <string name="pref_header_datetime">Dátum és idő</string>
     <string name="pref_title_datetime_syctimeonconnect">Idő szinkronizálása</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Idő szinkronizálása a Gadgetbridge eszközzel kapcsolódáskor, és amikor az Android eszköz ideje vagy időzónája változik</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Szinkronizálja az időt a Gadgetbridge eszköz(ök)kel, amikor kapcsolódnak, amikor az idő vagy az időzóna megváltozik az Android eszközön és időszakosan</string>
     <string name="pref_title_theme">Téma</string>
     <string name="pref_theme_light">Világos</string>
     <string name="pref_theme_dark">Sötét</string>
     <string name="pref_title_language">Nyelv</string>
     <string name="pref_title_minimize_priority">Gadgetbridge értesítés elrejtése</string>
-    <string name="pref_summary_minimize_priority_off">Az ikon megjelenik az állapotsoron, és az értesítés a záróképernyőn</string>
+    <string name="pref_summary_minimize_priority_off">Az ikon megjelenik az állapotsoron és az értesítés a záróképernyőn</string>
     <string name="pref_summary_minimize_priority_on">Az ikon nem jelenik meg az állapotsoron, sem az értesítés a záróképernyőn</string>
     <string name="pref_header_notifications">Értesítések</string>
     <string name="pref_title_notifications_repetitions">Ismétlések</string>
@@ -111,7 +111,7 @@
     <string name="pref_summary_autoremove_notifications">Az értesítések automatikusan el lesznek távolítva az eszközről, amikor elutasítja őket a telefonon</string>
     <string name="pref_title_pebble_privacy_mode">Adatvédelmi mód</string>
     <string name="pref_pebble_privacy_mode_off">Normál értesítések</string>
-    <string name="pref_pebble_privacy_mode_content">Az értesítésszöveg eltolása képernyőn</string>
+    <string name="pref_pebble_privacy_mode_content">Az értesítés szövegének a képernyőről történő áthelyezése</string>
     <string name="pref_pebble_privacy_mode_complete">Csak az értesítési ikon megjelenítése</string>
     <string name="pref_header_location">Hely</string>
     <string name="pref_title_location_aquire">Hely meghatározása</string>
@@ -120,13 +120,13 @@
     <string name="pref_title_location_keep_uptodate">Hely frissen tartása</string>
     <string name="pref_summary_location_keep_uptodate">Aktuális hely meghatározásának megpróbálása futásidőben, hiba esetén az eltárolt hely használata</string>
     <string name="toast_enable_networklocationprovider">Kérem, engedélyezze a hálózati helymeghatározást</string>
-    <string name="toast_aqurired_networklocation">Hely meghatározva</string>
+    <string name="toast_aqurired_networklocation">helyszín meghatározva</string>
     <string name="pref_title_pebble_forceprotocol">Értesítési protokoll erőltetése</string>
     <string name="pref_summary_pebble_forceprotocol">Ez az opció a legfrissebb értesítési protokollt erőlteti a firmware verziótól függően. CSAK AKKOR ENGEDÉLYEZZE, HA TUDJA MIT CSINÁL!</string>
     <string name="pref_title_pebble_forceuntested">Nem tesztelt funkciók engedélyezése</string>
     <string name="pref_summary_pebble_forceuntested">Nem tesztelt funkciók engedélyezése. CSAK AKKOR ENGEDÉLYEZZE, HA TUDJA MIT CSINÁL!</string>
     <string name="pref_title_pebble_forcele">BLE preferálása mindig</string>
-    <string name="pref_summary_pebble_forcele">+A kísérleti LE támogatás használata minden Pebble-hez a klasszikus BT helyett, párosítani kell hozzá egy \"Pebble LE\"-t, miután a nem-LE-t párosítva lett egyszer.</string>
+    <string name="pref_summary_pebble_forcele">Kísérleti Pebble LE-támogatás használata minden Pebble esetében, a BT classic helyett. Ehhez először a nem LE, majd a Pebble LE párosítása szükséges</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU határérték</string>
     <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbálja beállítani az MTU határértéket (az érvényes tartomány: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Óraalkalmazás-naplózás engedélyezése</string>
@@ -158,7 +158,7 @@
     <string name="installing_binary_d_d">%1$d/%2$d bináris telepítése</string>
     <string name="installation_failed_">Sikertelen telepítés</string>
     <string name="installation_successful">Telepítve</string>
-    <string name="firmware_install_warning">FIRMWARE-T PRÓBÁL TELEPÍTENI, SAJÁT FELELŐSSÉGÉRE JÁRJON EL.
+    <string name="firmware_install_warning">FIRMWARE-T PRÓBÁL TELEPÍTENI, CSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA.
 \n
 \n
 \n Ez a firmware ehhez a hardververzióhoz tartozik: %s</string>
@@ -176,14 +176,14 @@
     <string name="action_discover">Új eszköz kapcsolódása</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Eszköz párosítása</string>
-    <string name="android_pairing_hint">Használja az Android Bluetooth párosítás ablakot eszköz párosításához.</string>
+    <string name="android_pairing_hint">Használja az Android Bluetooth párosítási párbeszédpanelét az eszköz párosításához.</string>
     <string name="title_activity_mi_band_pairing">Párosítsa a Mi Band-jét</string>
     <string name="pairing">%s párosítása…</string>
     <string name="pairing_creating_bond_with">Összeköttetés létesítése ezzel: %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">Sikertelen párosítás ezzel: %1$s (%2$s)</string>
     <string name="pairing_in_progress">Összeköttetés folyamatban ezzel: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">%1$s (%2$s) már össze van köttetve, kapcsolódás…</string>
-    <string name="message_cannot_pair_no_mac">Nincs találat a MAC címre, nem lehet párosítani.</string>
+    <string name="message_cannot_pair_no_mac">Nincs átadott MAC-cím, nem lehet párosítani.</string>
     <string name="preferences_category_device_specific_settings">Eszközspecifikus beállítások</string>
     <string name="preferences_miband_settings">MI Band / Amazfit beállítások</string>
     <string name="male">Férfi</string>
@@ -240,10 +240,10 @@
     <string name="alarm_fri_short">Pén</string>
     <string name="alarm_sat_short">Szo</string>
     <string name="alarm_smart_wakeup">Okos ébresztés</string>
-    <string name="user_feedback_miband_set_alarms_failed">Hiba történt az ébresztések beállításakor, kérjük próbáld újra.</string>
+    <string name="user_feedback_miband_set_alarms_failed">Hiba történt az ébresztések beállításakor, próbáld újra.</string>
     <string name="user_feedback_miband_set_alarms_ok">Ébresztések elküldve az eszközre.</string>
     <string name="chart_no_data_synchronize">Nincs adat. Szinkronizálja az eszközt\?</string>
-    <string name="user_feedback_miband_activity_data_transfer">Adatok fogadása: %1$s %2$s -tól</string>
+    <string name="user_feedback_miband_activity_data_transfer">%1$s adat átvitele %2$s-től kezdve</string>
     <string name="miband_prefs_fitness_goal">Napi lépéscél</string>
     <string name="dbaccess_error_executing">Hiba \'%1$s\' végrehajtásakor</string>
     <string name="controlcenter_start_activitymonitor">Aktivitása</string>
@@ -285,7 +285,7 @@
     <string name="liveactivity_live_activity">Aktuális aktivitás</string>
     <string name="weeksteps_today_steps_description">Lépések ma, cél: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Ne erősítse meg az aktivitásadatok átvitelét</string>
-    <string name="pref_summary_dont_ack_transfers">Ha az aktivitásadatok átvitele nincs megerősítve a band felé, az nem kerülnek törlésre. Hasznos, ha a GB-t más alkalmzásokkal együtt használod.</string>
+    <string name="pref_summary_dont_ack_transfers">Ha az eszköz nem kap megerősítést, az aktivitási adatok nem törlődnek. Hasznos, ha a GB-t más alkalmazásokkal együtt használják.</string>
     <string name="pref_summary_keep_data_on_device">Az adatokat meghagyja az eszközön szinkronizálás után is. Hasznos, ha a GadgetBridge-et együtt használja más alkalmazásokkal.</string>
     <string name="pref_title_low_latency_fw_update">Használja a low-latency módot a firmware telepítésnél</string>
     <string name="pref_summary_low_latency_fw_update">Ez segíthet azon az eszközökön, ahol a firmware telepítése nem sikerül.</string>
@@ -357,7 +357,7 @@
 \n *.log - naplófájlok
 \nVárhatóan itt megtalálja az exportált fájlokat (vagy helyezze ide az importálni kívánt fájlokat):</string>
     <string name="activity_db_management_merge_old_title">Régi adatbázis törlése</string>
-    <string name="dbmanagementactivvity_cannot_access_export_path">Nem elérhető az exportálási útvonal. Kérjük vegye fel a kapcsolatot a fejlesztőkkel.</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">Nem érhető el az exportálási útvonal. Vegye fel a kapcsolatot a fejlesztőkkel.</string>
     <string name="dbmanagementactivity_exported_to">Exportálva ide: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Hiba az adatbázis exportálása során: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Hiba a beállítások exportálása során: %1$s</string>
@@ -382,7 +382,13 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble párosítása</string>
     <string name="pebble_pairing_hint">Egy párosítási párbeszédablak fog megjelennie az Android eszközén. Ha ez nem történik meg, nézze meg az értesítési sávban és fogadja el a párosítási kérelmet. Utána fogadja el a kérelmet a Pebble-n is.</string>
-    <string name="weather_notification_label">Bizonyosodjon meg róla, hogy a skin támogatja-e az Időjárás értesítések megjelenítését. Nincs szükség konfigurációra. A Pebble app management-ben tudja engedélyezni a rendszer időjárás alkalmazását. Azok a skinek amik támogatják az időjárás értesítésket, automatikusan megfogják jeleníteni azt.</string>
+    <string name="weather_notification_label">Győződjön meg róla, hogy ez a kinézet engedélyezve van az Időjárás értesítés alkalmazásban, hogy időjárási információkat kapjon a Pebble készülékén.
+\n
+\nItt nincs szükség konfigurációra.
+\n
+\nA Pebble rendszer időjárás applikációját az alkalmazáskezelésből engedélyezheti.
+\n
+\nA támogatott számlapok automatikusan megjelenítik az időjárást.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth párosítás engedélyezése</string>
     <string name="pref_summary_setup_bt_pairing">Kapcsolja ki ezt, ha gondja van a kapcsolódással</string>
     <string name="unit_metric">Metrikus</string>
@@ -439,7 +445,7 @@
     <string name="title_activity_device_specific_settings">Eszközspecifikus beállítások</string>
     <string name="controlcenter_calibrate_device">Eszköz kalibrálása</string>
     <string name="mi2_prefs_button_press_count">Gombnyomások száma</string>
-    <string name="pref_summary_pebble_enable_bgjs">Amikor be van kapcsolva, lehetővé teszi az időjárás, akkuállapot stb. megjelenítését a számlapokon</string>
+    <string name="pref_summary_pebble_enable_bgjs">Amikor be van kapcsolva, lehetővé teszi az időjárás, akkumulátor információ stb. megjelenítését a számlapon.</string>
     <string name="interval_one_minute">percenként</string>
     <string name="interval_five_minutes">5 percenként</string>
     <string name="interval_ten_minutes">10 percenként</string>
@@ -459,19 +465,19 @@
     <string name="minutes_10">10 perc</string>
     <string name="minutes_30">30 perc</string>
     <string name="notif_battery_low">%1$s akkumulátora merül</string>
-    <string name="notif_battery_low_extended">%1$ akkumulátora merül: %2$s</string>
-    <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a kapcsolódott eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
+    <string name="notif_battery_low_extended">%1$s akkumulátora alacsony szinten: %2$s</string>
+    <string name="debugactivity_really_factoryreset">A gyári beállítások visszaállítása minden adatot töröl a csatlakoztatott eszközről (ha támogatott). A Xiaomi/Huami eszközöknek emellett megváltozik a Bluetooth MAC-címe is, így új eszközként jelennek meg a Gadgetbridge számára.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="prefs_title_heartrate_measurement_interval">Egész napos pulzusmérés</string>
     <string name="prefs_screen_orientation">Képernyő tájolása</string>
     <string name="pref_summary_sync_calendar">Naptár értesítések bekapcsolása, akkor is, ha le van kapcsolódva a telefonról</string>
-    <string name="fw_upgrade_notice_amazfitcor">Ön a %s firmware-t telepíti az Amazfit Cor-ra.
+    <string name="fw_upgrade_notice_amazfitcor">A(z) %s firmware-t kívánja telepíteni az Amazfit Cor készülékére.
 \n
-\nGyőződjön meg, hogy a .fw, és végül a .res fájl is telepítésre kerül! Az óra a .fw file telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem feltétlenül kell telepíteni a .res fájlt, ha pontosan azonos verziót már korábban telepített belőlük.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nCSAK SAJÁT FELELŐSSÉGRE!</string>
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
     <string name="interval_forty_five_minutes">45 percenként</string>
     <string name="interval_fifteen_minutes">15 percenként</string>
     <string name="find_my_phone_notification">Találd meg a telefonom</string>
@@ -518,31 +524,31 @@
     <string name="controlcenter_power_off_confirm_title">Kikapcsolás</string>
     <string name="controlcenter_set_alias">Álnév beállítása</string>
     <string name="controlcenter_power_off_confirm_description">Biztosan ki szeretné kapcsolni az eszközt\?</string>
-    <string name="prefs_activity_in_device_card_title_summary">Jelenlegi lépésszám, távolság vagy alvásidő megjelenítése az eszközlapon</string>
+    <string name="prefs_activity_in_device_card_title_summary">Jelenlegi lépésszám, távolság, vagy alvásidő megjelenítése az eszközlapon</string>
     <string name="activity_prefs_step_length_cm">Lépés hossza cm-ben</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Összes lépésszám megjelenítése</string>
     <string name="title_activity_notification_management">Értesítési beállítások</string>
-    <string name="fw_upgrade_notice_amazfitbip">Ön a %s firmware-t telepíti az Amazfit Bip-re.
+    <string name="fw_upgrade_notice_amazfitbip">A(z) %s firmware-t kívánja telepíteni az Amazfit Bip készülékére.
 \n
-\nGyőződjön meg róla, hogy sorrendben a .fw, a .res és végül a .gps fájl is telepítésre kerül! Az óra a .fw fájl telepítése után újra fog indulni.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt és végül a .gps fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem feltétlenül kell telepíteni a .res és .gps fájlokat, ha pontosan azonos verziót már korábban telepített belőlük.
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha ezek a fájlok pontosan megegyeznek a korábban telepítettekkel.
 \n
 \nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Ön a %s firmware-t telepíti az Amazfit Bip Lite-ra.
+    <string name="fw_upgrade_notice_amazfitbip_lite">A(z) %s firmware-t kívánja telepíteni az Amazfit Bip Lite készülékére.
 \n
-\nGyőződjön meg róla, hogy sorrendben a .fw, majd pedig a .res fájl is telepítésre kerül! Az óra a .fw fájl telepítése után újra fog indulni.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem feltétlenül kell telepíteni a .res fájlt, ha az pontosan azonos a már korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
 \nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
     <string name="calendar_three_months">3 hónap</string>
-    <string name="device_card_activity_card_title_summary">Válassza ki hogy mely tevékenységek részletei jelenjenek meg az eszközlapon</string>
+    <string name="device_card_activity_card_title_summary">Válassza ki, hogy mely tevékenységek részletei jelenjenek meg az eszközlapon</string>
     <string name="prefs_activity_in_device_card_title">Tevékenységi adatok megjelenítése az eszközlapon</string>
     <string name="prefs_activity_in_device_card_sleep_title">Alvás</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Az alvás időtartamának megjelenítése</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">A távolságot a lépések és a lépéshossz alapján számítja ki (beállítható a Beállítások - Önról menüpontban)</string>
-    <string name="battery_detail_activity_title">Akkumulátorinformáció</string>
+    <string name="battery_detail_activity_title">Akkumulátor-információ</string>
     <string name="calendar_day">Nap</string>
     <string name="calendar_week">Hét</string>
     <string name="calendar_two_weeks">Két hét</string>
@@ -551,14 +557,14 @@
     <string name="calendar_year">Év</string>
     <string name="device_card_activity_card_title">Tevékenységi adatok az eszközlapon</string>
     <string name="battery_level">Az akkumulátor töltöttségi szintje</string>
-    <string name="whitelist_all_for_notifications">Összes értesítés fehérlistája</string>
-    <string name="blacklist_all_for_notifications">Összes értesítés feketelistája</string>
+    <string name="whitelist_all_for_notifications">Összes értesítés fehérlistára</string>
+    <string name="blacklist_all_for_notifications">Összes értesítés tiltólistára</string>
     <string name="check_all_applications">Az összes alkalmazás kijelölése</string>
     <string name="uncheck_all_applications">Az összes alkalmazás kijelölésének törlése</string>
     <string name="about_activity_title_generic">A Gadgetbridge névjegye</string>
     <string name="appmanager_app_share">Megosztás</string>
     <string name="button_watchface_select_image">Háttérkép megváltoztatása</string>
-    <string name="about_links">Linkek</string>
+    <string name="about_links">Hivatkozások</string>
     <string name="about_contributors">Hozzájárulók</string>
     <string name="open_fw_installer_info_text_title">Fájltelepítő</string>
     <string name="about_additional_device_support">További eszköztámogatás</string>
@@ -587,7 +593,7 @@
     <string name="watchface_dialog_widget_width">Widget szélessége (pixelben)</string>
     <string name="zetime_analog_mode_hands">Csak kezek</string>
     <string name="share_log">Napló megosztása</string>
-    <string name="about_description_generic">A gyártók zárt forráskódú Android-kütyüalkalmazásainak felhő nélküli, szabad, copyleft helyettesítése.</string>
+    <string name="about_description_generic">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait.</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge névjegye</string>
@@ -652,7 +658,7 @@
     <string name="quick_alarm">Gyors ébresztés</string>
     <string name="sony_automatic_power_off_1_hour">1 óra</string>
     <string name="activity_prefs_goal_fat_burn_time_minutes">Napi cél: zsírégetés ideje percben</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge nightly</string>
+    <string name="title_activity_controlcenter_main_nightly">Korai hozzáférésű Gadgetbridge kiadás</string>
     <string name="sony_automatic_power_off_5_min">5 perc</string>
     <string name="sony_speak_to_chat_sensitivity_auto">Automatikus</string>
     <string name="reminder_time_every_day">%1$s, minden nap</string>
@@ -665,7 +671,7 @@
     <string name="pref_workout_keep_screen_on_title">Képernyő bekapcsolva tartása edzés közben</string>
     <string name="activity_summary_yesterday">Tegnap</string>
     <string name="devicetype_miband3">Mi Band 3</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge nightly Pebble nélkül</string>
+    <string name="title_activity_controlcenter_main_nopebble">Korai hozzáférésű Gadgetbiridge kiadás, Pebble szolgáltató nélkül</string>
     <string name="pref_workout_send_gps_title">GPS küldése edzés közben</string>
     <string name="menuitem_total_workout">Összes edzés</string>
     <string name="sony_equalizer_band_6300">6.3k</string>
@@ -673,7 +679,7 @@
     <string name="appwidget_sleep_alarm_widget_label">Ébresztés</string>
     <string name="menuitem_workout">Edzés</string>
     <string name="pref_show_changelog_summary">A Gadgetbridge frissítése utáni változásnapló megjelenítése az utolsó verzió óta</string>
-    <string name="about_activity_title_main_nopebble">Gadgetbridge nightly Pebble nélkül névjegye</string>
+    <string name="about_activity_title_main_nopebble">Korai hozzáférésű Gadgetbiridge kiadás, Pebble szolgáltató nélkül névjegye</string>
     <string name="activity_prefs_goal_standing_time_minutes">Napi cél: állási idő percben</string>
     <string name="automatic">Automatikus</string>
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus kalibráció</string>
@@ -690,13 +696,13 @@
         <item quantity="one">%d óra</item>
         <item quantity="other">%d óra</item>
     </plurals>
-    <string name="about_activity_title_main_nightly">A Gadgetbridge nightly névjegye</string>
+    <string name="about_activity_title_main_nightly">A korai hozzáférésű Gadgetbridge kiadás névjegye</string>
     <string name="single_band">Egy karkötő</string>
     <string name="menuitem_last_workout">Utolsó edzés</string>
     <string name="pref_show_changelog">Változásnapló megjelenítése induláskor</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">NYERS adatok megjelenítése az aktivitásgrafikonon</string>
     <string name="changelog_title">Újdonságok</string>
-    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (nightly) névjegye</string>
+    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (korai hozzáférésű kiadás) névjegye</string>
     <string name="sony_automatic_power_off_3_hour">3 óra</string>
     <string name="activity_prefs_alarm_min_heart_rate">Minimum pulzus</string>
     <string name="yesterdays_activity">Tegnapi aktivitás</string>
@@ -709,7 +715,7 @@
     <string name="activity_prefs_distance_meters">Napi cél: távolság méterben</string>
     <string name="steps_streaks_total_steps_average_hint">Összesen %d lépés naponta</string>
     <string name="pref_workout_detection_ask_first">Kérdezzen először</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (korai hozzáférésű kiadás)</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="pref_workout_detection_enabled">Észlelés engedélyezése</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
@@ -759,9 +765,9 @@
     <string name="hr_widget_nothing">Semmi</string>
     <string name="activity_type_walking">Séta</string>
     <string name="qhybrid_offset_timezone">időzóna eltolása ennyivel:</string>
-    <string name="turkish">török</string>
+    <string name="turkish">Török</string>
     <string name="descentMeters">Lejtő</string>
-    <string name="watch9_time_hours">Órák:</string>
+    <string name="watch9_time_hours">Óra:</string>
     <string name="hebrew">Héber</string>
     <string name="devicetype_watch9">Watch 9</string>
     <string name="activity_prefs_chart_min_heart_rate">Minimum pulzus</string>
@@ -787,13 +793,13 @@
     <string name="greek">Görög</string>
     <string name="menuitem_worldclock">Világóra</string>
     <string name="activity_type_unknown">Ismeretlen aktivitás</string>
-    <string name="seconds">sec</string>
+    <string name="seconds">mp</string>
     <string name="mi2_prefs_button_actions_summary">Gombnyomás műveletek megadása</string>
     <string name="meters">m</string>
     <string name="hr_widget_heart_rate">Pulzus</string>
     <string name="activity_type_yoga">Jóga</string>
     <string name="kind_watchface">Számlap</string>
-    <string name="watch9_time_minutes">Percek:</string>
+    <string name="watch9_time_minutes">Perc:</string>
     <string name="menuitem_music">Zene</string>
     <string name="prefs_find_phone">Telefon keresése</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
@@ -816,7 +822,7 @@
     <string name="menuitem_notifications">Értesítések</string>
     <string name="qhybrid_offset_time_by">idő eltolása ennyivel:</string>
     <string name="activity_DB_delete_legacy_button">Régi adatbázis törlése</string>
-    <string name="watch9_time_seconds">Másodpercek:</string>
+    <string name="watch9_time_seconds">Másodperc:</string>
     <string name="activity_type_jump_roping">Ugrálókötél</string>
     <string name="mi2_prefs_button_actions">Gomb műveletek</string>
     <string name="laps">Körök</string>
@@ -858,7 +864,7 @@
     <string name="km">km</string>
     <string name="watch9_calibration_button">Kalibrálás</string>
     <string name="hr_widget_weather">Időjárás</string>
-    <string name="steps">Lépések</string>
+    <string name="steps">Lépés</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="vietnamese">Vietnámi</string>
     <string name="devicetype_hplus">HPlus</string>
@@ -907,11 +913,11 @@
     <string name="devicestatus_connected">Eszköz kapcsolódva</string>
     <string name="traditional_chinese">Tradicionális kínai</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
-    <string name="seconds_m">sec/m</string>
+    <string name="seconds_m">mp/m</string>
     <string name="on">Be</string>
     <string name="busy_task_fetch_stress_data">Stresszadatok lekérdezése</string>
     <string name="menuitem_sleep">Alvás</string>
-    <string name="seconds_km">sec/km</string>
+    <string name="seconds_km">mp/km</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Alvási légzésszám adatok lekérdezése</string>
     <string name="reset_index">Lekérdezési dátum visszaállítása</string>
     <string name="pref_vibrate_for_alert">Rezgés ébresztéskor</string>
@@ -969,7 +975,7 @@
     <string name="sony_equalizer_preset_speech">Beszéd</string>
     <string name="prefs_password">Jelszó</string>
     <string name="appmanager_app_start">Kezdés</string>
-    <string name="pref_header_offline_voice">Offline hang</string>
+    <string name="pref_header_offline_voice">Internet nélküli hang</string>
     <string name="qhybrid_title_apps">Alkalmazások</string>
     <string name="laps_unit">körök</string>
     <string name="sony_equalizer_preset_relaxed">Nyugodt</string>
@@ -1081,8 +1087,8 @@
     <string name="speed_first">Sebesség először</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (nightly)</string>
-    <string name="application_name_main_nightly">Gadgetbridge (nightly)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (korai hozzáférésű kiadás)</string>
+    <string name="application_name_main_nightly">Gadgetbridge (korai hozzáférésű kiadás)</string>
     <string name="Steps">Lépések</string>
     <string name="activity_type_climbing">Mászás</string>
     <string name="activity_list_summary_distance">Távolság</string>
@@ -1161,9 +1167,9 @@
     <string name="menuitem_mutephone">Telefon némítása</string>
     <string name="movement_intensity">Mozgásintenzitás</string>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
-    <string name="overstep">Többet lépett: %1$d</string>
+    <string name="overstep">Többlet lépés: %1$d</string>
     <string name="stress_high">Magas</string>
-    <string name="menuitem_wifi">Wifi</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
     <string name="pref_media_volumeup">Hangerő növelése</string>
     <string name="fossil_hr_edit_action">Művelet szerkesztése</string>
     <string name="stress_moderate">Mérsékelt</string>
@@ -1197,7 +1203,7 @@
     <string name="address">Cím</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
     <string name="pai_plus_num">+%d</string>
-    <string name="device_is_currently_bonded">MÁR ÖSSZE VAN KÖTTETVE</string>
+    <string name="device_is_currently_bonded">MÁR ÖSSZE VAN PÁROSÍTVA</string>
     <string name="pref_media_previous">Előző szám</string>
     <string name="activity_type_strength_training">Erősítés</string>
     <string name="world_clock_code">Kód</string>
@@ -1341,7 +1347,7 @@
     <string name="prefs_wena3_notification_default_call_vibration">Bejövő hívás rezgés</string>
     <string name="pref_cache_weather_summary">Az időjárás-információ gyorsítótárazva lesz az alkalmazás-újraindítások között.</string>
     <string name="zepp_os_watchface_vast_sky">Hatalmas ég</string>
-    <string name="about_description_main_nopebble">A gyártók zárt forráskódú Android-kütyüalkalmazásainak felhő nélküli, szabad, copyleft helyettesítése. A Gadgetbridge nightly kiadása. Ebben a verzióban a Pebble szolgáltatót átnevezték az ütközések elkerülése érdekében, így egyes Pebble-lel kapcsolatos integrációk nem működnek, de telepíthető a meglévő Gadgetbridge-telepítés mellé.</string>
+    <string name="about_description_main_nopebble">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait. A Gadgetbridge korai hozzáférésű kiadása. Ebben a verzióban a Pebble szolgáltatót átnevezték az ütközések elkerülése érdekében, így egyes Pebble-lel kapcsolatos integrációk nem működnek, de telepíthető a meglévő Gadgetbridge-telepítés mellé.</string>
     <string name="autoExport_lastTime_label">Utolsó automatikus exportálás: %1$s</string>
     <string name="zepp_os_watchface_simplicity_data">Egyszerű adatok</string>
     <string name="pref_title_huami_force_new_protocol">Új hitelesítési protokoll</string>
@@ -1364,7 +1370,7 @@
     <string name="zetime_title_heart_rate_alarm_summary">Az óra figyelmeztetni fog, amikor a pulzus átlépi a határokat.</string>
     <string name="lefun_prefs_antilost_summary">A karkötő rezegni fog, ha a telefon lekapcsolódik a karkötőről</string>
     <string name="zepp_os_watchface_multiple_data">Sok adat</string>
-    <string name="about_description_main_nightly">A gyártók zárt forráskódú Android-kütyüalkalmazásainak felhő nélküli, szabad, copyleft helyettesítése. A Gadgetbridge nightly kiadása. Nem telepíthető, ha már telepítve van a Gadgetbridge vagy a Pebble alkalmazás, a Pebble szolgáltató ütközése miatt.</string>
+    <string name="about_description_main_nightly">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait. A Gadgetbridge korai hozzáférésű kiadásai. Nem telepíthető, ha már telepítve van a Gadgetbridge vagy a Pebble alkalmazás, a Pebble szolgáltató konfliktusa miatt.</string>
     <string name="ignore_bonded_devices">Összeköttetett eszközök ignorálása</string>
     <string name="prefs_wena3_notification_default_vibration_repetition">Értesítés rezgés ismétlés</string>
     <string name="zepp_os_watchface_rotating_earth">Forgó föld</string>
@@ -1379,17 +1385,17 @@
     <string name="prefs_wena3_vibration_strength_item_strong">Erős</string>
     <string name="prefs_wena3_vibration_triple">Háromszor</string>
     <string name="pref_explanation_authkey">Néhány eszköznek szüksége van egy különleges párosítási kulcsra az első alkalommal. Koppintson ide a további részletekért a wikiben.</string>
-    <string name="about_description_banglejs_main">Android társalkalmazás a Bangle.js számára, amely a Gadgetbridge projektre épül, hozzáadott internet-hozzáféréssel.
+    <string name="about_description_banglejs_main">A Gadgetbridge projektre épülő Android társalkalmazás a Bangle.js számára, hozzáadott internet-hozzáféréssel.
 \n
-\nA Google Play Áruház szabályzata miatt nem lehet az adományozási link magában az alkalmazásban, de ha tetszik az alkalmazás, kérjük, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
+\nA Google Play Áruház szabályzata miatt nem engedélyezzük az adományozási hivatkozást magában az alkalmazásban, de ha tetszik az alkalmazás, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
     <string name="sony_quick_access_triple_tap">Gyors elérés (három érintés)</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
-    <string name="gadgetbridge_running_main_nightly">A nightly GB fut</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (nightly, Pebble szolgáltató nélkül)</string>
-    <string name="gadgetbridge_running_main_nopebble">a nightly Pebble nélküli GB fut</string>
+    <string name="gadgetbridge_running_main_nightly">Korai hozzáférésű Gadgetbridge kiadás fut</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (korai hozzáférésű kiadás, Pebble szolgáltató nélkül)</string>
+    <string name="gadgetbridge_running_main_nopebble">Korai verziójú Pebble nélküli Gadgetbridge fut</string>
     <string name="activity_type_indoor_cycling">Beltéri kerékpározás</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
-    <string name="gadgetbridge_running_banglejs_nightly">A nightly Bangle.js fut</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Korai hozzáférésű Bangle.js kiadás fut</string>
     <string name="activity_type_indoor_fitness">Beltéri fitnesz</string>
     <string name="sony_anc_optimizer_status_not_running">Nem fut</string>
     <string name="pref_activity_recognize_walking">séta felismerése</string>
@@ -1404,158 +1410,158 @@
     <string name="menuitem_running">Futás</string>
     <string name="pref_activity_recognize_biking">kerékpározás felismerése</string>
     <string name="wearmode_pebble">Pebble (cipőcsat)</string>
-    <string name="pref_summary_pebble_gatt_clientonly">Ez csak a Pebble 2 számára készült és kísérleti, próbálja ezt, ha kapcsolódási problémái vannak.</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Ez csak a Pebble 2 számára készült és kísérleti verzió, próbálja ezt, ha kapcsolódási problémái vannak</string>
     <string name="pref_activity_recognize_running">futás felismerése</string>
-    <string name="about_description_banglejs_nightly">Android társalkalmazás a Bangle.js számára, amely a Gadgetbridge projektre épül, hozzáadott internet-hozzáféréssel.
+    <string name="about_description_banglejs_nightly">A Gadgetbridge projektre épülő Android társalkalmazás a Bangle.js számára, hozzáadott internet-hozzáféréssel.
 \n
-\nA Google Play Áruház szabályzata miatt nem lehet az adományozási link magában az alkalmazásban, de ha tetszik az alkalmazás, kérjük, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
+\nA Google Play Áruház szabályzata miatt nem engedélyezzük az adományozási hivatkozást magában az alkalmazásban, de ha tetszik az alkalmazás, fontolja meg az adományozást az alábbi Gadgetbridge honlapon keresztül.</string>
     <string name="activity_type_outdoor_running">Kültéri futás</string>
     <string name="_pebble_watch_open_on_phone">Megnyitás Android eszközön</string>
     <string name="activity_type_outdoor_cycling">Kültéri kerékpározás</string>
     <string name="pref_title_pebble_enable_bgjs">Háttérbeli JS engedélyezése</string>
     <string name="devicetype_sony_wena3">Sony Wena 3</string>
     <string name="sony_surround_mode_outdoor_stage">Kültéri színpad</string>
-    <string name="notif_export_failed_title">Az adatbázis exportálása meghiúsult. Ellenőrizze a beállításait!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Ön telepíteni kívánja a %s firmware-t az Amazfit Cor 2 készülékére.
+    <string name="notif_export_failed_title">Az adatbázis exportálása meghiúsult! Ellenőrizze a beállításait.</string>
+    <string name="fw_upgrade_notice_amazfitcor2">A(z) %s firmware-t kívánja telepíteni az Amazfit Cor 2 készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy a .fw fájlt, majd ezt követően a .res fájlt is telepíti. A karkötő a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan megegyezik a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!
 \n
-\nTELJESEN TESZTELETLEN, VALÓSZÍNŰLEG A BEATS_W FIRMWARE-t kell feltöltenie, HA A KÉSZÜLÉK NEVE \"Amazfit Band 2\"</string>
-    <string name="fw_upgrade_notice_amazfitgts">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS készülékére.
+\nTELJESEN TESZTELETLEN, VÉLEMÉNYESEN BEATS_W FIRMWARE-T KELL TELEPÍTENIE, HA A KÉSZÜLÉK NEVE \"Amazfit Band 2\"</string>
+    <string name="fw_upgrade_notice_amazfitgts">A(z) %s firmware-t kívánja telepíteni az Amazfit GTS készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt és végül a .gps fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha ezek a fájlok pontosan megegyeznek a korábban telepítettekkel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfitvergel">Ön telepíteni kívánja a %s firmware-t az Amazfit Verge Lite készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">A(z) %s firmware-t kívánja telepíteni az Amazfit Verge Lite készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt és végül a .gps fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha ezek a fájlok pontosan megegyeznek a korábban telepítettekkel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gts4">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 4 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">A(z) %s firmware-t kívánja telepíteni az Amazfit GTS 4 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_miband5">Ön telepíteni kívánja a %s firmware-t az Mi Band 5 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_miband5">A(z) %s firmware-t kívánja telepíteni az Mi Band 5 készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_miband6">Ön telepíteni kívánja a %s firmware-t az Mi Band 6 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_miband6">A(z) %s firmware-t kívánja telepíteni az Mi Band 6 készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gts3">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 3 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">A(z) %s firmware-t kívánja telepíteni az Amazfit GTS 3 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 3 PRO készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">A(z) %s firmware-t kívánja telepíteni az Amazfit GTR 3 Pro készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gtr4">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 4 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">A(z) %s firmware-t kívánja telepíteni az Amazfit GTR 4 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_trex2">Ön telepíteni kívánja a %s firmware-t az Amazfit T-Rex 2 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">A(z) %s firmware-t kívánja telepíteni az Amazfit T-Rex 2 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfitbip3pro">Ön telepíteni kívánja a %s firmware-t az Amazfit Bip 3 Pro készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">A(z) %s firmware-t kívánja telepíteni az Amazfit Bip 3 Pro készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy a .fw fájlt, majd ezt követően a .res fájlt is telepíti. Az órája az .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan megegyezik a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfitx">Ön telepíteni kívánja a %s firmware-t az Amazfit X készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfitx">A(z) %s firmware-t kívánja telepíteni az Amazfit X készülékére.
 \n
-\nKérjük győződjön meg róla, hogy először telepítse a .fw fájlt, majd ezt követően a .res fájlt. A .fw fájl telepítése után a karkötője újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha az pontosan ugyanaz, mint a korábban telepített.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
     <string name="gps_galileo">GPS + GALILEO</string>
-    <string name="fw_upgrade_notice_miband3">Ön telepíteni kívánja a %s firmware-t az Mi Band 3 készülékére.
+    <string name="fw_upgrade_notice_miband3">A(z) %s firmware-t kívánja telepíteni az Mi Band 3 készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">A(z) %s firmware-t kívánja telepíteni az Amazfit GTR készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt és végül a .gps fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha ezek a fájlok pontosan megegyeznek a korábban telepítettekkel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Ön telepíteni kívánja a %s firmware-t az Amazfit T-Rex készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">A(z) %s firmware-t kívánja telepíteni az Amazfit T-Rex készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy telepíti a .fw fájlt, a .res fájlt, végül pedig a .gps fájlt. Az óra a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt és végül a .gps fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha ezek a fájlok pontosan megegyeznek a korábban telepítettekkel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_miband4">Ön telepíteni kívánja a %s firmware-t az Mi Band 4 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_miband4">A(z) %s firmware-t kívánja telepíteni az Mi Band 4 készülékére.
 \n
-\nKérjük, győződjön meg róla, hogy először a .fw fájlt telepítse, utána pedig a .res fájlt. A karkötő a .fw fájl telepítése után újraindul.
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
 \n
-\nMegjegyzés: Nem kell telepítenie a .res és .gps fájlokat, ha azok pontosan megegyeznek a korábban telepítettel.
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_miband7">Ön telepíteni kívánja a %s firmware-t a Xiaomi Smart Band 7 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_miband7">A(z) %s firmware-t kívánja telepíteni a Xiaomi Smart Band 7 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gts4_mini">Ön telepíteni kívánja a %s firmware-t az Amazfit GTS 4 Mini készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">A(z) %s firmware-t kívánja telepíteni az Amazfit GTS 4 Mini készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3">Ön telepíteni kívánja a %s firmware-t az Amazfit GTR 3 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">A(z) %s firmware-t kívánja telepíteni az Amazfit GTR 3 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_band7">Ön telepíteni kívánja a %s firmware-t az Amazfit Band 7 készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">A(z) %s firmware-t kívánja telepíteni az Amazfit Band 7 készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Ön telepíteni kívánja a %s firmware-t az Amazfit Cheetah Pro készülékére.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">A(z) %s firmware-t kívánja telepíteni az Amazfit Cheetah Pro készülékére.
 \n
-\nA .zip fájl telepítése után a karkötője újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="fw_upgrade_notice_zepp_os">A %s firmware-t készül telepíteni a %s készülékre.
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_zepp_os">A(z) %s firmware-t kívánja telepíteni a(z) %s készülékére.
 \n
-\nA .zip fájl telepítése után az órája újraindul.
+\nA .zip fájl telepítése után a készüléke újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
-    <string name="open_fw_installer_info_text">A Firmware/Watchface/App/File Installer lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
-    <string name="open_fw_installer_connect_maximum_one_device">Kérjük, CSAK EGY olyan eszközt csatlakoztasson, amelyre el szeretné küldeni a fájlt.</string>
-    <string name="pref_summary_general_reconnectonlytoconnected">Újracsatlakozás csak a csatlakoztatott eszközökhöz, ahelyett, hogy az összes eszközzel újracsatlakozna</string>
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="open_fw_installer_info_text">A Firmware/Számlap/Alkalmazás/Fájl telepítő lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben talál: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_connect_maximum_one_device">CSAK EGY olyan eszközt csatlakoztasson, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Újrakapcsolódáss csak a csatlakoztatott eszközökhöz, ahelyett, hogy az összes eszközzel újrakapcsolódna</string>
     <string name="pref_display_caller_summary">Bejövő hívások telefonszámának vagy nevének megjelenítése</string>
-    <string name="open_fw_installer_ensure_device_connected">Győződjön meg róla, hogy a %s eszköz csatlakoztatva van</string>
+    <string name="open_fw_installer_ensure_device_connected">Győződjön meg róla, hogy a(z) %s eszköz csatlakoztatva van</string>
     <string name="pref_title_notification_prefer_long_text">Hosszú értesítési szöveg előnyben részesítése</string>
     <string name="pref_title_notification_use_as_deny">Értesítések letiltása kiválasztott alkalmazásokból</string>
     <string name="pref_title_notification_delay_calls">Hívás értesítési késleltetés</string>
@@ -1563,18 +1569,18 @@
     <string name="pref_pair_bluetooth_calls_title">Párosítás bluetooth hívásokhoz</string>
     <string name="pref_summary_notification_prefer_long_text">Ha elérhető, küldje el a hosszú értesítési szöveget az eszközre</string>
     <string name="pref_title_notification_use_as_allow">Értesítések engedélyezése kiválasztott alkalmazásokból</string>
-    <string name="open_fw_installer_connect_minimum_one_device">Kérjük, csatlakoztasson LEGALÁBB EGY olyan eszközt, amelyre el szeretné küldeni a fájlt.</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Csatlakoztasson LEGALÁBB EGY olyan eszközt, amelyre el szeretné küldeni a fájlt.</string>
     <string name="open_fw_installer_select_file">Válassza ki a készülékre feltölteni kívánt fájlt: %s</string>
     <string name="open_fw_installer_getting_files_title">A firmware/alkalmazásfájl megszerzése</string>
-    <string name="pref_title_general_reconnectonlytoconnected">Újracsatlakozás csak a csatlakoztatott eszközökhöz</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Újrakapcsolódás csak a csatlakoztatott eszközökhöz</string>
     <string name="pref_title_notifications_ignore_low_priority">Alacsony prioritású értesítések figyelmen kívül hagyása</string>
     <string name="pref_summary_notifications_ignore_work_profile">Ne küldjön értesítéseket a munkaprofilban lévő alkalmazásokból az órára</string>
     <string name="pref_summary_banglejs_text_bitmap">Ha egy szó nem jeleníthető meg az óra betűtípusával, jelenítse meg bittérképként a Gadgetbridge-ben, és jelenítse meg a bitképet az órán</string>
-    <string name="fw_upgrade_notice_amazfitneo">Ön telepíteni kívánja a %s firmware-t az Amazfit Neo készülékére.
+    <string name="fw_upgrade_notice_amazfitneo">A(z) %s firmware-t kívánja telepíteni az Amazfit Neo készülékére.
 \n
 \nA .fw fájl telepítése után a karkötője újraindul.
 \n
-\nFOLYTATÁS CSAK SAJÁT FELELŐSSÉGRE!</string>
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
     <string name="open_fw_installer_warning_text">Ez a funkció képes tönkretenni a készüléket. Ez azonban még soha nem történt meg egyik fejlesztővel sem a telepítés során, de ne feledje, hogy ezt saját felelősségére teszi.</string>
     <string name="open_fw_installer_getting_files_text">Mivel a firmware fájlokat nem áll módunkban terjeszteni, a fájlokat saját magának kell beszereznie. Ez azt jelenti, hogy meg kell keresnie a fájlokat az apk fájlokban, az interneten, a fórumokon, az Amazfitwatchfaces-en (Miband/Amazfit készülékek esetében) stb.</string>
     <string name="pref_header_equalizer">Equalizer</string>
@@ -1590,8 +1596,8 @@
     <string name="pref_summary_notification_media_ignores_application_list">A médiaértesítések feldolgozása az alkalmazáslista előtt. Ha ez a beállítás nincs bejelölve, a médiaalkalmazásoknak engedélyezve kell lenniük az alkalmazáslistában ahhoz, hogy a médiavezérlők működjenek az eszközön.</string>
     <string name="pref_title_notification_use_as">Használja az Alkalmazások listáját…</string>
     <string name="bluetooth_calls">Bluetooth hívások</string>
-    <string name="pref_title_mb_intents">Broadcast Media gomb intentek közvetlenül</string>
-    <string name="pref_summary_mb_intents">Engedélyezze, ha az eszköz médiavezérlése nem működik bizonyos alkalmazásoknál</string>
+    <string name="pref_title_mb_intents">Közvetlen média közvetítés gomb</string>
+    <string name="pref_summary_mb_intents">Engedélyezés, ha az eszköz médiavezérlése nem működik bizonyos alkalmazásoknál</string>
     <string name="bluetooth_calls_pairing">Bluetooth hívások párosítása</string>
     <string name="pref_theme_black_background">Használjon fekete hátteret a sötét témában</string>
     <string name="pref_summary_receive_calls_watch">Hívások kezdeményezése és fogadása közvetlenül az órán</string>
@@ -1773,7 +1779,7 @@
     <string name="pref_enable_unsupported_settings_title">Engedélyezze a nem támogatott beállításokat</string>
     <string name="prefs_find_phone_duration">A csengetés időtartama másodpercben</string>
     <string name="prefs_screen_timeout">Képernyő időtúllépése</string>
-    <string name="english_us">angol (Egyesült Államok)</string>
+    <string name="english_us">Angol (Egyesült Államok)</string>
     <string name="activity_type_pool_swimming">Medence úszás</string>
     <string name="mi2_prefs_button_action_summary">Művelet engedélyezése meghatározott számú gombnyomásra</string>
     <string name="prefs_reserve_reminder_calendar_summary">A szinkronizálandó naptáresemények száma</string>
@@ -1813,7 +1819,7 @@
     <string name="firmware_update_progress">Feltöltés folyamatban
 \n%1d%% %.2fkbps sebességgel (átlag %.2fkbps)
 \n%1d rész %1d-ből</string>
-    <string name="updatefirmwareoperation_failed_low_mtu">A %1$d jelenlegi MTU értéke túl alacsony, kérjük, engedélyezze a magas MTU értéket az eszköz beállításaiban, és válassza le/csatlakoztassa újra az eszközt.</string>
+    <string name="updatefirmwareoperation_failed_low_mtu">A %1$d jelenlegi MTU értéke túl alacsony, engedélyezze a magas MTU értéket az eszköz beállításaiban, és válassza le/csatlakoztassa újra az eszközt.</string>
     <string name="pref_title_third_party_app_device_settings">Engedélyezze a harmadik féltől származó alkalmazások beállításainak módosítását</string>
     <string name="pref_summary_third_party_app_device_settings">Engedélyezze más telepített harmadik féltől származó alkalmazások számára az eszközbeállítások intenten keresztül történő beállítását.</string>
     <string name="activity_type_hand_cycling">Kézi kerékpározás</string>
@@ -1823,7 +1829,7 @@
     <string name="activity_type_outdoor_walking">Szabadtéri séta</string>
     <string name="activity_type_ice_hockey">Jégkorong</string>
     <string name="activity_type_cross_country_skiing">Sífutás</string>
-    <string name="norwegian_bokmal">norvég bokmål</string>
+    <string name="norwegian_bokmal">Norvég Bokmål</string>
     <string name="prefs_always_on_display_summary">Tartsa a kakrötő kijelzőjét mindig bekapcsolt állapotba</string>
     <string name="prefs_password_summary">Zárja le a karkötőt jelszóval, amikor eltávolítja a csuklójáról</string>
     <string name="prefs_shortcut_cards_summary">Jobbra húzáskor az órafelületén láthatóvá válnak a gyorsbillentyűkártyák. Ha egy alkalmazás fut, az automatikusan generált kártyákat ez a beállítás nem érinti.</string>
@@ -1837,7 +1843,7 @@
     <string name="devicestatus_upload_started">A feltöltés megkezdődött</string>
     <string name="gpx_route_upload_complete">Gpx útvonal feltöltése befejeződött</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">A lehívási művelet időbélyegzőinek csonkítása</string>
-    <string name="portuguese_br">portugál (Brazília)</string>
+    <string name="portuguese_br">Portugál (Brazília)</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Hiba történt a fájlok törlésekor a %1$s exportkönyvtárból</string>
     <string name="activity_type_hiit">Magas intenzitású intervall edzés</string>
     <string name="prefs_password_4_digits_0_to_9_summary">A jelszónak 4 számjegyűnek kell lennie, csak számokat használva</string>
@@ -1867,13 +1873,13 @@
     <string name="pref_summary_force_white_color_scheme">Hasznos, ha az órájának sötét mutatója van</string>
     <string name="lefun_prefs_hydration_reminder_summary">A karkötő vibrálással emlékezteti Önt a vízivásra</string>
     <string name="lefun_prefs_antilost_title">Elvesztés elleni védelem</string>
-    <string name="spanish_es">spanyol (Spanyolország)</string>
-    <string name="english_in">angol (India)</string>
-    <string name="english_au">angol (Ausztrália)</string>
-    <string name="english_ca">angol (Kanada)</string>
-    <string name="english_gb">angol (Egyesült Királyság)</string>
-    <string name="latvian">lett</string>
-    <string name="portuguese_pt">portugál (Portugália)</string>
+    <string name="spanish_es">Spanyol (Spanyolország)</string>
+    <string name="english_in">Angol (India)</string>
+    <string name="english_au">Angol (Ausztrália)</string>
+    <string name="english_ca">Angol (Kanada)</string>
+    <string name="english_gb">Angol (Egyesült Királyság)</string>
+    <string name="latvian">Lett</string>
+    <string name="portuguese_pt">Portugál (Portugália)</string>
     <string name="pref_title_charts_swipe">Engedélyezze a balra/jobbra csúsztatást a diagramok tevékenységében</string>
     <string name="pref_title_charts_average">Átlagok megjelenítése a diagramokon</string>
     <string name="pref_title_charts_range">Diagramok tartománya</string>
@@ -1882,8 +1888,8 @@
     <string name="activity_type_kitesurfing">Kite szörfözés</string>
     <string name="activity_type_freestyle">Szabad stílus</string>
     <string name="common_symbols">Közös szimbólumok</string>
-    <string name="french_ca">francia (Kanada)</string>
-    <string name="french_fr">francia (Franciaország)</string>
+    <string name="french_ca">Francia (Kanada)</string>
+    <string name="french_fr">Francia (Franciaország)</string>
     <string name="seconds_11">11 másodperc</string>
     <string name="charts_min_max_heartrate_popup">Legalacsonyabb pulzusszám: %1$d
 \nLegmagasabb pulzusszám: %2$d
@@ -1891,8 +1897,8 @@
     <string name="mi5_prefs_workout_activity_types_summary">Válassza ki az edzések képernyőjén megjelenítendő tevékenységtípusokat</string>
     <string name="pref_title_force_white_color_scheme">Fekete-fehérén színséma kényszerítése</string>
     <string name="activity_prefs_target_weight_kg">Célsúly kg-ban</string>
-    <string name="spanish_mx">spanyol (Mexikó)</string>
-    <string name="spanish_us">spanyol (Egyesült Államok)</string>
+    <string name="spanish_mx">Spanyol (Mexikó)</string>
+    <string name="spanish_us">Spanyol (Egyesült Államok)</string>
     <string name="pref_charts_range_off">A diagramok tartománya egy hétre van beállítva</string>
     <string name="prefs_heartrate_alert_active_high_threshold">Magas aktivitású pulzusszám riasztási küszöb</string>
     <string name="prefs_spo2_monitoring_description">Automatikusan figyeli a vér oxigénszintjét a nap folyamán</string>
@@ -1916,7 +1922,7 @@
     <string name="pref_do_not_disturb_not_wear">Ne zavarja, ha nem viseli</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Csúsztassa felfelé az ujját a karkötő képernyőjének feloldásához</string>
     <string name="manual">Kézikönyv</string>
-    <string name="danish">dán</string>
+    <string name="danish">Dán</string>
     <string name="pref_charts_range_on">A diagramok tartománya egy hónapra van állítva</string>
     <string name="activity_prefs_chart_min_session_length">Minimális tevékenység időtartama (perc)</string>
     <string name="charts_legend_spo2_average">Véroxigén átlag</string>
@@ -1984,7 +1990,7 @@
     <string name="prefs_activity_monitoring_title">Tevékenységfigyelés</string>
     <string name="num_min">%d perc</string>
     <string name="seconds_25">25 másodperc</string>
-    <string name="lack_of_step">Lépések hiánya: %1$d</string>
+    <string name="lack_of_step">Hiányzó lépések: %1$d</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">A lekérdezési műveletek időbélyegeinek percekre történő csökkentése. Ha a nagyon rövid edzések lekérdezése során problémák merülnek fel, tiltsa le ezt a beállítást, hogy az időbélyegek másodpercben maradjanak.</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximális késleltetés a gombnyomások között ezredmásodpercben</string>
     <string name="activity_db_management_autoexport_explanation">Az adatbázis automatikus exportálási helye a következőre lett beállítva:</string>
@@ -1994,7 +2000,7 @@
     <string name="activity_type_cricket">Krikett</string>
     <string name="activity_type_baseball">Baseball</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
-    <string name="menuitem_offline_voice">Offline hang</string>
+    <string name="menuitem_offline_voice">Internet nélküli hang</string>
     <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
     <string name="menuitem_cycles">Cikluskövetés</string>
     <string name="menuitem_widgets">Widgetek</string>
@@ -2035,7 +2041,7 @@
     <string name="menuitem_eject_water">Víz kiürítése</string>
     <string name="title_activity_watch9_pairing">Watch 9 párosítás</string>
     <string name="pref_title_contextual_arabic">Kontextuális arab nyelv</string>
-    <string name="menuitem_zepp_coach">Zepp Coach</string>
+    <string name="menuitem_zepp_coach">Zepp edző</string>
     <string name="menuitem_spo2">SpO2</string>
     <string name="activity_type_street_dance">Utcai tánc</string>
     <string name="kind_gps_almanac">GPS Almanac</string>
@@ -2072,7 +2078,7 @@
     <string name="menuitem_sun_moon">Nap és Hold</string>
     <string name="menuitem_female_health">Női egészség</string>
     <string name="menuitem_one_tap_measuring">Egyérintéses mérés</string>
-    <string name="zepp_os_watchface_the_ultima">The ultima</string>
+    <string name="zepp_os_watchface_the_ultima">Az utolsó</string>
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
     <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
     <string name="devicetype_huawei_band6">Huawei Band 6</string>
@@ -2129,18 +2135,18 @@
     <string name="preferences_qhybrid_settings">Q Hybrid beállítások</string>
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
     <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
-    <string name="menuitem_zepp_pay">Zepp Pay</string>
+    <string name="menuitem_zepp_pay">Zepp fizetés</string>
     <string name="menuitem_thermometer">Hőmérő</string>
     <string name="menuitem_readiness">Készenlét</string>
     <string name="zepp_os_watchface_guider">Útikalauz</string>
-    <string name="qhybrid_prompt_million_steps">Kérjük, állítsa a lépésszámot egy millióra az aktiváláshoz.</string>
+    <string name="qhybrid_prompt_million_steps">Állítsa a lépésszámot egy millióra az aktiváláshoz.</string>
     <string name="hr_appname_wellness">Wellness</string>
     <string name="prefs_fm_preset_instructions">Hosszan nyomja meg a gombot az előbeállítás tárolásához</string>
     <string name="toast_app_must_not_be_selected">Az alkalmazás nem választható ki a konfiguráláshoz</string>
     <string name="toast_app_must_be_selected">A konfiguráláshoz ki kell választani az alkalmazást</string>
     <string name="edittext_notification_filter_words_hint">Adja meg a kívánt szavakat, új sor minden egyes szóhoz</string>
     <string name="toast_notification_filter_saved_successfully">Értesítési szűrő mentve</string>
-    <string name="toast_notification_filter_words_empty_hint">Kérjük, adjon meg legalább egy szót</string>
+    <string name="toast_notification_filter_words_empty_hint">Adjon meg legalább egy szót</string>
     <string name="pref_title_upper_button_function_short">Felső gomb röviden</string>
     <string name="pref_title_lower_button_function_double">Alsó gomb duplán</string>
     <string name="prefs_button_variable_actions">Részletes gombnyomás beállítások</string>
@@ -2149,11 +2155,11 @@
     <string name="pref_qhybrid_title_widget_draw_circles">Widget körök rajzolása</string>
     <string name="pref_qhybrid_save_raw_activity_files">Nyers tevékenységfájlok mentése</string>
     <string name="permission_granting_mandatory">Mindezek az engedélyek szükségesek, és ha nem adják meg őket, instabilitás léphet fel</string>
-    <string name="permission_notification_policy_access">%1$s hozzáférésre van szüksége a Ne zavarjon beállításokhoz, hogy azokat az óráján tiszteletben tarthassa, amikor a telefon képernyője ki van kapcsolva.
+    <string name="permission_notification_policy_access">A(z) %1$s-nek hozzáférésre van szüksége a Ne zavarjon beállításokhoz, hogy azokat az óráján tiszteletben tarthassa, amikor a telefon képernyője ki van kapcsolva.
 \n
-\nKérjük, koppintson a \"%2$s\", majd a \"%1$s\" gombra, és engedélyezze a \"Ne zavarjon\" engedélyezését, majd koppintson a \"Vissza\" gombra a %1$s oldalra való visszatéréshez.</string>
+\nKoppintson a(z) \"%2$s\", majd a(z) \"%1$s\" gombra, és engedélyezze a \"Ne zavarjon\" engedélyezését, majd koppintson a \"Vissza\" gombra a(z) %1$s oldalra való visszatéréshez.</string>
     <string name="note">Jegyzet</string>
-    <string name="pref_invalid_frequency_message">Kérjük, adjon meg egy 87,5 és 108,0 közötti frekvenciát</string>
+    <string name="pref_invalid_frequency_message">Adjon meg egy 87,5 és 108,0 közötti frekvenciát</string>
     <string name="pref_title_lower_button_short_press_action">Alsó gomb rövid megnyomású művelet</string>
     <string name="share_log_not_enabled_message">Először engedélyeznie kell a naplózást a Beállítások - Naplófájlok írása menüpontban</string>
     <string name="quick_alarm_description">Riasztás a modulból</string>
@@ -2176,27 +2182,27 @@
     <string name="gpx_receiver_activity_title">GPX-vevő Gadgetbridge</string>
     <string name="gpx_receiver_overwrite_some_files">Néhány fájl már létezik. Felülírja?</string>
     <string name="error_version_check_extreme_caution">FIGYELEM: Hiba a verzióinformáció ellenőrzésénél! Nem szabad folytatni! \"%s\" verziónév láttam</string>
-    <string name="share_log_warning">Kérjük, ne feledje, hogy a Gadgetbridge olyan fájlokat naplóz, amelyek sok személyes adatot tartalmazhatnak, többek között egészségügyi adatokat, egyedi azonosítókat (például az eszköz MAC-címét), zenei preferenciákat stb. Fontolja meg a fájl szerkesztését és ezen információk eltávolítását, mielőtt elküldi a fájlt egy nyilvános hibajelentésre.</string>
+    <string name="share_log_warning">Ne feledje, hogy a Gadgetbridge olyan fájlokat naplóz, amelyek sok személyes adatot tartalmazhatnak, többek között egészségügyi adatokat, egyedi azonosítókat (például az eszköz MAC-címét), zenei preferenciákat stb. Fontolja meg a fájl szerkesztését és ezen információk eltávolítását, mielőtt elküldi a fájlt egy nyilvános hibajelentésre.</string>
     <string name="pref_title_upper_button_long_press_action">Felső gomb hosszú megnyomású művelet</string>
     <string name="pref_title_lower_button_function_long">Alsó gomb hosszan</string>
     <string name="pref_title_middle_button_function_double">Középső gomb duplán</string>
     <string name="error_no_bluetooth_scan">A szkennelés megfelelő működéséhez biztosítani és engedélyezni kell a Bluetooth szkennelési hozzáférést</string>
-    <string name="permission_request">A %1$s lehetővé teszi, hogy üzeneteket és egyéb adatokat küldjön Androidról az eszközére. Ehhez engedélyre van szüksége az adatokhoz való hozzáféréshez, és e nélkül előfordulhat, hogy nem működik megfelelően.
+    <string name="permission_request">A(z) %1$s lehetővé teszi, hogy üzeneteket és egyéb adatokat küldjön Androidról az eszközére. Ehhez engedélyre van szüksége az adatokhoz való hozzáféréshez, és e nélkül előfordulhat, hogy nem működik megfelelően.
 \n
 \nMost megjelenik néhány Android párbeszédpanel, amelyek ezeket az engedélyeket kérik.
 \n
-\nA folytatáshoz érintse meg a „%2$s” elemet.</string>
-    <string name="permission_notification_listener">A %1$s-nek hozzáférésre van szüksége az Értesítésekhez, hogy megjeleníthesse azokat az óráján, amikor a telefon képernyője ki van kapcsolva.
+\nA folytatáshoz érintse meg a(z) „%2$s” elemet.</string>
+    <string name="permission_notification_listener">A(z) %1$s-nek hozzáférésre van szüksége az értesítésekhez, hogy megjeleníthesse azokat az óráján, amikor a telefon képernyője ki van kapcsolva.
 \n
-\nKérjük, koppintson a \'%2$s\', majd a \'%1$s\' elemre, és engedélyezze az \'Értesítési hozzáférés engedélyezése\' opciót, majd koppintson a \'Vissza\' elemre a %1$s oldalra való visszatéréshez.</string>
-    <string name="permission_location">A %1$s-nak hozzáférésre van szüksége az Ön helymeghatározásához a háttérben, hogy akkor is kapcsolatban maradhasson az órájával, amikor a képernyője ki van kapcsolva.
+\nKoppintson a(z) \'%2$s\', majd a(z) \'%1$s\' elemre, és engedélyezze az \'Értesítési hozzáférés engedélyezése\' opciót, majd koppintson a \'Vissza\' elemre a(z) %1$s oldalra való visszatéréshez.</string>
+    <string name="permission_location">A(z) %1$s-nek hozzáférésre van szüksége az tartózkodási helyéhez a háttérben, hogy akkor is kapcsolatban maradhasson az órájával, amikor a képernyője ki van kapcsolva.
 \n
-\nKérjük, koppintson a \'%2$s\' gombra a beleegyezéshez.</string>
-    <string name="permission_display_over_other_apps">%1$s engedélyre van szüksége a más alkalmazások feletti megjelenítéshez, hogy a Bangle.js órák tevékenységeket indíthassanak intenteken keresztül, amikor %1$s a háttérben van.
+\nKoppintson a(z) \'%2$s\' gombra a beleegyezéshez.</string>
+    <string name="permission_display_over_other_apps">A(z) %1$s-nek engedélyre van szüksége a más alkalmazások feletti megjelenítéshez, hogy a Bangle.js órák tevékenységeket indíthassanak intenten keresztül, amikor a(z) %1$s a háttérben van.
 \n
 \nEz használható egy zenei alkalmazás elindítására és egy dal lejátszására, és sok más dologra.
 \n
-\nKérjük, koppintson a \'%2$s\', majd a \'%1$s\' elemre, és engedélyezze a \'Megjelenítés engedélyezése más alkalmazások felett\' opciót, majd koppintson a \'Vissza\' elemre a %1$s elemhez való visszatéréshez.
+\nKoppintson a(z) \'%2$s\', majd a(z) \'%1$s\' elemre, és engedélyezze a \'Megjelenítés engedélyezése más alkalmazások felett\' opciót, majd koppintson a \'Vissza\' elemre a(z) %1$s elemhez való visszatéréshez.
 \n
 \nAz engedélyek kérésének leállításához a %1$s menjen a \'Beállítások\' menüpontba, és törölje a \'Jogosultsági állapot ellenőrzése\' jelölőnégyzetet.
 \n
@@ -2310,7 +2316,7 @@
     <string name="prefs_equalizer_summary">Hangszínszabályzó bekapcsolása vagy kikapcsolása</string>
     <string name="audio_codec">Audió kodek</string>
     <string name="pref_title_touch_voice_assistant">Hangasszisztens</string>
-    <string name="pref_header_statistics">Sporttevékenységi statisztika</string>
+    <string name="pref_header_statistics">Sporttevékenységek statisztikái</string>
     <string name="qhybrid_summary_file_management">Fájlok fel- és letöltése</string>
     <string name="button_watchface_add_widget">Minialkalmazás hozzáadása</string>
     <string name="watchface_setting_display_refresh_full">Teljes frissítés (perc)</string>
@@ -2327,4 +2333,29 @@
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="prefs_active_noise_cancelling">Aktív zajszűrés</string>
     <string name="prefs_voice_detect">Beszédérzékelés</string>
+    <string name="pref_header_audio">Hang</string>
+    <string name="pref_header_generic">Általános</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="pref_title_notification_wake_on_open">Automatikus ébresztés és feloldás</string>
+    <string name="armenian">Örmény</string>
+    <string name="devicetype_redmi_watch_4">Redmi Watch 4</string>
+    <string name="Strokes">Leütések</string>
+    <string name="fw_upgrade_notice_amazfitbip3">A(z) %s firmware-t kívánja telepíteni az Amazfit Bip 3 készülékére.
+\n
+\nGyőződjön meg róla, hogy a .fw fájlt, majd a .res fájlt telepíti. A készüléke az .fw fájl telepítése után újraindul.
+\n
+\nMegjegyzés: Nem kell telepítenie a .res fájlt, ha pontosan megegyezik a korábban telepítettel.
+\n
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="pref_summary_notification_wake_on_open">Ébreszd fel és oldd fel az Android készüléket, ha a készülék OPEN választ küld vissza. Megbízható állapotban kell lennie.</string>
+    <string name="busy_task_fetch_sports_details_interrupted">A sportadatok lekérése megszakadt</string>
+    <string name="swolfAvg">Átlagos swolf</string>
+    <string name="swolfMax">Maximum swolf</string>
+    <string name="swolfMin">Minimum swolf</string>
+    <string name="milliseconds">ezredmásodperc</string>
+    <string name="degrees">fok</string>
+    <string name="Pace">Tempó</string>
+    <string name="Elevation">Emelkedés</string>
+    <string name="RunningForm">Futóforma</string>
 </resources>
