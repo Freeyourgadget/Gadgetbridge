@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
@@ -77,7 +78,9 @@ public class FitMonitoring extends RecordData {
         final Integer timestamp16 = getTimestamp16();
         final Long computedTimestamp = super.getComputedTimestamp();
         if (timestamp16 != null && computedTimestamp != null) {
-            return (computedTimestamp & ~0xFFFFL) | timestamp16;
+            return (long) GarminTimeUtils.garminTimestampToUnixTime(
+                    (GarminTimeUtils.unixTimeToGarminTimestamp(computedTimestamp.intValue()) & ~0xFFFF) | (timestamp16 & 0xFFFF)
+            );
         }
         return computedTimestamp;
     }

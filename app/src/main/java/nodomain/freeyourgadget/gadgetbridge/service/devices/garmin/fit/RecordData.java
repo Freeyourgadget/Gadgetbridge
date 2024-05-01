@@ -165,8 +165,8 @@ public class RecordData {
             tsb.append(globalFITMessage.name());
         }
 
-        if (computedTimestamp != null) {
-            tsb.append(new Date(computedTimestamp * 1000L));
+        if (getComputedTimestamp() != null) {
+            tsb.append(new Date(getComputedTimestamp() * 1000L));
         }
 
         for (FieldData fieldData : fieldDataList) {
