@@ -366,6 +366,7 @@ public enum DeviceType {
     HUAWEIWATCHGT4(HuaweiWatchGT4Coordinator.class),
     HUAWEIBAND8(HuaweiBand8Coordinator.class),
     HUAWEIWATCHFIT(HuaweiWatchFitCoordinator.class),
+    HUAWEIWATCHFIT2(HuaweiWatchFitCoordinator.class),
     HUAWEIWATCHULTIMATE(HuaweiWatchUltimateCoordinator.class),
     VESC(VescCoordinator.class),
     BINARY_SENSOR(BinarySensorCoordinator.class),
