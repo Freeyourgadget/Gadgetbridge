@@ -768,7 +768,7 @@
     <string name="prefs_find_phone_summary">Verwende dein Band, um den Klingelton deines Telefons wiederzugeben.</string>
     <string name="prefs_find_phone_duration">Klingeldauer in Sekunden</string>
     <string name="maximum_duration">Dauer</string>
-    <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt einen geheimen Authentifikationsschlüssel, den du durch langes Drücken auf den Gerätnamen eingeben kannst. Genaueres im Wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Dieses Gerät benötigt einen geheimen Authentifikationsschlüssel, den du durch langes Drücken auf den Gerätnamen eingeben kannst. Mehr Informationen gibt es auf der Gadgetbride-Webseite.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Du bist dabei, die Firmware %s auf deine Amazfit Bip Lite zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei und danach die .res Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
@@ -915,7 +915,7 @@
     <string name="about_description_generic">Cloudloser freier Ersatz für proprietäre Android-Gadget-Apps der Hersteller.</string>
     <string name="about_activity_title_generic">Über Gadgetbridge</string>
     <string name="about_title">Über</string>
-    <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android-Versionen müssen eine Anwendung wie Weather notification nutzen. Mehr Informationen gibt es im Gadgetbride-Wiki.</string>
+    <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android-Versionen müssen eine Anwendung (wie Breezy Weather) nutzen. Mehr Informationen gibt es auf der Gadgetbride-Webseite.</string>
     <string name="menuitem_worldclock">Weltzeituhr</string>
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
@@ -1221,7 +1221,7 @@
 \nHinweis: Du musst .res nicht installieren, wenn es genau die gleiche ist, wie die zuvor installierte.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="fossil_hr_commute_actions_explanation">Die hier konfigurierten Aktionen werden in der Commute-App auf deiner Uhr angezeigt. Lies das Wiki, um Informationen zum Umgang mit den durch diese Aktionen erzeugten Vorgaben zu erhalten.</string>
+    <string name="fossil_hr_commute_actions_explanation">Die hier konfigurierten Aktionen werden in der Commute-App auf deiner Uhr angezeigt. Mehr Informationen gibt es auf der Gadgetbride-Webseite.</string>
     <string name="kind_agps_bundle">AGPS-Bundle</string>
     <string name="qhybrid_calibration_100_steps">100 Schritte</string>
     <string name="qhybrid_calibration_10_steps">10 Schritte</string>
@@ -1727,7 +1727,7 @@
     <string name="controlcenter_toggle_details">Details anzeigen</string>
     <string name="controlcenter_connected_fraction">Verbunden: %d/%d</string>
     <string name="ukranian">Ukrainisch</string>
-    <string name="info_no_devices_connected">keine Geräte verbunden</string>
+    <string name="info_no_devices_connected">Keine Geräte verbunden</string>
     <string name="info_connected_count">%d Geräte verbunden</string>
     <string name="estonian">Estnisch</string>
     <string name="extended_ascii">Erweitertes ASCII</string>
@@ -1775,7 +1775,7 @@
     <string name="open_fw_installer_connect_minimum_one_device">Bitte verbinde MINDESTENS EIN Gerät, an das du die Datei senden möchtest.</string>
     <string name="open_fw_installer_connect_maximum_one_device">Bitte verbinde NUR EIN Gerät, an das du die Datei senden möchtest.</string>
     <string name="open_fw_installer_ensure_device_connected">Stelle sicher, dass das Gerät %s angeschlossen ist</string>
-    <string name="open_fw_installer_info_text">Mit dem Firmware/Watchface/App/File Installer kannst du unterstützte Dateien (Firmware, Zifferblätter, Anwendungen, GPS, Ressourcen, Schriftarten...) auf das Gerät hochladen/installieren. Weitere Informationen findest du im Wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_info_text">Mit dem Firmware/Watchface/App/File Installer kannst du unterstützte Dateien (Firmware, Zifferblätter, Anwendungen, GPS, Ressourcen, Schriftarten...) auf das Gerät hochladen/installieren. Mehr Informationen gibt es auf der Gadgetbride-Webseite.</string>
     <string name="open_fw_installer_getting_files_text">Da wir die Firmware-Dateien nicht verteilen dürfen, musst du dir die Dateien selbst beschaffen. Das bedeutet, dass du nach den Dateien in apk-Dateien, online, in Foren, auf Amazfitwatchfaces (für Miband/Amazfit-Geräte) und so weiter suchen musst.</string>
     <string name="appmanager_item_outdated">(veraltet)</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Größe der Text-Bitmaps</string>
@@ -2119,13 +2119,13 @@
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Sperren</string>
-    <string name="pref_header_intent_api">Intent API</string>
+    <string name="pref_header_intent_api">Intent-API</string>
     <string name="pref_agps_update_time">AGPS Aktualisierungszeit</string>
     <string name="pref_agps_expire_time">AGPS Ablaufzeit</string>
-    <string name="intent_api_allow_activity_sync_summary">Auslösen der Aktivitätssynchronisierung über die Intent API erlauben</string>
+    <string name="intent_api_allow_activity_sync_summary">Auslösen der Aktivitätssynchronisierung über die Intent-API erlauben</string>
     <string name="intent_api_allow_activity_sync_title">Aktivitätssynchronisierungsauslöser zulassen</string>
     <string name="sony_ambient_sound_control_button_modes">Tastenmodi für die Steuerung von Umgebungsgeräuschen</string>
-    <string name="intent_api_allow_trigger_export_summary">Datenbankexport über die Intent API erlauben</string>
+    <string name="intent_api_allow_trigger_export_summary">Datenbankexport über die Intent-API erlauben</string>
     <string name="intent_api_broadcast_export_summary">Einen Intent via Broadcast verschicken, wenn der Datenbankexport abgeschlossen ist</string>
     <string name="pref_workout_keep_screen_on_title">Bildschirm während des Trainings eingeschaltet lassen</string>
     <string name="pref_workout_keep_screen_on_summary">Der Bildschirm bleibt während des Trainings eingeschaltet und die Helligkeit wird angepasst, um die Trainingsdaten in Echtzeit anzuzeigen</string>
@@ -2849,4 +2849,122 @@
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
     <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
     <string name="busy_task_fetch_sports_details_interrupted">Das Abrufen von Sportdaten wurde unterbrochen</string>
+    <string name="companion_pairing_request_title">Begleitendes Gerät</string>
+    <string name="unbind_before_pair_title">Bereits gebunden</string>
+    <string name="companion_pairing_request_description">Koppelst du dieses Gerät als Begleiter?
+\n
+\nDies wird für einige Funktionen empfohlen, z. B. für die Gerätesuche, und bietet eine bessere Verbindung.</string>
+    <string name="unbind_before_pair_message">Dieses Gerät ist bereits in den Android-Einstellungen gebunden, was dazu führen kann, dass die Kopplung bei einigen Geräten fehlschlägt.
+\n
+\nWenn das Hinzufügen des Geräts fehlschlägt, entferne es bitte in den Android-Einstellungen und versuche es erneut.</string>
+    <string name="devicetype_scannable">Scannbares Gerät</string>
+    <string name="state_scanned">Gescannt</string>
+    <string name="devicesetting_scannable_minimum_unseen">Minimale ungesehene Zeit (Sekunden)</string>
+    <string name="devicesetting_scannable_rssi">Minimaler RSSI-Schwellenwert</string>
+    <string name="devicesetting_scannable_debounce_summary">Nach dem Scannen bleibt das Gerät als gescannt und wird für die angegebene Zeitspanne ignoriert</string>
+    <string name="devicesetting_scannable_minimum_unseen_summary">Nach dem Scannen muss das Gerät für diese Zeitspanne unsichtbar sein, bevor es erneut registriert wird</string>
+    <string name="devicesetting_scannable_rssi_summary">Der minimale RSSI-Schwellenwert für die Erkennung</string>
+    <string name="devicesetting_scannable_debounce">Zeitüberschreitung der abtastbaren Entprellung (Sekunden)</string>
+    <string name="stepRateSum">Summe der Schrittgeschwindigkeit</string>
+    <string name="stepRateAvg">Durchschnittliche Schrittfrequenz</string>
+    <string name="stepLengthAvg">Durchschnittliche Schrittlänge</string>
+    <string name="groundContactTimeAvg">Durchschnittliche Bodenkontaktzeit</string>
+    <string name="impactAvg">Durchschnittliche Auswirkungen</string>
+    <string name="impactMax">Maximale Wirkung</string>
+    <string name="swingAngleAvg">Durchschnittlicher Schwenkwinkel</string>
+    <string name="foreFootLandings">Landungen mit dem Vorderfuß</string>
+    <string name="eversionAngleAvg">Durchschnittlicher Eversionswinkel</string>
+    <string name="eversionAngleMax">Maximaler Eversionswinkel</string>
+    <string name="unknownDataEncountered">Unbekannte Daten gefunden</string>
+    <string name="milliseconds">Millisekunden</string>
+    <string name="degrees">Grad</string>
+    <string name="swolfAvg">Mittlerer Swolf</string>
+    <string name="swolfMax">Maximaler Swolf</string>
+    <string name="swolfMin">Minimaler Swolf</string>
+    <string name="backFootLandings">Landungen mit dem Fußrücken</string>
+    <string name="midFootLandings">Landungen mit dem Mittelfuß</string>
+    <string name="pref_force_enable_spo2_support">SpO2-Unterstützung erzwingen</string>
+    <string name="pref_force_enable_heartrate_support">Unterstützung der Herzfrequenz erzwingen</string>
+    <string name="pref_force_enable_spo2_support_summary">Erzwinge die Aktivierung der SpO2-Unterstützung.
+\nVERWENDUNG AUF EIGENE GEFAHR</string>
+    <string name="pref_force_enable_heartrate_support_summary">Erzwinge die Herzfrequenzunterstützung.
+\nVERWENDUNG AUF EIGENE GEFAHR</string>
+    <string name="error_showing_changelog">Fehler bei der Anzeige des Changelogs</string>
+    <string name="pref_dashboard_widget_goals_chart_title">Zieltabelle</string>
+    <string name="pref_dashboard_all_devices_title">Alle Geräte</string>
+    <string name="pref_dashboard_widgets_order_summary">Wähle, welche Widgets aktiviert sind und in welcher Reihenfolge sie auf dem Dashboard angezeigt werden</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Zeige die Aktivität in einem einzelnen 24-Stunden-Kreis anstelle eines doppelten 12-Stunden-Kreis</string>
+    <string name="pref_dashboard_widget_double_size_summary">Erlaube dem Widget, zwei Spalten auf dem Dashboard einzunehmen</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Eine Legende unterhalb des Widgets anzeigen, welche die Farben erklärt</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Herzfrequenz-Intervall</string>
+    <string name="activity_type_worn">Getragen</string>
+    <string name="dashboard_settings">Dashboard-Einstellungen</string>
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_devices">Geräte</string>
+    <string name="pref_dashboard_first_title">Dashboard zuerst anzeigen</string>
+    <string name="pref_dashboard_first_summary">Zeige beim Start von Gadgetbridge das Dashboard anstelle des Gerätebildschirms an</string>
+    <string name="pref_dashboard_cards_title">Widgets auf Karten anzeigen</string>
+    <string name="pref_dashboard_widget_today_hr_interval_summary">Die Anzahl der Minuten, die das Diagramm nach jeder erfolgreichen Herzfrequenzmessung \"Getragen\" anzeigt</string>
+    <string name="pref_dashboard_cards_summary">Zeichne Karten um die Widgets auf dem Dashboard</string>
+    <string name="pref_dashboard_widget_settings">Widget-Einstellungen</string>
+    <string name="pref_dashboard_widget_today_title">Tätigkeitstabelle</string>
+    <string name="pref_dashboard_widget_today_24h_title">24h-Modus</string>
+    <string name="pref_dashboard_widget_double_size_title">Doppelte Größe</string>
+    <string name="pref_dashboard_widget_show_legend_title">Legende anzeigen</string>
+    <string name="pref_dashboard_select_devices_title">Geräte auswählen...</string>
+    <string name="pref_dashboard_all_devices_summary">Kombiniere Aktivitätsdaten von allen hinzugefügten Geräten für die Gesamtzahlen auf dem Dashboard</string>
+    <string name="pref_dashboard_select_devices_summary">Kombiniere Aktivitätsdaten von bestimmten Geräten für die Gesamtzahlen auf dem Dashboard</string>
+    <string name="fmtPaceDistance">Tempo %d Entfernung</string>
+    <string name="pref_auto_reply_calls_delay_title">Automatische Antwortverzögerung</string>
+    <string name="pref_auto_reply_calls_delay_summary">Anzahl der Sekunden, nach denen der Anruf automatisch entgegengenommen wird</string>
+    <string name="pref_auto_reply_calls_title">Telefonanrufe automatisch annehmen</string>
+    <string name="pref_auto_reply_calls_summary">Das Telefon nimmt eingehende Telefonanrufe automatisch entgegen</string>
+    <string name="pref_dashboard_devices_to_include">Einzubeziehende Geräte</string>
+    <string name="RunningForm">Art der Durchführung</string>
+    <string name="pref_header_audio">Audio</string>
+    <string name="pref_header_generic">Allgemein</string>
+    <string name="pref_title_notification_wake_on_open">Automatisches Aufwachen und Entsperren</string>
+    <string name="pref_summary_notification_wake_on_open">Wecken und Entsperren des Android-Geräts, wenn das Gadget eine OPEN-Antwort zurücksendet. Es muss sich in einem vertrauenswürdigen Zustand befinden.</string>
+    <string name="fmtPaceType">Tempo %d Typ</string>
+    <string name="fmtPacePace">Tempo %d Tempo</string>
+    <string name="fmtPaceCorrection">Tempo %d Korrektur</string>
+    <string name="fmtPaceTypeAverage">Tempo-Typ %d Durchschnitt</string>
+    <string name="Pace">Tempo</string>
+    <string name="widget_name_colored_tile">%1$s (farbige Kachel)</string>
+    <string name="armenian">Armenisch</string>
+    <string name="widget_layout_top_wide_bot_large">Oben weit, unten groß</string>
+    <string name="widget_name_untitled">Unbenanntes Widget (%1$s)</string>
+    <string name="pref_speak_notifications_aloud_summary">Benachrichtigungen werden über die Kopfhörer vorgelesen</string>
+    <string name="pref_speak_notifications_aloud_title">Lautes Sprechen von Benachrichtigungen</string>
+    <string name="pref_header_calls_and_notifications">Anrufe und Benachrichtigungen</string>
+    <string name="devicetype_redmi_watch_4">Redmi Watch 4</string>
+    <string name="widget_layout_top_large_bot_wide">Oben groß, unten weit</string>
+    <string name="pref_summary_bottom_navigation_bar_off">Wechseln zwischen den Hauptbildschirmen nur durch horizontales Wischen</string>
+    <string name="pref_title_bottom_navigation_bar">Untere Navigationsleiste</string>
+    <string name="pref_summary_bottom_navigation_bar_on">Wechsle zwischen den Hauptbildschirmen mit der Navigationsleiste oder durch horizontales Wischen</string>
+    <string name="pref_dashboard_widget_today_upside_down_title">Mitternacht ist unten</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">Im 24-Stunden-Modus zeichne Mitternacht unten und Mittag oben im Diagramm</string>
+    <string name="pref_sleepasandroid_device_title">Auszuwählendes Gerät</string>
+    <string name="pref_sleepasandroid_device_summary">Gerät als Sleep as Android-Datenanbieter auswählen</string>
+    <string name="pref_sleepasandroid_features_summary">Die Unterstützung ist von Gerät zu Gerät unterschiedlich</string>
+    <string name="pref_sleepasandroid_feat_alarms">Alarme</string>
+    <string name="alarm_slot_reset">Der Alarm-Platz wurde auf Standard eingestellt</string>
+    <string name="pref_sleepasandroid_feat_notifications">Benachrichtigungen</string>
+    <string name="pref_sleepasandroid_feat_movement">Beschleunigungssensor</string>
+    <string name="pref_sleepasandroid_feat_heartrate">Herzfrequenz</string>
+    <string name="pref_sleepasandroid_feat_spo2">SpO2</string>
+    <string name="sleepasandroid_settings">Sleep as Android</string>
+    <string name="pref_sleepasandroid_enable_summary">Aktiviere die Integration von Sleep as Android</string>
+    <string name="pref_sleepasandroid_features_title">Eigenschaften</string>
+    <string name="pref_sleepasandroid_slot_title">Alarm-Platz</string>
+    <string name="pref_sleepasandroid_slot_summary">Welcher Alarm-Platz beim Einstellen von Alarmen zu verwenden ist</string>
+    <string name="pref_sleepasandroid_feat_oximetry">Oximetrie</string>
+    <string name="pref_title_huawei_account">Huawei Account</string>
+    <string name="pref_summary_huawei_account">Huawei-Account, welcher für den Kopplungsprozess verwendet wird. Die Einstellung ermöglicht die Kopplung ohne Werksreset.</string>
+    <string name="serbian">Serbisch</string>
+    <string name="watchface_resolution_doesnt_match">Die Auflösung des Watchface stimmt nicht mit dem Bildschirm des Geräts überein. Watchface ist %1$s Gerätebildschirm ist %2$s</string>
+    <string name="cyclingPowerMin">Minimale Leistung beim Radfahren</string>
+    <string name="cyclingPowerMax">Maximale Leistung beim Radfahren</string>
+    <string name="cyclingPowerAverage">Durchschnittliche Leistung beim Radfahren</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
 </resources>
