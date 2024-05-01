@@ -18,7 +18,7 @@ public class FitAlarmSettings extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 222) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 222 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitAlarmSettings expects global messages of " + 222 + ", got " + globalNumber);
         }
     }
 

@@ -16,8 +16,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalFITMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
@@ -97,8 +101,11 @@ public class FitCodeGen {
         imports.add(RecordDefinition.class.getCanonicalName());
         imports.add(RecordHeader.class.getCanonicalName());
         //imports.add(GBToStringBuilder.class.getCanonicalName());
+        imports.addAll(getImports(outputFile));
 
         Collections.sort(imports);
+
+        final Set<String> uniqueImports =new LinkedHashSet<>(imports);
 
         for (final GlobalFITMessage.FieldDefinitionPrimitive primitive : globalFITMessage.getFieldDefinitionPrimitives()) {
             final Class<?> fieldType = getFieldType(primitive);
@@ -119,7 +126,7 @@ public class FitCodeGen {
 
         sb.append("\n");
         boolean anyImport = false;
-        for (final String i : imports) {
+        for (final String i : uniqueImports) {
             if (i.startsWith("androidx")) {
                 sb.append("import ").append(i).append(";\n");
                 anyImport = true;
@@ -130,7 +137,7 @@ public class FitCodeGen {
             sb.append("\n");
             anyImport = false;
         }
-        for (final String i : imports) {
+        for (final String i : uniqueImports) {
             if (i.startsWith("nodomain.freeyourgadget")) {
                 sb.append("import ").append(i).append(";\n");
                 anyImport = true;
@@ -141,7 +148,7 @@ public class FitCodeGen {
             sb.append("\n");
             anyImport = false;
         }
-        for (final String i : imports) {
+        for (final String i : uniqueImports) {
             if (!i.startsWith("androidx") && !i.startsWith("nodomain.freeyourgadget")) {
                 sb.append("import ").append(i).append(";\n");
                 anyImport = true;
@@ -161,7 +168,7 @@ public class FitCodeGen {
         sb.append("\n");
         sb.append("        final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();\n");
         sb.append("        if (globalNumber != ").append(globalFITMessage.getNumber()).append(") {\n");
-        sb.append("            throw new IllegalArgumentException(\"FitFileId expects global messages of \" + ").append(globalFITMessage.getNumber()).append(" + \", got \" + globalNumber);\n");
+        sb.append("            throw new IllegalArgumentException(\"").append(className).append(" expects global messages of \" + ").append(globalFITMessage.getNumber()).append(" + \", got \" + globalNumber);\n");
         sb.append("        }\n");
         sb.append("    }\n");
 
@@ -293,5 +300,21 @@ public class FitCodeGen {
         }
 
         return "";
+    }
+
+    public List<String> getImports(final File file) throws IOException {
+        if (file.exists()) {
+            final String fileContents = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+            final List<String> imports = new ArrayList<>();
+
+            final Matcher m = Pattern.compile("import (.+);")
+                    .matcher(fileContents);
+            while (m.find()) {
+                imports.add(m.group(1));
+            }
+            return imports;
+        }
+
+        return Collections.emptyList();
     }
 }

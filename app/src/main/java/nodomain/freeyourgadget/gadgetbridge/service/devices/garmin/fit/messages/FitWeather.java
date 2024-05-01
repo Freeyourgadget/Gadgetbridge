@@ -19,7 +19,7 @@ public class FitWeather extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 128) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 128 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitWeather expects global messages of " + 128 + ", got " + globalNumber);
         }
     }
 

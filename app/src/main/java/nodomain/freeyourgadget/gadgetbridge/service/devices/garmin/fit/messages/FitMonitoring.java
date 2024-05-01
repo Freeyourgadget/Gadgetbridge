@@ -16,7 +16,7 @@ public class FitMonitoring extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 55) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 55 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitMonitoring expects global messages of " + 55 + ", got " + globalNumber);
         }
     }
 
@@ -80,5 +80,28 @@ public class FitMonitoring extends RecordData {
             return (computedTimestamp & ~0xFFFFL) | timestamp16;
         }
         return computedTimestamp;
+    }
+
+    public Integer getComputedActivityType() {
+        final Integer activityType = getActivityType();
+        if (activityType != null) {
+            return activityType;
+        }
+
+        final Integer currentActivityTypeIntensity = getCurrentActivityTypeIntensity();
+        if (currentActivityTypeIntensity != null) {
+            return currentActivityTypeIntensity & 0x1F;
+        }
+
+        return null;
+    }
+
+    public Integer getComputedIntensity() {
+        final Integer currentActivityTypeIntensity = getCurrentActivityTypeIntensity();
+        if (currentActivityTypeIntensity != null) {
+            return (currentActivityTypeIntensity >> 5) & 0x7;
+        }
+
+        return null;
     }
 }

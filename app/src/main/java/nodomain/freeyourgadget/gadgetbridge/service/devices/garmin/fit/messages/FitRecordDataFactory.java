@@ -27,8 +27,14 @@ public class FitRecordDataFactory {
                 return new FitSport(recordDefinition, recordHeader);
             case 15:
                 return new FitGoals(recordDefinition, recordHeader);
+            case 18:
+                return new FitSession(recordDefinition, recordHeader);
+            case 19:
+                return new FitLap(recordDefinition, recordHeader);
             case 20:
                 return new FitRecord(recordDefinition, recordHeader);
+            case 21:
+                return new FitEvent(recordDefinition, recordHeader);
             case 23:
                 return new FitDeviceInfo(recordDefinition, recordHeader);
             case 49:
@@ -41,16 +47,24 @@ public class FitRecordDataFactory {
                 return new FitWeather(recordDefinition, recordHeader);
             case 159:
                 return new FitWatchfaceSettings(recordDefinition, recordHeader);
+            case 160:
+                return new FitGpsMetadata(recordDefinition, recordHeader);
             case 206:
                 return new FitFieldDescription(recordDefinition, recordHeader);
             case 207:
                 return new FitDeveloperData(recordDefinition, recordHeader);
+            case 216:
+                return new FitTimeInZone(recordDefinition, recordHeader);
             case 222:
                 return new FitAlarmSettings(recordDefinition, recordHeader);
             case 227:
                 return new FitStressLevel(recordDefinition, recordHeader);
+            case 269:
+                return new FitSpo2(recordDefinition, recordHeader);
             case 275:
                 return new FitSleepStage(recordDefinition, recordHeader);
+            case 297:
+                return new FitRespirationRate(recordDefinition, recordHeader);
             case 346:
                 return new FitSleepStats(recordDefinition, recordHeader);
         }

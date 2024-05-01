@@ -16,7 +16,7 @@ public class FitConnectivity extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 127) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 127 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitConnectivity expects global messages of " + 127 + ", got " + globalNumber);
         }
     }
 

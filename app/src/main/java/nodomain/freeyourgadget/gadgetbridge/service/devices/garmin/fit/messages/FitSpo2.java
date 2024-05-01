@@ -5,25 +5,34 @@ import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage.SleepStage;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
 // See nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.codegen.FitCodeGen
 //
-public class FitSleepStage extends RecordData {
-    public FitSleepStage(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
+public class FitSpo2 extends RecordData {
+    public FitSpo2(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
         super(recordDefinition, recordHeader);
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
-        if (globalNumber != 275) {
-            throw new IllegalArgumentException("FitSleepStage expects global messages of " + 275 + ", got " + globalNumber);
+        if (globalNumber != 269) {
+            throw new IllegalArgumentException("FitSpo2 expects global messages of " + 269 + ", got " + globalNumber);
         }
     }
 
     @Nullable
-    public SleepStage getSleepStage() {
-        return (SleepStage) getFieldByNumber(0);
+    public Integer getReadingSpo2() {
+        return (Integer) getFieldByNumber(0);
+    }
+
+    @Nullable
+    public Integer getReadingConfidence() {
+        return (Integer) getFieldByNumber(1);
+    }
+
+    @Nullable
+    public Integer getMode() {
+        return (Integer) getFieldByNumber(2);
     }
 
     @Nullable

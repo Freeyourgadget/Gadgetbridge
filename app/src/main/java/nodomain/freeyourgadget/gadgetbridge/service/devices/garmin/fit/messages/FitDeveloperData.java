@@ -16,7 +16,7 @@ public class FitDeveloperData extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 207) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 207 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitDeveloperData expects global messages of " + 207 + ", got " + globalNumber);
         }
     }
 

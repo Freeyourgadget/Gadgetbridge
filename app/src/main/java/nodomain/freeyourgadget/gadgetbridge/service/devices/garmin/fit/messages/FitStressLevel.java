@@ -32,7 +32,7 @@ public class FitStressLevel extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 227) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 227 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitStressLevel expects global messages of " + 227 + ", got " + globalNumber);
         }
     }
 

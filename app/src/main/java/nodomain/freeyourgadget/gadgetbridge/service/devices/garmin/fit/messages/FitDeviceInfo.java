@@ -16,7 +16,7 @@ public class FitDeviceInfo extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 23) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 23 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitDeviceInfo expects global messages of " + 23 + ", got " + globalNumber);
         }
     }
 
