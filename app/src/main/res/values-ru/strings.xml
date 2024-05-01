@@ -2794,7 +2794,7 @@
 \nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
     <string name="pref_force_enable_spo2_support">Поддержка измерения SpO2</string>
     <string name="pref_dashboard_widget_double_size_summary">Позволить виджету занять две колонки на обзорной панели</string>
-    <string name="pref_dashboard_widget_show_legend_summary">Показывать обозначения цветов под виджетом</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Показывать значения цветов под виджетом</string>
     <string name="pref_dashboard_select_devices_title">Выбрать устройства...</string>
     <string name="pref_dashboard_widgets_order_summary">Выберите виджеты и порядок их отображения на главном экране</string>
     <string name="pref_dashboard_widget_today_24h_summary">Показывать активность в одном 24-часовом кружке вместо двойного 12ч</string>
@@ -2806,4 +2806,10 @@
     <string name="pref_header_audio">Звук</string>
     <string name="activity_type_free_training">Свободная тренировка</string>
     <string name="activity_type_dynamic_cycle">Динамический цикл</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Интервал измерений пульса</string>
+    <string name="pref_speak_notifications_aloud_title">Произносить уведомления вслух</string>
+    <string name="pref_header_calls_and_notifications">Вызовы и уведомления</string>
+    <string name="pref_dashboard_widget_show_legend_title">Показывать обозначения</string>
+    <string name="armenian">Армянский</string>
+    <string name="devicetype_redmi_watch_4">Redmi Watch 4</string>
 </resources>
