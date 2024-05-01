@@ -2358,4 +2358,13 @@
     <string name="Pace">Tempó</string>
     <string name="Elevation">Emelkedés</string>
     <string name="RunningForm">Futóforma</string>
+    <string name="prefs_touch_lock">Érintőképernyő zárolása</string>
+    <string name="sony_connect_two_devices">Csatlakozás 2 eszközhöz párhuzamosan</string>
+    <string name="pref_title_touch_ambient">Környezeti hang</string>
+    <string name="prefs_equalizer_preset">Hangszínszabályzó profil</string>
+    <string name="prefs_active_noise_cancelling_summary">Környezeti zajok szűrése</string>
+    <string name="pressure_relief_summary">Megakadályozza a nyomásérzést a fülben, amikor az aktív zajszűrés nincs használatban</string>
+    <string name="pref_summary_physical_buttons">Az óra fizikai gombjainak beállítása</string>
+    <string name="qhybrid_pref_title_actions">Műveletek</string>
+    <string name="button_watchface_settings">Óra számlap beállítások</string>
 </resources>
