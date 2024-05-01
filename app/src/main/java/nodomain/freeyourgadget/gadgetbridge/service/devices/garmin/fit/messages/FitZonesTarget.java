@@ -16,7 +16,7 @@ public class FitZonesTarget extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 7) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 7 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitZonesTarget expects global messages of " + 7 + ", got " + globalNumber);
         }
     }
 

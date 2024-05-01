@@ -16,7 +16,7 @@ public class FitWatchfaceSettings extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 159) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 159 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitWatchfaceSettings expects global messages of " + 159 + ", got " + globalNumber);
         }
     }
 

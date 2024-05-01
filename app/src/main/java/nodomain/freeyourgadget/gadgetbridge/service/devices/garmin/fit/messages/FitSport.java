@@ -16,7 +16,7 @@ public class FitSport extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 12) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 12 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitSport expects global messages of " + 12 + ", got " + globalNumber);
         }
     }
 

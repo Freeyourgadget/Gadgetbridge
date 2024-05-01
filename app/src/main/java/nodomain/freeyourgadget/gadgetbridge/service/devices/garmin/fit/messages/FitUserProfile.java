@@ -7,11 +7,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDef
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionLanguage.Language;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem.Type;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
@@ -23,7 +18,7 @@ public class FitUserProfile extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 3) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 3 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitUserProfile expects global messages of " + 3 + ", got " + globalNumber);
         }
     }
 

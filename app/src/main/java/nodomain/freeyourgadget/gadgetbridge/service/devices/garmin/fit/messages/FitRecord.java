@@ -16,13 +16,48 @@ public class FitRecord extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 20) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 20 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitRecord expects global messages of " + 20 + ", got " + globalNumber);
         }
+    }
+
+    @Nullable
+    public Long getLatitude() {
+        return (Long) getFieldByNumber(0);
+    }
+
+    @Nullable
+    public Long getLongitude() {
+        return (Long) getFieldByNumber(1);
     }
 
     @Nullable
     public Integer getHeartRate() {
         return (Integer) getFieldByNumber(3);
+    }
+
+    @Nullable
+    public Long getDistance() {
+        return (Long) getFieldByNumber(5);
+    }
+
+    @Nullable
+    public Long getEnhancedSpeed() {
+        return (Long) getFieldByNumber(73);
+    }
+
+    @Nullable
+    public Long getEnhancedAltitude() {
+        return (Long) getFieldByNumber(78);
+    }
+
+    @Nullable
+    public Integer getWristHeartRate() {
+        return (Integer) getFieldByNumber(136);
+    }
+
+    @Nullable
+    public Integer getBodyBattery() {
+        return (Integer) getFieldByNumber(143);
     }
 
     @Nullable

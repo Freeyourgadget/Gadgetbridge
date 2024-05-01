@@ -16,7 +16,7 @@ public class FitFieldDescription extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 206) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 206 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitFieldDescription expects global messages of " + 206 + ", got " + globalNumber);
         }
     }
 

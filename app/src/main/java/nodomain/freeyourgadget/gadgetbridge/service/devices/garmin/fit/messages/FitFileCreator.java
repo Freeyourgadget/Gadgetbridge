@@ -16,7 +16,7 @@ public class FitFileCreator extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 49) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 49 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitFileCreator expects global messages of " + 49 + ", got " + globalNumber);
         }
     }
 

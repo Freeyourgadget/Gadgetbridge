@@ -16,7 +16,7 @@ public class FitSleepStats extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 346) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 346 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitSleepStats expects global messages of " + 346 + ", got " + globalNumber);
         }
     }
 }

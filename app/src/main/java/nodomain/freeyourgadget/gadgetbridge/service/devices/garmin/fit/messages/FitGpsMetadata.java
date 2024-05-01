@@ -5,29 +5,28 @@ import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage.SleepStage;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
 // See nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.codegen.FitCodeGen
 //
-public class FitSleepStage extends RecordData {
-    public FitSleepStage(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
+public class FitGpsMetadata extends RecordData {
+    public FitGpsMetadata(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
         super(recordDefinition, recordHeader);
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
-        if (globalNumber != 275) {
-            throw new IllegalArgumentException("FitSleepStage expects global messages of " + 275 + ", got " + globalNumber);
+        if (globalNumber != 160) {
+            throw new IllegalArgumentException("FitGpsMetadata expects global messages of " + 160 + ", got " + globalNumber);
         }
     }
 
     @Nullable
-    public SleepStage getSleepStage() {
-        return (SleepStage) getFieldByNumber(0);
+    public Long getEnhancedAltitude() {
+        return (Long) getFieldByNumber(3);
     }
 
     @Nullable
-    public Long getTimestamp() {
-        return (Long) getFieldByNumber(253);
+    public Long getEnhancedSpeed() {
+        return (Long) getFieldByNumber(4);
     }
 }

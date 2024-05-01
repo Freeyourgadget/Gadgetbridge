@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalType.Type;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalSource.Source;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalType.Type;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
@@ -18,7 +18,7 @@ public class FitGoals extends RecordData {
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
         if (globalNumber != 15) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 15 + ", got " + globalNumber);
+            throw new IllegalArgumentException("FitGoals expects global messages of " + 15 + ", got " + globalNumber);
         }
     }
 
