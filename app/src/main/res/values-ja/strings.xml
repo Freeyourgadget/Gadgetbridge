@@ -835,7 +835,7 @@
     <string name="blue">青</string>
     <string name="prefs_wena3_button_action_name_activity_screen">アクティビティ画面</string>
     <string name="prefs_wena3_notification_settings_title">通知設定</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge(Nightly)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="pref_pair_bluetooth_calls_help_title">Bluetooth通話の着信方法</string>
     <string name="fw_upgrade_notice_miband7">Xiaomi Smart Band 7 に %s ファームウェアをインストールしようとしています。
 \n
@@ -1092,4 +1092,10 @@
     <string name="open_fw_installer_pick_file">ファイルの選択</string>
     <string name="open_fw_installer_info_text_title">ファイルインストーラ</string>
     <string name="open_fw_installer_connect_minimum_one_device">ファイルを送信したいデバイスを少なくとも1つ接続してください。</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge について</string>
+    <string name="about_description_banglejs_main">Gadgetbridge プロジェクト上に構築された Bangle.js の Android コンパニオン アプリ。インターネット アクセスが追加されています。
+\n
+\nGoogle Play ストアのポリシーにより、アプリ自体に寄付リンクを使用することはできませんが、このアプリを気に入っていただけましたら、以下の Gadgetbridge ホームページから寄付をご検討ください。</string>
 </resources>
