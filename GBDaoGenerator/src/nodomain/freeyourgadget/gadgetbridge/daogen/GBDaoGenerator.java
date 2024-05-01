@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(73, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(74, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -108,6 +108,11 @@ public class GBDaoGenerator {
         addHybridHRActivitySample(schema, user, device);
         addVivomoveHrActivitySample(schema, user, device);
         addGarminFitFile(schema, user, device);
+        addGarminActivitySample(schema, user, device);
+        addGarminStressSample(schema, user, device);
+        addGarminSpo2Sample(schema, user, device);
+        addGarminSleepStageSample(schema, user, device);
+        addGarminEventSample(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
         addWena3CaloriesSample(schema, user, device);
@@ -677,6 +682,47 @@ public class GBDaoGenerator {
         downloadedFitFile.addIndex(indexUnique);
 
         return downloadedFitFile;
+    }
+
+    private static Entity addGarminActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "GarminActivitySample");
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.implementsSerializable();
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addGarminStressSample(Schema schema, Entity user, Entity device) {
+        Entity stressSample = addEntity(schema, "GarminStressSample");
+        addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
+        stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
+        return stressSample;
+    }
+
+    private static Entity addGarminSpo2Sample(Schema schema, Entity user, Entity device) {
+        Entity spo2sample = addEntity(schema, "GarminSpo2Sample");
+        addCommonTimeSampleProperties("AbstractSpo2Sample", spo2sample, user, device);
+        spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
+        return spo2sample;
+    }
+
+    private static Entity addGarminSleepStageSample(Schema schema, Entity user, Entity device) {
+        Entity sleepStageSample = addEntity(schema, "GarminSleepStageSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sleepStageSample, user, device);
+        sleepStageSample.addIntProperty("stage").notNull();
+        return sleepStageSample;
+    }
+
+    private static Entity addGarminEventSample(Schema schema, Entity user, Entity device) {
+        Entity sleepStageSample = addEntity(schema, "GarminEventSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", sleepStageSample, user, device);
+        sleepStageSample.addIntProperty("event").notNull().primaryKey();
+        sleepStageSample.addIntProperty("eventType");
+        sleepStageSample.addLongProperty("data");
+        return sleepStageSample;
     }
 
     private static Entity addWatchXPlusHealthActivitySample(Schema schema, Entity user, Entity device) {

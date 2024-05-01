@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +59,10 @@ public class ActivityTrack {
      */
     public void addTrackPoint(final ActivityPoint point) {
         currentSegment.add(point);
+    }
+
+    public void addTrackPoints(final Collection<ActivityPoint> points) {
+        currentSegment.addAll(points);
     }
 
     public void startNewSegment() {

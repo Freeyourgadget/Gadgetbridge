@@ -39,7 +39,7 @@ public class FitFile {
         this.canGenerateOutput = true;
     }
 
-    private static byte[] readFileToByteArray(File file) {
+    private static byte[] readFileToByteArray(File file) throws IOException {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); InputStream inputStream = new FileInputStream(file)) {
             byte[] buffer = new byte[1024];
             int length;
@@ -47,12 +47,10 @@ public class FitFile {
                 outputStream.write(buffer, 0, length);
             }
             return outputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public static FitFile parseIncoming(File file) {
+    public static FitFile parseIncoming(File file) throws IOException {
         return parseIncoming(readFileToByteArray(file));
     }
 

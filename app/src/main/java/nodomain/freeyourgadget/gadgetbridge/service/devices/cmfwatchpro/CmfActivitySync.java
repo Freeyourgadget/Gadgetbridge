@@ -589,8 +589,7 @@ public class CmfActivitySync {
             final ActivityPoint ap = new ActivityPoint(new Date(gpsSample.getTimestamp()));
             final GPSCoordinate coordinate = new GPSCoordinate(
                     gpsSample.getLongitude() / 10000000d,
-                    gpsSample.getLatitude() / 10000000d,
-                    -20000
+                    gpsSample.getLatitude() / 10000000d
             );
             ap.setLocation(coordinate);
 
