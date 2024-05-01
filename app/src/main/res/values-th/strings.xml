@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_activity_title_generic">เกี่ยวกับ Gadgetbridge</string>
-    <string name="application_name_generic"></string>
+    <string name="application_name_generic">Gadgetbridge</string>
     <string name="gadgetbridge_running_generic">Gadgetbridge กำลังทำงาน</string>
     <string name="about_description_generic">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ</string>
-    <string name="title_activity_controlcenter_generic"></string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">เกี่ยวกับ Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js กำลังทำงานอยู่</string>
-    <string name="application_name_banglejs_nightly"></string>
-    <string name="title_activity_controlcenter_banglejs_nightly"></string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js กำลังทำงานอยู่</string>
-    <string name="about_activity_title_main_nightly">เกี่ยวกับ Gadgetbridge Nightly</string>
-    <string name="title_activity_controlcenter_main_nightly"></string>
+    <string name="about_activity_title_main_nightly">เกี่ยวกับ Gadgetbridge รุ่นทดสอบ</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB กำลังทำงานอยู่</string>
     <string name="application_name_main_nopebble">Gadgetbridge (Nightly โดยไม่มี Pebble provider)</string>
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly แบบไม่มี Pebbleล</string>
-    <string name="about_activity_title_main_nopebble">เกี่ยวกับ Gadgetbridge Nightly แบบไม่มี Pebbleล</string>
+    <string name="about_activity_title_main_nopebble">About Gadgetbridge Nightly No Pebble</string>
     <string name="action_settings">การตั้งค่า</string>
     <string name="action_debug">ดีบั้ก</string>
     <string name="action_quit">ออก</string>
@@ -67,8 +67,8 @@
     <string name="title_activity_debug">ดีบั้ก</string>
     <string name="debugactivity_really_factoryreset_title">คืนค่าเรื่มต้นจากโรงงาน?</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">ลบการตั้งค่าของอุปกรณ์?</string>
-    <string name="about_activity_title_banglejs_nightly">เกี่ยวกับ Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="about_description_main_nightly">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปแก็ดเจ็ตต่างๆจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ เวอร์ชั่น Nightly ของ Gadgetbridge ไม่สามารถติดตั้งซ้อนได้หากคุณมีแอป Gadgetbridge หรือ Pebble ติดตั้งอยู่แล้ว เนื่องจากการขัดแย้งกันของ Pebble provider</string>
+    <string name="about_activity_title_banglejs_nightly">เกี่ยวกับ Bangle.js Gadgetbridge (รุ่นทดสอบ)</string>
+    <string name="about_description_main_nightly">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปแก็ดเจ็ตต่างๆจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ เวอร์ชั่นทดสอบของ Gadgetbridge ไม่สามารถติดตั้งคู่กันได้หากคุณมีแอป Gadgetbridge หรือ Pebble ติดตั้งอยู่แล้ว เนื่องจากการขัดแย้งกันของ Pebble provider</string>
     <string name="controlcenter_delete_device">ลบอุปกรณ์</string>
     <string name="prefs_activity_in_device_card_title">แสดงข้อมูลกิจกรรมบนการ์ดของอุปกรณ์</string>
     <string name="prefs_activity_in_device_card_title_summary">แสดงจำนวนก้าวเดินปัจจุบัน ระยะทางหรือการนอนหลับบนการ์ดของอุปกรณ์</string>
@@ -81,4 +81,40 @@
 \n
 \nเนื่องจากนโยบายของ Google Play เราจึงไม่สามารถเพื่มช่องการบริจาคในแอปได้โดยตรง แต่ถ้าคุณชอบแอปนี้โปรดพิจารณาบริจาคผ่านหน้าหลักของ Gadgetbridge ด้านล่างนี้</string>
     <string name="debugactivity_really_factoryreset">การคืนค่าโรงงานจะลบข้อมูลทุกอย่างของอุปกรณ์ Xiaomi/Huami (ที่รองรับ) และยังเปลี่ยนที่อยู่ Bluetooth MAC address ฉะนั้น Gadgetbridge จะมองเห็นเป็นอุปกรณ์ใหม่</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="application_name_main_nightly">Gadgetbridge (รุ่นทดสอบ)</string>
+    <string name="about_links">ลิงก์</string>
+    <string name="single_band">ช่องความถี่เดี่ยว</string>
+    <string name="dual_band">ช่องความถี่คู่</string>
+    <string name="debugactivity_confirm_remove_device_preferences">นี่จะเป็นการรีเซ็ตการตั้งค่าของทุกอุปกรณ์ที่เชื่อมต่ออยู่ แน่ใจหรือ?</string>
+    <string name="about_description_main_nopebble">แอปเสรีไม่สงวนลิขสิทธิ์ ไม่พึ่งระบบคลาวด์ สำหรับใช้ทดแทนแอปแก็ดเจ็ตต่างๆจากผู้ผลิตที่ไม่เปิดเผยโค้ดอิสระ เวอร์ชั่นทดสอบของ Gadgetbridge มี Pebble provider ที่ถูกเปลี่ยนชื่อเพื่อป้องกันการขัดแย้งกัน ฉะนั้นการทำงานร่วมกับฟีเจอร์บางอย่างของ Pebble อาจใช้ไม่ได้ แต่สามารถติดตั้งแอปนี้คู่กับแอป Gadgetbridge ที่มีอยู่แล้วได้</string>
+    <string name="appmanager_installed_watchapps">แอปที่ติดตั้งแล้ว</string>
+    <string name="appmanager_installed_watchfaces">หน้าปัดนาฬิกาที่ติดตั้งแล้ว</string>
+    <string name="about_core_team_title">ผู้ร่วมพัฒนาหลักๆ(ตั้งแต่เรื่มพัฒนาแรกๆ)</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly NoPebble GB กำลังทำงาน</string>
+    <string name="appmanager_app_share">แชร์</string>
+    <string name="title_activity_notification_management">การตั้งค่าการแจ้งเตือน</string>
+    <string name="pref_title_notifications_call">เมื่อมีสายเข้า</string>
+    <string name="pref_title_notifications_ignore_low_priority">ไม่สนใจการแจ้งเตือนความสำคัญต่ำ</string>
+    <string name="pref_title_notifications_generic_settings">การตั้งค่าการแจ้งเตือนของ Android</string>
+    <string name="pref_title_notifications_generic">การรองรับการแจ้งเตือนทั่วไป</string>
+    <string name="pref_title_whenscreenon">...และเมื่อหน้าจอเปิดอยู่</string>
+    <string name="pref_summary_notifications_ignore_low_priority">ไม่ต้องส่งการแจ้งเตือนที่มีความสำคัญต่ำต่างๆไปยังอุปกรณ์</string>
+    <string name="pref_title_support_voip_calls">การโทรจากระบบ VoIP</string>
+    <string name="pref_summary_notification_prefer_long_text">หากเป็นไปได้ ให้ส่งการแจ้งเตือนที่มีข้อความยาวๆ ไปยังอุปกรณ์</string>
+    <string name="pref_summary_notifications_ignore_work_profile">ไม่ต้องส่งการแจ้งเตือนจากแอปที่อยู่ในโปรไฟล์งานไปยังอุปกรณ์</string>
+    <string name="pref_title_notification_cache_while_disconnected">แคชการแจังเตือนไว้</string>
+    <string name="pref_summary_notification_cache_while_disconnected">ส่งการแจ้งเตือนที่พลาดไป เมื่ออุปกรณ์กลับมาเชื่อมต่ออีกครั้งหลังจากไม่อยู่ในระยะการเชื่อมต่อ</string>
+    <string name="pref_title_notification_prefer_long_text">ส่งการแจ้งเตือนข้อความยาวๆ</string>
+    <string name="never">ไม่เลย</string>
+    <string name="always">ตลอดเวลา</string>
+    <string name="pref_title_notifications_ignore_work_profile">ไม่สนใจการแจ้งเตือนจากโปรไฟล์งาน</string>
+    <string name="pref_title_ping_tone">เสียงตอนปิงอุปกรณ์</string>
+    <string name="pref_title_notification_delay_calls">หน่วงการแจ้งเตือนการโทร</string>
+    <string name="pref_summary_notification_delay_calls">หน่วงไว้ก่อนจะส่งการไปแจ้งเตือนไปยังอุปกรณ์ หน่วยเป็นวินาที</string>
+    <string name="about_contributors">ผู้ร่วมพัฒนา</string>
+    <string name="about_additional_device_support">ผู้สนับสนุนการรองรับอุปกรณ์เพื่มเติม</string>
+    <string name="about_additional_contributions">ขอขอบคุณผู่ร่วมพัฒนาทุกท่านที่ช่วยกันแก้ไขโค้ด, แปลภาษา, ช่วยเหลือ, ออกไอเดีย, ให้กำลังใจ, แจ้งบั้ก, และบริจาคเงิน... ✊</string>
+    <string name="action_discover">เชื่อมต่ออุปกรณ์ใหม่</string>
 </resources>
