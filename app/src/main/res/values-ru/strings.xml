@@ -1855,7 +1855,7 @@
     <string name="error_setting_parent_folder">Ошибка задания родительской папки: %s</string>
     <string name="autoconnect_from_device_summary">Подключаться в случае когда соединение инициировано устройством, например, наушниками</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
-    <string name="info_no_devices_connected">нет подключенных устройств</string>
+    <string name="info_no_devices_connected">Нет подключенных устройств</string>
     <string name="controlcenter_set_parent_folder">Задать родительскую папку</string>
     <string name="controlcenter_set_folder_title">Укажите папку или создайте новую</string>
     <string name="autoconnect_from_device_title">Подключаться при подключении с устройства</string>
@@ -2665,13 +2665,13 @@
     <string name="pref_heartrate_automatic_enable">Автоизмерение сердцебиения</string>
     <string name="pref_spo_automatic_enable">Автоизмерение кислорода в крови</string>
     <string name="pref_force_options">Форсирование опций</string>
-    <string name="pref_force_smart_alarm">Форсировать умный будильник</string>
+    <string name="pref_force_smart_alarm">Поддержка умного будильника</string>
     <string name="pref_force_smart_alarm_summary">Форсировать поддержку умных будильников.
 \nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
-    <string name="pref_force_wear_location">Форсировать место ношения</string>
+    <string name="pref_force_wear_location">Поддержка места ношения</string>
     <string name="pref_force_wear_location_summary">Форсировать поддержку расположения ношения устройства.
 \nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
-    <string name="pref_force_dnd_support">Форсировать поддержку \"не беспокоить\"</string>
+    <string name="pref_force_dnd_support">Поддержка \"не беспокоить\"</string>
     <string name="huawei_ignore_wakeup_status_start">Игнорировать статус начала вставания</string>
     <string name="huawei_ignore_wakeup_status_start_description">Может помочь исправить распознание сна. Сразу видимо в обзоре дневных активностей.</string>
     <string name="huawei_ignore_wakeup_status_end">Игнорировать статус окончания вставания</string>
@@ -2787,4 +2787,19 @@
     <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
     <string name="busy_task_fetch_sports_details_interrupted">Получение подробностей о спорте было прервано</string>
+    <string name="pref_force_enable_heartrate_support">Поддержка измерения пульса</string>
+    <string name="pref_force_enable_spo2_support_summary">Форсировать поддержку измерения уровня кислорода в крови.
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
+    <string name="pref_force_enable_heartrate_support_summary">Форсировать поддержку измерения пульса.
+\nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
+    <string name="pref_force_enable_spo2_support">Поддержка измерения SpO2</string>
+    <string name="pref_dashboard_widget_double_size_summary">Позволить виджету занять две колонки на обзорной панели</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Показывать обозначения цветов под виджетом</string>
+    <string name="pref_dashboard_select_devices_title">Выбрать устройства...</string>
+    <string name="pref_dashboard_widgets_order_summary">Выберите виджеты и порядок их отображения на главном экране</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Показывать активность в одном 24-часовом кружке вместо двойного 12ч</string>
+    <string name="pref_auto_reply_calls_title">Принимать звонки автоматически</string>
+    <string name="pref_auto_reply_calls_delay_title">Задержка перед автоприёмом</string>
+    <string name="pref_auto_reply_calls_summary">Телефон будет автоматически принимать входящие звонки</string>
+    <string name="pref_auto_reply_calls_delay_summary">Время в секундах до того, как звонок будет автоматически принят</string>
 </resources>
