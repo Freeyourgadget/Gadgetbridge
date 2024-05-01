@@ -1843,4 +1843,8 @@
     <string name="activity_type_snowboarding">スノーボード</string>
     <string name="activity_type_riding">乗馬</string>
     <string name="devicetype_huawei_watchgt3">Huawei Watch GT 3 (Pro)</string>
+    <string name="menuitem_stopwatch">ストップウォッチ</string>
+    <string name="menuitem_events">イベント</string>
+    <string name="menuitem_dnd">DND</string>
+    <string name="menuitem_sleep">睡眠</string>
 </resources>
