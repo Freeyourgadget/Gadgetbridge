@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_name_generic">ガジェットブリッジ</string>
-    <string name="title_activity_controlcenter_generic">ガジェットブリッジ</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">設定</string>
     <string name="action_debug">デバッグ</string>
     <string name="action_quit">終了</string>
@@ -9,96 +9,96 @@
     <string name="controlcenter_fetch_activity_data">同期</string>
     <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
     <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
-    <string name="controlcenter_disconnect">切断</string>
+    <string name="controlcenter_disconnect">接続を切る</string>
     <string name="controlcenter_delete_device">デバイスを削除</string>
-    <string name="controlcenter_delete_device_name">%1$s を削除</string>
-    <string name="controlcenter_delete_device_dialogmessage">これにより、デバイスと関連するデータを削除します!</string>
+    <string name="controlcenter_delete_device_name">%1$s の削除</string>
+    <string name="controlcenter_delete_device_dialogmessage">デバイスと関連するデータが削除されます。</string>
     <string name="controlcenter_navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="controlcenter_navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
-    <string name="controlcenter_snackbar_need_longpress">カードを長押しすると切断します</string>
+    <string name="controlcenter_snackbar_need_longpress">カードを長押しすると接続を切断します</string>
     <string name="controlcenter_snackbar_disconnecting">切断中</string>
     <string name="controlcenter_snackbar_connecting">接続中…</string>
     <string name="controlcenter_snackbar_requested_screenshot">デバイスのスクリーンショットを取得中</string>
     <string name="title_activity_debug">デバッグ</string>
     <!--Strings related to AppManager-->
-    <string name="title_activity_appmanager">アプリ管理画面</string>
+    <string name="title_activity_appmanager">アプリの管理</string>
     <string name="appmanager_cached_watchapps_watchfaces">キャッシュ中のアプリ</string>
-    <string name="appmanager_installed_watchapps">インストール済アプリ</string>
-    <string name="appmanager_installed_watchfaces">インストール済ウォッチフェイス</string>
+    <string name="appmanager_installed_watchapps">インストール済みのアプリ</string>
+    <string name="appmanager_installed_watchfaces">インストール済みのウォッチフェイス</string>
     <string name="appmananger_app_delete">削除</string>
     <string name="appmananger_app_delete_cache">キャッシュから削除</string>
     <string name="appmananger_app_reinstall">再インストール</string>
     <string name="appmanager_app_openinstore">Pebble アプリストアで検索</string>
-    <string name="appmanager_health_activate">アクティベート</string>
-    <string name="appmanager_health_deactivate">非アクティベート</string>
-    <string name="appmanager_hrm_activate">HRM をアクティベート</string>
-    <string name="appmanager_hrm_deactivate">HRM を非アクティベート</string>
+    <string name="appmanager_health_activate">有効化</string>
+    <string name="appmanager_health_deactivate">無効化</string>
+    <string name="appmanager_hrm_activate">HRMを有効にする</string>
+    <string name="appmanager_hrm_deactivate">HRMを無効にする</string>
     <string name="appmanager_weather_activate">システムの天気アプリを有効にする</string>
     <string name="appmanager_weather_deactivate">システムの天気アプリを無効にする</string>
-    <string name="appmanager_weather_install_provider">天気予報通知アプリをインストール</string>
+    <string name="appmanager_weather_install_provider">天気通知アプリをインストール</string>
     <string name="app_configure">設定</string>
     <string name="app_move_to_top">先頭に移動</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">ブラックリストにしたカレンダー</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">ファームウェア・アプリのインストール</string>
+    <string name="title_activity_fw_app_insaller">ファームウェア/アプリのインストール</string>
     <string name="fw_upgrade_notice">%s をインストールしようとしています。</string>
     <string name="fw_multi_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに %1$s および %2$s をインストールしようとしています。</string>
-    <string name="miband_firmware_known">このファームウェアはテスト済で、ガジェットブリッジと互換性があることがわかっています。</string>
-    <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、Gadgetbridge と互換性がない可能性があります。 
-\n 
-\nフラッシュすることは推奨されません!</string>
-    <string name="miband_firmware_suggest_whitelist">それでも続行して、正しく動作した場合は、Gadgetbridge開発者にホワイトリストの %s ファームウェア バージョンを教えてください。</string>
+    <string name="miband_firmware_known">このファームウェアはテスト済みで、Gadgetbridgeと互換性があることが確認されています。</string>
+    <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、Gadgetbridgeと互換性がない可能性があります。
+\n
+\nフラッシュすることは推奨されません！</string>
+    <string name="miband_firmware_suggest_whitelist">続行し、もし正しく動作した場合は、Gadgetbridgeの開発者にファームウェアバージョン %s をホワイトリストに入れるよう伝えてください。</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">設定</string>
     <string name="pref_header_general">全般設定</string>
     <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときに Gadgetbridge デバイスに接続</string>
-    <string name="pref_title_general_autostartonboot">自動的に開始</string>
-    <string name="pref_title_general_autoreconnect">自動的に再接続</string>
-    <string name="pref_title_audio_player">お好みのオーディオプレイヤー</string>
+    <string name="pref_title_general_autostartonboot">自動的に開始する</string>
+    <string name="pref_title_general_autoreconnect">自動的に再接続する</string>
+    <string name="pref_title_audio_player">優先するオーディオプレイヤー</string>
     <string name="pref_default">デフォルト</string>
     <string name="pref_header_datetime">日付と時刻</string>
-    <string name="pref_title_datetime_syctimeonconnect">時間を合わせる</string>
-    <string name="pref_summary_datetime_syctimeonconnect">デバイスを接続したとき、Androidで時間またはタイムゾーンを変更したときに、デバイスに時間を同期します</string>
+    <string name="pref_title_datetime_syctimeonconnect">時間を同期する</string>
+    <string name="pref_summary_datetime_syctimeonconnect">デバイス接続時と、Android で時間またはタイムゾーンを変更したときにデバイスと時間を同期します</string>
     <string name="pref_title_theme">テーマ</string>
     <string name="pref_theme_light">ライト</string>
     <string name="pref_theme_dark">ダーク</string>
     <string name="pref_title_language">言語</string>
-    <string name="pref_title_minimize_priority">ガジェットブリッジの通知を非表示</string>
+    <string name="pref_title_minimize_priority">Gadgetbridge の通知を非表示にする</string>
     <string name="pref_summary_minimize_priority_off">ステータスバーのアイコンとロック画面の通知が表示されます</string>
-    <string name="pref_summary_minimize_priority_on">ステータスバーのアイコンとロック画面の通知は非表示です</string>
+    <string name="pref_summary_minimize_priority_on">ステータスバーのアイコンとロック画面の通知は表示されません</string>
     <string name="pref_header_notifications">通知</string>
     <string name="pref_title_notifications_repetitions">繰り返し</string>
-    <string name="pref_title_notifications_call">電話通知</string>
+    <string name="pref_title_notifications_call">着信通知</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Pebbleメッセージ</string>
     <string name="pref_summary_notifications_pebblemsg">PebbleKit経由でPebbleに通知を送信するアプリケーションをサポートします。</string>
-    <string name="pref_title_notifications_generic">一般ステータス通知対応</string>
-    <string name="pref_title_whenscreenon">…スクリーンがオンのときにも</string>
+    <string name="pref_title_notifications_generic">一般的な通知への対応</string>
+    <string name="pref_title_whenscreenon">Android の画面が ON のときにもウォッチに通知を表示する</string>
     <string name="pref_title_notification_filter">サイレント</string>
-    <string name="pref_summary_notification_filter">サイレントモードで、送信される不要な通知を停止します</string>
-    <string name="pref_title_transliteration">音訳</string>
+    <string name="pref_summary_notification_filter">サイレントモードが有効なときはすべての通知をブロックする</string>
+    <string name="pref_title_transliteration">翻字</string>
     <string name="pref_summary_transliteration">お使いのデバイスがあなたの言語のフォントをサポートしていない場合、これを有効にしてください</string>
-    <string name="always">いつも</string>
-    <string name="when_screen_off">スクリーンがオフのとき</string>
+    <string name="always">常に</string>
+    <string name="when_screen_off">スクリーンが OFF のとき</string>
     <string name="never">なし</string>
     <string name="pref_header_privacy">プライバシー</string>
-    <string name="pref_title_call_privacy_mode">通話プライバシーモード</string>
+    <string name="pref_title_call_privacy_mode">通話のプライバシー設定</string>
     <string name="pref_call_privacy_mode_off">名前と番号を表示</string>
     <string name="pref_call_privacy_mode_name">名前は非表示、番号は表示</string>
     <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
     <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
     <string name="pref_blacklist_calendars">ブラックリストのカレンダー</string>
-    <string name="pref_header_cannned_messages">定型のメッセージ</string>
+    <string name="pref_header_cannned_messages">定型メッセージ</string>
     <string name="pref_title_canned_replies">返信</string>
     <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
-    <string name="pref_title_canned_messages_dismisscall">着信拒否</string>
-    <string name="pref_title_canned_messages_set">Pebble で更新</string>
+    <string name="pref_title_canned_messages_dismisscall">留守番電話</string>
+    <string name="pref_title_canned_messages_set">デバイスの更新</string>
     <string name="pref_header_development">開発者用設定</string>
-    <string name="pref_title_development_miaddr">Mi Bandのアドレス</string>
-    <string name="pref_title_pebble_settings">Pebble設定</string>
-    <string name="pref_header_activitytrackers">アクティビティ トラッカー</string>
-    <string name="pref_title_pebble_activitytracker">お好みのアクティビティ トラッカー</string>
+    <string name="pref_title_development_miaddr">Mi Band のアドレス</string>
+    <string name="pref_title_pebble_settings">Pebble 設定</string>
+    <string name="pref_header_activitytrackers">アクティビティトラッカー</string>
+    <string name="pref_title_pebble_activitytracker">優先するアクティビティ トラッカー</string>
     <string name="pref_title_pebble_sync_health">Pebble Health 同期</string>
     <string name="pref_title_pebble_sync_misfit">Misfit 同期</string>
     <string name="pref_title_pebble_sync_morpheuz">Morpheuz 同期</string>
@@ -106,9 +106,9 @@
     <string name="pref_summary_enable_outgoing_call">これを無効にすると、Pebble 2/LE は発信時に振動しなくなります</string>
     <string name="pref_title_enable_pebblekit">サードパーティ製 Android アプリのアクセスを許可</string>
     <string name="pref_summary_enable_pebblekit">PebbleKitを使用してAndroidアプリ用の実験的なサポートを有効にします</string>
-    <string name="pref_header_pebble_timeline">Pebbleタイムライン</string>
+    <string name="pref_header_pebble_timeline">Pebble タイムライン</string>
     <string name="pref_title_sunrise_sunset">日の出と日の入り</string>
-    <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送ります</string>
+    <string name="pref_summary_sunrise_sunset">場所に基づいて、Pebble のタイムラインに日の出・日の入りの時間を送信します</string>
     <string name="pref_title_enable_calendar_sync">カレンダーを同期</string>
     <string name="pref_summary_enable_calendar_sync">カレンダーのイベントをタイムラインに送信します</string>
     <string name="pref_title_autoremove_notifications">消去した通知を自動削除</string>
@@ -158,7 +158,7 @@
     <string name="tap_connected_device_for_vibration">バイブレーションの接続されたデバイスをタップ</string>
     <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
     <string name="cannot_connect_bt_address_invalid_">接続できません。 Bluetoothアドレスが無効ですか\?</string>
-    <string name="gadgetbridge_running_generic">ガジェットブリッジは実行中</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridgeは動作中です</string>
     <string name="installing_binary_d_d">バイナリーのインストール中 %1$d/%2$d</string>
     <string name="installation_failed_">インストールに失敗しました</string>
     <string name="installation_successful">インストールに成功しました</string>
@@ -399,11 +399,11 @@
     <string name="discovery_pair_question">お使いのデバイスとペアにする相手を選択します。 これに失敗した場合は、ペア設定をせずに再試行してください。</string>
     <string name="discovery_yes_pair">ペア</string>
     <string name="discovery_dont_pair">ペアにしない</string>
-    <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip に %s のファームウェアをインストールしようとしています。 
+    <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip に %s のファームウェアをインストールしようとしています。
 \n
 \n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
 \n
-\n注: これらのファイルが以前インストールされているのものと完全に同じ場合、.res と .gps をインストールする必要はありません。
+\n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res と .gps をインストールする必要はありません。
 \n
 \nご自身の責任で行ってください!</string>
     <string name="mi2_prefs_button_actions">ボタンの動作</string>
@@ -424,11 +424,11 @@
     <string name="controlcenter_connect">接続…</string>
     <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いの band は、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いのバンドは、.fw ファイルをインストールした後に再起動します。
 \n
-\n注: 以前にインストールされたものと同じ場合は、.res をインストールする必要はありません。
+\n注: .res ファイルが前回にインストールしたものと同じ場合、新たに.res ファイルをインストールする必要はありません。
 \n
-\nご自身の責任で行って下さい!</string>
+\nご自身の責任で行って下さい！</string>
     <string name="pref_title_pebble_enable_bgjs">バックグラウンド JS を有効にします</string>
     <string name="pref_summary_pebble_enable_bgjs">有効にすると、ウォッチフェースに天気、バッテリー情報等を表示することができます。</string>
     <string name="activity_web_view">Web View アクティビティ</string>
@@ -444,7 +444,7 @@
     <string name="traditional_chinese">繁体中国語</string>
     <string name="english">英語</string>
     <string name="pref_title_weather">天気</string>
-    <string name="pref_title_weather_location">天気の場所 (CM/ロサンゼルス)</string>
+    <string name="pref_title_weather_location">天気の場所 (LineageOS の Weather provider 用)</string>
     <string name="kind_firmware">ファームウェア</string>
     <string name="kind_invalid">無効なデータ</string>
     <string name="kind_font">フォント</string>
@@ -507,23 +507,23 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="controlcenter_change_led_color">LEDの色を変更</string>
     <string name="controlcenter_change_fm_frequency">FMの周波数を変更</string>
-    <string name="controlcenter_calibrate_device">デバイスを校正</string>
-    <string name="debugactivity_really_factoryreset_title">工場出荷値にリセットしますか\?</string>
-    <string name="debugactivity_really_factoryreset">工場出荷値にリセットすると、(サポートされている場合) 接続されているデバイスからすべてのデータを削除します。Xiaomi/Huamiデバイスでは、BluetoothのMACアドレスも変更するので、Gadgetbridgeに新しいデバイスとして表示されます。</string>
+    <string name="controlcenter_calibrate_device">デバイスの調整</string>
+    <string name="debugactivity_really_factoryreset_title">工場出荷状態にリセットしますか？</string>
+    <string name="debugactivity_really_factoryreset">工場出荷状態にリセットすると、接続されているデバイスからすべてのデータを削除します(サポートされている場合)。 Xiaomi/HuamiデバイスではBluetoothのMACアドレスも変更するため、Gadgetbridgeには新しいデバイスとして表示されます。</string>
     <string name="blacklist_all_for_notifications">すべて通知のブラックリストにする</string>
     <string name="whitelist_all_for_notifications">すべて通知のホワイトリストにする</string>
     <string name="fw_upgrade_notice_miband3">Mi Band 3 に %s ファームウェアをインストールします。
 \n
-\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルをインストールした後、お使いの band は再起動します。
+\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルをインストールした後、お使いのバンドは再起動します。
 \n
-\n注意: .res が以前にインストールしたものと全く同じ場合は、インストールする必要はありません。
+\n注: .res が以前にインストールしたものと全く同じ場合は、インストールする必要はありません。
 \n
-\nご自身の責任で行ってください!</string>
+\nご自身の責任で行ってください！</string>
     <string name="pref_title_notifications_timeout">通知の間の最小時間</string>
-    <string name="pref_title_rtl">右から左へ</string>
-    <string name="pref_summary_rtl">お使いのデバイスが右から左の言語を表示できない場合はこれを有効にします</string>
-    <string name="pref_rtl_max_line_length">右から左への最大行長</string>
-    <string name="pref_rtl_max_line_length_summary">右から左のテキストの行を伸長または短縮して分けます</string>
+    <string name="pref_title_rtl">右横書き</string>
+    <string name="pref_summary_rtl">お使いのデバイスが右から左へ書く言語を表示できない場合はこれを有効にします</string>
+    <string name="pref_rtl_max_line_length">右横書きの最大行長</string>
+    <string name="pref_rtl_max_line_length_summary">右横書きの文の行を伸長または短縮して分割します</string>
     <string name="prefs_screen_orientation">画面の向き</string>
     <string name="pref_auto_fetch">アクティビティデータの自動取得</string>
     <string name="pref_auto_fetch_summary">画面のロック解除時に取得を行います。ロック機構が設定されている場合のみ動作します!</string>
@@ -609,23 +609,23 @@
     <string name="mode_configuration">モード設定</string>
     <string name="save_configuration">設定を保存</string>
     <string name="appwidget_not_connected">接続されていません。アラームは設定されません。</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Cor 2 に ％s ファームウェアをインストールしようとしています。
+    <string name="fw_upgrade_notice_amazfitcor2">Amazfit Cor 2 に %s ファームウェアをインストールしようとしています。
 \n 
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールした後、band が再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールした後、バンドが再起動します。
 \n 
-\n注: 以前にインストールしたものとまったく同じ場合、.res をインストールする必要はありません。
+\n注: .res ファイルが前回にインストールしたものと同じ場合、新たに.res ファイルをインストールする必要はありません。
 \n 
-\nあなた自身のリスクで続行してください!
+\n自己責任の下で行ってください！
 \n 
 \n完全にはテストされていません。お使いのデバイス名が \"Amazfit Band 2\" の場合、おそらく BEATS_W ファームウェアをフラッシュする必要があります</string>
     <string name="pref_title_support_voip_calls">VoIP アプリの通話を有効にする</string>
     <string name="fw_upgrade_notice_miband4">Mi Band 4 に %s ファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの band が再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
 \n
 \n注: 以前にインストールしたものとまったく同じ場合、.res をインストールする必要はありません。
 \n
-\nご自身のリスクで進めてください!</string>
+\nご自身のリスクで進めてください！</string>
     <string name="pref_summary_expose_hr">Gadgetbridge の接続中に、他のアプリが HR データにリアルタイムでアクセスできるようにします</string>
     <string name="pref_title_expose_hr">サードパーティのリアルタイムHRアクセス</string>
     <string name="pref_title_use_custom_font">カスタムフォントを使用する</string>
@@ -836,4 +836,260 @@
     <string name="prefs_wena3_button_action_name_activity_screen">アクティビティ画面</string>
     <string name="prefs_wena3_notification_settings_title">通知設定</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge(Nightly)</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Bluetooth通話の着信方法</string>
+    <string name="fw_upgrade_notice_miband7">Xiaomi Smart Band 7 に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Amazfit GTR 4に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth通話を着信するには、Androidデバイスをウォッチの2番目のインスタンスとペアリングする必要があります。</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">注意：2番目のインスタンスを有効にせずにBluetooth通話を有効にすると、着信通知が上手く動作しない場合があります。</string>
+    <string name="pref_title_notification_use_as">アプリリストの使用方法…</string>
+    <string name="appmanager_watchface_activate">有効化</string>
+    <string name="appmanager_app_start">実行</string>
+    <string name="appmanager_app_download">キャッシュにダウンロード</string>
+    <string name="appmanager_download_started">アプリのダウンロードを開始しました</string>
+    <string name="appmanager_download_app_error">アプリのダウンロード中にエラーが発生しました</string>
+    <string name="pref_title_notifications_ignore_low_priority">優先度の低い通知を非表示にする</string>
+    <string name="find_lost_device_message">%1$sを探しますか？</string>
+    <string name="controlcenter_power_off">電源を切る</string>
+    <string name="battery_detail_activity_title">バッテリー情報</string>
+    <string name="pref_header_connection">接続</string>
+    <string name="pref_title_ping_tone">通知音</string>
+    <string name="calendar_day">日</string>
+    <string name="pref_header_audio">音声</string>
+    <string name="pref_header_calendar">カレンダー</string>
+    <string name="pref_header_generic">全般</string>
+    <string name="pref_header_health">ヘルスケア</string>
+    <string name="pref_header_display">ディスプレイ</string>
+    <string name="pref_header_sound_vibration">音と振動</string>
+    <string name="pref_header_equalizer">イコライザー</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">すべてのデバイスに再接続するのではなく、接続済みのデバイスにのみ再接続</string>
+    <string name="pref_summary_mb_intents">一部のアプリでデバイスのメディアコントロールが機能しない場合に有効化する</string>
+    <string name="pref_theme_dynamic">ダイナミックカラー</string>
+    <string name="pref_title_notification_delay_calls">着信通知の遅延</string>
+    <string name="pref_summary_receive_calls_watch">ウォッチ上で発信/着信する</string>
+    <string name="pref_title_banglejs_webview_url">アプリローダーの URL</string>
+    <string name="accuracy">精度</string>
+    <string name="balanced">バランス</string>
+    <string name="power_saving">省電力</string>
+    <string name="custom">カスタム</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="speed_first">速度優先</string>
+    <string name="accuracy_first">精度優先</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">Gadgetbridge Nightly について</string>
+    <string name="controlcenter_power_off_confirm_title">電源を切る</string>
+    <string name="controlcenter_power_off_confirm_description">デバイスの電源を切りますか？</string>
+    <string name="pref_header_other">その他</string>
+    <string name="controlcenter_get_heartrate_measurement">心拍数を測る</string>
+    <string name="battery_level">バッテリー残量</string>
+    <string name="calendar_week">1週間</string>
+    <string name="title_activity_notification_management">通知設定</string>
+    <string name="open_fw_installer_ensure_device_connected">%s が接続されていることを確認してください</string>
+    <string name="fw_upgrade_notice_amazfitneo">Amazfit Neo に %s ファームウェアをインストールしようとしています。
+\n
+\n.fwファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (Nightly) について</string>
+    <string name="pref_title_notification_wake_on_open">自動点灯とロック解除</string>
+    <string name="pref_display_caller_title">連絡先の情報を表示する</string>
+    <string name="pref_summary_notifications_ignore_low_priority">優先度の低い通知をウォッチに送信しない</string>
+    <string name="pref_title_notification_cache_while_disconnected">接続切断時に通知をキャッシュする</string>
+    <string name="pref_header_notification_application_settings">アプリごとの設定</string>
+    <string name="pref_title_notification_use_as_deny">選択したアプリからの通知を拒否する</string>
+    <string name="pref_title_notification_use_as_allow">選択したアプリからの通知を拒否する</string>
+    <string name="pref_message_privacy_mode_complete">すべての内容を非表示</string>
+    <string name="pref_message_privacy_mode_bodyonly">本文のみ非表示</string>
+    <string name="pref_title_weather_summary">LineageOS の Weather provider に使用されますが、ほかの Android バージョンでは \"Weather notification\" のようなアプリを使用する必要があります。詳しくは Gadgetbridge の Wiki をご覧ください。</string>
+    <string name="pref_applications_settings">アプリケーション一覧</string>
+    <string name="debugactivity_confirm_remove_device_preferences"></string>
+    <string name="pref_title_general_reconnectonlytoconnected">接続中のデバイスにのみ再接続する</string>
+    <string name="pref_summary_notification_prefer_long_text">可能な場合に長文の通知をデバイスに送信する</string>
+    <string name="pref_summary_notifications_ignore_work_profile">仕事用プロファイルのアプリからの通知をウォッチに送信しない</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Android の Bluetooth の設定に移動し、表示された新しいデバイスとペアリングします（使用中のウォッチと似た名前ですが、ウォッチの名前の末尾に接頭辞が付きます。例： Amazfit GTR 4 - AFC8）。</string>
+    <string name="pref_title_notifications_generic_settings">Android 通知設定</string>
+    <string name="pref_title_notifications_ignore_work_profile">仕事用プロファイルを非表示にする</string>
+    <string name="pref_summary_banglejs_text_bitmap">ウォッチ内蔵のフォントで表示できない場合にGadgetbridgeでビットマップにレンダリングし、ウォッチに表示する</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">テキストをビットマップにレンダリングするときの大きさ</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Android の GPS データを使用する</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">測位にネットワークのみを使用する</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Android の GPS データを使って Bangle デバイスの GPS データを上書きします</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">GPS の位置情報が更新される間隔（ミリ秒）</string>
+    <string name="pref_summary_banglejs_webview_url">カスタムアプリローダーが必要な場合はhttps://…/android.html の URL をここに入力してください。そうでない場合は空白にしてください。</string>
+    <string name="pref_header_authentication">認証</string>
+    <string name="pref_title_custom_deviceicon">デバイス固有の通知アイコンを表示する</string>
+    <string name="fw_upgrade_notice_miband5">Mi Band 4 に %s ファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n
+\n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Amazfit Band 7に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_miband6">Mi Band 4 に %s ファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n
+\n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="open_fw_installer_getting_files_title">ファームウェア/アプリ ファイルを取得</string>
+    <string name="pref_header_system">システム</string>
+    <string name="pref_header_offline_voice">オフラインボイス</string>
+    <string name="pref_pair_bluetooth_calls_title">Bluetooth通話用のペアリング</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. 下のボタンをタップしてペアリングを開始する。</string>
+    <string name="pref_summary_notification_delay_calls">着信通知をデバイスに送信するまでの遅延時間（秒）</string>
+    <string name="pref_pair_bluetooth_calls_summary">ペアリングを開始するにはここをタップ</string>
+    <string name="pref_title_notification_prefer_long_text">長文の通知を表示する</string>
+    <string name="pref_title_banglejs_text_bitmap">テキストをビットマップにする</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">テキストのビットマップサイズ</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">測位にネットワークプロバイダーのみを使用します。消費電力を減らしますが、精度が低くなります。再接続が必要です。</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">GPS データの更新間隔</string>
+    <string name="pref_blacklist_calendars_summary">ブラックリストに登録したカレンダーはデバイスに同期されません</string>
+    <string name="pref_canned_message">メッセージ</string>
+    <string name="pref_summary_canned_replies">プリセットのメッセージを使ってウォッチから返信する</string>
+    <string name="pref_theme_black_background">ダークテーマで黒い背景を使用する</string>
+    <string name="controlcenter_set_alias">デバイスに名前を付ける</string>
+    <string name="gps">GPS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="prefs_activity_in_device_card_sleep_title">睡眠</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">歩数の合計を表示</string>
+    <string name="calendar_two_weeks">2週間</string>
+    <string name="calendar_month">1か月</string>
+    <string name="calendar_three_months">3か月</string>
+    <string name="calendar_six_months">6か月</string>
+    <string name="calendar_year">1年</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Amazfit GTS 3 に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfitgts">Amazfit GTS に %s ファームウェアをインストールしようとしています。
+\n 
+\n.fw ファイルをインストールし、次に.res ファイル、最後に.gpsファイルをインストールしてください。 .fw ファイルをインストールした後、ウォッチが再起動します。
+\n 
+\n注: .res ファイルと .gps ファイルが前回にインストールしたものと同じ場合、新たにこれらのファイルをインストールする必要はありません。
+\n 
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Amazfit GTS 4 Miniに %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Amazfit GTR 3 Proに %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Amazfit T-Rex 2に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Amazfit GTR 3に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">Amazfit Cheetah Proに %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="pref_header_time">時間</string>
+    <string name="fw_upgrade_notice_zepp_os">%sに %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="pref_header_workout">ワークアウト</string>
+    <string name="pref_title_message_privacy_mode">メッセージのプライバシー設定</string>
+    <string name="pref_message_privacy_mode_off">すべての内容を表示</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">距離は歩数と歩幅から算出されています（設定＞ユーザー情報 で調整できます）</string>
+    <string name="appmanager_app_share">共有</string>
+    <string name="check_all_applications"></string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Amazfit Bip Lite に %s のファームウェアをインストールしようとしています。
+\n
+\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res と .gps をインストールする必要はありません。
+\n
+\nご自身の責任で行ってください!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Amazfit Bip 3 Pro に %s のファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res ファイルをインストールする必要はありません。
+\n
+\nご自身の責任で行ってください！</string>
+    <string name="open_fw_installer_info_text">The Firmware/Watchface/App/File Installer allows you to upload/install supported files (firmware, watchfaces, applications, GPS, resources, fonts...) to the device. See some more information in the wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update
+\nファームウェア/ウォッチフェイス/アプリ/ファイルインストーラを使うと、ファームウェア、ウォッチフェイス、アプリ、GPS、情報、フォント等の対応したファイルをアップロード/インストールできます。詳細な情報はWikiで確認できます：https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_connect_maximum_one_device">ファイルを送信したいデバイスを1つだけ接続してください。</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Amazfit T-Rex に %s ファームウェアをインストールしようとしています。
+\n 
+\n.fw ファイルをインストールし、次に.res ファイル、最後に.gpsファイルをインストールしてください。 .fw ファイルをインストールした後、ウォッチが再起動します。
+\n 
+\n注: .res ファイルと .gps ファイルが前回にインストールしたものと同じ場合、新たにこれらのファイルをインストールする必要はありません。
+\n 
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Amazfit Verge Lite に %s ファームウェアをインストールしようとしています。
+\n 
+\n.fw ファイルをインストールし、次に.res ファイル、最後に.gpsファイルをインストールしてください。 .fw ファイルをインストールした後、バンドが再起動します。
+\n 
+\n注: .res ファイルと .gps ファイルが前回にインストールしたものと同じ場合、新たにこれらのファイルをインストールする必要はありません。
+\n 
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Amazfit GTS 4に %s ファームウェアをインストールしようとしています。
+\n
+\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="fw_upgrade_notice_amazfitx">Amazfit X に %s ファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n
+\n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
+\n
+\n自己責任の下で行ってください！</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. 以下のBluetooth通話設定を有効にします。</string>
+    <string name="bluetooth_calls">Bluetooth 通話</string>
+    <string name="bluetooth_calls_pairing">Bluetooth通話のペアリング</string>
+    <string name="bluetooth_calls_settings">Bluetooth通話の設定</string>
+    <string name="pref_display_caller_summary">着信時に電話番号か名前を表示する</string>
+    <string name="pref_summary_custom_deviceicon">接続時に Gadgetbridge のアイコンの代わりに デバイス固有の Android 通知アイコンを表示する</string>
+    <string name="pref_title_preview_message_in_title">タイトルにメッセージのプレビューを表示する</string>
+    <string name="pref_summary_notification_cache_while_disconnected">接続が途切れたデバイスが再接続されたときに見逃した通知を送信する</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Amazfit Bip 3 に %s のファームウェアをインストールしようとしています。
+\n
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n
+\n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res ファイルをインストールする必要はありません。
+\n
+\nご自身の責任で行ってください!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Amazfit GTR に %s ファームウェアをインストールしようとしています。
+\n 
+\n.fw ファイルをインストールし、次に.res ファイル、最後に.gpsファイルをインストールしてください。 .fw ファイルをインストールした後、ウォッチが再起動します。
+\n 
+\n注: .res ファイルと .gps ファイルが前回にインストールしたものと同じ場合、新たにこれらのファイルをインストールする必要はありません。
+\n 
+\n自己責任の下で行ってください！</string>
+    <string name="open_fw_installer_warning_title">警告</string>
+    <string name="open_fw_installer_warning_text">この機能はお使いのデバイスを使用不能にする可能性があります。開発者はそのような経験はしていませんが、実行する際は自己責任の下で行ってください。</string>
+    <string name="open_fw_installer_pick_file">ファイルの選択</string>
+    <string name="open_fw_installer_info_text_title">ファイルインストーラ</string>
+    <string name="open_fw_installer_connect_minimum_one_device">ファイルを送信したいデバイスを少なくとも1つ接続してください。</string>
 </resources>
