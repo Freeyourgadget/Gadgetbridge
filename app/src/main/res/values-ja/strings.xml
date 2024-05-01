@@ -1847,4 +1847,5 @@
     <string name="menuitem_events">イベント</string>
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_sleep">睡眠</string>
+    <string name="menuitem_breathing">呼吸</string>
 </resources>
