@@ -2,6 +2,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
+import java.util.Date;
+
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
+import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
@@ -63,5 +68,26 @@ public class FitRecord extends RecordData {
     @Nullable
     public Long getTimestamp() {
         return (Long) getFieldByNumber(253);
+    }
+
+    // manual changes below
+
+    public ActivityPoint toActivityPoint() {
+        final ActivityPoint activityPoint = new ActivityPoint();
+        activityPoint.setTime(new Date(getComputedTimestamp()));
+        if (getLatitude() != null && getLongitude() != null) {
+            activityPoint.setLocation(new GPSCoordinate(
+                    GarminUtils.semicirclesToDegrees(getLongitude().longValue()),
+                    GarminUtils.semicirclesToDegrees(getLatitude().longValue()),
+                    getEnhancedAltitude() != null ? getEnhancedAltitude() / 10d : GPSCoordinate.UNKNOWN_ALTITUDE
+            ));
+        }
+        if (getHeartRate() != null) {
+            activityPoint.setHeartRate(getHeartRate());
+        }
+        if (getEnhancedSpeed() != null) {
+            activityPoint.setSpeed(getEnhancedSpeed());
+        }
+        return activityPoint;
     }
 }

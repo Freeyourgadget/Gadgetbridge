@@ -22,14 +22,33 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
- * A map of lower bounds for ranges.
+ * A map of bounds for ranges. Returns the value closest to the key, in upper or lower bound mode.
  */
 public class RangeMap<K extends Comparable<K>, V> {
     private final List<Pair<K, V>> list = new ArrayList<>();
     private boolean isSorted = false;
+    private final Comparator<K> comparator;
+
+    public RangeMap() {
+        this(Mode.LOWER_BOUND);
+    }
+
+    public RangeMap(final Mode mode) {
+        switch (mode) {
+            case LOWER_BOUND:
+                comparator = (k1, k2) -> k1.compareTo(k2);
+                break;
+            case UPPER_BOUND:
+                comparator = (k1, k2) -> k2.compareTo(k1);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown mode " + mode);
+        }
+    }
 
     public void put(final K key, final V value) {
         list.add(Pair.create(key, value));
@@ -39,14 +58,12 @@ public class RangeMap<K extends Comparable<K>, V> {
     @Nullable
     public V get(final K key) {
         if (!isSorted) {
-            Collections.sort(list, (a, b) -> {
-                return a.first.compareTo(b.first);
-            });
+            Collections.sort(list, (a, b) -> comparator.compare(a.first, b.first));
             isSorted = true;
         }
 
         for (int i = list.size() - 1; i >= 0; i--) {
-            if (key.compareTo(list.get(i).first) > 0) {
+            if (comparator.compare(key, list.get(i).first) >= 0) {
                 return list.get(i).second;
             }
         }
@@ -60,5 +77,11 @@ public class RangeMap<K extends Comparable<K>, V> {
 
     public int size() {
         return list.size();
+    }
+
+    public enum Mode {
+        LOWER_BOUND,
+        UPPER_BOUND,
+        ;
     }
 }

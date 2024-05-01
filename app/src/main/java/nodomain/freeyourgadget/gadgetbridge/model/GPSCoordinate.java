@@ -25,12 +25,18 @@ public class GPSCoordinate {
     private final double longitude;
     private final double altitude;
 
+    public static final double UNKNOWN_ALTITUDE = -20000d;
+
     public static final int GPS_DECIMAL_DEGREES_SCALE = 6; // precise to 111.132mm at equator: https://en.wikipedia.org/wiki/Decimal_degrees
 
     public GPSCoordinate(double longitude, double latitude, double altitude) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.altitude = altitude;
+    }
+
+    public GPSCoordinate(double longitude, double latitude) {
+        this(longitude, latitude, UNKNOWN_ALTITUDE);
     }
 
     public double getLatitude() {

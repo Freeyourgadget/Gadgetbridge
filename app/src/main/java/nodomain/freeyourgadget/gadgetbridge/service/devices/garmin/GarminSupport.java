@@ -26,13 +26,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminAgpsInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -58,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.NotificationSubscriptionDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.SupportedFileTypesDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitImporter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.PredefinedLocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
@@ -264,17 +272,31 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             this.supportedFileTypeList.clear();
             this.supportedFileTypeList.addAll(((SupportedFileTypesDeviceEvent) deviceEvent).getSupportedFileTypes());
         } else if (deviceEvent instanceof FileDownloadedDeviceEvent) {
-            LOG.debug("FILE DOWNLOAD COMPLETE {}", ((FileDownloadedDeviceEvent) deviceEvent).directoryEntry.getFileName());
+            final FileTransferHandler.DirectoryEntry entry = ((FileDownloadedDeviceEvent) deviceEvent).directoryEntry;
+            final String filename = entry.getFileName();
+            LOG.debug("FILE DOWNLOAD COMPLETE {}", filename);
 
-            if (!getKeepActivityDataOnDevice()) // delete file from watch upon successful download
-                sendOutgoingMessage(new SetFileFlagsMessage(((FileDownloadedDeviceEvent) deviceEvent).directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+            if (entry.getFiletype().isFitFile()) {
+                try {
+                    final File dir = getWritableExportDirectory();
+                    final File file = new File(dir, filename);
+                    final FitImporter fitImporter = new FitImporter(getContext(), getDevice());
+                    fitImporter.importFile(file);
+                } catch (final IOException e) {
+                    LOG.error("Failed to import fit file", e);
+                }
+            }
+
+            if (!getKeepActivityDataOnDevice()) { // delete file from watch upon successful download
+                sendOutgoingMessage(new SetFileFlagsMessage(entry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+            }
         }
 
         super.evaluateGBDeviceEvent(deviceEvent);
     }
 
     private boolean getKeepActivityDataOnDevice() {
-        return getDevicePrefs().getBoolean("keep_activity_data_on_device", true); // TODO: change to default false once we are sure of the consequences
+        return getDevicePrefs().getBoolean("keep_activity_data_on_device", false);
     }
 
     @Override
@@ -466,8 +488,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
                 while (checkFileExists(directoryEntry.getFileName()) || checkFileExists(directoryEntry.getLegacyFileName())) {
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
-                    if (!getKeepActivityDataOnDevice()) // delete file from watch if already downloaded
+                    if (!getKeepActivityDataOnDevice()) { // delete file from watch if already downloaded
                         sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+                    }
                     directoryEntry = filesToDownload.remove();
                 }
                 DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
@@ -692,4 +715,76 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         return agpsCacheDir;
     }
 
+    public GarminCoordinator getCoordinator() {
+        return (GarminCoordinator) getDevice().getDeviceCoordinator();
+    }
+
+    @Override
+    public void onTestNewFunction() {
+        parseAllFitFilesFromStorage();
+    }
+
+    private void parseAllFitFilesFromStorage() {
+        // This function as-is should only be used for debug purposes
+        if (!BuildConfig.DEBUG) {
+            LOG.error("This should never be used in release builds");
+            return;
+        }
+
+        LOG.info("Parsing all fit files from storage");
+
+        final File[] fitFiles;
+        try {
+            final File exportDir = getWritableExportDirectory();
+
+            if (!exportDir.exists() || !exportDir.isDirectory()) {
+                LOG.error("export directory {} not found", exportDir);
+                return;
+            }
+
+            fitFiles = exportDir.listFiles((dir, name) -> name.endsWith(".fit"));
+            if (fitFiles == null) {
+                LOG.error("fitFiles is null for {}", exportDir);
+                return;
+            }
+            if (fitFiles.length == 0) {
+                LOG.error("No fit files found in {}", exportDir);
+                return;
+            }
+        } catch (final Exception e) {
+            LOG.error("Failed to parse from storage", e);
+            return;
+        }
+
+        GB.updateTransferNotification("Parsing fit files", "...", true, 0, getContext());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            getCoordinator().deleteAllActivityData(device, session);
+        } catch (final Exception e) {
+            GB.toast(getContext(), "Error deleting activity data", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+
+        try {
+            int i = 0;
+            for (final File file : fitFiles) {
+                i++;
+                LOG.debug("Parsing {}", file);
+
+                GB.updateTransferNotification("Parsing fit files", "File " + i + " of " + fitFiles.length, true, (i * 100) / fitFiles.length, getContext());
+
+                try {
+                    final FitImporter fitImporter = new FitImporter(getContext(), getDevice());
+                    fitImporter.importFile(file);
+                } catch (final Exception ex) {
+                    LOG.error("Exception while importing {}", file, ex);
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Failed to parse from storage", e);
+        }
+
+        GB.updateTransferNotification("", "", false, 100, getContext());
+    }
 }
