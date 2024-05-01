@@ -340,7 +340,7 @@
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">ウィジェットを追加</string>
     <string name="activity_prefs_sleep_duration">好ましい睡眠時間（時間）</string>
-    <string name="appwidget_setting_alarm">%1$02d:%2$02d のアラームを設定しました</string>
+    <string name="appwidget_setting_alarm">アラームを %1$02d:%2$02d に設定しました</string>
     <string name="device_hw">ハードウェアリビジョン: %1$s</string>
     <string name="device_fw">ファームウェアバージョン: %1$s</string>
     <string name="error_creating_directory_for_logfiles">ログファイルのディレクトリを作成中にエラー: %1$s</string>
@@ -614,15 +614,15 @@
     <string name="edittext_notification_filter_words_hint">希望の単語を、それぞれ新しい行に入力してください</string>
     <string name="toast_notification_filter_saved_successfully">通知フィルターを保存しました</string>
     <string name="filter_mode_none">フィルターしない</string>
-    <string name="filter_mode_whitelist">言葉が含まれているときに表示する</string>
-    <string name="filter_mode_blacklist">言葉が含まれるときにブロックする</string>
+    <string name="filter_mode_whitelist">単語が含まれているときに表示する</string>
+    <string name="filter_mode_blacklist">単語が含まれるときにブロックする</string>
     <string name="filter_submode_at_least_one">いずれかの単語を含む</string>
     <string name="filter_submode_all">すべての単語</string>
-    <string name="toast_notification_filter_words_empty_hint">少なくとも1つの単語を入力してください</string>
+    <string name="toast_notification_filter_words_empty_hint">少なくとも１つの単語を入力してください</string>
     <string name="filter_mode">フィルターモード</string>
     <string name="mode_configuration">モード設定</string>
     <string name="save_configuration">設定を保存</string>
-    <string name="appwidget_not_connected">接続されていません。アラームは設定されません。</string>
+    <string name="appwidget_not_connected">接続されていないためアラームは設定されません。</string>
     <string name="fw_upgrade_notice_amazfitcor2">Amazfit Cor 2 に %s ファームウェアをインストールしようとしています。
 \n 
 \n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールした後、バンドが再起動します。
@@ -728,10 +728,10 @@
     <string name="hr_widget_steps">歩数</string>
     <string name="hr_widget_heart_rate">心拍数</string>
     <string name="qhybrid_vibration_strength">振動強度:</string>
-    <string name="widget_1_hour">1時間</string>
-    <string name="widget_20_minutes">20分</string>
-    <string name="widget_10_minutes">10分</string>
-    <string name="widget_5_minutes">5分</string>
+    <string name="widget_1_hour">1 時間</string>
+    <string name="widget_20_minutes">20 分</string>
+    <string name="widget_10_minutes">10 分</string>
+    <string name="widget_5_minutes">5 分</string>
     <string name="appwidget_sleep_alarm_widget_label">睡眠アラーム</string>
     <string name="menuitem_worldclock">世界時計</string>
     <string name="menuitem_unknown">不明</string>
@@ -1848,4 +1848,10 @@
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_sleep">睡眠</string>
     <string name="menuitem_breathing">呼吸</string>
+    <string name="widget_settings_select_device_title">デバイスの選択</string>
+    <string name="widget_set_alarm_after">何分後にアラームをセットするか：</string>
+    <string name="quick_alarm">クイックアラーム</string>
+    <string name="prefs_fm_preset_instructions">ボタンを長押しでプリセットを保存</string>
+    <string name="widget_listing_label">ステータスとアラーム</string>
+    <string name="prefs_fm_presets_presets">プリセット</string>
 </resources>
