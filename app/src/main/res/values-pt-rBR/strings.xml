@@ -766,7 +766,7 @@
     <string name="prefs_find_phone_duration">Duração do toque sonoro em segundos</string>
     <string name="maximum_duration">Duração</string>
     <string name="discovery_need_to_enter_authkey">Esse dispositivo precisa de sua chave de autenticação secreta, realize pressionamento longo no dispositivo para inseri-lo. Leia o wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Você está prestes a instalar o firmware %s no seu Amazit Bip Lite.
+    <string name="fw_upgrade_notice_amazfitbip_lite">Você está prestes a instalar o firmware %s no seu Amazfit Bip Lite.
 \n
 \nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
 \n
@@ -1510,7 +1510,7 @@
     <string name="about_description_banglejs_nightly">Aplicativo companheiro Android para Bangle.js construído em cima do projeto Gadgetbridge, com acesso adicional à Internet.
 \n
 \nDevido às políticas Google Play Store, não somos permitidos ter um link de doação no próprio aplicativo, mas se você gosta deste aplicativo, por favor, considere doar através da página inicial do Gadgetbridge abaixo.</string>
-    <string name="single_band">Banda única</string>
+    <string name="single_band">Single Band</string>
     <string name="about_activity_title_banglejs_nightly">Sobre o Bangle.js Gadgetbridge (Nightly)</string>
     <string name="power_saving">Economia de energia</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js em execução</string>
@@ -1519,4 +1519,92 @@
     <string name="action_changelog">Registro de mudanças</string>
     <string name="custom">Personalizado</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="pref_header_health">Saúde</string>
+    <string name="error_showing_changelog">Erro ao exibir o registro de alterações</string>
+    <string name="appmanager_watchface_activate">Ativar</string>
+    <string name="pref_header_audio">Áudio</string>
+    <string name="pref_header_generic">Genérico</string>
+    <string name="pref_title_mb_intents">Transmitir diretamente as intenções dos botões de mídia</string>
+    <string name="pref_summary_mb_intents">Ative se o controle de mídia do dispositivo não estiver funcionando para determinados aplicativos</string>
+    <string name="pref_theme_dynamic">Cores dinâmicas</string>
+    <string name="pref_show_changelog_summary">Exibir o registro de alterações desde a última versão após a atualização do Gadgetbridge</string>
+    <string name="accuracy_first">Precisão primeiro</string>
+    <string name="speed_first">Velocidade primeiro</string>
+    <string name="pref_show_changelog">Mostrar registro de alterações na inicialização</string>
+    <string name="steps_streaks">Sequência de passos</string>
+    <string name="step_streak_total">Total</string>
+    <string name="steps_streaks_average_steps">Média de
+\npassos</string>
+    <string name="steps_streaks_achievement_rate">Taxa de
+\nconquista</string>
+    <string name="steps_streaks_total_steps_hint_totals">Número total de passos já registrados</string>
+    <string name="step_streaks_achievements_sharing_title">Conquistas de passos</string>
+    <string name="changelog_show_full">Mais…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Carregando o watchface</string>
+    <string name="steps_streaks_total_steps_hint">Número total de passos em toda a sequência</string>
+    <string name="steps_streaks_total_steps_average_hint">Média total de %d passos por dia</string>
+    <string name="step_streak_days_hint">Número de dias consecutivos em que a meta de passos foi atingida</string>
+    <string name="steps_streaks_hint">Sequência de dias consecutivos sem interrupção com metas de passos sendo alcançadas</string>
+    <string name="uploading_watchface">Carregando o watchface…</string>
+    <string name="step_streak_longest">Mais longo</string>
+    <string name="appmanager_app_share">Compartilhar</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Remover as preferências do dispositivo?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Isso redefinirá as preferências do dispositivo para todos os dispositivos conectados. Tem certeza?</string>
+    <string name="pref_header_calendar">Calendário</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Reconectar somente a dispositivos conectados</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">Reconectar somente a dispositivos conectados, em vez de reconectar a todos os dispositivos</string>
+    <string name="steps_streaks_total_steps">Passos
+\ntotais</string>
+    <string name="steps_streaks_streak_days">Dias
+\nseguidos</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Você está prestes a instalar o firmware %s no seu Amazfit Bip 3 Pro.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="open_fw_installer_select_file">Selecione um arquivo que deseja enviar para o dispositivo: %s</string>
+    <string name="pref_header_display">Exibir</string>
+    <string name="step_streak_average_steps_hint">Média de passos por dia da sequência</string>
+    <string name="appmanager_app_start">Iniciar</string>
+    <string name="appmanager_app_download">Download para o cache</string>
+    <string name="appmanager_item_outdated">(desatualizado)</string>
+    <string name="appmanager_download_started">Download do aplicativo iniciado</string>
+    <string name="pref_header_connection">Conexão</string>
+    <string name="step_streak_ongoing">Em andamento</string>
+    <string name="pref_title_navigation_prefs">Preferências de navegação</string>
+    <string name="pref_sleepasandroid_features_title">Recursos</string>
+    <string name="pref_sleepasandroid_feat_heartrate">Frequência cardíaca</string>
+    <string name="pref_summary_huawei_account">Conta da Huawei usada no processo de emparelhamento. Sua configuração permite emparelhar sem redefinição de fábrica.</string>
+    <string name="pref_header_time">Hora</string>
+    <string name="steps_streaks_total_days_hint_totals">Porcentagem de dias com meta atingida em relação a todos os dias com passos</string>
+    <string name="pref_cache_weather">Informações sobre o clima em cache</string>
+    <string name="pref_cache_weather_summary">As informações do clima serão armazenadas em cache durante as reinicializações do aplicativo.</string>
+    <string name="dual_band">Dual Band</string>
+    <string name="steps_streaks_since_date">Desde %s</string>
+    <string name="step_streaks_achievements_sharing_message">Minhas conquistas diárias de passos!</string>
+    <string name="watchface_resolution_doesnt_match">A resolução do watchface não corresponde à tela do dispositivo. Watchface é %1$s a tela do dispositivo é %2$s</string>
+    <string name="pref_title_huawei_account">Conta da Huawei</string>
+    <string name="appmanager_downloaded_to_cache">Download de %s para o cache</string>
+    <string name="appmanager_download_app_error">Erro no download do aplicativo</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Conecte pelo menos um dispositivo para o qual você deseja enviar o arquivo.</string>
+    <string name="pref_header_sound_vibration">Som e vibração</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Conecte APENAS UM dispositivo para o qual você deseja enviar o arquivo.</string>
+    <string name="pref_header_offline_voice">Voz offline</string>
+    <string name="open_fw_installer_ensure_device_connected">Certifique-se de que o dispositivo %s esteja conectado</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Você está prestes a instalar o firmware %s no seu Amazfit Bip 3.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res se esse arquivo for exatamente o mesmo que os instalados anteriormente.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="fw_upgrade_notice_miband7">Você está prestes a instalar o firmware %s no seu Xiaomi Smart Band 7.
+\n
+\nCertifique-se de instalar o arquivo .fw, e depois o arquivo .res. Seu relógio será reiniciado após a instalação do arquivo .fw.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="uploadwatchfaceoperation_complete">Instalação do Watchface concluída</string>
+    <string name="uploadwatchfaceoperation_failed">Falha na instalação do Watchface</string>
 </resources>
