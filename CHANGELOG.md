@@ -3,6 +3,7 @@
 #### Next release (WIP)
 
 * Experimental support for Redmi Watch 4
+* Initial support for Huawei Watch Fit 2
 * Introduce new Dashboard view
 * AsteroidOS: Added icons to the notifications
 * Bangle.js: Add screenshot support
