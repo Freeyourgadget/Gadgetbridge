@@ -45,4 +45,15 @@ public class FitStressLevel extends RecordData {
     public Long getStressLevelTime() {
         return (Long) getFieldByNumber(1);
     }
+
+    // manual changes below
+
+    @Override
+    public Long getComputedTimestamp() {
+        final Long stressTime = getStressLevelTime();
+        if (stressTime != null) {
+            return stressTime;
+        }
+        return super.getComputedTimestamp();
+    }
 }
