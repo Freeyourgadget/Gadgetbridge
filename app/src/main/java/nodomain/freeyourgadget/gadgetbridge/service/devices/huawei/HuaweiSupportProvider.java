@@ -1515,7 +1515,9 @@ public class HuaweiSupportProvider {
                         data.strokeRate,
                         unknown,
                         data.calories,
-                        data.cyclingPower
+                        data.cyclingPower,
+                        data.frequency,
+                        data.altitude
                 );
                 dao.insertOrReplace(dataSample);
             }

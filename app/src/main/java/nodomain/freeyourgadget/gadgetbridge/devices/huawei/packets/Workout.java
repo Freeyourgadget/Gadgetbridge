@@ -241,6 +241,8 @@ public class Workout {
 
                 public short calories = -1;
                 public short cyclingPower = -1;
+                public short frequency = -1;
+                public Integer altitude = null;
 
                 public int timestamp = -1; // Calculated timestamp for this data point
 
@@ -264,6 +266,8 @@ public class Workout {
                             ", strokeRate=" + strokeRate +
                             ", calories=" + calories +
                             ", cyclingPower=" + cyclingPower +
+                            ", frequency=" + frequency +
+                            ", altitude=" + altitude +
                             ", timestamp=" + timestamp +
                             '}';
                 }
@@ -372,6 +376,9 @@ public class Workout {
                                 case 4:
                                     data.strokeRate = buf.getShort();
                                     break;
+                                case 5:
+                                    data.altitude = buf.getInt();
+                                    break;
                                 case 6:
                                     // Inner data, parsing into data
                                     // TODO: function for readability?
@@ -419,6 +426,9 @@ public class Workout {
                                     data.calories = buf.getShort();
                                     break;
                                 case 8:
+                                    data.frequency = buf.getShort();
+                                    break;
+                                case 9:
                                     data.cyclingPower = buf.getShort();
                                     break;
                                 default:

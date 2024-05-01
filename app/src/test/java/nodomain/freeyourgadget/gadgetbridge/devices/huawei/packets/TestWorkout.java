@@ -259,6 +259,14 @@ public class TestWorkout {
         byte backFootLanding2 = 0x26;
         byte eversionAngle2 = 0x27;
 
+        // TODO: Add:
+        //  - swolf
+        //  - stoke rate
+        //  - calories
+        //  - cycling power
+        //  - frequency
+        //  - altitude
+
         ByteBuffer headerBuf = ByteBuffer.allocate(14);
         headerBuf.putShort(workoutNumber);
         headerBuf.putShort(dataNumber);

@@ -108,7 +108,9 @@ public class HuaweiWorkoutGbParser {
                             responseData.strokeRate,
                             dataErrorHex,
                             responseData.calories,
-                            responseData.cyclingPower
+                            responseData.cyclingPower,
+                            responseData.frequency,
+                            responseData.altitude
                     );
 
                     dbHandler.getDaoSession().getHuaweiWorkoutDataSampleDao().insertOrReplace(dataSample);
@@ -308,6 +310,13 @@ public class HuaweiWorkoutGbParser {
                 int maxCyclingPower = 0;
                 int cyclingPower = 0;
                 int cyclingPowerCount = 0;
+                int avgAltitude = 0;
+                int altitudeCount = 0;
+                int minAltitude = 0;
+                int maxAltitude = 0;
+                Integer previousAlt = null;
+                int sumAltitudeUp = 0;
+                int sumAltitudeDown = 0;
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
                     if (dataSample.getSpeed() != -1) {
                         speed += dataSample.getSpeed();
@@ -391,6 +400,22 @@ public class HuaweiWorkoutGbParser {
                         if (cp < minCyclingPower)
                             minCyclingPower = cp;
                     }
+                    if (dataSample.getAltitude() != null) {
+                        int alt = dataSample.getAltitude();
+                        avgAltitude += alt;
+                        altitudeCount += 1;
+                        if (alt > maxAltitude)
+                            maxAltitude = alt;
+                        if (alt < minAltitude)
+                            minAltitude = alt;
+                        if (previousAlt != null) {
+                            if (alt > previousAlt)
+                                sumAltitudeUp += alt - previousAlt;
+                            else if (alt < previousAlt)
+                                sumAltitudeDown += previousAlt - alt;
+                        }
+                        previousAlt = alt;
+                    }
                     if (dataSample.getDataErrorHex() != null)
                         unknownData = true;
                 }
@@ -420,6 +445,8 @@ public class HuaweiWorkoutGbParser {
                     heartRate = heartRate / heartRateCount;
                 if (cyclingPowerCount > 0)
                     cyclingPower = cyclingPower / cyclingPowerCount;
+                if (altitudeCount > 0)
+                    avgAltitude = avgAltitude / altitudeCount;
 
                 if (speedCount > 0) {
                     JSONObject speedJson = new JSONObject();
@@ -577,6 +604,33 @@ public class HuaweiWorkoutGbParser {
                     maxCyclingPowerJson.put("value", maxCyclingPower);
                     maxCyclingPowerJson.put("unit", "");
                     jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_MAX, maxCyclingPowerJson);
+                }
+
+                if (altitudeCount > 0) {
+                    JSONObject avgAltitudeJson = new JSONObject();
+                    avgAltitudeJson.put("value", avgAltitude);
+                    avgAltitudeJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_AVG, avgAltitudeJson);
+
+                    JSONObject minAltitudeJson = new JSONObject();
+                    minAltitudeJson.put("value", minAltitude);
+                    minAltitudeJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_MIN, minAltitudeJson);
+
+                    JSONObject maxAltitudeJson = new JSONObject();
+                    maxAltitudeJson.put("value", maxAltitude);
+                    maxAltitudeJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_MAX, maxAltitudeJson);
+
+                    JSONObject sumUpAltitudeJson = new JSONObject();
+                    sumUpAltitudeJson.put("value", sumAltitudeUp);
+                    sumUpAltitudeJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.ELEVATION_GAIN, sumUpAltitudeJson);
+
+                    JSONObject sumDownAltitudeJson = new JSONObject();
+                    sumDownAltitudeJson.put("value", sumAltitudeDown);
+                    sumDownAltitudeJson.put("unit", "");
+                    jsonObject.put(ActivitySummaryEntries.ELEVATION_LOSS, sumDownAltitudeJson);
                 }
             }
 
