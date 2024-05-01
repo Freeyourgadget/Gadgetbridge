@@ -2802,4 +2802,8 @@
     <string name="pref_auto_reply_calls_delay_title">Задержка перед автоприёмом</string>
     <string name="pref_auto_reply_calls_summary">Телефон будет автоматически принимать входящие звонки</string>
     <string name="pref_auto_reply_calls_delay_summary">Время в секундах до того, как звонок будет автоматически принят</string>
+    <string name="pref_header_generic">Общий</string>
+    <string name="pref_header_audio">Звук</string>
+    <string name="activity_type_free_training">Свободная тренировка</string>
+    <string name="activity_type_dynamic_cycle">Динамический цикл</string>
 </resources>
