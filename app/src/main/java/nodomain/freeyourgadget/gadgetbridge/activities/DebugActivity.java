@@ -1184,7 +1184,10 @@ public class DebugActivity extends AbstractGBActivity {
         for (DeviceType deviceType : DeviceType.values()) {
             DeviceCoordinator coordinator = deviceType.getDeviceCoordinator();
             int icon = coordinator.getDefaultIconResource();
-            String name = app.getString(coordinator.getDeviceNameResource()) + " (" + coordinator.getManufacturer() + ")";
+            String name = app.getString(coordinator.getDeviceNameResource());
+            if (!name.startsWith(coordinator.getManufacturer())) {
+                name += " (" + coordinator.getManufacturer() + ")";
+            }
             long deviceId = deviceType.ordinal();
             newMap.put(name, new Pair(deviceId, icon));
         }
