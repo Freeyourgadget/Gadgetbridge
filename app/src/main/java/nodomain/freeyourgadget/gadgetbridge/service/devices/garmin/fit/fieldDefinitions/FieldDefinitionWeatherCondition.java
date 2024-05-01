@@ -138,7 +138,7 @@ public class FieldDefinitionWeatherCondition extends FieldDefinition {
             case 902:  //hurricane
             case 962:  //hurricane
             default:
-                throw new IllegalArgumentException("Unknown weather code " + openWeatherCode);
+                return 255; //invalid
         }
     }
 
