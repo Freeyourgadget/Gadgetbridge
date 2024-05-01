@@ -1118,7 +1118,7 @@
     <string name="movement_intensity">Интенсивность движения</string>
     <string name="devicestatus_upload_started">Загрузка началась</string>
     <string name="activity_list_summary_activities">Активности</string>
-    <string name="menuitem_sleep">Шаги</string>
+    <string name="menuitem_sleep">Сон</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="pref_title_upper_button_function_double">Двойное нажатие на верхнюю кнопку</string>
     <string name="pref_title_lower_button_function_double">Двойное нажатие на нижнюю кнопку</string>
