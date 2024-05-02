@@ -2826,4 +2826,26 @@
     <string name="serbian">Сербский</string>
     <string name="pref_title_huawei_account">Учётная запись Huawei</string>
     <string name="pref_summary_huawei_account">Используется для сопряжения без сброса устройства.</string>
+    <string name="bottom_nav_devices">Устройства</string>
+    <string name="pref_dashboard_all_devices_title">Все устройства</string>
+    <string name="pref_dashboard_widget_double_size_title">Двойной размер</string>
+    <string name="watchface_resolution_doesnt_match">Размер циферблата не совпадает с размером экрана. Разрешение циферблата: %1$s, разрешение экрана: %2$s</string>
+    <string name="companion_pairing_request_description">Привязать устройство как сопутствующее?
+\n
+\nЭто рекомендуется для работы функции поиска устройства и улучшения качества соединения.</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="devicesetting_scannable_minimum_unseen">Мин. время отсутствия (в сек.)</string>
+    <string name="unbind_before_pair_title">Уже привязано</string>
+    <string name="pref_dashboard_widget_today_title">График активности</string>
+    <string name="devicesetting_scannable_rssi">Мин. порог RSSI</string>
+    <string name="unbind_before_pair_message">Это устройство уже привязано через настройки Android. Из-за этого некоторые устройства не получится привязать в GB.
+\n
+\nЕсли добавление не удаётся, отвяжите устройство в настройках Android и попробуйте ещё раз.</string>
+    <string name="companion_pairing_request_title">Сопутствующее устройство</string>
+    <string name="dashboard_settings">Настройки панели управления</string>
+    <string name="error_showing_changelog">Не удалось открыть журнал изменений</string>
+    <string name="activity_type_worn">Ношение</string>
+    <string name="pref_dashboard_widget_today_24h_title">24ч стиль</string>
+    <string name="bottom_nav_dashboard">Панель управления</string>
+    <string name="notification_channel_scan_service_name">Служба сканирования</string>
 </resources>
