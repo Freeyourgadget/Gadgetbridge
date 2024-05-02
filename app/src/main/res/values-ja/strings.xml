@@ -9,7 +9,7 @@
     <string name="controlcenter_fetch_activity_data">同期</string>
     <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
     <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
-    <string name="controlcenter_disconnect">切断する</string>
+    <string name="controlcenter_disconnect">切断</string>
     <string name="controlcenter_delete_device">デバイスを削除</string>
     <string name="controlcenter_delete_device_name">%1$s の削除</string>
     <string name="controlcenter_delete_device_dialogmessage">デバイスと関連するデータが削除されます！</string>
@@ -43,7 +43,7 @@
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">ファームウェア/アプリのインストール</string>
     <string name="fw_upgrade_notice">%s をインストールしようとしています。</string>
-    <string name="fw_multi_upgrade_notice">お使いのMi Bandに、現在のファームウェアの代わりに %1$s および %2$s をインストールしようとしています。</string>
+    <string name="fw_multi_upgrade_notice">Mi Bandに、現在のファームウェアの代わりに %1$s および %2$s をインストールしようとしています。</string>
     <string name="miband_firmware_known">このファームウェアはテスト済みで、Gadgetbridgeと互換性があることが確認されています。</string>
     <string name="miband_firmware_unknown_warning">このファームウェアは未テストで、Gadgetbridgeと互換性がない可能性があります。
 \n
@@ -78,7 +78,7 @@
     <string name="pref_title_notification_filter">サイレント</string>
     <string name="pref_summary_notification_filter">サイレントモードが有効なときはすべての通知をブロックする</string>
     <string name="pref_title_transliteration">翻字</string>
-    <string name="pref_summary_transliteration">お使いのデバイスがあなたの言語のフォントをサポートしていない場合、これを有効にしてください</string>
+    <string name="pref_summary_transliteration">デバイスがユーザーの言語のフォントをサポートしていない場合、これを有効にしてください</string>
     <string name="always">常に</string>
     <string name="when_screen_off">スクリーンが OFF のとき</string>
     <string name="never">なし</string>
@@ -181,7 +181,7 @@
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">デバイスのペアリング</string>
     <string name="android_pairing_hint">Android の Bluetooth ペアリング ダイアログを使用してデバイスをペアリングします。</string>
-    <string name="title_activity_mi_band_pairing">お使いのMi Bandをペアリング</string>
+    <string name="title_activity_mi_band_pairing">Mi Band をペアリング</string>
     <string name="pairing">%s とペアリング中…</string>
     <string name="pairing_creating_bond_with">%1$s (%2$s) と紐付けを作成中</string>
     <string name="pairing_unable_to_pair_with">%1$s (%2$s) とペアリングできません</string>
@@ -196,9 +196,9 @@
     <string name="left">左</string>
     <string name="right">右</string>
     <string name="miband_pairing_using_dummy_userdata">有効なユーザーデータが与えられていないため、現在はダミーのユーザーデータを使用しています。</string>
-    <string name="miband_pairing_tap_hint">お使いの Mi Band が振動し点滅したら数回連続してタップしてください。</string>
+    <string name="miband_pairing_tap_hint">Mi Band が振動し点滅したら数回連続してタップしてください。</string>
     <string name="appinstaller_install">インストール</string>
-    <string name="discovery_connected_devices_hint">お使いのデバイスを検出可能にしてください。現在接続中のデバイスはおそらく検出されません。Android 6 以降では位置情報 （例： GPS）を有効にしてください。不具合を引き起こす可能性があるため、Gadgetbridge に対してプライバシーガードを無効にしてください。数分経ってもデバイスが表示されない場合は、Android デバイスを再起動してから再試行してください。</string>
+    <string name="discovery_connected_devices_hint">デバイスを検出可能な状態にしてください。現在接続中のデバイスはおそらく検出されません。Android 6 以降では位置情報 （例： GPS）を有効にしてください。不具合を引き起こす可能性があるため、Gadgetbridge に対してプライバシーガードを無効にしてください。数分経ってもデバイスが表示されない場合、Android デバイスを再起動してから再試行してください。</string>
     <string name="discovery_note">注：</string>
     <string name="candidate_item_device_image">デバイスイメージ</string>
     <string name="miband_prefs_alias">名前/別名</string>
@@ -353,7 +353,9 @@
     <string name="pref_summary_pebble_health_store_raw">データを「そのまま」格納し、あとで解釈できるようにデータベースの使用量を増やします。</string>
     <string name="action_db_management">データの管理</string>
     <string name="title_activity_db_management">データの管理</string>
-    <string name="activity_db_management_import_export_explanation">データベース操作は、お使いのデバイスで次のパスを使用します。 \nこのパスは、他の Android アプリケーションやお使いのコンピュータがアクセス可能です。\nエクスポートされたデータベースが見つかります (またはインポートしたいデータベースを配置します):</string>
+    <string name="activity_db_management_import_export_explanation">データベース操作は、デバイスの次のパスを使用します。
+\nこのパスは、他の Android アプリケーションやお使いのコンピュータがアクセス可能です。
+\nエクスポートされたデータベースが見つかります (またはインポートしたいデータベースを配置します):</string>
     <string name="activity_db_management_merge_old_title">レガシー データベースの削除</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">エクスポート パスにアクセスできません。開発者に連絡してください。</string>
     <string name="dbmanagementactivity_exported_to">エクスポートしました: %1$s</string>
@@ -415,7 +417,7 @@
     <string name="discovery_dont_pair">ペアリングしない</string>
     <string name="fw_upgrade_notice_amazfitbip">Amazfit Bip に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
 \n
 \n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res と .gps をインストールする必要はありません。
 \n
@@ -438,7 +440,7 @@
     <string name="controlcenter_connect">接続…</string>
     <string name="fw_upgrade_notice_amazfitcor">Amazfit Cor に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。お使いのバンドは、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしください。バンドは、.fw ファイルをインストールした後に再起動します。
 \n
 \n注: .res ファイルが前回にインストールしたものと同じ場合、新たに.res ファイルをインストールする必要はありません。
 \n
@@ -482,7 +484,7 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="pref_header_auto_export">自動エクスポート</string>
-    <string name="pref_title_auto_export_enabled">自動エクスポートは有効です</string>
+    <string name="pref_title_auto_export_enabled">自動エクスポートを有効にする</string>
     <string name="pref_title_auto_export_location">エクスポートする場所</string>
     <string name="pref_title_auto_export_interval">エクスポートする間隔</string>
     <string name="pref_summary_auto_export_interval">%d 時間ごとにエクスポート</string>
@@ -528,14 +530,14 @@
     <string name="whitelist_all_for_notifications">すべて通知のホワイトリストにする</string>
     <string name="fw_upgrade_notice_miband3">Mi Band 3 に %s ファームウェアをインストールします。
 \n
-\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルをインストールした後、お使いのバンドは再起動します。
+\n.fw ファイルをインストールして、その後 .res ファイルをインストールするようにしてください。 .fw ファイルのインストール後、バンドは再起動します。
 \n
 \n注: .res が以前にインストールしたものと全く同じ場合は、インストールする必要はありません。
 \n
 \nご自身の責任で行ってください！</string>
     <string name="pref_title_notifications_timeout">通知の間の最小時間</string>
     <string name="pref_title_rtl">右横書き</string>
-    <string name="pref_summary_rtl">お使いのデバイスが右から左へ書く言語を表示できない場合はこれを有効にします</string>
+    <string name="pref_summary_rtl">デバイスが右から左へ書く言語を表示できない場合、これを有効にしてください</string>
     <string name="pref_rtl_max_line_length">右横書きの最大行長</string>
     <string name="pref_rtl_max_line_length_summary">右横書きの文の行を伸長または短縮して分割します</string>
     <string name="prefs_screen_orientation">画面の向き</string>
@@ -631,19 +633,19 @@
 \n 
 \n自己責任の下で行ってください！
 \n 
-\n完全にはテストされていません。お使いのデバイス名が \"Amazfit Band 2\" の場合、おそらく BEATS_W ファームウェアをフラッシュする必要があります</string>
+\n完全にはテストされていません。デバイス名が \"Amazfit Band 2\" の場合、おそらく BEATS_W ファームウェアをフラッシュする必要があります</string>
     <string name="pref_title_support_voip_calls">VoIP アプリの通話を有効にする</string>
     <string name="fw_upgrade_notice_miband4">Mi Band 4 に %s ファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、バンドが再起動します。
 \n
 \n注: 以前にインストールしたものとまったく同じ場合、.res をインストールする必要はありません。
 \n
-\nご自身のリスクで進めてください！</string>
+\nご自身の責任で行ってください！</string>
     <string name="pref_summary_expose_hr">Gadgetbridge の接続中に、他のアプリが HR データにリアルタイムでアクセスできるようにします</string>
     <string name="pref_title_expose_hr">サードパーティのリアルタイム HR アクセス</string>
     <string name="pref_title_use_custom_font">カスタムフォントを使用する</string>
-    <string name="pref_summary_use_custom_font">お使いのデバイスに絵文字に対応したスタムフォントファームウェアがある場合は有効にしてください</string>
+    <string name="pref_summary_use_custom_font">デバイスに絵文字に対応したスタムフォントファームウェアがある場合、これを有効にしてください</string>
     <string name="pref_display_add_device_fab">新しいデバイスを接続するボタン</string>
     <string name="pref_display_add_device_fab_on">常に表示</string>
     <string name="pref_display_add_device_fab_off">デバイスが登録されていない場合にのみ表示</string>
@@ -853,12 +855,12 @@
     <string name="pref_pair_bluetooth_calls_help_title">Bluetooth通話の着信方法</string>
     <string name="fw_upgrade_notice_miband7">Xiaomi Smart Band 7 に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Amazfit GTR 4に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth通話を着信するには、Androidデバイスをウォッチの2番目のインスタンスとペアリングする必要があります。</string>
@@ -909,7 +911,7 @@
     <string name="open_fw_installer_ensure_device_connected">%s が接続されていることを確認してください</string>
     <string name="fw_upgrade_notice_amazfitneo">Amazfit Neo に %s ファームウェアをインストールしようとしています。
 \n
-\n.fwファイルをインストールすると、お使いのバンドが再起動します。
+\n.fwファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (Nightly) について</string>
@@ -942,19 +944,19 @@
     <string name="pref_title_custom_deviceicon">デバイス固有の通知アイコンを表示する</string>
     <string name="fw_upgrade_notice_miband5">Mi Band 4 に %s ファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、バンドが再起動します。
 \n
 \n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_band7">Amazfit Band 7に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_miband6">Mi Band 4 に %s ファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、バンドが再起動します。
 \n
 \n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
 \n
@@ -988,7 +990,7 @@
     <string name="calendar_year">1年</string>
     <string name="fw_upgrade_notice_amazfit_gts3">Amazfit GTS 3 に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfitgts">Amazfit GTS に %s ファームウェアをインストールしようとしています。
@@ -1000,33 +1002,33 @@
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_gts4_mini">Amazfit GTS 4 Miniに %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_gtr3_pro">Amazfit GTR 3 Proに %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_trex2">Amazfit T-Rex 2に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">Amazfit GTR 3に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_cheetah_pro">Amazfit Cheetah Proに %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="pref_header_time">時間</string>
     <string name="fw_upgrade_notice_zepp_os">%sに %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="pref_header_workout">ワークアウト</string>
@@ -1038,14 +1040,14 @@
     <string name="check_all_applications"/>
     <string name="fw_upgrade_notice_amazfitbip_lite">Amazfit Bip Lite に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
 \n
 \n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res と .gps をインストールする必要はありません。
 \n
 \nご自身の責任で行ってください!</string>
     <string name="fw_upgrade_notice_amazfitbip3pro">Amazfit Bip 3 Pro に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
 \n
 \n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res ファイルをインストールする必要はありません。
 \n
@@ -1068,12 +1070,12 @@
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Amazfit GTS 4に %s ファームウェアをインストールしようとしています。
 \n
-\n.zipファイルをインストールすると、お使いのバンドが再起動します。
+\n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
     <string name="fw_upgrade_notice_amazfitx">Amazfit X に %s ファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、お使いの バンドが再起動します。
+\n.fw ファイルをインストールしてから、.res ファイルをインストールしてください。 .fw ファイルをインストールすると、バンドが再起動します。
 \n
 \n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
 \n
@@ -1088,11 +1090,11 @@
     <string name="pref_summary_notification_cache_while_disconnected">接続が途切れたデバイスが再接続されたときに見逃した通知を送信する</string>
     <string name="fw_upgrade_notice_amazfitbip3">Amazfit Bip 3 に %s のファームウェアをインストールしようとしています。
 \n
-\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。お使いのウォッチは、.fw ファイルをインストールした後に再起動します。
+\n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
 \n
 \n注: これらのファイルが前回にインストールしたものと完全に同じ場合、.res ファイルをインストールする必要はありません。
 \n
-\nご自身の責任で行ってください!</string>
+\nご自身の責任で行ってください！</string>
     <string name="fw_upgrade_notice_amazfitgtr">Amazfit GTR に %s ファームウェアをインストールしようとしています。
 \n 
 \n.fw ファイルをインストールし、次に.res ファイル、最後に.gpsファイルをインストールしてください。 .fw ファイルをインストールした後、ウォッチが再起動します。
@@ -1101,7 +1103,7 @@
 \n 
 \n自己責任の下で行ってください！</string>
     <string name="open_fw_installer_warning_title">警告</string>
-    <string name="open_fw_installer_warning_text">この機能はお使いのデバイスを使用不能にする可能性があります。開発者はそのような経験はしていませんが、実行する際は自己責任の下で行ってください。</string>
+    <string name="open_fw_installer_warning_text">この機能はデバイスを使用不能にする可能性があります。開発者はそのような経験はしていませんが、実行する際は自己責任の下で行ってください。</string>
     <string name="open_fw_installer_pick_file">ファイルの選択</string>
     <string name="open_fw_installer_info_text_title">ファイルインストーラ</string>
     <string name="open_fw_installer_connect_minimum_one_device">ファイルを送信したいデバイスを少なくとも1つ接続してください。</string>
@@ -1156,8 +1158,8 @@
     <string name="pref_title_overwrite_settings_on_connection">接続時に設定を上書きする</string>
     <string name="pref_summary_overwrite_settings_on_connection">バンドに接続するときに、バンド上のすべての設定を上書きします。</string>
     <string name="pref_title_device_internet_access">インターネット接続を許可する</string>
-    <string name="pref_title_relax_firmware_checks">お使いのデバイス向けでないファームウェアをフラッシュしたい場合に有効化（自己責任で）</string>
-    <string name="pref_summary_huami_force_new_protocol">お使いのデバイスのファームウェア更新後に接続できなくなった場合に有効にしてください</string>
+    <string name="pref_title_relax_firmware_checks">お使いのデバイス向けでないファームウェアを書き込みたい場合に有効化（自己責任で）</string>
+    <string name="pref_summary_huami_force_new_protocol">ファームウェア更新後にデバイスに接続できなくなった場合、これを有効にしてください</string>
     <string name="title_activity_LenovoWatch_calibration">Watch X Plus の調整</string>
     <string name="prefs_notifications_and_calls_continious_ring">着信中の通知</string>
     <string name="pref_notifications_and_calls_enable_misscall">不在着信を通知する</string>
@@ -1262,7 +1264,7 @@
     <string name="pref_workout_detection_enabled_summary">このワークアウトの自動検出を有効にします</string>
     <string name="pref_workout_detection_ask_first">最初に確認する</string>
     <string name="pref_workout_detection_ask_first_summary">このワークアウトを検出したとき、ウォッチ上で承認する必要があります</string>
-    <string name="pref_workout_detection_enabled">検出は有効です</string>
+    <string name="pref_workout_detection_enabled">検出を有効にする</string>
     <string name="pref_summary_disable_new_ble_scanning">検出中にデバイスが見つからない場合、このオプションをチェックしてください</string>
     <string name="discovery_bluetooth_le_scan">Bluetooth LE スキャン：</string>
     <string name="preferences_miband_1_2_warning">注意：これらの設定はMi Band 1とMi Band 2にのみ適用されます。</string>
