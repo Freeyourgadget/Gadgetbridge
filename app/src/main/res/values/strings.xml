@@ -2381,6 +2381,7 @@
     <string name="huawei_trusleep_title">HUAWEI TruSleep &#8482;</string>
     <string name="huawei_trusleep_summary">Monitor your sleep quality and breathing pattern in real time.\nAnalyze your sleep patterns and accurately diagnose 6 types of sleeping problems.</string>
     <string name="huawei_trusleep_summary_light">Improved sleep monitoring</string>
+    <string name="huawei_trusleep_warning">Warning: enabling this will stop sleep from showing up in Gadgetbridge! Click here if you accept this.</string>
     <string name="prefs_activity_recognition">Activity recognition settings</string>
     <string name="pref_activity_recognize_running">recognize running</string>
     <string name="pref_activity_recognize_biking">recognize biking</string>
