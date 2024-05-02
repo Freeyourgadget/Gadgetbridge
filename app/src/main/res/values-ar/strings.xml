@@ -2952,4 +2952,5 @@
     <string name="cyclingPowerMax">أقصى قوة ركوب الدراجة</string>
     <string name="cyclingPowerAverage">متوسط قوة ركوب الدراجة</string>
     <string name="cyclingPowerMin">الحد الأدنى من قوة ركوب الدراجة</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
 </resources>
