@@ -2946,4 +2946,8 @@
     <string name="pref_summary_bottom_navigation_bar_on">Ganti antara layar utama menggunakan bilah navigasi atau pengusapan horizontal</string>
     <string name="pref_summary_bottom_navigation_bar_off">Ganti antara layar utama hanya menggunakan pengusapan horizontal</string>
     <string name="watchface_resolution_doesnt_match">Resolusi wajah jam tidak cocok dengan layar perangkat. Resolusi wajah jam adalah %1$s dan layar perangkat adalah %2$s</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="cyclingPowerAverage">Daya bersepeda rata-rata</string>
+    <string name="cyclingPowerMin">Daya bersepeda minimum</string>
+    <string name="cyclingPowerMax">Daya bersepeda maksimum</string>
 </resources>
