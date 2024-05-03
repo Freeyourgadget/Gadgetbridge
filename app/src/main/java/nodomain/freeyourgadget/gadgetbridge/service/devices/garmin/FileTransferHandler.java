@@ -341,6 +341,12 @@ public class FileTransferHandler implements MessageHandler {
             return getFiletype().name() + "_" + dateString + "_" + getFileIndex() + (getFiletype().isFitFile() ? ".fit" : ".bin");
         }
 
+        public String getLegacyFileName() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+            String dateString = dateFormat.format(fileDate);
+            return getFiletype().name() + "_" + getFileIndex() + "_" + dateString + (getFiletype().isFitFile() ? ".fit" : ".bin");
+        }
+
         @NonNull
         @Override
         public String toString() {
