@@ -457,7 +457,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             try {
                 FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
-                while (checkFileExists(directoryEntry.getFileName())) {
+                while (checkFileExists(directoryEntry.getFileName()) || checkFileExists(directoryEntry.getLegacyFileName())) {
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
                     if (!getKeepActivityDataOnDevice()) // delete file from watch if already downloaded
                         sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
