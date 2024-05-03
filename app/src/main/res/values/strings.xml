@@ -1559,6 +1559,7 @@
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
     <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
