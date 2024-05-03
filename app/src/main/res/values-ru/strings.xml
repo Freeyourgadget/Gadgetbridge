@@ -2848,4 +2848,5 @@
     <string name="pref_dashboard_widget_today_24h_title">24ч стиль</string>
     <string name="bottom_nav_dashboard">Панель управления</string>
     <string name="notification_channel_scan_service_name">Служба сканирования</string>
+    <string name="huawei_trusleep_warning">Предупреждение: включение этой функции выключит отображение сна в Gatgetbride! Нажмите, если согласны.</string>
 </resources>
