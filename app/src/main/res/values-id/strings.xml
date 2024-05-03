@@ -2950,4 +2950,5 @@
     <string name="cyclingPowerAverage">Daya bersepeda rata-rata</string>
     <string name="cyclingPowerMin">Daya bersepeda minimum</string>
     <string name="cyclingPowerMax">Daya bersepeda maksimum</string>
+    <string name="huawei_trusleep_warning">Peringatan: mengaktifkan ini akan menghentikan kemunculan tidur di Gadgetbridge! Klik di sini jika Anda menerima hal ini.</string>
 </resources>
