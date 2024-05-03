@@ -84,6 +84,11 @@ public class NotificationsHandler implements MessageHandler {
             callNotificationSpec.type = NotificationType.GENERIC_PHONE;
             callNotificationSpec.body = StringUtils.isEmpty(callSpec.name) ? callSpec.number : callSpec.name;
 
+            // add an empty bogus action to toggle the hasActions boolean. The actions are hardcoded on the watch in case of incoming calls.
+            callNotificationSpec.attachedActions = new ArrayList<>();
+            callNotificationSpec.attachedActions.add(0, new NotificationSpec.Action());
+
+
             return onNotification(callNotificationSpec);
         } else {
             if (callSpec.number != null) // this happens in debug screen
@@ -180,6 +185,8 @@ public class NotificationsHandler implements MessageHandler {
         final GBDeviceEventCallControl deviceEvtCallControl = new GBDeviceEventCallControl();
         switch (message.getNotificationAction()) {
             case REPLY_INCOMING_CALL:
+                deviceEvtCallControl.event = GBDeviceEventCallControl.Event.REJECT;
+                message.addGbDeviceEvent(deviceEvtCallControl);
             case REPLY_MESSAGES:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                 deviceEvtNotificationControl.reply = message.getActionString();
@@ -188,23 +195,23 @@ public class NotificationsHandler implements MessageHandler {
                 } else {
                     deviceEvtNotificationControl.handle = mNotificationReplyAction.lookup(notificationSpec.getId()); //handle of wearable action is needed
                 }
-                message.setDeviceEvent(deviceEvtNotificationControl);
+                message.addGbDeviceEvent(deviceEvtNotificationControl);
                 break;
             case ACCEPT_INCOMING_CALL:
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.ACCEPT;
-                message.setDeviceEvent(deviceEvtCallControl);
+                message.addGbDeviceEvent(deviceEvtCallControl);
                 break;
             case REJECT_INCOMING_CALL:
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.REJECT;
-                message.setDeviceEvent(deviceEvtCallControl);
+                message.addGbDeviceEvent(deviceEvtCallControl);
                 break;
             case DISMISS_NOTIFICATION:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.DISMISS;
-                message.setDeviceEvent(deviceEvtNotificationControl);
+                message.addGbDeviceEvent(deviceEvtNotificationControl);
                 break;
             case BLOCK_APPLICATION:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.MUTE;
-                message.setDeviceEvent(deviceEvtNotificationControl);
+                message.addGbDeviceEvent(deviceEvtNotificationControl);
                 break;
         }
     }
