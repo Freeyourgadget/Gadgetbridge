@@ -349,7 +349,7 @@ public class ProtocolBufferHandler implements MessageHandler {
                     );
                 } else {
                     builder.setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.GENERIC_ERROR);
-                    LOG.error("Missing canned messages data for type {}", requestedType);
+                    LOG.info("Missing canned messages data for type {}", requestedType);
                 }
             }
 

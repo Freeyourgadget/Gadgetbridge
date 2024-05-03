@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ public class NotificationControlMessage extends GFDIMessage {
     private NotificationsHandler.LegacyNotificationAction legacyNotificationAction;
     private NotificationsHandler.NotificationAction notificationAction;
     private String actionString;
-    private GBDeviceEvent deviceEvent;
+    private List<GBDeviceEvent> gbDeviceEventList;
 
     public NotificationControlMessage(GarminMessage garminMessage, NotificationsHandler.NotificationCommand command, int notificationId, NotificationsHandler.NotificationAction notificationAction, String actionString) {
         this.garminMessage = garminMessage;
@@ -108,13 +109,17 @@ public class NotificationControlMessage extends GFDIMessage {
         return actionString;
     }
 
-    public void setDeviceEvent(GBDeviceEvent deviceEvent) {
-        this.deviceEvent = deviceEvent;
+    public void addGbDeviceEvent(GBDeviceEvent gbDeviceEvent) {
+        if (null == this.gbDeviceEventList)
+            this.gbDeviceEventList = new ArrayList<>();
+        this.gbDeviceEventList.add(gbDeviceEvent);
     }
 
     @Override
     public List<GBDeviceEvent> getGBDeviceEvent() {
-        return Collections.singletonList(deviceEvent);
+        if (null == this.gbDeviceEventList)
+            return Collections.emptyList();
+        return gbDeviceEventList;
     }
 
     public NotificationsHandler.LegacyNotificationAction getLegacyNotificationAction() {
