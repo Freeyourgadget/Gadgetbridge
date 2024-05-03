@@ -34,12 +34,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitImporter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParseException;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
@@ -76,21 +82,43 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final GpxFile gpxFile;
-
-                try (FileInputStream inputStream = new FileInputStream(inputFile)) {
-                    final GpxParser gpxParser = new GpxParser(inputStream);
-                    gpxFile = gpxParser.getGpxFile();
-                } catch (final IOException e) {
-                    LOG.error("Failed to open {}", inputFile, e);
-                    return;
-                } catch (final GpxParseException e) {
-                    LOG.error("Failed to parse gpx file", e);
+                final List<GPSCoordinate> points = new ArrayList<>();
+                if (inputFile.getName().endsWith(".gpx")) {
+                    try (FileInputStream inputStream = new FileInputStream(inputFile)) {
+                        final GpxParser gpxParser = new GpxParser(inputStream);
+                        points.addAll(gpxParser.getGpxFile().getPoints());
+                    } catch (final IOException e) {
+                        LOG.error("Failed to open {}", inputFile, e);
+                        return;
+                    } catch (final GpxParseException e) {
+                        LOG.error("Failed to parse gpx file", e);
+                        return;
+                    }
+                } else if (inputFile.getName().endsWith(".fit")) {
+                    try {
+                        FitFile fitFile = FitFile.parseIncoming(inputFile);
+                        for (final RecordData record : fitFile.getRecords()) {
+                            if (record instanceof FitRecord) {
+                                final ActivityPoint activityPoint = ((FitRecord) record).toActivityPoint();
+                                if (activityPoint.getLocation() != null) {
+                                    points.add(activityPoint.getLocation());
+                                }
+                            }
+                        }
+                    } catch (final IOException e) {
+                        LOG.error("Failed to open {}", inputFile, e);
+                        return;
+                    } catch (final Exception e) {
+                        LOG.error("Failed to parse fit file", e);
+                        return;
+                    }
+                } else {
+                    LOG.warn("Unknown file type {}", inputFile.getName());
                     return;
                 }
 
-                if (!gpxFile.getPoints().isEmpty()) {
-                    drawTrack(canvas, gpxFile.getPoints());
+                if (!points.isEmpty()) {
+                    drawTrack(canvas, points);
                 }
             }
         }).start();
