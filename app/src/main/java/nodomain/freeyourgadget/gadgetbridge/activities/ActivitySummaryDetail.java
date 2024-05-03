@@ -184,9 +184,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (get_gpx_file() != null) {
+                    if (getTrackFile() != null) {
                         showCanvas();
-                        activitySummariesGpsFragment.set_data(get_gpx_file());
+                        activitySummariesGpsFragment.set_data(getTrackFile());
                     } else {
                         hideCanvas();
                     }
@@ -206,9 +206,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (get_gpx_file() != null) {
+                    if (getTrackFile() != null) {
                         showCanvas();
-                        activitySummariesGpsFragment.set_data(get_gpx_file());
+                        activitySummariesGpsFragment.set_data(getTrackFile());
                     } else {
                         hideCanvas();
                     }
@@ -227,9 +227,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
             activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-            if (get_gpx_file() != null) {
+            if (getTrackFile() != null) {
                 showCanvas();
-                activitySummariesGpsFragment.set_data(get_gpx_file());
+                activitySummariesGpsFragment.set_data(getTrackFile());
             } else {
                 hideCanvas();
             }
@@ -320,9 +320,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         currentItem.setGpxTrack(selectedGpxFile);
                                         currentItem.update();
-                                        if (get_gpx_file() != null) {
+                                        if (getTrackFile() != null) {
                                             showCanvas();
-                                            activitySummariesGpsFragment.set_data(get_gpx_file());
+                                            activitySummariesGpsFragment.set_data(getTrackFile());
                                         } else {
                                             hideCanvas();
                                         }
@@ -712,10 +712,19 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         gpsView.setLayoutParams(params);
     }
 
-    private File get_gpx_file() {
+    private File getTrackFile() {
         final String gpxTrack = currentItem.getGpxTrack();
         if (gpxTrack != null) {
             File file = new File(gpxTrack);
+            if (file.exists()) {
+                return file;
+            } else {
+                return null;
+            }
+        }
+        final String rawDetails = currentItem.getRawDetailsPath();
+        if (rawDetails != null && rawDetails.endsWith(".fit")) {
+            File file = new File(rawDetails);
             if (file.exists()) {
                 return file;
             } else {
