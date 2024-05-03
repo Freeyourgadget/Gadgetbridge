@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:icon="@drawable/ic_gps_edit"
+        android:key="pref_header_agps"
+        android:title="@string/pref_agps_header">
+        <Preference
+            android:key="pref_agps_status"
+            android:title="@string/pref_agps_status" />
+        <Preference
+            android:key="pref_agps_update_time"
+            android:title="@string/pref_agps_update_time" />
+
+        <!--        <Preference-->
+        <!--            android:key="pref_agps_expire_time"-->
+        <!--            android:title="@string/pref_agps_expire_time" />-->
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

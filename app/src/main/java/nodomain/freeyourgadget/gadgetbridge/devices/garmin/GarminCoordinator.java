@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -54,6 +55,9 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
         final List<Integer> location = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.LOCATION);
         location.add(R.xml.devicesettings_workout_send_gps_to_band);
+        if (supportsAgpsUpdates()) {
+            location.add(R.xml.devicesettings_garmin_agps);
+        }
 
         final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
         connection.add(R.xml.devicesettings_high_mtu);
@@ -62,6 +66,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
         developer.add(R.xml.devicesettings_keep_activity_data_on_device);
 
         return deviceSpecificSettings;
+    }
+
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(GBDevice device) {
+        return new GarminSettingsCustomizer();
     }
 
     @Override

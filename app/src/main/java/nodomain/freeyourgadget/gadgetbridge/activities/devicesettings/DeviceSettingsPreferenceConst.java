@@ -231,6 +231,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_AGPS_EXPIRY_REMINDER_TIME = "pref_agps_expiry_reminder_time";
     public static final String PREF_AGPS_UPDATE_TIME = "pref_agps_update_time";
     public static final String PREF_AGPS_EXPIRE_TIME = "pref_agps_expire_time";
+    public static final String PREF_AGPS_STATUS = "pref_agps_status";
 
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
