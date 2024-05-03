@@ -2972,4 +2972,5 @@
     <string name="cyclingPowerAverage">Ortalama bisiklet gücü</string>
     <string name="cyclingPowerMax">En yüksek bisiklet gücü</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="huawei_trusleep_warning">Uyarı: Bunu etkinleştirmek uykunun Gadgetbridge\'de görünmesini engelleyecektir! Bunu kabul ediyorsanız buraya tıklayın.</string>
 </resources>
