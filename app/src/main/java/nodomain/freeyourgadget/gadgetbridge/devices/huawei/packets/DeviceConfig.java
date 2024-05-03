@@ -1178,7 +1178,6 @@ public class DeviceConfig {
 
             public JSONObject value;
             public JSONObject payload;
-            public JSONObject version;
 
             public byte step;
             // public int operationCode; // TODO
@@ -1203,7 +1202,6 @@ public class DeviceConfig {
                     try {
                         this.value = new JSONObject(this.tlv.getString(0x01));
                         this.payload = value.getJSONObject("payload");
-                        this.version = payload.getJSONObject("version");
 
                         // Ugly, but should work
                         if (payload.has("isoSalt")) {
@@ -1322,7 +1320,6 @@ public class DeviceConfig {
             public long requestId;
             public byte[] selfAuthId;
             public String groupId;
-            public JSONObject version = null;
             public JSONObject payload = null;
             public JSONObject value = null;
 
@@ -1341,7 +1338,6 @@ public class DeviceConfig {
                 try {
                     value = new JSONObject(this.tlv.getString(0x01));
                     payload = value.getJSONObject("payload");
-                    version = payload.getJSONObject("version");
 
                     if (payload.has("isoSalt")) {
                         this.step = 1;
