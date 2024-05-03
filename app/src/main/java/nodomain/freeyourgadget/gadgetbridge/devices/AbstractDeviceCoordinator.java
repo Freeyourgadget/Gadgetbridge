@@ -80,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -294,6 +295,18 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public File getAppCacheDir() throws IOException {
         return null;
+    }
+
+    @Override
+    public File getWritableExportDirectory(final GBDevice device) throws IOException {
+        File dir;
+        dir = new File(FileUtils.getExternalFilesDir() + File.separator + device.getAddress());
+        if (!dir.isDirectory()) {
+            if (!dir.mkdir()) {
+                throw new IOException("Cannot create device specific directory for " + device.getName());
+            }
+        }
+        return dir;
     }
 
     @Override

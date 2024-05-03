@@ -459,6 +459,11 @@ public interface DeviceCoordinator {
     File getAppCacheDir() throws IOException;
 
     /**
+     * Returns the dedicated writable export directory for this device.
+     */
+    File getWritableExportDirectory(GBDevice device) throws IOException;
+
+    /**
      * Returns a String containing the device app sort order filename.
      */
     String getAppCacheSortFilename();
