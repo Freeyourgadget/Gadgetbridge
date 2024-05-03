@@ -15,4 +15,14 @@ public class GarminInstinct2SCoordinator extends GarminCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_garmin_instinct_2s;
     }
+
+    @Override
+    public boolean supportsFlashing() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAgpsUpdates() {
+        return true;
+    }
 }
