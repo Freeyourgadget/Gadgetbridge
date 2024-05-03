@@ -21,6 +21,7 @@ import java.util.zip.GZIPOutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.AgpsHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.HttpUtils;
 
 public class HttpHandler {
@@ -30,10 +31,10 @@ public class HttpHandler {
             //.serializeNulls()
             .create();
 
-    private final EphemerisHandler ephemerisHandler;
+    private final AgpsHandler agpsHandler;
 
     public HttpHandler(GarminSupport deviceSupport) {
-        ephemerisHandler = new EphemerisHandler(deviceSupport);
+        agpsHandler = new AgpsHandler(deviceSupport);
     }
 
     public GdiHttpService.HttpService handle(final GdiHttpService.HttpService httpService) {
@@ -78,13 +79,13 @@ public class HttpHandler {
             LOG.debug("Weather response: {}", json);
             return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json", null);
         } else if (path.startsWith("/ephemeris/")) {
-            LOG.info("Got ephemeris request for {}", path);
-            final byte[] ephemerisData = ephemerisHandler.handleEphemerisRequest(path, query);
-            if (ephemerisData == null) {
+            LOG.info("Got AGPS request for {}", path);
+            final byte[] agpsData = agpsHandler.handleAgpsRequest(path, query);
+            if (agpsData == null) {
                 return null;
             }
-            LOG.debug("Successfully obtained ephemeris data (length: {})", ephemerisData.length);
-            return createRawResponse(rawRequest, ephemerisData, "application/x-tar", ephemerisHandler.getOnDataSuccessfullySentListener());
+            LOG.debug("Successfully obtained AGPS data (length: {})", agpsData.length);
+            return createRawResponse(rawRequest, agpsData, "application/x-tar", agpsHandler.getOnDataSuccessfullySentListener());
         } else {
             LOG.warn("Unhandled path {}", urlString);
             return null;

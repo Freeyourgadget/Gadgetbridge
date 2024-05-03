@@ -27,7 +27,9 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminAgpsInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
@@ -48,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.GarminAgpsStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
@@ -629,6 +632,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 final File agpsFile = getAgpsFile();
                 try (FileOutputStream outputStream = new FileOutputStream(agpsFile)) {
                     outputStream.write(agpsHandler.getFile().getBytes());
+                    evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(
+                            DeviceSettingsPreferenceConst.PREF_AGPS_STATUS, GarminAgpsStatus.PENDING.name()
+                    ));
                     LOG.info("AGPS file successfully written to the cache directory.");
                 } catch (final IOException e) {
                     LOG.error("Failed to write AGPS bytes to temporary directory", e);

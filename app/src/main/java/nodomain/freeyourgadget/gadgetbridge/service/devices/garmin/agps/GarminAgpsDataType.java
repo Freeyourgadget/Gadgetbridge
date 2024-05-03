@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.file;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps;
 
 public enum GarminAgpsDataType {
     GLONASS("CPE_GLO.BIN"), QZSS("CPE_QZSS.BIN"), GPS("CPE_GPS.BIN"),

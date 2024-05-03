@@ -535,6 +535,11 @@
     <string name="pref_agps_expiry_reminder_time">AGPS Expiry Reminder Time</string>
     <string name="pref_agps_update_time">AGPS Update Time</string>
     <string name="pref_agps_expire_time">AGPS Expire Time</string>
+    <string name="pref_agps_status">AGPS Status</string>
+    <string name="agps_status_missing">Missing</string>
+    <string name="agps_status_pending">Pending</string>
+    <string name="agps_status_current">Current</string>
+    <string name="agps_status_error">Error</string>
     <string name="pref_camera_remote_title">Camera Remote</string>
     <string name="pref_camera_remote_summary">Allows the watch to trigger the phone\'s camera</string>
     <string name="pref_morning_updates_title">Morning Updates</string>
