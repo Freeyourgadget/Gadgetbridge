@@ -445,6 +445,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     private void processDownloadQueue() {
+
+        moveFilesFromLegacyCache(); //TODO: remove before merging
+
         if (!filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
             if (!gbDevice.isBusy()) {
                 GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), "", true, 0, getContext());
@@ -481,6 +484,36 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 GB.updateTransferNotification(null, "", false, 100, getContext());
                 getDevice().sendDeviceUpdateIntent(getContext());
             }
+        }
+    }
+
+    private void moveFilesFromLegacyCache() { //TODO: remove before merging
+        File legacyDir;
+        try {
+            legacyDir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(getDevice().getName() + "_" + getDevice().getAddress()));
+
+            if (legacyDir.isDirectory()) {
+                final File newDir = getWritableExportDirectory();
+                File[] files = legacyDir.listFiles();
+
+                for (File file : files) {
+                    if (file.isFile()) {
+                        File destFile = new File(newDir, file.getName());
+                        boolean success = file.renameTo(destFile);
+                        if (!success) {
+                            LOG.error("Failed to move file {}", file.getName());
+                        } else {
+                            LOG.info("Moved file {} to new cache directory", file.getName());
+                        }
+                    }
+                }
+                boolean removed = legacyDir.delete();
+                if (!removed) {
+                    LOG.error("Failed to remove legacy directory: {}", legacyDir);
+                }
+            }
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
         }
     }
 
@@ -597,14 +630,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     public File getWritableExportDirectory() throws IOException {
-        File dir;
-        dir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(getDevice().getName() + "_" + getDevice().getAddress()));
-        if (!dir.isDirectory()) {
-            if (!dir.mkdir()) {
-                throw new IOException("Cannot create device specific directory for " + getDevice().getName());
-            }
-        }
-        return dir;
+        return getDevice().getDeviceCoordinator().getWritableExportDirectory(getDevice());
     }
 
     @Override
