@@ -481,7 +481,7 @@
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
-    <string name="pref_title_weather_location">Wetterstandort (für den LineageOS Wetter Dienst)</string>
+    <string name="pref_title_weather_location">Wetterstandort (für den LineageOS Wetterdienst)</string>
     <string name="pref_header_auto_export">Automatisch exportieren</string>
     <string name="pref_title_auto_export_enabled">Automatisch exportieren aktiviert</string>
     <string name="pref_title_auto_export_location">Speicherort für den Export</string>
@@ -745,7 +745,7 @@
     <string name="widget_10_minutes">10 Minuten</string>
     <string name="widget_20_minutes">20 Minuten</string>
     <string name="widget_1_hour">1 Stunde</string>
-    <string name="pref_display_add_device_fab">Neues Gerät anschließen</string>
+    <string name="pref_display_add_device_fab">Neues Gerät koppeln</string>
     <string name="pref_display_add_device_fab_on">Immer sichtbar</string>
     <string name="pref_display_add_device_fab_off">Nur sichtbar, wenn noch kein Gerät hinzugefügt wurde</string>
     <string name="activity_db_management_autoexport_explanation">Speicherort für automatischen Datenbank-Export auf:</string>
@@ -2967,4 +2967,5 @@
     <string name="cyclingPowerMax">Maximale Leistung beim Radfahren</string>
     <string name="cyclingPowerAverage">Durchschnittliche Leistung beim Radfahren</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="huawei_trusleep_warning">Warnung: Wenn du diese Option aktivierst, wird der Schlaf nicht mehr in Gadgetbridge angezeigt! Klicke hier, wenn du dies akzeptierst.</string>
 </resources>
