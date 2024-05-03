@@ -302,7 +302,7 @@ public class XiaomiWeatherService extends AbstractXiaomiService {
                                         "Unknown" // some string like "Moderate"
                                 ))
                                 .setWarning(XiaomiProto.WeatherWarnings.newBuilder()) // TODO add warnings when they become available through spec
-                                .setPressure(weatherSpec.pressure)
+                                .setPressure(weatherSpec.pressure * 100f)
                 ))
                 .build();
 
