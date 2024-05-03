@@ -2942,7 +2942,7 @@
     <string name="sleepasandroid_settings">Dormir como Android</string>
     <string name="pref_sleepasandroid_enable_summary">Habilitar la integración de Sleep As Android</string>
     <string name="pref_sleepasandroid_device_summary">Seleccione el dispositivo como proveedor de datos de Sleep As Android</string>
-    <string name="pref_sleepasandroid_slot_summary">¿Qué espacio para la alarma se debe utilizar al configurar las alarmas?</string>
+    <string name="pref_sleepasandroid_slot_summary">Qué espacio usar al configurar alarmas</string>
     <string name="pref_sleepasandroid_feat_oximetry">oximetria</string>
     <string name="pref_sleepasandroid_device_title">Dispositivo del proveedor</string>
     <string name="pref_sleepasandroid_features_title">Características</string>
@@ -2962,4 +2962,5 @@
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="cyclingPowerAverage">Potencia media de ciclo</string>
     <string name="cyclingPowerMax">Potencia máxima del ciclo</string>
+    <string name="huawei_trusleep_warning">Advertencia: Al habilitar esta opción, la información de sueño no se mostrará en Gadgetbridge. Haz clic aquí si aceptas.</string>
 </resources>
