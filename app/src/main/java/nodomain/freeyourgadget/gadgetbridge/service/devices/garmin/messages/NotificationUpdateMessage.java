@@ -13,15 +13,17 @@ public class NotificationUpdateMessage extends GFDIMessage {
     final private int count; //how many notifications of the same type are present
     final private int notificationId;
     final private boolean hasActions;
+    final private boolean hasPicture;
     final private boolean useLegacyActions = false;
 
-    public NotificationUpdateMessage(NotificationUpdateType notificationUpdateType, NotificationType notificationType, int count, int notificationId, boolean hasActions) {
+    public NotificationUpdateMessage(NotificationUpdateType notificationUpdateType, NotificationType notificationType, int count, int notificationId, boolean hasActions, boolean hasPicture) {
         this.garminMessage = GarminMessage.NOTIFICATION_UPDATE;
         this.notificationUpdateType = notificationUpdateType;
         this.notificationType = notificationType;
         this.count = count;
         this.notificationId = notificationId;
         this.hasActions = hasActions;
+        this.hasPicture = hasPicture;
     }
 
     @Override
@@ -45,47 +47,13 @@ public class NotificationUpdateMessage extends GFDIMessage {
             flags.add(NotificationPhoneFlags.NEW_ACTIONS);
         if (this.useLegacyActions)
             flags.add(NotificationPhoneFlags.LEGACY_ACTIONS);
+        if (this.hasPicture)
+            flags.add(NotificationPhoneFlags.HAS_ATTACHMENTS);
 
         return (int) EnumUtils.generateBitVector(NotificationPhoneFlags.class, flags);
 
     }
 
-    //no image
-    //00 updatetype
-    // 12 flags
-    // 00 notif type
-    // 00 count
-    // 03000000
-    // 02
-
-
-    //image
-    //00
-    // 12
-    // 00
-    // 00
-    // 04000000
-    // 06
-
-    //0F00
-    // A913
-    // 00
-    // 12
-    // 0C
-    // 00
-    // 471D2A66
-    // 02
-    // BC14
-
-    //0F00
-    // A913
-    // 00
-    // 11
-    // 00
-    // 00
-    // 461D2A66
-    // 00
-    // 8C00
     private int getCategoryFlags(NotificationType notificationType) {
         EnumSet<NotificationFlag> flags = EnumSet.noneOf(NotificationFlag.class);
         if (this.hasActions && this.useLegacyActions) { //only needed for legacy actions
