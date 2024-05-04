@@ -23,14 +23,13 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GalaxyBuds2DeviceCoordinator extends GalaxyBudsGenericCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Galaxy Buds2 \\(.*");
+        // Some devices are just called "Buds2", others "Galaxy Buds2 (..."
+        return Pattern.compile("(Galaxy )?Buds2( \\(.*)?");
     }
 
     @Override
