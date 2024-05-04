@@ -520,14 +520,19 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
             final List <File> filesToProcessClone = new ArrayList<>(filesToProcess);
             filesToProcess.clear();
+            final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
             fitAsyncProcessor.process(filesToProcessClone, new FitAsyncProcessor.Callback() {
                 @Override
                 public void onProgress(final int i) {
-                    GB.updateTransferNotification(
-                            "Parsing fit files", "File " + i + " of " + filesToProcessClone.size(),
-                            true,
-                            (i * 100) / filesToProcessClone.size(), getContext()
-                    );
+                    final long now = System.currentTimeMillis();
+                    if (now - lastNotificationUpdateTs[0] > 1500L) {
+                        lastNotificationUpdateTs[0] = now;
+                        GB.updateTransferNotification(
+                                "Parsing fit files", "File " + i + " of " + filesToProcessClone.size(),
+                                true,
+                                (i * 100) / filesToProcessClone.size(), getContext()
+                        );
+                    }
                 }
 
                 @Override
@@ -791,15 +796,20 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             GB.toast(getContext(), "Error deleting activity data", Toast.LENGTH_LONG, GB.ERROR, e);
         }
 
+        final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
         final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
         fitAsyncProcessor.process(Arrays.asList(fitFiles), new FitAsyncProcessor.Callback() {
             @Override
             public void onProgress(final int i) {
-                GB.updateTransferNotification(
-                        "Parsing fit files", "File " + i + " of " + fitFiles.length,
-                        true,
-                        (i * 100) / fitFiles.length, getContext()
-                );
+                final long now = System.currentTimeMillis();
+                if (now - lastNotificationUpdateTs[0] > 1500L) {
+                    lastNotificationUpdateTs[0] = now;
+                    GB.updateTransferNotification(
+                            "Parsing fit files", "File " + i + " of " + fitFiles.length,
+                            true,
+                            (i * 100) / fitFiles.length, getContext()
+                    );
+                }
             }
 
             @Override
