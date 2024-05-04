@@ -39,6 +39,7 @@ public class FileTransferHandler implements MessageHandler {
         add(FileType.FILETYPE.MONITOR);
         add(FileType.FILETYPE.METRICS);
         add(FileType.FILETYPE.CHANGELOG);
+        add(FileType.FILETYPE.HRV_STATUS);
         add(FileType.FILETYPE.SLEEP);
     }};
 
