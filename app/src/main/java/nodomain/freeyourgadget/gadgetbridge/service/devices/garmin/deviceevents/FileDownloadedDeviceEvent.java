@@ -5,5 +5,5 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileTransferH
 
 public class FileDownloadedDeviceEvent extends GBDeviceEvent {
     public FileTransferHandler.DirectoryEntry directoryEntry;
-
+    public String localPath;
 }

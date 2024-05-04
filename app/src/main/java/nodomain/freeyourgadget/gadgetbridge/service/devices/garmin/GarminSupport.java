@@ -14,13 +14,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -65,7 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.NotificationSubscriptionDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.SupportedFileTypesDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.WeatherRequestDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitImporter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitAsyncProcessor;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.PredefinedLocalMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
@@ -98,7 +98,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private ICommunicator communicator;
     private MusicStateSpec musicStateSpec;
     private Timer musicStateTimer;
+
     private final List<FileType> supportedFileTypeList = new ArrayList<>();
+    private final List<File> filesToProcess = new ArrayList<>();
 
     public GarminSupport() {
         super(LOG);
@@ -277,14 +279,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             LOG.debug("FILE DOWNLOAD COMPLETE {}", filename);
 
             if (entry.getFiletype().isFitFile()) {
-                try {
-                    final File dir = getWritableExportDirectory();
-                    final File file = new File(dir, filename);
-                    final FitImporter fitImporter = new FitImporter(getContext(), getDevice());
-                    fitImporter.importFile(file);
-                } catch (final IOException e) {
-                    LOG.error("Failed to import fit file", e);
-                }
+                filesToProcess.add(new File(((FileDownloadedDeviceEvent) deviceEvent).localPath));
             }
 
             if (!getKeepActivityDataOnDevice()) { // delete file from watch upon successful download
@@ -473,47 +468,77 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
+    private boolean isBusyFetching;
+
     private void processDownloadQueue() {
 
         moveFilesFromLegacyCache(); //TODO: remove before merging
 
         if (!filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
             if (!gbDevice.isBusy()) {
+                isBusyFetching = true;
                 GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), "", true, 0, getContext());
                 getDevice().setBusyTask(getContext().getString(R.string.busy_task_fetch_activity_data));
                 getDevice().sendDeviceUpdateIntent(getContext());
             }
 
-            try {
-                FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
-                while (checkFileExists(directoryEntry.getFileName()) || checkFileExists(directoryEntry.getLegacyFileName())) {
+            while (!filesToDownload.isEmpty()) {
+                final FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
+                if (checkFileExists(directoryEntry.getFileName()) || checkFileExists(directoryEntry.getLegacyFileName())) {
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
                     if (!getKeepActivityDataOnDevice()) { // delete file from watch if already downloaded
                         sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
                     }
-                    directoryEntry = filesToDownload.remove();
+                    continue;
                 }
-                DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
+
+                final DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
                 if (downloadRequestMessage != null) {
                     sendOutgoingMessage(downloadRequestMessage);
+                    return;
                 } else {
                     LOG.debug("File: {} already downloaded, not downloading again, from inside.", directoryEntry.getFileName());
                 }
-            } catch (NoSuchElementException e) {
-                // we ran out of files to download
-                // FIXME this is ugly
-                if (gbDevice.isBusy() && gbDevice.getBusyTask().equals(getContext().getString(R.string.busy_task_fetch_activity_data))) {
+            }
+        }
+
+        if (filesToDownload.isEmpty() && !fileTransferHandler.isDownloading() && isBusyFetching) {
+            if (filesToProcess.isEmpty()) {
+                // No downloaded fit files to process
+                if (gbDevice.isBusy() && isBusyFetching) {
+                    GB.signalActivityDataFinish();
                     getDevice().unsetBusyTask();
                     GB.updateTransferNotification(null, "", false, 100, getContext());
                     getDevice().sendDeviceUpdateIntent(getContext());
                 }
+                isBusyFetching = false;
+                return;
             }
-        } else if (filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
-            if (gbDevice.isBusy() && gbDevice.getBusyTask().equals(getContext().getString(R.string.busy_task_fetch_activity_data))) {
-                getDevice().unsetBusyTask();
-                GB.updateTransferNotification(null, "", false, 100, getContext());
-                getDevice().sendDeviceUpdateIntent(getContext());
-            }
+
+            // Keep the device marked as busy while we process the files asynchronously
+
+            final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
+            final List <File> filesToProcessClone = new ArrayList<>(filesToProcess);
+            filesToProcess.clear();
+            fitAsyncProcessor.process(filesToProcessClone, new FitAsyncProcessor.Callback() {
+                @Override
+                public void onProgress(final int i) {
+                    GB.updateTransferNotification(
+                            "Parsing fit files", "File " + i + " of " + filesToProcessClone.size(),
+                            true,
+                            (i * 100) / filesToProcessClone.size(), getContext()
+                    );
+                }
+
+                @Override
+                public void onFinish() {
+                    GB.signalActivityDataFinish();
+                    getDevice().unsetBusyTask();
+                    GB.updateTransferNotification(null, "", false, 100, getContext());
+                    getDevice().sendDeviceUpdateIntent(getContext());
+                    isBusyFetching = false;
+                }
+            });
         }
     }
 
@@ -766,25 +791,22 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             GB.toast(getContext(), "Error deleting activity data", Toast.LENGTH_LONG, GB.ERROR, e);
         }
 
-        try {
-            int i = 0;
-            for (final File file : fitFiles) {
-                i++;
-                LOG.debug("Parsing {}", file);
-
-                GB.updateTransferNotification("Parsing fit files", "File " + i + " of " + fitFiles.length, true, (i * 100) / fitFiles.length, getContext());
-
-                try {
-                    final FitImporter fitImporter = new FitImporter(getContext(), getDevice());
-                    fitImporter.importFile(file);
-                } catch (final Exception ex) {
-                    LOG.error("Exception while importing {}", file, ex);
-                }
+        final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
+        fitAsyncProcessor.process(Arrays.asList(fitFiles), new FitAsyncProcessor.Callback() {
+            @Override
+            public void onProgress(final int i) {
+                GB.updateTransferNotification(
+                        "Parsing fit files", "File " + i + " of " + fitFiles.length,
+                        true,
+                        (i * 100) / fitFiles.length, getContext()
+                );
             }
-        } catch (final Exception e) {
-            LOG.error("Failed to parse from storage", e);
-        }
 
-        GB.updateTransferNotification("", "", false, 100, getContext());
+            @Override
+            public void onFinish() {
+                GB.updateTransferNotification("", "", false, 100, getContext());
+                GB.signalActivityDataFinish();
+            }
+        });
     }
 }
