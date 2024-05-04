@@ -48,6 +48,7 @@ public class NotificationSpec {
      */
     public int iconId;
 
+    public String picturePath;
     /**
      * The color that should be assigned to this notification when displayed on a Pebble
      */
