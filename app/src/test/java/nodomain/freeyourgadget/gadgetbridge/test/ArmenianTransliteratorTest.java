@@ -33,6 +33,19 @@ public class ArmenianTransliteratorTest extends TestCase {
                 new ArmenianTransliterator().transliterate("որը jet iridescent կառուցում են sheen Վիքիպեդիա կայքից օգտվողները and a distinctive ազատ խմբագրման ձևաչափով"));
     }
 
+    @Test
+    public void testMixedCaseWords() {
+        Assert.assertEquals(
+                "Inchpes", new ArmenianTransliterator().transliterate("Ինչպես")
+        );
+        Assert.assertEquals(
+                "VOrՕSHEL", new ArmenianTransliterator().transliterate("ՈրՈՇԵԼ")
+        );
+        Assert.assertEquals(
+                "Ushadir", new ArmenianTransliterator().transliterate("Ուշադիր")
+        );
+    }
+
 
     @Test
     public void testTop100Words() {

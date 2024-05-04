@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -36,134 +37,181 @@ public class ArmenianTransliterator implements Transliterator {
     // Or if it has 'ւ' symbol after it, then we should read it as 'u' (as double o in booze)
     private static final Map<String, String> transliterateMap = new LinkedHashMap<String, String>() {
         {
+            // Simple substitutions
+            Map<String, String> simpleSubstitions =  new HashMap<String, String>() {
+                {
+                    put("ա","a");
+                    put("բ","b");
+                    put("գ","g");
+                    put("դ","d");
+                    put("ե","e");
+                    put("զ","z");
+                    put("է","e");
+                    put("ը","y");
+                    put("թ","t");
+                    put("ժ","j");
+                    put("ի","i");
+                    put("լ","l");
+                    put("խ","x");
+                    put("ծ","c");
+                    put("կ","k");
+                    put("հ","h");
+                    put("ձ","dz");
+                    put("ղ","x");
+                    put("ճ","c");
+                    put("մ","m");
+                    put("յ","y");
+                    put("ն","n");
+                    put("շ","sh");
+                    put("չ","ch");
+                    put("պ","p");
+                    put("ջ","j");
+                    put("ռ","r");
+                    put("ս","s");
+                    put("վ","v");
+                    put("տ","t");
+                    put("ր","r");
+                    put("ց","c");
+                    put("փ","p");
+                    put("ք","q");
+                    put("օ","o");
+                    put("և","ev");
+                    put("ֆ","f");
+                }
+            };
+
+
             // Letter + 'ու'
-            put("աու","au");
-            put("բու","bu");
-            put("գու","gu");
-            put("դու","du");
-            put("եու","eu");
-            put("զու","zu");
-            put("էու","eu");
-            put("ըու","yu");
-            put("թու","tu");
-            put("ժու","ju");
-            put("իու","iu");
-            put("լու","lu");
-            put("խու","xu");
-            put("ծու","cu");
-            put("կու","ku");
-            put("հու","hu");
-            put("ձու","dzu");
-            put("ղու","xu");
-            put("ճու","cu");
-            put("մու","mu");
-            put("յու","yu");
-            put("նու","nu");
-            put("շու","shu");
-            put("չու","chu");
-            put("պու","pu");
-            put("ջու","ju");
-            put("ռու","ru");
-            put("սու","su");
-            put("վու","vu");
-            put("տու","tu");
-            put("րու","ru");
-            put("ցու","cu");
-            put("փու","pu");
-            put("քու","qu");
-            put("օու","ou");
-            put("ևու","eu");
-            put("ֆու","fu");
-            put("ոու","vou");
+            char[] letterMapU = {
+                'ա',
+                'բ',
+                'գ',
+                'դ',
+                'ե',
+                'զ',
+                'է',
+                'ը',
+                'թ',
+                'ժ',
+                'ի',
+                'լ',
+                'խ',
+                'ծ',
+                'կ',
+                'հ',
+                'ձ',
+                'ղ',
+                'ճ',
+                'մ',
+                'յ',
+                'ն',
+                'շ',
+                'չ',
+                'պ',
+                'ջ',
+                'ռ',
+                'ս',
+                'վ',
+                'տ',
+                'ր',
+                'ց',
+                'փ',
+                'ք',
+                'օ',
+                'և',
+                'ֆ',
+                'ո',
+            };
+
+            for(char letter : letterMapU) {
+                char capitalLetter = Character.toUpperCase(letter);
+                final String transliteratedLetter = simpleSubstitions.get(Character.toString(letter));
+                final String transliteratedCapitalLetter = simpleSubstitions.get(Character.toString(capitalLetter));
+
+                put(Character.toString(letter) + "ու", transliteratedLetter + "u");
+                put(Character.toString(capitalLetter) + "ու", transliteratedCapitalLetter + "u");
+
+                put(Character.toString(letter) + "ՈՒ", transliteratedLetter + "U");
+                put(Character.toString(capitalLetter) + "ՈՒ", transliteratedCapitalLetter + "U");
+
+                put(Character.toString(letter) + "Ու", transliteratedLetter + "U");
+                put(Character.toString(capitalLetter) + "Ու", transliteratedCapitalLetter + "U");
+
+                put(Character.toString(letter) + "ոՒ", transliteratedLetter + "U");
+                put(Character.toString(capitalLetter) + "ոՒ", transliteratedCapitalLetter + "U");
+            }
 
             put("ու","u");
+            put("Ու","U");
+            put("ոՒ","U");
+            put("ՈՒ","U");
 
             // Letter + 'ո'
-            put("բո","bo");
-            put("գո","go");
-            put("դո","do");
-            put("զո","zo");
-            put("թո","to");
-            put("ժո","jo");
-            put("լո","lo");
-            put("խո","xo");
-            put("ծո","co");
-            put("կո","ko");
-            put("հո","ho");
-            put("ձո","dzo");
-            put("ղո","xo");
-            put("ճո","co");
-            put("մո","mo");
-            put("յո","yo");
-            put("նո","no");
-            put("շո","so");
-            put("չո","co");
-            put("պո","po");
-            put("ջո","jo");
-            put("ռո","ro");
-            put("սո","so");
-            put("վո","vo");
-            put("տո","to");
-            put("րո","ro");
-            put("ցո","co");
-            put("փո","po");
-            put("քո","qo");
-            put("ևո","eo");
-            put("ֆո","fo");
+            char[] letterMapVo = {
+                'բ',
+                'գ',
+                'դ',
+                'զ',
+                'թ',
+                'ժ',
+                'լ',
+                'խ',
+                'ծ',
+                'կ',
+                'հ',
+                'ձ',
+                'ղ',
+                'ճ',
+                'մ',
+                'յ',
+                'ն',
+                'շ',
+                'չ',
+                'պ',
+                'ջ',
+                'ռ',
+                'ս',
+                'վ',
+                'տ',
+                'ր',
+                'ց',
+                'փ',
+                'ք',
+                'և',
+                'ֆ',
+            };
+
+            for(char letter : letterMapVo) {
+                char capitalLetter = Character.toUpperCase(letter);
+                final String transliteratedLetter = simpleSubstitions.get(Character.toString(letter));
+                final String transliteratedCapitalLetter = simpleSubstitions.get(Character.toString(capitalLetter));
+
+                put(Character.toString(letter) + "ո", transliteratedLetter + "o");
+                put(Character.toString(capitalLetter) + "ո", transliteratedCapitalLetter + "o");
+
+                put(Character.toString(letter) + "Ո", transliteratedLetter + "Օ");
+                put(Character.toString(capitalLetter) + "Ո", transliteratedCapitalLetter + "Օ");
+            }
+
             put("ո","vo");
+            put("Ո","VO");
 
             // Two different ways to write, we support all.
             put("եւ","ev");
             put("եվ","ev");
-
-            // Simple substitutions
-            put("ա","a");
-            put("բ","b");
-            put("գ","g");
-            put("դ","d");
-            put("ե","e");
-            put("զ","z");
-            put("է","e");
-            put("ը","y");
-            put("թ","t");
-            put("ժ","j");
-            put("ի","i");
-            put("լ","l");
-            put("խ","x");
-            put("ծ","c");
-            put("կ","k");
-            put("հ","h");
-            put("ձ","dz");
-            put("ղ","x");
-            put("ճ","c");
-            put("մ","m");
-            put("յ","y");
-            put("ն","n");
-            put("շ","sh");
-            put("չ","ch");
-            put("պ","p");
-            put("ջ","j");
-            put("ռ","r");
-            put("ս","s");
-            put("վ","v");
-            put("տ","t");
-            put("ր","r");
-            put("ց","c");
-            put("փ","p");
-            put("ք","q");
-            put("օ","o");
-            put("և","ev");
-            put("ֆ","f");
+            put("Եւ","Ev");
+            put("Եվ","Ev");
+            put("ԵՒ","EV");
+            put("ԵՎ","EV");
 
             // If this symbol wasn't used in the combination with others, then it's meaningless
             put("ւ","");
+            put("Ւ","");
 
-            // Add support for capitilazed words
-            for (final Map.Entry<String,String> entry : ((Map<String, String>)this.clone()).entrySet()) {
-                final String capitalKey = WordUtils.capitalize(entry.getKey());
-                if(!capitalKey.equals(entry.getKey())) {
-                    put(capitalKey, WordUtils.capitalize(entry.getValue()));
-                }
+            // Simple substitutions have last priority
+            for (final Map.Entry<String,String> entry : simpleSubstitions.entrySet()) {
+                put(entry.getKey(), entry.getValue());
+                put(entry.getKey().toUpperCase(), entry.getValue().toUpperCase());
             }
 
         }};
