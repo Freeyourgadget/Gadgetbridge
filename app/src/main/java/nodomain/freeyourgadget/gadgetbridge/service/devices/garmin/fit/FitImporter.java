@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -67,8 +68,7 @@ public class FitImporter {
     private final Context context;
     private final GBDevice gbDevice;
 
-    private final List<GarminActivitySample> activitySamples = new ArrayList<>();
-    private final SortedMap<Integer, List<GarminActivitySample>> activitySamplesPerTimestamp = new TreeMap<>();
+    private final SortedMap<Integer, List<FitMonitoring>> activitySamplesPerTimestamp = new TreeMap<>();
     private final List<GarminStressSample> stressSamples = new ArrayList<>();
     private final List<GarminSpo2Sample> spo2samples = new ArrayList<>();
     private final List<GarminEventSample> events = new ArrayList<>();
@@ -122,32 +122,11 @@ public class FitImporter {
                 sample.setStage(stage.getId());
                 sleepStageSamples.add(sample);
             } else if (record instanceof FitMonitoring) {
-                final Integer hr = ((FitMonitoring) record).getHeartRate();
-                final Long steps = ((FitMonitoring) record).getCycles();
-                final Integer activityType = ((FitMonitoring) record).getComputedActivityType();
-                final Integer intensity = ((FitMonitoring) record).getComputedIntensity();
-                LOG.trace("Monitoring at {}: hr={} steps={} activityType={} intensity={}", ts, hr, steps, activityType, intensity);
-                final GarminActivitySample sample = new GarminActivitySample();
-                sample.setTimestamp(ts.intValue());
-                if (hr != null) {
-                    sample.setHeartRate(hr);
+                LOG.trace("Monitoring at {}: {}", ts, record);
+                if (!activitySamplesPerTimestamp.containsKey(ts.intValue())) {
+                    activitySamplesPerTimestamp.put(ts.intValue(), new ArrayList<>());
                 }
-                if (steps != null) {
-                    sample.setSteps(steps.intValue());
-                }
-                if (activityType != null) {
-                    sample.setRawKind(activityType);
-                }
-                if (intensity != null) {
-                    sample.setRawIntensity(intensity);
-                }
-                activitySamples.add(sample);
-                List<GarminActivitySample> samplesForTimestamp = activitySamplesPerTimestamp.get(ts.intValue());
-                if (samplesForTimestamp == null) {
-                    samplesForTimestamp = new ArrayList<>();
-                    activitySamplesPerTimestamp.put(ts.intValue(), samplesForTimestamp);
-                }
-                samplesForTimestamp.add(sample);
+                Objects.requireNonNull(activitySamplesPerTimestamp.get(ts.intValue())).add((FitMonitoring) record);
             } else if (record instanceof FitSpo2) {
                 final Integer spo2 = ((FitSpo2) record).getReadingSpo2();
                 if (spo2 == null || spo2 <= 0) {
@@ -344,7 +323,7 @@ public class FitImporter {
     }
 
     private void reset() {
-        activitySamples.clear();
+        activitySamplesPerTimestamp.clear();
         stressSamples.clear();
         spo2samples.clear();
         events.clear();
@@ -358,11 +337,75 @@ public class FitImporter {
     }
 
     private void persistActivitySamples() {
-        if (activitySamples.isEmpty()) {
+        if (activitySamplesPerTimestamp.isEmpty()) {
             return;
         }
 
-        // FIXME prevent overlapping samples in the same timestamp..
+        final List<GarminActivitySample> activitySamples = new ArrayList<>(activitySamplesPerTimestamp.size());
+
+        // Garmin reports the cumulative steps per activity, but not always, so we need to keep
+        // track of the number of steps for each activity, and set the sum of all on the sample
+        final Map<Integer, Long> stepsPerActivity = new HashMap<>();
+
+        final int THRESHOLD_NOT_WORN = 10 * 60; // 10 min gap between samples = not-worn
+        int prevActivityKind = ActivityKind.TYPE_UNKNOWN;
+        int prevTs = -1;
+
+        for (final int ts : activitySamplesPerTimestamp.keySet()) {
+            if (prevTs > 0 && ts - prevTs > 60) {
+                // Fill gaps between samples
+                for (int i = prevTs; i < ts; i += 60) {
+                    final GarminActivitySample sample = new GarminActivitySample();
+                    sample.setTimestamp(i);
+                    sample.setRawKind(ts - prevTs > THRESHOLD_NOT_WORN ? ActivityKind.TYPE_NOT_WORN : prevActivityKind);
+                    sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                    sample.setSteps(ActivitySample.NOT_MEASURED);
+                    activitySamples.add(sample);
+                }
+            }
+
+            final List<FitMonitoring> records = activitySamplesPerTimestamp.get(ts);
+
+            final GarminActivitySample sample = new GarminActivitySample();
+            sample.setTimestamp(ts);
+            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+            sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+            sample.setSteps(ActivitySample.NOT_MEASURED);
+            sample.setHeartRate(ActivitySample.NOT_MEASURED);
+
+            boolean hasSteps = false;
+            for (final FitMonitoring record : Objects.requireNonNull(records)) {
+                final Integer activityType = record.getComputedActivityType().orElse(ActivitySample.NOT_MEASURED);
+
+                final Integer hr = record.getHeartRate();
+                if (hr != null) {
+                    sample.setHeartRate(hr);
+                }
+
+                final Long steps = record.getCycles();
+                if (steps != null) {
+                    stepsPerActivity.put(activityType, steps);
+                    hasSteps = true;
+                }
+
+                final Integer intensity = record.getComputedIntensity();
+                if (intensity != null) {
+                    sample.setRawIntensity(intensity);
+                }
+            }
+            if (hasSteps) {
+                int sumSteps = 0;
+                for (final Long steps : stepsPerActivity.values()) {
+                    sumSteps += steps;
+                }
+                sample.setSteps(sumSteps);
+            }
+
+            activitySamples.add(sample);
+
+            prevActivityKind = sample.getRawKind();
+            prevTs = ts;
+        }
 
         LOG.debug("Will persist {} activity samples", activitySamples.size());
 
