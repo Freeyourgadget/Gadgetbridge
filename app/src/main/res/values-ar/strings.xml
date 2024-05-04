@@ -2953,4 +2953,5 @@
     <string name="cyclingPowerAverage">متوسط قوة ركوب الدراجة</string>
     <string name="cyclingPowerMin">الحد الأدنى من قوة ركوب الدراجة</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="huawei_trusleep_warning">تحذير: سيؤدي تمكين هذا إلى إيقاف ظهور النوم في Gadgetbridge! انقر هنا إذا كنت تقبل هذا.</string>
 </resources>
