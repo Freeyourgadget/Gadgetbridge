@@ -226,10 +226,6 @@ public class FitImporter {
             LOG.error("Got workout from {}, but no session", fileId);
             return;
         }
-        if (sport == null) {
-            LOG.error("Got workout from {}, but no sport", fileId);
-            return;
-        }
 
         LOG.debug("Persisting workout for {}", fileId);
 
@@ -238,32 +234,14 @@ public class FitImporter {
 
         final ActivitySummaryData summaryData = new ActivitySummaryData();
 
-        // TODO map all sports
-        if (sport.getSport() != null) {
-            switch (sport.getSport()) {
-                case 2:
-                    summary.setActivityKind(ActivityKind.TYPE_CYCLING);
-                    break;
-                case 4: // fitness_equipment
-                case 10: // training
-                    if (sport.getSubSport() != null) {
-                        switch (sport.getSubSport()) {
-                            case 15:
-                                summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
-                                break;
-                            default:
-                                LOG.warn("Unknown sub sport {}", sport.getSubSport());
-                                summaryData.add("Fit Sub Sport", sport.getSubSport(), "");
-                        }
-                        break;
-                    }
-                default:
-                    LOG.warn("Unknown sport {}", sport.getSport());
-                    summaryData.add("Fit Sport", sport.getSport(), "");
-            }
+        final int activityKind;
+        if (sport != null) {
+            summary.setName(sport.getName());
+            activityKind = getActivityKind(sport.getSport(), sport.getSubSport());
+        } else {
+            activityKind = getActivityKind(session.getSport(), session.getSubSport());
         }
-
-        summary.setName(sport.getName());
+        summary.setActivityKind(activityKind);
         if (session.getStartTime() == null) {
             LOG.error("No session start time for {}", fileId);
             return;
@@ -320,6 +298,35 @@ public class FitImporter {
         } catch (final Exception e) {
             GB.toast(context, "Error saving workout", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    private int getActivityKind(final Integer sport, final Integer subsport) {
+        // TODO map all sports
+        if (sport != null) {
+            switch (sport) {
+                case 2:
+                    return ActivityKind.TYPE_CYCLING;
+                case 4: // fitness_equipment
+                case 10: // training
+                    if (subsport != null) {
+                        switch (subsport) {
+                            case 15:
+                                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                            case 20:
+                                return ActivityKind.TYPE_STRENGTH_TRAINING;
+                            default:
+                                LOG.warn("Unknown sub sport {} for {}", subsport, sport);
+                        }
+                        break;
+                    }
+                case 11:
+                    return ActivityKind.TYPE_WALKING;
+                default:
+                    LOG.warn("Unknown sport {}", sport);
+            }
+        }
+
+        return ActivityKind.TYPE_UNKNOWN;
     }
 
     private void reset() {
