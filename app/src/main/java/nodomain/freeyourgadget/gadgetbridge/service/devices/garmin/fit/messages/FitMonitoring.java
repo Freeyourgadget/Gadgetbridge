@@ -6,6 +6,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUti
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
@@ -85,18 +86,18 @@ public class FitMonitoring extends RecordData {
         return computedTimestamp;
     }
 
-    public Integer getComputedActivityType() {
+    public Optional<Integer> getComputedActivityType() {
         final Integer activityType = getActivityType();
         if (activityType != null) {
-            return activityType;
+            return Optional.of(activityType);
         }
 
         final Integer currentActivityTypeIntensity = getCurrentActivityTypeIntensity();
         if (currentActivityTypeIntensity != null) {
-            return currentActivityTypeIntensity & 0x1F;
+            return Optional.of(currentActivityTypeIntensity & 0x1F);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public Integer getComputedIntensity() {
