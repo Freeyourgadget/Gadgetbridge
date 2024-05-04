@@ -395,7 +395,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (firstTimestamp == 0) firstTimestamp = sample.getTimestamp();
                 if (lastTimestamp == 0) lastTimestamp = sample.getTimestamp();
                 if ((sample.getHeartRate() < 10 || sample.getTimestamp() > lastTimestamp + dashboardData.hrIntervalSecs) && firstTimestamp != lastTimestamp) {
-                    LOG.info("Registered worn session from " + firstTimestamp + " to " + lastTimestamp);
+                    LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);
                     addActivity(firstTimestamp, lastTimestamp, ActivityKind.TYPE_NOT_MEASURED);
                     if (sample.getHeartRate() < 10) {
                         firstTimestamp = 0;
@@ -409,7 +409,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 lastTimestamp = sample.getTimestamp();
             }
             if (firstTimestamp != lastTimestamp) {
-                LOG.info("Registered worn session from " + firstTimestamp + " to " + lastTimestamp);
+                LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);
                 addActivity(firstTimestamp, lastTimestamp, ActivityKind.TYPE_NOT_MEASURED);
             }
         }

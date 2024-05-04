@@ -1316,6 +1316,13 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     }
 
     private void setActivityCard(ViewHolder holder, final GBDevice device, long[] dailyTotals) {
+        boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
+        holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
+
+        if (!showActivityCard) {
+            return;
+        }
+
         int steps = (int) dailyTotals[0];
         int sleep = (int) dailyTotals[1];
         ActivityUser activityUser = new ActivityUser();
@@ -1336,8 +1343,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         setUpChart(holder.SleepTimeChart);
         setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.prefs_activity_in_device_card_sleep_title), String.format("%1s", getHM(sleep)), context);
 
-        boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
-        holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
 
         boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
         boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);

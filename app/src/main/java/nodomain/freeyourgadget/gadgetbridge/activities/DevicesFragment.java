@@ -46,6 +46,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
@@ -233,7 +234,8 @@ public class DevicesFragment extends Fragment {
         protected void doInBackground(DBHandler db) {
             for (GBDevice gbDevice : deviceList) {
                 final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-                if (coordinator.supportsActivityTracking()) {
+                boolean showActivityCard = GBApplication.getDevicePrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
+                if (coordinator.supportsActivityTracking() && showActivityCard) {
                     long[] stepsAndSleepData = getSteps(gbDevice, db);
                     deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);
                 }
