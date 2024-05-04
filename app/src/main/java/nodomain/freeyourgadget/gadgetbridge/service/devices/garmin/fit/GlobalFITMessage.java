@@ -93,6 +93,8 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(2, BaseType.UINT32, "start_time"),
             new FieldDefinitionPrimitive(3, BaseType.SINT32, "start_latitude"),
             new FieldDefinitionPrimitive(4, BaseType.SINT32, "start_longitude"),
+            new FieldDefinitionPrimitive(5, BaseType.ENUM, "sport"),
+            new FieldDefinitionPrimitive(6, BaseType.ENUM, "sub_sport"),
             new FieldDefinitionPrimitive(7, BaseType.UINT32, "total_elapsed_time"), // with pauses
             new FieldDefinitionPrimitive(8, BaseType.UINT32, "total_timer_time"), // no pauses
             new FieldDefinitionPrimitive(9, BaseType.UINT32, "total_distance"),

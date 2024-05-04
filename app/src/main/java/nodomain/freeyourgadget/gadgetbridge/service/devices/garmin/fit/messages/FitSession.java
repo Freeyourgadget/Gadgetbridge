@@ -46,6 +46,16 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
+    public Integer getSport() {
+        return (Integer) getFieldByNumber(5);
+    }
+
+    @Nullable
+    public Integer getSubSport() {
+        return (Integer) getFieldByNumber(6);
+    }
+
+    @Nullable
     public Long getTotalElapsedTime() {
         return (Long) getFieldByNumber(7);
     }
