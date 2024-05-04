@@ -134,18 +134,20 @@ public class FileTransferHandler implements MessageHandler {
 
         private void saveFileToExternalStorage() {
             File dir;
+            File outputFile;
             try {
                 dir = deviceSupport.getWritableExportDirectory();
-                File outputFile = new File(dir, currentlyDownloading.getFileName());
+                outputFile = new File(dir, currentlyDownloading.getFileName());
                 FileUtils.copyStreamToFile(new ByteArrayInputStream(currentlyDownloading.dataHolder.array()), outputFile);
                 outputFile.setLastModified(currentlyDownloading.directoryEntry.fileDate.getTime());
-
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 LOG.error("Failed to save file", e);
+                return; // do not signal file as saved
             }
 
             FileDownloadedDeviceEvent fileDownloadedDeviceEvent = new FileDownloadedDeviceEvent();
             fileDownloadedDeviceEvent.directoryEntry = currentlyDownloading.directoryEntry;
+            fileDownloadedDeviceEvent.localPath = outputFile.getAbsolutePath();
             deviceSupport.evaluateGBDeviceEvent(fileDownloadedDeviceEvent);
         }
 
