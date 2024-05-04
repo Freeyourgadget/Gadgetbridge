@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.widget.Toast;
@@ -235,6 +237,15 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     }
 
+
+    protected String getNotificationAttachmentPath(int notificationId) {
+        return notificationsHandler.getNotificationAttachmentPath(notificationId);
+    }
+
+    protected Bitmap getNotificationAttachmentBitmap(int notificationId) {
+        Bitmap pippo = BitmapFactory.decodeFile(getNotificationAttachmentPath(notificationId));
+        return pippo;
+    }
 
     @Override
     public void onSetCallState(CallSpec callSpec) {

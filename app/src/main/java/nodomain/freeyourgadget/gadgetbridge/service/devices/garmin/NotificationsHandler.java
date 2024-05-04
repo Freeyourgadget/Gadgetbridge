@@ -117,7 +117,9 @@ public class NotificationsHandler implements MessageHandler {
                 }
             }
         }
-        return new NotificationUpdateMessage(notificationUpdateType, notificationSpec.type, getNotificationsCount(notificationSpec.type), notificationSpec.getId(), hasActions);
+
+        final boolean hasPicture = !nodomain.freeyourgadget.gadgetbridge.util.StringUtils.isEmpty(notificationSpec.picturePath);
+        return new NotificationUpdateMessage(notificationUpdateType, notificationSpec.type, getNotificationsCount(notificationSpec.type), notificationSpec.getId(), hasActions, hasPicture);
     }
 
     private int getNotificationsCount(NotificationType notificationType) {
@@ -137,6 +139,13 @@ public class NotificationsHandler implements MessageHandler {
         return null;
     }
 
+    public String getNotificationAttachmentPath(int notificationId) {
+        NotificationSpec notificationSpec = getNotificationSpecFromQueue(notificationId);
+        if (null != notificationSpec)
+            return notificationSpec.picturePath;
+        return null;
+    }
+
     public NotificationUpdateMessage onDeleteNotification(int id) {
         if (!enabled)
             return null;
@@ -146,7 +155,7 @@ public class NotificationsHandler implements MessageHandler {
             NotificationSpec e = iterator.next();
             if (e.getId() == id) {
                 iterator.remove();
-                return new NotificationUpdateMessage(NotificationUpdateMessage.NotificationUpdateType.REMOVE, e.type, getNotificationsCount(e.type), id, false);
+                return new NotificationUpdateMessage(NotificationUpdateMessage.NotificationUpdateType.REMOVE, e.type, getNotificationsCount(e.type), id, false, false);
             }
         }
         return null;
@@ -278,6 +287,7 @@ public class NotificationsHandler implements MessageHandler {
         // Garmin extensions
 //        PHONE_NUMBER(126, true),
         ACTIONS(127, false, true),
+        ATTACHMENTS(128),
         ;
         private static final SparseArray<NotificationAttribute> valueByCode;
 
@@ -338,6 +348,10 @@ public class NotificationsHandler implements MessageHandler {
                     break;
                 case ACTIONS:
                     toReturn = encodeNotificationActionsString(notificationSpec);
+                    break;
+                case ATTACHMENTS:
+                    LOG.debug("NOTIFICATION ATTACHMENTS REQUESTED. Notification Id: {}", notificationSpec.getId());
+                    toReturn = "1"; //TODO: possibly the number of attachments, or is it a progressive ID of the attachment to be requested?
                     break;
             }
             if (maxLength == 0)
