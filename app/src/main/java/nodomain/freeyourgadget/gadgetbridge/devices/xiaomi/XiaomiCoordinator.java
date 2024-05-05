@@ -457,6 +457,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         if (getCannedRepliesSlotCount(device) > 0) {
             notifications.add(R.xml.devicesettings_canned_dismisscall_16);
         }
+        notifications.add(R.xml.devicesettings_transliteration);
 
         //
         // Calendar
