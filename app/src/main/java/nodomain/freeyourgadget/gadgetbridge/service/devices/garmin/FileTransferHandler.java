@@ -13,6 +13,7 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
@@ -312,6 +313,8 @@ public class FileTransferHandler implements MessageHandler {
     }
 
     public static class DirectoryEntry {
+        private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.ROOT);
+
         private final int fileIndex;
         private final FileType.FILETYPE filetype;
         private final int fileNumber;
@@ -339,9 +342,12 @@ public class FileTransferHandler implements MessageHandler {
         }
 
         public String getFileName() {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-            String dateString = dateFormat.format(fileDate);
-            return getFiletype().name() + "_" + dateString + "_" + getFileIndex() + (getFiletype().isFitFile() ? ".fit" : ".bin");
+            final StringBuilder sb = new StringBuilder(getFiletype().name());
+            if (fileDate.getTime() != GarminTimeUtils.GARMIN_TIME_EPOCH * 1000L) {
+                sb.append("_").append(SDF.format(fileDate));
+            }
+            sb.append("_").append(getFileIndex()).append(getFiletype().isFitFile() ? ".fit" : ".bin");
+            return sb.toString();
         }
 
         public String getLegacyFileName() {
