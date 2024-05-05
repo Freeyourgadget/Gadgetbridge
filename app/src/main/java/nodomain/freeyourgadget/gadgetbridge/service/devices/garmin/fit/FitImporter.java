@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitFileId;
@@ -61,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitStressLevel;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitTimeInZone;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 public class FitImporter {
     private static final Logger LOG = LoggerFactory.getLogger(FitImporter.class);
@@ -301,29 +303,51 @@ public class FitImporter {
     }
 
     private int getActivityKind(final Integer sport, final Integer subsport) {
-        // TODO map all sports
-        if (sport != null) {
-            switch (sport) {
-                case 2:
-                    return ActivityKind.TYPE_CYCLING;
-                case 4: // fitness_equipment
-                case 10: // training
-                    if (subsport != null) {
-                        switch (subsport) {
-                            case 15:
-                                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
-                            case 20:
-                                return ActivityKind.TYPE_STRENGTH_TRAINING;
-                            default:
-                                LOG.warn("Unknown sub sport {} for {}", subsport, sport);
-                        }
-                        break;
-                    }
-                case 11:
-                    return ActivityKind.TYPE_WALKING;
-                default:
-                    LOG.warn("Unknown sport {}", sport);
-            }
+        final Optional<GarminSport> garminSport = GarminSport.fromCodes(sport, subsport);
+        if (garminSport.isEmpty()) {
+            LOG.warn("Unknown garmin sport {}/{}", sport, subsport);
+            return ActivityKind.TYPE_UNKNOWN;
+        }
+
+        switch (garminSport.get()) {
+            case RUN:
+            case PUSH_RUN_SPEED:
+            case INDOOR_PUSH_RUN_SPEED:
+            case INDOOR_TRACK:
+                return ActivityKind.TYPE_RUNNING;
+            case TREADMILL:
+                return ActivityKind.TYPE_TREADMILL;
+            case E_BIKE:
+            case BIKE:
+                return ActivityKind.TYPE_CYCLING;
+            case BIKE_INDOOR:
+                return ActivityKind.TYPE_INDOOR_CYCLING;
+            case ELLIPTICAL:
+                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+            case STAIR_STEPPER:
+            case PILATES:
+            case CARDIO:
+                return ActivityKind.TYPE_EXERCISE;
+            case POOL_SWIM:
+                return ActivityKind.TYPE_SWIMMING;
+            case OPEN_WATER:
+                return ActivityKind.TYPE_SWIMMING_OPENWATER;
+            case SOCCER:
+                return ActivityKind.TYPE_SOCCER;
+            case STRENGTH:
+                return ActivityKind.TYPE_STRENGTH_TRAINING;
+            case YOGA:
+                return ActivityKind.TYPE_YOGA;
+            case WALK:
+            case WALK_INDOOR:
+            case PUSH_WALK_SPEED:
+            case INDOOR_PUSH_WALK_SPEED:
+                return ActivityKind.TYPE_WALKING;
+            case HIKE:
+                return ActivityKind.TYPE_HIKING;
+            case CLIMB_INDOOR:
+            case BOULDERING:
+                return ActivityKind.TYPE_CLIMBING;
         }
 
         return ActivityKind.TYPE_UNKNOWN;
