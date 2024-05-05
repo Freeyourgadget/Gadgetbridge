@@ -32,6 +32,7 @@ import java.util.EnumSet;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -519,5 +520,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSleepAsAndroidAction(action, extras);
+    }
+
+    @Override
+    public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {
+        if (checkBusy("camera status")) {
+            return;
+        }
+        delegate.onCameraStatusChange(event, filename);
     }
 }

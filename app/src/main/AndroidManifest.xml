@@ -74,6 +74,8 @@
     <!-- Used for starting activities from the background with intents -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <!--
     SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
     services from other packages via intents, when targeting Android API level 30 or later
@@ -98,6 +100,9 @@
         android:required="false" />
     <uses-feature
         android:name="android.software.companion_device_setup"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <application
@@ -875,6 +880,11 @@
             android:name=".activities.dashboard.DashboardCalendarActivity"
             android:label="@string/menuitem_calendar"
             android:parentActivityName=".activities.ControlCenterv2" />
+
+        <activity
+            android:name=".activities.CameraActivity"
+            android:launchMode="singleInstance"
+            android:exported="false" />
     </application>
 
 </manifest>

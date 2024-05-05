@@ -2842,4 +2842,10 @@
     <string name="pref_title_cycling_persistence_interval">Persistence interval</string>
     <string name="chart_cycling_point_label_distance">Today: %.1f km\nTotal: %.1f km</string>
     <string name="chart_cycling_point_label_speed">%.1f km/h</string>
+
+    <!-- Camera strings -->
+    <string name="open_camera">Open Camera</string>
+    <string name="toast_camera_permission_required">Camera permission is required for this function.</string>
+    <string name="toast_camera_support_required">Camera support is required for this function.</string>
+    <string name="toast_camera_photo_taken">Photo has been taken and saved at: %s</string>
 </resources>

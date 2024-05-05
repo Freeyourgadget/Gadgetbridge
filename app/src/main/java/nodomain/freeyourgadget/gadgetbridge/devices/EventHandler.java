@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -151,4 +152,6 @@ public interface EventHandler {
     void onSetGpsLocation(Location location);
 
     void onSleepAsAndroidAction(String action, Bundle extras);
+
+    void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename);
 }

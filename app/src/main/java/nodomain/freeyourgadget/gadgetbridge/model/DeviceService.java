@@ -79,6 +79,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_GPS_LOCATION = PREFIX + ".action.set_gps_location";
     String ACTION_SET_LED_COLOR = PREFIX + ".action.set_led_color";
     String ACTION_POWER_OFF = PREFIX + ".action.power_off";
+    String ACTION_CAMERA_STATUS_CHANGE = PREFIX + ".action.camera_status_change";
 
     String ACTION_SLEEP_AS_ANDROID = ".action.sleep_as_android";
     String EXTRA_SLEEP_AS_ANDROID_ACTION = "sleepasandroid_action";
@@ -144,6 +145,8 @@ public interface DeviceService extends EventHandler {
     String EXTRA_LED_COLOR = "led_color";
     String EXTRA_GPS_LOCATION = "gps_location";
     String EXTRA_RESET_FLAGS = "reset_flags";
+    String EXTRA_CAMERA_EVENT = "event";
+    String EXTRA_CAMERA_FILENAME = "filename";
 
     /**
      * Use EXTRA_REALTIME_SAMPLE instead

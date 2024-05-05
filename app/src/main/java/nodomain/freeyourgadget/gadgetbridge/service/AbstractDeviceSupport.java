@@ -58,6 +58,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -69,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
@@ -207,6 +209,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventMusicControl) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventCallControl) {
             handleGBDeviceEvent((GBDeviceEventCallControl) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventCameraRemote) {
+            handleGBDeviceEvent((GBDeviceEventCameraRemote) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventVersionInfo) {
             handleGBDeviceEvent((GBDeviceEventVersionInfo) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventAppInfo) {
@@ -336,6 +340,13 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         callIntent.putExtra("event", callEvent.event.ordinal());
         callIntent.setPackage(context.getPackageName());
         context.sendBroadcast(callIntent);
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventCameraRemote cameraRemoteEvent) {
+        Intent cameraIntent = new Intent(getContext(), CameraActivity.class);
+        cameraIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        cameraIntent.putExtra(CameraActivity.intentExtraEvent, GBDeviceEventCameraRemote.eventToInt(cameraRemoteEvent.event));
+        getContext().startActivity(cameraIntent);
     }
 
     protected void handleGBDeviceEvent(GBDeviceEventVersionInfo infoEvent) {
@@ -1187,4 +1198,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     public void onSleepAsAndroidAction(String action, Bundle extras) {
         
     }
+
+    @Override
+    public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {}
 }

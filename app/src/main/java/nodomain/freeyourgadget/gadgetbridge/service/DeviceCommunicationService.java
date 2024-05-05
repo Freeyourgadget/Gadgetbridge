@@ -62,7 +62,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -1092,6 +1094,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     final String sleepAsAndroidAction = intent.getStringExtra(EXTRA_SLEEP_AS_ANDROID_ACTION);
                     deviceSupport.onSleepAsAndroidAction(sleepAsAndroidAction, intent.getExtras());
                 }
+                break;
+            case ACTION_CAMERA_STATUS_CHANGE:
+                final GBDeviceEventCameraRemote.Event event = GBDeviceEventCameraRemote.intToEvent(intent.getIntExtra(EXTRA_CAMERA_EVENT, -1));
+                String filename = null;
+                if (event == GBDeviceEventCameraRemote.Event.TAKE_PICTURE) {
+                    filename = intent.getStringExtra(EXTRA_CAMERA_FILENAME);
+                }
+                deviceSupport.onCameraStatusChange(event, filename);
                 break;
         }
     }

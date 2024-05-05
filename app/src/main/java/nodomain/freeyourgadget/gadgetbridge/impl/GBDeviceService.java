@@ -35,6 +35,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -556,6 +557,15 @@ public class GBDeviceService implements DeviceService {
         if (extras != null) {
             intent.putExtras(extras);
         }
+        invokeService(intent);
+    }
+
+    @Override
+    public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {
+        Intent intent = createIntent().setAction(ACTION_CAMERA_STATUS_CHANGE);
+        intent.putExtra(EXTRA_CAMERA_EVENT, GBDeviceEventCameraRemote.eventToInt(event));
+        if (event == GBDeviceEventCameraRemote.Event.TAKE_PICTURE)
+            intent.putExtra(EXTRA_CAMERA_FILENAME, filename);
         invokeService(intent);
     }
 }

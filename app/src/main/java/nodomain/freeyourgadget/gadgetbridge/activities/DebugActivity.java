@@ -102,6 +102,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
 import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -750,6 +751,18 @@ public class DebugActivity extends AbstractGBActivity {
                     }
                 };
                 handler.postDelayed(runnable, delay);
+            }
+        });
+
+        Button cameraOpenButton = findViewById(R.id.cameraOpen);
+        cameraOpenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent cameraIntent = new Intent(getApplicationContext(), CameraActivity.class);
+                cameraIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                cameraIntent.putExtra(CameraActivity.intentExtraEvent, GBDeviceEventCameraRemote.eventToInt(GBDeviceEventCameraRemote.Event.OPEN_CAMERA));
+                getApplicationContext().startActivity(cameraIntent);
             }
         });
     }
