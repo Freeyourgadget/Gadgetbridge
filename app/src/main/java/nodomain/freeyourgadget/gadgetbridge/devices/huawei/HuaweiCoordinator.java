@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
@@ -220,6 +221,10 @@ public class HuaweiCoordinator {
         deviceSpecificSettings.addRootScreen(R.xml.devicesettings_disable_find_phone_with_dnd);
         deviceSpecificSettings.addRootScreen(R.xml.devicesettings_allow_accept_reject_calls);
 
+        // Camera control
+        if (supportsCameraRemote())
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_camera_remote);
+
         // Time
         if (supportsDateFormat()) {
             final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
@@ -279,6 +284,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsQueryDndLiftWristDisturbType() {
         return supportsCommandForService(0x01, 0x1d);
+    }
+
+    public boolean supportsCameraRemote() {
+        return supportsCommandForService(0x01, 0x29) && CameraActivity.supportsCamera();
     }
 
     public boolean supportsAcceptAgreement() {

@@ -38,12 +38,15 @@ import java.util.HashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
@@ -111,6 +114,7 @@ public class AsynchronousResponse {
             handleGpsRequest(response);
             handleFileUpload(response);
             handleWatchface(response);
+            handleCameraRemote(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -498,6 +502,39 @@ public class AsynchronousResponse {
                 return;
             }
             support.setGps(((GpsAndTime.GpsStatus.Response) response).enableGps);
+        }
+    }
+
+    private void handleCameraRemote(HuaweiPacket response) {
+        if (response.serviceId == CameraRemote.id && response.commandId == CameraRemote.CameraRemoteStatus.id) {
+            if (!(response instanceof CameraRemote.CameraRemoteStatus.Response)) {
+                // TODO: exception?
+                return;
+            }
+
+            if (!CameraActivity.supportsCamera()) {
+                LOG.error("No camera present");
+                // TODO: Toast?
+                return;
+            }
+
+            switch (((CameraRemote.CameraRemoteStatus.Response) response).event) {
+                case OPEN_CAMERA:
+                    GBDeviceEventCameraRemote openCameraEvent = new GBDeviceEventCameraRemote();
+                    openCameraEvent.event = GBDeviceEventCameraRemote.Event.OPEN_CAMERA;
+                    support.evaluateGBDeviceEvent(openCameraEvent);
+                    break;
+                case TAKE_PICTURE:
+                    GBDeviceEventCameraRemote takePictureEvent = new GBDeviceEventCameraRemote();
+                    takePictureEvent.event = GBDeviceEventCameraRemote.Event.TAKE_PICTURE;
+                    support.evaluateGBDeviceEvent(takePictureEvent);
+                    break;
+                case CLOSE_CAMERA:
+                    GBDeviceEventCameraRemote closeCameraEvent = new GBDeviceEventCameraRemote();
+                    closeCameraEvent.event = GBDeviceEventCameraRemote.Event.CLOSE_CAMERA;
+                    support.evaluateGBDeviceEvent(closeCameraEvent);
+                    break;
+            }
         }
     }
 }

@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
@@ -52,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupp
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
@@ -87,6 +91,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetG
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetWatchfaceParams;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendCameraRemoteSetupEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
@@ -744,6 +749,11 @@ public class HuaweiSupportProvider {
                 GetWatchfaceParams getWatchfaceParams = new GetWatchfaceParams(this);
                 getWatchfaceParams.doPerform();
             }
+
+            if (getHuaweiCoordinator().supportsCameraRemote() && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false)) {
+                SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA);
+                sendCameraRemoteSetupEvent.doPerform();
+            }
         } catch (IOException e) {
             GB.toast(getContext(), "Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR,
                     e);
@@ -967,6 +977,15 @@ public class HuaweiSupportProvider {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     new SendFitnessGoalRequest(this).doPerform();
                     break;
+                case DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE:
+                    if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false)) {
+                        SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA);
+                        sendCameraRemoteSetupEvent.doPerform();
+                    } else {
+                        // Somehow it is impossible to disable the camera remote
+                        // But it will disappear after reconnection - until it is enabled again
+                        GB.toast(context, context.getString(R.string.toast_setting_requires_reconnect), Toast.LENGTH_SHORT, GB.INFO);
+                    }
             }
         } catch (IOException e) {
             // TODO: Use translatable string
@@ -1912,4 +1931,32 @@ public class HuaweiSupportProvider {
         huaweiWatchfaceManager.deleteWatchface(uuid);
     }
 
+    public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {
+        if (event == GBDeviceEventCameraRemote.Event.OPEN_CAMERA) {
+            // Somehow a delay is necessary for the watch
+            new Handler(GBApplication.getContext().getMainLooper()).postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(HuaweiSupportProvider.this, CameraRemote.CameraRemoteSetup.Request.Event.CAMERA_STARTED);
+                            try {
+                                sendCameraRemoteSetupEvent.doPerform();
+                            } catch (IOException e) {
+                                GB.toast("Failed to send open camera request", Toast.LENGTH_SHORT, GB.ERROR, e);
+                                LOG.error("Failed to send open camera request", e);
+                            }
+                        }
+                    },
+                    3000
+            );
+        } else if (event == GBDeviceEventCameraRemote.Event.CLOSE_CAMERA) {
+            SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent2 = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.CAMERA_STOPPED);
+            try {
+                sendCameraRemoteSetupEvent2.doPerform();
+            } catch (IOException e) {
+                GB.toast("Failed to send open camera request", Toast.LENGTH_SHORT, GB.ERROR, e);
+                LOG.error("Failed to send open camera request", e);
+            }
+        }
+    }
 }
