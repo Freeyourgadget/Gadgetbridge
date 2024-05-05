@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Syst
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.NotificationSubscriptionStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
@@ -484,7 +485,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             while (!filesToDownload.isEmpty()) {
                 final FileTransferHandler.DirectoryEntry directoryEntry = filesToDownload.remove();
-                if (checkFileExists(directoryEntry.getFileName()) || checkFileExists(directoryEntry.getLegacyFileName())) {
+                if (alreadyDownloaded(directoryEntry)) {
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
                     if (!getKeepActivityDataOnDevice()) { // delete file from watch if already downloaded
                         sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
@@ -493,12 +494,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 }
 
                 final DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
-                if (downloadRequestMessage != null) {
-                    sendOutgoingMessage(downloadRequestMessage);
-                    return;
-                } else {
-                    LOG.debug("File: {} already downloaded, not downloading again, from inside.", directoryEntry.getFileName());
-                }
+                LOG.debug("Will download file: {}", directoryEntry.getFileName());
+                sendOutgoingMessage(downloadRequestMessage);
+                return;
             }
         }
 
@@ -698,17 +696,39 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
-    private boolean checkFileExists(String fileName) {
+    private boolean alreadyDownloaded(final FileTransferHandler.DirectoryEntry entry) {
+        final Optional<File> file = getFile(entry.getFileName());
+        if (file.isPresent()) {
+            if (file.get().length() == 0) {
+                LOG.warn("File {} is empty", entry.getFileName());
+                return false;
+            }
+            return true;
+        }
+
+        final Optional<File> legacyFile = getFile(entry.getLegacyFileName());
+        if (legacyFile.isPresent()) {
+            if (legacyFile.get().length() == 0) {
+                LOG.warn("Legacy file {} is empty", entry.getFileName());
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private Optional<File> getFile(final String fileName) {
         File dir;
         try {
             dir = getWritableExportDirectory();
             File outputFile = new File(dir, fileName);
-            if (outputFile.exists()) //do not download again already downloaded file
-                return true;
+            if (outputFile.exists())
+                return Optional.of(outputFile);
         } catch (IOException e) {
-            LOG.error("IOException: " + e);
+            LOG.error("Failed to get file", e);
         }
-        return false;
+        return Optional.empty();
     }
 
     public File getWritableExportDirectory() throws IOException {
