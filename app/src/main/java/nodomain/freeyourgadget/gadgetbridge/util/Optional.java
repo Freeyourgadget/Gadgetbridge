@@ -40,6 +40,10 @@ public final class Optional<T> {
         return value;
     }
 
+    public boolean isEmpty() {
+        return value == null;
+    }
+
     public boolean isPresent() {
         return value != null;
     }
