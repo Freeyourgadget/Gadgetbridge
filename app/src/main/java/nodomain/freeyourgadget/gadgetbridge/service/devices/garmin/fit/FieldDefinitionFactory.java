@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTemperature;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionTimestamp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherAqi;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherCondition;
 
 public class FieldDefinitionFactory {
@@ -41,6 +42,8 @@ public class FieldDefinitionFactory {
                 return new FieldDefinitionLanguage(localNumber, size, baseType, name);
             case SLEEP_STAGE:
                 return new FieldDefinitionSleepStage(localNumber, size, baseType, name);
+            case WEATHER_AQI:
+                return new FieldDefinitionWeatherAqi(localNumber, size, baseType, name);
             default:
                 return new FieldDefinition(localNumber, size, baseType, name);
         }
@@ -58,5 +61,6 @@ public class FieldDefinitionFactory {
         WEATHER_CONDITION,
         LANGUAGE,
         SLEEP_STAGE,
+        WEATHER_AQI,
     }
 }

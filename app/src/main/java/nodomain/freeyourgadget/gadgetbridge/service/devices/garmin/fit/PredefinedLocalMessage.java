@@ -7,13 +7,13 @@ import java.util.List;
 
 public enum PredefinedLocalMessage {
     TODAY_WEATHER_CONDITIONS(6, GlobalFITMessage.WEATHER,
-            new int[]{0, 253, 9, 1, 14, 13, 2, 3, 5, 4, 6, 7, 10, 11, 8}
+            new int[]{0, 253, 9, 1, 14, 13, 2, 3, 5, 4, 6, 7, 10, 11, 17, 15, 8}
     ),
     HOURLY_WEATHER_FORECAST(9, GlobalFITMessage.WEATHER,
-            new int[]{0, 253, 1, 2, 3, 4, 5, 7, 15, 16, 17}
+            new int[]{0, 253, 1, 2, 3, 4, 5, 6, 7, 15, 16, 17}
     ),
     DAILY_WEATHER_FORECAST(10, GlobalFITMessage.WEATHER,
-            new int[]{0, 253, 14, 13, 2, 5, 12}
+            new int[]{0, 253, 14, 13, 2, 5, 12, 17}
     );
 
     private final int type;

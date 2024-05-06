@@ -183,9 +183,9 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(12, BaseType.ENUM, "day_of_week", FieldDefinitionFactory.FIELD.DAY_OF_WEEK),
             new FieldDefinitionPrimitive(13, BaseType.SINT8, "high_temperature", FieldDefinitionFactory.FIELD.TEMPERATURE),
             new FieldDefinitionPrimitive(14, BaseType.SINT8, "low_temperature", FieldDefinitionFactory.FIELD.TEMPERATURE),
-            new FieldDefinitionPrimitive(15, BaseType.SINT8, "dew_point"),
+            new FieldDefinitionPrimitive(15, BaseType.SINT8, "dew_point", FieldDefinitionFactory.FIELD.TEMPERATURE),
             new FieldDefinitionPrimitive(16, BaseType.FLOAT32, "uv_index"),
-            new FieldDefinitionPrimitive(17, BaseType.ENUM, "air_quality"),
+            new FieldDefinitionPrimitive(17, BaseType.ENUM, "air_quality", FieldDefinitionFactory.FIELD.WEATHER_AQI),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
