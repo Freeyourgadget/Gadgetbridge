@@ -138,6 +138,7 @@ public class ProtocolBufferHandler implements MessageHandler {
 
             if (protobufFragment.totalLength <= (statusMessage.getDataOffset() + maxChunkSize)) {
                 chunkedFragmentsMap.remove(protobufFragment);
+                return null;
             }
 
             return protobufFragment.getNextChunk(statusMessage);
