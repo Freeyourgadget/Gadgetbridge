@@ -67,6 +67,16 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
         return "Garmin";
     }
 
+    @Override
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_zetime;
+    }
+
+    @Override
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_zetime_disabled;
+    }
+
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
