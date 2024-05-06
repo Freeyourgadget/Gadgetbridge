@@ -5,9 +5,9 @@
     <string name="action_settings">設定</string>
     <string name="action_debug">デバッグ</string>
     <string name="action_quit">終了</string>
-    <string name="action_donate">寄付する</string>
+    <string name="action_donate">寄付</string>
     <string name="controlcenter_fetch_activity_data">同期</string>
-    <string name="controlcenter_find_device">失くしたデバイスを見つける</string>
+    <string name="controlcenter_find_device">デバイスを見つける</string>
     <string name="controlcenter_take_screenshot">スクリーンショットを撮る</string>
     <string name="controlcenter_disconnect">切断</string>
     <string name="controlcenter_delete_device">デバイスを削除</string>
@@ -31,8 +31,8 @@
     <string name="appmanager_app_openinstore">Pebble アプリストアで検索</string>
     <string name="appmanager_health_activate">有効化</string>
     <string name="appmanager_health_deactivate">無効化</string>
-    <string name="appmanager_hrm_activate">HRMを有効にする</string>
-    <string name="appmanager_hrm_deactivate">HRMを無効にする</string>
+    <string name="appmanager_hrm_activate">HRM を有効にする</string>
+    <string name="appmanager_hrm_deactivate">HRM を無効にする</string>
     <string name="appmanager_weather_activate">システムの天気アプリを有効にする</string>
     <string name="appmanager_weather_deactivate">システムの天気アプリを無効にする</string>
     <string name="appmanager_weather_install_provider">天気通知アプリをインストール</string>
@@ -55,7 +55,7 @@
     <string name="pref_title_general_autoconnectonbluetooth">Bluetoothがオンになったときに Gadgetbridge デバイスに接続</string>
     <string name="pref_title_general_autostartonboot">自動的に開始する</string>
     <string name="pref_title_general_autoreconnect">自動的に再接続する</string>
-    <string name="pref_title_audio_player">優先するオーディオプレイヤー</string>
+    <string name="pref_title_audio_player">優先する音楽プレイヤー</string>
     <string name="pref_default">デフォルト</string>
     <string name="pref_header_datetime">日付と時刻</string>
     <string name="pref_title_datetime_syctimeonconnect">時間を同期する</string>
@@ -71,12 +71,12 @@
     <string name="pref_title_notifications_repetitions">繰り返し</string>
     <string name="pref_title_notifications_call">着信通知</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_pebblemsg">Pebbleメッセージ</string>
-    <string name="pref_summary_notifications_pebblemsg">PebbleKit経由でPebbleに通知を送信するアプリケーションをサポートします。</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble メッセージ</string>
+    <string name="pref_summary_notifications_pebblemsg">PebbleKit 経由で Pebble に通知を送信するアプリケーションをサポートします。</string>
     <string name="pref_title_notifications_generic">一般的な通知への対応</string>
     <string name="pref_title_whenscreenon">Android の画面が ON のときにもウォッチに通知を表示する</string>
-    <string name="pref_title_notification_filter">サイレント</string>
-    <string name="pref_summary_notification_filter">サイレントモードが有効なときはすべての通知をブロックする</string>
+    <string name="pref_title_notification_filter">サイレント モード</string>
+    <string name="pref_summary_notification_filter">サイレント モードが有効なときはすべての通知をブロックする</string>
     <string name="pref_title_transliteration">翻字</string>
     <string name="pref_summary_transliteration">デバイスがユーザーの言語のフォントをサポートしていない場合、これを有効にしてください</string>
     <string name="always">常に</string>
@@ -158,7 +158,7 @@
     <string name="tap_connected_device_for_vibration">接続済みのデバイスをタップして振動する</string>
     <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
     <string name="cannot_connect_bt_address_invalid_">接続できません。 Bluetoothアドレスが無効ですか？</string>
-    <string name="gadgetbridge_running_generic">Gadgetbridgeは動作中です</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge は動作中です</string>
     <string name="installing_binary_d_d">バイナリーのインストール中 %1$d/%2$d</string>
     <string name="installation_failed_">インストールに失敗しました</string>
     <string name="installation_successful">インストールしました</string>
@@ -521,8 +521,8 @@
     <string name="menuitem_compass">コンパス</string>
     <string name="menuitem_settings">設定</string>
     <string name="menuitem_alipay">Alipay</string>
-    <string name="controlcenter_change_led_color">LEDの色を変更</string>
-    <string name="controlcenter_change_fm_frequency">FMの周波数を変更</string>
+    <string name="controlcenter_change_led_color">LED の色を変更</string>
+    <string name="controlcenter_change_fm_frequency">FM の周波数を変更</string>
     <string name="controlcenter_calibrate_device">デバイスの調整</string>
     <string name="debugactivity_really_factoryreset_title">工場出荷状態にリセットしますか？</string>
     <string name="debugactivity_really_factoryreset">工場出荷状態にリセットすると、接続されているデバイスからすべてのデータを削除します(サポートされている場合)。 Xiaomi/HuamiデバイスではBluetoothのMACアドレスも変更するため、Gadgetbridgeには新しいデバイスとして表示されます。</string>
@@ -716,9 +716,9 @@
     <string name="minAltitude">最小</string>
     <string name="maxAltitude">最大</string>
     <string name="distanceMeters">距離</string>
-    <string name="device_requires_key">キーが必要です</string>
+    <string name="device_requires_key">キーが必要です。長押しして入力してください</string>
     <string name="about_contributors">貢献者</string>
-    <string name="about_activity_title_generic">Gadgetbridgeについて</string>
+    <string name="about_activity_title_generic">Gadgetbridge について</string>
     <string name="about_title">このアプリについて</string>
     <string name="hr_widget_last_notification">最終通知</string>
     <string name="hr_appname_commute">通勤</string>
@@ -852,7 +852,7 @@
     <string name="prefs_wena3_button_action_name_activity_screen">アクティビティ画面</string>
     <string name="prefs_wena3_notification_settings_title">通知設定</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="pref_pair_bluetooth_calls_help_title">Bluetooth通話の着信方法</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Bluetooth 通話の着信方法</string>
     <string name="fw_upgrade_notice_miband7">Xiaomi Smart Band 7 に %s ファームウェアをインストールしようとしています。
 \n
 \n.zipファイルをインストールすると、バンドが再起動します。
@@ -863,8 +863,8 @@
 \n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
-    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth通話を着信するには、Androidデバイスをウォッチの2番目のインスタンスとペアリングする必要があります。</string>
-    <string name="pref_pair_bluetooth_calls_help_warning">注意：2番目のインスタンスを有効にせずにBluetooth通話を有効にすると、着信通知が上手く動作しない場合があります。</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth 通話を着信するには、Android デバイスをウォッチの2番目のインスタンスとペアリングする必要があります。</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">注意：2番目のインスタンスを有効にせずに Bluetooth 通話を有効にすると、着信通知が上手く動作しない場合があります。</string>
     <string name="pref_title_notification_use_as">アプリリストの使用方法…</string>
     <string name="appmanager_watchface_activate">有効化</string>
     <string name="appmanager_app_start">実行</string>
@@ -872,7 +872,7 @@
     <string name="appmanager_download_started">アプリのダウンロードを開始しました</string>
     <string name="appmanager_download_app_error">アプリのダウンロード中にエラーが発生しました</string>
     <string name="pref_title_notifications_ignore_low_priority">優先度の低い通知を非表示にする</string>
-    <string name="find_lost_device_message">%1$sを探しますか？</string>
+    <string name="find_lost_device_message">%1$s を探しますか？</string>
     <string name="controlcenter_power_off">電源を切る</string>
     <string name="battery_detail_activity_title">バッテリー情報</string>
     <string name="pref_header_connection">接続</string>
@@ -881,12 +881,12 @@
     <string name="pref_header_audio">音声</string>
     <string name="pref_header_calendar">カレンダー</string>
     <string name="pref_header_generic">全般</string>
-    <string name="pref_header_health">ヘルスケア</string>
+    <string name="pref_header_health">健康管理</string>
     <string name="pref_header_display">ディスプレイ</string>
     <string name="pref_header_sound_vibration">音と振動</string>
     <string name="pref_header_equalizer">イコライザー</string>
     <string name="pref_summary_general_reconnectonlytoconnected">すべてのデバイスに再接続するのではなく、接続済みのデバイスにのみ再接続</string>
-    <string name="pref_summary_mb_intents">一部のアプリでデバイスのメディアコントロールが機能しない場合に有効化する</string>
+    <string name="pref_summary_mb_intents">一部のアプリでデバイスのメディアコントロールが機能しない場合に有効化してください</string>
     <string name="pref_theme_dynamic">ダイナミックカラー</string>
     <string name="pref_title_notification_delay_calls">着信通知の遅延</string>
     <string name="pref_summary_receive_calls_watch">ウォッチ上で発信/着信する</string>
@@ -917,19 +917,19 @@
     <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (Nightly) について</string>
     <string name="pref_title_notification_wake_on_open">自動点灯とロック解除</string>
     <string name="pref_display_caller_title">連絡先の情報を表示する</string>
-    <string name="pref_summary_notifications_ignore_low_priority">優先度の低い通知をウォッチに送信しない</string>
+    <string name="pref_summary_notifications_ignore_low_priority">優先度の低い通知をウォッチに送信しないようにします</string>
     <string name="pref_title_notification_cache_while_disconnected">接続が切断されている間の通知をキャッシュする</string>
     <string name="pref_header_notification_application_settings">アプリごとの設定</string>
     <string name="pref_title_notification_use_as_deny">選択したアプリからの通知を拒否する</string>
-    <string name="pref_title_notification_use_as_allow">選択したアプリからの通知を拒否する</string>
+    <string name="pref_title_notification_use_as_allow">選択したアプリからの通知を許可する</string>
     <string name="pref_message_privacy_mode_complete">すべての内容を非表示</string>
     <string name="pref_message_privacy_mode_bodyonly">本文のみ非表示</string>
     <string name="pref_title_weather_summary">LineageOS の Weather provider に使用されますが、ほかの Android バージョンでは \"Weather notification\" のようなアプリを使用する必要があります。詳しくは Gadgetbridge の Wiki をご覧ください。</string>
     <string name="pref_applications_settings">アプリケーション一覧</string>
-    <string name="debugactivity_confirm_remove_device_preferences"/>
+    <string name="debugactivity_confirm_remove_device_preferences">接続されたすべてのデバイスの環境設定を削除しますがよろしいですか？</string>
     <string name="pref_title_general_reconnectonlytoconnected">接続中のデバイスにのみ再接続する</string>
-    <string name="pref_summary_notification_prefer_long_text">可能な場合に長文の通知をデバイスに送信する</string>
-    <string name="pref_summary_notifications_ignore_work_profile">仕事用プロファイルのアプリからの通知をウォッチに送信しない</string>
+    <string name="pref_summary_notification_prefer_long_text">可能な場合に長文の通知をデバイスに送信します</string>
+    <string name="pref_summary_notifications_ignore_work_profile">仕事用プロファイルのアプリからの通知をウォッチに送信しないようにします</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Android の Bluetooth の設定に移動し、表示された新しいデバイスとペアリングします（使用中のウォッチと似た名前ですが、ウォッチの名前の末尾に接頭辞が付きます。例： Amazfit GTR 4 - AFC8）。</string>
     <string name="pref_title_notifications_generic_settings">Android 通知設定</string>
     <string name="pref_title_notifications_ignore_work_profile">仕事用プロファイルを非表示にする</string>
@@ -964,7 +964,7 @@
     <string name="open_fw_installer_getting_files_title">ファームウェア/アプリ ファイルを取得</string>
     <string name="pref_header_system">システム</string>
     <string name="pref_header_offline_voice">オフラインボイス</string>
-    <string name="pref_pair_bluetooth_calls_title">Bluetooth通話用のペアリング</string>
+    <string name="pref_pair_bluetooth_calls_title">Bluetooth 通話用のペアリング</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. 下のボタンをタップしてペアリングを開始する。</string>
     <string name="pref_summary_notification_delay_calls">着信通知をデバイスに送信するまでの遅延時間（秒）</string>
     <string name="pref_pair_bluetooth_calls_summary">ペアリングを開始するにはここをタップ</string>
@@ -1037,7 +1037,7 @@
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">距離は歩数と歩幅から算出されています（設定＞ユーザー情報 で調整できます）</string>
     <string name="appmanager_app_share">共有</string>
-    <string name="check_all_applications"/>
+    <string name="check_all_applications">すべてのアプリを確認する</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Amazfit Bip Lite に %s のファームウェアをインストールしようとしています。
 \n
 \n.fw ファイル、その後 .res ファイル、最後に .gps ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
@@ -1080,14 +1080,14 @@
 \n注: .resファイルが以前にインストールしたものとまったく同じ場合、新たに.res をインストールする必要はありません。
 \n
 \n自己責任の下で行ってください！</string>
-    <string name="pref_pair_bluetooth_calls_help_3">3. 以下のBluetooth通話設定を有効にします。</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. 以下のBluetooth 通話設定を有効にします。</string>
     <string name="bluetooth_calls">Bluetooth 通話</string>
-    <string name="bluetooth_calls_pairing">Bluetooth通話のペアリング</string>
-    <string name="bluetooth_calls_settings">Bluetooth通話の設定</string>
-    <string name="pref_display_caller_summary">着信時に電話番号か名前を表示する</string>
+    <string name="bluetooth_calls_pairing">Bluetooth 通話のペアリング</string>
+    <string name="bluetooth_calls_settings">Bluetooth 通話の設定</string>
+    <string name="pref_display_caller_summary">着信時に電話番号か名前を表示します</string>
     <string name="pref_summary_custom_deviceicon">接続時に Gadgetbridge のアイコンの代わりに デバイス固有の Android 通知アイコンを表示します</string>
     <string name="pref_title_preview_message_in_title">タイトルにメッセージのプレビューを表示する</string>
-    <string name="pref_summary_notification_cache_while_disconnected">接続が途切れたデバイスが再接続されたときに見逃した通知を送信する</string>
+    <string name="pref_summary_notification_cache_while_disconnected">接続が途切れたデバイスが再接続されたときに見逃した通知を送信します</string>
     <string name="fw_upgrade_notice_amazfitbip3">Amazfit Bip 3 に %s のファームウェアをインストールしようとしています。
 \n
 \n.fw ファイルをインストールし、その後 .res ファイルをインストールしてください。ウォッチは、.fw ファイルをインストールした後に再起動します。
@@ -1102,10 +1102,10 @@
 \n注: .res ファイルと .gps ファイルが前回にインストールしたものと同じ場合、新たにこれらのファイルをインストールする必要はありません。
 \n 
 \n自己責任の下で行ってください！</string>
-    <string name="open_fw_installer_warning_title">警告</string>
+    <string name="open_fw_installer_warning_title">注意</string>
     <string name="open_fw_installer_warning_text">この機能はデバイスを使用不能にする可能性があります。開発者はそのような経験はしていませんが、実行する際は自己責任の下で行ってください。</string>
     <string name="open_fw_installer_pick_file">ファイルの選択</string>
-    <string name="open_fw_installer_info_text_title">ファイルインストーラ</string>
+    <string name="open_fw_installer_info_text_title">ファイル インストーラ</string>
     <string name="open_fw_installer_connect_minimum_one_device">ファイルを送信したいデバイスを少なくとも1つ接続してください。</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
@@ -1886,4 +1886,57 @@
     <string name="about_core_team_title">コア チーム（貢献した順）</string>
     <string name="about_hash">コミット %s</string>
     <string name="gpx_receiver_files_received">GPX ファイルを受信しました：</string>
+    <string name="appmanager_downloaded_to_cache">%s をキャッシュにダウンロードしました</string>
+    <string name="pref_title_mb_intents">メディアボタンのインテントを直接送信する</string>
+    <string name="low_power_gps">省電力 GPS</string>
+    <string name="all_satellites">すべての衛星</string>
+    <string name="gadgetbridge_running_main_nightly">Gadgetbridge Nightly は動作中です</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, No Pebble provider)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly No Pebble</string>
+    <string name="about_activity_title_main_nopebble">Gadgetbridge Nightly No Pebble について</string>
+    <string name="gadgetbridge_running_main_nopebble">Gadgetbridge Nightly No Pebble は動作中です</string>
+    <string name="appmanager_item_outdated">（古いバージョン）</string>
+    <string name="uncheck_all_applications">すべてのアプリを未確認にする</string>
+    <string name="about_description_generic">メーカーが提供するクローズドソースの Android アプリの代替として開発された、クラウドレスでコピーレフトの自由なアプリ。</string>
+    <string name="permission_request">%1$s を使うと、 Android からあなたのデバイスにメッセージやその他のデータを送ることができます。データへのアクセス許可がない場合、この機能は正しく動作しない可能性があります。
+\n
+\n動作に必要なアクセス許可を要求するダイアログが表示されます。
+\n
+\n\'%2$s\' をタップして進みます。</string>
+    <string name="permission_location">%1$s は、画面がオフの状態でもウォッチとの接続を維持するためにバックグラウンドで位置情報にアクセスする権限が必要です。
+\n
+\n\'%2$s\' をタップして同意します。</string>
+    <string name="permission_granting_mandatory">これらすべての許可がなければ、アプリが正しく動作しない可能性があります</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js は動作中です</string>
+    <string name="about_description_banglejs_nightly">Gadgetbridge プロジェクト上に構築された Bangle.js の Android コンパニオン アプリ。インターネット アクセスが追加されています。
+\n
+\nGoogle Play ストアのポリシーにより、アプリ自体に寄付リンクを使用することはできませんが、このアプリを気に入っていただけましたら、以下の Gadgetbridge ホームページから寄付をご検討ください。</string>
+    <string name="about_description_main_nightly">メーカーが提供するクローズドソースの Android アプリの代替として開発された、クラウドレスでコピーレフトの自由なアプリ。Gadgetbridge の Nightly リリース。すでに Gadgetbridge か Pebble アプリがインストールされている場合、Pebble provider の競合のためインストールできません。</string>
+    <string name="about_description_main_nopebble">メーカーが提供するクローズドソースの Android アプリの代替として開発された、クラウドレスでコピーレフトの自由なアプリ。このバージョンは競合を避けるために Pebble provider の名前が変更されているため Pebble 関連の機能は動作しませんが、既存の Gadgetbridge と一緒にインストールすることができます。</string>
+    <string name="single_band">シングルバンド</string>
+    <string name="dual_band">デュアルバンド</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js は動作中です</string>
+    <string name="permission_display_over_other_apps">%1$s は、 %1$s がバックグラウンドで動作しているときに Bangle.js ウォッチがインテントを経由してアクティビティを開始するために、他のアプリの上に重ねて表示する権限が必要です。
+\n
+\nこれによって、音楽アプリを起動して音楽を再生したり、その他いろいろなことができます。
+\n
+\n\'%2$s\' をタップし、次に \'%1$s\' をタップして \'他のアプリの上に重ねて表示できるようにする\' を有効にし、戻るをタップして %1$s に戻ってください。
+\n
+\n%1$s がこの権限を求めるのを停止するには Gadgetbridge の設定を開き、 \'権限の状態を確認する\' をオフにしてください。
+\n
+\nアプリを期待通りに動作させるには、必要な権限を %1$s に与えてください。</string>
+    <string name="device_experimental">試験的</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">デバイスの環境設定を削除しますか？</string>
+    <string name="device_unsupported">未サポート</string>
+    <string name="open_fw_installer_getting_files_text">ファームウェア ファイルは自身で入手する必要があります。Apk ファイル、インターネット、フォーラム、Amazfitwatchfaces（Miband/Amazfit デバイス向け）などでファイルを探す必要があります。</string>
+    <string name="error_background_service_reason_truncated">以下の理由でバックグラウンドサービスの開始に失敗しました…</string>
+    <string name="action_changelog">Changelog</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">睡眠の期間を表示する</string>
+    <string name="error_version_check_extreme_caution">注意：バージョン情報の確認中にエラーが発生しました。続行しないでください。バージョン名は \"%s\" です</string>
+    <string name="open_fw_installer_select_file">デバイスにアップロードしたいファイルを選択： %s</string>
+    <string name="device_is_currently_bonded">既に接続済みです</string>
+    <string name="error_background_service_reason">バックグラウンドサービスの開始は例外のため失敗しました。エラー：</string>
+    <string name="error_background_service">バックグラウンドサービスの開始に失敗しました</string>
+    <string name="require_location_provider">位置情報を有効にする必要があります</string>
+    <string name="pref_check_permission_status">権限の状態を確認する</string>
 </resources>
