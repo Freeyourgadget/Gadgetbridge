@@ -369,6 +369,10 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             today.setFieldByName("relative_humidity", weather.currentHumidity);
             today.setFieldByName("observed_location_lat", weather.latitude);
             today.setFieldByName("observed_location_long", weather.longitude);
+            today.setFieldByName("dew_point", weather.dewPoint);
+            if (null != weather.airQuality) {
+                today.setFieldByName("air_quality", weather.airQuality.aqi);
+            }
             today.setFieldByName("location", weather.location);
             weatherData.add(today);
 
@@ -380,13 +384,14 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     weatherHourlyForecast.setFieldByName("timestamp", hourly.timestamp);
                     weatherHourlyForecast.setFieldByName("temperature", hourly.temp);
                     weatherHourlyForecast.setFieldByName("condition", hourly.conditionCode);
+                    weatherHourlyForecast.setFieldByName("temperature_feels_like", hourly.temp); //TODO: switch to actual feels like field once Hourly contains this information
                     weatherHourlyForecast.setFieldByName("wind_direction", hourly.windDirection);
                     weatherHourlyForecast.setFieldByName("wind_speed", Math.round(hourly.windSpeed));
                     weatherHourlyForecast.setFieldByName("precipitation_probability", hourly.precipProbability);
                     weatherHourlyForecast.setFieldByName("relative_humidity", hourly.humidity);
-//                weatherHourlyForecast.setFieldByName("dew_point", 0); // dew_point sint8
+//                    weatherHourlyForecast.setFieldByName("dew_point", 0); // TODO: add once Hourly contains this information
                     weatherHourlyForecast.setFieldByName("uv_index", hourly.uvIndex);
-//                weatherHourlyForecast.setFieldByName("air_quality", 0); // air_quality enum
+//                    weatherHourlyForecast.setFieldByName("air_quality", 0); // TODO: add once Hourly contains this information
                     weatherData.add(weatherHourlyForecast);
                 }
             }
@@ -399,6 +404,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             todayDailyForecast.setFieldByName("condition", weather.currentConditionCode);
             todayDailyForecast.setFieldByName("precipitation_probability", weather.precipProbability);
             todayDailyForecast.setFieldByName("day_of_week", weather.timestamp);
+            if (null != weather.airQuality) {
+                todayDailyForecast.setFieldByName("air_quality", weather.airQuality.aqi);
+            }
             weatherData.add(todayDailyForecast);
 
 
@@ -413,6 +421,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     weatherDailyForecast.setFieldByName("high_temperature", daily.maxTemp);
                     weatherDailyForecast.setFieldByName("condition", daily.conditionCode);
                     weatherDailyForecast.setFieldByName("precipitation_probability", daily.precipProbability);
+                    if (null != daily.airQuality) {
+                        weatherDailyForecast.setFieldByName("air_quality", daily.airQuality.aqi);
+                    }
                     weatherDailyForecast.setFieldByName("day_of_week", ts);
                     weatherData.add(weatherDailyForecast);
                 }
