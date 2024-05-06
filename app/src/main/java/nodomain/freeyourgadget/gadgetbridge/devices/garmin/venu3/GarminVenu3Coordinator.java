@@ -13,6 +13,6 @@ public class GarminVenu3Coordinator extends GarminCoordinator {
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_garmin_vivomove_style;
+        return R.string.devicetype_garmin_venu_3;
     }
 }
