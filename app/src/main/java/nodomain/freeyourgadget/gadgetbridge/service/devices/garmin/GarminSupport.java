@@ -472,9 +472,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private boolean isBusyFetching;
 
     private void processDownloadQueue() {
-
-        moveFilesFromLegacyCache(); //TODO: remove before merging
-
         if (!filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
             if (!gbDevice.isBusy()) {
                 isBusyFetching = true;
@@ -542,36 +539,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     isBusyFetching = false;
                 }
             });
-        }
-    }
-
-    private void moveFilesFromLegacyCache() { //TODO: remove before merging
-        File legacyDir;
-        try {
-            legacyDir = new File(FileUtils.getExternalFilesDir() + "/" + FileUtils.makeValidFileName(getDevice().getName() + "_" + getDevice().getAddress()));
-
-            if (legacyDir.isDirectory()) {
-                final File newDir = getWritableExportDirectory();
-                File[] files = legacyDir.listFiles();
-
-                for (File file : files) {
-                    if (file.isFile()) {
-                        File destFile = new File(newDir, file.getName());
-                        boolean success = file.renameTo(destFile);
-                        if (!success) {
-                            LOG.error("Failed to move file {}", file.getName());
-                        } else {
-                            LOG.info("Moved file {} to new cache directory", file.getName());
-                        }
-                    }
-                }
-                boolean removed = legacyDir.delete();
-                if (!removed) {
-                    LOG.error("Failed to remove legacy directory: {}", legacyDir);
-                }
-            }
-        } catch (IOException e) {
-            LOG.error(e.getMessage());
         }
     }
 
