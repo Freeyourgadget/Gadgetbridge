@@ -3441,6 +3441,27 @@
         <item>as_off</item>
     </string-array>
 
+    <string-array name="soundcore_button_function_names">
+        <item>@string/pref_media_volumedown</item>
+        <item>@string/pref_media_volumeup</item>
+        <item>@string/pref_media_next</item>
+        <item>@string/pref_media_previous</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/sony_button_mode_ambient_sound_control</item>
+    </string-array>
+
+    <string-array name="soundcore_button_function_values">
+        <item>VOLUME_DOWN</item>
+        <item>VOLUME_UP</item>
+        <item>MEDIA_NEXT</item>
+        <item>MEDIA_PREV</item>
+        <item>PLAYPAUSE</item>
+        <item>VOICE_ASSISTANT</item>
+        <item>AMBIENT_SOUND_CONTROL</item>
+    </string-array>
+
+
     <string-array name="fitness_tracking_apps_package_names">
         <item>de.dennisguse.opentracks</item>
         <item>de.dennisguse.opentracks.playStore</item>

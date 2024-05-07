@@ -520,6 +520,10 @@
     <string name="pref_gps_satellite_search">Satellite Search</string>
     <string name="pref_crown_vibration">Crown Vibration</string>
     <string name="pref_alert_tone">Alert Tone</string>
+    <string name="pref_touch_tone">Touch Tone</string>
+    <string name="pref_touch_tone_summary">Plays a tone when the earbud is touched</string>
+    <string name="pref_wearing_tone">Wearing Tone</string>
+    <string name="pref_wearing_tone_summary">Plays a tone when the earbud is inserted</string>
     <string name="pref_cover_to_mute">Cover to Mute</string>
     <string name="pref_vibrate_for_alert">Vibrate for Alert</string>
     <string name="pref_text_to_speech">Text to Speech</string>
@@ -1533,6 +1537,7 @@
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="devicetype_honor_band3">Honor Band 3</string>
     <string name="devicetype_honor_band4">Honor Band 4</string>
@@ -2284,6 +2289,8 @@
     <string name="pref_wide_area_tap_title">Wide area tap</string>
     <string name="pref_adaptive_volume_control_summary">Increase volume automatically when ambient sound is loud</string>
     <string name="pref_adaptive_volume_control_title">Adaptive volume control</string>
+    <string name="pref_adaptive_noise_cancelling_title">Adaptive ANC</string>
+    <string name="pref_adaptive_noise_cancelling_summary">Set the strength of the ANC automatically depending on the ambient sound level</string>
     <string name="sony_speak_to_chat">Speak-to-chat</string>
     <string name="sony_speak_to_chat_summary">Turn off noise cancelling automatically when you start talking.</string>
     <string name="sony_speak_to_chat_sensitivity">Voice Detection Sensitivity</string>

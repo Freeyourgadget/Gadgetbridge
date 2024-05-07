@@ -563,6 +563,27 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SONY_CONNECT_TWO_DEVICES);
         addPreferenceHandlerFor(PREF_SONY_ADAPTIVE_VOLUME_CONTROL);
         addPreferenceHandlerFor(PREF_SONY_WIDE_AREA_TAP);
+
+        addPreferenceHandlerFor(PREF_SOUNDCORE_AMBIENT_SOUND_CONTROL);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_WIND_NOISE_REDUCTION);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_TRANSPARENCY_VOCAL_MODE);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_ADAPTIVE_NOISE_CANCELLING);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_TOUCH_TONE);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_WEARING_TONE);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_WEARING_DETECTION);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_SINGLE_TAP_DISABLED);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_DOUBLE_TAP_DISABLED);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_TRIPLE_TAP_DISABLED);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_LONG_PRESS_DISABLED);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_SINGLE_TAP_ACTION_LEFT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_SINGLE_TAP_ACTION_RIGHT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_DOUBLE_TAP_ACTION_LEFT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_DOUBLE_TAP_ACTION_RIGHT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_TRIPLE_TAP_ACTION_LEFT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_TRIPLE_TAP_ACTION_RIGHT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_LONG_PRESS_ACTION_LEFT);
+        addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_LONG_PRESS_ACTION_RIGHT);
+
         addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);

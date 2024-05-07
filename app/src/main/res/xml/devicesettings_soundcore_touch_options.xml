@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/single_tap">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_lock_open"
+            android:key="pref_soundcore_control_single_tap_disabled"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/prefs_touch_lock_summary"
+            android:title="@string/prefs_touch_lock" />
+            <ListPreference
+                android:dependency="pref_soundcore_control_single_tap_disabled"
+                android:entries="@array/soundcore_button_function_names"
+                android:entryValues="@array/soundcore_button_function_values"
+                android:icon="@drawable/ic_touch"
+                android:key="pref_soundcore_control_single_tap_action_left"
+                android:summary="%s"
+                android:title="@string/prefs_left" />
+            <ListPreference
+                android:dependency="pref_soundcore_control_single_tap_disabled"
+                android:entries="@array/soundcore_button_function_names"
+                android:entryValues="@array/soundcore_button_function_values"
+                android:icon="@drawable/ic_touch"
+                android:key="pref_soundcore_control_single_tap_action_right"
+                android:summary="%s"
+                android:title="@string/prefs_right" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/double_tap">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_lock_open"
+            android:key="pref_soundcore_control_double_tap_disabled"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/prefs_touch_lock_summary"
+            android:title="@string/prefs_touch_lock" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_double_tap_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_double_tap_action_left"
+            android:summary="%s"
+            android:title="@string/prefs_left" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_double_tap_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_double_tap_action_right"
+            android:summary="%s"
+            android:title="@string/prefs_right" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/triple_tap">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_lock_open"
+            android:key="pref_soundcore_control_triple_tap_disabled"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/prefs_touch_lock_summary"
+            android:title="@string/prefs_touch_lock" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_triple_tap_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_triple_tap_action_left"
+            android:summary="%s"
+            android:title="@string/prefs_left" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_triple_tap_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_triple_tap_action_right"
+            android:summary="%s"
+            android:title="@string/prefs_right" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/long_press">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_lock_open"
+            android:key="pref_soundcore_control_long_press_disabled"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/prefs_touch_lock_summary"
+            android:title="@string/prefs_touch_lock" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_long_press_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_long_press_action_left"
+            android:summary="%s"
+            android:title="@string/prefs_left" />
+        <ListPreference
+            android:dependency="pref_soundcore_control_long_press_disabled"
+            android:entries="@array/soundcore_button_function_names"
+            android:entryValues="@array/soundcore_button_function_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_soundcore_control_long_press_action_right"
+            android:summary="%s"
+            android:title="@string/prefs_right" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_header_soundcore_ambient_sound_control"
+        android:title="@string/pref_header_sony_ambient_sound_control">
+
+        <ListPreference
+            android:defaultValue="noise_cancelling"
+            android:entries="@array/sony_ambient_sound_control_names"
+            android:entryValues="@array/sony_ambient_sound_control_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_soundcore_ambient_sound_control"
+            android:summary="%s"
+            android:title="@string/sony_ambient_sound" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_adaptive_noise_cancelling"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_adaptive_noise_cancelling_summary"
+            android:title="@string/pref_adaptive_noise_cancelling_title" />
+
+        <!-- [0, 2], low moderate and high -->
+        <SeekBarPreference
+            android:dependency="pref_adaptive_noise_cancelling"
+            android:defaultValue="0"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_sony_ambient_sound_level"
+            android:max="2"
+            android:title="@string/prefs_active_noise_cancelling_level" />
+
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_block"
+            android:key="pref_soundcore_wind_noise_reduction"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/sony_ambient_sound_wind_noise_reduction" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_voice"
+            android:key="pref_soundcore_transparency_vocal_mode"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/sony_ambient_sound_focus_voice" />
+
+    </PreferenceCategory>
+
+
+
+    <PreferenceCategory
+        android:key="pref_key_header_soundcore_other"
+        android:title="@string/pref_header_other">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/nothing_prefs_inear_summary"
+            android:title="@string/nothing_prefs_inear_title"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_soundcore_wearing_tone"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_wearing_tone_summary"
+            android:title="@string/pref_wearing_tone"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_soundcore_touch_tone"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_touch_tone_summary"
+            android:title="@string/pref_touch_tone"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
