@@ -2963,4 +2963,11 @@
     <string name="cyclingPowerAverage">Potencia media de ciclo</string>
     <string name="cyclingPowerMax">Potencia máxima del ciclo</string>
     <string name="huawei_trusleep_warning">Advertencia: Al habilitar esta opción, la información de sueño no se mostrará en Gadgetbridge. Haz clic aquí si aceptas.</string>
+    <string name="pref_touch_tone">Tono táctil</string>
+    <string name="pref_wearing_tone">Tono de uso</string>
+    <string name="pref_wearing_tone_summary">Reproduce un tono cuando se inserta el auricular</string>
+    <string name="pref_touch_tone_summary">Reproduce un tono cuando se toca el auricular</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="pref_adaptive_noise_cancelling_title">ANC adaptativo</string>
+    <string name="pref_adaptive_noise_cancelling_summary">Configure la intensidad del ANC automáticamente según el nivel del sonido ambiental</string>
 </resources>
