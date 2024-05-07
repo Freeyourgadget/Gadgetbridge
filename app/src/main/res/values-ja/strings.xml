@@ -703,7 +703,7 @@
     <string name="seconds">秒</string>
     <string name="km_h">km/h</string>
     <string name="meters_second">m/s</string>
-    <string name="steps_unit">歩数</string>
+    <string name="steps_unit">歩</string>
     <string name="cm">cm</string>
     <string name="meters">m</string>
     <string name="averageKMPaceSeconds">ペース</string>
@@ -711,7 +711,7 @@
     <string name="maxPace">最速のペース</string>
     <string name="maxSpeed">最大</string>
     <string name="caloriesBurnt">カロリー</string>
-    <string name="activeSeconds"/>
+    <string name="activeSeconds">アクティブ</string>
     <string name="steps">歩数</string>
     <string name="minAltitude">最小</string>
     <string name="maxAltitude">最大</string>
@@ -764,11 +764,11 @@
     <string name="prefs_disconnect_notification">切断通知</string>
     <string name="Distance">距離</string>
     <string name="sonyswr12_settings_title">Sony SWR12 設定</string>
-    <string name="sonyswr12_settings_low_vibration">低振動対応</string>
-    <string name="sonyswr12_settings_stamina">省電力モードがオンになっている</string>
+    <string name="sonyswr12_settings_low_vibration">弱い振動への対応</string>
+    <string name="sonyswr12_settings_stamina">省電力モードをオンにする</string>
     <string name="sonyswr12_settings_alarm_interval">分単位のスマートアラーム間隔</string>
-    <string name="sonyswr12_settings_low_vibration_summary">バンドで低強度の振動を有効にする</string>
-    <string name="sonyswr12_settings_stamina_summary">省電力モードでは、心拍数の定期的な自動測定がオフになり、作業時間が長くなります</string>
+    <string name="sonyswr12_settings_low_vibration_summary">バンドで低強度の振動を有効にします</string>
+    <string name="sonyswr12_settings_stamina_summary">省電力モードでは、心拍数の定期的な自動測定がオフになり、動作時間が長くなります</string>
     <string name="sonyswr12_settings_alarm_interval_summary">スマートアラーム間隔は、インストールされたアラームの前の間隔です。 この間隔では、デバイスはユーザーを目覚めさせるために睡眠の最も軽い段階を検出しようとしています</string>
     <string name="prefs_wena3_receive_calls_title">着信設定</string>
     <string name="prefs_wena3_button_action_name_start_timer">設定中タイマーを開始</string>
@@ -924,7 +924,7 @@
     <string name="pref_title_notification_use_as_allow">選択したアプリからの通知を許可する</string>
     <string name="pref_message_privacy_mode_complete">すべての内容を非表示</string>
     <string name="pref_message_privacy_mode_bodyonly">本文のみ非表示</string>
-    <string name="pref_title_weather_summary">LineageOS の Weather provider に使用されますが、ほかの Android バージョンでは \"Weather notification\" のようなアプリを使用する必要があります。詳しくは Gadgetbridge の Wiki をご覧ください。</string>
+    <string name="pref_title_weather_summary">LineageOS の Weather provider に使用されますが、他の Android バージョンでは \"Weather notification\" のようなアプリを使用する必要があります。詳しくは Gadgetbridge の Wiki をご覧ください。</string>
     <string name="pref_applications_settings">アプリケーション一覧</string>
     <string name="debugactivity_confirm_remove_device_preferences">接続されたすべてのデバイスの環境設定を削除しますがよろしいですか？</string>
     <string name="pref_title_general_reconnectonlytoconnected">接続中のデバイスにのみ再接続する</string>
@@ -1300,7 +1300,7 @@
     <string name="qhybrid_calibration_10_steps">10 ステップ</string>
     <string name="qhybrid_calibration_100_steps">100 ステップ</string>
     <string name="wearmode_band">バンド（リストバンド）</string>
-    <string name="fossil_hr_synced_activity_data">同期済みのアクティビティデータ</string>
+    <string name="fossil_hr_synced_activity_data">同期済みのアクティビティ データ</string>
     <string name="fossil_hr_new_action_cancel">キャンセル</string>
     <string name="pref_summary_physical_buttons">ウォッチの物理ボタンの機能を設定します</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
@@ -1920,7 +1920,7 @@
 \n
 \nこれによって、音楽アプリを起動して音楽を再生したり、その他いろいろなことができます。
 \n
-\n\'%2$s\' をタップし、次に \'%1$s\' をタップして \'他のアプリの上に重ねて表示できるようにする\' を有効にし、戻るをタップして %1$s に戻ってください。
+\n\'%2$s\' をタップし、 \'%1$s\' を選択して \'他のアプリの上に重ねて表示できるようにする\' を有効にし、戻るをタップして %1$s に戻ってください。
 \n
 \n%1$s がこの権限を求めるのを停止するには Gadgetbridge の設定を開き、 \'権限の状態を確認する\' をオフにしてください。
 \n
@@ -1939,4 +1939,131 @@
     <string name="error_background_service">バックグラウンドサービスの開始に失敗しました</string>
     <string name="require_location_provider">位置情報を有効にする必要があります</string>
     <string name="pref_check_permission_status">権限の状態を確認する</string>
+    <string name="strokes_minute">ストローク/秒</string>
+    <string name="aerobicTrainingEffect">有酸素の効果</string>
+    <string name="pref_show_changelog">起動時に Changelog を表示</string>
+    <string name="pref_show_changelog_summary">Gaddgetbridge が更新された後に前バージョンからの変更履歴を表示します</string>
+    <string name="laps_unit">周</string>
+    <string name="bpm">bpm</string>
+    <string name="Strokes">ストローク</string>
+    <string name="qhybrid_pref_summary_actions">通勤アプリのアクション</string>
+    <string name="button_watchface_preview">ウォッチで試す</string>
+    <string name="watchface_dialog_widget_cat_position">位置</string>
+    <string name="qhybrid_title_background_image">背景画像</string>
+    <string name="qhybrid_title_watchface">ウォッチフェイスの設定</string>
+    <string name="qhybrid_pref_title_external_intents">危険な外部インテントを許可</string>
+    <string name="discover_unsupported_devices">未サポートのデバイスも表示する</string>
+    <string name="maxStride">最大歩幅</string>
+    <string name="HeartRateZones">心拍ゾーン</string>
+    <string name="hrZoneFatBurn">脂肪燃焼</string>
+    <string name="watchface_dialog_widget_cat_generic">全般</string>
+    <string name="hrZoneWarmUp">ウォーミングアップ</string>
+    <string name="activity_detail_duration_label">期間</string>
+    <string name="qhybrid_title_apps">アプリ</string>
+    <string name="button_watchface_add_widget">ウィジェットの追加</string>
+    <string name="TrainingEffect">トレーニングの効果</string>
+    <string name="fossil_hr_edit_action">アクションの編集</string>
+    <string name="pref_summary_developer_settings">開発者向けの設定と機能</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="watchface_widget_type_date">日付</string>
+    <string name="watchface_widget_type_steps">歩数</string>
+    <string name="watchface_widget_type_heart_rate">心拍数</string>
+    <string name="qhybrid_pref_summary_external_intents">他の Android アプリからファイルをアップロード/上書きすることを許可します</string>
+    <string name="permission_notification_listener">%1$s は、Android の画面がオフのときにもウォッチに通知を表示するために、通知にアクセスする必要があります。
+\n
+\n\'%2$s\' をタップし、 \'%1$s\' を選択して \'通知へのアクセス許可\' を有効にし、 戻るボタンをタップして %1$s に戻ってください。</string>
+    <string name="permission_notification_policy_access">%1$s は、 Android がオフのときにもウォッチでサイレント モードを有効にするために、サイレント モードの設定にアクセスする必要があります。
+\n
+\n\'%2$s\' をタップし、 \'%1$s\' を選択して \'サイレント モードの利用を許可\' を有効にし、 戻るボタンをタップして %1$s に戻ってください。</string>
+    <string name="minHR">最小心拍数</string>
+    <string name="seconds_km">秒/km</string>
+    <string name="seconds_m">秒/m</string>
+    <string name="calories_unit">kcal</string>
+    <string name="qhybrid_summary_calibration">ウォッチの針を補正します</string>
+    <string name="Speed">速度</string>
+    <string name="watchface_widget_type_weather">天気</string>
+    <string name="minCadence">最小ケイデンス</string>
+    <string name="spm">歩/min</string>
+    <string name="averageAltitude">平均</string>
+    <string name="minSpeed">最小</string>
+    <string name="hrZoneNa">利用不可</string>
+    <string name="hrZoneAnaerobic">無酸素</string>
+    <string name="anaerobicTrainingEffect">無酸素の効果</string>
+    <string name="maximumOxygenUptake">最大酸素摂取量</string>
+    <string name="minStride">最小歩幅</string>
+    <string name="maxCadence">最大ケイデンス</string>
+    <string name="discover_unsupported_devices_description">このオプションを有効にすると、検出されたすべての Bluetooth デバイスを表示します。短くタップすると、デバイス名と MAC アドレスをクリップボードにコピーします。長くタップすると、\'テストデバイスの追加\' ダイアログが表示されます。アプリが停止する可能性があります。</string>
+    <string name="hrZoneExtreme">エクストリーム</string>
+    <string name="currentWorkoutLoad">ワークアウトの負荷</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="other">%d 時間</item>
+    </plurals>
+    <string name="qhybrid_summary_file_management">ファイルをアップロード/ダウンロードします</string>
+    <string name="descentMeters">下り坂</string>
+    <string name="ascentDistance">上り坂の距離</string>
+    <string name="strokes_unit">ストローク</string>
+    <string name="swolf_index">SWOLF 指数</string>
+    <string name="minutes_km">分/km</string>
+    <string name="swim_style">泳法</string>
+    <string name="qhybrid_title_file_management">ファイルの管理</string>
+    <string name="button_watchface_settings">ウォッチフェイスの設定</string>
+    <string name="watchface_dialog_title_set_name">ウォッチフェイスに名前を付ける</string>
+    <string name="button_watchface_save_apply">保存して適用</string>
+    <string name="appmanager_app_edit">編集</string>
+    <string name="error_exporting_device_preferences">デバイス固有設定のエクスポート中にエラーが発生しました</string>
+    <string name="error_setting_alias">エイリアスの設定中にエラーが発生しました：</string>
+    <string name="averageStride">平均歩幅</string>
+    <string name="averageCadence">平均ケイデンス</string>
+    <string name="maxHR">最大心拍数</string>
+    <string name="swolfIndex">SWOLF</string>
+    <string name="swimStyle">泳法</string>
+    <string name="laneLength">レーン長</string>
+    <string name="swingAngleAvg">平均スイング角度</string>
+    <string name="unknownDataEncountered">不明なデータです</string>
+    <string name="strokes_second">ストローク/秒</string>
+    <string name="ft">ft</string>
+    <string name="yard">yard</string>
+    <string name="hrZoneAerobic">有酸素</string>
+    <string name="mi">mi</string>
+    <string name="minPace">最遅のペース</string>
+    <string name="activity_detail_start_label">開始</string>
+    <string name="activity_detail_end_label">終了</string>
+    <string name="Swimming">スイミング</string>
+    <string name="prefs_operating_sounds">操作音</string>
+    <string name="qhybrid_title_calibration">補正</string>
+    <string name="qhybrid_pref_title_actions">アクション</string>
+    <string name="button_watchface_select_image">背景画像の変更</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">2つ目のタイムゾーンのウィジェット</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">カスタム ウィジェット</string>
+    <string name="watchface_dialog_widget_type">種類</string>
+    <string name="watchface_dialog_widget_x_coordinate">X 座標（最大値 240）</string>
+    <string name="pref_check_permission_status_summary">直ちに必要がない場合であっても、不足している権限をチェックして許可を求めます。デバイスが権限を必要とする機能に対応していないときにのみ無効にしてください。権限がないと問題が発生する場合があります！</string>
+    <string name="baseAltitude">基準標高</string>
+    <string name="qhybrid_calibration_align_hint">以下のボタンを使ってウォッチの針を 12:00 に合わせてください。</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">ファームウェア バージョン DN1.0.2.19r 以下 のウォッチ向けのウォッチフェイス設定画面</string>
+    <string name="button_watchface_edit_name">名前の編集</string>
+    <string name="watchface_dialog_widget_y_coordinate">Y 座標（最大値 240）</string>
+    <string name="ascentMeters">上り坂</string>
+    <string name="descentDistance">下り坂の距離</string>
+    <string name="flatDistance">平地の距離</string>
+    <string name="elevationLoss">喪失標高</string>
+    <string name="totalStride">合計歩幅</string>
+    <string name="laps">ラップ</string>
+    <string name="error_location_enabled_mandatory">デバイスをスキャンするには位置情報を有効にする必要があります</string>
+    <string name="elevationGain">獲得標高</string>
+    <string name="swolfAvg">平均 SWOLF</string>
+    <string name="swolfMax">最大 SWOLF</string>
+    <string name="swolfMin">最小 SWOLF</string>
+    <string name="averageSpeed">平均速度</string>
+    <string name="groundContactTimeAvg">平均接地時間</string>
+    <string name="mi_h">mi/h</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="milliseconds">ミリ秒</string>
+    <string name="km">km</string>
+    <string name="degrees">度</string>
+    <string name="Pace">ペース</string>
+    <string name="Elevation">高度</string>
+    <string name="Activity">アクティビティ</string>
+    <string name="Steps">歩数</string>
+    <string name="RunningForm">ランニングフォーム</string>
 </resources>
