@@ -41,10 +41,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -150,7 +152,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getCannedRepliesSlotCount(final GBDevice device) {
-        if (isHybridHR()) {
+        if (isHybridHR(device)) {
             return 16;
         }
 
@@ -159,17 +161,17 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsAlarmTitle(GBDevice device) {
-        return isHybridHR();
+        return isHybridHR(device);
     }
 
     @Override
     public boolean supportsAlarmDescription(GBDevice device) {
-        return isHybridHR();
+        return isHybridHR(device);
     }
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return this.isHybridHR();
+        return isHybridHR(device);
     }
 
     @Override
@@ -189,7 +191,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return isHybridHR() ? AppManagerActivity.class : ConfigActivity.class;
+        return isHybridHR() ? AppManagerActivity.class : QHybridConfigActivity.class;
     }
 
     @Override
@@ -249,7 +251,8 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
-        if (!isHybridHR()) {
+        if (!isHybridHR(device)) {
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_fossilqhybrid_legacy);
             return deviceSpecificSettings;
         }
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
@@ -280,6 +283,11 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         return deviceSpecificSettings;
     }
 
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
+        return new QHybridSettingsCustomizer();
+    }
+
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
@@ -293,6 +301,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
+    @Deprecated // we should use the isHybridHR(GBDevice) instead of iterating every single device
     private boolean isHybridHR() {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for(GBDevice device : devices){

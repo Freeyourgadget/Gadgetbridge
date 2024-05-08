@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:icon="@drawable/ic_settings"
+        android:key="pref_key_qhybrid_legacy"
+        android:summary="@string/preferences_qhybrid_settings_summary"
+        android:title="@string/preferences_qhybrid_settings" />
+
+</androidx.preference.PreferenceScreen>

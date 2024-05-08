@@ -764,15 +764,15 @@
         </activity>
 
         <activity
-            android:name=".devices.qhybrid.ConfigActivity"
+            android:name=".devices.qhybrid.QHybridConfigActivity"
             android:label="@string/qhybrid_title_watchface"
             android:exported="true"
-            android:parentActivityName=".activities.ControlCenterv2" />
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
         <activity
             android:name=".devices.qhybrid.QHybridAppChoserActivity"
             android:label="@string/qhybrid_title_apps"
             android:exported="true"
-            android:parentActivityName=".devices.qhybrid.ConfigActivity" />
+            android:parentActivityName=".devices.qhybrid.QHybridConfigActivity" />
         <activity
             android:name=".devices.qhybrid.HRConfigActivity"
             android:label="@string/qhybrid_title_watchface"

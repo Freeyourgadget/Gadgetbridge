@@ -1612,6 +1612,7 @@
     <string name="menuitem_cards">Cards</string>
     <string name="menuitem_mi_ai">MI AI</string>
     <string name="preferences_qhybrid_settings">Q Hybrid Settings</string>
+    <string name="preferences_qhybrid_settings_summary">Legacy settings for Q Hybrid watches</string>
     <string name="menuitem_music">Music</string>
     <string name="menuitem_more">More</string>
     <string name="menuitem_nfc">NFC</string>

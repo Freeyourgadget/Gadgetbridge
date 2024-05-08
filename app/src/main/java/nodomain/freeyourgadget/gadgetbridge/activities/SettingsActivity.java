@@ -68,7 +68,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryPairin
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
@@ -134,14 +133,6 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 pref.setOnPreferenceClickListener(preference -> {
                     Intent enableIntent = new Intent(requireContext(), MiBandPreferencesActivity.class);
                     startActivity(enableIntent);
-                    return true;
-                });
-            }
-
-            pref = findPreference("pref_key_qhybrid");
-            if (pref != null) {
-                pref.setOnPreferenceClickListener(preference -> {
-                    startActivity(new Intent(requireContext(), ConfigActivity.class));
                     return true;
                 });
             }

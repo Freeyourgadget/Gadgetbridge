@@ -80,7 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ConfigActivity extends AbstractGBActivity {
+public class QHybridConfigActivity extends AbstractGBActivity {
     PackageAdapter adapter;
     ArrayList<NotificationConfiguration> list;
     PackageConfigHelper helper;
@@ -97,45 +97,53 @@ public class ConfigActivity extends AbstractGBActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+
         super.onCreate(savedInstanceState);
+
+        if (device == null) {
+            GB.toast(this, "Device is null", Toast.LENGTH_LONG, GB.ERROR);
+            finish();
+            return;
+        }
 
         setContentView(R.layout.activity_qhybrid_settings);
 
         findViewById(R.id.buttonOverwriteButtons).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
+                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
             }
         });
 
-        prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        prefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
         timeOffsetView = findViewById(R.id.qhybridTimeOffset);
         timeOffsetView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int timeOffset = prefs.getInt("QHYBRID_TIME_OFFSET", 0);
-                LinearLayout layout2 = new LinearLayout(ConfigActivity.this);
+                LinearLayout layout2 = new LinearLayout(QHybridConfigActivity.this);
                 layout2.setOrientation(LinearLayout.HORIZONTAL);
 
-                final NumberPicker hourPicker = new NumberPicker(ConfigActivity.this);
+                final NumberPicker hourPicker = new NumberPicker(QHybridConfigActivity.this);
                 hourPicker.setMinValue(0);
                 hourPicker.setMaxValue(23);
                 hourPicker.setValue(timeOffset / 60);
 
-                final NumberPicker minPicker = new NumberPicker(ConfigActivity.this);
+                final NumberPicker minPicker = new NumberPicker(QHybridConfigActivity.this);
                 minPicker.setMinValue(0);
                 minPicker.setMaxValue(59);
                 minPicker.setValue(timeOffset % 60);
 
                 layout2.addView(hourPicker);
-                TextView tw = new TextView(ConfigActivity.this);
+                TextView tw = new TextView(QHybridConfigActivity.this);
                 tw.setText(":");
                 layout2.addView(tw);
                 layout2.addView(minPicker);
 
                 layout2.setGravity(Gravity.CENTER);
 
-                new MaterialAlertDialogBuilder(ConfigActivity.this)
+                new MaterialAlertDialogBuilder(QHybridConfigActivity.this)
                         .setTitle(getString(R.string.qhybrid_offset_time_by))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -143,7 +151,7 @@ public class ConfigActivity extends AbstractGBActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 prefs.edit().putInt("QHYBRID_TIME_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimeOffset();
-                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE));
+                                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE));
                                 GB.toast(getString(R.string.qhybrid_changes_delay_prompt), Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
@@ -159,28 +167,28 @@ public class ConfigActivity extends AbstractGBActivity {
             @Override
             public void onClick(View view) {
                 int timeOffset = prefs.getInt("QHYBRID_TIMEZONE_OFFSET", 0);
-                LinearLayout layout2 = new LinearLayout(ConfigActivity.this);
+                LinearLayout layout2 = new LinearLayout(QHybridConfigActivity.this);
                 layout2.setOrientation(LinearLayout.HORIZONTAL);
 
-                final NumberPicker hourPicker = new NumberPicker(ConfigActivity.this);
+                final NumberPicker hourPicker = new NumberPicker(QHybridConfigActivity.this);
                 hourPicker.setMinValue(0);
                 hourPicker.setMaxValue(23);
                 hourPicker.setValue(timeOffset / 60);
 
-                final NumberPicker minPicker = new NumberPicker(ConfigActivity.this);
+                final NumberPicker minPicker = new NumberPicker(QHybridConfigActivity.this);
                 minPicker.setMinValue(0);
                 minPicker.setMaxValue(59);
                 minPicker.setValue(timeOffset % 60);
 
                 layout2.addView(hourPicker);
-                TextView tw = new TextView(ConfigActivity.this);
+                TextView tw = new TextView(QHybridConfigActivity.this);
                 tw.setText(":");
                 layout2.addView(tw);
                 layout2.addView(minPicker);
 
                 layout2.setGravity(Gravity.CENTER);
 
-                new MaterialAlertDialogBuilder(ConfigActivity.this)
+                new MaterialAlertDialogBuilder(QHybridConfigActivity.this)
                         .setTitle(getString(R.string.qhybrid_offset_timezone))
                         .setView(layout2)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -188,7 +196,7 @@ public class ConfigActivity extends AbstractGBActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 prefs.edit().putInt("QHYBRID_TIMEZONE_OFFSET", hourPicker.getValue() * 60 + minPicker.getValue()).apply();
                                 updateTimezoneOffset();
-                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
+                                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_TIMEZONE));
                                 GB.toast(getString(R.string.qhybrid_changes_delay_prompt), Toast.LENGTH_SHORT, GB.INFO);
                             }
                         })
@@ -215,7 +223,7 @@ public class ConfigActivity extends AbstractGBActivity {
         appList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int i, long l) {
-                PopupMenu menu = new PopupMenu(ConfigActivity.this, view);
+                PopupMenu menu = new PopupMenu(QHybridConfigActivity.this, view);
                 menu.getMenu().add(0, 0, 0, "edit");
                 menu.getMenu().add(0, 1, 1, "delete");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -223,7 +231,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case 0: {
-                                TimePicker picker = new TimePicker(ConfigActivity.this, (NotificationConfiguration) adapterView.getItemAtPosition(i));
+                                TimePicker picker = new TimePicker(QHybridConfigActivity.this, (NotificationConfiguration) adapterView.getItemAtPosition(i));
                                 picker.finishListener = new TimePicker.OnFinishListener() {
                                     @Override
                                     public void onFinish(boolean success, NotificationConfiguration config) {
@@ -231,7 +239,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                         if (success) {
                                             try {
                                                 helper.saveNotificationConfiguration(config);
-                                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
+                                                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
                                             } catch (Exception e) {
                                                 GB.toast("error saving notification", Toast.LENGTH_SHORT, GB.ERROR, e);
                                             }
@@ -257,7 +265,7 @@ public class ConfigActivity extends AbstractGBActivity {
                             case 1: {
                                 try {
                                     helper.deleteNotificationConfiguration((NotificationConfiguration) adapterView.getItemAtPosition(i));
-                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
+                                    LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION_CONFIG_CHANGED));
                                 } catch (Exception e) {
                                     GB.toast("error deleting setting", Toast.LENGTH_SHORT, GB.ERROR, e);
                                 }
@@ -278,7 +286,7 @@ public class ConfigActivity extends AbstractGBActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent notificationIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_NOTIFICATION);
                 notificationIntent.putExtra("CONFIG", (NotificationConfiguration) adapterView.getItemAtPosition(i));
-                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(notificationIntent);
+                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(notificationIntent);
             }
         });
         SeekBar vibeBar = findViewById(R.id.vibrationStrengthBar);
@@ -302,22 +310,15 @@ public class ConfigActivity extends AbstractGBActivity {
                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_VIBRATION_STRENGTH, values[progress]));
                 Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
                 intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_VIBRATION_STRENGTH);
-                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
+                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(intent);
             }
         });
 
-        // NOTE: this code always selects the first connected Q Hybrid device
-        //       because currently this class is unable to handle multiple
-        //       connected Q Hybrid devices
-        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
-        for(GBDevice candidate : devices){
-            if (candidate.getType() == DeviceType.FOSSILQHYBRID && candidate.getFirmwareVersion().charAt(2) == '0') {
-                device = candidate;
-                updateSettings();
-                return;
-            }
+        if (device.getType() == DeviceType.FOSSILQHYBRID && device.isInitialized() && device.getFirmwareVersion().charAt(2) == '0') {
+            updateSettings();
+        } else {
+            setSettingsError(getString(R.string.watch_not_connected));
         }
-        setSettingsError(getString(R.string.watch_not_connected));
     }
 
     private void updateTimeOffset() {
@@ -362,7 +363,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                 device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_STEP_GOAL, t));
                                 Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
                                 intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_STEP_GOAL);
-                                LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
+                                LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(intent);
                                 updateSettings();
                             }
                             ((InputMethodManager) getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -390,7 +391,7 @@ public class ConfigActivity extends AbstractGBActivity {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
                             if (!device.getDeviceInfo(QHybridSupport.ITEM_STEP_GOAL).getDetails().equals("1000000")) {
-                                new MaterialAlertDialogBuilder(ConfigActivity.this)
+                                new MaterialAlertDialogBuilder(QHybridConfigActivity.this)
                                         .setMessage(getString(R.string.qhybrid_prompt_million_steps))
                                         .setPositiveButton("ok", null)
                                         .show();
@@ -400,7 +401,7 @@ public class ConfigActivity extends AbstractGBActivity {
                             device.addDeviceInfo(new GenericItem(QHybridSupport.ITEM_USE_ACTIVITY_HAND, String.valueOf(checked)));
                             Intent intent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPDATE_SETTINGS);
                             intent.putExtra("EXTRA_SETTING", QHybridSupport.ITEM_USE_ACTIVITY_HAND);
-                            LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(intent);
+                            LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(intent);
                         }
                     });
                 } else {
@@ -440,7 +441,7 @@ public class ConfigActivity extends AbstractGBActivity {
                     for (int i = 0; i < buttonConfig.length(); i++) {
                         final int currentIndex = i;
                         String configName = buttonConfig.getString(i);
-                        TextView buttonTextView = new TextView(ConfigActivity.this);
+                        TextView buttonTextView = new TextView(QHybridConfigActivity.this);
                         buttonTextView.setTextSize(20);
                         try {
                             ConfigPayload payload = ConfigPayload.valueOf(configName);
@@ -452,7 +453,7 @@ public class ConfigActivity extends AbstractGBActivity {
                         buttonTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                AlertDialog dialog = new MaterialAlertDialogBuilder(ConfigActivity.this)
+                                AlertDialog dialog = new MaterialAlertDialogBuilder(QHybridConfigActivity.this)
                                         .setItems(names, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -465,7 +466,7 @@ public class ConfigActivity extends AbstractGBActivity {
                                                     updateSettings();
                                                     Intent buttonIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS);
                                                     buttonIntent.putExtra(FossilWatchAdapter.ITEM_BUTTONS, buttonConfig.toString());
-                                                    LocalBroadcastManager.getInstance(ConfigActivity.this).sendBroadcast(buttonIntent);
+                                                    LocalBroadcastManager.getInstance(QHybridConfigActivity.this).sendBroadcast(buttonIntent);
                                                 } catch (JSONException e) {
                                                     GB.log("error", GB.ERROR, e);
                                                 }
@@ -547,6 +548,16 @@ public class ConfigActivity extends AbstractGBActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     private void setSettingsError(final String error) {
         runOnUiThread(new Runnable() {
@@ -575,13 +586,13 @@ public class ConfigActivity extends AbstractGBActivity {
             NotificationConfiguration settings = getItem(position);
 
             if (settings == null) {
-                Button addButton = new Button(ConfigActivity.this);
+                Button addButton = new Button(QHybridConfigActivity.this);
                 addButton.setText("+");
                 addButton.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivityForResult(new Intent(ConfigActivity.this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
+                        startActivityForResult(new Intent(QHybridConfigActivity.this, QHybridAppChoserActivity.class), REQUEST_CODE_ADD_APP);
                     }
                 });
                 return addButton;
