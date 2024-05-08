@@ -137,7 +137,11 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
             cal.setTimeInMillis(s2.getTimestamp() * 1000L - 1000L);
             final LocalDate d2 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
 
-            if (d1.equals(d2) && s2.getSteps() > 0) {
+            if (!d1.equals(d2)) {
+                // went past midnight - reset steps
+                prevSteps = s2.getSteps() > 0 ? s2.getSteps() : 0;
+            } else if (s2.getSteps() > 0) {
+                // New steps sample for the current day - subtract the previous seen sample
                 int bak = s2.getSteps();
                 s2.setSteps(s2.getSteps() - prevSteps);
                 prevSteps = bak;
