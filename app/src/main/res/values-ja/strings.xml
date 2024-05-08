@@ -863,7 +863,7 @@
 \n.zipファイルをインストールすると、バンドが再起動します。
 \n
 \n自己責任の下で行ってください！</string>
-    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth 通話を着信するには、Android デバイスをウォッチの2番目のインスタンスとペアリングする必要があります。</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth 通話を着信するには、Android をウォッチの2番目のインスタンスとペアリングする必要があります。</string>
     <string name="pref_pair_bluetooth_calls_help_warning">注意：2番目のインスタンスを有効にせずに Bluetooth 通話を有効にすると、着信通知が上手く動作しない場合があります。</string>
     <string name="pref_title_notification_use_as">アプリリストの使用方法…</string>
     <string name="appmanager_watchface_activate">有効化</string>
@@ -1220,7 +1220,7 @@
     <string name="pref_summary_casio_alert_email">メール通知時にアラート（振動/ビープ音）を鳴らします</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">アクティビティグラフに生データを表示する</string>
     <string name="power_mode_watch">時計のみ</string>
-    <string name="power_mode_normal">普通</string>
+    <string name="power_mode_normal">ノーマル</string>
     <string name="femometer_measurement_mode_normal">通常モード（60秒-90秒）</string>
     <string name="femometer_measurement_mode_precise">精密モード（3分）</string>
     <string name="reminder_message">メッセージ</string>
@@ -2109,4 +2109,39 @@
     <string name="watchface_widget_type_battery">バッテリー</string>
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="watchface_widget_type_active_mins">活動時間</string>
+    <string name="prefs_game_mode">ゲームモード</string>
+    <string name="pref_title_equalizer_dynamic">ダイナミック</string>
+    <string name="nothing_prefs_audiomode_title">オーディオ モード</string>
+    <string name="nothing_prefs_inear_title">装着検知</string>
+    <string name="nothing_prefs_inear_summary">イヤホンを装着しているかどうかで音楽を再生/停止します</string>
+    <string name="pref_title_equalizer_soft">ソフト</string>
+    <string name="prefs_game_mode_summary">Android がゲームモードに対応している場合のみ</string>
+    <string name="prefs_touch_lock">タッチの無効化</string>
+    <string name="prefs_ambient_voice_summary">声を際立たせます</string>
+    <string name="prefs_ambient_volume_right">アンビエント ボリューム（右）</string>
+    <string name="prefs_ambient_voice_focus">音声フォーカス</string>
+    <string name="prefs_ambient_volume">アンビエント ボリューム</string>
+    <string name="prefs_equalizer_preset">プリセットのイコライザー</string>
+    <string name="prefs_equalizer">イコライザー</string>
+    <string name="prefs_equalizer_summary">イコライザーを有効/無効にします</string>
+    <string name="prefs_dolby_mode">Dolby モード</string>
+    <string name="prefs_dolby_summary">イコライザーの Dolby プリセット</string>
+    <string name="pref_title_equalizer_bass_boost">低音ブースト</string>
+    <string name="pref_title_equalizer_clear">クリア</string>
+    <string name="pref_title_equalizer_trebble">高音ブースト</string>
+    <string name="prefs_customize_ambient_sound_summary">外音取り込み機能をカスタマイズします</string>
+    <string name="prefs_ambient_sound_during_call_title">通話中の外音取り込み</string>
+    <string name="prefs_ambient_sound_during_call_summary">通話中に自分の声がはっきり聞こえるようにします</string>
+    <string name="prefs_ambient_sound">外音取り込み</string>
+    <string name="prefs_touch_lock_buds2">タッチ コントロール</string>
+    <string name="prefs_touch_lock_summary">タッチ操作を無効にします</string>
+    <string name="prefs_seamless_connection_switch_title">シームレスな接続切替</string>
+    <string name="prefs_seamless_connection_switch_summary">ペアリング済みのデバイス間で自動的に接続先を切り替えます</string>
+    <string name="prefs_ambient_volume_left">アンビエント ボリューム（左）</string>
+    <string name="prefs_ambient_settings_title">外音取り込み機能の設定</string>
+    <string name="prefs_active_noise_cancelling">アクティブノイズキャンセリング</string>
+    <string name="prefs_active_noise_cancelling_light">軽度のアクティブノイズキャンセリング</string>
+    <string name="prefs_ambient_mode">外音取り込みモード</string>
+    <string name="prefs_galaxy_buds_experimental">試験的</string>
+    <string name="pref_title_equalizer_normal">ノーマル</string>
 </resources>
