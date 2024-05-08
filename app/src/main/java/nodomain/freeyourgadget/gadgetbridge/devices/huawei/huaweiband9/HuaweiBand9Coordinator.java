@@ -66,6 +66,6 @@ public class HuaweiBand9Coordinator extends HuaweiLECoordinator {
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_huawei_band8;
+        return R.string.devicetype_huawei_band9;
     }
 }
