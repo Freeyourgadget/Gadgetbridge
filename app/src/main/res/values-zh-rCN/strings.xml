@@ -2961,4 +2961,11 @@
     <string name="cyclingPowerMax">最大骑行功率</string>
     <string name="devicetype_huawei_watchfit2">华为 Watch Fit 2</string>
     <string name="huawei_trusleep_warning">警告：启用此功能将阻止睡眠在 Gadgetbridge 中显示！如果您接受，请点击此处。</string>
+    <string name="pref_touch_tone">按键音</string>
+    <string name="pref_wearing_tone">穿戴提示音</string>
+    <string name="pref_wearing_tone_summary">插入耳机时发出提示音</string>
+    <string name="pref_adaptive_noise_cancelling_title">自适应主动降噪</string>
+    <string name="pref_touch_tone_summary">触摸耳机时会发出提示音</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="pref_adaptive_noise_cancelling_summary">根据环境声级自动设置自动降噪强度</string>
 </resources>
