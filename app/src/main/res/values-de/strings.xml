@@ -2968,4 +2968,11 @@
     <string name="cyclingPowerAverage">Durchschnittliche Leistung beim Radfahren</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="huawei_trusleep_warning">Warnung: Wenn du diese Option aktivierst, wird der Schlaf nicht mehr in Gadgetbridge angezeigt! Klicke hier, wenn du dies akzeptierst.</string>
+    <string name="pref_touch_tone_summary">Spielt einen Ton, wenn der Ohrhörer berührt wird</string>
+    <string name="pref_wearing_tone">Trageton</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="pref_touch_tone">Tastenton</string>
+    <string name="pref_wearing_tone_summary">Spielt einen Ton, wenn der Ohrhörer eingeführt wird</string>
+    <string name="pref_adaptive_noise_cancelling_title">Adaptives ANC</string>
+    <string name="pref_adaptive_noise_cancelling_summary">Automatische Einstellung der ANC-Stärke in Abhängigkeit vom Umgebungsgeräuschpegel</string>
 </resources>
