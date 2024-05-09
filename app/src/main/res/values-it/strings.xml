@@ -2682,4 +2682,18 @@
     <string name="laneLength">Lunghezza Corsia</string>
     <string name="stepRateSum">Velocità totale dei passi</string>
     <string name="Pace">Ritmo</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="activity_type_fitness_gaming">Gioco di fitness</string>
+    <string name="zepp_os_watchface_vast_sky">Cielo vasto</string>
+    <string name="serbian">Serbo</string>
+    <string name="activity_type_dynamic_cycle">Ciclo dinamico</string>
+    <string name="pref_touch_tone">Tono tocco</string>
+    <string name="pref_wearing_tone">Tono inserimento</string>
+    <string name="pref_touch_tone_summary">Riproduci un tono quando l\'auricolare viene toccato</string>
+    <string name="pref_wearing_tone_summary">Riproduci un tono quando l\'auricolare viene inserito</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="preferences_qhybrid_settings_summary">Impostazioni obsolete per gli orologi Q Hybrid</string>
+    <string name="devicetype_huawei_band9">Huawei Band 9</string>
+    <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
 </resources>
