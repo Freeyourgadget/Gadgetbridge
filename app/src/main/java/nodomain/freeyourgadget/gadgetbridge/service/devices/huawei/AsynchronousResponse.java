@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -244,7 +245,9 @@ public class AsynchronousResponse {
                     GB.toast("Failed to send music status request", Toast.LENGTH_SHORT, GB.ERROR, e);
                     LOG.error("Failed to send music status request (1)", e);
                 }
-                // Send Music Info
+
+                // Update and send Music Info
+                this.support.refreshMediaManager();
                 this.support.sendSetMusic();
             } else if (response.commandId == MusicControl.Control.id) {
                 if (!(response instanceof MusicControl.Control.Response))
@@ -319,6 +322,13 @@ public class AsynchronousResponse {
                         GB.toast("Failed to send music status request", Toast.LENGTH_SHORT, GB.ERROR, e);
                         LOG.error("Failed to send music status request (2)", e);
                     }
+
+                    // Delay so the media app has a moment to change state
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Update and send Music Info
+                        this.support.refreshMediaManager();
+                        this.support.sendSetMusic();
+                    }, 100);
                 }
             }
         }

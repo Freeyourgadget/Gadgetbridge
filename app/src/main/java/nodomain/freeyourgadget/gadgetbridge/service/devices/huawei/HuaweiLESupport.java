@@ -16,8 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -51,6 +54,12 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
         addSupportedService(GattService.UUID_SERVICE_HUMAN_INTERFACE_DEVICE);
         addSupportedService(HuaweiConstants.UUID_SERVICE_HUAWEI_SERVICE);
         supportProvider = new HuaweiSupportProvider(this);
+    }
+
+    @Override
+    public void setContext(GBDevice gbDevice, BluetoothAdapter btAdapter, Context context) {
+        super.setContext(gbDevice, btAdapter, context);
+        supportProvider.setContext(context);
     }
 
     @Override

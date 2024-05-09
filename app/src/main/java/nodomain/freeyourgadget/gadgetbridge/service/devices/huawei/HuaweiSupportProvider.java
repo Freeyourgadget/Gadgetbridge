@@ -155,6 +155,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetWorkModeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class HuaweiSupportProvider {
@@ -174,8 +175,7 @@ public class HuaweiSupportProvider {
     protected String androidID;
     protected short msgId = 0;
 
-    private MusicStateSpec musicStateSpec = null;
-    private MusicSpec musicSpec = null;
+    private MediaManager mediaManager = null;
 
     private GpsAndTime.GpsParameters.Response gpsParametersResponse = null;
 
@@ -203,6 +203,10 @@ public class HuaweiSupportProvider {
 
     public HuaweiSupportProvider(HuaweiLESupport support) {
         this.leSupport = support;
+    }
+
+    public void setContext(Context context) {
+        mediaManager = new MediaManager(context);
     }
 
     public boolean isBLE() {
@@ -1333,26 +1337,31 @@ public class HuaweiSupportProvider {
     }
 
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        this.musicStateSpec = stateSpec;
-        sendSetMusic();
+        if (mediaManager.onSetMusicState(stateSpec))
+            sendSetMusic();
     }
 
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        this.musicSpec = musicSpec;
-        sendSetMusic();
+        if (mediaManager.onSetMusicInfo(musicSpec))
+            sendSetMusic();
     }
 
     public void onSetPhoneVolume() {
-        // TODO: check when implemented in GB
-
-        // We get the audio volume manually, so ignoring the argument
         sendSetMusic();
+    }
+
+    public void refreshMediaManager() {
+        mediaManager.refresh();
     }
 
     public void sendSetMusic() {
         // This often gets called twice in a row because of onSetMusicState and onSetMusicInfo
         // Maybe we can consolidate that into just one request?
-        SetMusicRequest setMusicRequest = new SetMusicRequest(this, this.musicStateSpec, this.musicSpec);
+        SetMusicRequest setMusicRequest = new SetMusicRequest(
+                this,
+                mediaManager.getBufferMusicStateSpec(),
+                mediaManager.getBufferMusicSpec()
+        );
         try {
             setMusicRequest.doPerform();
         } catch (IOException e) {
