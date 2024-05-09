@@ -2968,4 +2968,8 @@
     <string name="pref_touch_tone_summary">触摸耳机时会发出提示音</string>
     <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
     <string name="pref_adaptive_noise_cancelling_summary">根据环境声级自动设置自动降噪强度</string>
+    <string name="devicetype_huawei_watchfit3">华为健身手表 3</string>
+    <string name="devicetype_huawei_band9">华为手环 9</string>
+    <string name="devicetype_huawei_watch4pro">华为手表4 Pro</string>
+    <string name="preferences_qhybrid_settings_summary">Q Hybrid 手表的旧设置</string>
 </resources>
