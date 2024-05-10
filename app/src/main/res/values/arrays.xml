@@ -3014,6 +3014,7 @@
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">
+        <item>@string/p_cycling</item>
         <item>@string/p_activity</item>
         <item>@string/p_activity_list</item>
         <item>@string/p_sleep</item>

@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevelDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.CyclingSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
@@ -223,6 +224,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
+        return null;
+    }
+
+    @Override
+    public TimeSampleProvider<CyclingSample> getCyclingSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
 
@@ -564,6 +570,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsCyclingData() {
         return false;
     }
 

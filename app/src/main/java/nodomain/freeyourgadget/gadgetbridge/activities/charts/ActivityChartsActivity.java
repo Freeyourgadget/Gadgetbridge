@@ -108,6 +108,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsTemperatureMeasurement()) {
             tabList.remove("temperature");
         }
+        if(!coordinator.supportsCyclingData()) {
+            tabList.remove("cycling");
+        }
         return tabList;
     }
 
@@ -151,6 +154,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new Spo2ChartFragment();
                 case "temperature":
                     return new TemperatureChartFragment();
+                case "cycling":
+                    return new CyclingChartFragment();
             }
             return null;
         }
@@ -201,6 +206,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.pref_header_spo2);
                 case "temperature":
                     return getString(R.string.menuitem_temperature);
+                case "cycling":
+                    return getString(R.string.title_cycling);
             }
             return super.getPageTitle(position);
         }

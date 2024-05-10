@@ -2832,4 +2832,14 @@
     <string name="pref_title_huawei_account">Huawei Account</string>
     <string name="pref_summary_huawei_account">Huawei account used in pairing process. Setting it allows to pair without factory reset.</string>
     <string name="watchface_resolution_doesnt_match">Watchface resolution doesnt match device screen. Watchface is %1$s device screen is %2$s</string>
+    <string name="device_name_bicycle_sensor">Bicycle sensor</string>
+    <string name="device_name_cycling_sensor">Cycling sensor</string>
+    <string name="devicetype_cycling_sensor">Cycling speed sensor</string>
+    <string name="title_cycling">Cycling</string>
+    <string name="pref_summary_wheel_diameter">Wheel diameter in inches. Typically 29, 27,5 or 26.</string>
+    <string name="pref_title_wheel_diameter">Wheel diameter</string>
+    <string name="pref_summary_cycling_persistence_interval">Interval in seconds when the current cycling data should be written to the database</string>
+    <string name="pref_title_cycling_persistence_interval">Persistence interval</string>
+    <string name="chart_cycling_point_label_distance">Today: %.1f km\nTotal: %.1f km</string>
+    <string name="chart_cycling_point_label_speed">%.1f km/h</string>
 </resources>

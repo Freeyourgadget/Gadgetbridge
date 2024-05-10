@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.gridlayout.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    grid:columnCount="2">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_cycling_history"
+        grid:layout_columnSpan="2"
+        grid:layout_columnWeight="1"
+        grid:layout_rowWeight="1">
+    </com.github.mikephil.charting.charts.LineChart>
+
+
+</androidx.gridlayout.widget.GridLayout>

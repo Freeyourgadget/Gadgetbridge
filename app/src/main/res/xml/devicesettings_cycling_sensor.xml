@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="29"
+        android:inputType="number"
+        android:title="@string/pref_title_wheel_diameter"
+        android:summary="@string/pref_summary_wheel_diameter"
+        android:icon="@drawable/ic_activity_biking"
+        android:key="pref_cycling_wheel_diameter" />
+
+    <EditTextPreference
+        android:defaultValue="60"
+        android:inputType="number"
+        android:title="@string/pref_title_cycling_persistence_interval"
+        android:summary="@string/pref_summary_cycling_persistence_interval"
+        android:icon="@drawable/ic_activity_biking"
+        android:key="pref_cycling_persistence_interval" />
+
+</androidx.preference.PreferenceScreen>

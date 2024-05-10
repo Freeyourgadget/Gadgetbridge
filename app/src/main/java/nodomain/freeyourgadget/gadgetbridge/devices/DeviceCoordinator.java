@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
+import nodomain.freeyourgadget.gadgetbridge.entities.CyclingSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -56,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
+import nodomain.freeyourgadget.gadgetbridge.model.TimeSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
@@ -190,6 +192,15 @@ public interface DeviceCoordinator {
     boolean supportsActivityTracking();
 
     /**
+     * Returns true if cycling data is supported by the device
+     * (with this coordinator).
+     * This enables the ChartsActivity.
+     *
+     * @return
+     */
+    boolean supportsCyclingData();
+
+    /**
      * Indicates whether the device supports recording dedicated activity tracks, like
      * walking, hiking, running, swimming, etc. and retrieving the recorded
      * data. This is different from the constant activity tracking since the tracks are
@@ -286,6 +297,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for SpO2 data, for the device being supported.
      */
     TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for Cycling data, for the device being supported.
+     */
+    TimeSampleProvider<CyclingSample> getCyclingSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the sample provider for max HR data, for the device being supported.

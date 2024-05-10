@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100Devi
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.cycling_sensor.coordinator.CyclingSensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.divoom.PixooCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.femometer.FemometerVinca2DeviceCoordinator;
@@ -388,6 +389,7 @@ public enum DeviceType {
     FEMOMETER_VINCA2(FemometerVinca2DeviceCoordinator.class),
     PIXOO(PixooCoordinator.class),
     SCANNABLE(ScannableDeviceCoordinator.class),
+    CYCLING_SENSOR(CyclingSensorCoordinator.class),
     TEST(TestDeviceCoordinator.class);
 
     private DeviceCoordinator coordinator;

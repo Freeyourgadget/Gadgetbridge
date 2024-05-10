@@ -129,6 +129,7 @@ public class GBDaoGenerator {
         addWorldClocks(schema, user, device);
         addContacts(schema, user, device);
         addAppSpecificNotificationSettings(schema, device);
+        addCyclingSample(schema, user, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -622,6 +623,18 @@ public class GBDaoGenerator {
         activitySample.addByteProperty("wear_type").notNull();
         addHeartRateProperties(activitySample);
         return activitySample;
+    }
+
+    private static Entity addCyclingSample(Schema schema, Entity user, Entity device){
+        Entity cyclingSample = addEntity(schema, "CyclingSample");
+        addCommonTimeSampleProperties("AbstractTimeSample", cyclingSample, user, device);
+
+        cyclingSample.implementsSerializable();
+
+        cyclingSample.addIntProperty("RevolutionCount");
+        cyclingSample.addFloatProperty("Distance");
+        cyclingSample.addFloatProperty("Speed");
+        return cyclingSample;
     }
 
     private static Entity addVivomoveHrActivitySample(Schema schema, Entity user, Entity device) {
