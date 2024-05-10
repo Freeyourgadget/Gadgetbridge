@@ -2954,4 +2954,26 @@
     <string name="cyclingPowerMin">الحد الأدنى من قوة ركوب الدراجة</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="huawei_trusleep_warning">تحذير: سيؤدي تمكين هذا إلى إيقاف ظهور النوم في Gadgetbridge! انقر هنا إذا كنت تقبل هذا.</string>
+    <string name="pref_touch_tone">نغمة اللمس</string>
+    <string name="pref_touch_tone_summary">يصدر نغمة عند لمس سماعة الأذن</string>
+    <string name="pref_wearing_tone">نغمة الإرتداء</string>
+    <string name="pref_wearing_tone_summary">يصدر نغمة عند تركيب سماعة الأذن</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
+    <string name="preferences_qhybrid_settings_summary">الإعدادات القديمة لساعات Q الهجينة</string>
+    <string name="pref_adaptive_noise_cancelling_title">عزل الصوت المتكيف</string>
+    <string name="pref_adaptive_noise_cancelling_summary">اضبط قوة عزل الصوت تلقائيًا على مستوى الصوت المحيط</string>
+    <string name="device_name_bicycle_sensor">حساس الدراجة</string>
+    <string name="device_name_cycling_sensor">مستشعر الدراجات</string>
+    <string name="devicetype_cycling_sensor">جهاز استشعار سرعة الدراجة</string>
+    <string name="title_cycling">الدراجة</string>
+    <string name="pref_summary_wheel_diameter">‬قطر العجلة بالبوصة. عادة 29 ، 27،5 أو 26.</string>
+    <string name="pref_title_wheel_diameter">قطر العجلة</string>
+    <string name="pref_summary_cycling_persistence_interval">الفاصل الزمني بثوانٍ عندما يجب كتابة بيانات ركوب الدراجات الحالية إلى قاعدة البيانات</string>
+    <string name="pref_title_cycling_persistence_interval">معادل الفاصل الزمني</string>
+    <string name="chart_cycling_point_label_distance">اليوم: %.1f km
+\nالإجمالي: %.1f km</string>
+    <string name="chart_cycling_point_label_speed">%.1f km/h</string>
+    <string name="devicetype_huawei_band9">Huawei Band 9</string>
 </resources>
