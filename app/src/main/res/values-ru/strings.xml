@@ -2861,4 +2861,9 @@
     <string name="preferences_qhybrid_settings_summary">Старые настройки для часов Q Hybrid</string>
     <string name="pref_adaptive_noise_cancelling_title">Адаптивное подавление шума</string>
     <string name="pref_adaptive_noise_cancelling_summary">Задавать уровень активного подавления шума в зависимости от громкости окружения</string>
+    <string name="pref_title_wheel_diameter">Диаметр колеса</string>
+    <string name="pref_summary_wheel_diameter">Диаметр колеса в дюймах. Обычно 29, 27,5 или 26.</string>
+    <string name="chart_cycling_point_label_speed">%.1f км/ч</string>
+    <string name="chart_cycling_point_label_distance">Сегодня: %.1f км
+\nВсего: %.1f км</string>
 </resources>
