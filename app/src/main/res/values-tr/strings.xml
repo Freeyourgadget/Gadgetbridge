@@ -2984,4 +2984,15 @@
     <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
     <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
     <string name="preferences_qhybrid_settings_summary">Q Hybrid saatler için eski ayarlar</string>
+    <string name="device_name_cycling_sensor">Döngü sensörü</string>
+    <string name="devicetype_cycling_sensor">Döngü hızı sensörü</string>
+    <string name="title_cycling">Bisiklet sürme</string>
+    <string name="pref_summary_wheel_diameter">İnç cinsinden tekerlek çapı. Genellikle 29, 27.5 veya 26.</string>
+    <string name="pref_title_wheel_diameter">Tekerlek çapı</string>
+    <string name="pref_title_cycling_persistence_interval">Süreklilik aralığı</string>
+    <string name="chart_cycling_point_label_distance">Bugün: %.1f km
+\nToplam: %.1f km</string>
+    <string name="chart_cycling_point_label_speed">%.1f km/sa</string>
+    <string name="device_name_bicycle_sensor">Bisiklet sensörü</string>
+    <string name="pref_summary_cycling_persistence_interval">O anki bisiklet verilerinin veri tabanına yazılması gereken saniye cinsinden aralık</string>
 </resources>
