@@ -2972,4 +2972,15 @@
     <string name="devicetype_huawei_band9">华为手环 9</string>
     <string name="devicetype_huawei_watch4pro">华为手表4 Pro</string>
     <string name="preferences_qhybrid_settings_summary">Q Hybrid 手表的旧设置</string>
+    <string name="device_name_cycling_sensor">骑行传感器</string>
+    <string name="devicetype_cycling_sensor">骑行速度传感器</string>
+    <string name="title_cycling">骑自行车</string>
+    <string name="pref_title_wheel_diameter">轮径</string>
+    <string name="pref_summary_cycling_persistence_interval">当前骑行数据应写入数据库的时间间隔（以秒为单位）</string>
+    <string name="chart_cycling_point_label_distance">今天：%.1f 公里
+\n总计：%.1f 公里</string>
+    <string name="chart_cycling_point_label_speed">%.1f 公里/小时</string>
+    <string name="device_name_bicycle_sensor">自行车传感器</string>
+    <string name="pref_summary_wheel_diameter">车轮直径（英寸）。 通常为 29、27.5 或 26。</string>
+    <string name="pref_title_cycling_persistence_interval">持续时间间隔</string>
 </resources>
