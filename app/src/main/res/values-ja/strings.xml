@@ -152,7 +152,7 @@
     <string name="test_notification">通知のテスト</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">これは Gadgetbridge からのテスト通知です</string>
     <string name="bluetooth_is_not_supported_">Bluetooth はサポートされていません。</string>
-    <string name="bluetooth_is_disabled_">Bluetooth は無効です。</string>
+    <string name="bluetooth_is_disabled_">Bluetooth が無効です。</string>
     <string name="tap_connected_device_for_app_mananger">接続済みのデバイスをタップしてアプリの管理を表示</string>
     <string name="tap_connected_device_for_activity">接続済みのデバイスをタップしてアクティビティを表示</string>
     <string name="tap_connected_device_for_vibration">接続済みのデバイスをタップして振動する</string>
@@ -773,7 +773,7 @@
     <string name="prefs_wena3_receive_calls_title">着信設定</string>
     <string name="prefs_wena3_button_action_name_start_timer">設定中タイマーを開始</string>
     <string name="prefs_wena3_menu_icon_hint">設定アイコンは常にメニューの最後に表示されます</string>
-    <string name="prefs_wena3_notification_vibration_repetition_3">3回</string>
+    <string name="prefs_wena3_notification_vibration_repetition_3">3 回</string>
     <string name="prefs_wena3_button_action_name_qrio_lock">Qrioロック</string>
     <string name="prefs_wena3_auto_power_off_turn_off_time_item">電源オフ</string>
     <string name="prefs_wena3_vibration_short">ショート</string>
@@ -802,14 +802,14 @@
     <string name="prefs_wena3_title_screen">画面表示設定</string>
     <string name="prefs_wena3_item_large_font">フォントサイズ大きめ</string>
     <string name="prefs_wena3_home_icon_name_energy">エナジー</string>
-    <string name="prefs_wena3_notification_vibration_repetition_2">2回</string>
+    <string name="prefs_wena3_notification_vibration_repetition_2">2 回</string>
     <string name="prefs_wena3_auto_power_off_hint">指定した時間でWenaの電源を自動でオフ・オンにします</string>
     <string name="prefs_wena3_hint_lift_wrist">腕首を回すとき画面を点灯します</string>
     <string name="prefs_wena3_hint_large_font">通知、スケジュールなどの文字を大きくにします</string>
     <string name="prefs_wena3_button_action_item_double">ダブルクリック</string>
     <string name="prefs_wena3_vibration_rapid">ラピッド</string>
     <string name="prefs_wena3_button_action_name_qrio_unlock">Qrio解除</string>
-    <string name="prefs_wena3_notification_vibration_repetition_1">一回</string>
+    <string name="prefs_wena3_notification_vibration_repetition_1">1 回</string>
     <string name="prefs_wena3_receive_calls_item">着信通知を受け取る</string>
     <string name="prefs_wena3_hint_weather_statusbar">ホーム画面の左上に天気アイコンを表示します</string>
     <string name="prefs_wena3_home_icon_name_wena_pay">Wena Pay</string>
@@ -820,13 +820,13 @@
     <string name="yellow">黄</string>
     <string name="prefs_wena3_notification_default_call_led">着信ときのLED色</string>
     <string name="red">赤</string>
-    <string name="cyan">青空</string>
+    <string name="cyan">青緑</string>
     <string name="prefs_wena3_vibration_siren">サイレン</string>
     <string name="prefs_wena3_menu_icon_title">メニュー並び替え</string>
     <string name="prefs_wena3_notification_default_call_vibration_repetition">着信バイブ繰り返し</string>
     <string name="prefs_wena3_notification_default_vibration">通知のバイブ</string>
     <string name="prefs_wena3_notification_vibration_repetition_0">ボタンを操作するまで</string>
-    <string name="prefs_wena3_notification_vibration_repetition_4">4回</string>
+    <string name="prefs_wena3_notification_vibration_repetition_4">4 回</string>
     <string name="prefs_wena3_vibration_strength_item">バイブ強さ</string>
     <string name="prefs_wena3_receive_calls_hint">無効にすると着信通知はWenaに届かなくなる</string>
     <string name="prefs_wena3_button_action_item_long">長押し</string>
@@ -1209,7 +1209,7 @@
     <string name="pref_title_developer_settings">開発者向けの設定</string>
     <string name="fossil_hr_edit_action_delete">削除</string>
     <string name="qhybrid_calibration_counterclockwise">反時計回り</string>
-    <string name="connection_over_ble">BLE での接続</string>
+    <string name="connection_over_ble">Bluetooth LE による接続</string>
     <string name="pref_header_notifications_and_calls_callhandling">通話の対応</string>
     <string name="reminder_delete_confirm_description">リマインダーを削除しますか？</string>
     <string name="contact_delete_confirm_description">\'%1$s\' を削除しますか？</string>
@@ -2348,4 +2348,40 @@
 \n
 \n注意：Fossil公式アプリで設定したウォッチフェイスを使っているときに上ボタンを長押しすると、ウィジェットの表示/非表示も切り替わります。</string>
     <string name="devicetype_pixoo">Pixoo</string>
+    <string name="pref_force_options_summary">一部のデバイスは、いくつかのオプションに対応していないと偽っている場合があります。この設定はそれらのオプションを強制的に有効化します。
+\n自己責任で使用してください。
+\n詳細は Wiki を確認してください</string>
+    <string name="error_deleting_device">デバイスの削除中にエラーが発生しました: %s</string>
+    <string name="controlcenter_connected_fraction">接続済み: %d/%d</string>
+    <string name="error_setting_parent_folder">親フォルダの設定中にエラーが発生しました: %s</string>
+    <string name="temperature_scale_cf_summary">デバイスが華氏と摂氏のどちらを使用するか選択します。</string>
+    <string name="temperature_scale_cf">温度の単位</string>
+    <string name="pref_summary_osmand_packagename">連携する OsmAnd のパッケージ名を選択します</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="pref_title_osmand_packagename">OsmAnd のパッケージ名</string>
+    <string name="devicetype_miband2_hrx">Mi Band HRX</string>
+    <string name="info_no_devices_connected">デバイスが接続されていません</string>
+    <string name="controlcenter_unset_folder">フォルダを未設定にする</string>
+    <string name="controlcenter_toggle_details">詳細の表示/非表示</string>
+    <string name="controlcenter_add_new_folder">新しいフォルダを追加する</string>
+    <string name="controlcenter_set_parent_folder">親フォルダを設定する</string>
+    <string name="wifi_hotspot">Wi-Fi ホットスポット</string>
+    <string name="ftp_server">FTP サーバー</string>
+    <string name="controlcenter_set_folder_title">フォルダの設定</string>
+    <string name="info_connected_count">%d 台のデバイスが接続済みです</string>
+    <string name="pref_force_options">オプションを強制的に有効化</string>
+    <string name="pref_spo_automatic_enable">自動SpO2測定を有効にする</string>
+    <string name="auto_reconnect_ble_title">自動でデバイスに再接続</string>
+    <string name="auto_reconnect_ble_summary">定期的にデバイスへの接続を試みます</string>
+    <string name="pref_enable_call_accept">電話に応じられるようにする</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_enable_call_accept_summary">デバイスから着信に応じられるようにします</string>
+    <string name="pref_disable_find_phone_with_dnd">サイレント モード有効時は「スマートフォンを探す」を無効にする</string>
+    <string name="pref_heartrate_automatic_enable">自動心拍測定を有効にする</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="controlcenter_folder_name">フォルダ名:</string>
+    <string name="pref_enable_call_reject_summary">デバイスから電話を拒否できるようにします</string>
+    <string name="pref_enable_call_reject">電話を拒否できるようにする</string>
+    <string name="supercars_turbo_speed_label">Turbo Speed</string>
 </resources>
