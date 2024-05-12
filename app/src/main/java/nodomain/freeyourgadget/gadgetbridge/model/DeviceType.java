@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2solar.Garmin
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2soltac.GarminInstinct2SolTacCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinctcrossover.GarminInstinctCrossoverCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.venu3.GarminVenu3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive4.GarminVivoActive4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive4s.GarminVivoActive4SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive5.GarminVivoActive5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivomove.GarminVivomoveStyleCoordinator;
@@ -349,6 +350,7 @@ public enum DeviceType {
     GARMIN_INSTINCT_CROSSOVER(GarminInstinctCrossoverCoordinator.class),
     GARMIN_VIVOMOVE_STYLE(GarminVivomoveStyleCoordinator.class),
     GARMIN_VENU_3(GarminVenu3Coordinator.class),
+    GARMIN_VIVOACTIVE_4(GarminVivoActive4Coordinator.class),
     GARMIN_VIVOACTIVE_4S(GarminVivoActive4SCoordinator.class),
     GARMIN_VIVOACTIVE_5(GarminVivoActive5Coordinator.class),
     VIBRATISSIMO(VibratissimoCoordinator.class),
