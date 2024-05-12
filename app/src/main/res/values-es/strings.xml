@@ -2974,4 +2974,15 @@
     <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
     <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
     <string name="preferences_qhybrid_settings_summary">Ajustes heredados para los relojes Q Hybrid</string>
+    <string name="device_name_bicycle_sensor">Sensor para bicicletas</string>
+    <string name="devicetype_cycling_sensor">Sensor de velocidad de la bicicleta</string>
+    <string name="title_cycling">Ciclo indoor</string>
+    <string name="pref_summary_wheel_diameter">Diámetro de la rueda en pulgadas. Normalmente 29, 27,5 o 26.</string>
+    <string name="pref_title_wheel_diameter">Diámetro de la rueda</string>
+    <string name="pref_title_cycling_persistence_interval">Ecualizador de intervalos</string>
+    <string name="chart_cycling_point_label_distance">Hoy: %.1f km
+\nTotal: %.1f km</string>
+    <string name="chart_cycling_point_label_speed">%.1f km/h</string>
+    <string name="device_name_cycling_sensor">Sensor de bicicleta</string>
+    <string name="pref_summary_cycling_persistence_interval">Intervalo en segundos en el que los datos de ciclismo actuales deben escribirse en la base de datos</string>
 </resources>
