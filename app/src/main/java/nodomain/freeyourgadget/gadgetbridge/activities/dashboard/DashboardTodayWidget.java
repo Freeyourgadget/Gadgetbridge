@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -144,6 +145,10 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
         int width = 500;
         int height = 500;
+        centerX = width / 2f;
+        centerY = height / 2f;
+        maxRadius = Math.min(width, height) / 2f;
+        b = Math.min(width, height) /2000f;
         int barWidth = 40;
         int hourTextSp = 12;
         float hourTextPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, hourTextSp, requireContext().getResources().getDisplayMetrics());
@@ -152,9 +157,13 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         float degreeFactor = mode_24h ? 240 : 120;
         Bitmap todayBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(todayBitmap);
+        Path path = new Path();
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
+
+        paint.setColor(0xFFFF00FF);
+        drawSegment(canvas, path, 270, 360+360, paint );
 
         // Draw clock stripes
         float clockMargin = outerCircleMargin + (mode_24h ? barWidth : barWidth*2.3f);
@@ -236,46 +245,55 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (!mode_24h && secondIndex < midDaySecond && activity.timeFrom >= midDaySecond) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_unknown);
-                    canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
-                    secondIndex = midDaySecond;
+//                    canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
+                    drawSegment(canvas, path, (startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor), ((midDaySecond - secondIndex) / degreeFactor), paint );
+//                    secondIndex = midDaySecond;
                 }
                 if (activity.timeFrom > secondIndex) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_unknown);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (activity.timeFrom - secondIndex) / degreeFactor, false, paint);
+                    drawSegment(canvas, path, (startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor), ((midDaySecond - secondIndex) / degreeFactor), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (activity.timeFrom - secondIndex) / degreeFactor, false, paint);
                 }
                 float start_angle = startAngle + (activity.timeFrom - dashboardData.timeFrom) / degreeFactor;
                 float sweep_angle = (activity.timeTo - activity.timeFrom) / degreeFactor;
                 if (activity.activityKind == ActivityKind.TYPE_NOT_MEASURED) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_worn);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.TYPE_NOT_WORN) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_not_worn);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.TYPE_LIGHT_SLEEP || activity.activityKind == ActivityKind.TYPE_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_light_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.TYPE_REM_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_rem_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.TYPE_DEEP_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_deep_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.TYPE_EXERCISE) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_exercise);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_activity);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    drawSegment(canvas, path, start_angle, (sweep_angle), paint );
+//                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 }
-                secondIndex = activity.timeTo;
+//                secondIndex = activity.timeTo;
             }
         }
         // Fill remaining time until current time in 12h mode before midday
@@ -322,6 +340,30 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         todayChart.setImageBitmap(todayBitmap);
     }
 
+    private float b;
+    private float maxRadius;
+    private float centerX, centerY;
+
+    private void drawSegment(Canvas canvas, Path path, float angleStart, float angleEnd, Paint paint) {
+        path.reset();
+
+        float radius;
+        float x, y;
+
+        for (float angle = angleStart; angle <= (angleStart+ angleEnd); angle += 0.2) { // Change the multiplier for more or less loops
+            radius = b * angle;
+            x = centerX + (float) (radius * Math.cos(Math.toRadians(angle)));
+            y = centerY + (float) (radius * Math.sin(Math.toRadians(angle)));
+
+            if(angle==angleStart)
+                path.moveTo(x,y);
+
+            if (radius <= maxRadius) {
+                path.lineTo(x, y);
+            }
+        }
+        canvas.drawPath(path, paint);
+    }
     protected void fillData() {
         if (todayView == null) return;
         todayView.post(new Runnable() {
