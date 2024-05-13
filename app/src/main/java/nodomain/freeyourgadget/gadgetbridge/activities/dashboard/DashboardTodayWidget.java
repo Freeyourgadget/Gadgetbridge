@@ -170,14 +170,14 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         boolean normalClock = DateFormat.is24HourFormat(getContext());
         Map<Integer, String> hours = new HashMap<Integer, String>() {
             {
+                put(0, normalClock ? (mode_24h ? "0" : "12") : "12pm");
                 put(3, "3");
                 put(6, normalClock ? "6" : "6am");
                 put(9, "9");
-                put(12, normalClock ? "12" : "12pm");
+                put(12, normalClock ? (mode_24h ? "12" : "0") : "12am");
                 put(15, normalClock ? "15" : "3");
                 put(18, normalClock ? "18" : "6pm");
                 put(21, normalClock ? "21" : "9");
-                put(24, normalClock ? "24" : "12am");
             }
         };
         Paint textPaint = new Paint();
@@ -187,24 +187,26 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         textPaint.setTextAlign(Paint.Align.CENTER);
         Rect textBounds = new Rect();
         if (mode_24h && upsideDown24h) {
+            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
+            canvas.drawText(hours.get(0), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
             textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
             canvas.drawText(hours.get(6), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
             textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
             canvas.drawText(hours.get(12), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
             textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
             canvas.drawText(hours.get(18), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(24), 0, hours.get(24).length(), textBounds);
-            canvas.drawText(hours.get(24), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
         } else if (mode_24h) {
+            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
+            canvas.drawText(hours.get(0), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
             textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
             canvas.drawText(hours.get(6), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
             textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
             canvas.drawText(hours.get(12), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
             textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
             canvas.drawText(hours.get(18), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(24), 0, hours.get(24).length(), textBounds);
-            canvas.drawText(hours.get(24), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
         } else {
+            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
+            canvas.drawText(hours.get(0), width / 2f, textBounds.height(), textPaint);
             textPaint.getTextBounds(hours.get(3), 0, hours.get(3).length(), textBounds);
             canvas.drawText(hours.get(3), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
             textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
@@ -220,9 +222,6 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             textPaint.setTextAlign(Paint.Align.LEFT);
             textPaint.getTextBounds(hours.get(21), 0, hours.get(21).length(), textBounds);
             canvas.drawText(hours.get(21), 1, height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.setTextAlign(Paint.Align.CENTER);
-            textPaint.getTextBounds(hours.get(24), 0, hours.get(24).length(), textBounds);
-            canvas.drawText(hours.get(24), width / 2f, textBounds.height(), textPaint);
         }
 
         // Draw generalized activities on circular chart
