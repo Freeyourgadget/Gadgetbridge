@@ -117,4 +117,8 @@
     <string name="about_additional_device_support">ผู้สนับสนุนการรองรับอุปกรณ์เพื่มเติม</string>
     <string name="about_additional_contributions">ขอขอบคุณผู่ร่วมพัฒนาทุกท่านที่ช่วยกันแก้ไขโค้ด, แปลภาษา, ช่วยเหลือ, ออกไอเดีย, ให้กำลังใจ, แจ้งบั้ก, และบริจาคเงิน... ✊</string>
     <string name="action_discover">เชื่อมต่ออุปกรณ์ใหม่</string>
+    <string name="bluetooth_is_disabled_">บลูทูธถูกปิดใช้งาน</string>
+    <string name="permission_notification_listener">%1$s ต้องการสิทธิ์การเข้าถึงการแจ้งเตือนเพื่อให้แสดงการแจ้งเตือนต่างๆไปยังอุปกรณ์ของคุณเมื่อหน้าจอโทรศัพท์ปิดอยู่
+\n
+\nกรุณาแตะ \'%2$s\' จากนั้น \'%1$s\' และเปิดใช้ \'อนุญาตการเข้าถึงการแจ้งเตือน\', จากนั้นแตะ \'กลับ\' กลับไปยัง %1$s.</string>
 </resources>
