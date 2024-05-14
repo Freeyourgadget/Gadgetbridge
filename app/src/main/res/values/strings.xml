@@ -2807,6 +2807,9 @@
     <string name="pref_auto_reply_calls_delay_title">Automatic Answer Delay</string>
     <string name="pref_speak_notifications_aloud_summary">Notifications will be read aloud through the headphones</string>
     <string name="pref_speak_notifications_aloud_title">Speak Notifications Aloud</string>
+    <string name="pref_speak_notifications_focus_exclusive_title">Pause audio of other applications</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_on">Playback from other applications will be paused while the notification is spoken</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_off">Playback volume of other applications will be lowered while the notification is spoken</string>
     <string name="pref_header_calls_and_notifications">Calls and notifications</string>
     <string name="pref_title_bottom_navigation_bar">Bottom navigation bar</string>
     <string name="pref_summary_bottom_navigation_bar_on">Switch between main screens using the navigation bar or horizontal swiping</string>

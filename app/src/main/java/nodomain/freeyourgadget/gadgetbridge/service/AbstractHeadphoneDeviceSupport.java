@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -30,6 +31,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GBTextToSpeech;
+
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE;
 
 public abstract class AbstractHeadphoneDeviceSupport extends AbstractSerialDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractHeadphoneDeviceSupport.class);
@@ -94,8 +97,24 @@ public abstract class AbstractHeadphoneDeviceSupport extends AbstractSerialDevic
     @Override
     public boolean connect() {
         getDeviceIOThread().start();
-        gbTextToSpeech = new GBTextToSpeech(getContext(), new UtteranceProgressListener());
+        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        gbTextToSpeech = new GBTextToSpeech(getContext(), new UtteranceProgressListener(),
+                prefs.getBoolean(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE, false) ?
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE :
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+        );
         return true;
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        LOG.warn("ONSENDCONFIGURATION");
+        if (PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE.equals(config)) {
+            final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+            gbTextToSpeech.setAudioFocus(prefs.getBoolean(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE, false) ?
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE :
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        }
     }
 
     @Override
@@ -113,6 +132,8 @@ public abstract class AbstractHeadphoneDeviceSupport extends AbstractSerialDevic
         @Override
         public void onDone(String utteranceId) {
 //            LOG.debug("UtteranceProgressListener onDone.");
+
+            gbTextToSpeech.abandonFocus();
             if (utteranceId.equals("call")) {
                 SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 final int delayMillis = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_AUTO_REPLY_INCOMING_CALL_DELAY, "15")) * 1000;

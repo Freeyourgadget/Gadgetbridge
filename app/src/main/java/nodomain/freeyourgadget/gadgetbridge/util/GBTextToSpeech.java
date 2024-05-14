@@ -17,10 +17,18 @@ public class GBTextToSpeech {
     private final Context context;
     private TextToSpeech textToSpeech;
     private boolean isConnected = false;
+    private final AudioManager audioManager;
+    private int audioFocus;
 
-    public GBTextToSpeech(Context context, UtteranceProgressListener callback) {
+    public GBTextToSpeech(Context context, UtteranceProgressListener callback, int audioFocus) {
         this.context = context;
         initializeTTS(callback);
+        this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        this.audioFocus = audioFocus;
+    }
+
+    public void setAudioFocus(int audioFocus) {
+        this.audioFocus = audioFocus;
     }
 
     public boolean isConnected() {
@@ -51,6 +59,9 @@ public class GBTextToSpeech {
     }
 
     public void speakNotification(String text) {
+        int result = audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, this.audioFocus);
+        if (AudioManager.AUDIOFOCUS_REQUEST_GRANTED != result)
+            LOG.warn("AudioManager did not grant us the requested focus");
         Bundle params = new Bundle();
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, params, "notification");
@@ -63,5 +74,7 @@ public class GBTextToSpeech {
         }
     }
 
-
+    public void abandonFocus() {
+        audioManager.abandonAudioFocus(null);
+    }
 }

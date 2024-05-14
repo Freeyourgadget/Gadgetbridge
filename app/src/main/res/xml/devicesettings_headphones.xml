@@ -22,4 +22,11 @@
         android:key="pref_speak_notifications_aloud"
         android:summary="@string/pref_speak_notifications_aloud_summary"
         android:title="@string/pref_speak_notifications_aloud_title" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_voice"
+        android:key="pref_speak_notifications_focus_exclusive"
+        android:summaryOff="@string/pref_speak_notifications_focus_exclusive_summary_off"
+        android:summaryOn="@string/pref_speak_notifications_focus_exclusive_summary_on"
+        android:title="@string/pref_speak_notifications_focus_exclusive_title" />
 </androidx.preference.PreferenceScreen>

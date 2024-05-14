@@ -646,6 +646,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL);
         addPreferenceHandlerFor(PREF_CYCLING_SENSOR_WHEEL_DIAMETER);
 
+        addPreferenceHandlerFor(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE);
+
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
