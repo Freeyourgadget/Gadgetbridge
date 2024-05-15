@@ -2983,4 +2983,12 @@
     <string name="device_name_bicycle_sensor">自行车传感器</string>
     <string name="pref_summary_wheel_diameter">车轮直径（英寸）。 通常为 29、27.5 或 26。</string>
     <string name="pref_title_cycling_persistence_interval">持续时间间隔</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_on">读出通知内容时，暂停其他应用程序的播放</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_off">播放通知内容时降低其他应用程序的播放音量</string>
+    <string name="open_camera">打开相机</string>
+    <string name="toast_camera_permission_required">此功能需要相机权限。</string>
+    <string name="toast_camera_support_required">此功能需要相机支持。</string>
+    <string name="toast_camera_photo_taken">照片已拍摄并保存在：%s</string>
+    <string name="pref_speak_notifications_focus_exclusive_title">暂停其他应用程序的音频</string>
+    <string name="toast_setting_requires_reconnect">此设置将在重新连接后生效</string>
 </resources>
