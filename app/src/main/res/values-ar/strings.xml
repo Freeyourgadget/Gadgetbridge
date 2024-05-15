@@ -2976,4 +2976,12 @@
 \nالإجمالي: %.1f km</string>
     <string name="chart_cycling_point_label_speed">%.1f km/h</string>
     <string name="devicetype_huawei_band9">Huawei Band 9</string>
+    <string name="pref_speak_notifications_focus_exclusive_title">إيقاف الصوت مؤقتًا للتطبيقات الأخرى</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_on">سيتم إيقاف التشغيل من التطبيقات الأخرى مؤقتًا أثناء نطق الإشعار</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_off">سيتم خفض مستوى تشغيل التطبيقات الأخرى أثناء نطق الإشعار</string>
+    <string name="toast_setting_requires_reconnect">سيصبح هذا الإعداد ساري المفعول بعد إعادة الاتصال</string>
+    <string name="open_camera">افتح الكاميرا</string>
+    <string name="toast_camera_permission_required">مطلوب إذن الكاميرا لهذه الوظيفة.</string>
+    <string name="toast_camera_support_required">مطلوب دعم الكاميرا لهذه الوظيفة.</string>
+    <string name="toast_camera_photo_taken">تم التقاط الصورة وحفظها في: %s</string>
 </resources>
