@@ -302,7 +302,7 @@
     <string name="abstract_chart_fragment_kind_activity">アクティビティ</string>
     <string name="abstract_chart_fragment_kind_light_sleep">浅い睡眠</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">深い睡眠</string>
-    <string name="abstract_chart_fragment_kind_not_worn">未着用</string>
+    <string name="abstract_chart_fragment_kind_not_worn">未装着</string>
     <string name="device_not_connected">未接続です。</string>
     <string name="user_feedback_all_alarms_disabled">すべてのアラームを無効にしました</string>
     <string name="pref_title_keep_data_on_device">アクティビティデータをデバイスに保持する</string>
@@ -499,7 +499,7 @@
     <string name="activity_type_activity">アクティビティ</string>
     <string name="activity_type_light_sleep">浅い眠り</string>
     <string name="activity_type_deep_sleep">深い眠り</string>
-    <string name="activity_type_not_worn">デバイス未着用</string>
+    <string name="activity_type_not_worn">デバイス未装着</string>
     <string name="activity_type_running">ランニング</string>
     <string name="activity_type_walking">ウォーキング</string>
     <string name="activity_type_swimming">スイミング</string>
@@ -1129,7 +1129,7 @@
     <string name="heartrate_bpm_135">135 bpm</string>
     <string name="reminder_every_month">毎月</string>
     <string name="pref_summary_device_internet_access">このデバイス上のアプリにインターネット接続を許可します</string>
-    <string name="pref_summary_sync_calendar">切断時にもカレンダーのアラートを有効にします</string>
+    <string name="pref_summary_sync_calendar">切断されているときにもカレンダーのアラートを有効にします</string>
     <string name="pref_title_vibration_strength">振動の強さ</string>
     <string name="pref_summary_relax_firmware_checks">ファームウェアの確認を緩和します</string>
     <string name="pref_agps_header">補助GPS</string>
@@ -1147,11 +1147,11 @@
     <string name="reminder_time_once">%1$s, 1回だけ</string>
     <string name="pref_title_casio_alert_calendar">カレンダー通知のアラート</string>
     <string name="pref_title_casio_alert_call">着信のアラート</string>
-    <string name="pref_summary_casio_alert_call">着信時にアラート（振動/ビープ音）を鳴らします</string>
+    <string name="pref_summary_casio_alert_call">着信時にアラート(振動/ビープ音)を鳴らします</string>
     <string name="pref_title_casio_alert_email">メール通知のアラート</string>
     <string name="pref_summary_casio_alert_sms">SMS通知時にアラート（振動/ビープ音）を鳴らします</string>
     <string name="pref_title_casio_alert_other">その他の通知のアラート</string>
-    <string name="pref_summary_casio_alert_other">他カテゴリの通知時にアラート（振動/ビープ音を鳴らします）</string>
+    <string name="pref_summary_casio_alert_other">他カテゴリの通知時にアラート(振動/ビープ音)を鳴らします</string>
     <string name="pref_summary_screen_on_on_notifications">通知がきたときにバンドの画面を ON にします</string>
     <string name="pref_summary_send_app_notifications">アプリの通知をデバイスに送信します</string>
     <string name="pref_title_allow_high_mtu">高 MTU を許可する</string>
@@ -1188,7 +1188,7 @@
     <string name="busy_task_fetch_stress_data">ストレスデータを取得中</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">睡眠時呼吸数のデータを取得中</string>
     <string name="busy_task_fetch_statistics">統計の取得中</string>
-    <string name="prefs_wearmode">着用モード</string>
+    <string name="prefs_wearmode">装着モード</string>
     <string name="heartrate_bpm_50">50 bpm</string>
     <string name="heartrate_bpm_120">120 bpm</string>
     <string name="heartrate_bpm_125">125 bpm</string>
@@ -1312,7 +1312,7 @@
     <string name="pref_summary_preview_message_in_title">デバイスに許可されている場合、メッセージのプレビューを通知のタイトルに表示します</string>
     <string name="pref_summary_casio_alert_calendar">カレンダー通知時にアラート（振動/ビープ音）を鳴らします</string>
     <string name="pref_summary_allow_high_mtu">転送速度を向上させますが、一部の Android デバイスでは機能しない可能性があります。</string>
-    <string name="pref_title_goal_secondary">二番目の目標</string>
+    <string name="pref_title_goal_secondary">2番目の目標</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">着信通知を繰り返す</string>
     <string name="pref_title_device_spec_settings_force_time">時刻を強制的に同期する</string>
     <string name="pref_summary_device_spec_settings_title_force_time">再接続したときに時刻を自動で同期するようにします。アナログ針が間違った時刻を示すことがあります！</string>
@@ -1339,7 +1339,7 @@
     <string name="pref_cache_weather_summary">天気情報はアプリの再起動をまたいでキャッシュされます。</string>
     <string name="busy_task_fetch_pai_data">PAI のデータを取得中</string>
     <string name="busy_task_fetch_hr_data">心拍数のデータを取得中</string>
-    <string name="prefs_weardirection">着用する向き</string>
+    <string name="prefs_weardirection">装着する向き</string>
     <string name="pref_screen_notification_profile_inactivity">無活動の通知</string>
     <string name="pref_screen_notification_profile_event_reminder">イベント リマインダー</string>
     <string name="pref_screen_notification_profile_find_device">デバイスを見つける</string>
@@ -1443,7 +1443,7 @@
     <string name="english_ca">英語（カナダ）</string>
     <string name="manual">手動</string>
     <string name="spanish_es">スペイン語（スペイン）</string>
-    <string name="pref_do_not_disturb_not_wear">未着用時はサイレント モードにする</string>
+    <string name="pref_do_not_disturb_not_wear">未装着時はサイレント モードにする</string>
     <string name="prefs_screen_timeout">画面消灯</string>
     <string name="lefun_prefs_antilost_title">紛失防止</string>
     <string name="prefs_password_4_digits_0_to_9_summary">パスワードは数字のみを用いた4桁である必要があります</string>
@@ -2084,9 +2084,9 @@
     <string name="watchface_setting_button_toggle_widgets">ウィジェットの切り替え</string>
     <string name="watchface_setting_button_move_hands">針を動かす</string>
     <string name="watchface_widget_type_calories">カロリー</string>
-    <string name="watchface_setting_power_saving_display">着用していない間は画面を更新しない</string>
+    <string name="watchface_setting_power_saving_display">装着していない間は画面を更新しない</string>
     <string name="hybridhr_widget_bg_double_circle">二重の円</string>
-    <string name="watchface_setting_power_saving_hands">着用していない間は針の動きを無効化する</string>
+    <string name="watchface_setting_power_saving_hands">装着していない間は針の動きを無効化する</string>
     <string name="watchface_dialog_widget_color_white">白</string>
     <string name="watchface_dialog_title_settings">ウォッチフェイスの設定</string>
     <string name="watchface_widget_type_2nd_tz">2番目のタイムゾーン</string>
@@ -2413,7 +2413,7 @@
     <string name="bottom_nav_dashboard">ダッシュボード</string>
     <string name="pref_dashboard_first_title">ダッシュボードを最初に表示する</string>
     <string name="pref_dashboard_widget_settings">ウィジェットの設定</string>
-    <string name="pref_dashboard_widget_today_title">アクティビティ チャート</string>
+    <string name="pref_dashboard_widget_today_title">活動チャート</string>
     <string name="address">アドレス</string>
     <string name="steps_streaks_hint">中断することなく連続で目標の歩数を達成した日数</string>
     <string name="pref_charts_range_on">チャートの範囲は「月」になっています</string>
@@ -2508,4 +2508,15 @@
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="pref_dashboard_widgets_order_summary">有効にするウィジェットと、ダッシュボードに表示するウィジェットの順番を選択します</string>
     <string name="pref_summary_bottom_navigation_bar_off">横スワイプでメイン画面を切り替えます</string>
+    <string name="pref_dashboard_devices_to_include">ダッシュボードに含めるデバイス</string>
+    <string name="pref_dashboard_widget_goals_chart_title">目標チャート</string>
+    <string name="pref_summary_device_intents">Bangle.js ウォッチアプリが Android Intent を送信できるようにし、Android 上の他のアプリ(Taskerなど)が com.banglejs.uart.tx Intent を使って Bangle.js にデータを送信できるようにします。バックグラウンドで動作するには、他のアプリの上に重ねて表示する権限が必要です。</string>
+    <string name="pref_dashboard_select_devices_summary">指定したデバイスのアクティビティを統合してダッシュボードに表示します</string>
+    <string name="pref_dashboard_widget_show_legend_title">凡例を表示する</string>
+    <string name="pref_dashboard_widget_double_size_title">大きいウィジェット</string>
+    <string name="pref_dashboard_widget_today_24h_summary">アクティビティを2つの12時間サークルではなく、1つの24時間サークルで表示します</string>
+    <string name="activity_type_worn">装着</string>
+    <string name="pref_dashboard_widget_double_size_summary">ウィジェットがダッシュボードの2列を使用できるようにします</string>
+    <string name="pref_dashboard_widget_show_legend_summary">ウィジェットの下部にグラフの色を説明する凡例を表示します</string>
+    <string name="pref_dashboard_all_devices_summary">登録したすべてのデバイスのアクティビティデータを統合してダッシュボードに表示します</string>
 </resources>
