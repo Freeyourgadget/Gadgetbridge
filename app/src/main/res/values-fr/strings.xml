@@ -2819,7 +2819,7 @@ Temps de sommeil préféré en heures</string>
     <string name="busy_task_fetch_sports_details_interrupted">La récupération des détails sportifs a été interrompue</string>
     <string name="pref_header_audio">Audio</string>
     <string name="pref_header_generic">Générique</string>
-    <string name="devicetype_miband8active"></string>
+    <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="pref_title_notification_wake_on_open">Réveil et déverrouillage automatiques</string>
     <string name="pref_summary_notification_wake_on_open">Réveille et déverrouille l\'appareil Android lorsque le gadget renvoie une réponse OPEN. Doit être dans un état de confiance.</string>
     <string name="fw_upgrade_notice_amazfitbip3">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Bip 3.
@@ -2835,4 +2835,64 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_wearing_tone_summary">Émet une tonalité lorsque l\'écouteur est inséré</string>
     <string name="pref_touch_tone">Tonalité tactile</string>
     <string name="pref_wearing_tone">Tonalité lors du port</string>
+    <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
+    <string name="scan_scanning_multiple_devices">Scan de %d appareils</string>
+    <string name="prompt_restart_gadgetbridge">Merci de redémarrer GB pour que cela soit effectif.</string>
+    <string name="notification_channel_scan_service_name">Service de scan</string>
+    <string name="fmtPaceTypeAverage">Type de moyenne %d de rythme</string>
+    <string name="unknownDataEncountered">Données inconnues reçues</string>
+    <string name="cyclingPowerAverage">Puissance moyenne de pédalage</string>
+    <string name="cyclingPowerMin">Puissance minimum de pédalage</string>
+    <string name="cyclingPowerMax">Puissance maximale de pédalage</string>
+    <string name="milliseconds">millisecondes</string>
+    <string name="widget_name_untitled">Widget sans titre (%1$s)</string>
+    <string name="auto_reconnect_ble_scan_title">Reconnexion par un scan BLE</string>
+    <string name="auto_reconnect_ble_scan_summary">Attendre le scan d\'appareil au lieu d\'essayer de reconnecter à l\'aveugle</string>
+    <string name="unbind_before_pair_title">Déjà lié</string>
+    <string name="unbind_before_pair_message">Cet appareil est déjà lié dans les réglages Android, ce qui peut rendre le pairage impossible pour certains appareils.
+\n
+\nSi l\'ajout de l\'appareil échoue, merci de le supprimer des réglages Android et essayer de nouveau.</string>
+    <string name="devicetype_scannable">Appareil scannable</string>
+    <string name="pref_header_sony_sound_control">Contrôle audio</string>
+    <string name="companion_pairing_request_title">Appareil compagnon</string>
+    <string name="pref_force_enable_heartrate_support_summary">Forcer la prise en charge du rythme cardiaque
+\nA VOS RISQUES ET PÉRILS</string>
+    <string name="pref_force_enable_spo2_support">Forcer la prise en charge du SpO2</string>
+    <string name="device_state_waiting_scan">En attente du scan des appareils</string>
+    <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
+    <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
+    <string name="waiting_for_bluetooth">En attente du Bluetooth…</string>
+    <string name="error_scan_failed">Scan échoué : %d</string>
+    <string name="scan_not_scanning">Scan non actif</string>
+    <string name="scan_scanning_all_devices">Scan de tous les appareils</string>
+    <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
+    <string name="pref_adaptive_volume_control_title">Contrôle du volume adaptatif</string>
+    <string name="devicetype_huawei_band9">Huawei Band 9</string>
+    <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
+    <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
+    <string name="devicetype_redmi_watch_4">Redmi Watch 4</string>
+    <string name="preferences_qhybrid_settings_summary">Anciens réglages pour les montres Q Hybrid</string>
+    <string name="Pace">Rythme</string>
+    <string name="RunningForm">Départ depuis</string>
+    <string name="pref_wide_area_tap_summary">Distinguer entre les taps sur les joues et sur les oreilles</string>
+    <string name="pref_wide_area_tap_title">Zone de tape large</string>
+    <string name="pref_adaptive_volume_control_summary">Augmenter le volume automatiquement quand le bruit ambiant est important</string>
+    <string name="pref_adaptive_noise_cancelling_title">ANC adaptatif</string>
+    <string name="pref_adaptive_noise_cancelling_summary">Régler la forte de l\'ANC automatiquement selon le niveau de bruit ambiant</string>
+    <string name="huawei_trusleep_warning">Avertissement: cela ralentira le processus de sommeil d’apparaître dans GadgetBridge ! Cliquer ici pour plus de détails.</string>
+    <string name="pref_force_enable_heartrate_support">Forcer la prise en charge du rythme cardiaque</string>
+    <string name="pref_force_enable_spo2_support_summary">Forcer la prise en charge du SpO2
+\nA VOS RISQUES ET PÉRILS</string>
+    <string name="widget_name_colored_tile">%1$s (tuile colorée)</string>
+    <string name="scan_scanning_single_device">Scan d\'un appareil</string>
+    <string name="companion_pairing_request_description">Pairer cet appareil comme compagnon ?
+\n
+\nCela est conseillé pour certaines fonctions comme retrouver son appareil, et apporte une meilleure connexion.</string>
+    <string name="state_scanned">Scanné</string>
+    <string name="swolfAvg">Swolf moyen</string>
+    <string name="swolfMax">Swolf maximum</string>
+    <string name="swolfMin">Swolf minimum</string>
+    <string name="degrees">degrés</string>
 </resources>
