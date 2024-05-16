@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class HttpUtils {
@@ -22,7 +22,7 @@ public class HttpUtils {
         if (StringUtils.isBlank(query)) {
             return Collections.emptyMap();
         }
-        final Map<String, String> queryParameters = new HashMap<>();
+        final Map<String, String> queryParameters = new LinkedHashMap<>();
         final String[] pairs = query.split("&");
         for (final String pair : pairs) {
             final String[] parts = pair.split("=", 2);

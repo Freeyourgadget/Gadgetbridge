@@ -15,14 +15,4 @@ public class GarminVivoActive4Coordinator extends GarminCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_garmin_vivoactive_4;
     }
-
-    @Override
-    public boolean supportsFlashing() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsAgpsUpdates() {
-        return true;
-    }
 }

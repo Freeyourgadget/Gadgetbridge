@@ -16,14 +16,4 @@ public class GarminInstinct2SolarCoordinator extends GarminCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_garmin_instinct_2_solar;
     }
-
-    @Override
-    public boolean supportsFlashing() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsAgpsUpdates() {
-        return true;
-    }
 }
