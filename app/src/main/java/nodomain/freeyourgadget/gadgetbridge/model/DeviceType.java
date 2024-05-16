@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.venu3.GarminVenu3Coor
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive4.GarminVivoActive4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive4s.GarminVivoActive4SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivoactive5.GarminVivoActive5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivomove.GarminVivomoveHrCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.vivomove.GarminVivomoveStyleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
@@ -192,7 +193,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vesc.VescCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveHrCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRDeviceCoordinator;
@@ -340,7 +340,7 @@ public enum DeviceType {
     COLACAO23(ColaCao23Coordinator.class),
     ITAG(ITagCoordinator.class),
     NUTMINI(NutCoordinator.class),
-    VIVOMOVE_HR(VivomoveHrCoordinator.class),
+    VIVOMOVE_HR(GarminVivomoveHrCoordinator.class),
     GARMIN_FORERUNNER_245(GarminForerunner245Coordinator.class),
     GARMIN_SWIM_2(GarminSwim2Coordinator.class),
     GARMIN_INSTINCT_SOLAR(GarminInstinctSolarCoordinator.class),

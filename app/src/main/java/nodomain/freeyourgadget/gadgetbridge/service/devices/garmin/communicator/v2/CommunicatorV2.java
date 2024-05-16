@@ -19,11 +19,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class CommunicatorV2 implements ICommunicator {
-    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString("6A4E2800-667B-11E3-949A-0800200C9A66"); //VivomoveConstants.UUID_SERVICE_GARMIN_ML_GFDI;
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND = UUID.fromString("6a4e2822-667b-11e3-949a-0800200c9a66"); //VivomoveConstants.UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND;
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE = UUID.fromString("6a4e2812-667b-11e3-949a-0800200c9a66"); //VivomoveConstants.UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE;
+    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString("6A4E2800-667B-11E3-949A-0800200C9A66");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND = UUID.fromString("6a4e2822-667b-11e3-949a-0800200c9a66");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE = UUID.fromString("6a4e2812-667b-11e3-949a-0800200c9a66");
 
-    public int maxWriteSize = 20; //VivomoveConstants.MAX_WRITE_SIZE
+    public int maxWriteSize = 20;
     private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV2.class);
     public final CobsCoDec cobsCoDec;
     private final GarminSupport mSupport;

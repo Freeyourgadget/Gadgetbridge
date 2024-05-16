@@ -5,13 +5,12 @@ import android.bluetooth.BluetoothGattCharacteristic;
 
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveConstants;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 
 public class CommunicatorV1 implements ICommunicator {
-    public static final UUID UUID_SERVICE_GARMIN_GFDI = VivomoveConstants.UUID_SERVICE_GARMIN_GFDI;
+    public static final UUID UUID_SERVICE_GARMIN_GFDI = UUID.fromString("6A4E2401-667B-11E3-949A-0800200C9A66");
 
     private final GarminSupport mSupport;
 
