@@ -3,7 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 import android.location.Location;
 import android.os.Build;
 
-import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
 
 public final class GarminUtils {
     private GarminUtils() {

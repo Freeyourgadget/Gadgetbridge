@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDataTransferService;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
 
 public class DataTransferHandler {
     private static final Logger LOG = LoggerFactory.getLogger(DataTransferHandler.class);
