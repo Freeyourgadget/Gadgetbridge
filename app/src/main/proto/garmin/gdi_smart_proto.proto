@@ -2,16 +2,16 @@ syntax = "proto2";
 
 package garmin_vivomovehr;
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
 
-import "garmin_vivomovehr/gdi_device_status.proto";
-import "garmin_vivomovehr/gdi_find_my_watch.proto";
-import "garmin_vivomovehr/gdi_core.proto";
-import "garmin_vivomovehr/gdi_http_service.proto";
-import "garmin_vivomovehr/gdi_data_transfer_service.proto";
-import "garmin_vivomovehr/gdi_sms_notification.proto";
-import "garmin_vivomovehr/gdi_calendar_service.proto";
-import "garmin_vivomovehr/gdi_settings_service.proto";
+import "garmin/gdi_device_status.proto";
+import "garmin/gdi_find_my_watch.proto";
+import "garmin/gdi_core.proto";
+import "garmin/gdi_http_service.proto";
+import "garmin/gdi_data_transfer_service.proto";
+import "garmin/gdi_sms_notification.proto";
+import "garmin/gdi_calendar_service.proto";
+import "garmin/gdi_settings_service.proto";
 
 message Smart {
     optional CalendarService calendar_service = 1;

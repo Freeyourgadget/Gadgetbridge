@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package garmin_vivomovehr;
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
 
 message HttpService {
   enum Method {

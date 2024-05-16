@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.zip.GZIPOutputStream;
 
-import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiHttpService;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.AgpsHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.HttpUtils;
