@@ -26,8 +26,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import java.util.zip.CRC32;
 
 public class CheckSums {
@@ -174,5 +176,18 @@ public class CheckSums {
         }
         md.update(data);
         return md.digest();
+    }
+
+    @Nullable
+    public static String md5(final String str) {
+        final MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (final NoSuchAlgorithmException e) {
+            LOG.error("Failed to get md5 digest", e);
+            return null;
+        }
+        md.update(str.getBytes(StandardCharsets.UTF_8));
+        return GB.hexdump(md.digest()).toLowerCase(Locale.ROOT);
     }
 }

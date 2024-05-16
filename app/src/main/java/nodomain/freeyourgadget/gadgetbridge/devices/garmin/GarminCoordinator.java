@@ -1,8 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
-import android.content.Context;
-import android.net.Uri;
-
 import androidx.annotation.NonNull;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
@@ -114,7 +110,7 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
         final List<Integer> location = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.LOCATION);
         location.add(R.xml.devicesettings_workout_send_gps_to_band);
-        if (supportsAgpsUpdates()) {
+        if (supportsAgpsUpdates(device)) {
             location.add(R.xml.devicesettings_garmin_agps);
         }
 
@@ -210,19 +206,7 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
-    @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        if (supportsAgpsUpdates()) {
-            final GarminAgpsInstallHandler agpsInstallHandler = new GarminAgpsInstallHandler(uri, context);
-            if (agpsInstallHandler.isValid()) {
-                return agpsInstallHandler;
-            }
-        }
-
-        return null;
-    }
-
-    public boolean supportsAgpsUpdates() {
-        return false;
+    public boolean supportsAgpsUpdates(final GBDevice device) {
+        return !getPrefs(device).getString(GarminPreferences.PREF_AGPS_KNOWN_URLS, "").isEmpty();
     }
 }

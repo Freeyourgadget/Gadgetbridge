@@ -68,6 +68,7 @@ public class HttpHandler {
 
         final String path = url.getPath();
         final Map<String, String> query = HttpUtils.urlQueryParameters(url);
+        final Map<String, String> requestHeaders = headersToMap(rawRequest.getHeaderList());
 
         if (path.startsWith("/weather/")) {
             LOG.info("Got weather request for {}", path);
@@ -80,12 +81,13 @@ public class HttpHandler {
             return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json", null);
         } else if (path.startsWith("/ephemeris/")) {
             LOG.info("Got AGPS request for {}", path);
-            final byte[] agpsData = agpsHandler.handleAgpsRequest(path, query);
+            final byte[] agpsData = agpsHandler.handleAgpsRequest(urlString, path, query);
             if (agpsData == null) {
                 return null;
             }
             LOG.debug("Successfully obtained AGPS data (length: {})", agpsData.length);
-            return createRawResponse(rawRequest, agpsData, "application/x-tar", agpsHandler.getOnDataSuccessfullySentListener());
+            final String contentType = requestHeaders.containsKey("accept") ? requestHeaders.get("accept") : "application/octet-stream";
+            return createRawResponse(rawRequest, agpsData, contentType, agpsHandler.getOnDataSuccessfullySentListener(urlString));
         } else {
             LOG.warn("Unhandled path {}", urlString);
             return null;

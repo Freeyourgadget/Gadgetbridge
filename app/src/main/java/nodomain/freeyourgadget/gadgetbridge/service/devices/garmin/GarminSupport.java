@@ -6,11 +6,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -29,12 +31,9 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminAgpsInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
@@ -57,7 +56,6 @@ import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.GarminAgpsStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
@@ -79,11 +77,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SetF
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SupportedFileTypesMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.NotificationSubscriptionStatusMessage;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Optional;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GARMIN_DEFAULT_REPLY_SUFFIX;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
@@ -652,28 +649,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
-    @Override
-    public void onInstallApp(final Uri uri) {
-        final GarminAgpsInstallHandler agpsHandler = new GarminAgpsInstallHandler(uri, getContext());
-        if (agpsHandler.isValid()) {
-            try {
-                // Write the AGPS update to a temporary file in cache, so we can load it when requested
-                final File agpsFile = getAgpsFile();
-                try (FileOutputStream outputStream = new FileOutputStream(agpsFile)) {
-                    outputStream.write(agpsHandler.getFile().getBytes());
-                    evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(
-                            DeviceSettingsPreferenceConst.PREF_AGPS_STATUS, GarminAgpsStatus.PENDING.name()
-                    ));
-                    LOG.info("AGPS file successfully written to the cache directory.");
-                } catch (final IOException e) {
-                    LOG.error("Failed to write AGPS bytes to temporary directory", e);
-                }
-            } catch (final Exception e) {
-                GB.toast(getContext(), "AGPS install error: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-            }
-        }
-    }
-
     private boolean alreadyDownloaded(final FileTransferHandler.DirectoryEntry entry) {
         final Optional<File> file = getFile(entry.getFileName());
         if (file.isPresent()) {
@@ -728,19 +703,36 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         sendOutgoingMessage(locationUpdatedNotificationRequest);
     }
 
-    public File getAgpsFile() throws IOException {
-        return new File(getAgpsCacheDirectory(), "CPE.BIN");
-    }
-
-    private File getAgpsCacheDirectory() throws IOException {
-        final File cacheDir = getContext().getCacheDir();
-        final File agpsCacheDir = new File(cacheDir, "garmin-agps");
-        if (agpsCacheDir.mkdir()) {
-            LOG.info("AGPS cache directory for Garmin devices successfully created.");
-        } else if (!agpsCacheDir.exists() || !agpsCacheDir.isDirectory()) {
-            throw new IOException("Cannot create/locate AGPS directory for Garmin devices.");
+    @Nullable
+    public DocumentFile getAgpsFile(final String url) {
+        final Prefs prefs = getDevicePrefs();
+        final String filename = prefs.getString(GarminPreferences.agpsFilename(url), "");
+        if (filename.isEmpty()) {
+            LOG.debug("agps file not configured for {}", url);
+            return null;
         }
-        return agpsCacheDir;
+
+        final String folderUri = prefs.getString(GarminPreferences.PREF_GARMIN_AGPS_FOLDER, "");
+        if (folderUri.isEmpty()) {
+            LOG.debug("agps folder not set");
+            return null;
+        }
+        final DocumentFile folder = DocumentFile.fromTreeUri(getContext(), Uri.parse(folderUri));
+        if (folder == null) {
+            LOG.warn("Failed to find agps folder on {}", folderUri);
+            return null;
+        }
+
+        final DocumentFile localFile = folder.findFile(filename);
+        if (localFile == null) {
+            LOG.warn("Failed to find agps file '{}' for '{}' on '{}'", filename, url, folderUri);
+            return null;
+        }
+        if (!localFile.isFile()) {
+            LOG.warn("Local agps file {} for {} can't be read: isFile={} canRead={}", folderUri, url, localFile.isFile(), localFile.canRead());
+            return null;
+        }
+        return localFile;
     }
 
     public GarminCoordinator getCoordinator() {

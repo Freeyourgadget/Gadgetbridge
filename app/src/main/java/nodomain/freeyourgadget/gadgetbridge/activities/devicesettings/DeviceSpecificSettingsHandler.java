@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 import android.content.Context;
 
+import androidx.activity.result.ActivityResultCaller;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
@@ -27,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
  * A device-specific preference handler, that allows for {@link nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator}s to register
  * their own preferences dynamically.
  */
-public interface DeviceSpecificSettingsHandler {
+public interface DeviceSpecificSettingsHandler extends ActivityResultCaller {
     /**
      * Finds a preference with the given key. Returns null if the preference is not found.
      *

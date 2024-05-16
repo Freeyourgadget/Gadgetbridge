@@ -163,14 +163,19 @@ public class Prefs {
      * The preference is assumed to be a string, with each value separated by a comma.
      * @param key the preference key
      * @param defaultValue the default value to return if the preference value is unset
+     * @param separator the separator to use to split the string
      * @return the saved preference value or the given defaultValue
      */
-    public List<String> getList(final String key, final List<String> defaultValue) {
+    public List<String> getList(final String key, final List<String> defaultValue, final String separatorRegex) {
         final String stringValue = preferences.getString(key, null);
         if (stringValue == null) {
             return defaultValue;
         }
-        return Arrays.asList(stringValue.split(","));
+        return Arrays.asList(stringValue.split(separatorRegex));
+    }
+
+    public List<String> getList(final String key, final List<String> defaultValue) {
+        return getList(key, defaultValue, ",");
     }
 
     public Date getTimePreference(final String key, final String defaultValue) {

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:icon="@drawable/ic_gps_edit"
         android:key="pref_header_agps"
         android:title="@string/pref_agps_header">
-        <Preference
-            android:key="pref_agps_status"
-            android:title="@string/pref_agps_status" />
-        <Preference
-            android:key="pref_agps_update_time"
-            android:title="@string/pref_agps_update_time" />
 
-        <!--        <Preference-->
-        <!--            android:key="pref_agps_expire_time"-->
-        <!--            android:title="@string/pref_agps_expire_time" />-->
+        <Preference
+            android:key="pref_garmin_agps_help"
+            android:summary="@string/pref_garmin_agps_help"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_folder"
+            android:key="garmin_agps_folder"
+            android:title="@string/folder" />
+
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
