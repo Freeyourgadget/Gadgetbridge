@@ -497,8 +497,8 @@
     <string name="controlcenter_start_activity_tracks">アクティビティの追跡</string>
     <string name="activity_type_not_measured">未測定</string>
     <string name="activity_type_activity">アクティビティ</string>
-    <string name="activity_type_light_sleep">浅い眠り</string>
-    <string name="activity_type_deep_sleep">深い眠り</string>
+    <string name="activity_type_light_sleep">浅い睡眠</string>
+    <string name="activity_type_deep_sleep">深い睡眠</string>
     <string name="activity_type_not_worn">デバイス未装着</string>
     <string name="activity_type_running">ランニング</string>
     <string name="activity_type_walking">ウォーキング</string>
@@ -1118,11 +1118,11 @@
     <string name="pref_screen_notification_profile_todo_list">To-Do リスト</string>
     <string name="pref_screen_notification_profile_schedule">スケジュール</string>
     <string name="zetime_prefs_inactivity_repetitions">繰り返し</string>
-    <string name="zetime_signaling_beep">継続的なビープ音</string>
-    <string name="zetime_signaling_vibrate">継続的な振動</string>
-    <string name="zetime_signaling_vibrate_beep">継続的な振動とビープ音</string>
-    <string name="zetime_signaling_vibrate_twice">2回振動</string>
-    <string name="zetime_signaling_vibrate_once">一度だけ振動</string>
+    <string name="zetime_signaling_beep">ビープ音を鳴らし続ける</string>
+    <string name="zetime_signaling_vibrate">振動させ続ける</string>
+    <string name="zetime_signaling_vibrate_beep">振動とビープ音を鳴らし続ける</string>
+    <string name="zetime_signaling_vibrate_twice">2回振動させる</string>
+    <string name="zetime_signaling_vibrate_once">1回だけ振動させる</string>
     <string name="prefs_hr_alarm_activity">スポーツ アクティビティ時の心拍数アラーム</string>
     <string name="pref_sleep_mode_sleep_screen_title">スリープ画面</string>
     <string name="pref_header_auto_fetch">自動取得</string>
@@ -1244,8 +1244,8 @@
     <string name="spo2_off">Off</string>
     <string name="clap_hands_to_wakeup_device">手を叩いて画面を ON にする</string>
     <string name="pref_title_authkey">認証キー</string>
-    <string name="pixoo_power_saving_summary">マイクが無音状態を一定期間検知すると画面が OFF になります</string>
-    <string name="clap_hands_to_wakeup_device_summary">再度手を叩くと画面を OFF にします</string>
+    <string name="pixoo_power_saving_summary">マイクが無音状態を一定期間検知すると画面がオフになります</string>
+    <string name="clap_hands_to_wakeup_device_summary">再度手を叩くと画面をオフにします</string>
     <string name="pref_summary_authkey">接続したいすべての Android デバイス上で認証キーを共通のキーに変更してください。以前のデフォルトキーは 0123456789@ABCDE です</string>
     <string name="pref_explanation_authkey">一部のデバイスでは初期設定に特別なペアリング キーが必要です。ここをタップすると詳細をWikiで確認できます。</string>
     <string name="prefs_hr_alarm_low">下限</string>
@@ -2519,4 +2519,16 @@
     <string name="pref_dashboard_widget_double_size_summary">ウィジェットがダッシュボードの2列を使用できるようにします</string>
     <string name="pref_dashboard_widget_show_legend_summary">ウィジェットの下部にグラフの色を説明する凡例を表示します</string>
     <string name="pref_dashboard_all_devices_summary">登録したすべてのデバイスのアクティビティデータを統合してダッシュボードに表示します</string>
+    <string name="zetime_signaling_beep_once">1回だけビープ音を鳴らす</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">24時間モードのときに0時をチャートの下側に描写し、12時を上側に表示します</string>
+    <string name="watchface_resolution_doesnt_match">ウォッチフェイスの解像度がデバイスの画面と一致しません。ウォッチフェイスは %1$s で、デバイスの画面は %2$s です</string>
+    <string name="toast_setting_requires_reconnect">設定は再接続時に反映されます</string>
+    <string name="zetime_signaling_beep_twice">2回ビープ音を鳴らす</string>
+    <string name="zetime_signaling_vibrate_beep_once">1回だけ振動とビープ音を鳴らす</string>
+    <string name="zetime_calories_type">カロリーの種類</string>
+    <string name="zetime_title_alarm_signaling">アラームの鳴り方を設定する</string>
+    <string name="toast_camera_permission_required">この機能にはカメラの権限が必要です。</string>
+    <string name="toast_camera_support_required">この機能にはカメラのサポートが必要です。</string>
+    <string name="toast_camera_photo_taken">写真を次の場所に保存しました: %s</string>
+    <string name="pref_dashboard_widget_today_upside_down_title">0時を下側に表示</string>
 </resources>
