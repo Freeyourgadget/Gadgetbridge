@@ -2,12 +2,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http;
 
 import android.location.Location;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,8 +27,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.Curre
 public class WeatherHandler {
     private static final Logger LOG = LoggerFactory.getLogger(WeatherHandler.class);
 
+    private static final Gson GSON = new GsonBuilder()
+            //.serializeNulls()
+            .create();
+
     // These get requested on connection at most every 5 minutes
-    public static Object handleWeatherRequest(final String path, final Map<String, String> query) {
+    public static GarminHttpResponse handleWeatherRequest(final GarminHttpRequest request) {
+        final String path = request.getPath();
+        final Map<String, String> query = request.getQuery();
+
         final WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
 
         if (weatherSpec == null) {
@@ -32,6 +43,7 @@ public class WeatherHandler {
             return null;
         }
 
+        final Object weatherData;
         switch (path) {
             case "/weather/v2/forecast/day": {
                 final int lat = getQueryNum(query, "lat", 0);
@@ -46,7 +58,8 @@ public class WeatherHandler {
                     date.add(Calendar.DAY_OF_MONTH, 1);
                     ret.add(new WeatherForecastDay(date, weatherSpec.forecasts.get(i)));
                 }
-                return ret;
+                weatherData = ret;
+                break;
             }
             case "/weather/v2/forecast/hour": {
                 final int lat = getQueryNum(query, "lat", 0);
@@ -60,7 +73,8 @@ public class WeatherHandler {
                 for (int i = 0; i < Math.min(duration, weatherSpec.hourly.size()); i++) {
                     ret.add(new WeatherForecastHour(weatherSpec.hourly.get(i)));
                 }
-                return ret;
+                weatherData = ret;
+                break;
             }
             case "/weather/v2/current": {
                 final int lat = getQueryNum(query, "lat", 0);
@@ -68,13 +82,24 @@ public class WeatherHandler {
                 final String tempUnit = getQueryString(query, "tempUnit", "CELSIUS");
                 final String speedUnit = getQueryString(query, "speedUnit", "METERS_PER_SECOND");
                 final String provider = getQueryString(query, "provider", "dci");
-                return new WeatherForecastCurrent(weatherSpec);
+                weatherData = new WeatherForecastCurrent(weatherSpec);
+                break;
             }
+            default:
+                LOG.warn("Unknown weather path {}", path);
+                final GarminHttpResponse response = new GarminHttpResponse();
+                response.setStatus(404);
+                return response;
         }
 
-        LOG.warn("Unknown weather path {}", path);
+        final String json = GSON.toJson(weatherData);
+        LOG.debug("Weather response: {}", json);
 
-        return null;
+        final GarminHttpResponse response = new GarminHttpResponse();
+        response.setStatus(200);
+        response.setBody(json.getBytes(StandardCharsets.UTF_8));
+        response.getHeaders().put("Content-Type", "application/json");
+        return response;
     }
 
     private static int getQueryNum(final Map<String, String> query, final String key, final int defaultValue) {
