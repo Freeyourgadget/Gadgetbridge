@@ -1,35 +1,22 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.protobuf.ByteString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.zip.GZIPOutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.AgpsHandler;
-import nodomain.freeyourgadget.gadgetbridge.util.HttpUtils;
 
 public class HttpHandler {
     private static final Logger LOG = LoggerFactory.getLogger(HttpHandler.class);
-
-    private static final Gson GSON = new GsonBuilder()
-            //.serializeNulls()
-            .create();
 
     private final AgpsHandler agpsHandler;
 
@@ -54,74 +41,67 @@ public class HttpHandler {
     }
 
     public GdiHttpService.HttpService.RawResponse handleRawRequest(final GdiHttpService.HttpService.RawRequest rawRequest) {
-        // TODO Return status code 304 (Not Modified) when we don't have newer data and "if-none-match" is set.
-        final String urlString = rawRequest.getUrl();
-        LOG.debug("Got rawRequest: {} - {}", rawRequest.getMethod(), urlString);
+        LOG.debug("Got rawRequest: {} - {}", rawRequest.getMethod(), rawRequest.getUrl());
 
-        final URL url;
-        try {
-            url = new URL(urlString);
-        } catch (final MalformedURLException e) {
-            LOG.error("Failed to parse url", e);
-            return null;
-        }
+        final GarminHttpRequest request = new GarminHttpRequest(rawRequest);
 
-        final String path = url.getPath();
-        final Map<String, String> query = HttpUtils.urlQueryParameters(url);
-        final Map<String, String> requestHeaders = headersToMap(rawRequest.getHeaderList());
-
-        if (path.startsWith("/weather/")) {
-            LOG.info("Got weather request for {}", path);
-            final Object weatherData = WeatherHandler.handleWeatherRequest(path, query);
-            if (weatherData == null) {
-                return null;
-            }
-            final String json = GSON.toJson(weatherData);
-            LOG.debug("Weather response: {}", json);
-            return createRawResponse(rawRequest, json.getBytes(StandardCharsets.UTF_8), "application/json", null);
-        } else if (path.startsWith("/ephemeris/")) {
-            LOG.info("Got AGPS request for {}", path);
-            final byte[] agpsData = agpsHandler.handleAgpsRequest(urlString, path, query);
-            if (agpsData == null) {
-                return null;
-            }
-            LOG.debug("Successfully obtained AGPS data (length: {})", agpsData.length);
-            final String contentType = requestHeaders.containsKey("accept") ? requestHeaders.get("accept") : "application/octet-stream";
-            return createRawResponse(rawRequest, agpsData, contentType, agpsHandler.getOnDataSuccessfullySentListener(urlString));
+        final GarminHttpResponse response;
+        if (request.getPath().startsWith("/weather/")) {
+            LOG.info("Got weather request for {}", request.getPath());
+            response = WeatherHandler.handleWeatherRequest(request);
+        } else if (request.getPath().startsWith("/ephemeris/")) {
+            LOG.info("Got AGPS request for {}", request.getPath());
+            response = agpsHandler.handleAgpsRequest(request);
         } else {
-            LOG.warn("Unhandled path {}", urlString);
+            LOG.warn("Unhandled path {}", request.getPath());
+            response = null;
+        }
+
+        if (response == null) {
             return null;
         }
+
+        LOG.debug("Http response status={}", response.getStatus());
+
+        return createRawResponse(request, response);
     }
 
     private static GdiHttpService.HttpService.RawResponse createRawResponse(
-            final GdiHttpService.HttpService.RawRequest rawRequest,
-            final byte[] data,
-            final String contentType,
-            final Callable<Void> onDataSuccessfullySentListener
-            ) {
-        if (rawRequest.hasUseDataXfer() && rawRequest.getUseDataXfer()) {
+            final GarminHttpRequest request,
+            final GarminHttpResponse response
+    ) {
+        final List<GdiHttpService.HttpService.Header> responseHeaders = new ArrayList<>();
+        for (final Map.Entry<String, String> h : response.getHeaders().entrySet()) {
+            responseHeaders.add(
+                    GdiHttpService.HttpService.Header.newBuilder()
+                            .setKey(h.getKey())
+                            .setValue(h.getValue())
+                            .build()
+            );
+        }
+
+        if (response.getStatus() == 200 && request.getRawRequest().hasUseDataXfer() && request.getRawRequest().getUseDataXfer()) {
             LOG.debug("Data will be returned using data_xfer");
-            int id = DataTransferHandler.registerData(data);
-            if (onDataSuccessfullySentListener != null) {
-                DataTransferHandler.addOnDataSuccessfullySentListener(id, onDataSuccessfullySentListener);
+            int id = DataTransferHandler.registerData(response.getBody());
+            if (response.getOnDataSuccessfullySentListener() != null) {
+                DataTransferHandler.addOnDataSuccessfullySentListener(id, response.getOnDataSuccessfullySentListener());
             }
             return GdiHttpService.HttpService.RawResponse.newBuilder()
                     .setStatus(GdiHttpService.HttpService.Status.OK)
-                    .setHttpStatus(200)
+                    .setHttpStatus(response.getStatus())
+                    .addAllHeader(responseHeaders)
                     .setXferData(
                             GdiHttpService.HttpService.DataTransferItem.newBuilder()
                                     .setId(id)
-                                    .setSize(data.length)
+                                    .setSize(response.getBody().length)
                                     .build()
                     )
                     .build();
         }
 
-        final Map<String, String> requestHeaders = headersToMap(rawRequest.getHeaderList());
-        final List<GdiHttpService.HttpService.Header> responseHeaders = new ArrayList<>();
         final byte[] responseBody;
-        if ("gzip".equals(requestHeaders.get("accept-encoding"))) {
+        if ("gzip".equals(request.getHeaders().get("accept-encoding"))) {
+            LOG.debug("Compressing response");
             responseHeaders.add(
                     GdiHttpService.HttpService.Header.newBuilder()
                             .setKey("Content-Encoding")
@@ -131,7 +111,7 @@ public class HttpHandler {
 
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try (GZIPOutputStream gzos = new GZIPOutputStream(baos)) {
-                gzos.write(data);
+                gzos.write(response.getBody());
                 gzos.finish();
                 gzos.flush();
                 responseBody = baos.toByteArray();
@@ -140,29 +120,14 @@ public class HttpHandler {
                 return null;
             }
         } else {
-            responseBody = data;
+            responseBody = response.getBody();
         }
-
-        responseHeaders.add(
-                GdiHttpService.HttpService.Header.newBuilder()
-                        .setKey("Content-Type")
-                        .setValue(contentType)
-                        .build()
-        );
 
         return GdiHttpService.HttpService.RawResponse.newBuilder()
                 .setStatus(GdiHttpService.HttpService.Status.OK)
-                .setHttpStatus(200)
+                .setHttpStatus(response.getStatus())
                 .setBody(ByteString.copyFrom(responseBody))
                 .addAllHeader(responseHeaders)
                 .build();
-    }
-
-    private static Map<String, String> headersToMap(final List<GdiHttpService.HttpService.Header> headers) {
-        final Map<String, String> ret = new HashMap<>();
-        for (final GdiHttpService.HttpService.Header header : headers) {
-            ret.put(header.getKey().toLowerCase(Locale.ROOT), header.getValue());
-        }
-        return ret;
     }
 }

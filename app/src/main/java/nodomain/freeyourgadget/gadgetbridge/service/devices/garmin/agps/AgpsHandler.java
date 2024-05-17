@@ -11,14 +11,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.GarminHttpRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.GarminHttpResponse;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class AgpsHandler {
@@ -30,13 +34,13 @@ public class AgpsHandler {
         this.deviceSupport = deviceSupport;
     }
 
-    public byte[] handleAgpsRequest(final String url, final String path, final Map<String, String> query) {
-        saveKnownUrl(url);
+    public GarminHttpResponse handleAgpsRequest(final GarminHttpRequest request) {
+        saveKnownUrl(request.getUrl());
 
         try {
-            final DocumentFile agpsFile = deviceSupport.getAgpsFile(url);
+            final DocumentFile agpsFile = deviceSupport.getAgpsFile(request.getUrl());
             if (agpsFile == null) {
-                LOG.warn("File with AGPS data for {} does not exist.", url);
+                LOG.warn("File with AGPS data for {} does not exist.", request.getUrl());
                 return null;
             }
             try (InputStream agpsIn = deviceSupport.getContext().getContentResolver().openInputStream(agpsFile.getUri())) {
@@ -45,18 +49,35 @@ public class AgpsHandler {
                     return null;
                 }
 
-                // Run some sanity checks on known agps file formats
+                final GarminHttpResponse response = new GarminHttpResponse();
+
                 final byte[] rawBytes = FileUtils.readAll(agpsIn, 1024 * 1024); // 1MB, they're usually ~60KB
+                final String fileHash = GB.hexdump(CheckSums.md5(rawBytes)).toLowerCase(Locale.ROOT);
+                final String etag = "\"" + fileHash + "\"";
+                response.getHeaders().put("etag", etag);
+
+                if (request.getHeaders().containsKey("if-none-match")) {
+                    // Check checksum
+                    final String ifNoneMatch = request.getHeaders().get("if-none-match");
+                    LOG.debug("agps request hash = {}, file hash = {}", ifNoneMatch, etag);
+
+                    if (etag.equals(ifNoneMatch)) {
+                        response.setStatus(304);
+                        return response;
+                    }
+                }
+
+                // Run some sanity checks on known agps file formats
                 final GarminAgpsFile garminAgpsFile = new GarminAgpsFile(rawBytes);
-                if (query.containsKey(QUERY_CONSTELLATIONS)) {
-                    final String[] requestedConstellations = Objects.requireNonNull(query.get(QUERY_CONSTELLATIONS)).split(",");
+                if (request.getQuery().containsKey(QUERY_CONSTELLATIONS)) {
+                    final String[] requestedConstellations = Objects.requireNonNull(request.getQuery().get(QUERY_CONSTELLATIONS)).split(",");
                     if (!garminAgpsFile.isValidTar(requestedConstellations)) {
-                        reportError(url);
+                        reportError(request.getUrl());
                         return null;
                     }
-                } else if (path.contains(("/rxnetworks/"))) {
+                } else if (request.getPath().contains(("/rxnetworks/"))) {
                     if (!garminAgpsFile.isValidRxNetworks()) {
-                        reportError(url);
+                        reportError(request.getUrl());
                         return null;
                     }
                 } else {
@@ -64,12 +85,23 @@ public class AgpsHandler {
                     return null;
                 }
 
-                LOG.info("Sending new AGPS data to the device from {}", agpsFile.getUri());
-                return rawBytes;
+                LOG.info("Sending new AGPS data (length: {}) to the device from {}", rawBytes.length, agpsFile.getUri());
+
+                if (request.getHeaders().containsKey("accept")) {
+                    response.getHeaders().put("Content-Type", request.getHeaders().get("accept"));
+                } else {
+                    response.getHeaders().put("Content-Type", "application/octet-stream");
+                }
+
+                response.setStatus(200);
+                response.setBody(rawBytes);
+                response.setOnDataSuccessfullySentListener(getOnDataSuccessfullySentListener(request.getUrl()));
+
+                return response;
             }
         } catch (final IOException e) {
             LOG.error("Unable to obtain AGPS data", e);
-            reportError(url);
+            reportError(request.getUrl());
             return null;
         }
     }
