@@ -2984,4 +2984,5 @@
     <string name="toast_camera_permission_required">مطلوب إذن الكاميرا لهذه الوظيفة.</string>
     <string name="toast_camera_support_required">مطلوب دعم الكاميرا لهذه الوظيفة.</string>
     <string name="toast_camera_photo_taken">تم التقاط الصورة وحفظها في: %s</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
 </resources>
