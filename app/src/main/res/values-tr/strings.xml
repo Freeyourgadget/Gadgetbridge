@@ -3003,4 +3003,5 @@
     <string name="toast_setting_requires_reconnect">Bu ayar yeniden bağlandıktan sonra geçerli olacak</string>
     <string name="toast_camera_photo_taken">Fotoğraf çekildi ve kaydedildi: %s</string>
     <string name="pref_speak_notifications_focus_exclusive_summary_on">Bildirim konuşulurken diğer uygulamalardan oynatma duraklatılacaktır</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
 </resources>
