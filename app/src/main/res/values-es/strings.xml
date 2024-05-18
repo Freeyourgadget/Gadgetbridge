@@ -2957,7 +2957,7 @@
     <string name="pref_title_huawei_account">Cuenta Huawei</string>
     <string name="pref_summary_huawei_account">Cuenta de Huawei utilizada en el proceso de emparejamiento. Configurarlo permite el emparejamiento sin restablecimiento de fábrica.</string>
     <string name="serbian">Serbio</string>
-    <string name="watchface_resolution_doesnt_match">La resolución de Watchface no coincide con la pantalla del dispositivo. Watchface es %1$s la pantalla del dispositivo es %2$s</string>
+    <string name="watchface_resolution_doesnt_match">La resolución de la esfera del reloj no coincide con la pantalla del dispositivo. La esfera del reloj es de %1$s y la pantalla del dispositivo está en %2$s</string>
     <string name="cyclingPowerMin">Potencia mínima del ciclo</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="cyclingPowerAverage">Potencia media de ciclo</string>
