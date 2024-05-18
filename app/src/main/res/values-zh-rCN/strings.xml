@@ -2991,4 +2991,5 @@
     <string name="toast_camera_photo_taken">照片已拍摄并保存在：%s</string>
     <string name="pref_speak_notifications_focus_exclusive_title">暂停其他应用程序的音频</string>
     <string name="toast_setting_requires_reconnect">此设置将在重新连接后生效</string>
+    <string name="devicetype_amazfit_bip5_unity">跃我 Bip 5 Unity</string>
 </resources>
