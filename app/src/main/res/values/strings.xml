@@ -1457,6 +1457,7 @@
     <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
     <string name="devicetype_amazfit_bip3_pro">Amazfit Bip 3 Pro</string>
     <string name="devicetype_amazfit_bip5">Amazfit Bip 5</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>

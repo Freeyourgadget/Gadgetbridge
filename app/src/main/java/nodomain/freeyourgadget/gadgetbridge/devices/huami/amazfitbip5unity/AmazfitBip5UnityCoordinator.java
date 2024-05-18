@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip5;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip5unity;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,24 +25,25 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class AmazfitBip5Coordinator extends ZeppOsCoordinator {
+public class AmazfitBip5UnityCoordinator extends ZeppOsCoordinator {
     @Override
-    public String getDeviceBluetoothName() {
-        return HuamiConst.AMAZFIT_BIP5_NAME;
-    }
-
-    @Override
-    public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(8454400, 8454401));
-    }
-
-    @Override
-    public boolean supportsContinuousFindDevice() {
+    public boolean isExperimental() {
+        // untested device
         return true;
     }
 
     @Override
-    public boolean supportsGpxUploads() {
+    public String getDeviceBluetoothName() {
+        return HuamiConst.AMAZFIT_BIP5_UNITY_NAME;
+    }
+
+    @Override
+    public Set<Integer> getDeviceSources() {
+        return new HashSet<>(Arrays.asList(8782081, 8782088, 8782089));
+    }
+
+    @Override
+    public boolean supportsContinuousFindDevice() {
         return true;
     }
 
@@ -63,7 +64,7 @@ public class AmazfitBip5Coordinator extends ZeppOsCoordinator {
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_amazfit_bip5;
+        return R.string.devicetype_amazfit_bip5_unity;
     }
 
     @Override
