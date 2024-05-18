@@ -37,8 +37,11 @@ public class FileType {
     public enum FILETYPE { //TODO: add specialized method to parse each file type to the enum?
         // virtual/undocumented
         DIRECTORY(0, 0),
+        UNKNOWN_1_0(1, 0), // venu 3, fileIndex=4096
 
         // fit files
+        DEVICE(128, 1),
+        SETTINGS(128, 2),
         ACTIVITY(128, 4),
         WORKOUTS(128, 5),
         SCHEDULES(128, 7),
