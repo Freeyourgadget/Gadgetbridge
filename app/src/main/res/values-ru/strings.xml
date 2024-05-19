@@ -2866,4 +2866,13 @@
     <string name="chart_cycling_point_label_speed">%.1f км/ч</string>
     <string name="chart_cycling_point_label_distance">Сегодня: %.1f км
 \nВсего: %.1f км</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_on">Воспроизведение в других приложениях будет приостановлено при произнесении уведомления</string>
+    <string name="pref_speak_notifications_focus_exclusive_title">Приостанавливать воспроизведение</string>
+    <string name="pref_speak_notifications_focus_exclusive_summary_off">Громкость воспроизведения в других приложениях будет снижена при произнесении уведомления</string>
+    <string name="toast_setting_requires_reconnect">Этот параметр вступит в действие при следующем соединении</string>
+    <string name="toast_camera_permission_required">Для этой возможности требуется доступ к камере.</string>
+    <string name="open_camera">Открыть камеру</string>
+    <string name="toast_camera_support_required">Для этой возможности требуется поддержка камеры.</string>
+    <string name="toast_camera_photo_taken">Снимок был сделан и сохранён в %s</string>
 </resources>
