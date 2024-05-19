@@ -18,11 +18,15 @@
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.threeten.bp.LocalDate;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
@@ -33,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 /**
  * Base class for all sample providers. A Sample provider is device specific and provides
@@ -233,4 +236,64 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @NonNull
     protected abstract Property getDeviceIdentifierSampleProperty();
+
+    public void convertCumulativeSteps(final List<T> samples, final Property stepsSampleProperty) {
+        final T lastSample = getLastSampleWithStepsBefore(samples.get(0).getTimestamp(), stepsSampleProperty);
+        if (lastSample != null && sameDay(lastSample, samples.get(0)) && samples.get(0).getSteps() > 0) {
+            samples.get(0).setSteps(samples.get(0).getSteps() - lastSample.getSteps());
+        }
+
+        // Steps on the Garmin Watch are reported cumulatively per day - convert them to
+        // This slightly breaks activity recognition, because we don't have per-minute granularity...
+        int prevSteps = samples.get(0).getSteps();
+        samples.get(0).setTimestamp((samples.get(0).getTimestamp() / 60) * 60);
+
+        for (int i = 1; i < samples.size(); i++) {
+            final T s1 = samples.get(i - 1);
+            final T s2 = samples.get(i);
+            s2.setTimestamp((s2.getTimestamp() / 60) * 60);
+
+            if (!sameDay(s1, s2)) {
+                // went past midnight - reset steps
+                prevSteps = s2.getSteps() > 0 ? s2.getSteps() : 0;
+            } else if (s2.getSteps() > 0) {
+                // New steps sample for the current day - subtract the previous seen sample
+                int bak = s2.getSteps();
+                s2.setSteps(s2.getSteps() - prevSteps);
+                prevSteps = bak;
+            }
+        }
+    }
+
+    @Nullable
+    public T getLastSampleWithStepsBefore(final int timestampTo, final Property stepsSampleProperty) {
+        final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+
+        final List<T> samples = getSampleDao().queryBuilder()
+                .where(
+                        getDeviceIdentifierSampleProperty().eq(dbDevice.getId()),
+                        getTimestampSampleProperty().le(timestampTo),
+                        stepsSampleProperty.gt(-1)
+                ).orderDesc(getTimestampSampleProperty())
+                .limit(1)
+                .list();
+
+        return !samples.isEmpty() ? samples.get(0) : null;
+    }
+
+    public boolean sameDay(final T s1, final T s2) {
+        final Calendar cal = Calendar.getInstance();
+
+        cal.setTimeInMillis(s1.getTimestamp() * 1000L - 1000L);
+        final LocalDate d1 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+
+        cal.setTimeInMillis(s2.getTimestamp() * 1000L - 1000L);
+        final LocalDate d2 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+
+        return d1.equals(d2);
+    }
 }

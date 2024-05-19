@@ -105,7 +105,7 @@ public class CmfActivitySampleProvider extends AbstractSampleProvider<CmfActivit
         final List<CmfActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
 
         if (!samples.isEmpty()) {
-            convertCumulativeSteps(samples);
+            convertCumulativeSteps(samples, CmfActivitySampleDao.Properties.Steps);
         }
 
         final Map<Integer, CmfActivitySample> sampleByTs = new HashMap<>();
@@ -126,32 +126,6 @@ public class CmfActivitySampleProvider extends AbstractSampleProvider<CmfActivit
         LOG.trace("Getting cmf samples took {}ms", executionTime);
 
         return finalSamples;
-    }
-
-    private void convertCumulativeSteps(final List<CmfActivitySample> samples) {
-        final Calendar cal = Calendar.getInstance();
-
-        // Steps on the Cmf Watch are reported cumulatively per day - convert them to
-        // This slightly breaks activity recognition, because we don't have per-minute granularity...
-        int prevSteps = samples.get(0).getSteps();
-        samples.get(0).setTimestamp((int) (samples.get(0).getTimestamp() / 60) * 60);
-
-        for (int i = 1; i < samples.size(); i++) {
-            final CmfActivitySample s1 = samples.get(i - 1);
-            final CmfActivitySample s2 = samples.get(i);
-            s2.setTimestamp((int) (s2.getTimestamp() / 60) * 60);
-
-            cal.setTimeInMillis(s1.getTimestamp() * 1000L - 1000L);
-            final LocalDate d1 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
-            cal.setTimeInMillis(s2.getTimestamp() * 1000L - 1000L);
-            final LocalDate d2 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
-
-            if (d1.equals(d2)) {
-                int bak = s2.getSteps();
-                s2.setSteps(s2.getSteps() - prevSteps);
-                prevSteps = bak;
-            }
-        }
     }
 
     private void overlayHeartRate(final Map<Integer, CmfActivitySample> sampleByTs, final int timestamp_from, final int timestamp_to) {
