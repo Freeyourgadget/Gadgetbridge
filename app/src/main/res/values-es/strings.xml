@@ -2993,4 +2993,5 @@
     <string name="pref_speak_notifications_focus_exclusive_title">Pausar el audio de otras aplicaciones</string>
     <string name="pref_speak_notifications_focus_exclusive_summary_on">La reproducción de otras aplicaciones se pausará mientras se escucha la notificación</string>
     <string name="pref_speak_notifications_focus_exclusive_summary_off">El volumen de reproducción de otras aplicaciones bajará mientras se escucha la notificación</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
 </resources>
