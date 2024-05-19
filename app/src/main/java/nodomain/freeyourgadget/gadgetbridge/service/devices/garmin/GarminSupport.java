@@ -221,11 +221,11 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             evaluateGBDeviceEvent(event);
         }
 
-        communicator.sendMessage(parsedMessage.getAckBytestream()); //send status message
+        communicator.sendMessage("send status", parsedMessage.getAckBytestream()); //send status message
 
-        sendOutgoingMessage(parsedMessage); //send reply if any
+        sendOutgoingMessage("send reply", parsedMessage); //send reply if any
 
-        sendOutgoingMessage(followup); //send followup message if any
+        sendOutgoingMessage("send followup", followup); //send followup message if any
 
         if (parsedMessage instanceof ConfigurationMessage) { //the last forced message exchange
             completeInitialization();
@@ -239,7 +239,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     @Override
     public void onSetCallState(CallSpec callSpec) {
         LOG.info("INCOMING CALLSPEC: {}", callSpec.command);
-        sendOutgoingMessage(notificationsHandler.onSetCallState(callSpec));
+        sendOutgoingMessage("send call", notificationsHandler.onSetCallState(callSpec));
     }
 
     @Override
@@ -262,7 +262,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             LOG.info("NOTIFICATIONS ARE NOW enabled={}, status={}", enable, finalStatus);
 
-            sendOutgoingMessage(new NotificationSubscriptionStatusMessage(
+            sendOutgoingMessage("toggle notification subscription", new NotificationSubscriptionStatusMessage(
                     GFDIMessage.Status.ACK,
                     finalStatus,
                     enable,
@@ -281,7 +281,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             }
 
             if (!getKeepActivityDataOnDevice()) { // delete file from watch upon successful download
-                sendOutgoingMessage(new SetFileFlagsMessage(entry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+                sendOutgoingMessage("archive file " + entry.getFileIndex(), new SetFileFlagsMessage(entry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
             }
         }
 
@@ -301,17 +301,17 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
         // FIXME respect dataTypes?
 
-        sendOutgoingMessage(fileTransferHandler.initiateDownload());
+        sendOutgoingMessage("fetch recorded data", fileTransferHandler.initiateDownload());
     }
 
     @Override
     public void onNotification(final NotificationSpec notificationSpec) {
-        sendOutgoingMessage(notificationsHandler.onNotification(notificationSpec));
+        sendOutgoingMessage("send notification " + notificationSpec.getId(), notificationsHandler.onNotification(notificationSpec));
     }
 
     @Override
     public void onDeleteNotification(int id) {
-        sendOutgoingMessage(notificationsHandler.onDeleteNotification(id));
+        sendOutgoingMessage("delete notification " + id, notificationsHandler.onDeleteNotification(id));
     }
 
 
@@ -320,10 +320,10 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         sendWeatherConditions(weatherSpecs.get(0));
     }
 
-    private void sendOutgoingMessage(GFDIMessage message) {
+    private void sendOutgoingMessage(final String taskName, final GFDIMessage message) {
         if (message == null)
             return;
-        communicator.sendMessage(message.getOutgoingMessage());
+        communicator.sendMessage(taskName, message.getOutgoingMessage());
     }
 
     private boolean supports(final GarminCapability capability) {
@@ -348,7 +348,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         weatherDefinitions.add(recordDefinitionHourly);
         weatherDefinitions.add(recordDefinitionDaily);
 
-        sendOutgoingMessage(new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDefinitionMessage(weatherDefinitions));
+        sendOutgoingMessage("send weather definitions", new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDefinitionMessage(weatherDefinitions));
 
         try {
             RecordData today = new RecordData(recordDefinitionToday, recordDefinitionToday.getRecordHeader());
@@ -426,7 +426,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 }
             }
 
-            sendOutgoingMessage(new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDataMessage(weatherData));
+            sendOutgoingMessage("send weather data", new nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FitDataMessage(weatherData));
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
@@ -438,16 +438,16 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         enableWeather();
 
         //following is needed for vivomove style
-        sendOutgoingMessage(new SystemEventMessage(SystemEventMessage.GarminSystemEventType.SYNC_READY, 0));
+        sendOutgoingMessage("set sync ready", new SystemEventMessage(SystemEventMessage.GarminSystemEventType.SYNC_READY, 0));
 
         enableBatteryLevelUpdate();
 
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        sendOutgoingMessage(new SupportedFileTypesMessage());
+        sendOutgoingMessage("request supported file types", new SupportedFileTypesMessage());
 
-        sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+        sendOutgoingMessage("toggle default reply suffix", toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
     }
 
     private ProtobufMessage toggleDefaultReplySuffix(boolean value) {
@@ -467,7 +467,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     public void onSendConfiguration(String config) {
         switch (config) {
             case PREF_GARMIN_DEFAULT_REPLY_SUFFIX:
-                sendOutgoingMessage(toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+                sendOutgoingMessage("toggle default reply suffix", toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
                 break;
             case PREF_SEND_APP_NOTIFICATIONS:
                 NotificationSubscriptionDeviceEvent notificationSubscriptionDeviceEvent = new NotificationSubscriptionDeviceEvent();
@@ -493,14 +493,14 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 if (alreadyDownloaded(directoryEntry)) {
                     LOG.debug("File: {} already downloaded, not downloading again.", directoryEntry.getFileName());
                     if (!getKeepActivityDataOnDevice()) { // delete file from watch if already downloaded
-                        sendOutgoingMessage(new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
+                        sendOutgoingMessage("archive file " + directoryEntry.getFileIndex(), new SetFileFlagsMessage(directoryEntry.getFileIndex(), SetFileFlagsMessage.FileFlags.ARCHIVE));
                     }
                     continue;
                 }
 
                 final DownloadRequestMessage downloadRequestMessage = fileTransferHandler.downloadDirectoryEntry(directoryEntry);
                 LOG.debug("Will download file: {}", directoryEntry.getFileName());
-                sendOutgoingMessage(downloadRequestMessage);
+                sendOutgoingMessage("download file " + directoryEntry.getFileIndex(), downloadRequestMessage);
                 return;
             }
         }
@@ -559,7 +559,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                                 )
                 )
                 .build());
-        sendOutgoingMessage(batteryLevelProtobufRequest);
+        sendOutgoingMessage("enable battery updates", batteryLevelProtobufRequest);
     }
 
     private void enableWeather() {
@@ -567,12 +567,12 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         settings.put(SetDeviceSettingsMessage.GarminDeviceSetting.AUTO_UPLOAD_ENABLED, false);
         settings.put(SetDeviceSettingsMessage.GarminDeviceSetting.WEATHER_CONDITIONS_ENABLED, true);
         settings.put(SetDeviceSettingsMessage.GarminDeviceSetting.WEATHER_ALERTS_ENABLED, false);
-        sendOutgoingMessage(new SetDeviceSettingsMessage(settings));
+        sendOutgoingMessage("enable weather", new SetDeviceSettingsMessage(settings));
     }
 
     @Override
     public void onSetTime() {
-        sendOutgoingMessage(new SystemEventMessage(SystemEventMessage.GarminSystemEventType.TIME_UPDATED, 0));
+        sendOutgoingMessage("set time", new SystemEventMessage(SystemEventMessage.GarminSystemEventType.TIME_UPDATED, 0));
     }
 
     @Override
@@ -592,12 +592,12 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 GdiSmartProto.Smart.newBuilder()
                         .setFindMyWatchService(a).build());
 
-        sendOutgoingMessage(findMyWatch);
+        sendOutgoingMessage("find device", findMyWatch);
     }
 
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-        sendOutgoingMessage(protocolBufferHandler.setCannedMessages(cannedMessagesSpec));
+        sendOutgoingMessage("set canned messages", protocolBufferHandler.setCannedMessages(cannedMessagesSpec));
     }
 
     @Override
@@ -610,7 +610,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         attributes.put(MusicControlEntityUpdateMessage.TRACK.TITLE, musicSpec.track);
         attributes.put(MusicControlEntityUpdateMessage.TRACK.DURATION, String.valueOf(musicSpec.duration));
 
-        sendOutgoingMessage(new MusicControlEntityUpdateMessage(attributes));
+        sendOutgoingMessage("set music info", new MusicControlEntityUpdateMessage(attributes));
     }
 
     @Override
@@ -634,7 +634,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
                     Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
                     attributes.put(MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO, StringUtils.join(",", playing, playRate, position).toString());
-                    sendOutgoingMessage(new MusicControlEntityUpdateMessage(attributes));
+                    sendOutgoingMessage("music state timer", new MusicControlEntityUpdateMessage(attributes));
 
                 }
             }, 0, updatePeriod);
@@ -645,7 +645,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
             attributes.put(MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO, StringUtils.join(",", playing, playRate, position).toString());
-            sendOutgoingMessage(new MusicControlEntityUpdateMessage(attributes));
+            sendOutgoingMessage("music stopped", new MusicControlEntityUpdateMessage(attributes));
         }
     }
 
@@ -700,7 +700,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                         GdiCore.CoreService.newBuilder().setLocationUpdatedNotification(locationUpdatedNotification)
                 ).build()
         );
-        sendOutgoingMessage(locationUpdatedNotificationRequest);
+        sendOutgoingMessage("set gps location", locationUpdatedNotificationRequest);
     }
 
     @Nullable

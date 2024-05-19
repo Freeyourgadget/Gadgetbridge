@@ -48,7 +48,7 @@ public class CommunicatorV2 implements ICommunicator {
     }
 
     @Override
-    public void sendMessage(final byte[] message) {
+    public void sendMessage(final String taskName, final byte[] message) {
         if (null == message)
             return;
         if (0 == gfdiHandle) {
@@ -57,7 +57,7 @@ public class CommunicatorV2 implements ICommunicator {
         }
         final byte[] payload = cobsCoDec.encode(message);
 //        LOG.debug("SENDING MESSAGE: {} - COBS ENCODED: {}", GB.hexdump(message), GB.hexdump(payload));
-        final TransactionBuilder builder = new TransactionBuilder("sendMessage()");
+        final TransactionBuilder builder = new TransactionBuilder(taskName);
         int remainingBytes = payload.length;
         if (remainingBytes > maxWriteSize - 1) {
             int position = 0;
