@@ -36,7 +36,6 @@ public class CobsCoDec {
         return resultPacket;
     }
 
-
     /**
      * COBS decoding algorithm variant, which relies on a leading and a trailing 0 byte (the former
      * is not part of default implementations).
@@ -96,20 +95,15 @@ public class CobsCoDec {
 
             int payloadSize = zeroIndex - startPos;
 
-            while (payloadSize > 0xFE) {
+            while (payloadSize >= 0xFE) {
                 encodedBytesBuffer.put((byte) 0xFF); // Maximum payload size indicator
-                for (int i = 0; i < 0xFE; i++) {
-                    encodedBytesBuffer.put(data[startPos + i]);
-                }
+                encodedBytesBuffer.put(data, startPos, 0xFE);
                 payloadSize -= 0xFE;
                 startPos += 0xFE;
             }
 
             encodedBytesBuffer.put((byte) (payloadSize + 1));
-
-            for (int i = startPos; i < zeroIndex; i++) {
-                encodedBytesBuffer.put(data[i]);
-            }
+            encodedBytesBuffer.put(data, startPos, payloadSize);
 
             if (buffer.hasRemaining()) {
                 zeroIndex++; // Include the zero byte in the next block
