@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+package garmin;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
+option java_outer_classname = "GarminContacts";
+
+message Response {
+  repeated Contact contact = 1;
+  optional Contact self = 2;
+}
+
+message Contact {
+  optional string id = 1; // "SELF" on self
+  optional string fullName = 2;
+  optional string firstName = 3;
+  optional string lastName = 4;
+  repeated Phone phone = 5;
+  optional string unk7 = 7; // ""
+  optional uint32 unk8 = 8; // 0
+  optional uint32 unk9 = 9; // 0
+  optional uint32 unk10 = 10; // 0
+  optional uint64 updateTime = 11;
+  optional uint32 unk12 = 12; // 0
+  optional uint32 unk21 = 21; // 0
+}
+
+message Phone {
+  optional string number = 1;
+  optional uint32 unk2 = 2; // 1
+  optional uint32 unk3 = 3; // 1
+  optional uint32 unk4 = 4; // 0
+  optional uint32 unk5 = 5; // random number
+  optional uint32 unk6 = 6; // 0
+  optional uint32 unk7 = 7; // 0
+  optional string unk8 = 8; // ""
+  optional uint32 unk9 = 9; // 1
+  optional string id = 10; // uuid
+  optional uint32 unk11 = 11; // 1
+  repeated Unk12 unk12 = 12; // 1/5, 2/5
+}
+
+message Unk12 {
+  optional uint32 unk1 = 1; // 1/2
+  optional uint32 unk2 = 2; // 5
+}
