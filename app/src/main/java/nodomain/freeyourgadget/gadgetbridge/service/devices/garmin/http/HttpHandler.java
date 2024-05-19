@@ -19,9 +19,11 @@ public class HttpHandler {
     private static final Logger LOG = LoggerFactory.getLogger(HttpHandler.class);
 
     private final AgpsHandler agpsHandler;
+    private final ContactsHandler contactsHandler;
 
     public HttpHandler(GarminSupport deviceSupport) {
         agpsHandler = new AgpsHandler(deviceSupport);
+        contactsHandler = new ContactsHandler(deviceSupport);
     }
 
     public GdiHttpService.HttpService handle(final GdiHttpService.HttpService httpService) {
@@ -52,6 +54,9 @@ public class HttpHandler {
         } else if (request.getPath().startsWith("/ephemeris/")) {
             LOG.info("Got AGPS request for {}", request.getPath());
             response = agpsHandler.handleAgpsRequest(request);
+        } else if (request.getPath().startsWith("/device-gateway/usercontact/")) {
+            LOG.info("Got contacts request for {}", request.getPath());
+            response = contactsHandler.handleRequest(request);
         } else {
             LOG.warn("Unhandled path {}", request.getPath());
             response = null;

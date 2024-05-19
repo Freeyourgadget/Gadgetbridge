@@ -107,6 +107,9 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
             notifications.add(R.xml.devicesettings_canned_reply_16);
             notifications.add(R.xml.devicesettings_canned_dismisscall_16);
         }
+        if (getContactsSlotCount(device) > 0) {
+            notifications.add(R.xml.devicesettings_contacts);
+        }
 
         final List<Integer> location = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.LOCATION);
         location.add(R.xml.devicesettings_workout_send_gps_to_band);
@@ -192,6 +195,15 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public int getCannedRepliesSlotCount(final GBDevice device) {
         if (getPrefs(device).getBoolean(GarminPreferences.PREF_FEAT_CANNED_MESSAGES, false)) {
             return 16;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int getContactsSlotCount(final GBDevice device) {
+        if (getPrefs(device).getBoolean(GarminPreferences.PREF_FEAT_CONTACTS, false)) {
+            return 50;
         }
 
         return 0;

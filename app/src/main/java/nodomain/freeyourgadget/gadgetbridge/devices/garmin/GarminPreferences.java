@@ -5,6 +5,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 public class GarminPreferences {
     public static final String PREF_GARMIN_CAPABILITIES = "garmin_capabilities";
     public static final String PREF_FEAT_CANNED_MESSAGES = "feat_canned_messages";
+    public static final String PREF_FEAT_CONTACTS = "feat_contacts";
     public static final String PREF_AGPS_KNOWN_URLS = "garmin_agps_known_urls";
     public static final String PREF_GARMIN_AGPS_STATUS = "garmin_agps_status_%s";
     public static final String PREF_GARMIN_AGPS_UPDATE_TIME = "garmin_agps_update_time_%s";
