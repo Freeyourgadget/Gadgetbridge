@@ -29,7 +29,7 @@ public class CommunicatorV1 implements ICommunicator {
     }
 
     @Override
-    public void sendMessage(final byte[] message) {
+    public void sendMessage(final String taskName, final byte[] message) {
 
     }
 
