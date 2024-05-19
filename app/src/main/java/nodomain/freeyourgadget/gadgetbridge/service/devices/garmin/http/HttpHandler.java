@@ -63,7 +63,9 @@ public class HttpHandler {
         }
 
         if (response == null) {
-            return null;
+            return GdiHttpService.HttpService.RawResponse.newBuilder()
+                    .setStatus(GdiHttpService.HttpService.Status.UNKNOWN_STATUS)
+                    .build();
         }
 
         LOG.debug("Http response status={}", response.getStatus());
