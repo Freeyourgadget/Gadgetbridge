@@ -21,21 +21,17 @@ import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.LocalDate;
 
-import java.util.Calendar;
 import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSleepTimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSample;
-import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepTimeSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -105,7 +101,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         final List<GarminActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
 
         if (!samples.isEmpty()) {
-            convertCumulativeSteps(samples);
+            convertCumulativeSteps(samples, GarminActivitySampleDao.Properties.Steps);
         }
 
         overlaySleep(samples, timestamp_from, timestamp_to);
@@ -117,36 +113,6 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         LOG.trace("Getting Garmin samples took {}ms", executionTime);
 
         return samples;
-    }
-
-    private void convertCumulativeSteps(final List<GarminActivitySample> samples) {
-        final Calendar cal = Calendar.getInstance();
-
-        // Steps on the Garmin Watch are reported cumulatively per day - convert them to
-        // This slightly breaks activity recognition, because we don't have per-minute granularity...
-        int prevSteps = samples.get(0).getSteps();
-        samples.get(0).setTimestamp((samples.get(0).getTimestamp() / 60) * 60);
-
-        for (int i = 1; i < samples.size(); i++) {
-            final GarminActivitySample s1 = samples.get(i - 1);
-            final GarminActivitySample s2 = samples.get(i);
-            s2.setTimestamp((s2.getTimestamp() / 60) * 60);
-
-            cal.setTimeInMillis(s1.getTimestamp() * 1000L - 1000L);
-            final LocalDate d1 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
-            cal.setTimeInMillis(s2.getTimestamp() * 1000L - 1000L);
-            final LocalDate d2 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
-
-            if (!d1.equals(d2)) {
-                // went past midnight - reset steps
-                prevSteps = s2.getSteps() > 0 ? s2.getSteps() : 0;
-            } else if (s2.getSteps() > 0) {
-                // New steps sample for the current day - subtract the previous seen sample
-                int bak = s2.getSteps();
-                s2.setSteps(s2.getSteps() - prevSteps);
-                prevSteps = bak;
-            }
-        }
     }
 
     public void overlaySleep(final List<GarminActivitySample> samples, final int timestamp_from, final int timestamp_to) {
