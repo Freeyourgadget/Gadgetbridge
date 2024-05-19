@@ -62,8 +62,9 @@ public class AgpsHandler {
                     LOG.debug("agps request hash = {}, file hash = {}", ifNoneMatch, etag);
 
                     if (etag.equals(ifNoneMatch)) {
-                        response.setStatus(304);
-                        return response;
+                        // FIXME: the 304 reboots some watches, so just ignore the request if the hash matches
+                        //response.setStatus(304);
+                        return null;
                     }
                 }
 

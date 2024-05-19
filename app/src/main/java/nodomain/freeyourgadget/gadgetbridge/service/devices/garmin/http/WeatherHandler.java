@@ -87,9 +87,7 @@ public class WeatherHandler {
             }
             default:
                 LOG.warn("Unknown weather path {}", path);
-                final GarminHttpResponse response = new GarminHttpResponse();
-                response.setStatus(404);
-                return response;
+                return null;
         }
 
         final String json = GSON.toJson(weatherData);
