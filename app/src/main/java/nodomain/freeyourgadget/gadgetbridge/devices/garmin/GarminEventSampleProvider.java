@@ -77,4 +77,25 @@ public class GarminEventSampleProvider extends AbstractTimeSampleProvider<Garmin
         detachFromSession();
         return samples;
     }
+
+    public GarminEventSample getNextSleepEventAfter(final long timestampFrom) {
+        final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+
+        final Property deviceIdSampleProp = getDeviceIdentifierSampleProperty();
+        final Property timestampSampleProp = getTimestampSampleProperty();
+        final List<GarminEventSample> samples = getSampleDao().queryBuilder()
+                .where(
+                        deviceIdSampleProp.eq(dbDevice.getId()),
+                        timestampSampleProp.ge(timestampFrom),
+                        GarminEventSampleDao.Properties.Event.eq(74)
+                ).orderAsc(getTimestampSampleProperty())
+                .limit(1)
+                .list();
+
+        return !samples.isEmpty() ? samples.get(0) : null;
+    }
 }
