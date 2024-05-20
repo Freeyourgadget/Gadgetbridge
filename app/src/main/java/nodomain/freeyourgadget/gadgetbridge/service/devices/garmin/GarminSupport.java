@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiInstalledAppsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -314,6 +315,30 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         sendOutgoingMessage("delete notification " + id, notificationsHandler.onDeleteNotification(id));
     }
 
+    @Override
+    public void onAppInfoReq() {
+        sendOutgoingMessage(
+                "request apps",
+                protocolBufferHandler.prepareProtobufRequest(
+                        GdiSmartProto.Smart.newBuilder().setInstalledAppsService(
+                                GdiInstalledAppsService.InstalledAppsService.newBuilder().setGetInstalledAppsRequest(
+                                        GdiInstalledAppsService.InstalledAppsService.GetInstalledAppsRequest.newBuilder()
+                                                .setAppType(GdiInstalledAppsService.InstalledAppsService.AppType.ALL)
+                                )
+                        ).build()
+                )
+        );
+    }
+
+    @Override
+    public void onAppStart(final UUID uuid, final boolean start) {
+
+    }
+
+    @Override
+    public void onAppDelete(final UUID uuid) {
+
+    }
 
     @Override
     public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) { //todo: find the closest one relative to the requested lat/long

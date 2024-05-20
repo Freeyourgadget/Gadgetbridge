@@ -1,0 +1,61 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
+
+message InstalledAppsService {
+  enum AppType {
+    UNKNOWN_APP_TYPE = 0;
+    WATCH_APP = 1;
+    WIDGET = 2;
+    WATCH_FACE = 3;
+    DATA_FIELD = 4;
+    ALL = 5;
+    NONE = 6;
+    AUDIO_CONTENT_PROVIDER = 7;
+    ACTIVITY = 8;
+  }
+
+  message InstalledApp {
+    required bytes storeAppId = 1;
+    required AppType type = 2;
+    required string name = 3;
+    required bool disabled = 4;
+    optional uint32 version = 5;
+    optional string fileName = 6;
+    optional uint64 fileSize = 7;
+    optional uint32 nativeAppId = 8;
+    optional bool favorite = 9;
+  }
+
+  optional GetInstalledAppsRequest getInstalledAppsRequest = 1;
+  optional GetInstalledAppsResponse getInstalledAppsResponse = 2;
+  optional DeleteAppRequest deleteAppRequest = 3;
+  optional DeleteAppResponse deleteAppResponse = 4;
+
+  message GetInstalledAppsRequest {
+    required AppType appType = 1;
+  }
+
+  message GetInstalledAppsResponse {
+    required uint64 availableSpace = 1;
+    required uint64 availableSlots = 2;
+    repeated InstalledApp installedApps = 3;
+  }
+
+  message DeleteAppRequest {
+    required bytes storeAppId = 1;
+    required AppType appType = 2;
+  }
+
+  message DeleteAppResponse {
+    enum Status {
+      UNKNOWN_STATUS = 0;
+      OK = 1;
+      FAILED_TO_DELETE = 2;
+    }
+
+    required Status status = 1;
+  }
+}

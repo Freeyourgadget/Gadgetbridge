@@ -14,13 +14,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
@@ -28,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiInstalledAppsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmsNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.DataTransferHandler;
@@ -118,6 +122,47 @@ public class ProtocolBufferHandler implements MessageHandler {
             if (smart.hasFindMyWatchService()) {
                 processed = true;
                 processProtobufFindMyWatchResponse(smart.getFindMyWatchService());
+            }
+            if (smart.hasInstalledAppsService()) {
+                processed = true;
+                final List<GBDeviceApp> apps = new ArrayList<>();
+
+                if (smart.getInstalledAppsService().hasGetInstalledAppsResponse()) {
+                    final GdiInstalledAppsService.InstalledAppsService.GetInstalledAppsResponse installedAppsResponse = smart.getInstalledAppsService().getGetInstalledAppsResponse();
+                    for (final GdiInstalledAppsService.InstalledAppsService.InstalledApp installedApp : installedAppsResponse.getInstalledAppsList()) {
+                        GBDeviceApp.Type type = GBDeviceApp.Type.UNKNOWN;
+
+                        switch (installedApp.getType()) {
+                            case WATCH_APP:
+                                type = GBDeviceApp.Type.APP_SYSTEM;
+                                continue;
+                            case WIDGET:
+                                type = GBDeviceApp.Type.APP_GENERIC;
+                                break;
+                            case WATCH_FACE:
+                                type = GBDeviceApp.Type.WATCHFACE;
+                                break;
+                            case DATA_FIELD:
+                                type = GBDeviceApp.Type.APP_ACTIVITYTRACKER;
+                                break;
+                            case ACTIVITY:
+                                type = GBDeviceApp.Type.APP_ACTIVITYTRACKER;
+                                continue;
+                        }
+
+                        apps.add(new GBDeviceApp(
+                                UUID.nameUUIDFromBytes(installedApp.getStoreAppId().toByteArray()),
+                                installedApp.getName(),
+                                "",
+                                String.valueOf(installedApp.getVersion()),
+                                type
+                        ));
+                    }
+
+                    final GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
+                    appInfoCmd.apps = apps.toArray(new GBDeviceApp[0]);
+                    deviceSupport.evaluateGBDeviceEvent(appInfoCmd);
+                }
             }
             if (!processed) {
                 LOG.warn("Unknown protobuf request: {}", smart);
