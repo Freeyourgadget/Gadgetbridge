@@ -2994,4 +2994,5 @@ Temps de sommeil préféré en heures</string>
     <string name="fmtPacePace">Rythme %d rythme</string>
     <string name="fmtPaceCorrection">Correction %d du rythme</string>
     <string name="fmtPaceType">Rythme %d genre</string>
+    <string name="swingAngleAvg">Angle d\'oscillation moyen</string>
 </resources>
