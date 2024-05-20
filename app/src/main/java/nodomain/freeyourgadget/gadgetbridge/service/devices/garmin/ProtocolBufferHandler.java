@@ -78,6 +78,7 @@ public class ProtocolBufferHandler implements MessageHandler {
 
         if (protobufFragment.isComplete()) { //message is now complete
             LOG.info("Received protobuf message #{}, {}B: {}", message.getRequestId(), protobufFragment.totalLength, GB.hexdump(protobufFragment.fragmentBytes, 0, protobufFragment.totalLength));
+            chunkedFragmentsMap.remove(message.getRequestId());
 
             final GdiSmartProto.Smart smart;
             try {
@@ -127,21 +128,20 @@ public class ProtocolBufferHandler implements MessageHandler {
     }
 
     private ProtobufMessage processIncoming(ProtobufStatusMessage statusMessage) {
-        LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
         //TODO: check status and react accordingly, right now we blindly proceed to next chunk
         if (statusMessage.isOK()) {
             DataTransferHandler.onDataChunkSuccessfullyReceived(statusMessage.getRequestId());
-        }
-        if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId()) && statusMessage.isOK()) {
-            final ProtobufFragment protobufFragment = chunkedFragmentsMap.get(statusMessage.getRequestId());
-            LOG.debug("Protobuf message #{} found in queue: {}", statusMessage.getRequestId(), GB.hexdump(protobufFragment.fragmentBytes));
 
-            if (protobufFragment.totalLength <= (statusMessage.getDataOffset() + maxChunkSize)) {
-                chunkedFragmentsMap.remove(protobufFragment);
-                return null;
+            if (chunkedFragmentsMap.containsKey(statusMessage.getRequestId())) {
+                final ProtobufFragment protobufFragment = chunkedFragmentsMap.get(statusMessage.getRequestId());
+                LOG.debug("Protobuf message #{} found in queue: {}", statusMessage.getRequestId(), GB.hexdump(protobufFragment.fragmentBytes));
+
+                if (protobufFragment.totalLength <= (statusMessage.getDataOffset() + maxChunkSize)) {
+                    chunkedFragmentsMap.remove(statusMessage.getRequestId());
+                    return null;
+                }
+                return protobufFragment.getNextChunk(statusMessage);
             }
-
-            return protobufFragment.getNextChunk(statusMessage);
         }
         return null;
     }
@@ -403,7 +403,7 @@ public class ProtocolBufferHandler implements MessageHandler {
     private ProtobufMessage prepareProtobufMessage(byte[] bytes, GFDIMessage.GarminMessage garminMessage, int requestId) {
         if (bytes == null || bytes.length == 0)
             return null;
-        LOG.info("Preparing protobuf message. Type{}, #{}, {}B: {}", garminMessage, requestId, bytes.length, GB.hexdump(bytes, 0, bytes.length));
+        LOG.info("Preparing protobuf message. Type {}, #{}, {}B: {}", garminMessage, requestId, bytes.length, GB.hexdump(bytes, 0, bytes.length));
 
         if (bytes.length > maxChunkSize) {
             chunkedFragmentsMap.put(requestId, new ProtobufFragment(bytes));
