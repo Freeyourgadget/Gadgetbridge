@@ -19,16 +19,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.stat
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class GFDIMessage {
-    public static final int MESSAGE_REQUEST = 5001;
-    public static final int MESSAGE_DIRECTORY_FILE_FILTER_REQUEST = 5007;
-    public static final int MESSAGE_FILE_READY = 5009;
-    public static final int MESSAGE_BATTERY_STATUS = 5023;
-    public static final int MESSAGE_NOTIFICATION_SOURCE = 5033;
-    public static final int MESSAGE_GNCS_CONTROL_POINT_REQUEST = 5034;
-    public static final int MESSAGE_GNCS_DATA_SOURCE = 5035;
-    public static final int MESSAGE_NOTIFICATION_SERVICE_SUBSCRIPTION = 5036;
-    public static final int MESSAGE_SYNC_REQUEST = 5037;
-    public static final int MESSAGE_AUTH_NEGOTIATION = 5101;
     protected static final Logger LOG = LoggerFactory.getLogger(GFDIMessage.class);
     private static int maxPacketSize = 375; //safe default?
     protected final ByteBuffer response = ByteBuffer.allocate(1000);
