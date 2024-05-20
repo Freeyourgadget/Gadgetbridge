@@ -34,7 +34,15 @@ public class ProtobufStatusMessage extends GFDIStatusMessage {
         final ProtobufChunkStatus protobufStatus = ProtobufChunkStatus.fromCode(reader.readByte());
         final ProtobufStatusCode error = ProtobufStatusCode.fromCode(reader.readByte());
 
-        return new ProtobufStatusMessage(garminMessage, status, requestID, dataOffset, protobufStatus, error, false);
+        final ProtobufStatusMessage statusMessage = new ProtobufStatusMessage(garminMessage, status, requestID, dataOffset, protobufStatus, error, false);
+
+        if (statusMessage.isOK()) {
+            LOG.info("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
+        } else {
+            LOG.warn("Processing protobuf status message #{}@{}:  status={}, error={}", statusMessage.getRequestId(), statusMessage.getDataOffset(), statusMessage.getProtobufChunkStatus(), statusMessage.getProtobufStatusCode());
+        }
+
+        return statusMessage;
     }
 
     public int getDataOffset() {
