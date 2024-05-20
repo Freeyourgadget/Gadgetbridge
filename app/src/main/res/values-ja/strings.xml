@@ -147,7 +147,7 @@
     <string name="connecting">接続中</string>
     <string name="connected">接続済み</string>
     <string name="unknown_state">不明な状態</string>
-    <string name="_unknown_">（不明）</string>
+    <string name="_unknown_">(不明)</string>
     <string name="test">テスト</string>
     <string name="test_notification">通知のテスト</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">これは Gadgetbridge からのテスト通知です</string>
@@ -1132,7 +1132,7 @@
     <string name="pref_summary_sync_calendar">切断されているときにもカレンダーのアラートを有効にします</string>
     <string name="pref_title_vibration_strength">振動の強さ</string>
     <string name="pref_summary_relax_firmware_checks">ファームウェアの確認を緩和します</string>
-    <string name="pref_agps_header">補助GPS</string>
+    <string name="pref_agps_header">補助 GPS</string>
     <string name="pref_workout_detection_sensitivity">感度</string>
     <string name="pref_cache_weather">天気情報をキャッシュする</string>
     <string name="prefs_notifications_and_calls_shake_reject">手首を振って着信を無視/拒否する</string>
@@ -1238,7 +1238,7 @@
     <string name="pref_world_clocks_title">世界時計</string>
     <string name="pref_title_screen_on_on_notifications">通知時に画面を ON にする</string>
     <string name="pref_workout_detection_title">ワークアウトの検出</string>
-    <string name="pref_workout_keep_screen_on_summary">ワークアウト中は画面を ON のままにします。リアルタイムのワークアウト データを表示し続けるために明るさが調整されます</string>
+    <string name="pref_workout_keep_screen_on_summary">ワークアウト中は画面をオンのままにし、リアルタイムのワークアウト データを表示し続けるために明るさが調整されます</string>
     <string name="spo2_perc_85">85%</string>
     <string name="spo2_perc_90">90%</string>
     <string name="spo2_off">Off</string>
@@ -1253,7 +1253,7 @@
     <string name="pref_gps_combination">GPS の組み合わせ</string>
     <string name="pref_gps_satellite_search">衛星の検索</string>
     <string name="pref_crown_vibration">リューズの振動</string>
-    <string name="pref_workout_detection_summary">ワークアウトは自動的に検出されます</string>
+    <string name="pref_workout_detection_summary">ワークアウトを自動的に検出します</string>
     <string name="pref_workout_send_gps_title">ワークアウト中に位置情報を送信する</string>
     <string name="pref_workout_send_gps_summary">ワークアウト中に現在の位置情報をバンドに送信します</string>
     <string name="pref_workout_keep_screen_on_title">ワークアウト中は画面を ON のままにする</string>
@@ -2531,4 +2531,15 @@
     <string name="toast_camera_support_required">この機能にはカメラのサポートが必要です。</string>
     <string name="toast_camera_photo_taken">写真を次の場所に保存しました: %s</string>
     <string name="pref_dashboard_widget_today_upside_down_title">0時を下側に表示</string>
+    <string name="pref_alert_tone">アラート音</string>
+    <string name="chart_get_active_and_synchronize">何らかのアクティビティを行い、デバイスを同期してください。</string>
+    <string name="pref_agps_expiry_reminder_enabled">補助 GPS 有効期限リマインダー</string>
+    <string name="pref_sleep_mode_smart_enable_title">スマートスリープ</string>
+    <string name="pref_sleep_mode_smart_enable_summary">睡眠中にバンドが装着されたとき、スリープモードを自動的に有効にします</string>
+    <string name="prefs_stress_monitoring_description">休んでいる間のストレスレベルをモニタリングします</string>
+    <string name="pref_touch_tone">タッチ音</string>
+    <string name="pref_touch_tone_summary">イヤホンがタッチされたときに音を鳴らします</string>
+    <string name="pref_wearing_tone">装着音</string>
+    <string name="pref_wearing_tone_summary">イヤホンが装着されたときに音を鳴らします</string>
+    <string name="prefs_stress_monitoring_title">ストレスモニタリング</string>
 </resources>
