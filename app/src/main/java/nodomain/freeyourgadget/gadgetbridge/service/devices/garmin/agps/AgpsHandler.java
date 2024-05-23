@@ -50,6 +50,7 @@ public class AgpsHandler {
                 }
 
                 final GarminHttpResponse response = new GarminHttpResponse();
+                response.getHeaders().put("cache-control", "max-age=14400");
 
                 final byte[] rawBytes = FileUtils.readAll(agpsIn, 1024 * 1024); // 1MB, they're usually ~60KB
                 final String fileHash = GB.hexdump(CheckSums.md5(rawBytes)).toLowerCase(Locale.ROOT);
@@ -62,9 +63,9 @@ public class AgpsHandler {
                     LOG.debug("agps request hash = {}, file hash = {}", ifNoneMatch, etag);
 
                     if (etag.equals(ifNoneMatch)) {
-                        // FIXME: the 304 reboots some watches, so just ignore the request if the hash matches
-                        //response.setStatus(304);
-                        return null;
+                        response.setBody(new byte[0]);
+                        response.setStatus(304);
+                        return response;
                     }
                 }
 

@@ -131,7 +131,7 @@ public class HttpHandler {
         }
 
         return GdiHttpService.HttpService.RawResponse.newBuilder()
-                .setStatus(GdiHttpService.HttpService.Status.OK)
+                .setStatus(response.getStatus() / 100 == 2 ? GdiHttpService.HttpService.Status.OK : GdiHttpService.HttpService.Status.UNKNOWN_STATUS)
                 .setHttpStatus(response.getStatus())
                 .setBody(ByteString.copyFrom(responseBody))
                 .addAllHeader(responseHeaders)
