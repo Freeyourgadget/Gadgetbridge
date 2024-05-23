@@ -1629,6 +1629,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 description = androidx.core.text.HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
             // Replace "-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-" lines from Google meet
             description = ("\n"+description+"\n").replaceAll("\n-[:~-]*\n","");
+            // Replace ____________________ from MicrosoftTeams
+            description = description.replaceAll("__________+", "");
             // replace double newlines and trim beginning and end
             description = description.replaceAll("\n\\s*\n","\n").trim();
         }
