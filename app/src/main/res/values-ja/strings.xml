@@ -1639,7 +1639,7 @@
     <string name="menuitem_female_health">女性の健康</string>
     <string name="menuitem_email">メール</string>
     <string name="menuitem_countdown">カウントダウン</string>
-    <string name="menuitem_personal_activity_intelligence">個人活動情報（PAI）</string>
+    <string name="menuitem_personal_activity_intelligence">パーソナルアクティビティインテリジェンス (PAI)</string>
     <string name="devicetype_huawei_watchgt2e">Huawei Watch GT 2e</string>
     <string name="zepp_os_watchface_vast_sky">Vast Sky</string>
     <string name="zepp_os_watchface_pure_white">Pure white</string>
@@ -2600,4 +2600,8 @@
     <string name="sports_activity_quick_filter_last_month">先月</string>
     <string name="sports_activity_quick_filter_select">期間</string>
     <string name="activity_filter_to_placeholder">今日</string>
+    <string name="toast_app_must_be_selected">設定するにはアプリを選択する必要があります</string>
+    <string name="toast_app_must_not_be_selected">設定するにはアプリを未選択にする必要があります</string>
+    <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">アクティビティの針を通知カウンターとして使う</string>
 </resources>
