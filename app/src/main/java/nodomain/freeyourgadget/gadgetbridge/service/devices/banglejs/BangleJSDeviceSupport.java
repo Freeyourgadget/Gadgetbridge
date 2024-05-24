@@ -877,10 +877,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
      * Handle "force_calendar_sync" packet
      */
     private void handleCalendarSync(JSONObject json) throws JSONException {
-        //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
         JSONArray ids = json.getJSONArray("ids");
         ArrayList<Long> idsList = new ArrayList<>(ids.length());
+        ArrayList<Long> idsDeletedList = new ArrayList<>(ids.length());
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             Long deviceId = DBHelper.getDevice(gbDevice, session).getId();
@@ -897,6 +898,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
                                 CalendarSyncStateDao.Properties.CalendarEntryId.eq(id))).build().unique();
                 if(calendarSyncState == null) {
+                    idsDeletedList.add(id);
                     onDeleteCalendarEvent((byte)0, id);
                     LOG.info("event id="+ id +" is on device id="+ deviceId +", removing it there");
                 } else {
@@ -904,6 +906,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     idsList.add(id);
                 }
             }
+            // Now issue the command to delete from the Bangle
+            if (idsDeletedList.size() > 0)
+                deleteCalendarEvents(idsDeletedList);
 
             //remove all elements not in ids from database (we don't have them)
             for(CalendarSyncState calendarSyncState : states) {
@@ -1622,6 +1627,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         String description = calendarEventSpec.description;
         if (description != null) {
             // remove any HTML formatting
@@ -1655,6 +1661,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
+        // FIXME: CalenderReceiver will call this directly - can we somehow batch up delete calls and use deleteCalendarEvents?
+        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         try {
             JSONObject o = new JSONObject();
             o.put("t", "calendar-");
@@ -1663,6 +1671,26 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
+    }
+
+    /* Called when we need to get rid of multiple calendar events */
+    public void deleteCalendarEvents(ArrayList<Long> ids) {
+        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if (ids.size() > 0)
+            try {
+                JSONObject o = new JSONObject();
+                o.put("t", "calendar-");
+                if (ids.size() == 1) {
+                    o.put("id", ids.get(0));
+                } else {
+                    JSONArray a = new JSONArray();
+                    for (long id : ids) a.put(id);
+                    o.put("id", a);
+                }
+                uartTxJSON("onDeleteCalendarEvent", o);
+            } catch (JSONException e) {
+                LOG.info("JSONException: " + e.getLocalizedMessage());
+            }
     }
 
     @Override
