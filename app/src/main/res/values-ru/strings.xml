@@ -333,16 +333,14 @@
     <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
     <string name="action_db_management">Управление данными</string>
     <string name="title_activity_db_management">Управление данными</string>
-    <string name="activity_db_management_import_export_explanation">Операции с экспорта/импорта используют этот путь (см. ниже) в директорию на устройстве. Эта директория доступна для других приложений Android и компьютера.
-\nОбратите внимание, что эта директория и все файлы в ней будет удалены, если вы удалите Gadgetbridge. Эти данные включают:
+    <string name="activity_db_management_import_export_explanation">Для операций экспорта/импорта используется следующий путь (см. ниже) к директории на вашем устройстве. Эта директория доступна другим приложениям Android и вашему компьютеру. Обратите внимание, что эта директория и все содержащиеся в ней файлы удаляются при удалении Gadgetbridge. Данные включают в себя:
 \n Export_preference - глобальные настройки
-\n Export_preference_MAC - настройки только для этого устройства
+\n Export_preference_MAC - настройки для конкретного устройства
 \n Gadgetbridge - база данных устройств и активностей
-\n Gadgetbridge_date - база данных, экспортированная на дату
-\n
-\n *.gpx - GPS записи
-\n *.log - лог файлы
-\nВы можете найти экспортированную базу данных (или разместить файлы, которые вы хотите импортировать) здесь:</string>
+\n Gadgetbridge_date - база данных, экспортированная в определенную дату
+\n *.gpx - записи GPS
+\n *.log - файлы журнала
+\nОжидайте найти экспортированные файлы (или поместить файлы, которые вы хотите импортировать) там:</string>
     <string name="activity_db_management_merge_old_title">Удаление устаревшей базы данных</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Нет доступа к пути экспорта. Обратитесь, пожалуйста, к разработчикам.</string>
     <string name="dbmanagementactivity_exported_to">Экспортировано в: %1$s</string>
@@ -420,7 +418,7 @@
     <string name="pref_blacklist_calendars">Заблокированные календари</string>
     <string name="pref_header_pebble_timeline">Временной график Pebble</string>
     <string name="pref_title_pebble_enable_bgjs">Включить JS в фоновом режиме</string>
-    <string name="pref_summary_pebble_enable_bgjs">При включении позволяет циферблатам отображать погоду, уровень заряда и прочее</string>
+    <string name="pref_summary_pebble_enable_bgjs">Если эта функция включена, на интерфейсе часов можно отображать погоду, информацию о заряде батареи и т. д.</string>
     <string name="activity_web_view">Веб-отчёт активности</string>
     <string name="mi2_dnd_off">Выкл.</string>
     <string name="mi2_dnd_automatic">Автоматически (определяет режим сна)</string>
@@ -499,7 +497,7 @@
     <string name="pref_title_auto_export_enabled">Включить автоматический экспорт</string>
     <string name="pref_title_auto_export_location">Путь для экспорта данных</string>
     <string name="pref_title_auto_export_interval">Интервал экспорта</string>
-    <string name="pref_summary_auto_export_interval">Экспортировать раз в %d ч.</string>
+    <string name="pref_summary_auto_export_interval">Экспорт каждые %d часов</string>
     <string name="spanish">Испанский</string>
     <string name="russian">Русский</string>
     <string name="activity_type_not_measured">Не измерялось</string>
@@ -537,7 +535,7 @@
     <string name="pref_auto_fetch">Получать данные активности автоматически</string>
     <string name="pref_auto_fetch_summary">Получать данные активности при разблокировке. Работает только при настроенной блокировке экрана!</string>
     <string name="pref_auto_fetch_limit_fetches">Минимальный интервал</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Получать раз в %d мин.</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Забирает данные каждые %d минут</string>
     <string name="horizontal">Горизонтально</string>
     <string name="vertical">Вертикально</string>
     <string name="controlcenter_start_activity_tracks">Отслеживание активности</string>
@@ -2032,7 +2030,7 @@
     <string name="sports_activity_confirm_delete_title">Удалить %d активностей</string>
     <string name="pai_chart_per_month">PAI в месяц</string>
     <string name="pai_plus_num">+%d</string>
-    <string name="num_min">%d мин.</string>
+    <string name="num_min">%d минут</string>
     <string name="pai_chart_per_week">PAI в неделю</string>
     <string name="prefs_shortcut_cards_summary">Карточки ярлыков видны при свайпе вправо на циферблате. Когда приложение запущено, авто-сгенерированные карточки не затронуты данной настройкой.</string>
     <string name="activity_detail_share_gps_label">Поделиться GPS-треком</string>
@@ -2568,7 +2566,7 @@
     <string name="activity_type_trail_run">Трейлраннинг</string>
     <string name="widget_layout">Макет виджета</string>
     <string name="widget_screen_no_free_slots_description">На устройстве не осталось свободных мест под экраны виджетов (всего: %1$s)</string>
-    <string name="pref_device_action_dnd_on">Не беспокоить - Вкл.</string>
+    <string name="pref_device_action_dnd_on">Не беспокоить - Включено</string>
     <string name="prefs_phone_silent_mode">Беззвучный режим телефона</string>
     <string name="widget_unknown_workout">Неизвестный тип тренировки - %s</string>
     <string name="prefs_wearmode">Тип ношения</string>
@@ -2605,7 +2603,7 @@
     <string name="wearmode_necklace">Колье (шнурок на шее)</string>
     <string name="pref_vitality_score_daily_title">Прогресс сегодня</string>
     <string name="pref_vitality_score_7_day_title">Прогресс за 7 дней</string>
-    <string name="pref_device_action_dnd_off">Не беспокоить - Выкл.</string>
+    <string name="pref_device_action_dnd_off">Не беспокоить - Выключено</string>
     <string name="silent_mode_normal_silent">Нормальный / Беззвучный</string>
     <string name="activity_type_wrestling">Борьба</string>
     <string name="devicetype_colacao23">ColaCao 2023</string>
