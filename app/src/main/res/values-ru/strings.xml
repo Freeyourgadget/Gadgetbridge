@@ -2495,7 +2495,7 @@
     <string name="zepp_os_watchface_city_of_speed">Город Скорости</string>
     <string name="menuitem_headphone">Наушник</string>
     <string name="femometer_measurement_mode_normal">Нормальный (60-90 сек.)</string>
-    <string name="zepp_os_watchface_free_combination">Free combination</string>
+    <string name="zepp_os_watchface_free_combination">Свободная комбинация</string>
     <string name="menuitem_body_composition">Состав тела</string>
     <string name="menuitem_zepp_pay">Zepp Pay</string>
     <string name="femometer_measurement_mode_quick">Быстрый (30 сек.)</string>
@@ -2520,7 +2520,7 @@
     <string name="yard">площадка</string>
     <string name="pref_call_rejection_method_summary">Какое действие необходимо совершить при отклонении вызова с часов</string>
     <string name="busy_task_fetch_temperature">Получение температуры</string>
-    <string name="laneLength">Длина полосы</string>
+    <string name="laneLength">Длина дорожки</string>
     <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
     <string name="charts_legend_spo2_average">Средний уровень кислорода в крови</string>
     <string name="devicetype_amazfit_active">Amazfit Active</string>
@@ -2936,4 +2936,19 @@
     <string name="activity_type_cross_country_skiing">Катание на беговых лыжах</string>
     <string name="devicetype_garmin_instinct_crossover">Garmin Instinct Crossover</string>
     <string name="devicetype_garmin_vivoactive_4">Garmin Vívoactive 4</string>
+    <string name="swolfAvg">Средний волк</string>
+    <string name="devicetype_garmin_vivoactive_5">Garmin Vívoactive 5</string>
+    <string name="devicetype_garmin_vivoactive_4s">Garmin Vívoactive 4S</string>
+    <string name="devicetype_honor_magicwatch2">Honor MagicWatch 2</string>
+    <string name="avgStrokeRate">Средняя скорость инсульта</string>
+    <string name="maxStrokeRate">Максимальная скорость хода</string>
+    <string name="strokes">Всего ударов</string>
+    <string name="swolfMax">Максимальный волк</string>
+    <string name="swolfMin">Минимальный волк</string>
+    <string name="stepRateSum">Сумма шаговой скорости</string>
+    <string name="stepRateAvg">Средняя скорость шага</string>
+    <string name="stepLengthAvg">Средняя длина шага</string>
+    <string name="groundContactTimeAvg">Среднее время контакта с землей</string>
+    <string name="impactAvg">Среднее воздействие</string>
+    <string name="impactMax">Максимальное воздействие</string>
 </resources>
