@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,6 +144,8 @@ public class XiaomiSppPacket {
         return new Builder();
     }
 
+    @NonNull
+    @Override
     public String toString() {
         return String.format(Locale.ROOT,
                 "SppPacket{ channel=0x%x, flag=%b, needsResponse=%b, opCode=0x%x, frameSerial=0x%x, dataType=0x%x, payloadSize=%d }",

@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiSppSupport extends XiaomiConnectionSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSppSupport.class);
@@ -283,21 +284,19 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
     }
 
     @Override
-    public void sendCommand(String taskName, XiaomiProto.Command command) {
+    public void sendCommand(final String taskName, final XiaomiProto.Command command) {
         try {
-            XiaomiSppPacket packet = XiaomiSppPacket.fromXiaomiCommand(command, frameCounter.getAndIncrement(), false);
-            LOG.debug("sending packet: {}", packet);
-            TransactionBuilder builder = this.commsSupport.createTransactionBuilder("send " + taskName);
-            builder.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
+            final TransactionBuilder builder = this.commsSupport.createTransactionBuilder("send " + taskName);
+            sendCommand(builder, command);
             builder.queue(this.commsSupport.getQueue());
         } catch (final Exception ex) {
-            LOG.error("Caught unexpected exception while sending command, device may not have been informed!: {}", ex, ex);
+            LOG.error("Caught unexpected exception while sending command, device may not have been informed!", ex);
         }
     }
 
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
-        XiaomiSppPacket packet = XiaomiSppPacket.fromXiaomiCommand(command, frameCounter.getAndIncrement(), false);
-        LOG.debug("sending packet: {}", packet);
+        final XiaomiSppPacket packet = XiaomiSppPacket.fromXiaomiCommand(command, frameCounter.getAndIncrement(), false);
+        LOG.debug("sending packet: {}, payload={}", packet, GB.hexdump(packet.getPayload()));
 
         builder.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
         // do not queue here, that's the job of the caller
