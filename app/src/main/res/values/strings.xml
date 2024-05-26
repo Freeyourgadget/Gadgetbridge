@@ -1493,6 +1493,7 @@
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_garmin_vivomove_hr">Garmin Vívomove HR</string>
     <string name="devicetype_garmin_vivomove_style">Garmin Vívomove Style</string>
+    <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="devicetype_garmin_venu_3">Garmin Venu 3</string>
     <string name="devicetype_garmin_instinct_solar">Garmin Instinct Solar</string>
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
