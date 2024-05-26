@@ -947,6 +947,11 @@ public class DebugActivity extends AbstractGBActivity {
     private void shareLog() {
         String fileName = GBApplication.getLogPath();
         if (fileName != null && fileName.length() > 0) {
+            // Flush the logs, so that we ensure latest lines are also there
+            GBApplication.getLogging().setImmediateFlush(true);
+            LOG.debug("Flushing logs before sharing");
+            GBApplication.getLogging().setImmediateFlush(false);
+
             File logFile = new File(fileName);
             if (!logFile.exists()) {
                 GB.toast("File does not exist", Toast.LENGTH_LONG, GB.INFO);

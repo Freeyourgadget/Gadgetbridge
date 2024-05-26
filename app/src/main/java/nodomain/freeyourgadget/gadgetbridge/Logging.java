@@ -67,6 +67,12 @@ public abstract class Logging {
             return null;
     }
 
+    public void setImmediateFlush(final boolean immediateFlush) {
+        if (fileLogger != null) {
+            fileLogger.setImmediateFlush(true);
+        }
+    }
+
     public boolean isFileLoggerInitialized() {
         return logDirectory != null;
     }
