@@ -158,7 +158,7 @@
     <string name="tap_connected_device_for_vibration">Pulse el dispositivo conectado para la vibración</string>
     <string name="tap_a_device_to_connect">Pulse un dispositivo para conectarse</string>
     <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
-    <string name="gadgetbridge_running_generic">Gadgetbridge funcionando</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge ejecutandose</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
     <string name="installation_failed_">Instalación fallida</string>
     <string name="installation_successful">Instalado</string>
@@ -1083,7 +1083,7 @@
     <string name="about_additional_device_support">Soporte de dispositivos adicionales</string>
     <string name="about_contributors">Colaboradores</string>
     <string name="about_core_team_title">Equipo principal (por orden de primera contribución de código)</string>
-    <string name="about_description_generic">Sustitución sin nube y con copyleft de las aplicaciones de código cerrado para Android de los proveedores.</string>
+    <string name="about_description_generic">Una aplicación de Android gratuita, de código abierto y sin conexión para reemplazar las aplicaciones de código cerrado de los fabricantes de relojes inteligentes.</string>
     <string name="about_activity_title_generic">Acerca de Gadgetbridge</string>
     <string name="about_version">Versión %s</string>
     <string name="about_title">Acerca de</string>
@@ -1589,9 +1589,9 @@
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Acerca de Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Aplicación complementaria de Android para Bangle.js construida sobre el proyecto Gadgetbridge, con acceso a Internet añadido.
+    <string name="about_description_banglejs_main">Aplicación complementaria de Android para Bangle.js, basada en el proyecto Gadgetbridge, con acceso adicional a Internet.
 \n
-\nDebido a las políticas de Google Play Store, no se nos permite un enlace de donación en la propia aplicación, pero si le gusta esta aplicación por favor considere donar a través de la página de inicio de Gadgetbridge a continuación.</string>
+\nDebido a las políticas de Google Play Store, no podemos incluir un enlace de donación en la aplicación, pero si te gusta esta aplicación, considera hacer una donación a través de la página de inicio de Gadgetbridge que aparece a continuación.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js ejecutándose</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -3023,4 +3023,5 @@
     <string name="no_folder_selected">Ninguna carpeta seleccionada</string>
     <string name="folder_is_empty">Carpeta vacía</string>
     <string name="pref_garmin_agps_help">La siguiente lista contiene todas las URL solicitadas por el reloj para actualizaciones AGPS. Puede seleccionar un archivo del almacenamiento del teléfono que se enviará al reloj cuando solicite una actualización.</string>
+    <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
 </resources>
