@@ -3021,4 +3021,5 @@
     <string name="folder">文件夹</string>
     <string name="url">网址</string>
     <string name="garmin_agps_local_file">本地文件</string>
+    <string name="devicetype_garmin_venu_2_plus">佳明 Venu 2 Plus</string>
 </resources>
