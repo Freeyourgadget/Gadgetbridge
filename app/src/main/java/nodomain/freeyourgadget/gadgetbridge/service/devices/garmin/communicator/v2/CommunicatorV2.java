@@ -12,16 +12,21 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class CommunicatorV2 implements ICommunicator {
-    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString("6A4E2800-667B-11E3-949A-0800200C9A66");
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND = UUID.fromString("6a4e2822-667b-11e3-949a-0800200c9a66");
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE = UUID.fromString("6a4e2812-667b-11e3-949a-0800200c9a66");
+    public static final String BASE_UUID = "6A4E%s-667B-11E3-949A-0800200C9A66";
+
+    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString(String.format(BASE_UUID, "2800"));
+
+    private BluetoothGattCharacteristic characteristicSend;
+    private BluetoothGattCharacteristic characteristicReceive;
 
     public int maxWriteSize = 20;
     private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV2.class);
@@ -42,9 +47,25 @@ public class CommunicatorV2 implements ICommunicator {
 
     @Override
     public void initializeDevice(final TransactionBuilder builder) {
+        // Iterate through the known ML characteristics until we find a known pair
+        // send = read + 10
+        for (int i = 2810; i <= 2814; i++) {
+            characteristicReceive = mSupport.getCharacteristic(UUID.fromString(String.format(BASE_UUID, i)));
+            characteristicSend = mSupport.getCharacteristic(UUID.fromString(String.format(BASE_UUID, i + 10)));
 
-        builder.notify(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_RECEIVE), true);
-        builder.write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), closeAllServices());
+            if (characteristicSend != null && characteristicReceive != null) {
+                LOG.debug("Using characteristics receive/send = {}/{}", characteristicReceive.getUuid(), characteristicSend.getUuid());
+
+                builder.notify(characteristicReceive, true);
+                builder.write(characteristicSend, closeAllServices());
+
+                return;
+            }
+        }
+
+        LOG.warn("Failed to find any known ML characteristics");
+
+        builder.add(new SetDeviceStateAction(mSupport.getDevice(), GBDevice.State.NOT_CONNECTED, mSupport.getContext()));
     }
 
     @Override
@@ -63,18 +84,23 @@ public class CommunicatorV2 implements ICommunicator {
             int position = 0;
             while (remainingBytes > 0) {
                 final byte[] fragment = Arrays.copyOfRange(payload, position, position + Math.min(remainingBytes, maxWriteSize - 1));
-                builder.write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), ArrayUtils.addAll(new byte[]{(byte) gfdiHandle}, fragment));
+                builder.write(characteristicSend, ArrayUtils.addAll(new byte[]{(byte) gfdiHandle}, fragment));
                 position += fragment.length;
                 remainingBytes -= fragment.length;
             }
         } else {
-            builder.write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), ArrayUtils.addAll(new byte[]{(byte) gfdiHandle}, payload));
+            builder.write(characteristicSend, ArrayUtils.addAll(new byte[]{(byte) gfdiHandle}, payload));
         }
         builder.queue(this.mSupport.getQueue());
     }
 
     @Override
     public boolean onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+        if (!characteristic.getUuid().equals(characteristicReceive.getUuid())) {
+            // Not ML
+            return false;
+        }
+
         ByteBuffer message = ByteBuffer.wrap(characteristic.getValue()).order(ByteOrder.LITTLE_ENDIAN);
 //        LOG.debug("RECEIVED: {}", GB.hexdump(message.array()));
         final byte handle = message.get();
@@ -111,7 +137,7 @@ public class CommunicatorV2 implements ICommunicator {
                 case CLOSE_ALL_RESP: //close all handles response
                     LOG.debug("Received close all handles response. Message: {}", message.array());
                     new TransactionBuilder("open GFDI")
-                            .write(this.mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_ML_GFDI_SEND), registerGFDI())
+                            .write(characteristicSend, registerGFDI())
                             .queue(this.mSupport.getQueue());
                     break;
                 case UNK_RESP: //unknown response
