@@ -3028,4 +3028,5 @@
     <string name="none">Keine</string>
     <string name="garmin_agps_url_i">AGPS %1$d URL</string>
     <string name="pref_garmin_agps_help">Die folgende Liste enthält alle URLs, die von der Uhr für AGPS-Aktualisierungen angefordert werden. Du kannst eine Datei aus dem Speicher des Telefons auswählen, die an die Uhr gesendet wird, wenn sie eine Aktualisierung anfordert.</string>
+    <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
 </resources>
