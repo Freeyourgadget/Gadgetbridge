@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GARMIN_DEFAULT_REPLY_SUFFIX;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
@@ -93,12 +94,13 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private final FileTransferHandler fileTransferHandler;
     private final Queue<FileTransferHandler.DirectoryEntry> filesToDownload;
     private final List<MessageHandler> messageHandlers;
+    private final List<FileType> supportedFileTypeList = new ArrayList<>();
+    private final List<File> filesToProcess = new ArrayList<>();
     private ICommunicator communicator;
     private MusicStateSpec musicStateSpec;
     private Timer musicStateTimer;
-
-    private final List<FileType> supportedFileTypeList = new ArrayList<>();
-    private final List<File> filesToProcess = new ArrayList<>();
+    private boolean mFirstConnect = false;
+    private boolean isBusyFetching;
 
     public GarminSupport() {
         super(LOG);
@@ -235,7 +237,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     }
 
-
     @Override
     public void onSetCallState(CallSpec callSpec) {
         LOG.info("INCOMING CALLSPEC: {}", callSpec.command);
@@ -313,7 +314,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     public void onDeleteNotification(int id) {
         sendOutgoingMessage("delete notification " + id, notificationsHandler.onDeleteNotification(id));
     }
-
 
     @Override
     public void onSendWeather(final ArrayList<WeatherSpec> weatherSpecs) { //todo: find the closest one relative to the requested lat/long
@@ -444,6 +444,11 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         sendOutgoingMessage("request supported file types", new SupportedFileTypesMessage());
 
         sendOutgoingMessage("toggle default reply suffix", toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
+
+        if (mFirstConnect) {
+            sendOutgoingMessage("set sync complete", new SystemEventMessage(SystemEventMessage.GarminSystemEventType.SYNC_COMPLETE, 0));
+            this.mFirstConnect = false;
+        }
     }
 
     private ProtobufMessage toggleDefaultReplySuffix(boolean value) {
@@ -472,8 +477,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 break;
         }
     }
-
-    private boolean isBusyFetching;
 
     private void processDownloadQueue() {
         if (!filesToDownload.isEmpty() && !fileTransferHandler.isDownloading()) {
@@ -517,7 +520,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             // Keep the device marked as busy while we process the files asynchronously
 
             final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
-            final List <File> filesToProcessClone = new ArrayList<>(filesToProcess);
+            final List<File> filesToProcessClone = new ArrayList<>(filesToProcess);
             filesToProcess.clear();
             final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
             fitAsyncProcessor.process(filesToProcessClone, new FitAsyncProcessor.Callback() {
@@ -733,6 +736,12 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     public GarminCoordinator getCoordinator() {
         return (GarminCoordinator) getDevice().getDeviceCoordinator();
+    }
+
+    @Override
+    public boolean connectFirstTime() {
+        mFirstConnect = true;
+        return super.connect();
     }
 
     @Override
