@@ -104,16 +104,37 @@ public class NotificationUtils {
             return context.getPackageManager().getApplicationIcon(packageName);
         } catch (final PackageManager.NameNotFoundException ignored) {
             LOG.warn("Failed to find icon for {}, attempting fallback", packageName);
-            return getAppIconFallback(context, packageName);
+            final LauncherActivityInfo launcherActivityInfo = getLauncherActivityInfo(context, packageName);
+            if (launcherActivityInfo != null) {
+                return launcherActivityInfo.getIcon(0);
+            }
+
+            return null;
+        }
+    }
+
+    @Nullable
+    public static String getApplicationLabel(final Context context, final String packageName) {
+        final PackageManager pm = context.getPackageManager();
+        try {
+            return pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString();
+        } catch (final PackageManager.NameNotFoundException ignored) {
+            LOG.warn("Failed to find application label for {}, attempting fallback", packageName);
+            final LauncherActivityInfo launcherActivityInfo = getLauncherActivityInfo(context, packageName);
+            if (launcherActivityInfo != null) {
+                return launcherActivityInfo.getLabel().toString();
+            }
+
+            return null;
         }
     }
 
     /**
-     * Fallback method to get an app icon - iterate through all the users and attempt to find the
+     * Fallback method to get an app info - iterate through all the users and attempt to find the
      * app. This includes work profiles.
      */
     @Nullable
-    private static Drawable getAppIconFallback(final Context context, final String packageName) {
+    private static LauncherActivityInfo getLauncherActivityInfo(final Context context, final String packageName) {
         try {
             final LauncherApps launcherAppsService = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
             final UserManager userManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
@@ -124,16 +145,18 @@ public class NotificationUtils {
                 final List<LauncherActivityInfo> activityList = launcherAppsService.getActivityList(packageName, userHandle);
 
                 if (!activityList.isEmpty()) {
-                    LOG.info("Found {} icons for {} in user {}", activityList.size(), packageName, userHandle);
-                    return activityList.get(0).getIcon(0);
+                    LOG.debug("Found {} launcher activity infos for {} in user {}", activityList.size(), packageName, userHandle);
+                    return activityList.get(0);
                 }
             }
 
-            LOG.warn("Failed to find fallback icon for {}", packageName);
+            LOG.warn("Failed to find launcher activity info for {}", packageName);
         } catch (final Exception e) {
-            LOG.error("Error during fallback icon search", e);
+            LOG.error("Error during launcher activity info search", e);
         }
 
         return null;
     }
+
+
 }

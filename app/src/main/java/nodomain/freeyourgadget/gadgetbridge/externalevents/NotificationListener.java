@@ -250,17 +250,6 @@ public class NotificationListener extends NotificationListenerService {
         super.onDestroy();
     }
 
-    public String getAppName(String pkg) {
-        // determinate Source App Name ("Label")
-        PackageManager pm = getPackageManager();
-        try {
-            return (String) pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0));
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         onNotificationPosted(sbn, null);
@@ -352,7 +341,7 @@ public class NotificationListener extends NotificationListenerService {
         notificationSpec.when = notification.when;
 
         // determinate Source App Name ("Label")
-        String name = getAppName(source);
+        String name = NotificationUtils.getApplicationLabel(this, source);
         if (name != null) {
             notificationSpec.sourceName = name;
         }
@@ -546,7 +535,7 @@ public class NotificationListener extends NotificationListenerService {
 
         // figure out sender
         String number;
-        String appName = getAppName(app);
+        String appName = NotificationUtils.getApplicationLabel(this, app);
         if (noti.extras.containsKey(Notification.EXTRA_PEOPLE)) {
             number = noti.extras.getString(Notification.EXTRA_PEOPLE);
         } else if (noti.extras.containsKey(Notification.EXTRA_TITLE)) {

@@ -119,7 +119,7 @@ public class StringUtils {
 
     @NonNull
     public static String getFirstOf(String first, String second) {
-        if (first != null && first.length() > 0) {
+        if (first != null && !first.isEmpty()) {
             return first;
         }
         if (second != null) {

@@ -953,20 +953,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 int suffixlength = appSuffix.length;
 
                 if (alertCategory == AlertCategory.CustomHuami) {
-                    String appName;
+                    String appName = "\0" + StringUtils.getFirstOf(notificationSpec.sourceName, "UNKNOWN") + "\0";
                     prefixlength = 3;
-                    final PackageManager pm = getContext().getPackageManager();
-                    ApplicationInfo ai = null;
-                    try {
-                        ai = pm.getApplicationInfo(notificationSpec.sourceAppId, 0);
-                    } catch (PackageManager.NameNotFoundException ignored) {
-                    }
 
-                    if (ai != null) {
-                        appName = "\0" + pm.getApplicationLabel(ai) + "\0";
-                    } else {
-                        appName = "\0" + "UNKNOWN" + "\0";
-                    }
                     appSuffix = appName.getBytes();
                     suffixlength = appSuffix.length;
                 }

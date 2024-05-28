@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
@@ -198,6 +199,9 @@ public class XiaomiNotificationService extends AbstractXiaomiService implements 
 
         if (notificationSpec.sourceName != null) {
             notification3.setAppName(notificationSpec.sourceName);
+        } else {
+            // Should never happen, but notification is not shown otherwise
+            notification3.setAppName("UNKNOWN");
         }
 
         if (notificationSpec.key != null) {
