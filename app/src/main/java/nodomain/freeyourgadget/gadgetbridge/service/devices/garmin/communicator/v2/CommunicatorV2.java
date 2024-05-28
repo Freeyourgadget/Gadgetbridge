@@ -21,9 +21,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class CommunicatorV2 implements ICommunicator {
-    public static final String BASE_UUID = "6A4E%s-667B-11E3-949A-0800200C9A66";
+    public static final String BASE_UUID = "6A4E%04X-667B-11E3-949A-0800200C9A66";
 
-    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString(String.format(BASE_UUID, "2800"));
+    public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString(String.format(BASE_UUID, 0x2800));
 
     private BluetoothGattCharacteristic characteristicSend;
     private BluetoothGattCharacteristic characteristicReceive;
@@ -48,10 +48,10 @@ public class CommunicatorV2 implements ICommunicator {
     @Override
     public void initializeDevice(final TransactionBuilder builder) {
         // Iterate through the known ML characteristics until we find a known pair
-        // send = read + 10
-        for (int i = 2810; i <= 2814; i++) {
+        // send characteristic = read characteristic + 0x10 (eg. 2810 / 2820)
+        for (int i = 0x2810; i <= 0x2814; i++) {
             characteristicReceive = mSupport.getCharacteristic(UUID.fromString(String.format(BASE_UUID, i)));
-            characteristicSend = mSupport.getCharacteristic(UUID.fromString(String.format(BASE_UUID, i + 10)));
+            characteristicSend = mSupport.getCharacteristic(UUID.fromString(String.format(BASE_UUID, i + 0x10)));
 
             if (characteristicSend != null && characteristicReceive != null) {
                 LOG.debug("Using characteristics receive/send = {}/{}", characteristicReceive.getUuid(), characteristicSend.getUuid());
