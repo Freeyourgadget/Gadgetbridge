@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWIM_STYLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_END;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
@@ -81,6 +82,23 @@ public class XiaomiSimpleActivityParser {
                 }
             } else if (dataEntry.getKey().equals(TIME_START)) {
                 // ignored
+            } else if (dataEntry.getKey().equals(SWIM_STYLE)) {
+                String swimStyleName = "unknown";
+                Float swimStyle = value.floatValue();
+
+                if (swimStyle == 0) {
+                    swimStyleName = "medley";
+                } else if (swimStyle == 1) {
+                    swimStyleName = "breaststroke";
+                } else if (swimStyle == 2) {
+                    swimStyleName = "freestyle";
+                } else if (swimStyle == 3) {
+                    swimStyleName = "backstroke";
+                } else if (swimStyle == 4) {
+                    swimStyleName = "butterfly";
+                }
+
+                addSummaryData(summaryData, dataEntry.getKey(), swimStyleName);
             } else if (dataEntry.getKey().equals(XIAOMI_WORKOUT_TYPE)) {
                 // TODO use XiaomiWorkoutType
                 switch (value.intValue()) {

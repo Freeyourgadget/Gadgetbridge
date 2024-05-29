@@ -28,25 +28,37 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_EXTREME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_FAT_BURN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LANE_LENGTH;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAP_PACE_AVERAGE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MIN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.RECOVERY_TIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKES;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKE_RATE_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWIM_STYLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWOLF_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWOLF_INDEX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_END;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_AEROBIC;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_ANAEROBIC;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_BPM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_HOURS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KCAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KMPH;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_LAPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_M;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SPM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STROKES;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STROKES_PER_MINUTE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.WORKOUT_LOAD;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.XiaomiSimpleActivityParser.XIAOMI_WORKOUT_TYPE;
@@ -148,6 +160,10 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             case SPORTS_FREESTYLE:
                 summary.setActivityKind(ActivityKind.TYPE_STRENGTH_TRAINING);
                 // TODO
+                break;
+            case SPORTS_POOL_SWIMMING:
+                summary.setActivityKind(ActivityKind.TYPE_SWIMMING);
+                parser = getPoolSwimmingParser(fileId);
                 break;
             case SPORTS_ELLIPTICAL:
                 summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
@@ -363,6 +379,65 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_AVG, UNIT_BPM);
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
+
+        return builder.build();
+    }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getPoolSwimmingParser(final XiaomiActivityFileId fileId){
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 6:
+                headerSize = 4;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addInt(DISTANCE_METERS, UNIT_METERS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addUnknown(11);
+        builder.addShort(STROKES, UNIT_STROKES);
+        builder.addByte(SWIM_STYLE, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addShort(LAPS, UNIT_LAPS);
+        builder.addShort(SWOLF_AVG, UNIT_NONE);
+        builder.addUnknown(9);
+        // builder.addInt("activeSec2", UNIT_SECONDS);
+        builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+        builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+        builder.addInt("configuredLaneLength", UNIT_CM);
+        builder.addUnknown(4);
+        builder.addByte("configuredLengthsGoal", UNIT_NONE);
+        builder.addUnknown(14);
+        builder.addByte("vitality_gain", UNIT_NONE);
+        builder.addUnknown(60);
+        // builder.addInt("startingTime2", UNIT_UNIX_EPOCH_SECONDS);
+        // builder.addInt("endTime2", UNIT_UNIX_EPOCH_SECONDS);
+        // builder.addUnknown(4);
+        // builder.addInt("activeSec3", UNIT_SECONDS);
+        // builder.addInt("activeSec4", UNIT_SECONDS);
+        // builder.addUnknown(8);
+        // builder.addInt("caloriesBurnt2", UNIT_KCAL);
+        // builder.addInt("distanceMeter2", UNIT_METERS);
+        // builder.addUnknown(4);
+        builder.addInt(LAP_PACE_AVERAGE, UNIT_SECONDS);
+        builder.addInt(PACE_MAX, UNIT_SECONDS); // not confirmed
+        builder.addUnknown(4);
+        builder.addInt(STROKE_RATE_AVG, UNIT_STROKES_PER_MINUTE);
+        builder.addUnknown(14);
+        // builder.addInt("laps2", UNIT_LAPS);
+        // builder.addShort("avgSWOLF2", UNIT_NONE);
+        builder.addShort("minSWOLF", UNIT_NONE); // not confirmed
+        builder.addShort("maxSWOLF", UNIT_NONE); // not confirmed
+        // builder.addInt("totalStrokes2", UNIT_STROKES);
 
         return builder.build();
     }
