@@ -92,7 +92,7 @@
     <string name="pref_header_cannned_messages">定型メッセージ</string>
     <string name="pref_title_canned_replies">返信</string>
     <string name="pref_title_canned_reply_suffix">共通の接尾語</string>
-    <string name="pref_title_canned_messages_dismisscall">留守番電話</string>
+    <string name="pref_title_canned_messages_dismisscall"></string>
     <string name="pref_title_canned_messages_set">デバイスの更新</string>
     <string name="pref_header_development">開発者用設定</string>
     <string name="pref_title_development_miaddr">Mi Band のアドレス</string>
@@ -140,7 +140,7 @@
     <string name="pref_title_pebble_reconnect_attempts">再接続の試行</string>
     <string name="pref_title_unit_system">単位</string>
     <string name="pref_title_timeformat">時刻の形式</string>
-    <string name="pref_title_screentime">画面 ON の期間</string>
+    <string name="pref_title_screentime">画面オンの時間</string>
     <string name="prefs_title_all_day_heart_rate">全日心拍測定</string>
     <string name="preferences_hplus_settings">HPlus/Makibes 設定</string>
     <string name="not_connected">未接続</string>
@@ -721,7 +721,7 @@
     <string name="about_activity_title_generic">Gadgetbridge について</string>
     <string name="about_title">このアプリについて</string>
     <string name="hr_widget_last_notification">最後の通知</string>
-    <string name="hr_appname_commute">通勤</string>
+    <string name="hr_appname_commute">Commute</string>
     <string name="hr_appname_stopwatch">ストップウォッチ</string>
     <string name="hr_widget_weather">天気</string>
     <string name="hr_widget_battery">バッテリー</string>
@@ -1224,7 +1224,7 @@
     <string name="femometer_measurement_mode_normal">通常モード（60秒-90秒）</string>
     <string name="femometer_measurement_mode_precise">精密モード（3分）</string>
     <string name="reminder_message">メッセージ</string>
-    <string name="zetime_title_screentime">画面 ON の時間（秒）</string>
+    <string name="zetime_title_screentime">画面オンの時間 (秒)</string>
     <string name="zetime_analog_mode_hands">針のみ</string>
     <string name="zetime_activity_tracking_summary">アクティビティ トラッキングを ON にすると、歩数などがカウントされます。</string>
     <string name="pref_force_connection_type_ble">Bluetooth LE</string>
@@ -1946,7 +1946,7 @@
     <string name="laps_unit">周</string>
     <string name="bpm">bpm</string>
     <string name="Strokes">ストローク</string>
-    <string name="qhybrid_pref_summary_actions">通勤アプリのアクション</string>
+    <string name="qhybrid_pref_summary_actions">Commute アプリのアクション</string>
     <string name="button_watchface_preview">ウォッチで試す</string>
     <string name="watchface_dialog_widget_cat_position">位置</string>
     <string name="qhybrid_title_background_image">背景画像</string>
@@ -2655,4 +2655,27 @@
     <string name="updatefirmwareoperation_failed_low_mtu">現在の %1$d の MTU は低すぎます。デバイス設定で高 MTU を有効にし、デバイスを切断/再接続してください。</string>
     <string name="prefs_spo2_monitoring_description">血中酸素濃度を一日中、自動的にモニタリングします</string>
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
+    <string name="watchface_setting_wrist_flick_hour">時針 (-360 から 360)</string>
+    <string name="pref_summary_canned_messages_set">以下に設定したメッセージをデバイスに送信します</string>
+    <string name="yes">はい</string>
+    <string name="watchface_setting_wrist_flick_minute">分針 (-360 から 360)</string>
+    <string name="activity_filter_from_placeholder">かなり前</string>
+    <string name="devicetype_garmin_vivosmart_5">Garmin Vívosmart 5</string>
+    <string name="activity_filter_reset_filter">フィルタをリセット</string>
+    <string name="activity_filter_name_contains">ラベル</string>
+    <string name="activity_filter_apply_filter">フィルタを適用</string>
+    <string name="no">いいえ</string>
+    <string name="sports_activity_confirm_delete_description">%d のアクティビティを削除しますか？</string>
+    <string name="prefs_autolight">自動点灯</string>
+    <string name="fossil_hr_commute_processing">リクエストの処理中…</string>
+    <string name="activity_filter_filter_title">フィルタ</string>
+    <string name="addto_filter">フィルタに追加</string>
+    <string name="sports_activity_confirm_delete_title">%d のアクティビティの削除</string>
+    <string name="backstroke">背泳ぎ</string>
+    <string name="fossil_hr_commute_actions_explanation">ここで設定したアクションは、ウォッチの Commute アプリに表示されます。これらのアクションによって生成されるインテントの処理方法については、wiki をお読みください。</string>
+    <string name="prefs_autoremove_message">SMS 通知を自動的に削除する</string>
+    <string name="medley">メドレー</string>
+    <string name="freestyle">自由形</string>
+    <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
+    <string name="breaststroke">平泳ぎ</string>
 </resources>
