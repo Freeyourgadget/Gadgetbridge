@@ -2,8 +2,12 @@
 
 #### Next release (WIP)
 
+* Experimental support for Amazfit Bip 5 Unity
 * Experimental support for Redmi Watch 4
-* Initial support for Huawei Watch Fit 2
+* Initial support for cycling sensor
+* Initial support for more Garmin watches
+* Initial support for Huawei Watch Fit 2, Watch Fit 3, Watch 4 Pro
+* Initial support for Soundcore Liberty 3 Pro
 * Introduce new Dashboard view
 * AsteroidOS: Added icons to the notifications
 * Bangle.js: Add screenshot support
@@ -13,11 +17,14 @@
 * Bangle.js: Fix message reply
 * Fossil/Skagen Hybrids: Update device settings to new structure
 * Galaxy Buds Live: Update device settings to new structure
+* Galaxy Buds 2: Fix recognition of some versions
 * HPlus: Migrate global preferences to device-specific
+* Huami: Fix reminder message encoding
 * Huawei: Add cycling workout type
 * Huawei: Add enable HeartRate and SpO2 force option
 * Huawei: Add huawei account support (pair without resetting watch)
 * Huawei: Add support for workout calories and cycling power
+* Huawei: Add remote camera shutter
 * Huawei: Ask pincode only on first connection
 * Huawei: Enable sleep detection
 * Huawei: File upload and watchface management
@@ -25,9 +32,11 @@
 * Huawei: Fix long notification
 * Huawei: Fix TimeZone offset calculation
 * Huawei: Improve connection and reconnection
+* Huawei: Improve music controls
 * Huawei: Improve notification icons
 * Huawei: Improve workout parsing
 * Huawei: Rework settings menu with sub-screens
+* Huawei: Send user info to device
 * Huawei: Support sending GPS to band
 * Huawei Watch GT4: Add HR and SpO support
 * Huawei Watch Ultimate: Add HR and SpO support
@@ -38,8 +47,13 @@
 * Nothing Earbuds: Add option to auto-reply to incoming phone calls
 * Nothing Earbuds: Add option to read aloud incoming notifications
 * Xiaomi Smart Band 8 Active: Fix discovery
+* Xiaomi: Add swimming workout type
+* Xiaomi: Allow transliteration
+* Xiaomi: Fix barometer
+* Xiaomi: Fix notification for apps in work profile
 * Xiaomi: Fix some crashes
 * Xiaomi: Improve reconnection
+* Xiaomi: Improve sleep parsing
 * Xiaomi: Improve weather support, add multiple locations
 * Xiaomi: Sync calendar event reminders
 * Zepp OS: Add support for Sleep as Android
