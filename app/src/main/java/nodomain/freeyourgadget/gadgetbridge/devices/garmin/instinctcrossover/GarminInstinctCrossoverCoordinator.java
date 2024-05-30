@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class GarminInstinctCrossoverCoordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Instinct Crossover");
+        return Pattern.compile("^Instinct Crossover$");
     }
     
     @Override

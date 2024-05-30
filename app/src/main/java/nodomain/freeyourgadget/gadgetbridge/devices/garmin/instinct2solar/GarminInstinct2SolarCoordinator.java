@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class GarminInstinct2SolarCoordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Instinct 2 Solar");
+        return Pattern.compile("^Instinct 2 Solar$");
     }
     
     @Override

@@ -8,7 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 public class GarminVivoActive4Coordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("vívoactive 4");
+        return Pattern.compile("^vívoactive 4$");
     }
 
     @Override

@@ -8,7 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 public class GarminSwim2Coordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Swim 2");
+        return Pattern.compile("^Swim 2$");
     }
 
     @Override

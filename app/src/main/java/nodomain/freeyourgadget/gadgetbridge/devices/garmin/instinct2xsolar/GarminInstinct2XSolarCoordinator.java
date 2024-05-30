@@ -8,7 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 public class GarminInstinct2XSolarCoordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Instinct 2X Sol");
+        return Pattern.compile("^Instinct 2X Sol$");
     }
 
     @Override
