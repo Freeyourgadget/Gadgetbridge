@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -184,6 +183,7 @@ public class HuaweiSupportProvider {
     private MediaManager mediaManager = null;
 
     private GpsAndTime.GpsParameters.Response gpsParametersResponse = null;
+    private boolean gpsEnabled = false;
 
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
@@ -256,6 +256,12 @@ public class HuaweiSupportProvider {
                 gpsParameterRequest.setFinalizeReq(new RequestCallback() {
                     @Override
                     public void call() {
+                        if (gpsEnabled) {
+                            // Prevent adding multiple GPS providers
+                            LOG.info("GPS is already enabled.");
+                            return;
+                        }
+                        gpsEnabled = true;
                         GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, 1000);
                     }
                 });
@@ -265,10 +271,19 @@ public class HuaweiSupportProvider {
                     GB.toast(context, "Failed to get GPS parameters", Toast.LENGTH_SHORT, GB.ERROR, e);
                     LOG.error("Failed to get GPS parameters", e);
                 }
-            } else
+            } else {
+                if (gpsEnabled) {
+                    // Prevent adding multiple GPS providers
+                    LOG.info("GPS is already enabled.");
+                    return;
+                }
+                gpsEnabled = true;
                 GBLocationService.start(getContext(), getDevice(), GBLocationProviderType.GPS, 1000);
-        } else
+            }
+        } else {
+            gpsEnabled = false;
             GBLocationService.stop(getContext(), getDevice());
+        }
     }
 
     public void setGpsParametersResponse(GpsAndTime.GpsParameters.Response response) {
@@ -1876,6 +1891,12 @@ public class HuaweiSupportProvider {
         if (gpsParametersResponse == null) {
             GB.toast(context, "Received location without knowing supported parameters", Toast.LENGTH_SHORT, GB.ERROR);
             LOG.error("Received location without knowing supported parameters");
+            return;
+        }
+
+        if (!gpsEnabled) {
+            LOG.warn("Received GPS data without GPS being enabled! Attempting to stop again.");
+            GBLocationService.stop(getContext(), getDevice());
             return;
         }
 
