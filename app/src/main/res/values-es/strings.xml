@@ -3025,4 +3025,5 @@
     <string name="pref_garmin_agps_help">La siguiente lista contiene todas las URL solicitadas por el reloj para actualizaciones AGPS. Puede seleccionar un archivo del almacenamiento del teléfono que se enviará al reloj cuando solicite una actualización.</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="devicetype_garmin_vivosmart_5">Garmin Vívosmart 5</string>
+    <string name="devicetype_garmin_instinct_2s_solar">Garmin Instinct 2S Solar</string>
 </resources>
