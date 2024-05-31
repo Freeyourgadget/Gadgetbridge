@@ -3022,4 +3022,6 @@
     <string name="url">网址</string>
     <string name="garmin_agps_local_file">本地文件</string>
     <string name="devicetype_garmin_venu_2_plus">佳明 Venu 2 Plus</string>
+    <string name="devicetype_garmin_instinct_2s_solar">佳明 Instinct 2S Solar</string>
+    <string name="devicetype_garmin_vivosmart_5">佳明 Vívosmart 5</string>
 </resources>
