@@ -82,6 +82,11 @@ public class AgpsHandler {
                         reportError(request.getUrl());
                         return null;
                     }
+                } else if (request.getPath().startsWith(("/ephemeris/cpe/sony"))) {
+                    if (!garminAgpsFile.isValidSonyCpe()) {
+                        reportError(request.getUrl());
+                        return null;
+                    }
                 } else {
                     LOG.warn("Refusing to send agps for unknown url");
                     return null;

@@ -19,6 +19,7 @@ public class GarminAgpsFile {
 
     public static final byte[] GZ_HEADER = new byte[]{(byte) 0x1f, (byte) 0x8b};
     public static final byte[] CPE_RXNETWORKS_HEADER = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x66};
+    public static final byte[] CPE_SONY_HEADER = new byte[]{(byte) 0x2a, (byte) 0x12, (byte) 0xa0, (byte) 0x02};
 
     public GarminAgpsFile(final byte[] bytes) {
         this.bytes = bytes;
@@ -64,6 +65,10 @@ public class GarminAgpsFile {
         }
 
         return false;
+    }
+
+    public boolean isValidSonyCpe() {
+        return ArrayUtils.startsWith(bytes, CPE_SONY_HEADER);
     }
 
     public byte[] getBytes() {
