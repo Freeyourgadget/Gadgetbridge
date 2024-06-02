@@ -2695,4 +2695,5 @@
     <string name="pref_switch_controls_anc_ambient">ノイズキャンセリング ←→ 周囲の音</string>
     <string name="pref_ambient_sound_tone">周囲の音を取り込む際のトーン</string>
     <string name="prefs_in_ear_detection_summary">イヤホン装着時に電話の音声をイヤホンで再生します</string>
+    <string name="devicetype_garmin_instinct_2s_solar">Garmin Instinct 2S Solar</string>
 </resources>
