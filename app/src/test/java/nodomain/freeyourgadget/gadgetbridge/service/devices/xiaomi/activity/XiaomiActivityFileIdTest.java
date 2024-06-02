@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -79,5 +80,11 @@ public class XiaomiActivityFileIdTest {
         }
 
         assertArrayEquals(bytes, bufEncode.array());
+    }
+
+    @Test
+    public void testZero() {
+        final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(new byte[]{0, 0, 0, 0, 0, 0, 0});
+        assertTrue(fileId.getTimestamp().getTime() == 0 && fileId.getVersion() == 0);
     }
 }

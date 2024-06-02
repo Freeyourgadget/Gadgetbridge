@@ -845,6 +845,10 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         while (buf.position() < buf.limit()) {
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
             LOG.debug("Got activity to fetch: {}", fileId);
+            if (fileId.getTimestamp().getTime() == 0 && fileId.getVersion() == 0) {
+                LOG.warn("Skipping invalid file with no timestamp and version");
+                continue;
+            }
             fileIds.add(fileId);
         }
         activityFetcher.fetch(fileIds);
