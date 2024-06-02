@@ -394,6 +394,13 @@
                 app:iconSpaceReserved="false" />
 
             <SwitchPreferenceCompat
+                android:key="intent_api_broadcast_activity_sync"
+                android:layout="@layout/preference_checkbox"
+                android:summary="@string/intent_api_broadcast_activity_sync_summary"
+                android:title="@string/intent_api_broadcast_activity_sync_title"
+                app:iconSpaceReserved="false" />
+
+            <SwitchPreferenceCompat
                 android:key="intent_api_allow_trigger_export"
                 android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_allow_trigger_export_summary"

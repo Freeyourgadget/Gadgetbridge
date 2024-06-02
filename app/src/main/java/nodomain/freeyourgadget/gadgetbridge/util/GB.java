@@ -64,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 
 public class GB {
+    public static final String ACTION_ACTIVITY_SYNC = "nodomain.freeyourgadget.gadgetbridge.action.ACTIVITY_SYNC_FINISH";
 
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
     public static final String NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS = "gadgetbridge connection status";
@@ -598,8 +599,17 @@ public class GB {
     }
 
     public static void signalActivityDataFinish() {
-        Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        final Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
         LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
+
+        if (!GBApplication.getPrefs().getBoolean("intent_api_broadcast_activity_sync", false)) {
+            return;
+        }
+
+        LOG.info("Broadcasting activity sync finish");
+
+        final Intent activitySyncFinishIntent = new Intent(ACTION_ACTIVITY_SYNC);
+        GBApplication.getContext().sendBroadcast(activitySyncFinishIntent);
     }
 
     public static boolean checkPermission(final Context context, final String permission) {

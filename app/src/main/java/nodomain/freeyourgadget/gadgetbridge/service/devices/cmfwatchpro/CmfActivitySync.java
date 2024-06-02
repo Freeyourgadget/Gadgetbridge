@@ -489,6 +489,7 @@ public class CmfActivitySync {
 
         activitiesWithGps.clear();
 
+        GB.signalActivityDataFinish();
         getDevice().unsetBusyTask();
         GB.updateTransferNotification(null, "", false, 100, getContext());
     }
