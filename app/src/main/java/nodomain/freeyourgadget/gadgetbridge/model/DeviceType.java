@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2ProDe
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.epixpro.GarminEpixProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.forerunner245.GarminForerunner245Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.instinct2xsolar.GarminInstinct2XSolarCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.swim2.GarminSwim2Coordinator;
@@ -345,6 +346,7 @@ public enum DeviceType {
     ITAG(ITagCoordinator.class),
     NUTMINI(NutCoordinator.class),
     VIVOMOVE_HR(GarminVivomoveHrCoordinator.class),
+    GARMIN_EPIX_PRO(GarminEpixProCoordinator.class),
     GARMIN_FORERUNNER_245(GarminForerunner245Coordinator.class),
     GARMIN_SWIM_2(GarminSwim2Coordinator.class),
     GARMIN_INSTINCT_SOLAR(GarminInstinctSolarCoordinator.class),
