@@ -50,7 +50,9 @@ body:
       label: Device information
       description: >
         Include all details about the gadget that will be useful to us when implementing a support for this gadget. 
-        
+
+        If possible, please include the exact bluetooth name, as displayed while searching for the device.
+
         Ideally, use an Android Bluetooth scanner app like nRF Connect or BLExplorer and provide screenshots 
         of the scanned gadget from that app. This provides a name and some available UUIDs, which are needed 
         for implementation. You may want to blur MAC addresses for privacy reasons.
