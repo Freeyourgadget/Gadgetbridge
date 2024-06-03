@@ -1236,6 +1236,21 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return renderUnicodeWordPartAsImage(word);
     }
 
+    /* is the given character code an emoji? Note that `char` is only 0..65535, so many emoji will
+      actually be made of 2 surrogate chars. To work around this, we just assume that anything with a surrogate
+      is an emoji, which will be true in most cases */
+    public boolean isCharCodeEmoji(char ch) {
+        if (ch>=0x2190 && ch<=0x21FF) return true;
+        if (ch>=0x2600 && ch<=0x26FF) return true;
+        if (ch>=0x2700 && ch<=0x27BF) return true;
+        if (ch>=0x3000 && ch<=0x303F) return true;
+        if (ch>=0xD800 && ch<=0xDFFF) return true; // high/low surrogate
+        if (ch>=0xFE00 && ch<=0xFE0F) return true; // variation selector 1 (2 is U+E0100 so is in a surrogate)
+        //if (ch>=0x1F300 && ch<=0x1F64F) return true; // needs a surrogate
+        //if (ch>=0x1F680 && ch<=0x1F6FF) return true; // needs a surrogate
+        return false;
+    }
+
     public String renderUnicodeAsImage(String txt) {
         // FIXME: it looks like we could implement this as customStringFilter now so it happens automatically
         if (txt==null) return null;
@@ -1250,6 +1265,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         String word = "";
         StringBuilder result = new StringBuilder();
         boolean needsTranslate = false;
+        boolean wordIsAllEmoji = true;
         for (int i=0;i<txt.length();i++) {
             char ch = txt.charAt(i);
             // Special cases where we can just use a built-in character...
@@ -1261,6 +1277,32 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             else if (ch =='】') ch=']';
             else if (ch=='‘' || ch=='’' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
             else if (ch=='“' || ch=='”' || ch =='„' || ch=='‟' || ch=='″') ch='"';
+            else if (ch == 0xFEFF) continue; // nonbreaking space - ignore
+            boolean isCharEmoji = isCharCodeEmoji(ch);
+            if (isCharEmoji) {
+                if (!wordIsAllEmoji) {
+                    // if the word is all emoji we are fine, just fall through.
+                    // but here we have characters already and we want to translate those
+                    // separately, so we can have a color emoji on its own.
+                    if (needsTranslate) { // convert word
+                        LOG.info("renderUnicodeAsImage converting " + word);
+                        result.append(renderUnicodeWordAsImage(word));
+                    } else { // or just copy across
+                        result.append(word);
+                    }
+                    word = "";
+                    wordIsAllEmoji = true;
+                }
+                needsTranslate = true;
+            } else {
+                if (!word.isEmpty() && wordIsAllEmoji) {
+                    // this isn't am emoji, but it follows one - render that separately!
+                    result.append(renderUnicodeWordAsImage(word));
+                    word = "";
+                    needsTranslate = false;
+                }
+                wordIsAllEmoji = ch>=0xFE00;
+            }
             // chars which break words up
             if (" -_/:.,?!'\"&*()[]".indexOf(ch)>=0) {
                 // word split
@@ -1272,6 +1314,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 word = "";
                 needsTranslate = false;
+                wordIsAllEmoji = true;
             } else {
                 // TODO: better check?
                 if (ch>255) needsTranslate = true;
