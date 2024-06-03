@@ -266,7 +266,7 @@ public class CmfWatchProCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(GBDevice device) {
         return true;
     }
 

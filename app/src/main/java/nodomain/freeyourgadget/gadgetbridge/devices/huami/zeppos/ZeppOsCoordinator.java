@@ -176,7 +176,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(GBDevice device) {
         return true;
     }
 

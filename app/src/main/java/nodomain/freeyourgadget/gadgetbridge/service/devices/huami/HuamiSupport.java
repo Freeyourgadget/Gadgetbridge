@@ -1674,7 +1674,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             this.fetchOperationQueue.add(new FetchPaiOperation(this));
         }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
+        if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2(gbDevice)) {
             this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
         }
 

@@ -466,7 +466,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(final GBDevice device) {
         return false;
     }
 

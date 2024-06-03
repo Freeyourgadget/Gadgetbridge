@@ -93,7 +93,7 @@ public class AmazfitBip3ProCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(GBDevice device) {
         return true;
     }
 

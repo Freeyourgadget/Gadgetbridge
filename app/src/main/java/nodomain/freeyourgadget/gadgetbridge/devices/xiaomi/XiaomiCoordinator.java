@@ -251,7 +251,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(GBDevice device) {
         return true;
     }
 
@@ -413,7 +413,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         //
         // Health
         //
-        if (supportsStressMeasurement() && supports(device, FEAT_STRESS) && supportsSpo2() && supports(device, FEAT_SPO2)) {
+        if (supportsStressMeasurement() && supports(device, FEAT_STRESS) && supportsSpo2(device) && supports(device, FEAT_SPO2)) {
             deviceSpecificSettings.addRootScreen(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
         } else if (supportsStressMeasurement() && supports(device, FEAT_STRESS)) {
             deviceSpecificSettings.addRootScreen(R.xml.devicesettings_heartrate_sleep_alert_activity_stress);

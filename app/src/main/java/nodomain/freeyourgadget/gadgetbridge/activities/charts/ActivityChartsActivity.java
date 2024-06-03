@@ -93,7 +93,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsPai()) {
             tabList.remove("pai");
         }
-        if (!coordinator.supportsSpo2()) {
+        if (!coordinator.supportsSpo2(device)) {
             tabList.remove("spo2");
         }
         if (!coordinator.supportsStepCounter()) {

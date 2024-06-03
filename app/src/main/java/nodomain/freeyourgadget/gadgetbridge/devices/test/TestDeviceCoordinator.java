@@ -126,7 +126,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(final GBDevice device, final DaoSession session) {
-        return supportsSpo2() ? new TestSpo2SampleProvider() : super.getSpo2SampleProvider(device, session);
+        return supportsSpo2(device) ? new TestSpo2SampleProvider() : super.getSpo2SampleProvider(device, session);
     }
 
     @Override
@@ -317,7 +317,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2() {
+    public boolean supportsSpo2(GBDevice device) {
         return supports(getTestDevice(), TestFeature.SPO2);
     }
 

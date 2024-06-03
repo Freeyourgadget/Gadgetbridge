@@ -51,16 +51,6 @@ public class HonorBand5Coordinator extends HuaweiLECoordinator {
     }
 
     @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return true;
-    }
-
-    @Override
-    public boolean supportsSpo2() {
-        return true;
-    }
-
-    @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
         return new HuaweiSpo2SampleProvider(device, session);
     }

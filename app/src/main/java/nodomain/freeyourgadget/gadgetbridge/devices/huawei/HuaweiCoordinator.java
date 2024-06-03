@@ -59,7 +59,6 @@ public class HuaweiCoordinator {
 
     private final HuaweiCoordinatorSupplier parent;
 
-
     private boolean transactionCrypted=true;
 
     public HuaweiCoordinator(HuaweiCoordinatorSupplier parent) {
@@ -340,7 +339,6 @@ public class HuaweiCoordinator {
     }
 
     public boolean supportsHeartRate() {
-        // TODO: this is not correct
         return supportsCommandForService(0x07, 0x17);
     }
 

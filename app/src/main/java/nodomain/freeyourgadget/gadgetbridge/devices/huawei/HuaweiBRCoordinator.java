@@ -220,7 +220,12 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return huaweiCoordinator.supportsHeartRate(device);
+    }
+
+    @Override
+    public boolean supportsSpo2(GBDevice device) {
+        return huaweiCoordinator.supportsSPo2(device);
     }
 
     @Override

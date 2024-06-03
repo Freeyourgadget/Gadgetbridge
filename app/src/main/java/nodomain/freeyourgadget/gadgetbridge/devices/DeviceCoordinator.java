@@ -229,7 +229,7 @@ public interface DeviceCoordinator {
      * Returns true if SpO2 measurement and fetching is supported by the device
      * (with this coordinator).
      */
-    boolean supportsSpo2();
+    boolean supportsSpo2(GBDevice device);
 
     /**
      * Returns true if heart rate stats (max, resting, manual) measurement and fetching is supported
