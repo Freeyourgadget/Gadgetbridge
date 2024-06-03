@@ -1838,17 +1838,31 @@ public class HuaweiSupportProvider {
         Weather.Settings weatherSettings = new Weather.Settings();
 
         SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this, weatherSettings);
-        Request lastRequest = weatherStartRequest;
+        try {
+            weatherStartRequest.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to send start weather", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to send start weather", e);
+        }
+
+        Request firstRequest = null;
+        Request lastRequest = null;
 
         if (getHuaweiCoordinator().supportsWeatherUnit()) {
             SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
-            lastRequest.nextRequest(weatherUnitRequest);
+            firstRequest = weatherUnitRequest;
             lastRequest = weatherUnitRequest;
         }
 
         SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
-        lastRequest.nextRequest(weatherSupportRequest);
+        if (firstRequest == null) {
+            firstRequest = weatherSupportRequest;
+        } else {
+            lastRequest.nextRequest(weatherSupportRequest);
+        }
         lastRequest = weatherSupportRequest;
+
 
         if (getHuaweiCoordinator().supportsWeatherExtended()) {
             SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
@@ -1879,7 +1893,7 @@ public class HuaweiSupportProvider {
         }
 
         try {
-            weatherStartRequest.doPerform();
+            firstRequest.doPerform();
         } catch (IOException e) {
             // TODO: Use translatable string
             GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
