@@ -3031,4 +3031,8 @@
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="devicetype_garmin_vivosmart_5">Garmin Vívosmart 5</string>
     <string name="devicetype_garmin_instinct_2s_solar">Garmin Instinct 2S Solar</string>
+    <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
+    <string name="devicetype_garmin_instinct_2x_solar">Garmin Instinct 2X Solar</string>
+    <string name="intent_api_broadcast_activity_sync_title">Übertragung bei Beendigung der Aktivitätssynchronisation</string>
+    <string name="intent_api_broadcast_activity_sync_summary">Senden einer Absichtserklärung, wenn die Aktivitätssynchronisierung für ein beliebiges Gerät abgeschlossen ist</string>
 </resources>
