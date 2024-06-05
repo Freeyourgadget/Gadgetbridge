@@ -483,7 +483,7 @@
     <string name="watch9_time_seconds">秒：</string>
     <string name="watch9_time_hours">小時：</string>
     <string name="watch9_time_minutes">分鐘：</string>
-    <string name="menuitem_compass">羅盤</string>
+    <string name="menuitem_compass">指南針</string>
     <string name="notification_channel_name">一般</string>
     <string name="devicetype_roidmi3">睿米3</string>
     <string name="devicetype_roidmi">睿米</string>
