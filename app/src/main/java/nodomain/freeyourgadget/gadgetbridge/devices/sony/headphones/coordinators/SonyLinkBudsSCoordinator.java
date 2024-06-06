@@ -36,13 +36,17 @@ public class SonyLinkBudsSCoordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.BatteryDual,
                 SonyHeadphonesCapabilities.BatteryCase,
                 SonyHeadphonesCapabilities.AmbientSoundControl,
-                SonyHeadphonesCapabilities.EqualizerSimple,
                 SonyHeadphonesCapabilities.AudioUpsampling,
                 SonyHeadphonesCapabilities.ButtonModesLeftRight,
                 SonyHeadphonesCapabilities.AmbientSoundControlButtonMode,
                 SonyHeadphonesCapabilities.QuickAccess,
                 SonyHeadphonesCapabilities.PauseWhenTakenOff,
-                SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff
+                SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff,
+                SonyHeadphonesCapabilities.PowerOffFromPhone,
+                SonyHeadphonesCapabilities.SpeakToChatEnabled,
+                SonyHeadphonesCapabilities.SpeakToChatConfig,
+                SonyHeadphonesCapabilities.VoiceNotifications,
+                SonyHeadphonesCapabilities.EqualizerWithCustomBands
         );
     }
 
