@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -60,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v1.CommunicatorV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.v2.CommunicatorV2;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.CapabilitiesDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.NotificationSubscriptionDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.SupportedFileTypesDeviceEvent;
@@ -84,7 +86,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GARMIN_DEFAULT_REPLY_SUFFIX;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
 
 
@@ -251,6 +252,24 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             if (weather != null) {
                 sendWeatherConditions(weather);
             }
+        } else if (deviceEvent instanceof CapabilitiesDeviceEvent) {
+            final Set<GarminCapability> capabilities = ((CapabilitiesDeviceEvent) deviceEvent).capabilities;
+            if (capabilities.contains(GarminCapability.REALTIME_SETTINGS)) {
+                final String language = Locale.getDefault().getLanguage();
+                final String country = Locale.getDefault().getCountry();
+                final String localeString = language + "_" + country.toUpperCase();
+                final ProtobufMessage realtimeSettingsInit = protocolBufferHandler.prepareProtobufRequest(GdiSmartProto.Smart.newBuilder()
+                        .setSettingsService(
+                                GdiSettingsService.SettingsService.newBuilder()
+                                        .setInitRequest(
+                                                GdiSettingsService.InitRequest.newBuilder()
+                                                        .setLanguage(localeString.length() == 5 ? localeString : "en_US")
+                                                        .setRegion("us") // FIXME choose region
+                                        )
+                        )
+                        .build());
+                sendOutgoingMessage("init realtime settings", realtimeSettingsInit);
+            }
         } else if (deviceEvent instanceof NotificationSubscriptionDeviceEvent) {
             final boolean enable = ((NotificationSubscriptionDeviceEvent) deviceEvent).enable;
             notificationsHandler.setEnabled(enable);
@@ -327,13 +346,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         communicator.sendMessage(taskName, message.getOutgoingMessage());
     }
 
-    private boolean supports(final GarminCapability capability) {
-        return getDevicePrefs().getStringSet(GarminPreferences.PREF_GARMIN_CAPABILITIES, Collections.emptySet())
-                .contains(capability.name());
-    }
-
     private void sendWeatherConditions(WeatherSpec weather) {
-        if (!supports(GarminCapability.WEATHER_CONDITIONS)) {
+        if (!getCoordinator().supports(getDevice(), GarminCapability.WEATHER_CONDITIONS)) {
             // Device does not support sending weather as fit
             return;
         }
@@ -444,39 +458,34 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
         sendOutgoingMessage("request supported file types", new SupportedFileTypesMessage());
 
-        sendOutgoingMessage("toggle default reply suffix", toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
-
         if (mFirstConnect) {
             sendOutgoingMessage("set sync complete", new SystemEventMessage(SystemEventMessage.GarminSystemEventType.SYNC_COMPLETE, 0));
             this.mFirstConnect = false;
         }
     }
 
-    private ProtobufMessage toggleDefaultReplySuffix(boolean value) {
-        final GdiSettingsService.SettingsService.Builder enableSignature = GdiSettingsService.SettingsService.newBuilder()
-                .setChangeRequest(
-                        GdiSettingsService.ChangeRequest.newBuilder()
-                                .setPointer1(65566) //TODO: this might be device specific, tested on Instinct 2s
-                                .setPointer2(3) //TODO: this might be device specific, tested on Instinct 2s
-                                .setEnable(GdiSettingsService.ChangeRequest.Switch.newBuilder().setValue(value)));
-
-        return protocolBufferHandler.prepareProtobufRequest(
-                GdiSmartProto.Smart.newBuilder()
-                        .setSettingsService(enableSignature).build());
-    }
-
     @Override
-    public void onSendConfiguration(String config) {
+    public void onSendConfiguration(final String config) {
+        if (config.startsWith("protobuf:")) {
+            try {
+                final GdiSmartProto.Smart smart = GdiSmartProto.Smart.parseFrom(GB.hexStringToByteArray(config.replaceFirst("protobuf:", "")));
+                sendOutgoingMessage("send config", protocolBufferHandler.prepareProtobufRequest(smart));
+            } catch (final Exception e) {
+                LOG.error("Failed to send {} as protobuf", config, e);
+            }
+
+            return;
+        }
+
         switch (config) {
-            case PREF_GARMIN_DEFAULT_REPLY_SUFFIX:
-                sendOutgoingMessage("toggle default reply suffix", toggleDefaultReplySuffix(getDevicePrefs().getBoolean(PREF_GARMIN_DEFAULT_REPLY_SUFFIX, true)));
-                break;
             case PREF_SEND_APP_NOTIFICATIONS:
                 NotificationSubscriptionDeviceEvent notificationSubscriptionDeviceEvent = new NotificationSubscriptionDeviceEvent();
                 notificationSubscriptionDeviceEvent.enable = true; // actual status is fetched from preferences
                 evaluateGBDeviceEvent(notificationSubscriptionDeviceEvent);
-                break;
+                return;
         }
+
+
     }
 
     private void processDownloadQueue() {
@@ -752,6 +761,41 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     public boolean connectFirstTime() {
         mFirstConnect = true;
         return super.connect();
+    }
+
+    @Override
+    public void onReadConfiguration(final String config) {
+        if (config.startsWith("screenId:")) {
+            final int screenId = Integer.parseInt(config.replaceFirst("screenId:", ""));
+
+            LOG.debug("Requesting screen {}", screenId);
+
+            final String language = Locale.getDefault().getLanguage();
+            final String country = Locale.getDefault().getCountry();
+            final String localeString = language + "_" + country.toUpperCase();
+
+            sendOutgoingMessage("get settings screen " + screenId, protocolBufferHandler.prepareProtobufRequest(
+                    GdiSmartProto.Smart.newBuilder()
+                            .setSettingsService(GdiSettingsService.SettingsService.newBuilder()
+                                    .setDefinitionRequest(
+                                            GdiSettingsService.ScreenDefinitionRequest.newBuilder()
+                                                    .setScreenId(screenId)
+                                                    .setUnk2(0)
+                                                    .setLanguage(localeString.length() == 5 ? localeString : "en_US")
+                                    )
+                            ).build()
+            ));
+
+            sendOutgoingMessage("get settings state " + screenId, protocolBufferHandler.prepareProtobufRequest(
+                    GdiSmartProto.Smart.newBuilder()
+                            .setSettingsService(GdiSettingsService.SettingsService.newBuilder()
+                                    .setStateRequest(
+                                            GdiSettingsService.ScreenStateRequest.newBuilder()
+                                                    .setScreenId(screenId)
+                                    )
+                            ).build()
+            ));
+        }
     }
 
     @Override

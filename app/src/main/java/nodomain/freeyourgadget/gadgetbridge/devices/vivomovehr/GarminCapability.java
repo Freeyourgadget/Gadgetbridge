@@ -103,25 +103,50 @@ public enum GarminCapability {
     GOLF_9_PLUS_9,
     ANTI_THEFT_ALARM,
     INREACH,
-    EVENT_SHARING;
+    EVENT_SHARING,
+    UNK_82,
+    UNK_83,
+    UNK_84,
+    UNK_85,
+    UNK_86,
+    UNK_87,
+    UNK_88,
+    UNK_89,
+    UNK_90,
+    UNK_91,
+    REALTIME_SETTINGS,
+    UNK_93,
+    UNK_94,
+    UNK_95,
+    UNK_96,
+    UNK_97,
+    UNK_98,
+    UNK_99,
+    UNK_100,
+    UNK_101,
+    UNK_102,
+    UNK_103,
+    ;
 
     public static final Set<GarminCapability> ALL_CAPABILITIES = new HashSet<>(values().length);
     private static final Map<Integer, GarminCapability> FROM_ORDINAL = new HashMap<>(values().length);
 
     static {
-        for (GarminCapability cap : values()) {
+        for (final GarminCapability cap : values()) {
             FROM_ORDINAL.put(cap.ordinal(), cap);
             ALL_CAPABILITIES.add(cap);
         }
     }
 
-    public static Set<GarminCapability> setFromBinary(byte[] bytes) {
+    public static Set<GarminCapability> setFromBinary(final byte[] bytes) {
         final Set<GarminCapability> result = new HashSet<>(GarminCapability.values().length);
         int current = 0;
         for (int b : bytes) {
-            for (int curr = 1; curr < 0x100; curr <<= 1) {
-                if ((b & curr) != 0) {
-                    result.add(FROM_ORDINAL.get(current));
+            for (int i = 0; i < 8; i++) {
+                if ((b & (1 << i)) != 0) {
+                    if (FROM_ORDINAL.containsKey(current)) {
+                        result.add(FROM_ORDINAL.get(current));
+                    }
                 }
                 ++current;
             }
@@ -129,7 +154,7 @@ public enum GarminCapability {
         return result;
     }
 
-    public static byte[] setToBinary(Set<GarminCapability> capabilities) {
+    public static byte[] setToBinary(final Set<GarminCapability> capabilities) {
         final GarminCapability[] values = values();
         final byte[] result = new byte[(values.length + 7) / 8];
         int bytePos = 0;
@@ -147,9 +172,9 @@ public enum GarminCapability {
         return result;
     }
 
-    public static String setToString(Set<GarminCapability> capabilities) {
+    public static String setToString(final Set<GarminCapability> capabilities) {
         final StringBuilder result = new StringBuilder();
-        for (GarminCapability cap : capabilities) {
+        for (final GarminCapability cap : capabilities) {
             if (result.length() > 0) result.append(", ");
             result.append(cap.name());
         }

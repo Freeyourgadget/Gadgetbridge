@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.GarminAgpsStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -49,6 +50,16 @@ public class GarminSettingsCustomizer implements DeviceSpecificSettingsCustomize
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+        final Preference realtimeSettings = handler.findPreference(GarminPreferences.PREF_GARMIN_REALTIME_SETTINGS);
+        if (realtimeSettings != null) {
+            realtimeSettings.setOnPreferenceClickListener(preference -> {
+                final Intent intent = new Intent(handler.getContext(), GarminRealtimeSettingsActivity.class);
+                intent.putExtra(GBDevice.EXTRA_DEVICE, handler.getDevice());
+                handler.getContext().startActivity(intent);
+                return true;
+            });
+        }
+
         final PreferenceCategory prefAgpsHeader = handler.findPreference(DeviceSettingsPreferenceConst.PREF_HEADER_AGPS);
         if (prefAgpsHeader != null) {
             final List<String> urls = prefs.getList(GarminPreferences.PREF_AGPS_KNOWN_URLS, Collections.emptyList(), "\n");

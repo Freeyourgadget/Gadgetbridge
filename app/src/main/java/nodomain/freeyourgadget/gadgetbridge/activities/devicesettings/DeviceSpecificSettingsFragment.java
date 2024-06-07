@@ -648,8 +648,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE);
 
-        addPreferenceHandlerFor(PREF_GARMIN_DEFAULT_REPLY_SUFFIX);
-
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);

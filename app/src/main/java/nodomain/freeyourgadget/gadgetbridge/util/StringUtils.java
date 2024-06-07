@@ -128,11 +128,11 @@ public class StringUtils {
         return "";
     }
 
-    public static boolean isNullOrEmpty(String string){
-        return string == null || string.isEmpty();
+    public static boolean isNullOrEmpty(CharSequence string){
+        return string == null || string.length() == 0;
     }
 
-    public static boolean isEmpty(String string) {
+    public static boolean isEmpty(CharSequence string) {
         return string != null && string.length() == 0;
     }
 

@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
 import androidx.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -13,6 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -98,12 +100,15 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
+        if (supports(device, GarminCapability.REALTIME_SETTINGS)) {
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_garmin_realtime_settings);
+        }
+
         final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
 
         notifications.add(R.xml.devicesettings_send_app_notifications);
 
         if (getCannedRepliesSlotCount(device) > 0) {
-            notifications.add(R.xml.devicesettings_garmin_default_reply_suffix);
             notifications.add(R.xml.devicesettings_canned_reply_16);
             notifications.add(R.xml.devicesettings_canned_dismisscall_16);
         }
@@ -220,5 +225,10 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
     public boolean supportsAgpsUpdates(final GBDevice device) {
         return !getPrefs(device).getString(GarminPreferences.PREF_AGPS_KNOWN_URLS, "").isEmpty();
+    }
+
+    public boolean supports(final GBDevice device, final GarminCapability capability) {
+        return getPrefs(device).getStringSet(GarminPreferences.PREF_GARMIN_CAPABILITIES, Collections.emptySet())
+                .contains(capability.name());
     }
 }

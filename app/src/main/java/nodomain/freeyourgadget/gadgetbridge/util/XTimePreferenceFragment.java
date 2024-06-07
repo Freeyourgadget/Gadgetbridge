@@ -32,7 +32,7 @@ public class XTimePreferenceFragment extends MaterialPreferenceDialogFragment im
     @Override
     protected View onCreateDialogView(Context context) {
         picker = new TimePicker(context);
-        picker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
+        picker.setIs24HourView(((XTimePreference) getPreference()).is24HourFormat());
         picker.setPadding(0, 50, 0, 50);
 
         return picker;

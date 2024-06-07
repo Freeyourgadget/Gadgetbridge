@@ -5,22 +5,221 @@ package garmin_vivomovehr;
 option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
 
 message SettingsService {
-  optional ChangeRequest change_request = 5;
-  optional ChangeResponse change_response = 6;
+  optional ScreenDefinitionRequest definitionRequest = 1;
+  optional ScreenDefinitionResponse definitionResponse = 2;
+
+  optional ScreenStateRequest stateRequest = 3;
+  optional ScreenStateResponse stateResponse = 4;
+
+  optional ChangeRequest changeRequest = 5;
+  optional ChangeResponse changeResponse = 6;
+
+  optional InitRequest initRequest = 8;
+  optional InitResponse initResponse = 9;
+}
+
+message ScreenDefinitionRequest {
+  optional uint32 screenId = 1;
+  optional uint32 unk2 = 2; // 0
+  optional string language = 3; // en_US
+}
+
+message ScreenDefinitionResponse {
+  optional uint32 unk1 = 1; // 0, status?
+  optional ScreenDefinition definition = 2;
+}
+
+message ScreenDefinition {
+  optional uint32 screenId = 1;
+  optional uint32 unk2 = 2; // 0
+  optional uint32 unk3 = 3; // 928002
+  optional Label title = 4;
+  repeated ScreenEntry entry = 5;
+}
+
+message Label {
+  optional string id = 1;
+  optional string text = 2;
+}
+
+message ScreenEntry {
+  optional uint32 id = 1;
+  optional uint32 type = 2;
+  optional Label title = 3;
+  optional uint32 icon = 5;
+  optional Target target = 9;
+  optional SortOptions sortOptions = 12;
+  optional TextOption textOption = 13;
+}
+
+message SortOptions {
+  optional uint32 unk3 = 3; // 1
+  repeated SortEntry entries = 5;
+}
+
+message SortEntry {
+  optional uint32 id = 1;
+  optional Label title = 2;
+  optional uint32 unk5 = 5; // 1
+}
+
+message TextOption {
+  optional TextLimits limits = 1;
+  optional uint32 unk2 = 2; // 0
+}
+
+message TextLimits {
+  optional uint32 maxLength = 1;
+}
+
+message Target {
+  optional uint32 type = 1; // 0 subscreen, 1 list preference, 6 other activity, 7 hidden, 9 subscreen with options
+  optional uint32 subscreen = 2; // when 0
+  optional uint32 activity = 3; // when 6
+  optional TargetOptions options = 4; // when 1
+  optional TargetNumberPicker numberPicker = 8;
+}
+
+message ScreenStateRequest {
+  optional uint32 screenId = 1;
+}
+
+message TargetOptions {
+  repeated TargetOptionEntry option = 1;
+}
+
+message TargetOptionEntry {
+  optional Label title = 3;
+}
+
+message TargetNumberPicker {
+  optional uint32 min = 1;
+  optional uint32 max = 2;
+  optional uint32 step = 3; // maybe? 1 on weight
+}
+
+message ScreenStateResponse {
+  optional uint32 unk1 = 1; // 0
+  optional ScreenState state = 2;
+}
+
+message ScreenState {
+  optional uint32 screenId = 1;
+  optional uint32 unk2 = 2; // 0
+  optional uint32 unk3 = 3; // 928002
+  repeated EntryState state = 4;
+}
+
+message EntryState {
+  optional uint32 id = 1;
+  optional uint32 state = 2;
+  optional Switch switch = 3;
+  optional Summary summary = 4;
+}
+
+message Switch {
+  optional bool enabled = 1;
+  optional Label title = 2;
+}
+
+message Summary {
+  optional Label title = 1;
+  optional ValueList valueList = 2;
+  optional ValueTime valueTime = 4;
+  optional ValueNumber valueNumber = 6;
+  optional ValueDate valueDate = 8;
+  optional ValueHeight valueHeight = 10;
+}
+
+message ValueList {
+  optional uint32 index = 1;
+}
+
+message ValueTime {
+  optional uint32 seconds = 1;
+  optional uint32 timeFormat = 3; // 0 12h, 1 24h
+}
+
+message ValueNumber {
+  optional uint32 value = 1;
+  optional Label subtitle = 2;
+  optional Label title = 3;
+  optional Label unit = 4;
+}
+
+message ValueDate {
+  optional Label subtitle = 1;
+  optional Date currentDate = 2;
+  optional Date minDate = 3;
+  optional Date maxDate = 4;
+}
+
+message ValueHeight {
+  optional Label subtitle = 1;
+  optional uint32 value = 2;
+  optional uint32 unit = 3; // 0 cm
+}
+
+message Date {
+  optional uint32 month = 1;
+  optional uint32 day = 2;
+  optional uint32 year = 3;
 }
 
 message ChangeRequest {
-  optional uint32 pointer1 = 1;
-  optional uint32 pointer2 = 2;
-  optional Switch enable = 3;
+  optional uint32 screenId = 1;
+  optional uint32 entryId = 2;
+  optional Switch switch = 3;
+  optional Option option = 4;
+  optional Time time = 6;
+  optional Number number = 8;
+  optional Position position = 11;
+  optional NewDate newDate = 12;
+  optional Text text = 14;
+  optional Height height = 15;
 
   message Switch {
     required bool value = 1;
+  }
+  message Option {
+    optional uint32 index = 1;
+  }
+  message Time {
+    optional uint32 seconds = 1;
+  }
+  message Number {
+    optional uint32 value = 1;
+  }
+  message Position {
+    optional uint32 index = 1;
+    optional bool delete = 2;
+  }
+  message NewDate {
+    optional Date value = 1;
+  }
+  message Text {
+    optional string value = 1;
+  }
+  message Height {
+    optional uint32 value = 1;
+    optional uint32 unit = 2;
   }
 }
 
 message ChangeResponse {
   optional ResponseStatus status = 1;
+  optional ScreenState state = 3;
+  optional bool shouldReturn = 5;
+}
+
+message InitRequest {
+  optional string language = 1; // en_US
+  optional string region = 2; // us
+}
+
+message InitResponse {
+  optional string unk1 = 1;
+  optional string unk2 = 2;
 }
 
 enum ResponseStatus {

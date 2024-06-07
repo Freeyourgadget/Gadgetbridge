@@ -52,6 +52,12 @@ public final class Optional<T> {
         return value != null ? value : other;
     }
 
+    public void ifPresent(final Consumer<T> consumer) {
+        if (value != null) {
+            consumer.consume(value);
+        }
+    }
+
     public static <T> Optional<T> empty() {
         return new Optional<>();
     }
@@ -62,5 +68,9 @@ public final class Optional<T> {
 
     public static <T> Optional<T> ofNullable(final T value) {
         return value == null ? empty() : of(value);
+    }
+
+    public static interface Consumer<T> {
+        void consume(final T value);
     }
 }

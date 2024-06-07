@@ -180,6 +180,10 @@
             android:label="@string/loyalty_cards"
             android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
         <activity
+            android:name=".devices.garmin.GarminRealtimeSettingsActivity"
+            android:label="@string/loading"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
+        <activity
             android:name=".devices.pebble.PebbleSettingsActivity"
             android:label="@string/pref_title_pebble_settings"
             android:parentActivityName=".activities.SettingsActivity" />

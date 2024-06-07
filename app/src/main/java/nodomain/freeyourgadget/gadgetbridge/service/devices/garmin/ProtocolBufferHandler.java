@@ -1,6 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
+import android.content.Intent;
 import android.location.Location;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
@@ -19,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRealtimeSettingsFragment;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -28,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmsNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.http.DataTransferHandler;
@@ -119,9 +124,29 @@ public class ProtocolBufferHandler implements MessageHandler {
                 processed = true;
                 processProtobufFindMyWatchResponse(smart.getFindMyWatchService());
             }
-            if (!processed) {
+            if (smart.hasSettingsService()) {
+                processed = true;
+                processProtobufSettingsService(smart.getSettingsService());
+            }
+            if (processed) {
+                message.setStatusMessage(new ProtobufStatusMessage(
+                        message.getMessageType(),
+                        GFDIMessage.Status.ACK,
+                        message.getRequestId(),
+                        message.getDataOffset(),
+                        ProtobufStatusMessage.ProtobufChunkStatus.KEPT,
+                        ProtobufStatusMessage.ProtobufStatusCode.NO_ERROR
+                ));
+            } else {
                 LOG.warn("Unknown protobuf request: {}", smart);
-                message.setStatusMessage(new ProtobufStatusMessage(message.getMessageType(), GFDIMessage.Status.ACK, message.getRequestId(), message.getDataOffset(), ProtobufStatusMessage.ProtobufChunkStatus.DISCARDED, ProtobufStatusMessage.ProtobufStatusCode.UNKNOWN_REQUEST_ID));
+                message.setStatusMessage(new ProtobufStatusMessage(
+                        message.getMessageType(),
+                        GFDIMessage.Status.ACK,
+                        message.getRequestId(),
+                        message.getDataOffset(),
+                        ProtobufStatusMessage.ProtobufChunkStatus.DISCARDED,
+                        ProtobufStatusMessage.ProtobufStatusCode.UNKNOWN_REQUEST_ID
+                ));
             }
         }
         return null;
@@ -385,6 +410,33 @@ public class ProtocolBufferHandler implements MessageHandler {
             LOG.debug("Received findMyWatch response");
         }
         LOG.warn("Unknown FindMyWatchService response: {}", findMyWatchService);
+    }
+
+    private boolean processProtobufSettingsService(final GdiSettingsService.SettingsService settingsService) {
+        boolean processed = false;
+
+        if (settingsService.hasDefinitionResponse()) {
+            processed = true;
+            final Intent intent = new Intent(GarminRealtimeSettingsFragment.ACTION_SCREEN_DEFINITION);
+            intent.putExtra(GarminRealtimeSettingsFragment.EXTRA_PROTOBUF, settingsService.getDefinitionResponse().getDefinition().toByteArray());
+            LocalBroadcastManager.getInstance(deviceSupport.getContext()).sendBroadcast(intent);
+        }
+
+        if (settingsService.hasStateResponse()) {
+            processed = true;
+            final Intent intent = new Intent(GarminRealtimeSettingsFragment.ACTION_SCREEN_STATE);
+            intent.putExtra(GarminRealtimeSettingsFragment.EXTRA_PROTOBUF, settingsService.getStateResponse().getState().toByteArray());
+            LocalBroadcastManager.getInstance(deviceSupport.getContext()).sendBroadcast(intent);
+        }
+
+        if (settingsService.hasChangeResponse()) {
+            processed = true;
+            final Intent intent = new Intent(GarminRealtimeSettingsFragment.ACTION_CHANGE);
+            intent.putExtra(GarminRealtimeSettingsFragment.EXTRA_PROTOBUF, settingsService.getChangeResponse().toByteArray());
+            LocalBroadcastManager.getInstance(deviceSupport.getContext()).sendBroadcast(intent);
+        }
+
+        return processed;
     }
 
     public ProtobufMessage prepareProtobufRequest(GdiSmartProto.Smart protobufPayload) {

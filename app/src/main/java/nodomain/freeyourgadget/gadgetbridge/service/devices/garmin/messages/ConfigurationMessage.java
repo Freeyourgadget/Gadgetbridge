@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.CapabilitiesDeviceEvent;
 
 
 public class ConfigurationMessage extends GFDIMessage {
@@ -29,9 +31,8 @@ public class ConfigurationMessage extends GFDIMessage {
     }
 
     public static ConfigurationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
-        final int endOfPayload = reader.readByte();
-        ConfigurationMessage configurationMessage = new ConfigurationMessage(garminMessage, reader.readBytes(endOfPayload - reader.getPosition()));
-        return configurationMessage;
+        final int numBytes = reader.readByte();
+        return new ConfigurationMessage(garminMessage, reader.readBytes(numBytes));
     }
 
     @Override
@@ -40,7 +41,8 @@ public class ConfigurationMessage extends GFDIMessage {
         for (final GarminCapability capability : capabilities) {
             capabilitiesPref.add(capability.name());
         }
-        return Collections.singletonList(
+        return Arrays.asList(
+                new CapabilitiesDeviceEvent(capabilities),
                 new GBDeviceEventUpdatePreferences(GarminPreferences.PREF_GARMIN_CAPABILITIES, capabilitiesPref)
         );
     }

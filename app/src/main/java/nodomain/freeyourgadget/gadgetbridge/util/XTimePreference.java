@@ -23,9 +23,13 @@ import android.util.AttributeSet;
 
 import androidx.preference.DialogPreference;
 
+import java.util.Locale;
+
 public class XTimePreference extends DialogPreference {
     protected int hour = 0;
     protected int minute = 0;
+
+    protected Format format = Format.AUTO;
 
     public XTimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -62,8 +66,19 @@ public class XTimePreference extends DialogPreference {
         updateSummary();
     }
 
+    public String getPrefValue() {
+        return String.format(Locale.ROOT, "%02d:%02d", hour, minute);
+    }
+
+    public void setValue(final int hour, final int minute) {
+        this.hour = hour;
+        this.minute = minute;
+
+        persistStringValue(getPrefValue());
+    }
+
     void updateSummary() {
-        if (DateFormat.is24HourFormat(getContext()))
+        if (is24HourFormat())
             setSummary(getTime24h());
         else
             setSummary(getTime12h());
@@ -80,7 +95,34 @@ public class XTimePreference extends DialogPreference {
         return h + ":" + String.format("%02d", minute) + suffix;
     }
 
+    public void setFormat(final Format format) {
+        this.format = format;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
     void persistStringValue(String value) {
         persistString(value);
+    }
+
+    public boolean is24HourFormat() {
+        switch (format) {
+            case FORMAT_24H:
+                return true;
+            case FORMAT_12H:
+                return false;
+            case AUTO:
+            default:
+                return DateFormat.is24HourFormat(getContext());
+        }
+    }
+
+    public enum Format {
+        AUTO,
+        FORMAT_24H,
+        FORMAT_12H,
+        ;
     }
 }

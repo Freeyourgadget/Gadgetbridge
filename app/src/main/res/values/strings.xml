@@ -1103,6 +1103,7 @@
     <string name="activity_prefs_year_birth">Year of birth</string>
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
+    <string name="activity_prefs_height_inches">Height in inches</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
     <string name="activity_prefs_target_weight_kg">Target weight in kg</string>
     <string name="activity_prefs_step_length_cm">Step length in cm</string>
@@ -2890,4 +2891,11 @@
     <string name="garmin_agps_local_file">Local file</string>
     <string name="pref_garmin_agps_help">The list below contains all URLs requested by the watch for AGPS updates. You can select a file from the phone\'s storage that will be sent to the watch when it requests an update.</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="loading">Loading…</string>
+    <string name="toggle_debug_mode">Toggle debug mode</string>
+    <string name="share_debug_info">Share debug info</string>
+    <string name="realtime_settings">Realtime settings</string>
+    <string name="unsupported">Unsupported</string>
+    <string name="min_val">Minimum: %d</string>
+    <string name="max_val">Maximum: %d</string>
 </resources>

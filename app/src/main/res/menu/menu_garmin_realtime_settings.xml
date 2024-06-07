@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity">
+    <item
+        android:id="@+id/garmin_rt_debug_toggle"
+        android:icon="@drawable/ic_developer_mode"
+        android:title="@string/toggle_debug_mode"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/garmin_rt_debug_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share_debug_info"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="never" />
+</menu>

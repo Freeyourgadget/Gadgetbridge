@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -45,6 +46,8 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.XDatePreference;
+import nodomain.freeyourgadget.gadgetbridge.util.XDatePreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialEditTextPreferenceDialogFragment;
@@ -94,10 +97,12 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
     }
 
     @Override
-    public void onDisplayPreferenceDialog(final Preference preference) {
+    public void onDisplayPreferenceDialog(@NonNull final Preference preference) {
         DialogFragment dialogFragment;
         if (preference instanceof XTimePreference) {
             dialogFragment = new XTimePreferenceFragment();
+        } else if (preference instanceof XDatePreference) {
+            dialogFragment = new XDatePreferenceFragment();
         } else if (preference instanceof DragSortListPreference) {
             dialogFragment = new DragSortListPreferenceFragment();
         } else if (preference instanceof EditTextPreference) {
