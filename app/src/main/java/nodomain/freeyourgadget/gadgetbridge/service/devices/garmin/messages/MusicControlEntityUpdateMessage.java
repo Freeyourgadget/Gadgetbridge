@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MusicControlEntityUpdateMessage extends GFDIMessage {
@@ -12,6 +13,36 @@ public class MusicControlEntityUpdateMessage extends GFDIMessage {
         this.attributes = attributes;
         this.garminMessage = GarminMessage.MUSIC_CONTROL_ENTITY_UPDATE;
 
+    }
+
+    public static MusicControlEntityUpdateMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
+        final Map<MusicEntity, String> attributes = new HashMap<>();
+
+        while (reader.remaining() > 0) {
+            final int len = reader.readByte();
+            final int entityId = reader.readByte();
+            final int ordinal = reader.readByte();
+            final int zero = reader.readByte();
+            byte[] bytes = reader.readBytes(len - 3);
+            final String str = new String(bytes, StandardCharsets.UTF_8);
+
+            switch (entityId) {
+                case 0:
+                    PLAYER player = PLAYER.values()[ordinal];
+                    break;
+                case 1:
+                    QUEUE queue = QUEUE.values()[ordinal];
+                    break;
+                case 2:
+                    TRACK track = TRACK.values()[ordinal];
+                    break;
+                default:
+                    LOG.warn("Unknown entity {}", entityId);
+                    continue;
+            }
+        }
+
+        return new MusicControlEntityUpdateMessage(attributes);
     }
 
     @Override

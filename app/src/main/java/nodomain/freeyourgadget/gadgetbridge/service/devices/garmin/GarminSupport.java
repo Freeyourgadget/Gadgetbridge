@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
@@ -646,6 +647,15 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             attributes.put(MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO, StringUtils.join(",", playing, playRate, position).toString());
             sendOutgoingMessage("music stopped", new MusicControlEntityUpdateMessage(attributes));
         }
+    }
+
+    @Override
+    public void onSetPhoneVolume(final float volume) {
+        final Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
+
+        attributes.put(MusicControlEntityUpdateMessage.PLAYER.VOLUME, String.format(Locale.ROOT, "%.2f", volume / 100f));
+
+        sendOutgoingMessage("set phone volume", new MusicControlEntityUpdateMessage(attributes));
     }
 
     private boolean alreadyDownloaded(final FileTransferHandler.DirectoryEntry entry) {
