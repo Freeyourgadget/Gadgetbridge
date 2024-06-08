@@ -3021,4 +3021,13 @@
     <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
     <string name="intent_api_broadcast_activity_sync_title">البث عند انتهاء مزامنة النشاط</string>
     <string name="intent_api_broadcast_activity_sync_summary">قم ببث نية عندما تنتهي مزامنة النشاط لأي جهاز</string>
+    <string name="activity_prefs_height_inches">الطول بالبوصة</string>
+    <string name="min_val">الحد الأدنى: %d</string>
+    <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="toggle_debug_mode">تبديل وضع التصحيح</string>
+    <string name="loading">تحميل…</string>
+    <string name="share_debug_info">مشاركة معلومات التصحيح</string>
+    <string name="realtime_settings">إعدادات الوقت الحقيقي</string>
+    <string name="unsupported">غير مدعوم</string>
+    <string name="max_val">الحد الأقصى: %d</string>
 </resources>
