@@ -10,11 +10,13 @@
 * Initial support for Soundcore Liberty 3 Pro
 * Introduce new Dashboard view
 * AsteroidOS: Added icons to the notifications
+* Bangle.js: Add Sleep as Android support
 * Bangle.js: Add screenshot support
 * Bangle.js: Add setting to disable notifications
 * Bangle.js: Allow wake phone when opening notification response from watch
 * Bangle.js: Fix activity intensity normalization
 * Bangle.js: Fix message reply
+* Bangle.js: Improve text rendering
 * Fossil/Skagen Hybrids: Update device settings to new structure
 * Galaxy Buds Live: Update device settings to new structure
 * Galaxy Buds 2: Fix recognition of some versions
@@ -34,18 +36,21 @@
 * Huawei: Improve connection and reconnection
 * Huawei: Improve music controls
 * Huawei: Improve notification icons
+* Huawei: Improve weather, HR and SpO2 support
 * Huawei: Improve workout parsing
 * Huawei: Rework settings menu with sub-screens
 * Huawei: Send user info to device
 * Huawei: Support sending GPS to band
 * Huawei Watch GT4: Add HR and SpO support
 * Huawei Watch Ultimate: Add HR and SpO support
+* Intent API: Add broadcast on activity sync finish
 * Intent API: Added debug end call
 * Mi Band 6: Add menu items for NFC shortcuts
 * Nothing CMF Watch Pro: Add weather support
 * Nothing Earbuds: Add adjustable delay for auto-pick-up of calls
 * Nothing Earbuds: Add option to auto-reply to incoming phone calls
 * Nothing Earbuds: Add option to read aloud incoming notifications
+* Sony LinkBuds S: Enable some missing features
 * Xiaomi Smart Band 8 Active: Fix discovery
 * Xiaomi: Add swimming workout type
 * Xiaomi: Allow transliteration
@@ -53,7 +58,7 @@
 * Xiaomi: Fix notification for apps in work profile
 * Xiaomi: Fix some crashes
 * Xiaomi: Improve reconnection
-* Xiaomi: Improve sleep parsing
+* Xiaomi: Improve sleep and activity parsing
 * Xiaomi: Improve weather support, add multiple locations
 * Xiaomi: Sync calendar event reminders
 * Zepp OS: Add support for Sleep as Android
