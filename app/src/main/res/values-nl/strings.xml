@@ -3028,4 +3028,12 @@
     <string name="intent_api_broadcast_activity_sync_title">Stuur intent na synchronisatie</string>
     <string name="intent_api_broadcast_activity_sync_summary">Stuur een broadcast intent zodra de activiteitssynchronisatie van een apparaat is voltooid</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="loading">Laden…</string>
+    <string name="activity_prefs_height_inches">Lengte in inches</string>
+    <string name="toggle_debug_mode">Schakel foutopsporingsmodus aan/uit</string>
+    <string name="share_debug_info">Deel foutopsporingsinformatie</string>
+    <string name="realtime_settings">Realtime-instellingen</string>
+    <string name="unsupported">Niet ondersteund</string>
+    <string name="min_val">Minimum: %d</string>
+    <string name="max_val">Maximum: %d</string>
 </resources>
