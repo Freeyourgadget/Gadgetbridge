@@ -96,7 +96,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilHRInstallHandler;
@@ -1834,12 +1833,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         byte requestType = value[1];
 
         if (requestType == (byte) 0x04) {
-            if (value[7] == 0x00 || value[7] == 0x01) {
+            if (value[7] == 0x00 || value[7] == 0x01 || value[7] == 0x03) {
                 handleCallRequest(value);
             } else if (value[7] == 0x02) {
                 handleDeleteNotification(value);
-            } else if (value[7] == 0x03) {
-                handleQuickReplyRequest(value);
             }
         } else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
@@ -1990,7 +1987,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         SharedPreferences prefs = getDeviceSpecificPreferences();
         String rejectMethodPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_CALL_REJECT_METHOD, "reject");
         GBDeviceEventCallControl.Event rejectMethod = GBDeviceEventCallControl.Event.REJECT;
-        if (rejectMethodPref.equals("ignore")) rejectMethod = GBDeviceEventCallControl.Event.IGNORE;
+        if (rejectMethodPref.equals("ignore") && value[7] != (byte) 0x03) rejectMethod = GBDeviceEventCallControl.Event.IGNORE;
 
         boolean acceptCall = value[7] == (byte) 0x00;
         queueWrite(new PlayCallNotificationRequest("", false, false, 0,this));
@@ -1998,26 +1995,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
         callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : rejectMethod;
 
-        getDeviceSupport().evaluateGBDeviceEvent(callControlEvent);
-    }
+        if (value[7] == (byte) 0x03) {
+            String[] quickReplies = getQuickReplies();
+            byte callId = value[3];
+            byte replyChoice = value[8];
+            if (replyChoice < quickReplies.length) {
+                callControlEvent.reply = quickReplies[replyChoice];
+                callControlEvent.phoneNumber = currentCallSpec.number;
+                queueWrite(new QuickReplyConfirmationPutRequest(callId));
+            }
+        }
 
-    private void handleQuickReplyRequest(byte[] value) {
-        if (currentCallSpec == null) {
-            return;
-        }
-        String[] quickReplies = getQuickReplies();
-        byte callId = value[3];
-        byte replyChoice = value[8];
-        if (replyChoice >= quickReplies.length) {
-            return;
-        }
-        GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
-        devEvtNotificationControl.handle = callId;
-        devEvtNotificationControl.phoneNumber = currentCallSpec.number;
-        devEvtNotificationControl.reply = quickReplies[replyChoice];
-        devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-        getDeviceSupport().evaluateGBDeviceEvent(devEvtNotificationControl);
-        queueWrite(new QuickReplyConfirmationPutRequest(callId));
+        getDeviceSupport().evaluateGBDeviceEvent(callControlEvent);
     }
 
     private void handleMusicRequest(byte[] value) {
