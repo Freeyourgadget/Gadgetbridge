@@ -3041,4 +3041,12 @@
     <string name="intent_api_broadcast_activity_sync_title">Etkinlik eşzamanlaması bittiğinde yayın gönder</string>
     <string name="intent_api_broadcast_activity_sync_summary">Herhangi bir aygıt için etkinlik eşzamanlaması bittiğinde bir amaç yayınlayın</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="toggle_debug_mode">Hata ayıklama modunu aç/kapat</string>
+    <string name="share_debug_info">Hata ayıklama bilgilerini paylaş</string>
+    <string name="realtime_settings">Gerçek zaman ayarları</string>
+    <string name="min_val">En düşük: %d</string>
+    <string name="activity_prefs_height_inches">İnç cinsinden yükseklik</string>
+    <string name="unsupported">Desteklenmiyor</string>
+    <string name="max_val">En yüksek: %d</string>
 </resources>
