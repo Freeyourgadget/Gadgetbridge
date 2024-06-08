@@ -3420,4 +3420,6 @@
     <string name="music_rename_playlist">Rename playlist</string>
     <string name="music_error">Error occurred</string>
     <string name="music_huawei_device_info">Supported formats: %1$s\nWatch storage: %2$d MB</string>
+    <string name="first_start_intro_welcome_to">Welcome to</string>
+    <string name="first_start_intro_tag_line">Break free from the proprietary apps and cloud services of gadget vendors.</string>
 </resources>
