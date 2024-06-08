@@ -50,7 +50,6 @@ public class AgpsHandler {
                 }
 
                 final GarminHttpResponse response = new GarminHttpResponse();
-                response.getHeaders().put("cache-control", "max-age=14400");
 
                 final byte[] rawBytes = FileUtils.readAll(agpsIn, 1024 * 1024); // 1MB, they're usually ~60KB
                 final String fileHash = GB.hexdump(CheckSums.md5(rawBytes)).toLowerCase(Locale.ROOT);
@@ -68,6 +67,7 @@ public class AgpsHandler {
                         return response;
                     }
                 }
+                response.getHeaders().put("cache-control", "max-age=14400");
 
                 // Run some sanity checks on known agps file formats
                 final GarminAgpsFile garminAgpsFile = new GarminAgpsFile(rawBytes);
