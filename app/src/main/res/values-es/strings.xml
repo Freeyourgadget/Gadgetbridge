@@ -3033,4 +3033,10 @@
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
     <string name="activity_prefs_height_inches">Altura en pulgadas</string>
     <string name="loading">Cargando…</string>
+    <string name="toggle_debug_mode">Conmutar el modo de depuración</string>
+    <string name="share_debug_info">Compartir la información de depuración</string>
+    <string name="realtime_settings">Ajustes en tiempo real</string>
+    <string name="unsupported">No compatible</string>
+    <string name="max_val">Máximo: %d</string>
+    <string name="min_val">Mínimo: %d</string>
 </resources>
