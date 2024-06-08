@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -359,6 +360,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             }
         }
         return false;
+    }
+
+    @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+
     }
 
     @Override

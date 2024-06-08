@@ -917,6 +917,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
                 setRawSensor(!suspended);
                 enableRealtimeSamplesTimer(!suspended);
                 sleepAsAndroidSender.pauseTracking(suspended);
+                break;
             // Received when the app changes the batch size for the movement data
             case SleepAsAndroidAction.SET_BATCH_SIZE:
                 long batchSize = extras.getLong("SIZE", 12L);

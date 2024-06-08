@@ -47,6 +47,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -76,6 +77,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,9 +112,9 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
@@ -120,8 +122,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidAction;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -136,6 +139,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
@@ -187,6 +191,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
     // Global Intents
     private static final String BANGLE_ACTION_UART_TX = "com.banglejs.uart.tx";
+
+    private SleepAsAndroidSender sleepAsAndroidSender;
 
     public BangleJSDeviceSupport() {
         super(LOG);
@@ -321,6 +327,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         LOG.info("Initializing");
+
+        if (sleepAsAndroidSender == null) {
+            sleepAsAndroidSender = new SleepAsAndroidSender(gbDevice);
+        }
 
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
@@ -600,9 +610,118 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     stopLocationUpdate();
                 }
             } break;
+            case "accel":
+                handleAcceleration(json);
+                break;
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
             }
+        }
+    }
+
+    @Override
+    public void onSleepAsAndroidAction(String action, Bundle extras) {
+        // Validate if our device can work with an action
+        try {
+            sleepAsAndroidSender.validateAction(action);
+        } catch (UnsupportedOperationException e) {
+            return;
+        }
+
+        // Consult the SleepAsAndroid documentation for a set of actions and their extra
+        // https://docs.sleep.urbandroid.org/devs/wearable_api.html
+        switch (action) {
+            case SleepAsAndroidAction.CHECK_CONNECTED:
+                sleepAsAndroidSender.confirmConnected();
+                break;
+            // Received when the app starts sleep tracking
+            case SleepAsAndroidAction.START_TRACKING:
+                this.enableAccelSender(true);
+                sleepAsAndroidSender.startTracking();
+                break;
+            // Received when the app stops sleep tracking
+            case SleepAsAndroidAction.STOP_TRACKING:
+                this.enableAccelSender(false);
+                sleepAsAndroidSender.stopTracking();
+                break;
+            case SleepAsAndroidAction.SET_SUSPENDED:
+                boolean suspended = extras.getBoolean("SUSPENDED", false);
+                this.enableAccelSender(false);
+                sleepAsAndroidSender.pauseTracking(suspended);
+                break;
+                // Received when the app changes the batch size for the movement data
+            case SleepAsAndroidAction.SET_BATCH_SIZE:
+                long batchSize = extras.getLong("SIZE", 12L);
+                sleepAsAndroidSender.setBatchSize(batchSize);
+                break;
+            // Received when the app sends a notificaation
+            case SleepAsAndroidAction.SHOW_NOTIFICATION:
+                NotificationSpec notificationSpec = new NotificationSpec();
+                notificationSpec.title = extras.getString("TITLE");
+                notificationSpec.body = extras.getString("BODY");
+                this.onNotification(notificationSpec);
+                break;
+            case SleepAsAndroidAction.UPDATE_ALARM:
+                long alarmTimestamp = extras.getLong("TIMESTAMP");
+
+                // Sets the alarm at a giver hour and minute
+                // Snoozing from the app will create a new alarm in the future
+                this.setSleepAsAndroidAlarm(alarmTimestamp);
+                break;
+            default:
+                LOG.warn("Received unsupported " + action);
+                break;
+        }
+    }
+
+    private void enableAccelSender(boolean enable) {
+        /**
+         * Sends an event to the Banglejs to enable/disable Acceleration tracking
+         * @param enable: whether to enable tracking
+         **/
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "accelsender");
+            o.put("enable", enable);
+            o.put("interval", 1000);
+            uartTxJSON("enableAccelSender", o);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
+    private void setSleepAsAndroidAlarm(long alarmTimestamp) {
+        /**
+         * Updates the Sleep as Android Alarm slot.
+         * @param alarmTimestamp: Unix timestamp of the upcoming alarm.
+         **/
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Timestamp(alarmTimestamp).getTime());
+
+        // Get Alarm in relevant slot
+        nodomain.freeyourgadget.gadgetbridge.entities.Alarm currentAlarm = DBHelper.getAlarms(gbDevice).get(SleepAsAndroidSender.getAlarmSlot());
+        currentAlarm.setRepetition(Alarm.ALARM_ONCE);
+        currentAlarm.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        currentAlarm.setMinute(calendar.get(Calendar.MINUTE));
+        currentAlarm.setEnabled(true);
+        currentAlarm.setUnused(false);
+
+        // Store modified alarm
+        DBHelper.store(currentAlarm);
+
+        // Send alarms to Gadgetbridge
+        this.onSetAlarms(new ArrayList<Alarm>(DBHelper.getAlarms(gbDevice)));
+
+    }
+
+    /**
+     * Handle "accel" packets: Acceleration data streaming
+     */
+    private void handleAcceleration(JSONObject json) throws JSONException {
+        if (json.has("accel")) {
+            JSONObject accel = json.getJSONObject("accel");
+            sleepAsAndroidSender.onAccelChanged((float) (accel.getDouble("x") * 9.80665),
+                    (float) (accel.getDouble("y") * 9.80665), (float) (accel.getDouble("z") * 9.80665));
         }
     }
 
@@ -714,6 +833,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("JSON activity '"+actName+"' not found");
             }
         }*/
+        if(hrm>0) {
+            sleepAsAndroidSender.onHrChanged(hrm, 0);
+        }
         sample.setTimestamp(timestamp);
         sample.setRawKind(activity);
         sample.setHeartRate(hrm);
@@ -877,7 +999,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
      * Handle "force_calendar_sync" packet
      */
     private void handleCalendarSync(JSONObject json) throws JSONException {
-        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if (!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
         JSONArray ids = json.getJSONArray("ids");
         ArrayList<Long> idsList = new ArrayList<>(ids.length());
@@ -1670,7 +1792,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if (!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         String description = calendarEventSpec.description;
         if (description != null) {
             // remove any HTML formatting
@@ -1705,7 +1827,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
         // FIXME: CalenderReceiver will call this directly - can we somehow batch up delete calls and use deleteCalendarEvents?
-        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if (!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         try {
             JSONObject o = new JSONObject();
             o.put("t", "calendar-");
@@ -1718,7 +1840,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /* Called when we need to get rid of multiple calendar events */
     public void deleteCalendarEvents(ArrayList<Long> ids) {
-        if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+        if (!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
         if (ids.size() > 0)
             try {
                 JSONObject o = new JSONObject();
