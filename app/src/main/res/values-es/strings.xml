@@ -3031,4 +3031,6 @@
     <string name="intent_api_broadcast_activity_sync_summary">Enviar una notificación cuando se complete la sincronización de la actividad para cualquier dispositivo</string>
     <string name="intent_api_broadcast_activity_sync_title">Transferir cuando finalice la sincronización de actividades</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="activity_prefs_height_inches">Altura en pulgadas</string>
+    <string name="loading">Cargando…</string>
 </resources>
