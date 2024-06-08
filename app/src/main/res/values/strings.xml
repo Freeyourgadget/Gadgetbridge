@@ -3422,4 +3422,18 @@
     <string name="music_huawei_device_info">Supported formats: %1$s\nWatch storage: %2$d MB</string>
     <string name="first_start_intro_welcome_to">Welcome to</string>
     <string name="first_start_intro_tag_line">Break free from the proprietary apps and cloud services of gadget vendors.</string>
+    <string name="first_start_overview_title">Overview</string>
+    <string name="first_start_overview_desc">Gadgetbridge has two main views, each with their own purpose.</string>
+    <string name="first_start_overview_dashboard">The dashboard allows you to get a quick idea of how you\'re doing today. The calendar view shows the status of your goals over a whole month.</string>
+    <string name="first_start_overview_devices">The devices view shows all devices you have configured and their status, and gives access to device specific functions such as detailed charts, settings, apps and alarms.</string>
+    <string name="first_start_open_source_title">Open Source</string>
+    <string name="first_start_open_source_text">Gadgetbridge is an open source app. It is developed by the community, for the community.\n\nAnyone is welcome to contribute via code, documentation, testing and donations.\n\nGadgetbridge contains no ads and no tracking. It works only locally on your Android device, so it is 100% privacy friendly.\n\nVisit our website for more information, documentation and links to our communication channels.</string>
+    <string name="first_start_permissions_title">Permissions</string>
+    <string name="first_start_permissions_desc">Gadgetbridge needs a lot of permissions to perform all its functions. Review the permissions and their purposes below.</string>
+    <string name="first_start_permissions_request_all_button">Request all permissions</string>
+    <string name="first_start_get_started_title">Get started</string>
+    <string name="first_start_get_started_desc">To get started, add your first device directly from this screen, restore a backup or start with a clean database.</string>
+    <string name="first_start_get_started_add_first_device_button">Add first device</string>
+    <string name="first_start_get_started_restore_button">Restore backup</string>
+    <string name="first_start_get_started_go_to_app_button">Go to the app</string>
 </resources>

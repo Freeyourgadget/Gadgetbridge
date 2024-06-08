@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Open Source"
+                android:text="@string/first_start_open_source_title"
                 android:textSize="30sp"/>
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="Gadgetbridge is an open source app. It is developed by the community, for the community.\n\nAnyone is welcome to contribute via code, documentation, testing and donations.\n\nGadgetbridge contains no ads and no tracking. It works only locally on your Android device, so it is 100% privacy friendly.\n\nVisit our website for more information, documentation and links to our communication channels." />
+                android:text="@string/first_start_open_source_text" />
 
             <ImageView
                 android:layout_width="match_parent"

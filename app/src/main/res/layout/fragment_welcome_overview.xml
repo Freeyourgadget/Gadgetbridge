@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Overview"
+                android:text="@string/first_start_overview_title"
                 android:textSize="30sp"/>
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="Gadgetbridge has two main views, each with their own purpose." />
+                android:text="@string/first_start_overview_desc" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="The dashboard allows you to get a quick idea of how you're doing today. The calendar view shows the status of your goals over a whole month." />
+                android:text="@string/first_start_overview_dashboard" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="The devices view shows all devices you have configured and their status, and gives access to device specific functions such as detailed charts, settings, apps and alarms." />
+                android:text="@string/first_start_overview_devices" />
 
         </LinearLayout>
     </ScrollView>

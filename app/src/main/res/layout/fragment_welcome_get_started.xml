@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Get started"
+            android:text="@string/first_start_get_started_title"
             android:textSize="25sp"/>
 
         <TextView
@@ -25,28 +25,28 @@
             android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:text="To get started, add your first device directly from this screen, restore a backup or start with a clean database." />
+            android:text="@string/first_start_get_started_desc" />
 
         <Button
             android:id="@+id/welcome_button_add_device"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Add first device" />
+            android:text="@string/first_start_get_started_add_first_device_button" />
 
         <Button
             android:id="@+id/welcome_button_restore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Restore backup" />
+            android:text="@string/first_start_get_started_restore_button" />
 
         <Button
             android:id="@+id/welcome_button_to_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Go to the app" />
+            android:text="@string/first_start_get_started_go_to_app_button" />
 
     </LinearLayout>
 </RelativeLayout>

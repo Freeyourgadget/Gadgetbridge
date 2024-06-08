@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:textAlignment="center"
-        android:text="Permissions"
+        android:text="@string/first_start_permissions_title"
         android:textSize="30sp"/>
 
     <TextView
@@ -20,14 +20,14 @@
         android:layout_marginTop="20dp"
         android:textSize="20sp"
         android:textAlignment="center"
-        android:text="Gadgetbridge needs a lot of permissions to perform all its functions. Review the permissions and their purposes below." />
+        android:text="@string/first_start_permissions_desc" />
 
     <Button
         android:id="@+id/button_request_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Request all permissions"/>
+        android:text="@string/first_start_permissions_request_all_button"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/permissions_list"
