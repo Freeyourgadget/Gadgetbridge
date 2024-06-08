@@ -3027,4 +3027,5 @@
     <string name="devicetype_garmin_instinct_2x_solar">Garmin Instinct 2X Solar</string>
     <string name="intent_api_broadcast_activity_sync_title">Stuur intent na synchronisatie</string>
     <string name="intent_api_broadcast_activity_sync_summary">Stuur een broadcast intent zodra de activiteitssynchronisatie van een apparaat is voltooid</string>
+    <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
 </resources>
