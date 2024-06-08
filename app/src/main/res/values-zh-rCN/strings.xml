@@ -3028,4 +3028,5 @@
     <string name="devicetype_garmin_instinct_2x_solar">佳明 Instinct 2X Solar</string>
     <string name="intent_api_broadcast_activity_sync_title">活动同步完成时广播</string>
     <string name="intent_api_broadcast_activity_sync_summary">当任何设备的活动同步完成时广播意图</string>
+    <string name="devicetype_garmin_fenix_6_sapphire">佳明 Fenix 6 Sapphire</string>
 </resources>
