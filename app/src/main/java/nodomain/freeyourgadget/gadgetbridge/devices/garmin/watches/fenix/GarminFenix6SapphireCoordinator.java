@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 
-public class GarminFenix6SapphireSCoordinator extends GarminCoordinator {
+public class GarminFenix6SapphireCoordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^fenix 6 Sapphire$");
