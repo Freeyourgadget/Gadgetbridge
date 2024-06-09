@@ -3037,4 +3037,5 @@
     <string name="unsupported">不支持</string>
     <string name="max_val">最 大值： %d</string>
     <string name="min_val">最小值： %d</string>
+    <string name="devicetype_garmin_venu_3s">佳明 Venu 3S</string>
 </resources>
