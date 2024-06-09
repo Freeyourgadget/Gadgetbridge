@@ -3035,4 +3035,13 @@
     <string name="devicetype_garmin_instinct_2x_solar">Garmin Instinct 2X Solar</string>
     <string name="intent_api_broadcast_activity_sync_title">Übertragung bei Beendigung der Aktivitätssynchronisation</string>
     <string name="intent_api_broadcast_activity_sync_summary">Senden einer Absichtserklärung, wenn die Aktivitätssynchronisierung für ein beliebiges Gerät abgeschlossen ist</string>
+    <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="min_val">Minimum: %d</string>
+    <string name="activity_prefs_height_inches">Höhe in Zoll</string>
+    <string name="toggle_debug_mode">Umschalten des Debug-Modus</string>
+    <string name="loading">Laden…</string>
+    <string name="share_debug_info">Debug-Informationen teilen</string>
+    <string name="realtime_settings">Einstellungen in Echtzeit</string>
+    <string name="unsupported">Nicht unterstützt</string>
+    <string name="max_val">Maximum: %d</string>
 </resources>
