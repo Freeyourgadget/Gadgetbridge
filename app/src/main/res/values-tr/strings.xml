@@ -3049,4 +3049,5 @@
     <string name="activity_prefs_height_inches">İnç cinsinden yükseklik</string>
     <string name="unsupported">Desteklenmiyor</string>
     <string name="max_val">En yüksek: %d</string>
+    <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
 </resources>
