@@ -3024,4 +3024,17 @@
     <string name="pref_garmin_agps_help">В приведенном ниже списке содержатся все URL-адреса, запрашиваемые часами для обновления AGPS. Вы можете выбрать файл из хранилища телефона, который будет отправлен на часы при запросе обновления.</string>
     <string name="no_folder_selected">Не выбрана папка</string>
     <string name="folder_is_empty">Папка пустая</string>
+    <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
+    <string name="devicetype_garmin_instinct_2s_solar">Garmin Instinct 2S Solar</string>
+    <string name="devicetype_garmin_vivosmart_5">Garmin Vivosmart 5</string>
+    <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="activity_prefs_height_inches">Рост в дюймах</string>
+    <string name="loading">Загрузка…</string>
+    <string name="min_val">Минимум: %d</string>
+    <string name="toggle_debug_mode">Включить отладочный режим</string>
+    <string name="share_debug_info">Поделиться отладочной информацией</string>
+    <string name="devicetype_garmin_instinct_2x_solar">Garmin Instinct 2X Solar</string>
+    <string name="unsupported">Не поддерживается</string>
+    <string name="max_val">Максимум: %d</string>
+    <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
 </resources>
