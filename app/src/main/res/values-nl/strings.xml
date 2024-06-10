@@ -321,7 +321,7 @@
     <string name="weeksteps_today_steps_description">Stappen vandaag, doel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Bevestig de activiteitsdata transfer niet</string>
     <string name="pref_summary_dont_ack_transfers">Als er niet bevestigd wordt naar de armband, zullen de activiteitgegevens niet gewist worden. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
-    <string name="pref_summary_keep_data_on_device">Behoud activiteitsdata op het apparaat zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
+    <string name="pref_summary_keep_data_on_device">Behoud activiteitsdata op het apparaat na synchronisatie. Dit kan nuttig zijn als GB gebruikt wordt samen met andere apps. Dit kan ervoor zorgen dat het apparaat vol raakt en/of stopt met synchroniseren.</string>
     <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor flashen firmware</string>
     <string name="pref_summary_low_latency_fw_update">Dit kan helpen op apparaten waar firmware flashen faalt.</string>
     <string name="live_activity_steps_history">Stappen geschiedenis</string>
