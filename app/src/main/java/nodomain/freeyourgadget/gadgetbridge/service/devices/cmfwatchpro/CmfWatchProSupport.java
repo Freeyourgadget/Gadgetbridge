@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +42,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -219,6 +221,14 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         }
 
         switch (cmd) {
+            case AUTH_FAILED:
+                LOG.error("Authentication failed, disconnecting");
+                GB.toast(getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
+                final GBDevice device = getDevice();
+                if (device != null) {
+                    GBApplication.deviceService(device).disconnect();
+                }
+                return;
             case AUTH_WATCH_MAC:
                 LOG.debug("Got auth watch mac, requesting nonce");
                 sendCommand("auth request nonce", CmfCommand.AUTH_NONCE_REQUEST, A5);

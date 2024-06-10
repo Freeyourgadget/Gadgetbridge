@@ -33,6 +33,7 @@ public enum CmfCommand {
     AUTH_PAIR_REQUEST(0xffff, 0x8047),
     AUTH_PHONE_NAME(0xffff, 0x8049),
     AUTH_WATCH_MAC(0xffff, 0x0049),
+    AUTH_FAILED(0xffff, 0xa061),
     AUTHENTICATED_CONFIRM_REPLY(0xffff, 0x0004),
     AUTHENTICATED_CONFIRM_REQUEST(0xffff, 0x804d),
     BATTERY(0x005c, 0x0001),

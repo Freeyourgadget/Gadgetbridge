@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SU
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -193,10 +196,15 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
             } catch (Exception e) {
                 LOG.error("failed initializing device", e);
             }
-            return;
+        } else if (payload[0] == RESPONSE && payload[1] == 0x05 && payload[2] == 0x25) {
+            LOG.error("Authentication failed, disconnecting");
+            GB.toast(getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
+            final GBDevice device = getDevice();
+            if (device != null) {
+                GBApplication.deviceService(device).disconnect();
+            }
         } else {
-            LOG.info("Unhandled auth payload: {}", GB.hexdump(payload));
-            return;
+            LOG.warn("Unhandled auth payload: {}", GB.hexdump(payload));
         }
     }
 }

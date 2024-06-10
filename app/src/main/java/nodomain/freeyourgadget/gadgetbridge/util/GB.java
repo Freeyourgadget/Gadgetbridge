@@ -38,6 +38,7 @@ import android.text.SpannableString;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -444,6 +445,10 @@ public class GB {
      */
     public static void toast(final Context context, final String message, final int displayTime, final int severity) {
         toast(context, message, displayTime, severity, null);
+    }
+
+    public static void toast(final Context context, @StringRes final int message, final int displayTime, final int severity) {
+        toast(context, context.getString(message), displayTime, severity, null);
     }
 
     /**

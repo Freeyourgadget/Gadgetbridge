@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -47,6 +48,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.AbstractXiaomiService;
@@ -116,6 +118,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 final XiaomiProto.Command command = handleWatchNonce(cmd.getAuth().getWatchNonce());
 
                 if (command == null) {
+                    GB.toast(getSupport().getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
                     LOG.error("handleWatchNonce returned null, disconnecting");
                     final GBDevice device = getSupport().getDevice();
 
@@ -142,7 +145,13 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
                     getSupport().onAuthSuccess();
                 } else {
-                    LOG.warn("could not authenticate");
+                    LOG.warn("Authentication failed, subtype={}, status={}", cmd.getSubtype(), cmd.getStatus());
+                    GB.toast(getSupport().getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
+
+                    final GBDevice device = getSupport().getDevice();
+                    if (device != null) {
+                        GBApplication.deviceService(device).disconnect();
+                    }
                 }
                 break;
             }

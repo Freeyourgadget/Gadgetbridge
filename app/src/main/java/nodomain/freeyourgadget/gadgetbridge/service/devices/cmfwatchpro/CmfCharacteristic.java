@@ -220,7 +220,10 @@ public class CmfCharacteristic {
                     return;
                 }
             } catch (final GeneralSecurityException e) {
-                LOG.error("Failed to decrypt payload for {}", cmd, e);
+                LOG.error("Failed to decrypt payload for {} ({}/{})", cmd, String.format("0x%04x", cmd1), String.format("0x%04x", cmd2), e);
+                if (cmd == CmfCommand.AUTH_FAILED) {
+                    handler.onCommand(cmd, new byte[0]);
+                }
                 if (chunkCount > 1) {
                     chunkBuffers.remove(cmd);
                 }

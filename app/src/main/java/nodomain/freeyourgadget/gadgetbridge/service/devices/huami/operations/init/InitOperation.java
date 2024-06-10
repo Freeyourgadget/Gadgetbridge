@@ -38,6 +38,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
@@ -114,30 +115,34 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
         UUID characteristicUUID = characteristic.getUuid();
-        if (HuamiService.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
-            try {
-                byte[] value = characteristic.getValue();
-                huamiSupport.logMessageContent(value);
-                if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        value[1] == HuamiService.AUTH_SEND_KEY &&
-                        value[2] == HuamiService.AUTH_SUCCESS) {
-                    TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the device");
-                    builder.write(characteristic, requestAuthNumber());
-                    huamiSupport.performImmediately(builder);
-                } else if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        (value[1] & 0x0f) == HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER &&
-                        value[2] == HuamiService.AUTH_SUCCESS) {
-                    byte[] eValue = handleAESAuth(value, getSecretKey());
-                    byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(
-                            new byte[]{(byte) (HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER | cryptFlags), authFlags}, eValue);
+        if (!HuamiService.UUID_CHARACTERISTIC_AUTH.equals(characteristicUUID)) {
+            LOG.info("Unhandled characteristic changed: {}", characteristicUUID);
+            return super.onCharacteristicChanged(gatt, characteristic);
+        }
 
-                    TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the device");
-                    builder.write(characteristic, responseValue);
-                    huamiSupport.setCurrentTimeWithService(builder);
-                    huamiSupport.performImmediately(builder);
-                } else if (value[0] == HuamiService.AUTH_RESPONSE &&
-                        (value[1] & 0x0f) == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER &&
-                        value[2] == HuamiService.AUTH_SUCCESS) {
+        try {
+            final byte[] value = characteristic.getValue();
+            huamiSupport.logMessageContent(value);
+            if (value[0] != HuamiService.AUTH_RESPONSE) {
+                LOG.warn("Got a non-response: {}", GB.hexdump(value));
+                return super.onCharacteristicChanged(gatt, characteristic);
+            }
+
+            if (value[1] == HuamiService.AUTH_SEND_KEY && value[2] == HuamiService.AUTH_SUCCESS) {
+                TransactionBuilder builder = createTransactionBuilder("Sending the secret key to the device");
+                builder.write(characteristic, requestAuthNumber());
+                huamiSupport.performImmediately(builder);
+            } else if ((value[1] & 0x0f) == HuamiService.AUTH_REQUEST_RANDOM_AUTH_NUMBER && value[2] == HuamiService.AUTH_SUCCESS) {
+                byte[] eValue = handleAESAuth(value, getSecretKey());
+                byte[] responseValue = org.apache.commons.lang3.ArrayUtils.addAll(
+                        new byte[]{(byte) (HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER | cryptFlags), authFlags}, eValue);
+
+                TransactionBuilder builder = createTransactionBuilder("Sending the encrypted random key to the device");
+                builder.write(characteristic, responseValue);
+                huamiSupport.setCurrentTimeWithService(builder);
+                huamiSupport.performImmediately(builder);
+            } else if ((value[1] & 0x0f) == HuamiService.AUTH_SEND_ENCRYPTED_AUTH_NUMBER) {
+                if (value[2] == HuamiService.AUTH_SUCCESS) {
                     TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                     builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                     huamiSupport.enableFurtherNotifications(builder, true);
@@ -146,17 +151,23 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
                     huamiSupport.phase3Initialize(builder);
                     huamiSupport.setInitialized(builder);
                     huamiSupport.performImmediately(builder);
+                } else if (value[2] == HuamiService.AUTH_FAIL) {
+                    LOG.error("Authentication failed, disconnecting");
+                    GB.toast(getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
+                    final GBDevice device = getDevice();
+                    if (device != null) {
+                        GBApplication.deviceService(device).disconnect();
+                    }
                 } else {
                     return super.onCharacteristicChanged(gatt, characteristic);
                 }
-            } catch (Exception e) {
-                GB.toast(getContext(), "Error authenticating Huami device", Toast.LENGTH_LONG, GB.ERROR, e);
+            } else {
+                return super.onCharacteristicChanged(gatt, characteristic);
             }
-            return true;
-        } else {
-            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
-            return super.onCharacteristicChanged(gatt, characteristic);
+        } catch (Exception e) {
+            GB.toast(getContext(), "Error authenticating Huami device", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+        return true;
     }
 
     private byte[] handleAESAuth(byte[] value, byte[] secretKey) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
