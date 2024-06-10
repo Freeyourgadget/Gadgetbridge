@@ -679,8 +679,8 @@
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Sta VoIP app calls toe</string>
     <string name="title_activity_device_specific_settings">Apparaatspecifieke instellingen</string>
-    <string name="pref_title_authkey">Authorisatiesleutel</string>
-    <string name="pref_summary_authkey">Wijzig de authorisatiesleutel in een algemene sleutel op al uw Android-apparaten waarmee u verbinding wilt maken. De vorige standaardsleutel voor alle apparaten is 0123456789@ABCDE</string>
+    <string name="pref_title_authkey">Authenticatiesleutel</string>
+    <string name="pref_summary_authkey">Wijzig de authenticatiesleutel in een algemene sleutel op al uw Android-apparaten waarmee u verbinding wilt maken. De vorige standaardsleutel voor alle apparaten is 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">U staat op het punt om de firmware %s te installeren op uw Amazfit Cor 2.
 \n
@@ -759,7 +759,7 @@
     <string name="prefs_find_phone_summary">Gebruik je band om de beltoon van je telefoon af te spelen.</string>
     <string name="prefs_find_phone_duration">Belduur in seconden</string>
     <string name="maximum_duration">Duur</string>
-    <string name="discovery_need_to_enter_authkey">Dit apparaat heeft een geheime authorisatiesleutel nodig, druk lang op het apparaat om deze in te voeren. Lees de wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Dit apparaat heeft een geheime authenticatiesleutel nodig, druk lang op het apparaat om deze in te voeren. Lees de wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip Lite.
 \n
 \nZorg ervoor dat u het .fw-bestand installeert, daarna het .res-bestand en als laatste het .gps-bestand. Uw horloge wordt opnieuw gestart na het installeren van het .fw-bestand.
@@ -1067,7 +1067,7 @@
     <string name="activity_list_summary_active_steps">Actieve stappen</string>
     <string name="prefs_charts_tabs_summary">Zichtbare grafiekentabs</string>
     <string name="prefs_charts_tabs">Grafiekentab</string>
-    <string name="discovery_entered_invalid_authkey">De ingevoerde authorisatiesleutel is niet correct! Druk lang op het apparaat om hem aan te passen.</string>
+    <string name="discovery_entered_invalid_authkey">De ingevoerde authenticatiesleutel is niet correct! Druk lang op het apparaat om hem aan te passen.</string>
     <string name="pref_summary_connected_advertisement">Maakt het apparaat vindbaar via Bluetooth zelfs wanneer het verbonden is</string>
     <string name="pref_title_connected_advertisement">Zichtbaar wanneer verbonden</string>
     <string name="calendar_year">Jaar</string>
@@ -3049,4 +3049,5 @@
     <string name="battery_i">Batterij %d</string>
     <string name="show_in_notification">Toon in melding</string>
     <string name="battery_full_threshold">Niveau volle batterij</string>
+    <string name="authentication_failed_check_key">Authenticatie mislukt, controleer authenticatiesleutel</string>
 </resources>
