@@ -290,7 +290,7 @@
     <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
     <string name="pref_title_dont_ack_transfer">No hay confirmación en la transferencia de datos de actividad</string>
     <string name="pref_summary_dont_ack_transfers">Si no se confirma el mensaje de recepción, los datos de actividad no se borrarán. Es útil si GB se utiliza junto con otras aplicaciones.</string>
-    <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en el dispositivo incluso después de la sincronización. Útil si GB se usa junto con otras aplicaciones.</string>
+    <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en el dispositivo incluso después de la sincronización. Útil si se utilizan GB junto con otras aplicaciones. Esto puede hacer que el reloj se quede sin espacio y/o deje de sincronizarse correctamente.</string>
     <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las instalaciones de firmware</string>
     <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las instalaciones de firmware fallan.</string>
     <string name="live_activity_steps_history">Historial de pasos</string>
@@ -3052,4 +3052,6 @@
     <string name="show_in_notification">Mostrar en la notificación</string>
     <string name="battery_full_notify_enabled">Notificar si la batería está llena</string>
     <string name="battery_full_threshold">Umbral de batería llena</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="authentication_failed_check_key">Error de autenticación, verifique la clave de autenticación</string>
 </resources>
