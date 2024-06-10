@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +45,12 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
@@ -77,13 +76,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         return Collections.singletonList(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString("3dda0001-957f-7d4a-34a6-74696673696d")).build());
     }
-
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
 
     @Override
     public boolean supportsActivityDataFetching() {
@@ -124,14 +116,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         }
         FossilInstallHandler installHandler = new FossilInstallHandler(uri, context);
         return installHandler.isValid() ? installHandler : null;
-    }
-
-    @Override
-    public boolean supportsFlashing() { return false; }
-
-    @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
     }
 
     private boolean supportsAlarmConfiguration() {
@@ -224,16 +208,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
     public boolean supportsWeather() {
         return isHybridHR();
     }
@@ -246,6 +220,19 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
+    }
+
+    @Override
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
+        return new BatteryConfig[]{
+                new BatteryConfig(
+                        0,
+                        GBDevice.BATTERY_ICON_DEFAULT,
+                        GBDevice.BATTERY_LABEL_DEFAULT,
+                        isHybridHR(device) ? 10 : 2,
+                        100
+                )
+        };
     }
 
     @Override

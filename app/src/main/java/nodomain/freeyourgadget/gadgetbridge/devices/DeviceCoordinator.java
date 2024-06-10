@@ -649,7 +649,7 @@ public interface DeviceCoordinator {
      */
     int getBatteryCount();
 
-    BatteryConfig[] getBatteryConfig();
+    BatteryConfig[] getBatteryConfig(GBDevice device);
 
     boolean supportsPowerOff();
 

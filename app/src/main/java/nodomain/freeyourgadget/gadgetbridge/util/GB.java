@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class GB {
     public static final String ACTION_ACTIVITY_SYNC = "nodomain.freeyourgadget.gadgetbridge.action.ACTIVITY_SYNC_FINISH";
@@ -72,6 +74,7 @@ public class GB {
     public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
     public static final String NOTIFICATION_CHANNEL_ID_LOW_BATTERY = "low_battery";
+    public static final String NOTIFICATION_CHANNEL_ID_FULL_BATTERY = "full_battery";
     public static final String NOTIFICATION_CHANNEL_ID_GPS = "gps";
 
     public static final int NOTIFICATION_ID = 1;
@@ -82,6 +85,7 @@ public class GB {
     public static final int NOTIFICATION_ID_PHONE_FIND = 6;
     public static final int NOTIFICATION_ID_GPS = 7;
     public static final int NOTIFICATION_ID_SCAN = 8;
+    public static final int NOTIFICATION_ID_FULL_BATTERY = 9;
     public static final int NOTIFICATION_ID_ERROR = 42;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
@@ -147,6 +151,12 @@ public class GB {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channelLowBattery);
 
+            NotificationChannel channelFullBattery = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_FULL_BATTERY,
+                    context.getString(R.string.notification_channel_full_battery_name),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channelFullBattery);
+
             NotificationChannel channelGps = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID_GPS,
                     context.getString(R.string.notification_channel_gps),
@@ -183,9 +193,8 @@ public class GB {
             GBDevice device = devices.get(0);
             String deviceName = device.getAliasOrName();
             String text = device.getStateString();
-            if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
-                text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
-            }
+
+            text += buildDeviceBatteryString(context, device);
 
             boolean connected = device.isInitialized();
             builder.setContentTitle(deviceName)
@@ -230,9 +239,7 @@ public class GB {
 
                 String deviceName = device.getAliasOrName();
                 String text = device.getStateString();
-                if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
-                    text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
-                }
+                text += buildDeviceBatteryString(context, device);
                 contentText.append(deviceName).append(" (").append(text).append(")<br>");
             }
 
@@ -269,6 +276,29 @@ public class GB {
             builder.setPriority(Notification.PRIORITY_MIN);
         }
         return builder.build();
+    }
+
+    public static String buildDeviceBatteryString(final Context context, final GBDevice device) {
+        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(device.getAddress());
+        final List<Integer> batteryLevels = new ArrayList<>();
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            if (devicePrefs.getBatteryShowInNotification(i) && device.getBatteryLevel(i) != GBDevice.BATTERY_UNKNOWN) {
+                batteryLevels.add(device.getBatteryLevel(i));
+            }
+        }
+        if (!batteryLevels.isEmpty()) {
+            sb.append(": ").append(context.getString(R.string.battery)).append(" ");
+
+            for (int i = 0; i < batteryLevels.size(); i++) {
+                sb.append(batteryLevels.get(i)).append("%");
+                if (i + 1 < batteryLevels.size()) {
+                    sb.append(", ");
+                }
+            }
+        }
+
+        return sb.toString();
     }
 
     public static Notification createNotification(String text, Context context) {
@@ -532,7 +562,7 @@ public class GB {
         notify(NOTIFICATION_ID_INSTALL, notification, context);
     }
 
-    private static Notification createBatteryNotification(String text, String bigText, Context context) {
+    private static Notification createBatteryLowNotification(String text, String bigText, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -554,16 +584,50 @@ public class GB {
         return nb.build();
     }
 
-    public static void updateBatteryNotification(String text, String bigText, Context context) {
+    private static Notification createBatteryFullNotification(String text, String bigText, Context context) {
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
+                notificationIntent, 0, false);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_FULL_BATTERY)
+                .setContentTitle(context.getString(R.string.notif_battery_full_title))
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_notification_full_battery)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setOngoing(false);
+
+        if (bigText != null) {
+            nb.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        }
+
+        return nb.build();
+    }
+
+    public static void updateBatteryLowNotification(String text, String bigText, Context context) {
         if (GBEnvironment.env().isLocalTest()) {
             return;
         }
-        Notification notification = createBatteryNotification(text, bigText, context);
+        Notification notification = createBatteryLowNotification(text, bigText, context);
         notify(NOTIFICATION_ID_LOW_BATTERY, notification, context);
     }
 
-    public static void removeBatteryNotification(Context context) {
+    public static void removeBatteryLowNotification(Context context) {
         removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
+    }
+
+    public static void updateBatteryFullNotification(String text, String bigText, Context context) {
+        if (GBEnvironment.env().isLocalTest()) {
+            return;
+        }
+        Notification notification = createBatteryFullNotification(text, bigText, context);
+        notify(NOTIFICATION_ID_FULL_BATTERY, notification, context);
+    }
+
+    public static void removeBatteryFullNotification(Context context) {
+        removeNotification(NOTIFICATION_ID_FULL_BATTERY, context);
     }
 
     public static Notification createExportFailedNotification(String text, Context context) {

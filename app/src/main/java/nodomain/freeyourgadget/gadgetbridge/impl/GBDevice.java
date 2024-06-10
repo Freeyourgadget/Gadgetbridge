@@ -64,7 +64,6 @@ public class GBDevice implements Parcelable {
     public static final short BATTERY_UNKNOWN = -1;
     public static final short BATTERY_ICON_DEFAULT = -1;
     public static final short BATTERY_LABEL_DEFAULT = -1;
-    private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
     public static final String EXTRA_UUID = "extraUUID";
     public static final String EXTRA_UPDATE_SUBJECT = "EXTRA_UPDATE_SUBJECT";
@@ -88,7 +87,6 @@ public class GBDevice implements Parcelable {
     // multiple battery support: at this point we support up to three batteries
     private int[] mBatteryLevel = {BATTERY_UNKNOWN, BATTERY_UNKNOWN, BATTERY_UNKNOWN};
     private float[] mBatteryVoltage = {BATTERY_UNKNOWN, BATTERY_UNKNOWN, BATTERY_UNKNOWN};
-    private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
     private BatteryState[] mBatteryState = {UNKNOWN, UNKNOWN, UNKNOWN};
     private int[] mBatteryIcons = {BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT};
     private int[] mBatteryLabels = {BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT};
@@ -136,7 +134,6 @@ public class GBDevice implements Parcelable {
         mState = State.values()[in.readInt()];
         mBatteryLevel = in.createIntArray();
         mBatteryVoltage = in.createFloatArray();
-        mBatteryThresholdPercent = (short) in.readInt();
         mBatteryState = ordinalsToEnums(in.createIntArray());
         mBatteryIcons = in.createIntArray();
         mBatteryLabels = in.createIntArray();
@@ -166,7 +163,6 @@ public class GBDevice implements Parcelable {
         mState = device.mState;
         mBatteryLevel = device.mBatteryLevel;
         mBatteryVoltage = device.mBatteryVoltage;
-        mBatteryThresholdPercent = device.mBatteryThresholdPercent;
         mBatteryState = device.mBatteryState;
         mBatteryIcons = device.mBatteryIcons;
         mBatteryLabels = device.mBatteryLabels;
@@ -193,7 +189,6 @@ public class GBDevice implements Parcelable {
         dest.writeInt(mState.ordinal());
         dest.writeIntArray(mBatteryLevel);
         dest.writeFloatArray(mBatteryVoltage);
-        dest.writeInt(mBatteryThresholdPercent);
         dest.writeIntArray(enumsToOrdinals(mBatteryState));
         dest.writeIntArray(mBatteryIcons);
         dest.writeIntArray(mBatteryLabels);
@@ -610,14 +605,6 @@ public class GBDevice implements Parcelable {
 
     public void setBatteryState(BatteryState mBatteryState, int index) {
         this.mBatteryState[index] = mBatteryState;
-    }
-
-    public short getBatteryThresholdPercent() {
-        return mBatteryThresholdPercent;
-    }
-
-    public void setBatteryThresholdPercent(short batteryThresholdPercent) {
-        this.mBatteryThresholdPercent = batteryThresholdPercent;
     }
 
     public int getBatteryIcon(int index) {

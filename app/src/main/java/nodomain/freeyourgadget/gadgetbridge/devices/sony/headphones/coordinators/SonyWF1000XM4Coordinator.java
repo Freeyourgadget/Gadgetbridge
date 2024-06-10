@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 
 public class SonyWF1000XM4Coordinator extends SonyHeadphonesCoordinator {
@@ -32,7 +33,7 @@ public class SonyWF1000XM4Coordinator extends SonyHeadphonesCoordinator {
     }
 
     @Override
-    public BatteryConfig[] getBatteryConfig() {
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
         final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_case, R.string.battery_case);
         final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
         final BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_galaxy_buds_r, R.string.right_earbud);

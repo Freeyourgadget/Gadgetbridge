@@ -34,6 +34,12 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HEADER_FTP_SERVER_STATUS = "pref_header_ftp_server_status";
     public static final String PREF_HEADER_FTP_SERVER_CONFIGURATION = "pref_header_ftp_server_configuration";
 
+    public static final String PREF_BATTERY_SHOW_IN_NOTIFICATION = "battery_show_in_notification_";
+    public static final String PREF_BATTERY_NOTIFY_LOW_ENABLED = "battery_notify_low_enabled_";
+    public static final String PREF_BATTERY_NOTIFY_LOW_THRESHOLD = "battery_notify_low_threshold_";
+    public static final String PREF_BATTERY_NOTIFY_FULL_ENABLED = "battery_notify_full_enabled_";
+    public static final String PREF_BATTERY_NOTIFY_FULL_THRESHOLD = "battery_notify_full_threshold_";
+
     public static final String PREF_SCREEN_NIGHT_MODE = "pref_screen_night_mode";
     public static final String PREF_SCREEN_SLEEP_MODE = "pref_screen_sleep_mode";
     public static final String PREF_SCREEN_LIFT_WRIST = "pref_screen_lift_wrist";

@@ -133,7 +133,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public GBDevice createDevice(GBDeviceCandidate candidate, DeviceType deviceType) {
         GBDevice gbDevice = new GBDevice(candidate.getDevice().getAddress(), candidate.getName(), null, null, deviceType);
-        for (BatteryConfig batteryConfig : getBatteryConfig()) {
+        for (BatteryConfig batteryConfig : getBatteryConfig(gbDevice)) {
             gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
             gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());
         }
@@ -684,8 +684,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     } //multiple battery support, default is 1, maximum is 3, 0 will disable the battery in UI
 
     @Override
-    public BatteryConfig[] getBatteryConfig() {
-        return new BatteryConfig[0];
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
+        final BatteryConfig[] batteryConfigs = new BatteryConfig[getBatteryCount()];
+        for (int i = 0; i < getBatteryCount(); i++) {
+            batteryConfigs[i] = new BatteryConfig(i);
+        }
+        return batteryConfigs;
     }
 
     @Override

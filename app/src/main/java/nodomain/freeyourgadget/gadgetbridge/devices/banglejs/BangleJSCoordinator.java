@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
 
@@ -190,6 +191,19 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         just like DeviceCommunicationService.sanitizeNotifText would have done if we'd
         reported false *if* conversion is disabled */
         return true;
+    }
+
+    @Override
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
+        return new BatteryConfig[]{
+                new BatteryConfig(
+                        0,
+                        GBDevice.BATTERY_ICON_DEFAULT,
+                        GBDevice.BATTERY_LABEL_DEFAULT,
+                        15,
+                        100
+                )
+        };
     }
 
     @Override

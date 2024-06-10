@@ -518,9 +518,9 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public BatteryConfig[] getBatteryConfig() {
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
         if (getBatteryCount() == 1) {
-            return super.getBatteryConfig();
+            return super.getBatteryConfig(device);
         }
 
         final BatteryConfig[] ret = new BatteryConfig[getBatteryCount()];

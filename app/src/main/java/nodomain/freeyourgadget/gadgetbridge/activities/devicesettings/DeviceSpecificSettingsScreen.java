@@ -24,6 +24,7 @@ public enum DeviceSpecificSettingsScreen {
     ACTIVITY_INFO("pref_screen_activity_info", R.xml.devicesettings_root_activity_info),
     AUDIO("pref_screen_audio", R.xml.devicesettings_root_audio),
     AUTHENTICATION("pref_screen_authentication", R.xml.devicesettings_root_authentication),
+    BATTERY("pref_screen_battery", R.xml.devicesettings_root_battery),
     CALENDAR("pref_screen_calendar", R.xml.devicesettings_root_calendar),
     CALLS_AND_NOTIFICATIONS("pref_screen_calls_and_notifications", R.xml.devicesettings_root_calls_and_notifications),
     CONNECTION("pref_screen_connection", R.xml.devicesettings_root_connection),

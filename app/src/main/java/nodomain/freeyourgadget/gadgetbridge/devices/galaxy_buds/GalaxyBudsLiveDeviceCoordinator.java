@@ -37,7 +37,7 @@ public class GalaxyBudsLiveDeviceCoordinator extends GalaxyBudsGenericCoordinato
     }
 
     @Override
-    public BatteryConfig[] getBatteryConfig() {
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
         BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_case, R.string.battery_case);
         BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_live_l, R.string.left_earbud);
         BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_galaxy_buds_live_r, R.string.right_earbud);

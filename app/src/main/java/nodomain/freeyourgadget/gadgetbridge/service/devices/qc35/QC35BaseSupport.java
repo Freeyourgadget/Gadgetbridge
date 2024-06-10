@@ -16,12 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qc35;
 
-import android.net.Uri;
-
-import java.util.ArrayList;
-import java.util.UUID;
-
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -32,7 +26,6 @@ public class QC35BaseSupport extends AbstractSerialDeviceSupport {
     public boolean connect() {
         getDeviceProtocol();
         getDeviceIOThread().start();
-        getDevice().setBatteryThresholdPercent((short)25);
         return true;
     }
 

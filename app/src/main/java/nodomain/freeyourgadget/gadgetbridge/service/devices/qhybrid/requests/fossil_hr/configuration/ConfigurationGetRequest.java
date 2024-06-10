@@ -59,7 +59,6 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest im
             }else if(item instanceof ConfigurationPutRequest.BatteryConfigItem){
                 device.setBatteryLevel((short) ((ConfigurationPutRequest.BatteryConfigItem) item).getBatteryPercentage());
                 device.setBatteryVoltage(((ConfigurationPutRequest.BatteryConfigItem) item).getBatteryVoltage() / 1000f);
-                device.setBatteryThresholdPercent((short) 10);
 
                 GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
                 batteryInfo.level = (short) ((ConfigurationPutRequest.BatteryConfigItem) item).getBatteryPercentage();

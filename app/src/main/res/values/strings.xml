@@ -827,10 +827,12 @@
     <string name="pbw_install_handler_hw_revision_mismatch">Unable to install the given firmware: It doesn\'t match your Pebble\'s hardware revision.</string>
     <string name="installer_activity_wait_while_determining_status">Please wait while determining the installation status…</string>
     <string name="notif_battery_low_title">Gadget battery Low!</string>
+    <string name="notif_battery_full_title">Gadget battery Full!</string>
     <string name="notif_battery_low_percent">%1$s battery left: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Last charge: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Number of charges: %s</string>
     <string name="notif_battery_low">%1$s battery low</string>
+    <string name="notif_battery_full">%1$s battery full</string>
     <string name="notif_battery_low_extended">%1$s battery low: %2$s</string>
     <string name="notif_export_failed_title">Export database failed! Please check your settings.</string>
     <string name="prefs_charts_tabs">Charts tabs</string>
@@ -1603,6 +1605,7 @@
     <string name="notification_channel_high_priority_name">High-priority</string>
     <string name="notification_channel_transfer_name">Data transfer</string>
     <string name="notification_channel_low_battery_name">Low battery</string>
+    <string name="notification_channel_full_battery_name">Full battery</string>
     <string name="notification_channel_gps">GPS tracking</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Sending GPS location to %1$d devices</string>
@@ -2214,6 +2217,7 @@
     <string name="prefs_switch_control_left">Switch control left</string>
     <string name="prefs_switch_control_right">Switch control right</string>
     <string name="prefs_galaxy_touch_options">Touch Options</string>
+    <string name="battery_i">Battery %d</string>
     <string name="battery_case">Battery case</string>
     <string name="left_earbud">Left earbud</string>
     <string name="right_earbud">Right earbud</string>
@@ -2900,4 +2904,11 @@
     <string name="unsupported">Unsupported</string>
     <string name="min_val">Minimum: %d</string>
     <string name="max_val">Maximum: %d</string>
+    <string name="show_in_notification">Show in notification</string>
+    <string name="battery_low_notify_enabled">Notify on low battery</string>
+    <string name="battery_low_threshold">Low battery threshold</string>
+    <string name="battery_full_notify_enabled">Notify on full battery</string>
+    <string name="battery_full_threshold">Full battery threshold</string>
+    <string name="default_percentage">Default (%1$d%%)</string>
+    <string name="battery_percentage_str">%1$s%%</string>
 </resources>

@@ -22,7 +22,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -34,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
 
@@ -72,12 +72,6 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         return false;
     }
 
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
     @Override
     public boolean supportsActivityDataFetching() {
         return true;
@@ -99,11 +93,6 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount(GBDevice device) {
         return NUM_ALARM_SLOTS;
     }
@@ -119,33 +108,26 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
     public boolean supportsRealtimeData() {
         return true;
     }
 
     @Override
-    public boolean supportsWeather() {
-        return false;
+    public boolean supportsFindDevice() {
+        return true;
     }
 
     @Override
-    public boolean supportsFindDevice() {
-        return true;
+    public BatteryConfig[] getBatteryConfig(final GBDevice device) {
+        return new BatteryConfig[]{
+                new BatteryConfig(
+                        0,
+                        GBDevice.BATTERY_ICON_DEFAULT,
+                        GBDevice.BATTERY_LABEL_DEFAULT,
+                        15,
+                        100
+                )
+        };
     }
 
     @Override
@@ -167,12 +149,10 @@ public class LefunDeviceCoordinator extends AbstractBLEDeviceCoordinator {
         return LefunDeviceSupport.class;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_lefun;
     }
-
 
     @Override
     public int getDefaultIconResource() {

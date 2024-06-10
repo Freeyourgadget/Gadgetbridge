@@ -194,7 +194,7 @@ public class DeviceHelper {
         DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), dbDevice.getParentFolder(), deviceType);
         DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
+        for (BatteryConfig batteryConfig : coordinator.getBatteryConfig(gbDevice)) {
             gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
             gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());
         }

@@ -87,6 +87,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
@@ -1501,8 +1502,8 @@ public class GBApplication extends Application {
         return context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE);
     }
 
-    public static Prefs getDevicePrefs(final String deviceIdentifier) {
-        return new Prefs(getDeviceSpecificSharedPrefs(deviceIdentifier));
+    public static DevicePrefs getDevicePrefs(final String deviceIdentifier) {
+        return new DevicePrefs(getDeviceSpecificSharedPrefs(deviceIdentifier));
     }
 
     public static void deleteDeviceSpecificSharedPrefs(String deviceIdentifier) {

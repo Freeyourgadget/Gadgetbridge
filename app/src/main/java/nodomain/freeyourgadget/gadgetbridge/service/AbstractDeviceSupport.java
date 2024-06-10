@@ -92,6 +92,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -112,6 +113,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 
@@ -529,36 +531,54 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.setBatteryState(deviceEvent.state);
         gbDevice.setBatteryVoltage(deviceEvent.voltage, deviceEvent.batteryIndex);
 
+        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
+        final BatteryConfig batteryConfig = gbDevice.getDeviceCoordinator().getBatteryConfig(gbDevice)[deviceEvent.batteryIndex];
+
         if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
             // no level available, just "high" or "low"
-            if (BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low, gbDevice.getAliasOrName()),
+            GB.removeBatteryFullNotification(context);
+            if (devicePrefs.getBatteryNotifyLowEnabled(batteryConfig) && BatteryState.BATTERY_LOW.equals(deviceEvent.state)) {
+                GB.updateBatteryLowNotification(context.getString(R.string.notif_battery_low, gbDevice.getAliasOrName()),
                         deviceEvent.extendedInfoAvailable() ?
                                 context.getString(R.string.notif_battery_low_extended, gbDevice.getAliasOrName(),
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges)))
                                 : ""
                         , context);
+            } else if (devicePrefs.getBatteryNotifyFullEnabled(batteryConfig) && BatteryState.BATTERY_CHARGING_FULL.equals(deviceEvent.state)) {
+                GB.removeBatteryLowNotification(context);
+                GB.updateBatteryFullNotification(context.getString(R.string.notif_battery_full, gbDevice.getAliasOrName()), "", context);
             } else {
-                GB.removeBatteryNotification(context);
+                GB.removeBatteryLowNotification(context);
+                GB.removeBatteryFullNotification(context);
             }
         } else {
             createStoreTask("Storing battery data", context, deviceEvent).execute();
 
+            final boolean batteryNotifyLowEnabled = devicePrefs.getBatteryNotifyLowEnabled(batteryConfig);
+            final boolean isBatteryLow = deviceEvent.level <= devicePrefs.getBatteryNotifyLowThreshold(batteryConfig) &&
+                    (BatteryState.BATTERY_LOW.equals(deviceEvent.state) || BatteryState.BATTERY_NORMAL.equals(deviceEvent.state));
+
+            final boolean batteryNotifyFullEnabled = devicePrefs.getBatteryNotifyFullEnabled(batteryConfig);
+            final boolean isBatteryFull = deviceEvent.level >= devicePrefs.getBatteryNotifyFullThreshold(batteryConfig) &&
+                    (BatteryState.BATTERY_CHARGING.equals(deviceEvent.state) || BatteryState.BATTERY_CHARGING_FULL.equals(deviceEvent.state));
+
             //show the notification if the battery level is below threshold and only if not connected to charger
-            if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
-                    (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||
-                            BatteryState.BATTERY_NORMAL.equals(deviceEvent.state))
-                    ) {
-                GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)),
+            if (batteryNotifyLowEnabled && isBatteryLow) {
+                GB.removeBatteryFullNotification(context);
+                GB.updateBatteryLowNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)),
                         deviceEvent.extendedInfoAvailable() ?
                                 context.getString(R.string.notif_battery_low_percent, gbDevice.getAliasOrName(), String.valueOf(deviceEvent.level)) + "\n" +
                                         context.getString(R.string.notif_battery_low_bigtext_last_charge_time, DateFormat.getDateTimeInstance().format(deviceEvent.lastChargeTime.getTime())) +
                                         context.getString(R.string.notif_battery_low_bigtext_number_of_charges, String.valueOf(deviceEvent.numCharges))
                                 : ""
                         , context);
+            } else if (batteryNotifyFullEnabled && isBatteryFull) {
+                GB.removeBatteryLowNotification(context);
+                GB.updateBatteryFullNotification(context.getString(R.string.notif_battery_full, gbDevice.getAliasOrName()), "", context);
             } else {
-                GB.removeBatteryNotification(context);
+                GB.removeBatteryLowNotification(context);
+                GB.removeBatteryFullNotification(context);
             }
         }
 

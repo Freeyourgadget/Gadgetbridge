@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.requests;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.commands.GetBatteryLevelCommand;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.lefun.LefunDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
@@ -39,9 +38,6 @@ public class GetBatteryLevelRequest extends Request {
     public void handleResponse(byte[] data) {
         GetBatteryLevelCommand cmd = new GetBatteryLevelCommand();
         cmd.deserialize(data);
-
-        GBDevice device = getSupport().getDevice();
-        device.setBatteryThresholdPercent((short)15);
 
         GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
         batteryInfo.level = (short)((int)cmd.getBatteryLevel() & 0xff);

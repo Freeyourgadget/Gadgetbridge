@@ -43,9 +43,12 @@ import android.os.Bundle;
 import android.text.InputType;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -75,8 +78,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.GBSimpleSummaryProvider;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.MinMaxTextWatcher;
 
 public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment implements DeviceSpecificSettingsHandler {
 
@@ -129,6 +135,8 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         getPreferenceManager().setSharedPreferencesName("devicesettings_" + settingsFileSuffix);
 
+        LOG.debug("onCreatePreferences: {}", rootKey);
+
         if (rootKey == null) {
             // we are the main preference screen
             boolean first = true;
@@ -150,6 +158,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                         // Use the root key here to set the root screen, so that the actionbar title gets updated
                         setPreferencesFromResource(setting, rootKey);
                         first = false;
+                        addDynamicSettings(rootKey);
                     } else {
                         addPreferencesFromResource(setting);
                     }
@@ -183,6 +192,91 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
 
         setChangeListener();
+    }
+
+    private void addDynamicSettings(final String rootKey) {
+        if (rootKey.equals(DeviceSpecificSettingsScreen.BATTERY.getKey())) {
+            addBatterySettings();
+        }
+    }
+
+    private void addBatterySettings() {
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
+        final PreferenceScreen batteryScreen = getPreferenceScreen();
+        if (batteryScreen == null) {
+            return;
+        }
+        final BatteryConfig[] batteryConfigs = coordinator.getBatteryConfig(device);
+        for (final BatteryConfig batteryConfig : batteryConfigs) {
+            if (batteryConfigs.length > 1) {
+                final Preference prefHeader = new PreferenceCategory(requireContext());
+                prefHeader.setKey("pref_battery_header_" + batteryConfig.getBatteryIndex());
+                prefHeader.setIconSpaceReserved(false);
+                if (batteryConfig.getBatteryLabel() > 0) {
+                    prefHeader.setTitle(batteryConfig.getBatteryLabel());
+                } else {
+                    prefHeader.setTitle(requireContext().getString(R.string.battery_i, batteryConfig.getBatteryIndex()));
+                }
+                batteryScreen.addPreference(prefHeader);
+            }
+
+            final SwitchPreferenceCompat showInNotification = new SwitchPreferenceCompat(requireContext());
+            showInNotification.setLayoutResource(R.layout.preference_checkbox);
+            showInNotification.setKey(PREF_BATTERY_SHOW_IN_NOTIFICATION + batteryConfig.getBatteryIndex());
+            showInNotification.setTitle(R.string.show_in_notification);
+            showInNotification.setIconSpaceReserved(false);
+            showInNotification.setDefaultValue(true);
+            batteryScreen.addPreference(showInNotification);
+
+            final SwitchPreferenceCompat notifyLowEnabled = new SwitchPreferenceCompat(requireContext());
+            notifyLowEnabled.setLayoutResource(R.layout.preference_checkbox);
+            notifyLowEnabled.setKey(PREF_BATTERY_NOTIFY_LOW_ENABLED + batteryConfig.getBatteryIndex());
+            notifyLowEnabled.setTitle(R.string.battery_low_notify_enabled);
+            notifyLowEnabled.setDefaultValue(true);
+            notifyLowEnabled.setIconSpaceReserved(false);
+            batteryScreen.addPreference(notifyLowEnabled);
+
+            final EditTextPreference notifyLowThreshold = new EditTextPreference(requireContext());
+            notifyLowThreshold.setKey(PREF_BATTERY_NOTIFY_LOW_THRESHOLD + batteryConfig.getBatteryIndex());
+            notifyLowThreshold.setTitle(R.string.battery_low_threshold);
+            notifyLowThreshold.setDialogTitle(R.string.battery_low_threshold);
+            notifyLowThreshold.setIconSpaceReserved(false);
+            notifyLowThreshold.setOnBindEditTextListener(editText -> {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editText.addTextChangedListener(new MinMaxTextWatcher(editText, 0, 100, true));
+                editText.setSelection(editText.getText().length());
+            });
+            notifyLowThreshold.setSummaryProvider(new GBSimpleSummaryProvider(
+                    requireContext().getString(R.string.default_percentage, batteryConfig.getDefaultLowThreshold()),
+                    R.string.battery_percentage_str
+            ));
+
+            batteryScreen.addPreference(notifyLowThreshold);
+
+            final SwitchPreferenceCompat notifyFullEnabled = new SwitchPreferenceCompat(requireContext());
+            notifyFullEnabled.setLayoutResource(R.layout.preference_checkbox);
+            notifyFullEnabled.setKey(PREF_BATTERY_NOTIFY_FULL_ENABLED + batteryConfig.getBatteryIndex());
+            notifyFullEnabled.setTitle(R.string.battery_full_notify_enabled);
+            notifyFullEnabled.setDefaultValue(true);
+            notifyFullEnabled.setIconSpaceReserved(false);
+            batteryScreen.addPreference(notifyFullEnabled);
+
+            final EditTextPreference notifyFullThreshold = new EditTextPreference(requireContext());
+            notifyFullThreshold.setKey(PREF_BATTERY_NOTIFY_FULL_THRESHOLD + batteryConfig.getBatteryIndex());
+            notifyFullThreshold.setTitle(R.string.battery_full_threshold);
+            notifyFullThreshold.setDialogTitle(R.string.battery_full_threshold);
+            notifyFullThreshold.setIconSpaceReserved(false);
+            notifyFullThreshold.setOnBindEditTextListener(editText -> {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editText.addTextChangedListener(new MinMaxTextWatcher(editText, 0, 100, true));
+                editText.setSelection(editText.getText().length());
+            });
+            notifyFullThreshold.setSummaryProvider(new GBSimpleSummaryProvider(
+                    requireContext().getString(R.string.default_percentage, batteryConfig.getDefaultFullThreshold()),
+                    R.string.battery_percentage_str
+            ));
+            batteryScreen.addPreference(notifyFullThreshold);
+        }
     }
 
     /*
@@ -1109,6 +1203,12 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     DeviceSpecificSettingsScreen.CONNECTION,
                     coordinator.getSupportedDeviceSpecificConnectionSettings()
             );
+
+            if (coordinator.getBatteryCount() > 0) {
+                deviceSpecificSettings.addRootScreen(
+                        DeviceSpecificSettingsScreen.BATTERY
+                );
+            }
 
             if (coordinator.supportsActivityTracking()) {
                 deviceSpecificSettings.addRootScreen(

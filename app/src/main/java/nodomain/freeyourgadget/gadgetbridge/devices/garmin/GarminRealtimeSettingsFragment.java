@@ -67,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.XDatePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.MinMaxTextWatcher;
 
 public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
     private static final Logger LOG = LoggerFactory.getLogger(GarminRealtimeSettingsFragment.class);
@@ -850,44 +851,5 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                         .setChangeRequest(changeRequest)
                 ).build();
         GBApplication.deviceService(device).onSendConfiguration("protobuf:" + GB.hexdump(smart.toByteArray()));
-    }
-
-    private static class MinMaxTextWatcher implements TextWatcher {
-        private final EditText editText;
-        private final int min;
-        private final int max;
-
-        private MinMaxTextWatcher(final EditText editText, final int min, final int max) {
-            this.editText = editText;
-            this.min = min;
-            this.max = max;
-        }
-
-        @Override
-        public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-        }
-
-        @Override
-        public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-        }
-
-        @Override
-        public void afterTextChanged(final Editable editable) {
-            try {
-                final int val = Integer.parseInt(editable.toString());
-                editText.getRootView().findViewById(android.R.id.button1)
-                        .setEnabled(val >= min && val <= max);
-                if (val < min) {
-                    editText.setError(editText.getContext().getString(R.string.min_val, min));
-                } else if (val > max) {
-                    editText.setError(editText.getContext().getString(R.string.max_val, max));
-                } else {
-                    editText.setError(null);
-                }
-            } catch (final NumberFormatException e) {
-                editText.getRootView().findViewById(android.R.id.button1)
-                        .setEnabled(false);
-            }
-        }
     }
 }

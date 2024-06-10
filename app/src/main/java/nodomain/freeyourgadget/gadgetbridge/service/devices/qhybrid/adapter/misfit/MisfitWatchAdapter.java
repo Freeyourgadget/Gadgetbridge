@@ -169,8 +169,6 @@ public class MisfitWatchAdapter extends WatchAdapter {
                 short level = characteristic.getValue()[0];
                 gbDevice.setBatteryLevel(level);
 
-                gbDevice.setBatteryThresholdPercent((short) 2);
-
                 GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
                 batteryInfo.level = gbDevice.getBatteryLevel();
                 batteryInfo.state = BatteryState.BATTERY_NORMAL;
