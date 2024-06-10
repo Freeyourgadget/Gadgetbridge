@@ -3040,4 +3040,5 @@
     <string name="max_val">Máximo: %d</string>
     <string name="min_val">Mínimo: %d</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
+    <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
 </resources>
