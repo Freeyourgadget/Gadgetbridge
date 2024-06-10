@@ -3427,7 +3427,7 @@
     <string name="first_start_overview_dashboard">The dashboard allows you to get a quick idea of how you\'re doing today. The calendar view shows the status of your goals over a whole month.</string>
     <string name="first_start_overview_devices">The devices view shows all devices you have configured and their status, and gives access to device specific functions such as detailed charts, settings, apps and alarms.</string>
     <string name="first_start_open_source_title">Open Source</string>
-    <string name="first_start_open_source_text">Gadgetbridge is an open source app. It is developed by the community, for the community.\n\nAnyone is welcome to contribute via code, documentation, testing and donations.\n\nGadgetbridge contains no ads and no tracking. It works only locally on your Android device, so it is 100% privacy friendly.\n\nVisit our website for more information, documentation and links to our communication channels.</string>
+    <string name="first_start_open_source_text">Gadgetbridge is an open source app. It is developed by the community, for the community.\n\nAnyone is welcome to contribute via code, documentation, testing and donations.\n\nGadgetbridge contains no ads and no tracking. It keeps your data locally on your Android device, so it is 100% privacy friendly.\n\nVisit our website for more information, documentation and links to our communication channels.</string>
     <string name="first_start_permissions_title">Permissions</string>
     <string name="first_start_permissions_desc">Gadgetbridge needs a lot of permissions to perform all its functions. Review the permissions and their purposes below.</string>
     <string name="first_start_permissions_request_all_button">Request all permissions</string>
