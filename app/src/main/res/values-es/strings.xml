@@ -3041,4 +3041,15 @@
     <string name="min_val">Mínimo: %d</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
+    <string name="battery_low_threshold">Umbral de batería baja</string>
+    <string name="default_percentage">Por defecto (%1$d%%)</string>
+    <string name="notif_battery_full_title">¡Batería del dispositivo llena!</string>
+    <string name="battery_i">Batería %d</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="battery_low_notify_enabled">Aviso de batería baja</string>
+    <string name="notification_channel_full_battery_name">Batería llena</string>
+    <string name="notif_battery_full">%1$s batería llena</string>
+    <string name="show_in_notification">Mostrar en la notificación</string>
+    <string name="battery_full_notify_enabled">Notificar si la batería está llena</string>
+    <string name="battery_full_threshold">Umbral de batería llena</string>
 </resources>
