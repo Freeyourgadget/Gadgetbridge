@@ -181,7 +181,22 @@ public class TestDebugRequestParser {
         expected.setEncryption(false);
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false");
+
+        Assert.assertEquals(expected, packet);
+    }
+
+    @Test
+    public void emptyPacketShortBooleans() throws Request.RequestCreationException {
+        DebugRequest debugRequest = new DebugRequest(supportProvider);
+
+        HuaweiPacket expected = new HuaweiPacket(supportProvider.getParamsProvider());
+        expected.serviceId = 1;
+        expected.commandId = 1;
+        expected.setEncryption(false);
+        expected.complete = true;
+
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,f,f");
 
         Assert.assertEquals(expected, packet);
     }
@@ -197,7 +212,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,/)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,/)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -213,7 +228,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, (byte) 1));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,B1)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,B1)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -229,7 +244,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, (short) 1));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,S1)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,S1)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -245,7 +260,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, (int) 1));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,I1)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,I1)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -261,7 +276,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, true));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,b1)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,b1)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -277,7 +292,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, new byte[] {(byte) 0xCA, (byte) 0xFE}));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,aCAFE)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,aCAFE)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -293,7 +308,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, new byte[] {0x79, 0x65, 0x73}));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(1,-yes)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(1,-yes)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -309,7 +324,7 @@ public class TestDebugRequestParser {
         expected.setTlv(new HuaweiTLV().put(1, new byte[] {0x79, 0x65, 0x73}));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("0x01,0x1,false,(0x01,-yes)");
+        HuaweiPacket packet = debugRequest.parseDebugString("0x01,0x1,false,false,(0x01,-yes)");
 
         Assert.assertEquals(expected, packet);
     }
@@ -324,7 +339,7 @@ public class TestDebugRequestParser {
         expected.setEncryption(false);
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("0xff,255,false");
+        HuaweiPacket packet = debugRequest.parseDebugString("0xff,255,false,false");
 
         Assert.assertEquals(expected, packet);
     }
@@ -344,7 +359,7 @@ public class TestDebugRequestParser {
                 ));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(129,(1,/),(2,/))");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(129,(1,/),(2,/))");
 
         Assert.assertEquals(expected, packet);
     }
@@ -367,7 +382,7 @@ public class TestDebugRequestParser {
                 ));
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(129,(129,(129,(1,/))))");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(129,(129,(129,(1,/))))");
 
         Assert.assertEquals(expected, packet);
     }
@@ -389,7 +404,7 @@ public class TestDebugRequestParser {
         );
         expected.complete = true;
 
-        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,(129,(1,/),(2,b1)),(1,b1)");
+        HuaweiPacket packet = debugRequest.parseDebugString("1,1,false,false,(129,(1,/),(2,b1)),(1,b1)");
 
         Assert.assertEquals(expected, packet);
     }

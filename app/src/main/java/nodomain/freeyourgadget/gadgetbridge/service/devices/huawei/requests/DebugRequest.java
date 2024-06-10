@@ -48,16 +48,18 @@ public class DebugRequest extends Request {
     }
 
     /*
-        DebugString		:= [service_id] "," [command id] "," [encryptflag] ("," [tlv])*
+        DebugString		:= [service_id] "," [command id] "," [encryptflag] "," [sliceflag] ("," [tlv])*
         service_id		:= int
                          | "0x" hex
         command_id		:= int
                          | "0x" hex
-        encryptflag		:= "true"
+        encryptflag     := [boolean]
+        sliceflag       := [boolean]
+        boolean 		:= "true"
                          | "t"
                          | "false"
                          | "f"
-        tlv				:= "(" [tag] "," [typevalue] ")"
+        tlv				:= "(" [tag] "," [typevalue] ")" ("," [tlv])*
         tag				:= int
                          | "0x" hex
         typevalue		:= [type] [value]
@@ -100,10 +102,8 @@ public class DebugRequest extends Request {
         current = nextComma + 1;
         nextComma = debugString.indexOf(',', current);
 
-        if (debugString.length() - current < 2)
+        if (nextComma < 1 || debugString.length() - current < 2)
             throw new RequestCreationException("Invalid debug command");
-        if (nextComma < 0)
-            nextComma = debugString.length(); // For no TLVs
 
         switch (debugString.substring(current, nextComma)) {
             case "true":
@@ -113,6 +113,26 @@ public class DebugRequest extends Request {
             case "false":
             case "f":
                 packet.setEncryption(false);
+                break;
+            default:
+                throw new RequestCreationException("Boolean is not a boolean");
+        }
+
+        current = nextComma + 1;
+        nextComma = debugString.indexOf(',', current);
+        if (debugString.length() - current < 1)
+            throw new RequestCreationException("Invalid debug command");
+        if (nextComma < 0)
+            nextComma = debugString.length(); // For no TLVs
+
+        switch (debugString.substring(current, nextComma)) {
+            case "true":
+            case "t":
+                packet.setSliced(true);
+                break;
+            case "false":
+            case "f":
+                packet.setSliced(false);
                 break;
             default:
                 throw new RequestCreationException("Boolean is not a boolean");
