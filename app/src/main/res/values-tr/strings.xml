@@ -571,7 +571,7 @@
     <string name="pref_summary_enable_pebblekit">PebbleKit kullanırken Android uygulamaları için deneysel desteği etkinleştirin</string>
     <string name="pref_summary_expose_hr">Gadgetbridge bağlıyken diğer uygulamaların kalp ritmi verilerine gerçek zamanlı erişmesine izin verir</string>
     <string name="pref_summary_force_white_color_scheme">Saatinizin koyu renkli ibreleri varsa kullanışlıdır</string>
-    <string name="pref_summary_keep_data_on_device">Eşzamanlamadan sonra bile etkinlik verilerini aygıt üzerinde tutar. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır.</string>
+    <string name="pref_summary_keep_data_on_device">Eşzamanlamadan sonra bile etkinlik verilerini aygıt üzerinde tutar. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır. Bu, saatin alanının bitmesine ve/veya düzgün eşzamanlamanın durmasına neden olabilir.</string>
     <string name="pref_summary_location_keep_uptodate">Geçerli konumu çalışma zamanında almaya çalış, depolanan konumu yedek olarak kullan</string>
     <string name="pref_summary_low_latency_fw_update">Bu, ürün yazılımı kurulmasının başarısız olduğu aygıtlarda yardımcı olabilir.</string>
     <string name="pref_summary_minimize_priority_off">Durum çubuğunda simge ve kilit ekranında bildirim gösterilir</string>
@@ -3053,4 +3053,15 @@
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
     <string name="notif_battery_full_title">Aygıt pili dolu!</string>
     <string name="notif_battery_full">%1$s pili dolu</string>
+    <string name="battery_i">Pil %d</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="notification_channel_full_battery_name">Pil dolu</string>
+    <string name="battery_full_threshold">Pil dolu eşiği</string>
+    <string name="default_percentage">Öntanımlı (%%%1$d)</string>
+    <string name="battery_percentage_str">%%%1$s</string>
+    <string name="authentication_failed_check_key">Kimlik doğrulama başarısız oldu, lütfen kimlik doğrulama anahtarını gözden geçirin</string>
+    <string name="show_in_notification">Bildirimde göster</string>
+    <string name="battery_low_notify_enabled">Düşük pil durumunda bildir</string>
+    <string name="battery_low_threshold">Düşük pil eşiği</string>
+    <string name="battery_full_notify_enabled">Pil dolu olduğunda bildir</string>
 </resources>
