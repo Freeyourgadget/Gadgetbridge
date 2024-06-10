@@ -930,7 +930,7 @@
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Truncate the fetch operation timestamps to minutes. Disable this setting to keep the timestamps in seconds, if you face issues while fetching very short workouts.</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If not ACKed to the band, activity data is not cleared. Useful if GB is used together with other apps.</string>
-    <string name="pref_summary_keep_data_on_device">Will keep activity data on the device even after synchronization. Useful if GB is used together with other apps.</string>
+    <string name="pref_summary_keep_data_on_device">Will keep activity data on the device even after synchronization. Useful if GB is used together with other apps. This may cause the watch to run out of space and/or stop syncing properly.</string>
     <string name="pref_enable_unsupported_settings_title">Enable unsupported settings</string>
     <string name="pref_enable_unsupported_settings_summary">This will enable access to all available settings, even if unsupported by the device. This can cause instability and crashes on the device.</string>
     <string name="pref_title_low_latency_fw_update">Use low-latency mode for firmware flashing</string>
