@@ -25,7 +25,7 @@
     <string name="pref_header_vibration_count">कंपन की संख्या</string>
     <string name="miband_prefs_alias">नाम / उपनाम</string>
     <string name="candidate_item_device_image">डिवाइस इमेज</string>
-    <string name="vibration_profile_waterdrop"></string>
+    <string name="vibration_profile_waterdrop"/>
     <string name="vibration_profile_ring">रिंग</string>
     <string name="vibration_profile_long">लंबा</string>
     <string name="vibration_profile_medium">मध्यम</string>
