@@ -1502,6 +1502,7 @@
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
     <string name="devicetype_garmin_instinct_solar">Garmin Instinct Solar</string>
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
