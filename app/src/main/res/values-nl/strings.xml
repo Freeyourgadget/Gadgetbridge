@@ -3036,4 +3036,6 @@
     <string name="unsupported">Niet ondersteund</string>
     <string name="min_val">Minimum: %d</string>
     <string name="max_val">Maximum: %d</string>
+    <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
+    <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
 </resources>
