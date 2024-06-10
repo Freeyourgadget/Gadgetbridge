@@ -3038,4 +3038,15 @@
     <string name="max_val">Maximum: %d</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
+    <string name="notif_battery_full_title">Gadget-batterij vol!</string>
+    <string name="notification_channel_full_battery_name">Volle batterij</string>
+    <string name="battery_low_notify_enabled">Melding bij lage batterijlading</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="battery_low_threshold">Niveau lage batterijlading</string>
+    <string name="battery_full_notify_enabled">Melding bij volle batterij</string>
+    <string name="default_percentage">Standaard (%1$d%%)</string>
+    <string name="notif_battery_full">%1$s batterij vol</string>
+    <string name="battery_i">Batterij %d</string>
+    <string name="show_in_notification">Toon in melding</string>
+    <string name="battery_full_threshold">Niveau volle batterij</string>
 </resources>
