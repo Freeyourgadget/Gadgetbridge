@@ -21,15 +21,19 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -208,20 +212,11 @@ public class PermissionsUtils {
 
     public static void requestPermission(Activity activity, String permission) {
         if (permission.equals(CUSTOM_PERM_NOTIFICATION_LISTENER)) {
-            try {
-                activity.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-            } catch (ActivityNotFoundException e) {
-                GB.toast(activity, "'Notification Listener Settings' activity not found", Toast.LENGTH_LONG, GB.ERROR);
-            }
-        } else if (permission.equals(CUSTOM_PERM_NOTIFICATION_SERVICE)) {
-            try {
-                activity.startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
-            } catch (ActivityNotFoundException e) {
-                GB.toast(activity, "'Notification Policy' activity not found", Toast.LENGTH_LONG, GB.ERROR);
-                LOG.error("'Notification Policy' activity not found");
-            }
+            showNotifyListenerPermissionsDialog(activity);
+        } else if (permission.equals(CUSTOM_PERM_NOTIFICATION_SERVICE) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+            showNotifyPolicyPermissionsDialog(activity);
         } else if (permission.equals(CUSTOM_PERM_DISPLAY_OVER)) {
-            activity.startActivity(new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
+            showDisplayOverOthersPermissionsDialog(activity);
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{permission}, 0);
         }
@@ -241,11 +236,69 @@ public class PermissionsUtils {
         public String getPermission() {
             return permission;
         }
+
         public String getTitle() {
             return title;
         }
+
         public String getSummary() {
             return summary;
         }
+    }
+
+    private static void showNotifyListenerPermissionsDialog(Activity activity) {
+        new MaterialAlertDialogBuilder(activity)
+                .setMessage(activity.getString(R.string.permission_notification_listener,
+                        activity.getString(R.string.app_name),
+                        activity.getString(R.string.ok)))
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            activity.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                        } catch (ActivityNotFoundException e) {
+                            GB.toast(activity, "'Notification Listener Settings' activity not found", Toast.LENGTH_LONG, GB.ERROR);
+                            LOG.error("'Notification Listener Settings' activity not found");
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private static void showNotifyPolicyPermissionsDialog(Activity activity) {
+        new MaterialAlertDialogBuilder(activity)
+                .setMessage(activity.getString(R.string.permission_notification_policy_access,
+                        activity.getString(R.string.app_name),
+                        activity.getString(R.string.ok)))
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            activity.startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                        } catch (ActivityNotFoundException e) {
+                            GB.toast(activity, "'Notification Policy' activity not found", Toast.LENGTH_LONG, GB.ERROR);
+                            LOG.error("'Notification Policy' activity not found");
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private static void showDisplayOverOthersPermissionsDialog(Activity activity) {
+        new MaterialAlertDialogBuilder(activity)
+                .setMessage(activity.getString(R.string.permission_display_over_other_apps,
+                        activity.getString(R.string.app_name),
+                        activity.getString(R.string.ok)))
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent enableIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                        activity.startActivity(enableIntent);
+                    }
+                })
+                .setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .show();
     }
 }
