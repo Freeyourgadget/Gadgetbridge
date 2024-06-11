@@ -728,7 +728,7 @@
 \n%1d ٪٪ بمعدل %.2f كيلوبت في الثانية (متوسط %.2f كيلوبت في الثانية)
 \nالجزء %1d من %1d</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">اقتطع الطوابع الزمنية لعملية الجلب إلى دقائق. قم بتعطيل هذا الإعداد للاحتفاظ بالطوابع الزمنية في ثوانٍ ، إذا واجهت مشكلات أثناء جلب التدريبات القصيرة جدًا.</string>
-    <string name="pref_summary_keep_data_on_device">سيحتفظ ببيانات النشاط على الجهاز حتى بعد المزامنة. مفيد إذا تم استخدام GB مع تطبيقات أخرى.</string>
+    <string name="pref_summary_keep_data_on_device">سيتم الاحتفاظ ببيانات النشاط على الجهاز حتى بعد المزامنة. يكون مفيدًا إذا تم استخدام GB مع تطبيقات أخرى. قد يتسبب هذا في نفاد ذاكرة الساعة و/أو توقف المزامنة بشكل قطعي.</string>
     <string name="portuguese">البرتغالية</string>
     <string name="pref_chart_heartrate_color_orange">برتقالي</string>
     <string name="activity_summary_today">اليوم</string>
@@ -3032,4 +3032,18 @@
     <string name="max_val">الحد الأقصى: %d</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
+    <string name="notif_battery_full_title">بطارية الأداة ممتلئة!</string>
+    <string name="notif_battery_full">%1$s البطارية ممتلئة</string>
+    <string name="notification_channel_full_battery_name">البطارية كاملة</string>
+    <string name="battery_i">البطارية %d</string>
+    <string name="battery_full_threshold">عتبة البطارية الكاملة</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="authentication_failed_check_key">فشلت المصادقة، يرجى التحقق من مفتاح المصادقة</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="battery_low_notify_enabled">إشعار عند إنخفاض البطارية</string>
+    <string name="battery_low_threshold">عتبة البطارية المنخفضة</string>
+    <string name="battery_full_notify_enabled">الإشعار باكتمال البطارية</string>
+    <string name="default_percentage">الافتراضي (%1$d%%)</string>
+    <string name="show_in_notification">عرض في الإشعار</string>
+    <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
 </resources>
