@@ -299,7 +299,7 @@
     <string name="weeksteps_today_steps_description">今天的步数, 目标：%1$s</string>
     <string name="pref_title_dont_ack_transfer">不发送活动数据</string>
     <string name="pref_summary_dont_ack_transfers">如果活动数据未传输到设备，则不会被清除。 Gadgetbridge 与其他应用程序一起使用时很有用。</string>
-    <string name="pref_summary_keep_data_on_device">即使在同步之后，也会将活动数据保留在设备上。如果 Gadgetbridge 与其他应用程序一起使用，这将非常有用。</string>
+    <string name="pref_summary_keep_data_on_device">即使在同步后也会将活动数据保留在设备上。 如果 GB 与其他应用程序一起使用，则很有用。 这可能会导致手表空间不足和/或停止正常同步。</string>
     <string name="pref_title_low_latency_fw_update">使用低延迟模式进行固件更新</string>
     <string name="pref_summary_low_latency_fw_update">这可能对固件失败的设备有帮助。</string>
     <string name="live_activity_steps_history">步数历史</string>
@@ -3039,4 +3039,17 @@
     <string name="min_val">最小值： %d</string>
     <string name="devicetype_garmin_venu_3s">佳明 Venu 3S</string>
     <string name="devicetype_garmin_fenix_7_pro">佳明 Fenix 7 Pro</string>
+    <string name="notif_battery_full_title">Gadget 电池已充满！</string>
+    <string name="notif_battery_full">%1$s 电池已满</string>
+    <string name="authentication_failed_check_key">身份验证失败，请检查身份验证密钥</string>
+    <string name="notification_channel_full_battery_name">满电</string>
+    <string name="battery_i">电量 %d</string>
+    <string name="show_in_notification">在通知中显示</string>
+    <string name="battery_low_notify_enabled">电池电量低时通知</string>
+    <string name="battery_low_threshold">低电量阈值</string>
+    <string name="battery_full_notify_enabled">电池充满时通知</string>
+    <string name="battery_full_threshold">满电阈值</string>
+    <string name="default_percentage">默认（%1$d%%）</string>
+    <string name="devicetype_garmin_fenix_7s">佳明 Fenix 7S</string>
+    <string name="battery_percentage_str">%1$s%%</string>
 </resources>
