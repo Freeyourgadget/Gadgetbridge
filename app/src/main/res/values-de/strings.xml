@@ -290,7 +290,7 @@
     <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Übertragung der Aktivitätsdaten nicht bestätigen (ACK)</string>
     <string name="pref_summary_dont_ack_transfers">Ohne ACK (Bestätigung), löscht das Band die Aktivitätsdaten nicht. Nützlich, wenn GB zusammen mit anderen Apps verwendet wird.</string>
-    <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Gerät, auch nach der Synchronisierung. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
+    <string name="pref_summary_keep_data_on_device">Behält die Aktivitätsdaten auch nach der Synchronisierung auf dem Gerät. Nützlich, wenn GB zusammen mit anderen Apps verwendet wird. Dies kann dazu führen, dass die Uhr keinen Platz mehr hat und/oder die Synchronisierung nicht mehr richtig funktioniert.</string>
     <string name="pref_title_low_latency_fw_update">Verwende den Low-Latency-Modus für Firmwareaktualisierung</string>
     <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen.</string>
     <string name="live_activity_steps_history">Schrittverlauf</string>
@@ -3046,4 +3046,17 @@
     <string name="max_val">Maximum: %d</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
+    <string name="notif_battery_full_title">Gadget-Akku voll!</string>
+    <string name="notif_battery_full">%1$s Akku voll</string>
+    <string name="show_in_notification">In den Benachrichtigungen anzeigen</string>
+    <string name="battery_i">Akku %d</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="authentication_failed_check_key">Authentifizierung fehlgeschlagen, bitte überprüfe den Authentifizierungsschlüssel</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="notification_channel_full_battery_name">Voller Akku</string>
+    <string name="battery_low_notify_enabled">Benachrichtigung bei schwachem Akku</string>
+    <string name="battery_low_threshold">Schwellenwert für schwachen Akku</string>
+    <string name="battery_full_notify_enabled">Benachrichtigung bei vollem Akku</string>
+    <string name="battery_full_threshold">Schwellenwert für vollen Akku</string>
+    <string name="default_percentage">Standard (%1$d%%)</string>
 </resources>
