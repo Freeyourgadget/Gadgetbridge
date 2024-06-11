@@ -182,6 +182,12 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         //Deltachat
         put("com.b44t.messenger", NotificationType.DELTACHAT);
+
+        // KDE Itinerary
+        put("org.kde.itinerary", NotificationType.TRANSIT);
+
+        // KTrip
+        put("org.kde.ktrip", NotificationType.TRANSIT);
     }
 
 }
