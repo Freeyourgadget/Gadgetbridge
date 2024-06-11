@@ -68,11 +68,15 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
         put("de.pixart.messenger", NotificationType.CONVERSATIONS);
 
-        // Riot
+        // Riot, Element, ElementX
         put("im.vector.alpha", NotificationType.RIOT);
+        put("im.vector.app", NotificationType.ELEMENT);
+        put("io.element.android.x", NotificationType.ELEMENTX);
 
         // Signal
         put("org.thoughtcrime.securesms", NotificationType.SIGNAL);
+        put("im.molly.app", NotificationType.MOLLY);
+        put("im.molly.app.unifiedpush", NotificationType.MOLLY);
 
         // Wire
         put("com.wire", NotificationType.WIRE);
