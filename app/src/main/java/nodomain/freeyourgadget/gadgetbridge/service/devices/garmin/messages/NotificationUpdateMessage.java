@@ -104,7 +104,9 @@ public class NotificationUpdateMessage extends GFDIMessage {
             case "generic_social":
             case "generic_alarm_clock":
             case "generic":
-                flags.add(NotificationFlag.BACKGROUND);
+                // TODO: Maybe make this configurable, but most users expect all notifications
+                // to be foreground, sending them as background was generating bug reports.
+                flags.add(NotificationFlag.FOREGROUND);
         }
         return (int) EnumUtils.generateBitVector(NotificationFlag.class, flags);
     }
