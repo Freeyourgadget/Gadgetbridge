@@ -3059,4 +3059,5 @@
     <string name="battery_full_notify_enabled">Benachrichtigung bei vollem Akku</string>
     <string name="battery_full_threshold">Schwellenwert für vollen Akku</string>
     <string name="default_percentage">Standard (%1$d%%)</string>
+    <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
 </resources>
