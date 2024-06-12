@@ -113,6 +113,9 @@ public class WelcomeFragmentPermissions extends Fragment {
                 holder.requestButton.setEnabled(false);
                 holder.checkmarkImageView.setVisibility(View.VISIBLE);
             } else {
+                holder.requestButton.setVisibility(View.VISIBLE);
+                holder.requestButton.setEnabled(true);
+                holder.checkmarkImageView.setVisibility(View.GONE);
                 holder.requestButton.setOnClickListener(view -> {
                     PermissionsUtils.requestPermission(requireActivity(), permissionData.getPermission());
                 });
