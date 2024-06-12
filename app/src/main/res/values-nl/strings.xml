@@ -3051,4 +3051,5 @@
     <string name="battery_full_threshold">Niveau volle batterij</string>
     <string name="authentication_failed_check_key">Authenticatie mislukt, controleer authenticatiesleutel</string>
     <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
 </resources>
