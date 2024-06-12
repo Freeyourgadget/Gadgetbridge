@@ -205,6 +205,10 @@ public class PermissionsUtils {
                     requestPermission(activity, CUSTOM_PERM_NOTIFICATION_SERVICE);
                 if (wantedPermissionsStrings.contains(CUSTOM_PERM_DISPLAY_OVER) && !checkPermission(activity, CUSTOM_PERM_DISPLAY_OVER))
                     requestPermission(activity, CUSTOM_PERM_DISPLAY_OVER);
+                if (wantedPermissionsStrings.contains(Manifest.permission.ACCESS_FINE_LOCATION) && !checkPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION))
+                    requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+                if (wantedPermissionsStrings.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && !checkPermission(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+                    requestPermission(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
                 ActivityCompat.requestPermissions(activity, wantedPermissionsStrings.toArray(new String[0]), 0);
             }
         }

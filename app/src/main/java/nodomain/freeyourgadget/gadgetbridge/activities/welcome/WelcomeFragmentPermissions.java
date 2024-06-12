@@ -44,6 +44,7 @@ public class WelcomeFragmentPermissions extends Fragment {
 
     private RecyclerView permissionsListView;
     private PermissionAdapter permissionAdapter;
+    private Button requestAllButton;
 
     @Nullable
     @Override
@@ -51,7 +52,7 @@ public class WelcomeFragmentPermissions extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_welcome_permissions, container, false);
 
-        Button requestAllButton = view.findViewById(R.id.button_request_all);
+        requestAllButton = view.findViewById(R.id.button_request_all);
         requestAllButton.setOnClickListener(v -> PermissionsUtils.requestAllPermissions(requireActivity()));
 
         // Initialize RecyclerView and data
@@ -69,6 +70,9 @@ public class WelcomeFragmentPermissions extends Fragment {
     public void onResume() {
         super.onResume();
         permissionAdapter.notifyDataSetChanged();
+        if (PermissionsUtils.checkAllPermissions(requireActivity())) {
+            requestAllButton.setEnabled(false);
+        }
     }
 
     private class PermissionHolder extends RecyclerView.ViewHolder {
