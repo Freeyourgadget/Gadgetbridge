@@ -121,4 +121,18 @@
     <string name="permission_notification_listener">%1$s ต้องการสิทธิ์การเข้าถึงการแจ้งเตือนเพื่อให้แสดงการแจ้งเตือนต่างๆไปยังอุปกรณ์ของคุณเมื่อหน้าจอโทรศัพท์ปิดอยู่
 \n
 \nกรุณาแตะ \'%2$s\' จากนั้น \'%1$s\' และเปิดใช้ \'อนุญาตการเข้าถึงการแจ้งเตือน\', จากนั้นแตะ \'กลับ\' กลับไปยัง %1$s.</string>
+    <string name="pref_dashboard_first_title">แสดงแดชบอร์ดก่อน</string>
+    <string name="pref_title_general_autoconnectonbluetooth">เชื่อมต่อกับอุปกรณ์ที่เคยใช้กับ Gadget bridge เมื่อเปิดบลูทูธ</string>
+    <string name="discovery_note">หมายเหตุ:</string>
+    <string name="discovery_dont_pair">อย่าจับคู่</string>
+    <string name="discovery_attempting_to_pair">พยายามจับคู่อุปกรณ์กับ %1$s</string>
+    <string name="activity_prefs_discovery_pairing">ตัวเลือกการค้นพบและการจับคู่</string>
+    <string name="discovery_yes_pair">จับคู่</string>
+    <string name="bottom_nav_dashboard">แดชบอร์ด</string>
+    <string name="discovery_stop_scanning">หยุดสแกน</string>
+    <string name="discovery_pair_title">จับคู่กับ %1$s?</string>
+    <string name="discovery_bluetooth_scan">อุปกรณ์บลูทูธที่พบ:</string>
+    <string name="menuitem_bluetooth">บลูทูธ</string>
+    <string name="discovery_bluetooth_le_scan">อุปกรณ์บลูทูธ LE ที่พบ:</string>
+    <string name="discovery_connected_devices_hint">ตั้งค่าอุปกรณ์ของคุณให้ค้นพบได้, อุปกรณ์ที่เชื่อมต่ออยู่ในปัจจุบันมักจะค้นพบไม่ค่อยได้, เปิดใช้งานตำแหน่ง(เช่น GPS)บน Android 6 ขึ้นไป, ปิดใช้งานฟีเจอร์ Privacy Guard กับ Gadgetbridge เพราะอาจจะทำให้แอปแครชแล้วรีสตาร์ทอุปกรณ์ของคุณ, หากผ่านไปสักพักแล้วไม่พบอุปกรณ์ ให้ลองใหม่อีกครั้งหลังจากรีสตาร์ทอุปกรณ์ชองคุณ</string>
 </resources>
