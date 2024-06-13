@@ -124,6 +124,9 @@ public class WebViewSingleton {
 
     //Internet helper inbound (responses) handler
     private class IncomingHandler extends Handler {
+        public IncomingHandler(Looper looper) {
+            super(looper);
+        }
 
         private String getCharsetFromHeaders(String contentType) {
             if (contentType != null && contentType.toLowerCase().trim().contains("charset=")) {
@@ -199,7 +202,15 @@ public class WebViewSingleton {
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(internetHelperPkg, internetHelperCls));
                     contextWrapper.getApplicationContext().bindService(intent, internetHelperConnection, Context.BIND_AUTO_CREATE);
-                    internetHelperListener = new Messenger(new IncomingHandler());
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            internetHelperListener = new Messenger(new IncomingHandler(Looper.myLooper()));
+                            Looper.loop();
+                        }
+                    });
+                    thread.start();
                     internetHelperInstalled = true;
                 }
                 catch (PackageManager.NameNotFoundException e) {
