@@ -57,7 +57,9 @@ public class PermissionsUtils {
         add(CUSTOM_PERM_NOTIFICATION_SERVICE);
         add(CUSTOM_PERM_DISPLAY_OVER);
         add(Manifest.permission.ACCESS_FINE_LOCATION);
-        add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        }
     }};
 
     public static ArrayList<PermissionDetails> getRequiredPermissionsList(Activity activity) {
@@ -205,6 +207,8 @@ public class PermissionsUtils {
             showNotifyPolicyPermissionsDialog(activity);
         } else if (permission.equals(CUSTOM_PERM_DISPLAY_OVER)) {
             showDisplayOverOthersPermissionsDialog(activity);
+        } else if (permission.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)) {
+            showBackgroundLocationPermissionsDialog(activity);
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{permission}, 0);
         }
@@ -286,6 +290,18 @@ public class PermissionsUtils {
                 .setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
+                })
+                .show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    private static void showBackgroundLocationPermissionsDialog(Activity activity) {
+        new MaterialAlertDialogBuilder(activity)
+                .setMessage(activity.getString(R.string.permission_location,
+                        activity.getString(R.string.app_name),
+                        activity.getPackageManager().getBackgroundPermissionOptionLabel()))
+                .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
                 })
                 .show();
     }
