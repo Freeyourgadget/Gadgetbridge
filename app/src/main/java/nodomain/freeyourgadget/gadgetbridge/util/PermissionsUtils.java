@@ -48,9 +48,17 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 public class PermissionsUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PermissionsUtils.class);
 
-    private static final String CUSTOM_PERM_NOTIFICATION_LISTENER = "custom_perm_notifications_listener";
-    private static final String CUSTOM_PERM_NOTIFICATION_SERVICE = "custom_perm_notifications_service";
-    private static final String CUSTOM_PERM_DISPLAY_OVER = "custom_perm_display_over";
+    public static final String CUSTOM_PERM_NOTIFICATION_LISTENER = "custom_perm_notifications_listener";
+    public static final String CUSTOM_PERM_NOTIFICATION_SERVICE = "custom_perm_notifications_service";
+    public static final String CUSTOM_PERM_DISPLAY_OVER = "custom_perm_display_over";
+
+    public static final List<String> specialPermissions = new ArrayList<String>() {{
+        add(CUSTOM_PERM_NOTIFICATION_LISTENER);
+        add(CUSTOM_PERM_NOTIFICATION_SERVICE);
+        add(CUSTOM_PERM_DISPLAY_OVER);
+        add(Manifest.permission.ACCESS_FINE_LOCATION);
+        add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+    }};
 
     public static ArrayList<PermissionDetails> getRequiredPermissionsList(Activity activity) {
         ArrayList<PermissionDetails> permissionsList = new ArrayList<>();
@@ -188,30 +196,6 @@ public class PermissionsUtils {
             }
         }
         return result;
-    }
-
-    public static void requestAllPermissions(Activity activity) {
-        List<PermissionDetails> wantedPermissions = getRequiredPermissionsList(activity);
-
-        if (!wantedPermissions.isEmpty()) {
-            ArrayList<String> wantedPermissionsStrings = new ArrayList<>();
-            for (PermissionDetails wantedPermission : wantedPermissions) {
-                wantedPermissionsStrings.add(wantedPermission.getPermission());
-            }
-            if (!wantedPermissionsStrings.isEmpty()) {
-                if (wantedPermissionsStrings.contains(CUSTOM_PERM_NOTIFICATION_LISTENER) && !checkPermission(activity, CUSTOM_PERM_NOTIFICATION_LISTENER))
-                    requestPermission(activity, CUSTOM_PERM_NOTIFICATION_LISTENER);
-                if (wantedPermissionsStrings.contains(CUSTOM_PERM_NOTIFICATION_SERVICE) && !checkPermission(activity, CUSTOM_PERM_NOTIFICATION_SERVICE))
-                    requestPermission(activity, CUSTOM_PERM_NOTIFICATION_SERVICE);
-                if (wantedPermissionsStrings.contains(CUSTOM_PERM_DISPLAY_OVER) && !checkPermission(activity, CUSTOM_PERM_DISPLAY_OVER))
-                    requestPermission(activity, CUSTOM_PERM_DISPLAY_OVER);
-                if (wantedPermissionsStrings.contains(Manifest.permission.ACCESS_FINE_LOCATION) && !checkPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION))
-                    requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
-                if (wantedPermissionsStrings.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && !checkPermission(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION))
-                    requestPermission(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-                ActivityCompat.requestPermissions(activity, wantedPermissionsStrings.toArray(new String[0]), 0);
-            }
-        }
     }
 
     public static void requestPermission(Activity activity, String permission) {

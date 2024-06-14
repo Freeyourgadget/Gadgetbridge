@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -45,6 +48,7 @@ public class WelcomeFragmentPermissions extends Fragment {
     private RecyclerView permissionsListView;
     private PermissionAdapter permissionAdapter;
     private Button requestAllButton;
+    private List<String> requestingPermissions = new ArrayList<>();
 
     @Nullable
     @Override
@@ -53,7 +57,14 @@ public class WelcomeFragmentPermissions extends Fragment {
         View view = inflater.inflate(R.layout.fragment_welcome_permissions, container, false);
 
         requestAllButton = view.findViewById(R.id.button_request_all);
-        requestAllButton.setOnClickListener(v -> PermissionsUtils.requestAllPermissions(requireActivity()));
+        requestAllButton.setOnClickListener(v -> {
+            List<PermissionsUtils.PermissionDetails> wantedPermissions = PermissionsUtils.getRequiredPermissionsList(requireActivity());
+            requestingPermissions = new ArrayList<>();
+            for (PermissionsUtils.PermissionDetails wantedPermission : wantedPermissions) {
+                requestingPermissions.add(wantedPermission.getPermission());
+            }
+            requestAllPermissions();
+        });
 
         // Initialize RecyclerView and data
         permissionsListView = view.findViewById(R.id.permissions_list);
@@ -72,6 +83,28 @@ public class WelcomeFragmentPermissions extends Fragment {
         permissionAdapter.notifyDataSetChanged();
         if (PermissionsUtils.checkAllPermissions(requireActivity())) {
             requestAllButton.setEnabled(false);
+        }
+        if (!requestingPermissions.isEmpty()) {
+            requestAllPermissions();
+        }
+    }
+
+    public void requestAllPermissions() {
+        if (!requestingPermissions.isEmpty()) {
+            Iterator<String> it = requestingPermissions.iterator();
+            while (it.hasNext()) {
+                String currentPermission = it.next();
+                if (PermissionsUtils.specialPermissions.contains(currentPermission)) {
+                    it.remove();
+                    if (!PermissionsUtils.checkPermission(requireActivity(), currentPermission)) {
+                        PermissionsUtils.requestPermission(requireActivity(), currentPermission);
+                        return;
+                    }
+                }
+            }
+            String[] combinedPermissions = requestingPermissions.toArray(new String[0]);
+            requestingPermissions.clear();
+            ActivityCompat.requestPermissions(requireActivity(), combinedPermissions, 0);
         }
     }
 
