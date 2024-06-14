@@ -195,8 +195,12 @@ public class BatteryInfoActivity extends AbstractGBActivity {
         setBatteryLabels();
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig(gbDevice)) {
             if (batteryConfig.getBatteryIndex() == batteryIndex) {
-                battery_status_extra_name.setText(batteryConfig.getBatteryLabel());
-                battery_status_device_icon.setImageResource(batteryConfig.getBatteryIcon());
+                if (batteryConfig.getBatteryLabel() != GBDevice.BATTERY_LABEL_DEFAULT) {
+                    battery_status_extra_name.setText(batteryConfig.getBatteryLabel());
+                }
+                if (batteryConfig.getBatteryIcon() != GBDevice.BATTERY_ICON_DEFAULT) {
+                    battery_status_device_icon.setImageResource(batteryConfig.getBatteryIcon());
+                }
                 if (gbDevice.isInitialized()) {
                     battery_status_device_icon.setColorFilter(this.getResources().getColor(R.color.accent));
                 }

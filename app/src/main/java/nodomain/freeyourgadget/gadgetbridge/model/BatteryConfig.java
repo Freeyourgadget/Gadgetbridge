@@ -69,11 +69,21 @@ public class BatteryConfig {
         if (this == o) return true;
         if (!(o instanceof BatteryConfig)) return false;
         BatteryConfig that = (BatteryConfig) o;
-        return getBatteryIndex() == that.getBatteryIndex() && getBatteryIcon() == that.getBatteryIcon() && getBatteryLabel() == that.getBatteryLabel();
+        return getBatteryIndex() == that.getBatteryIndex() &&
+                getBatteryIcon() == that.getBatteryIcon() &&
+                getBatteryLabel() == that.getBatteryLabel() &&
+                getDefaultLowThreshold() == that.getDefaultLowThreshold() &&
+                getDefaultFullThreshold() == that.getDefaultFullThreshold();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBatteryIndex(), getBatteryIcon(), getBatteryLabel());
+        return Objects.hash(
+                getBatteryIndex(),
+                getBatteryIcon(),
+                getBatteryLabel(),
+                getDefaultLowThreshold(),
+                getDefaultFullThreshold()
+        );
     }
 }

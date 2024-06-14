@@ -212,7 +212,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 final Preference prefHeader = new PreferenceCategory(requireContext());
                 prefHeader.setKey("pref_battery_header_" + batteryConfig.getBatteryIndex());
                 prefHeader.setIconSpaceReserved(false);
-                if (batteryConfig.getBatteryLabel() > 0) {
+                if (batteryConfig.getBatteryLabel() != GBDevice.BATTERY_LABEL_DEFAULT) {
                     prefHeader.setTitle(batteryConfig.getBatteryLabel());
                 } else {
                     prefHeader.setTitle(requireContext().getString(R.string.battery_i, batteryConfig.getBatteryIndex()));
