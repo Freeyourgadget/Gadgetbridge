@@ -3046,4 +3046,5 @@
     <string name="default_percentage">الافتراضي (%1$d%%)</string>
     <string name="show_in_notification">عرض في الإشعار</string>
     <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
 </resources>
