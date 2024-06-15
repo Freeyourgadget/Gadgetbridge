@@ -3052,4 +3052,6 @@
     <string name="default_percentage">默认（%1$d%%）</string>
     <string name="devicetype_garmin_fenix_7s">佳明 Fenix 7S</string>
     <string name="battery_percentage_str">%1$s%%</string>
+    <string name="devicetype_garmin_forerunner_265">佳明 Forerunner 265</string>
+    <string name="devicetype_garmin_forerunner_255">佳明 Forerunner 255</string>
 </resources>
