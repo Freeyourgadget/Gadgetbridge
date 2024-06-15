@@ -200,9 +200,9 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                 }
                 if (batteryConfig.getBatteryIcon() != GBDevice.BATTERY_ICON_DEFAULT) {
                     battery_status_device_icon.setImageResource(batteryConfig.getBatteryIcon());
-                }
-                if (gbDevice.isInitialized()) {
-                    battery_status_device_icon.setColorFilter(this.getResources().getColor(R.color.accent));
+                    if (gbDevice.isInitialized()) {
+                        battery_status_device_icon.setColorFilter(this.getResources().getColor(R.color.accent));
+                    }
                 }
             }
         }
