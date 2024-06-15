@@ -3037,4 +3037,21 @@
     <string name="unsupported">Не поддерживается</string>
     <string name="max_val">Максимум: %d</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
+    <string name="notif_battery_full_title">Батарея заряжена!</string>
+    <string name="notif_battery_full">%1$s батарея заряжена</string>
+    <string name="authentication_failed_check_key">Аутентификация не удалась, проверьте ключ</string>
+    <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
+    <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
+    <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="notification_channel_full_battery_name">Полная батарея</string>
+    <string name="battery_i">Батарея %d</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="battery_full_notify_enabled">Уведомлять об окончании зарядки</string>
+    <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
+    <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
+    <string name="default_percentage">По умолчанию (%1$d%%)</string>
+    <string name="show_in_notification">Показывать в уведомлении</string>
+    <string name="battery_low_notify_enabled">Уведомлять о низком заряде батареи</string>
+    <string name="battery_full_threshold">Порог окончания зарядки</string>
+    <string name="battery_low_threshold">Порог низкого заряда</string>
 </resources>
