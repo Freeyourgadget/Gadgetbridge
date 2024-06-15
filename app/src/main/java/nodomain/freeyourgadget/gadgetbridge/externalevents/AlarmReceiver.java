@@ -82,7 +82,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNRISE, id_tomorrow);
         GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_SUNSET, id_tomorrow);
 
-        GBPrefs gbPrefs = GBApplication.getGBPrefs();
+        GBPrefs gbPrefs = GBApplication.getPrefs();
         float[] longlat = gbPrefs.getLongLat(context);
         float longitude = longlat[0];
         float latitude = longlat[1];

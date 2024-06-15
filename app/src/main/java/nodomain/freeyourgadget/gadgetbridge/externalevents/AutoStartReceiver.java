@@ -31,7 +31,7 @@ public class AutoStartReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (GBApplication.getGBPrefs().getAutoStart() &&
+        if (GBApplication.getPrefs().getAutoStart() &&
                 (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) ||
                         Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())
                 )) {

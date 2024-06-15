@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class GBPrefs {
+public class GBPrefs extends Prefs {
     // Since this class must not log to slf4j, we use plain android.util.Log
     private static final String TAG = "GBPrefs";
 
@@ -72,10 +72,13 @@ public class GBPrefs {
     public static final String LAST_DEVICE_ADDRESSES = "last_device_addresses";
     public static final String RECONNECT_ONLY_TO_CONNECTED = "general_reconnectonlytoconnected";
 
-    private final Prefs mPrefs;
-
+    @Deprecated
     public GBPrefs(Prefs prefs) {
-        mPrefs = prefs;
+        this(prefs.getPreferences());
+    }
+
+    public GBPrefs(final SharedPreferences sharedPrefs) {
+        super(sharedPrefs);
     }
 
     public boolean getAutoReconnect(GBDevice device) {
@@ -84,23 +87,23 @@ public class GBPrefs {
     }
 
     public boolean getAutoReconnectByScan() {
-        return mPrefs.getBoolean(RECONNECT_SCAN_KEY, RECONNECT_SCAN_DEFAULT);
+        return getBoolean(RECONNECT_SCAN_KEY, RECONNECT_SCAN_DEFAULT);
     }
 
     public boolean getAutoStart() {
-        return mPrefs.getBoolean(AUTO_START, AUTO_START_DEFAULT);
+        return getBoolean(AUTO_START, AUTO_START_DEFAULT);
     }
 
     public boolean isBackgroundJsEnabled() {
-        return mPrefs.getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
+        return getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
     }
 
     public String getUserName() {
-        return mPrefs.getString(USER_NAME, USER_NAME_DEFAULT);
+        return getString(USER_NAME, USER_NAME_DEFAULT);
     }
 
     public Date getUserBirthday() {
-        String date = mPrefs.getString(USER_BIRTHDAY, null);
+        String date = getString(USER_BIRTHDAY, null);
         if (date == null) {
             return null;
         }
@@ -117,7 +120,7 @@ public class GBPrefs {
     }
 
     public String getTimeFormat() {
-        String timeFormat = mPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO);
+        String timeFormat = getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO);
         if (DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO.equals(timeFormat)) {
             if (DateFormat.is24HourFormat(GBApplication.getContext())) {
                 timeFormat = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H;
@@ -130,14 +133,12 @@ public class GBPrefs {
     }
 
     public float[] getLongLat(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
-
-        float latitude = prefs.getFloat("location_latitude", 0);
-        float longitude = prefs.getFloat("location_longitude", 0);
+        float latitude = getFloat("location_latitude", 0);
+        float longitude = getFloat("location_longitude", 0);
         Log.i(TAG, "got longitude/latitude from preferences: " + latitude + "/" + longitude);
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                prefs.getBoolean("use_updated_location_if_available", false)) {
+                getBoolean("use_updated_location_if_available", false)) {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, false);

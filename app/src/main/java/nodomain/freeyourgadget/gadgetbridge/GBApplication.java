@@ -72,7 +72,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
@@ -128,8 +127,7 @@ public class GBApplication extends Application {
     private static final int CURRENT_PREFS_VERSION = 30;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
-    private static Prefs prefs;
-    private static GBPrefs gbPrefs;
+    private static GBPrefs prefs;
     private static LockHandler lockHandler;
     /**
      * Note: is null on Lollipop
@@ -144,7 +142,7 @@ public class GBApplication extends Application {
 
     private static GBApplication app;
 
-    private static Logging logging = new Logging() {
+    private static final Logging logging = new Logging() {
         @Override
         protected String createLogDirectory() throws IOException {
             if (GBEnvironment.env().isLocalTest()) {
@@ -212,8 +210,7 @@ public class GBApplication extends Application {
         AndroidThreeTen.init(this);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs = new Prefs(sharedPrefs);
-        gbPrefs = new GBPrefs(prefs);
+        prefs = new GBPrefs(sharedPrefs);
 
         if (!GBEnvironment.isEnvironmentSetup()) {
             GBEnvironment.setupEnvironment(GBEnvironment.createDeviceEnvironment());
@@ -1588,12 +1585,8 @@ public class GBApplication extends Application {
         return typedValue.data;
     }
 
-    public static Prefs getPrefs() {
+    public static GBPrefs getPrefs() {
         return prefs;
-    }
-
-    public static GBPrefs getGBPrefs() {
-        return gbPrefs;
     }
 
     public DeviceManager getDeviceManager() {

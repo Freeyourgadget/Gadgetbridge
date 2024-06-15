@@ -26,6 +26,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.*;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -366,6 +367,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         DEVICE_SUPPORT_FACTORY = factory;
     }
 
+    public static boolean isRunning(final Context context) {
+        final ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        if (manager == null) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public DeviceCommunicationService() {
 
     }
@@ -515,7 +529,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
             allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
-            reconnectViaScan = getGBPrefs().getAutoReconnectByScan();
+            reconnectViaScan = getPrefs().getAutoReconnectByScan();
         }
 
         startForeground();
@@ -536,7 +550,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if(device.getState() != GBDevice.State.NOT_CONNECTED){
                 continue;
             }
-            boolean shouldAutoConnect = getGBPrefs().getAutoReconnect(device);
+            boolean shouldAutoConnect = getPrefs().getAutoReconnect(device);
             if(!shouldAutoConnect){
                 continue;
             }
@@ -614,7 +628,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
             boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
             if (prefs != null && prefs.getPreferences() != null) {
-                autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
+                autoReconnect = getPrefs().getAutoReconnect(gbDevice);
                 if (!fromExtra && !autoReconnect) {
                     continue;
                 }
@@ -1535,7 +1549,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (GBPrefs.DEVICE_AUTO_RECONNECT.equals(key)) {
             for(DeviceStruct deviceStruct : deviceStructs){
-                boolean autoReconnect = getGBPrefs().getAutoReconnect(deviceStruct.getDevice());
+                boolean autoReconnect = getPrefs().getAutoReconnect(deviceStruct.getDevice());
                 deviceStruct.getDeviceSupport().setAutoReconnect(autoReconnect);
             }
         }
@@ -1552,12 +1566,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return getPrefs().getPreferences() != null;
     }
 
-    public Prefs getPrefs() {
+    public GBPrefs getPrefs() {
         return GBApplication.getPrefs();
-    }
-
-    public GBPrefs getGBPrefs() {
-        return GBApplication.getGBPrefs();
     }
 
     public GBDevice[] getGBDevices() {

@@ -3305,7 +3305,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 LOG.error("Error sending wind/humidity", ex);
             }
 
-            float[] longlat = GBApplication.getGBPrefs().getLongLat(getContext());
+            float[] longlat = GBApplication.getPrefs().getLongLat(getContext());
             float longitude = longlat[0];
             float latitude = longlat[1];
             if (longitude != 0 && latitude != 0) {

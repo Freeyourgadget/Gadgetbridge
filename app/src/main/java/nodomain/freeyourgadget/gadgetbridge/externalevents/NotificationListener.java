@@ -645,19 +645,6 @@ public class NotificationListener extends NotificationListenerService {
         }
     }
 
-    private boolean isServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        if (manager == null) {
-            return false;
-        }
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (DeviceCommunicationService.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private boolean handleMediaSessionNotification(final StatusBarNotification sbn) {
         final MediaSession.Token token = sbn.getNotification().extras.getParcelable(Notification.EXTRA_MEDIA_SESSION);
         return token != null && handleMediaSessionNotification(token);
@@ -816,7 +803,7 @@ public class NotificationListener extends NotificationListenerService {
          * broadcast receivers because it seems to invalidate the permissions that are
          * necessary for NotificationListenerService
          */
-        if (!isServiceRunning()) {
+        if (!DeviceCommunicationService.isRunning(this)) {
             LOG.trace("Service is not running, ignoring notification");
             return true;
         }

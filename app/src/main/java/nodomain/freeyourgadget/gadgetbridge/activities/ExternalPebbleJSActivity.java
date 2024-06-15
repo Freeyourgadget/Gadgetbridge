@@ -127,7 +127,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
             showConfig = extras.getBoolean(SHOW_CONFIG, false);
         }
 
-        if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
+        if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
             if (showConfig) {
                 Objects.requireNonNull(currentDevice, "Must provide a device when invoking this activity");
                 Objects.requireNonNull(currentUUID, "Must provide a uuid when invoking this activity");
@@ -144,7 +144,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
     }
 
     private void startBackgroundWebViewAndFinish() {
-        if (GBApplication.getGBPrefs().isBackgroundJsEnabled()) {
+        if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
             WebViewSingleton.ensureCreated(this);
         } else {
             LOG.warn("BGJs disabled, not starting webview");
