@@ -3065,4 +3065,5 @@
     <string name="battery_low_threshold">Düşük pil eşiği</string>
     <string name="battery_full_notify_enabled">Pil dolu olduğunda bildir</string>
     <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
 </resources>
