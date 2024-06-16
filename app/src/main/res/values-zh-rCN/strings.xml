@@ -3054,4 +3054,5 @@
     <string name="battery_percentage_str">%1$s%%</string>
     <string name="devicetype_garmin_forerunner_265">佳明 Forerunner 265</string>
     <string name="devicetype_garmin_forerunner_255">佳明 Forerunner 255</string>
+    <string name="devicetype_hama_fit6900">Hama Fit6900</string>
 </resources>
