@@ -40,7 +40,7 @@ public final class HamaFit6900DeviceCoordinator extends AbstractBLEDeviceCoordin
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("Fit6900");
+        return Pattern.compile("^Fit6900$");
     }
 
     @Override
