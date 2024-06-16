@@ -3055,4 +3055,9 @@
     <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
     <string name="devicetype_hama_fit6900">Hama Fit6900</string>
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
+    <string name="dashboard_calendar_month_goals_reached_title">% van stappendoel bereikt</string>
 </resources>
