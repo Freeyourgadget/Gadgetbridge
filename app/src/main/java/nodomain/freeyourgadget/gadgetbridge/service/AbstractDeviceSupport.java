@@ -776,8 +776,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         LocalBroadcastManager.getInstance(context).sendBroadcast(messageIntent);
     }
 
-    public Prefs getDevicePrefs() {
-        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+    public DevicePrefs getDevicePrefs() {
+        return GBApplication.getDevicePrefs(gbDevice.getAddress());
     }
 
     @Override

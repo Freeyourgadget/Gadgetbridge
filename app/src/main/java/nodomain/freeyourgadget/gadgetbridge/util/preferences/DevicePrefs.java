@@ -31,4 +31,8 @@ public class DevicePrefs extends Prefs {
     public int getBatteryNotifyFullThreshold(final BatteryConfig batteryConfig) {
         return getInt(PREF_BATTERY_NOTIFY_FULL_THRESHOLD + batteryConfig.getBatteryIndex(), batteryConfig.getDefaultFullThreshold());
     }
+
+    public boolean getFetchUnknownFiles() {
+        return getBoolean("fetch_unknown_files", false);
+    }
 }

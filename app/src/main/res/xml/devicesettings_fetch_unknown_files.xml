@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:key="fetch_unknown_files"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_fetch_unknown_files_summary"
+        android:title="@string/pref_fetch_unknown_files_title" />
+</androidx.preference.PreferenceScreen>

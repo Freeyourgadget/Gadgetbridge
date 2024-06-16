@@ -159,6 +159,7 @@ public class FileTransferHandler implements MessageHandler {
                 throw new IllegalArgumentException("Invalid directory data length");
             final GarminByteBufferReader reader = new GarminByteBufferReader(currentlyDownloading.dataHolder.array());
             reader.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+            final boolean fetchUnknownFiles = deviceSupport.getDevicePrefs().getFetchUnknownFiles();
             while (reader.remaining() > 0) {
                 final int fileIndex = reader.readShort();//2
                 final int fileDataType = reader.readByte();//3
@@ -175,7 +176,7 @@ public class FileTransferHandler implements MessageHandler {
                     LOG.warn("Unsupported directory entry of type {}/{}", fileDataType, fileSubType);
                     continue;
                 }
-                if (!FILE_TYPES_TO_PROCESS.contains(directoryEntry.filetype)) {
+                if (!FILE_TYPES_TO_PROCESS.contains(directoryEntry.filetype) && !fetchUnknownFiles) {
                     continue;
                 }
                 LOG.debug("Queueing {} for download", directoryEntry);
@@ -367,7 +368,7 @@ public class FileTransferHandler implements MessageHandler {
         public String toString() {
             return "DirectoryEntry{" +
                     "fileIndex=" + fileIndex +
-                    ", fileType=" + filetype.name() +
+                    ", fileType=" + filetype +
                     ", fileNumber=" + fileNumber +
                     ", specificFlags=" + specificFlags +
                     ", fileFlags=" + fileFlags +
