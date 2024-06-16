@@ -17,14 +17,23 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -56,6 +65,13 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
     private final ConcurrentHashMap<Calendar, TextView> dayCells = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<Integer, Integer> dayColors = new ConcurrentHashMap<>();
 
+    @ColorInt private int color_unknown = Color.argb(50, 128, 128, 128);
+    @ColorInt private int color_0_25 = Color.argb(128, 255, 0, 0); // Red
+    @ColorInt private int color_25_50 = Color.argb(128, 255, 128, 0); // Orange
+    @ColorInt private int color_50_75 = Color.argb(128, 255, 255, 0); // Yellow
+    @ColorInt private int color_75_100 = Color.argb(128, 0, 128, 0); // Dark green
+    @ColorInt private int color_100 = Color.argb(128, 0, 255, 0); // Green
+
     private boolean showAllDevices;
     private Set<String> showDeviceList;
 
@@ -65,6 +81,8 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
     GridLayout calendarGrid;
     Calendar currentDay;
     Calendar cal;
+    ImageView monthGoalsChart;
+    TextView monthGoalsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +90,8 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
         setContentView(R.layout.activity_dashboard_calendar);
         monthTextView = findViewById(R.id.calendar_month);
         calendarGrid = findViewById(R.id.dashboard_calendar_grid);
+        monthGoalsChart = findViewById(R.id.dashboard_calendar_month_goals_chart);
+        monthGoalsText = findViewById(R.id.dashboard_calendar_month_goals_text);
         currentDay = Calendar.getInstance();
         cal = Calendar.getInstance();
         long receivedTimestamp = getIntent().getLongExtra(EXTRA_TIMESTAMP, 0);
@@ -142,7 +162,11 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
         // Determine last day that should be displayed
         Calendar lastDay = (Calendar) cal.clone();
         lastDay.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        lastDay.add(Calendar.DAY_OF_MONTH, (firstDayOfWeek + 7 - lastDay.get(Calendar.DAY_OF_WEEK)) % 7);
+        int daysAfterMonth = (firstDayOfWeek + 7 - lastDay.get(Calendar.DAY_OF_WEEK)) % 7;
+        if (daysAfterMonth == 0 && lastDay.get(Calendar.DAY_OF_WEEK) == firstDayOfWeek) {
+            daysAfterMonth = 7;
+        }
+        lastDay.add(Calendar.DAY_OF_MONTH, daysAfterMonth);
         // Add day names header
         SimpleDateFormat dayFormat = new SimpleDateFormat("E", Locale.getDefault());
         Calendar weekdays = Calendar.getInstance();
@@ -194,6 +218,12 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
     }
 
     private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
+        int amount_0_25 = 0;
+        int amount_25_50 = 0;
+        int amount_50_75 = 0;
+        int amount_75_100 = 0;
+        int amount_100 = 0;
+
         @Override
         protected Void doInBackground(Void... params) {
             for (Calendar day : dayCells.keySet()) {
@@ -206,17 +236,22 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
                 float goalFactor = DashboardUtils.getStepsGoalFactor(dashboardData);
                 @ColorInt int dayColor;
                 if (goalFactor >= 1) {
-                    dayColor = Color.argb(128, 0, 255, 0); // Green
+                    dayColor = color_100;
+                    amount_100++;
                 } else if (goalFactor >= 0.75) {
-                    dayColor = Color.argb(128, 0, 128, 0); // Dark green
+                    dayColor = color_75_100;
+                    amount_75_100++;
                 } else if (goalFactor >= 0.5) {
-                    dayColor = Color.argb(128, 255, 255, 0); // Yellow
-                } else if (goalFactor > 0.25) {
-                    dayColor = Color.argb(128, 255, 128, 0); // Orange
+                    dayColor = color_50_75;
+                    amount_50_75++;
+                } else if (goalFactor >= 0.25) {
+                    dayColor = color_25_50;
+                    amount_25_50++;
                 } else if (goalFactor > 0) {
-                    dayColor = Color.argb(128, 255, 0, 0); // Red
+                    dayColor = color_0_25;
+                    amount_0_25++;
                 } else {
-                    dayColor = Color.argb(50, 128, 128, 128);
+                    dayColor = color_unknown;
                 }
                 dayColors.put(day.get(Calendar.DAY_OF_MONTH), dayColor);
             }
@@ -257,6 +292,83 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
                     finish();
                 });
             }
+
+            // Draw visual representation of this month's day goals
+            drawMonthGoalsLine();
+
+            // Fill legend
+            Resources res = getResources();
+            SpannableString line_100 = new SpannableString("■ 100%: " + res.getQuantityString(R.plurals.amount_of_days, amount_100, amount_100));
+            line_100.setSpan(new ForegroundColorSpan(color_100), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString line_75_100 = new SpannableString("■ 75-100%: " + res.getQuantityString(R.plurals.amount_of_days, amount_75_100, amount_75_100));
+            line_75_100.setSpan(new ForegroundColorSpan(color_75_100), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString line_50_75 = new SpannableString("■ 50-75%: " + res.getQuantityString(R.plurals.amount_of_days, amount_50_75, amount_50_75));
+            line_50_75.setSpan(new ForegroundColorSpan(color_50_75), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString line_25_50 = new SpannableString("■ 25-50%: " + res.getQuantityString(R.plurals.amount_of_days, amount_25_50, amount_25_50));
+            line_25_50.setSpan(new ForegroundColorSpan(color_25_50), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString line_0_25 = new SpannableString("■ 0-25%: " + res.getQuantityString(R.plurals.amount_of_days, amount_0_25, amount_0_25));
+            line_0_25.setSpan(new ForegroundColorSpan(color_0_25), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            monthGoalsText.setText(builder.append(line_100).append("\n").append(line_75_100).append("\n").append(line_50_75).append("\n").append(line_25_50).append("\n").append(line_0_25));
+        }
+
+        private void drawMonthGoalsLine() {
+            int monthMaxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+            int amountOfDays = amount_0_25 + amount_25_50 + amount_50_75 + amount_75_100 + amount_100;
+            int width = 700;
+            int height = 40;
+            int totalDrawWidth = width - height / 2;
+            float drawWidth = totalDrawWidth * ((float) amountOfDays / monthMaxDays);
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStrokeWidth(height);
+            paint.setColor(color_unknown);
+            canvas.drawLine(height / 2, height / 2, totalDrawWidth, height / 2, paint);
+
+            // 0-25%
+            if (amount_0_25 > 0) {
+                paint.setColor(color_0_25);
+                canvas.drawLine(height / 2, height / 2, drawWidth, height / 2, paint);
+            }
+
+            // 25-50%
+            if (amount_25_50 > 0) {
+                paint.setColor(color_25_50);
+                float barDays = amount_25_50 + amount_50_75 + amount_75_100 + amount_100;
+                float barFraction = barDays / amountOfDays;
+                canvas.drawLine(height / 2, height / 2, drawWidth * barFraction, height / 2, paint);
+            }
+
+            // 50-75%
+            if (amount_50_75 > 0) {
+                paint.setColor(color_50_75);
+                float barDays = amount_50_75 + amount_75_100 + amount_100;
+                float barFraction = barDays / amountOfDays;
+                canvas.drawLine(height / 2, height / 2, drawWidth * barFraction, height / 2, paint);
+            }
+
+            // 75-100%
+            if (amount_75_100 > 0) {
+                paint.setColor(color_75_100);
+                float barDays = amount_75_100 + amount_100;
+                float barFraction = barDays / amountOfDays;
+                canvas.drawLine(height / 2, height / 2, drawWidth * barFraction, height / 2, paint);
+            }
+
+            // 100%
+            if (amount_100 > 0) {
+                paint.setColor(color_100);
+                float barDays = amount_100;
+                float barFraction = barDays / amountOfDays;
+                canvas.drawLine(height / 2, height / 2, drawWidth * barFraction, height / 2, paint);
+            }
+
+            monthGoalsChart.setImageBitmap(bitmap);
         }
     }
 }
