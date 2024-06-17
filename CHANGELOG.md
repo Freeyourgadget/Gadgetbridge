@@ -6,6 +6,7 @@
 * Experimental support for Redmi Watch 4
 * Initial support for cycling sensor
 * Initial support for more Garmin watches
+* Initial support for Hama Fit6900
 * Initial support for Huawei Watch Fit 2, Watch Fit 3, Watch 4 Pro
 * Initial support for Soundcore Liberty 3 Pro
 * Introduce new Dashboard view
@@ -69,13 +70,15 @@
 * Fix crash when connecting on some phones
 * Fix crash when enabling bluetooth
 * Fix receiving shared gpx files
+* Fix text cutoff on all checkbox preferences
 * Format pace as mm:ss
-* Set navbar color to match theme
-* Simplify pairing of bonded and companion devices
+* Make battery threshold notifications configurable
+* Prevent some bluetooth events from starting Gadgetbridge
 * Recognize "Delta Chat" as generic chat
 * Remove deprecated general auto-reconnect preference
 * Refactor location service
-* Fix text cutoff on all checkbox preferences
+* Set navbar color to match theme
+* Simplify pairing of bonded and companion devices
 
 #### 0.80.0
 * Initial support for Amazfit Bip 3
