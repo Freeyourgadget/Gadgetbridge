@@ -3055,4 +3055,11 @@
     <string name="devicetype_garmin_forerunner_265">佳明 Forerunner 265</string>
     <string name="devicetype_garmin_forerunner_255">佳明 Forerunner 255</string>
     <string name="devicetype_hama_fit6900">Hama Fit6900</string>
+    <string name="pref_fetch_unknown_files_title">获取未知文件</string>
+    <string name="dashboard_calendar_month_goals_reached_title">% 每日达标步数</string>
+    <string name="pref_fetch_unknown_files_summary">从手表中获取未知的活动文件。 它们不会被处理，但会保存在手机中。</string>
+    <plurals name="amount_of_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="devicetype_garmin_venu_2">佳明 Venu 2</string>
 </resources>
