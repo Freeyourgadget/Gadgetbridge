@@ -3060,4 +3060,14 @@
     <string name="battery_full_threshold">Schwellenwert für vollen Akku</string>
     <string name="default_percentage">Standard (%1$d%%)</string>
     <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="dashboard_calendar_month_goals_reached_title">% des Schrittziels erreicht</string>
+    <string name="pref_fetch_unknown_files_summary">Holt unbekannte Aktivitätsdateien von der Uhr. Sie werden nicht verarbeitet, sondern im Telefon gespeichert.</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <string name="pref_fetch_unknown_files_title">Unbekannte Dateien abrufen</string>
+    <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
+    <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <string name="devicetype_hama_fit6900">Hama Fit Watch 6900</string>
 </resources>
