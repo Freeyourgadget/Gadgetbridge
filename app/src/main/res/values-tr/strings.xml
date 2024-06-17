@@ -3068,4 +3068,11 @@
     <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
     <string name="devicetype_hama_fit6900">Hama Fit6900</string>
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <string name="pref_fetch_unknown_files_title">Bilinmeyen dosyaları al</string>
+    <string name="pref_fetch_unknown_files_summary">Bilinmeyen etkinlik dosyalarını saatten alın. Bunlar işlenmeyecek, ancak telefona kaydedilecektir.</string>
+    <string name="dashboard_calendar_month_goals_reached_title">Ulaşılan adım hedefi yüzdesi</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
 </resources>
