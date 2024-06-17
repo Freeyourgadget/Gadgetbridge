@@ -3060,4 +3060,6 @@
         <item quantity="other">%d dagen</item>
     </plurals>
     <string name="dashboard_calendar_month_goals_reached_title">% van stappendoel bereikt</string>
+    <string name="pref_fetch_unknown_files_title">Onbekende bestanden ophalen</string>
+    <string name="pref_fetch_unknown_files_summary">Haal ook onbekende activiteitsbestanden op van het apparaat. Deze zullen niet verwerkt worden, alleen opgeslagen op de telefoon.</string>
 </resources>
