@@ -243,7 +243,7 @@ public class HuaweiPacket {
     // Encryption is enabled by default, packets which don't use it must disable it
     protected boolean isEncrypted = true;
 
-    protected boolean isSliced = false;
+    protected boolean isSliced = true;
 
     public HuaweiPacket(ParamsProvider paramsProvider) {
         this.paramsProvider = paramsProvider;

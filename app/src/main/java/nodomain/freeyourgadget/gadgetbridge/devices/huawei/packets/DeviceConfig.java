@@ -65,6 +65,7 @@ public class DeviceConfig {
                 }
                 this.complete = true;
                 this.isEncrypted = false;
+                this.isSliced = false;
             }
         }
 
