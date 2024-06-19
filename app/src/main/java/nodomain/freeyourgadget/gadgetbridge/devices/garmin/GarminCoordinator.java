@@ -32,6 +32,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
+    public boolean suggestUnbindBeforePair() {
+        return false;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull final GBDevice gbDevice, @NonNull final Device device, @NonNull final DaoSession session) throws GBException {
         deleteAllActivityData(device, session);
     }
