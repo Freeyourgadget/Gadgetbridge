@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvider.TestActivitySample> {
+    private static final Logger LOG = LoggerFactory.getLogger(TestSampleProvider.class);
+
     public TestSampleProvider(final GBDevice device, final DaoSession session) {
         super(device, session);
     }
@@ -99,7 +103,9 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
         int sleepStageDirection = 1;
         int sleepStageDurationRemaining = TestDeviceRand.randInt(timestamp_from * 1000L, 30, 90);
 
-        int steps = TestDeviceRand.randInt(timestamp_from * 1000L, 0, 170);
+        boolean isActive = false;
+        float dayActivityFactor = TestDeviceRand.randFloat(timestamp_from * 1000L, 0f, 1f);
+        int steps = (int) (TestDeviceRand.randInt(timestamp_from * 1000L, 0, 100) * dayActivityFactor);
         int intensity = TestDeviceRand.randInt(timestamp_from * 1000L, 0, 100);
         int hr = TestDeviceRand.randInt(timestamp_from * 1000L, 90, 153);
 
@@ -124,12 +130,19 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
             } else if (h < wakeHour) {
                 isSleep = true;
             }
+            if (isSleep) {
+                isActive = false;
+            } else if (isActive) {
+                isActive = TestDeviceRand.randBool(ts, 0.8F);
+            } else {
+                isActive = TestDeviceRand.randBool(ts, 0.05F);
+            }
 
-            if (TestDeviceRand.randBool(ts, 0.75f)) {
+            if (TestDeviceRand.randBool(ts, 0.85f)) {
                 samples.add(new TestActivitySample(
                         (int) (ts / 1000),
                         isSleep ? sleepStages[sleepStageCurrent] : ActivityKind.TYPE_UNKNOWN,
-                        steps,
+                        isActive ? steps : 0,
                         intensity,
                         hr
                 ));
@@ -146,7 +159,7 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
                 }
             }
 
-            steps += TestDeviceRand.randInt(ts, -steps, 170 - steps);
+            steps += TestDeviceRand.randInt(ts, -steps, 100 - steps) * dayActivityFactor;
             intensity += TestDeviceRand.randInt(ts, -1, 1);
             hr += TestDeviceRand.randInt(ts, -2, 2);
         }
