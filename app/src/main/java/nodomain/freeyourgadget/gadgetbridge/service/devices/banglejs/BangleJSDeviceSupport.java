@@ -1741,6 +1741,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // we hardcode here what is supported
             if (card.getBarcodeFormat() == BarcodeFormat.CODE_39 ||
                     card.getBarcodeFormat() == BarcodeFormat.CODABAR ||
+                    card.getBarcodeFormat() == BarcodeFormat.EAN_8 ||
+                    card.getBarcodeFormat() == BarcodeFormat.EAN_13 ||
+                    card.getBarcodeFormat() == BarcodeFormat.UPC_A ||
+                    card.getBarcodeFormat() == BarcodeFormat.UPC_E ||
                     card.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
                 ret.add(card);
             }
