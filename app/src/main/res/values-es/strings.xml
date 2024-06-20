@@ -3055,4 +3055,15 @@
     <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
     <string name="authentication_failed_check_key">Error de autenticación, verifique la clave de autenticación</string>
     <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="dashboard_calendar_month_goals_reached_title">% del objetivo de paso alcanzado</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d día</item>
+        <item quantity="many">%d días</item>
+        <item quantity="other">%d días</item>
+    </plurals>
+    <string name="pref_fetch_unknown_files_title">Recuperar archivos desconocidos</string>
+    <string name="pref_fetch_unknown_files_summary">Obtiene archivos de actividad desconocidos del reloj. No se procesan sino que se almacenan en el teléfono.</string>
+    <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
+    <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <string name="devicetype_hama_fit6900">Hama Fit6900</string>
 </resources>
