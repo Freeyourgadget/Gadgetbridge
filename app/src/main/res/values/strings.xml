@@ -1514,6 +1514,7 @@
     <string name="devicetype_garmin_instinct_crossover">Garmin Instinct Crossover</string>
     <string name="devicetype_garmin_forerunner_245">Garmin Forerunner 245</string>
     <string name="devicetype_garmin_forerunner_255">Garmin Forerunner 255</string>
+    <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
     <string name="devicetype_garmin_swim_2">Garmin Swim 2</string>
     <string name="devicetype_garmin_vivoactive_4">Garmin Vívoactive 4</string>
