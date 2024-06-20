@@ -71,6 +71,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -181,7 +182,7 @@ public class DebugActivity extends AbstractGBActivity {
         filter.addAction(ACTION_REPLY);
         filter.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
-        registerReceiver(mReceiver, filter); // for ACTION_REPLY
+        ContextCompat.registerReceiver(this, mReceiver, filter, ContextCompat.RECEIVER_EXPORTED); // for ACTION_REPLY
 
         editContent = findViewById(R.id.editContent);
 

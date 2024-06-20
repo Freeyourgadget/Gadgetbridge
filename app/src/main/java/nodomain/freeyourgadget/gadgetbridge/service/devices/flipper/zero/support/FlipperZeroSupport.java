@@ -24,12 +24,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -127,7 +126,7 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         if(!recevierRegistered) {
-            getContext().registerReceiver(receiver, new IntentFilter(COMMAND_PLAY_FILE));
+            ContextCompat.registerReceiver(getContext(), receiver, new IntentFilter(COMMAND_PLAY_FILE), ContextCompat.RECEIVER_EXPORTED);
             recevierRegistered = true;
         }
 

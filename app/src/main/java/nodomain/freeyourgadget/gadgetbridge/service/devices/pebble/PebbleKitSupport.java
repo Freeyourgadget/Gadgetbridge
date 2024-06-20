@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Base64;
 
+import androidx.core.content.ContextCompat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -131,7 +133,7 @@ class PebbleKitSupport {
         intentFilter.addAction(PEBBLEKIT_ACTION_APP_START);
         intentFilter.addAction(PEBBLEKIT_ACTION_APP_STOP);
         intentFilter.addAction(PEBBLEKIT_ACTION_DL_ACK_DATA);
-        mContext.registerReceiver(mPebbleKitReceiver, intentFilter);
+        ContextCompat.registerReceiver(mContext, mPebbleKitReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
     }
 
     void sendAppMessageIntent(GBDeviceEventAppMessage appMessage) {

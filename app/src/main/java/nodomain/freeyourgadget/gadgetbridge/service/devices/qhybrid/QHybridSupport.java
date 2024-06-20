@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONException;
@@ -393,7 +394,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 }
             }
         };
-        GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+        ContextCompat.registerReceiver(GBApplication.getContext(), globalCommandReceiver, globalFilter, ContextCompat.RECEIVER_EXPORTED);
     }
 
     private void handleConfigSetIntent(Intent intent) {

@@ -35,9 +35,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ServiceInfo;
 import android.location.Location;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -65,7 +67,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -108,8 +109,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceive
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.language.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.language.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -501,20 +502,20 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private void registerExternalReceivers(){
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
-        registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
+        ContextCompat.registerReceiver(this, mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED), ContextCompat.RECEIVER_EXPORTED);
 
         mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
-        registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
+        ContextCompat.registerReceiver(this, mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"), ContextCompat.RECEIVER_EXPORTED);
 
         IntentFilter bluetoothCommandFilter = new IntentFilter();
         bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
-        registerReceiver(bluetoothCommandReceiver, bluetoothCommandFilter);
+        ContextCompat.registerReceiver(this, bluetoothCommandReceiver, bluetoothCommandFilter, ContextCompat.RECEIVER_EXPORTED);
 
         final IntentFilter deviceSettingsIntentFilter = new IntentFilter();
         deviceSettingsIntentFilter.addAction(DeviceSettingsReceiver.COMMAND);
-        registerReceiver(deviceSettingsReceiver, deviceSettingsIntentFilter);
+        ContextCompat.registerReceiver(this, deviceSettingsReceiver, deviceSettingsIntentFilter, ContextCompat.RECEIVER_EXPORTED);
 
-        registerReceiver(intentApiReceiver, intentApiReceiver.buildFilter());
+        ContextCompat.registerReceiver(this, intentApiReceiver, intentApiReceiver.buildFilter(), ContextCompat.RECEIVER_EXPORTED);
     }
 
     @Override
@@ -1204,7 +1205,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private void startForeground() {
         GB.createNotificationChannels(this);
-        startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this), ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE);
+        } else {
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+        }
     }
 
     private boolean isDeviceConnected(GBDevice device) {
@@ -1289,16 +1294,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         calendarIntentFilter.addDataScheme("content");
                         calendarIntentFilter.addDataAuthority("com.android.calendar", null);
                         CalendarReceiver receiver = new CalendarReceiver(deviceWithCalendar);
-                        registerReceiver(receiver, calendarIntentFilter);
+                        ContextCompat.registerReceiver(this, receiver, calendarIntentFilter, ContextCompat.RECEIVER_EXPORTED);
                         mCalendarReceiver.add(receiver);
                         // Add a receiver to allow us to quickly force as calendar sync (without having to provide data)
-                        registerReceiver(receiver, new IntentFilter("FORCE_CALENDAR_SYNC"));
+                        ContextCompat.registerReceiver(this, receiver, new IntentFilter("FORCE_CALENDAR_SYNC"), ContextCompat.RECEIVER_EXPORTED);
                     }
                 }
             }
             if (mAlarmReceiver == null) {
                 mAlarmReceiver = new AlarmReceiver();
-                registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
+                ContextCompat.registerReceiver(this, mAlarmReceiver, new IntentFilter("DAILY_ALARM"), ContextCompat.RECEIVER_EXPORTED);
             }
         } else {
             for (CalendarReceiver registeredReceiver: mCalendarReceiver){
@@ -1318,15 +1323,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction("android.intent.action.PHONE_STATE");
                 filter.addAction("android.intent.action.NEW_OUTGOING_CALL");
                 filter.addAction("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL");
-                registerReceiver(mPhoneCallReceiver, filter);
+                ContextCompat.registerReceiver(this, mPhoneCallReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
             }
             if (mSMSReceiver == null) {
                 mSMSReceiver = new SMSReceiver();
-                registerReceiver(mSMSReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+                ContextCompat.registerReceiver(this, mSMSReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"), ContextCompat.RECEIVER_EXPORTED);
             }
             if (mPebbleReceiver == null) {
                 mPebbleReceiver = new PebbleReceiver();
-                registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
+                ContextCompat.registerReceiver(this, mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"), ContextCompat.RECEIVER_EXPORTED);
             }
             if (mMusicPlaybackReceiver == null && features.supportsMusicInfo()) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
@@ -1334,7 +1339,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 for (String action : mMusicActions) {
                     filter.addAction(action);
                 }
-                registerReceiver(mMusicPlaybackReceiver, filter);
+                ContextCompat.registerReceiver(this, mMusicPlaybackReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
             }
             if (mTimeChangeReceiver == null) {
                 mTimeChangeReceiver = new TimeChangeReceiver();
@@ -1342,14 +1347,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction("android.intent.action.TIME_SET");
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
                 filter.addAction(TimeChangeReceiver.ACTION_DST_CHANGED_OR_PERIODIC_SYNC);
-                registerReceiver(mTimeChangeReceiver, filter);
+                ContextCompat.registerReceiver(this, mTimeChangeReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
                 // Ensure alarm is scheduled after registering broadcast receiver
                 // (this is important in case receiver was unregistered when the previous alarm arrived).
                 TimeChangeReceiver.ifEnabledScheduleNextDstChangeOrPeriodicSync(this);
             }
             if (mBlueToothPairingRequestReceiver == null) {
                 mBlueToothPairingRequestReceiver = new BluetoothPairingRequestReceiver(this);
-                registerReceiver(mBlueToothPairingRequestReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST));
+                ContextCompat.registerReceiver(this, mBlueToothPairingRequestReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST), ContextCompat.RECEIVER_EXPORTED);
             }
             if (mAlarmClockReceiver == null) {
                 mAlarmClockReceiver = new AlarmClockReceiver();
@@ -1358,14 +1363,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction(AlarmClockReceiver.ALARM_DONE_ACTION);
                 filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_ALERT_ACTION);
                 filter.addAction(AlarmClockReceiver.GOOGLE_CLOCK_ALARM_DONE_ACTION);
-                registerReceiver(mAlarmClockReceiver, filter);
+                ContextCompat.registerReceiver(this, mAlarmClockReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
             }
 
             if (mSilentModeReceiver == null) {
                 mSilentModeReceiver = new SilentModeReceiver();
                 IntentFilter filter = new IntentFilter();
                 filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
-                registerReceiver(mSilentModeReceiver, filter);
+                ContextCompat.registerReceiver(this, mSilentModeReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
             }
 
             if (locationService == null) {
@@ -1382,21 +1387,21 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (GBApplication.isRunningOreoOrLater()) {
                     if (mLineageOsWeatherReceiver == null) {
                         mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
-                        registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+                        ContextCompat.registerReceiver(this, mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"), ContextCompat.RECEIVER_EXPORTED);
                     }
                 } else {
                     if (mCMWeatherReceiver == null) {
                         mCMWeatherReceiver = new CMWeatherReceiver();
-                        registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
+                        ContextCompat.registerReceiver(this, mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"), ContextCompat.RECEIVER_EXPORTED);
                     }
                 }
                 if (mTinyWeatherForecastGermanyReceiver == null) {
                     mTinyWeatherForecastGermanyReceiver = new TinyWeatherForecastGermanyReceiver();
-                    registerReceiver(mTinyWeatherForecastGermanyReceiver, new IntentFilter("de.kaffeemitkoffein.broadcast.WEATHERDATA"));
+                    ContextCompat.registerReceiver(this, mTinyWeatherForecastGermanyReceiver, new IntentFilter("de.kaffeemitkoffein.broadcast.WEATHERDATA"), ContextCompat.RECEIVER_EXPORTED);
                 }
                 if (mGenericWeatherReceiver == null) {
                     mGenericWeatherReceiver = new GenericWeatherReceiver();
-                    registerReceiver(mGenericWeatherReceiver, new IntentFilter(GenericWeatherReceiver.ACTION_GENERIC_WEATHER));
+                    ContextCompat.registerReceiver(this, mGenericWeatherReceiver, new IntentFilter(GenericWeatherReceiver.ACTION_GENERIC_WEATHER), ContextCompat.RECEIVER_EXPORTED);
                 }
                 if (mOmniJawsObserver == null) {
                     try {
@@ -1412,14 +1417,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             {
                 if (mSleepAsAndroidReceiver == null) {
                     mSleepAsAndroidReceiver = new SleepAsAndroidReceiver();
-                    registerReceiver(mSleepAsAndroidReceiver, new IntentFilter());
+                    ContextCompat.registerReceiver(this, mSleepAsAndroidReceiver, new IntentFilter(), ContextCompat.RECEIVER_EXPORTED);
                 }
             }
 
             if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
                     features.supportsActivityDataFetching() && mGBAutoFetchReceiver == null) {
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
-                registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+                ContextCompat.registerReceiver(this, mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"), ContextCompat.RECEIVER_EXPORTED);
             }
         } else {
             if (mPhoneCallReceiver != null) {

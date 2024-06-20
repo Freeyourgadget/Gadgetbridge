@@ -95,7 +95,6 @@ public class HeartRateDialog extends Dialog {
         IntentFilter filter = new IntentFilter();
         filter.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
-        getContext().registerReceiver(mReceiver, filter);
 
         setContentView(R.layout.heart_rate_dialog);
         heart_rate_dialog_results_layout = findViewById(R.id.heart_rate_dialog_results_layout);

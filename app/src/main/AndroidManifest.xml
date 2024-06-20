@@ -59,6 +59,8 @@
     <!-- Used for background service -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
 
     <!-- Used for reverse find device -->
@@ -455,22 +457,35 @@
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:exported="false">
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Bind to notification listener for capturing and forwarding notifications" />
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".service.NotificationCollectorMonitorService" />
-        <service android:name=".service.DeviceCommunicationService" />
+        <service
+            android:name=".service.NotificationCollectorMonitorService"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Service for capturing and forwarding notifications" />
+        </service>
+        <service
+            android:name=".service.DeviceCommunicationService"
+            android:foregroundServiceType="connectedDevice" />
         <service
             android:name=".devices.pinetime.PineTimeDFUService"
-            android:label="PineTime Nordic DFU service" />
+            android:label="PineTime Nordic DFU service"
+            android:foregroundServiceType="connectedDevice" />
 
         <service
             android:name=".service.btle.BLEScanService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
 
         <receiver
             android:name=".externalevents.GenericWeatherReceiver"

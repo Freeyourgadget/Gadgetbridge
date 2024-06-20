@@ -74,8 +74,8 @@ android {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
 
         //noinspection OldTargetApi
-        targetSdkVersion 33
-        compileSdk 33
+        targetSdkVersion 34
+        compileSdk 34
         minSdkVersion 21
 
         // Note: always bump BOTH versionCode and versionName!
@@ -114,7 +114,7 @@ android {
             applicationIdSuffix ".banglejs"
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
-            targetSdkVersion 33
+            targetSdkVersion 34
             // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions
         }
     }
