@@ -3075,4 +3075,5 @@
         <item quantity="one">%d gün</item>
         <item quantity="other">%d gün</item>
     </plurals>
+    <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
 </resources>
