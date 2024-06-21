@@ -3060,4 +3060,5 @@
     <string name="pref_fetch_unknown_files_title">جلب ملفات غير معروفة</string>
     <string name="pref_fetch_unknown_files_summary">جلب ملفات الأنشطة غير المعروفة من الساعة. لن تتم معالجتها، ولكن سيتم حفظها في الهاتف.</string>
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
 </resources>
