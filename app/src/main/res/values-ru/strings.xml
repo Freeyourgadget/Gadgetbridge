@@ -3054,4 +3054,15 @@
     <string name="battery_low_notify_enabled">Уведомлять о низком заряде батареи</string>
     <string name="battery_full_threshold">Порог окончания зарядки</string>
     <string name="battery_low_threshold">Порог низкого заряда</string>
+    <string name="pref_fetch_unknown_files_title">Скачать неизвестные файлы</string>
+    <string name="pref_fetch_unknown_files_summary">Сохранить неизвестные файлы активности с часов на этом устройстве. Они не будут обработаны.</string>
+    <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
+    <string name="devicetype_hama_fit6900">Hama Fit6900</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дней</item>
+    </plurals>
+    <string name="dashboard_calendar_month_goals_reached_title">% достигнуто от цели шагов</string>
 </resources>
