@@ -319,6 +319,7 @@ public class FitImporter {
                 return ActivityKind.TYPE_TREADMILL;
             case E_BIKE:
             case BIKE:
+            case BIKE_COMMUTE:
                 return ActivityKind.TYPE_CYCLING;
             case BIKE_INDOOR:
                 return ActivityKind.TYPE_INDOOR_CYCLING;

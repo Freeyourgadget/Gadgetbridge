@@ -12,6 +12,7 @@ public enum GarminSport {
     BIKE_INDOOR(2, 6),
     HANDCYCLING(2, 12),
     E_BIKE(2, 28),
+    BIKE_COMMUTE(2, 48),
     HANDCYCLING_INDOOR(2, 88),
     ELLIPTICAL(4, 15),
     STAIR_STEPPER(4, 16),
