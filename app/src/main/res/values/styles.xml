@@ -32,6 +32,11 @@
         <item name="alternate_row_background">@color/alternate_row_background_light</item>
         <item name="sports_activity_summary_background">@color/chart_heartrate_fill</item>
 
+        <item name="deviceIconPrimary">#2196f3</item>
+        <item name="deviceIconOnPrimary">#ffffff</item>
+        <item name="deviceIconLight">#1f7fdb</item>
+        <item name="deviceIconDark">#4dabf5</item>
+
         <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
@@ -68,6 +73,11 @@
         <item name="alternate_row_background">@color/alternate_row_background_dark</item>
         <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
 
+        <item name="deviceIconPrimary">#2196f3</item>
+        <item name="deviceIconOnPrimary">#ffffff</item>
+        <item name="deviceIconLight">#1f7fdb</item>
+        <item name="deviceIconDark">#4dabf5</item>
+
         <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
@@ -92,6 +102,10 @@
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="deviceIconPrimary">?attr/colorPrimary</item>
+        <item name="deviceIconOnPrimary">?attr/colorOnPrimary</item>
+        <item name="deviceIconLight">?attr/colorPrimaryVariant</item>
+        <item name="deviceIconDark">?attr/colorPrimaryDark</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
         <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
@@ -107,6 +121,10 @@
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="deviceIconPrimary">?attr/colorPrimary</item>
+        <item name="deviceIconOnPrimary">?attr/colorOnPrimary</item>
+        <item name="deviceIconLight">?attr/colorPrimaryVariant</item>
+        <item name="deviceIconDark">?attr/colorPrimaryDark</item>
     </style>
     <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
         <item name="android:windowBackground">@android:color/black</item>
