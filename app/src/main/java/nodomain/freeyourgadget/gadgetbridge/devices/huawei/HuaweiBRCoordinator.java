@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -48,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiBRSupport;
 
@@ -74,12 +76,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
         return new HuaweiSettingsCustomizer(device);
     }
 
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
     @Override
     public String[] getSupportedLanguageSettings(GBDevice device) {
         return huaweiCoordinator.getSupportedLanguageSettings(device);
@@ -88,11 +84,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     @Override
     public int[] getSupportedDeviceSpecificAuthenticationSettings() {
         return new int[]{R.xml.devicesettings_huawei_account};
-    }
-
-    @Override
-    public int getBondingStyle(){
-        return BONDING_STYLE_ASK;
     }
 
     @Override
@@ -120,11 +111,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsSmartWakeup(GBDevice device, int position) {
         return huaweiCoordinator.supportsSmartAlarm(device, position);
     }
@@ -140,16 +126,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmSnoozing() {
-        return false;
-    }
-
-    @Override
     public boolean supportsAlarmTitle(GBDevice device) {
         return true;
     }
@@ -157,16 +133,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     @Override
     public boolean supportsWeather() {
         return huaweiCoordinator.supportsWeather();
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
     }
 
     @Override
@@ -233,7 +199,6 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
         return huaweiCoordinator.supportsMusic();
     }
 
-
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return huaweiCoordinator.getInstallHandler(uri, context);
@@ -242,6 +207,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new HuaweiSampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
+        return new HuaweiSpo2SampleProvider(device, session);
     }
 
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {

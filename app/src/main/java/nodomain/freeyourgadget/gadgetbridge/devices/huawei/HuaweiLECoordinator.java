@@ -24,22 +24,20 @@ import android.net.Uri;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
-import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -49,8 +47,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiLESupport;
 
 public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator implements HuaweiCoordinatorSupplier {
@@ -74,12 +72,6 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
         return new HuaweiSettingsCustomizer(device);
-    }
-
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
     }
 
     @Override
@@ -122,11 +114,6 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsSmartWakeup(GBDevice device, int position) {
         return huaweiCoordinator.supportsSmartAlarm(device, position);
     }
@@ -142,16 +129,6 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAlarmSnoozing() {
-        return false;
-    }
-
-    @Override
     public boolean supportsAlarmTitle(GBDevice device) {
         return true;
     }
@@ -159,16 +136,6 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     @Override
     public boolean supportsWeather() {
         return huaweiCoordinator.supportsWeather();
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
     }
 
     @Override
@@ -243,6 +210,11 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new HuaweiSampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
+        return new HuaweiSpo2SampleProvider(device, session);
     }
 
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {

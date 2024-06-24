@@ -16,29 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchgt2e;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiLECoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSpo2SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 
 public class HuaweiWatchGT2eCoordinator extends HuaweiLECoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HuaweiWatchGT2eCoordinator.class);
-
-    public HuaweiWatchGT2eCoordinator() {
-        super();
-    }
-
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.HUAWEIWATCHGT2E;
@@ -47,11 +32,6 @@ public class HuaweiWatchGT2eCoordinator extends HuaweiLECoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuaweiConstants.HU_WATCHGT2E_NAME + ".*", Pattern.CASE_INSENSITIVE);
-    }
-
-    @Override
-    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
-        return new HuaweiSpo2SampleProvider(device, session);
     }
 
     @Override

@@ -16,9 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiwatchfit3;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -27,8 +24,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class HuaweiWatchFit3Coordinator extends HuaweiBRCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HuaweiWatchFit3Coordinator.class);
-
     public HuaweiWatchFit3Coordinator() {
         super();
         getHuaweiCoordinator().setTransactionCrypted(true);

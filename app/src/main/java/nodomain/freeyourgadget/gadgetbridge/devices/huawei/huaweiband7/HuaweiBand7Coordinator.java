@@ -16,25 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.huaweiband7;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiLECoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSpo2SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 
 public class HuaweiBand7Coordinator extends HuaweiLECoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HuaweiBand7Coordinator.class);
-
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.HUAWEIBAND7;
@@ -43,11 +32,6 @@ public class HuaweiBand7Coordinator extends HuaweiLECoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuaweiConstants.HU_BAND7_NAME + ".*", Pattern.CASE_INSENSITIVE);
-    }
-
-    @Override
-    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
-        return new HuaweiSpo2SampleProvider(device, session);
     }
 
     @Override
