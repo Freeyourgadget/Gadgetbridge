@@ -3048,4 +3048,19 @@
     <string name="pref_summary_huawei_account">Účet Huawei používaný v procesu párování. Jeho nastavení umožňuje párování bez továrního nastavení.</string>
     <string name="pref_summary_wheel_diameter">Průměr kola v palcích. Obvykle 29, 27,5 nebo 26.</string>
     <string name="toast_camera_permission_required">Pro tuto funkci je vyžadováno oprávnění k fotoaparátu.</string>
+    <string name="pref_dashboard_select_devices_summary">Zkombinovat data aktivit z určitých zařízení pro celkové hodnoty na nástěnce</string>
+    <string name="fmtPaceTypeAverage">Typ tempa %d průměrné</string>
+    <string name="fmtPaceDistance">Tempo %d vzdálenost</string>
+    <string name="fmtPacePace">Tempo %d tempo</string>
+    <string name="fmtPaceCorrection">Tempo %d oprava</string>
+    <string name="devicesetting_scannable_debounce_summary">Po naskenování bude zařízení označeno jako naskenované a bude ignorováno po určitý čas</string>
+    <string name="pref_dashboard_all_devices_summary">Zkombinovat data aktivit ze všech přidaných zařízení pro celkové hodnoty na nástěnce</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Zobrazit legendu pod widgetem vysvětlující barvy</string>
+    <string name="devicesetting_scannable_minimum_unseen">Minimální čas nevidění (sekundy)</string>
+    <string name="devicesetting_scannable_debounce">Časový limit odezvy skenování (sekundy)</string>
+    <string name="devicesetting_scannable_minimum_unseen_summary">Po naskenování nesmí být zařízení viděné po toto množství času, než bude opět registrováno</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Zobrazit aktivitu v jednom 24h kruhu namísto dvojitého 12h kruhu</string>
+    <string name="fmtPaceType">Tempo %d typ</string>
+    <string name="pref_dashboard_widgets_order_summary">Vyberte, které widgety jsou povoleny a v jakém pořadí budou zobrazeny na nástěnce</string>
+    <string name="pref_dashboard_widget_double_size_summary">Povolit widgetu zabrat dva sloupce na nástěnce</string>
 </resources>
