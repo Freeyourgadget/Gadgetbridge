@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.Ga
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner255SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner265Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.instinct.GarminInstinct2XSolarCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.instinct.GarminInstinctCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.swim.GarminSwim2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.instinct.GarminInstinctSolarCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.instinct.GarminInstinct2SCoordinator;
@@ -364,6 +365,7 @@ public enum DeviceType {
     GARMIN_FORERUNNER_255S(GarminForerunner255SCoordinator.class),
     GARMIN_FORERUNNER_265(GarminForerunner265Coordinator.class),
     GARMIN_SWIM_2(GarminSwim2Coordinator.class),
+    GARMIN_INSTINCT(GarminInstinctCoordinator.class),
     GARMIN_INSTINCT_SOLAR(GarminInstinctSolarCoordinator.class),
     GARMIN_INSTINCT_2S(GarminInstinct2SCoordinator.class),
     GARMIN_INSTINCT_2S_SOLAR(GarminInstinct2SSolarCoordinator.class),
