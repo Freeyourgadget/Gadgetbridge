@@ -1,7 +1,6 @@
 ### Changelog
 
-#### Next release (WIP)
-
+#### 0.81.0
 * Experimental support for Amazfit Bip 5 Unity
 * Experimental support for Redmi Watch 4
 * Initial support for cycling sensor

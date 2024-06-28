@@ -1,5 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.81.0" versioncode="232">
+        <change>Experimental support for Amazfit Bip 5 Unity</change>
+        <change>Experimental support for Redmi Watch 4</change>
+        <change>Initial support for cycling sensor</change>
+        <change>Initial support for more Garmin watches</change>
+        <change>Initial support for Hama Fit6900</change>
+        <change>Initial support for Huawei Watch Fit 2, Watch Fit 3, Watch 4 Pro</change>
+        <change>Initial support for Soundcore Liberty 3 Pro</change>
+        <change>Introduce new Dashboard view</change>
+        <change>AsteroidOS: Added icons to the notifications</change>
+        <change>Bangle.js: Add Sleep as Android support</change>
+        <change>Bangle.js: Add screenshot support</change>
+        <change>Bangle.js: Add setting to disable notifications</change>
+        <change>Bangle.js: Allow wake phone when opening notification response from watch</change>
+        <change>Bangle.js: Fix activity intensity normalization</change>
+        <change>Bangle.js: Fix message reply</change>
+        <change>Bangle.js: Improve text rendering</change>
+        <change>Fossil/Skagen Hybrids: Update device settings to new structure</change>
+        <change>Galaxy Buds Live: Update device settings to new structure</change>
+        <change>Galaxy Buds 2: Fix recognition of some versions</change>
+        <change>HPlus: Migrate global preferences to device-specific</change>
+        <change>Huami: Fix reminder message encoding</change>
+        <change>Huawei: Add cycling workout type</change>
+        <change>Huawei: Add enable HeartRate and SpO2 force option</change>
+        <change>Huawei: Add huawei account support (pair without resetting watch)</change>
+        <change>Huawei: Add support for workout calories and cycling power</change>
+        <change>Huawei: Add remote camera shutter</change>
+        <change>Huawei: Ask pincode only on first connection</change>
+        <change>Huawei: Enable sleep detection</change>
+        <change>Huawei: File upload and watchface management</change>
+        <change>Huawei: Fix force DND support</change>
+        <change>Huawei: Fix long notification</change>
+        <change>Huawei: Fix TimeZone offset calculation</change>
+        <change>Huawei: Improve connection and reconnection</change>
+        <change>Huawei: Improve music controls</change>
+        <change>Huawei: Improve notification icons</change>
+        <change>Huawei: Improve weather, HR and SpO2 support</change>
+        <change>Huawei: Improve workout parsing</change>
+        <change>Huawei: Rework settings menu with sub-screens</change>
+        <change>Huawei: Send user info to device</change>
+        <change>Huawei: Support sending GPS to band</change>
+        <change>Huawei Watch GT4: Add HR and SpO support</change>
+        <change>Huawei Watch Ultimate: Add HR and SpO support</change>
+        <change>Intent API: Add broadcast on activity sync finish</change>
+        <change>Intent API: Added debug end call</change>
+        <change>Mi Band 6: Add menu items for NFC shortcuts</change>
+        <change>Nothing CMF Watch Pro: Add weather support</change>
+        <change>Nothing Earbuds: Add adjustable delay for auto-pick-up of calls</change>
+        <change>Nothing Earbuds: Add option to auto-reply to incoming phone calls</change>
+        <change>Nothing Earbuds: Add option to read aloud incoming notifications</change>
+        <change>Sony LinkBuds S: Enable some missing features</change>
+        <change>Xiaomi Smart Band 8 Active: Fix discovery</change>
+        <change>Xiaomi: Add swimming workout type</change>
+        <change>Xiaomi: Allow transliteration</change>
+        <change>Xiaomi: Fix barometer</change>
+        <change>Xiaomi: Fix notification for apps in work profile</change>
+        <change>Xiaomi: Fix some crashes</change>
+        <change>Xiaomi: Improve reconnection</change>
+        <change>Xiaomi: Improve sleep and activity parsing</change>
+        <change>Xiaomi: Improve weather support, add multiple locations</change>
+        <change>Xiaomi: Sync calendar event reminders</change>
+        <change>Zepp OS: Add support for Sleep as Android</change>
+        <change>Zepp OS: Sync calendar event reminders</change>
+        <change>Add Armenian and Serbian transliterators</change>
+        <change>Add GENERIC_PHONE and GENERIC_CALENDAR NotificationType handling</change>
+        <change>Add support for scannable-only devices</change>
+        <change>Fix crash when connecting on some phones</change>
+        <change>Fix crash when enabling bluetooth</change>
+        <change>Fix receiving shared gpx files</change>
+        <change>Fix text cutoff on all checkbox preferences</change>
+        <change>Format pace as mm:ss</change>
+        <change>Make battery threshold notifications configurable</change>
+        <change>Prevent some bluetooth events from starting Gadgetbridge</change>
+        <change>Recognize "Delta Chat" as generic chat</change>
+        <change>Remove deprecated general auto-reconnect preference</change>
+        <change>Refactor location service</change>
+        <change>Set navbar color to match theme</change>
+        <change>Simplify pairing of bonded and companion devices</change>
+    </release>
     <release version="0.80.0" versioncode="231">
         <change>Initial support for Amazfit Bip 3</change>
         <change>Initial support for Huawei Band 8</change>
