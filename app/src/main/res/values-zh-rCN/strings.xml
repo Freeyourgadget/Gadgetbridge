@@ -3063,4 +3063,5 @@
     </plurals>
     <string name="devicetype_garmin_venu_2">佳明 Venu 2</string>
     <string name="devicetype_garmin_forerunner_255s">佳明 Forerunner 255S</string>
+    <string name="devicetype_garmin_instinct">佳明 Instinct</string>
 </resources>
