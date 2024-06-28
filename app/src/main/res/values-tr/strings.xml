@@ -3076,4 +3076,5 @@
         <item quantity="other">%d gün</item>
     </plurals>
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
+    <string name="devicetype_garmin_instinct">Garmin Instinct</string>
 </resources>
