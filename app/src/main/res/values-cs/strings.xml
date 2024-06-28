@@ -2941,7 +2941,7 @@
     <string name="state_scanned">Naskenováno</string>
     <string name="pref_dashboard_devices_to_include">Zahrnutá zařízení</string>
     <string name="error_showing_changelog">Chyba při zobrazování seznamu změn</string>
-    <plurals name="amount_of_days">
+    <plurals name="amount_of_days" tools:ignore="MissingQuantity">
         <item quantity="one">%d den</item>
         <item quantity="few">%d dny</item>
         <item quantity="other">%d dní</item>
