@@ -3071,4 +3071,5 @@
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
     <string name="devicetype_hama_fit6900">Hama Fit Watch 6900</string>
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
+    <string name="devicetype_garmin_instinct">Garmin Instinct</string>
 </resources>
