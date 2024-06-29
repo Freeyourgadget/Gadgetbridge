@@ -281,7 +281,7 @@
     <string name="overstep">Пройдено на %1$d шагов больше</string>
     <string name="pref_title_dont_ack_transfer">Не подтверждать передачу данных об активности</string>
     <string name="pref_summary_dont_ack_transfers">Если данные об активности не будут переданы на устройство, оно не будет очищено. Полезно, если GB используется с другими приложениями.</string>
-    <string name="pref_summary_keep_data_on_device">Сохранять данные об активности на устройстве даже после синхронизации. Полезно, если GB используется совместно с другими приложениями.</string>
+    <string name="pref_summary_keep_data_on_device">Сохранять данные об активности на устройстве даже после синхронизации. Полезно, если GB используется совместно с другими приложениями. Это может привести к тому, что на часах закончится место и/или они перестанут синхронизироваться должным образом.</string>
     <string name="pref_title_low_latency_fw_update">Использовать режим с низкими задержками для обновления прошивки</string>
     <string name="pref_summary_low_latency_fw_update">Это может пригодиться в случае неудачного обновления прошивки.</string>
     <string name="live_activity_steps_history">История шагов</string>
@@ -2882,7 +2882,7 @@
     <string name="activity_type_swing">Качели</string>
     <string name="activity_type_stairs">Лестница</string>
     <string name="activity_type_australian_football">Австралийский футбол</string>
-    <string name="activity_type_lacross">Lacross</string>
+    <string name="activity_type_lacross">Лякросс</string>
     <string name="activity_type_outdoor_walking">Прогулки на свежем воздухе</string>
     <string name="activity_type_skating">Катание</string>
     <string name="activity_type_rock_climbing">Скалолазание</string>
