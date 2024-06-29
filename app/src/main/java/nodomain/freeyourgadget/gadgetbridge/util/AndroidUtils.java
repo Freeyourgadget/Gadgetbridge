@@ -126,7 +126,7 @@ public class AndroidUtils {
             } else {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
-            int[] attrsToResolve = {R.attr.colorOnSurface};
+            int[] attrsToResolve = {com.google.android.material.R.attr.colorOnSurface};
             @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
@@ -152,15 +152,15 @@ public class AndroidUtils {
             } else {
                 dynamicColorContext = DynamicColors.wrapContextIfAvailable(context, R.style.GadgetbridgeThemeDynamicLight);
             }
-            int[] attrsToResolve = {R.attr.colorSurface};
+            int[] attrsToResolve = {com.google.android.material.R.attr.colorSurface};
             @SuppressLint("ResourceType")
             TypedArray ta = dynamicColorContext.obtainStyledAttributes(attrsToResolve);
             color = ta.getColor(0, 0);
             ta.recycle();
         } else if (GBApplication.isDarkThemeEnabled()) {
-            color = context.getResources().getColor(R.color.cardview_dark_background);
+            color = context.getResources().getColor(androidx.cardview.R.color.cardview_dark_background);
         } else {
-            color = context.getResources().getColor(R.color.cardview_light_background);
+            color = context.getResources().getColor(androidx.cardview.R.color.cardview_light_background);
         }
         return colorToHex(color);
     }
@@ -168,9 +168,9 @@ public class AndroidUtils {
     public static int getBackgroundColor(Context context) {
         int color;
         if (GBApplication.isDarkThemeEnabled()) {
-            color = context.getResources().getColor(R.color.cardview_dark_background);
+            color = context.getResources().getColor(androidx.cardview.R.color.cardview_dark_background);
         } else {
-            color = context.getResources().getColor(R.color.cardview_light_background);
+            color = context.getResources().getColor(androidx.cardview.R.color.cardview_light_background);
         }
         return color;
     }

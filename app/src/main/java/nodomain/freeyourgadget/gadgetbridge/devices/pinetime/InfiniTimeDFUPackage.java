@@ -21,6 +21,9 @@ import com.google.gson.annotations.SerializedName;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * If this or any of the classes below are renamed, update the proguard rules.
+ */
 public class InfiniTimeDFUPackage {
     @SerializedName("manifest")
     InfiniTimeDFUPackageManifest manifest;

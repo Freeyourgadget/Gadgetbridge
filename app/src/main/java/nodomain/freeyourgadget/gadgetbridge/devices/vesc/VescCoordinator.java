@@ -52,7 +52,7 @@ public class VescCoordinator extends AbstractBLEDeviceCoordinator {
 
 
     @Override
-    protected void deleteDevice(GBDevice gbDevice, Device device, DaoSession session) throws GBException {
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
     }
 

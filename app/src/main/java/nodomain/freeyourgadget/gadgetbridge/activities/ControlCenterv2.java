@@ -222,7 +222,7 @@ public class ControlCenterv2 extends AppCompatActivity
         if (GBApplication.areDynamicColorsEnabled()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = getTheme();
-            theme.resolveAttribute(R.attr.colorSurface, typedValue, true);
+            theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
             @ColorInt int toolbarBackground = typedValue.data;
             toolbar.setBackgroundColor(toolbarBackground);
         } else {

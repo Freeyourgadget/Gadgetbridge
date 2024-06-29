@@ -55,6 +55,7 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
         return "Denver";
     }
 
+    @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {
 

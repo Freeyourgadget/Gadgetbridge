@@ -269,16 +269,14 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.charts_fetch_activity_data:
-                fetchRecordedData();
-                return true;
-            case R.id.prefs_charts_menu:
-                Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
-                startActivityForResult(settingsIntent, REQUEST_CODE_PREFERENCES);
-                return true;
-            default:
-                break;
+        final int itemId = item.getItemId();
+        if (itemId == R.id.charts_fetch_activity_data) {
+            fetchRecordedData();
+            return true;
+        } else if (itemId == R.id.prefs_charts_menu) {
+            Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
+            startActivityForResult(settingsIntent, REQUEST_CODE_PREFERENCES);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

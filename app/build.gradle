@@ -1,13 +1,7 @@
-import com.github.spotbugs.SpotBugsTask
-
 import java.nio.file.Files
 
 apply plugin: "com.android.application"
-apply plugin: "com.github.spotbugs"
-apply plugin: "pmd"
 apply plugin: 'com.google.protobuf'
-
-def ABORT_ON_CHECK_FAILURE = true
 
 tasks.withType(Test) {
     systemProperty "MiFirmwareDir", System.getProperty("MiFirmwareDir", null)
@@ -147,7 +141,7 @@ android {
             versionNameSuffix "-${getGitHashShort}"
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             minifyEnabled true
-            debuggable true
+            debuggable false
 
             if (System.getProperty("nightly_store_file") != null) {
                 signingConfig signingConfigs.nightly
@@ -161,7 +155,7 @@ android {
             versionNameSuffix "-${getGitHashShort}"
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             minifyEnabled true
-            debuggable true
+            debuggable false
 
             if (System.getProperty("nightly_store_file") != null) {
                 signingConfig signingConfigs.nightly
@@ -186,7 +180,7 @@ android {
     }
 
     lint {
-        abortOnError ABORT_ON_CHECK_FAILURE
+        abortOnError true
         lintConfig file("$rootDir/app/src/main/lint.xml")
         // If true, generate an HTML report (with issue explanations, sourcecode, etc)
         htmlReport true
@@ -202,10 +196,10 @@ android {
             includeAndroidResources = true
         }
     }
-}
-
-pmd {
-    toolVersion = "5.5.5"
+    buildFeatures {
+        aidl true
+        buildConfig true
+    }
 }
 
 dependencies {
@@ -291,49 +285,6 @@ gradle.beforeProject {
     preBuild.dependsOn(":GBDaoGenerator:genSources")
 }
 
-check.dependsOn "spotbugsMain", "pmd", "lint"
-
-task pmd(type: Pmd) {
-    ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml")
-    ignoreFailures = !ABORT_ON_CHECK_FAILURE
-    ruleSets = [
-            "java-android",
-            "java-basic",
-            "java-braces",
-            "java-clone",
-            "java-codesize",
-            "java-controversial",
-            "java-coupling",
-            "java-design",
-            "java-empty",
-            "java-finalizers",
-            "java-imports",
-            "java-junit",
-            "java-optimizations",
-            "java-strictexception",
-            "java-strings",
-            "java-sunsecure",
-            "java-typeresolution",
-            "java-unnecessary",
-            "java-unusedcode"
-    ]
-
-    source "src"
-    include "**/*.java"
-    exclude "**/gen/**"
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination file("$project.buildDir/reports/pmd/pmd.xml")
-        }
-        html {
-            destination file("$project.buildDir/reports/pmd/pmd.html")
-        }
-    }
-}
-
 sourceSets {
     main {
         java.srcDirs += "${protobuf.generatedFilesBaseDir}"
@@ -341,30 +292,7 @@ sourceSets {
     }
 }
 
-spotbugs {
-    toolVersion = "3.1.12"
-    ignoreFailures = !ABORT_ON_CHECK_FAILURE
-    effort = "default"
-    reportLevel = "medium"
-}
-
-tasks.withType(SpotBugsTask) {
-    source = fileTree('src/main/java')
-    classes = files("${project.rootDir}/app/build/intermediates/javac/debug/classes")
-    excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination file("$project.buildDir/reports/spotbugs/spotbugs-output.xml")
-        }
-        html {
-            destination file("$project.buildDir/reports/spotbugs/spotbugs-output.html")
-        }
-    }
-}
-
-task cleanGenerated(type: Delete) {
+tasks.register('cleanGenerated', Delete) {
     delete fileTree('src/main/java/nodomain/freeyourgadget/gadgetbridge/entities') {
         include '**/*.java'
         exclude '**/Abstract*.java'

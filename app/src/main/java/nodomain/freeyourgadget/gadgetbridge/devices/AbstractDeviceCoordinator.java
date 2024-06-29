@@ -79,7 +79,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -107,7 +106,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             supportedDeviceName = getSupportedDeviceName();
         }
         if (supportedDeviceName == null) {
-            LOG.error(getClass() + " should either override getSupportedDeviceName or supports(GBDeviceCandidate)");
+            LOG.error("{} should either override getSupportedDeviceName or supports(GBDeviceCandidate)", getClass());
             return false;
         }
 
@@ -142,7 +141,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public final void deleteDevice(final GBDevice gbDevice) throws GBException {
-        LOG.info("will try to delete device: " + gbDevice.getName());
+        LOG.info("will try to delete device: {}", gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
             GBApplication.deviceService(gbDevice).disconnect();
         }
@@ -177,7 +176,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
                 alarmDeviceQueryBuilder.where(AlarmDao.Properties.DeviceId.eq(device.getId())).buildDelete().executeDeleteWithoutDetachingEntities();
                 session.getDeviceDao().delete(device);
             } else {
-                LOG.info("device to delete not found in db: " + gbDevice);
+                LOG.info("device to delete not found in db: {}", gbDevice);
             }
         } catch (Exception e) {
             throw new GBException("Error deleting device: " + e.getMessage(), e);
@@ -190,7 +189,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
      * @param gbDevice the GBDevice
      * @param device   the corresponding database Device
      * @param session  the session to use
-     * @throws GBException
+     * @throws GBException if there was an error deleting device-specific resources
      */
     protected abstract void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException;
 
@@ -273,7 +272,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             return false;
         }
         if (bluetoothClass == null) {
-            LOG.warn("unable to determine bluetooth device class of " + device);
+            LOG.warn("unable to determine bluetooth device class of {}", device);
             return false;
         }
         if (bluetoothClass.getMajorDeviceClass() == BluetoothClass.Device.Major.WEARABLE

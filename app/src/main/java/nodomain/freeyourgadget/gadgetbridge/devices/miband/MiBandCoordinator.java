@@ -101,7 +101,7 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    protected void deleteDevice(GBDevice gbDevice, Device device, DaoSession session) throws GBException {
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
         Long deviceId = device.getId();
         QueryBuilder<?> qb = session.getMiBandActivitySampleDao().queryBuilder();
         qb.where(MiBandActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
