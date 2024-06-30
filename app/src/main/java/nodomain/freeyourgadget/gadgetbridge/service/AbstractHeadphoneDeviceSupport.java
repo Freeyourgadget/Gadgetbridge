@@ -114,6 +114,8 @@ public abstract class AbstractHeadphoneDeviceSupport extends AbstractSerialDevic
             gbTextToSpeech.setAudioFocus(prefs.getBoolean(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE, false) ?
                     AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE :
                     AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        } else {
+            super.onSendConfiguration(config);
         }
     }
 
