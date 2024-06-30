@@ -2875,7 +2875,7 @@
     <string name="toast_camera_photo_taken">Снимок был сделан и сохранён в %s</string>
     <string name="activity_type_cross_trainer">Кросс-тренажер</string>
     <string name="activity_type_stair_stepper">Лестничный шагомер</string>
-    <string name="activity_type_crossfit">Crossfit</string>
+    <string name="activity_type_crossfit">Кроссфит</string>
     <string name="activity_type_darts">Дротики</string>
     <string name="activity_type_hand_cycling">Ручной велосипед</string>
     <string name="activity_type_kite_flying">Запуск воздушного змея</string>
@@ -2914,7 +2914,7 @@
     <string name="activity_type_smith_machine">Машина Смита</string>
     <string name="activity_type_dumbbell">Гантель</string>
     <string name="activity_type_archery">Стрельба из лука</string>
-    <string name="activity_type_kabaddi">Kabaddi</string>
+    <string name="activity_type_kabaddi">Кабадди</string>
     <string name="activity_type_shuttlecock">Челнок</string>
     <string name="activity_type_sailing">Парусник</string>
     <string name="activity_type_jet_skiing">Катание на гидроциклах</string>
@@ -3065,4 +3065,6 @@
         <item quantity="other">%d дней</item>
     </plurals>
     <string name="dashboard_calendar_month_goals_reached_title">% достигнуто от цели шагов</string>
+    <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
+    <string name="devicetype_garmin_instinct">Garmin Instinct</string>
 </resources>
