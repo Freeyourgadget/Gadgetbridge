@@ -72,12 +72,12 @@ public abstract class AbstractSettingsActivityV2 extends AbstractGBActivity impl
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Simulate a back press, so that we don't actually exit the activity when
-                // in a nested PreferenceScreen
-                this.onBackPressed();
-                return true;
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // Simulate a back press, so that we don't actually exit the activity when
+            // in a nested PreferenceScreen
+            this.onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

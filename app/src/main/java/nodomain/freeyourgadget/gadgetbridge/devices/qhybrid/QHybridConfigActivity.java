@@ -550,10 +550,10 @@ public class QHybridConfigActivity extends AbstractGBActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.onBackPressed();
-                return true;
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            this.onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

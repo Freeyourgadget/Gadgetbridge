@@ -563,27 +563,27 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                finish();
-                return true;
-            case R.id.activity_action_take_screenshot:
-                take_share_screenshot(ActivitySummaryDetail.this);
-                return true;
-            case R.id.activity_action_show_gpx:
-                viewGpxTrack(ActivitySummaryDetail.this);
-                return true;
-            case R.id.activity_action_share_gpx:
-                shareGpxTrack(ActivitySummaryDetail.this, currentItem);
-                return true;
-            case R.id.activity_action_dev_share_raw_summary:
-                shareRawSummary(ActivitySummaryDetail.this, currentItem);
-                return true;
-            case R.id.activity_action_dev_share_raw_details:
-                shareRawDetails(ActivitySummaryDetail.this, currentItem);
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button
+            finish();
+            return true;
+        } else if (itemId == R.id.activity_action_take_screenshot) {
+            take_share_screenshot(ActivitySummaryDetail.this);
+            return true;
+        } else if (itemId == R.id.activity_action_show_gpx) {
+            viewGpxTrack(ActivitySummaryDetail.this);
+            return true;
+        } else if (itemId == R.id.activity_action_share_gpx) {
+            shareGpxTrack(ActivitySummaryDetail.this, currentItem);
+            return true;
+        } else if (itemId == R.id.activity_action_dev_share_raw_summary) {
+            shareRawSummary(ActivitySummaryDetail.this, currentItem);
+            return true;
+        } else if (itemId == R.id.activity_action_dev_share_raw_details) {
+            shareRawDetails(ActivitySummaryDetail.this, currentItem);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

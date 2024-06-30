@@ -33,11 +33,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,12 +50,9 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ReminderDetails extends AbstractGBActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-    private static final Logger LOG = LoggerFactory.getLogger(ReminderDetails.class);
-
     private Reminder reminder;
     private GBDevice device;
 
@@ -168,13 +164,13 @@ public class ReminderDetails extends AbstractGBActivity implements TimePickerDia
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                // TODO confirm when exiting without saving
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button
+            // TODO confirm when exiting without saving
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -184,13 +180,13 @@ public class ReminderDetails extends AbstractGBActivity implements TimePickerDia
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(@NonNull final Bundle state) {
         super.onSaveInstanceState(state);
         state.putSerializable("reminder", reminder);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         reminder = (Reminder) savedInstanceState.getSerializable("reminder");
         updateUiFromReminder();

@@ -577,94 +577,91 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         return true;
     }
 
-    private boolean onContextItemSelected(MenuItem item, GBDeviceApp selectedApp) {
-        File appCacheDir;
+    private boolean onContextItemSelected(final MenuItem item, final GBDeviceApp selectedApp) {
+        final File appCacheDir;
         try {
             appCacheDir = mCoordinator.getAppCacheDir();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.warn("could not get external dir while trying to access app cache.");
             return true;
         }
-        switch (item.getItemId()) {
-            case R.id.appmanager_app_delete_cache:
-                deleteAppConfirm(selectedApp, true);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.appmanager_app_delete_cache) {
+            deleteAppConfirm(selectedApp, true);
+            return true;
+        } else if (itemId == R.id.appmanager_app_delete) {
+            deleteAppConfirm(selectedApp, false);
+            return true;
+        } else if (itemId == R.id.appmanager_app_start || itemId == R.id.appmanager_watchface_activate) {
+            GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
+            return true;
+        } else if (itemId == R.id.appmanager_app_download) {
+            GBApplication.deviceService(mGBDevice).onAppDownload(selectedApp.getUUID());
+            GB.toast(requireContext().getString(R.string.appmanager_download_started), Toast.LENGTH_LONG, GB.INFO);
+            return true;
+        } else if (itemId == R.id.appmanager_app_reinstall) {
+            final File cachePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
+            GBApplication.deviceService(mGBDevice).onInstallApp(Uri.fromFile(cachePath));
+            return true;
+        } else if (itemId == R.id.appmanager_app_share) {
+            final File origFilePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
+            final File appTempDir = new File(appCacheDir, "temp_sharing");
+            final File sharedAppFile = new File(appTempDir, selectedApp.getName() + mCoordinator.getAppFileExtension());
+            try {
+                appTempDir.mkdirs();
+                FileUtils.copyFile(origFilePath, sharedAppFile);
+            } catch (final IOException e) {
                 return true;
-            case R.id.appmanager_app_delete:
-                deleteAppConfirm(selectedApp, false);
-                return true;
-            case R.id.appmanager_app_start:
-            case R.id.appmanager_watchface_activate:
-                GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
-                return true;
-            case R.id.appmanager_app_download:
-                GBApplication.deviceService(mGBDevice).onAppDownload(selectedApp.getUUID());
-                GB.toast(getContext().getString(R.string.appmanager_download_started), Toast.LENGTH_LONG, GB.INFO);
-                return true;
-            case R.id.appmanager_app_reinstall:
-                File cachePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
-                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.fromFile(cachePath));
-                return true;
-            case R.id.appmanager_app_share:
-                File origFilePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
-                File appTempDir = new File(appCacheDir, "temp_sharing");
-                File sharedAppFile = new File(appTempDir, selectedApp.getName() + mCoordinator.getAppFileExtension());
-                try {
-                    appTempDir.mkdirs();
-                    FileUtils.copyFile(origFilePath, sharedAppFile);
-                } catch (IOException e) {
-                    return true;
-                }
-                Uri contentUri = FileProvider.getUriForFile(getContext(),getContext().getApplicationContext().getPackageName() + ".screenshot_provider", sharedAppFile);
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                shareIntent.setType("*/*");
-                try {
-                    startActivity(Intent.createChooser(shareIntent, null));
-                } catch (ActivityNotFoundException e) {
-                    LOG.warn("Sharing watchface failed", e);
-                }
-                return true;
-            case R.id.appmanager_health_activate:
-                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://health"));
-                return true;
-            case R.id.appmanager_hrm_activate:
-                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://hrm"));
-                return true;
-            case R.id.appmanager_weather_activate:
-                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://weather"));
-                return true;
-            case R.id.appmanager_health_deactivate:
-            case R.id.appmanager_hrm_deactivate:
-            case R.id.appmanager_weather_deactivate:
-                GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
-                return true;
-            case R.id.appmanager_weather_install_provider:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/app/ru.gelin.android.weather.notification")));
-                return true;
-            case R.id.appmanager_app_configure:
-                GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
+            }
+            final Uri contentUri = FileProvider.getUriForFile(requireContext(), requireContext().getApplicationContext().getPackageName() + ".screenshot_provider", sharedAppFile);
+            final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareIntent.setType("*/*");
+            try {
+                startActivity(Intent.createChooser(shareIntent, null));
+            } catch (ActivityNotFoundException e) {
+                LOG.warn("Sharing watchface failed", e);
+            }
+            return true;
+        } else if (itemId == R.id.appmanager_health_activate) {
+            GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://health"));
+            return true;
+        } else if (itemId == R.id.appmanager_hrm_activate) {
+            GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://hrm"));
+            return true;
+        } else if (itemId == R.id.appmanager_weather_activate) {
+            GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://weather"));
+            return true;
+        } else if (itemId == R.id.appmanager_health_deactivate || itemId == R.id.appmanager_hrm_deactivate || itemId == R.id.appmanager_weather_deactivate) {
+            GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+            return true;
+        } else if (itemId == R.id.appmanager_weather_install_provider) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/app/ru.gelin.android.weather.notification")));
+            return true;
+        } else if (itemId == R.id.appmanager_app_configure) {
+            GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
 
-                Intent startIntent = new Intent(getContext().getApplicationContext(), ExternalPebbleJSActivity.class);
-                startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
-                startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
-                startIntent.putExtra(ExternalPebbleJSActivity.SHOW_CONFIG, true);
-                startActivity(startIntent);
-                return true;
-            case R.id.appmanager_app_openinstore:
-                String url = "https://apps.rebble.io/en_US/search/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/1/?native=true&?query=" +  Uri.encode(selectedApp.getName());
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
-                return true;
-            case R.id.appmanager_app_edit:
-                Intent editWatchfaceIntent = new Intent(getContext(), watchfaceDesignerActivity);
-                editWatchfaceIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
-                editWatchfaceIntent.putExtra(GBDevice.EXTRA_UUID, selectedApp.getUUID().toString());
-                startActivityForResult(editWatchfaceIntent, CHILD_ACTIVITY_WATCHFACE_EDITOR);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+            final Intent startIntent = new Intent(getContext().getApplicationContext(), ExternalPebbleJSActivity.class);
+            startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());
+            startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+            startIntent.putExtra(ExternalPebbleJSActivity.SHOW_CONFIG, true);
+            startActivity(startIntent);
+            return true;
+        } else if (itemId == R.id.appmanager_app_openinstore) {
+            final String url = "https://apps.rebble.io/en_US/search/" + ((selectedApp.getType() == GBDeviceApp.Type.WATCHFACE) ? "watchfaces" : "watchapps") + "/1/?native=true&?query=" +  Uri.encode(selectedApp.getName());
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.appmanager_app_edit) {
+            final Intent editWatchfaceIntent = new Intent(getContext(), watchfaceDesignerActivity);
+            editWatchfaceIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+            editWatchfaceIntent.putExtra(GBDevice.EXTRA_UUID, selectedApp.getUUID().toString());
+            startActivityForResult(editWatchfaceIntent, CHILD_ACTIVITY_WATCHFACE_EDITOR);
+            return true;
         }
+
+        return super.onContextItemSelected(item);
     }
 
     private void deleteAppConfirm(final GBDeviceApp selectedApp, final boolean deleteFromCache) {

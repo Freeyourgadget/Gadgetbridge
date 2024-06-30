@@ -125,22 +125,21 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean processed = false;
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button, close drawer if open, otherwise exit
-                finish();
-                return true;
-            case R.id.activity_action_manage_timestamp:
-                resetFetchTimestampToChosenDate();
-                processed = true;
-                break;
-            case R.id.activity_action_filter:
-                runFilterActivity();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button, close drawer if open, otherwise exit
+            finish();
+            return true;
+        } else if (itemId == R.id.activity_action_manage_timestamp) {
+            resetFetchTimestampToChosenDate();
+            return true;
+        } else if (itemId == R.id.activity_action_filter) {
+            runFilterActivity();
+            return true;
         }
-        return processed;
+
+        return false;
     }
 
     @Override
@@ -229,77 +228,72 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             }
 
             @Override
-            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
                 boolean processed = false;
-                SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
-                switch (menuItem.getItemId()) {
-                    case R.id.activity_action_delete:
-                        final List<BaseActivitySummary> toDelete = new ArrayList<>();
-                        for (int i = 0; i < checked.size(); i++) {
-                            if (checked.valueAt(i)) {
-                                toDelete.add(getItemAdapter().getItem(checked.keyAt(i)));
-                            }
+                final SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
+                final int itemId = menuItem.getItemId();
+                if (itemId == R.id.activity_action_delete) {
+                    final List<BaseActivitySummary> toDelete = new ArrayList<>();
+                    for (int i = 0; i < checked.size(); i++) {
+                        if (checked.valueAt(i)) {
+                            toDelete.add(getItemAdapter().getItem(checked.keyAt(i)));
                         }
+                    }
 
-                        new MaterialAlertDialogBuilder(ActivitySummariesActivity.this)
-                                .setTitle(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_title, toDelete.size()))
-                                .setMessage(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_description, toDelete.size()))
-                                .setIcon(R.drawable.ic_delete_forever)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(final DialogInterface dialog, final int whichButton) {
-                                        deleteItems(toDelete);
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.no, null)
-                                .show();
+                    new MaterialAlertDialogBuilder(ActivitySummariesActivity.this)
+                            .setTitle(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_title, toDelete.size()))
+                            .setMessage(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_description, toDelete.size()))
+                            .setIcon(R.drawable.ic_delete_forever)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
+                                    deleteItems(toDelete);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
 
-                        processed = true;
-                        break;
-                    case R.id.activity_action_export:
-                        List<String> paths = new ArrayList<>();
+                    processed = true;
+                } else if (itemId == R.id.activity_action_export) {
+                    final List<String> paths = new ArrayList<>();
 
-                        for (int i = 0; i < checked.size(); i++) {
-                            if (checked.valueAt(i)) {
+                    for (int i = 0; i < checked.size(); i++) {
+                        if (checked.valueAt(i)) {
 
-                                BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
-                                if (item != null) {
-                                    ActivitySummary summary = item;
+                            BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
+                            if (item != null) {
+                                ActivitySummary summary = item;
 
-                                    String gpxTrack = summary.getGpxTrack();
-                                    if (gpxTrack != null) {
-                                        paths.add(gpxTrack);
-                                    }
+                                String gpxTrack = summary.getGpxTrack();
+                                if (gpxTrack != null) {
+                                    paths.add(gpxTrack);
                                 }
                             }
                         }
-                        shareMultiple(paths);
-                        processed = true;
-                        break;
-                    case R.id.activity_action_select_all:
-                        for (int i = 0; i < getItemListView().getCount(); i++) {
-                            getItemListView().setItemChecked(i, true);
-                        }
-                        return true; //don't finish actionmode in this case!
-                    case R.id.activity_action_addto_filter:
-                        List<Long> toFilter = new ArrayList<>();
-                        for (int i = 0; i < checked.size(); i++) {
-                            if (checked.valueAt(i)) {
-                                BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
-                                if (item != null && item.getId() != null) {
-                                    ActivitySummary summary = item;
-                                    Long id = summary.getId();
-                                    toFilter.add(id);
-                                }
+                    }
+                    shareMultiple(paths);
+                    processed = true;
+                } else if (itemId == R.id.activity_action_select_all) {
+                    for (int i = 0; i < getItemListView().getCount(); i++) {
+                        getItemListView().setItemChecked(i, true);
+                    }
+                    return true; //don't finish actionmode in this case!
+                } else if (itemId == R.id.activity_action_addto_filter) {
+                    final List<Long> toFilter = new ArrayList<>();
+                    for (int i = 0; i < checked.size(); i++) {
+                        if (checked.valueAt(i)) {
+                            BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
+                            if (item != null && item.getId() != null) {
+                                ActivitySummary summary = item;
+                                Long id = summary.getId();
+                                toFilter.add(id);
                             }
                         }
-                        itemsFilter = toFilter;
-                        setItemsFilter(itemsFilter);
-                        refresh();
+                    }
+                    itemsFilter = toFilter;
+                    setItemsFilter(itemsFilter);
+                    refresh();
 
-                        processed = true;
-                        break;
-                    default:
-                        break;
+                    processed = true;
                 }
                 actionMode.finish();
                 return processed;

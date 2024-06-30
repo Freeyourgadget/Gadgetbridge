@@ -189,12 +189,12 @@ public class ConfigureWorldClocks extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

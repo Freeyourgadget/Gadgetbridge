@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -68,7 +69,7 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             // Action bar back button
             Intent output = new Intent();

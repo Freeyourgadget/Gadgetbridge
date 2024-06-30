@@ -200,13 +200,11 @@ public class ControlCenterv2 extends AppCompatActivity
             navigationView.setVisibility(View.GONE);
         }
         navigationView.setOnItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.bottom_nav_dashboard:
-                    viewPager.setCurrentItem(0, true);
-                    break;
-                case R.id.bottom_nav_devices:
-                    viewPager.setCurrentItem(1, true);
-                    break;
+            final int itemId = menuItem.getItemId();
+            if (itemId == R.id.bottom_nav_dashboard) {
+                viewPager.setCurrentItem(0, true);
+            } else if (itemId == R.id.bottom_nav_devices) {
+                viewPager.setCurrentItem(1, true);
             }
             return true;
         });
@@ -386,58 +384,57 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
-                return false; //we do not want the drawer menu item to get selected
-            case R.id.action_debug:
-                Intent debugIntent = new Intent(this, DebugActivity.class);
-                startActivity(debugIntent);
-                return false;
-            case R.id.action_data_management:
-                Intent dbIntent = new Intent(this, DataManagementActivity.class);
-                startActivity(dbIntent);
-                return false;
-            case R.id.action_notification_management:
-                Intent blIntent = new Intent(this, NotificationManagementActivity.class);
-                startActivity(blIntent);
-                return false;
-            case R.id.device_action_discover:
-                launchDiscoveryActivity();
-                return false;
-            case R.id.action_quit:
-                GBApplication.quit();
-                return false;
-            case R.id.donation_link:
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://liberapay.com/Gadgetbridge")); //TODO: centralize if ever used somewhere else
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                return false;
-            case R.id.external_changelog:
-                GBChangeLog cl = createChangeLog();
-                try {
-                    if (cl.hasChanges(false)) {
-                        cl.getMaterialLogDialog().show();
-                    } else {
-                        cl.getMaterialFullLogDialog().show();
-                    }
-                } catch (Exception ignored) {
-                    GB.toast(getBaseContext(), getString(R.string.error_showing_changelog), Toast.LENGTH_LONG, GB.ERROR);
+        final int itemId = item.getItemId();
+        if (itemId == R.id.action_settings) {
+            final Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
+            return false;
+        } else if (itemId == R.id.action_debug) {
+            final Intent debugIntent = new Intent(this, DebugActivity.class);
+            startActivity(debugIntent);
+            return false;
+        } else if (itemId == R.id.action_data_management) {
+            final Intent dbIntent = new Intent(this, DataManagementActivity.class);
+            startActivity(dbIntent);
+            return false;
+        } else if (itemId == R.id.action_notification_management) {
+            final Intent blIntent = new Intent(this, NotificationManagementActivity.class);
+            startActivity(blIntent);
+            return false;
+        } else if (itemId == R.id.device_action_discover) {
+            launchDiscoveryActivity();
+            return false;
+        } else if (itemId == R.id.action_quit) {
+            GBApplication.quit();
+            return false;
+        } else if (itemId == R.id.donation_link) {
+            final Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://liberapay.com/Gadgetbridge")); //TODO: centralize if ever used somewhere else
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            return false;
+        } else if (itemId == R.id.external_changelog) {
+            final GBChangeLog cl = createChangeLog();
+            try {
+                if (cl.hasChanges(false)) {
+                    cl.getMaterialLogDialog().show();
+                } else {
+                    cl.getMaterialFullLogDialog().show();
                 }
-                return false;
-            case R.id.about:
-                Intent aboutIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutIntent);
-                return false;
+            } catch (Exception ignored) {
+                GB.toast(getBaseContext(), getString(R.string.error_showing_changelog), Toast.LENGTH_LONG, GB.ERROR);
+            }
+            return false;
+        } else if (itemId == R.id.about) {
+            final Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
+            return false;
         }
 
-        return false;
+        return false;  // we do not want the drawer menu item to get selected
     }
 
     private GBChangeLog createChangeLog() {

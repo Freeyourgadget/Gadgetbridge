@@ -29,11 +29,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.TimeZone;
 
@@ -42,13 +41,10 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class WorldClockDetails extends AbstractGBActivity {
-    private static final Logger LOG = LoggerFactory.getLogger(WorldClockDetails.class);
-
     private WorldClock worldClock;
     private GBDevice device;
 
@@ -80,6 +76,12 @@ public class WorldClockDetails extends AbstractGBActivity {
         worldClockCode = findViewById(R.id.world_clock_code);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        if (device == null) {
+            GB.toast("No device provided to WorldClockDetails Activity", Toast.LENGTH_LONG, GB.ERROR);
+            finish();
+            return;
+        }
+
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final String[] timezoneIDs = TimeZone.getAvailableIDs();
@@ -153,13 +155,13 @@ public class WorldClockDetails extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                // TODO confirm when exiting without saving
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button
+            // TODO confirm when exiting without saving
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -169,13 +171,13 @@ public class WorldClockDetails extends AbstractGBActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(@NonNull final Bundle state) {
         super.onSaveInstanceState(state);
         state.putSerializable("worldClock", worldClock);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         worldClock = (WorldClock) savedInstanceState.getSerializable("worldClock");
         updateUiFromWorldClock();

@@ -1014,11 +1014,11 @@ public class DebugActivity extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

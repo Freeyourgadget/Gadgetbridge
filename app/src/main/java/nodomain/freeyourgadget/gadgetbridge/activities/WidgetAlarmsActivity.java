@@ -81,27 +81,20 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.alarm1:
-                setAlarm(5);
-                break;
-            case R.id.alarm2:
-                setAlarm(10);
-                break;
-            case R.id.alarm3:
-                setAlarm(20);
-                break;
-            case R.id.alarm4:
-                setAlarm(60);
-                break;
-            case R.id.alarm5:
-                setAlarm(0);
-                break;
-            default:
-                break;
+    public void onClick(final View v) {
+        final int viewId = v.getId();
+        if (viewId == R.id.alarm1) {
+            setAlarm(5);
+        } else if (viewId == R.id.alarm2) {
+            setAlarm(10);
+        } else if (viewId == R.id.alarm3) {
+            setAlarm(20);
+        } else if (viewId == R.id.alarm4) {
+            setAlarm(60);
+        } else if (viewId == R.id.alarm5) {
+            setAlarm(0);
         }
+
         //this is to prevent screen flashing during closing
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -22,9 +22,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,32 +31,30 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.AppBlacklistAdapter;
 
 
 public class AppBlacklistActivity extends AbstractGBActivity {
-    private static final Logger LOG = LoggerFactory.getLogger(AppBlacklistActivity.class);
-
     private AppBlacklistAdapter appBlacklistAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appblacklist);
-        RecyclerView appListView = (RecyclerView) findViewById(R.id.appListView);
+        final RecyclerView appListView = (RecyclerView) findViewById(R.id.appListView);
         appListView.setLayoutManager(new LinearLayoutManager(this));
 
         appBlacklistAdapter = new AppBlacklistAdapter(R.layout.item_app_blacklist, this);
 
         appListView.setAdapter(appBlacklistAdapter);
 
-        SearchView searchView = (SearchView) findViewById(R.id.appListViewSearch);
+        final SearchView searchView = findViewById(R.id.appListViewSearch);
         searchView.setIconifiedByDefault(false);
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 appBlacklistAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -67,24 +62,24 @@ public class AppBlacklistActivity extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_blacklist_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            case R.id.check_all_applications:
-                appBlacklistAdapter.checkAllApplications();
-                return true;
-            case R.id.uncheck_all_applications:
-                appBlacklistAdapter.uncheckAllApplications();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        } else if (itemId == R.id.check_all_applications) {
+            appBlacklistAdapter.checkAllApplications();
+            return true;
+        } else if (itemId == R.id.uncheck_all_applications) {
+            appBlacklistAdapter.uncheckAllApplications();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

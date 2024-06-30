@@ -857,54 +857,55 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.controlcenter_device_submenu_connect:
-                        if (device.getState() != GBDevice.State.CONNECTED) {
-                            showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
-                            handleDeviceConnect(device);
-                        }
-                        return true;
-                    case R.id.controlcenter_device_submenu_disconnect:
-                        if (device.getState() != GBDevice.State.NOT_CONNECTED) {
-                            showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
-                            GBApplication.deviceService(device).disconnect();
-                        }
-                        removeFromLastDeviceAddressesPref(device);
-                        return true;
-                    case R.id.controlcenter_device_submenu_set_alias:
-                        showSetAliasDialog(device);
-                        return true;
-                    case R.id.controlcenter_device_submenu_remove:
-                        showRemoveDeviceDialog(device);
-                        return true;
-                    case R.id.controlcenter_device_submenu_show_details:
-                        final String previouslyExpandedDeviceAddress = expandedDeviceAddress;
-                        expandedDeviceAddress = detailsShown ? "" : device.getAddress();
+            public boolean onMenuItemClick(final MenuItem item) {
+                final int itemId = item.getItemId();
+                if (itemId == R.id.controlcenter_device_submenu_connect) {
+                    if (device.getState() != GBDevice.State.CONNECTED) {
+                        showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
+                        handleDeviceConnect(device);
+                    }
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_disconnect) {
+                    if (device.getState() != GBDevice.State.NOT_CONNECTED) {
+                        showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
+                        GBApplication.deviceService(device).disconnect();
+                    }
+                    removeFromLastDeviceAddressesPref(device);
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_set_alias) {
+                    showSetAliasDialog(device);
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_remove) {
+                    showRemoveDeviceDialog(device);
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_show_details) {
+                    final String previouslyExpandedDeviceAddress = expandedDeviceAddress;
+                    expandedDeviceAddress = detailsShown ? "" : device.getAddress();
 
-                        if (!previouslyExpandedDeviceAddress.isEmpty()) {
-                            // Notify the previously expanded device for a change (collapsing it)
-                            for (int i = 0; i < devicesListWithFolders.size(); i++) {
-                                final GBDevice gbDevice = devicesListWithFolders.get(i);
-                                if (gbDevice.getAddress().equals(previouslyExpandedDeviceAddress)) {
-                                    notifyItemChanged(devicesListWithFolders.indexOf(gbDevice));
-                                    break;
-                                }
+                    if (!previouslyExpandedDeviceAddress.isEmpty()) {
+                        // Notify the previously expanded device for a change (collapsing it)
+                        for (int i = 0; i < devicesListWithFolders.size(); i++) {
+                            final GBDevice gbDevice = devicesListWithFolders.get(i);
+                            if (gbDevice.getAddress().equals(previouslyExpandedDeviceAddress)) {
+                                notifyItemChanged(devicesListWithFolders.indexOf(gbDevice));
+                                break;
                             }
                         }
+                    }
 
-                        // Update the current one
-                        notifyItemChanged(devicesListWithFolders.indexOf(device));
-                        return true;
-                    case R.id.controlcenter_device_submenu_set_parent_folder:
-                        showSetParentFolderDialog(device);
-                        return true;
-                    case R.id.controlcenter_device_submenu_installer:
-                        Intent openFwIntent = new Intent(context, OpenFwAppInstallerActivity.class);
-                        openFwIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                        context.startActivity(openFwIntent);
-                        return false;
+                    // Update the current one
+                    notifyItemChanged(devicesListWithFolders.indexOf(device));
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_set_parent_folder) {
+                    showSetParentFolderDialog(device);
+                    return true;
+                } else if (itemId == R.id.controlcenter_device_submenu_installer) {
+                    Intent openFwIntent = new Intent(context, OpenFwAppInstallerActivity.class);
+                    openFwIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                    context.startActivity(openFwIntent);
+                    return false;
                 }
+
                 return false;
             }
         });

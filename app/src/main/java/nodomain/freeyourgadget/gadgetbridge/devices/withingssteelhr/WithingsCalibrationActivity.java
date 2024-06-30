@@ -42,8 +42,8 @@ public class WithingsCalibrationActivity extends AbstractGBActivity {
         MINUTES((short)0),
         ACTIVITY_TARGET((short)2);
 
-        private short code;
-        private Hands(short code) {
+        private final short code;
+        Hands(short code) {
             this.code = code;
         }
 
@@ -51,8 +51,8 @@ public class WithingsCalibrationActivity extends AbstractGBActivity {
 
     private GBDevice device;
     private LocalBroadcastManager localBroadcastManager;
-    private String[] calibrationAdvices = new String[3];
-    private Hands[] hands = new Hands[]{Hands.HOURS, Hands.MINUTES, Hands.ACTIVITY_TARGET};
+    private final String[] calibrationAdvices = new String[3];
+    private final Hands[] hands = new Hands[]{Hands.HOURS, Hands.MINUTES, Hands.ACTIVITY_TARGET};
     private short handIndex = 0;
     private Button previousButton;
     private Button nextButton;
@@ -141,11 +141,11 @@ public class WithingsCalibrationActivity extends AbstractGBActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

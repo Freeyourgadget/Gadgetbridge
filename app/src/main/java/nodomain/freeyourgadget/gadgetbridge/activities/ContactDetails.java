@@ -120,12 +120,12 @@ public class ContactDetails extends AbstractGBActivity {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // back button
-                // TODO confirm when exiting without saving
-                finish();
-                return true;
+        final int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // back button
+            // TODO confirm when exiting without saving
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

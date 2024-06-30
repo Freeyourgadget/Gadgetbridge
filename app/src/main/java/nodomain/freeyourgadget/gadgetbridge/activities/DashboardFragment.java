@@ -175,13 +175,13 @@ public class DashboardFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.dashboard_show_calendar:
-                Intent intent = new Intent(requireActivity(), DashboardCalendarActivity.class);
-                intent.putExtra(DashboardCalendarActivity.EXTRA_TIMESTAMP, day.getTimeInMillis());
-                startActivityForResult(intent, 0);
-                return false;
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == R.id.dashboard_show_calendar) {
+            final Intent intent = new Intent(requireActivity(), DashboardCalendarActivity.class);
+            intent.putExtra(DashboardCalendarActivity.EXTRA_TIMESTAMP, day.getTimeInMillis());
+            startActivityForResult(intent, 0);
+            return false;
         }
         return super.onOptionsItemSelected(item);
     }
