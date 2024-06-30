@@ -272,15 +272,12 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
             payload = mXiaomiSupport.getAuthService().decrypt(payload);
         }
 
-        int channel = packet.getChannel();
-        if (mChannelHandlers.containsKey(channel)) {
-            XiaomiChannelHandler handler = mChannelHandlers.get(channel);
-
-            if (handler != null)
-                handler.handle(payload);
+        final XiaomiChannelHandler handler = mChannelHandlers.get(packet.getChannel());
+        if (handler != null) {
+            handler.handle(payload);
+        } else {
+            LOG.warn("Unhandled SppPacket on channel {}", packet.getChannel());
         }
-
-        LOG.warn("Unhandled SppPacket on channel {}", packet.getChannel());
     }
 
     @Override
