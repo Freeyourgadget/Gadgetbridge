@@ -403,6 +403,22 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_ADAPTIVE_VOLUME_CONTROL = "pref_adaptive_volume_control";
     public static final String PREF_SONY_WIDE_AREA_TAP = "pref_wide_area_tap";
 
+    public static final String PREF_MOONDROP_EQUALIZER_PRESET = "pref_moondrop_equalizer_preset";
+    public static final String PREF_MOONDROP_TOUCH_PLAY_PAUSE_EARBUD = "pref_moondrop_touch_play_pause_earbud";
+    public static final String PREF_MOONDROP_TOUCH_PLAY_PAUSE_TRIGGER = "pref_moondrop_touch_play_pause_trigger";
+    public static final String PREF_MOONDROP_TOUCH_MEDIA_PREV_EARBUD = "pref_moondrop_touch_media_prev_earbud";
+    public static final String PREF_MOONDROP_TOUCH_MEDIA_PREV_TRIGGER = "pref_moondrop_touch_media_prev_trigger";
+    public static final String PREF_MOONDROP_TOUCH_MEDIA_NEXT_EARBUD = "pref_moondrop_touch_media_next_earbud";
+    public static final String PREF_MOONDROP_TOUCH_MEDIA_NEXT_TRIGGER = "pref_moondrop_touch_media_next_trigger";
+    public static final String PREF_MOONDROP_TOUCH_CALL_PICK_HANG_EARBUD = "pref_moondrop_touch_call_pick_hang_earbud";
+    public static final String PREF_MOONDROP_TOUCH_CALL_PICK_HANG_TRIGGER = "pref_moondrop_touch_call_pick_hang_trigger";
+    public static final String PREF_MOONDROP_TOUCH_CALL_START_EARBUD = "pref_moondrop_touch_call_start_earbud";
+    public static final String PREF_MOONDROP_TOUCH_CALL_START_TRIGGER = "pref_moondrop_touch_call_start_trigger";
+    public static final String PREF_MOONDROP_TOUCH_ASSISTANT_EARBUD = "pref_moondrop_touch_assistant_earbud";
+    public static final String PREF_MOONDROP_TOUCH_ASSISTANT_TRIGGER = "pref_moondrop_touch_assistant_trigger";
+    public static final String PREF_MOONDROP_TOUCH_ANC_MODE_EARBUD = "pref_moondrop_touch_anc_mode_earbud";
+    public static final String PREF_MOONDROP_TOUCH_ANC_MODE_TRIGGER = "pref_moondrop_touch_anc_mode_trigger";
+
     public static final String PREF_QC35_NOISE_CANCELLING_LEVEL = "qc35_noise_cancelling_level";
 
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD = "prefs_activity_in_device_card";

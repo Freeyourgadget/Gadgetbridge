@@ -678,6 +678,22 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_LONG_PRESS_ACTION_LEFT);
         addPreferenceHandlerFor(PREF_SOUNDCORE_CONTROL_LONG_PRESS_ACTION_RIGHT);
 
+        addPreferenceHandlerFor(PREF_MOONDROP_EQUALIZER_PRESET);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_PLAY_PAUSE_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_PLAY_PAUSE_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_MEDIA_PREV_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_MEDIA_PREV_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_MEDIA_NEXT_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_MEDIA_NEXT_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_CALL_PICK_HANG_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_CALL_PICK_HANG_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_CALL_START_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_CALL_START_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ASSISTANT_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ASSISTANT_TRIGGER);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ANC_MODE_EARBUD);
+        addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ANC_MODE_TRIGGER);
+
         addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);

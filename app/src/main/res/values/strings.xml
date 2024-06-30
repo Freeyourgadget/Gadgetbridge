@@ -1574,6 +1574,7 @@
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_soundcore_liberty3_pro">Soundcore Liberty 3 Pro</string>
+    <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="devicetype_honor_band3">Honor Band 3</string>
     <string name="devicetype_honor_band4">Honor Band 4</string>
@@ -2375,6 +2376,19 @@
     <string name="sony_protocol_v1">Version 1</string>
     <string name="sony_protocol_v2">Version 2</string>
     <string name="sony_protocol_v3">Version 3</string>
+    <string name="moondrop_equalizer_preset_reference">Reference</string>
+    <string name="moondrop_equalizer_preset_basshead">Basshead</string>
+    <string name="moondrop_equalizer_preset_monitor">Monitor</string>
+    <string name="moondrop_touch_earbud">Earbud</string>
+    <string name="moondrop_touch_earbud_both">Both</string>
+    <string name="moondrop_touch_trigger">Trigger</string>
+    <string name="moondrop_touch_action_play_pause">Play/Pause</string>
+    <string name="moondrop_touch_action_call_pick_hang">Pick/Hang Call</string>
+    <string name="moondrop_touch_action_call_start">Start Call</string>
+    <string name="moondrop_touch_action_assistant">Trigger Voice Assistant</string>
+    <string name="moondrop_touch_action_anc_mode">Switch Active Noise Cancelling Mode</string>
+    <string name="moondrop_touch_trigger_long_press_1s">Long Press (1s)</string>
+    <string name="moondrop_touch_trigger_long_press_3s">Long Press (3s)</string>
     <string name="protocol_version">Protocol Version</string>
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>

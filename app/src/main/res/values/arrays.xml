@@ -3462,6 +3462,47 @@
         <item>AMBIENT_SOUND_CONTROL</item>
     </string-array>
 
+    <string-array name="moondrop_equalizer_preset_names">
+        <item>@string/moondrop_equalizer_preset_reference</item>
+        <item>@string/moondrop_equalizer_preset_basshead</item>
+        <item>@string/moondrop_equalizer_preset_monitor</item>
+    </string-array>
+
+    <string-array name="moondrop_equalizer_preset_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="moondrop_touch_earbud_names">
+        <item>@string/left</item>
+        <item>@string/right</item>
+        <item>@string/moondrop_touch_earbud_both</item>
+    </string-array>
+
+    <string-array name="moondrop_touch_earbud_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="moondrop_touch_trigger_names">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/single_tap</item>
+        <item>@string/double_tap</item>
+        <item>@string/triple_tap</item>
+        <item>@string/moondrop_touch_trigger_long_press_1s</item>
+        <item>@string/moondrop_touch_trigger_long_press_3s</item>
+    </string-array>
+
+    <string-array name="moondrop_touch_trigger_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 
     <string-array name="fitness_tracking_apps_package_names">
         <item>de.dennisguse.opentracks</item>

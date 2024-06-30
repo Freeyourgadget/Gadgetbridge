@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/moondrop_touch_action_play_pause">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_play_pause_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_play_pause_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_media_previous">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_media_prev_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_media_prev_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_media_next">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_media_next_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_media_next_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/moondrop_touch_action_call_pick_hang">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_call_pick_hang_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_call_pick_hang_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/moondrop_touch_action_call_start">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_call_start_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_call_start_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/moondrop_touch_action_assistant">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_assistant_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_assistant_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/moondrop_touch_action_anc_mode">
+        <ListPreference
+            android:entries="@array/moondrop_touch_earbud_names"
+            android:entryValues="@array/moondrop_touch_earbud_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_moondrop_touch_anc_mode_earbud"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_earbud" />
+        <ListPreference
+            android:entries="@array/moondrop_touch_trigger_names"
+            android:entryValues="@array/moondrop_touch_trigger_values"
+            android:icon="@drawable/ic_touch"
+            android:key="pref_moondrop_touch_anc_mode_trigger"
+            android:summary="%s"
+            android:title="@string/moondrop_touch_trigger" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
