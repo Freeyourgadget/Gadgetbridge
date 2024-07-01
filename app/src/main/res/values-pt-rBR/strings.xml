@@ -1607,4 +1607,29 @@
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="uploadwatchfaceoperation_complete">Instalação do Watchface concluída</string>
     <string name="uploadwatchfaceoperation_failed">Falha na instalação do Watchface</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Você está prestes a instalar o firmware %s no seu Amazfit GTS4.
+\n
+\nSeu relógio irá reiniciar após instalar o arquivo .zip.
+\n
+\nSIGA POR SUA CONTA EM RISCO!</string>
+    <string name="open_fw_installer_getting_files_text">Já que não podemos distribuir arquivos de firmware, você terá que fazer isso você mesmo. Isso significa que você precisa primeiro buscar pelos arquivos online, em forums, na Amazfitwatchfaces (para Miband/Amazfit) etc.</string>
+    <string name="open_fw_installer_getting_files_title">Recuperando o arquivo do firmware/app</string>
+    <string name="open_fw_installer_pick_file">Escolha um Arquivo</string>
+    <string name="pref_title_notification_delay_calls">Delay de notificação de chamada</string>
+    <string name="pref_summary_notification_delay_calls">Tempo antes de enviar notificações de chamadas para o dispositivo, em segundos.</string>
+    <string name="gps_gnolass">GPS + GLONASS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="all_satellites">Tosos os Satélites</string>
+    <string name="open_fw_installer_warning_title">Aviso</string>
+    <string name="open_fw_installer_warning_text">Esta funcionalidade pode quebrar o seu aparelho. Dito isso, este fato nunca aconteceu com nenhum dos desenvolvedores, mas lembre-se que você está por sua conta em risco.</string>
+    <string name="low_power_gps">GPS de Baixa Potência</string>
+    <string name="gps">GPS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="open_fw_installer_info_text_title">Instalador de arquivos</string>
+    <string name="open_fw_installer_info_text">O instalador de Firmware/Tema/App/Arquivo permite o upload/instalação de arquivos suportados (firmware, temas, aplicações, GPS, recursos, fontes...) para o dispositivo. Veja outras informações na wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Você está prestes a instalar o firmware %s no seu Amazfit GTS 3.
+\n
+\nSeu relógio irá reiniciar após instalar o arquivo .zip.
+\n
+\nSIGA POR SUA CONTA EM RISCO!</string>
 </resources>
