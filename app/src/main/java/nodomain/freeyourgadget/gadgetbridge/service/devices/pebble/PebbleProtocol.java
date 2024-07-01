@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendSMS;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
@@ -71,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 public class PebbleProtocol extends GBDeviceProtocol {
 
@@ -418,6 +420,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
     private final Map<UUID, AppMessageHandler> mAppMessageHandlers = new HashMap<>();
 
     private UUID currentRunningApp = UUID_ZERO;
+
+    // Keep track of Notification ID -> action handle, as BangleJSDeviceSupport.
+    // TODO: This needs to be simplified.
+    private final LimitedQueue<Integer, Long> mNotificationReplyAction = new LimitedQueue<>(16);
 
     public PebbleProtocol(GBDevice device) {
         super(device);
@@ -843,6 +849,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                 actions_count++;
                 actions_length += (short) (ACTION_LENGTH_MIN + act.title.getBytes().length);
                 if (act.type == Action.TYPE_WEARABLE_REPLY || act.type == Action.TYPE_SYNTECTIC_REPLY_PHONENR) {
+                    mNotificationReplyAction.add(id, act.handle);
                     actions_length += (short) replies_length + 3;  // 3 = attribute id (byte) + length(short)
                 }
             }
@@ -2059,6 +2066,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
             byte action = buf.get();
             if (action >= 0x00 && action <= 0xf) {
                 GBDeviceEventNotificationControl devEvtNotificationControl = new GBDeviceEventNotificationControl();
+                GBDeviceEvent toReturn = devEvtNotificationControl;
                 devEvtNotificationControl.handle = id;
                 String caption = "undefined";
                 int icon_id = 1;
@@ -2098,17 +2106,22 @@ public class PebbleProtocol extends GBDeviceProtocol {
                                     if (length > 64) length = 64;
                                     byte[] reply = new byte[length];
                                     buf.get(reply);
-                                    devEvtNotificationControl.phoneNumber = null;
-                                    if (buf.remaining() > 1 && buf.get() == 0x0c) {
+                                    if (null != mNotificationReplyAction.lookup(id)) {
+                                        devEvtNotificationControl.handle = mNotificationReplyAction.lookup(id); //handle of wearable action is needed
+                                        devEvtNotificationControl.reply = new String(reply);
+                                        failed = false;
+                                    } else if (buf.remaining() > 1 && buf.get() == 0x0c) {
                                         short phoneNumberLength = buf.getShort();
                                         byte[] phoneNumberBytes = new byte[phoneNumberLength];
                                         buf.get(phoneNumberBytes);
-                                        devEvtNotificationControl.phoneNumber = new String(phoneNumberBytes);
+                                        GBDeviceEventSendSMS gbDeviceEventSendSMS = new GBDeviceEventSendSMS();
+                                        gbDeviceEventSendSMS.phoneNumber = new String(phoneNumberBytes);
+                                        gbDeviceEventSendSMS.message = new String(reply);
+                                        toReturn = gbDeviceEventSendSMS;
+                                        failed = false;
                                     }
-                                    devEvtNotificationControl.reply = new String(reply);
                                     caption = "SENT";
                                     icon_id = PebbleIconID.RESULT_SENT;
-                                    failed = false;
                                 }
                         } else {
                             icon_id = PebbleIconID.GENERIC_CONFIRMATION;
@@ -2116,11 +2129,10 @@ public class PebbleProtocol extends GBDeviceProtocol {
                             failed = false;
                         }
                         devEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
-                        devEvtNotificationControl.handle = (devEvtNotificationControl.handle << 4) + action - 0x04;
                         if (failed) {
                             caption = "FAILED";
                             icon_id = PebbleIconID.RESULT_FAILED;
-                            devEvtNotificationControl = null; // error
+                            toReturn = null; // error
                         }
                         break;
                 }
@@ -2133,7 +2145,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         sendBytesAck.encodedBytes = encodeActionResponse2x(id, action, 6, caption);
                     }
                 }
-                return new GBDeviceEvent[]{sendBytesAck, devEvtNotificationControl};
+                return new GBDeviceEvent[]{sendBytesAck, toReturn};
             }
             LOG.info("unexpected action: " + action);
         }
