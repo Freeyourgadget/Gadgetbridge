@@ -140,6 +140,8 @@ public class HuaweiWorkoutGbParser {
                 return ActivityKind.TYPE_BADMINTON;
             case 130:
                 return ActivityKind.TYPE_EXERCISE; // TODO: Tennis
+            case 131:
+                return ActivityKind.TYPE_SOCCER;
             case 132:
                 return ActivityKind.TYPE_BASKETBALL;
             case 133:
@@ -148,6 +150,8 @@ public class HuaweiWorkoutGbParser {
                 return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
             case 135:
                 return ActivityKind.TYPE_ROWING_MACHINE;
+            case 163:
+                return ActivityKind.TYPE_EXERCISE; // TODO: Roller skating
             case 173:
                 return ActivityKind.TYPE_EXERCISE; // TODO: Laser tag
             case 177:
