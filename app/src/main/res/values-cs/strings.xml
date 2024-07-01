@@ -146,7 +146,7 @@
     <string name="bluetooth_is_not_supported_">Bluetooth není podporován.</string>
     <string name="bluetooth_is_disabled_">Bluetooth je vypnutý.</string>
     <string name="tap_connected_device_for_app_mananger">Dotkněte se zařízení pro App Manager</string>
-    <string name="tap_connected_device_for_activity">Dotkněte se zařízení pro Aktivity</string>
+    <string name="tap_connected_device_for_activity">Dotkněte se zařízení pro aktivitu</string>
     <string name="tap_connected_device_for_vibration">Dotkněte se zařízení pro vibrace</string>
     <string name="tap_a_device_to_connect">Dotkněte se zařízení pro připojení</string>
     <string name="cannot_connect_bt_address_invalid_">Nelze připojit. Je BT adresa v pořádku?</string>
@@ -221,7 +221,7 @@
     <string name="pref_screen_notification_profile_generic_social">Sociální sítě</string>
     <string name="control_center_find_lost_device">Najít zařízení</string>
     <string name="control_center_cancel_to_stop_vibration">Zastavit vibrací.</string>
-    <string name="title_activity_charts">Aktivita</string>
+    <string name="title_activity_charts">Aktivita a spánek</string>
     <string name="title_activity_set_alarm">Nastavit budíky</string>
     <string name="controlcenter_start_configure_alarms">Nastavit budíky</string>
     <string name="title_activity_alarm_details">Podrobnosti budíku</string>
@@ -253,7 +253,7 @@
     <string name="weeksleepchart_sleep_a_week">Spánek za týden</string>
     <string name="weeksleepchart_today_sleep_description">Spánek dnes, cíl: %1$s</string>
     <string name="weekstepschart_steps_a_week">Kroky za týden</string>
-    <string name="activity_sleepchart_activity_and_sleep">Aktivita a spánek</string>
+    <string name="activity_sleepchart_activity_and_sleep">Aktivita</string>
     <string name="updating_firmware">Nahrávám firmvér…</string>
     <string name="fwapp_install_device_not_ready">Soubor nelze nainstalovat, zařízení není připraveno.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
@@ -270,7 +270,7 @@
     <string name="updatefirmwareoperation_update_complete_rebooting">Instalace firmvéru je kompletní, restartuji zařízení…</string>
     <string name="updatefirmwareoperation_write_failed">Zápis firmvéru selhal</string>
     <string name="chart_steps">Kroků</string>
-    <string name="liveactivity_live_activity">Současná aktivita</string>
+    <string name="liveactivity_live_activity">Aktuální aktivita</string>
     <string name="weeksteps_today_steps_description">Kroků dnes, cíl: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nepotvrzovat přenos dat o aktivitě</string>
     <string name="pref_summary_dont_ack_transfers">Pokud není přenos dat potvrzen náramku, potom nebudou smazána. Užitečné pokud je GB používán dohromady s jinou aplikací.</string>
@@ -281,7 +281,7 @@
     <string name="live_activity_current_steps_per_minute">Aktuálně kroků/min</string>
     <string name="live_activity_total_steps">Celkem kroků</string>
     <string name="live_activity_steps_per_minute_history">Historie kroků za minutu</string>
-    <string name="live_activity_start_your_activity">Začít aktivitu</string>
+    <string name="live_activity_start_your_activity">Zahajte svou aktivitu</string>
     <string name="abstract_chart_fragment_kind_activity">Aktivita</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Lehký spánek</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Hluboký spánek</string>
@@ -292,7 +292,7 @@
     <string name="miband_fwinstaller_incompatible_version">Nekompatibilní firmvér</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">Tento firmvér není kompatibilní s tímto zařízením</string>
     <string name="miband_prefs_reserve_alarm_calendar">Budíky pro nadcházející události</string>
-    <string name="miband_prefs_hr_sleep_detection">Použít sledování tepu pro zlepšení detekce spánku</string>
+    <string name="miband_prefs_hr_sleep_detection">Použít senzor tepu pro zlepšení detekce spánku</string>
     <string name="miband_prefs_device_time_offset_hours">Časový posun zařízení v hodinách (pro zjišťování spánku směnařů)</string>
     <string name="miband2_prefs_dateformat">Formát data</string>
     <string name="dateformat_time">Čas</string>
@@ -379,7 +379,7 @@
     <string name="calories">Kalorií</string>
     <string name="distance">Vzdálenost</string>
     <string name="clock">Měření času</string>
-    <string name="heart_rate">Tepová aktivita</string>
+    <string name="heart_rate">Tep</string>
     <string name="battery">Baterie</string>
     <string name="mi2_prefs_goal_notification">Upozornění na cíl</string>
     <string name="mi2_prefs_goal_notification_summary">Náramek zavibruje při dosažení cíle denního počtu kroků</string>
@@ -461,7 +461,7 @@
     <string name="traditional_chinese">Tradiční čínština</string>
     <string name="english">Angličtina</string>
     <string name="spanish">Španělština</string>
-    <string name="activity_web_view">Aktivity Webový pohled</string>
+    <string name="activity_web_view">Webové zobrazení aktivit</string>
     <string name="_pebble_watch_open_on_phone">Otevřít na Android zařízení</string>
     <string name="_pebble_watch_mute">Ztlumit</string>
     <string name="_pebble_watch_reply">Znova</string>
@@ -502,7 +502,7 @@
     <string name="activity_type_walking">Chůze</string>
     <string name="activity_type_swimming">Plavání</string>
     <string name="activity_type_unknown">Neznámá činnost</string>
-    <string name="activity_summaries">Pohybové aktivity</string>
+    <string name="activity_summaries">Sportovní aktivity</string>
     <string name="activity_type_biking">Cyklistika</string>
     <string name="select_all">Vybrat vše</string>
     <string name="share">Sdílet</string>
@@ -797,7 +797,7 @@
     <string name="qhybrid_time_shift">časový posun</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">posun dalšího časového pásma vzhledem k UTC</string>
     <string name="qhybrid_overwrite_buttons">přepsat tlačítka</string>
-    <string name="qhybrid_use_activity_hand_as_notification_counter">použít čítač aktivity jako čítač oznámení</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">použít ruku aktivity jako čítač oznámení</string>
     <string name="qhybrid_prompt_million_steps">Chcete-li aktivovat počítadlo, nastavte počet kroků na milion.</string>
     <string name="qhybrid_buttons_overwrite_success">Tlačítka přepsána</string>
     <string name="qhybrid_buttons_overwrite_error">Chyba při přepisování tlačítek</string>
@@ -981,7 +981,7 @@
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_tlw64">TLW64</string>
     <string name="devicetype_miband5">Mi Band 5</string>
-    <string name="activity_summary_detail">Detaily Sportovní Aktivity</string>
+    <string name="activity_summary_detail">Podrobnosti o sportovních aktivitách</string>
     <string name="fw_upgrade_notice_miband5">Chystáte se nainstalovat firmware %s na váš Mi Band 5.
 \n
 \nNainstalujte nejprve soubor .fw a poté soubor .res. Váš náramek se po instalaci souboru .fw restartuje.
@@ -994,13 +994,13 @@
     <string name="freestyle">Volný styl</string>
     <string name="breaststroke">Prsa</string>
     <string name="activity_summaries_statistics">Statistiky</string>
-    <string name="activity_filter_apply_filter">Použít Filtr</string>
+    <string name="activity_filter_apply_filter">Použít filtr</string>
     <string name="activity_filter_filter_title">Filtr</string>
-    <string name="activity_filter_reset_filter">Zresetovat Filtr</string>
+    <string name="activity_filter_reset_filter">Resetovat filtr</string>
     <string name="activity_filter_date_to">Do</string>
     <string name="activity_filter_date_from">Od</string>
-    <string name="pref_header_statistics">Statistiky Sportovních Aktivit</string>
-    <string name="pref_header_filter">Filtr Sportovních Aktivit</string>
+    <string name="pref_header_statistics">Statistiky sportovních aktivit</string>
+    <string name="pref_header_filter">Filtr sportovních aktivit</string>
     <string name="prefs_events_forwarding_action_title">Spustit akci</string>
     <string name="prefs_events_forwarding_broadcast_title">Vysílací broadcast zpráva</string>
     <string name="prefs_events_forwarding_startnonwear">Při nenošení</string>
@@ -1657,7 +1657,7 @@
     <string name="prefs_stress_monitoring_title">Sledování stresu</string>
     <string name="prefs_voice_detect_summary">Automaticky povolit okolní zvuk a snížit přehrávání po zjištění hlasu</string>
     <string name="pref_summary_device_intents">Umožní aplikacím Bangle.js hodinek posílat Android Intenty a povolí ostatním Android aplikacím (Tasker) aby posílaly data do Bangle.js pomocí com.banglejs.uart.tx Intentu. Potřebuje povolení k zobrazení nad ostatními aplikacemi, aby mohl pracovat na pozadí.</string>
-    <string name="prefs_heartrate_alert_experimental_description">Zavibruje řemínkem, pokud tepová frekvence překročí prahovou hodnotu bez zjevné fyzické aktivity v posledních 10 minutách. Tato funkce je experimentální a nebyla důkladně testována.</string>
+    <string name="prefs_heartrate_alert_experimental_description">Náramek zavibruje, pokud váš tep překročí prahovou hodnotu bez zjevné fyzické aktivity v posledních 10 minutách. Tato funkce je experimentální a nebyla důkladně testována.</string>
     <string name="prefs_activity_monitoring_description">Automaticky zvýší četnost detekce srdeční frekvence při fyzické aktivitě.</string>
     <string name="mi2_prefs_heart_rate_monitoring">Monitorování srdeční frekvence</string>
     <string name="prefs_ambient_sound_during_call_title">Okolní zvuk během hovoru</string>
@@ -1806,7 +1806,7 @@
     <string name="watchface_dialog_title_widget">Nastavení widgetu</string>
     <string name="share_log_not_enabled_message">Musíte nejprve povolit zapisování logů v Nastavení - Zapisovat logy</string>
     <string name="note">Poznámka</string>
-    <string name="controlcenter_get_heartrate_measurement">Získat měření tepu</string>
+    <string name="controlcenter_get_heartrate_measurement">Změřit tep</string>
     <string name="watchface_setting_title_custom_events">Vlastní události</string>
     <string name="watchface_setting_button_toggle_backlight">Zapnutí podsvícení</string>
     <string name="pref_write_logfiles_not_available">Inicializace zapisování logů se nezdařila, zápis do souboru není dostupný. Restartujte aplikaci pro pokus o novou inicializaci.</string>
@@ -1827,10 +1827,10 @@
     <string name="pref_summary_screen_on_on_notifications">Zapnout podsvícení displeje při obdržení notifikace</string>
     <string name="pref_cache_weather">Ukládání informací o počasí do mezipaměti</string>
     <string name="pref_cache_weather_summary">Informace o počasí se ukládají do mezipaměti při restartech aplikace.</string>
-    <string name="heartrate_bpm_40">40 bpm</string>
-    <string name="heartrate_bpm_45">45 bpm</string>
-    <string name="heartrate_bpm_50">50 bpm</string>
-    <string name="heartrate_bpm_115">115 bpm</string>
+    <string name="heartrate_bpm_40">40 tepů/min</string>
+    <string name="heartrate_bpm_45">45 tepů/min</string>
+    <string name="heartrate_bpm_50">50 tepů/min</string>
+    <string name="heartrate_bpm_115">115 tepů/min</string>
     <string name="prefs_heartrate_alert_low_threshold">Varovný práh nízké srdeční frekvence</string>
     <string name="prefs_relaxation_reminder_title">Připomenutí relaxace</string>
     <string name="prefs_relaxation_reminder_description">Vibrování pásku vás upozorní, pokud je hodnota stresu vyšší než 80</string>
@@ -1840,7 +1840,7 @@
     <string name="seconds_8">8 sekund</string>
     <string name="seconds_13">13 sekund</string>
     <string name="seconds_14">14 sekund</string>
-    <string name="pref_sleep_breathing_quality_monitoring">Sledování kvality dýchání ve spánku</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Sledovat kvalitu dýchání ve spánku</string>
     <string name="prefs_always_on_display">Stále zapnutý displej</string>
     <string name="prefs_always_on_display_summary">Displej vždy zapnutý</string>
     <string name="prefs_screen_timeout">Časový limit obrazovky</string>
@@ -1864,9 +1864,9 @@
     <string name="prefs_heartrate_alert_high_threshold">Varovný práh vysoké srdeční frekvence</string>
     <string name="prefs_spo2_alert_threshold">Prahová hodnota výstrahy SPO2</string>
     <string name="spo2_perc_80">80 %</string>
-    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_perc_85">85 %</string>
     <string name="spo2_perc_90">90 %</string>
-    <string name="pref_header_heartrate_sleep">Spát</string>
+    <string name="pref_header_heartrate_sleep">Spánek</string>
     <string name="pref_header_heartrate_allday">Celodenní sledování</string>
     <string name="seconds_12">12 sekund</string>
     <string name="menuitem_personal_activity_intelligence">Inteligence osobních aktivit</string>
@@ -2091,7 +2091,7 @@
     <string name="pref_cover_to_mute">Ztlumit zakrytím</string>
     <string name="pref_morning_updates_categories_title">Kategorie ranních aktualizací</string>
     <string name="pref_workout_detection_alert_title">Upozornění</string>
-    <string name="pref_workout_detection_alert_summary">Upozornit při detekování aktivity</string>
+    <string name="pref_workout_detection_alert_summary">Upozornit při detekování cvičení</string>
     <string name="busy_task_fetch_stress_data">Stahování dat stresu</string>
     <string name="busy_task_fetch_pai_data">Stahování dat PAI</string>
     <string name="pref_screen_notification_profile_schedule">Plán</string>
@@ -2101,7 +2101,7 @@
     <string name="preferences_miband_1_2_warning">Upozornění: Tato nastavení se vztahují pouze na Mi Band 1 a 2.</string>
     <string name="buttons_on_left">Tlačítka vlevo</string>
     <string name="busy_task_fetch_debug_logs">Stahování protokolu ladění</string>
-    <string name="pref_workout_detection_enabled_summary">Zapnout automatickou detekci této aktivity</string>
+    <string name="pref_workout_detection_enabled_summary">Zapnout automatickou detekci tohoto cvičení</string>
     <string name="pref_workout_detection_time">Doba aktivity před detekcí</string>
     <string name="pref_gps_header">GPS</string>
     <string name="pref_alert_tone">Tón upozornění</string>
@@ -2124,9 +2124,9 @@
     <string name="pref_morning_updates_categories_summary">Seznam kategorií k zobrazení každé ráno</string>
     <string name="pref_workout_detection_ask_first">Nejprve se zeptat</string>
     <string name="pref_workout_detection_categories_summary">Detekovat kategorie aktivit automaticky</string>
-    <string name="pref_workout_detection_ask_first_summary">Při detekci této aktivity vyžadovat potvrzení na hodinkách</string>
+    <string name="pref_workout_detection_ask_first_summary">Při detekci tohoto cvičení vyžadovat potvrzení na hodinkách</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Stahování dat dechové frekvence spánku</string>
-    <string name="pref_workout_detection_time_summary">Kolik minut aktivity je potřeba pro automatickou detekci</string>
+    <string name="pref_workout_detection_time_summary">Kolik minut cvičení je potřeba pro automatickou detekci</string>
     <string name="pref_sleep_mode_title">Režim spánku</string>
     <string name="pref_sleep_mode_sleep_screen_title">Spánková Obrazovka</string>
     <string name="contact_delete_confirm_description">Opravdu chcete odstranit \'%1$s\'\?</string>
@@ -2203,7 +2203,7 @@
     <string name="loyalty_cards_catima_permissions_title">Schází oprávnění</string>
     <string name="withings_calibration_text_hours">Použijte ciferník níže pro zarovnání hodinové ručičky na 12.</string>
     <string name="withings_calibration_text_minutes">Nyní zarovnejte minutovou ručičku na 12.</string>
-    <string name="withings_calibration_text_activity_target">Zarovnejte ručičku aktivity na 100%. Tato ručička se pohybuje pouze jedním směrem.</string>
+    <string name="withings_calibration_text_activity_target">Zarovnejte ručičku aktivity na 100 %. Tato ručička se pohybuje pouze po směru hod. ručiček.</string>
     <string name="withings_bt_calibration_next">Následující</string>
     <string name="drag_handle">posunout</string>
     <string name="find_my_phone_found_it">NALEZENO</string>
@@ -2217,7 +2217,7 @@
     <string name="menuitem_todo">Úkoly</string>
     <string name="zepp_os_watchface_minimalist">Minimalista</string>
     <string name="zepp_os_watchface_simplicity_data">Jednoduchá Data</string>
-    <string name="sports_activity_confirm_delete_description">Opravdu chcete odstranit %d aktivity\?</string>
+    <string name="sports_activity_confirm_delete_description">Opravdu chcete odstranit %d aktivit?</string>
     <string name="watchface_widget_type_uv_index">UV Index</string>
     <string name="pref_switch_controls_anc_ambient_off">Potlačení Hluku ←→ Zvuky Okolí ←→ Vypnuto</string>
     <string name="sony_quick_access_double_tap">Rychlý Přístup (dvojité ťuknutí)</string>
