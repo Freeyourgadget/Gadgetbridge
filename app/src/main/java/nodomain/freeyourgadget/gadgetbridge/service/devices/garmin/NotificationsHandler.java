@@ -186,15 +186,14 @@ public class NotificationsHandler implements MessageHandler {
         switch (message.getNotificationAction()) {
             case REPLY_INCOMING_CALL:
                 deviceEvtCallControl.event = GBDeviceEventCallControl.Event.REJECT;
+                deviceEvtCallControl.phoneNumber = notificationSpec.phoneNumber;
+                deviceEvtCallControl.reply = message.getActionString();
                 message.addGbDeviceEvent(deviceEvtCallControl);
+                break;
             case REPLY_MESSAGES:
                 deviceEvtNotificationControl.event = GBDeviceEventNotificationControl.Event.REPLY;
                 deviceEvtNotificationControl.reply = message.getActionString();
-                if (notificationSpec.type.equals(NotificationType.GENERIC_PHONE) || notificationSpec.type.equals(NotificationType.GENERIC_SMS)) {
-                    deviceEvtNotificationControl.phoneNumber = notificationSpec.phoneNumber;
-                } else {
-                    deviceEvtNotificationControl.handle = mNotificationReplyAction.lookup(notificationSpec.getId()); //handle of wearable action is needed
-                }
+                deviceEvtNotificationControl.handle = mNotificationReplyAction.lookup(notificationSpec.getId()); //handle of wearable action is needed
                 message.addGbDeviceEvent(deviceEvtNotificationControl);
                 break;
             case ACCEPT_INCOMING_CALL:
@@ -319,10 +318,7 @@ public class NotificationsHandler implements MessageHandler {
                     toReturn = NOTIFICATION_DATE_FORMAT.format(new Date(notificationTimestamp));
                     break;
                 case TITLE:
-                    if (NotificationType.GENERIC_SMS.equals(notificationSpec.type))
-                        toReturn = notificationSpec.sender == null ? "" : notificationSpec.sender;
-                    else
-                        toReturn = notificationSpec.title == null ? "" : notificationSpec.title;
+                    toReturn = notificationSpec.title == null ? "" : notificationSpec.title;
                     break;
                 case SUBTITLE:
                     toReturn = notificationSpec.subject == null ? "" : notificationSpec.subject;
