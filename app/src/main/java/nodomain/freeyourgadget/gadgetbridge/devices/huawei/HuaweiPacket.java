@@ -409,6 +409,8 @@ public class HuaweiPacket {
                         return new DeviceConfig.ProductInfo.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.BondParams.id:
                         return new DeviceConfig.BondParams.Response(paramsProvider).fromPacket(this);
+                    case DeviceConfig.PhoneInfo.id:
+                        return new DeviceConfig.PhoneInfo.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.Auth.id:
                         return new DeviceConfig.Auth.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.BatteryLevel.id:
