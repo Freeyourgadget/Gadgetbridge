@@ -81,6 +81,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -95,9 +96,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import de.greenrobot.dao.query.QueryBuilder;
-import io.wax911.emojify.Emoji;
 import io.wax911.emojify.EmojiManager;
-import io.wax911.emojify.EmojiUtils;
+import io.wax911.emojify.parser.EmojiParserKt;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -1319,18 +1319,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
-    private String renderUnicodeWordPartAsImage(String word) {
+    private String renderUnicodeWordPartAsImage(final String word) {
         // check for emoji
-        boolean hasEmoji = false;
-        if (EmojiUtils.getAllEmojis() == null)
-            EmojiManager.initEmojiData(GBApplication.getContext());
-        for (Emoji emoji : EmojiUtils.getAllEmojis())
-            if (word.contains(emoji.getEmoji())) {
-                hasEmoji = true;
-                break;
-            }
+        final EmojiManager emojiManager = EmojiConverter.getEmojiManager(getContext());
+        final boolean hasEmoji = !EmojiParserKt.extractEmojis(emojiManager, word).isEmpty();
         // if we had emoji, ensure we create 3 bit color (not 1 bit B&W)
-        BangleJSBitmapStyle style = hasEmoji ? BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT : BangleJSBitmapStyle.MONOCHROME_TRANSPARENT;
+        final BangleJSBitmapStyle style = hasEmoji ? BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT : BangleJSBitmapStyle.MONOCHROME_TRANSPARENT;
         return "\0"+bitmapToEspruinoString(textToBitmap(word), style);
     }
 

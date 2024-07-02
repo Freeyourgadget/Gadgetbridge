@@ -19,11 +19,20 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import io.wax911.emojify.EmojiManager;
-import io.wax911.emojify.EmojiUtils;
+import io.wax911.emojify.contract.model.IEmoji;
+import io.wax911.emojify.parser.EmojiParserKt;
+import io.wax911.emojify.parser.candidate.UnicodeCandidate;
+import io.wax911.emojify.parser.transformer.EmojiTransformer;
+import io.wax911.emojify.serializer.gson.GsonDeserializer;
 
 public class EmojiConverter {
     private static final Logger LOG = LoggerFactory.getLogger(EmojiConverter.class);
@@ -65,7 +74,27 @@ public class EmojiConverter {
             {"\u2764", "<3"},         // heart
     };
 
-    private static boolean isEmojiDataInitialised = false;
+    private static EmojiManager emojiManagerInstance;
+
+    /**
+     * An emoji transformer that removes fitzpatrick modifiers. This partially reimplements
+     * EmojiParser.parseToAliases since I was unable to call it directly with FitzpatrickAction.REMOVE
+     */
+    private static final EmojiTransformer EMOJI_TRANSFORMER_NO_FITZPATRICK = new EmojiTransformer() {
+        @Nullable
+        @Override
+        public String invoke(@NonNull final UnicodeCandidate unicodeCandidate) {
+            final IEmoji emoji = unicodeCandidate.getEmoji();
+            if (emoji == null) {
+                return null;
+            }
+            final List<String> aliases = emoji.getAliases();
+            if (aliases == null || aliases.isEmpty()) {
+                return null;
+            }
+            return String.format(":%s:", aliases.get(0));
+        }
+    };
 
     private static String convertSimpleEmojiToAscii(String text) {
         for (String[] emojiMap : simpleEmojiMapping) {
@@ -74,25 +103,25 @@ public class EmojiConverter {
         return text;
     }
 
-    private static synchronized void initEmojiData(Context context) {
+    public static synchronized EmojiManager getEmojiManager(final Context context) {
         // Do a lazy initialisation not to slowdown the startup and when it is needed
-        if (!isEmojiDataInitialised) {
-            EmojiManager.initEmojiData(context);
-            isEmojiDataInitialised = true;
+        if (emojiManagerInstance == null) {
+            emojiManagerInstance = EmojiManager.Companion.create(context, new GsonDeserializer());
         }
+        return emojiManagerInstance;
     }
 
-    private static String convertAdvancedEmojiToAscii(String text, Context context) {
-        initEmojiData(context);
+    private static String convertAdvancedEmojiToAscii(final String text, final Context context) {
+        final EmojiManager emojiManager = getEmojiManager(context);
         try {
-            return EmojiUtils.shortCodify(text);
-        } catch (Exception e){
-            LOG.warn("An exception occured when converting advanced emoji to ASCII: " + text);
+            return EmojiParserKt.parseFromUnicode(emojiManager, text, EMOJI_TRANSFORMER_NO_FITZPATRICK);
+        } catch (final Exception e) {
+            LOG.warn("An exception occurred when converting advanced emoji to ASCII: {}", text);
             return text;
         }
     }
 
-    public static String convertUnicodeEmojiToAscii(String text, Context context) {
+    public static String convertUnicodeEmojiToAscii(String text, final Context context) {
         text = convertSimpleEmojiToAscii(text);
 
         text = convertAdvancedEmojiToAscii(text, context);

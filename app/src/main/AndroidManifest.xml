@@ -108,6 +108,7 @@
     <application
         android:name=".GBApplication"
         android:allowBackup="false"
+        android:supportsRtl="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

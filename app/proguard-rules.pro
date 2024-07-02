@@ -64,12 +64,10 @@
 # Keep Nordic DFU library
 -keep class no.nordicsemi.android.dfu.** { *; }
 
-# Keep dependency android-emojify (io.wax911.emojify) uses
--keep class org.hamcrest.** { *; }
--dontwarn java.beans.BeanInfo
--dontwarn java.beans.IntrospectionException
--dontwarn java.beans.Introspector
--dontwarn java.beans.PropertyDescriptor
+# For android-emojify - we are not using moshi, so ignore these
+-dontwarn com.squareup.moshi.**
+-dontwarn kotlinx.serialization.**
+-dontwarn okio.**
 
 # Keep logback classes
 -keep class ch.qos.** { *; }
