@@ -3067,4 +3067,14 @@
     <string name="dashboard_calendar_month_goals_reached_title">% достигнуто от цели шагов</string>
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_instinct">Garmin Instinct</string>
+    <string name="moondrop_touch_earbud_both">Оба</string>
+    <string name="moondrop_touch_trigger">Срабатывать на</string>
+    <string name="moondrop_touch_action_play_pause">Воспроизведение/Пауза</string>
+    <string name="moondrop_touch_action_call_pick_hang">Принять/завершить вызов</string>
+    <string name="moondrop_touch_action_call_start">Начать вызов</string>
+    <string name="moondrop_touch_action_assistant">Вызов голосового помощника</string>
+    <string name="moondrop_touch_trigger_long_press_1s">Долгое касание (1 сек)</string>
+    <string name="moondrop_touch_trigger_long_press_3s">Долгое касание (3 сек)</string>
+    <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
+    <string name="moondrop_touch_action_anc_mode">Изменить режим подавления шума</string>
 </resources>
