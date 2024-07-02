@@ -226,10 +226,8 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.9"
 
     implementation "no.nordicsemi.android:dfu:1.12.0"
-    implementation("com.github.tony19:logback-android:2.0.0") {
-        exclude group: "com.google.android", module: "android"
-    }
-    implementation "org.slf4j:slf4j-api:1.7.36"
+    implementation "com.github.tony19:logback-android:3.0.0"
+    implementation "org.slf4j:slf4j-api:2.0.13"
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     implementation "com.github.pfichtner:durationformatter:0.1.1"
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
