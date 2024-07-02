@@ -785,6 +785,7 @@ public class DeviceConfig {
         }
 
         public static class Response extends HuaweiPacket {
+            public boolean isAck = false;
             public byte[] info;
 
             public Response(ParamsProvider paramsProvider) {
@@ -795,7 +796,12 @@ public class DeviceConfig {
             }
 
             @Override
-            public void parseTlv() {
+            public void parseTlv() throws MissingTagException {
+                if (this.tlv.get().size() == 1 && this.tlv.contains(0x7f) && this.tlv.getInteger(0x7f) == 0x186A0) {
+                    this.isAck = true;
+                    return;
+                }
+
                 info = new byte[this.tlv.length()];
                 int i = 0;
                 for (TLV tlv : this.tlv.get()) {

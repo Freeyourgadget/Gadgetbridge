@@ -382,6 +382,10 @@ public class AsynchronousResponse {
                 return;
             }
             DeviceConfig.PhoneInfo.Response phoneInfoResp = (DeviceConfig.PhoneInfo.Response) response;
+            if (phoneInfoResp.isAck) {
+                LOG.info("Not responding to ack for PhoneInfo");
+                return;
+            }
             GetPhoneInfoRequest getPhoneInfoReq = new GetPhoneInfoRequest(this.support, phoneInfoResp.info);
             try {
                 getPhoneInfoReq.doPerform();
