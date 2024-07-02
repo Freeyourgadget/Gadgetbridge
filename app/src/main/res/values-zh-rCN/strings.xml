@@ -3064,4 +3064,18 @@
     <string name="devicetype_garmin_venu_2">佳明 Venu 2</string>
     <string name="devicetype_garmin_forerunner_255s">佳明 Forerunner 255S</string>
     <string name="devicetype_garmin_instinct">佳明 Instinct</string>
+    <string name="moondrop_touch_trigger">触发器</string>
+    <string name="moondrop_touch_action_play_pause">播放/暂停</string>
+    <string name="moondrop_touch_action_call_pick_hang">接听/挂断电话</string>
+    <string name="moondrop_touch_action_call_start">开始通话</string>
+    <string name="moondrop_touch_action_assistant">触发语音助手</string>
+    <string name="moondrop_touch_action_anc_mode">切换主动降噪模式</string>
+    <string name="moondrop_touch_trigger_long_press_1s">长按（1秒）</string>
+    <string name="moondrop_touch_trigger_long_press_3s">长按（3秒）</string>
+    <string name="devicetype_moondrop_space_travel">月落太空旅行</string>
+    <string name="moondrop_equalizer_preset_reference">参考</string>
+    <string name="moondrop_equalizer_preset_monitor">显示器</string>
+    <string name="moondrop_touch_earbud">耳塞</string>
+    <string name="moondrop_touch_earbud_both">两者</string>
+    <string name="moondrop_equalizer_preset_basshead">低音炮</string>
 </resources>
