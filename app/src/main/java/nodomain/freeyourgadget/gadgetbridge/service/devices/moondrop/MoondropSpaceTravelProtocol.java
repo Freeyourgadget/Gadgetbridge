@@ -69,7 +69,7 @@ public class MoondropSpaceTravelProtocol extends GBDeviceProtocol {
                 events.add(handlePacketTouchActions(payload));
         }
 
-        return null;
+        return events.toArray(new GBDeviceEvent[0]);
     }
 
     private GBDeviceEvent handlePacketEqualizerPreset(byte[] payload) {
