@@ -3064,4 +3064,18 @@
     <string name="pref_dashboard_widgets_order_summary">Vyberte, které widgety jsou povoleny a v jakém pořadí budou zobrazeny na nástěnce</string>
     <string name="pref_dashboard_widget_double_size_summary">Povolit widgetu zabrat dva sloupce na nástěnce</string>
     <string name="devicetype_garmin_instinct">Garmin Instinct</string>
+    <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
+    <string name="moondrop_equalizer_preset_monitor">Monitor</string>
+    <string name="moondrop_touch_earbud">Sluchátko do ucha</string>
+    <string name="moondrop_touch_earbud_both">Obě</string>
+    <string name="moondrop_touch_trigger">Spouštěč</string>
+    <string name="moondrop_touch_action_play_pause">Přehrát/pozastavit</string>
+    <string name="moondrop_touch_action_call_pick_hang">Zvednout/zavěsit hovor</string>
+    <string name="moondrop_touch_action_call_start">Začít hovor</string>
+    <string name="moondrop_touch_action_assistant">Spustit hlasového asistenta</string>
+    <string name="moondrop_touch_trigger_long_press_3s">Dlouhé stisknutí (3s)</string>
+    <string name="moondrop_touch_trigger_long_press_1s">Dlouhé stisknutí (1s)</string>
+    <string name="moondrop_equalizer_preset_reference">Reference</string>
+    <string name="moondrop_equalizer_preset_basshead">Basshead</string>
+    <string name="moondrop_touch_action_anc_mode">Přepnout režim aktivního potlačení hluku</string>
 </resources>
