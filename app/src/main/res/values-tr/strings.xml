@@ -3077,4 +3077,18 @@
     </plurals>
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_instinct">Garmin Instinct</string>
+    <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
+    <string name="moondrop_touch_earbud">Kulakiçi kulaklık</string>
+    <string name="moondrop_touch_earbud_both">Her ikisi</string>
+    <string name="moondrop_touch_trigger">Tetik</string>
+    <string name="moondrop_touch_action_play_pause">Oynat/Duraklat</string>
+    <string name="moondrop_touch_action_call_pick_hang">Çağrı Yanıtla/Kapat</string>
+    <string name="moondrop_touch_action_call_start">Arama Başlat</string>
+    <string name="moondrop_touch_action_assistant">Sesli Yardımcıyı Tetikle</string>
+    <string name="moondrop_touch_trigger_long_press_1s">Uzun Bas (1sn)</string>
+    <string name="moondrop_touch_trigger_long_press_3s">Uzun Bas (3sn)</string>
+    <string name="moondrop_equalizer_preset_reference">Referans</string>
+    <string name="moondrop_equalizer_preset_basshead">Bas kafa</string>
+    <string name="moondrop_equalizer_preset_monitor">Ekran</string>
+    <string name="moondrop_touch_action_anc_mode">Etkin Gürültü Engelleme Modunu Değiştir</string>
 </resources>
