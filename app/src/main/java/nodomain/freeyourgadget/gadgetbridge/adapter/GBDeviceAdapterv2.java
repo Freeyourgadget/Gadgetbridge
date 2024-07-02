@@ -62,6 +62,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DiffUtil;
@@ -802,7 +803,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             // Nothing to do
                         }
                     });
-                    dialog.show(((Activity) context).getFragmentManager(), "color-picker-dialog");
+                    dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "color-picker-dialog");
                 }
             });
         }
