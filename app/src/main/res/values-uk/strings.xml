@@ -2669,4 +2669,5 @@
     <string name="activity_type_karting">Картинг</string>
     <string name="activity_type_billiards">Більярд</string>
     <string name="dnd_all_day">Усі дні</string>
+    <string name="pref_header_audio">Аудіо</string>
 </resources>
