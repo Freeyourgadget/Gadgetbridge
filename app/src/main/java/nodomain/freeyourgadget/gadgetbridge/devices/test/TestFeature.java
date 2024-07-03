@@ -70,4 +70,5 @@ public enum TestFeature {
     WEATHER,
     WIDGETS,
     WORLD_CLOCKS,
+    BATTERY_POLLING_SETTINGS,
 }

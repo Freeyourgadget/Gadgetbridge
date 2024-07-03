@@ -596,6 +596,11 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean addBatteryPollingSettings() {
+        return supports(getTestDevice(), TestFeature.BATTERY_POLLING_SETTINGS);
+    }
+
+    @Override
     public AbstractNotificationPattern[] getNotificationVibrationPatterns() {
         // TODO getNotificationVibrationPatterns
         return new AbstractNotificationPattern[0];
