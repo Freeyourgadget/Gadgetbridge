@@ -9,8 +9,6 @@ import android.speech.tts.UtteranceProgressListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
-
 
 public class GBTextToSpeech {
     private static final Logger LOG = LoggerFactory.getLogger(GBTextToSpeech.class);
@@ -38,9 +36,8 @@ public class GBTextToSpeech {
     private void initializeTTS(UtteranceProgressListener callback) {
         textToSpeech = new TextToSpeech(context, status -> {
             if (status == TextToSpeech.SUCCESS) {
-                int result = textToSpeech.setLanguage(Locale.getDefault());
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    LOG.error("TTS returned error: Language not supported.");
+                if (textToSpeech.getVoice() == null) {
+                    LOG.error("TTS returned error: No voice available.");
                 } else {
                     this.isConnected = true;
                     textToSpeech.setOnUtteranceProgressListener(callback);
