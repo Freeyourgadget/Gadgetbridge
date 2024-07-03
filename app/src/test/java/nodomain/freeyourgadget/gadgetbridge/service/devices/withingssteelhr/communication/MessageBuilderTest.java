@@ -6,7 +6,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class MessageBuilderTest {
 
         // assert;
         assertFalse(result);
-        verifyZeroInteractions(supportMock);
+        verifyNoInteractions(supportMock);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class MessageBuilderTest {
         // assert;
         assertTrue(result);
         verify(messageFactoryMock, times(1)).createMessageFromRawData(data);
-        verifyZeroInteractions(supportMock);
+        verifyNoInteractions(supportMock);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class MessageBuilderTest {
         // assert;
         assertFalse(result);
         verify(messageFactoryMock, never()).createMessageFromRawData(data);
-        verifyZeroInteractions(supportMock);
+        verifyNoInteractions(supportMock);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class MessageBuilderTest {
         verify(messageFactoryMock, never()).createMessageFromRawData(data1);
         verify(messageFactoryMock, never()).createMessageFromRawData(data2);
         verify(messageFactoryMock, times(1)).createMessageFromRawData(dataComplete);
-        verifyZeroInteractions(supportMock);
+        verifyNoInteractions(supportMock);
     }
 
     @Test
@@ -121,7 +121,7 @@ public class MessageBuilderTest {
         verify(messageFactoryMock, never()).createMessageFromRawData(data1);
         verify(messageFactoryMock, never()).createMessageFromRawData(data2);
         verify(messageFactoryMock, times(1)).createMessageFromRawData(dataComplete);
-        verifyZeroInteractions(supportMock);
+        verifyNoInteractions(supportMock);
     }
 
     @Test
