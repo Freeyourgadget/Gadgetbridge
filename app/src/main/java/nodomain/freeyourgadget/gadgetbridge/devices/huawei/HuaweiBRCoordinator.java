@@ -238,4 +238,9 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return HuaweiBRSupport.class;
     }
+
+    @Override
+    public boolean addBatteryPollingSettings() {
+        return true;
+    }
 }

@@ -241,4 +241,9 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return HuaweiLESupport.class;
     }
+
+    @Override
+    public boolean addBatteryPollingSettings() {
+        return true;
+    }
 }

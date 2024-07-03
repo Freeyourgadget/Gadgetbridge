@@ -2924,6 +2924,7 @@
     <string name="pref_battery_polling_enable">Enable battery polling</string>
     <string name="pref_battery_polling_interval">Battery polling interval</string>
     <string name="pref_battery_polling_interval_format">every %1$s minutes</string>
+    <string name="battery_polling_failed_start">Failed to start the battery polling</string>
 
     <string name="none">None</string>
     <string name="garmin_agps_url_i">AGPS %1$d URL</string>

@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -172,6 +173,12 @@ public class HuaweiSupportProvider {
     private GBDevice gbDevice;
     private Context context;
     private HuaweiCoordinatorSupplier.HuaweiDeviceType huaweiType;
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable batteryRunner = () -> {
+        LOG.info("Running retrieving battery through runner.");
+        getBatteryLevel();
+    };
 
     private boolean firstConnection = false;
     protected byte protocolVersion;
@@ -1012,6 +1019,18 @@ public class HuaweiSupportProvider {
                         // But it will disappear after reconnection - until it is enabled again
                         GB.toast(context, context.getString(R.string.toast_setting_requires_reconnect), Toast.LENGTH_SHORT, GB.INFO);
                     }
+                case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE:
+                    if (!GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE, false)) {
+                        stopBatteryRunnerDelayed();
+                        break;
+                    }
+                    // Fall through if enabled
+                case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_INTERVAL:
+                    if (!startBatteryRunnerDelayed()) {
+                        GB.toast(context, R.string.battery_polling_failed_start, Toast.LENGTH_SHORT, GB.ERROR);
+                        LOG.error("Failed to start the battery polling");
+                    }
+                    break;
                 case ActivityUser.PREF_USER_WEIGHT_KG:
                 case ActivityUser.PREF_USER_HEIGHT_CM:
                 case ActivityUser.PREF_USER_GENDER:
@@ -1050,7 +1069,7 @@ public class HuaweiSupportProvider {
             LOG.warn("Recorded data type {} not implemented yet.", dataTypes);
         }
 
-        // Get the battery level, as that isn't shared nicely for now
+        // Get the battery level as well
         getBatteryLevel();
 
         // Get the alarms as they cannot be retrieved on opening the alarm window
@@ -1621,6 +1640,7 @@ public class HuaweiSupportProvider {
 
     public void getBatteryLevel() {
         try {
+            stopBatteryRunnerDelayed();
             GetBatteryLevelRequest batteryLevelReq = new GetBatteryLevelRequest(this);
             batteryLevelReq.doPerform();
         } catch (IOException e) {
@@ -2021,5 +2041,22 @@ public class HuaweiSupportProvider {
                 LOG.error("Failed to send open camera request", e);
             }
         }
+    }
+
+    public boolean startBatteryRunnerDelayed() {
+        String interval_minutes = GBApplication.getDeviceSpecificSharedPrefs(deviceMac).getString(DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_INTERVAL, "15");
+        int interval = Integer.parseInt(interval_minutes) * 60 * 1000;
+        LOG.debug("Starting battery runner delayed by {} ({} minutes)", interval, interval_minutes);
+        handler.removeCallbacks(batteryRunner);
+        return handler.postDelayed(batteryRunner, interval);
+    }
+
+    public void stopBatteryRunnerDelayed() {
+        LOG.debug("Stopping battery runner delayed");
+        handler.removeCallbacks(batteryRunner);
+    }
+
+    public void dispose() {
+        stopBatteryRunnerDelayed();
     }
 }
