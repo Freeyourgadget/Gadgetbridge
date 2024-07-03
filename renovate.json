@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": [
+    "dependency"
+  ],
+  "packageRules": [
+    {
+      "groupName": "protobuf",
+      "matchPackagePrefixes": [
+        "com.google.protobuf"
+      ]
+    },
+    {
+      "groupName": "androidx.camera",
+      "matchPackagePrefixes": [
+        "androidx.camera"
+      ]
+    },
+    {
+      "description": "solarpositioning v2 needs java 17, we need to stay on v0",
+      "matchPackagePrefixes": [
+        "net.e175.klaus:solarpositioning"
+      ],
+      "allowedVersions": "<2.0"
+    }
+  ]
+}
