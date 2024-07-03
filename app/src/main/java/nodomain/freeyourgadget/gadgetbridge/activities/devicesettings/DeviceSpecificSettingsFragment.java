@@ -83,6 +83,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.preferences.GBSimpleSummaryProvider;
 import nodomain.freeyourgadget.gadgetbridge.util.preferences.MinMaxTextWatcher;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.PreferenceCategoryMultiline;
 
 public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment implements DeviceSpecificSettingsHandler {
 
@@ -208,7 +209,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
         final BatteryConfig[] batteryConfigs = coordinator.getBatteryConfig(device);
         for (final BatteryConfig batteryConfig : batteryConfigs) {
-            if (batteryConfigs.length > 1) {
+            if (batteryConfigs.length > 1 || coordinator.addBatteryPollingSettings()) {
                 final Preference prefHeader = new PreferenceCategory(requireContext());
                 prefHeader.setKey("pref_battery_header_" + batteryConfig.getBatteryIndex());
                 prefHeader.setIconSpaceReserved(false);
@@ -276,6 +277,40 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     R.string.battery_percentage_str
             ));
             batteryScreen.addPreference(notifyFullThreshold);
+        }
+
+        if (coordinator.addBatteryPollingSettings()) {
+            final Preference prefHeader = new PreferenceCategoryMultiline(requireContext());
+            prefHeader.setKey("pref_battery_polling_header");
+            prefHeader.setIconSpaceReserved(false);
+            prefHeader.setTitle(R.string.pref_battery_polling_configuration);
+            prefHeader.setSummary(R.string.pref_battery_polling_summary);
+            batteryScreen.addPreference(prefHeader);
+
+            final SwitchPreferenceCompat pollingToggle = new SwitchPreferenceCompat(requireContext());
+            pollingToggle.setLayoutResource(R.layout.preference_checkbox);
+            pollingToggle.setKey(PREF_BATTERY_POLLING_ENABLE);
+            pollingToggle.setTitle(R.string.pref_battery_polling_enable);
+            pollingToggle.setDefaultValue(false);
+            pollingToggle.setIconSpaceReserved(false);
+            batteryScreen.addPreference(pollingToggle);
+
+            final EditTextPreference pollingInterval = new EditTextPreference(requireContext());
+            pollingInterval.setKey(PREF_BATTERY_POLLING_INTERVAL);
+            pollingInterval.setTitle(R.string.pref_battery_polling_interval);
+            pollingInterval.setDialogTitle(R.string.pref_battery_polling_interval);
+            pollingInterval.setIconSpaceReserved(false);
+            pollingInterval.setOnBindEditTextListener(editText -> {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                // Max is set to 8 days, which should be more than enough
+                editText.addTextChangedListener(new MinMaxTextWatcher(editText, 0, 11520, true));
+                editText.setSelection(editText.getText().length());
+            });
+            pollingInterval.setSummaryProvider(new GBSimpleSummaryProvider(
+                    getString(R.string.interval_fifteen_minutes),
+                    R.string.pref_battery_polling_interval_format
+            ));
+            batteryScreen.addPreference(pollingInterval);
         }
     }
 
@@ -558,6 +593,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
         addPreferenceHandlerFor(PREF_SCREEN_LIFT_WRIST);
         addPreferenceHandlerFor(PREF_SYNC_CALENDAR);
+
+        addPreferenceHandlerFor(PREF_BATTERY_POLLING_ENABLE);
+        addPreferenceHandlerFor(PREF_BATTERY_POLLING_INTERVAL);
 
         addPreferenceHandlerFor(PREF_BLUETOOTH_CALLS_ENABLED);
         addPreferenceHandlerFor(PREF_DISPLAY_CALLER);

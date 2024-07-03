@@ -2918,6 +2918,13 @@
     <string name="toast_camera_support_required">Camera support is required for this function.</string>
     <string name="toast_camera_photo_taken">Photo has been taken and saved at: %s</string>
 
+    <!-- Battery polling preference strings -->
+    <string name="pref_battery_polling_configuration">Battery polling configuration</string>
+    <string name="pref_battery_polling_summary">This is best-effort, and might be delayed for several reasons</string>
+    <string name="pref_battery_polling_enable">Enable battery polling</string>
+    <string name="pref_battery_polling_interval">Battery polling interval</string>
+    <string name="pref_battery_polling_interval_format">every %1$s minutes</string>
+
     <string name="none">None</string>
     <string name="garmin_agps_url_i">AGPS %1$d URL</string>
     <string name="no_folder_selected">No folder selected</string>

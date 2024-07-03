@@ -651,6 +651,8 @@ public interface DeviceCoordinator {
 
     BatteryConfig[] getBatteryConfig(GBDevice device);
 
+    boolean addBatteryPollingSettings();
+
     boolean supportsPowerOff();
 
     PasswordCapabilityImpl.Mode getPasswordCapability();

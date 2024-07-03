@@ -692,6 +692,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean addBatteryPollingSettings() {
+        return false;
+    }
+
+    @Override
     public boolean supportsPowerOff() {
         return false;
     }
