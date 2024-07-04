@@ -230,8 +230,8 @@ dependencies {
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
     implementation "net.e175.klaus:solarpositioning:0.0.9"
     implementation "co.nstant.in:cbor:0.9"
-    // use pristine greendao instead of our custom version, since our custom jitpack-packaged
-    // version contains way too much and our custom patches are in the generator only.
+    // use pristine greendao instead of our custom version, since our custom patches
+    // are in the generator only.
     implementation "org.greenrobot:greendao:2.2.1"
     implementation "org.apache.commons:commons-lang3:3.7"
     implementation "org.cyanogenmod:platform.sdk:6.0"

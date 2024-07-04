@@ -19,10 +19,29 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
+        def fygRegex = 'nodomain\\.freeyourgadget\\..+'
+
+        maven {
+            url 'https://codeberg.org/api/packages/freeyourgadget/maven'
+            content {
+                includeGroupByRegex fygRegex
+            }
+        }
+        mavenCentral() {
+            content {
+                excludeGroupByRegex fygRegex
+            }
+        }
         maven {
             url 'https://jitpack.io'
+            content {
+                excludeGroupByRegex fygRegex
+            }
         }
-        google()
+        google() {
+            content {
+                excludeGroupByRegex fygRegex
+            }
+        }
     }
 }
