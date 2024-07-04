@@ -3078,4 +3078,5 @@
     <string name="moondrop_touch_earbud">耳塞</string>
     <string name="moondrop_touch_earbud_both">两者</string>
     <string name="moondrop_equalizer_preset_basshead">低音炮</string>
+    <string name="devicetype_garmin_fenix_6">佳明 Fenix 6</string>
 </resources>
