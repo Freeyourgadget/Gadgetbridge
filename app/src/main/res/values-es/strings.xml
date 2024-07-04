@@ -3083,4 +3083,5 @@
     <string name="moondrop_touch_trigger_long_press_3s">Pulsación larga (3s)</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
     <string name="moondrop_equalizer_preset_basshead">Basshead</string>
+    <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
 </resources>
