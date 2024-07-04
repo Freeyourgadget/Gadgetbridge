@@ -237,7 +237,7 @@ dependencies {
     // use pristine greendao instead of our custom version, since our custom jitpack-packaged
     // version contains way too much and our custom patches are in the generator only.
     implementation "org.greenrobot:greendao:2.2.1"
-    implementation "org.apache.commons:commons-lang3:3.7"
+    implementation "org.apache.commons:commons-lang3:3.14.0"
     implementation "org.cyanogenmod:platform.sdk:6.0"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'com.github.wax911.android-emojify:contract:1.9.2'
