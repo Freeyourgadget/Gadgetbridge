@@ -31,7 +31,9 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -113,32 +115,32 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        final List<Integer> settings = new ArrayList<>();
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
         if (supports(SonyHeadphonesCapabilities.AmbientSoundControl)) {
             if (supports(SonyHeadphonesCapabilities.WindNoiseReduction)) {
-                settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction);
+                deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction);
             } else {
-                settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control);
+                deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_ambient_sound_control);
             }
 
             if (supports(SonyHeadphonesCapabilities.AncOptimizer)) {
-                settings.add(R.xml.devicesettings_sony_headphones_anc_optimizer);
+                deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_anc_optimizer);
             }
         }
 
         if (supports(SonyHeadphonesCapabilities.AdaptiveVolumeControl)) {
-            settings.add(R.xml.devicesettings_sony_headphones_adaptive_volume_control);
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_adaptive_volume_control);
         }
 
         if (supports(SonyHeadphonesCapabilities.SpeakToChatConfig)) {
-            settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings);
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings);
         } else if (supports(SonyHeadphonesCapabilities.SpeakToChatEnabled)) {
-            settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_simple);
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_speak_to_chat_simple);
         }
 
-        addSettingsUnderHeader(settings, R.xml.devicesettings_header_other, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
+        addSettingsUnderHeader(deviceSpecificSettings, R.xml.devicesettings_header_other, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
             put(SonyHeadphonesCapabilities.AudioSettingsOnlyOnSbcCodec, R.xml.devicesettings_sony_warning_wh1000xm3);
             put(SonyHeadphonesCapabilities.EqualizerSimple, R.xml.devicesettings_sony_headphones_equalizer);
             put(SonyHeadphonesCapabilities.EqualizerWithCustomBands, R.xml.devicesettings_sony_headphones_equalizer_with_custom_bands);
@@ -148,7 +150,10 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             put(SonyHeadphonesCapabilities.Volume, R.xml.devicesettings_volume);
         }});
 
-        addSettingsUnderHeader(settings, R.xml.devicesettings_header_system, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
+        final List<Integer> callsAndNotif = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+        callsAndNotif.add(R.xml.devicesettings_headphones);
+
+        addSettingsUnderHeader(deviceSpecificSettings, R.xml.devicesettings_header_system, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
             put(SonyHeadphonesCapabilities.WideAreaTap, R.xml.devicesettings_sony_headphones_wide_area_tap);
             put(SonyHeadphonesCapabilities.ButtonModesLeftRight, R.xml.devicesettings_sony_headphones_button_modes_left_right);
             put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, R.xml.devicesettings_sony_headphones_ambient_sound_control_button_modes);
@@ -160,12 +165,12 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             put(SonyHeadphonesCapabilities.VoiceNotifications, R.xml.devicesettings_sony_headphones_notifications_voice_guide);
         }});
 
-        settings.add(R.xml.devicesettings_header_developer);
-        settings.add(R.xml.devicesettings_sony_headphones_protocol_version);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_header_developer);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_protocol_version);
 
-        settings.add(R.xml.devicesettings_sony_headphones_device_info);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_device_info);
 
-        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
+        return deviceSpecificSettings;
     }
 
     public List<SonyHeadphonesCapabilities> getCapabilities() {
@@ -179,11 +184,11 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     /**
      * Add the preference screens for capabilities under a header. The header is also only added if at least one capability is supported by the device.
      *
-     * @param settings     the list of settings to update
-     * @param header       the header to add, if any capability supported
-     * @param capabilities the map of capability to preference screen
+     * @param deviceSpecificSettings the device specific settings
+     * @param header                 the header to add, if any capability supported
+     * @param capabilities           the map of capability to preference screen
      */
-    private void addSettingsUnderHeader(final List<Integer> settings,
+    private void addSettingsUnderHeader(final DeviceSpecificSettings deviceSpecificSettings,
                                         final int header,
                                         final Map<SonyHeadphonesCapabilities, Integer> capabilities) {
         final Set<SonyHeadphonesCapabilities> supportedCapabilities = new HashSet<>(capabilities.keySet());
@@ -198,11 +203,11 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             return;
         }
 
-        settings.add(header);
+        deviceSpecificSettings.addRootScreen(header);
 
         for (Map.Entry<SonyHeadphonesCapabilities, Integer> capabilitiesSetting : capabilities.entrySet()) {
             if (supports(capabilitiesSetting.getKey())) {
-                settings.add(capabilitiesSetting.getValue());
+                deviceSpecificSettings.addRootScreen(capabilitiesSetting.getValue());
             }
         }
     }

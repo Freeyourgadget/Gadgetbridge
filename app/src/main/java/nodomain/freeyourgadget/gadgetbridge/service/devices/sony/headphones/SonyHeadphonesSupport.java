@@ -16,24 +16,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.AbstractHeadphoneDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.deviceevents.SonyHeadphonesEnqueueRequestEvent;
-import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
-public class SonyHeadphonesSupport extends AbstractSerialDeviceSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesSupport.class);
-
-    @Override
-    public boolean connect() {
-        getDeviceIOThread().start();
-        return true;
-    }
-
+public class SonyHeadphonesSupport extends AbstractHeadphoneDeviceSupport {
     @Override
     protected GBDeviceProtocol createDeviceProtocol() {
         return new SonyHeadphonesProtocol(getDevice());
