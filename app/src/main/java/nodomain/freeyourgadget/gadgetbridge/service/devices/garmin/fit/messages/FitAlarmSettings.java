@@ -2,11 +2,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
+import java.util.Calendar;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-
-import java.util.Calendar;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.

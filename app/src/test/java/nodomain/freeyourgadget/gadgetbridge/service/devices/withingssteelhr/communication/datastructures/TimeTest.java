@@ -3,9 +3,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.com
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.threeten.bp.Instant;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;

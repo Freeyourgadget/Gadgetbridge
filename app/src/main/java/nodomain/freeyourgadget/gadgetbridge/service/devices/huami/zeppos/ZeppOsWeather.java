@@ -32,11 +32,11 @@ import net.e175.klaus.solarpositioning.SPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

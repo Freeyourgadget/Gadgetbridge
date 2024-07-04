@@ -16,12 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.communication.datastructures;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.zone.ZoneOffsetTransition;
-import org.threeten.bp.zone.ZoneRules;
-
 import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneRules;
 import java.util.TimeZone;
 
 public class Time extends WithingsStructure {

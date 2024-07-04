@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceFragmentCompat;
 
+import java.util.Optional;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 public class GarminRealtimeSettingsActivity extends AbstractSettingsActivityV2 {
     private GBDevice device;

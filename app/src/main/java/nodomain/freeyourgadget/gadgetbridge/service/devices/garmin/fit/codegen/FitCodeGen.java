@@ -6,12 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import org.threeten.bp.DayOfWeek;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -33,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionLanguage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherAqi;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherCondition;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
@@ -138,7 +138,7 @@ public class FitCodeGen {
             anyImport = false;
         }
         for (final String i : uniqueImports) {
-            if (i.startsWith("nodomain.freeyourgadget")) {
+            if (i.startsWith("java.")) {
                 sb.append("import ").append(i).append(";\n");
                 anyImport = true;
             }
@@ -149,7 +149,18 @@ public class FitCodeGen {
             anyImport = false;
         }
         for (final String i : uniqueImports) {
-            if (!i.startsWith("androidx") && !i.startsWith("nodomain.freeyourgadget")) {
+            if (i.startsWith("nodomain.freeyourgadget") && !i.startsWith("java.")) {
+                sb.append("import ").append(i).append(";\n");
+                anyImport = true;
+            }
+        }
+
+        if (anyImport) {
+            sb.append("\n");
+            anyImport = false;
+        }
+        for (final String i : uniqueImports) {
+            if (!i.startsWith("androidx") && !i.startsWith("nodomain.freeyourgadget") && !i.startsWith("java.")) {
                 sb.append("import ").append(i).append(";\n");
                 anyImport = true;
             }
@@ -236,6 +247,8 @@ public class FitCodeGen {
                     return FieldDefinitionLanguage.Language.class;
                 case SLEEP_STAGE:
                     return FieldDefinitionSleepStage.SleepStage.class;
+                case WEATHER_AQI:
+                    return FieldDefinitionWeatherAqi.AQI_LEVELS.class;
             }
 
             throw new RuntimeException("Unknown field type " + primitive.getType());

@@ -26,11 +26,11 @@ import android.os.SystemClock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.zone.ZoneOffsetTransition;
-import org.threeten.bp.zone.ZoneRules;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneRules;
 import java.util.Date;
 import java.util.GregorianCalendar;
 

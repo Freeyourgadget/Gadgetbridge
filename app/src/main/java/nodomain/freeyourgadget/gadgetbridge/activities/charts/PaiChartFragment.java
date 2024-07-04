@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -58,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.PaiChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(PaiChartFragment.class);

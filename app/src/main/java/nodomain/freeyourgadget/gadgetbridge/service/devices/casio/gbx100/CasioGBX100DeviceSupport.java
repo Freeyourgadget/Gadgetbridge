@@ -19,28 +19,22 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.threeten.bp.ZonedDateTime;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -49,28 +43,15 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.FetchStepCountDataOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.GetConfigurationOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.InitOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.SetConfigurationOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
@@ -87,7 +68,6 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_PREVIEW_MESSAGE_IN_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DISTANCE_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;

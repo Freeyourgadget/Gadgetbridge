@@ -18,6 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.List;
+import java.util.Optional;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -26,9 +30,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
-
-import java.util.List;
 
 public class PineTimeActivitySampleProvider extends AbstractSampleProvider<PineTimeActivitySample> {
     private GBDevice mDevice;

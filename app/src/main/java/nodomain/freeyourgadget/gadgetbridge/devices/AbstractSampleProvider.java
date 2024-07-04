@@ -17,15 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import org.threeten.bp.LocalDate;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;

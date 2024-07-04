@@ -19,13 +19,11 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.threeten.bp.ZonedDateTime;
-
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
 

@@ -17,19 +17,18 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
 
-import java.util.List;
-import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
-
-import org.threeten.bp.Instant;
-import org.threeten.bp.LocalTime;
-import org.threeten.bp.Month;
-import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZoneOffset;
-import org.threeten.bp.zone.ZoneRules;
-import org.threeten.bp.zone.ZoneOffsetTransition;
-import org.threeten.bp.zone.ZoneOffsetTransitionRule;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneOffsetTransitionRule;
+import java.time.zone.ZoneRules;
+import java.util.Arrays;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 

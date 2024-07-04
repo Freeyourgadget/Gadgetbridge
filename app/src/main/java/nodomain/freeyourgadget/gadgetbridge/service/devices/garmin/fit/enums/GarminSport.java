@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums;
 
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
+import java.util.Optional;
 
 // Taken from CHANGELOG.fit of a Venu 3
 public enum GarminSport {

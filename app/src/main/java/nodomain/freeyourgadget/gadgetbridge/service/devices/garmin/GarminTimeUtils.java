@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
+import java.time.Instant;
+import java.time.ZoneId;
 
 public class GarminTimeUtils {
 

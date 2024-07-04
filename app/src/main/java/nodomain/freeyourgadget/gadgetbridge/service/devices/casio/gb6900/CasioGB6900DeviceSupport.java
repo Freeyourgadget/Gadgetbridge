@@ -22,7 +22,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -30,12 +29,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import org.threeten.bp.ZonedDateTime;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
@@ -44,23 +42,15 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.ServerTransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900HandlerThread;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.InitOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.SetAlarmOperation;
-import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 

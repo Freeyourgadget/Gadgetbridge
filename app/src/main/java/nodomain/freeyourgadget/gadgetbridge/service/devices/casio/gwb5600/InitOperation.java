@@ -24,24 +24,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.util.LinkedList;
-import java.util.UUID;
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.TextStyle;
-
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600TimeZone;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 public class InitOperation extends AbstractBTLEOperation<CasioGWB5600DeviceSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);

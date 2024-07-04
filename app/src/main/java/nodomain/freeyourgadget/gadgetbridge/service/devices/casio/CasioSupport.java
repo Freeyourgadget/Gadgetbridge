@@ -21,7 +21,7 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.threeten.bp.ZonedDateTime;
+import java.time.ZonedDateTime;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;

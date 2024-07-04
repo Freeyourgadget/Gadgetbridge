@@ -2,12 +2,13 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
+import java.time.DayOfWeek;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherAqi.AQI_LEVELS;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionWeatherCondition.Condition;
-
-import org.threeten.bp.DayOfWeek;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
@@ -109,8 +110,8 @@ public class FitWeather extends RecordData {
     }
 
     @Nullable
-    public Integer getAirQuality() {
-        return (Integer) getFieldByNumber(17);
+    public AQI_LEVELS getAirQuality() {
+        return (AQI_LEVELS) getFieldByNumber(17);
     }
 
     @Nullable

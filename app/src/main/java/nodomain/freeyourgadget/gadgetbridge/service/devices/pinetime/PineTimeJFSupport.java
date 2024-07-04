@@ -20,10 +20,10 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToCloudCover;
+import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeCondition;
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeObscuration;
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimePrecipitation;
 import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeSpecial;
-import static nodomain.freeyourgadget.gadgetbridge.devices.pinetime.weather.WeatherData.mapOpenWeatherConditionToPineTimeCondition;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
-import android.content.SharedPreferences;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -48,14 +47,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 import co.nstant.in.cbor.CborBuilder;
 import co.nstant.in.cbor.CborEncoder;
@@ -86,10 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -112,7 +103,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);

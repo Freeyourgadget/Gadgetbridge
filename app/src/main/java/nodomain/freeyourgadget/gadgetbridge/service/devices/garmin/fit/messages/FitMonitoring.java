@@ -2,11 +2,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
+import java.util.Optional;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.

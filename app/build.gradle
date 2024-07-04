@@ -61,6 +61,8 @@ def getGitHashShort = { ->
 
 android {
     compileOptions {
+        coreLibraryDesugaringEnabled true
+
         // for Android 5+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -196,6 +198,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.camera:camera-core:1.2.3"
     implementation "androidx.camera:camera-camera2:1.2.3"
@@ -244,10 +248,6 @@ dependencies {
     // It's included in the org.bouncycastle.shaded package, to fix conflicts with roboelectric
     //implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
     //implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
-
-    // JSR-310 timezones backport for Android, since we're still API 21
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.7'
-    testImplementation 'org.threeten:threetenbp:1.6.9'
 
     // Android SDK bundles org.json, but we need an actual implementation to replace the stubs in tests
     testImplementation 'org.json:json:20240303'

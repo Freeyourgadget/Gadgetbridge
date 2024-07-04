@@ -104,8 +104,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.WATCHXPLUS;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
@@ -205,9 +203,6 @@ public class GBApplication extends Application {
             // guard against multiple invocations (robolectric)
             return;
         }
-
-        // Initialize the timezones library
-        AndroidThreeTen.init(this);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new GBPrefs(sharedPrefs);

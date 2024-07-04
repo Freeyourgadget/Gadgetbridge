@@ -18,24 +18,19 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.os.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.threeten.bp.ZonedDateTime;
-
 import java.io.IOException;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
 public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);

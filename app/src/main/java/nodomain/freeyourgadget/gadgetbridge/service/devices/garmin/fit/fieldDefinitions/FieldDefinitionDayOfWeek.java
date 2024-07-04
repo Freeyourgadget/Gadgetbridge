@@ -1,10 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions;
 
-import org.threeten.bp.DayOfWeek;
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-
 import java.nio.ByteBuffer;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.ZoneId;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FieldDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
