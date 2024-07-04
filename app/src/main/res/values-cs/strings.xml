@@ -3078,4 +3078,5 @@
     <string name="moondrop_equalizer_preset_reference">Reference</string>
     <string name="moondrop_equalizer_preset_basshead">Basshead</string>
     <string name="moondrop_touch_action_anc_mode">Přepnout režim aktivního potlačení hluku</string>
+    <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
 </resources>
