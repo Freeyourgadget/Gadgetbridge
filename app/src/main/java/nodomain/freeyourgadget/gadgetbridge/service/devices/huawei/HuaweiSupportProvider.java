@@ -2044,8 +2044,8 @@ public class HuaweiSupportProvider {
     }
 
     public boolean startBatteryRunnerDelayed() {
-        String interval_minutes = GBApplication.getDeviceSpecificSharedPrefs(deviceMac).getString(DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_INTERVAL, "15");
-        int interval = Integer.parseInt(interval_minutes) * 60 * 1000;
+        int interval_minutes = GBApplication.getDevicePrefs(deviceMac).getBatteryPollingIntervalMinutes();
+        int interval = interval_minutes * 60 * 1000;
         LOG.debug("Starting battery runner delayed by {} ({} minutes)", interval, interval_minutes);
         handler.removeCallbacks(batteryRunner);
         return handler.postDelayed(batteryRunner, interval);
