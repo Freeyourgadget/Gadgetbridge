@@ -3091,4 +3091,5 @@
     <string name="moondrop_equalizer_preset_basshead">Bas kafa</string>
     <string name="moondrop_equalizer_preset_monitor">Ekran</string>
     <string name="moondrop_touch_action_anc_mode">Etkin Gürültü Engelleme Modunu Değiştir</string>
+    <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
 </resources>
