@@ -6,6 +6,9 @@
   "labels": [
     "dependency"
   ],
+  "ignoreDeps": [
+    "com.github.Freeyourgadget:greendao"
+  ],
   "packageRules": [
     {
       "groupName": "protobuf",
@@ -25,6 +28,13 @@
         "net.e175.klaus:solarpositioning"
       ],
       "allowedVersions": "<2.0"
+    },
+    {
+      "description": "We're running a fork of the greendao v2 generator, so we must always use the corresponding core lib",
+      "matchPackagePrefixes": [
+        "org.greenrobot:greendao"
+      ],
+      "allowedVersions": "<3.0"
     }
   ]
 }
