@@ -26,6 +26,7 @@ import android.os.Build;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
+import net.e175.klaus.solarpositioning.SunriseTransitSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         float longitude = longlat[0];
         float latitude = longlat[1];
 
-        GregorianCalendar[] sunriseTransitSetTomorrow = SPA.calculateSunriseTransitSet(dateTimeTomorrow, latitude, longitude, DeltaT.estimate(dateTimeTomorrow));
+        final SunriseTransitSet sunriseTransitSetTomorrow = SPA.calculateSunriseTransitSet(
+                dateTimeTomorrow.toZonedDateTime(),
+                latitude,
+                longitude,
+                DeltaT.estimate(dateTimeTomorrow.toZonedDateTime().toLocalDate())
+        );
 
         CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
         calendarEventSpec.durationInSeconds = 0;
@@ -95,17 +101,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         calendarEventSpec.type = CalendarEventSpec.TYPE_SUNRISE;
         calendarEventSpec.title = "Sunrise";
-        if (sunriseTransitSetTomorrow[0] != null) {
+        if (sunriseTransitSetTomorrow.getSunrise() != null) {
             calendarEventSpec.id = id_tomorrow;
-            calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow[0].getTimeInMillis() / 1000);
+            calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow.getSunrise().toInstant().getEpochSecond());
             GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
         }
 
         calendarEventSpec.type = CalendarEventSpec.TYPE_SUNSET;
         calendarEventSpec.title = "Sunset";
-        if (sunriseTransitSetTomorrow[2] != null) {
+        if (sunriseTransitSetTomorrow.getSunset() != null) {
             calendarEventSpec.id = id_tomorrow;
-            calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow[2].getTimeInMillis() / 1000);
+            calendarEventSpec.timestamp = (int) (sunriseTransitSetTomorrow.getSunset().toInstant().getEpochSecond());
             GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
         }
     }

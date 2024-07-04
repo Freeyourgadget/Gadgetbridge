@@ -17,10 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.RemoteException;
@@ -31,6 +29,7 @@ import android.webkit.WebViewClient;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
+import net.e175.klaus.solarpositioning.SunriseTransitSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -39,7 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -199,12 +199,17 @@ public class GBWebClient extends WebViewClient {
 
 
     private static JSONObject sysObject(CurrentPosition currentPosition) throws JSONException {
-        GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), currentPosition.getLatitude(), currentPosition.getLongitude(), DeltaT.estimate(new GregorianCalendar()));
+        final SunriseTransitSet sunriseTransitSet = SPA.calculateSunriseTransitSet(
+                ZonedDateTime.now(),
+                currentPosition.getLatitude(),
+                currentPosition.getLongitude(),
+                DeltaT.estimate(LocalDate.now())
+        );
 
         JSONObject sys = new JSONObject();
         sys.put("country", "World");
-        sys.put("sunrise", (sunrise[0].getTimeInMillis() / 1000));
-        sys.put("sunset", (sunrise[2].getTimeInMillis() / 1000));
+        sys.put("sunrise", sunriseTransitSet.getSunrise().toInstant().getEpochSecond());
+        sys.put("sunset", sunriseTransitSet.getSunset().toInstant().getEpochSecond());
 
         return sys;
     }

@@ -29,6 +29,7 @@ import com.google.gson.JsonSerializer;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
+import net.e175.klaus.solarpositioning.SunriseTransitSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -245,14 +246,21 @@ public class ZeppOsWeather {
         }
 
         private Range getSunriseSunset(final GregorianCalendar date, final Location location) {
-            final GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(
-                    date,
+            final SunriseTransitSet sunriseTransitSet = SPA.calculateSunriseTransitSet(
+                    date.toZonedDateTime(),
                     location.getLatitude(),
                     location.getLongitude(),
-                    DeltaT.estimate(date)
+                    DeltaT.estimate(date.toZonedDateTime().toLocalDate())
             );
 
-            return getSunriseSunset(sunriseTransitSet[0].getTime(), sunriseTransitSet[2].getTime());
+            if (sunriseTransitSet.getSunrise() != null && sunriseTransitSet.getSunset() != null) {
+                return getSunriseSunset(
+                        Date.from(sunriseTransitSet.getSunrise().toInstant()),
+                        Date.from(sunriseTransitSet.getSunset().toInstant())
+                );
+            }
+
+            return getSunriseSunset(new Date(), new Date());
         }
 
         private Range getSunriseSunset(final Date sunRise, final Date sunSet) {

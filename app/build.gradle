@@ -229,10 +229,10 @@ dependencies {
     implementation "no.nordicsemi.android:dfu:1.12.0"
     implementation "com.github.tony19:logback-android:3.0.0"
     implementation "org.slf4j:slf4j-api:2.0.13"
-    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+    implementation "com.github.PhilJay:MPAndroidChart:3.1.0"
     implementation "com.github.pfichtner:durationformatter:0.1.1"
     implementation "de.cketti.library.changelog:ckchangelog:1.2.2"
-    implementation "net.e175.klaus:solarpositioning:0.0.9"
+    implementation "net.e175.klaus:solarpositioning:0.1.10"
     implementation "co.nstant.in:cbor:0.9"
     // use pristine greendao instead of our custom version, since our custom jitpack-packaged
     // version contains way too much and our custom patches are in the generator only.

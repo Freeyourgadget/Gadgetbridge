@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
+import net.e175.klaus.solarpositioning.SunriseTransitSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,15 +147,19 @@ public class WeatherHandler {
             } else {
                 final Location lastKnownLocation = new CurrentPosition().getLastKnownLocation();
 
-                final GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(
-                        date,
+                final SunriseTransitSet sunriseTransitSet = SPA.calculateSunriseTransitSet(
+                        date.toZonedDateTime(),
                         lastKnownLocation.getLatitude(),
                         lastKnownLocation.getLongitude(),
-                        DeltaT.estimate(date)
+                        DeltaT.estimate(date.toZonedDateTime().toLocalDate())
                 );
 
-                epochSunrise = (int) (sunriseTransitSet[0].getTime().getTime() / 1000);
-                epochSunset = (int) (sunriseTransitSet[2].getTime().getTime() / 1000);
+                if (sunriseTransitSet.getSunrise() != null) {
+                    epochSunrise = (int) (sunriseTransitSet.getSunrise().toInstant().getEpochSecond());
+                }
+                if (sunriseTransitSet.getSunset() != null) {
+                    epochSunset = (int) (sunriseTransitSet.getSunset().toInstant().getEpochSecond());
+                }
             }
 
             wind = new Wind(new WeatherValue(dailyForecast.windSpeed * 3.6, "METERS_PER_SECOND"), dailyForecast.windDirection);

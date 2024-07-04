@@ -58,6 +58,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
+import net.e175.klaus.solarpositioning.SunriseTransitSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,9 +75,9 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1459,7 +1460,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        boolean isNight;
+        boolean isNight = false;
         if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
             isNight = weatherSpec.sunRise * 1000L > System.currentTimeMillis() || weatherSpec.sunSet * 1000L < System.currentTimeMillis();
         } else {
@@ -1467,8 +1468,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             if (location == null) {
                 location = new CurrentPosition().getLastKnownLocation();
             }
-            GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), location.getLatitude(), location.getLongitude(), DeltaT.estimate(new GregorianCalendar()));
-            isNight = sunrise[0].getTimeInMillis() > System.currentTimeMillis() || sunrise[2].getTimeInMillis() < System.currentTimeMillis();
+            final ZonedDateTime now = ZonedDateTime.now();
+            final SunriseTransitSet sunriseTransitSet = SPA.calculateSunriseTransitSet(
+                    now,
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    DeltaT.estimate(now.toLocalDate())
+            );
+            if (sunriseTransitSet.getSunrise() != null && sunriseTransitSet.getSunset() != null) {
+                isNight = sunriseTransitSet.getSunrise().isAfter(now) || sunriseTransitSet.getSunset().isBefore(now);
+            }
         }
 
         long ts = System.currentTimeMillis();
