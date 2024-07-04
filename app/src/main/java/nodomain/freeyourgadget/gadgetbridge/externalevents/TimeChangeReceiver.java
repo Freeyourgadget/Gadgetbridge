@@ -34,6 +34,7 @@ import java.time.zone.ZoneRules;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -98,6 +99,7 @@ public class TimeChangeReceiver extends BroadcastReceiver {
         final ZoneOffsetTransition transition = zoneRules.nextTransition(now);
 
         final Intent i = new Intent(ACTION_DST_CHANGED_OR_PERIODIC_SYNC);
+        i.setPackage(BuildConfig.APPLICATION_ID);
         final PendingIntent pi = PendingIntentUtils.getBroadcast(context, 0, i, 0, false);
 
         final AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

@@ -56,6 +56,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
@@ -292,6 +293,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     private void handleGBDeviceEventFindPhoneStartNotification(final boolean ring) {
         LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
         Intent intent = new Intent(context, FindPhoneActivity.class);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtra(FindPhoneActivity.EXTRA_RING, ring);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -170,6 +171,7 @@ public class GB {
 
     private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
@@ -211,6 +213,7 @@ public class GB {
             }
 
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+            deviceCommunicationServiceIntent.setPackage(BuildConfig.APPLICATION_ID);
             if (connected) {
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
                 PendingIntent disconnectPendingIntent = PendingIntentUtils.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
@@ -264,6 +267,7 @@ public class GB {
 
             if (anyDeviceSupportesActivityDataFetching) {
                 Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+                deviceCommunicationServiceIntent.setPackage(BuildConfig.APPLICATION_ID);
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                 deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
                 PendingIntent fetchPendingIntent = PendingIntentUtils.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
@@ -319,6 +323,7 @@ public class GB {
         // Not sure whether it is worth the complexity to fix this
         if (!GBApplication.getPrefs().getBoolean(GBPrefs.RECONNECT_ONLY_TO_CONNECTED, true) || !GBApplication.getPrefs().getStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, Collections.emptySet()).isEmpty()) {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+            deviceCommunicationServiceIntent.setPackage(BuildConfig.APPLICATION_ID);
             deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
             PendingIntent reconnectPendingIntent = PendingIntentUtils.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
             builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
@@ -502,6 +507,7 @@ public class GB {
     private static Notification createTransferNotification(String title, String text, boolean ongoing,
                                                            int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
@@ -539,6 +545,7 @@ public class GB {
     private static Notification createInstallNotification(String text, boolean ongoing,
                                                           int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
@@ -569,6 +576,7 @@ public class GB {
 
     private static Notification createBatteryLowNotification(String text, String bigText, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
@@ -591,6 +599,7 @@ public class GB {
 
     private static Notification createBatteryFullNotification(String text, String bigText, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,
@@ -637,6 +646,7 @@ public class GB {
 
     public static Notification createExportFailedNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, SettingsActivity.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0,

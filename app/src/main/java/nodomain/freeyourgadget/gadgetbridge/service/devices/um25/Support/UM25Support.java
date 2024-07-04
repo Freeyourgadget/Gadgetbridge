@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -210,6 +211,7 @@ public class UM25Support extends UM25BaseSupport {
             // handle change from over threshold to below threshold
             wasOverNotificationCurrent = false;
             Intent activityIntent = new Intent(getContext(), DataActivity.class);
+            activityIntent.setPackage(BuildConfig.APPLICATION_ID);
             Notification notification = new NotificationCompat.Builder(getContext(), GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                     .setSmallIcon(R.drawable.ic_notification_low_battery)
                     .setContentTitle("USB current")

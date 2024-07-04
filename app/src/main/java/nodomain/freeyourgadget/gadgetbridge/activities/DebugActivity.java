@@ -976,6 +976,7 @@ public class DebugActivity extends AbstractGBActivity {
 
     private void testNotification() {
         Intent notificationIntent = new Intent(getApplicationContext(), DebugActivity.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntentUtils.getActivity(getApplicationContext(), 0,
@@ -985,6 +986,7 @@ public class DebugActivity extends AbstractGBActivity {
                 .build();
 
         Intent replyIntent = new Intent(ACTION_REPLY);
+        replyIntent.setPackage(BuildConfig.APPLICATION_ID);
 
         PendingIntent replyPendingIntent = PendingIntentUtils.getBroadcast(this, 0, replyIntent, 0, true);
 

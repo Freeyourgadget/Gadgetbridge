@@ -62,6 +62,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 
         // Add our own click intent
         Intent intent = new Intent(context, SleepAlarmWidget.class);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.setAction(ACTION_CLICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent clickPI = PendingIntentUtils.getBroadcast(
@@ -149,6 +150,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
         AlarmManager am = (AlarmManager) packageContext.getSystemService(Context.ALARM_SERVICE);
         // TODO: launch the alarm configuration activity when clicking the alarm in the status bar
         Intent intent = new Intent(packageContext, ConfigureAlarms.class);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         PendingIntent pi = PendingIntentUtils.getBroadcast(packageContext, 0, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT, false);
         am.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, pi), pi);

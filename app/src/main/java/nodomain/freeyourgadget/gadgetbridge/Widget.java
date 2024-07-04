@@ -90,6 +90,7 @@ public class Widget extends AppWidgetProvider {
 
         //onclick refresh
         Intent intent = new Intent(context, Widget.class);
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.setAction(WIDGET_CLICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent refreshDataIntent = PendingIntentUtils.getBroadcast(
@@ -98,17 +99,20 @@ public class Widget extends AppWidgetProvider {
 
         //open GB main window
         Intent startMainIntent = new Intent(context, ControlCenterv2.class);
+        startMainIntent.setPackage(BuildConfig.APPLICATION_ID);
         PendingIntent startMainPIntent = PendingIntentUtils.getActivity(context, 0, startMainIntent, 0, false);
         views.setOnClickPendingIntent(R.id.todaywidget_header_icon, startMainPIntent);
 
         //alarms popup menu
         Intent startAlarmListIntent = new Intent(context, WidgetAlarmsActivity.class);
+        startAlarmListIntent.setPackage(BuildConfig.APPLICATION_ID);
         startAlarmListIntent.putExtra(GBDevice.EXTRA_DEVICE, deviceForWidget);
         PendingIntent startAlarmListPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startAlarmListIntent, PendingIntent.FLAG_UPDATE_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_header_alarm_icon, startAlarmListPIntent);
 
         //charts
         Intent startChartsIntent = new Intent(context, ActivityChartsActivity.class);
+        startChartsIntent.setPackage(BuildConfig.APPLICATION_ID);
         startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, deviceForWidget);
         PendingIntent startChartsPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);

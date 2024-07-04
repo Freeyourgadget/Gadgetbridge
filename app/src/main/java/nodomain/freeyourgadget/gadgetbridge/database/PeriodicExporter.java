@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -59,6 +60,7 @@ public class PeriodicExporter extends BroadcastReceiver {
 
     public static void scheduleAlarm(Context context, Integer autoExportInterval, boolean autoExportEnabled) {
         Intent i = new Intent(context, PeriodicExporter.class);
+        i.setPackage(BuildConfig.APPLICATION_ID);
         PendingIntent pi = PendingIntentUtils.getBroadcast(context, 0, i, 0, false);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);

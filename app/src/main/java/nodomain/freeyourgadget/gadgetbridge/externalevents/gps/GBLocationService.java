@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -164,6 +165,7 @@ public class GBLocationService extends BroadcastReceiver {
     private void updateNotification() {
         if (!providersByDevice.isEmpty()) {
             final Intent notificationIntent = new Intent(context, GBLocationService.class);
+            notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             final PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 0, notificationIntent, 0, false);
 
