@@ -159,7 +159,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 break;
             case SPORTS_FREESTYLE:
                 summary.setActivityKind(ActivityKind.TYPE_STRENGTH_TRAINING);
-                // TODO
+                parser = getFreestyleParser(fileId);
                 break;
             case SPORTS_POOL_SWIMMING:
                 summary.setActivityKind(ActivityKind.TYPE_SWIMMING);
@@ -185,6 +185,46 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         }
 
         return summary;
+    }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getFreestyleParser(final XiaomiActivityFileId fileId) {
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 8:
+                headerSize = 5;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addUnknown(6);
+        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addUnknown(1);
+        builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addUnknown(2);
+        builder.addUnknown(4);
+        builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
+        builder.addUnknown(3);
+
+        return builder.build();
     }
 
     @Nullable
