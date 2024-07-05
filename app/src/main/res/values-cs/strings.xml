@@ -1770,7 +1770,7 @@
     <string name="open_fw_installer_info_text_title">Instalátor souborů</string>
     <string name="open_fw_installer_select_file">Vyberte soubor, který chcete nahrát do zařízení: %s</string>
     <string name="open_fw_installer_getting_files_text">Vzhledem k tomu, že soubory firmwaru nemůžeme distribuovat, budete si je muset obstarat sami. To znamená, že budete muset hledat soubory v souborech apk, na internetu, na fórech, na Amazfitwatchfaces (pro zařízení Miband/Amazfit) atd.</string>
-    <string name="open_fw_installer_info_text">Instalátor firmware/watchface/aplikací/souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, watchface, aplikace, GPS, zdroje, fonty...). Další informace naleznete na wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_info_text">Instalátor firmware/ciferníků/aplikací/souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, watchface, aplikace, GPS, zdroje, fonty...). Další informace naleznete na wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="steps_streaks_streak_days">Dny
 \nSérie</string>
     <string name="steps_streaks_average_steps">Průměr
@@ -2623,7 +2623,7 @@
     <string name="widget">Widget</string>
     <string name="widget_screen">Obrazovka widgetu</string>
     <string name="pref_summary_fossil_hr_navigation_instructions">Nastavit chování navigační aplikace na hodinkách</string>
-    <string name="uploadwatchfaceoperation_failed">Instalace watchface selhala</string>
+    <string name="uploadwatchfaceoperation_failed">Instalace ciferníku selhala</string>
     <string name="scan_not_scanning">Neskenuji</string>
     <string name="prefs_home_icon_right_item">Vpravo</string>
     <string name="prefs_wena3_notification_vibration_repetition_3">Třikrát</string>
@@ -2672,7 +2672,7 @@
     <string name="huawei_reparse_workout_data_description">Toto nastavení bude fungovat pouze po určitých aktualizacích</string>
     <string name="intent_api_broadcast_activity_sync_summary">Vysílat intent při dokončení synchronizace aktivit u kteréhokoli zařízení</string>
     <string name="error_menu_companion_not_installed">Aplikace „HR Menu Companion“ nejspíše není nainstalovaná</string>
-    <string name="info_fossil_rebuild_watchface_custom_menu">Znovu prosím sestavte svůj watchface pro vlastní nabídku</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Znovu prosím sestavte svůj ciferník pro vlastní nabídku</string>
     <string name="cyan">Azurová</string>
     <string name="prefs_wena3_title_alarm">Nastavení budíků</string>
     <string name="prefs_wena3_vibration_smart_item">Chytré vibrace</string>
@@ -2704,7 +2704,7 @@
     <string name="widget_layout_top_2_bot_1">2 nahoře, 1 dole</string>
     <string name="pref_title_fossil_hr_nav_foreground">Přejít do popředí</string>
     <string name="pref_summary_fossil_hr_nav_vibrate">Zda mají hodinky vibrovat při každém novém nebo změněném navigačním pokynu (pouze, pokud je aplikace v popředí)</string>
-    <string name="uploading_watchface">Nahrávám watchface…</string>
+    <string name="uploading_watchface">Nahrávám ciferník…</string>
     <string name="pref_force_connection_type_title">Vynutit typ spojení</string>
     <string name="pref_force_connection_type_description">Můžete zkusit vynutit typ spojení, pokud vaše zařízení neodpovídá aplikaci Gadgetbridge</string>
     <string name="pref_force_connection_type_auto">Automatické</string>
@@ -2769,8 +2769,8 @@
     <string name="widget_screen_no_free_slots_description">Zařízení nemá žádná volná místa pro obrazovky widgetů (celkem míst: %1$s)</string>
     <string name="widget_layout_single">1 widget</string>
     <string name="pref_summary_fossil_hr_nav_foreground">Zda má navigační aplikace automaticky přejít do popředí, jakmile obdrží navigační pokyny</string>
-    <string name="uploadwatchfaceoperation_in_progress">Nahrávám watchface</string>
-    <string name="uploadwatchfaceoperation_complete">Instalace watchface dokončena</string>
+    <string name="uploadwatchfaceoperation_in_progress">Nahrávám ciferník</string>
+    <string name="uploadwatchfaceoperation_complete">Instalace ciferníku dokončena</string>
     <string name="prefs_home_icon_center_item">Uprostřed</string>
     <string name="menuitem_focus">Soustředění</string>
     <string name="prefs_wena3_home_icon_name_suica">Zůstatek Suica</string>
@@ -2949,7 +2949,7 @@
     <string name="pref_speak_notifications_focus_exclusive_summary_off">Během čtení oznámení bude hlasitost přehrávání z ostatních aplikací snížena</string>
     <string name="pref_title_garmin_default_reply_suffix">Použít předem nastavenou příponu odpovědi</string>
     <string name="pref_sleepasandroid_feat_movement">Akcelerometr</string>
-    <string name="watchface_resolution_doesnt_match">Rozlišení watchface se neshoduje s obrazovkou zařízení. Watchface má %1$s, obrazovka zařízení má %2$s</string>
+    <string name="watchface_resolution_doesnt_match">Rozlišení ciferníku se neshoduje s obrazovkou zařízení. Ciferník má %1$s, obrazovka zařízení má %2$s</string>
     <string name="device_name_bicycle_sensor">Senzor na kolo</string>
     <string name="pref_title_wheel_diameter">Průměr kola</string>
     <string name="pref_summary_cycling_persistence_interval">Interval v sekundách, ve kterém budou aktuální cyklistická data zapisována do databáze</string>
@@ -3079,4 +3079,5 @@
     <string name="moondrop_equalizer_preset_basshead">Basshead</string>
     <string name="moondrop_touch_action_anc_mode">Přepnout režim aktivního potlačení hluku</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
+    <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
 </resources>
