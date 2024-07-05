@@ -1,5 +1,14 @@
 ### Changelog
 
+#### Next version (WIP)
+* Initial support for Garmin Fenix 5/6
+* Initial support for Moondrop Space Travel
+* Cycling sensor: Improve cycling data display
+* Huawei: Map more workout types
+* Sony Headphones: Enable read aloud incoming notifications and auto call pickup
+* Xiaomi: Parse freestyle workouts
+* Change device icons to use theme colors
+
 #### 0.81.0
 * Experimental support for Amazfit Bip 5 Unity
 * Experimental support for Redmi Watch 4
