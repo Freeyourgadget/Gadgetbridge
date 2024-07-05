@@ -116,21 +116,28 @@ public class CyclingChartFragment extends AbstractChartFragment<CyclingChartFrag
             }
 
             int nextIndex = 0;
+            CyclingSample oldSample = null;
             for (CyclingSample sample : samples) {
                 // add distance in Km
                 distanceEntries.add(new Entry(sample.getTimestamp(), (sample.getDistance() / 1000f) - dayStart));
-                Float speed = sample.getSpeed();
-                speedEntries.add(new Entry(sample.getTimestamp(), (speed != null) ? (sample.getSpeed() * 3.6f) : 0));
 
-                if(nextIndex < samples.size()){
-                    CyclingSample nextSample = samples.get(nextIndex);
-                    if(nextSample.getSpeed() == null){
-                        // sensor is off, doesn't report zero speed. So let's inject it outselves
-                        speedEntries.add(new Entry(sample.getTimestamp() + 30_000, 0));
+                if(oldSample != null) {
+                    float deltaMeters = sample.getDistance() - oldSample.getDistance();
+                    float deltaMillis = sample.getTimestamp() - oldSample.getTimestamp();
+
+                    float metersPerMillisecond = deltaMeters / deltaMillis;
+                    float kmh = metersPerMillisecond * 3600;
+
+                    // Float speed = sample.getSpeed();
+                    if(kmh < 6.0) {
+                        // speed to slow, cutting down to 0
+                        speedEntries.add(new Entry(oldSample.getTimestamp() + 30_000, 0));
                     }
+                    speedEntries.add(new Entry(sample.getTimestamp(), kmh));
                 }
 
                 nextIndex++;
+                oldSample = sample;
             }
 
             LineDataSet distanceSet = new LineDataSet(distanceEntries, "Cycling");
