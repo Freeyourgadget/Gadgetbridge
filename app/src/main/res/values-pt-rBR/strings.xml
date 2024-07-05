@@ -1632,4 +1632,54 @@
 \nSeu relógio irá reiniciar após instalar o arquivo .zip.
 \n
 \nSIGA POR SUA CONTA EM RISCO!</string>
+    <string name="pref_dashboard_cards_summary">Desenhe cartões ao redor dos widgets no painel</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d dia</item>
+        <item quantity="many">%d dias</item>
+        <item quantity="other">%d dias</item>
+    </plurals>
+    <string name="pref_summary_bottom_navigation_bar_off">Alternar entre as telas principais usando apenas o deslizamento horizontal</string>
+    <string name="pref_title_bottom_navigation_bar">Barra de navegação inferior</string>
+    <string name="bottom_nav_dashboard">Painel</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Intervalo de frequência cardíaca</string>
+    <string name="pref_dashboard_widget_double_size_summary">Permitir que o widget ocupe duas colunas no painel</string>
+    <string name="pref_summary_bottom_navigation_bar_on">Alternar entre as telas principais usando a barra de navegação ou o deslizamento horizontal</string>
+    <string name="pref_dashboard_widget_today_hr_interval_summary">A quantidade de minutos que o gráfico mostra \"usado\" após cada medição bem-sucedida da frequência cardíaca</string>
+    <string name="pref_header_authentication">Autenticação</string>
+    <string name="pref_title_opentracks_packagename">Nome do pacote do OpenTracks</string>
+    <string name="pref_title_navigation_forward">Enviar navegação para o relógio</string>
+    <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">Configure o monitoramento da frequência cardíaca e os limites de alerta</string>
+    <string name="pref_dashboard_all_devices_title">Todos os dispositivos</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">No modo 24 horas, desenhe a meia-noite na parte inferior e o meio-dia na parte superior do gráfico</string>
+    <string name="pref_summary_opentracks_packagename">Usado para iniciar/parar a gravação da trilha GPS no aplicativo externo de condicionamento físico.</string>
+    <string name="pref_summary_navigation_forward">Encaminhar instruções de aplicativos de navegação para o relógio</string>
+    <string name="pref_title_navigation_apps">Aplicativos de navegação</string>
+    <string name="activity_info">Informações sobre a atividade</string>
+    <string name="dashboard_calendar_month_goals_reached_title">% da meta de passos atingida</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Mostrar uma legenda abaixo do widget explicando as cores</string>
+    <string name="menuitem_calendar">Calendário</string>
+    <string name="pref_dashboard_first_title">Mostrar o painel primeiro</string>
+    <string name="pref_dashboard_first_summary">Mostrar o painel quando o Gadgetbridge for iniciado, em vez da tela de dispositivos</string>
+    <string name="pref_dashboard_cards_title">Mostrar widgets nos cartões</string>
+    <string name="pref_dashboard_widget_settings">Configurações do widget</string>
+    <string name="pref_dashboard_widget_today_title">Gráfico de atividades</string>
+    <string name="bottom_nav_devices">Dispositivos</string>
+    <string name="dashboard_settings">Configurações do painel</string>
+    <string name="pref_dashboard_widget_show_legend_title">Mostrar legenda</string>
+    <string name="pref_dashboard_widget_goals_chart_title">Gráfico de metas</string>
+    <string name="pref_dashboard_devices_to_include">Dispositivos a serem incluídos</string>
+    <string name="pref_dashboard_all_devices_summary">Combine os dados de atividade de todos os dispositivos adicionados para obter os totais no painel</string>
+    <string name="pref_dashboard_widget_today_upside_down_title">Meia-noite na parte inferior</string>
+    <string name="pref_dashboard_widget_today_24h_title">Modo de 24 horas</string>
+    <string name="pref_dashboard_select_devices_title">Selecionar dispositivos...</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Monitoramento da frequência cardíaca</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">Configurar o monitoramento da frequência cardíaca</string>
+    <string name="pref_dashboard_widget_double_size_title">Tamanho duplo</string>
+    <string name="pref_dashboard_widgets_order_summary">Selecione quais widgets estão ativados e em que ordem eles são exibidos no painel</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Mostre a atividade em um único círculo de 24 horas em vez de um círculo duplo de 12 horas</string>
+    <string name="controlcenter_set_parent_folder">Definir pasta principal</string>
+    <string name="pref_dashboard_select_devices_summary">Combine dados de atividade de dispositivos específicos para obter os totais no painel</string>
+    <string name="pref_title_osmand_packagename">Nome do pacote do OsmAnd</string>
+    <string name="pref_summary_osmand_packagename">Usado para selecionar a versão do OsmAnd à qual se conectar</string>
+    <string name="info_no_devices_connected">Nenhum dispositivo conectado</string>
 </resources>
