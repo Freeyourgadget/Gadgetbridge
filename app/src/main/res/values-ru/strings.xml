@@ -2973,7 +2973,7 @@
     <string name="pref_dashboard_select_devices_summary">Объедините данные об активности с определенных устройств для получения итоговых показателей на приборной панели</string>
     <string name="pref_dashboard_all_devices_summary">Объедините данные об активности со всех добавленных устройств для получения итоговых показателей на приборной панели</string>
     <string name="pref_dashboard_widget_today_upside_down_summary">В режиме 24 часа нарисуйте полночь внизу, а полдень - вверху графика</string>
-    <string name="sleepasandroid_settings">Сон как Android</string>
+    <string name="sleepasandroid_settings">Sleep As Android</string>
     <string name="pref_sleepasandroid_slot_summary">Какой слот будильника использовать при установке будильников</string>
     <string name="pref_sleepasandroid_slot_title">Слот для сигнализации</string>
     <string name="swingAngleAvg">Средний угол поворота</string>
