@@ -3078,4 +3078,5 @@
     <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
     <string name="moondrop_touch_trigger_long_press_3s">الضغط لفترة طويلة (3ث)</string>
     <string name="moondrop_touch_action_anc_mode">قم بتبديل وضع إلغاء الضوضاء النشط</string>
+    <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
 </resources>
