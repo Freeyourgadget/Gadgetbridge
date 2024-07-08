@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        android:icon="@drawable/ic_warning"
+        android:key="pref_proprietary_app_warning"
+        android:summary="@string/proprietary_app_warning" />
+
     <PreferenceCategory
         android:key="pref_key_sleepasandroid_general"
         android:title="@string/pref_header_general"

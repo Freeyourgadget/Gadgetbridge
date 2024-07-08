@@ -192,6 +192,7 @@
     <string name="open_fw_installer_ensure_device_connected">Make sure that the device %s is connected</string>
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
+    <string name="proprietary_app_warning">This feature requires the installation of a proprietary app</string>
     <string name="pref_header_general">General settings</string>
     <string name="pref_header_other">Other</string>
     <string name="pref_header_system">System</string>
