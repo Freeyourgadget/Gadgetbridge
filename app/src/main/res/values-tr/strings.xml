@@ -3092,4 +3092,6 @@
     <string name="moondrop_equalizer_preset_monitor">Ekran</string>
     <string name="moondrop_touch_action_anc_mode">Etkin Gürültü Engelleme Modunu Değiştir</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
+    <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
+    <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
 </resources>
