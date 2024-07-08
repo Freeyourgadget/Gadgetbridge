@@ -3080,4 +3080,5 @@
     <string name="moondrop_equalizer_preset_basshead">低音炮</string>
     <string name="devicetype_garmin_fenix_6">佳明 Fenix 6</string>
     <string name="devicetype_garmin_fenix_5">佳明 Fenix 5</string>
+    <string name="devicetype_garmin_vivoactive_3">佳明 Vívoactive 3</string>
 </resources>
