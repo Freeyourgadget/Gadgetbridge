@@ -1334,8 +1334,8 @@
     <string name="pref_title_notification_use_as">Usar a lista de aplicativos para…</string>
     <string name="pref_title_notification_use_as_allow">Permitir notificações de aplicativos selecionados</string>
     <string name="pref_title_message_privacy_mode">Modo de privacidade de mensagens</string>
-    <string name="pref_message_privacy_mode_off">Exibir conteúdo</string>
-    <string name="pref_message_privacy_mode_complete">Ocultar conteúdo</string>
+    <string name="pref_message_privacy_mode_off">Exibir todo o conteúdo</string>
+    <string name="pref_message_privacy_mode_complete">Ocultar todo o conteúdo</string>
     <string name="title_activity_notification_management">Configurações de notificação</string>
     <string name="check_all_applications">Marcar todos os aplicativos</string>
     <string name="uncheck_all_applications">Desmarcar todos os aplicativos</string>
@@ -2174,7 +2174,7 @@
     <string name="activity_type_aerobic_exercise">Exercício aeróbico</string>
     <string name="pref_media_volumedown">Diminuir Volume</string>
     <string name="connection_over_bt_classic">Conexão via Bluetooth classic</string>
-    <string name="pref_summary_third_party_app_device_settings">Permitir que outros aplicativos de terceiros instalados definam as configurações do dispositivo por meio de intents.</string>
+    <string name="pref_summary_third_party_app_device_settings">Permitir que outros aplicativos de terceiros instalados definam as configurações do dispositivo por meio de intenções</string>
     <string name="title">Título</string>
     <string name="pref_workout_detection_summary">Detectar o treino automaticamente</string>
     <string name="pref_morning_updates_categories_title">Categorias de atualizações matinais</string>
@@ -2218,7 +2218,7 @@
     <string name="pref_force_connection_type_ble">Bluetooth LE</string>
     <string name="unbind_before_pair_title">Já vinculado</string>
     <string name="chart_cycling_point_label_speed">%.1f km/h</string>
-    <string name="open_camera">Open Camera</string>
+    <string name="open_camera">Abrir câmera</string>
     <string name="title_cycling">Ciclismo</string>
     <string name="toast_setting_requires_reconnect">Essa configuração entrará em vigor após uma reconexão</string>
     <string name="garmin_agps_url_i">URL do AGPS %1$d</string>
@@ -2288,4 +2288,63 @@
     <string name="widget">Widget</string>
     <string name="widget_screen_delete_confirm_title">Excluir tela de widget</string>
     <string name="devicetype_mi_watch_color_sport">Mi Watch Color Sport</string>
+    <string name="pref_summary_device_intents">Permitir que os aplicativos de relógio Bangle.js enviem Android Intents e que outros aplicativos no Android (como o Tasker) enviem dados para o Bangle.js com o com.banglejs.uart.tx Intent. Precisa de permissão para ser exibido sobre outros aplicativos para funcionar em segundo plano.</string>
+    <string name="intent_api_allow_activity_sync_title">Permitir o acionamento da sincronização de atividades</string>
+    <string name="activity_type_hunting">Caça</string>
+    <string name="activity_type_surfing">Surfar</string>
+    <string name="activity_type_gymnastics">Ginástica</string>
+    <string name="prefs_wena3_day_start_hour_item">O dia Começa Em</string>
+    <string name="pref_anc_optimizer_state_pressure">Pressão atmosférica</string>
+    <string name="intent_api_broadcast_activity_sync_summary">Anunciar uma intenção quando a sincronização de atividades for concluída em qualquer dispositivo</string>
+    <string name="pref_title_notification_wake_on_open">Despertar e desbloquear automaticamente</string>
+    <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">API de intenção de Bluetooth</string>
+    <string name="intent_api_allow_activity_sync_summary">Permitir o acionamento da sincronização de atividades por meio da API de intenção</string>
+    <string name="intent_api_allow_debug_commands_summary">Permitir o acionamento de comandos do menu de depuração por meio da API de Intenção</string>
+    <string name="pref_title_notification_cache_while_disconnected">Cache enquanto estiver fora do alcance</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Use apenas o provedor de rede para determinar a localização. Isso reduz o consumo de energia ao custo da precisão. É necessária uma reconexão.</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Use os dados de GPS do telefone para substituir os dados de GPS do dispositivo bangle</string>
+    <string name="pref_header_intent_api">API de Intenções (Intent API)</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">O intervalo de atualização da posição GPS, em ms</string>
+    <string name="pref_header_sony_device_info">Informações do dispositivo</string>
+    <string name="pref_title_device_intents">Permitir intenções</string>
+    <string name="permission_display_over_other_apps">%1$s precisa de permissão para ser exibido sobre outros aplicativos a fim de permitir que os relógios Bangle.js iniciem atividades por meio de intenções quando %1$s estiver em segundo plano.
+\n
+\nIsso pode ser usado para iniciar um aplicativo de música e reproduzir uma música e muitas outras coisas.
+\n
+\nToque em \"%2$s\" e depois em \"%1$s\" e ative a opção \"Permitir sobrepor outros aplicativos\", depois toque em \"Voltar\" para retornar a %1$s.
+\n
+\nPara que o %1$s pare de solicitar permissões, vá para \"Configurações\" e desmarque \"Verificar status da permissão\".
+\n
+\nCertifique-se de conceder ao %1$s as permissões necessárias para que ele funcione como você espera.</string>
+    <string name="activity_type_climbing">Escalada</string>
+    <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Para receber chamadas por bluetooth, é necessário parear o telefone com uma segunda instância do relógio.</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Envie notificações perdidas quando um dispositivo se reconectar após ficar fora do alcance</string>
+    <string name="prefs_wena3_home_icon_name_calories">Calorias</string>
+    <string name="pref_summary_notification_wake_on_open">Desperta e desbloqueia o dispositivo Android quando o gadget envia uma resposta OPEN de volta. Precisa estar em um estado confiável.</string>
+    <string name="pref_summary_wheel_diameter">Diâmetro da roda em polegadas. Normalmente 29, 27,5 ou 26.</string>
+    <string name="intent_api_allow_trigger_export_summary">Permitir o acionamento da exportação do banco de dados por meio da API de Intenção</string>
+    <string name="intent_api_broadcast_export_title">Anunciar na exportação do banco de dados</string>
+    <string name="intent_api_broadcast_export_summary">Anunciar uma intenção quando a exportação do banco dados finalizar</string>
+    <string name="prefs_wena3_item_background_sync">Sincronização de dados de atividade em segundo plano</string>
+    <string name="intent_api_broadcast_activity_sync_title">Anunciar no término da sincronização da atividade</string>
+    <string name="withings_bt_calibration_previous">Anterior</string>
+    <string name="prefs_wena3_auto_power_off_hint">O dispositivo será desligado e ligado automaticamente no horário especificado</string>
+    <string name="activity_type_volleyball">Voleibol</string>
+    <string name="activity_type_table_tennis">Tênis de Mesa</string>
+    <string name="activity_type_bowling">Boliche</string>
+    <string name="activity_type_rower">Remador</string>
+    <string name="activity_type_street_dance">Dança de Rua</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Permitir o controle da conexão Bluetooth por meio da API de intenção</string>
+    <string name="warning_missing_notification_permission">Não foi possível publicar a notificação em andamento devido à falta de permissão</string>
+    <string name="loyalty_cards_catima_permissions_title">Permissões faltando</string>
+    <string name="withings_bt_calibration_next">Próximo</string>
+    <string name="activity_type_pool_swimming">Natação em Piscina</string>
+    <string name="pref_call_rejection_method_summary">Que ação é tomada quando uma chamada recebida é rejeitada pelo relógio</string>
+    <string name="activity_type_mountain_hike">Caminhada na montanha</string>
+    <string name="activity_type_cross_trainer">Cross trainer</string>
+    <string name="activity_type_hiking">Caminhada</string>
+    <string name="prefs_activity_monitoring_title">Monitoramento de atividade</string>
+    <string name="prefs_wena3_menu_icon_name_payment">Pagamento</string>
 </resources>
