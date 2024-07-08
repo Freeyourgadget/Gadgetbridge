@@ -79,6 +79,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivoactive.Ga
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivoactive.GarminVivoActive5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.GarminVivomoveHrCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.GarminVivomoveStyleCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.GarminVivomoveTrendCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivosmart.GarminVivosmart5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hama.fit6900.HamaFit6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
@@ -380,6 +381,7 @@ public enum DeviceType {
     GARMIN_INSTINCT_2_SOLTAC(GarminInstinct2SolTacCoordinator.class),
     GARMIN_INSTINCT_CROSSOVER(GarminInstinctCrossoverCoordinator.class),
     GARMIN_VIVOMOVE_STYLE(GarminVivomoveStyleCoordinator.class),
+    GARMIN_VIVOMOVE_TREND(GarminVivomoveTrendCoordinator.class),
     GARMIN_VENU_2(GarminVenu2Coordinator.class),
     GARMIN_VENU_2_PLUS(GarminVenu2PlusCoordinator.class),
     GARMIN_VENU_3(GarminVenu3Coordinator.class),
