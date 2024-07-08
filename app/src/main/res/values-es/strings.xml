@@ -3085,4 +3085,12 @@
     <string name="moondrop_equalizer_preset_basshead">Basshead</string>
     <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
+    <string name="proprietary_app_warning">Esta función requiere la instalación de una aplicación propia</string>
+    <string name="pref_battery_polling_configuration">Configuración de sondeo de la batería</string>
+    <string name="pref_battery_polling_enable">Activar sondeo de batería</string>
+    <string name="pref_battery_polling_summary">Se trata del mejor esfuerzo, y podría retrasarse por varias razones</string>
+    <string name="pref_battery_polling_interval">Intervalo de sondeo de la batería</string>
+    <string name="pref_battery_polling_interval_format">cada %1$s minutos</string>
+    <string name="battery_polling_failed_start">No se ha iniciado el sondeo de la batería</string>
 </resources>
