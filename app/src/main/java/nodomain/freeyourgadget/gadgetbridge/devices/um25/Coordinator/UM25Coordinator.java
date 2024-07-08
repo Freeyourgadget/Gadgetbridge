@@ -77,50 +77,9 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
         };
     }
 
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
-    @Override
-    public boolean supportsActivityDataFetching() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsActivityTracking() {
-        return false;
-    }
-
-    @Override
-    public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
-    }
-
-    @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
-    }
-
-    @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public int getAlarmSlotCount(GBDevice device) {
-        return 0;
-    }
-
-    @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
     }
 
     @Override
@@ -136,21 +95,6 @@ public class UM25Coordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return DataActivity.class;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsWeather() {
-        return false;
     }
 
     @Override

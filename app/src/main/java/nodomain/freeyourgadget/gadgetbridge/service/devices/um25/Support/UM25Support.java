@@ -68,6 +68,8 @@ public class UM25Support extends UM25BaseSupport {
 
     private ByteBuffer buffer = ByteBuffer.allocate(PAYLOAD_LENGTH);
 
+    ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
     private static final  Logger logger = LoggerFactory.getLogger(UM25Support.class);
 
     SharedPreferences preferences;
@@ -142,19 +144,20 @@ public class UM25Support extends UM25BaseSupport {
         super.dispose();
         LocalBroadcastManager.getInstance(getContext())
                 .unregisterReceiver(resetReceiver);
+        executor.shutdown();
     }
 
     private void startLoop(){
-        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-        executor.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                sendReadCommand();
-            }
-        }, 0, LOOP_DELAY, TimeUnit.MILLISECONDS);
+        executor.scheduleWithFixedDelay(this::sendReadCommand, 0, LOOP_DELAY, TimeUnit.MILLISECONDS);
     }
 
     private void sendReadCommand(){
+        if(!getDevice().isConnected()){
+            logger.debug("device disconnected, stopping executor");
+            executor.shutdown();
+            return;
+        }
+
         logger.debug("sending read command");
         buffer.reset();
         new TransactionBuilder("send read command")
