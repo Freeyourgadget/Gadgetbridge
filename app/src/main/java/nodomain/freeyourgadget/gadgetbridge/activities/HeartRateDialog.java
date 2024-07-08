@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -41,6 +40,7 @@ import java.util.Objects;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 
 public class HeartRateDialog extends Dialog {
     protected static final Logger LOG = LoggerFactory.getLogger(HeartRateDialog.class);
@@ -80,11 +80,18 @@ public class HeartRateDialog extends Dialog {
         heart_rate_dialog_loading_layout.setVisibility(View.GONE);
         heart_rate_dialog_label.setText(getContext().getString(R.string.heart_rate_result));
 
+        int heartRate = 0;
         if (result instanceof ActivitySample) {
             ActivitySample sample = (ActivitySample) result;
+            heartRate = sample.getHeartRate();
+        }
+        if (result instanceof HeartRateSample) {
+            HeartRateSample sample = (HeartRateSample) result;
+            heartRate = sample.getHeartRate();
+        }
+        if (HeartRateUtils.getInstance().isValidHeartRateValue(heartRate)) {
             heart_rate_hr.setVisibility(View.VISIBLE);
-            if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate()))
-                heart_rate_widget_hr_value.setText(String.valueOf(sample.getHeartRate()));
+            heart_rate_widget_hr_value.setText(String.valueOf(heartRate));
         }
     }
 

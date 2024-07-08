@@ -673,6 +673,7 @@
     <string name="busy_task_fetch_pai_data">Fetching PAI data</string>
     <string name="busy_task_fetch_spo2_data">Fetching SpO2 data</string>
     <string name="busy_task_fetch_hr_data">Fetching heart rate data</string>
+    <string name="busy_task_fetch_sleep_data">Fetching sleep data</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Fetching sleep respiratory rate data</string>
     <string name="busy_task_fetch_temperature">Fetching temperature data</string>
     <string name="busy_task_fetch_statistics">Fetching statistics</string>
@@ -1809,6 +1810,9 @@
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
     <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
     <string name="devicetype_redmi_watch_4">Redmi Watch 4</string>
+    <string name="devicetype_colmi_r02">Colmi R02</string>
+    <string name="devicetype_colmi_r03">Colmi R03</string>
+    <string name="devicetype_colmi_r06">Colmi R06</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
@@ -3203,4 +3207,6 @@
     <string name="pref_fetch_unknown_files_summary">Fetch unknown activity files from the watch. They will not be processed, but will be saved in the phone.</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">"Cannot upload watchface, too many watchfaces installed"</string>
     <string name="insufficient_space_for_upload">"Insufficient space for upload"</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Measurement error. Are the ring\'s sensors oriented correctly?</string>
+    <string name="smart_ring_measurement_error_unknown">Unknown measurement error %d received from ring</string>
 </resources>
