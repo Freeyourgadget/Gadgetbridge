@@ -3081,4 +3081,12 @@
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
     <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="pref_battery_polling_summary">Jedná se o maximální snahu, která může být zpožděna z několika důvodů</string>
+    <string name="pref_battery_polling_enable">Povolit dotazování baterie</string>
+    <string name="pref_battery_polling_interval_format">každých %1$s minut</string>
+    <string name="battery_polling_failed_start">Nepodařilo se spustit dotazování baterie</string>
+    <string name="proprietary_app_warning">Tato funkce vyžaduje instalaci proprietární aplikace</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
+    <string name="pref_battery_polling_interval">Interval dotazování baterie</string>
+    <string name="pref_battery_polling_configuration">Nastavení dotazování baterie</string>
 </resources>
