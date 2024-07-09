@@ -3079,4 +3079,12 @@
     <string name="moondrop_touch_trigger_long_press_3s">الضغط لفترة طويلة (3ث)</string>
     <string name="moondrop_touch_action_anc_mode">قم بتبديل وضع إلغاء الضوضاء النشط</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="battery_polling_failed_start">تعذر بدء استطلاع البطارية</string>
+    <string name="pref_battery_polling_enable">تمكين استطلاع البطارية</string>
+    <string name="pref_battery_polling_interval">الفاصل الزمني لاستقصاء البطارية</string>
+    <string name="pref_battery_polling_interval_format">كل %1$s دقيقة</string>
+    <string name="pref_battery_polling_configuration">تكوين استقصاء البطارية</string>
+    <string name="pref_battery_polling_summary">هذا هو أفضل جهد، وقد يتأخر لعدة أسباب</string>
+    <string name="proprietary_app_warning">تتطلب هذه الميزة تثبيت تطبيق خاص</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
 </resources>
