@@ -3081,4 +3081,12 @@
     <string name="devicetype_garmin_fenix_6">佳明 Fenix 6</string>
     <string name="devicetype_garmin_fenix_5">佳明 Fenix 5</string>
     <string name="devicetype_garmin_vivoactive_3">佳明 Vívoactive 3</string>
+    <string name="pref_battery_polling_interval_format">每 %1$s 分钟</string>
+    <string name="pref_battery_polling_interval">电池轮询间隔</string>
+    <string name="proprietary_app_warning">此功能需要安装专有应用程序</string>
+    <string name="devicetype_garmin_vivomove_trend">佳明 Vívomove Trend</string>
+    <string name="pref_battery_polling_configuration">电池轮询配置</string>
+    <string name="pref_battery_polling_summary">这是尽力而为，可能会因多种原因而延迟</string>
+    <string name="pref_battery_polling_enable">启用电池轮询</string>
+    <string name="battery_polling_failed_start">无法启动电池轮询</string>
 </resources>
