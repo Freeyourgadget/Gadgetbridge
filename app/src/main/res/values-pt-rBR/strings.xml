@@ -2307,7 +2307,7 @@
     <string name="pref_header_intent_api">API de Intenções (Intent API)</string>
     <string name="pref_summary_banglejs_phone_gps_update_interval">O intervalo de atualização da posição GPS, em ms</string>
     <string name="pref_header_sony_device_info">Informações do dispositivo</string>
-    <string name="pref_title_device_intents">Permitir intenções</string>
+    <string name="pref_title_device_intents">Permitir Intenção</string>
     <string name="permission_display_over_other_apps">%1$s precisa de permissão para ser exibido sobre outros aplicativos a fim de permitir que os relógios Bangle.js iniciem atividades por meio de intenções quando %1$s estiver em segundo plano.
 \n
 \nIsso pode ser usado para iniciar um aplicativo de música e reproduzir uma música e muitas outras coisas.
