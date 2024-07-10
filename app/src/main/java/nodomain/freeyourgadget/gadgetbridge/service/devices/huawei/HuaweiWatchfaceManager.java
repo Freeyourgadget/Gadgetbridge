@@ -54,19 +54,25 @@ public class HuaweiWatchfaceManager
 
         Map<String, Object> map = new HashMap<>();
         public Resolution() {
-            map.put("HWHD09", "466*466");
-            map.put("HWHD08", "320*320");
-            map.put("HWHD10", "360*320");
-            map.put("HWHD02", "454*454");
+            //             "height*width"
             map.put("HWHD01", "390*390");
-            map.put("HWHD05", "460*188");
+            map.put("HWHD02", "454*454");
             map.put("HWHD03", "240*120");
             map.put("HWHD04", "160*80");
+            map.put("HWHD05", "460*188");
             map.put("HWHD06", "456*280");
             map.put("HWHD07", "368*194");
+            map.put("HWHD08", "320*320");
+            map.put("HWHD09", "466*466");
+            map.put("HWHD10", "360*320");
+            map.put("HWHD11", "480*336");
+            map.put("HWHD12", "240*240");
+            map.put("HWHD13", "480*408");
         }
 
         public boolean  isValid(String themeVersion, String screenResolution) {
+            if(!map.containsKey(themeVersion))
+                return false;
             String screen = map.get(themeVersion).toString();
             if (screenResolution.equals(screen)) {
                 return true;
