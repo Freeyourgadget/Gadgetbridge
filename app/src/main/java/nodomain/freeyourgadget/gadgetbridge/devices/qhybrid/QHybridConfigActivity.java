@@ -57,6 +57,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -530,7 +531,7 @@ public class QHybridConfigActivity extends AbstractGBActivity {
     protected void onResume() {
         super.onResume();
         refreshList();
-        registerReceiver(buttonReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS));
+        ContextCompat.registerReceiver(this, buttonReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_BUTTON_PRESS), ContextCompat.RECEIVER_NOT_EXPORTED);
         LocalBroadcastManager.getInstance(this).registerReceiver(settingsReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_SETTINGS_UPDATED));
         LocalBroadcastManager.getInstance(this).registerReceiver(fileReceiver, new IntentFilter(QHybridSupport.QHYBRID_EVENT_FILE_UPLOADED));
     }

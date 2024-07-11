@@ -33,6 +33,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -92,9 +93,9 @@ public class FindPhoneActivity extends AbstractGBActivity {
         filter.addAction(ACTION_VIBRATE);
         filter.addAction(ACTION_RING);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
-        registerReceiver(mReceiver, filter); // for ACTION_FOUND
+        ContextCompat.registerReceiver(this, mReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED); // for ACTION_FOUND
 
-        Button foundButton = (Button) findViewById(R.id.foundbutton);
+        Button foundButton = findViewById(R.id.foundbutton);
         foundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,10 +112,10 @@ public class FindPhoneActivity extends AbstractGBActivity {
         GBApplication.deviceService().onFindPhone(true);
     }
 
-    private void vibrate(){
-        mVibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+    private void vibrate() {
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        long[] vibrationPattern = new long[]{ 1000, 1000 };
+        long[] vibrationPattern = new long[]{1000, 1000};
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             VibrationEffect vibrationEffect = VibrationEffect.createWaveform(vibrationPattern, 0);
@@ -126,7 +127,7 @@ public class FindPhoneActivity extends AbstractGBActivity {
     }
 
     private void playRingtone() {
-        mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager != null) {
             userVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         }
@@ -153,7 +154,7 @@ public class FindPhoneActivity extends AbstractGBActivity {
 
     /**
      * Attempt to play the configured ringtone. This fails to get the default ringtone on some ROMs
-     * (https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2697)
+     * (<a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2697">#2697</a>)
      *
      * @return whether playing the configured ringtone was successful or not.
      */
