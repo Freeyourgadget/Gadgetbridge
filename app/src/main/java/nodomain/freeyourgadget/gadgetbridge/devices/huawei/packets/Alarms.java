@@ -29,19 +29,26 @@ public class Alarms {
 
     public static class EventAlarm {
         public byte index;
-        public boolean status;
-        public byte startHour;
-        public byte startMinute;
-        public byte repeat;
-        public String name;
+        public boolean status = false;
+        public byte startHour = -1;
+        public byte startMinute = -1;
+        public byte repeat = 0;
+        public String name = "Alarm";
 
         public EventAlarm(HuaweiTLV tlv) throws ParseException {
             this.index = tlv.getByte(0x03);
-            this.status = tlv.getBoolean(0x04);
-            this.startHour = (byte) ((tlv.getShort(0x05) >> 8) & 0xFF);
-            this.startMinute = (byte) (tlv.getShort(0x05) & 0xFF);
-            this.repeat = tlv.getByte(0x06);
-            this.name = tlv.getString(0x07);
+            if (tlv.contains(0x04))
+                this.status = tlv.getBoolean(0x04);
+            if (this.status || tlv.contains(0x05)) {
+                // I think we should refuse to set the alarm to a default time if it's enabled.
+                // If it is enabled, it should have the time set.
+                this.startHour = (byte) ((tlv.getShort(0x05) >> 8) & 0xFF);
+                this.startMinute = (byte) (tlv.getShort(0x05) & 0xFF);
+            }
+            if (tlv.contains(0x06))
+                this.repeat = tlv.getByte(0x06);
+            if (tlv.contains(0x07))
+                this.name = tlv.getString(0x07);
         }
 
         public EventAlarm(byte index, boolean status, byte startHour, byte startMinute, byte repeat, String name) {
