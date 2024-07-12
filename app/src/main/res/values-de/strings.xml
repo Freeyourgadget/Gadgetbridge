@@ -3089,4 +3089,12 @@
     <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="proprietary_app_warning">Diese Funktion erfordert die Installation einer proprietären App</string>
+    <string name="battery_polling_failed_start">Die Batterieabfrage konnte nicht gestartet werden</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
+    <string name="pref_battery_polling_configuration">Konfiguration der Batterieabfrage</string>
+    <string name="pref_battery_polling_summary">Dies geschieht nach bestem Bemühen und kann sich aus verschiedenen Gründen verzögern</string>
+    <string name="pref_battery_polling_enable">Aktivieren der Batterieabfrage</string>
+    <string name="pref_battery_polling_interval">Intervall der Batterieabfrage</string>
+    <string name="pref_battery_polling_interval_format">alle %1$s Minuten</string>
 </resources>
