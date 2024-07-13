@@ -359,6 +359,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean addBatteryPollingSettings() {
+        return true;
+    }
+
+    @Override
     public boolean supportsUnicodeEmojis() {
         return true;
     }

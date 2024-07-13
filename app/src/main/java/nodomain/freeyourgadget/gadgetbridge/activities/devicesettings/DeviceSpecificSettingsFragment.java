@@ -291,7 +291,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             pollingToggle.setLayoutResource(R.layout.preference_checkbox);
             pollingToggle.setKey(PREF_BATTERY_POLLING_ENABLE);
             pollingToggle.setTitle(R.string.pref_battery_polling_enable);
-            pollingToggle.setDefaultValue(false);
+            pollingToggle.setDefaultValue(true);
             pollingToggle.setIconSpaceReserved(false);
             batteryScreen.addPreference(pollingToggle);
 

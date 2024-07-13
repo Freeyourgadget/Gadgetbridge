@@ -32,6 +32,10 @@ public class DevicePrefs extends Prefs {
         return getInt(PREF_BATTERY_NOTIFY_FULL_THRESHOLD + batteryConfig.getBatteryIndex(), batteryConfig.getDefaultFullThreshold());
     }
 
+    public boolean getBatteryPollingEnabled() {
+        return getBoolean(PREF_BATTERY_POLLING_ENABLE, true);
+    }
+
     public int getBatteryPollingIntervalMinutes() {
         return getInt(PREF_BATTERY_POLLING_INTERVAL, 15);
     }

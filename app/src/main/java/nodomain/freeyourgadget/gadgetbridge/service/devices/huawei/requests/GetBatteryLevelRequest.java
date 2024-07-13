@@ -64,7 +64,7 @@ public class GetBatteryLevelRequest extends Request {
         batteryInfo.level = (int)batteryLevel & 0xff;
         this.supportProvider.evaluateGBDeviceEvent(batteryInfo);
 
-        if (GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE, false)) {
+        if (GBApplication.getDevicePrefs(getDevice().getAddress()).getBatteryPollingEnabled()) {
             if (!this.supportProvider.startBatteryRunnerDelayed()) {
                 GB.toast(getContext(), R.string.battery_polling_failed_start, Toast.LENGTH_SHORT, GB.ERROR);
                 LOG.error("Failed to start the battery polling");

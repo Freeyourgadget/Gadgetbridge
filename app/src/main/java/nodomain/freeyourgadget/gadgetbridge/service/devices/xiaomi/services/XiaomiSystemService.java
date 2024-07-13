@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -64,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class XiaomiSystemService extends AbstractXiaomiService implements XiaomiDataUploadService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiSystemService.class);
@@ -71,7 +71,6 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     // We persist the settings code when receiving the display items,
     // so we can enforce it when sending them
     private static final String PREF_SETTINGS_DISPLAY_ITEM_CODE = "xiaomi_settings_display_item_code";
-    private static final int BATTERY_STATE_REQUEST_INTERVAL = (int) TimeUnit.MINUTES.toMillis(15);
 
     public static final int COMMAND_TYPE = 2;
 
@@ -103,7 +102,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     // Not null if we're installing a firmware
     private XiaomiFWHelper fwHelper = null;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable batteryStateRequestRunnable = () -> {
         getSupport().sendCommand("get device status", COMMAND_TYPE, CMD_DEVICE_STATE_GET);
         getSupport().sendCommand("get battery state", COMMAND_TYPE, CMD_BATTERY);
@@ -222,6 +221,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE:
+            case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_INTERVAL:
+                rearmBatteryStateRequestTimer();
+                break;
             case DeviceSettingsPreferenceConst.PREF_WEARMODE:
                 setWearMode();
                 return true;
@@ -284,7 +287,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final Calendar now = GregorianCalendar.getInstance();
         final TimeZone tz = TimeZone.getDefault();
 
-        final GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress())));
+        final GBPrefs gbPrefs = new GBPrefs(GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress()));
         final String timeFormat = gbPrefs.getTimeFormat();
         final boolean is24hour = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H.equals(timeFormat);
 
@@ -981,7 +984,10 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
 
     private void rearmBatteryStateRequestTimer() {
         this.handler.removeCallbacks(this.batteryStateRequestRunnable);
-        this.handler.postDelayed(this.batteryStateRequestRunnable, BATTERY_STATE_REQUEST_INTERVAL);
+        final DevicePrefs devicePrefs = getDevicePrefs();
+        if (devicePrefs.getBatteryPollingEnabled()) {
+            this.handler.postDelayed(this.batteryStateRequestRunnable, devicePrefs.getBatteryPollingIntervalMinutes() * 60 * 1000L);
+        }
     }
 
     @Override

@@ -1020,7 +1020,7 @@ public class HuaweiSupportProvider {
                         GB.toast(context, context.getString(R.string.toast_setting_requires_reconnect), Toast.LENGTH_SHORT, GB.INFO);
                     }
                 case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE:
-                    if (!GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE, false)) {
+                    if (!GBApplication.getDevicePrefs(gbDevice.getAddress()).getBatteryPollingEnabled()) {
                         stopBatteryRunnerDelayed();
                         break;
                     }

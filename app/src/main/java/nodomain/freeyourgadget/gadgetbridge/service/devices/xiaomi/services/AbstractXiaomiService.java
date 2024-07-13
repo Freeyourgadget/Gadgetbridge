@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public abstract class AbstractXiaomiService {
     private final XiaomiSupport mSupport;
@@ -59,8 +60,8 @@ public abstract class AbstractXiaomiService {
         return (XiaomiCoordinator) getSupport().getDevice().getDeviceCoordinator();
     }
 
-    protected Prefs getDevicePrefs() {
-        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress()));
+    protected DevicePrefs getDevicePrefs() {
+        return GBApplication.getDevicePrefs(getSupport().getDevice().getAddress());
     }
 
     public void onDisconnect() {}
