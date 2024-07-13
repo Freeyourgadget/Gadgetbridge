@@ -269,6 +269,8 @@
     <string name="pref_summary_notification_cache_while_disconnected">Send missed notifications when a device reconnects after being out of range</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
+    <string name="pref_title_notification_times_enabled">Notification times</string>
+    <string name="pref_summary_notification_times_enabled">Only send notifications between specific times</string>
     <string name="pref_title_notification_media_ignores_application_list">Media notifications ignore app list</string>
     <string name="pref_summary_notification_media_ignores_application_list">Process media notifications before the app list. If this preference is unchecked, media applications need to be allowed in the application list for media controls to work on the device.</string>
     <string name="pref_header_notification_application_settings">Per application settings</string>

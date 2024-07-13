@@ -130,6 +130,34 @@
             android:summary="@string/pref_summary_notification_filter"
             android:title="@string/pref_title_notification_filter"
             app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_title_notification_times_enabled"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="notification_times_enabled"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notification_times_enabled"
+            android:title="@string/pref_title_notification_times_enabled"
+            app:iconSpaceReserved="false" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="08:00"
+            android:dependency="notification_times_enabled"
+            android:key="notification_times_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start"
+            app:iconSpaceReserved="false"/>
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:dependency="notification_times_enabled"
+            android:key="notification_times_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end"
+            app:iconSpaceReserved="false"/>
     </PreferenceCategory>
 
     <PreferenceCategory

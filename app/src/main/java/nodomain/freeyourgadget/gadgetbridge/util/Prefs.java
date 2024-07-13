@@ -21,8 +21,11 @@ import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -178,6 +181,7 @@ public class Prefs {
         return getList(key, defaultValue, ",");
     }
 
+    @Deprecated  // use getLocalTime
     public Date getTimePreference(final String key, final String defaultValue) {
         final String time = getString(key, defaultValue);
 
@@ -189,6 +193,23 @@ public class Prefs {
         }
 
         return new Date();
+    }
+
+    public LocalTime getLocalTime(final String key, final String defaultValue) {
+        final String time = getString(key, defaultValue);
+
+        final DateFormat df = new SimpleDateFormat("HH:mm", Locale.ROOT);
+        try {
+            final Date parse = df.parse(time);
+            final Calendar calendar = GregorianCalendar.getInstance();
+            calendar.setTime(parse);
+
+            return LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), 0);
+        } catch (final Exception e) {
+            Log.e(TAG, "Error reading localtime preference value: " + key + "; returning default current time", e); // log the first exception
+        }
+
+        return LocalTime.now();
     }
 
     private void logReadError(String key, Exception ex) {

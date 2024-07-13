@@ -31,6 +31,7 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -152,5 +153,17 @@ public class GBPrefs extends Prefs {
             }
         }
         return new float[]{longitude, latitude};
+    }
+
+    public boolean getNotificationTimesEnabled() {
+        return getBoolean("notification_times_enabled", false);
+    }
+
+    public LocalTime getNotificationTimesStart() {
+        return getLocalTime("notification_times_start", "08:00");
+    }
+
+    public LocalTime getNotificationTimesEnd() {
+        return getLocalTime("notification_times_end", "22:00");
     }
 }

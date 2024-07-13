@@ -22,14 +22,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -53,6 +51,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
@@ -120,8 +120,8 @@ public class NotificationListener extends NotificationListenerService {
         add("mikado.bizcalpro");
     }};
 
-    public static ArrayList<String> notificationStack = new ArrayList<>();
-    private static ArrayList<Integer> notificationsActive = new ArrayList<Integer>();
+    public static final ArrayList<String> notificationStack = new ArrayList<>();
+    private static final ArrayList<Integer> notificationsActive = new ArrayList<>();
 
     private long activeCallPostTime;
     private int mLastCallCommand = CallSpec.CALL_UNDEFINED;
@@ -130,7 +130,7 @@ public class NotificationListener extends NotificationListenerService {
     private Runnable mSetMusicInfoRunnable = null;
     private Runnable mSetMusicStateRunnable = null;
 
-    private GoogleMapsNotificationHandler googleMapsNotificationHandler = new GoogleMapsNotificationHandler();
+    private final GoogleMapsNotificationHandler googleMapsNotificationHandler = new GoogleMapsNotificationHandler();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -163,8 +163,8 @@ public class NotificationListener extends NotificationListenerService {
                                 if (pi != null) {
                                     pi.send();
                                 }
-                            } catch (PendingIntent.CanceledException e) {
-                                e.printStackTrace();
+                            } catch (final PendingIntent.CanceledException e) {
+                                LOG.error("Failed to open notification {}", sbn.getId());
                             }
                         }
                     }
@@ -176,7 +176,7 @@ public class NotificationListener extends NotificationListenerService {
                         LOG.info("could not lookup handle for mute action");
                         break;
                     }
-                    LOG.info("going to mute " + packageName);
+                    LOG.info("going to mute {}", packageName);
                     if (GBApplication.getPrefs().getString("notification_list_is_blacklist", "true").equals("true")) {
                         GBApplication.addAppToNotifBlacklist(packageName);
                     } else {
@@ -206,6 +206,10 @@ public class NotificationListener extends NotificationListenerService {
                     String reply = intent.getStringExtra("reply");
                     if (wearableAction != null) {
                         PendingIntent actionIntent = wearableAction.getActionIntent();
+                        if (actionIntent == null) {
+                            LOG.warn("Action intent is null");
+                            break;
+                        }
                         Intent localIntent = new Intent();
                         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         if (wearableAction.getRemoteInputs() != null && wearableAction.getRemoteInputs().length > 0) {
@@ -218,8 +222,8 @@ public class NotificationListener extends NotificationListenerService {
                             LOG.info("will send exec intent to remote application");
                             actionIntent.send(context, 0, localIntent);
                             mActionLookup.remove(handle);
-                        } catch (PendingIntent.CanceledException e) {
-                            LOG.warn("replyToLastNotification error: " + e.getLocalizedMessage());
+                        } catch (final PendingIntent.CanceledException e) {
+                            LOG.warn("replyToLastNotification error", e);
                         }
                     } else {
                         LOG.warn("Received ACTION_REPLY but cannot find the corresponding wearableAction");
@@ -264,7 +268,11 @@ public class NotificationListener extends NotificationListenerService {
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
-        final Prefs prefs = GBApplication.getPrefs();
+        final GBPrefs prefs = GBApplication.getPrefs();
+
+        if (isOutsideNotificationTimes(prefs)) {
+            return;
+        }
 
         final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
         if (ignoreWorkProfile && isWorkProfile(sbn)) {
@@ -456,6 +464,30 @@ public class NotificationListener extends NotificationListenerService {
         // NOTE for future developers: this call goes to implementations of DeviceService.onNotification(NotificationSpec), like in GBDeviceService
         // this does NOT directly go to implementations of DeviceSupport.onNotification(NotificationSpec)!
         GBApplication.deviceService().onNotification(notificationSpec);
+    }
+
+    private static boolean isOutsideNotificationTimes(final GBPrefs prefs) {
+        if (!prefs.getNotificationTimesEnabled()) {
+            return false;
+        }
+
+        final LocalTime now = LocalTime.now();
+        final LocalTime start = prefs.getNotificationTimesStart();
+        final LocalTime end = prefs.getNotificationTimesEnd();
+        final boolean shouldIgnore;
+        if (start.isBefore(end)) {
+            // eg. 06:00 -> 22:00
+            shouldIgnore = now.isAfter(start) && now.isBefore(end);
+        } else {
+            // goes past midnight, eg. 22:00 -> 06:00
+            shouldIgnore = now.isAfter(start) || now.isBefore(end);
+        }
+
+        if (shouldIgnore) {
+            LOG.debug("Ignoring notification outside of notification times {}/{}", start, end);
+        }
+
+        return shouldIgnore;
     }
 
     private boolean checkNotificationContentForWhiteAndBlackList(String packageName, String body) {
@@ -707,7 +739,11 @@ public class NotificationListener extends NotificationListenerService {
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 
-        final Prefs prefs = GBApplication.getPrefs();
+        final GBPrefs prefs = GBApplication.getPrefs();
+
+        if (isOutsideNotificationTimes(prefs)) {
+            return;
+        }
 
         final boolean ignoreWorkProfile = prefs.getBoolean("notifications_ignore_work_profile", false);
         if (ignoreWorkProfile && isWorkProfile(sbn)) {
