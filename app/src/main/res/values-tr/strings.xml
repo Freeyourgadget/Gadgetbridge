@@ -2901,7 +2901,7 @@
     <string name="pref_force_enable_spo2_support">SpO2 desteğini zorla</string>
     <string name="pref_force_enable_spo2_support_summary">SpO2 desteğini etkinleştirmeye zorla.
 \nKULLANMANIZ DURUMUNDA RİSK SİZE AİTTİR</string>
-    <string name="activity_type_worn">Yorgun</string>
+    <string name="activity_type_worn">Giyildi</string>
     <string name="pref_dashboard_cards_title">Kartlarda widget\'ları göster</string>
     <string name="error_showing_changelog">Değişiklik günlüğü gösterilirken hata oluştu</string>
     <string name="dashboard_settings">Gösterge tablosu ayarları</string>
