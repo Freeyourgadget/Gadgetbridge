@@ -1012,7 +1012,7 @@
     <string name="about_additional_device_support">Підтримка додаткових пристроїв</string>
     <string name="about_contributors">Співавтори</string>
     <string name="about_core_team_title">Основна команда (впорядковано за датою допомоги)</string>
-    <string name="about_description_generic">Незалежний від хмари, вільний замінник закритих застосунків від інших виробників.</string>
+    <string name="about_description_generic">Незалежна від хмари, вільна з ліцензією Copyleft заміна закритих застосунків від інших виробників для пристроїв Android.</string>
     <string name="about_activity_title_generic">Про Gadgetbridge</string>
     <string name="about_title">Про застосунок</string>
     <string name="hr_widget_last_notification">Останнє сповіщення</string>
@@ -1589,16 +1589,16 @@
     <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
     <string name="menuitem_email">Е-пошта</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Android-застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
+    <string name="about_description_banglejs_main">Android застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
-\nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
+\nЧерез політику Google Play Store, ми не можемо розміщувати посилання на пожертвування в самому застосунку, але якщо він вам подобається, розгляньте можливість пожертвування через домашню сторінку Gadgetbridge нижче.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js запущено</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js працює</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_main_nightly">Про Gadgetbridge Nightly</string>
-    <string name="gadgetbridge_running_main_nightly">Nightly GB працює</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB запущено</string>
     <string name="application_name_main_nopebble">Gadgetbridge (Nightly, без постачальника Pebble)</string>
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly без Pebble</string>
     <string name="about_activity_title_main_nopebble">Про Gadgetbridge Nightly без Pebble</string>
@@ -1610,7 +1610,7 @@
 \n
 \nЗгідно з правилами Google Play Маркету, нам не дозволено вказувати посилання на допомогу в самому застосунку, але якщо він вам до вподоби, ви можете посприяти розвитку проєкту через домашню сторінку Gadgetbridge нижче.</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
-    <string name="about_description_main_nightly">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас уже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальника Pebble.</string>
+    <string name="about_description_main_nightly">Незалежна від хмари, вільна з ліцензією Copyleft заміна закритих застосунків від інших виробників для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас вже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальнику Pebble.</string>
     <string name="about_description_main_nopebble">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. У цій версії постачальник Pebble перейменований для запобігання конфліктів, тому деякі інтеграції, пов\'язані з Pebble, не працюватимуть, але його можна встановити разом із наявним установленим Gadgetbridge.</string>
     <string name="pref_device_action_fitness_app_control_toggle">Перемкнути стеження фітнес-застосунку</string>
     <string name="world_clock_delete_confirm_title">Видалити \'%1$s\'</string>
@@ -1823,9 +1823,9 @@
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">Про Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="about_description_banglejs_nightly">Android-застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
+    <string name="about_description_banglejs_nightly">Android застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
-\nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
+\nЧерез політику Google Play Store, ми не можемо розміщувати посилання на пожертвування в самому застосунку, але якщо він вам подобається, розгляньте можливість пожертвування через домашню сторінку Gadgetbridge нижче.</string>
     <string name="prefs_hourly_chime">Дзвін щогодини</string>
     <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
     <string name="step_streaks_achievements_sharing_title">Досягнення кількості кроків</string>
