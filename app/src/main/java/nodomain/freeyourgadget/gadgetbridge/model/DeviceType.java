@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.Garm
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.GarminVivomoveStyleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivomove.GarminVivomoveTrendCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivosmart.GarminVivosmart5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.vivosport.GarminVivosportCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hama.fit6900.HamaFit6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
@@ -391,6 +392,7 @@ public enum DeviceType {
     GARMIN_VIVOACTIVE_4S(GarminVivoActive4SCoordinator.class),
     GARMIN_VIVOACTIVE_5(GarminVivoActive5Coordinator.class),
     GARMIN_VIVOSMART_5(GarminVivosmart5Coordinator.class),
+    GARMIN_VIVOSPORT(GarminVivosportCoordinator.class),
     VIBRATISSIMO(VibratissimoCoordinator.class),
     SONY_SWR12(SonySWR12DeviceCoordinator.class),
     LIVEVIEW(LiveviewCoordinator.class),

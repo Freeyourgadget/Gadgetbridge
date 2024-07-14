@@ -1527,6 +1527,7 @@
     <string name="devicetype_garmin_vivoactive_4s">Garmin Vívoactive 4S</string>
     <string name="devicetype_garmin_vivoactive_5">Garmin Vívoactive 5</string>
     <string name="devicetype_garmin_vivosmart_5">Garmin Vívosmart 5</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_liveview">LiveView</string>
