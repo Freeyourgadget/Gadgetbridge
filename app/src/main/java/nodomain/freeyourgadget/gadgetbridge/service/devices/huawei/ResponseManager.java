@@ -63,6 +63,16 @@ public class ResponseManager {
     }
 
     /**
+     * Remove all requests with specified class from the response handler list
+     * @param handlerClass The class of which the requests are removed
+     */
+    public void removeHandler(Class<?> handlerClass) {
+        synchronized (handlers) {
+            handlers.removeIf(request -> request.getClass() == handlerClass);
+        }
+    }
+
+    /**
      * Parses the data into a Huawei Packet.
      * If the packet is complete, it will be handled by the first request that accepts it,
      * or as an asynchronous request otherwise.
@@ -102,8 +112,10 @@ public class ResponseManager {
             } else {
                 LOG.debug("Service: " + Integer.toHexString(receivedPacket.serviceId & 0xff)  + ", command: " + Integer.toHexString(receivedPacket.commandId & 0xff)  + ", handled by: " + handler.getClass());
 
-                synchronized (handlers) {
-                    handlers.remove(handler);
+                if (handler.autoRemoveFromResponseHandler()) {
+                    synchronized (handlers) {
+                        handlers.remove(handler);
+                    }
                 }
 
                 handler.handleResponse();

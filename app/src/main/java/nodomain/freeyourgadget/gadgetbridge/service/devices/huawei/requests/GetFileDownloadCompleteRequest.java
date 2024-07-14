@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Damien Gaignon, Martin.JM
+/*  Copyright (C) 2024 Martin.JM
 
     This file is part of Gadgetbridge.
 
@@ -16,40 +16,39 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiFileDownloadManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 
-public class SetTruSleepRequest extends Request {
-    private static final Logger LOG = LoggerFactory.getLogger(SetTruSleepRequest.class);
+public class GetFileDownloadCompleteRequest extends Request {
 
-    public SetTruSleepRequest(HuaweiSupportProvider support) {
+    private final HuaweiFileDownloadManager.FileRequest request;
+
+    public GetFileDownloadCompleteRequest(HuaweiSupportProvider support, HuaweiFileDownloadManager.FileRequest request) {
         super(support);
-        this.serviceId = FitnessData.id;
-        this.commandId = FitnessData.TruSleep.id;
+        if (request.newSync) {
+            this.serviceId = FileDownloadService2C.id;
+            this.commandId = FileDownloadService2C.FileDownloadCompleteRequest.id;
+        } else {
+            this.serviceId = FileDownloadService0A.id;
+            this.commandId = FileDownloadService0A.FileDownloadCompleteRequest.id;
+        }
+        this.request = request;
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
-        boolean truSleepSwitch = GBApplication
-                .getDeviceSpecificSharedPrefs(this.getDevice().getAddress())
-                .getBoolean(HuaweiConstants.PREF_HUAWEI_TRUSLEEP, false);
         try {
-            return new FitnessData.TruSleep.Request(paramsProvider, truSleepSwitch).serialize();
+            if (request.newSync)
+                return new FileDownloadService2C.FileDownloadCompleteRequest(paramsProvider, this.request.fileId).serialize();
+            else
+                return new FileDownloadService0A.FileDownloadCompleteRequest(paramsProvider).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }
-    }
-
-    @Override
-    protected void processResponse() {
-        LOG.debug("handle Set TruSleep");
     }
 }

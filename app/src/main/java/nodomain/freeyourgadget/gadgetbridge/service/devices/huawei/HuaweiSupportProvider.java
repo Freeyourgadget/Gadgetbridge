@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupp
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTruSleepParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
@@ -199,6 +200,8 @@ public class HuaweiSupportProvider {
     protected HuaweiUploadManager huaweiUploadManager = new HuaweiUploadManager(this);
 
     protected HuaweiWatchfaceManager huaweiWatchfaceManager = new HuaweiWatchfaceManager(this);
+
+    protected HuaweiFileDownloadManager huaweiFileDownloadManager = new HuaweiFileDownloadManager(this);
 
     public HuaweiCoordinatorSupplier getCoordinator() {
         return ((HuaweiCoordinatorSupplier) this.gbDevice.getDeviceCoordinator());
@@ -1092,7 +1095,7 @@ public class HuaweiSupportProvider {
     private void fetchActivityData() {
         int sleepStart = 0;
         int stepStart = 0;
-        int end = (int) (System.currentTimeMillis() / 1000);
+        final int end = (int) (System.currentTimeMillis() / 1000);
 
         SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         long prefLastSyncTime = sharedPreferences.getLong("lastSyncTimeMillis", 0);
@@ -1129,12 +1132,15 @@ public class HuaweiSupportProvider {
         }
 
         final GetStepDataCountRequest getStepDataCountRequest = new GetStepDataCountRequest(this, stepStart, end);
+        //noinspection ExtractMethodRecommender
         final GetFitnessTotalsRequest getFitnessTotalsRequest = new GetFitnessTotalsRequest(this);
 
+        final int start = sleepStart;
         getFitnessTotalsRequest.setFinalizeReq(new RequestCallback() {
             @Override
             public void call() {
-                handleSyncFinished();
+                if (!downloadTruSleepData(start, end))
+                    handleSyncFinished();
             }
 
             @Override
@@ -1455,18 +1461,20 @@ public class HuaweiSupportProvider {
         responseManager.addHandler(request);
     }
 
-    public void addSleepActivity(int timestamp, short duration, byte type) {
+    public void addSleepActivity(int timestamp_start, int timestamp_end, byte type, byte source) {
+        LOG.debug("Adding sleep activity between {} and {}", timestamp_start, timestamp_end);
+
         try (DBHandler db = GBApplication.acquireDB()) {
             Long userId = DBHelper.getUser(db.getDaoSession()).getId();
             Long deviceId = DBHelper.getDevice(gbDevice, db.getDaoSession()).getId();
             HuaweiSampleProvider sampleProvider = new HuaweiSampleProvider(gbDevice, db.getDaoSession());
 
             HuaweiActivitySample activitySample = new HuaweiActivitySample(
-                    timestamp,
+                    timestamp_start,
                     deviceId,
                     userId,
-                    timestamp + duration,
-                    FitnessData.MessageData.sleepId,
+                    timestamp_end,
+                    source,
                     type,
                     1,
                     ActivitySample.NOT_MEASURED,
@@ -2071,5 +2079,78 @@ public class HuaweiSupportProvider {
 
     public void dispose() {
         stopBatteryRunnerDelayed();
+        huaweiFileDownloadManager.dispose();
+    }
+
+    public boolean downloadTruSleepData(int start, int end) {
+        // We only get the data if TruSleep is supported
+        if (!getHuaweiCoordinator().supportsTruSleep())
+            return false;
+
+        huaweiFileDownloadManager.downloadSleep(
+                getHuaweiCoordinator().getSupportsTruSleepNewSync(),
+                "sleep_state.bin", // new String[] {"sleep_state.bin"}, // Later also "sleep_data.bin", but we don't use it right now
+                start,
+                end
+        );
+        return true;
+    }
+
+    /**
+     * Called when a file download is complete
+     * @param fileName Filename of the file
+     * @param fileContents Contents of the file
+     */
+    public void downloadComplete(String fileName, byte[] fileContents) {
+        LOG.debug("File download complete: {}: {}", fileName, GB.hexdump(fileContents));
+
+        if (fileName.equals("sleep_state.bin")) {
+            HuaweiTruSleepParser.TruSleepStatus[] results = HuaweiTruSleepParser.parseState(fileContents);
+            for (HuaweiTruSleepParser.TruSleepStatus status : results)
+                addSleepActivity(status.startTime, status.endTime, (byte) 0x06, (byte) 0x0a);
+            // This should only be called once per sync - also if we start downloading more sleep data
+            GB.signalActivityDataFinish();
+            // Unsetting busy is done at the end of all downloads
+        } // "sleep_data.bin" later as well
+    }
+
+    /**
+     * Called when there are no more files left to download
+     */
+    public void downloadQueueEmpty() {
+        if (gbDevice.isBusy()) {
+            gbDevice.unsetBusyTask();
+            gbDevice.sendDeviceUpdateIntent(context);
+        }
+    }
+
+    public void downloadException(HuaweiFileDownloadManager.HuaweiFileDownloadException e) {
+        GB.toast("Error downloading file", Toast.LENGTH_SHORT, GB.ERROR, e);
+        if (e.fileRequest != null)
+            LOG.error("Error downloading file: {}{}", e.fileRequest.filename, e.fileRequest.newSync ? " (newsync)" : "", e);
+        else
+            LOG.error("Error in file download", e);
+
+        // We also reset the sync state, just to get back to working as nicely as possible
+        handleSyncFinished();
+    }
+
+    public void onTestNewFunction() {
+        // Show to user
+        gbDevice.setBusyTask("Downloading file...");
+        gbDevice.sendDeviceUpdateIntent(getContext());
+
+        huaweiFileDownloadManager.downloadSleep(
+                getHuaweiCoordinator().getSupportsTruSleepNewSync(),
+                "sleep_state.bin",
+                0,
+                (int) (System.currentTimeMillis() / 1000)
+        );
+        huaweiFileDownloadManager.downloadSleep(
+                getHuaweiCoordinator().getSupportsTruSleepNewSync(),
+                "sleep_data.bin",
+                0,
+                (int) (System.currentTimeMillis() / 1000)
+        );
     }
 }

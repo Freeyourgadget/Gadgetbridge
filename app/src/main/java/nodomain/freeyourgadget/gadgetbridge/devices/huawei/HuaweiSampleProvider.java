@@ -55,6 +55,7 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
      *    The timestamp of the other marker, if it's larger this is the begin, otherwise the end
      *  - `source`
      *    The source of the data, which Huawei Band message the data came from
+     *    0x0d for sleep data from activity, 0x0a for TruSleep data
      */
 
     private static class RawTypes {
@@ -155,7 +156,16 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
         Property sourceProperty = HuaweiActivitySampleDao.Properties.Source;
         Property activityTypeProperty = HuaweiActivitySampleDao.Properties.RawKind;
 
-        qb.where(sourceProperty.eq(0x0d), activityTypeProperty.eq(0x01));
+        qb.where(
+                qb.or(
+                        sourceProperty.eq(0x0d),
+                        sourceProperty.eq(0x0a)
+                ),
+                qb.or(
+                        activityTypeProperty.eq(RawTypes.LIGHT_SLEEP),
+                        activityTypeProperty.eq(RawTypes.DEEP_SLEEP)
+                )
+        );
 
         return getLastFetchTimestamp(qb);
     }
@@ -365,7 +375,7 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
     private List<HuaweiActivitySample> interpolate(List<HuaweiActivitySample> processedSamples) {
         List<HuaweiActivitySample> retv = new ArrayList<>();
 
-        if (processedSamples.size() == 0)
+        if (processedSamples.isEmpty())
             return retv;
 
         HuaweiActivitySample lastSample = processedSamples.get(0);
@@ -463,7 +473,7 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
         if (sample.getTimestamp() > sample.getOtherTimestamp())
             sample.setTimestamp(sample.getTimestamp() - 1);
 
-        if (processedSamples.size() > 0)
+        if (!processedSamples.isEmpty())
             lastSample = processedSamples.get(processedSamples.size() - 1);
         if (lastSample != null && lastSample.getTimestamp() == sample.getTimestamp()) {
             // Merge the samples - only if there isn't any data yet, except the kind
@@ -496,7 +506,10 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
             processedSamples.add(sample);
         }
 
-        if (sample.getSource() == FitnessData.MessageData.sleepId && (sample.getRawKind() == RawTypes.LIGHT_SLEEP || sample.getRawKind() == RawTypes.DEEP_SLEEP)) {
+        if (
+                (sample.getSource() == FitnessData.MessageData.sleepId || sample.getSource() == 0x0a) // Sleep sources
+                        && (sample.getRawKind() == RawTypes.LIGHT_SLEEP || sample.getRawKind() == RawTypes.DEEP_SLEEP) // Sleep types
+        ) {
             if (isStartMarker)
                 state.sleepModifier = sample.getRawKind();
             else

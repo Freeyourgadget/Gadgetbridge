@@ -33,6 +33,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelated;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
@@ -241,7 +243,7 @@ public class HuaweiPacket {
     protected HuaweiTLV tlv = null;
 
     private byte[] partialPacket = null;
-    private byte[] payload = null;
+    protected byte[] payload = null;
 
     public boolean complete = false;
 
@@ -384,9 +386,11 @@ public class HuaweiPacket {
 
         if (
                 (serviceId == 0x0a && commandId == 0x05) ||
-                (serviceId == 0x28 && commandId == 0x06)
+                (serviceId == 0x28 && commandId == 0x06) ||
+                (serviceId == 0x2c && commandId == 0x05)
         ) {
             // TODO: this doesn't seem to be TLV
+            this.payload = newPayload;
             return;
         }
 
@@ -487,6 +491,22 @@ public class HuaweiPacket {
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
                 }
+            case FileDownloadService0A.id:
+                switch (this.commandId) {
+                    case FileDownloadService0A.FileDownloadInit.id:
+                        return new FileDownloadService0A.FileDownloadInit.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService0A.FileParameters.id:
+                        return new FileDownloadService0A.FileParameters.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService0A.FileInfo.id:
+                        return new FileDownloadService0A.FileInfo.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService0A.RequestBlock.id:
+                        return new FileDownloadService0A.RequestBlock.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService0A.BlockResponse.id:
+                        return new FileDownloadService0A.BlockResponse(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt();
+                        return this;
+                }
             case FindPhone.id:
                 if (this.commandId == FindPhone.Response.id)
                     return new FindPhone.Response(paramsProvider).fromPacket(this);
@@ -576,6 +596,18 @@ public class HuaweiPacket {
                         return new Watchface.WatchfaceNameInfo.Response(paramsProvider).fromPacket(this);
                     case Watchface.WatchfaceConfirm.id:
                         return new Watchface.WatchfaceConfirm.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
+            case FileDownloadService2C.id:
+                switch (this.commandId) {
+                    case FileDownloadService2C.FileDownloadInit.id:
+                        return new FileDownloadService2C.FileDownloadInit.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService2C.FileInfo.id:
+                        return new FileDownloadService2C.FileInfo.Response(paramsProvider).fromPacket(this);
+                    case FileDownloadService2C.BlockResponse.id:
+                        return new FileDownloadService2C.BlockResponse(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

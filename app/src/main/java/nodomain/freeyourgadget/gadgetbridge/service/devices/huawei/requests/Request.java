@@ -79,6 +79,10 @@ public class Request {
         public ResponseTypeMismatchException(HuaweiPacket a, Class<?> b) {
             super("Response type mismatch, packet is of type " + a.getClass() + " but expected " + b);
         }
+
+        public ResponseTypeMismatchException(HuaweiPacket a, Class<?> b, Class<?> c) {
+            super("Response type mismatch, packet is of type " + a.getClass() + " but expected " + b + " or " + c);
+        }
     }
 
     public static class WorkoutParseException extends ResponseParseException {
@@ -111,10 +115,13 @@ public class Request {
         public RequestCallback(HuaweiSupportProvider supportProvider) {
             support = supportProvider;
         }
-        public void call() {};
+        public void call() {}
+        public void call(Request request) {
+            call(); // To keep everything working as it was as well
+        }
         public void handleException(ResponseParseException e) {
             LOG.error("Callback request exception", e);
-        };
+        }
     }
 
     public Request(HuaweiSupportProvider supportProvider, nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder builder) {
@@ -213,7 +220,7 @@ public class Request {
         if (nextRequest == null || stopChain) {
             operationStatus = OperationStatus.FINISHED;
             if (finalizeReq != null) {
-                finalizeReq.call();
+                finalizeReq.call(this);
             }
         }
     }
@@ -299,5 +306,9 @@ public class Request {
             nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction transaction = this.builderLe.getTransaction();
             this.supportProvider.performConnected(transaction);
         }
+    }
+
+    public boolean autoRemoveFromResponseHandler() {
+        return true;
     }
 }

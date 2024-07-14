@@ -175,4 +175,8 @@ public class HuaweiBRSupport extends AbstractBTBRDeviceSupport {
         supportProvider.dispose();
         super.dispose();
     }
+
+    public void onTestNewFunction() {
+        supportProvider.onTestNewFunction();
+    }
 }

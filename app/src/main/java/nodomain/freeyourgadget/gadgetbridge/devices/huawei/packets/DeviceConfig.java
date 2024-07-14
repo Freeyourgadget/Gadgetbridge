@@ -950,7 +950,7 @@ public class DeviceConfig {
             private final byte[] selfAuthId;
             private final String groupId;
             private JSONObject version = null;
-            private JSONObject payload = null;
+            private JSONObject jsonPayload = null;
             private JSONObject value = null;
 
             public Request (int operationCode, long requestId, byte[] selfAuthId, String groupId) {
@@ -969,7 +969,7 @@ public class DeviceConfig {
                     this.isEncrypted = false;
                     this.complete = true;
                     version = new JSONObject();
-                    payload = new JSONObject();
+                    jsonPayload = new JSONObject();
                     value = new JSONObject();
                     createJson(messageId);
                 }
@@ -986,14 +986,14 @@ public class DeviceConfig {
                     super(paramsProvider, messageId);
                     // createJson(1); //messageId);
                     try {
-                        payload
+                        jsonPayload
                             .put("isoSalt", StringUtils.bytesToHex(isoSalt))
                             .put("peerAuthId",  StringUtils.bytesToHex(selfAuthId))
                             .put("operationCode", operationCode)
                             .put("seed", StringUtils.bytesToHex(seed))
                             .put("peerUserType", 0x00);
                         if (operationCode == 0x02) {
-                            payload
+                            jsonPayload
                                 .put("pkgName", "com.huawei.devicegroupmanage")
                                 .put("serviceType", groupId)
                                 .put("keyLength", 0x20);
@@ -1020,7 +1020,7 @@ public class DeviceConfig {
                     super(paramsProvider, messageId);
                     // createJson(2); //messageId);
                     try {
-                        payload
+                        jsonPayload
                             .put("peerAuthId", StringUtils.bytesToHex(selfAuthId))
                             .put("token", StringUtils.bytesToHex(token));
                         if (operationCode == 0x02) value.put("isDeviceLevel", false);
@@ -1044,7 +1044,7 @@ public class DeviceConfig {
                     super(paramsProvider, messageId);
                     // createJson(3);
                     try {
-                        payload
+                        jsonPayload
                             .put("nonce", StringUtils.bytesToHex(nonce))
                             .put("encData", StringUtils.bytesToHex(encData));
                         this.tlv = new HuaweiTLV()
@@ -1071,7 +1071,7 @@ public class DeviceConfig {
                     //     createJson(3);
                     // }
                     try {
-                        payload
+                        jsonPayload
                             .put("nonce", StringUtils.bytesToHex(nonce)) //generateRandom
                             .put("encResult", StringUtils.bytesToHex(encResult))
                             .put("operationCode", operationCode);
@@ -1093,11 +1093,11 @@ public class DeviceConfig {
                     version
                         .put("minVersion", "1.0.0")
                         .put("currentVersion", "2.0.16");
-                    payload
+                    jsonPayload
                         .put("version", version);
                     value
                         .put("authForm", 0x00)
-                        .put("payload", payload)
+                        .put("payload", jsonPayload)
                         .put("groupAndModuleVersion", "2.0.1")
                         .put("message", messageId);
                     if (operationCode == 0x01) {
@@ -1201,7 +1201,7 @@ public class DeviceConfig {
             public byte type;
 
             public JSONObject value;
-            public JSONObject payload;
+            public JSONObject jsonPayload;
 
             public byte step;
             // public int operationCode; // TODO
@@ -1225,18 +1225,18 @@ public class DeviceConfig {
                 if (this.type == 0x00) {
                     try {
                         this.value = new JSONObject(this.tlv.getString(0x01));
-                        this.payload = value.getJSONObject("payload");
+                        this.jsonPayload = value.getJSONObject("payload");
 
                         // Ugly, but should work
-                        if (payload.has("isoSalt")) {
+                        if (jsonPayload.has("isoSalt")) {
                             this.step = 0x01;
-                            this.step1Data = new Step1Data(payload);
-                        } else if (payload.has("returnCodeMac")) {
+                            this.step1Data = new Step1Data(jsonPayload);
+                        } else if (jsonPayload.has("returnCodeMac")) {
                             this.step = 0x02;
-                            this.step2Data = new Step2Data(payload);
-                        } else if (payload.has("encAuthToken")) {
+                            this.step2Data = new Step2Data(jsonPayload);
+                        } else if (jsonPayload.has("encAuthToken")) {
                             this.step = 0x03;
-                            this.step3Data = new Step3Data(payload);
+                            this.step3Data = new Step3Data(jsonPayload);
                         }
                     } catch (JSONException e) {
                         throw new JsonException("", e);
@@ -1344,7 +1344,7 @@ public class DeviceConfig {
             public long requestId;
             public byte[] selfAuthId;
             public String groupId;
-            public JSONObject payload = null;
+            public JSONObject jsonPayload = null;
             public JSONObject value = null;
 
             public Step1Data step1Data;
@@ -1361,20 +1361,20 @@ public class DeviceConfig {
             public void parseTlv() throws ParseException {
                 try {
                     value = new JSONObject(this.tlv.getString(0x01));
-                    payload = value.getJSONObject("payload");
+                    jsonPayload = value.getJSONObject("payload");
 
-                    if (payload.has("isoSalt")) {
+                    if (jsonPayload.has("isoSalt")) {
                         this.step = 1;
-                        this.step1Data = new Step1Data(payload);
-                    } else if (payload.has("token")) {
+                        this.step1Data = new Step1Data(jsonPayload);
+                    } else if (jsonPayload.has("token")) {
                         this.step = 2;
-                        this.step2Data = new Step2Data(payload);
-                    } else if (payload.has("encData")) {
+                        this.step2Data = new Step2Data(jsonPayload);
+                    } else if (jsonPayload.has("encData")) {
                         this.step = 3;
-                        this.step3Data = new Step3Data(payload);
-                    } else if (payload.has("encResult")) {
+                        this.step3Data = new Step3Data(jsonPayload);
+                    } else if (jsonPayload.has("encResult")) {
                         this.step = 4;
-                        this.step4Data = new Step4Data(payload);
+                        this.step4Data = new Step4Data(jsonPayload);
                     }
                 } catch (JSONException e) {
                     throw new JsonException("Cannot parse JSON", e);
@@ -1493,6 +1493,8 @@ public class DeviceConfig {
         }
 
         public static class Response extends HuaweiPacket {
+            public boolean truSleepNewSync = false;
+
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
                 this.serviceId = DeviceConfig.id;
@@ -1501,8 +1503,16 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
+                // Works with bitmaps
+
                 // Tag 1 -> LegalStuff
-                // Tag 2 -> File support
+
+                if (this.tlv.contains(0x02)) {
+                    // Tag 2 -> File support
+                    byte value = this.tlv.getByte(0x02);
+                    truSleepNewSync = (value & 2) != 0;
+                }
+
                 // Tag 3 -> SmartWatchVersion
                 // Tag 4 to 6 are HMS related
             }

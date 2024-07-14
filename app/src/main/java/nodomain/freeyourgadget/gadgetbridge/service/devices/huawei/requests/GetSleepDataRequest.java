@@ -85,7 +85,7 @@ public class GetSleepDataRequest extends Request {
                             (timestampInts[5]);
             short duration = (short) (durationInt * 60);
 
-            this.supportProvider.addSleepActivity(timestamp, duration, subContainer.type);
+            this.supportProvider.addSleepActivity(timestamp, timestamp + duration, subContainer.type, FitnessData.MessageData.sleepId);
         }
 
         if (count + 1 < maxCount) {

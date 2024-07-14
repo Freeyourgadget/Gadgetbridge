@@ -55,6 +55,8 @@ public class HuaweiCoordinator {
     byte notificationCapabilities = -0x01;
     ByteBuffer notificationConstraints = null;
 
+    private boolean supportsTruSleepNewSync = false;
+
     private Watchface.WatchfaceDeviceParams watchfaceDeviceParams;
 
     private final HuaweiCoordinatorSupplier parent;
@@ -603,4 +605,11 @@ public class HuaweiCoordinator {
         return handler.isValid() ? handler : null;
     }
 
+    public boolean getSupportsTruSleepNewSync() {
+        return supportsTruSleepNewSync;
+    }
+
+    public void setSupportsTruSleepNewSync(boolean supportsTruSleepNewSync) {
+        this.supportsTruSleepNewSync = supportsTruSleepNewSync;
+    }
 }

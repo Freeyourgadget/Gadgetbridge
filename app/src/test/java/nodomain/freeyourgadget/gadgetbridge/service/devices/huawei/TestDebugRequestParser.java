@@ -141,11 +141,6 @@ public class TestDebugRequestParser {
         }
 
         @Override
-        public void addSleepActivity(int timestamp, short duration, byte type) {
-
-        }
-
-        @Override
         public void addStepData(int timestamp, short steps, short calories, short distance, byte spo, byte heartrate) {
 
         }

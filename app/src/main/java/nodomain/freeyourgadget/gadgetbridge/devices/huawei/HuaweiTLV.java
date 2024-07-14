@@ -307,13 +307,17 @@ public class HuaweiTLV {
                 .put(CryptoTags.cipherText, encryptedTLV);
     }
 
-    public void decrypt(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {
+    public byte[] decryptRaw(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {
         byte[] key = paramsProvider.getSecretKey();
-        byte[] decryptedTLV = HuaweiCrypto.decrypt(
+        return HuaweiCrypto.decrypt(
                 paramsProvider.getEncryptMethod() == 0x01 || paramsProvider.getDeviceSupportType() == 0x04,
                 getBytes(CryptoTags.cipherText),
                 key,
                 getBytes(CryptoTags.initVector));
+    }
+
+    public void decrypt(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {
+        byte[] decryptedTLV = decryptRaw(paramsProvider);
         this.valueMap = new ArrayList<>();
         parse(decryptedTLV);
     }
