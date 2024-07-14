@@ -3093,4 +3093,5 @@
     <string name="pref_battery_polling_interval">Intervalo de sondeo de la batería</string>
     <string name="pref_battery_polling_interval_format">cada %1$s minutos</string>
     <string name="battery_polling_failed_start">No se ha iniciado el sondeo de la batería</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
 </resources>
