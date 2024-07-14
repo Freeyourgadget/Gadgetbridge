@@ -3089,4 +3089,5 @@
     <string name="pref_battery_polling_summary">这是尽力而为，可能会因多种原因而延迟</string>
     <string name="pref_battery_polling_enable">启用电池轮询</string>
     <string name="battery_polling_failed_start">无法启动电池轮询</string>
+    <string name="devicetype_garmin_vivosport">佳明 Vívosport</string>
 </resources>
