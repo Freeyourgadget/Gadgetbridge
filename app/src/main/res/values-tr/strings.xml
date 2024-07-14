@@ -3102,4 +3102,5 @@
     <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
     <string name="pref_battery_polling_interval">Pil sorgulama aralığı</string>
     <string name="pref_battery_polling_interval_format">her %1$s dakika</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
 </resources>
