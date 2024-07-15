@@ -797,7 +797,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 removeDeviceSupport(device);
             } catch (DeviceNotFoundException e) {
                 LOG.error("Trying to disconnect unknown device: ", e);
-                return;
             }
             device.setState(GBDevice.State.NOT_CONNECTED);
             device.sendDeviceUpdateIntent(this);
