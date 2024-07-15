@@ -628,8 +628,9 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         CharSequence contentCS = null;
-        if (preferBigText && extras.containsKey(Notification.EXTRA_BIG_TEXT)) {
-            contentCS = extras.getCharSequence(NotificationCompat.EXTRA_BIG_TEXT);
+        final CharSequence bigText = extras.getCharSequence(NotificationCompat.EXTRA_BIG_TEXT);
+        if (preferBigText && !StringUtils.isBlank(bigText)) {
+            contentCS = bigText;
         } else if (extras.containsKey(Notification.EXTRA_TEXT)) {
             contentCS = extras.getCharSequence(NotificationCompat.EXTRA_TEXT);
         }
