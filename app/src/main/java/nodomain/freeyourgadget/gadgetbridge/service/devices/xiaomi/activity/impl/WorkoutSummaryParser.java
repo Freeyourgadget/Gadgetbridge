@@ -165,6 +165,10 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 summary.setActivityKind(ActivityKind.TYPE_SWIMMING);
                 parser = getPoolSwimmingParser(fileId);
                 break;
+            case SPORTS_HIIT:
+                summary.setActivityKind(ActivityKind.TYPE_EXERCISE);
+                parser = getHiitParser(fileId);
+                break;
             case SPORTS_ELLIPTICAL:
                 summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
                 // TODO
@@ -424,7 +428,42 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
     }
 
     @Nullable
-    private XiaomiSimpleActivityParser getPoolSwimmingParser(final XiaomiActivityFileId fileId){
+    private XiaomiSimpleActivityParser getHiitParser(final XiaomiActivityFileId fileId){
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 5:
+                headerSize = 3;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addUnknown(1);
+        builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+
+        return builder.build();
+    }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getPoolSwimmingParser(final XiaomiActivityFileId fileId) {
         final int version = fileId.getVersion();
         final int headerSize;
         switch (version) {
