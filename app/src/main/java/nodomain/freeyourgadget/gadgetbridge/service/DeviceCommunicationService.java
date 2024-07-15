@@ -796,7 +796,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             try {
                 removeDeviceSupport(device);
             } catch (DeviceNotFoundException e) {
-                e.printStackTrace();
+                LOG.error("Trying to disconnect unknown device: ", e);
+                return;
             }
             device.setState(GBDevice.State.NOT_CONNECTED);
             device.sendDeviceUpdateIntent(this);
@@ -810,15 +811,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         final Transliterator transliterator = LanguageUtils.getTransliterator(device);
 
+        // Copy the incoming intent to make sure we don't modify it before it gets passed to other devices
+        Intent intentCopy = (Intent) intent.clone();
+
         for (String extra : GBDeviceService.transliterationExtras) {
-            if (intent.hasExtra(extra)) {
+            if (intentCopy.hasExtra(extra)) {
                 // Ensure the text is sanitized (eg. emoji converted to ascii) before applying the transliterators
                 // otherwise the emoji are removed before converting them
-                String sanitizedText = sanitizeNotifText(intent.getStringExtra(extra), device);
+                String sanitizedText = sanitizeNotifText(intentCopy.getStringExtra(extra), device);
                 if (transliterator != null) {
                     sanitizedText = transliterator.transliterate(sanitizedText);
                 }
-                intent.putExtra(extra, sanitizedText);
+                intentCopy.putExtra(extra, sanitizedText);
             }
         }
 
@@ -827,22 +831,22 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 device.sendDeviceUpdateIntent(this, GBDevice.DeviceUpdateSubject.NOTHING);
                 break;
             case ACTION_NOTIFICATION: {
-                int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                int desiredId = intentCopy.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 NotificationSpec notificationSpec = new NotificationSpec(desiredId);
-                notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
-                notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
-                notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
-                notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
-                notificationSpec.key = intent.getStringExtra(EXTRA_NOTIFICATION_KEY);
-                notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
-                notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
-                notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
-                notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intent.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
-                notificationSpec.pebbleColor = (byte) intent.getSerializableExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR);
-                notificationSpec.flags = intent.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
-                notificationSpec.sourceAppId = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCEAPPID);
-                notificationSpec.iconId = intent.getIntExtra(EXTRA_NOTIFICATION_ICONID, 0);
-                notificationSpec.dndSuppressed = intent.getIntExtra(EXTRA_NOTIFICATION_DNDSUPPRESSED, 0);
+                notificationSpec.phoneNumber = intentCopy.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
+                notificationSpec.sender = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SENDER);
+                notificationSpec.subject = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
+                notificationSpec.title = intentCopy.getStringExtra(EXTRA_NOTIFICATION_TITLE);
+                notificationSpec.key = intentCopy.getStringExtra(EXTRA_NOTIFICATION_KEY);
+                notificationSpec.body = intentCopy.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                notificationSpec.sourceName = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
+                notificationSpec.type = (NotificationType) intentCopy.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
+                notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intentCopy.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
+                notificationSpec.pebbleColor = (byte) intentCopy.getSerializableExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR);
+                notificationSpec.flags = intentCopy.getIntExtra(EXTRA_NOTIFICATION_FLAGS, 0);
+                notificationSpec.sourceAppId = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SOURCEAPPID);
+                notificationSpec.iconId = intentCopy.getIntExtra(EXTRA_NOTIFICATION_ICONID, 0);
+                notificationSpec.dndSuppressed = intentCopy.getIntExtra(EXTRA_NOTIFICATION_DNDSUPPRESSED, 0);
 
                 if (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null) {
                     GBApplication.getIDSenderLookup().add(notificationSpec.getId(), notificationSpec.phoneNumber);
@@ -868,33 +872,33 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_DELETE_NOTIFICATION: {
-                deviceSupport.onDeleteNotification(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
+                deviceSupport.onDeleteNotification(intentCopy.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
                 break;
             }
             case ACTION_ADD_CALENDAREVENT: {
                 CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
-                calendarEventSpec.id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
-                calendarEventSpec.type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
-                calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
-                calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
-                calendarEventSpec.allDay = intent.getBooleanExtra(EXTRA_CALENDAREVENT_ALLDAY, false);
-                calendarEventSpec.reminders =  (ArrayList<Long>) intent.getSerializableExtra(EXTRA_CALENDAREVENT_REMINDERS);
-                calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
-                calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
-                calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
-                calendarEventSpec.calName = intent.getStringExtra(EXTRA_CALENDAREVENT_CALNAME);
-                calendarEventSpec.color = intent.getIntExtra(EXTRA_CALENDAREVENT_COLOR, 0);
+                calendarEventSpec.id = intentCopy.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
+                calendarEventSpec.type = intentCopy.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
+                calendarEventSpec.timestamp = intentCopy.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
+                calendarEventSpec.durationInSeconds = intentCopy.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
+                calendarEventSpec.allDay = intentCopy.getBooleanExtra(EXTRA_CALENDAREVENT_ALLDAY, false);
+                calendarEventSpec.reminders =  (ArrayList<Long>) intentCopy.getSerializableExtra(EXTRA_CALENDAREVENT_REMINDERS);
+                calendarEventSpec.title = intentCopy.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
+                calendarEventSpec.description = intentCopy.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                calendarEventSpec.location = intentCopy.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
+                calendarEventSpec.calName = intentCopy.getStringExtra(EXTRA_CALENDAREVENT_CALNAME);
+                calendarEventSpec.color = intentCopy.getIntExtra(EXTRA_CALENDAREVENT_COLOR, 0);
                 deviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }
             case ACTION_DELETE_CALENDAREVENT: {
-                long id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
-                byte type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
+                long id = intentCopy.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
+                byte type = intentCopy.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
                 deviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }
             case ACTION_RESET: {
-                int flags = intent.getIntExtra(EXTRA_RESET_FLAGS, 0);
+                int flags = intentCopy.getIntExtra(EXTRA_RESET_FLAGS, 0);
                 deviceSupport.onReset(flags);
                 break;
             }
@@ -903,38 +907,38 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_FETCH_RECORDED_DATA: {
-                int dataTypes = intent.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
+                int dataTypes = intentCopy.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
                 deviceSupport.onFetchRecordedData(dataTypes);
                 break;
             }
             case ACTION_FIND_DEVICE: {
-                boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
+                boolean start = intentCopy.getBooleanExtra(EXTRA_FIND_START, false);
                 deviceSupport.onFindDevice(start);
                 break;
             }
             case ACTION_PHONE_FOUND: {
-                final boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
+                final boolean start = intentCopy.getBooleanExtra(EXTRA_FIND_START, false);
                 deviceSupport.onFindPhone(start);
                 break;
             }
             case ACTION_SET_CONSTANT_VIBRATION: {
-                int intensity = intent.getIntExtra(EXTRA_VIBRATION_INTENSITY, 0);
+                int intensity = intentCopy.getIntExtra(EXTRA_VIBRATION_INTENSITY, 0);
                 deviceSupport.onSetConstantVibration(intensity);
                 break;
             }
             case ACTION_CALLSTATE:
                 CallSpec callSpec = new CallSpec();
-                callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
-                callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
-                callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
-                callSpec.sourceName = intent.getStringExtra(EXTRA_CALL_SOURCENAME);
-                callSpec.sourceAppId = intent.getStringExtra(EXTRA_CALL_SOURCEAPPID);
-                callSpec.dndSuppressed = intent.getIntExtra(EXTRA_CALL_DNDSUPPRESSED, 0);
+                callSpec.command = intentCopy.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
+                callSpec.number = intentCopy.getStringExtra(EXTRA_CALL_PHONENUMBER);
+                callSpec.name = intentCopy.getStringExtra(EXTRA_CALL_DISPLAYNAME);
+                callSpec.sourceName = intentCopy.getStringExtra(EXTRA_CALL_SOURCENAME);
+                callSpec.sourceAppId = intentCopy.getStringExtra(EXTRA_CALL_SOURCEAPPID);
+                callSpec.dndSuppressed = intentCopy.getIntExtra(EXTRA_CALL_DNDSUPPRESSED, 0);
                 deviceSupport.onSetCallState(callSpec);
                 break;
             case ACTION_SETCANNEDMESSAGES:
-                int type = intent.getIntExtra(EXTRA_CANNEDMESSAGES_TYPE, -1);
-                String[] cannedMessages = intent.getStringArrayExtra(EXTRA_CANNEDMESSAGES);
+                int type = intentCopy.getIntExtra(EXTRA_CANNEDMESSAGES_TYPE, -1);
+                String[] cannedMessages = intentCopy.getStringArrayExtra(EXTRA_CANNEDMESSAGES);
 
                 CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
                 cannedMessagesSpec.type = type;
@@ -946,37 +950,37 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SETMUSICINFO:
                 MusicSpec musicSpec = new MusicSpec();
-                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
-                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
-                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
-                musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
-                musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
-                musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
+                musicSpec.artist = intentCopy.getStringExtra(EXTRA_MUSIC_ARTIST);
+                musicSpec.album = intentCopy.getStringExtra(EXTRA_MUSIC_ALBUM);
+                musicSpec.track = intentCopy.getStringExtra(EXTRA_MUSIC_TRACK);
+                musicSpec.duration = intentCopy.getIntExtra(EXTRA_MUSIC_DURATION, 0);
+                musicSpec.trackCount = intentCopy.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
+                musicSpec.trackNr = intentCopy.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
                 deviceSupport.onSetMusicInfo(musicSpec);
                 break;
             case ACTION_SET_PHONE_VOLUME:
-                float phoneVolume = intent.getFloatExtra(EXTRA_PHONE_VOLUME, 0);
+                float phoneVolume = intentCopy.getFloatExtra(EXTRA_PHONE_VOLUME, 0);
                 deviceSupport.onSetPhoneVolume(phoneVolume);
                 break;
             case ACTION_SET_PHONE_SILENT_MODE:
-                final int ringerMode = intent.getIntExtra(EXTRA_PHONE_RINGER_MODE, -1);
+                final int ringerMode = intentCopy.getIntExtra(EXTRA_PHONE_RINGER_MODE, -1);
                 deviceSupport.onChangePhoneSilentMode(ringerMode);
                 break;
             case ACTION_SETMUSICSTATE:
                 MusicStateSpec stateSpec = new MusicStateSpec();
-                stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte) 0);
-                stateSpec.repeat = intent.getByteExtra(EXTRA_MUSIC_REPEAT, (byte) 0);
-                stateSpec.position = intent.getIntExtra(EXTRA_MUSIC_POSITION, 0);
-                stateSpec.playRate = intent.getIntExtra(EXTRA_MUSIC_RATE, 0);
-                stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
+                stateSpec.shuffle = intentCopy.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte) 0);
+                stateSpec.repeat = intentCopy.getByteExtra(EXTRA_MUSIC_REPEAT, (byte) 0);
+                stateSpec.position = intentCopy.getIntExtra(EXTRA_MUSIC_POSITION, 0);
+                stateSpec.playRate = intentCopy.getIntExtra(EXTRA_MUSIC_RATE, 0);
+                stateSpec.state = intentCopy.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
                 deviceSupport.onSetMusicState(stateSpec);
                 break;
             case ACTION_SETNAVIGATIONINFO:
                 NavigationInfoSpec navigationInfoSpec = new NavigationInfoSpec();
-                navigationInfoSpec.instruction = intent.getStringExtra(EXTRA_NAVIGATION_INSTRUCTION);
-                navigationInfoSpec.nextAction = intent.getIntExtra(EXTRA_NAVIGATION_NEXT_ACTION,0);
-                navigationInfoSpec.distanceToTurn = intent.getStringExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN);
-                navigationInfoSpec.ETA = intent.getStringExtra(EXTRA_NAVIGATION_ETA);
+                navigationInfoSpec.instruction = intentCopy.getStringExtra(EXTRA_NAVIGATION_INSTRUCTION);
+                navigationInfoSpec.nextAction = intentCopy.getIntExtra(EXTRA_NAVIGATION_NEXT_ACTION,0);
+                navigationInfoSpec.distanceToTurn = intentCopy.getStringExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN);
+                navigationInfoSpec.ETA = intentCopy.getStringExtra(EXTRA_NAVIGATION_ETA);
                 deviceSupport.onSetNavigationInfo(navigationInfoSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
@@ -986,90 +990,90 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 deviceSupport.onScreenshotReq();
                 break;
             case ACTION_STARTAPP: {
-                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
-                boolean start = intent.getBooleanExtra(EXTRA_APP_START, true);
+                UUID uuid = (UUID) intentCopy.getSerializableExtra(EXTRA_APP_UUID);
+                boolean start = intentCopy.getBooleanExtra(EXTRA_APP_START, true);
                 deviceSupport.onAppStart(uuid, start);
                 break;
             }
             case ACTION_DOWNLOADAPP: {
-                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
+                UUID uuid = (UUID) intentCopy.getSerializableExtra(EXTRA_APP_UUID);
                 deviceSupport.onAppDownload(uuid);
                 break;
             }
             case ACTION_DELETEAPP: {
-                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
+                UUID uuid = (UUID) intentCopy.getSerializableExtra(EXTRA_APP_UUID);
                 deviceSupport.onAppDelete(uuid);
                 break;
             }
             case ACTION_APP_CONFIGURE: {
-                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
-                String config = intent.getStringExtra(EXTRA_APP_CONFIG);
+                UUID uuid = (UUID) intentCopy.getSerializableExtra(EXTRA_APP_UUID);
+                String config = intentCopy.getStringExtra(EXTRA_APP_CONFIG);
                 Integer id = null;
-                if (intent.hasExtra(EXTRA_APP_CONFIG_ID)) {
-                    id = intent.getIntExtra(EXTRA_APP_CONFIG_ID, 0);
+                if (intentCopy.hasExtra(EXTRA_APP_CONFIG_ID)) {
+                    id = intentCopy.getIntExtra(EXTRA_APP_CONFIG_ID, 0);
                 }
                 deviceSupport.onAppConfiguration(uuid, config, id);
                 break;
             }
             case ACTION_APP_REORDER: {
-                UUID[] uuids = (UUID[]) intent.getSerializableExtra(EXTRA_APP_UUID);
+                UUID[] uuids = (UUID[]) intentCopy.getSerializableExtra(EXTRA_APP_UUID);
                 deviceSupport.onAppReorder(uuids);
                 break;
             }
             case ACTION_INSTALL:
-                Uri uri = intent.getParcelableExtra(EXTRA_URI);
+                Uri uri = intentCopy.getParcelableExtra(EXTRA_URI);
                 if (uri != null) {
                     LOG.info("will try to install app/fw");
                     deviceSupport.onInstallApp(uri);
                 }
                 break;
             case ACTION_SET_ALARMS:
-                ArrayList<? extends Alarm> alarms = (ArrayList<? extends Alarm>) intent.getSerializableExtra(EXTRA_ALARMS);
+                ArrayList<? extends Alarm> alarms = (ArrayList<? extends Alarm>) intentCopy.getSerializableExtra(EXTRA_ALARMS);
                 deviceSupport.onSetAlarms(alarms);
                 break;
             case ACTION_SET_REMINDERS:
-                ArrayList<? extends Reminder> reminders = (ArrayList<? extends Reminder>) intent.getSerializableExtra(EXTRA_REMINDERS);
+                ArrayList<? extends Reminder> reminders = (ArrayList<? extends Reminder>) intentCopy.getSerializableExtra(EXTRA_REMINDERS);
                 deviceSupport.onSetReminders(reminders);
                 break;
             case ACTION_SET_LOYALTY_CARDS:
-                final ArrayList<LoyaltyCard> loyaltyCards = (ArrayList<LoyaltyCard>) intent.getSerializableExtra(EXTRA_LOYALTY_CARDS);
+                final ArrayList<LoyaltyCard> loyaltyCards = (ArrayList<LoyaltyCard>) intentCopy.getSerializableExtra(EXTRA_LOYALTY_CARDS);
                 deviceSupport.onSetLoyaltyCards(loyaltyCards);
                 break;
             case ACTION_SET_WORLD_CLOCKS:
-                ArrayList<? extends WorldClock> clocks = (ArrayList<? extends WorldClock>) intent.getSerializableExtra(EXTRA_WORLD_CLOCKS);
+                ArrayList<? extends WorldClock> clocks = (ArrayList<? extends WorldClock>) intentCopy.getSerializableExtra(EXTRA_WORLD_CLOCKS);
                 deviceSupport.onSetWorldClocks(clocks);
                 break;
             case ACTION_SET_CONTACTS:
-                ArrayList<? extends Contact> contacts = (ArrayList<? extends Contact>) intent.getSerializableExtra(EXTRA_CONTACTS);
+                ArrayList<? extends Contact> contacts = (ArrayList<? extends Contact>) intentCopy.getSerializableExtra(EXTRA_CONTACTS);
                 deviceSupport.onSetContacts(contacts);
                 break;
             case ACTION_ENABLE_REALTIME_STEPS: {
-                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                boolean enable = intentCopy.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 deviceSupport.onEnableRealtimeSteps(enable);
                 break;
             }
             case ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT: {
-                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                boolean enable = intentCopy.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 deviceSupport.onEnableHeartRateSleepSupport(enable);
                 break;
             }
             case ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL: {
-                int seconds = intent.getIntExtra(EXTRA_INTERVAL_SECONDS, 0);
+                int seconds = intentCopy.getIntExtra(EXTRA_INTERVAL_SECONDS, 0);
                 deviceSupport.onSetHeartRateMeasurementInterval(seconds);
                 break;
             }
             case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
-                boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
+                boolean enable = intentCopy.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
                 deviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
                 break;
             }
             case ACTION_SEND_CONFIGURATION: {
-                String config = intent.getStringExtra(EXTRA_CONFIG);
+                String config = intentCopy.getStringExtra(EXTRA_CONFIG);
                 deviceSupport.onSendConfiguration(config);
                 break;
             }
             case ACTION_READ_CONFIGURATION: {
-                String config = intent.getStringExtra(EXTRA_CONFIG);
+                String config = intentCopy.getStringExtra(EXTRA_CONFIG);
                 deviceSupport.onReadConfiguration(config);
                 break;
             }
@@ -1078,14 +1082,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_SEND_WEATHER: {
-                ArrayList<WeatherSpec> weatherSpecs = (ArrayList<WeatherSpec>) intent.getSerializableExtra(EXTRA_WEATHER);
+                ArrayList<WeatherSpec> weatherSpecs = (ArrayList<WeatherSpec>) intentCopy.getSerializableExtra(EXTRA_WEATHER);
                 if (weatherSpecs != null && !weatherSpecs.isEmpty()) {
                     deviceSupport.onSendWeather(weatherSpecs);
                 }
                 break;
             }
             case ACTION_SET_LED_COLOR:
-                int color = intent.getIntExtra(EXTRA_LED_COLOR, 0);
+                int color = intentCopy.getIntExtra(EXTRA_LED_COLOR, 0);
                 if (color != 0) {
                     deviceSupport.onSetLedColor(color);
                 }
@@ -1094,27 +1098,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 deviceSupport.onPowerOff();
                 break;
             case ACTION_SET_FM_FREQUENCY:
-                float frequency = intent.getFloatExtra(EXTRA_FM_FREQUENCY, -1);
+                float frequency = intentCopy.getFloatExtra(EXTRA_FM_FREQUENCY, -1);
                 if (frequency != -1) {
                     deviceSupport.onSetFmFrequency(frequency);
                 }
                 break;
             case ACTION_SET_GPS_LOCATION:
-                final Location location = intent.getParcelableExtra(EXTRA_GPS_LOCATION);
+                final Location location = intentCopy.getParcelableExtra(EXTRA_GPS_LOCATION);
                 deviceSupport.onSetGpsLocation(location);
                 break;
             case ACTION_SLEEP_AS_ANDROID:
                 if(device.getDeviceCoordinator().supportsSleepAsAndroid() && GBApplication.getPrefs().getString("sleepasandroid_device", new String()).equals(device.getAddress()))
                 {
-                    final String sleepAsAndroidAction = intent.getStringExtra(EXTRA_SLEEP_AS_ANDROID_ACTION);
-                    deviceSupport.onSleepAsAndroidAction(sleepAsAndroidAction, intent.getExtras());
+                    final String sleepAsAndroidAction = intentCopy.getStringExtra(EXTRA_SLEEP_AS_ANDROID_ACTION);
+                    deviceSupport.onSleepAsAndroidAction(sleepAsAndroidAction, intentCopy.getExtras());
                 }
                 break;
             case ACTION_CAMERA_STATUS_CHANGE:
-                final GBDeviceEventCameraRemote.Event event = GBDeviceEventCameraRemote.intToEvent(intent.getIntExtra(EXTRA_CAMERA_EVENT, -1));
+                final GBDeviceEventCameraRemote.Event event = GBDeviceEventCameraRemote.intToEvent(intentCopy.getIntExtra(EXTRA_CAMERA_EVENT, -1));
                 String filename = null;
                 if (event == GBDeviceEventCameraRemote.Event.TAKE_PICTURE) {
-                    filename = intent.getStringExtra(EXTRA_CAMERA_FILENAME);
+                    filename = intentCopy.getStringExtra(EXTRA_CAMERA_FILENAME);
                 }
                 deviceSupport.onCameraStatusChange(event, filename);
                 break;
