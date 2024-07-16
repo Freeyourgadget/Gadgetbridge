@@ -25,55 +25,53 @@ import android.content.SharedPreferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 public class BluetoothConnectReceiver extends BroadcastReceiver {
-
     private static final Logger LOG = LoggerFactory.getLogger(BluetoothConnectReceiver.class);
 
     final DeviceCommunicationService service;
 
-    public BluetoothConnectReceiver(DeviceCommunicationService service) {
+    public BluetoothConnectReceiver(final DeviceCommunicationService service) {
         this.service = service;
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+    public void onReceive(final Context context, final Intent intent) {
+        final String action = intent.getAction();
+        if (action == null) {
+            return;
+        }
+
         if (!action.equals(BluetoothDevice.ACTION_ACL_CONNECTED) || !intent.hasExtra(BluetoothDevice.EXTRA_DEVICE)) {
             return;
         }
 
-        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        LOG.info("connection attempt detected from " + device.getAddress() + "(" + device.getName() + ")");
-
-        GBDevice gbDevice = getKnownDeviceByAddressOrNull(device.getAddress());
-        if(gbDevice == null){
-            LOG.info("connected device {} unknown", device.getAddress());
+        final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        if (device == null) {
+            LOG.error("Got no device for {}", action);
             return;
         }
-        SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+
+        LOG.info("connection attempt detected from {}", device.getAddress());
+
+        final GBDevice gbDevice = GBApplication.app().getDeviceManager().getDeviceByAddress(device.getAddress());
+        if (gbDevice == null) {
+            LOG.info("Connected device {} unknown", device.getAddress());
+            return;
+        }
+        final SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         boolean reactToConnection = deviceSpecificPreferences.getBoolean(GBPrefs.DEVICE_CONNECT_BACK, false);
         reactToConnection |= gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT;
-        if(!reactToConnection){
+        reactToConnection |= gbDevice.getState() == GBDevice.State.WAITING_FOR_SCAN;
+        if (!reactToConnection) {
+            LOG.info("Ignoring connection attempt from {}", device.getAddress());
             return;
         }
-        LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
+        LOG.info("Will re-connect to {} ({})", gbDevice.getAddress(), gbDevice.getName());
         GBApplication.deviceService(gbDevice).connect();
-    }
-
-    private GBDevice getKnownDeviceByAddressOrNull(String deviceAddress){
-        List<GBDevice> knownDevices = GBApplication.app().getDeviceManager().getDevices();
-        for(GBDevice device : knownDevices){
-            if(device.getAddress().equals(deviceAddress)){
-                return device;
-            }
-        }
-        return null;
     }
 }
