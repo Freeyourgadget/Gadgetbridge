@@ -51,6 +51,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -321,7 +322,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
         };
-        GBApplication.getContext().registerReceiver(globalUartReceiver, commandFilter); // should be RECEIVER_EXPORTED
+
+        ContextCompat.registerReceiver(GBApplication.getContext(), globalUartReceiver, commandFilter, ContextCompat.RECEIVER_EXPORTED);
     }
 
     @Override
