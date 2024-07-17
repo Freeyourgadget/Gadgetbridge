@@ -3077,4 +3077,13 @@
     <string name="moondrop_touch_trigger_long_press_3s">Долгое касание (3 сек)</string>
     <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
     <string name="moondrop_touch_action_anc_mode">Изменить режим подавления шума</string>
+    <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
+    <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
+    <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="realtime_settings">Настройки в реальном времени</string>
+    <string name="proprietary_app_warning">Эта функция требует установку проприетарного приложения</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="pref_battery_polling_summary">Это наилучшая попытка, и возможно она затянется по нескольким причинам</string>
+    <string name="pref_battery_polling_interval_format">через каждые %1$s минут</string>
 </resources>
