@@ -64,6 +64,7 @@ public class HuaweiPacket {
         protected byte authAlgo;
         protected byte encryptMethod;
         protected byte[] firstKey;
+        protected  byte authMode;
 
         public void setAuthVersion(byte authVersion) {
             this.authVersion = authVersion;
@@ -127,6 +128,10 @@ public class HuaweiPacket {
         public byte getInterval() {
             return this.interval;
         }
+
+        public byte getAuthMode() { return this.authMode; }
+
+        public void setAuthMode(byte authMode) { this.authMode = authMode; }
 
         public byte[] getIv() {
             byte[] iv = null;

@@ -55,7 +55,7 @@ public class GetBondParamsRequest extends Request {
             throw new ResponseTypeMismatchException(receivedPacket, DeviceConfig.BondParams.Response.class);
 
         paramsProvider.setEncryptionCounter(((DeviceConfig.BondParams.Response) receivedPacket).encryptionCounter);
-        if (paramsProvider.getDeviceSupportType() != 0x02) {
+        if (paramsProvider.getAuthMode() != 0x02) {
             if (((DeviceConfig.BondParams.Response) receivedPacket).status == 1) {
                 stopChain(this);
             }

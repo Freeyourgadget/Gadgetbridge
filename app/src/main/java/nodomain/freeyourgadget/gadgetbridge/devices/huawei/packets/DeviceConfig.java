@@ -605,7 +605,7 @@ public class DeviceConfig {
                 this.tlv = new HuaweiTLV()
                         .put(0x01, challenge)
                         .put(0x02, nonce);
-                if (paramsProvider.getDeviceSupportType() == 0x02)
+                if (paramsProvider.getAuthMode() == 0x02)
                     this.tlv.put(0x03, paramsProvider.getAuthAlgo());
                 this.isEncrypted = false;
                 this.complete = true;
@@ -1402,7 +1402,7 @@ public class DeviceConfig {
                 byte[] message = this.tlv.getBytes(0x01);
                 byte[] iv = this.tlv.getBytes(0x02);
 
-                HuaweiCrypto huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion());
+                HuaweiCrypto huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion(), paramsProvider.getAuthAlgo(), paramsProvider.getDeviceSupportType(), paramsProvider.getAuthMode());
                 try {
                     pinCode = huaweiCrypto.decryptPinCode(paramsProvider.getEncryptMethod(), message, iv);
                 } catch (HuaweiCrypto.CryptoException e) {
@@ -1538,6 +1538,10 @@ public class DeviceConfig {
                 if (authMode == 0x04)
                     this.tlv.put(0x06)
                             .put(0x07, phoneModel);
+                if (paramsProvider.getEncryptMethod() == 1 )
+                        this.tlv.put(0xd, (byte)0x1);
+
+
                 this.complete = true;
                 this.isEncrypted = false;
             }

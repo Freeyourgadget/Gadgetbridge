@@ -42,7 +42,7 @@ public class GetSecurityNegotiationRequest extends Request {
         try {
             return new DeviceConfig.SecurityNegotiation.Request(
                     paramsProvider,
-                    paramsProvider.getDeviceSupportType(),
+                    paramsProvider.getAuthMode(),
                     supportProvider.getAndroidId(),
                     Build.MODEL
                 ).serialize();

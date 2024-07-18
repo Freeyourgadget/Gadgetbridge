@@ -43,6 +43,7 @@ public class GetAuthRequest extends Request {
     protected byte[] doubleNonce;
     protected byte[] key = null;
     protected byte deviceSupportType;
+    protected byte authMode;
 
     public GetAuthRequest(HuaweiSupportProvider support,
             Request linkParamsReq) {
@@ -57,7 +58,8 @@ public class GetAuthRequest extends Request {
         this.authVersion = paramsProvider.getAuthVersion();
         this.authAlgo = paramsProvider.getAuthAlgo();
         this.deviceSupportType = paramsProvider.getDeviceSupportType();
-        this.huaweiCrypto = new HuaweiCrypto(authVersion, authAlgo, deviceSupportType);
+        this.authMode = paramsProvider.getAuthMode();
+        this.huaweiCrypto = new HuaweiCrypto(authVersion, authAlgo, deviceSupportType, authMode);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class GetAuthRequest extends Request {
         byte[] nonce;
 
         try {
-            if (deviceSupportType == 0x02) {
+            if (authMode == 0x02) {
                 key = paramsProvider.getPinCode();
                 if (authVersion == 0x02)
                     key = paramsProvider.getSecretKey();

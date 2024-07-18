@@ -418,6 +418,11 @@ public class HuaweiSupportProvider {
     protected void initializeDeviceDealHiChain(final Request linkParamsReq) {
         try {
             if (isHiChain()) {
+
+                if (paramsProvider.getDeviceSupportType() == 4 )
+                    paramsProvider.setAuthMode((byte)4);
+                else
+                    paramsProvider.setAuthMode((byte)2);
                 final GetSecurityNegotiationRequest securityNegoReq = new GetSecurityNegotiationRequest(this);
                 RequestCallback securityFinalizeReq = new RequestCallback(this) {
                     @Override

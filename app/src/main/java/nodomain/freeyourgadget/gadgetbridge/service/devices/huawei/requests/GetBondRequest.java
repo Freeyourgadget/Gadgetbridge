@@ -49,9 +49,9 @@ public class GetBondRequest extends Request {
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             byte[] iv = paramsProvider.getIv();
-            huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion());
+            huaweiCrypto = new HuaweiCrypto(paramsProvider.getAuthVersion(), paramsProvider.getAuthAlgo(), paramsProvider.getDeviceSupportType(), paramsProvider.getAuthMode());
             byte[] encryptionKey;
-            if (paramsProvider.getDeviceSupportType() == 0x02) { //HiChainLite
+            if (paramsProvider.getAuthMode() == 0x02) { //HiChainLite
                 encryptionKey = paramsProvider.getFirstKey();
             } else {
                 encryptionKey = huaweiCrypto.createSecretKey(supportProvider.getDeviceMac());

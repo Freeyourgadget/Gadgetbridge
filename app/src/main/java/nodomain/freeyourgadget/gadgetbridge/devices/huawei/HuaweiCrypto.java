@@ -83,15 +83,17 @@ public class HuaweiCrypto {
     protected int authVersion;
     protected int deviceSupportType;
     protected byte authAlgo;
+    protected  byte authMode;
 
     public HuaweiCrypto(int authVersion) {
         this.authVersion = authVersion;
     }
 
-    public HuaweiCrypto(int authVersion, byte authAlgo, int deviceSupportType) {
+    public HuaweiCrypto(int authVersion, byte authAlgo, int deviceSupportType, byte authMode) {
         this(authVersion);
         this.deviceSupportType = deviceSupportType;
         this.authAlgo = authAlgo;
+        this.authMode = authMode;
     }
 
     public static byte[] generateNonce() {
@@ -150,7 +152,7 @@ public class HuaweiCrypto {
     }
 
     public byte[] digestChallenge(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
-        if (deviceSupportType == 0x02) {
+        if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
             if (authVersion == 0x02) {
@@ -170,7 +172,7 @@ public class HuaweiCrypto {
     }
 
     public byte[] digestResponse(byte[] secretKey, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException {
-        if (deviceSupportType == 0x02) {
+        if (authMode == 0x02) {
             if (secretKey == null)
                 return null;
             if (authVersion == 0x02) {
