@@ -3088,4 +3088,5 @@
     <string name="proprietary_app_warning">تتطلب هذه الميزة تثبيت تطبيق خاص</string>
     <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
 </resources>
