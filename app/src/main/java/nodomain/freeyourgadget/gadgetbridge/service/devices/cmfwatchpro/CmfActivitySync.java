@@ -382,19 +382,25 @@ public class CmfActivitySync {
     }
 
     private void handleWorkoutSummary(final byte[] payload) {
-        if (payload.length % 32 != 0) {
-            LOG.error("Workout summary payload size {} not divisible by 32", payload.length);
+        final int bytesPerWorkout;
+
+        if (payload.length % 32 == 0) {
+            bytesPerWorkout = 32;
+        } else if (payload.length % 54 == 0) {
+            bytesPerWorkout = 54;
+        } else {
+            LOG.error("Workout summary payload size {} not divisible by 32 or 54", payload.length);
             return;
         }
 
-        LOG.debug("Got {} workout summary samples", payload.length / 32);
+        LOG.debug("Got {} workout summary samples", payload.length / bytesPerWorkout);
 
         final ByteBuffer buf = ByteBuffer.wrap(payload).order(ByteOrder.LITTLE_ENDIAN);
 
         final CmfWorkoutSummaryParser summaryParser = new CmfWorkoutSummaryParser(getDevice());
 
         while (buf.remaining() > 0) {
-            final byte[] summaryBytes = new byte[32];
+            final byte[] summaryBytes = new byte[bytesPerWorkout];
             buf.get(summaryBytes);
 
             BaseActivitySummary summary = new BaseActivitySummary();
