@@ -209,7 +209,7 @@
     <string name="weeksteps_today_steps_description">Кроків сьогодні, мета: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Не передавати дані про діяльність</string>
     <string name="pref_summary_dont_ack_transfers">Якщо дані про діяльність не будуть передані на браслет, вони не будуть очищені. Корисно, якщо GB використовується разом з іншими застосунками.</string>
-    <string name="pref_summary_keep_data_on_device">Дані про активність зберігатимуться на пристрої навіть після синхронізації. Корисно, якщо GB використовується разом з іншими застосунками. Це може призвести до того, що годинник заповниться й/або перестане належним чином синхронізуватися.</string>
+    <string name="pref_summary_keep_data_on_device">Дані про діяльність зберігатимуться на пристрої навіть після синхронізації. Корисно, якщо GB використовується разом з іншими застосунками. Це може призвести до того, що годинник заповниться й/або перестане належним чином синхронізуватися.</string>
     <string name="live_activity_steps_history">Історія кроків</string>
     <string name="live_activity_current_steps_per_minute">Поточні кроки/хв</string>
     <string name="live_activity_total_steps">Загалом кроків</string>
@@ -2844,4 +2844,11 @@
     <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
     <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
     <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
+    <plurals name="amount_of_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
 </resources>
