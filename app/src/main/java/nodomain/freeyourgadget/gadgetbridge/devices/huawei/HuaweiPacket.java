@@ -606,6 +606,8 @@ public class HuaweiPacket {
                         return new DeviceConfig.Bond.OutgoingRequest(paramsProvider).fromPacket(this);
                     case DeviceConfig.HiChain.id:
                         return new DeviceConfig.HiChain.OutgoingRequest(paramsProvider).fromPacket(this);
+                    case DeviceConfig.Auth.id:
+                        return new DeviceConfig.Auth.OutgoingRequest(paramsProvider).fromPacket(this);
                     default:
                         return this;
                 }

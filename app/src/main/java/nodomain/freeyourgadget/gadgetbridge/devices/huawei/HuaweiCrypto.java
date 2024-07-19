@@ -234,9 +234,10 @@ public class HuaweiCrypto {
         return CryptoUtils.encryptAES_CBC_Pad(data, encryptionKey, iv);
     }
 
-    public byte[] decryptBondingKey(byte[] data, String mac, byte[] iv) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IllegalArgumentException {
-        byte[] encryptionKey = createSecretKey(mac);
-        return CryptoUtils.decryptAES_CBC_Pad(data, encryptionKey, iv);
+    public byte[] decryptBondingKey(byte encryptMethod, byte[] data, byte[] key, byte[] iv) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IllegalArgumentException {
+        if (encryptMethod == 0x1)
+            return CryptoUtils.decryptAES_GCM_NoPad(data, key, iv, null);
+        return CryptoUtils.decryptAES_CBC_Pad(data, key, iv);
     }
 
     public byte[] decryptPinCode(byte encryptMethod, byte[] message, byte[] iv) throws CryptoException {

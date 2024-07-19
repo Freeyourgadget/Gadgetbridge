@@ -610,6 +610,23 @@ public class DeviceConfig {
                 this.isEncrypted = false;
                 this.complete = true;
             }
+
+        }
+
+        public static class OutgoingRequest extends HuaweiPacket {
+            public byte[] challenge;
+            public byte[] nonce;
+
+            public OutgoingRequest(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+                this.complete = false;
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                this.challenge = this.tlv.getBytes(0x01);
+                this.nonce = this.tlv.getBytes(0x02);
+            }
         }
 
         public static class Response extends HuaweiPacket {
