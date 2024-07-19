@@ -156,6 +156,16 @@ public class FossilWatchAdapter extends WatchAdapter {
         getDeviceInfos();
     }
 
+    @Override
+    public void dispose() {
+        if (timeoutLooper != null) {
+            timeoutHandler.removeCallbacks(requestTimeoutRunnable);
+            timeoutLooper.quit();
+        }
+
+        super.dispose();
+    }
+
     private void restartRequestTimeout(){
         if(timeoutLooper == null){
             return;

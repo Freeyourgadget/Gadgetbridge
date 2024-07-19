@@ -172,4 +172,8 @@ public abstract class WatchAdapter {
     public void handleSetMenuStructure(JSONObject menuStructure) {
 
     }
+
+    public void dispose() {
+
+    }
 }
