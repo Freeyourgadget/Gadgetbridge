@@ -3097,4 +3097,6 @@
     <string name="pref_battery_polling_enable">Aktivieren der Batterieabfrage</string>
     <string name="pref_battery_polling_interval">Intervall der Batterieabfrage</string>
     <string name="pref_battery_polling_interval_format">alle %1$s Minuten</string>
+    <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
 </resources>
