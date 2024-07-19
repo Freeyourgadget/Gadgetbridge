@@ -3090,4 +3090,5 @@
     <string name="pref_battery_polling_enable">启用电池轮询</string>
     <string name="battery_polling_failed_start">无法启动电池轮询</string>
     <string name="devicetype_garmin_vivosport">佳明 Vívosport</string>
+    <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
 </resources>
