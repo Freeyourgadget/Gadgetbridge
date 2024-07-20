@@ -3091,4 +3091,13 @@
     <string name="pref_battery_polling_configuration">Nastavení dotazování baterie</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="activity_type_gateball">Gateball</string>
+    <string name="activity_type_luge">Saně</string>
+    <string name="activity_type_parachuting">Seskok padákem</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="activity_type_beach_soccer">Plážový fotbal</string>
+    <string name="activity_type_beach_volleyball">Plážový volejbal</string>
+    <string name="activity_type_sepak_takraw">Sepak takraw</string>
+    <string name="activity_type_auto_racing">Automobilové závody</string>
+    <string name="activity_type_parkour">Parkour</string>
 </resources>
