@@ -438,8 +438,8 @@ public class CmfActivitySync {
                 return;
             }
 
-            // Previous to last byte indicates if it has gps
-            if (summaryBytes[summaryBytes.length - 2] == 1) {
+            // FIXME: This should be set by CmfWorkoutSummaryParser
+            if (summaryBytes[30] == 1) {
                 activitiesWithGps.add(summary);
             }
         }
