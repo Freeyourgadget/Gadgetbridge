@@ -22,11 +22,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class CmfWatchPro2Coordinator extends CmfWatchProCoordinator {
     @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
-    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^CMF Watch Pro 2(-[A-Z0-9]{4})$");
     }
