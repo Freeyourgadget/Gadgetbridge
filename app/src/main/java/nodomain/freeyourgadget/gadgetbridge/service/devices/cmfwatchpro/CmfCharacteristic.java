@@ -256,6 +256,7 @@ public class CmfCharacteristic {
                 buffer = Objects.requireNonNull(chunkBuffers.get(cmd));
             } else {
                 buffer = new ChunkBuffer();
+                chunkBuffers.put(cmd, buffer);
             }
 
             if (chunkIndex != buffer.expectedChunk) {
