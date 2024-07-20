@@ -3091,4 +3091,13 @@
     <string name="battery_polling_failed_start">无法启动电池轮询</string>
     <string name="devicetype_garmin_vivosport">佳明 Vívosport</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="activity_type_beach_soccer">沙滩足球</string>
+    <string name="activity_type_auto_racing">赛车</string>
+    <string name="activity_type_parkour">跑酷</string>
+    <string name="activity_type_tae_bo">跆搏</string>
+    <string name="activity_type_gateball">门球</string>
+    <string name="activity_type_beach_volleyball">沙滩排球</string>
+    <string name="activity_type_sepak_takraw">踢藤球</string>
+    <string name="activity_type_parachuting">跳伞</string>
+    <string name="activity_type_luge">雪橇</string>
 </resources>
