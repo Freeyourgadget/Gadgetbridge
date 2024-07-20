@@ -23,6 +23,12 @@
       ]
     },
     {
+      "groupName": "android-emojify",
+      "matchPackagePrefixes": [
+        "com.github.wax911.android-emojify"
+      ]
+    },
+    {
       "description": "solarpositioning v2 needs java 17, we need to stay on v0",
       "matchPackagePrefixes": [
         "net.e175.klaus:solarpositioning"
