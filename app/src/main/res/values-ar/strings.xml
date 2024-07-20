@@ -3089,4 +3089,13 @@
     <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="activity_type_gateball">كرة البوابة</string>
+    <string name="activity_type_parkour">باركور</string>
+    <string name="activity_type_sepak_takraw">سيباك تاكرو</string>
+    <string name="activity_type_tae_bo">تاي بو</string>
+    <string name="activity_type_beach_soccer">كرة القدم الشاطئية</string>
+    <string name="activity_type_beach_volleyball">كرة الطائرة الشاطئية</string>
+    <string name="activity_type_luge">الزحافات الثلجية</string>
+    <string name="activity_type_parachuting">القفز بالمظلات</string>
+    <string name="activity_type_auto_racing">سباق السيارات</string>
 </resources>
