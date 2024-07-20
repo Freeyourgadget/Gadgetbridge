@@ -39,6 +39,8 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TEMPERATURE_UNIT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TIME_FORMAT;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
@@ -1332,6 +1334,18 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
         } else {
             LOG.warn("Unknown raw sensor type: {}", GB.hexdump(value));
         }
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(final BluetoothGatt gatt,
+                                           final BluetoothGattCharacteristic characteristic) {
+        final UUID characteristicUUID = characteristic.getUuid();
+        if (HuamiService.UUID_CHARACTERISTIC_ZEPP_OS_FILE_TRANSFER_V3.equals(characteristicUUID)) {
+            fileTransferService.onCharacteristicChanged(characteristic.getValue());
+            return true;
+        }
+
+        return super.onCharacteristicChanged(gatt, characteristic);
     }
 
     @Override

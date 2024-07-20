@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsSupport;
@@ -46,12 +47,16 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
     private static final byte CMD_TRANSFER_RESPONSE = 0x04;
     private static final byte CMD_DATA_SEND = 0x10;
     private static final byte CMD_DATA_ACK = 0x11;
+    private static final byte CMD_DATA_V3_SEND = 0x12;
+    private static final byte CMD_DATA_V3_ACK = 0x13;
 
     private static final byte FLAG_FIRST_CHUNK = 0x01;
     private static final byte FLAG_LAST_CHUNK = 0x02;
+    private static final byte FLAG_CRC = 0x04;
 
     private final Map<Byte, FileTransferRequest> mSessionRequests = new HashMap<>();
 
+    private int mVersion = -1;
     private int mChunkSize = -1;
 
     public ZeppOsFileTransferService(final ZeppOsSupport support) {
@@ -70,13 +75,19 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         switch (payload[0]) {
             case CMD_CAPABILITIES_RESPONSE:
-                final int version = payload[1] & 0xff;
-                if (version != 1 && version != 2) {
-                    LOG.error("Unsupported file transfer service version: {}", version);
+                mVersion = payload[1] & 0xff;
+                if (mVersion != 1 && mVersion != 2 && mVersion != 3) {
+                    LOG.error("Unsupported file transfer service version: {}", mVersion);
                     return;
                 }
                 mChunkSize = BLETypeConversions.toUint16(payload, 2);
-                LOG.info("Got file transfer service: version={}, chunkSize={}", version, mChunkSize);
+                // TODO parse the rest for v3
+                LOG.info("Got file transfer service: version={}, chunkSize={}", mVersion, mChunkSize);
+                if (mVersion == 3) {
+                    final TransactionBuilder builder = getSupport().createTransactionBuilder("enable file transfer v3 notifications");
+                    builder.notify(getSupport().getCharacteristic(HuamiService.UUID_CHARACTERISTIC_ZEPP_OS_FILE_TRANSFER_V3), true);
+                    builder.queue(getSupport().getQueue());
+                }
                 return;
             case CMD_TRANSFER_REQUEST:
                 handleFileTransferRequest(payload);
@@ -168,16 +179,22 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         final FileTransferRequest request = new FileTransferRequest(url, filename, new byte[length], compressed, getSupport());
         request.setCrc32(crc32);
 
-        final ByteBuffer buf = ByteBuffer.allocate(7).order(ByteOrder.LITTLE_ENDIAN);
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put(CMD_TRANSFER_RESPONSE);
-        buf.put(session);
-        buf.put((byte) 0x00);
-        buf.putInt(0);
+        if (mVersion < 3) {
+            final ByteBuffer buf = ByteBuffer.allocate(7).order(ByteOrder.LITTLE_ENDIAN);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(CMD_TRANSFER_RESPONSE);
+            buf.put(session);
+            buf.put((byte) 0x00);
+            buf.putInt(0);
+
+            write("send file transfer response", buf.array());
+        } else {
+            // FIXME: Receive files on v3
+            LOG.error("Receiving files on V3 is not implemented");
+            return;
+        }
 
         mSessionRequests.put(session, request);
-
-        write("send file transfer response", buf.array());
     }
 
     private void handleFileTransferData(final byte[] payload) {
@@ -270,12 +287,24 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         final FileTransferRequest request = new FileTransferRequest(url, filename, bytes, false, callback);
 
+        if (mVersion == 3 && !mSessionRequests.isEmpty()) {
+            // FIXME non-zero session on v3
+            LOG.error("File transfer v3 only supports single session, not sending file");
+            callback.onFileUploadFinish(false);
+            return;
+        }
+
         byte session = (byte) mSessionRequests.size();
         while (mSessionRequests.containsKey(session)) {
             session++;
         }
 
-        final ByteBuffer buf = ByteBuffer.allocate(2 + url.length() + 1 + filename.length() + 1 + 4 + 4);
+        int payloadSize = 2 + url.length() + 1 + filename.length() + 1 + 4 + 4;
+        if (mVersion == 3) {
+            payloadSize += 2;
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(payloadSize);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(CMD_TRANSFER_REQUEST);
         buf.put(session);
@@ -285,6 +314,11 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         buf.put((byte) 0x00);
         buf.putInt(bytes.length);
         buf.putInt(request.getCrc32());
+        if (mVersion == 3) {
+            // compression ?
+            buf.put((byte) 0);
+            buf.put((byte) 0);
+        }
 
         write("send file upload request", buf.array());
 
@@ -306,6 +340,20 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         LOG.debug("Sending file data for session={}, progress={}, index={}", session, request.getProgress(), request.getIndex());
 
+        if (mVersion < 3) {
+            writeChunkV1(request, session);
+        } else {
+            if (session != 0) {
+                // FIXME non-zero session on v3
+                LOG.error("Sending non-zero session on v3 is not supported, got session={}", session);
+                mSessionRequests.remove(session);
+                return;
+            }
+            writeChunkV3(request);
+        }
+    }
+
+    private void writeChunkV1(final FileTransferRequest request, final byte session) {
         final ByteBuffer buf = ByteBuffer.allocate(10 + mChunkSize);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(CMD_DATA_SEND);
@@ -344,6 +392,48 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         write("send file data", buf.array());
     }
 
+    private void writeChunkV3(final FileTransferRequest request) {
+        final byte[] chunk = ArrayUtils.subarray(
+                request.getBytes(),
+                request.getProgress(),
+                request.getProgress() + mChunkSize
+        );
+
+        byte flags = 0;
+        if (request.getProgress() == 0) {
+            flags |= FLAG_FIRST_CHUNK;
+        }
+        if (request.getProgress() + mChunkSize >= request.getSize()) {
+            flags |= FLAG_LAST_CHUNK;
+        }
+
+        final int partSize = getSupport().getMTU() - 3;
+
+        final ByteBuffer buf = ByteBuffer.allocate(chunk.length + 5);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(CMD_DATA_V3_SEND);
+        buf.put(flags);
+        buf.put(request.getIndex());
+        buf.putShort((short) chunk.length);
+        buf.put(chunk);
+
+        final byte[] payload = buf.array();
+
+        final TransactionBuilder builder = getSupport().createTransactionBuilder("send chunk v3");
+        for (int i = 0; i < payload.length; i += partSize) {
+            final byte[] part = ArrayUtils.subarray(payload, i, i + partSize);
+            builder.write(
+                    getSupport().getCharacteristic(HuamiService.UUID_CHARACTERISTIC_ZEPP_OS_FILE_TRANSFER_V3),
+                    part
+            );
+        }
+        builder.queue(getSupport().getQueue());
+
+        request.setProgress(request.getProgress() + chunk.length);
+        request.setIndex((byte) (request.getIndex() + 1));
+        request.getCallback().onFileUploadProgress(request.getProgress());
+    }
+
     private void onUploadFinish(final byte session, final boolean success) {
         final FileTransferRequest request = mSessionRequests.get(session);
         if (request == null) {
@@ -354,6 +444,46 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         mSessionRequests.remove(session);
 
         request.getCallback().onFileUploadFinish(success);
+    }
+
+    public void onCharacteristicChanged(final byte[] value) {
+        if (value[0] != CMD_DATA_V3_ACK) {
+            LOG.error("Got non-ack on file transfer characteristic");
+            return;
+        }
+
+        final byte session = (byte) 0; // FIXME non-zero session on v3
+        final byte status = value[1];
+        final byte chunkIndex = value[2];
+        final byte unk1 = value[3]; // 1/2?
+
+        LOG.info(
+                "Band acknowledged file transfer data: session={}, status={}, chunkIndex={}, unk1={}",
+                session,
+                status,
+                chunkIndex,
+                unk1
+        );
+
+        final FileTransferRequest request = mSessionRequests.get(session);
+        if (request == null) {
+            LOG.error("No request found for v3 session {}", session);
+            return;
+        }
+
+        if (status != 0) {
+            LOG.error("Unexpected status from band, aborting session {}", session);
+            onUploadFinish(session, false);
+            return;
+        }
+
+        if (request.getIndex() - 1 != chunkIndex) {
+            LOG.error("Got ack for unexpected chunk index {}, expected {}", chunkIndex, request.getIndex() - 1);
+            onUploadFinish(session, false);
+            return;
+        }
+
+        sendNextQueuedData(session);
     }
 
     /**

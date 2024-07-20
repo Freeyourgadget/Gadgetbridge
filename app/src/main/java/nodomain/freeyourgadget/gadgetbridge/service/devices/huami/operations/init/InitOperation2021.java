@@ -186,6 +186,7 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
             try {
                 TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                 builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+                builder.setCallback(null); // remove init operation as the callback
                 huamiSupport.enableFurtherNotifications(builder, true);
                 huamiSupport.setCurrentTimeWithService(builder);
                 huamiSupport.requestDeviceInfo(builder);
