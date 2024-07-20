@@ -3095,4 +3095,13 @@
     <string name="battery_polling_failed_start">No se ha iniciado el sondeo de la batería</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="activity_type_gateball">Pelota</string>
+    <string name="activity_type_parkour">Parkour</string>
+    <string name="activity_type_beach_soccer">Futbol playa</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="activity_type_beach_volleyball">Vóley playa</string>
+    <string name="activity_type_sepak_takraw">Sepak Takraw</string>
+    <string name="activity_type_luge">Trineo</string>
+    <string name="activity_type_auto_racing">Automovilismo</string>
+    <string name="activity_type_parachuting">Paracaidismo</string>
 </resources>
