@@ -602,7 +602,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         buf.put((byte) (weatherSpec.todayMaxTemp - 273 + 100)); // convert Kelvin to C, add 100
         buf.put((byte) (weatherSpec.todayMinTemp - 273 + 100)); // convert Kelvin to C, add 100
         buf.put((byte) weatherSpec.currentHumidity);
-        buf.putShort((short) weatherSpec.airQuality.aqi);
+        buf.putShort((short) (weatherSpec.airQuality != null ? weatherSpec.airQuality.aqi : 0));
         buf.put((byte) weatherSpec.uvIndex); // UV index isn't shown. uvi decimal/100, so 0x07 = 700 UVI.
         buf.put((byte) weatherSpec.windSpeed); // isn't shown by watch, unsure of correct units
 
@@ -617,11 +617,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
                 buf.put((byte) (forecastDay.maxTemp - 273 + 100)); // max temp in C, + 100
                 buf.put((byte) (forecastDay.minTemp - 273 + 100)); // min temp in C, + 100
                 buf.put((byte) forecastDay.humidity); // humidity as a %
-                try { // AQI data might not be available for the full 7 day forecast.
-                    buf.putShort((short) weatherSpec.airQuality.aqi);
-                } catch (java.lang.NullPointerException ex) {
-                    buf.putShort((short) 0);
-                }
+                buf.putShort((short) (forecastDay.airQuality != null ? forecastDay.airQuality.aqi : 0));
                 buf.put((byte) forecastDay.uvIndex); // UV index isn't shown. uvi decimal/100, so 0x07 = 700 UVI.
                 buf.put((byte) forecastDay.windSpeed); // isn't shown by watch, unsure of correct units
             } else {
