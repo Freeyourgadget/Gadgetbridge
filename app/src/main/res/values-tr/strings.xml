@@ -3104,4 +3104,13 @@
     <string name="pref_battery_polling_interval_format">her %1$s dakika</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="activity_type_beach_soccer">Plaj Futbolu</string>
+    <string name="activity_type_beach_volleyball">Plaj Voleybolu</string>
+    <string name="activity_type_gateball">Gateball</string>
+    <string name="activity_type_sepak_takraw">Sepak Takraw</string>
+    <string name="activity_type_luge">Kızak</string>
+    <string name="activity_type_auto_racing">Otomobil yarışı</string>
+    <string name="activity_type_parachuting">Paraşütle atlama</string>
+    <string name="activity_type_parkour">Parkur</string>
 </resources>
