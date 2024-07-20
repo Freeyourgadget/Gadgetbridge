@@ -1283,6 +1283,15 @@
     <string name="activity_type_functional_training">Functional training</string>
     <string name="activity_type_physical_training">Physical training</string>
     <string name="activity_type_taekwondo">Taekwondo</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="activity_type_beach_soccer">Beach Soccer</string>
+    <string name="activity_type_beach_volleyball">Beach Volleyball</string>
+    <string name="activity_type_gateball">Gateball</string>
+    <string name="activity_type_sepak_takraw">Sepak Takraw</string>
+    <string name="activity_type_luge">Luge</string>
+    <string name="activity_type_parachuting">Parachuting</string>
+    <string name="activity_type_auto_racing">Auto racing</string>
+    <string name="activity_type_parkour">Parkour</string>
     <string name="activity_type_cross_country_running">Cross country running</string>
     <string name="activity_type_karate">Karate</string>
     <string name="activity_type_fencing">Fencing</string>

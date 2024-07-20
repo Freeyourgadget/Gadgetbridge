@@ -1314,6 +1314,16 @@
         <item>@string/activity_type_skateboarding</item>
         <item>@string/activity_type_rock_climbing</item>
         <item>@string/activity_type_hunting</item>
+        <item>@string/activity_type_kickboxing</item>
+        <item>@string/activity_type_tae_bo</item>
+        <item>@string/activity_type_beach_soccer</item>
+        <item>@string/activity_type_beach_volleyball</item>
+        <item>@string/activity_type_gateball</item>
+        <item>@string/activity_type_sepak_takraw</item>
+        <item>@string/activity_type_luge</item>
+        <item>@string/activity_type_parachuting</item>
+        <item>@string/activity_type_auto_racing</item>
+        <item>@string/activity_type_parkour</item>
     </string-array>
 
     <string-array name="pref_workout_activity_types_values">
@@ -1427,6 +1437,16 @@
         <item>skateboarding</item>
         <item>rock_climbing</item>
         <item>hunting</item>
+        <item>kickboxing</item>
+        <item>tae_bo</item>
+        <item>beach_soccer</item>
+        <item>beach_volleyball</item>
+        <item>gateball</item>
+        <item>sepak_takraw</item>
+        <item>luge</item>
+        <item>parachuting</item>
+        <item>auto_racing</item>
+        <item>parkour</item>
     </string-array>
 
     <string-array name="pref_workout_activity_types_default">

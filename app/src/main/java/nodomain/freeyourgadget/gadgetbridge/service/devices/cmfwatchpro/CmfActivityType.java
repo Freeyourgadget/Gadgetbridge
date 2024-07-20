@@ -42,14 +42,16 @@ public enum CmfActivityType {
     DYNAMIC_CYCLE(0x0D, R.string.activity_type_dynamic_cycle),
     STAIR_STEPPER(0x73, R.string.activity_type_stair_stepper),
     TREADMILL(0x26, R.string.activity_type_treadmill, ActivityKind.TYPE_TREADMILL),
+    KICKBOXING(0x35, R.string.activity_type_kickboxing),
     HIIT(0x5C, R.string.activity_type_hiit),
     FITNESS_EXERCISES(0x4E, R.string.activity_type_fitness_exercises),
-    JUMP_ROPING(0x06, R.string.activity_type_jump_roping, ActivityKind.TYPE_JUMP_ROPING),
+    JUMP_ROPING(0x06, R.string.activity_type_jump_roping, ActivityKind.TYPE_JUMP_ROPING), // moved to leisure sports in watch 2
     PILATES(0x2C, R.string.activity_type_pilates),
     CROSSFIT(0x74, R.string.activity_type_crossfit),
     FUNCTIONAL_TRAINING(0x2E, R.string.activity_type_functional_training),
     PHYSICAL_TRAINING(0x2F, R.string.activity_type_physical_training),
     TAEKWONDO(0x25, R.string.activity_type_taekwondo),
+    TAE_BO(0x50, R.string.activity_type_tae_bo),
     CROSS_COUNTRY_RUNNING(0x1B, R.string.activity_type_cross_country_running),
     KARATE(0x29, R.string.activity_type_karate),
     FENCING(0x54, R.string.activity_type_fencing),
@@ -125,6 +127,10 @@ public enum CmfActivityType {
     PICKLEBALL(0x5B, R.string.activity_type_pickleball),
     LACROSS(0x98, R.string.activity_type_lacross),
     SHOT(0x9D, R.string.activity_type_shot),
+    BEACH_SOCCER(0x7d, R.string.activity_type_beach_soccer),
+    BEACH_VOLLEYBALL(0x7e, R.string.activity_type_beach_volleyball),
+    GATEBALL(0x7f, R.string.activity_type_gateball),
+    SEPAK_TAKRAW(0x80, R.string.activity_type_sepak_takraw),
     // Water sports
     SAILING(0x82, R.string.activity_type_sailing),
     SURFING(0x64, R.string.activity_type_surfing),
@@ -137,10 +143,15 @@ public enum CmfActivityType {
     CROSS_COUNTRY_SKIING(0x6E, R.string.activity_type_cross_country_skiing),
     SNOW_SPORTS(0x48, R.string.activity_type_snow_sports),
     SKIING(0x22, R.string.activity_type_skiing),
+    LUGE(0x8a, R.string.activity_type_luge),
     // Extreme sports
     SKATEBOARDING(0x60, R.string.activity_type_skateboarding),
     ROCK_CLIMBING(0x69, R.string.activity_type_rock_climbing),
     HUNTING(0x93, R.string.activity_type_hunting),
+    // Other
+    PARACHUTING(0x8e, R.string.activity_type_parachuting),
+    AUTO_RACING(0x8f, R.string.activity_type_auto_racing),
+    PARKOUR(0x62, R.string.activity_type_parkour),
     ;
 
     private final byte code;
