@@ -85,6 +85,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
@@ -303,7 +304,13 @@ public class HuaweiSupportProvider {
         this.huaweiType = getCoordinator().getHuaweiType();
         this.paramsProvider.setTransactionsCrypted(this.getHuaweiCoordinator().isTransactionCrypted());
         builder.setCallback(leSupport);
-        builder.notify(leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ), true);
+        final BluetoothGattCharacteristic characteristicRead = leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ);
+        if (characteristicRead == null) {
+            LOG.warn("Read characteristic is null, will attempt to reconnect");
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.WAITING_FOR_RECONNECT, getContext()));
+            return builder;
+        }
+        builder.notify(characteristicRead, true);
         builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
         final GetLinkParamsRequest linkParamsReq = new GetLinkParamsRequest(this, builder);
         initializeDevice(linkParamsReq);
