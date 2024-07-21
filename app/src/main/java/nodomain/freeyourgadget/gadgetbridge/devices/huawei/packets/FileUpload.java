@@ -85,35 +85,42 @@ public class FileUpload {
 
             public Request(ParamsProvider paramsProvider,
                             byte[] hash,
-                            byte fileType) {
+                            byte fileId) {
                 super(paramsProvider);
                 this.serviceId = FileUpload.id;
                 this.commandId = id;
 
                 this.tlv = new HuaweiTLV()
-                        .put(0x01, fileType)
+                        .put(0x01, fileId)
                         .put(0x03, hash);
                 this.complete = true;
             }
         }
 
         public static class Response extends HuaweiPacket {
+            public byte fileId =0;
             public Response (ParamsProvider paramsProvider) {
                 super(paramsProvider);
             }
+
+            @Override
+            public void parseTlv() throws HuaweiPacket.ParseException {
+                this.fileId = this.tlv.getByte(0x01);
+            }
+
         }
     }
 
     public static class FileUploadConsultAck {
         public static final byte id = 0x04;
         public static class Request extends HuaweiPacket {
-            public Request(ParamsProvider paramsProvider, byte noEncryption, byte fileType) {
+            public Request(ParamsProvider paramsProvider, byte noEncryption, byte fileId) {
                 super(paramsProvider);
                 this.serviceId = FileUpload.id;
                 this.commandId = id;
                 this.tlv = new HuaweiTLV()
                         .put(0x7f, 0x000186A0) //ok
-                        .put(0x01, fileType);
+                        .put(0x01, fileId);
                 if (noEncryption == 1)
                     this.tlv.put(0x09, (byte)0x01); // need on devices which generally encrypted, but files
                 this.complete = true;
@@ -176,13 +183,13 @@ public class FileUpload {
         public static final byte id = 0x07;
 
         public static class Request extends HuaweiPacket {
-            public Request(ParamsProvider paramsProvider, byte fileType) {
+            public Request(ParamsProvider paramsProvider, byte fileId) {
                 super(paramsProvider);
                 this.serviceId = FileUpload.id;
                 this.commandId = id;
                 this.tlv = new HuaweiTLV()
                         .put(0x7f, 0x000186A0) //ok
-                        .put(0x01, fileType);
+                        .put(0x01, fileId);
 
                 this.complete = true;
             }

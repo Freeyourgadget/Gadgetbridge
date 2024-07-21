@@ -35,6 +35,7 @@ public class HuaweiUploadManager {
     byte[] fileSHA256;
     byte fileType = 1; // 1 - watchface, 2 - music, 3 - png for background , 7 - app
     int fileSize = 0;
+    byte fileId = 0; // get on incoming (2803)
 
     int currentUploadPosition = 0;
     int uploadChunkSize =0;
@@ -88,6 +89,14 @@ public class HuaweiUploadManager {
 
     public void setFileType(byte fileType) {
         this.fileType = fileType;
+    }
+
+    public byte getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(byte fileId) {
+        this.fileId = fileId;
     }
 
     public byte[] getFileSHA256() {

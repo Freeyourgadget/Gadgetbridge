@@ -25,13 +25,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupport
 
 public class SendFileUploadComplete extends Request {
 
-    byte fileType = 0;
-    public SendFileUploadComplete(HuaweiSupportProvider support, byte fileType) {
+    byte fileId = 0;
+    public SendFileUploadComplete(HuaweiSupportProvider support, byte fileId) {
         super(support);
 
         this.serviceId = FileUpload.id;
         this.commandId = FileUpload.FileUploadResult.id;
-        this.fileType = fileType;
+        this.fileId = fileId;
         this.addToResponse = false;
     }
 
@@ -39,7 +39,7 @@ public class SendFileUploadComplete extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            return new FileUpload.FileUploadResult.Request(this.paramsProvider, this.fileType).serialize();
+            return new FileUpload.FileUploadResult.Request(this.paramsProvider, this.fileId).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }

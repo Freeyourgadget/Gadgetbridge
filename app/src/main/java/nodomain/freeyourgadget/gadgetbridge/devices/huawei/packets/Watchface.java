@@ -29,8 +29,8 @@ public class Watchface {
 
     public static class WatchfaceDeviceParams {
         public String maxVersion = "";
-        public short width = 0;
-        public short height = 0;
+        public int width = 0;
+        public int height = 0;
         public byte supportFileType = 1;
         public byte sort = 1;
         public String otherWatchfaceVersions = "";
@@ -112,8 +112,14 @@ public class Watchface {
             @Override
             public void parseTlv() throws ParseException {
                 this.params.maxVersion = this.tlv.getString(0x01);
-                this.params.width = this.tlv.getShort(0x02);
-                this.params.height = this.tlv.getShort(0x03);
+                if (this.tlv.getBytes(0x02).length == 4)
+                    this.params.width = this.tlv.getInteger(0x02);
+                else
+                    this.params.width = this.tlv.getShort(0x02);
+                if (this.tlv.getBytes(0x03).length == 4)
+                    this.params.height = this.tlv.getInteger(0x03);
+                else
+                    this.params.height = this.tlv.getShort(0x03);
                 this.params.supportFileType = this.tlv.getByte(0x04);
                 this.params.sort = this.tlv.getByte(0x05);
                 this.params.otherWatchfaceVersions = this.tlv.getString(0x06);
@@ -190,24 +196,35 @@ public class Watchface {
                 super(paramsProvider);
                 this.serviceId = Watchface.id;
                 this.commandId = id;
+                String file = fileName.split("_")[0];
+                String version = "";
+                try {
+                    version = fileName.split("_")[1];
+                } catch (ArrayIndexOutOfBoundsException e) {
+
+                }
                 this.tlv = new HuaweiTLV()
-                        .put(0x01, fileName.split("_")[0])
-                        .put(0x02, fileName.split("_")[1])
+                        .put(0x01, file)
+                        .put(0x02, version)
                         .put(0x7f, 0x000186A0);
             }
         }
 
         public static class Response extends HuaweiPacket {
             public static byte reportType = 0;
+            public static String fileName;
             public Response (ParamsProvider paramsProvider) {
                 super(paramsProvider);
             }
 
             @Override
             public void parseTlv() throws HuaweiPacket.ParseException {
+                String name = this.tlv.getString(0x01);
+                String version = this.tlv.getString(0x02);
                 if(this.tlv.contains(0x03)) {
                     this.reportType = this.tlv.getByte(0x03);
                 }
+                this.fileName = name + "_" + version;
             }
 
         }

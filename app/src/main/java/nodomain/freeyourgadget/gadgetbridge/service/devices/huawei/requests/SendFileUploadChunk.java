@@ -39,7 +39,8 @@ public class SendFileUploadChunk extends Request {
         return new FileUpload.FileNextChunkSend(this.paramsProvider).serializeFileChunk(
                 huaweiUploadManager.getCurrentChunk(),
                 huaweiUploadManager.getCurrentUploadPosition(),
-                huaweiUploadManager.getUnitSize()
+                huaweiUploadManager.getUnitSize(),
+                huaweiUploadManager.getFileId()
         );
     }
 }

@@ -415,6 +415,10 @@ public class AsynchronousResponse {
     private void handleFileUpload(HuaweiPacket response) throws Request.ResponseParseException  {
         if (response.serviceId == FileUpload.id) {
              if (response.commandId == FileUpload.FileHashSend.id) {
+                 if (!(response instanceof FileUpload.FileHashSend.Response))
+                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileHashSend.Response.class);
+                 FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;
+                 support.huaweiUploadManager.setFileId(resp.fileId);
                  try {
                      SendFileUploadHash sendFileUploadHash = new SendFileUploadHash(support, support.huaweiUploadManager);
                      sendFileUploadHash.doPerform();
@@ -431,7 +435,7 @@ public class AsynchronousResponse {
                  try {
                      support.huaweiUploadManager.setDeviceBusy();
                      SendFileUploadAck sendFileUploadAck = new SendFileUploadAck(support,
-                             resp.fileUploadParams.no_encrypt, support.huaweiUploadManager.getFileType());
+                             resp.fileUploadParams.no_encrypt, support.huaweiUploadManager.getFileId());
                      sendFileUploadAck.doPerform();
                  } catch (IOException e) {
                      LOG.error("Could not send fileupload ack request", e);
@@ -455,7 +459,7 @@ public class AsynchronousResponse {
                  try {
                      support.huaweiUploadManager.unsetDeviceBusy();
                      support.onUploadProgress(R.string.updatefirmwareoperation_update_complete, 100, false);
-                     SendFileUploadComplete sendFileUploadComplete = new SendFileUploadComplete(this.support, support.huaweiUploadManager.getFileType());
+                     SendFileUploadComplete sendFileUploadComplete = new SendFileUploadComplete(this.support, support.huaweiUploadManager.getFileId());
                      sendFileUploadComplete.doPerform();
                  } catch (IOException e) {
                      LOG.error("Could not send fileupload result request", e);
@@ -471,11 +475,11 @@ public class AsynchronousResponse {
                     if (!(response instanceof Watchface.WatchfaceConfirm.Response))
                         throw new Request.ResponseTypeMismatchException(response, Watchface.WatchfaceConfirm.class);
                     Watchface.WatchfaceConfirm.Response resp = (Watchface.WatchfaceConfirm.Response) response;
-                    SendWatchfaceConfirm sendWatchfaceConfirm = new SendWatchfaceConfirm(this.support, this.support.huaweiUploadManager.getFileName());
+                    SendWatchfaceConfirm sendWatchfaceConfirm = new SendWatchfaceConfirm(this.support, resp.fileName);
                     sendWatchfaceConfirm.doPerform();
                     if (resp.reportType == 0x02) {
                         //make uploaded watchface active
-                        SendWatchfaceOperation sendWatchfaceOperation = new SendWatchfaceOperation(this.support, support.huaweiUploadManager.getFileName(), Watchface.WatchfaceOperation.operationActive);
+                        SendWatchfaceOperation sendWatchfaceOperation = new SendWatchfaceOperation(this.support, resp.fileName, Watchface.WatchfaceOperation.operationActive);
                         sendWatchfaceOperation.doPerform();
                     }
                 } catch (IOException e) {

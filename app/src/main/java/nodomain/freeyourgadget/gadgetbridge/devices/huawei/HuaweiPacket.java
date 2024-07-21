@@ -555,6 +555,8 @@ public class HuaweiPacket {
                         return new FileUpload.FileNextChunkParams(paramsProvider).fromPacket(this);
                     case FileUpload.FileUploadConsultAck.id:
                         return new FileUpload.FileUploadConsultAck.Response(paramsProvider).fromPacket(this);
+                    case FileUpload.FileHashSend.id:
+                        return new FileUpload.FileHashSend.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
@@ -696,7 +698,7 @@ public class HuaweiPacket {
         return retv;
     }
 
-    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize) {
+    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize, byte fileId) {
         List<byte[]> retv = new ArrayList<>();
         int headerLength = 5; // Magic + (short)(bodyLength + 1) + 0x00
         int sliceHeaderLenght =7;
@@ -707,7 +709,6 @@ public class HuaweiPacket {
 
         ByteBuffer buffer = ByteBuffer.wrap(fileChunk);
 
-        byte fileType = 0x01; //TODO: 1 - watchface, 2 - music
         int sliceStart = uploadPosition;
 
         for (int i = 0; i < packetCount; i++) {
@@ -724,7 +725,7 @@ public class HuaweiPacket {
             packet.put(this.serviceId);
             packet.put(this.commandId);
 
-            packet.put(fileType);                                      // Slice
+            packet.put(fileId);                                      // Slice
             packet.put((byte)i);                                       // Flag
             packet.putInt(sliceStart);
 

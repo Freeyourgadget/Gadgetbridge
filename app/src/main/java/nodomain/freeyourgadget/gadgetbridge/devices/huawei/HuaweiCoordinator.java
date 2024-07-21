@@ -563,11 +563,11 @@ public class HuaweiCoordinator {
     }
 
     public short getWidth() {
-        return watchfaceDeviceParams.width;
+        return (short)watchfaceDeviceParams.width;
     }
 
     public short getHeight() {
-        return watchfaceDeviceParams.height;
+        return (short)watchfaceDeviceParams.height;
     }
 
     public void setWatchfaceDeviceParams(Watchface.WatchfaceDeviceParams watchfaceDeviceParams) {
