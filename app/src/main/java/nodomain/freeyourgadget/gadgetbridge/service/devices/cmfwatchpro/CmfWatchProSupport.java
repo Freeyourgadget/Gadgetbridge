@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -64,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
@@ -261,6 +263,10 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
                 setTime(phase2builder);
                 sendCommand(phase2builder, CmfCommand.FIRMWARE_VERSION_GET);
                 sendCommand(phase2builder, CmfCommand.SERIAL_NUMBER_GET);
+                final Location location = new CurrentPosition().getLastKnownLocation();
+                if (location.getLatitude() != 0 && location.getLongitude() != 0) {
+                    sendGpsCoords(phase2builder, location);
+                }
                 //sendCommand(phase2builder, CmfCommand.STANDING_REMINDER_GET);
                 //sendCommand(phase2builder, CmfCommand.WATER_REMINDER_GET);
                 //sendCommand(phase2builder, CmfCommand.CONTACTS_GET);
@@ -380,6 +386,24 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         }
 
         return authKeyBytes;
+    }
+
+    @Override
+    public void onSetGpsLocation(final Location location) {
+        final TransactionBuilder builder = createTransactionBuilder("set gps location");
+        sendGpsCoords(builder, location);
+        builder.queue(getQueue());
+    }
+
+    private void sendGpsCoords(final TransactionBuilder builder, final Location location) {
+        final ByteBuffer buf = ByteBuffer.allocate(16)
+                .order(ByteOrder.BIG_ENDIAN);
+
+        buf.putInt((int) (location.getTime() / 1000));
+        buf.putInt((int) (location.getLatitude() * 10000000));
+        buf.putInt((int) (location.getLongitude() * 10000000));
+
+        sendCommand(builder, CmfCommand.GPS_COORDS, buf.array());
     }
 
     @Override
@@ -595,7 +619,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         // There are 7 of those weather entries - 7*9 bytes
         // Then there are 24-hour entries of temp and weather condition (2 bytes each)
         // Then finally the location name as bytes - allow for 30 bytes, watch auto-scrolls
-        final ByteBuffer buf = ByteBuffer.allocate((7*9) + (24*2) + 30).order(ByteOrder.BIG_ENDIAN);
+        final ByteBuffer buf = ByteBuffer.allocate((7 * 9) + (24 * 2) + 30).order(ByteOrder.BIG_ENDIAN);
         // start with the current day's weather
         buf.put(Weather.mapToCmfCondition(weatherSpec.currentConditionCode));
         buf.put((byte) (weatherSpec.currentTemp - 273 + 100)); // convert Kelvin to C, add 100
@@ -609,7 +633,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         // find out how many future days' forecasts are available
         int maxForecastsAvailable = weatherSpec.forecasts.size();
         // For each day of the forecast
-        for (int i=0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             if (i < maxForecastsAvailable) {
                 WeatherSpec.Daily forecastDay = weatherSpec.forecasts.get(i);
                 buf.put((byte) (Weather.mapToCmfCondition(forecastDay.conditionCode)));  // weather condition flag
@@ -635,7 +659,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         }
         // now add the hourly data for today - just condition and temperature
         int maxHourlyForecastsAvailable = weatherSpec.hourly.size();
-        for (int i=0; i < 24; i++) {
+        for (int i = 0; i < 24; i++) {
             if (i < maxHourlyForecastsAvailable) {
                 WeatherSpec.Hourly forecastHr = weatherSpec.hourly.get(i);
                 buf.put((byte) (forecastHr.temp - 273 + 100)); // temperature
