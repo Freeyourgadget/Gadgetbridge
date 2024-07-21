@@ -296,7 +296,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
                     LOG.warn("Unexpected serial number payload length: {}, expected {}", payload.length, (payload[0] & 0xff));
                     return;
                 }
-                final String serialNumber = new String(ArrayUtils.subarray(payload, 1, payload.length - 2));
+                final String serialNumber = new String(ArrayUtils.subarray(payload, 1, payload.length));
                 LOG.debug("Got serial number: {}", serialNumber);
                 final GBDeviceEventUpdateDeviceInfo gbDeviceEventUpdateDeviceInfo = new GBDeviceEventUpdateDeviceInfo("SERIAL: ", serialNumber);
                 evaluateGBDeviceEvent(gbDeviceEventUpdateDeviceInfo);
