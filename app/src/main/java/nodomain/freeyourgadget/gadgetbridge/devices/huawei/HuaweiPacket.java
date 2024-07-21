@@ -567,6 +567,8 @@ public class HuaweiPacket {
                         return new Watchface.DeviceWatchInfo.Response(paramsProvider).fromPacket(this);
                     case Watchface.WatchfaceNameInfo.id:
                         return new Watchface.WatchfaceNameInfo.Response(paramsProvider).fromPacket(this);
+                    case Watchface.WatchfaceConfirm.id:
+                        return new Watchface.WatchfaceConfirm.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

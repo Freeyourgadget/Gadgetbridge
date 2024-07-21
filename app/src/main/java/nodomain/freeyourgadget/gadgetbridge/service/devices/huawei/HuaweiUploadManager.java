@@ -20,10 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.net.Uri;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -31,9 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload.FileUploadParams;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
-import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
-import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 public class HuaweiUploadManager {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiUploadManager.class);

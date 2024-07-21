@@ -82,6 +82,8 @@ public class HuaweiWatchfaceManager
         }
 
         public String screenByThemeVersion(String themeVersion) {
+            if(!map.containsKey(themeVersion))
+                return "0x0";
             String screen = map.get(themeVersion).toString();
             return screen;
         }

@@ -27,8 +27,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
@@ -85,13 +87,37 @@ public class HuaweiFwHelper {
             final UriHelper uriHelper = UriHelper.get(uri, this.mContext);
 
             GBZipFile watchfacePackage = new GBZipFile(uriHelper.openInputStream());
-            String xmlDescription = new String(watchfacePackage.getFileFromZip("description.xml"));
+            byte[] bytesDescription = watchfacePackage.getFileFromZip("description.xml");
+
+            // check if description file contents BOM
+            ByteBuffer bb = ByteBuffer.wrap(bytesDescription);
+            byte[] bom = new byte[3];
+            // get the first 3 bytes
+            bb.get(bom, 0, bom.length);
+            String content = new String(GB.hexdump(bom));
+            String xmlDescription = null;
+            if ("efbbbf".equalsIgnoreCase(content)) {
+                byte[] contentAfterFirst3Bytes = new byte[bytesDescription.length - 3];
+                bb.get(contentAfterFirst3Bytes, 0, contentAfterFirst3Bytes.length);
+                xmlDescription = new String(contentAfterFirst3Bytes);
+            } else {
+                xmlDescription = new String(bytesDescription);
+            }
+
             watchfaceDescription = new HuaweiWatchfaceManager.WatchfaceDescription(xmlDescription);
             if (watchfacePackage.fileExists("preview/cover.jpg")) {
                 final byte[] preview = watchfacePackage.getFileFromZip("preview/cover.jpg");
                 watchfacePreviewBitmap = BitmapFactory.decodeByteArray(preview, 0, preview.length);
             }
-            fw = watchfacePackage.getFileFromZip("com.huawei.watchface");
+
+            byte[] watchfaceZip = watchfacePackage.getFileFromZip("com.huawei.watchface");
+            try {
+                GBZipFile watchfaceBinZip  = new GBZipFile(watchfaceZip);
+                fw = watchfaceBinZip.getFileFromZip("watchface.bin");
+            } catch (ZipFileException e) {
+                LOG.error("Unable to get watchfaceZip,  it seems older already watchface.bin");
+                fw = watchfaceZip;
+            }
             fileSize = fw.length;
             isWatchface = true;
 

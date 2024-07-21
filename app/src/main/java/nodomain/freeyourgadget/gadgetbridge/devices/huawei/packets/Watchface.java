@@ -198,9 +198,18 @@ public class Watchface {
         }
 
         public static class Response extends HuaweiPacket {
+            public static byte reportType = 0;
             public Response (ParamsProvider paramsProvider) {
                 super(paramsProvider);
             }
+
+            @Override
+            public void parseTlv() throws HuaweiPacket.ParseException {
+                if(this.tlv.contains(0x03)) {
+                    this.reportType = this.tlv.getByte(0x03);
+                }
+            }
+
         }
     }
 

@@ -457,11 +457,6 @@ public class AsynchronousResponse {
                      support.onUploadProgress(R.string.updatefirmwareoperation_update_complete, 100, false);
                      SendFileUploadComplete sendFileUploadComplete = new SendFileUploadComplete(this.support, support.huaweiUploadManager.getFileType());
                      sendFileUploadComplete.doPerform();
-                     if (support.huaweiUploadManager.getFileType() == FileUpload.Filetype.watchface) {
-                         //make uploaded watchface active
-                         SendWatchfaceOperation sendWatchfaceOperation = new SendWatchfaceOperation(this.support, support.huaweiUploadManager.getFileName(), Watchface.WatchfaceOperation.operationActive);
-                         sendWatchfaceOperation.doPerform();
-                     }
                  } catch (IOException e) {
                      LOG.error("Could not send fileupload result request", e);
                  }
@@ -473,10 +468,16 @@ public class AsynchronousResponse {
         if (response.serviceId == Watchface.id) {
             if (response.commandId == Watchface.WatchfaceConfirm.id) {
                 try {
+                    if (!(response instanceof Watchface.WatchfaceConfirm.Response))
+                        throw new Request.ResponseTypeMismatchException(response, Watchface.WatchfaceConfirm.class);
+                    Watchface.WatchfaceConfirm.Response resp = (Watchface.WatchfaceConfirm.Response) response;
                     SendWatchfaceConfirm sendWatchfaceConfirm = new SendWatchfaceConfirm(this.support, this.support.huaweiUploadManager.getFileName());
                     sendWatchfaceConfirm.doPerform();
-
-
+                    if (resp.reportType == 0x02) {
+                        //make uploaded watchface active
+                        SendWatchfaceOperation sendWatchfaceOperation = new SendWatchfaceOperation(this.support, support.huaweiUploadManager.getFileName(), Watchface.WatchfaceOperation.operationActive);
+                        sendWatchfaceOperation.doPerform();
+                    }
                 } catch (IOException e) {
                     LOG.error("Could not send watchface confirm request", e);
                 }
