@@ -20,7 +20,7 @@
     <string name="controlcenter_snackbar_requested_screenshot">Pořizování snímku obrazovky zařízení</string>
     <string name="title_activity_debug">Ladění</string>
     <!--Strings related to AppManager-->
-    <string name="title_activity_appmanager">Manažer aplikací</string>
+    <string name="title_activity_appmanager">Správa aplikací</string>
     <string name="appmanager_cached_watchapps_watchfaces">Aplikace v cache</string>
     <string name="appmanager_installed_watchapps">Instalované aplikace</string>
     <string name="appmanager_installed_watchfaces">Instalované ciferníky</string>
@@ -57,25 +57,25 @@
     <string name="pref_header_datetime">Datum a čas</string>
     <string name="pref_title_datetime_syctimeonconnect">Synchronizovat čas</string>
     <string name="pref_summary_datetime_syctimeonconnect">Synchronizovat čas během připojení k zařízením, při změně času v Androidu a periodicky</string>
-    <string name="pref_title_theme">Téma</string>
-    <string name="pref_theme_light">Světlé</string>
-    <string name="pref_theme_dark">Tmavé</string>
+    <string name="pref_title_theme">Motiv</string>
+    <string name="pref_theme_light">Světlý</string>
+    <string name="pref_theme_dark">Tmavý</string>
     <string name="pref_title_language">Jazyk</string>
-    <string name="pref_title_minimize_priority">Skrýt notifikace Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Ikona ve stavové liště a notifikace na zamčeném displeji budou zobrazeny</string>
-    <string name="pref_summary_minimize_priority_on">Ikona ve stavové liště a notifikace na zamčeném displeji budou skryty</string>
-    <string name="pref_header_notifications">Notifikace</string>
+    <string name="pref_title_minimize_priority">Skrýt oznámení Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">Ikona ve stavové liště a oznámení na zamčené obrazovce budou zobrazeny</string>
+    <string name="pref_summary_minimize_priority_on">Ikona ve stavové liště a oznámení na zamčené obrazovce budou skryty</string>
+    <string name="pref_header_notifications">Oznámení</string>
     <string name="pref_title_notifications_repetitions">Opakování</string>
     <string name="pref_title_notifications_call">Volání</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Zprávy Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Podpora pro aplikace, které posílají notifikace do Pebble přes PebbleKit.</string>
-    <string name="pref_title_notifications_generic">Přístup k notifikacím</string>
+    <string name="pref_summary_notifications_pebblemsg">Podpora pro aplikace, které posílají oznámení do Pebble přes PebbleKit.</string>
+    <string name="pref_title_notifications_generic">Přístup k oznámením</string>
     <string name="pref_title_whenscreenon">Upozornění i při zapnuté obrazovce</string>
     <string name="pref_title_notification_filter">Nerušit</string>
-    <string name="pref_summary_notification_filter">Neposílat notifikace v režimu Nerušit</string>
+    <string name="pref_summary_notification_filter">Zablokovat všechna oznámení, když je v telefonu povolen režim Nerušit</string>
     <string name="pref_title_transliteration">Přepsání diakritiky</string>
-    <string name="pref_summary_transliteration">Toto zapněte, pokud vaše zařízení nepodporuje české znaky</string>
+    <string name="pref_summary_transliteration">Zapněte, pokud toto zařízení nepodporuje písmo vašeho jazyka</string>
     <string name="always">Vždy</string>
     <string name="when_screen_off">Pokud je vypnutý displej</string>
     <string name="never">Nikdy</string>
@@ -103,12 +103,12 @@
     <string name="pref_summary_enable_pebblekit">Povolit experimentální podporu pro aplikace Androidu přes PebbleKit</string>
     <string name="pref_title_sunrise_sunset">Východ a západ slunce</string>
     <string name="pref_summary_sunrise_sunset">Zasílat časy východu a západu slunce dle aktuální polohy do časové osy Pebble</string>
-    <string name="pref_title_autoremove_notifications">Automaticky odstraňovat skryté notifikace</string>
-    <string name="pref_summary_autoremove_notifications">Notifikace budou ze zařízení odstraněny automaticky po označení jako přečtené na telefonu</string>
+    <string name="pref_title_autoremove_notifications">Automaticky odstraňovat zavřená oznámení</string>
+    <string name="pref_summary_autoremove_notifications">Oznámení budou po označení jako přečtené na telefonu ze zařízení automaticky odstraněna</string>
     <string name="pref_title_pebble_privacy_mode">Soukromý režim</string>
-    <string name="pref_pebble_privacy_mode_off">Běžné notifikace</string>
-    <string name="pref_pebble_privacy_mode_content">Posunout text notifikace mimo displej</string>
-    <string name="pref_pebble_privacy_mode_complete">Zobrazit pouze ikonu notifikace</string>
+    <string name="pref_pebble_privacy_mode_off">Běžná oznámení</string>
+    <string name="pref_pebble_privacy_mode_content">Posunout text oznámení mimo displej</string>
+    <string name="pref_pebble_privacy_mode_complete">Zobrazit pouze ikonu oznámení</string>
     <string name="pref_header_location">Poloha</string>
     <string name="pref_title_location_aquire">Zjistit polohu</string>
     <string name="pref_title_location_latitude">Z. šířka</string>
@@ -117,8 +117,8 @@
     <string name="pref_summary_location_keep_uptodate">Zjistit polohu při spuštění, uloženou polohu použít jako záložní</string>
     <string name="toast_enable_networklocationprovider">Povolte zjištění polohy v síti</string>
     <string name="toast_aqurired_networklocation">poloha zjištěna</string>
-    <string name="pref_title_pebble_forceprotocol">Vynutit protokol notifikací</string>
-    <string name="pref_summary_pebble_forceprotocol">Tato volba vnutí použití posledního protokolu notifikací podle verze firmvéru. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
+    <string name="pref_title_pebble_forceprotocol">Vynutit protokol oznámení</string>
+    <string name="pref_summary_pebble_forceprotocol">Tato volba vynutí použití posledního protokolu oznámení podle verze firmware. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
     <string name="pref_title_pebble_forceuntested">Povolit netestované funkce</string>
     <string name="pref_summary_pebble_forceuntested">Povolí funkce, které nebyl testovány. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
     <string name="pref_title_pebble_forcele">Vždy preferovat BLE</string>
@@ -126,7 +126,7 @@
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limity</string>
     <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnout logování aplikací hodinek</string>
-    <string name="pref_summary_pebble_enable_applogs">Logy aplikací hodinek budou zapisovány v Gadgetbridge (vyžaduje znovupřipojení)</string>
+    <string name="pref_summary_pebble_enable_applogs">Protokoly aplikací hodinek budou zapisovány aplikací Gadgetbridge (vyžaduje opětovné připojení)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Předčasné potvrzení (ACK) pro PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Způsobí, že zprávy zaslané externím aplikacím 3. stran budou potvrzeny vždy a okamžitě</string>
     <string name="pref_title_pebble_reconnect_attempts">Pokusů o znovupřipojení</string>
@@ -141,8 +141,8 @@
     <string name="unknown_state">Neznámý stav</string>
     <string name="_unknown_">(neznámé)</string>
     <string name="test">Test</string>
-    <string name="test_notification">Test notifikací</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">Toto je testovací notifikace z Gadgetbridge</string>
+    <string name="test_notification">Test oznámení</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Toto je testovací oznámení z Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">Bluetooth není podporován.</string>
     <string name="bluetooth_is_disabled_">Bluetooth je vypnutý.</string>
     <string name="tap_connected_device_for_app_mananger">Dotkněte se zařízení pro App Manager</string>
@@ -190,13 +190,13 @@
     <string name="miband_pairing_using_dummy_userdata">Data uživatele nejsou platná, nyní používám vzorová.</string>
     <string name="miband_pairing_tap_hint">Když Mi Band zavibruje a blikne, dotkněte se jej několikrát po sobě.</string>
     <string name="appinstaller_install">Instalovat</string>
-    <string name="discovery_connected_devices_hint">Nastavte své zařízení pro vyhledání. Již připojená zařízení nebudou vyhledána. Povolte polohu (GPS) pro mobily s Androidem 6 a vyšším. Vypněte hlídání soukromí (Privacy Guard) pro Gadgetbridge, protože může způsobit nestabilitu telefonu. Pokud není zařízení vyhledáno během několika minut, zkuste to znovu po restartu telefonu.</string>
+    <string name="discovery_connected_devices_hint">Nastavte své zařízení jako viditelné. Již připojená zařízení nejspíše nebudou nalezena. Povolte polohu (GPS) pro mobily se systémem Android 6 a novějším. Vypněte hlídání soukromí (Privacy Guard) pro Gadgetbridge, protože může způsobit nestabilitu telefonu. Pokud nebude zařízení nalezeno během několika minut, zkuste to znovu po restartu telefonu.</string>
     <string name="discovery_note">Poznámka:</string>
     <string name="candidate_item_device_image">Obraz zařízení</string>
     <string name="miband_prefs_alias">Jméno/přezdívka</string>
     <string name="pref_header_vibration_count">Počet vibrací</string>
     <string name="title_activity_sleepmonitor">Sledování spánku</string>
-    <string name="pref_write_logfiles">Zapisovat logy</string>
+    <string name="pref_write_logfiles">Zapisovat protokoly</string>
     <string name="initializing">Spouštím</string>
     <string name="busy_task_fetch_activity_data">Stahuji data o aktivitě</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
@@ -211,11 +211,11 @@
     <string name="vibration_profile_alarm_clock">Budík</string>
     <string name="miband_prefs_vibration">Vibrace</string>
     <string name="vibration_try">Zkusit</string>
-    <string name="pref_screen_notification_profile_sms">Notifikace SMS</string>
+    <string name="pref_screen_notification_profile_sms">Oznámení SMS</string>
     <string name="pref_header_vibration_settings">Nastavení vibrací</string>
-    <string name="pref_screen_notification_profile_generic">Obecné notifikace</string>
+    <string name="pref_screen_notification_profile_generic">Obecné oznámení</string>
     <string name="pref_screen_notification_profile_email">Upozornění emailu</string>
-    <string name="pref_screen_notification_profile_incoming_call">Notifikace volání</string>
+    <string name="pref_screen_notification_profile_incoming_call">Oznámení o příchozím hovoru</string>
     <string name="pref_screen_notification_profile_generic_chat">Konverzace</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navigace</string>
     <string name="pref_screen_notification_profile_generic_social">Sociální sítě</string>
@@ -313,7 +313,7 @@
     <string name="appwidget_setting_alarm">Budík nastaven na %1$02d:%2$02d</string>
     <string name="device_hw">Revize HW: %1$s</string>
     <string name="device_fw">Verze FW: %1$s</string>
-    <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro logy: %1$s</string>
+    <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro protokoly: %1$s</string>
     <string name="DEVINFO_HR_VER">"Tep: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Aktualizace firmvéru</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmvér nebyl odeslán</string>
@@ -354,7 +354,7 @@
     <string name="title_activity_vibration">Vibrace</string>
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Párování Pebble</string>
-    <string name="pebble_pairing_hint">Dialog párování by se měl objevit na vašem zařízení s Androidem. Pokud se to nestane, zkontrolujte panel notifikací a potvrďte párování. Poté potvrďte párování na Pebble.</string>
+    <string name="pebble_pairing_hint">Na vašem zařízení Android se objeví dialog párování. Pokud se tak nestane, zkontrolujte oznámení a potvrďte žádost o párování. Poté potvrďte párování na Pebble.</string>
     <string name="weather_notification_label">Ujistěte se, že tento skin je povolen v aplikaci pro oznámení počasí pro získávání informací v Pebble.\n\nNení třeba nic nastavovat.\n\nAplikaci pro počasí Pebble je možné povolit ve správě aplikací.\n\nPodporované ciferníky ukáží počasí automaticky.</string>
     <string name="pref_title_setup_bt_pairing">Zapnout párování BT</string>
     <string name="pref_summary_setup_bt_pairing">Toto vypněte v případě problémů s připojením</string>
@@ -445,7 +445,7 @@
     <string name="pref_title_pebble_enable_bgjs">Zapnout JS na pozadí</string>
     <string name="pref_summary_pebble_enable_bgjs">Pokud je zapnuto, umožňuje hodinám zobrazovat počasí, údaje o baterii atd.</string>
     <string name="pref_header_auto_export">Automatický export</string>
-    <string name="pref_title_auto_export_enabled">Zapnutý/Vypnutý</string>
+    <string name="pref_title_auto_export_enabled">Zapnout automatický export</string>
     <string name="pref_title_auto_export_location">Složka pro uložení</string>
     <string name="pref_title_auto_export_interval">Časový interval</string>
     <string name="pref_summary_auto_export_interval">Exportovat každou %d hodinu</string>
@@ -518,8 +518,8 @@
     <string name="controlcenter_change_led_color">Změnit barvu LED</string>
     <string name="controlcenter_change_fm_frequency">Změnit FM frekvenci</string>
     <string name="controlcenter_calibrate_device">Kalibrovat zařízení</string>
-    <string name="blacklist_all_for_notifications">Zakázat notifikace ze všech aplikací</string>
-    <string name="whitelist_all_for_notifications">Povolit notifikace ze všech aplikací</string>
+    <string name="blacklist_all_for_notifications">Zakázat oznámení ze všech aplikací</string>
+    <string name="whitelist_all_for_notifications">Povolit oznámení ze všech aplikací</string>
     <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmware %s na váš Mi Band 3.
 \n
 \nNainstalujte nejprve soubor .fw a poté soubor .res. Váš náramek se po instalaci souboru .fw restartuje.
@@ -527,7 +527,7 @@
 \nPoznámka: soubor .res nemusíte instalovat, pokud je totožný s již dříve nainstalovaným.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="pref_title_notifications_timeout">Minimální doba mezi notifikacemi</string>
+    <string name="pref_title_notifications_timeout">Minimální doba mezi oznámeními</string>
     <string name="pref_title_rtl">Zprava doleva</string>
     <string name="pref_summary_rtl">Povolte, nepodporuje-li vaše zařízení jazyky zprava doleva</string>
     <string name="pref_rtl_max_line_length">Maximální délka řádku pro jazyky zprava doleva</string>
@@ -540,8 +540,8 @@
     <string name="horizontal">Na šířku</string>
     <string name="vertical">Na výšku</string>
     <string name="watch9_pairing_tap_hint">Po zavibrování stiskněte tlačítko, nebo se zařízením zatřeste.</string>
-    <string name="notif_battery_low">%1$s nízký stav baterie</string>
-    <string name="notif_battery_low_extended">%1$s baterie vybitá: %2$s</string>
+    <string name="notif_battery_low">Nízký stav baterie %1$s</string>
+    <string name="notif_battery_low_extended">Baterie %1$s je vybitá: %2$s</string>
     <string name="lack_of_sleep">Nedostatek spánku: %1$s</string>
     <string name="overslept">Spánku nad plán: %1$s</string>
     <string name="no_limit">Bez omezení</string>
@@ -597,7 +597,7 @@
     <string name="pref_title_contextual_arabic">Kontextuální arabština</string>
     <string name="pref_summary_contextual_arabic">Zapnout podporu pro kontextuální arabštinu</string>
     <string name="preferences_rtl_settings">Podpora jazyků zprava doleva</string>
-    <string name="share_log">Sdílet logy</string>
+    <string name="share_log">Sdílet protokol</string>
     <string name="share_log_warning">Prosím nezapomeňte, že ladící záznamy Gadgetbridge mohou obsahovat osobní informace, zahrnující například zdravotní data, identifikátory (MAC adresu), hudební preference a podobně. Tyto informace můžete vymazat před odesláním souboru do veřejného reportu.</string>
     <string name="warning">Upozornění!</string>
     <string name="no_data">Žádná data</string>
@@ -610,16 +610,16 @@
     <string name="debugactivity_really_factoryreset">Uvedení do továrního nastavení smaže z připojeného zařízení všechna data (je-li toto podporováno). Xiaomi/Huami také provedou změnu Bluetooth MAC adresy a budou se pro Gadgetbridge tvářit jako nová zařízení.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="activity_type_exercise">Cvičení</string>
-    <string name="title_activity_notification_filter">Filtr notifikací</string>
+    <string name="title_activity_notification_filter">Filtr oznámení</string>
     <string name="edittext_notification_filter_words_hint">Vložte požadovaná slova, jedno na řádek</string>
-    <string name="toast_notification_filter_saved_successfully">Filtr notifikací uložen</string>
+    <string name="toast_notification_filter_saved_successfully">Filtr oznámení uložen</string>
     <string name="filter_mode_none">Nefiltrovat</string>
     <string name="filter_mode_whitelist">Zobrazit při výskytu slov</string>
     <string name="filter_mode_blacklist">Nezobrazit při výskytu slov</string>
     <string name="filter_submode_at_least_one">Alespoň jedno ze slov</string>
     <string name="filter_submode_all">Všechna slova</string>
-    <string name="toast_notification_filter_words_empty_hint">Prosím vložte alespoň jedno slovo</string>
-    <string name="filter_mode">Filtrovací režim</string>
+    <string name="toast_notification_filter_words_empty_hint">Zadejte prosím alespoň jedno slovo</string>
+    <string name="filter_mode">Režim filtrování</string>
     <string name="mode_configuration">Konfigurace režimu</string>
     <string name="save_configuration">Uložit konfiguraci</string>
     <string name="appwidget_not_connected">Nepřipojeno, budíky neodeslány.</string>
@@ -731,11 +731,11 @@
     <string name="activity_DB_test_export_message">Exportuji databázi…</string>
     <string name="activity_DB_delete_legacy_button">Vymazat starou databázi</string>
     <string name="activity_DB_empty_button">Vymazat databázi</string>
-    <string name="activity_db_management_empty_DB">Vyprázdnit Databázi</string>
+    <string name="activity_db_management_empty_DB">Vymazat databázi</string>
     <string name="activity_db_management_exportimport_label">Export a import</string>
-    <string name="activity_db_management_empty_db_warning">Varování! Stisknutím tohoto tlačítko vymažete všechna data a začínáte z nuly.</string>
-    <string name="appwidget_sleep_alarm_widget_label">Budíček</string>
-    <string name="widget_listing_label">Status a Budíky</string>
+    <string name="activity_db_management_empty_db_warning">Varování! Stisknutím tohoto tlačítka vymažete všechna data a začnete od začátku.</string>
+    <string name="appwidget_sleep_alarm_widget_label">Budík spánku</string>
+    <string name="widget_listing_label">Stav a budíky</string>
     <string name="widget_set_alarm_after">Nastavit zvonění za:</string>
     <string name="widget_5_minutes">5 minut</string>
     <string name="widget_10_minutes">10 minut</string>
@@ -843,7 +843,7 @@
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Aktivujte tuto možnost, pokud chcete flashovat firmware, který není určen pro vaše zařízení (na vlastní nebezpečí)</string>
     <string name="pref_summary_relax_firmware_checks">Uvolněte kontroly firmwaru</string>
-    <string name="pref_qhybrid_title_widget_draw_circles">Nakreslete kruhy widgetu</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Vykreslit kruhy widgetu</string>
     <string name="pref_header_auto_fetch">Stahovat automaticky</string>
     <string name="menuitem_pai">PAI</string>
     <string name="pref_qhybrid_save_raw_activity_files">Uložit soubory nezpracovaných dat aktivit</string>
@@ -877,7 +877,7 @@
     <string name="pref_notifications_and_calls_enable_misscall">Upozornit na zmeškaný hovor</string>
     <string name="prefs_notifications_and_calls_continious_ring">Oznámení během vyzvánění telefonu</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Opakování oznámení o volání</string>
-    <string name="pref_header_notifications_and_calls">Notifikace a volání</string>
+    <string name="pref_header_notifications_and_calls">Oznámení a volání</string>
     <string name="title_activity_LenovoWatch_calibration">Kalibrace Watch X Plus</string>
     <string name="czesh">Čeština</string>
     <string name="swedish">Švédština</string>
@@ -885,7 +885,7 @@
     <string name="greek">Řečtina</string>
     <string name="hungarian">Maďarština</string>
     <string name="romanian">Rumunština</string>
-    <string name="pref_theme_system">Systémové</string>
+    <string name="pref_theme_system">Systémový</string>
     <string name="fw_upgrade_notice_amazfit_trex">Chystáte se nainstalovat firmware %s na váš Amazfit T-Rex.
 \n
 \nNainstalujte nejprve soubor .fw, poté soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
@@ -899,7 +899,7 @@
     <string name="bip_prefs_shotcuts_summary">Vyberte odkazy na displeji</string>
     <string name="bip_prefs_shortcuts">Zkratky</string>
     <string name="controlcenter_set_alias">Nastavit přezdívku</string>
-    <string name="about_additional_contributions">Děkujeme všem výše nezmíněným přispívatelům za kód, překlady, podporu, nápady, motivaci, hlášení o chybách, peníze… ✊</string>
+    <string name="about_additional_contributions">Mnohokrát děkujeme všem výše nezmíněným přispěvatelům za kód, překlady, podporu, nápady, motivaci, hlášení o chybách, peníze… ✊</string>
     <string name="about_additional_device_support">Podpora dalších zařízení</string>
     <string name="about_contributors">Přispěvatelé</string>
     <string name="about_core_team_title">Centrální tým (v pořadí příspěvku prvního kódu)</string>
@@ -907,9 +907,9 @@
     <string name="about_activity_title_generic">O aplikaci Gadgetbridge</string>
     <string name="about_title">O aplikaci</string>
     <string name="menuitem_worldclock">Světový Čas</string>
-    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují aplikaci \"Weather Notification\". Více informací naleznete na Gadgetbridge wiki.</string>
-    <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
-    <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
+    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují aplikaci \"Weather Notification\". Více informací naleznete na wiki Gadgetbridge.</string>
+    <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Nedoporučujeme pokračovat! Verze má název „%s“</string>
+    <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a pokud nebudou udělena, může dojít k nestabilitě</string>
     <string name="activity_detail_show_gps_label">Zobrazit trasu GPS</string>
     <string name="activity_detail_duration_label">Doba trvání</string>
     <string name="activity_detail_end_label">Konec</string>
@@ -965,15 +965,15 @@
     <string name="error_retrieving_devices_database">Při načítání zařízení z databáze došlo k chybě</string>
     <string name="error_setting_alias">Chyba při nastavování přezdívky:</string>
     <string name="error_exporting_device_preferences">Při exportu předvoleb specifických pro zařízení došlo k chybě</string>
-    <string name="pref_check_permission_status_summary">Provádí kontrolu chybějících oprávnění i když tato nemusí být momentálně vyžadována. Zakažte, pokud vaše zařízení nepodporuje některé z těchto funkcí. Neudělení oprávnění může způsobovat problémy!</string>
-    <string name="pref_check_permission_status">Ověřovat stav oprávnění</string>
-    <string name="error_background_service_reason">Spuštění služby na pozadí selhalo díky chybě:</string>
+    <string name="pref_check_permission_status_summary">Kontroluje chybějící oprávnění a žádá o ně, i když nemusí být okamžitě potřeba. Tuto funkci zakažte pouze v případě, že vaše zařízení některou z těchto funkcí skutečně nepodporuje. Neudělení oprávnění může způsobit problémy!</string>
+    <string name="pref_check_permission_status">Kontrolovat stav oprávnění</string>
+    <string name="error_background_service_reason">Spuštění služby na pozadí selhalo z důvodu výjimky. Chyba:</string>
     <string name="device_requires_key">VYŽADOVÁN KLÍČ, ZADEJTE PODRŽENÍM</string>
-    <string name="device_is_currently_bonded">JIŽ NAPÁROVÁNO</string>
-    <string name="error_background_service_reason_truncated">Službu na pozadí se nepodařilo spustit kvůli…</string>
+    <string name="device_is_currently_bonded">JIŽ SPÁROVÁNO</string>
+    <string name="error_background_service_reason_truncated">Službu na pozadí se nepodařilo spustit z důvodu…</string>
     <string name="error_background_service">Nepodařilo se spustit službu na pozadí</string>
     <string name="companiondevice_pairing_details">Povoluje nové rozhraní Doprovodného Zařízení (CompanionDevice API, toto existuje pouze v Android 8 a novějším), které zlepšuje spolehlivost připojení. Pro využití tohoto rozhraní je nutné znovu-napárování za použití Gadgetbridge</string>
-    <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
+    <string name="companiondevice_pairing">Párování systémem doprovodného zařízení</string>
     <string name="require_location_provider">Poloha musí být povolena</string>
     <string name="menuitem_stress">Stres</string>
     <string name="menuitem_cycles">Menstruační kalendář</string>
@@ -1245,7 +1245,7 @@
     <string name="menuitem_barometer">Barometr</string>
     <string name="notification_channel_low_battery_name">Nízký stav baterie</string>
     <string name="notification_channel_transfer_name">Přenos dat</string>
-    <string name="pref_theme_black_background">Ve tmavém tématu použít černé pozadí</string>
+    <string name="pref_theme_black_background">Ve tmavém motivu použít černé pozadí</string>
     <string name="gpx_receiver_overwrite_some_files">Některé soubory již existují. Přepsat\?</string>
     <string name="gpx_receiver_files_received">GPX soubor(ů) přijato:</string>
     <string name="gpx_receiver_activity_title">GPX Přijímač Gadgetbridge</string>
@@ -1325,12 +1325,12 @@
     <string name="nothing_prefs_audiomode_title">Audio mód</string>
     <string name="nothing_prefs_inear_title">Detekce nošení</string>
     <string name="pref_title_notification_use_as">Použít seznam aplikací k…</string>
-    <string name="pref_title_notification_use_as_deny">Zakázaní notifikací z vybraných aplikací</string>
-    <string name="title_activity_notification_management">Nastavení notifikací</string>
+    <string name="pref_title_notification_use_as_deny">Zakázání oznámení z vybraných aplikací</string>
+    <string name="title_activity_notification_management">Nastavení oznámení</string>
     <string name="check_all_applications">Označit všechny aplikace</string>
-    <string name="uncheck_all_applications">Odznačit všechny aplikace</string>
+    <string name="uncheck_all_applications">Zrušit označení všech aplikací</string>
     <string name="pref_header_notification_application_settings">Nastavení jednotlivých aplikací</string>
-    <string name="pref_title_notification_use_as_allow">Povolení notifikací z vybraných aplikací</string>
+    <string name="pref_title_notification_use_as_allow">Povolení oznámení z vybraných aplikací</string>
     <string name="pref_title_message_privacy_mode">Nastavení soukromí pro oznámení</string>
     <string name="pref_message_privacy_mode_off">Zobrazit všechen text</string>
     <string name="pref_message_privacy_mode_complete">Skrýt všechen text</string>
@@ -1568,8 +1568,8 @@
     <string name="menuitem_nothing">Nic</string>
     <string name="pref_device_action_fitness_app_control_start">Start Sledování Sportovní aplikací</string>
     <string name="pref_device_action_fitness_app_control_stop">Stop Sledování Sportovní aplikací</string>
-    <string name="pref_title_opentracks_packagename">OpenTracks aplikační jméno</string>
-    <string name="pref_title_notifications_generic_settings">Systémové nastavení notifikací</string>
+    <string name="pref_title_opentracks_packagename">Název balíčku OpenTracks</string>
+    <string name="pref_title_notifications_generic_settings">Systémové nastavení oznámení</string>
     <string name="pref_summary_opentracks_packagename">Použito pro ovládání nahrávání GPS trasy pomocí externí fitness aplikace.</string>
     <string name="autoExport_lastTime_label">Poslední AutoExport: %1$s</string>
     <string name="activity_db_management_autoexport_enabled_yes">AutoExport je aktivní.</string>
@@ -1595,15 +1595,15 @@
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js běží</string>
-    <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
-    <string name="gadgetbridge_running_main_nightly">Noční GB běží</string>
-    <string name="application_name_main_nopebble">Gadgetbridge (Noční vydání, Bez poskytovatele služeb Pebble)</string>
-    <string name="about_activity_title_main_nopebble">O Aplikaci Gadgetbridge Noční, bez Pebble</string>
-    <string name="watchface_setting_light_up_on_notification">Rozsvítit display při notifikaci</string>
-    <string name="about_description_main_nightly">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku. Noční vydání Gadgetbridge. Tato verze nelze nainstalovat, máte-li již nainstalovánu jinou verzi Gadgetbridge nebo Pebble aplikace, z důvodu konfliktu v poskytovali služeb Pebble.</string>
-    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Noční, Bez Pebble</string>
-    <string name="about_description_main_nopebble">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku. Noční vydání Gadgetbridge. Tato verze má přejmenovanou službu poskytovatele Pebble pro eliminaci konfliktů poskytovatelů. Některé Pebble integrace nebudou fungovat, ale tuto verzi je možno nainstalovat paralelně k již nainstalované jiné verzi Gadgetbridge.</string>
-    <string name="gadgetbridge_running_main_nopebble">Noční NoPebble GB běží</string>
+    <string name="about_activity_title_main_nightly">O aplikaci Gadgetbridge Nightly</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB běží</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, bez poskytovatele služeb Pebble)</string>
+    <string name="about_activity_title_main_nopebble">O aplikaci Gadgetbridge Nightly, bez Pebble</string>
+    <string name="watchface_setting_light_up_on_notification">Rozsvítit obrazovku při oznámení</string>
+    <string name="about_description_main_nightly">Svobodná a lokální náhrada za uzavřenou aplikaci vašeho gadgetu. Nightly vydání Gadgetbridge. Tato verze nelze nainstalovat, máte-li již nainstalovanou jinou verzi aplikace Gadgetbridge nebo Pebble, z důvodu konfliktu v poskytovali služeb Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly, bez Pebble</string>
+    <string name="about_description_main_nopebble">Svobodná a lokální náhrada za uzavřenou aplikaci vašeho gadgetu. Nightly vydání Gadgetbridge. Tato verze má přejmenovanou službu poskytovatele Pebble pro zabránění konfliktů, takže některé integrace Pebble nebudou fungovat, ale tuto verzi je možno nainstalovat paralelně k již nainstalované jiné verzi Gadgetbridge.</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly NoPebble GB běží</string>
     <string name="pref_screen_notification_idle_alerts">Upozornění na nečinnost</string>
     <string name="pref_screen_vibration_patterns_title">Vzory vibrací</string>
     <string name="activity_type_elliptical">Eliptický trenér</string>
@@ -1642,12 +1642,12 @@
     <string name="pref_title_touch_volume">Hlasitost</string>
     <string name="pref_title_touch_spotify">Spotify</string>
     <string name="pref_switch_noise_control">Přepínání regulace hluku</string>
-    <string name="permission_notification_listener">%1$s potřebuje přístup k Notifikacím, aby bylo možno notifikace zobrazovat i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
+    <string name="permission_notification_listener">Aplikace %1$s potřebuje přístup k oznámením, aby mohla zobrazovat oznámení na připojených hodinkách při vypnuté obrazovce telefonu.
 \n
-\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup k Notifikacím\', poté zvolte \'Zpět\' pro návrat do %1$s.</string>
-    <string name="permission_notification_policy_access">%1$s potřebuje přístup k funkci Nerušit, aby bylo možno nastavit Nerušit i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
+\nKlepněte na „%2$s“, poté na „%1$s“ a zapněte „Povolit přístup k oznámením“, poté klepněte na „Zpět“ pro návrat do aplikace %1$s.</string>
+    <string name="permission_notification_policy_access">Aplikace %1$s potřebuje přístup k nastavení režimu Nerušit, aby jej mohla nastavit na připojených hodinkách při vypnuté obrazovce telefonu.
 \n
-\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup funkci Nerušit\', poté zvolte \'Zpět\' pro návrat do %1$s.</string>
+\nKlepněte na „%2$s“, poté na „%1$s“ a zapněte „Povolit režim Nerušit“, poté klepněte na „Zpět“ pro návrat do aplikace %1$s.</string>
     <string name="prefs_in_ear_detection_summary">Přehrávání hovorů do sluchátek, jsou li v uších</string>
     <string name="heartrate_bpm_130">130 tepů/min</string>
     <string name="pref_title_banglejs_text_bitmap">Text jako Bitmapa</string>
@@ -1721,9 +1721,9 @@
     <string name="pref_summary_banglejs_webview_url">Pokud chcete vlastní zavaděč aplikací, vložte adresu ve formátu URL https://.../android.html. V opačném případě zanechte prázdné pro https://banglejs.com/apps</string>
     <string name="portuguese_br">Portugalština (Brazílie)</string>
     <string name="portuguese_pt">Portugalština (Portugalsko)</string>
-    <string name="permission_location">%1$s vyžaduje přístup k poloze (na pozadí) z důvodu zajištění udržení spojení z Vašimi hodinkami i v době, kdy je obrazovka telefonu zhasnutá.
+    <string name="permission_location">Aplikace %1$s potřebuje přístup k poloze na pozadí z důvodu zajištění udržení spojení z vašimi hodinkami i v době, kdy je obrazovka telefonu zhasnutá.
 \n
-\nStiskněte prosím \'%2$s\' pro souhlas.</string>
+\nKlepněte prosím na „%2$s“ pro souhlas.</string>
     <string name="info_no_devices_connected">Nejsou připojena žádná zařízení</string>
     <string name="info_connected_count">Připojená zařízení: %d</string>
     <string name="czech">Čeština</string>
@@ -1770,7 +1770,7 @@
     <string name="open_fw_installer_info_text_title">Instalátor souborů</string>
     <string name="open_fw_installer_select_file">Vyberte soubor, který chcete nahrát do zařízení: %s</string>
     <string name="open_fw_installer_getting_files_text">Vzhledem k tomu, že soubory firmwaru nemůžeme distribuovat, budete si je muset obstarat sami. To znamená, že budete muset hledat soubory v souborech apk, na internetu, na fórech, na Amazfitwatchfaces (pro zařízení Miband/Amazfit) atd.</string>
-    <string name="open_fw_installer_info_text">Instalátor firmware/ciferníků/aplikací/souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, watchface, aplikace, GPS, zdroje, fonty...). Další informace naleznete na wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_info_text">Instalátor firmware/ciferníků/aplikací/souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, ciferníky, aplikace, GPS, zdroje, fonty...). Další informace naleznete na wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="steps_streaks_streak_days">Dny
 \nSérie</string>
     <string name="steps_streaks_average_steps">Průměr
@@ -1804,29 +1804,29 @@
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Widget 2. časového pásma</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Vlastní widget</string>
     <string name="watchface_dialog_title_widget">Nastavení widgetu</string>
-    <string name="share_log_not_enabled_message">Musíte nejprve povolit zapisování logů v Nastavení - Zapisovat logy</string>
+    <string name="share_log_not_enabled_message">Nejprve musíte povolit protokolování v Nastavení - Zapisovat protokoly</string>
     <string name="note">Poznámka</string>
     <string name="controlcenter_get_heartrate_measurement">Změřit tep</string>
     <string name="watchface_setting_title_custom_events">Vlastní události</string>
     <string name="watchface_setting_button_toggle_backlight">Zapnutí podsvícení</string>
     <string name="pref_write_logfiles_not_available">Inicializace zapisování logů se nezdařila, zápis do souboru není dostupný. Restartujte aplikaci pro pokus o novou inicializaci.</string>
     <string name="devicetype_binary_sensor">Binární senzor</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Noční)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_description_banglejs_nightly">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.
 \n
-\nVzhledem k pravidlům obchodu Google Play nemůžeme v samotné aplikaci uvést odkaz na dárcovství, pokud se vám tato aplikace ale líbí, zvažte prosím možnost přispět prostřednictvím níže uvedené domovské stránky Gadgetbridge.</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Noční Bangle.js běží</string>
+\nVzhledem k pravidlům Obchodu Google Play nemůžeme v samotné aplikaci uvést odkaz na finanční dary, pokud se vám ale tato aplikace líbí, zvažte prosím možnost přispět prostřednictvím níže uvedené domovské stránky Gadgetbridge.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js běží</string>
     <string name="prefs_hourly_chime">Hodinový signál</string>
     <string name="prefs_hourly_chime_summary">Hodinky pípnou jednou za hodinu</string>
     <string name="step_streaks_achievements_sharing_title">Úspěchy v krocích</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Noční)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="step_streaks_achievements_sharing_message">Moje úspěchy denních cílů kroků!</string>
-    <string name="about_activity_title_banglejs_nightly">O aplikace Bangle.js Gadgetbridge (Noční)</string>
+    <string name="about_activity_title_banglejs_nightly">O aplikace Bangle.js Gadgetbridge (Nightly)</string>
     <string name="pref_header_time">Čas</string>
     <string name="pref_header_workout">Cvičení</string>
-    <string name="pref_summary_screen_on_on_notifications">Zapnout podsvícení displeje při obdržení notifikace</string>
+    <string name="pref_summary_screen_on_on_notifications">Zapnout podsvícení displeje při obdržení oznámení</string>
     <string name="pref_cache_weather">Ukládání informací o počasí do mezipaměti</string>
-    <string name="pref_cache_weather_summary">Informace o počasí se ukládají do mezipaměti při restartech aplikace.</string>
+    <string name="pref_cache_weather_summary">Informace o počasí budou ukládány do mezipaměti napříč restarty aplikace.</string>
     <string name="heartrate_bpm_40">40 tepů/min</string>
     <string name="heartrate_bpm_45">45 tepů/min</string>
     <string name="heartrate_bpm_50">50 tepů/min</string>
@@ -1856,7 +1856,7 @@
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_header_display">Displej</string>
-    <string name="pref_title_screen_on_on_notifications">Rozsvítit displej při notifikacích</string>
+    <string name="pref_title_screen_on_on_notifications">Rozsvítit displej při oznámeních</string>
     <string name="spo2_off">Vypnuto</string>
     <string name="pref_header_calendar">Kalendář</string>
     <string name="pref_header_health">Zdraví</string>
@@ -1877,15 +1877,15 @@
     <string name="menuitem_workout_history">Historie cvičení</string>
     <string name="menuitem_female_health">Ženské zdraví</string>
     <string name="menuitem_workout_status">Stav cvičení</string>
-    <string name="permission_display_over_other_apps">%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
+    <string name="permission_display_over_other_apps">Aplikace %1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents) při běhu aplikace %1$s na pozadí.
 \n
-\nToho lze využít ke spouštění hudební aplikace pro přehrání skladby a mnoha dalších věcí.
+\nToho lze využít ke spuštění hudební aplikace pro přehrání skladby a ke spoustě dalších věcí.
 \n
-\nKlepněte na \'%2$s\' a poté na \'%1$s\' a povolte \'Povolit zobrazení nad jinými aplikacemi\' a poté se klepnutím na \'Zpět\' vraťte na %1$s.
+\nKlepněte na „%2$s“, poté na „%1$s“ a zapněte „Povolit zobrazení přes jiné aplikace“, poté klepněte na „Zpět“ pro návrat do aplikace %1$s.
 \n
-\nPro zrušení opakovaného dotazování %1$s o povolení, jděte do \'Nastavení\' vypněte \'Ověřovat stav oprávnění\'.
+\nPokud chcete, aby aplikace %1$s přestala žádat o oprávnění, přejděte do „Nastavení“ a vypněte „Kontrolovat stav oprávnění“.
 \n
-\nUjistěte se, že jste %1$s poskytli požadovaná oprávnění pro funkce dle vašich očekáváni.</string>
+\nUjistěte se, že jste aplikaci %1$s poskytli požadovaná oprávnění pro funkci dle vašich očekávání.</string>
     <string name="pref_header_heartrate_alerts">Upozornění na tepovou frekvenci</string>
     <string name="pref_header_stress">Stres</string>
     <string name="pref_header_spo2">Kyslík v krvi</string>
@@ -1906,7 +1906,7 @@
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Povolit ovládání připojení Bluetooth pomocí intent API</string>
     <string name="pref_header_sound_vibration">Zvuk a vibrace</string>
     <string name="pref_gps_satellite_search">Hledání satelitů</string>
-    <string name="pref_camera_remote_title">Ovládání kamery</string>
+    <string name="pref_camera_remote_title">Ovládání fotoaparátu</string>
     <string name="pref_gps_band">Pásmo GPS</string>
     <string name="pref_gps_mode_preset">Režim GPS</string>
     <string name="pref_crown_vibration">Vibrace korunky</string>
@@ -2045,8 +2045,8 @@
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Přejděte do nastavení bluetooth telefonu a spárujte se s novým zařízením, které se zobrazí (podobný název jako vaše aktuální hodinky, ale s příponou, např. \"Amazfit GTR 4 - AFC8\".</string>
     <string name="pref_summary_notification_cache_while_disconnected">Odesílání zmeškaných oznámení, když se zařízení znovu připojí poté, co bylo mimo dosah telefonu</string>
-    <string name="pref_summary_notification_media_ignores_application_list">Zpracovávat oznámení multimediálních aplikací před běžným seznamem aplikací. Pokud není tato předvolba zaškrtnuta, musí být mediální aplikace povoleny v seznamu aplikací, aby fungovalo ovládání médií ze zařízení.</string>
-    <string name="pref_title_notification_media_ignores_application_list">Seznam multimedálních aplikací s ignorovanými notifikacemi</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Zpracovávat oznámení multimediálních aplikací před běžným seznamem aplikací. Pokud není tato možnost povolena, musí být mediální aplikace povoleny v seznamu aplikací, aby fungovalo ovládání médií ze zařízení.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Ignorovat seznam aplikací u multimediálních oznámení</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Odebrat předvolby zařízení\?</string>
     <string name="single_band">Jednoduché Pásmo</string>
     <string name="dual_band">Duální Pásmo</string>
@@ -2166,11 +2166,11 @@
     <string name="activity_type_iceskating">Bruslení</string>
     <string name="error_no_bluetooth_scan">Musí být povoleno Bluetooth skenování pro správnou funkci</string>
     <string name="error_no_bluetooth_connect">Musí být povoleno Bluetooth připojení pro správnou funkci</string>
-    <string name="permission_request">%1$s umožňuje posílání zpráv a dalších dat z Android do zařízení. Přístup k datům je pro tuto funkci nutný.
+    <string name="permission_request">Aplikace %1$s umožňuje posílání zpráv a dalších dat ze systému Android do vašeho zařízení. K tomu potřebuje oprávnění k přístupu k těmto datům, bez kterého nemusí správně fungovat.
 \n
-\nBudou následovat Android obrazovky požadující oprávnění.
+\nNyní se vám zobrazí několik dialogových oken systému Android, která si tato oprávnění vyžádají.
 \n
-\nZvolte \'%2$s\' pro pokračování.</string>
+\nPro pokračování klepněte na „%2$s“.</string>
     <string name="hrZoneAerobic">Aerobní</string>
     <string name="hrZoneNa">Není k dispozici</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Standardní</string>
@@ -2886,9 +2886,9 @@
     <string name="pref_summary_debug">Poslat žádost o ladění do zařízení Huawei</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="folder_is_empty">Složka je prázdná</string>
-    <string name="dashboard_calendar_month_goals_reached_title">Dosažené %% cíle kroků</string>
+    <string name="dashboard_calendar_month_goals_reached_title">Dosažené % cíle kroků</string>
     <string name="alarm_slot_reset">Slot budíků byl nastaven na výchozí</string>
-    <string name="pref_dashboard_widget_today_upside_down_summary">Ve 24h režimu nakreslete půlnoc dole a poledne na vrchu grafu</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">Ve 24h režimu vykreslit půlnoc dole a poledne na vrchu grafu</string>
     <string name="pref_sleepasandroid_feat_notifications">Oznámení</string>
     <string name="chart_cycling_point_label_distance">Dnes: %.1f km
 \nCelkem: %.1f km</string>
@@ -3012,7 +3012,7 @@
     <string name="dashboard_settings">Nastavení nástěnky</string>
     <string name="sleepasandroid_settings">Sleep As Android</string>
     <string name="pref_dashboard_first_summary">Po spuštění aplikace Gadgetbridge zobrazit nástěnku namísto obrazovky zařízení</string>
-    <string name="pref_dashboard_cards_summary">Nakreslete karty kolem widgetů na nástěnce</string>
+    <string name="pref_dashboard_cards_summary">Vykreslit karty kolem widgetů na nástěnce</string>
     <string name="pref_auto_reply_calls_summary">Mobil automaticky přijme příchozí hovory</string>
     <string name="pref_dashboard_widget_today_upside_down_title">Půlnoc dole</string>
     <string name="pref_sleepasandroid_enable_summary">Integrace s aplikací Sleep As Android</string>
