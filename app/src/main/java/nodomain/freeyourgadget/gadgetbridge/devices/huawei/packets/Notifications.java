@@ -135,7 +135,13 @@ public class Notifications {
 
             private void putByteBuffer(ByteBuffer bBuffer, byte position, byte[] value) {
                 ByteBuffer bValue = ByteBuffer.wrap(value);
-                if (bValue.capacity() == 2) {
+                if (bValue.capacity() == 4) {
+                    short highbytes = bValue.getShort();
+                    if (highbytes != 0) {
+                        throw new RuntimeException("This should not happen until very large messages allowed");
+                    }
+                    bBuffer.putShort(position, bValue.getShort());
+                } else if (bValue.capacity() == 2) {
                     bBuffer.putShort(position, bValue.getShort());
                 } else {
                     bBuffer.put(position, (byte) 0x00);
