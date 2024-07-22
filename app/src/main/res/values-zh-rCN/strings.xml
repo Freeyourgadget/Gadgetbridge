@@ -3100,4 +3100,6 @@
     <string name="activity_type_sepak_takraw">踢藤球</string>
     <string name="activity_type_parachuting">跳伞</string>
     <string name="activity_type_luge">雪橇</string>
+    <string name="pref_title_notification_times_enabled">通知时间</string>
+    <string name="pref_summary_notification_times_enabled">仅在特定时间之间发送通知</string>
 </resources>
