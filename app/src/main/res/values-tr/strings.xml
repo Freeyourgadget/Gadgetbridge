@@ -3113,4 +3113,6 @@
     <string name="activity_type_auto_racing">Otomobil yarışı</string>
     <string name="activity_type_parachuting">Paraşütle atlama</string>
     <string name="activity_type_parkour">Parkur</string>
+    <string name="pref_summary_notification_times_enabled">Yalnızca belirli zamanlar arasında bildirim gönder</string>
+    <string name="pref_title_notification_times_enabled">Bildirim zamanları</string>
 </resources>
