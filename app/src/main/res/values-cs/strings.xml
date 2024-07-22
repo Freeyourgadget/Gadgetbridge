@@ -3100,4 +3100,6 @@
     <string name="activity_type_sepak_takraw">Sepak takraw</string>
     <string name="activity_type_auto_racing">Automobilové závody</string>
     <string name="activity_type_parkour">Parkour</string>
+    <string name="pref_summary_notification_times_enabled">Posílat oznámení pouze v určitém časovém rozmezí</string>
+    <string name="pref_title_notification_times_enabled">Časy oznámení</string>
 </resources>
