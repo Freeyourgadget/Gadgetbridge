@@ -169,4 +169,10 @@ public class HuaweiBRSupport extends AbstractBTBRDeviceSupport {
     public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {
         supportProvider.onCameraStatusChange(event, filename);
     }
+
+    @Override
+    public void dispose() {
+        supportProvider.dispose();
+        super.dispose();
+    }
 }
