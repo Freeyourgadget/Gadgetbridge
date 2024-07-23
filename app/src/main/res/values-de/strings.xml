@@ -3099,4 +3099,15 @@
     <string name="pref_battery_polling_interval_format">alle %1$s Minuten</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="pref_title_notification_times_enabled">Benachrichtigungszeiten</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="activity_type_beach_soccer">Strandfußball</string>
+    <string name="activity_type_beach_volleyball">Strandvolleyball</string>
+    <string name="activity_type_gateball">Gateball</string>
+    <string name="activity_type_sepak_takraw">Sepak Takraw</string>
+    <string name="activity_type_luge">Rodeln</string>
+    <string name="activity_type_parachuting">Fallschirmspringen</string>
+    <string name="activity_type_auto_racing">Autorennen</string>
+    <string name="activity_type_parkour">Parkour</string>
+    <string name="pref_summary_notification_times_enabled">enachrichtigungen nur zwischen bestimmten Zeiten senden</string>
 </resources>
