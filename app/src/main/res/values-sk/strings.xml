@@ -497,4 +497,17 @@
     <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypne pravidelné automatické meranie srdcovej frekvencie, čím sa predĺži pracovná doba</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentného alarmu je interval pred nainštalovaným alarmom. V tomto intervale sa zariadenie pokúša zistiť najľahšiu fázu spánku, aby sa používateľ zobudil</string>
     <string name="controlcenter_change_led_color">Zmena farby LED</string>
+    <string name="pref_show_changelog">Zobraziť zoznam zmien pri štarte aplikácie</string>
+    <string name="about_activity_title_generic">O aplikácii Gadgetbridge</string>
+    <string name="pref_title_bottom_navigation_bar">Spodná navigačná lišta</string>
+    <string name="title_activity_notification_management">Nastavenie oznámení</string>
+    <string name="pref_check_permission_status">Kontrolovať stav oprávnení</string>
+    <string name="activity_info">Informácie o aktivite</string>
+    <string name="action_changelog">Zoznam zmien</string>
+    <string name="pref_title_general_reconnectonlytoconnected">Znovu sa pripojiť iba k pripojeným zariadeniam</string>
+    <string name="pref_header_connection">Pripojenie</string>
+    <string name="pref_world_clocks_title">Svetové hodiny</string>
+    <string name="pref_title_prefix_notification_with_app">Názov aplikácie v oznámení</string>
+    <string name="title_activity_device_specific_settings">Špecifické nastavenia zariadení</string>
+    <string name="pref_cache_weather">Ukladanie informácií o počasí do mezipamäte</string>
 </resources>
