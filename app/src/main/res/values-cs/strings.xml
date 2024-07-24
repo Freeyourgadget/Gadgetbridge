@@ -185,8 +185,8 @@
     <string name="male">Muž</string>
     <string name="female">Žena</string>
     <string name="other">Jiný</string>
-    <string name="left">Levá</string>
-    <string name="right">Pravá</string>
+    <string name="left">Levé</string>
+    <string name="right">Pravé</string>
     <string name="miband_pairing_using_dummy_userdata">Data uživatele nejsou platná, nyní používám vzorová.</string>
     <string name="miband_pairing_tap_hint">Když Mi Band zavibruje a blikne, dotkněte se jej několikrát po sobě.</string>
     <string name="appinstaller_install">Instalovat</string>
