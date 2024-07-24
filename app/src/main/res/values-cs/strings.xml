@@ -1542,7 +1542,7 @@
     <string name="pref_activity_recognition_mode_auto">automaticky</string>
     <string name="watchface_dialog_widget_width">Šířka widgetu (v pixelech)</string>
     <string name="device_unsupported">NEPODPOROVÁNO</string>
-    <string name="discovery_bluetooth_le_scan">Bluetooth LE skenování:</string>
+    <string name="discovery_bluetooth_le_scan">Skenování Bluetooth LE:</string>
     <string name="sony_speak_to_chat">Mluvení s lidmi</string>
     <string name="pref_activity_recognize_rowing">rozpoznat veslování</string>
     <string name="pref_activity_recognition_mode_ask">dotázat se</string>
@@ -2974,7 +2974,7 @@
     <string name="pref_auto_reply_calls_title">Automaticky přijímat hovory</string>
     <string name="pref_sleepasandroid_device_summary">Vyberte zařízení jako poskytovatele dat pro Sleep As Android</string>
     <string name="pref_sleepasandroid_features_title">Funkce</string>
-    <string name="activity_type_worn">Nošené</string>
+    <string name="activity_type_worn">Nošeno</string>
     <string name="prefs_wena3_led_none">Bez LED</string>
     <string name="pref_dashboard_widget_today_hr_interval_summary">Počet minut, kdy graf ukáže „nošení“ po každém úspěšném měření srdečního rytmu</string>
     <string name="activity_type_pickleball">Pickleball</string>
@@ -3066,7 +3066,7 @@
     <string name="devicetype_garmin_instinct">Garmin Instinct</string>
     <string name="devicetype_moondrop_space_travel">Moondrop Space Travel</string>
     <string name="moondrop_equalizer_preset_monitor">Monitor</string>
-    <string name="moondrop_touch_earbud">Sluchátko do ucha</string>
+    <string name="moondrop_touch_earbud">Sluchátko</string>
     <string name="moondrop_touch_earbud_both">Obě</string>
     <string name="moondrop_touch_trigger">Spouštěč</string>
     <string name="moondrop_touch_action_play_pause">Přehrát/pozastavit</string>
