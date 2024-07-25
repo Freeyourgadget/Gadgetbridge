@@ -2385,4 +2385,17 @@
     <string name="devicetype_nothingear2">Nothing Ear (2)</string>
     <string name="devicetype_nothingearstick">Nothing Ear (Stick)</string>
     <string name="activity_error_share_failed">Falha no compartilhamento do arquivo.</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">A bateria do dispositivo está muito fraca</string>
+    <string name="permission_notification_listener">%1$s precisa de acesso às Notificações para exibi-las no relógio quando a tela do telefone estiver desligada.
+\n
+\nToque em \'%2$s\' e depois em \'%1$s\' e ative \'Permitir acesso a notificações\' e, em seguida, toque em \'Voltar\' para retornar a %1$s.</string>
+    <string name="pref_summary_notification_times_enabled">Enviar notificações somente entre horários específicos</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">O dispositivo não tem espaço livre suficiente</string>
+    <string name="activity_db_management_autoexport_location">Não foi possível entender a localização. Provavelmente um problema do sistema de permissão mais recente do Android. Muito provavelmente, a exportação automática não está funcionando agora.</string>
+    <string name="pref_battery_polling_interval_format">a cada %1$s minutos</string>
+    <string name="proprietary_app_warning">Esse recurso requer a instalação de um aplicativo proprietário</string>
+    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando a tela estiver desligada.
+\n
+\nToque em \'%2$s\' para concordar.</string>
+    <string name="fwapp_install_device_not_supported">O arquivo não pode ser instalado, o dispositivo não é compatível.</string>
 </resources>
