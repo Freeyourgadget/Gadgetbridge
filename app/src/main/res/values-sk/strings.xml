@@ -510,4 +510,25 @@
     <string name="pref_title_prefix_notification_with_app">Názov aplikácie v oznámení</string>
     <string name="title_activity_device_specific_settings">Špecifické nastavenia zariadení</string>
     <string name="pref_cache_weather">Ukladanie informácií o počasí do mezipamäte</string>
+    <string name="activity_summaries_all_devices">Všetky zariadenia</string>
+    <string name="devicesetting_scannable_rssi">Minimálna hranica RSSI</string>
+    <string name="bottom_nav_devices">Zariadenia</string>
+    <string name="info_no_devices_connected">Nie sú pripojené žiadne zariadenia</string>
+    <string name="info_connected_count">Pripojené zariadenia: %d</string>
+    <string name="devicestatus_disconnecting">Zariadenie sa odpája!</string>
+    <string name="devicestatus_upload_starting">Nahrávanie začína</string>
+    <string name="devicestatus_upload_aborted">Nahrávanie bolo prerušené!</string>
+    <string name="devicesetting_scannable_minimum_unseen">Minimálny čas nevidenia (sekundy)</string>
+    <string name="pref_dashboard_devices_to_include">Zahrnuté zariadenia</string>
+    <string name="pref_dashboard_all_devices_title">Všetky zariadenia</string>
+    <string name="devicestatus_connecting">Zariadenie sa pripája</string>
+    <string name="devicestatus_upload_failed">Došlo k chybe pri nahrávaní</string>
+    <string name="devicestatus_upload_completed">Nahrávanie ukončené</string>
+    <string name="pref_dashboard_select_devices_title">Vybrať zariadenia...</string>
+    <string name="scan_scanning_all_devices">Skenovanie všetkých zariadení</string>
+    <string name="devicesetting_scannable_debounce">Časový limit odozvy skenovania (sekundy)</string>
+    <string name="devicestatus_disconnected">Zariadenie sa odpojilo!</string>
+    <string name="devicestatus_upload_started">Nahrávanie začalo</string>
+    <string name="devicestatus_upload_validating">Kontrola nahratých údajov</string>
+    <string name="devicestatus_connected">Zariadenie je pripojené</string>
 </resources>
