@@ -65,7 +65,7 @@ public class HeartRateDialog extends Dialog {
                     setMeasurementResults(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
                     break;
                 default:
-                    LOG.info("ignoring intent action " + intent.getAction());
+                    LOG.info("ignoring intent action {}", intent.getAction());
                     break;
             }
         }
@@ -132,12 +132,8 @@ public class HeartRateDialog extends Dialog {
         heart_rate_dialog_results_layout.setVisibility(View.GONE);
         heart_rate_dialog_loading_layout.setVisibility(View.VISIBLE);
 
-        setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mReceiver);
-                getContext().unregisterReceiver(mReceiver);
-            }
+        setOnCancelListener(dialogInterface -> {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mReceiver);
         });
     }
 }
