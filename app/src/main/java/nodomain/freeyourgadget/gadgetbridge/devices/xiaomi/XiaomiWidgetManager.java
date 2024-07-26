@@ -346,12 +346,19 @@ public class XiaomiWidgetManager implements WidgetManager {
         final XiaomiProto.WidgetScreens.Builder builder = XiaomiProto.WidgetScreens.newBuilder(rawWidgetScreens)
                 .clearWidgetScreen();
 
+        int i = 1;
         for (final XiaomiProto.WidgetScreen screen : rawWidgetScreens.getWidgetScreenList()) {
             if (String.valueOf(screen.getId()).equals(widgetScreen.getId())) {
                 continue;
             }
 
-            builder.addWidgetScreen(screen);
+            // Ensure the IDs stay sequential and start at 1
+            builder.addWidgetScreen(
+                    XiaomiProto.WidgetScreen.newBuilder()
+                            .mergeFrom(screen)
+                            .setId(i++)
+                            .build()
+            );
         }
 
         getPrefs().getPreferences().edit()
