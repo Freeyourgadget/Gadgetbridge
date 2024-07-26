@@ -51,6 +51,11 @@ public class ManualSamplesParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(new byte[7]); // skip fileId bytes
+        final byte fileIdPadding = buf.get();
+        if (fileIdPadding != 0) {
+            LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
+        }
 
         // Looks like there is no header, it starts right away with samples:
         // 8A90A965 12 63 <- spo2
@@ -62,7 +67,7 @@ public class ManualSamplesParser extends XiaomiActivityParser {
 
         final List<XiaomiManualSample> samples = new ArrayList<>();
 
-        while (buf.position() < buf.limit()) {
+        while (buf.position() < buf.limit() - 4 /* crc at the end */) {
             final int timestamp = buf.getInt();
             final int type = buf.get() & 0xff;
 

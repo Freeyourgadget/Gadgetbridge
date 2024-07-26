@@ -73,6 +73,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -83,9 +84,11 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.XiaomiActivityFileId;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.XiaomiActivityParser;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class WorkoutSummaryParser extends XiaomiActivityParser implements ActivitySummaryParser {
@@ -98,7 +101,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         summary.setStartTime(fileId.getTimestamp()); // due to a bug this has to be set
         summary.setEndTime(fileId.getTimestamp()); // due to a bug this has to be set
         summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
-        summary.setRawSummaryData(ArrayUtils.addAll(fileId.toBytes(), bytes));
+        summary.setRawSummaryData(bytes);
 
         try {
             summary = parseBinaryData(summary);
@@ -138,9 +141,32 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
     @Override
     public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary) {
-        final ByteBuffer buf = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
+        final byte[] data = summary.getRawSummaryData();
+
+        final int arrCrc32 = CheckSums.getCRC32(data, 0, data.length - 4);
+        final int expectedCrc32 = BLETypeConversions.toUint32(data, data.length - 4);
+
+        final ByteBuffer buf;
+        if (arrCrc32 != expectedCrc32) {
+            // If the CRC32 is not valid, we're missing 1 header padding byte due to a previous bug
+            // This previous version also did not include the CRC at the end
+            // More info: https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3916
+            buf = ByteBuffer.allocate(data.length + 1).order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(data, 0, 7);
+            buf.put((byte) 0);
+            buf.put(data, 7, data.length - 7);
+            buf.flip();
+        } else {
+            // Valid full file, skip crc
+            buf = ByteBuffer.wrap(data, 0, data.length - 4).order(ByteOrder.LITTLE_ENDIAN);
+        }
 
         final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(buf);
+
+        final byte fileIdPadding = buf.get();
+        if (fileIdPadding != 0) {
+            LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
+        }
 
         XiaomiSimpleActivityParser parser = null;
 
@@ -151,7 +177,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 break;
             case SPORTS_OUTDOOR_RUNNING:
                 summary.setActivityKind(ActivityKind.TYPE_RUNNING);
-                // TODO
+                parser = getOutdoorWalkingV1Parser(fileId);
                 break;
             case SPORTS_INDOOR_CYCLING:
                 summary.setActivityKind(ActivityKind.TYPE_INDOOR_CYCLING);
@@ -197,7 +223,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int headerSize;
         switch (version) {
             case 8:
-                headerSize = 5;
+                headerSize = 6;
                 break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
@@ -433,7 +459,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int headerSize;
         switch (version) {
             case 5:
-                headerSize = 3;
+                headerSize = 4;
                 break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());

@@ -63,6 +63,12 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(new byte[7]); // skip fileId bytes
+        final byte fileIdPadding = buf.get();
+        if (fileIdPadding != 0) {
+            LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
+        }
+
         final byte[] header = new byte[headerSize];
         buf.get(header);
 
@@ -74,7 +80,7 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         timestamp.setTime(fileId.getTimestamp());
 
         final List<XiaomiActivitySample> samples = new ArrayList<>();
-        while (buf.position() < buf.limit()) {
+        while (buf.position() < buf.limit() - 4 /* crc at the end */) {
             complexParser.reset();
 
             final XiaomiActivitySample sample = new XiaomiActivitySample();

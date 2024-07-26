@@ -501,12 +501,11 @@ public class XiaomiSupport extends AbstractDeviceSupport {
                 try (InputStream in = new FileInputStream(activityFile)) {
                     data = FileUtils.readAll(in, 999999);
                 } catch (final IOException ioe) {
-                    LOG.error("Failed to read " + activityFile, ioe);
+                    LOG.error("Failed to read {}", activityFile, ioe);
                     continue;
                 }
 
                 final byte[] fileIdBytes = Arrays.copyOfRange(data, 0, 7);
-                final byte[] activityData = Arrays.copyOfRange(data, 8, data.length - 4);
                 final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(fileIdBytes);
 
                 final XiaomiActivityParser activityParser = XiaomiActivityParser.create(fileId);
@@ -516,7 +515,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
                 }
 
                 try {
-                    if (activityParser.parse(this, fileId, activityData)) {
+                    if (activityParser.parse(this, fileId, data)) {
                         LOG.info("Successfully parsed {}", fileId);
                     } else {
                         LOG.warn("Failed to parse {}", fileId);

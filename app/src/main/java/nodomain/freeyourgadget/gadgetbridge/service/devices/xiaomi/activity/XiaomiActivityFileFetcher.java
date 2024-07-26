@@ -25,14 +25,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -98,7 +94,6 @@ public class XiaomiActivityFileFetcher {
             }
 
             final byte[] fileIdBytes = Arrays.copyOfRange(data, 0, 7);
-            final byte[] activityData = Arrays.copyOfRange(data, 8, data.length - 4);
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(fileIdBytes);
 
             if (BuildConfig.DEBUG) {
@@ -120,7 +115,7 @@ public class XiaomiActivityFileFetcher {
             }
 
             try {
-                if (activityParser.parse(mHealthService.getSupport(), fileId, activityData)) {
+                if (activityParser.parse(mHealthService.getSupport(), fileId, data)) {
                     LOG.info("Successfully parsed {}", fileId);
                 } else {
                     LOG.warn("Failed to parse {}", fileId);

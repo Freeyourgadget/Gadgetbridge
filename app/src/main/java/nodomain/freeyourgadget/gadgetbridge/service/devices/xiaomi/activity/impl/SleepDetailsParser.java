@@ -59,6 +59,12 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         int versionDependentFields = 0;
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(new byte[7]); // skip fileId bytes
+        final byte fileIdPadding = buf.get();
+        if (fileIdPadding != 0) {
+            LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
+        }
+
         final byte header = buf.get();
 
         final int isAwake = buf.get() & 0xff; // 0/1 - more correctly this would be !isSleepFinish

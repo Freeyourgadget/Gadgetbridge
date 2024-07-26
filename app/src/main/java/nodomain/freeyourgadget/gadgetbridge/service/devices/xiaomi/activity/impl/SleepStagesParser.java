@@ -53,6 +53,11 @@ public class SleepStagesParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(new byte[7]); // skip fileId bytes
+        final byte fileIdPadding = buf.get();
+        if (fileIdPadding != 0) {
+            LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
+        }
 
         // over 4 days
         // first 2 bytes: always FF FF
