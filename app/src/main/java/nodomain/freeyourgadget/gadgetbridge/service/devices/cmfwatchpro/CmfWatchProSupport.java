@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -393,6 +394,10 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         return authKeyBytes;
     }
 
+    protected CmfWatchProCoordinator getCoordinator() {
+        return (CmfWatchProCoordinator) gbDevice.getDeviceCoordinator();
+    }
+
     @Override
     public void onSetGpsLocation(final Location location) {
         final TransactionBuilder builder = createTransactionBuilder("set gps location");
@@ -623,9 +628,11 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         // Each weather entry takes up 9 bytes
         // There are 7 of those weather entries - 7*9 bytes
         // Then there are 24-hour entries of temp and weather condition (2 bytes each)
-        // Then the location name as bytes - allow for 31 bytes, watch auto-scrolls. Pad it to 32 bytes
+        // Then the location name as bytes - allow for 30 bytes, watch auto-scrolls. Pad it to 32 bytes if it supports sunset/sunrise
         // Then finally the sunrise / sunset pairs, for 7 days (7*8)
-        final ByteBuffer buf = ByteBuffer.allocate((7 * 9) + (24 * 2) + 32 + (7 * 8)).order(ByteOrder.BIG_ENDIAN);
+        final boolean supportsSunriseSunset = getCoordinator().supportsSunriseSunset();
+        final int payloadLength = (7 * 9) + (24 * 2) + (supportsSunriseSunset ? 32 : 30) + (supportsSunriseSunset ? 7 * 8 : 0);
+        final ByteBuffer buf = ByteBuffer.allocate(payloadLength).order(ByteOrder.BIG_ENDIAN);
         // start with the current day's weather
         buf.put(Weather.mapToCmfCondition(weatherSpec.currentConditionCode));
         buf.put((byte) (weatherSpec.currentTemp - 273 + 100)); // convert Kelvin to C, add 100
@@ -676,29 +683,32 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
             }
         }
         // place name - watch scrolls after ~10 chars. Pad up to 32 bytes.
-        final byte[] locationNameBytes = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.truncateToBytes(weatherSpec.location, 31);
+        final byte[] locationNameBytes = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.truncateToBytes(weatherSpec.location, 30);
         buf.put(locationNameBytes);
-        buf.put(new byte[32 - locationNameBytes.length]);
 
         // Sunrise / sunset
-        buf.order(ByteOrder.LITTLE_ENDIAN); // why...
-        final Location location = weatherSpec.getLocation() != null ? weatherSpec.getLocation() : new CurrentPosition().getLastKnownLocation();
-        final GregorianCalendar sunriseDate = new GregorianCalendar();
+        if (supportsSunriseSunset) {
+            buf.put(new byte[32 - locationNameBytes.length]);
 
-        if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
-            buf.putInt(weatherSpec.sunRise);
-            buf.putInt(weatherSpec.sunSet);
-        } else {
-            putSunriseSunset(buf, location, sunriseDate);
-        }
+            buf.order(ByteOrder.LITTLE_ENDIAN); // why...
+            final Location location = weatherSpec.getLocation() != null ? weatherSpec.getLocation() : new CurrentPosition().getLastKnownLocation();
+            final GregorianCalendar sunriseDate = new GregorianCalendar();
 
-        for (int i = 0; i < 6; i++) {
-            sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
-            if (i < weatherSpec.forecasts.size() && weatherSpec.forecasts.get(i).sunRise != 0 && weatherSpec.forecasts.get(i).sunSet != 0) {
-                buf.putInt(weatherSpec.forecasts.get(i).sunRise);
-                buf.putInt(weatherSpec.forecasts.get(i).sunSet);
+            if (weatherSpec.sunRise != 0 && weatherSpec.sunSet != 0) {
+                buf.putInt(weatherSpec.sunRise);
+                buf.putInt(weatherSpec.sunSet);
             } else {
                 putSunriseSunset(buf, location, sunriseDate);
+            }
+
+            for (int i = 0; i < 6; i++) {
+                sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
+                if (i < weatherSpec.forecasts.size() && weatherSpec.forecasts.get(i).sunRise != 0 && weatherSpec.forecasts.get(i).sunSet != 0) {
+                    buf.putInt(weatherSpec.forecasts.get(i).sunRise);
+                    buf.putInt(weatherSpec.forecasts.get(i).sunSet);
+                } else {
+                    putSunriseSunset(buf, location, sunriseDate);
+                }
             }
         }
 

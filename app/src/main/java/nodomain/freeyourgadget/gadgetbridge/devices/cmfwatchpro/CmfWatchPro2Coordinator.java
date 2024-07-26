@@ -40,4 +40,9 @@ public class CmfWatchPro2Coordinator extends CmfWatchProCoordinator {
     public int getDisabledIconResource() {
         return R.drawable.ic_device_watchxplus_disabled;
     }
+
+    @Override
+    public boolean supportsSunriseSunset() {
+        return true;
+    }
 }

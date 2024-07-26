@@ -370,4 +370,8 @@ public class CmfWatchProCoordinator extends AbstractBLEDeviceCoordinator {
     protected static Prefs getPrefs(final GBDevice device) {
         return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
     }
+
+    public boolean supportsSunriseSunset() {
+        return false;
+    }
 }
