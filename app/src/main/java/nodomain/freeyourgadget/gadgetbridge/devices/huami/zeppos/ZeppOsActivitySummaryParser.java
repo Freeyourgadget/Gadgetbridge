@@ -76,7 +76,7 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
         if (summaryProto.hasTime()) {
             int totalDuration = summaryProto.getTime().getTotalDuration();
             summary.setEndTime(new Date(startTime.getTime() + totalDuration * 1000L));
-            addSummaryData(ACTIVE_SECONDS, summaryProto.getTime().getWorkoutDuration(), UNIT_SECONDS);
+            summaryData.add(ACTIVE_SECONDS, summaryProto.getTime().getWorkoutDuration(), UNIT_SECONDS);
             // TODO pause durations
         }
 
@@ -85,94 +85,94 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
             summary.setBaseLatitude(summaryProto.getLocation().getBaseLatitude());
             summary.setBaseAltitude(summaryProto.getLocation().getBaseAltitude() / 2);
             // TODO: Min/Max Latitude/Longitude
-            addSummaryData(ALTITUDE_BASE, summaryProto.getLocation().getBaseAltitude() / 2, UNIT_METERS);
+            summaryData.add(ALTITUDE_BASE, summaryProto.getLocation().getBaseAltitude() / 2, UNIT_METERS);
         }
 
         if (summaryProto.hasHeartRate()) {
-            addSummaryData(HR_AVG, summaryProto.getHeartRate().getAvg(), UNIT_BPM);
-            addSummaryData(HR_MAX, summaryProto.getHeartRate().getMax(), UNIT_BPM);
-            addSummaryData(HR_MIN, summaryProto.getHeartRate().getMin(), UNIT_BPM);
+            summaryData.add(HR_AVG, summaryProto.getHeartRate().getAvg(), UNIT_BPM);
+            summaryData.add(HR_MAX, summaryProto.getHeartRate().getMax(), UNIT_BPM);
+            summaryData.add(HR_MIN, summaryProto.getHeartRate().getMin(), UNIT_BPM);
         }
 
         if (summaryProto.hasSteps()) {
-            addSummaryData(CADENCE_MAX, summaryProto.getSteps().getMaxCadence() * 60, UNIT_SPM);
-            addSummaryData(CADENCE_AVG, summaryProto.getSteps().getAvgCadence() * 60, UNIT_SPM);
-            addSummaryData(STRIDE_AVG, summaryProto.getSteps().getAvgStride(), UNIT_CM);
-            addSummaryData(STEPS, summaryProto.getSteps().getSteps(), UNIT_STEPS);
+            summaryData.add(CADENCE_MAX, summaryProto.getSteps().getMaxCadence() * 60, UNIT_SPM);
+            summaryData.add(CADENCE_AVG, summaryProto.getSteps().getAvgCadence() * 60, UNIT_SPM);
+            summaryData.add(STRIDE_AVG, summaryProto.getSteps().getAvgStride(), UNIT_CM);
+            summaryData.add(STEPS, summaryProto.getSteps().getSteps(), UNIT_STEPS);
         }
 
         if (summaryProto.hasDistance()) {
-            addSummaryData(DISTANCE_METERS, summaryProto.getDistance().getDistance(), UNIT_METERS);
+            summaryData.add(DISTANCE_METERS, summaryProto.getDistance().getDistance(), UNIT_METERS);
         }
 
         if (summaryProto.hasPace()) {
-            addSummaryData(PACE_MAX, summaryProto.getPace().getBest(), UNIT_SECONDS_PER_M);
-            addSummaryData(PACE_AVG_SECONDS_KM, summaryProto.getPace().getAvg() * 1000, UNIT_SECONDS_PER_KM);
+            summaryData.add(PACE_MAX, summaryProto.getPace().getBest(), UNIT_SECONDS_PER_M);
+            summaryData.add(PACE_AVG_SECONDS_KM, summaryProto.getPace().getAvg() * 1000, UNIT_SECONDS_PER_KM);
         }
 
         if (summaryProto.hasCalories()) {
-            addSummaryData(CALORIES_BURNT, summaryProto.getCalories().getCalories(), UNIT_KCAL);
+            summaryData.add(CALORIES_BURNT, summaryProto.getCalories().getCalories(), UNIT_KCAL);
         }
 
         if (summaryProto.hasHeartRateZones()) {
             // TODO hr zones bpm?
             if (summaryProto.getHeartRateZones().getZoneTimeCount() == 6) {
-                addSummaryData(HR_ZONE_NA, summaryProto.getHeartRateZones().getZoneTime(0), UNIT_SECONDS);
-                addSummaryData(HR_ZONE_WARM_UP, summaryProto.getHeartRateZones().getZoneTime(1), UNIT_SECONDS);
-                addSummaryData(HR_ZONE_FAT_BURN, summaryProto.getHeartRateZones().getZoneTime(2), UNIT_SECONDS);
-                addSummaryData(HR_ZONE_AEROBIC, summaryProto.getHeartRateZones().getZoneTime(3), UNIT_SECONDS);
-                addSummaryData(HR_ZONE_ANAEROBIC, summaryProto.getHeartRateZones().getZoneTime(4), UNIT_SECONDS);
-                addSummaryData(HR_ZONE_EXTREME, summaryProto.getHeartRateZones().getZoneTime(5), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_NA, summaryProto.getHeartRateZones().getZoneTime(0), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_WARM_UP, summaryProto.getHeartRateZones().getZoneTime(1), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_FAT_BURN, summaryProto.getHeartRateZones().getZoneTime(2), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_AEROBIC, summaryProto.getHeartRateZones().getZoneTime(3), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_ANAEROBIC, summaryProto.getHeartRateZones().getZoneTime(4), UNIT_SECONDS);
+                summaryData.add(HR_ZONE_EXTREME, summaryProto.getHeartRateZones().getZoneTime(5), UNIT_SECONDS);
             } else {
                 LOG.warn("Unexpected number of HR zones {}", summaryProto.getHeartRateZones().getZoneTimeCount());
             }
         }
 
         if (summaryProto.hasTrainingEffect()) {
-            addSummaryData(TRAINING_EFFECT_AEROBIC, summaryProto.getTrainingEffect().getAerobicTrainingEffect(), UNIT_NONE);
-            addSummaryData(TRAINING_EFFECT_ANAEROBIC, summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), UNIT_NONE);
-            addSummaryData(WORKOUT_LOAD, summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), UNIT_NONE);
-            addSummaryData(MAXIMUM_OXYGEN_UPTAKE, summaryProto.getTrainingEffect().getMaximumOxygenUptake(), UNIT_ML_KG_MIN);
+            summaryData.add(TRAINING_EFFECT_AEROBIC, summaryProto.getTrainingEffect().getAerobicTrainingEffect(), UNIT_NONE);
+            summaryData.add(TRAINING_EFFECT_ANAEROBIC, summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), UNIT_NONE);
+            summaryData.add(WORKOUT_LOAD, summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), UNIT_NONE);
+            summaryData.add(MAXIMUM_OXYGEN_UPTAKE, summaryProto.getTrainingEffect().getMaximumOxygenUptake(), UNIT_ML_KG_MIN);
         }
 
         if (summaryProto.hasAltitude()) {
-            addSummaryData(ALTITUDE_MAX, summaryProto.getAltitude().getMaxAltitude() / 200, UNIT_METERS);
-            addSummaryData(ALTITUDE_MIN, summaryProto.getAltitude().getMinAltitude() / 200, UNIT_METERS);
-            addSummaryData(ALTITUDE_AVG, summaryProto.getAltitude().getAvgAltitude() / 200, UNIT_METERS);
+            summaryData.add(ALTITUDE_MAX, summaryProto.getAltitude().getMaxAltitude() / 200, UNIT_METERS);
+            summaryData.add(ALTITUDE_MIN, summaryProto.getAltitude().getMinAltitude() / 200, UNIT_METERS);
+            summaryData.add(ALTITUDE_AVG, summaryProto.getAltitude().getAvgAltitude() / 200, UNIT_METERS);
             // TODO totalClimbing
-            addSummaryData(ELEVATION_GAIN, summaryProto.getAltitude().getElevationGain() / 100, UNIT_METERS);
-            addSummaryData(ELEVATION_LOSS, summaryProto.getAltitude().getElevationLoss() / 100, UNIT_METERS);
+            summaryData.add(ELEVATION_GAIN, summaryProto.getAltitude().getElevationGain() / 100, UNIT_METERS);
+            summaryData.add(ELEVATION_LOSS, summaryProto.getAltitude().getElevationLoss() / 100, UNIT_METERS);
         }
 
         if (summaryProto.hasElevation()) {
-            addSummaryData(ASCENT_SECONDS, summaryProto.getElevation().getUphillTime(), UNIT_SECONDS);
-            addSummaryData(DESCENT_SECONDS, summaryProto.getElevation().getDownhillTime(), UNIT_SECONDS);
+            summaryData.add(ASCENT_SECONDS, summaryProto.getElevation().getUphillTime(), UNIT_SECONDS);
+            summaryData.add(DESCENT_SECONDS, summaryProto.getElevation().getDownhillTime(), UNIT_SECONDS);
         }
 
         if (summaryProto.hasSwimmingData()) {
-            addSummaryData(LAPS, summaryProto.getSwimmingData().getLaps(), UNIT_LAPS);
+            summaryData.add(LAPS, summaryProto.getSwimmingData().getLaps(), UNIT_LAPS);
             switch (summaryProto.getSwimmingData().getLaneLengthUnit()) {
                 case 0:
-                    addSummaryData(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_METERS);
+                    summaryData.add(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_METERS);
                     break;
                 case 1:
-                    addSummaryData(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_YARD);
+                    summaryData.add(LANE_LENGTH, summaryProto.getSwimmingData().getLaneLength(), UNIT_YARD);
                     break;
             }
             switch (summaryProto.getSwimmingData().getStyle()) {
                 // TODO i18n these
                 case 1:
-                    addSummaryData(SWIM_STYLE, "breaststroke");
+                    summaryData.add(SWIM_STYLE, "breaststroke");
                     break;
                 case 2:
-                    addSummaryData(SWIM_STYLE, "freestyle");
+                    summaryData.add(SWIM_STYLE, "freestyle");
                     break;
             }
-            addSummaryData(STROKES, summaryProto.getSwimmingData().getStrokes(), UNIT_STROKES);
-            addSummaryData(STROKE_RATE_AVG, summaryProto.getSwimmingData().getAvgStrokeRate(), UNIT_STROKES_PER_MINUTE);
-            addSummaryData(STROKE_RATE_MAX, summaryProto.getSwimmingData().getMaxStrokeRate(), UNIT_STROKES_PER_MINUTE);
-            addSummaryData(STROKE_DISTANCE_AVG, summaryProto.getSwimmingData().getAvgDps(), UNIT_CM);
-            addSummaryData(SWOLF_INDEX, summaryProto.getSwimmingData().getSwolf(), UNIT_NONE);
+            summaryData.add(STROKES, summaryProto.getSwimmingData().getStrokes(), UNIT_STROKES);
+            summaryData.add(STROKE_RATE_AVG, summaryProto.getSwimmingData().getAvgStrokeRate(), UNIT_STROKES_PER_MINUTE);
+            summaryData.add(STROKE_RATE_MAX, summaryProto.getSwimmingData().getMaxStrokeRate(), UNIT_STROKES_PER_MINUTE);
+            summaryData.add(STROKE_DISTANCE_AVG, summaryProto.getSwimmingData().getAvgDps(), UNIT_CM);
+            summaryData.add(SWOLF_INDEX, summaryProto.getSwimmingData().getSwolf(), UNIT_NONE);
         }
     }
 }

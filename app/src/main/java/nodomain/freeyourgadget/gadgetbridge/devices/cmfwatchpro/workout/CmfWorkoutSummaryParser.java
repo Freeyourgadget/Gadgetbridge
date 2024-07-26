@@ -19,9 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.workout;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ACTIVE_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Date;
@@ -29,6 +26,7 @@ import java.util.Date;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cmfwatchpro.CmfActivityType;
 
@@ -41,7 +39,7 @@ public class CmfWorkoutSummaryParser implements ActivitySummaryParser {
 
     @Override
     public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary) {
-        final JSONObject summaryData = new JSONObject();
+        final ActivitySummaryData summaryData = new ActivitySummaryData();
 
         final ByteBuffer buf = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
 
@@ -64,32 +62,8 @@ public class CmfWorkoutSummaryParser implements ActivitySummaryParser {
             summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
         }
 
-        addSummaryData(summaryData, ACTIVE_SECONDS, duration, UNIT_SECONDS);
+        summaryData.add(ACTIVE_SECONDS, duration, UNIT_SECONDS);
 
         return summary;
-    }
-
-    protected void addSummaryData(final JSONObject summaryData, final String key, final float value, final String unit) {
-        if (value > 0) {
-            try {
-                final JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", unit);
-                summaryData.put(key, innerData);
-            } catch (final JSONException ignore) {
-            }
-        }
-    }
-
-    protected void addSummaryData(final JSONObject summaryData, final String key, final String value) {
-        if (key != null && !key.equals("") && value != null && !value.equals("")) {
-            try {
-                final JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", "string");
-                summaryData.put(key, innerData);
-            } catch (final JSONException ignore) {
-            }
-        }
     }
 }

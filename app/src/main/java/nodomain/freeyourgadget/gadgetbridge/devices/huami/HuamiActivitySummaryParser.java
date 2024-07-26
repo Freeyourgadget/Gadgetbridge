@@ -19,8 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +28,7 @@ import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
@@ -39,8 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsAct
 public class HuamiActivitySummaryParser implements ActivitySummaryParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiActivityDetailsParser.class);
-    private JSONObject summaryData = new JSONObject();
-
+    protected ActivitySummaryData summaryData = new ActivitySummaryData();
 
     public BaseActivitySummary parseBinaryData(BaseActivitySummary summary) {
         Date startTime = summary.getStartTime();
@@ -48,7 +46,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             LOG.error("Due to a bug, we can only parse the summary when startTime is already set");
             return null;
         }
-        summaryData = new JSONObject();
+        summaryData = new ActivitySummaryData();
         parseBinaryData(summary, startTime);
         summary.setSummaryData(summaryData.toString());
         return summary;
@@ -70,7 +68,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             activityKind = activityType.toActivityKind();
         } catch (Exception ex) {
             LOG.error("Error mapping activity kind: " + ex.getMessage(), ex);
-            addSummaryData("Raw Activity Kind", rawKind, UNIT_NONE);
+            summaryData.add("Raw Activity Kind", rawKind, UNIT_NONE);
         }
         summary.setActivityKind(activityKind);
 
@@ -276,9 +274,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 buffer.getInt(); // unknown probably flatDistance = buffer.getFloat();
                 flatSeconds = buffer.getInt() / 1000; // ms?
 
-                addSummaryData(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
-                addSummaryData(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
-                addSummaryData(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
+                summaryData.add(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
+                summaryData.add(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
+                summaryData.add(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
             }
 
             averageHR = buffer.getShort();
@@ -311,62 +309,62 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
 //        summary.setAveragePace(BLETypeConversions.toUnsigned(averagePace);
 //        summary.setAverageStride(BLETypeConversions.toUnsigned(averageStride);
 
-        addSummaryData(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
-        addSummaryData(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
-        addSummaryData(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
-        addSummaryData(ASCENT_DISTANCE, ascentDistance, UNIT_METERS);
-        addSummaryData(DESCENT_DISTANCE, descentDistance, UNIT_METERS);
-        addSummaryData(FLAT_DISTANCE, flatDistance, UNIT_METERS);
+        summaryData.add(ASCENT_SECONDS, ascentSeconds, UNIT_SECONDS);
+        summaryData.add(DESCENT_SECONDS, descentSeconds, UNIT_SECONDS);
+        summaryData.add(FLAT_SECONDS, flatSeconds, UNIT_SECONDS);
+        summaryData.add(ASCENT_DISTANCE, ascentDistance, UNIT_METERS);
+        summaryData.add(DESCENT_DISTANCE, descentDistance, UNIT_METERS);
+        summaryData.add(FLAT_DISTANCE, flatDistance, UNIT_METERS);
 
-        addSummaryData(DISTANCE_METERS, distanceMeters, UNIT_METERS);
-        // addSummaryData("distanceMeters2", distanceMeters2, UNIT_METERS);
-        addSummaryData(ASCENT_METERS, ascentMeters, UNIT_METERS);
-        addSummaryData(DESCENT_METERS, descentMeters, UNIT_METERS);
+        summaryData.add(DISTANCE_METERS, distanceMeters, UNIT_METERS);
+        // summaryData.add("distanceMeters2", distanceMeters2, UNIT_METERS);
+        summaryData.add(ASCENT_METERS, ascentMeters, UNIT_METERS);
+        summaryData.add(DESCENT_METERS, descentMeters, UNIT_METERS);
         if (maxAltitude != -100000) {
-            addSummaryData(ALTITUDE_MAX, maxAltitude, UNIT_METERS);
+            summaryData.add(ALTITUDE_MAX, maxAltitude, UNIT_METERS);
         }
         if (minAltitude != 100000) {
-            addSummaryData(ALTITUDE_MIN, minAltitude, UNIT_METERS);
+            summaryData.add(ALTITUDE_MIN, minAltitude, UNIT_METERS);
         }
         if (minAltitude != 100000) {
-            addSummaryData(ALTITUDE_AVG, averageAltitude, UNIT_METERS);
+            summaryData.add(ALTITUDE_AVG, averageAltitude, UNIT_METERS);
         }
-        addSummaryData(STEPS, steps, UNIT_STEPS);
-        addSummaryData(ACTIVE_SECONDS, activeSeconds, UNIT_SECONDS);
-        addSummaryData(CALORIES_BURNT, caloriesBurnt, UNIT_KCAL);
-        addSummaryData(SPEED_MAX, maxSpeed, UNIT_METERS_PER_SECOND);
-        addSummaryData(SPEED_MIN, minSpeed, UNIT_METERS_PER_SECOND);
-        addSummaryData(SPEED_AVG, averageSpeed, UNIT_METERS_PER_SECOND);
-        addSummaryData(CADENCE_MAX, maxCadence, UNIT_SPM);
-        addSummaryData(CADENCE_MIN, minCadence, UNIT_SPM);
-        addSummaryData(CADENCE_AVG, averageCadence, UNIT_SPM);
+        summaryData.add(STEPS, steps, UNIT_STEPS);
+        summaryData.add(ACTIVE_SECONDS, activeSeconds, UNIT_SECONDS);
+        summaryData.add(CALORIES_BURNT, caloriesBurnt, UNIT_KCAL);
+        summaryData.add(SPEED_MAX, maxSpeed, UNIT_METERS_PER_SECOND);
+        summaryData.add(SPEED_MIN, minSpeed, UNIT_METERS_PER_SECOND);
+        summaryData.add(SPEED_AVG, averageSpeed, UNIT_METERS_PER_SECOND);
+        summaryData.add(CADENCE_MAX, maxCadence, UNIT_SPM);
+        summaryData.add(CADENCE_MIN, minCadence, UNIT_SPM);
+        summaryData.add(CADENCE_AVG, averageCadence, UNIT_SPM);
 
         if (!(activityKind == ActivityKind.TYPE_ELLIPTICAL_TRAINER ||
                 activityKind == ActivityKind.TYPE_JUMP_ROPING ||
                 activityKind == ActivityKind.TYPE_EXERCISE ||
                 activityKind == ActivityKind.TYPE_YOGA ||
                 activityKind == ActivityKind.TYPE_INDOOR_CYCLING)) {
-            addSummaryData(PACE_MIN, minPace, UNIT_SECONDS_PER_M);
-            addSummaryData(PACE_MAX, maxPace, UNIT_SECONDS_PER_M);
-            // addSummaryData("averagePace", averagePace, UNIT_SECONDS_PER_M);
+            summaryData.add(PACE_MIN, minPace, UNIT_SECONDS_PER_M);
+            summaryData.add(PACE_MAX, maxPace, UNIT_SECONDS_PER_M);
+            // summaryData.add("averagePace", averagePace, UNIT_SECONDS_PER_M);
         }
 
-        addSummaryData(STRIDE_TOTAL, totalStride, UNIT_METERS);
-        addSummaryData(HR_AVG, averageHR, UNIT_BPM);
-        addSummaryData(HR_MAX, maxHR, UNIT_BPM);
-        addSummaryData(HR_MIN, minHR, UNIT_BPM);
-        addSummaryData(PACE_AVG_SECONDS_KM, averageKMPaceSeconds, UNIT_SECONDS_PER_KM);
-        addSummaryData(STRIDE_AVG, averageStride, UNIT_CM);
-        addSummaryData(STRIDE_MAX, maxStride, UNIT_CM);
-        addSummaryData(STRIDE_MIN, minStride, UNIT_CM);
-        // addSummaryData("averageStride2", averageStride2, UNIT_CM);
+        summaryData.add(STRIDE_TOTAL, totalStride, UNIT_METERS);
+        summaryData.add(HR_AVG, averageHR, UNIT_BPM);
+        summaryData.add(HR_MAX, maxHR, UNIT_BPM);
+        summaryData.add(HR_MIN, minHR, UNIT_BPM);
+        summaryData.add(PACE_AVG_SECONDS_KM, averageKMPaceSeconds, UNIT_SECONDS_PER_KM);
+        summaryData.add(STRIDE_AVG, averageStride, UNIT_CM);
+        summaryData.add(STRIDE_MAX, maxStride, UNIT_CM);
+        summaryData.add(STRIDE_MIN, minStride, UNIT_CM);
+        // summaryData.add("averageStride2", averageStride2, UNIT_CM);
 
         if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
-            addSummaryData(STROKE_DISTANCE_AVG, averageStrokeDistance, UNIT_METERS);
-            addSummaryData(STROKE_AVG_PER_SECOND, averageStrokesPerSecond, UNIT_STROKES_PER_SECOND);
-            addSummaryData(LAP_PACE_AVERAGE, averageLapPace, "second");
-            addSummaryData(STROKES, strokes, "strokes");
-            addSummaryData(SWOLF_INDEX, swolfIndex, "swolf_index");
+            summaryData.add(STROKE_DISTANCE_AVG, averageStrokeDistance, UNIT_METERS);
+            summaryData.add(STROKE_AVG_PER_SECOND, averageStrokesPerSecond, UNIT_STROKES_PER_SECOND);
+            summaryData.add(LAP_PACE_AVERAGE, averageLapPace, "second");
+            summaryData.add(STROKES, strokes, "strokes");
+            summaryData.add(SWOLF_INDEX, swolfIndex, "swolf_index");
             String swimStyleName = "unknown"; // TODO: translate here or keep as string identifier here?
             switch (swimStyle) {
                 case 1:
@@ -382,32 +380,8 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                     swimStyleName = "medley";
                     break;
             }
-            addSummaryData(SWIM_STYLE, swimStyleName);
-            addSummaryData(LAPS, laps, "laps");
-        }
-    }
-
-    protected void addSummaryData(String key, float value, String unit) {
-        if (value > 0) {
-            try {
-                JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", unit);
-                summaryData.put(key, innerData);
-            } catch (JSONException ignore) {
-            }
-        }
-    }
-
-    protected void addSummaryData(String key, String value) {
-        if (key != null && !key.equals("") && value != null && !value.equals("")) {
-            try {
-                JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", "string");
-                summaryData.put(key, innerData);
-            } catch (JSONException ignore) {
-            }
+            summaryData.add(SWIM_STYLE, swimStyleName);
+            summaryData.add(LAPS, laps, "laps");
         }
     }
 }

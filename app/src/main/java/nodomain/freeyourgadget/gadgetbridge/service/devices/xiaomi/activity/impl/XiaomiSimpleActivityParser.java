@@ -21,8 +21,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +31,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiSimpleActivityParser {
@@ -49,7 +48,7 @@ public class XiaomiSimpleActivityParser {
     }
 
     public void parse(final BaseActivitySummary summary, final ByteBuffer buf) {
-        final JSONObject summaryData = new JSONObject();
+        final ActivitySummaryData summaryData = new ActivitySummaryData();
 
         final byte[] header = new byte[headerSize];
         buf.get(header);
@@ -84,7 +83,7 @@ public class XiaomiSimpleActivityParser {
                 // ignored
             } else if (dataEntry.getKey().equals(SWIM_STYLE)) {
                 String swimStyleName = "unknown";
-                Float swimStyle = value.floatValue();
+                final float swimStyle = value.floatValue();
 
                 if (swimStyle == 0) {
                     swimStyleName = "medley";
@@ -98,7 +97,7 @@ public class XiaomiSimpleActivityParser {
                     swimStyleName = "butterfly";
                 }
 
-                addSummaryData(summaryData, dataEntry.getKey(), swimStyleName);
+                summaryData.add(dataEntry.getKey(), swimStyleName);
             } else if (dataEntry.getKey().equals(XIAOMI_WORKOUT_TYPE)) {
                 // TODO use XiaomiWorkoutType
                 switch (value.intValue()) {
@@ -112,35 +111,11 @@ public class XiaomiSimpleActivityParser {
                         summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
                 }
             } else {
-                addSummaryData(summaryData, dataEntry.getKey(), value.floatValue(), dataEntry.getUnit());
+                summaryData.add(dataEntry.getKey(), value.floatValue(), dataEntry.getUnit());
             }
         }
 
         summary.setSummaryData(summaryData.toString());
-    }
-
-    protected void addSummaryData(final JSONObject summaryData, final String key, final float value, final String unit) {
-        if (value > 0) {
-            try {
-                final JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", unit);
-                summaryData.put(key, innerData);
-            } catch (final JSONException ignore) {
-            }
-        }
-    }
-
-    protected void addSummaryData(final JSONObject summaryData, final String key, final String value) {
-        if (key != null && !key.equals("") && value != null && !value.equals("")) {
-            try {
-                final JSONObject innerData = new JSONObject();
-                innerData.put("value", value);
-                innerData.put("unit", "string");
-                summaryData.put(key, innerData);
-            } catch (final JSONException ignore) {
-            }
-        }
     }
 
     public static class Builder {
