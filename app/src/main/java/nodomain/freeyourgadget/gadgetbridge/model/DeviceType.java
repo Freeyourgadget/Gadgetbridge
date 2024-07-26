@@ -173,6 +173,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30.TeclastH30Co
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5.Y5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.BohemicSmartBraceletDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.VivitarHrBpMonitorActivityTrackerCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
@@ -357,6 +358,7 @@ public enum DeviceType {
     MIJIA_LYWSD03(MijiaLywsd03Coordinator.class),
     MIJIA_MHO_C303(MijiaMhoC303Coordinator.class),
     LEFUN(LefunDeviceCoordinator.class),
+    VIVITAR_HR_BP_MONITOR_ACTIVITY_TRACKER(VivitarHrBpMonitorActivityTrackerCoordinator.class),
     BOHEMIC_SMART_BRACELET(BohemicSmartBraceletDeviceCoordinator.class),
     SMAQ2OSS(SMAQ2OSSCoordinator.class),
     FITPRO(FitProDeviceCoordinator.class),
