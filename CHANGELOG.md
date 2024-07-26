@@ -1,19 +1,25 @@
 ### Changelog
 
 #### Next version (WIP)
+* Initial support for CMF Buds Pro 2
 * Initial support for CMF Watch Pro 2
 * Initial support for Garmin Fenix 5/6, Vivoactive 3, Vivomove Trend, Vivosport
+* Initial support for Huawei Watch 3 / 3 Pro
 * Initial support for Moondrop Space Travel
+* Initial support for Vivitar HR & BP Monitor Activity Tracker
 * Cycling sensor: Improve cycling data display
 * CMF Watch Pro: Fix activity transfer
 * Fossil HR: Minor watchface fixes
 * Huawei: Add battery polling
 * Huawei: Fix watchface upload, activity sync, event alarms for some devices
+* Huawei: Fix some reconnection issues
+* Huawei: Improve watchface install support
 * Huawei: Map more workout types
 * Sony Headphones: Enable read aloud incoming notifications and auto call pickup
 * UM25C: Fix some disconnection issues
 * Xiaomi: Parse freestyle and HIIT workouts
 * Zepp OS 3: Fix file transfer (notification icons, gpx upload, agps updates)
+* Allow configuration of notification times
 * Fix emoji when some connected device does not support them
 * Fix notification text not being sent for some apps
 * Fix reconnection when device connects back during BLE scan
