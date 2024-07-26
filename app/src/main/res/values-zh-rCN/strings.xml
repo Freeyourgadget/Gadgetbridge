@@ -3102,4 +3102,5 @@
     <string name="activity_type_luge">雪橇</string>
     <string name="pref_title_notification_times_enabled">通知时间</string>
     <string name="pref_summary_notification_times_enabled">仅在特定时间之间发送通知</string>
+    <string name="devicetype_huawei_watch3">华为手表3 Pro</string>
 </resources>
