@@ -3103,4 +3103,6 @@
     <string name="pref_title_notification_times_enabled">通知时间</string>
     <string name="pref_summary_notification_times_enabled">仅在特定时间之间发送通知</string>
     <string name="devicetype_huawei_watch3">华为手表3 Pro</string>
+    <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">Vivitar 心率和血压监测活动追踪器</string>
+    <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
 </resources>
