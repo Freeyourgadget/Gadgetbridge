@@ -3116,4 +3116,6 @@
     <string name="pref_summary_notification_times_enabled">Yalnızca belirli zamanlar arasında bildirim gönder</string>
     <string name="pref_title_notification_times_enabled">Bildirim zamanları</string>
     <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
+    <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">Vivitar Kalp Ritmi ve Kan Basıncı İzleme Etkinlik Takip Aygıtı</string>
+    <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
 </resources>
