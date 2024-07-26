@@ -147,7 +147,9 @@ public class MusicControl {
             public void parseTlv() throws ParseException {
                 if (this.tlv.contains(0x01)) {
                     this.buttonPresent = true;
-                    this.rawButton = this.tlv.getByte(0x01);
+                    // Only grab the lowest byte
+                    byte[] bytes = this.tlv.getBytes(0x01);
+                    this.rawButton = bytes[bytes.length - 1];
                     switch (this.rawButton) {
                         case 1:
                             this.button = Button.Play;
@@ -169,6 +171,10 @@ public class MusicControl {
                             break;
                         case 64:
                             // Unknown button on Huawei Band 4
+
+                        case 100:
+                            // Seems like exit from music control screen to other screen
+                            this.buttonPresent = false;
                         default:
                             this.button = Button.Unknown;
                     }
@@ -176,7 +182,9 @@ public class MusicControl {
 
                 if (this.tlv.contains(0x02)) {
                     this.volumePresent = true;
-                    this.volume = this.tlv.getByte(0x02);
+                    // Only grab the lowest byte
+                    byte[] bytes = this.tlv.getBytes(0x02);
+                    this.volume = bytes[bytes.length - 1];
                 }
             }
         }
