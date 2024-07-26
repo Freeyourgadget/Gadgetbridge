@@ -3100,4 +3100,7 @@
     <string name="activity_type_auto_racing">سباق السيارات</string>
     <string name="pref_summary_notification_times_enabled">إرسال الإشعارات بين أوقات محددة فقط</string>
     <string name="pref_title_notification_times_enabled">أوقات الإشعارات</string>
+    <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
+    <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
+    <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">جهاز تتبع نشاط مراقبة معدل ضربات القلب و ضغط الدم Vivitar</string>
 </resources>
