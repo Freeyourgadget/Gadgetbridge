@@ -632,9 +632,9 @@ public class Weather {
                                 dayTlv.put(0x16, dayData.sunriseTime);
                             if (dayData.sunsetTime != null)
                                 dayTlv.put(0x17, dayData.sunsetTime);
-                            if (dayData.moonRiseTime != null)
+                            if (dayData.moonRiseTime != null && dayData.moonRiseTime != 0)
                                 dayTlv.put(0x1a, dayData.moonRiseTime);
-                            if (dayData.moonSetTime != null)
+                            if (dayData.moonSetTime != null && dayData.moonSetTime != 0)
                                 dayTlv.put(0x1b, dayData.moonSetTime);
                         }
                         if (dayData.moonPhase != null && settings.moonPhaseSupported)
