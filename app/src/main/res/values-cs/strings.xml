@@ -3102,4 +3102,7 @@
     <string name="activity_type_parkour">Parkour</string>
     <string name="pref_summary_notification_times_enabled">Posílat oznámení pouze v určitém časovém rozmezí</string>
     <string name="pref_title_notification_times_enabled">Časy oznámení</string>
+    <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
+    <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
+    <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">Vivitar HR &amp; BP Monitor Activity Tracker</string>
 </resources>
