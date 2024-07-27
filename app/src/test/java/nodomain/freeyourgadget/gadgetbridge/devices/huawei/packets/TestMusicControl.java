@@ -235,6 +235,7 @@ public class TestMusicControl {
         byte[] previousInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0xc6, (byte) 0xc7};
         byte[] nextInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x04, (byte) 0xb6, (byte) 0x20};
         byte[] unknownButtonInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0xFF, (byte) 0xe8, (byte) 0x54};
+        byte[] exitButtonInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x64, (byte) 0xDA, (byte) 0x86};
         byte[] volumeInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x02, (byte) 0x01, (byte) 0x42, (byte) 0xc7, (byte) 0x72};
         byte[] combinedInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x09, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x02, (byte) 0x01, (byte) 0x42, (byte) 0x95, (byte) 0x9a};
 
@@ -250,6 +251,8 @@ public class TestMusicControl {
                 .put(0x01, (byte) 0x04);
         HuaweiTLV unknownButtonExpectedTlv = new HuaweiTLV()
                 .put(0x01, (byte) 0xFF);
+        HuaweiTLV exitButtonExpectedTlv = new HuaweiTLV()
+                .put(0x01, (byte) 0x64);
         HuaweiTLV volumeExpectedTlv = new HuaweiTLV()
                 .put(0x02, (byte) 0x42);
         HuaweiTLV combinedExpectedTlv = new HuaweiTLV()
@@ -261,6 +264,7 @@ public class TestMusicControl {
         HuaweiPacket previousResponse = new HuaweiPacket(secretsProvider).parse(previousInput);
         HuaweiPacket nextResponse = new HuaweiPacket(secretsProvider).parse(nextInput);
         HuaweiPacket unknownButtonResponse = new HuaweiPacket(secretsProvider).parse(unknownButtonInput);
+        HuaweiPacket exitButtonResponse = new HuaweiPacket(secretsProvider).parse(exitButtonInput);
         HuaweiPacket volumeResponse = new HuaweiPacket(secretsProvider).parse(volumeInput);
         HuaweiPacket combinedResponse = new HuaweiPacket(secretsProvider).parse(combinedInput);
 
@@ -269,6 +273,7 @@ public class TestMusicControl {
         previousResponse.parseTlv();
         nextResponse.parseTlv();
         unknownButtonResponse.parseTlv();
+        exitButtonResponse.parseTlv();
         volumeResponse.parseTlv();
         combinedResponse.parseTlv();
 
@@ -317,6 +322,15 @@ public class TestMusicControl {
         Assert.assertEquals(Button.Unknown, ((MusicControl.Control.Response) unknownButtonResponse).button);
         Assert.assertFalse(((MusicControl.Control.Response) unknownButtonResponse).volumePresent);
 
+        Assert.assertEquals(0x25, exitButtonResponse.serviceId);
+        Assert.assertEquals(0x03, exitButtonResponse.commandId);
+        Assert.assertEquals(exitButtonExpectedTlv, tlvField.get(exitButtonResponse));
+        Assert.assertTrue(exitButtonResponse instanceof MusicControl.Control.Response);
+        Assert.assertFalse(((MusicControl.Control.Response) exitButtonResponse).buttonPresent);
+        Assert.assertEquals((byte) 0x64, ((MusicControl.Control.Response) exitButtonResponse).rawButton);
+        Assert.assertEquals(Button.Unknown, ((MusicControl.Control.Response) exitButtonResponse).button);
+        Assert.assertFalse(((MusicControl.Control.Response) exitButtonResponse).volumePresent);
+
         Assert.assertEquals(0x25, volumeResponse.serviceId);
         Assert.assertEquals(0x03, volumeResponse.commandId);
         Assert.assertEquals(volumeExpectedTlv, tlvField.get(volumeResponse));
@@ -334,5 +348,42 @@ public class TestMusicControl {
         // Assert.assertEquals(Button.PlayPause, ((MusicControl.Control.Response) combinedResponse).button);
         Assert.assertTrue(((MusicControl.Control.Response) combinedResponse).volumePresent);
         Assert.assertEquals(0x42, ((MusicControl.Control.Response) combinedResponse).volume);
+    }
+
+    @Test
+    public void testIntValues() throws NoSuchFieldException, HuaweiPacket.ParseException, IllegalAccessException {
+        byte[] intButtonInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x09, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x01, (byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0xE5, (byte) 0x8F};
+        byte[] intVolumeInput = new byte[] {(byte) 0x5a, (byte) 0x00, (byte) 0x09, (byte) 0x00, (byte) 0x25, (byte) 0x03, (byte) 0x02, (byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x28, (byte) 0x9E, (byte) 0x24};
+
+        Field tlvField = HuaweiPacket.class.getDeclaredField("tlv");
+        tlvField.setAccessible(true);
+
+        HuaweiTLV intButtonExpectedTlv = new HuaweiTLV()
+                .put(0x01, 0x01);
+        HuaweiTLV intVolumeExpectedTlv = new HuaweiTLV()
+                .put(0x02, 0x28);
+
+        HuaweiPacket intButtonResponse = new HuaweiPacket(secretsProvider).parse(intButtonInput);
+        HuaweiPacket intVolumeResponse = new HuaweiPacket(secretsProvider).parse(intVolumeInput);
+
+        intButtonResponse.parseTlv();
+        intVolumeResponse.parseTlv();
+
+        Assert.assertEquals(0x25, intButtonResponse.serviceId);
+        Assert.assertEquals(0x03, intButtonResponse.commandId);
+        Assert.assertEquals(intButtonExpectedTlv, tlvField.get(intButtonResponse));
+        Assert.assertTrue(intButtonResponse instanceof MusicControl.Control.Response);
+        Assert.assertTrue(((MusicControl.Control.Response) intButtonResponse).buttonPresent);
+        Assert.assertEquals((byte) 0x01, ((MusicControl.Control.Response) intButtonResponse).rawButton);
+        Assert.assertEquals(Button.Play, ((MusicControl.Control.Response) intButtonResponse).button);
+        Assert.assertFalse(((MusicControl.Control.Response) intButtonResponse).volumePresent);
+
+        Assert.assertEquals(0x25, intVolumeResponse.serviceId);
+        Assert.assertEquals(0x03, intVolumeResponse.commandId);
+        Assert.assertEquals(intVolumeExpectedTlv, tlvField.get(intVolumeResponse));
+        Assert.assertTrue(intVolumeResponse instanceof MusicControl.Control.Response);
+        Assert.assertFalse(((MusicControl.Control.Response) intVolumeResponse).buttonPresent);
+        Assert.assertTrue(((MusicControl.Control.Response) intVolumeResponse).volumePresent);
+        Assert.assertEquals(0x28, ((MusicControl.Control.Response) intVolumeResponse).volume);
     }
 }
