@@ -80,7 +80,8 @@ public class CmfCharacteristic {
     public void sendCommand(final TransactionBuilder builder, final CmfCommand cmd, final byte[] payload) {
         final byte[][] chunks;
 
-        if (shouldEncrypt(cmd)) {
+        final boolean encrypted = shouldEncrypt(cmd);
+        if (encrypted) {
             chunks = makeChunksEncrypted(payload);
         } else {
             chunks = makeChunksPlaintext(payload);
@@ -90,6 +91,12 @@ public class CmfCharacteristic {
             // Something went wrong chunking - error was already printed
             return;
         }
+
+        LOG.debug(
+                "Send command: cmd={}{}",
+                cmd,
+                payload.length > 0 ? " payload=" + GB.hexdump(payload) : ""
+        );
 
         for (int i = 0; i < chunks.length; i++) {
             final byte[] chunk = chunks[i];
