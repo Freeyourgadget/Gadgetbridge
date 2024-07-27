@@ -77,37 +77,34 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
 
             // Attempt to find a known xiaomi service
             for (Map.Entry<UUID, XiaomiUuids.XiaomiBleUuidSet> xiaomiUuid : XiaomiUuids.BLE_UUIDS.entrySet()) {
-                if (getSupportedServices().contains(xiaomiUuid.getKey())) {
-                    LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
-                    uuidSet = xiaomiUuid.getValue();
-                    UUID currentChar;
+                final XiaomiUuids.XiaomiBleUuidSet currentUuidSet = xiaomiUuid.getValue();
+                UUID currentChar;
 
-                    if ((currentChar = uuidSet.getCharacteristicCommandRead()) == null ||
-                            (btCharacteristicCommandRead = getCharacteristic(currentChar)) == null) {
-                        LOG.warn("btCharacteristicCommandRead characteristicc is null");
-                        continue;
-                    }
-
-                    if ((currentChar = uuidSet.getCharacteristicCommandWrite()) == null ||
-                            (btCharacteristicCommandWrite = getCharacteristic(currentChar)) == null) {
-                        LOG.warn("btCharacteristicCommandWrite characteristicc is null");
-                        continue;
-                    }
-
-                    if ((currentChar = uuidSet.getCharacteristicActivityData()) == null ||
-                            (btCharacteristicActivityData= getCharacteristic(currentChar)) == null) {
-                        LOG.warn("btCharacteristicActivityData characteristicc is null");
-                        continue;
-                    }
-
-                    if ((currentChar = uuidSet.getCharacteristicDataUpload()) == null ||
-                            (btCharacteristicDataUpload= getCharacteristic(currentChar)) == null) {
-                        LOG.warn("btCharacteristicDataUpload characteristicc is null");
-                        // this characteristic may not be supported by all models
-                    }
-
-                    break;
+                if ((currentChar = currentUuidSet.getCharacteristicCommandRead()) == null ||
+                        (btCharacteristicCommandRead = getCharacteristic(currentChar)) == null) {
+                    continue;
                 }
+
+                if ((currentChar = currentUuidSet.getCharacteristicCommandWrite()) == null ||
+                        (btCharacteristicCommandWrite = getCharacteristic(currentChar)) == null) {
+                    continue;
+                }
+
+                if ((currentChar = currentUuidSet.getCharacteristicActivityData()) == null ||
+                        (btCharacteristicActivityData = getCharacteristic(currentChar)) == null) {
+                    continue;
+                }
+
+                if ((currentChar = currentUuidSet.getCharacteristicDataUpload()) == null ||
+                        (btCharacteristicDataUpload= getCharacteristic(currentChar)) == null) {
+                    LOG.warn("btCharacteristicDataUpload characteristic is null");
+                    // this characteristic may not be supported by all models
+                }
+
+                LOG.debug("Found Xiaomi service: {}", xiaomiUuid.getKey());
+                uuidSet = xiaomiUuid.getValue();
+
+                break;
             }
 
             if (uuidSet == null) {
