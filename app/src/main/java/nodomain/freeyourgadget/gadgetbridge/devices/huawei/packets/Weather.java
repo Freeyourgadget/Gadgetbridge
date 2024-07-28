@@ -628,9 +628,9 @@ public class Weather {
                                 dayTlv.put(0x15, dayData.lowTemperature);
                         }
                         if (settings.sunRiseSetSupported) {
-                            if (dayData.sunriseTime != null)
+                            if (dayData.sunriseTime != null && dayData.sunriseTime != 0)
                                 dayTlv.put(0x16, dayData.sunriseTime);
-                            if (dayData.sunsetTime != null)
+                            if (dayData.sunsetTime != null && dayData.sunsetTime != 0)
                                 dayTlv.put(0x17, dayData.sunsetTime);
                             if (dayData.moonRiseTime != null && dayData.moonRiseTime != 0)
                                 dayTlv.put(0x1a, dayData.moonRiseTime);

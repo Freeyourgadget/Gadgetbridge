@@ -40,7 +40,7 @@ public class SendWeatherForecastRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         int hourlyCount = Math.min(weatherSpec.hourly.size(), 24);
-        int dayCount = Math.min(weatherSpec.forecasts.size(), 8);
+        int dayCount = Math.min(weatherSpec.forecasts.size() + 1, 8); // We add today as well
 
         ArrayList<WeatherForecastData.TimeData> timeDataArrayList = new ArrayList<>(hourlyCount);
         ArrayList<WeatherForecastData.DayData> dayDataArrayList = new ArrayList<>(dayCount);
