@@ -2482,4 +2482,8 @@
     <string name="uploadwatchfaceoperation_failed">A számlap telepítése sikertelen</string>
     <string name="uploadwatchfaceoperation_complete">A számlap telepítése kész</string>
     <string name="prefs_events_forwarding_summary">Készülék-események használata akciók és Android adások indításához</string>
+    <string name="agps_status_pending">Függőben</string>
+    <string name="proprietary_app_warning">Ez a funkció egy zárt forráskódú alkalmazás telepítését igényli</string>
+    <string name="agps_status_error">Hiba</string>
+    <string name="pref_wearing_tone_summary">Hangjelzés a fülhallgató behelyezésekor</string>
 </resources>
