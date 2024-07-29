@@ -375,9 +375,14 @@ public class BondingUtil {
             return;
         }
 
+        // FIXME: We can only attempt companion pairing if the context of the bondingInterface is an activity
+        // however, when called from the BondAction it will always be the global Application context
+        // See https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3784#issuecomment-2121792
+        final boolean contextIsActivity = bondingInterface.getContext() instanceof Activity;
+
         if (bondState == BluetoothDevice.BOND_BONDED) {
             GB.toast(bondingInterface.getContext().getString(R.string.pairing_already_bonded, device.getName(), device.getAddress()), Toast.LENGTH_SHORT, GB.INFO);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device) && contextIsActivity) {
                 // If CompanionDeviceManager is available, skip connection and go bond
                 // TODO: It would theoretically be nice to check if it's already been granted,
                 //  but re-bond works
@@ -390,7 +395,7 @@ public class BondingUtil {
 
         GB.toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.pairing_creating_bond_with, device.getName(), device.getAddress()), Toast.LENGTH_LONG, GB.INFO);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !isPebble2(device) && contextIsActivity) {
             askCompanionPairing(bondingInterface, device, macAddress);
         } else if (isPebble2(device)) {
             // TODO: start companionDevicePairing after connecting to Pebble 2 but before writing to pairing trigger
