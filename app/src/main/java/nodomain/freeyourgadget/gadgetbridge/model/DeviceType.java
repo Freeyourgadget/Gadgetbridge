@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminF
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix7ProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner245Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner255Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner255MusicCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner255SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner255SMusicCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.forerunner.GarminForerunner265Coordinator;
@@ -376,6 +377,7 @@ public enum DeviceType {
     GARMIN_FENIX_7_PRO(GarminFenix7ProCoordinator.class),
     GARMIN_FORERUNNER_245(GarminForerunner245Coordinator.class),
     GARMIN_FORERUNNER_255(GarminForerunner255Coordinator.class),
+    GARMIN_FORERUNNER_255_MUSIC(GarminForerunner255MusicCoordinator.class),
     GARMIN_FORERUNNER_255S(GarminForerunner255SCoordinator.class),
     GARMIN_FORERUNNER_255S_MUSIC(GarminForerunner255SMusicCoordinator.class),
     GARMIN_FORERUNNER_265(GarminForerunner265Coordinator.class),
