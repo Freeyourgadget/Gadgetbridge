@@ -3103,4 +3103,5 @@
     <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
     <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
     <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">جهاز تتبع نشاط مراقبة معدل ضربات القلب و ضغط الدم Vivitar</string>
+    <string name="devicetype_garmin_forerunner_255s_music">موسيقى Garmin Forerunner 255S</string>
 </resources>
