@@ -3110,4 +3110,8 @@
     <string name="activity_type_auto_racing">Autorennen</string>
     <string name="activity_type_parkour">Parkour</string>
     <string name="pref_summary_notification_times_enabled">enachrichtigungen nur zwischen bestimmten Zeiten senden</string>
+    <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
+    <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">Vivitar HR &amp; BP Monitor Aktivitäts-Tracker</string>
+    <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
+    <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
 </resources>
