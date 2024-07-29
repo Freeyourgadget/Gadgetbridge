@@ -1877,6 +1877,7 @@ public class HuaweiSupportProvider {
         WeatherSpec weatherSpec = weatherSpecs.get(0);
 
         Weather.Settings weatherSettings = new Weather.Settings();
+        weatherSettings.uvIndexSupported = getHuaweiCoordinator().supportsWeatherUvIndex();
 
         SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this, weatherSettings);
         try {

@@ -66,6 +66,7 @@ public class SendWeatherCurrentRequest extends Request {
                     temperatureFormat,
                     aqi,
                     weatherSpec.timestamp,
+                    weatherSpec.uvIndex,
                     "Gadgetbridge"
                 ).serialize();
         } catch (HuaweiPacket.CryptoException e) {

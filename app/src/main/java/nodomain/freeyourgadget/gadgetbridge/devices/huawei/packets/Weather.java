@@ -45,6 +45,9 @@ public class Weather {
         // WeatherSunMoonSupport
         public boolean sunRiseSetSupported = false;
         public boolean moonPhaseSupported = false;
+
+        // ExpandCapabilityRequest
+        public boolean uvIndexSupported = false;
     }
 
     public enum WeatherIcon {
@@ -358,6 +361,7 @@ public class Weather {
                 HuaweiTemperatureFormat temperatureUnit,
                 Short airQualityIndex,
                 Integer observationTime,
+                Float uvIndex,
                 String sourceName
         ) {
             super(paramsProvider);
@@ -411,7 +415,8 @@ public class Weather {
                 this.tlv.put(0x0c, observationTime);
             if (sourceName != null && settings.sourceSupported)
                 this.tlv.put(0x0e, sourceName);
-            this.tlv.put(0x0f, (byte) 0);
+            if (uvIndex != null && settings.uvIndexSupported)
+                this.tlv.put(0x0f, uvIndex.byteValue());
 
             this.isEncrypted = true;
             this.complete = true;

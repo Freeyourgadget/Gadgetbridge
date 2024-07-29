@@ -423,6 +423,10 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x0f, 0x0b);
     }
 
+    public boolean supportsWeatherUvIndex() {
+        return supportsExpandCapability(0x2f);
+    }
+
     public boolean supportsWorkouts() {
         return supportsCommandForService(0x17, 0x01);
     }

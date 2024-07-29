@@ -54,7 +54,7 @@ public class WeatherSpec implements Parcelable, Serializable {
     public int todayMinTemp; // kelvin
     public float windSpeed; // km per hour
     public int windDirection; // deg
-    public float uvIndex;
+    public float uvIndex; // 0.0 to 15.0
     public int precipProbability; // %
     public int dewPoint; // kelvin
     public float pressure; // mb
@@ -357,7 +357,7 @@ public class WeatherSpec implements Parcelable, Serializable {
         public int humidity;
         public float windSpeed; // km per hour
         public int windDirection; // deg
-        public float uvIndex;
+        public float uvIndex; // 0.0 to 15.0
         public int precipProbability; // %
         public int sunRise;
         public int sunSet;
@@ -438,7 +438,7 @@ public class WeatherSpec implements Parcelable, Serializable {
         public int humidity;
         public float windSpeed; // km per hour
         public int windDirection; // deg
-        public float uvIndex;
+        public float uvIndex; // 0.0 to 15.0
         public int precipProbability; // %
 
         public Hourly() {
