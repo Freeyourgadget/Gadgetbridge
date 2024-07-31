@@ -2846,7 +2846,7 @@
     <string name="pref_dashboard_widget_today_24h_title">24ч стиль</string>
     <string name="bottom_nav_dashboard">Приборная панель</string>
     <string name="notification_channel_scan_service_name">Служба сканирования</string>
-    <string name="huawei_trusleep_warning">Предупреждение: включение этой функции выключит отображение сна в Gatgetbride! Нажмите, если согласны.</string>
+    <string name="huawei_trusleep_warning">Предупреждение: включение этой функции приведёт к отображению всего сна в Gatgetbride как быстрого! Нажмите, если согласны.</string>
     <string name="activity_type_mountain_hike">Горная прогулка</string>
     <string name="pref_touch_tone_summary">Проигрывать сигнал при касании к наушнику</string>
     <string name="pref_wearing_tone_summary">Проигрывать сигнал, когда вставлен наушник</string>
@@ -3020,7 +3020,7 @@
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="devicesetting_scannable_minimum_unseen_summary">После сканирования устройство должно оставаться незамеченным в течение определенного времени, прежде чем его снова зарегистрируют</string>
     <string name="pref_title_garmin_default_reply_suffix">Используйте предопределенный суффикс ответа</string>
-    <string name="garmin_agps_url_i">AGPS %1$d URL</string>
+    <string name="garmin_agps_url_i">AGPS URL %1$d</string>
     <string name="pref_garmin_agps_help">В приведенном ниже списке содержатся все URL-адреса, запрашиваемые часами для обновления AGPS. Вы можете выбрать файл из хранилища телефона, который будет отправлен на часы при запросе обновления.</string>
     <string name="no_folder_selected">Не выбрана папка</string>
     <string name="folder_is_empty">Папка пустая</string>
