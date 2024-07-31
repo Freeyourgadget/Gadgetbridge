@@ -2960,7 +2960,7 @@
     <string name="cyclingPowerAverage">平均骑行功率</string>
     <string name="cyclingPowerMax">最大骑行功率</string>
     <string name="devicetype_huawei_watchfit2">华为 Watch Fit 2</string>
-    <string name="huawei_trusleep_warning">警告：启用此功能将阻止睡眠在 Gadgetbridge 中显示！如果您接受，请点击此处。</string>
+    <string name="huawei_trusleep_warning">警告：启用此功能将使所有睡眠在 Gadgetbridge 中显示为浅睡眠！如果您接受，请点击此处。</string>
     <string name="pref_touch_tone">按键音</string>
     <string name="pref_wearing_tone">穿戴提示音</string>
     <string name="pref_wearing_tone_summary">插入耳机时发出提示音</string>
