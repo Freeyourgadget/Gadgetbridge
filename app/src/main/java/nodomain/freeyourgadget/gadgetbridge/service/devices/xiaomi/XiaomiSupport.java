@@ -477,7 +477,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
         LOG.info("Parsing all activity files from storage");
 
         try {
-            final File externalFilesDir = FileUtils.getExternalFilesDir();
+            final File externalFilesDir = getCoordinator().getWritableExportDirectory(getDevice());
             final File targetDir = new File(externalFilesDir, "rawFetchOperations");
 
             if (!targetDir.exists()) {

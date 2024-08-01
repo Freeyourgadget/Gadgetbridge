@@ -32,6 +32,7 @@ import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPreferences;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
@@ -96,10 +97,7 @@ public class XiaomiActivityFileFetcher {
             final byte[] fileIdBytes = Arrays.copyOfRange(data, 0, 7);
             final XiaomiActivityFileId fileId = XiaomiActivityFileId.from(fileIdBytes);
 
-            if (BuildConfig.DEBUG) {
-                // FIXME comment this out
-                dumpBytesToExternalStorage(fileId, data);
-            }
+            dumpBytesToExternalStorage(fileId, data);
 
             if (!XiaomiPreferences.keepActivityDataOnDevice(mHealthService.getSupport().getDevice())) {
                 LOG.debug("Acking recorded data {}", fileId);
@@ -162,8 +160,9 @@ public class XiaomiActivityFileFetcher {
 
     protected void dumpBytesToExternalStorage(final XiaomiActivityFileId fileId, final byte[] bytes) {
         try {
-            final File externalFilesDir = FileUtils.getExternalFilesDir();
-            final File targetDir = new File(externalFilesDir, "rawFetchOperations");
+            final GBDevice device = mHealthService.getSupport().getDevice();
+            final File exportDirectory = device.getDeviceCoordinator().getWritableExportDirectory(device);
+            final File targetDir = new File(exportDirectory, "rawFetchOperations");
             targetDir.mkdirs();
 
             final File outputFile = new File(targetDir, fileId.getFilename());
