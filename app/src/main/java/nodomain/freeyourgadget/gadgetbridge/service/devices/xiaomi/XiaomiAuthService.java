@@ -195,12 +195,10 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         System.arraycopy(step2hmac, 32, decryptionNonce, 0, 4);
         System.arraycopy(step2hmac, 36, encryptionNonce, 0, 4);
 
-        if (BuildConfig.DEBUG) {
-            LOG.debug("decryptionKey: {}", GB.hexdump(decryptionKey));
-            LOG.debug("encryptionKey: {}", GB.hexdump(encryptionKey));
-            LOG.debug("decryptionNonce: {}", GB.hexdump(decryptionNonce));
-            LOG.debug("encryptionNonce: {}", GB.hexdump(encryptionNonce));
-        }
+        LOG.debug("decryptionKey: {}", GB.hexdump(decryptionKey));
+        LOG.debug("encryptionKey: {}", GB.hexdump(encryptionKey));
+        LOG.debug("decryptionNonce: {}", GB.hexdump(decryptionNonce));
+        LOG.debug("encryptionNonce: {}", GB.hexdump(encryptionNonce));
 
         final byte[] decryptionConfirmation = hmacSHA256(decryptionKey, ArrayUtils.addAll(watchNonce.getNonce().toByteArray(), nonce));
         if (!Arrays.equals(decryptionConfirmation, watchNonce.getHmac().toByteArray())) {

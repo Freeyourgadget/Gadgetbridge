@@ -159,9 +159,7 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
                 finalSharedSessionAES[i] = (byte) (sharedEC[i + 8] ^ secretKey[i]);
             }
 
-            if (BuildConfig.DEBUG) {
-                LOG.debug("Shared Session Key: {}", GB.hexdump(finalSharedSessionAES));
-            }
+            LOG.debug("Shared Session Key: {}", GB.hexdump(finalSharedSessionAES));
             huami2021ChunkedEncoder.setEncryptionParameters(encryptedSequenceNumber, finalSharedSessionAES);
             huami2021ChunkedDecoder.setEncryptionParameters(finalSharedSessionAES);
 
