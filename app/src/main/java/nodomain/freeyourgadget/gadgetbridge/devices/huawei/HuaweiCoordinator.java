@@ -175,6 +175,10 @@ public class HuaweiCoordinator {
         // capability is a number containing :
         //  - the index of the "service"
         //  - the real capability number
+        if (expandCapabilities == null) {
+            LOG.debug("Expand capabilities is null");
+            return false;
+        }
         if (which >= expandCapabilities.length * 8) {
             LOG.debug("Capability is not supported");
             return false;
