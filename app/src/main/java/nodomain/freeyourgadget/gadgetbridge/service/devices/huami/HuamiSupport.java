@@ -126,6 +126,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepState;
 import nodomain.freeyourgadget.gadgetbridge.model.WearingState;
@@ -2705,6 +2706,24 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
+    @Override
+    public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
+        onCalendarSync();
+    }
+
+    public void onDeleteCalendarEvent(final byte type, final long id) {
+        onCalendarSync();
+    }
+
+    public void onCalendarSync() {
+        final TransactionBuilder builder = createTransactionBuilder("calendar sync");
+        sendCalendarEvents(builder);
+        if (builder.getTransaction().isEmpty()) {
+            return;
+        }
+        builder.queue(getQueue());
+    }
+
     protected HuamiSupport sendCalendarEvents(TransactionBuilder builder) {
         if (characteristicChunked == null) { // all except Mi Band 2
             sendCalendarEventsAsAlarms(builder);
@@ -2973,6 +2992,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 case PasswordCapabilityImpl.PREF_PASSWORD:
                 case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
                     setPassword(builder);
+                    break;
+                case DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR:
+                    onCalendarSync();
                     break;
             }
             builder.queue(getQueue());

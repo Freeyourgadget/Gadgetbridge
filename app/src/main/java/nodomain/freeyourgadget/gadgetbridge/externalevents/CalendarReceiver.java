@@ -116,6 +116,7 @@ public class CalendarReceiver extends BroadcastReceiver {
     public void syncCalendar(List<CalendarEvent> eventList, DaoSession session) {
         LOG.info("Syncing with calendar.");
         Hashtable<Long, CalendarEvent> eventTable = new Hashtable<>();
+
         Long deviceId = DBHelper.getDevice(mGBDevice, session).getId();
         QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
 
@@ -179,6 +180,9 @@ public class CalendarReceiver extends BroadcastReceiver {
 
     private void updateEvents(Long deviceId, DaoSession session) {
         Enumeration<Long> ids = eventState.keys();
+        final boolean supportsCalendarAddDelete = mGBDevice.getDeviceCoordinator().supportsCalendarAddDelete();
+        boolean anyEventChanged = false;
+
         while (ids.hasMoreElements()) {
             Long i = ids.nextElement();
             EventSyncState es = eventState.get(i);
@@ -210,21 +214,37 @@ public class CalendarReceiver extends BroadcastReceiver {
                 calendarEventSpec.calName = calendarEvent.getUniqueCalName();
                 calendarEventSpec.color = calendarEvent.getColor();
                 if (syncState == EventState.NEEDS_UPDATE) {
-                    GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                    if (supportsCalendarAddDelete) {
+                        GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                    } else {
+                        anyEventChanged = true;
+                    }
                 }
-                GBApplication.deviceService(mGBDevice).onAddCalendarEvent(calendarEventSpec);
+                if (supportsCalendarAddDelete) {
+                    GBApplication.deviceService(mGBDevice).onAddCalendarEvent(calendarEventSpec);
+                } else {
+                    anyEventChanged = true;
+                }
                 es.setState(EventState.SYNCED);
                 eventState.put(i, es);
                 // update db
                 session.insertOrReplace(new CalendarSyncState(null, deviceId, i, es.event.hashCode()));
             } else if (syncState == EventState.NEEDS_DELETE) {
-                GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                if (supportsCalendarAddDelete) {
+                    GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                } else {
+                    anyEventChanged = true;
+                }
                 eventState.remove(i);
                 // delete from db for current device only
                 QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
                 qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId), CalendarSyncStateDao.Properties.CalendarEntryId.eq(i)))
                         .buildDelete().executeDeleteWithoutDetachingEntities();
             }
+        }
+
+        if (!supportsCalendarAddDelete && anyEventChanged) {
+            GBApplication.deviceService(mGBDevice).onCalendarSync();
         }
     }
 

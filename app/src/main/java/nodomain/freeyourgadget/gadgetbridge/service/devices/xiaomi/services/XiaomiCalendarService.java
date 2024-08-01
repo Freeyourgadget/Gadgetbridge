@@ -71,16 +71,6 @@ public class XiaomiCalendarService extends AbstractXiaomiService {
         return false;
     }
 
-    public void onAddCalendarEvent(final CalendarEventSpec ignoredCalendarEventSpec) {
-        // we must sync everything
-        syncCalendar();
-    }
-
-    public void onDeleteCalendarEvent(final byte ignoredType, final long ignoredId) {
-        // we must sync everything
-        syncCalendar();
-    }
-
     public void syncCalendar() {
         final boolean syncEnabled = GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress())
                 .getBoolean(PREF_SYNC_CALENDAR, false);

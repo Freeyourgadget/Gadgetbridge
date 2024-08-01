@@ -506,6 +506,13 @@ public interface DeviceCoordinator {
     boolean supportsCalendarEvents();
 
     /**
+     * Indicates whether the device supports adding / deleting individual calendar events. If the
+     * device supports calendar events, but not add/delete, a full calendar sync is called once
+     * every time there is any change to any of the calendar events that would be otherwise synced.
+     */
+    boolean supportsCalendarAddDelete();
+
+    /**
      * Indicates whether the device supports getting a stream of live data.
      * This can be live HR, steps etc.
      */

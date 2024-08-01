@@ -423,6 +423,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsCalendarAddDelete() {
+        return supportsCalendarEvents();
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return false;
     }

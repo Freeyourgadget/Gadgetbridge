@@ -400,12 +400,19 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
-        calendarService.onAddCalendarEvent(calendarEventSpec);
+        // we must sync everything
+        onCalendarSync();
     }
 
     @Override
     public void onDeleteCalendarEvent(final byte type, long id) {
-        calendarService.onDeleteCalendarEvent(type, id);
+        // we must sync everything
+        onCalendarSync();
+    }
+
+    @Override
+    public void onCalendarSync() {
+        calendarService.syncCalendar();
     }
 
     @Override

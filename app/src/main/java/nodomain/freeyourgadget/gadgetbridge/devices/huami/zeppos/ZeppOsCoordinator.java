@@ -266,6 +266,11 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsCalendarAddDelete() {
+        return true;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull final GBDevice gbDevice,
                                 @NonNull final Device device,
                                 @NonNull final DaoSession session) throws GBException {

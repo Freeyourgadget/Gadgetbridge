@@ -121,6 +121,8 @@ public interface EventHandler {
 
     void onDeleteCalendarEvent(byte type, long id);
 
+    void onCalendarSync();
+
     /**
      * Sets the given option in the device, typically with values from the preferences.
      * The config name is device specific.

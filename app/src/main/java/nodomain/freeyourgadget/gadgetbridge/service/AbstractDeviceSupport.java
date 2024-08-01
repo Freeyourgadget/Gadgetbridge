@@ -1169,6 +1169,15 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     /**
+     * Called when the calendar needs to be synced. Only relevant if
+     * coordinator#supportsCalendarAddDelete is false
+     */
+    @Override
+    public void onCalendarSync() {
+
+    }
+
+    /**
      * If configuration options can be set on the device, this method
      * can be overridden and implemented by the device support class.
      * @param config the device specific option to set on the device

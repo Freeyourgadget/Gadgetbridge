@@ -112,6 +112,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsCalendarEvents() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsCalendarAddDelete() {
         return false;
     }
 

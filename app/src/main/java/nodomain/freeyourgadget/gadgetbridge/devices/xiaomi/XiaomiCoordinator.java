@@ -231,6 +231,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsCalendarAddDelete() {
+        return true;
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return true;
     }
