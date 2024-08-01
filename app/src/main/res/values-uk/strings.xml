@@ -41,7 +41,7 @@
     <string name="pref_title_general_autostartonboot">Запускатися автоматично</string>
     <string name="pref_title_general_autoreconnect">Автоматичне перез\'єднання</string>
     <string name="pref_title_audio_player">Бажаний аудіопрогравач</string>
-    <string name="pref_default">За замовчуванням</string>
+    <string name="pref_default">Типово</string>
     <string name="pref_header_datetime">Дата й час</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронізувати час</string>
     <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час з пристроями Gadgetbridge при з\'єднанні, після зміни часу або часового поясу в системі Android, а також періодично</string>
@@ -968,7 +968,7 @@
     <string name="meters">м</string>
     <string name="averageSpeed">Середня швидкість</string>
     <string name="baseAltitude">Базова висота</string>
-    <string name="flatSeconds">Пласке</string>
+    <string name="flatSeconds">Рівно</string>
     <string name="ascentSeconds">Зростання</string>
     <string name="laps">Кола</string>
     <string name="averageLapPace">Середній темп кола</string>
@@ -1083,7 +1083,7 @@
     <string name="minutes_mi">хв/милю</string>
     <string name="mi_h">миль/год</string>
     <string name="ft">фути</string>
-    <string name="descentSeconds">За зменшенням</string>
+    <string name="descentSeconds">Спадання</string>
     <string name="about_version">Версія %s</string>
     <string name="pref_title_lower_button_function_double">Подвійне натиснення нижньої кнопки</string>
     <string name="pref_title_middle_button_function_double">Подвійне натиснення середньої кнопки</string>
@@ -2034,7 +2034,7 @@
     <string name="buttons_on_left">Кнопки ліворуч</string>
     <string name="buttons_on_right">Кнопки праворуч</string>
     <string name="prefs_weardirection">Напрямок носіння</string>
-    <string name="vibration_profile_default">За замовчуванням</string>
+    <string name="vibration_profile_default">Типово</string>
     <string name="pref_screen_notification_profile_schedule">Розклад</string>
     <string name="pref_screen_notification_profile_todo_list">Список справ</string>
     <string name="activity_prefs_target_weight_kg">Мета ваги у кілограмах</string>
@@ -2851,4 +2851,15 @@
         <item quantity="other">%d днів</item>
     </plurals>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
+    <string name="swingAngleAvg">Середній кут нахилу</string>
+    <string name="impactAvg">Середній вплив</string>
+    <string name="impactMax">Максимальний вплив</string>
+    <string name="backFootLandings">Приземлення на задню частину стопи</string>
+    <string name="eversionAngleAvg">Середній кут вивертання</string>
+    <string name="stepLengthAvg">Середня довжина кроку</string>
+    <string name="groundContactTimeAvg">Середній час контакту з поверхнею</string>
+    <string name="foreFootLandings">Приземлення на передню частину стопи</string>
+    <string name="stepRateAvg">Середня частота кроків</string>
+    <string name="midFootLandings">Приземлення на середню частину стопи</string>
+    <string name="stepRateSum">Сума частоти кроків</string>
 </resources>
