@@ -32,6 +32,8 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminEventSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvSummarySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSleepStageSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminStressSampleProvider;
@@ -40,6 +42,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSample;
@@ -51,9 +55,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitFileId;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvSummary;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvValue;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoring;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSession;
@@ -75,6 +82,8 @@ public class FitImporter {
     private final List<GarminSpo2Sample> spo2samples = new ArrayList<>();
     private final List<GarminEventSample> events = new ArrayList<>();
     private final List<GarminSleepStageSample> sleepStageSamples = new ArrayList<>();
+    private final List<GarminHrvSummarySample> hrvSummarySamples = new ArrayList<>();
+    private final List<GarminHrvValueSample> hrvValueSamples = new ArrayList<>();
     private final List<FitTimeInZone> timesInZone = new ArrayList<>();
     private final List<ActivityPoint> activityPoints = new ArrayList<>();
     private final Map<Integer, Integer> unknownRecords = new HashMap<>();
@@ -179,6 +188,34 @@ public class FitImporter {
             } else if (record instanceof FitTimeInZone) {
                 LOG.trace("Time in zone: {}", record);
                 timesInZone.add((FitTimeInZone) record);
+            } else if (record instanceof FitHrvSummary) {
+                final FitHrvSummary hrvSummary = (FitHrvSummary) record;
+                final FieldDefinitionHrvStatus.HrvStatus status = hrvSummary.getStatus();
+                if (status == null) {
+                    continue;
+                }
+                LOG.trace("HRV summary at {}: {}", ts, record);
+                final GarminHrvSummarySample sample = new GarminHrvSummarySample( );
+                sample.setTimestamp(ts * 1000L);
+                sample.setWeeklyAverage(hrvSummary.getWeeklyAverage());
+                sample.setLastNightAverage(hrvSummary.getLastNightAverage());
+                sample.setLastNight5MinHigh(hrvSummary.getLastNight5MinHigh());
+                sample.setBaselineLowUpper(hrvSummary.getBaselineLowUpper());
+                sample.setBaselineBalancedLower(hrvSummary.getBaselineBalancedLower());
+                sample.setBaselineBalancedUpper(hrvSummary.getBaselineBalancedUpper());
+                sample.setStatusNum(status.getId());
+                hrvSummarySamples.add(sample);
+            } else if (record instanceof FitHrvValue) {
+                final FitHrvValue hrvValue = (FitHrvValue) record;
+                if (hrvValue.getValue() == null) {
+                    LOG.warn("HRV value at {} is null", ts);
+                    continue;
+                }
+                LOG.trace("HRV value at {}: {}", ts, hrvValue.getValue());
+                final GarminHrvValueSample sample = new GarminHrvValueSample();
+                sample.setTimestamp(ts * 1000L);
+                sample.setValue(hrvValue.getValue());
+                hrvValueSamples.add(sample);
             } else {
                 LOG.trace("Unknown record: {}", record);
 
@@ -202,17 +239,21 @@ public class FitImporter {
         }
 
         switch (fileId.getType()) {
-            case activity:
+            case ACTIVITY:
                 persistWorkout(file);
                 break;
-            case monitor:
+            case MONITOR:
                 persistActivitySamples();
                 persistSpo2Samples();
                 persistStressSamples();
                 break;
-            case sleep:
+            case SLEEP:
                 persistEvents();
                 persistSleepStageSamples();
+                break;
+            case HRV_STATUS:
+                persistHrvSummarySamples();
+                persistHrvValueSamples();
                 break;
             default:
                 LOG.warn("Unable to handle fit file of type {}", fileId.getType());
@@ -509,6 +550,58 @@ public class FitImporter {
             sampleProvider.addSamples(sleepStageSamples);
         } catch (final Exception e) {
             GB.toast(context, "Error saving sleep stage samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void persistHrvSummarySamples() {
+        if (hrvSummarySamples.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Will persist {} HRV summary samples", hrvSummarySamples.size());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final GarminHrvSummarySampleProvider sampleProvider = new GarminHrvSummarySampleProvider(gbDevice, session);
+
+            for (final GarminHrvSummarySample sample : hrvSummarySamples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            sampleProvider.addSamples(hrvSummarySamples);
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving HRV summary samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void persistHrvValueSamples() {
+        if (hrvValueSamples.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Will persist {} HRV value samples", hrvValueSamples.size());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final GarminHrvValueSampleProvider sampleProvider = new GarminHrvValueSampleProvider(gbDevice, session);
+
+            for (final GarminHrvValueSample sample : hrvValueSamples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            sampleProvider.addSamples(hrvValueSamples);
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving HRV value samples", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 

@@ -67,6 +67,10 @@ public class FitRecordDataFactory {
                 return new FitRespirationRate(recordDefinition, recordHeader);
             case 346:
                 return new FitSleepStats(recordDefinition, recordHeader);
+            case 370:
+                return new FitHrvSummary(recordDefinition, recordHeader);
+            case 371:
+                return new FitHrvValue(recordDefinition, recordHeader);
         }
 
         return new RecordData(recordDefinition, recordHeader);

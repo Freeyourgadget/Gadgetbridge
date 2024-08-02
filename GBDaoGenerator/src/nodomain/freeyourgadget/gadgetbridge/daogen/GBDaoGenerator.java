@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(74, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(75, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -113,6 +113,8 @@ public class GBDaoGenerator {
         addGarminSpo2Sample(schema, user, device);
         addGarminSleepStageSample(schema, user, device);
         addGarminEventSample(schema, user, device);
+        addGarminHrvSummarySample(schema, user, device);
+        addGarminHrvValueSample(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
         addWena3CaloriesSample(schema, user, device);
@@ -723,6 +725,26 @@ public class GBDaoGenerator {
         sleepStageSample.addIntProperty("eventType");
         sleepStageSample.addLongProperty("data");
         return sleepStageSample;
+    }
+
+    private static Entity addGarminHrvSummarySample(Schema schema, Entity user, Entity device) {
+        Entity hrvSummarySample = addEntity(schema, "GarminHrvSummarySample");
+        addCommonTimeSampleProperties("AbstractHrvSummarySample", hrvSummarySample, user, device);
+        hrvSummarySample.addIntProperty("weeklyAverage").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("lastNightAverage").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("lastNight5MinHigh").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("baselineLowUpper").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("baselineBalancedLower").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("baselineBalancedUpper").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty("statusNum").codeBeforeGetter(OVERRIDE);
+        return hrvSummarySample;
+    }
+
+    private static Entity addGarminHrvValueSample(Schema schema, Entity user, Entity device) {
+        Entity hrvValueSample = addEntity(schema, "GarminHrvValueSample");
+        addCommonTimeSampleProperties("AbstractHrvValueSample", hrvValueSample, user, device);
+        hrvValueSample.addIntProperty("value").notNull().codeBeforeGetter(OVERRIDE);
+        return hrvValueSample;
     }
 
     private static Entity addWatchXPlusHealthActivitySample(Schema schema, Entity user, Entity device) {

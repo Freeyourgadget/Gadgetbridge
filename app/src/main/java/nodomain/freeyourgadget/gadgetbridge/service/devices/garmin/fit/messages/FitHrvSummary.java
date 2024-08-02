@@ -2,62 +2,62 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages
 
 import androidx.annotation.Nullable;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType.FILETYPE;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus.HrvStatus;
 
 //
 // WARNING: This class was auto-generated, please avoid modifying it directly.
 // See nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.codegen.FitCodeGen
 //
-public class FitFileId extends RecordData {
-    public FitFileId(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
+public class FitHrvSummary extends RecordData {
+    public FitHrvSummary(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
         super(recordDefinition, recordHeader);
 
         final int globalNumber = recordDefinition.getGlobalFITMessage().getNumber();
-        if (globalNumber != 0) {
-            throw new IllegalArgumentException("FitFileId expects global messages of " + 0 + ", got " + globalNumber);
+        if (globalNumber != 370) {
+            throw new IllegalArgumentException("FitHrvSummary expects global messages of " + 370 + ", got " + globalNumber);
         }
     }
 
     @Nullable
-    public FILETYPE getType() {
-        return (FILETYPE) getFieldByNumber(0);
+    public Integer getWeeklyAverage() {
+        return (Integer) getFieldByNumber(0);
     }
 
     @Nullable
-    public Integer getManufacturer() {
+    public Integer getLastNightAverage() {
         return (Integer) getFieldByNumber(1);
     }
 
     @Nullable
-    public Integer getProduct() {
+    public Integer getLastNight5MinHigh() {
         return (Integer) getFieldByNumber(2);
     }
 
     @Nullable
-    public Long getSerialNumber() {
-        return (Long) getFieldByNumber(3);
+    public Integer getBaselineLowUpper() {
+        return (Integer) getFieldByNumber(3);
     }
 
     @Nullable
-    public Long getTimeCreated() {
-        return (Long) getFieldByNumber(4);
+    public Integer getBaselineBalancedLower() {
+        return (Integer) getFieldByNumber(4);
     }
 
     @Nullable
-    public Integer getNumber() {
+    public Integer getBaselineBalancedUpper() {
         return (Integer) getFieldByNumber(5);
     }
 
     @Nullable
-    public Integer getManufacturerPartner() {
-        return (Integer) getFieldByNumber(6);
+    public HrvStatus getStatus() {
+        return (HrvStatus) getFieldByNumber(6);
     }
 
     @Nullable
-    public String getProductName() {
-        return (String) getFieldByNumber(8);
+    public Long getTimestamp() {
+        return (Long) getFieldByNumber(253);
     }
 }

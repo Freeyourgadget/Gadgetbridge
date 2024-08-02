@@ -22,13 +22,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalFITMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordHeader;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionFileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalSource;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionLanguage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -230,11 +231,13 @@ public class FitCodeGen {
                 case DAY_OF_WEEK:
                     return DayOfWeek.class;
                 case FILE_TYPE:
-                    return FieldDefinitionFileType.Type.class;
+                    return FileType.FILETYPE.class;
                 case GOAL_SOURCE:
                     return FieldDefinitionGoalSource.Source.class;
                 case GOAL_TYPE:
                     return FieldDefinitionGoalType.Type.class;
+                case HRV_STATUS:
+                    return FieldDefinitionHrvStatus.HrvStatus.class;
                 case MEASUREMENT_SYSTEM:
                     return FieldDefinitionMeasurementSystem.Type.class;
                 case TEMPERATURE:

@@ -253,6 +253,22 @@ public class GlobalFITMessage {
     public static GlobalFITMessage SLEEP_STATS = new GlobalFITMessage(346, "SLEEP_STATS", Arrays.asList(
     ));
 
+    public static GlobalFITMessage HRV_SUMMARY = new GlobalFITMessage(370, "HRV_SUMMARY", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT16, "weekly_average", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(1, BaseType.UINT16, "last_night_average", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(2, BaseType.UINT16, "last_night_5_min_high", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(3, BaseType.UINT16, "baseline_low_upper", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(4, BaseType.UINT16, "baseline_balanced_lower", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(5, BaseType.UINT16, "baseline_balanced_upper", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(6, BaseType.ENUM, "status", FieldDefinitionFactory.FIELD.HRV_STATUS),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
+    public static GlobalFITMessage HRV_VALUE = new GlobalFITMessage(371, "HRV_VALUE", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT16, "value", 128, 0), // milliseconds, scaled by 128
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static Map<Integer, GlobalFITMessage> KNOWN_MESSAGES = new HashMap<Integer, GlobalFITMessage>() {{
         put(0, FILE_ID);
         put(2, DEVICE_SETTINGS);
@@ -280,6 +296,8 @@ public class GlobalFITMessage {
         put(275, SLEEP_STAGE);
         put(297, RESPIRATION_RATE);
         put(346, SLEEP_STATS);
+        put(370, HRV_SUMMARY);
+        put(371, HRV_VALUE);
     }};
     private final int number;
     private final String name;
