@@ -190,10 +190,6 @@ public class FitImporter {
                 timesInZone.add((FitTimeInZone) record);
             } else if (record instanceof FitHrvSummary) {
                 final FitHrvSummary hrvSummary = (FitHrvSummary) record;
-                final FieldDefinitionHrvStatus.HrvStatus status = hrvSummary.getStatus();
-                if (status == null) {
-                    continue;
-                }
                 LOG.trace("HRV summary at {}: {}", ts, record);
                 final GarminHrvSummarySample sample = new GarminHrvSummarySample( );
                 sample.setTimestamp(ts * 1000L);
@@ -203,7 +199,10 @@ public class FitImporter {
                 sample.setBaselineLowUpper(hrvSummary.getBaselineLowUpper());
                 sample.setBaselineBalancedLower(hrvSummary.getBaselineBalancedLower());
                 sample.setBaselineBalancedUpper(hrvSummary.getBaselineBalancedUpper());
-                sample.setStatusNum(status.getId());
+                final FieldDefinitionHrvStatus.HrvStatus status = hrvSummary.getStatus();
+                if (status != null) {
+                    sample.setStatusNum(status.getId());
+                }
                 hrvSummarySamples.add(sample);
             } else if (record instanceof FitHrvValue) {
                 final FitHrvValue hrvValue = (FitHrvValue) record;
