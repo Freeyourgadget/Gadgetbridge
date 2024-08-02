@@ -414,6 +414,8 @@ public class HuaweiPacket {
                         return new DeviceConfig.SupportedServices.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.SupportedCommands.id:
                         return new DeviceConfig.SupportedCommands.Response(paramsProvider).fromPacket(this);
+                    case DeviceConfig.TimeRequest.id:
+                        return new DeviceConfig.TimeRequest.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.ProductInfo.id:
                         return new DeviceConfig.ProductInfo.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.BondParams.id:

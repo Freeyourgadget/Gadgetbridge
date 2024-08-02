@@ -27,11 +27,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupport
 
 public class SetTimeRequest extends Request {
     private static final Logger LOG = LoggerFactory.getLogger(SetTimeRequest.class);
+    private boolean checkTime;
 
-    public SetTimeRequest(HuaweiSupportProvider support) {
+    public SetTimeRequest(HuaweiSupportProvider support, boolean syncTime) {
         super(support);
         this.serviceId = DeviceConfig.id;
         this.commandId = DeviceConfig.TimeRequest.id;
+        this.checkTime = syncTime;
     }
 
     @Override
@@ -44,7 +46,19 @@ public class SetTimeRequest extends Request {
     }
 
     @Override
-    protected void processResponse() {
+    protected void processResponse() throws ResponseTypeMismatchException {
         LOG.debug("handle Set Time");
+        if (!(receivedPacket instanceof DeviceConfig.TimeRequest.Response))
+            throw new ResponseTypeMismatchException(receivedPacket, DeviceConfig.TimeRequest.Response.class);
+
+        int deviceTime = ((DeviceConfig.TimeRequest.Response) receivedPacket).deviceTime;
+        int systemTime = (int) (System.currentTimeMillis() / 1000);
+        int diff = Math.abs(systemTime - deviceTime);
+        LOG.debug("systemTime: {} deviceTime: {} diff: {}",systemTime, deviceTime, diff);
+        if (this.checkTime && diff > 0) {
+            SetTimeRequest setTimeReq = new SetTimeRequest(supportProvider, false);
+            setTimeReq.nextRequest(this.nextRequest);
+            nextRequest(setTimeReq);
+        }
     }
 }

@@ -400,6 +400,19 @@ public class DeviceConfig {
             this(paramsProvider, Calendar.getInstance());
         }
 
+        public static class Response extends HuaweiPacket {
+            public int deviceTime;
+
+            public Response(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                this.deviceTime = this.tlv.getInteger(0x01);
+            }
+        }
+
         // TODO: implement parsing this request for the log parser support
     }
 

@@ -550,7 +550,6 @@ public class HuaweiSupportProvider {
                 editor.putString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, "p_on");
                 editor.apply();
             }
-            onSetTime();
             getBatteryLevel();
             sendUserInfo();
             if (isBLE()) {
@@ -1363,7 +1362,7 @@ public class HuaweiSupportProvider {
     }
 
     private Request setTime() {
-        SetTimeRequest setTimeReq = new SetTimeRequest(this);
+        SetTimeRequest setTimeReq = new SetTimeRequest(this, true);
         return setTimeReq;
     }
 
