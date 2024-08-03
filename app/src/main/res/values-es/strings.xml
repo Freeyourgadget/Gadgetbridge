@@ -3111,4 +3111,5 @@
     <string name="pref_summary_notification_times_enabled">Enviar notificaciones solo entre horas específicas</string>
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
+    <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
 </resources>
