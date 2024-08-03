@@ -401,7 +401,7 @@ public class DeviceConfig {
         }
 
         public static class Response extends HuaweiPacket {
-            public int deviceTime;
+            public int deviceTime=0;
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -409,7 +409,9 @@ public class DeviceConfig {
 
             @Override
             public void parseTlv() throws ParseException {
-                this.deviceTime = this.tlv.getInteger(0x01);
+                if (this.tlv.contains(0x01)) {
+                    this.deviceTime = this.tlv.getInteger(0x01);
+                }
             }
         }
 
