@@ -3105,4 +3105,5 @@
     <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">جهاز تتبع نشاط مراقبة معدل ضربات القلب و ضغط الدم Vivitar</string>
     <string name="devicetype_garmin_forerunner_255s_music">موسيقى Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_forerunner_255_music">غارمين فورونر 255 موسيقى</string>
+    <string name="devicetype_huawei_watchgtrunner">ساعة هواوي جي تي رانر</string>
 </resources>
