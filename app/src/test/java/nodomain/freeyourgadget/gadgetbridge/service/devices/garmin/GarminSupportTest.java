@@ -333,7 +333,7 @@ public class GarminSupportTest extends TestBase {
                 "000901000a01000b45646765203531300000ffffffffffffff09ef");//https://github.com/polyvertex/fitdecode/blob/48b6554d8a3baf33f8b5b9b2fd079fcbe9ac8ce2/tests/files/Settings2.fit
 
         String expectedOutput = "[" +
-                "FitFileId{serial_number=3889965805, manufacturer=1, product=1561, type=settings}, " +
+                "FitFileId{serial_number=3889965805, manufacturer=1, product=1561, type=SETTINGS}, " +
                 "FitFileCreator{software_version=340}, " +
                 "FitDeviceSettings{utc_offset=0, time_offset=0, active_time_zone=0, unknown_3(ENUM/1)=0, time_mode=0, time_zone_offset=0, unknown_10(ENUM/1)=3, unknown_11(ENUM/1)=0, backlight_mode=2, unknown_13(UINT8/1)=0, unknown_14(UINT8/1)=0, unknown_15(UINT8/1)=50, unknown_21(ENUM/1)=1, unknown_22(ENUM/1)=0, unknown_26(ENUM/1)=254, unknown_27(ENUM/1)=0, unknown_29(ENUM/1)=0, unknown_52(ENUM/1)=0, unknown_53(ENUM/1)=1}, " +
                 "FitUserProfile{friendly_name=edge510, weight=78, gender=1, age=41, height=183, language=english, elev_setting=metric, weight_setting=metric, resting_heart_rate=60, default_max_biking_heart_rate=185, default_max_heart_rate=185, hr_setting=1, speed_setting=metric, dist_setting=metric, power_setting=1, activity_class=168, position_setting=2, temperature_setting=metric}, " +
@@ -361,7 +361,7 @@ public class GarminSupportTest extends TestBase {
         byte[] fileContents = GB.hexStringToByteArray("0e206806a20000002e464954bed040000100000401028400010002028403048c00000f042329000006a540000100cf0201100d030102000101020305080d1522375990e97962db0040000100ce05000102010102020102031107080a0700000001646f7567686e7574735f6561726e656400646f7567686e7574730060000100140403010204010205048606028401000100008c580000c738b98001008f5a00032c808e400200905c0005a9388a1003d39e");//https://github.com/polyvertex/fitdecode/blob/48b6554d8a3baf33f8b5b9b2fd079fcbe9ac8ce2/tests/files/DeveloperData.fit
 
         String expectedOutput = "[" +
-                "FitFileId{manufacturer=15, type=activity, product=9001, serial_number=1701}, " +
+                "FitFileId{manufacturer=15, type=ACTIVITY, product=9001, serial_number=1701}, " +
                 "FitDeveloperData{application_id=[1,1,2,3,5,8,13,21,34,55,89,144,233,121,98,219], developer_data_index=0}, " +
                 "FitFieldDescription{developer_data_index=0, field_definition_number=0, fit_base_type_id=1, field_name=doughnuts_earned, units=doughnuts}, " +
                 "FitRecord{heart_rate=140, unknown_4(UINT8/1)=88, distance=510, unknown_6(UINT16/2)=47488, doughnuts_earned=1}, " +
