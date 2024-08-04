@@ -1022,7 +1022,7 @@
     <string name="activity_summary_edit_name_title">Editar rótulo</string>
     <string name="activity_type_yoga">Ioga</string>
     <string name="activity_type_jump_roping">Corda de pular</string>
-    <string name="activity_type_elliptical_trainer">Treinador rlíptico</string>
+    <string name="activity_type_elliptical_trainer">Treinador Elíptico</string>
     <string name="activity_type_indoor_cycling">Ciclismo indoor</string>
     <string name="activity_type_swimming_openwater">Natação (Águas abertas)</string>
     <string name="activity_summaries_all_devices">Todos dispositivos</string>
@@ -1619,7 +1619,7 @@
     <string name="pref_summary_notification_delay_calls">Tempo antes de enviar notificações de chamadas para o dispositivo, em segundos.</string>
     <string name="gps_gnolass">GPS + GLONASS</string>
     <string name="gps_galileo">GPS + GALILEO</string>
-    <string name="all_satellites">Tosos os Satélites</string>
+    <string name="all_satellites">Todos os Satélites</string>
     <string name="open_fw_installer_warning_title">Aviso</string>
     <string name="open_fw_installer_warning_text">Esta funcionalidade pode quebrar o seu aparelho. Dito isso, este fato nunca aconteceu com nenhum dos desenvolvedores, mas lembre-se que você está por sua conta em risco.</string>
     <string name="low_power_gps">GPS de Baixa Potência</string>
@@ -2398,4 +2398,24 @@
 \n
 \nToque em \'%2$s\' para concordar.</string>
     <string name="fwapp_install_device_not_supported">O arquivo não pode ser instalado, o dispositivo não é compatível.</string>
+    <string name="moondrop_touch_action_call_start">Iniciar uma ligação</string>
+    <string name="moondrop_touch_action_assistant">Iniciar o Assistente de Voz</string>
+    <string name="activity_type_darts">Dardos</string>
+    <string name="activity_type_archery">Arco e Flecha</string>
+    <string name="descentDistance">Distância de descida</string>
+    <string name="pref_screen_auto_brightness_title">Brilho automático</string>
+    <string name="elevationGain">Ganho de elevação</string>
+    <string name="prefs_control_center">Centro de Controle</string>
+    <string name="activity_type_trail_run">Corrida em trilha</string>
+    <string name="elevationLoss">Descida</string>
+    <string name="flatDistance">Distância Plana</string>
+    <string name="add_test_device">Adicionar um dispositivo de teste</string>
+    <string name="battery_polling_failed_start">Falha ao iniciar a captura de dados da bateria</string>
+    <string name="moondrop_touch_action_anc_mode">Ativar o modo de cancelamento de ruído</string>
+    <string name="protocol_version">Versão do Protocolo</string>
+    <string name="devicetype_scannable">Dispositivo escaneável</string>
+    <string name="spm">passos/min</string>
+    <string name="state_scanned">Escaneado</string>
+    <string name="activity_type_flexibility">Flexibilidade</string>
+    <string name="moondrop_touch_action_call_pick_hang">Atender a ligação</string>
 </resources>
