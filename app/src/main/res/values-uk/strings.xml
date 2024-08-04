@@ -700,7 +700,7 @@
     <string name="mi3_prefs_band_screen_unlock">Розблокування екрана браслета</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Проведіть вгору, щоб розблокувати екран браслета</string>
     <string name="mi3_prefs_night_mode_summary">Автоматично знижувати яскравість екрана браслета вночі</string>
-    <string name="share_log_warning">Будь ласка, пам\'ятайте, що файли журналів Gadgetbridge можуть містити багато особистої інформації, включаючи, але не обмежуючись, дані про здоров\'я, унікальні ідентифікатори (такі, як MAC адреса пристроя), музичні уподобання тощо. Відредагуйте файл та видаліть цю інформації перед надсиланням файлу.</string>
+    <string name="share_log_warning">Будь ласка, пам\'ятайте, що файли журналів Gadgetbridge можуть містити багато особистої інформації, включаючи, але не обмежуючись, дані про здоров\'я, унікальні ідентифікатори (як-от MAC адреса пристрою), музичні вподобання тощо. Відредагуйте файл та видаліть цю інформацію перед надсиланням файлу.</string>
     <string name="pref_title_contextual_arabic">Контекстна арабська мова</string>
     <string name="pref_summary_contextual_arabic">Увімкніть це, щоб підтримувати контекстну арабську мову</string>
     <string name="preferences_rtl_settings">Підтримка справа наліво</string>
@@ -757,7 +757,7 @@
     <string name="activity_db_management_exportimport_label">Експорт та імпорт</string>
     <string name="activity_db_management_empty_db_warning">Увага! Натиснувши цю кнопку, ви видалите свою базу даних й почнете з нуля.</string>
     <string name="appwidget_sleep_alarm_widget_label">Будильник</string>
-    <string name="widget_listing_label">Стан та будильники</string>
+    <string name="widget_listing_label">Стан і будильники</string>
     <string name="widget_set_alarm_after">Встановити будильник після:</string>
     <string name="widget_5_minutes">5 хвилин</string>
     <string name="widget_10_minutes">10 хвилин</string>
@@ -811,9 +811,9 @@
     <string name="qhybrid_use_activity_hand_as_notification_counter">використовуйте активну руку лічильником сповіщень</string>
     <string name="qhybrid_prompt_million_steps">Встановіть кількість кроків до мільйона, щоб активувати це.</string>
     <string name="qhybrid_buttons_overwrite_success">Кнопки перезаписано</string>
-    <string name="qhybrid_buttons_overwrite_error">Помилка при перезаписі кнопок</string>
+    <string name="qhybrid_buttons_overwrite_error">Помилка перезапису кнопок</string>
     <string name="qhybrid_offset_timezone">зміщення часового пояса на</string>
-    <string name="qhybrid_changes_delay_prompt">зміна може зайняти кілька секунд…</string>
+    <string name="qhybrid_changes_delay_prompt">зміна може тривати кілька секунд…</string>
     <string name="qhybrid_offset_time_by">зміщення часу на</string>
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
@@ -821,14 +821,14 @@
     <string name="prefs_button_double_press_action_selection_title">Подія 2 дія</string>
     <string name="prefs_button_triple_press_action_selection_title">Подія 3 дія</string>
     <string name="prefs_button_variable_actions">Детальні налаштування натискання кнопки</string>
-    <string name="prefs_button_long_press_action_selection_title">Дія при тривалому затисканні кнопки</string>
+    <string name="prefs_button_long_press_action_selection_title">Дія тривалого затискання кнопки</string>
     <string name="error_no_location_access">Для належної роботи сканування потрібно увімкнути та надати доступ до місцеперебування</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Дозволяти високий MTU</string>
     <string name="pref_summary_allow_high_mtu">Збільшує швидкість передачі даних, але може не працювати на деяких Android пристроях.</string>
     <string name="hr_widget_steps">Кроки</string>
     <string name="hr_widget_calories">Калорії</string>
-    <string name="hr_widget_battery">Батарея</string>
+    <string name="hr_widget_battery">Акумулятор</string>
     <string name="hr_widget_weather">Погода</string>
     <string name="find_my_phone_notification">Знайти мій телефон</string>
     <string name="power_mode_watch">Лише годинник</string>
@@ -884,7 +884,7 @@
     <string name="pref_title_device_spec_settings_force_time">Примусова синхронізація часу</string>
     <string name="pref_header_device_spec_settings">Налаштування пристрою</string>
     <string name="hr_widget_nothing">Порожньо</string>
-    <string name="hr_appname_wellness">Благополуччя</string>
+    <string name="hr_appname_wellness">Самопочуття</string>
     <string name="hr_appname_workout">Тренування</string>
     <string name="prefs_notifications_and_calls_shake_reject">Потрусити для ігнорування/відхилення виклику</string>
     <string name="menuitem_unknown">Невідомо</string>
@@ -998,7 +998,7 @@
     <string name="pref_check_permission_status_summary">Перевіряти та запитувати відсутні дозволи, навіть якщо вони зараз не потрібні. Вимкніть це лише якщо ваш пристрій не підтримує жодну з цих функцій. Відсутність дозволу може призвести до проблем!</string>
     <string name="pref_check_permission_status">Перевіряти стан дозволів</string>
     <string name="error_background_service_reason">Не вдалося запустити фонову службу. Помилка:</string>
-    <string name="device_requires_key">ПОТРІБНИЙ КЛЮЧ, ЗАТИСНІТЬ ДЛЯ ВВЕДЕННЯ</string>
+    <string name="device_requires_key">ПОТРІБЕН КЛЮЧ, ЗАТИСНІТЬ ДЛЯ ВВЕДЕННЯ</string>
     <string name="device_is_currently_bonded">ВЖЕ ПОВ\'ЯЗАНО</string>
     <string name="error_background_service_reason_truncated">Не вдалося запустити фонову службу тому що…</string>
     <string name="error_background_service">Не вдалось запустити фонову службу</string>
@@ -1343,8 +1343,8 @@
     <string name="pref_message_privacy_mode_off">Показувати увесь вміст</string>
     <string name="pref_message_privacy_mode_complete">Приховувати увесь вміст</string>
     <string name="pref_applications_settings">Список застосунків</string>
-    <string name="toast_app_must_not_be_selected">Застосунок не повинен бути обраним для налаштування</string>
-    <string name="toast_app_must_be_selected">Застосунок повинен бути обраним для налаштування</string>
+    <string name="toast_app_must_not_be_selected">Застосунок не повинен бути вибираним для налаштування</string>
+    <string name="toast_app_must_be_selected">Застосунок повинен бути вибраним для налаштування</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="prefs_equalizer_preset">Попередні налаштування еквалайзера</string>
     <string name="pref_title_equalizer_bass_boost">Підсилення басів</string>
@@ -1490,7 +1490,7 @@
     <string name="activity_prefs_discovery_pairing">Параметри виявлення та зʼєднання</string>
     <string name="add_test_device">Додати тестовий пристрій</string>
     <string name="discover_unsupported_devices">Виявляти непідтримувані пристрої</string>
-    <string name="discover_unsupported_devices_description">Увімкнення цього параметра відображатиме всі виявлені Bluetooth пристрої під час сканування. Коротке затискання скопіює назву пристрою та MAC адрес до буфера обміну. Тривале затискання відкриє спливаюче вікно \"Додати тестовий пристрій\". Може призвести до потенційних проблем із зависанням застосунка.</string>
+    <string name="discover_unsupported_devices_description">Якщо ввімкнути цей параметр, всі виявлені під час сканування пристрої Bluetooth буде показано. Коротке затискання скопіює назву пристрою та MAC-адресу до буфера обміну. Тривале затискання відкриє спливне вікно \"Додати тестовий пристрій\". Може призвести до потенційних проблем із зависанням застосунку.</string>
     <string name="sony_button_mode_left">Режим кнопки (Ліворуч)</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="sony_button_mode_volume_control">Регулювання гучності</string>
@@ -1710,12 +1710,12 @@
     <string name="notification_channel_gps">GPS стеження</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
-    <string name="permission_notification_listener">%1$s потребує доступ до сповіщень, щоб відображати їх на вашому годиннику, коли екран телефону вимкнено.
+    <string name="permission_notification_listener">%1$s потребує доступ до сповіщень, щоб показувати їх на вашому годиннику, коли екран телефону вимкнено.
 \n
-\nНатисніть «%2$s», потім «%1$s» та увімкніть «Дозволити доступ до сповіщень», потім натисніть «Назад», щоб повернутися до %1$s.</string>
+\nТоркніться «%2$s», потім «%1$s» та ввімкніть «Дозволити доступ до сповіщень», потім торкніться «Назад», щоб повернутися до %1$s.</string>
     <string name="permission_notification_policy_access">%1$s потребує доступ до налаштувань «Не турбувати», щоб дотримуватися їх на вашому годиннику, коли екран телефону вимкнено.
 \n
-\nНатисніть «%2$s», потім «%1$s» та увімкніть «Дозволити не турбувати», потім натисніть «Назад», щоб повернутися до %1$s.</string>
+\nТоркніться «%2$s», потім «%1$s» та ввімкніть «Дозволити не турбувати», потім натисніть «Назад», щоб повернутися до %1$s.</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
     <string name="discovery_scanning_intensity_warning">Якщо ви бачите заморожування або несприйняття, спробуйте встановити нижчий рівень інтенсивності сканування. Якщо пристрій не виявлено, спробуйте встановити інтенсивність сканування на вищий рівень.</string>
     <string name="discovery_scanning_intensity">Інтенсивність сканування</string>
@@ -1830,11 +1830,11 @@
     <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
     <string name="step_streaks_achievements_sharing_title">Досягнення кількості кроків</string>
     <string name="step_streaks_achievements_sharing_message">Мої щоденні досягнення кількості кроків!</string>
-    <string name="permission_display_over_other_apps">%1$s потребує доступ на відображення поверх інших застосунків, щоб дозволити годинникам Bangle.js починати діяльність через Intents, коли %1$s перебуває у фоновому режимі.
+    <string name="permission_display_over_other_apps">%1$s потребує доступ на показ поверх інших застосунків, щоб дозволити годинникам Bangle.js починати діяльність через Intents, коли %1$s перебуває у фоновому режимі.
 \n
-\nЦе може бути використано для запуску застосунку для прослуховування музики та відтворення пісні, а також для багатьох інших речей.
+\nЦе може бути використано, щоб запустити застосунок для прослуховування музики та відтворення пісні, а також для багатьох інших речей.
 \n
-\nНатисніть «%2$s», потім «%1$s» та увімкніть «Дозволити відображення поверх інших застосунків», потім натисніть «Назад», щоб повернутися до %1$s.
+\nТоркніться «%2$s», потім «%1$s» та ввімкніть «Дозволити відображення поверх інших застосунків», потім натисніть «Назад», щоб повернутися до %1$s.
 \n
 \nЩоб %1$s не запитував дозволів, перейдіть до «Налаштування» та приберіть позначку з «Перевіряти стан дозволів».
 \n
@@ -2319,9 +2319,9 @@
     <string name="error_no_bluetooth_connect">Для належної роботи сканування потрібно увімкнути та надати доступ на з\'єднання через Bluetooth</string>
     <string name="permission_request">%1$s дозволяє надсилати повідомлення та інші дані з Android на ваш пристрій. Для цього потрібен дозвіл на доступ до цих даних, без якого застосунок не зможе працювати належним чином.
 \n
-\nЗараз вам буде показано кілька спливаючих вікон Android, які запитують ці дозволи.
+\nЗараз вам буде показано кілька спливних вікон Android, які запитують ці дозволи.
 \n
-\nНатисніть \'%2$s\', щоб продовжити.</string>
+\nТоркніться \'%2$s\', щоб продовжити.</string>
     <string name="withings_bt_calibration_next">Наступне</string>
     <string name="activity_type_surfing">Серфінг</string>
     <string name="activity_type_squash">Сквош</string>
@@ -2354,7 +2354,7 @@
     <string name="preferences_miband_1_2_warning">Попередження: ці налаштування застосовуються лише до Mi Band 1 та 2.</string>
     <string name="drag_handle">ручка перетягування</string>
     <string name="pref_activity_full_sync_trigger_summary">Ініціювати повну синхронізацію всіх даних активності</string>
-    <string name="pref_show_changelog">Показувати журнал змін при запуску</string>
+    <string name="pref_show_changelog">Показувати журнал змін під час запуску</string>
     <string name="pref_show_changelog_summary">Показувати журнал змін найновішої версії після оновлення Gadgetbridge</string>
     <string name="pref_activity_full_sync_trigger_title">Повна синхронізація</string>
     <string name="pref_activity_full_sync_trigger_warning">Це ініціює повну синхронізацію всіх даних активності з пристрою. Виконання триватиме кілька хвилин.</string>
