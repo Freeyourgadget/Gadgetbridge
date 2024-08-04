@@ -20,11 +20,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -36,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 /**
  * Base class for all sample providers. A Sample provider is device specific and provides
@@ -43,6 +49,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
  * @param <T> the sample type
  */
 public abstract class AbstractSampleProvider<T extends AbstractActivitySample> implements SampleProvider<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSampleProvider.class);
+
     private static final WhereCondition[] NO_CONDITIONS = new WhereCondition[0];
     private final DaoSession mSession;
     private final GBDevice mDevice;
@@ -60,11 +68,13 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         return mSession;
     }
 
+    @NonNull
     @Override
     public List<T> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         return getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
     }
 
+    @NonNull
     @Override
     public List<T> getActivitySamples(int timestamp_from, int timestamp_to) {
         if (getRawKindSampleProperty() != null) {
@@ -74,6 +84,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         }
     }
 
+    @NonNull
     @Override
     public List<T> getSleepSamples(int timestamp_from, int timestamp_to) {
         final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
@@ -167,14 +178,14 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     /**
      * Detaches all samples of this type from the session. Changes to them may not be
      * written back to the database.
-     *
+     * <p>
      * Subclasses should call this method after performing custom queries.
      */
     protected void detachFromSession() {
         getSampleDao().detachAll();
     }
 
-    private WhereCondition[] getClauseForActivityType(QueryBuilder qb, int activityTypes) {
+    private WhereCondition[] getClauseForActivityType(QueryBuilder<T> qb, int activityTypes) {
         if (activityTypes == ActivityKind.TYPE_ALL) {
             return NO_CONDITIONS;
         }
@@ -184,7 +195,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         return new WhereCondition[] { activityTypeCondition };
     }
 
-    private WhereCondition getActivityTypeConditions(QueryBuilder qb, int[] dbActivityTypes) {
+    private WhereCondition getActivityTypeConditions(QueryBuilder<T> qb, int[] dbActivityTypes) {
         // What a crappy QueryBuilder API ;-( QueryBuilder.or(WhereCondition[]) with a runtime array length
         // check would have worked just fine.
         if (dbActivityTypes.length == 0) {
@@ -294,5 +305,74 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         final LocalDate d2 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
 
         return d1.equals(d2);
+    }
+
+    protected List<T> fillGaps(final List<T> samples, final int timestamp_from, final int timestamp_to) {
+        if (samples.isEmpty()) {
+            return samples;
+        }
+
+        final long nanoStart = System.nanoTime();
+
+        final List<T> ret = new ArrayList<>(samples);
+
+        //ret.sort(Comparator.comparingLong(T::getTimestamp));
+
+        final int firstTimestamp = ret.get(0).getTimestamp();
+        if (firstTimestamp - timestamp_from > 60) {
+            // Gap at the start
+            for (int ts = timestamp_from; ts <= firstTimestamp + 60; ts += 60) {
+                final T dummySample = createActivitySample();
+                dummySample.setTimestamp(ts);
+                dummySample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+                dummySample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                dummySample.setSteps(ActivitySample.NOT_MEASURED);
+                dummySample.setProvider(this);
+                ret.add(0, dummySample);
+            }
+        }
+
+        final int lastTimestamp = ret.get(ret.size() - 1).getTimestamp();
+        if (timestamp_to - lastTimestamp > 60) {
+            // Gap at the end
+            for (int ts = lastTimestamp + 60; ts <= timestamp_to; ts += 60) {
+                final T dummySample = createActivitySample();
+                dummySample.setTimestamp(ts);
+                dummySample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+                dummySample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                dummySample.setSteps(ActivitySample.NOT_MEASURED);
+                dummySample.setProvider(this);
+                ret.add(dummySample);
+            }
+        }
+
+        final ListIterator<T> it = ret.listIterator();
+        T previousSample = it.next();
+
+        while (it.hasNext()) {
+            final T sample = it.next();
+            if (sample.getTimestamp() - previousSample.getTimestamp() > 60) {
+                LOG.trace("Filling gap between {} and {}", Instant.ofEpochSecond(previousSample.getTimestamp() + 60), Instant.ofEpochSecond(sample.getTimestamp()));
+                for (int ts = previousSample.getTimestamp() + 60; ts < sample.getTimestamp(); ts += 60) {
+                    final T dummySample = createActivitySample();
+                    dummySample.setTimestamp(ts);
+                    dummySample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+                    dummySample.setRawIntensity(ActivitySample.NOT_MEASURED);
+                    dummySample.setSteps(ActivitySample.NOT_MEASURED);
+                    dummySample.setProvider(this);
+                    it.add(dummySample);
+                }
+            }
+            previousSample = sample;
+        }
+
+        final long nanoEnd = System.nanoTime();
+
+        final long executionTime = (nanoEnd - nanoStart) / 1000000;
+
+        final int dummyCount = ret.size() - samples.size();
+        LOG.trace("Filled gaps with {} samples in {}ms", dummyCount, executionTime);
+
+        return ret;
     }
 }

@@ -17,6 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
+import androidx.annotation.NonNull;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
         super(device, session);
     }
 
+    @NonNull
     @Override
     public List<PebbleHealthActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         List<PebbleHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
@@ -84,6 +87,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
         return getSession().getPebbleHealthActivitySampleDao();
     }
 
+    @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
         return PebbleHealthActivitySampleDao.Properties.Timestamp;
@@ -96,6 +100,7 @@ public class PebbleHealthSampleProvider extends AbstractSampleProvider<PebbleHea
         //return PebbleHealthActivitySampleDao.Properties.RawKind;
     }
 
+    @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
         return PebbleHealthActivitySampleDao.Properties.DeviceId;

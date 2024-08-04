@@ -132,6 +132,7 @@ public class WatchXPlusSampleProvider extends AbstractSampleProvider<WatchXPlusA
 
 
 
+    @NonNull
     @Override
     public List<WatchXPlusActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         boolean showRawData = GBApplication.getDeviceSpecificSharedPrefs(mDevice.getAddress()).getBoolean(WatchXPlusConstants.PREF_SHOW_RAW_GRAPH, false);

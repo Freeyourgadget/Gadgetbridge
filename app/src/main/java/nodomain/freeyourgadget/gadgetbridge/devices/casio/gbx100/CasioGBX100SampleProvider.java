@@ -85,11 +85,13 @@ public class CasioGBX100SampleProvider extends AbstractSampleProvider<CasioGBX10
     }
 
 
+    @NonNull
     @Override
     public List<CasioGBX100ActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
         return super.getActivitySamples(timestamp_from, timestamp_to);
     }
 
+    @NonNull
     @Override
     public List<CasioGBX100ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         return super.getActivitySamples(timestamp_from, timestamp_to);

@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
+import androidx.annotation.NonNull;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -62,10 +64,12 @@ public class PebbleMisfitSampleProvider extends AbstractSampleProvider<PebbleMis
         return null;
     }
 
+    @NonNull
     protected Property getTimestampSampleProperty() {
         return PebbleMisfitSampleDao.Properties.Timestamp;
     }
 
+    @NonNull
     protected Property getDeviceIdentifierSampleProperty() {
         return PebbleMisfitSampleDao.Properties.DeviceId;
     }

@@ -79,11 +79,13 @@ public class HybridHRActivitySampleProvider extends AbstractSampleProvider<Hybri
         return new HybridHRActivitySample();
     }
 
+    @NonNull
     @Override
     public List<HybridHRActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
         return super.getActivitySamples(timestamp_from, timestamp_to);
     }
 
+    @NonNull
     @Override
     public List<HybridHRActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
         return super.getAllActivitySamples(timestamp_from, timestamp_to);

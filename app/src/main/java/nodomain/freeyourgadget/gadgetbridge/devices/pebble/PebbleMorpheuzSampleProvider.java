@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
+import androidx.annotation.NonNull;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -37,6 +39,7 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
         return getSession().getPebbleMorpheuzSampleDao();
     }
 
+    @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
         return PebbleMorpheuzSampleDao.Properties.Timestamp;
@@ -47,6 +50,7 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
         return null; // not supported
     }
 
+    @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
         return PebbleMorpheuzSampleDao.Properties.DeviceId;

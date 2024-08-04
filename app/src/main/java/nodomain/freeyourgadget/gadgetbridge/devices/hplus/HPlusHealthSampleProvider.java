@@ -118,6 +118,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         return getAllActivitySamples(timestamp_from, timestamp_to);
     }
 
+    @NonNull
     public List<HPlusHealthActivitySample> getSleepSamples(int timestamp_from, int timestamp_to) {
         return getAllActivitySamples(timestamp_from, timestamp_to);
     }

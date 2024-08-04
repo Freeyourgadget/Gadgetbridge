@@ -98,7 +98,11 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
 
         final long nanoStart = System.nanoTime();
 
-        final List<GarminActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
+        final List<GarminActivitySample> samples = fillGaps(
+                super.getGBActivitySamples(timestamp_from, timestamp_to, activityType),
+                timestamp_from,
+                timestamp_to
+        );
 
         if (!samples.isEmpty()) {
             convertCumulativeSteps(samples, GarminActivitySampleDao.Properties.Steps);

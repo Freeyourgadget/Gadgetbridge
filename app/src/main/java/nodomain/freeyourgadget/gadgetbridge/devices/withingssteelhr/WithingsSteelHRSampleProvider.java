@@ -70,6 +70,7 @@ public class WithingsSteelHRSampleProvider extends AbstractSampleProvider<Within
         return WithingsSteelHRActivitySampleDao.Properties.DeviceId;
     }
 
+    @NonNull
     @Override
     public List<WithingsSteelHRActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
         return super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
