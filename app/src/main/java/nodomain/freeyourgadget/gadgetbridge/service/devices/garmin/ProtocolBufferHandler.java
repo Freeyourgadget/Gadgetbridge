@@ -140,7 +140,7 @@ public class ProtocolBufferHandler implements MessageHandler {
                                 .setKey2(UUID.randomUUID().toString())
                                 .setSecret2(RandomStringUtils.random(35, true, true))
                                 .build()
-                        ).build();
+                        ).setUnk2(0).build();
 
                 return prepareProtobufResponse(GdiSmartProto.Smart.newBuilder().setAuthenticationService(
                         GdiAuthenticationService.AuthenticationService.newBuilder()
