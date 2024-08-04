@@ -95,9 +95,9 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
 
     @Override
     protected void init() {
-        TEXT_COLOR = GBApplication.getTextColor(getContext());
-        LEGEND_TEXT_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(getContext());
+        TEXT_COLOR = GBApplication.getTextColor(requireContext());
+        LEGEND_TEXT_COLOR = GBApplication.getTextColor(requireContext());
+        CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(requireContext());
     }
 
     @Override
@@ -178,24 +178,24 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
         mHRVStatusLastNight5MinHighest.setText(today.lastNight5MinHigh > 0 ? getString(R.string.hrv_status_unit, today.lastNight5MinHigh) : "-");
         mHRVStatusDayAvg.setText(today.dayAvg > 0 ? getString(R.string.hrv_status_unit, today.dayAvg) : "-");
         mHRVStatusBaseline.setText(today.baseLineBalancedLower > 0 && today.baseLineBalancedUpper > 0 ? getString(R.string.hrv_status_baseline, today.baseLineBalancedLower, today.baseLineBalancedUpper) : "-");
-        switch (today.status.getNum()) {
-            case 0:
+        switch (today.status) {
+            case NONE:
                 mHRVStatusSevenDaysAvgStatus.setText("-");
                 mHRVStatusSevenDaysAvgStatus.setTextColor(TEXT_COLOR);
                 break;
-            case 1:
+            case POOR:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_poor));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_poor));
                 break;
-            case 2:
+            case LOW:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_low));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_low));
                 break;
-            case 3:
+            case UNBALANCED:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_unbalanced));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_unbalanced));
                 break;
-            case 4:
+            case BALANCED:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_balanced));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_balanced));
                 break;
@@ -214,7 +214,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
             List<? extends HrvSummarySample> summarySamples = getSamples(db, device, startTs, endTs);
             List<? extends HrvValueSample> valueSamples = getHrvValueSamples(db, device, startTs, endTs);
 
-            int avgHRV = (int) valueSamples.stream().mapToInt(v -> {return v.getValue();}).average().orElse(0);
+            int avgHRV = (int) valueSamples.stream().mapToInt(HrvValueSample::getValue).average().orElse(0);
             if (!summarySamples.isEmpty()) {
                 int finalCounter = counter;
                 Calendar finalDay = (Calendar) day.clone();
@@ -305,11 +305,12 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
 
     protected String formatHRVStatusChartValue(long value, HRVStatusWeeklyData weeklyData) {
         HRVStatusDayData day = weeklyData.getDay((int) value);
-        SimpleDateFormat formatLetterDay = new SimpleDateFormat("EEEEE", Locale.getDefault());
+
+        SimpleDateFormat formatLetterDay = new SimpleDateFormat("EEE", Locale.getDefault());
         return formatLetterDay.format(new Date(day.day.getTimeInMillis()));
     }
 
-    protected void setupLegend(Chart chart) {}
+    protected void setupLegend(Chart<?> chart) {}
 
     protected static class HRVStatusWeeklyData extends ChartsData {
         private final List<HRVStatusDayData> data;
