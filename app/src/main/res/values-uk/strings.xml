@@ -1036,7 +1036,7 @@
     <string name="activity_type_jump_roping">Скакалка</string>
     <string name="activity_type_elliptical_trainer">Еліптичний тренажер</string>
     <string name="activity_type_indoor_cycling">Велотренажер</string>
-    <string name="activity_type_swimming_openwater">Плавання (у відкритих водах)</string>
+    <string name="activity_type_swimming_openwater">Плавання (у відкритих водоймах)</string>
     <string name="bip_prefs_shotcuts_summary">Оберіть ярлики для екрана браслета</string>
     <string name="fw_upgrade_notice_miband5">Ви збираєтеся встановити мікропрограму %s на ваш Mi Band 5.
 \n
@@ -1054,10 +1054,10 @@
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="sonyswr12_settings_title">Налаштування Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Слабка вібрація увімкнена</string>
-    <string name="sonyswr12_settings_stamina">Режим енергозбереження ввімкнено</string>
-    <string name="sonyswr12_settings_alarm_interval">Інтервал розумного будильника в хвилинах</string>
+    <string name="sonyswr12_settings_stamina">Енергоощадний режим увімкнено</string>
+    <string name="sonyswr12_settings_alarm_interval">Інтервал розумного будильника у хвилинах</string>
     <string name="sonyswr12_settings_low_vibration_summary">Увімкнути низьку інтенсивність вібрації на браслеті</string>
-    <string name="sonyswr12_settings_stamina_summary">Режим енергозбереження вимикає періодичне автовимірювання пульсу, подовжуючи час роботи</string>
+    <string name="sonyswr12_settings_stamina_summary">Енергоощадний режим вимикає періодичне автовимірювання пульсу, подовжуючи час роботи</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Інтервал розумного будильника – це інтервал перед встановленим будильником. Протягом цього інтервалу пристрій намагається виявити найлегшу фазу сну для пробудження користувача</string>
     <string name="prefs_key_vibration">Вібрація клавіш</string>
     <string name="activity_db_management_clean_export_directory_text">Експортовані файли в теці для експорту/імпорту доступні для будь-якого застосунка на вашому пристрої. Можливо ви захочете видалити ці файли після синхронізації чи створення резервної копії. Перед видаленням переконайтеся, що ви створили резервну копію. Файли GPX, підтеки та автоекспортований файл бази даних (якщо він є) не будуть видалені. Шлях до теки для експорту/імпорту:</string>
