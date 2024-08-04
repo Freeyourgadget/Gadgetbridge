@@ -598,6 +598,7 @@
     <string name="test_notification">Test notification</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a test notification from Gadgetbridge</string>
     <string name="find_my_phone_notification">Find my phone</string>
+    <string name="find_my_phone_companion_warning">Companion pairing is required for find phone. Click here for more information.</string>
     <string name="bluetooth_is_not_supported_">Bluetooth is not supported.</string>
     <string name="bluetooth_is_disabled_">Bluetooth is disabled.</string>
     <string name="tap_connected_device_for_app_mananger">Tap connected device for App manager</string>

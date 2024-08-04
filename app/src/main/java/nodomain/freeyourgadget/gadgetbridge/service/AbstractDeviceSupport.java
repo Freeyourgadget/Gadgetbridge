@@ -292,32 +292,45 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     @RequiresApi(Build.VERSION_CODES.Q)
     private void handleGBDeviceEventFindPhoneStartNotification(final boolean ring) {
         LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
-        Intent intent = new Intent(context, FindPhoneActivity.class);
+        final CompanionDeviceManager manager = (CompanionDeviceManager) context.getSystemService(Context.COMPANION_DEVICE_SERVICE);
+        if (manager.getAssociations().isEmpty()) {
+            // On Android Q and above, we need the device to be paired as companion. If it is not, display a notification
+            // notifying the user and linking to further instructions
+            final Intent instructionsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://gadgetbridge.org/basics/pairing/companion-device/"));
+            final PendingIntent pi = PendingIntentUtils.getActivity(context, 0, instructionsIntent, PendingIntent.FLAG_ONE_SHOT, false);
+            final NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
+                    .setSmallIcon(R.drawable.ic_warning)
+                    .setOngoing(false)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentIntent(pi)
+                    .setAutoCancel(true)
+                    .setContentTitle(context.getString(R.string.find_my_phone_notification))
+                    .setContentText(context.getString(R.string.find_my_phone_companion_warning));
+
+            GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
+
+            return;
+        }
+
+        final Intent intent = new Intent(context, FindPhoneActivity.class);
         intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtra(FindPhoneActivity.EXTRA_RING, ring);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pi = PendingIntentUtils.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, false);
+        final PendingIntent pi = PendingIntentUtils.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, false);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID )
+        final NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setOngoing(false)
                 .setFullScreenIntent(pi, true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
-                .setContentTitle(  context.getString( R.string.find_my_phone_notification ) );
+                .setGroup("BackgroundService")
+                .setContentTitle(context.getString(R.string.find_my_phone_notification));
 
-        notification.setGroup("BackgroundService");
-
-        CompanionDeviceManager manager = (CompanionDeviceManager) context.getSystemService(Context.COMPANION_DEVICE_SERVICE);
-        if (manager.getAssociations().size() > 0) {
-            GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
-            context.startActivity(intent);
-            LOG.debug("CompanionDeviceManager associations were found, starting intent");
-        } else {
-            GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
-            LOG.warn("CompanionDeviceManager associations were not found, can't start intent");
-        }
+        GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
+        context.startActivity(intent);
+        LOG.debug("CompanionDeviceManager associations were found, starting intent");
     }
 
 
@@ -1218,7 +1231,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     @Override
     public void onSleepAsAndroidAction(String action, Bundle extras) {
-        
+
     }
 
     @Override
