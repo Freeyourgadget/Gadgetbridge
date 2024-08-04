@@ -8,6 +8,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -26,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRealtimeSetting
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiAuthenticationService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
@@ -127,6 +130,22 @@ public class ProtocolBufferHandler implements MessageHandler {
             if (smart.hasSettingsService()) {
                 processed = true;
                 processProtobufSettingsService(smart.getSettingsService());
+            }
+            if (smart.hasAuthenticationService() && smart.getAuthenticationService().hasOauthRequest()) {
+                LOG.debug("Got oauth request, faking response");
+                final GdiAuthenticationService.OAuthResponse oauthResponse = GdiAuthenticationService.OAuthResponse.newBuilder()
+                        .setKeys(GdiAuthenticationService.OAuthKeys.newBuilder()
+                                .setKey1(UUID.randomUUID().toString())
+                                .setSecret1(RandomStringUtils.random(35, true, true))
+                                .setKey2(UUID.randomUUID().toString())
+                                .setSecret2(RandomStringUtils.random(35, true, true))
+                                .build()
+                        ).build();
+
+                return prepareProtobufResponse(GdiSmartProto.Smart.newBuilder().setAuthenticationService(
+                        GdiAuthenticationService.AuthenticationService.newBuilder()
+                                .setOauthResponse(oauthResponse)
+                ).build(), message.getRequestId());
             }
             if (processed) {
                 message.setStatusMessage(new ProtobufStatusMessage(

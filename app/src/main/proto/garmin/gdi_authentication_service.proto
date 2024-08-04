@@ -1,0 +1,26 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
+
+message AuthenticationService {
+  optional OAuthRequest oauthRequest = 1;
+  optional OAuthResponse oauthResponse = 2;
+}
+
+message OAuthRequest {
+
+}
+
+message OAuthResponse {
+  optional OAuthKeys keys = 1;
+  optional uint32 unk2 = 2; // 0
+}
+
+message OAuthKeys {
+  optional string key1 = 1;
+  optional string secret1 = 2;
+  optional string key2 = 3;
+  optional string secret2 = 4;
+}

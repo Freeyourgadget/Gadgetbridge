@@ -4,6 +4,7 @@ package garmin_vivomovehr;
 
 option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
 
+import "garmin/gdi_authentication_service.proto";
 import "garmin/gdi_device_status.proto";
 import "garmin/gdi_find_my_watch.proto";
 import "garmin/gdi_core.proto";
@@ -21,6 +22,7 @@ message Smart {
     optional FindMyWatchService find_my_watch_service = 12;
     optional CoreService core_service = 13;
     optional SmsNotificationService sms_notification_service = 16;
+    optional AuthenticationService authenticationService = 27;
     optional SettingsService settings_service = 42;
 }
 
