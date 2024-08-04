@@ -2527,7 +2527,7 @@
     <string name="devicetype_amazfit_active_edge">Amazfit Active Edge</string>
     <string name="busy_task_fetch_temperature">Отримання даних про температуру</string>
     <string name="femometer_measurement_mode_precise">Точний (3 хв)</string>
-    <string name="zepp_os_watchface_vast_sky">Безкрайнє небо</string>
+    <string name="zepp_os_watchface_vast_sky">Безкрає небо</string>
     <string name="menuitem_workout_shortcuts">Ярлики тренувань</string>
     <string name="maxStrokeRate">Максимальна частота махів</string>
     <string name="zepp_os_watchface_lightning_flash">Спалах блискавки</string>
