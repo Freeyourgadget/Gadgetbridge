@@ -556,7 +556,7 @@
     <string name="lack_of_step">Příliš málo kroků: %1$d</string>
     <string name="overstep">Kroků nad plán: %1$d</string>
     <string name="live_activity_max_heart_rate">Aktuální / Maximální tepová frekvence: %1$d / %2$d</string>
-    <string name="you_slept">Spánek od %1$s do %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">Bez spánku</string>
     <string name="mi3_prefs_band_screen_unlock">Odemknutí obrazovky zařízení</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Přejeďte prstem pro odemčení obrazovky zařízení</string>
@@ -3108,4 +3108,15 @@
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
+    <string name="find_my_phone_companion_warning">Pro nalezení telefonu je vyžadována doprovodná aplikace. Klepněte sem pro více informací.</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Probuzení</string>
+    <string name="sleep_colored_stats_deep">Hluboký</string>
+    <string name="sleep_colored_stats_light">Lehký</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="sleep_colored_stats_deep_avg">Prům. hlubokého</string>
+    <string name="sleep_colored_stats_light_avg">Prům. lehkého</string>
+    <string name="sleep_colored_stats_rem_avg">Prům. REM</string>
+    <string name="stats_highest_hr">Nejvyšší tep</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">Nejnižší tep</string>
 </resources>
