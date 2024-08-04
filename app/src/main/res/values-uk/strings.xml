@@ -398,7 +398,7 @@
     <string name="activity_type_biking">Велопрогулянка</string>
     <string name="activity_type_treadmill">Бігова доріжка</string>
     <string name="activity_type_exercise">Вправи</string>
-    <string name="select_all">Обрати все</string>
+    <string name="select_all">Вибрати все</string>
     <string name="share">Поділитися</string>
     <string name="kind_firmware">Мікропрограма</string>
     <string name="kind_invalid">Недійсні дані</string>
@@ -534,7 +534,7 @@
     <string name="polish">Польська</string>
     <string name="korean">Корейська</string>
     <string name="japanese">Японська</string>
-    <string name="you_slept">Ви спали з %1$s до %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="norwegian_bokmal">Норвезька (Букмол)</string>
     <string name="mi3_prefs_night_mode">Нічний режим</string>
     <string name="activity_prefs_charts">Налаштування діаграми</string>
@@ -1242,13 +1242,13 @@
     <string name="gpx_receiver_files_received">Отримано файл(и) GPX:</string>
     <string name="gpx_receiver_activity_title">Приймач GPX Gadgetbridge</string>
     <string name="menuitem_barometer">Барометр</string>
-    <string name="notification_channel_low_battery_name">Батарея розряджена</string>
+    <string name="notification_channel_low_battery_name">Акумулятор розряджено</string>
     <string name="notification_channel_transfer_name">Передача даних</string>
     <string name="devicetype_miband6">Mi Band 6</string>
     <string name="kind_agps_bundle">Набір AGPS</string>
-    <string name="activity_summary_detail_editing_gpx_track">Редагування пов\'язаного GPX маршруту</string>
-    <string name="activity_summary_detail_clear_gpx_track">Очистити GPX маршрут</string>
-    <string name="activity_summary_detail_select_gpx_track">Обрати GPX маршрут</string>
+    <string name="activity_summary_detail_editing_gpx_track">Редагування пов\'язаного GPX-треку</string>
+    <string name="activity_summary_detail_clear_gpx_track">Очистити GPX-трек</string>
+    <string name="activity_summary_detail_select_gpx_track">Вибрати GPX-трек</string>
     <string name="set">Змінити</string>
     <string name="watchface_install_info">Ви збираєтеся встановити наступний циферблат:
 \n
@@ -1707,7 +1707,7 @@
     <string name="pref_workout_start_on_phone_summary">Починати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
     <string name="pref_workout_send_gps_title">Надсилати GPS дані під час тренування</string>
     <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на браслет під час тренування</string>
-    <string name="notification_channel_gps">GPS стеження</string>
+    <string name="notification_channel_gps">GPS-стеження</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
     <string name="permission_notification_listener">%1$s потребує доступ до сповіщень, щоб показувати їх на вашому годиннику, коли екран телефону вимкнено.
@@ -1728,7 +1728,7 @@
     <string name="permission_location">%1$s потрібує доступ до вашого місцеперебування у фоновому режимі, щоб мати можливість залишатися з\'єднаним з годинником, навіть коли екран вимкнено.
 \n
 \nНатисніть «%2$s», щоб погодитися.</string>
-    <string name="info_no_devices_connected">немає під\'єднаних пристроїв</string>
+    <string name="info_no_devices_connected">Немає під\'єднаних пристроїв</string>
     <string name="info_connected_count">Під\'єднано пристроїв: %d</string>
     <string name="bengali">Бенгальська</string>
     <string name="persian">Перська</string>
@@ -2760,7 +2760,7 @@
     <string name="activity_type_pull_ups">Підтягування</string>
     <string name="activity_type_dumbbell">Вправи з гантелями</string>
     <string name="activity_type_shot">Штовхання ядра</string>
-    <string name="activity_type_mind_and_body">Вправи для розуму й тіла</string>
+    <string name="activity_type_mind_and_body">Розум і тіло</string>
     <string name="activity_type_kabaddi">Кабадді</string>
     <string name="activity_type_pickleball">Піклбол</string>
     <string name="activity_type_jet_skiing">Плавання на гідроциклі</string>
@@ -2798,7 +2798,7 @@
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
     <string name="swolfMax">Максимальний SWOLF</string>
     <string name="devicetype_honor_band7">Honor Band 7</string>
-    <string name="notification_channel_full_battery_name">Батарея повна</string>
+    <string name="notification_channel_full_battery_name">Акумулятор заряджено</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
     <string name="devicetype_garmin_vivoactive_4s">Garmin Vívoactive 4S</string>
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
