@@ -54,10 +54,11 @@ public class ActivityKind {
     public static final int TYPE_HIKING = 0x00400000;
     public static final int TYPE_CLIMBING = 0x00800000;
     public static final int TYPE_REM_SLEEP = 0x01000000;
+    public static final int TYPE_AWAKE_SLEEP = 0x02000000;
 
     private static final int TYPES_COUNT = 26;
 
-    public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP | TYPE_REM_SLEEP;
+    public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP | TYPE_REM_SLEEP | TYPE_AWAKE_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
 
     public static int[] mapToDBActivityTypes(int types, SampleProvider provider) {

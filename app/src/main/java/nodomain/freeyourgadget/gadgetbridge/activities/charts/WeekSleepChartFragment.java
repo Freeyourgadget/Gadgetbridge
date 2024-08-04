@@ -17,14 +17,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +50,122 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
+
+    private TextView remSleepTimeText;
+    private LinearLayout remSleepTimeTextWrapper;
+    private TextView deepSleepTimeText;
+    private TextView lightSleepTimeText;
+    private TextView sleepDatesText;
+    private MySleepWeeklyData mySleepWeeklyData;
+
+    private MySleepWeeklyData getMySleepWeeklyData(DBHandler db, Calendar day, GBDevice device) {
+        day = (Calendar) day.clone(); // do not modify the caller's argument
+        day.add(Calendar.DATE, -TOTAL_DAYS + 1);
+        TOTAL_DAYS_FOR_AVERAGE=0;
+        long remWeeklyTotal = 0;
+        long deepWeeklyTotal = 0;
+        long lightWeeklyTotal = 0;
+
+        for (int counter = 0; counter < TOTAL_DAYS; counter++) {
+            ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
+            if (calculateBalance(amounts) > 0) {
+                TOTAL_DAYS_FOR_AVERAGE++;
+            }
+
+            float[] totalAmounts = getTotalsForActivityAmounts(amounts);
+            deepWeeklyTotal += (long) totalAmounts[0];
+            lightWeeklyTotal += (long) totalAmounts[1];
+            if (supportsRemSleep(device)) {
+                remWeeklyTotal += (long) totalAmounts[2];
+            }
+            day.add(Calendar.DATE, 1);
+        }
+
+        return new MySleepWeeklyData(remWeeklyTotal, deepWeeklyTotal, lightWeeklyTotal);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mLocale = getResources().getConfiguration().locale;
+        View rootView = inflater.inflate(R.layout.fragment_weeksleep_chart, container, false);
+
+        final int goal = getGoal();
+        if (goal >= 0) {
+            mTargetValue = goal;
+        }
+
+        mWeekChart = rootView.findViewById(R.id.weekstepschart);
+        remSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_rem_time);
+        remSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_rem_time_wrapper);
+        deepSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_deep_time);
+        lightSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_light_time);
+        sleepDatesText = rootView.findViewById(R.id.sleep_dates);
+
+        setupWeekChart();
+
+        // refresh immediately instead of use refreshIfVisible(), for perceived performance
+        refresh();
+
+        return rootView;
+    }
+
+    @Override
+    protected void updateChartsnUIThread(MyChartsData mcd) {
+        setupLegend(mWeekChart);
+
+        //set custom renderer for 30days bar charts
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            mWeekChart.setRenderer(new AngledLabelsChartRenderer(mWeekChart, mWeekChart.getAnimator(), mWeekChart.getViewPortHandler()));
+        }
+
+        mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        mWeekChart.setData(mcd.getWeekBeforeData().getData());
+        mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
+        mWeekChart.getBarData().setValueTextSize(14f);
+        mWeekChart.setScaleEnabled(false);
+        mWeekChart.setTouchEnabled(false);
+
+        if (TOTAL_DAYS_FOR_AVERAGE > 0) {
+            float avgDeep = Math.abs(this.mySleepWeeklyData.getTotalDeep() / TOTAL_DAYS_FOR_AVERAGE);
+            deepSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgDeep, TimeUnit.MINUTES));
+            float avgLight = Math.abs(this.mySleepWeeklyData.getTotalLight() / TOTAL_DAYS_FOR_AVERAGE);
+            lightSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgLight, TimeUnit.MINUTES));
+            float avgRem = Math.abs(this.mySleepWeeklyData.getTotalRem() / TOTAL_DAYS_FOR_AVERAGE);
+            remSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgRem, TimeUnit.MINUTES));
+        } else {
+            deepSleepTimeText.setText("-");
+            lightSleepTimeText.setText("-");
+            remSleepTimeText.setText("-");
+        }
+
+        if (!supportsRemSleep(getChartsHost().getDevice())) {
+            remSleepTimeTextWrapper.setVisibility(View.GONE);
+        }
+
+        Date to = new Date((long) this.getTSEnd() * 1000);
+        Date from = DateUtils.addDays(to,-(TOTAL_DAYS - 1));
+        String toFormattedDate = new SimpleDateFormat("E, MMM dd").format(to);
+        String fromFormattedDate = new SimpleDateFormat("E, MMM dd").format(from);
+        sleepDatesText.setText(fromFormattedDate + " - " + toFormattedDate);
+    }
+
+    @Override
+    protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+        Calendar day = Calendar.getInstance();
+        day.setTime(chartsHost.getEndDate());
+        //NB: we could have omitted the day, but this way we can move things to the past easily
+        WeekChartsData<BarData> weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
+        mySleepWeeklyData = getMySleepWeeklyData(db, day, device);
+
+        return new MyChartsData(null, weekBeforeData);
+    }
+
+    @Override
+    protected void renderCharts() {
+        mWeekChart.invalidate();
+    }
+
     @Override
     public String getTitle() {
         if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
@@ -205,4 +334,33 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return getHM((long)value);
     }
 
+    private static class MySleepWeeklyData {
+        private long totalRem;
+        private long totalDeep;
+        private long totalLight;
+        private int totalDaysForAverage;
+
+        public MySleepWeeklyData(long totalRem, long totalDeep, long totalLight) {
+            this.totalDeep = totalDeep;
+            this.totalRem = totalRem;
+            this.totalLight = totalLight;
+            this.totalDaysForAverage = 0;
+        }
+
+        public long getTotalRem() {
+            return this.totalRem;
+        }
+
+        public long getTotalDeep() {
+            return this.totalDeep;
+        }
+
+        public long getTotalLight() {
+            return this.totalLight;
+        }
+
+        public int getTotalDaysForAverage() {
+            return this.totalDaysForAverage;
+        }
+    }
 }

@@ -21,14 +21,15 @@
     <color name="chart_heartrate" type="color">#ffab40</color>
     <color name="chart_heartrate_alternative" type="color">#8B0000</color>
     <color name="chart_heartrate_fill" type="color">#fadab1</color>
-    <color name="chart_deep_sleep_light" type="color">#0071b7</color>
-    <color name="chart_deep_sleep_dark" type="color">#4c5aff</color>
 
-    <color name="chart_light_sleep_light" type="color">#46acea</color>
-    <color name="chart_light_sleep_dark" type="color">#b6bfff</color>
+    <color name="chart_deep_sleep_light" type="color">#0054a3</color>
+    <color name="chart_deep_sleep_dark" type="color">#0054a3</color>
 
-    <color name="chart_rem_sleep_light" type="color">#b6bfff</color>
-    <color name="chart_rem_sleep_dark" type="color">#46acea</color>
+    <color name="chart_light_sleep_light" type="color">#079ef3</color>
+    <color name="chart_light_sleep_dark" type="color">#079ef3</color>
+
+    <color name="chart_rem_sleep_light" type="color">#e427c7</color>
+    <color name="chart_rem_sleep_dark" type="color">#e427c7</color>
 
     <color name="chart_activity_light" type="color">#60bd6d</color>
     <color name="chart_activity_dark" type="color">#59b22c</color>
@@ -38,6 +39,8 @@
 
     <color name="alternate_row_background_light">#FFEDEDED</color>
     <color name="alternate_row_background_dark">#545254</color>
+
+    <color name="transparent">#00000000</color>
 
     <drawable name="selected">@color/accent</drawable>
 

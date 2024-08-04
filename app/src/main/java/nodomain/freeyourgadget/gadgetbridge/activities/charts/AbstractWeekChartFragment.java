@@ -65,12 +65,12 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
     protected final int TOTAL_DAYS = getRangeDays();
     protected int TOTAL_DAYS_FOR_AVERAGE = 0;
 
-    private Locale mLocale;
-    private int mTargetValue = 0;
+    protected Locale mLocale;
+    protected int mTargetValue = 0;
 
-    private PieChart mTodayPieChart;
-    private BarChart mWeekChart;
-    private TextView mBalanceView;
+    protected PieChart mTodayPieChart;
+    protected BarChart mWeekChart;
+    protected TextView mBalanceView;
 
     private int mOffsetHours = getOffsetHours();
     ImageView stepsStreaksButton;
@@ -113,7 +113,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         }
     }
 
-    private boolean enableStepStreaksButton(){
+    protected boolean enableStepStreaksButton(){
         return this.getClass().getSimpleName().equals("WeekStepsChartFragment");
     }
 
@@ -124,7 +124,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 //        mBalanceView.setText(getBalanceMessage(balance));
     }
 
-    private String getWeeksChartsLabel(Calendar day){
+    protected String getWeeksChartsLabel(Calendar day){
         if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
             //month, show day date
             return String.valueOf(day.get(Calendar.DAY_OF_MONTH));
@@ -134,10 +134,9 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
             return day.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, mLocale);
         }
     }
-
-    private WeekChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
+    protected WeekChartsData<BarData> refreshWeekBeforeData(DBHandler db, BarChart barChart, Calendar day, GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.add(Calendar.DATE, -TOTAL_DAYS);
+        day.add(Calendar.DATE, -TOTAL_DAYS + 1);
         List<BarEntry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
@@ -191,10 +190,10 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
             }
         }
 
-            return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
+        return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
     }
 
-    private DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
+    protected DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
 
         PieData data = new PieData();
         List<PieEntry> entries = new ArrayList<>();
@@ -276,7 +275,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 
 
 
-    private void setupTodayPieChart() {
+    protected void setupTodayPieChart() {
         mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
         mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         mTodayPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
@@ -286,7 +285,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         mTodayPieChart.getLegend().setEnabled(false);
     }
 
-    private void setupWeekChart() {
+    protected void setupWeekChart() {
         mWeekChart.setBackgroundColor(BACKGROUND_COLOR);
         mWeekChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         mWeekChart.getDescription().setText("");
@@ -369,7 +368,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         }
     }
 
-    private ActivityAmounts getActivityAmountsForDay(DBHandler db, Calendar day, GBDevice device) {
+    protected ActivityAmounts getActivityAmountsForDay(DBHandler db, Calendar day, GBDevice device) {
 
         LimitedQueue<Integer, ActivityAmounts> activityAmountCache = null;
         ActivityAmounts amounts = null;
@@ -426,7 +425,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 
     protected abstract String getBalanceMessage(long balance, int targetValue);
 
-    private class WeekChartsData<T extends ChartData<?>> extends DefaultChartsData<T> {
+    protected class WeekChartsData<T extends ChartData<?>> extends DefaultChartsData<T> {
         private final String balanceMessage;
 
         public WeekChartsData(T data, PreformattedXIndexLabelFormatter xIndexLabelFormatter, String balanceMessage) {
