@@ -557,7 +557,7 @@
     <string name="lack_of_step">Pasos restantes: %1$d</string>
     <string name="overstep">Excedido: %1$d</string>
     <string name="live_activity_max_heart_rate">Frecuencia cardíaca Actual / máxima: %1$d / %2$d</string>
-    <string name="you_slept">Dormiste desde %1$s a %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">No dormiste</string>
     <string name="prefs_disconnect_notification">Desconectar notificación</string>
     <string name="mi3_prefs_band_screen_unlock">Desbloqueo de pantalla de Band</string>
@@ -3112,4 +3112,26 @@
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
+    <string name="find_my_phone_companion_warning">Para encontrar el teléfono, es necesario emparejar el dispositivo con el compañero. Haz clic aquí para obtener más información.</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">frecuencia cardíaca más baja</string>
+    <string name="hrv_status_unbalanced">Desequilibrado</string>
+    <string name="hrv_status_low">Bajo</string>
+    <string name="hrv_status_poor">Pobre</string>
+    <string name="hrv_status_last_night">Anoche</string>
+    <string name="hrv_status_seven_days_avg_long">Promedio de 7 días</string>
+    <string name="hrv_status_unit">%1$d ms</string>
+    <string name="hrv_status_baseline">%1$d-%2$d ms</string>
+    <string name="hrv_status_baseline_label">Base</string>
+    <string name="hrv_status">Estado de la VFC</string>
+    <string name="sleep_colored_stats_deep">Profundo</string>
+    <string name="stats_highest_hr">Frecuencia cardíaca más alta</string>
+    <string name="hrv_status_day_avg">Promedio diario</string>
+    <string name="sleep_colored_stats_light">Claro</string>
+    <string name="hrv_status_day_avg_legend">Promedio diario (ms)</string>
+    <string name="hrv_status_seven_days_avg">Promedio de 7 días</string>
+    <string name="pref_header_hrv_status">Estado de la VFC</string>
+    <string name="hrv_status_seven_days_avg_status">ESTADO</string>
+    <string name="hrv_status_balanced">Equilibrado</string>
 </resources>
