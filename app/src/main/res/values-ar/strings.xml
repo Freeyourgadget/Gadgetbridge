@@ -3106,4 +3106,5 @@
     <string name="devicetype_garmin_forerunner_255s_music">موسيقى Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_forerunner_255_music">غارمين فورونر 255 موسيقى</string>
     <string name="devicetype_huawei_watchgtrunner">ساعة هواوي جي تي رانر</string>
+    <string name="find_my_phone_companion_warning">يلزم وجود إقران مصاحب للعثور على الهاتف. اضغط هنا للحصول على المزيد من المعلومات.</string>
 </resources>
