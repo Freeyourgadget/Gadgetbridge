@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
@@ -99,6 +100,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public TimeSampleProvider<? extends BodyEnergySample> getBodyEnergySampleProvider(final GBDevice device, final DaoSession session) {
+        return new GarminBodyEnergySampleProvider(device, session);
+    }
+
+    @Override
     public TimeSampleProvider<? extends HrvSummarySample> getHrvSummarySampleProvider(final GBDevice device, final DaoSession session) {
         return new GarminHrvSummarySampleProvider(device, session);
     }
@@ -171,6 +177,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsStressMeasurement() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsBodyEnergy() {
         return true;
     }
 

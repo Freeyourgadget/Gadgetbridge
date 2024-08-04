@@ -230,7 +230,8 @@ public class GlobalFITMessage {
 
     public static GlobalFITMessage STRESS_LEVEL = new GlobalFITMessage(227, "STRESS_LEVEL", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.SINT16, "stress_level_value"),
-            new FieldDefinitionPrimitive(1, BaseType.UINT32, "stress_level_time", FieldDefinitionFactory.FIELD.TIMESTAMP)
+            new FieldDefinitionPrimitive(1, BaseType.UINT32, "stress_level_time", FieldDefinitionFactory.FIELD.TIMESTAMP),
+            new FieldDefinitionPrimitive(3, BaseType.SINT8, "body_energy")
     ));
 
     public static GlobalFITMessage SPO2 = new GlobalFITMessage(269, "SPO2", Arrays.asList(

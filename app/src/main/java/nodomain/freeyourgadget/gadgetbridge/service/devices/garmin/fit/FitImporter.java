@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminBodyEnergySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminEventSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleProvider;
@@ -41,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSample;
@@ -79,6 +81,7 @@ public class FitImporter {
 
     private final SortedMap<Integer, List<FitMonitoring>> activitySamplesPerTimestamp = new TreeMap<>();
     private final List<GarminStressSample> stressSamples = new ArrayList<>();
+    private final List<GarminBodyEnergySample> bodyEnergySamples = new ArrayList<>();
     private final List<GarminSpo2Sample> spo2samples = new ArrayList<>();
     private final List<GarminEventSample> events = new ArrayList<>();
     private final List<GarminSleepStageSample> sleepStageSamples = new ArrayList<>();
@@ -113,15 +116,24 @@ public class FitImporter {
                 }
                 fileId = newFileId;
             } else if (record instanceof FitStressLevel) {
-                final Integer stress = ((FitStressLevel) record).getStressLevelValue();
-                if (stress == null || stress < 0) {
-                    continue;
+                final FitStressLevel stressRecord = (FitStressLevel) record;
+                final Integer stress = stressRecord.getStressLevelValue();
+                if (stress != null && stress >= 0) {
+                    LOG.trace("Stress at {}: {}", ts, stress);
+                    final GarminStressSample sample = new GarminStressSample();
+                    sample.setTimestamp(ts * 1000L);
+                    sample.setStress(stress);
+                    stressSamples.add(sample);
                 }
-                LOG.trace("Stress at {}: {}", ts, stress);
-                final GarminStressSample sample = new GarminStressSample();
-                sample.setTimestamp(ts * 1000L);
-                sample.setStress(stress);
-                stressSamples.add(sample);
+
+                final Integer energy = stressRecord.getBodyEnergy();
+                if (energy != null) {
+                    LOG.trace("Body energy at {}: {}", ts, energy);
+                    final GarminBodyEnergySample sample = new GarminBodyEnergySample();
+                    sample.setTimestamp(ts * 1000L);
+                    sample.setEnergy(energy);
+                    bodyEnergySamples.add(sample);
+                }
             } else if (record instanceof FitSleepStage) {
                 final FieldDefinitionSleepStage.SleepStage stage = ((FitSleepStage) record).getSleepStage();
                 if (stage == null) {
@@ -245,6 +257,7 @@ public class FitImporter {
                 persistActivitySamples();
                 persistSpo2Samples();
                 persistStressSamples();
+                persistBodyEnergySamples();
                 break;
             case SLEEP:
                 persistEvents();
@@ -397,9 +410,12 @@ public class FitImporter {
     private void reset() {
         activitySamplesPerTimestamp.clear();
         stressSamples.clear();
+        bodyEnergySamples.clear();
         spo2samples.clear();
         events.clear();
         sleepStageSamples.clear();
+        hrvSummarySamples.clear();
+        hrvValueSamples.clear();
         timesInZone.clear();
         activityPoints.clear();
         unknownRecords.clear();
@@ -653,6 +669,32 @@ public class FitImporter {
             sampleProvider.addSamples(stressSamples);
         } catch (final Exception e) {
             GB.toast(context, "Error saving stress samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void persistBodyEnergySamples() {
+        if (bodyEnergySamples.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Will persist {} body energy samples", bodyEnergySamples.size());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final GarminBodyEnergySampleProvider sampleProvider = new GarminBodyEnergySampleProvider(gbDevice, session);
+
+            for (final GarminBodyEnergySample sample : bodyEnergySamples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            sampleProvider.addSamples(bodyEnergySamples);
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving body energy samples", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 }

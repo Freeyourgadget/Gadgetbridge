@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
+import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
@@ -216,6 +217,8 @@ public interface DeviceCoordinator {
      */
     boolean supportsStressMeasurement();
 
+    boolean supportsBodyEnergy();
+
     boolean supportsHrvMeasurement();
 
     boolean supportsSleepMeasurement();
@@ -286,6 +289,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for stress data, for the device being supported.
      */
     TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for body energy data, for the device being supported.
+     */
+    TimeSampleProvider<? extends BodyEnergySample> getBodyEnergySampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the sample provider for HRV summary, for the device being supported.

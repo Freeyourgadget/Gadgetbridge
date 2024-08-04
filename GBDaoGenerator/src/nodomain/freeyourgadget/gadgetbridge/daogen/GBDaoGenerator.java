@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(75, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(76, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -97,7 +97,7 @@ public class GBDaoGenerator {
         addWatchXPlusHealthActivityKindOverlay(schema, user, device);
         addTLW64ActivitySample(schema, user, device);
         addLefunActivitySample(schema, user, device);
-        addLefunBiometricSample(schema,user,device);
+        addLefunBiometricSample(schema, user, device);
         addLefunSleepSample(schema, user, device);
         addSonySWR12Sample(schema, user, device);
         addBangleJSActivitySample(schema, user, device);
@@ -110,6 +110,7 @@ public class GBDaoGenerator {
         addGarminFitFile(schema, user, device);
         addGarminActivitySample(schema, user, device);
         addGarminStressSample(schema, user, device);
+        addGarminBodyEnergySample(schema, user, device);
         addGarminSpo2Sample(schema, user, device);
         addGarminSleepStageSample(schema, user, device);
         addGarminEventSample(schema, user, device);
@@ -632,7 +633,7 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
-    private static Entity addCyclingSample(Schema schema, Entity user, Entity device){
+    private static Entity addCyclingSample(Schema schema, Entity user, Entity device) {
         Entity cyclingSample = addEntity(schema, "CyclingSample");
         addCommonTimeSampleProperties("AbstractTimeSample", cyclingSample, user, device);
 
@@ -701,6 +702,13 @@ public class GBDaoGenerator {
         Entity stressSample = addEntity(schema, "GarminStressSample");
         addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
         stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
+        return stressSample;
+    }
+
+    private static Entity addGarminBodyEnergySample(Schema schema, Entity user, Entity device) {
+        Entity stressSample = addEntity(schema, "GarminBodyEnergySample");
+        addCommonTimeSampleProperties("AbstractBodyEnergySample", stressSample, user, device);
+        stressSample.addIntProperty("energy").notNull().codeBeforeGetter(OVERRIDE);
         return stressSample;
     }
 
@@ -798,7 +806,7 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
-    private static Entity addCasioGBX100Sample(Schema schema, Entity user, Entity device)  {
+    private static Entity addCasioGBX100Sample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "CasioGBX100ActivitySample");
         activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractGBX100ActivitySample", activitySample, user, device);

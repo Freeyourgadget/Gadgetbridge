@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
+import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
@@ -207,6 +208,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
+        return null;
+    }
+
+    @Override
+    public TimeSampleProvider<? extends BodyEnergySample> getBodyEnergySampleProvider(final GBDevice device, final DaoSession session) {
         return null;
     }
 
@@ -451,6 +457,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean supportsStressMeasurement() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsBodyEnergy() {
         return false;
     }
 
