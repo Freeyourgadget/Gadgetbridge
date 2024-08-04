@@ -37,6 +37,12 @@
     <color name="chart_not_worn_light" type="color">#545254</color>
     <color name="chart_not_worn_dark" type="color">#d8d9d8</color>
 
+    <color name="chart_stress_unknown" type="color">#545254</color>
+    <color name="chart_stress_relaxed" type="color">#46acea</color>
+    <color name="chart_stress_mild" type="color">#59b22c</color>
+    <color name="chart_stress_moderate" type="color">#ffab40</color>
+    <color name="chart_stress_high" type="color">#8B0000</color>
+
     <color name="alternate_row_background_light">#FFEDEDED</color>
     <color name="alternate_row_background_dark">#545254</color>
 

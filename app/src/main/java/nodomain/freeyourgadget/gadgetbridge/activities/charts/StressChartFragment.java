@@ -438,11 +438,11 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
     }
 
     protected enum StressType {
-        UNKNOWN(R.string.unknown, R.color.chart_not_worn_light),
-        RELAXED(R.string.stress_relaxed, R.color.chart_rem_sleep_dark),
-        MILD(R.string.stress_mild, R.color.chart_activity_dark),
-        MODERATE(R.string.stress_moderate, R.color.chart_heartrate),
-        HIGH(R.string.stress_high, R.color.chart_heartrate_alternative),
+        UNKNOWN(R.string.unknown, R.color.chart_stress_unknown),
+        RELAXED(R.string.stress_relaxed, R.color.chart_stress_relaxed),
+        MILD(R.string.stress_mild, R.color.chart_stress_mild),
+        MODERATE(R.string.stress_moderate, R.color.chart_stress_moderate),
+        HIGH(R.string.stress_high, R.color.chart_stress_high),
         ;
 
         private final int labelId;
