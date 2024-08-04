@@ -825,7 +825,7 @@
     <string name="widget_listing_label">Durum ve Alarmlar</string>
     <string name="widget_set_alarm_after">Alarm kur:</string>
     <string name="you_did_not_sleep">Uyumadınız</string>
-    <string name="you_slept">Saat %1$s ile %2$s arası uyudunuz</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="zetime_activity_tracking">Etkinlik izleme</string>
     <string name="zetime_activity_tracking_summary">Etkinlik izlemenin açılması adımlarınızı sayacaktır.</string>
     <string name="zetime_analog_mode">Analog modu</string>
