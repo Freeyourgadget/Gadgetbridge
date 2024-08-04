@@ -79,4 +79,5 @@ public class AmazfitActiveCoordinator extends ZeppOsCoordinator {
     public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
         return true;
     }
+
 }

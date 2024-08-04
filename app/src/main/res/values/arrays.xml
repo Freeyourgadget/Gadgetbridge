@@ -3011,6 +3011,7 @@
         <item>@string/sleepchart_your_sleep</item>
         <item>@string/weeksleepchart_sleep_a_week_or_month</item>
         <item>@string/weekstepschart_steps_a_week_or_month</item>
+        <item>@string/pref_header_hrv_status</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>
@@ -3025,6 +3026,7 @@
         <item>@string/p_sleep</item>
         <item>@string/p_sleep_week</item>
         <item>@string/p_steps_week</item>
+        <item>@string/p_hrv_status</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>
         <item>@string/p_speed_zones</item>
@@ -3039,6 +3041,7 @@
         <item>@string/p_activity_list</item>
         <item>@string/p_sleep</item>
         <item>@string/p_sleep_week</item>
+        <item>@string/p_hrv_status</item>
         <item>@string/p_steps_week</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>

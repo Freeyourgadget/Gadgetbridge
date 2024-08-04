@@ -111,6 +111,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if(!coordinator.supportsCyclingData()) {
             tabList.remove("cycling");
         }
+        if (!coordinator.supportsHrvMeasurement()) {
+            tabList.remove("hrvstatus");
+        }
         return tabList;
     }
 
@@ -140,6 +143,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new SleepChartFragment();
                 case "sleepweek":
                     return new WeekSleepChartFragment();
+                case "hrvstatus":
+                    return new HRVStatusFragment();
                 case "stress":
                     return new StressChartFragment();
                 case "pai":
@@ -192,6 +197,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.sleepchart_your_sleep);
                 case "sleepweek":
                     return getSleepTitle();
+                case "hrvstatus":
+                    return getString(R.string.pref_header_hrv_status);
                 case "stress":
                     return getString(R.string.menuitem_stress);
                 case "pai":

@@ -43,6 +43,14 @@
     <color name="chart_stress_moderate" type="color">#ffab40</color>
     <color name="chart_stress_high" type="color">#8B0000</color>
 
+    <color name="hrv_status_balanced" type="color">#0c8a03</color>
+    <color name="hrv_status_unbalanced" type="color">#fc9d03</color>
+    <color name="hrv_status_low" type="color">#fc5203</color>
+    <color name="hrv_status_poor" type="color">#be03fc</color>
+    <color name="hrv_status_char_line_color" type="color">#d12a2a</color>
+
+    <color name="value_line_color" type="color">#858585</color>
+
     <color name="alternate_row_background_light">#FFEDEDED</color>
     <color name="alternate_row_background_dark">#545254</color>
 
