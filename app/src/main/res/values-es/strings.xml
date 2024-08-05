@@ -3134,4 +3134,8 @@
     <string name="pref_header_hrv_status">Estado de la VFC</string>
     <string name="hrv_status_seven_days_avg_status">ESTADO</string>
     <string name="hrv_status_balanced">Equilibrado</string>
+    <string name="sleep_colored_stats_deep_avg">AVG profundo</string>
+    <string name="sleep_colored_stats_light_avg">AVG ligero</string>
+    <string name="sleep_colored_stats_rem_avg">Sueño REM promedio</string>
+    <string name="hrv_status_last_night_highest_5">El promedio de 5 minutos más alto de anoche</string>
 </resources>
