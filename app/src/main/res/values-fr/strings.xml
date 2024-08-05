@@ -3065,4 +3065,16 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_garmin_venu_3">Garmin Venu 3</string>
     <string name="devicetype_garmin_instinct_solar">Garmin Instinct Solar</string>
     <string name="devicetype_garmin_instinct_2_soltac">Garmin Instinct 2 SolTac</string>
+    <string name="sleep_colored_stats_light_avg">Léger moy</string>
+    <string name="sleep_colored_stats_rem_avg">REM moy</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">FC la plus basse</string>
+    <string name="stats_highest_hr">FC la plus haute</string>
+    <string name="sleep_colored_stats_light">Léger</string>
+    <string name="sleep_colored_stats_deep_avg">Profond moy</string>
+    <string name="hrv_status">Statut VFC</string>
+    <string name="hrv_status_balanced">Equilibré</string>
+    <string name="sleep_colored_stats_deep">Profond</string>
+    <string name="hrv_status_low">bas</string>
+    <string name="hrv_status_unbalanced">Déséquilibré</string>
 </resources>
