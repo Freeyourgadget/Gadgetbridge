@@ -570,7 +570,7 @@ Temps de sommeil préféré en heures</string>
     <string name="lack_of_step">Manque d\'activité : %1$d</string>
     <string name="overstep">Trop d\'activité : %1$d</string>
     <string name="live_activity_max_heart_rate">Mesure cardiaque actuelle / maximum : %1$d / %2$d</string>
-    <string name="you_slept">Vous avez dormi de %1$s à %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">Vous n\'avez pas dormi</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Glisser le doigt vers le haut pour débloquer l\'écran du bracelet</string>
     <string name="mi3_prefs_night_mode">Mode nuit</string>
@@ -2881,7 +2881,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_adaptive_volume_control_summary">Augmenter le volume automatiquement quand le bruit ambiant est important</string>
     <string name="pref_adaptive_noise_cancelling_title">ANC adaptatif</string>
     <string name="pref_adaptive_noise_cancelling_summary">Régler la forte de l\'ANC automatiquement selon le niveau de bruit ambiant</string>
-    <string name="huawei_trusleep_warning">Avertissement : activer cette option ralentira le processus de sommeil d’apparaître dans GadgetBridge ! Cliquer ici pour plus de détails.</string>
+    <string name="huawei_trusleep_warning">Avertissement : activer cette option fera apparaitre tous les sommeils comme sommeil léger dans GadgetBridge ! Cliquer ici pour plus de détails.</string>
     <string name="pref_force_enable_heartrate_support">Forcer la prise en charge du rythme cardiaque</string>
     <string name="pref_force_enable_spo2_support_summary">Forcer la prise en charge du SpO2
 \nA VOS RISQUES ET PÉRILS</string>
@@ -3078,4 +3078,15 @@ Temps de sommeil préféré en heures</string>
     <string name="hrv_status_low">bas</string>
     <string name="hrv_status_unbalanced">Déséquilibré</string>
     <string name="pref_header_hrv_status">Statut VFC</string>
+    <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
+    <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
+    <string name="proprietary_app_warning">Cette fonctionnalité nécessite l’installation d’une application propriétaire</string>
+    <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
+    <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>
+    <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
+    <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Eveillé</string>
+    <string name="hrv_status_poor">Mauvais</string>
+    <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
 </resources>
