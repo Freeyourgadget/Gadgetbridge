@@ -247,8 +247,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
                 && supportsHeartrate(getChartsHost().getDevice())
                 && SHOW_CHARTS_AVERAGE) {
             if (mcd.getHeartRateAxisMax() != 0 || mcd.getHeartRateAxisMin() != 0) {
-                mActivityChart.getAxisRight().setAxisMaximum(mcd.getHeartRateAxisMax());
-                mActivityChart.getAxisRight().setAxisMinimum(mcd.getHeartRateAxisMin());
+                mActivityChart.getAxisRight().setAxisMaximum(mcd.getHeartRateAxisMax() + (mcd.getHeartRateAxisMin() / 2f));
+                mActivityChart.getAxisRight().setAxisMinimum(mcd.getHeartRateAxisMin() / 2f);
             }
             LimitLine hrAverage_line = new LimitLine(mcd.getHeartRateAverage());
             hrAverage_line.setLineColor(Color.RED);
