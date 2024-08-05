@@ -48,6 +48,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.RoidmiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.activity.TestActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestBodyEnergySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestHrvSummarySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestPaiSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestStressSampleProvider;
@@ -61,8 +64,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.AbstractNotificationPattern;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
+import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
@@ -114,6 +120,22 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public TimeSampleProvider<? extends BodyEnergySample> getBodyEnergySampleProvider(final GBDevice device, final DaoSession session) {
+        return supportsBodyEnergy() ? new TestBodyEnergySampleProvider() : super.getBodyEnergySampleProvider(device ,session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends HrvSummarySample> getHrvSummarySampleProvider(final GBDevice device, final DaoSession session) {
+        return supportsBodyEnergy() ? new TestHrvSummarySampleProvider() : super.getHrvSummarySampleProvider(device ,session);
+
+    }
+
+    @Override
+    public TimeSampleProvider<? extends HrvValueSample> getHrvValueSampleProvider(final GBDevice device, final DaoSession session) {
+        return supportsBodyEnergy() ? new TestHrvValueSampleProvider() : super.getHrvValueSampleProvider(device ,session);
+    }
+
+    @Override
     public int[] getStressRanges() {
         // TODO getStressRanges
         return super.getStressRanges();
@@ -121,7 +143,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(final GBDevice device, final DaoSession session) {
-        return new TestTemperatureSampleProvider(); // TODO supportsTemperature
+        return supportsTemperatureMeasurement() ? new TestTemperatureSampleProvider() : super.getTemperatureSampleProvider(device, session);
     }
 
     @Override
@@ -314,6 +336,16 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsStressMeasurement() {
         return supports(getTestDevice(), TestFeature.STRESS_MEASUREMENT);
+    }
+
+    @Override
+    public boolean supportsBodyEnergy() {
+        return supports(getTestDevice(), TestFeature.BODY_ENERGY);
+    }
+
+    @Override
+    public boolean supportsHrvMeasurement() {
+        return supports(getTestDevice(), TestFeature.HRV_MEASUREMENT);
     }
 
     @Override
