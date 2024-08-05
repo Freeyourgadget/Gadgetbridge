@@ -3132,4 +3132,20 @@
     <string name="stats_highest_hr">En yüksek kalp ritmi</string>
     <string name="sleep_colored_stats_deep_avg">Derin AVG</string>
     <string name="sleep_colored_stats_light">Hafif</string>
+    <string name="hrv_status">Kalp Ritmi Değişkenliği Durumu</string>
+    <string name="hrv_status_poor">Zayıf</string>
+    <string name="hrv_status_last_night">DÜN GECE</string>
+    <string name="hrv_status_last_night_highest_5">SON N EN YÜKSEK 5-DAK ORT</string>
+    <string name="hrv_status_seven_days_avg_long">7 GÜNLÜK ORT</string>
+    <string name="hrv_status_unit">%1$d ms</string>
+    <string name="hrv_status_baseline">%1$d-%2$d ms</string>
+    <string name="hrv_status_baseline_label">ALT SINIR</string>
+    <string name="hrv_status_day_avg_legend">GÜNLÜK ORT(MS)</string>
+    <string name="hrv_status_day_avg">GÜNLÜK ORT</string>
+    <string name="pref_header_hrv_status">Kalp Ritmi Değişkenliği Durumu</string>
+    <string name="hrv_status_low">Düşük</string>
+    <string name="hrv_status_seven_days_avg">7 GÜNLÜK ORT</string>
+    <string name="hrv_status_seven_days_avg_status">DURUM</string>
+    <string name="hrv_status_balanced">Dengeli</string>
+    <string name="hrv_status_unbalanced">Dengesiz</string>
 </resources>
