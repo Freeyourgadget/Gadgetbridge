@@ -3077,4 +3077,5 @@ Temps de sommeil préféré en heures</string>
     <string name="sleep_colored_stats_deep">Profond</string>
     <string name="hrv_status_low">bas</string>
     <string name="hrv_status_unbalanced">Déséquilibré</string>
+    <string name="pref_header_hrv_status">Statut VFC</string>
 </resources>
