@@ -529,7 +529,8 @@ public class HuaweiSupportProvider {
         if (isBLE()) {
             leBuilder = createLeTransactionBuilder("Initializing");
             leBuilder.setCallback(leSupport);
-            leBuilder.notify(leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ), true);
+            if (!GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("force_new_protocol", false))
+                leBuilder.notify(leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ), true);
             leBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZING, context));
         } else {
             brBuilder = createBrTransactionBuilder("Initializing");

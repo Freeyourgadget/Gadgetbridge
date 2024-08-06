@@ -81,7 +81,10 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
 
     @Override
     public int[] getSupportedDeviceSpecificAuthenticationSettings() {
-        return new int[]{R.xml.devicesettings_huawei_account};
+        return new int[]{
+                R.xml.devicesettings_huawei_account,
+                R.xml.devicesettings_miband6_new_protocol
+        };
     }
 
     @Override
