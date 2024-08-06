@@ -3125,7 +3125,7 @@
     <string name="hrv_status_low">低</string>
     <string name="hrv_status_poor">缺乏</string>
     <string name="hrv_status_last_night">最后一晚</string>
-    <string name="hrv_status_last_night_highest_5">最后一晚最高 5 分钟平均值</string>
+    <string name="hrv_status_last_night_highest_5">最后一晚 5 分钟平最高均值</string>
     <string name="hrv_status_seven_days_avg_long">7天平均</string>
     <string name="hrv_status_unit">%1$d 毫秒</string>
     <string name="hrv_status_baseline">%1$d-%2$d 毫秒</string>
@@ -3135,4 +3135,5 @@
     <string name="sleep_colored_stats_deep">深</string>
     <string name="hrv_status_day_avg_legend">日平均（毫秒）</string>
     <string name="hrv_status_unbalanced">失衡</string>
+    <string name="devicetype_garmin_forerunner_965">佳明 Forerunner 965</string>
 </resources>
