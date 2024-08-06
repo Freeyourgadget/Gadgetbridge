@@ -2899,7 +2899,7 @@
     <string name="pref_adaptive_volume_control_title">בקרת עוצמת שמע מסתגלת</string>
     <string name="watchface_resolution_doesnt_match">רזולוציית פני השעון לא תואמת למסך ההתקן. פני השעון הם %1$s מסך ההתקן הוא %2$s</string>
     <string name="pref_title_bottom_navigation_bar">סרגל ניווט תחתון</string>
-    <string name="huawei_trusleep_warning">אזהרה: הפעלת ההגדרה הזאת תעצור הצגת שינה ב־Gadgetbridge! יש ללחוץ כאן אם זה מקובל עליך.</string>
+    <string name="huawei_trusleep_warning">אזהרה: הפעלת ההגדרה הזאת תגרום לכל השינה להופיע כקלילה ב־Gadgetbridge! יש ללחוץ כאן אם זה מקובל עליך.</string>
     <string name="pref_sleepasandroid_device_summary">נא לבחור התקן כספק נתונים ל־Sleep As Android</string>
     <string name="pref_sleepasandroid_enable_summary">הפעלת שילוב מול Sleep As Android</string>
     <string name="prefs_active_noise_cancelling_light">ביטול רעשים פעיל קליל</string>
@@ -2934,4 +2934,24 @@
     <string name="agps_status_pending">ממתין</string>
     <string name="agps_status_current">נוכחי</string>
     <string name="agps_status_error">שגיאה</string>
+    <string name="pref_title_notification_times_enabled">זמני התראות</string>
+    <string name="pref_summary_notification_times_enabled">לשלוח התראות רק בטווחי זמן מסוימים</string>
+    <string name="battery_full_threshold">סף סוללה מלאה</string>
+    <string name="pref_fetch_unknown_files_title">משיכת קבצים לא מוכרים</string>
+    <string name="copied_to_clipboard">הועתק ללוח הגזירים</string>
+    <string name="no_folder_selected">לא נבחרה תיקייה</string>
+    <string name="battery_full_notify_enabled">התראה על סוללה מלאה</string>
+    <string name="url">כתובת</string>
+    <string name="folder_is_empty">התיקייה ריקה</string>
+    <string name="garmin_agps_local_file">קובץ מקומי</string>
+    <string name="realtime_settings">הגדרות זמן אמת</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="default_percentage">ברירת מחדל (%1$d%%)</string>
+    <string name="unsupported">לא נתמך</string>
+    <string name="loading">בטעינה…</string>
+    <string name="folder">תיקייה</string>
+    <string name="battery_low_threshold">סף סוללה חלשה</string>
+    <string name="battery_low_notify_enabled">התראה על סוללה חלשה</string>
+    <string name="none">ללא</string>
+    <string name="pref_battery_polling_interval_format">כל %1$s דקות</string>
 </resources>
