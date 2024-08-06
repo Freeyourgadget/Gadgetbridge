@@ -3133,4 +3133,5 @@
     <string name="hrv_status_baseline_label">خط الأساس</string>
     <string name="pref_header_hrv_status">حالة HRV</string>
     <string name="stats_empty_value">-</string>
+    <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
 </resources>
