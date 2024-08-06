@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDe
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.epix.GarminEpixProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5PlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SapphireCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix7SCoordinator;
@@ -373,6 +374,7 @@ public enum DeviceType {
     VIVOMOVE_HR(GarminVivomoveHrCoordinator.class),
     GARMIN_EPIX_PRO(GarminEpixProCoordinator.class),
     GARMIN_FENIX_5(GarminFenix5Coordinator.class),
+    GARMIN_FENIX_5_PLUS(GarminFenix5PlusCoordinator.class),
     GARMIN_FENIX_6(GarminFenix6Coordinator.class),
     GARMIN_FENIX_6_SAPPHIRE(GarminFenix6SapphireCoordinator.class),
     GARMIN_FENIX_7S(GarminFenix7SCoordinator.class),
