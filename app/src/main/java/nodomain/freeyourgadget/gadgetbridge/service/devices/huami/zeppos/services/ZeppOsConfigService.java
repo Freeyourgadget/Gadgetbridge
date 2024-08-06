@@ -1781,7 +1781,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         put((byte) 0x00, GpsCapability.Combination.LOW_POWER_GPS);
         put((byte) 0x01, GpsCapability.Combination.GPS);
         put((byte) 0x02, GpsCapability.Combination.GPS_BDS);
-        put((byte) 0x03, GpsCapability.Combination.GPS_GNOLASS);
+        put((byte) 0x03, GpsCapability.Combination.GPS_GLONASS);
         put((byte) 0x04, GpsCapability.Combination.GPS_GALILEO);
         put((byte) 0x05, GpsCapability.Combination.ALL_SATELLITES);
     }};

@@ -68,7 +68,7 @@
     <string name="low_power_gps">Low Power GPS</string>
     <string name="gps">GPS</string>
     <string name="gps_bds">GPS + BDS</string>
-    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
     <string name="gps_galileo">GPS + GALILEO</string>
     <string name="all_satellites">All Satellites</string>
     <string name="speed_first">Speed first</string>

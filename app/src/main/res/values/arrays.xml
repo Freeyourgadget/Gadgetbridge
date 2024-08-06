@@ -758,7 +758,7 @@
         <item>@string/low_power_gps</item>
         <item>@string/gps</item>
         <item>@string/gps_bds</item>
-        <item>@string/gps_gnolass</item>
+        <item>@string/gps_glonass</item>
         <item>@string/gps_galileo</item>
         <item>@string/all_satellites</item>
     </string-array>
@@ -766,7 +766,7 @@
         <item>low_power_gps</item>
         <item>gps</item>
         <item>gps_bds</item>
-        <item>gps_gnolass</item>
+        <item>gps_glonass</item>
         <item>gps_galileo</item>
         <item>all_satellites</item>
     </string-array>

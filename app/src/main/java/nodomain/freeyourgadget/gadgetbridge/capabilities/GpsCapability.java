@@ -33,7 +33,7 @@ public class GpsCapability {
         LOW_POWER_GPS,
         GPS,
         GPS_BDS,
-        GPS_GNOLASS,
+        GPS_GLONASS,
         GPS_GALILEO,
         ALL_SATELLITES
     }
