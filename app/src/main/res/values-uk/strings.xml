@@ -218,7 +218,7 @@
     <string name="abstract_chart_fragment_kind_activity">Діяльність</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Швидкий сон</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Глибокий сон</string>
-    <string name="abstract_chart_fragment_kind_not_worn">Не носили</string>
+    <string name="abstract_chart_fragment_kind_not_worn">Не одягнено</string>
     <string name="device_not_connected">Не під\'єднано.</string>
     <string name="user_feedback_all_alarms_disabled">Всі будильники вимкнено</string>
     <string name="pref_title_keep_data_on_device">Лишати дані про діяльність на пристрої</string>
@@ -340,7 +340,7 @@
     <string name="distance">Відстань</string>
     <string name="clock">Годинник</string>
     <string name="heart_rate">Пульс</string>
-    <string name="battery">Батарея</string>
+    <string name="battery">Акумулятор</string>
     <string name="no_limit">Без обмежень</string>
     <string name="seconds_5">5 секунд</string>
     <string name="seconds_10">10 секунд</string>
@@ -1988,7 +1988,7 @@
     <string name="pref_enable_unsupported_settings_summary">Це дасть змогу отримати доступ до всіх наявних налаштувань, навіть якщо вони не підтримуються пристроєм. Це може призвести до нестабільної роботи та збоїв у роботі пристрою.</string>
     <string name="prefs_always_on_display_style">Стиль</string>
     <string name="prefs_control_center">Центр керування</string>
-    <string name="prefs_control_center_summary">Оберіть елементи у спадному списку центру керування</string>
+    <string name="prefs_control_center_summary">Виберіть елементи у спадному списку центру керування</string>
     <string name="activity_type_indoor_walking">Ходьба у приміщенні</string>
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="menuitem_volume">Гучність</string>
@@ -2030,7 +2030,7 @@
     <string name="pref_agps_expiry_reminder_enabled">Нагадування про закінчення терміну дії AGPS</string>
     <string name="pref_workout_detection_categories_summary">Категорії тренувань для автоматичного виявлення</string>
     <string name="pref_workout_detection_alert_title">Сповіщення</string>
-    <string name="pref_sleep_mode_sleep_screen_summary">Показувати екрана сну під час пробудження екрана з режиму сну, щоб зменшити відволікання</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Показувати екран сну під час пробудження екрана з режиму сну, щоб зменшити відволікання</string>
     <string name="buttons_on_left">Кнопки ліворуч</string>
     <string name="buttons_on_right">Кнопки праворуч</string>
     <string name="prefs_weardirection">Напрямок носіння</string>
@@ -2862,4 +2862,10 @@
     <string name="stepRateAvg">Середня частота кроків</string>
     <string name="midFootLandings">Приземлення на середню частину стопи</string>
     <string name="stepRateSum">Сума частоти кроків</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Пробудження</string>
+    <string name="sleep_colored_stats_deep">Глибокий</string>
+    <string name="sleep_colored_stats_light">Неглибокий</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">Найнижчий пульс</string>
+    <string name="stats_highest_hr">Найвищий пульс</string>
 </resources>
