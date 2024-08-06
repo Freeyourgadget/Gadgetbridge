@@ -3130,12 +3130,13 @@
     <string name="hrv_status_day_avg">Promedio diario</string>
     <string name="sleep_colored_stats_light">Claro</string>
     <string name="hrv_status_day_avg_legend">Promedio diario (ms)</string>
-    <string name="hrv_status_seven_days_avg">Promedio de 7 días</string>
+    <string name="hrv_status_seven_days_avg">Media de 7 días</string>
     <string name="pref_header_hrv_status">Estado de la VFC</string>
-    <string name="hrv_status_seven_days_avg_status">ESTADO</string>
+    <string name="hrv_status_seven_days_avg_status">Estado</string>
     <string name="hrv_status_balanced">Equilibrado</string>
     <string name="sleep_colored_stats_deep_avg">AVG profundo</string>
     <string name="sleep_colored_stats_light_avg">AVG ligero</string>
     <string name="sleep_colored_stats_rem_avg">Sueño REM promedio</string>
-    <string name="hrv_status_last_night_highest_5">El promedio de 5 minutos más alto de anoche</string>
+    <string name="hrv_status_last_night_highest_5">Anoche, media máxima de 5 minutos</string>
+    <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
 </resources>
