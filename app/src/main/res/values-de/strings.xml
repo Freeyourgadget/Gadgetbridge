@@ -3143,4 +3143,5 @@
     <string name="stats_empty_value">-</string>
     <string name="stats_lowest_hr">Niedrigste HR</string>
     <string name="stats_highest_hr">Höchste HR</string>
+    <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
 </resources>
