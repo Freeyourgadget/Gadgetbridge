@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.devices.soundcore;
+package nodomain.freeyourgadget.gadgetbridge.devices.soundcore.liberty3_pro;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.SoundcoreLiberty3ProDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty3_pro.SoundcoreLiberty3ProDeviceSupport;
 
 public class SoundcoreLiberty3ProCoordinator extends AbstractDeviceCoordinator {
     @Override

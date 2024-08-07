@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty3_pro;
 
 enum TapAction {
     SINGLE_TAP((byte) 0x02),

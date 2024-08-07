@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty3_pro;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
 
