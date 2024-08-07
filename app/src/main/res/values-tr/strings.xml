@@ -3149,4 +3149,6 @@
     <string name="hrv_status_balanced">Dengeli</string>
     <string name="hrv_status_unbalanced">Dengesiz</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="devicetype_garmin_fenix_5_plus">Garmin Fenix 5 Plus</string>
 </resources>
