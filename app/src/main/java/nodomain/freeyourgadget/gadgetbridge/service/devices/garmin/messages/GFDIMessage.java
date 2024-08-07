@@ -116,6 +116,7 @@ public abstract class GFDIMessage {
         MUSIC_CONTROL_ENTITY_UPDATE(5049, MusicControlEntityUpdateMessage.class),
         CONFIGURATION(5050, ConfigurationMessage.class),
         CURRENT_TIME_REQUEST(5052, CurrentTimeRequestMessage.class),
+        AUTH_NEGOTIATION(5101, AuthNegotiationMessage.class)
         ;
         private final Class<? extends GFDIMessage> objectClass;
         private final int id;
