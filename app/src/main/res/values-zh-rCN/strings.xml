@@ -3136,4 +3136,6 @@
     <string name="hrv_status_day_avg_legend">日平均（毫秒）</string>
     <string name="hrv_status_unbalanced">失衡</string>
     <string name="devicetype_garmin_forerunner_965">佳明 Forerunner 965</string>
+    <string name="gps_glonass">GPS + 格洛纳斯</string>
+    <string name="devicetype_garmin_fenix_5_plus">佳明 Fenix 5 Plus</string>
 </resources>
