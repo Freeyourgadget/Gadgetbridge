@@ -923,10 +923,11 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             DeviceCoordinator coordinator = device.getDeviceCoordinator();
-                            if (coordinator != null) {
-                                coordinator.deleteDevice(device);
-                            }
+                            coordinator.deleteDevice(device);
                             DeviceHelper.getInstance().removeBond(device);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                removeDynamicShortcut(device);
+                            }
                         } catch (Exception ex) {
                             GB.toast(context, context.getString(R.string.error_deleting_device, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
                         } finally {
@@ -1459,6 +1460,13 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                 .setIcon(Icon.createWithResource(context, coordinator.getDefaultIconResource()))
                 .build()
         );
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    void removeDynamicShortcut(GBDevice device) {
+        final ShortcutManager shortcutManager = (ShortcutManager) context.getApplicationContext().getSystemService(Context.SHORTCUT_SERVICE);
+
+        shortcutManager.removeDynamicShortcuts(Collections.singletonList(device.getAddress()));
     }
 
     private static class GBDeviceDiffUtil extends DiffUtil.ItemCallback<GBDevice> {
