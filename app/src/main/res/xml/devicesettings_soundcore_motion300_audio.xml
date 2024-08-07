@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_music_note"
+        android:key="pref_soundcore_ldac_mode"
+        android:layout="@layout/preference_checkbox"
+        android:title="@string/soundcore_ldac_mode_title"
+        android:summary="@string/soundcore_ldac_mode_summary" />
+    <PreferenceCategory android:title="@string/pref_header_equalizer">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_switch_left"
+            android:key="pref_soundcore_adaptive_direction"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/soundcore_adaptive_direction_title"
+            android:summary="@string/soundcore_adaptive_direction_summary" />
+        <ListPreference
+            android:entries="@array/soundcore_equalizer_preset_names"
+            android:entryValues="@array/soundcore_equalizer_preset_values"
+            android:icon="@drawable/ic_equalizer"
+            android:key="pref_soundcore_equalizer_preset"
+            android:summary="%s"
+            android:title="@string/soundcore_equalizer_preset" />
+        <PreferenceScreen
+            android:persistent="false"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_soundcore_equalizer_custom"
+            android:title="@string/soundcore_equalizer_custom_title"
+            android:summary="@string/soundcore_equalizer_custom_summary">
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/soundcore_equalizer_direction_names"
+                android:entryValues="@array/soundcore_equalizer_direction_values"
+                android:icon="@drawable/ic_switch_left"
+                android:key="pref_soundcore_equalizer_direction"
+                android:summary="%s"
+                android:title="@string/soundcore_equalizer_direction" />
+            <Preference
+                android:persistent="false"
+                android:icon="@drawable/ic_history"
+                android:key="pref_soundcore_equalizer_reset"
+                android:summary="@string/soundcore_equalizer_reset_summary"
+                android:title="@string/soundcore_equalizer_reset_title" />
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band1">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band1_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band1_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band1_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band2">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band2_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band2_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band2_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band3">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band3_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band3_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band3_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band4">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band4_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band4_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band4_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band5">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band5_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band5_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band5_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band6">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band6_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band6_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band6_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band7">
+                <ListPreference
+                    android:defaultValue="7"
+                    android:entries="@array/soundcore_equalizer_band7_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band7_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band7_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band8">
+                <ListPreference
+                    android:defaultValue="6"
+                    android:entries="@array/soundcore_equalizer_band8_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band8_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band8_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/soundcore_equalizer_band9">
+                <ListPreference
+                    android:defaultValue="1"
+                    android:entries="@array/soundcore_equalizer_band9_freq_names"
+                    android:entryValues="@array/soundcore_equalizer_freq_values"
+                    android:icon="@drawable/ic_hearing"
+                    android:key="pref_soundcore_equalizer_band9_freq"
+                    android:summary="%s"
+                    android:title="@string/soundcore_equalizer_frequency" />
+                <SeekBarPreference
+                    android:defaultValue="60"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:key="pref_soundcore_equalizer_band9_value"
+                    android:max="120"
+                    android:title="@string/soundcore_equalizer_value"
+                    app:showSeekBarValue="true" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

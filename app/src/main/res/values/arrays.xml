@@ -3485,6 +3485,192 @@
         <item>AMBIENT_SOUND_CONTROL</item>
     </string-array>
 
+    <string-array name="soundcore_button_brightness_names">
+        <item>@string/off</item>
+        <item>@string/soundcore_button_brightness_low</item>
+        <item>@string/soundcore_button_brightness_medium</item>
+        <item>@string/soundcore_button_brightness_high</item>
+    </string-array>
+
+    <string-array name="soundcore_button_brightness_values">
+        <item>0</item>
+        <item>20</item>
+        <item>70</item>
+        <item>100</item>
+    </string-array>
+
+    <string-array name="soundcore_auto_power_off_names">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_20</item>
+        <item>@string/minutes_60</item>
+    </string-array>
+
+    <string-array name="soundcore_auto_power_off_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_preset_names">
+        <item>@string/soundcore_equalizer_preset_signature</item>
+        <item>@string/soundcore_equalizer_preset_xtra_bass</item>
+        <item>@string/soundcore_equalizer_preset_voice</item>
+        <item>@string/soundcore_equalizer_preset_balanced</item>
+        <item>@string/custom</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_preset_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>254</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_direction_names">
+        <item>@string/soundcore_equalizer_direction_standing</item>
+        <item>@string/soundcore_equalizer_direction_lying</item>
+        <item>@string/soundcore_equalizer_direction_hanging</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_direction_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band1_freq_names">
+        <item>48 Hz</item>
+        <item>51 Hz</item>
+        <item>55 Hz</item>
+        <item>59 Hz</item>
+        <item>63 Hz</item>
+        <item>68 Hz</item>
+        <item>72 Hz</item>
+        <item>80 Hz</item>
+        <item>83 Hz</item>
+        <item>89 Hz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band2_freq_names">
+        <item>95 Hz</item>
+        <item>102 Hz</item>
+        <item>109 Hz</item>
+        <item>117 Hz</item>
+        <item>125 Hz</item>
+        <item>134 Hz</item>
+        <item>144 Hz</item>
+        <item>150 Hz</item>
+        <item>165 Hz</item>
+        <item>177 Hz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band3_freq_names">
+        <item>190 Hz</item>
+        <item>203 Hz</item>
+        <item>218 Hz</item>
+        <item>233 Hz</item>
+        <item>250 Hz</item>
+        <item>268 Hz</item>
+        <item>287 Hz</item>
+        <item>300 Hz</item>
+        <item>330 Hz</item>
+        <item>353 Hz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band4_freq_names">
+        <item>379 Hz</item>
+        <item>406 Hz</item>
+        <item>435 Hz</item>
+        <item>467 Hz</item>
+        <item>500 Hz</item>
+        <item>536 Hz</item>
+        <item>574 Hz</item>
+        <item>600 Hz</item>
+        <item>659 Hz</item>
+        <item>706 Hz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band5_freq_names">
+        <item>759 Hz</item>
+        <item>813 Hz</item>
+        <item>871 Hz</item>
+        <item>933 Hz</item>
+        <item>1.0 kHz</item>
+        <item>1.07 kHz</item>
+        <item>1.1 kHz</item>
+        <item>1.2 kHz</item>
+        <item>1.3 kHz</item>
+        <item>1.4 kHz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band6_freq_names">
+        <item>1.5 kHz</item>
+        <item>1.6 kHz</item>
+        <item>1.75 kHz</item>
+        <item>1.86 kHz</item>
+        <item>2.0 kHz</item>
+        <item>2.15 kHz</item>
+        <item>2.3 kHz</item>
+        <item>2.5 kHz</item>
+        <item>2.6 kHz</item>
+        <item>2.8 kHz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band7_freq_names">
+        <item>3.0 kHz</item>
+        <item>3.2 kHz</item>
+        <item>3.5 kHz</item>
+        <item>3.7 kHz</item>
+        <item>4.0 kHz</item>
+        <item>4.3 kHz</item>
+        <item>4.6 kHz</item>
+        <item>5.0 kHz</item>
+        <item>5.3 kHz</item>
+        <item>5.6 kHz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band8_freq_names">
+        <item>6.0 kHz</item>
+        <item>6.5 kHz</item>
+        <item>7.0 kHz</item>
+        <item>7.5 kHz</item>
+        <item>8.0 kHz</item>
+        <item>8.5 kHz</item>
+        <item>9.0 kHz</item>
+        <item>9.8 kHz</item>
+        <item>10.5 kHz</item>
+        <item>11.3 kHz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_band9_freq_names">
+        <item>12.1 kHz</item>
+        <item>13.0 kHz</item>
+        <item>14.0 kHz</item>
+        <item>15.0 kHz</item>
+        <item>16.0 kHz</item>
+        <item>17.1 kHz</item>
+        <item>18.3 kHz</item>
+        <item>20.0 kHz</item>
+    </string-array>
+
+    <string-array name="soundcore_equalizer_freq_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
     <string-array name="moondrop_equalizer_preset_names">
         <item>@string/moondrop_equalizer_preset_reference</item>
         <item>@string/moondrop_equalizer_preset_basshead</item>
