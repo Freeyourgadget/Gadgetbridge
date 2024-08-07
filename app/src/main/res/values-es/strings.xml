@@ -3140,4 +3140,6 @@
     <string name="hrv_status_last_night_highest_5">Anoche, media máxima de 5 minutos</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
     <string name="devicetype_garmin_fenix_5_plus">Garmin Fenix 5 Plus</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Interrupción del descanso</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
