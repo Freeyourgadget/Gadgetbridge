@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -64,7 +62,7 @@ public class SendNotificationRequest extends Request {
             title = notificationSpec.sourceName;
 
         String body = notificationSpec.body;
-        if (body.length() > supportProvider.getHuaweiCoordinator().getContentLength()) {
+        if (body != null && body.length() > supportProvider.getHuaweiCoordinator().getContentLength()) {
             body = notificationSpec.body.substring(0x0, supportProvider.getHuaweiCoordinator().getContentLength() - 0xD);
             body += "...";
         }
