@@ -3144,4 +3144,18 @@
     <string name="stats_lowest_hr">Niedrigste HR</string>
     <string name="stats_highest_hr">Höchste HR</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
+    <string name="soundcore_equalizer_direction">Geräteausrichtung</string>
+    <string name="soundcore_equalizer_direction_lying">Liegend</string>
+    <string name="soundcore_equalizer_direction_hanging">Hängend</string>
+    <string name="soundcore_equalizer_reset_title">Auf Standard zurücksetzen</string>
+    <string name="soundcore_equalizer_custom_title">Anpassen…</string>
+    <string name="soundcore_equalizer_custom_summary">Parametrische Klangeinstellungen konfigurieren</string>
+    <string name="soundcore_equalizer_preset_xtra_bass">Xtra Bass</string>
+    <string name="soundcore_equalizer_preset_voice">Stimme</string>
+    <string name="soundcore_equalizer_preset_balanced">Ausbalanciert</string>
+    <string name="soundcore_equalizer_direction_standing">Stehend</string>
+    <string name="soundcore_equalizer_reset_summary">Alle Equalizer auf Standard zurück setzen</string>
+    <string name="soundcore_equalizer_band1">Band 1</string>
+    <string name="soundcore_equalizer_frequency">Frequenz</string>
+    <string name="soundcore_equalizer_value">Wert</string>
 </resources>
