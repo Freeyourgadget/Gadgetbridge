@@ -3158,4 +3158,20 @@
     <string name="soundcore_equalizer_band1">Band 1</string>
     <string name="soundcore_equalizer_frequency">Frequenz</string>
     <string name="soundcore_equalizer_value">Wert</string>
+    <string name="minutes_60">60 Minuten</string>
+    <string name="devicetype_soundcore_motion300">Soundcore Motion 300</string>
+    <string name="soundcore_voice_prompts">Sprachansagen</string>
+    <string name="soundcore_button_brightness">Schaltfläche Helligkeit</string>
+    <string name="soundcore_button_brightness_medium">Mittel</string>
+    <string name="soundcore_ldac_mode_title">LDAC-Modus</string>
+    <string name="soundcore_equalizer_preset">Voreinstellung</string>
+    <string name="soundcore_equalizer_preset_signature">Soundcore Signatur</string>
+    <string name="minutes_20">20 Minuten</string>
+    <string name="devicetype_garmin_fenix_5_plus">Garmin Fenix 5 Plus</string>
+    <string name="soundcore_button_brightness_low">Niedrig</string>
+    <string name="soundcore_button_brightness_high">Hoch</string>
+    <string name="soundcore_ldac_mode_summary">Die Aktivierung von LDAC verkürzt die Batterielebensdauer und kann zu einer instabilen Verbindung führen</string>
+    <string name="soundcore_adaptive_direction_title">Adaptive Richtung</string>
+    <string name="soundcore_adaptive_direction_summary">Automatische Anpassung der Equalizer-Voreinstellung je nach Ausrichtung des Geräts</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
