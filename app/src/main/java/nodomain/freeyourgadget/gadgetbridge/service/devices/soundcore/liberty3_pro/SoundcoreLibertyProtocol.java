@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +19,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.SoundcorePacket;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -59,36 +58,34 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
     }
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
-        // Byte 0-4: Header
-        // Byte 5-6: Command (Audio-Mode)
-        // Byte 7: Size of data
-        // Byte 8-(x-1): Data
-        // Byte x: Checksum
-        if (responseData.length == 0) return null;
+        ByteBuffer buf = ByteBuffer.wrap(responseData);
+        SoundcorePacket packet = SoundcorePacket.decode(buf);
+
+        if (packet == null)
+            return null;
 
         List<GBDeviceEvent> devEvts = new ArrayList<>();
+        short cmd = packet.getCommand();
+        byte[] payload = packet.getPayload();
 
-        byte[] command = Arrays.copyOfRange(responseData, 5, 7);
-        byte[] data = Arrays.copyOfRange(responseData, 8, responseData.length-1);
-
-        if (Arrays.equals(command, new byte[]{0x01, 0x01})) {
+        if (cmd == (short) 0x0101) {
             // a lot of other data is in here, anything interesting?
-            String firmware1 = readString(data, 7, 5);
-            String firmware2 = readString(data, 12, 5);
-            String serialNumber = readString(data, 17, 16);
+            String firmware1 = readString(payload, 6, 5);
+            String firmware2 = readString(payload, 11, 5);
+            String serialNumber = readString(payload, 16, 16);
             devEvts.add(buildVersionInfo(firmware1, firmware2, serialNumber));
-        } else if (Arrays.equals(command, new byte[]{0x01, (byte) 0x8d})) {
-            LOG.debug("Unknown incoming message - command: " + hexdump(command) + ", dump: " + hexdump(responseData));
-        } else if (Arrays.equals(command, new byte[]{0x05, (byte) 0x82})) {
-            LOG.debug("Unknown incoming message - command: " + hexdump(command) + ", dump: " + hexdump(responseData));
-        } else if (Arrays.equals(command, new byte[]{0x05, 0x01})) {
-            LOG.debug("Unknown incoming message - command: " + hexdump(command) + ", dump: " + hexdump(responseData));
-        } else if (Arrays.equals(command, new byte[]{0x06, 0x01})) { //Sound Mode Update
-            decodeAudioMode(data);
-        } else if (Arrays.equals(command, new byte[]{0x01, 0x03})) { // Battery Update
-            int batteryLeft = data[1] * 20;
-            int batteryRight = data[2] * 20;
-            int batteryCase = data[3] * 20;
+        } else if (cmd == (short) 0x8d01) {
+            LOG.debug("Unknown incoming message - command: " + cmd + ", dump: " + hexdump(responseData));
+        } else if (cmd == (short) 0x8205) {
+            LOG.debug("Unknown incoming message - command: " + cmd + ", dump: " + hexdump(responseData));
+        } else if (cmd == (short) 0x0105) {
+            LOG.debug("Unknown incoming message - command: " + cmd + ", dump: " + hexdump(responseData));
+        } else if (cmd == (short) 0x0106) { //Sound Mode Update
+            decodeAudioMode(payload);
+        } else if (cmd == (short) 0x0301) { // Battery Update
+            int batteryLeft = payload[0] * 20;
+            int batteryRight = payload[1] * 20;
+            int batteryCase = payload[2] * 20;
 
             devEvts.add(buildBatteryInfo(battery_case, batteryCase));
             devEvts.add(buildBatteryInfo(battery_earphone_left, batteryLeft));
@@ -96,7 +93,7 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
         } else {
             // see https://github.com/gmallios/SoundcoreManager/blob/master/soundcore-lib/src/models/packet_kind.rs
             // for a mapping for other soundcore devices (similar protocol?)
-            LOG.debug("Unknown incoming message - command: " + hexdump(command) + ", dump: " + hexdump(responseData));
+            LOG.debug("Unknown incoming message - command: " + cmd + ", dump: " + hexdump(responseData));
         }
         return devEvts.toArray(new GBDeviceEvent[devEvts.size()]);
     }
@@ -107,25 +104,25 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
         String soundmode = "off";
         int anc_strength = 0;
 
-        if (payload[1] == 0x00) {
+        if (payload[0] == 0x00) {
             soundmode = "noise_cancelling";
-        } else if (payload[1] == 0x01) {
+        } else if (payload[0] == 0x01) {
             soundmode = "ambient_sound";
-        } else if (payload[1] == 0x02) {
+        } else if (payload[0] == 0x02) {
             soundmode = "off";
         }
 
-        if (payload[2] == 0x10) {
+        if (payload[1] == 0x10) {
             anc_strength = 0;
-        } else if (payload[2] == 0x20) {
+        } else if (payload[1] == 0x20) {
             anc_strength = 1;
-        } else if (payload[2] == 0x30) {
+        } else if (payload[1] == 0x30) {
             anc_strength = 2;
         }
 
-        boolean vocal_mode = (payload[3] == 0x01);
-        boolean adaptive_anc = (payload[4] == 0x01);
-        boolean windnoiseReduction = (payload[5] == 0x01);
+        boolean vocal_mode = (payload[2] == 0x01);
+        boolean adaptive_anc = (payload[3] == 0x01);
+        boolean windnoiseReduction = (payload[4] == 0x01);
 
         editor.putString(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_AMBIENT_SOUND_CONTROL, soundmode);
         editor.putInt(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL, anc_strength);
@@ -200,13 +197,13 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
             // Miscellaneous Settings
             case DeviceSettingsPreferenceConst.PREF_SOUNDCORE_WEARING_DETECTION:
                 boolean wearingDetection = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_WEARING_DETECTION, false);
-                return encodeMessage((byte) 0x01, (byte) 0x81, new byte[]{0x00, encodeBoolean(wearingDetection)});
+                return new SoundcorePacket((short) 0x8101, new byte[]{encodeBoolean(wearingDetection)}).encode();
             case DeviceSettingsPreferenceConst.PREF_SOUNDCORE_WEARING_TONE:
                 boolean wearingTone = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_WEARING_TONE, false);
-                return encodeMessage((byte) 0x01, (byte) 0x8c, new byte[]{0x00, encodeBoolean(wearingTone)});
+                return new SoundcorePacket((short) 0x8c01, new byte[]{encodeBoolean(wearingTone)}).encode();
             case DeviceSettingsPreferenceConst.PREF_SOUNDCORE_TOUCH_TONE:
                 boolean touchTone = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_TOUCH_TONE, false);
-                return encodeMessage((byte) 0x01, (byte) 0x83, new byte[]{0x00, encodeBoolean(touchTone)});
+                return new SoundcorePacket((short) 0x8301, new byte[]{encodeBoolean(touchTone)}).encode();
             default:
                 LOG.debug("Unsupported CONFIG: " + config);
         }
@@ -215,21 +212,19 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
     }
 
     byte[] encodeDeviceInfoRequest() {
-        byte[] payload = new byte[]{0x00};
-        return encodeMessage((byte) 0x01, (byte) 0x01, payload);
+        return new SoundcorePacket((short) 0x0101).encode();
     }
 
     byte[] encodeMysteryDataRequest1() {
-        byte[] payload = new byte[]{0x00, 0x00};
-        return encodeMessage((byte) 0x01, (byte) 0x8d, payload);
+        byte[] payload = new byte[]{0x00};
+        return new SoundcorePacket((short) 0x8d01, payload).encode();
     }
     byte[] encodeMysteryDataRequest2() {
-        byte[] payload = new byte[]{0x00};
-        return encodeMessage((byte) 0x05, (byte) 0x01, payload);
+        return new SoundcorePacket((short) 0x0105).encode();
     }
     byte[] encodeMysteryDataRequest3() {
-        byte[] payload = new byte[]{0x00, 0x00};
-        return encodeMessage((byte) 0x05, (byte) 0x82, payload);
+        byte[] payload = new byte[]{0x00};
+        return new SoundcorePacket((short) 0x8205, payload).encode();
     }
 
     /**
@@ -280,8 +275,8 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
         byte vocal_mode = encodeBoolean(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_TRANSPARENCY_VOCAL_MODE, false));
         byte windnoise_reduction = encodeBoolean(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SOUNDCORE_WIND_NOISE_REDUCTION, false));
 
-        byte[] payload = new byte[]{0x00, anc_mode, anc_strength, vocal_mode, adaptive_anc, windnoise_reduction, 0x01};
-        return encodeMessage((byte) 0x06, (byte) 0x81, payload);
+        byte[] payload = new byte[]{anc_mode, anc_strength, vocal_mode, adaptive_anc, windnoise_reduction, 0x01};
+        return new SoundcorePacket((short) 0x8106, payload).encode();
     }
 
     /**
@@ -307,8 +302,8 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
                 LOG.error("Invalid Tap action");
                 return null;
         }
-        payload = new byte[]{0x00, 0x00, action.getCode(), enabled_byte};
-        return encodeMessage((byte) 0x04, (byte) 0x83, payload);
+        payload = new byte[]{0x00, action.getCode(), enabled_byte};
+        return new SoundcorePacket((short) 0x8304, payload).encode();
     }
 
     /**
@@ -335,8 +330,8 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
                 LOG.error("Invalid Tap action");
                 return null;
         }
-        byte[] payload = new byte[] {0x00, encodeBoolean(right), action.getCode(), function_byte};
-        return encodeMessage((byte) 0x04, (byte) 0x81, payload);
+        byte[] payload = new byte[] {encodeBoolean(right), action.getCode(), function_byte};
+        return new SoundcorePacket((short) 0x8104, payload).encode();
     }
 
     /**
@@ -346,32 +341,11 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
     private byte[] encodeControlAmbientModeMessage(boolean anc, boolean transparency, boolean normal) {
         // Original app does not allow only one true flag. Unsure if Earbuds accept this state.
         byte ambientModes = (byte) (4 * (normal?1:0) + 2 * (transparency?1:0) + (anc?1:0));
-        return encodeMessage((byte) 0x06, (byte) 0x82, new byte[] {0x00, ambientModes});
+        return new SoundcorePacket((short) 0x8206, new byte[] {ambientModes}).encode();
     }
 
     private byte encodeBoolean(boolean bool) {
         if (bool) return 0x01;
         else return 0x00;
-    }
-
-    private byte[] encodeMessage(byte command1, byte command2, byte[] payload) {
-        int size = 8 + payload.length + 1;
-        ByteBuffer msgBuf = ByteBuffer.allocate(size);
-        msgBuf.order(ByteOrder.BIG_ENDIAN);
-        msgBuf.put(new byte[] {0x08, (byte) 0xee, 0x00, 0x00, 0x00}); // header
-        msgBuf.put(command1);
-        msgBuf.put(command2);
-        msgBuf.put((byte) size);
-
-        msgBuf.put(payload);
-
-        byte checksum = -10;
-        checksum += command1 + command2 + size;
-        for (int b : payload) {
-            checksum += b;
-        }
-        msgBuf.put(checksum);
-
-        return msgBuf.array();
     }
 }
