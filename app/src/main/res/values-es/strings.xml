@@ -2437,7 +2437,7 @@
     <string name="prefs_wena3_vibration_basic">Simple</string>
     <string name="prefs_wena3_title_screen">Ajustes de pantalla</string>
     <string name="prefs_wena3_item_large_font">Mayor tamaño de letra</string>
-    <string name="prefs_wena3_home_icon_name_energy">Energía corporal</string>
+    <string name="prefs_wena3_home_icon_name_energy">Body Energy</string>
     <string name="prefs_wena3_notification_vibration_repetition_2">Dos veces</string>
     <string name="prefs_wena3_auto_power_off_hint">El dispositivo se apagará y encenderá automáticamente en el horario especificado</string>
     <string name="prefs_wena3_hint_lift_wrist">Enciende la pantalla cuando mira su muñeca</string>
@@ -3178,4 +3178,8 @@
     <string name="soundcore_equalizer_reset_summary">Restaura todas las bandas del ecualizador a la configuración predeterminada</string>
     <string name="soundcore_equalizer_band3">Banda 3</string>
     <string name="soundcore_equalizer_band2">Banda 2</string>
+    <string name="body_energy_lost">Perdida</string>
+    <string name="body_energy_legend_level">Nivel de Body Energy</string>
+    <string name="body_energy">Body Energy</string>
+    <string name="body_energy_gained">Ganada</string>
 </resources>
