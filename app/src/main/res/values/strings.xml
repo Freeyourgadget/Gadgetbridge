@@ -1455,6 +1455,9 @@
     <string name="hrv_status_unit">%1$d ms</string>
     <string name="hrv_status_baseline">%1$d-%2$d ms</string>
     <string name="hrv_status_baseline_label">Baseline</string>
+    <string name="body_energy_gained">Gained</string>
+    <string name="body_energy_lost">Lost</string>
+    <string name="body_energy_legend_level">Body Energy Level</string>
     <string name="activity_type_biking">Biking</string>
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_exercise">Exercise</string>
@@ -2319,6 +2322,7 @@
     <string name="pref_header_stress">Stress</string>
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_hrv_status">HRV Status</string>
+    <string name="body_energy">Body Energy</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
     <string name="pref_header_sony_sound_control">Sound Control</string>
     <string name="pref_header_sony_device_info">Device Information</string>

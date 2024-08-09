@@ -114,6 +114,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsHrvMeasurement()) {
             tabList.remove("hrvstatus");
         }
+        if (!coordinator.supportsBodyEnergy()) {
+            tabList.remove("bodyenergy");
+        }
         return tabList;
     }
 
@@ -145,6 +148,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new WeekSleepChartFragment();
                 case "hrvstatus":
                     return new HRVStatusFragment();
+                case "bodyenergy":
+                    return new BodyEnergyFragment();
                 case "stress":
                     return new StressChartFragment();
                 case "pai":
@@ -199,6 +204,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getSleepTitle();
                 case "hrvstatus":
                     return getString(R.string.pref_header_hrv_status);
+                case "bodyenergy":
+                    return getString(R.string.body_energy);
                 case "stress":
                     return getString(R.string.menuitem_stress);
                 case "pai":

@@ -106,6 +106,7 @@
     <item name="p_pai" type="string">pai</item>
     <item name="p_speed_zones" type="string">speedzones</item>
     <item name="p_hrv_status" type="string">hrvstatus</item>
+    <item name="p_body_energy" type="string">bodyenergy</item>
     <item name="p_live_stats" type="string">livestats</item>
     <item name="p_spo2" type="string">spo2</item>
     <item name="p_temperature" type="string">temperature</item>
