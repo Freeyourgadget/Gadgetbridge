@@ -3174,4 +3174,12 @@
     <string name="soundcore_adaptive_direction_title">Adaptive Richtung</string>
     <string name="soundcore_adaptive_direction_summary">Automatische Anpassung der Equalizer-Voreinstellung je nach Ausrichtung des Geräts</string>
     <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="soundcore_equalizer_band2">Band 2</string>
+    <string name="soundcore_equalizer_band9">Band 9</string>
+    <string name="soundcore_equalizer_band3">Band 3</string>
+    <string name="soundcore_equalizer_band5">Band 5</string>
+    <string name="soundcore_equalizer_band4">Band 4</string>
+    <string name="soundcore_equalizer_band7">Band 7</string>
+    <string name="soundcore_equalizer_band6">Band 6</string>
+    <string name="soundcore_equalizer_band8">Band 8</string>
 </resources>
