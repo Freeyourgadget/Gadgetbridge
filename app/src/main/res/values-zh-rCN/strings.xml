@@ -3174,4 +3174,8 @@
     <string name="soundcore_equalizer_band7">频段 7</string>
     <string name="soundcore_equalizer_value">值</string>
     <string name="soundcore_equalizer_frequency">频率</string>
+    <string name="body_energy_gained">已获得</string>
+    <string name="body_energy_legend_level">身体能量水平</string>
+    <string name="body_energy">身体能量</string>
+    <string name="body_energy_lost">已流失</string>
 </resources>
