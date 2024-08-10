@@ -3089,4 +3089,22 @@ Temps de sommeil préféré en heures</string>
     <string name="abstract_chart_fragment_kind_awake_sleep">Eveillé</string>
     <string name="hrv_status_poor">Mauvais</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="pref_title_notification_times_enabled">Horaires des notifications</string>
+    <string name="pref_summary_notification_times_enabled">N\'envoyer les notifications que pendant ces horaires</string>
+    <string name="pref_battery_polling_interval_format">toutes les %1$s minutes</string>
+    <string name="minutes_20">20 minutes</string>
+    <string name="minutes_60">60 minutes</string>
+    <string name="hrv_status_day_avg">Moyenne journalière</string>
+    <string name="body_energy_lost">Dépensée</string>
+    <string name="body_energy_gained">Gagnée</string>
+    <string name="body_energy_legend_level">Niveau de réserve d\'énergie</string>
+    <string name="body_energy">Réserve d\'énergie</string>
+    <string name="find_my_phone_companion_warning">Association comme compagnon est requis pour trouver le téléphone. Cliquez ici pour plus d\'informations.</string>
+    <string name="hrv_status_last_night">Nuit dernière</string>
+    <string name="hrv_status_day_avg_legend">Moyenne journalière (ms)</string>
+    <string name="hrv_status_seven_days_avg">Moyenne sur 7 jours</string>
+    <string name="hrv_status_seven_days_avg_status">Statut</string>
+    <string name="hrv_status_seven_days_avg_long">Moyenne sur 7 jours</string>
+    <string name="hrv_status_baseline_label">Ligne de base</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
