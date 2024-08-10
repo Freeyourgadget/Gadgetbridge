@@ -3187,4 +3187,8 @@
     <string name="soundcore_equalizer_reset_title">Öntanımlı değere sıfırla</string>
     <string name="soundcore_equalizer_band2">Bant 2</string>
     <string name="soundcore_equalizer_frequency">Frekans</string>
+    <string name="body_energy_gained">Kazanılan</string>
+    <string name="body_energy_lost">Kaybedilen</string>
+    <string name="body_energy_legend_level">Vücut Enerji Seviyesi</string>
+    <string name="body_energy">Vücut Enerjisi</string>
 </resources>
