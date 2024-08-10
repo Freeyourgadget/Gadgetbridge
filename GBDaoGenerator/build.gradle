@@ -3,11 +3,9 @@ apply plugin: 'maven-publish'
 apply plugin:'application'
 
 archivesBaseName = 'gadgetbridge-daogenerator'
-//version = '0.9.2-SNAPSHOT'
 
 dependencies {
-//    implementation 'org.greenrobot:greendao-generator:2.2.0'
-//    implementation project(":DaoGenerator")
+    // https://github.com/Freeyourgadget/greenDAO/tree/fyg
     implementation 'com.github.Freeyourgadget:greendao:1998d7cd2d21f662c6044f6ccf3b3a251bbad341'
 }
 
@@ -21,8 +19,8 @@ sourceSets {
 
 mainClassName = "nodomain.freeyourgadget.gadgetbridge.daogen.GBDaoGenerator"
 
-task genSources(type: JavaExec) {
-    main = mainClassName
+tasks.register('genSources', JavaExec) {
+    mainClass = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     workingDir = '../'
 }
@@ -30,8 +28,11 @@ task genSources(type: JavaExec) {
 artifacts {
     archives jar
 }
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 tasks.named("distTar") {
     duplicatesStrategy = 'include'
