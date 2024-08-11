@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TimeSample;
+import nodomain.freeyourgadget.gadgetbridge.model.WeightSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
@@ -269,6 +270,12 @@ public interface DeviceCoordinator {
     boolean supportsSleepRespiratoryRate();
 
     /**
+     * Returns true if measurement and fetching of body weight is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsWeightMeasurement();
+
+    /**
      * Returns true if activity data fetching is supported AND possible at this
      * very moment. This will consider the device state (being connected/disconnected/busy...)
      * etc.
@@ -349,6 +356,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for sleep respiratory rate data, for the device being supported.
      */
     TimeSampleProvider<? extends SleepRespiratoryRateSample> getSleepRespiratoryRateSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for weight data, for the device being supported.
+     */
+    TimeSampleProvider<? extends WeightSample> getWeightSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.

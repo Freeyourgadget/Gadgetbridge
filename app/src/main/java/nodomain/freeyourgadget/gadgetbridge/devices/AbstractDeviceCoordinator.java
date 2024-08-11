@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
+import nodomain.freeyourgadget.gadgetbridge.model.WeightSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -272,6 +273,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends SleepRespiratoryRateSample> getSleepRespiratoryRateSampleProvider(GBDevice device, DaoSession session) {
+        return null;
+    }
+
+    @Override
+    public TimeSampleProvider<? extends WeightSample> getWeightSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
 
@@ -519,6 +525,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean supportsSleepRespiratoryRate() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsWeightMeasurement() {
         return false;
     }
 
