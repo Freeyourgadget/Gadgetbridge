@@ -188,7 +188,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.MijiaLywsd02Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.MijiaLywsd03Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd.MijiaMhoC303Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miscale.MiCompositionScaleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moondrop.MoondropSpaceTravelCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.CmfBudsPro2Coordinator;
@@ -355,7 +355,7 @@ public enum DeviceType {
     CASIOGBX100(CasioGBX100DeviceCoordinator.class),
     CASIOGWB5600(CasioGWB5600DeviceCoordinator.class),
     CASIOGMWB5000(CasioGMWB5000DeviceCoordinator.class),
-    MISCALE2(MiScale2DeviceCoordinator.class),
+    MICOMPOSITIONSCALE(MiCompositionScaleCoordinator.class),
     BFH16(BFH16DeviceCoordinator.class),
     MAKIBESHR3(MakibesHR3Coordinator.class),
     BANGLEJS(BangleJSCoordinator.class),

@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.miscale;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -41,13 +41,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class MiScale2DeviceSupport extends AbstractBTLEDeviceSupport {
+public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MiScale2DeviceSupport.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MiCompositionScaleDeviceSupport.class);
     private static final String UNIT_KG = "kg";
     private static final String UNIT_LBS = "lb";
     private static final String UNIT_JIN = "jīn";
-    private final DeviceInfoProfile<MiScale2DeviceSupport> deviceInfoProfile;
+    private final DeviceInfoProfile<MiCompositionScaleDeviceSupport> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final IntentListener mListener = new IntentListener() {
         @Override
@@ -59,7 +59,7 @@ public class MiScale2DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     };
 
-    public MiScale2DeviceSupport() {
+    public MiCompositionScaleDeviceSupport() {
         super(LOG);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ATTRIBUTE);

@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.miscale2;
+package nodomain.freeyourgadget.gadgetbridge.devices.miscale;
 
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
@@ -45,10 +45,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale.MiCompositionScaleDeviceSupport;
 
-public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiScale2DeviceCoordinator.class);
+public class MiCompositionScaleCoordinator extends AbstractBLEDeviceCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(MiCompositionScaleCoordinator.class);
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
@@ -158,23 +158,23 @@ public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
-        return MiScale2DeviceSupport.class;
+        return MiCompositionScaleDeviceSupport.class;
     }
 
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_miscale2;
+        return R.string.devicetype_micompositionscale;
     }
 
 
     @Override
     public int getDefaultIconResource() {
-        return R.drawable.ic_device_miscale2;
+        return R.drawable.ic_device_miscale;
     }
 
     @Override
     public int getDisabledIconResource() {
-        return R.drawable.ic_device_miscale2_disabled;
+        return R.drawable.ic_device_miscale_disabled;
     }
 }
