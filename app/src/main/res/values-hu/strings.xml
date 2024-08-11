@@ -2491,4 +2491,11 @@
     <string name="pref_touch_tone">Érintéshang</string>
     <string name="pref_agps_status">AGPS státusz</string>
     <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="agps_status_missing">Hiányzik</string>
+    <string name="agps_status_current">Jelenlegi</string>
+    <string name="activity_prefs_height_inches">Magasság inchben</string>
+    <string name="notif_battery_full_title">Eszköz akkumulátora tele!</string>
+    <string name="notif_battery_full">%1$s akkumulátora feltöltve</string>
+    <string name="authentication_failed_check_key">Hitelesítés sikertelen, kérem ellenőrizze a hitelesítő kulcsot</string>
+    <string name="pref_touch_tone_summary">Hangjelzés a fülhallgató megérintésekor</string>
 </resources>
