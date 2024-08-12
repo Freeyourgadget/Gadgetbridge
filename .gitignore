@@ -25,7 +25,8 @@ proguard/
 # Log Files
 *.log
 
-.idea
+.idea/*
+!.idea/icon.svg
 *.iml
 
 MPChartLib
