@@ -246,27 +246,27 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 }
                 float start_angle = startAngle + (activity.timeFrom - dashboardData.timeFrom) / degreeFactor;
                 float sweep_angle = (activity.timeTo - activity.timeFrom) / degreeFactor;
-                if (activity.activityKind == ActivityKind.TYPE_NOT_MEASURED) {
+                if (activity.activityKind == ActivityKind.NOT_MEASURED) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_worn);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.TYPE_NOT_WORN) {
+                } else if (activity.activityKind == ActivityKind.NOT_WORN) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_not_worn);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.TYPE_LIGHT_SLEEP || activity.activityKind == ActivityKind.TYPE_SLEEP) {
+                } else if (activity.activityKind == ActivityKind.LIGHT_SLEEP || activity.activityKind == ActivityKind.SLEEP_ANY) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_light_sleep);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.TYPE_REM_SLEEP) {
+                } else if (activity.activityKind == ActivityKind.REM_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_rem_sleep);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.TYPE_DEEP_SLEEP) {
+                } else if (activity.activityKind == ActivityKind.DEEP_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_deep_sleep);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.TYPE_EXERCISE) {
+                } else if (activity.activityKind == ActivityKind.EXERCISE) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_exercise);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
@@ -334,9 +334,9 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     }
 
     private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final TreeMap<Long, Integer> activityTimestamps = new TreeMap<>();
+        private final TreeMap<Long, ActivityKind> activityTimestamps = new TreeMap<>();
 
-        private void addActivity(long timeFrom, long timeTo, int activityKind) {
+        private void addActivity(long timeFrom, long timeTo, ActivityKind activityKind) {
             for (long i = timeFrom; i<=timeTo; i++) {
                 // If the current timestamp isn't saved yet, do so immediately
                 if (activityTimestamps.get(i) == null) {
@@ -346,36 +346,36 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 // If the current timestamp is already saved, compare the activity kinds and
                 // keep the most 'important' one
                 switch (activityTimestamps.get(i)) {
-                    case ActivityKind.TYPE_EXERCISE:
+                    case EXERCISE:
                         break;
-                    case ActivityKind.TYPE_ACTIVITY:
-                        if (activityKind == ActivityKind.TYPE_EXERCISE)
+                    case ACTIVITY:
+                        if (activityKind == ActivityKind.EXERCISE)
                             activityTimestamps.put(i, activityKind);
                         break;
-                    case ActivityKind.TYPE_DEEP_SLEEP:
-                        if (activityKind == ActivityKind.TYPE_EXERCISE ||
-                                activityKind == ActivityKind.TYPE_ACTIVITY)
+                    case DEEP_SLEEP:
+                        if (activityKind == ActivityKind.EXERCISE ||
+                                activityKind == ActivityKind.ACTIVITY)
                             activityTimestamps.put(i, activityKind);
                         break;
-                    case ActivityKind.TYPE_LIGHT_SLEEP:
-                        if (activityKind == ActivityKind.TYPE_EXERCISE ||
-                                activityKind == ActivityKind.TYPE_ACTIVITY ||
-                                activityKind == ActivityKind.TYPE_DEEP_SLEEP)
+                    case LIGHT_SLEEP:
+                        if (activityKind == ActivityKind.EXERCISE ||
+                                activityKind == ActivityKind.ACTIVITY ||
+                                activityKind == ActivityKind.DEEP_SLEEP)
                             activityTimestamps.put(i, activityKind);
                         break;
-                    case ActivityKind.TYPE_REM_SLEEP:
-                        if (activityKind == ActivityKind.TYPE_EXERCISE ||
-                                activityKind == ActivityKind.TYPE_ACTIVITY ||
-                                activityKind == ActivityKind.TYPE_DEEP_SLEEP ||
-                                activityKind == ActivityKind.TYPE_LIGHT_SLEEP)
+                    case REM_SLEEP:
+                        if (activityKind == ActivityKind.EXERCISE ||
+                                activityKind == ActivityKind.ACTIVITY ||
+                                activityKind == ActivityKind.DEEP_SLEEP ||
+                                activityKind == ActivityKind.LIGHT_SLEEP)
                             activityTimestamps.put(i, activityKind);
                         break;
-                    case ActivityKind.TYPE_SLEEP:
-                        if (activityKind == ActivityKind.TYPE_EXERCISE ||
-                                activityKind == ActivityKind.TYPE_ACTIVITY ||
-                                activityKind == ActivityKind.TYPE_DEEP_SLEEP ||
-                                activityKind == ActivityKind.TYPE_LIGHT_SLEEP ||
-                                activityKind == ActivityKind.TYPE_REM_SLEEP)
+                    case SLEEP_ANY:
+                        if (activityKind == ActivityKind.EXERCISE ||
+                                activityKind == ActivityKind.ACTIVITY ||
+                                activityKind == ActivityKind.DEEP_SLEEP ||
+                                activityKind == ActivityKind.LIGHT_SLEEP ||
+                                activityKind == ActivityKind.REM_SLEEP)
                             activityTimestamps.put(i, activityKind);
                         break;
                     default:
@@ -395,7 +395,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (lastTimestamp == 0) lastTimestamp = sample.getTimestamp();
                 if ((sample.getHeartRate() < 10 || sample.getTimestamp() > lastTimestamp + dashboardData.hrIntervalSecs) && firstTimestamp != lastTimestamp) {
                     LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);
-                    addActivity(firstTimestamp, lastTimestamp, ActivityKind.TYPE_NOT_MEASURED);
+                    addActivity(firstTimestamp, lastTimestamp, ActivityKind.NOT_MEASURED);
                     if (sample.getHeartRate() < 10) {
                         firstTimestamp = 0;
                         lastTimestamp = 0;
@@ -409,16 +409,16 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             }
             if (firstTimestamp != lastTimestamp) {
                 LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);
-                addActivity(firstTimestamp, lastTimestamp, ActivityKind.TYPE_NOT_MEASURED);
+                addActivity(firstTimestamp, lastTimestamp, ActivityKind.NOT_MEASURED);
             }
         }
 
         private void createGeneralizedActivities() {
             DashboardFragment.DashboardData.GeneralizedActivity previous = null;
             long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
-            for (Map.Entry<Long, Integer> activity : activityTimestamps.entrySet()) {
+            for (Map.Entry<Long, ActivityKind> activity : activityTimestamps.entrySet()) {
                 long timestamp = activity.getKey();
-                int activityKind = activity.getValue();
+                ActivityKind activityKind = activity.getValue();
                 if (previous == null || previous.activityKind != activityKind || (!mode_24h && timestamp == midDaySecond) || previous.timeTo < timestamp - 60) {
                     previous = new DashboardFragment.DashboardData.GeneralizedActivity(activityKind, timestamp, timestamp);
                     dashboardData.generalizedActivities.add(previous);
@@ -457,18 +457,18 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             // Integrate various data from multiple devices
             for (ActivitySample sample : allActivitySamples) {
                 // Handle only TYPE_NOT_WORN and TYPE_SLEEP (including variants) here
-                if (sample.getKind() != ActivityKind.TYPE_NOT_WORN && (sample.getKind() == ActivityKind.TYPE_NOT_MEASURED || (sample.getKind() & ActivityKind.TYPE_SLEEP) == 0))
+                if (sample.getKind() != ActivityKind.NOT_WORN && (sample.getKind() == ActivityKind.NOT_MEASURED || !ActivityKind.isSleep(sample.getKind())))
                     continue;
                 // Add to day results
                 addActivity(sample.getTimestamp(), sample.getTimestamp() + 60, sample.getKind());
             }
             if (activitySummaries != null) {
                 for (BaseActivitySummary baseActivitySummary : activitySummaries) {
-                    addActivity(baseActivitySummary.getStartTime().getTime() / 1000, baseActivitySummary.getEndTime().getTime() / 1000, ActivityKind.TYPE_EXERCISE);
+                    addActivity(baseActivitySummary.getStartTime().getTime() / 1000, baseActivitySummary.getEndTime().getTime() / 1000, ActivityKind.EXERCISE);
                 }
             }
             for (ActivitySession session : stepSessions) {
-                addActivity(session.getStartTime().getTime() / 1000, session.getEndTime().getTime() / 1000, ActivityKind.TYPE_ACTIVITY);
+                addActivity(session.getStartTime().getTime() / 1000, session.getEndTime().getTime() / 1000, ActivityKind.ACTIVITY);
             }
             createGeneralizedActivities();
             return null;

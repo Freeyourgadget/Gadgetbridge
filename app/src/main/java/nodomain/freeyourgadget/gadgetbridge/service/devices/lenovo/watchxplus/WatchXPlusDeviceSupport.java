@@ -1633,7 +1633,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     sample.setTimestamp(tsWithOffset);
                     sample.setProvider(provider);
                     sample.setRawIntensity(val);
-                    sample.setRawKind(val == 0 ? ActivityKind.TYPE_DEEP_SLEEP : ActivityKind.TYPE_LIGHT_SLEEP);
+                    sample.setRawKind((val == 0 ? ActivityKind.DEEP_SLEEP : ActivityKind.LIGHT_SLEEP).getCode());
                     samples.add(sample);
                     overlayList.add(new WatchXPlusHealthActivityOverlay(sample.getTimestamp(), sample.getTimestamp()+300, sample.getRawKind(), sample.getDeviceId(), sample.getUserId(), sample.getRawWatchXPlusHealthData()));
                 }
@@ -1655,7 +1655,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     sample.setTimestamp(tsWithOffset);
                     sample.setHeartRate(val);
                     sample.setProvider(provider);
-                    sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+                    sample.setRawKind(ActivityKind.ACTIVITY.getCode());
                     samples.add(sample);
                 }
                 provider.addGBActivitySamples(samples.toArray(new WatchXPlusActivitySample[0]));
@@ -1777,7 +1777,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 WatchXPlusActivitySample sample = createSample(dbHandler, timestamp);
                 sample.setTimestamp(timestamp);
 //            sample.setRawKind(record.type);
-                sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+                sample.setRawKind(ActivityKind.ACTIVITY.getCode());
                 sample.setSteps(newSteps);
 //            sample.setDistance(record.distance);
 //            sample.setCalories(record.calories);
@@ -1846,7 +1846,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 timestamp,                      // ts
                 deviceId, userId,               // User id
                 null,            // Raw Data
-                ActivityKind.TYPE_UNKNOWN,      // rawKind
+                ActivityKind.UNKNOWN.getCode(),      // rawKind
                 ActivitySample.NOT_MEASURED,      // rawIntensity
                 ActivitySample.NOT_MEASURED,     // Steps
                 ActivitySample.NOT_MEASURED,    // HR

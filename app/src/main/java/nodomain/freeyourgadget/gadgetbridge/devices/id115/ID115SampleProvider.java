@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class ID115SampleProvider extends AbstractSampleProvider<ID115ActivitySample> {
     public ID115SampleProvider(GBDevice device, DaoSession session) {
@@ -55,13 +56,13 @@ public class ID115SampleProvider extends AbstractSampleProvider<ID115ActivitySam
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 
     @Override

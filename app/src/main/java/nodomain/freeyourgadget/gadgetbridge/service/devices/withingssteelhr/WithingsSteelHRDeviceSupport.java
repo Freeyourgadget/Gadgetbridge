@@ -699,7 +699,7 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
         message.addDataStructure(imageMetaData);
 
         ImageData imageData = new ImageData();
-        final int drawableId = ActivityKind.getIconId(withingsActivityType.toActivityKind());
+        final int drawableId = withingsActivityType.toActivityKind().getIcon();
         Drawable drawable = getContext().getDrawable(drawableId);
         imageData.setImageData(IconHelper.getIconBytesFromDrawable(drawable));
         message.addDataStructure(imageData);
@@ -719,7 +719,7 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
         String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())
                 .getString(PREF_LANGUAGE, PREF_LANGUAGE_AUTO);
 
-        if (localeString == null || localeString.equals(PREF_LANGUAGE_AUTO)) {
+        if (localeString.equals(PREF_LANGUAGE_AUTO)) {
             localeString = java.util.Locale.getDefault().getLanguage();
         }
 

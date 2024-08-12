@@ -68,13 +68,13 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
     }
 
     @Override
-    public int normalizeType(final int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(final int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(final int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(final ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 
     @Override
@@ -88,10 +88,9 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
     }
 
     @Override
-    protected List<GarminActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to, final int activityType) {
+    protected List<GarminActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to) {
         LOG.trace(
-                "Getting garmin activity samples for {} between {} and {}",
-                String.format("0x%08x", activityType),
+                "Getting garmin activity samples between {} and {}",
                 timestamp_from,
                 timestamp_to
         );
@@ -99,7 +98,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         final long nanoStart = System.nanoTime();
 
         final List<GarminActivitySample> samples = fillGaps(
-                super.getGBActivitySamples(timestamp_from, timestamp_to, activityType),
+                super.getGBActivitySamples(timestamp_from, timestamp_to),
                 timestamp_from,
                 timestamp_to
         );
@@ -121,7 +120,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
 
     public void overlaySleep(final List<GarminActivitySample> samples, final int timestamp_from, final int timestamp_to) {
         // The samples provided by Garmin are upper-bound timestamps of the sleep stage
-        final RangeMap<Long, Integer> stagesMap = new RangeMap<>(RangeMap.Mode.UPPER_BOUND);
+        final RangeMap<Long, ActivityKind> stagesMap = new RangeMap<>(RangeMap.Mode.UPPER_BOUND);
 
         final GarminEventSampleProvider eventSampleProvider = new GarminEventSampleProvider(getDevice(), getSession());
         final List<GarminEventSample> sleepEventSamples = eventSampleProvider.getSleepEvents(
@@ -134,7 +133,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
                 switch (event.getEventType()) {
                     case 0: // start
                         // We only need the start event as an upper-bound timestamp (anything before it is unknown)
-                        stagesMap.put(event.getTimestamp(), ActivityKind.TYPE_UNKNOWN);
+                        stagesMap.put(event.getTimestamp(), ActivityKind.UNKNOWN);
                     case 1: // stop
                     default:
                 }
@@ -170,18 +169,18 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         if (!stagesMap.isEmpty()) {
             for (final GarminActivitySample sample : samples) {
                 final long ts = sample.getTimestamp() * 1000L;
-                final Integer sleepType = stagesMap.get(ts);
-                if (sleepType != null && !sleepType.equals(ActivityKind.TYPE_UNKNOWN)) {
-                    sample.setRawKind(sleepType);
+                final ActivityKind sleepType = stagesMap.get(ts);
+                if (sleepType != null && !sleepType.equals(ActivityKind.UNKNOWN)) {
+                    sample.setRawKind(sleepType.getCode());
 
                     switch (sleepType) {
-                        case ActivityKind.TYPE_DEEP_SLEEP:
+                        case DEEP_SLEEP:
                             sample.setRawIntensity(20);
                             break;
-                        case ActivityKind.TYPE_LIGHT_SLEEP:
+                        case LIGHT_SLEEP:
                             sample.setRawIntensity(30);
                             break;
-                        case ActivityKind.TYPE_REM_SLEEP:
+                        case REM_SLEEP:
                             sample.setRawIntensity(40);
                             break;
                     }
@@ -190,22 +189,22 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         }
     }
 
-    private int toActivityKind(final GarminSleepStageSample stageSample) {
+    private ActivityKind toActivityKind(final GarminSleepStageSample stageSample) {
         final FieldDefinitionSleepStage.SleepStage sleepStage = FieldDefinitionSleepStage.SleepStage.fromId(stageSample.getStage());
         if (sleepStage == null) {
             LOG.error("Unknown sleep stage for {}", stageSample.getStage());
-            return ActivityKind.TYPE_UNKNOWN;
+            return ActivityKind.UNKNOWN;
         }
 
         switch (sleepStage) {
             case LIGHT:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case DEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case REM:
-                return ActivityKind.TYPE_REM_SLEEP;
+                return ActivityKind.REM_SLEEP;
         }
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 }

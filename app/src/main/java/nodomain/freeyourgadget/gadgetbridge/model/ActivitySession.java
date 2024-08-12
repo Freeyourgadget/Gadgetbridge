@@ -34,7 +34,7 @@ public class ActivitySession implements Serializable {
     private final int heartRateAverage;
     private final float intensity;
     private final float distance;
-    private final int activityKind;
+    private final ActivityKind activityKind;
     // following is related to step session, we hold it here for the listview
     // it is identified by SESSION_SUMMARY
     private int sessionCount = 0;
@@ -45,7 +45,7 @@ public class ActivitySession implements Serializable {
 
     public ActivitySession(Date startTime,
                            Date endTime,
-                           int steps, int heartRateAverage, float intensity, float distance, int activityKind) {
+                           int steps, int heartRateAverage, float intensity, float distance, ActivityKind activityKind) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.activeSteps = steps;
@@ -62,7 +62,7 @@ public class ActivitySession implements Serializable {
         this.heartRateAverage = 0;
         this.intensity = 0;
         this.distance = 0;
-        this.activityKind = 0;
+        this.activityKind = ActivityKind.UNKNOWN;
     };
 
     public Date getStartTime() {
@@ -81,7 +81,7 @@ public class ActivitySession implements Serializable {
         return heartRateAverage;
     }
 
-    public int getActivityKind() {
+    public ActivityKind getActivityKind() {
         return activityKind;
     }
 

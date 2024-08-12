@@ -46,31 +46,31 @@ public enum HuamiWorkoutTrackActivityType {
         return code;
     }
 
-    public int toActivityKind() {
+    public ActivityKind toActivityKind() {
         switch (this) {
             case Elliptical:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case IndoorCycling:
-                return ActivityKind.TYPE_INDOOR_CYCLING;
+                return ActivityKind.INDOOR_CYCLING;
             case JumpRope:
-                return ActivityKind.TYPE_JUMP_ROPING;
+                return ActivityKind.JUMP_ROPING;
             case OutdoorCycling:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case OutdoorRunning:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case PoolSwimming:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case RowingMachine:
-                return ActivityKind.TYPE_ROWING_MACHINE;
+                return ActivityKind.ROWING_MACHINE;
             case Treadmill:
-                return ActivityKind.TYPE_TREADMILL;
+                return ActivityKind.TREADMILL;
             case Walking:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case Yoga:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
         }
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     public static HuamiWorkoutTrackActivityType fromCode(final byte code) {

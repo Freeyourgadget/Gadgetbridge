@@ -285,18 +285,18 @@ public class FitImporter {
         LOG.debug("Persisting workout for {}", fileId);
 
         final BaseActivitySummary summary = new BaseActivitySummary();
-        summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+        summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
 
         final ActivitySummaryData summaryData = new ActivitySummaryData();
 
-        final int activityKind;
+        final ActivityKind activityKind;
         if (sport != null) {
             summary.setName(sport.getName());
             activityKind = getActivityKind(sport.getSport(), sport.getSubSport());
         } else {
             activityKind = getActivityKind(session.getSport(), session.getSubSport());
         }
-        summary.setActivityKind(activityKind);
+        summary.setActivityKind(activityKind.getCode());
         if (session.getStartTime() == null) {
             LOG.error("No session start time for {}", fileId);
             return;
@@ -355,11 +355,11 @@ public class FitImporter {
         }
     }
 
-    private int getActivityKind(final Integer sport, final Integer subsport) {
+    private ActivityKind getActivityKind(final Integer sport, final Integer subsport) {
         final Optional<GarminSport> garminSport = GarminSport.fromCodes(sport, subsport);
         if (garminSport.isEmpty()) {
             LOG.warn("Unknown garmin sport {}/{}", sport, subsport);
-            return ActivityKind.TYPE_UNKNOWN;
+            return ActivityKind.UNKNOWN;
         }
 
         switch (garminSport.get()) {
@@ -367,48 +367,48 @@ public class FitImporter {
             case PUSH_RUN_SPEED:
             case INDOOR_PUSH_RUN_SPEED:
             case INDOOR_TRACK:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case TREADMILL:
-                return ActivityKind.TYPE_TREADMILL;
+                return ActivityKind.TREADMILL;
             case E_BIKE:
             case BIKE:
             case BIKE_COMMUTE:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case BIKE_INDOOR:
-                return ActivityKind.TYPE_INDOOR_CYCLING;
+                return ActivityKind.INDOOR_CYCLING;
             case ELLIPTICAL:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case STAIR_STEPPER:
             case PILATES:
             case CARDIO:
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
             case POOL_SWIM:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case OPEN_WATER:
-                return ActivityKind.TYPE_SWIMMING_OPENWATER;
+                return ActivityKind.SWIMMING_OPENWATER;
             case SOCCER:
-                return ActivityKind.TYPE_SOCCER;
+                return ActivityKind.SOCCER;
             case STRENGTH:
-                return ActivityKind.TYPE_STRENGTH_TRAINING;
+                return ActivityKind.STRENGTH_TRAINING;
             case YOGA:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
             case WALK:
             case WALK_INDOOR:
             case PUSH_WALK_SPEED:
             case INDOOR_PUSH_WALK_SPEED:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case HIKE:
-                return ActivityKind.TYPE_HIKING;
+                return ActivityKind.HIKING;
             case CLIMB_INDOOR:
             case BOULDERING:
-                return ActivityKind.TYPE_CLIMBING;
+                return ActivityKind.CLIMBING;
             case BASKETBALL:
-                return ActivityKind.TYPE_BASKETBALL;
+                return ActivityKind.BASKETBALL;
             case JUMP_ROPE:
-                return ActivityKind.TYPE_JUMP_ROPING;
+                return ActivityKind.JUMP_ROPING;
         }
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     private void reset() {
@@ -440,7 +440,7 @@ public class FitImporter {
         final Map<Integer, Long> stepsPerActivity = new HashMap<>();
 
         final int THRESHOLD_NOT_WORN = 10 * 60; // 10 min gap between samples = not-worn
-        int prevActivityKind = ActivityKind.TYPE_UNKNOWN;
+        int prevActivityKind = ActivityKind.UNKNOWN.getCode();
         int prevTs = -1;
 
         for (final int ts : activitySamplesPerTimestamp.keySet()) {
@@ -449,7 +449,7 @@ public class FitImporter {
                 for (int i = prevTs; i < ts; i += 60) {
                     final GarminActivitySample sample = new GarminActivitySample();
                     sample.setTimestamp(i);
-                    sample.setRawKind(ts - prevTs > THRESHOLD_NOT_WORN ? ActivityKind.TYPE_NOT_WORN : prevActivityKind);
+                    sample.setRawKind(ts - prevTs > THRESHOLD_NOT_WORN ? ActivityKind.NOT_WORN.getCode() : prevActivityKind);
                     sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                     sample.setSteps(ActivitySample.NOT_MEASURED);
                     activitySamples.add(sample);
@@ -460,7 +460,7 @@ public class FitImporter {
 
             final GarminActivitySample sample = new GarminActivitySample();
             sample.setTimestamp(ts);
-            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+            sample.setRawKind(ActivityKind.ACTIVITY.getCode());
             sample.setRawIntensity(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
             sample.setHeartRate(ActivitySample.NOT_MEASURED);

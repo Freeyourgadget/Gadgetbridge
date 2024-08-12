@@ -1355,7 +1355,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         sample.setSpo2Percent(spo2);
 
         sample.setTimestamp((int) (date.getTimeInMillis() / 1000));
-        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        sample.setRawKind(ActivityKind.ACTIVITY.getCode());
 
         addGBActivitySample(sample);
         broadcastSample(sample);
@@ -1394,7 +1394,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setSteps(newSteps);
             sample.setDistanceMeters(distance);
             sample.setCaloriesBurnt(calories);
-            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+            sample.setRawKind(ActivityKind.ACTIVITY);
             sample.setRawIntensity(1);
             addGBActivitySample(sample);
             broadcastSample(sample);

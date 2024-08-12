@@ -235,13 +235,15 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
         activitiesCountView.setText(String.valueOf(activitiesCount));
         String activityName = context.getString(R.string.activity_summaries_all_activities);
         if (gettActivityKindFilter() != 0) {
-            activityName = ActivityKind.asString(gettActivityKindFilter(), context);
-            activityIconView.setImageResource(ActivityKind.getIconId(gettActivityKindFilter()));
-            activityIconBigView.setImageResource(ActivityKind.getIconId(gettActivityKindFilter()));
+            ActivityKind activityKind = ActivityKind.fromCode(gettActivityKindFilter());
+            activityName = activityKind.getLabel(context);
+            activityIconView.setImageResource(activityKind.getIcon());
+            activityIconBigView.setImageResource(activityKind.getIcon());
         } else {
             if (activitySame) {
-                activityIconView.setImageResource(ActivityKind.getIconId(activityIcon));
-                activityIconBigView.setImageResource(ActivityKind.getIconId(activityIcon));
+                ActivityKind activityKind = ActivityKind.fromCode(activityIcon);
+                activityIconView.setImageResource(activityKind.getIcon());
+                activityIconBigView.setImageResource(activityKind.getIcon());
             }
         }
 
@@ -308,7 +310,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
             separator = "";
         }
 
-        String activityKindName = ActivityKind.asString(item.getActivityKind(), getContext());
+        String activityKindName = ActivityKind.fromCode(item.getActivityKind()).getLabel(getContext());
         return String.format("%s%s %s", activityKindName, separator, activityLabel);
     }
 
@@ -393,7 +395,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
 
     @Override
     protected int getIcon(BaseActivitySummary item) {
-        return ActivityKind.getIconId(item.getActivityKind());
+        return ActivityKind.fromCode(item.getActivityKind()).getIcon();
     }
 
     public void setBackgroundColor(int backgroundColor) {

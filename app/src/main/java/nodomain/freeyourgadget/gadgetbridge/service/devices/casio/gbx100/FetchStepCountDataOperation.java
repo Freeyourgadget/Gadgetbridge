@@ -225,9 +225,9 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
                             stepCountData.get(packetIndex/2).setSteps(count);
                             stepCountData.get(packetIndex/2).setTimestamp(ts);
                             if(count > 0) {
-                                stepCountData.get(packetIndex / 2).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                                stepCountData.get(packetIndex / 2).setRawKind(ActivityKind.ACTIVITY.getCode());
                             } else {
-                                stepCountData.get(packetIndex / 2).setRawKind(ActivityKind.TYPE_NOT_MEASURED);
+                                stepCountData.get(packetIndex / 2).setRawKind(ActivityKind.NOT_MEASURED.getCode());
                             }
                             if(ts > ts_from && ts < ts_to) {
                                 stepsToday += count;
@@ -269,9 +269,9 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
                     sample.setCalories(cals);
                     sample.setTimestamp(ts);
                     if (steps > 0)
-                        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+                        sample.setRawKind(ActivityKind.ACTIVITY.getCode());
                     else
-                        sample.setRawKind(ActivityKind.TYPE_NOT_MEASURED);
+                        sample.setRawKind(ActivityKind.NOT_MEASURED.getCode());
                     stepCountData.add(0, sample);
                 }
 

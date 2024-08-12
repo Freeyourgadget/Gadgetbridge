@@ -59,7 +59,7 @@ public class ActivitySampleHandler extends AbstractResponseHandler {
     @Override
     public void handleResponse(Message response) {
         List<WithingsStructure> data = response.getDataStructures();
-        if (data !=  null) {
+        if (data != null) {
             handleActivityData(data, response.getType());
         }
     }
@@ -106,7 +106,7 @@ public class ActivitySampleHandler extends AbstractResponseHandler {
                     handleWorkoutType(data);
                     break;
                 default:
-                    logger.info("Received yet unhandled activity data of type '" + data.getType() + "' with data '" + GB.hexdump(data.getRawData()) + "'.");
+                    logger.info("Received yet unhandled activity data of type '{}' with data '{}'.", data.getType(), GB.hexdump(data.getRawData()));
             }
         }
 
@@ -123,71 +123,71 @@ public class ActivitySampleHandler extends AbstractResponseHandler {
 
         activityEntry = new ActivityEntry();
         activityEntry.setIsHeartrate(activityType == WithingsMessageType.GET_HEARTRATE_SAMPLES);
-        activityEntry.setTimestamp((int)(((ActivitySampleTime)data).getDate().getTime()/1000));
+        activityEntry.setTimestamp((int) (((ActivitySampleTime) data).getDate().getTime() / 1000));
     }
 
     private void handleWorkoutType(WithingsStructure data) {
-        WithingsActivityType activityType = WithingsActivityType.fromCode(((WorkoutType)data).getActivityType());
-        activityEntry.setRawKind(activityType.toActivityKind());
+        WithingsActivityType activityType = WithingsActivityType.fromCode(((WorkoutType) data).getActivityType());
+        activityEntry.setRawKind(activityType.toActivityKind().getCode());
     }
 
     private void handleDuration(WithingsStructure data) {
-        activityEntry.setDuration(((ActivitySampleDuration)data).getDuration());
+        activityEntry.setDuration(((ActivitySampleDuration) data).getDuration());
     }
 
     private void handleHeartrate(WithingsStructure data) {
-        activityEntry.setIsHeartrate(((ActivityHeartrate)data).getHeartrate());
+        activityEntry.setIsHeartrate(((ActivityHeartrate) data).getHeartrate());
     }
 
     private void handleMovement(WithingsStructure data) {
-        activityEntry.setRawKind(ActivityKind.TYPE_UNKNOWN);
-        activityEntry.setSteps(((ActivitySampleMovement)data).getSteps());
-        activityEntry.setDistance(((ActivitySampleMovement)data).getDistance());
+        activityEntry.setRawKind(ActivityKind.UNKNOWN.getCode());
+        activityEntry.setSteps(((ActivitySampleMovement) data).getSteps());
+        activityEntry.setDistance(((ActivitySampleMovement) data).getDistance());
     }
 
     private void handleWalk(WithingsStructure data) {
-        activityEntry.setRawKind(ActivityKind.TYPE_WALKING);
+        activityEntry.setRawKind(ActivityKind.WALKING.getCode());
     }
 
     private void handleRun(WithingsStructure data) {
-        activityEntry.setRawKind(ActivityKind.TYPE_RUNNING);
+        activityEntry.setRawKind(ActivityKind.RUNNING.getCode());
     }
 
     private void handleSwim(WithingsStructure data) {
-        activityEntry.setRawKind(ActivityKind.TYPE_SWIMMING);
+        activityEntry.setRawKind(ActivityKind.SWIMMING.getCode());
     }
 
     private void handleSleep(WithingsStructure data) {
-        int sleepType;
-        switch (((ActivitySampleSleep)data).getSleepType()) {
+        ActivityKind sleepType;
+        switch (((ActivitySampleSleep) data).getSleepType()) {
             case 0:
-                sleepType = ActivityKind.TYPE_LIGHT_SLEEP;
+                sleepType = ActivityKind.LIGHT_SLEEP;
                 activityEntry.setRawIntensity(10);
                 break;
             case 2:
-                sleepType = ActivityKind.TYPE_DEEP_SLEEP;
+                sleepType = ActivityKind.DEEP_SLEEP;
                 activityEntry.setRawIntensity(70);
                 break;
             case 3:
-                sleepType = ActivityKind.TYPE_REM_SLEEP;
+                sleepType = ActivityKind.REM_SLEEP;
                 activityEntry.setRawIntensity(80);
                 break;
             default:
-                sleepType = ActivityKind.TYPE_LIGHT_SLEEP;
+                sleepType = ActivityKind.LIGHT_SLEEP;
                 activityEntry.setRawIntensity(50);
         }
 
-            activityEntry.setRawKind(sleepType);
+        activityEntry.setRawKind(sleepType.getCode());
     }
 
     private void handleCalories1(WithingsStructure data) {
-        activityEntry.setRawIntensity(((ActivitySampleCalories)data).getMet());
-        activityEntry.setCalories(((ActivitySampleCalories)data).getCalories());
+        activityEntry.setRawIntensity(((ActivitySampleCalories) data).getMet());
+        activityEntry.setCalories(((ActivitySampleCalories) data).getCalories());
     }
 
     private void handleCalories2(WithingsStructure data) {
-        activityEntry.setRawIntensity(((ActivitySampleCalories2)data).getMet());
-        activityEntry.setCalories(((ActivitySampleCalories2)data).getCalories());
+        activityEntry.setRawIntensity(((ActivitySampleCalories2) data).getMet());
+        activityEntry.setCalories(((ActivitySampleCalories2) data).getCalories());
 
     }
 

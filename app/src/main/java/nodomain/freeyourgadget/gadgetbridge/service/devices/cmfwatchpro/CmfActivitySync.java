@@ -405,7 +405,7 @@ public class CmfActivitySync {
 
             BaseActivitySummary summary = new BaseActivitySummary();
             summary.setRawSummaryData(summaryBytes);
-            summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
 
             try {
                 summary = summaryParser.parseBinaryData(summary);

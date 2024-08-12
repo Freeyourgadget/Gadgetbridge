@@ -52,7 +52,7 @@ public class StepAnalysis {
         int activeSteps = 0; //steps that we count
         int stepsBetweenActivePeriods = 0; //steps during time when we maybe take a rest but then restart
         int durationSinceLastActiveStep = 0;
-        int activityKind;
+        ActivityKind activityKind;
 
         List<Integer> heartRateSum = new ArrayList<>();
         List<Integer> heartRateBetweenActivePeriodsSum = new ArrayList<>();
@@ -67,7 +67,7 @@ public class StepAnalysis {
                 totalDailySteps += steps;
             }
 
-            if (sample.getKind() != ActivityKind.TYPE_SLEEP //anything but sleep counts
+            if (!ActivityKind.isSleep(sample.getKind()) //anything but sleep counts
                     && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
 
                 if (sessionStart == null) {
@@ -178,7 +178,7 @@ public class StepAnalysis {
         endTime = new Date(durationSum);
 
         ActivitySession stepSessionSummary = new ActivitySession(startTime, endTime,
-                stepsSum, heartRateAverage, intensitySum, distanceSum, 0);
+                stepsSum, heartRateAverage, intensitySum, distanceSum, ActivityKind.UNKNOWN);
 
         stepSessionSummary.setSessionCount(sessionCount);
         stepSessionSummary.setSessionType(ActivitySession.SESSION_SUMMARY);
@@ -207,19 +207,19 @@ public class StepAnalysis {
         return result;
     }
 
-    private int detect_activity_kind(int session_length, int activeSteps, int heartRateAverage, float intensity) {
+    private ActivityKind detect_activity_kind(int session_length, int activeSteps, int heartRateAverage, float intensity) {
         final int MIN_STEPS_PER_MINUTE_FOR_RUN = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute_for_run", 120);
         int spm = (int) (activeSteps / (session_length / 60));
         if (spm > MIN_STEPS_PER_MINUTE_FOR_RUN) {
-            return ActivityKind.TYPE_RUNNING;
+            return ActivityKind.RUNNING;
         }
         if (activeSteps > 200) {
-            return ActivityKind.TYPE_WALKING;
+            return ActivityKind.WALKING;
         }
         if (heartRateAverage > 90 && intensity > 15) { //needs tuning
-            return ActivityKind.TYPE_EXERCISE;
+            return ActivityKind.EXERCISE;
         }
-        return ActivityKind.TYPE_ACTIVITY;
+        return ActivityKind.ACTIVITY;
     }
 
     private Date getDateFromSample(ActivitySample sample) {

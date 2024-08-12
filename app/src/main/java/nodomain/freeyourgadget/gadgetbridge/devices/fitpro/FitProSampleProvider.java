@@ -43,28 +43,27 @@ public class FitProSampleProvider extends AbstractSampleProvider<FitProActivityS
     // as per FitProDeviceSupport.rawActivityKindToUniqueKind
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case 1:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case 11:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case 12:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_ACTIVITY:
-                return 1;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return 11;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return 12;
+            case ACTIVITY:
             default:
                 return 1;
         }

@@ -39,9 +39,9 @@ public class VivomoveHrSampleProvider extends AbstractSampleProvider<VivomoveHrA
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         if (rawType == RAW_NOT_WORN) {
-            return ActivityKind.TYPE_NOT_WORN;
+            return ActivityKind.NOT_WORN;
         }
 
         switch (rawType & RAW_TYPE_KIND_MASK) {
@@ -51,105 +51,95 @@ public class VivomoveHrSampleProvider extends AbstractSampleProvider<VivomoveHrA
                 return normalizeSleepType(rawType & ~RAW_TYPE_KIND_MASK);
             default:
                 // ???
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
-    private static int normalizeActivityType(int rawType) {
+    private static ActivityKind normalizeActivityType(int rawType) {
         switch (rawType) {
             case 0:
                 // generic
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case 1:
                 // running
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case 2:
                 // cycling
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case 3:
                 // transition
-                return ActivityKind.TYPE_ACTIVITY | ActivityKind.TYPE_RUNNING | ActivityKind.TYPE_WALKING | ActivityKind.TYPE_EXERCISE | ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.VIVOMOVE_HR_TRANSITION;
             case 4:
                 // fitness_equipment
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
             case 5:
                 // swimming
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case 6:
                 // walking
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case 8:
                 // sedentary
                 // TODO?
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
 
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
-    private static int normalizeSleepType(int rawType) {
+    private static ActivityKind normalizeSleepType(int rawType) {
         switch (rawType) {
             case 0:
                 // deep_sleep
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case 1:
                 // light_sleep
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case 2:
                 // awake
             case 3:
                 // more_awake
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             default:
                 // ?
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_WORN:
                 return RAW_NOT_WORN;
 
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 // generic
                 //noinspection PointlessBitwiseExpression
                 return RAW_TYPE_KIND_ACTIVITY | 0;
-            case ActivityKind.TYPE_RUNNING:
+            case RUNNING:
                 // running
                 return RAW_TYPE_KIND_ACTIVITY | 1;
-            case ActivityKind.TYPE_CYCLING:
+            case CYCLING:
                 // cycling
                 return RAW_TYPE_KIND_ACTIVITY | 2;
-            case ActivityKind.TYPE_ACTIVITY | ActivityKind.TYPE_RUNNING | ActivityKind.TYPE_WALKING | ActivityKind.TYPE_EXERCISE | ActivityKind.TYPE_SWIMMING:
+            case VIVOMOVE_HR_TRANSITION:
                 return RAW_TYPE_KIND_ACTIVITY | 3;
-            case ActivityKind.TYPE_EXERCISE:
+            case EXERCISE:
                 // fitness_equipment
                 return RAW_TYPE_KIND_ACTIVITY | 4;
-            case ActivityKind.TYPE_SWIMMING:
+            case SWIMMING:
                 // swimming
                 return RAW_TYPE_KIND_ACTIVITY | 5;
-            case ActivityKind.TYPE_WALKING:
+            case WALKING:
                 // walking
                 return RAW_TYPE_KIND_ACTIVITY | 6;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return RAW_TYPE_KIND_SLEEP | 1;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 //noinspection PointlessBitwiseExpression
                 return RAW_TYPE_KIND_SLEEP | 0;
             default:
-                if ((activityKind & ActivityKind.TYPE_SWIMMING) != 0) return RAW_TYPE_KIND_ACTIVITY | 5;
-                if ((activityKind & ActivityKind.TYPE_CYCLING) != 0) return RAW_TYPE_KIND_ACTIVITY | 2;
-                if ((activityKind & ActivityKind.TYPE_RUNNING) != 0) return RAW_TYPE_KIND_ACTIVITY | 1;
-                if ((activityKind & ActivityKind.TYPE_EXERCISE) != 0) return RAW_TYPE_KIND_ACTIVITY | 4;
-                if ((activityKind & ActivityKind.TYPE_WALKING) != 0) return RAW_TYPE_KIND_ACTIVITY | 6;
-                if ((activityKind & ActivityKind.TYPE_SLEEP) != 0) return RAW_TYPE_KIND_SLEEP | 1;
-                if ((activityKind & ActivityKind.TYPE_ACTIVITY) != 0) {
-                    //noinspection PointlessBitwiseExpression
-                    return RAW_TYPE_KIND_ACTIVITY | 0;
-                }
                 return 0;
         }
     }

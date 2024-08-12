@@ -79,7 +79,7 @@ public class SpeedZonesFragment extends AbstractActivityChartFragment<ChartsData
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setValueTextColor(CHART_TEXT_COLOR);
-        set.setColors(getColorFor(ActivityKind.TYPE_ACTIVITY));
+        set.setColors(getColorFor(ActivityKind.ACTIVITY));
         //set.setDrawValues(false);
         //data.setBarWidth(0.1f);
         data.addDataSet(set);

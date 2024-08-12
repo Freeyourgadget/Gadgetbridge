@@ -16,21 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.content.Context;
-
 import java.util.Date;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-
 public class ActivityAmount {
-    private final int activityKind;
+    private final ActivityKind activityKind;
     private short percent;
     private long totalSeconds;
     private long totalSteps;
     private Date startDate = null;
     private Date endDate = null;
 
-    public ActivityAmount(int activityKind) {
+    public ActivityAmount(ActivityKind activityKind) {
         this.activityKind = activityKind;
     }
 
@@ -50,7 +46,7 @@ public class ActivityAmount {
         return totalSteps;
     }
 
-    public int getActivityKind() {
+    public ActivityKind getActivityKind() {
         return activityKind;
     }
 
@@ -60,16 +56,6 @@ public class ActivityAmount {
 
     public void setPercent(short percent) {
         this.percent = percent;
-    }
-
-    public String getName(Context context) {
-        switch (activityKind) {
-            case ActivityKind.TYPE_DEEP_SLEEP:
-                return context.getString(R.string.abstract_chart_fragment_kind_deep_sleep);
-            case ActivityKind.TYPE_LIGHT_SLEEP:
-                return context.getString(R.string.abstract_chart_fragment_kind_light_sleep);
-        }
-        return context.getString(R.string.abstract_chart_fragment_kind_activity);
     }
 
     public Date getStartDate() {

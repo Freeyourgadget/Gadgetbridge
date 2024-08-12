@@ -43,7 +43,7 @@ public interface ActivitySample extends TimeStamped {
      *
      * @return who created the sample data
      */
-    SampleProvider getProvider();
+    SampleProvider<?> getProvider();
 
     /**
      * Returns the raw activity kind value as recorded by the SampleProvider
@@ -55,7 +55,7 @@ public interface ActivitySample extends TimeStamped {
      *
      * @see ActivityKind
      */
-    int getKind();
+    ActivityKind getKind();
 
     /**
      * Returns the raw intensity value as recorded by the SampleProvider

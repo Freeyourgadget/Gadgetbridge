@@ -46,9 +46,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -75,8 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class ActivitySummariesActivity extends AbstractListActivity<BaseActivitySummary> {
     static final int ACTIVITY_FILTER = 1;
     static final int ACTIVITY_DETAIL = 11;
-    private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
-    HashMap<String, Integer> activityKindMap = new HashMap<>(0);
+    HashMap<String, ActivityKind> activityKindMap = new HashMap<>(0);
     int activityFilter = 0;
     long dateFromFilter = 0;
     long dateToFilter = 0;
@@ -326,15 +322,14 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
     }
 
-    private LinkedHashMap fillKindMap() {
-        LinkedHashMap<String, Integer> newMap = new LinkedHashMap<>(0); //reset
+    private LinkedHashMap<String, ActivityKind> fillKindMap() {
+        LinkedHashMap<String, ActivityKind> newMap = new LinkedHashMap<>(0); //reset
 
-        newMap.put(getString(R.string.activity_summaries_all_activities), 0);
+        newMap.put(getString(R.string.activity_summaries_all_activities), ActivityKind.UNKNOWN);
         for (BaseActivitySummary item : getItemAdapter().getItems()) {
-            String activityName = ActivityKind.asString(item.getActivityKind(), this);
+            String activityName = ActivityKind.fromCode(item.getActivityKind()).getLabel(this);
             if (!newMap.containsKey(activityName) && item.getActivityKind() != 0) {
-                newMap.put(activityName, item.getActivityKind());
-
+                newMap.put(activityName, ActivityKind.fromCode(item.getActivityKind()));
             }
         }
         return newMap;
@@ -395,7 +390,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
             uris.add(FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".screenshot_provider", file));
         }
 
-        if (uris.size() > 0) {
+        if (!uris.isEmpty()) {
             final Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
             intent.setType("application/gpx+xml");
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);

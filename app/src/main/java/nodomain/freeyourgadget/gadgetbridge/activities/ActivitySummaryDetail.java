@@ -345,7 +345,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void makeSummaryHeader(BaseActivitySummary item) {
         //make view of data from main part of item
-        String activitykindname = ActivityKind.asString(item.getActivityKind(), getApplicationContext());
+        String activitykindname = ActivityKind.fromCode(item.getActivityKind()).getLabel(getApplicationContext());
         String activityname = item.getName();
         Date starttime = item.getStartTime();
         Date endtime = item.getEndTime();
@@ -354,7 +354,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
 
         ImageView activity_icon = findViewById(R.id.item_image);
-        activity_icon.setImageResource(ActivityKind.getIconId(item.getActivityKind()));
+        activity_icon.setImageResource(ActivityKind.fromCode(item.getActivityKind()).getIcon());
 
         TextView activity_kind = findViewById(R.id.activitykind);
         activity_kind.setText(activitykindname);
@@ -594,7 +594,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         int height = layout.getChildAt(0).getWidth();
         Bitmap screenShot = getScreenShot(layout, width, height, context);
 
-        String fileName = FileUtils.makeValidFileName("Screenshot-" + ActivityKind.asString(currentItem.getActivityKind(), context).toLowerCase() + "-" + DateTimeUtils.formatIso8601(currentItem.getStartTime()) + ".png");
+        String fileName = FileUtils.makeValidFileName("Screenshot-" + ActivityKind.fromCode(currentItem.getActivityKind()).getLabel(context).toLowerCase() + "-" + DateTimeUtils.formatIso8601(currentItem.getStartTime()) + ".png");
         try {
             File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
             FileOutputStream fOut = new FileOutputStream(targetFile);

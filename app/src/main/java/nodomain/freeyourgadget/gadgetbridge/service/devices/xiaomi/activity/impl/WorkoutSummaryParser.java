@@ -100,7 +100,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         summary.setStartTime(fileId.getTimestamp()); // due to a bug this has to be set
         summary.setEndTime(fileId.getTimestamp()); // due to a bug this has to be set
-        summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+        summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
         summary.setRawSummaryData(bytes);
 
         try {
@@ -172,31 +172,31 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         switch (fileId.getSubtype()) {
             case SPORTS_OUTDOOR_WALKING_V1:
-                summary.setActivityKind(ActivityKind.TYPE_WALKING);
+                summary.setActivityKind(ActivityKind.WALKING.getCode());
                 parser = getOutdoorWalkingV1Parser(fileId);
                 break;
             case SPORTS_OUTDOOR_RUNNING:
-                summary.setActivityKind(ActivityKind.TYPE_RUNNING);
+                summary.setActivityKind(ActivityKind.RUNNING.getCode());
                 parser = getOutdoorWalkingV1Parser(fileId);
                 break;
             case SPORTS_INDOOR_CYCLING:
-                summary.setActivityKind(ActivityKind.TYPE_INDOOR_CYCLING);
+                summary.setActivityKind(ActivityKind.INDOOR_CYCLING.getCode());
                 parser = getIndoorCyclingParser(fileId);
                 break;
             case SPORTS_FREESTYLE:
-                summary.setActivityKind(ActivityKind.TYPE_STRENGTH_TRAINING);
+                summary.setActivityKind(ActivityKind.STRENGTH_TRAINING.getCode());
                 parser = getFreestyleParser(fileId);
                 break;
             case SPORTS_POOL_SWIMMING:
-                summary.setActivityKind(ActivityKind.TYPE_SWIMMING);
+                summary.setActivityKind(ActivityKind.SWIMMING.getCode());
                 parser = getPoolSwimmingParser(fileId);
                 break;
             case SPORTS_HIIT:
-                summary.setActivityKind(ActivityKind.TYPE_EXERCISE);
+                summary.setActivityKind(ActivityKind.EXERCISE.getCode());
                 parser = getHiitParser(fileId);
                 break;
             case SPORTS_ELLIPTICAL:
-                summary.setActivityKind(ActivityKind.TYPE_ELLIPTICAL_TRAINER);
+                summary.setActivityKind(ActivityKind.ELLIPTICAL_TRAINER.getCode());
                 // TODO
                 break;
             case SPORTS_OUTDOOR_WALKING_V2:

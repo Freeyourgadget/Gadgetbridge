@@ -43,19 +43,15 @@ public class WorkoutRequestHandler {
         JSONObject workoutResponse = new JSONObject();
         if (workoutRequest.optString("state").equals("started") && workoutRequest.optString("gps").equals("on")) {
             int activityType = workoutRequest.optInt("activity", -1);
-            final int activityKind;
-            if (QHybridConstants.WORKOUT_TYPES_TO_ACTIVITY_KIND.containsKey(activityType)) {
-                activityKind = QHybridConstants.WORKOUT_TYPES_TO_ACTIVITY_KIND.get(activityType);
-            } else {
-                activityKind = ActivityKind.TYPE_UNKNOWN;
-            }
-            LOG.info("Workout started, activity type is " + activityType + "/" + activityKind);
+            final ActivityKind activityKind = QHybridConstants.WORKOUT_TYPES_TO_ACTIVITY_KIND.getOrDefault(activityType, ActivityKind.UNKNOWN);
+            LOG.info("Workout started, activity type is {}/{}", activityType, activityKind);
             addStateResponse(workoutResponse, "success", "");
+            //noinspection DataFlowIssue fp, never null
             OpenTracksController.startRecording(context, activityKind);
         } else if (workoutRequest.optString("type").equals("req_distance")) {
             long timeSecs = Math.round(GBApplication.app().getOpenTracksObserver().getTimeMillisChange() / 1000f);
             float distanceCM = GBApplication.app().getOpenTracksObserver().getDistanceMeterChange() * 100;
-            LOG.info("Workout distance requested, returning " + distanceCM + " cm, " + timeSecs + " sec");
+            LOG.info("Workout distance requested, returning {} cm, {} sec", distanceCM, timeSecs);
             workoutResponse.put("workoutApp._.config.gps", new JSONObject()
                     .put("distance", distanceCM)
                     .put("duration", timeSecs)

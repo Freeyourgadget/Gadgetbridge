@@ -16,9 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.activity;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRSampleProvider;
@@ -30,10 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
  * This leads to breaking the sleep session in the sleep calculation of GB.
  */
 public class SleepActivitySampleHelper {
-
-    private static Logger logger = LoggerFactory.getLogger(SleepActivitySampleHelper.class);
-    private static int mergeCount;
-
     public static WithingsSteelHRActivitySample mergeIfNecessary(WithingsSteelHRSampleProvider provider, WithingsSteelHRActivitySample sample) {
         if (!shouldMerge(sample)) {
             return sample;
@@ -55,7 +48,7 @@ public class SleepActivitySampleHelper {
 
         for (int i = samples.size()-1; i >= 0; i--) {
             WithingsSteelHRActivitySample lastSample = samples.get(i);
-            if (isNotHeartRateOnly(lastSample, (int) timestamp)) {
+            if (isNotHeartRateOnly(lastSample)) {
                 return lastSample;
             }
         }
@@ -63,8 +56,8 @@ public class SleepActivitySampleHelper {
         return null;
     }
 
-    private static boolean isNotHeartRateOnly(WithingsSteelHRActivitySample lastSample, int timestamp) {
-        return lastSample.getRawKind() != ActivityKind.TYPE_NOT_MEASURED; // && lastSample.getTimestamp() <= timestamp && (lastSample.getTimestamp() + lastSample.getDuration()) >= timestamp);
+    private static boolean isNotHeartRateOnly(WithingsSteelHRActivitySample lastSample) {
+        return lastSample.getRawKind() != ActivityKind.NOT_MEASURED.getCode(); // && lastSample.getTimestamp() <= timestamp && (lastSample.getTimestamp() + lastSample.getDuration()) >= timestamp);
     }
 
     private static boolean shouldMerge(WithingsSteelHRActivitySample sample) {

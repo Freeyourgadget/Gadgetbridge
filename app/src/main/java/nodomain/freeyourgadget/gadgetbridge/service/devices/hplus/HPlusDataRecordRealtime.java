@@ -21,6 +21,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 */
 
 
+import androidx.annotation.NonNull;
+
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -87,16 +89,16 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
             battery = ActivitySample.NOT_MEASURED;
             heartRate = ActivitySample.NOT_MEASURED;
             intensity = 0;
-            activityKind = ActivityKind.TYPE_NOT_WORN;
+            activityKindRaw = ActivityKind.NOT_WORN.getCode();
         } else {
             heartRate = data[11] & 0xFF; // BPM
             if (heartRate == 255) {
                 intensity = 0;
-                activityKind = ActivityKind.TYPE_NOT_MEASURED;
+                activityKindRaw = ActivityKind.NOT_MEASURED.getCode();
                 heartRate = ActivitySample.NOT_MEASURED;
             } else {
                 intensity = (int) ((100 * heartRate) / (208 - 0.7 * age));
-                activityKind = HPlusDataRecord.TYPE_REALTIME;
+                activityKindRaw = HPlusDataRecord.TYPE_REALTIME;
             }
         }
     }
@@ -118,7 +120,7 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
         double speed = deltaDistance / deltaTime;
 
         if(speed >= 1.6) // ~6 KM/h
-            activityKind = ActivityKind.TYPE_ACTIVITY;
+            activityKindRaw = ActivityKind.ACTIVITY.getCode();
     }
 
     public boolean same(HPlusDataRecordRealtime other){
@@ -128,8 +130,8 @@ class HPlusDataRecordRealtime extends HPlusDataRecord {
         return steps == other.steps && distance == other.distance && calories == other.calories && heartRate == other.heartRate && battery == other.battery;
     }
 
+    @NonNull
     public String toString(){
         return String.format(Locale.US, "Distance: %d Steps: %d Calories: %d HeartRate: %d Battery: %d ActiveTime: %d Intensity: %d", distance, steps, calories, heartRate, battery, activeTime, intensity);
     }
-
 }

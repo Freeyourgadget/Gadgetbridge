@@ -23,7 +23,7 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
 
     private transient int intensity = 0;
     private transient int steps = 0;
-    private transient int activityKind = ActivityKind.TYPE_UNKNOWN;
+    private transient ActivityKind activityKind = ActivityKind.UNKNOWN;
 
     private void calculate() {
         int sample = getRawPebbleMisfitSample();
@@ -33,10 +33,10 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
             intensity = (sample & 0x7c00) >>> 10;
             // 9-18 decimal after shift
             if (intensity <= 13) {
-                activityKind = ActivityKind.TYPE_DEEP_SLEEP;
+                activityKind = ActivityKind.DEEP_SLEEP;
             } else {
                 // FIXME: this leads to too much false positives, ignore for now
-                //activityKind = ActivityKind.TYPE_LIGHT_SLEEP;
+                //activityKind = ActivityKind.LIGHT_SLEEP;
                 //intensity *= 2; // better visual distinction
             }
         } else {
@@ -46,7 +46,7 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
                 steps = (sample & 0x000e);
             }
             intensity = steps;
-            activityKind = ActivityKind.TYPE_ACTIVITY;
+            activityKind = ActivityKind.ACTIVITY;
         }
     }
 
@@ -57,7 +57,7 @@ public abstract class AbstractPebbleMisfitActivitySample extends AbstractActivit
     }
 
     @Override
-    public int getKind() {
+    public ActivityKind getKind() {
         calculate();
         return activityKind;
     }

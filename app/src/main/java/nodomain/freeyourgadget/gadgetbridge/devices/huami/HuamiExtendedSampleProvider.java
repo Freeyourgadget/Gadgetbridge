@@ -75,8 +75,8 @@ public class HuamiExtendedSampleProvider extends AbstractSampleProvider<HuamiExt
     }
 
     @Override
-    protected List<HuamiExtendedActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to, final int activityType) {
-        final List<HuamiExtendedActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
+    protected List<HuamiExtendedActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to) {
+        final List<HuamiExtendedActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
         postProcess(samples);
         return samples;
     }
@@ -108,34 +108,34 @@ public class HuamiExtendedSampleProvider extends AbstractSampleProvider<HuamiExt
     }
 
     @Override
-    public int normalizeType(final int rawType) {
+    public ActivityKind normalizeType(final int rawType) {
         switch (rawType) {
             case TYPE_OUTDOOR_RUNNING:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case TYPE_NOT_WORN:
             case TYPE_CHARGING:
-                return ActivityKind.TYPE_NOT_WORN;
+                return ActivityKind.NOT_WORN;
             case TYPE_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case TYPE_CUSTOM_DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case TYPE_CUSTOM_REM_SLEEP:
-                return ActivityKind.TYPE_REM_SLEEP;
+                return ActivityKind.REM_SLEEP;
         }
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     @Override
-    public int toRawActivityKind(final int activityKind) {
+    public int toRawActivityKind(final ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_RUNNING:
+            case RUNNING:
                 return TYPE_OUTDOOR_RUNNING;
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_WORN:
                 return TYPE_NOT_WORN;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
-            case ActivityKind.TYPE_DEEP_SLEEP:
-            case ActivityKind.TYPE_REM_SLEEP:
+            case LIGHT_SLEEP:
+            case DEEP_SLEEP:
+            case REM_SLEEP:
                 return TYPE_SLEEP;
         }
 

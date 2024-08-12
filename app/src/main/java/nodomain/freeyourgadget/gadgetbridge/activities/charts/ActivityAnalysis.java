@@ -37,30 +37,30 @@ public class ActivityAnalysis {
     private int maxSpeed = 0;
 
     public ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
-        ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
-        ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
-        ActivityAmount remSleep = new ActivityAmount(ActivityKind.TYPE_REM_SLEEP);
-        ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);
-        ActivityAmount activity = new ActivityAmount(ActivityKind.TYPE_ACTIVITY);
+        ActivityAmount deepSleep = new ActivityAmount(ActivityKind.DEEP_SLEEP);
+        ActivityAmount lightSleep = new ActivityAmount(ActivityKind.LIGHT_SLEEP);
+        ActivityAmount remSleep = new ActivityAmount(ActivityKind.REM_SLEEP);
+        ActivityAmount notWorn = new ActivityAmount(ActivityKind.NOT_WORN);
+        ActivityAmount activity = new ActivityAmount(ActivityKind.ACTIVITY);
 
         ActivityAmount previousAmount = null;
         ActivitySample previousSample = null;
         for (ActivitySample sample : samples) {
             ActivityAmount amount;
             switch (sample.getKind()) {
-                case ActivityKind.TYPE_DEEP_SLEEP:
+                case DEEP_SLEEP:
                     amount = deepSleep;
                     break;
-                case ActivityKind.TYPE_LIGHT_SLEEP:
+                case LIGHT_SLEEP:
                     amount = lightSleep;
                     break;
-                case ActivityKind.TYPE_REM_SLEEP:
+                case REM_SLEEP:
                     amount = remSleep;
                     break;
-                case ActivityKind.TYPE_NOT_WORN:
+                case NOT_WORN:
                     amount = notWorn;
                     break;
-                case ActivityKind.TYPE_ACTIVITY:
+                case ACTIVITY:
                 default:
                     amount = activity;
                     break;
@@ -82,7 +82,7 @@ public class ActivityAnalysis {
                 }
 
                 // add time
-                if (steps > 0 && sample.getKind() == ActivityKind.TYPE_ACTIVITY) {
+                if (steps > 0 && sample.getKind() == ActivityKind.ACTIVITY) {
                     if (steps > maxSpeed) {
                         maxSpeed = steps;
                     }

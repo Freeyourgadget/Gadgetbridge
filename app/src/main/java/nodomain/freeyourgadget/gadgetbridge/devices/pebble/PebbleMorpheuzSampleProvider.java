@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleMorpheuzSample> {
 
@@ -68,12 +69,12 @@ public class PebbleMorpheuzSampleProvider extends AbstractSampleProvider<PebbleM
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 }

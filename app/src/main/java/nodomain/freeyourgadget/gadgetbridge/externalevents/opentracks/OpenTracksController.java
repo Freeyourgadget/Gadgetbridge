@@ -112,22 +112,22 @@ public class OpenTracksController extends Activity {
         sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording", null, null);
     }
 
-    public static void startRecording(Context context, int activityKind) {
-        final String category = ActivityKind.asString(activityKind, context);
+    public static void startRecording(Context context, ActivityKind activityKind) {
+        final String category = activityKind.getLabel(context);
         final String icon;
         switch (activityKind) {
-            case ActivityKind.TYPE_CYCLING:
+            case CYCLING:
                 icon = "BIKE";
                 break;
-            case ActivityKind.TYPE_HIKING:
-            case ActivityKind.TYPE_WALKING:
+            case HIKING:
+            case WALKING:
                 icon = "WALK";
                 break;
-            case ActivityKind.TYPE_RUNNING:
+            case RUNNING:
                 icon = "RUN";
                 break;
             default:
-                LOG.warn("Unmapped activity kind icon for {}", String.format("0x%X", activityKind));
+                LOG.warn("Unmapped activity kind icon for {}", activityKind);
                 icon = null;
         }
 

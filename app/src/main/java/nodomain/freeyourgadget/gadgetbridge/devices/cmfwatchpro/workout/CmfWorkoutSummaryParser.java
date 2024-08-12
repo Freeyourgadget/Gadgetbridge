@@ -57,9 +57,9 @@ public class CmfWorkoutSummaryParser implements ActivitySummaryParser {
 
         final CmfActivityType cmfActivityType = CmfActivityType.fromCode(workoutType);
         if (cmfActivityType != null) {
-            summary.setActivityKind(cmfActivityType.getActivityKind());
+            summary.setActivityKind(cmfActivityType.getActivityKind().getCode());
         } else {
-            summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
         }
 
         summaryData.add(ACTIVE_SECONDS, duration, UNIT_SECONDS);

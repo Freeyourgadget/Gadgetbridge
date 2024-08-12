@@ -25,6 +25,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.TYPE_IGNORE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.TYPE_NO_CHANGE;
@@ -37,15 +38,14 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
     }
 
     @Override
-    protected List<MiBandActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
-        List<MiBandActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, activityType);
+    protected List<MiBandActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to) {
+        List<MiBandActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
         postprocess(samples);
         return samples;
     }
 
     /**
      * "Temporary" runtime post processing of activity kinds.
-     * @param samples
      */
     private void postprocess(List<MiBandActivitySample> samples) {
         if (samples.isEmpty()) {
@@ -83,19 +83,19 @@ public class MiBand2SampleProvider extends AbstractMiBandSampleProvider {
         qb.orderDesc(MiBandActivitySampleDao.Properties.Timestamp);
         qb.limit(1);
         List<MiBandActivitySample> result = qb.build().list();
-        if (result.size() > 0) {
+        if (!result.isEmpty()) {
             return result.get(0).getRawKind() & 0xf;
         }
         return TYPE_UNSET;
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         return HuamiConst.toActivityKind(rawType);
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         return HuamiConst.toRawActivityType(activityKind);
     }
 }

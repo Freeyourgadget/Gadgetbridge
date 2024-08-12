@@ -18,11 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
-/*
+/**
 * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
 */
-
-
 public  class HPlusDataRecord {
     public final static int TYPE_UNKNOWN = 0;
     public final static int TYPE_SLEEP = 100;
@@ -31,7 +29,7 @@ public  class HPlusDataRecord {
     public final static int TYPE_REALTIME = 103;
 
     public int type = TYPE_UNKNOWN;
-    public int activityKind = ActivityKind.TYPE_UNKNOWN;
+    public int activityKindRaw = ActivityKind.UNKNOWN.getCode();
 
     /**
      * Time of this record in seconds
@@ -53,11 +51,10 @@ public  class HPlusDataRecord {
     }
 
     public byte[] getRawData() {
-
         return rawData;
     }
 
-    public class RecordInterval {
+    public static class RecordInterval {
         /**
          * Start time of this interval in seconds
          */
@@ -71,9 +68,9 @@ public  class HPlusDataRecord {
         /**
          * Type of activity {@link ActivityKind}
          */
-        public int activityKind;
+        public ActivityKind activityKind;
 
-        RecordInterval(int timestampFrom, int timestampTo, int activityKind) {
+        RecordInterval(int timestampFrom, int timestampTo, ActivityKind activityKind) {
             this.timestampFrom = timestampFrom;
             this.timestampTo = timestampTo;
             this.activityKind = activityKind;

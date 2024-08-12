@@ -36,12 +36,12 @@ public class XWatchSampleProvider extends AbstractSampleProvider<XWatchActivityS
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        return ActivityKind.TYPE_ACTIVITY;
+    public ActivityKind normalizeType(int rawType) {
+        return ActivityKind.ACTIVITY;
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         return TYPE_ACTIVITY;
     }
 

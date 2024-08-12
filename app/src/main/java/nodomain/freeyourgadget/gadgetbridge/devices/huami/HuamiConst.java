@@ -142,39 +142,39 @@ public class HuamiConst {
     public static final String PREF_HUAMI_VIBRATION_TRY_TODO_LIST = PREF_HUAMI_VIBRATION_TRY_PREFIX + "todo_list";
     public static final String PREF_HUAMI_VIBRATION_TRY_SCHEDULE = PREF_HUAMI_VIBRATION_TRY_PREFIX + "schedule";
 
-    public static int toActivityKind(int rawType) {
+    public static ActivityKind toActivityKind(int rawType) {
         switch (rawType) {
             case TYPE_DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case TYPE_LIGHT_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case TYPE_ACTIVITY:
             case TYPE_RUNNING:
             case TYPE_WAKE_UP:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case TYPE_NONWEAR:
-                return ActivityKind.TYPE_NOT_WORN;
+                return ActivityKind.NOT_WORN;
             case TYPE_CHARGING:
-                return ActivityKind.TYPE_NOT_WORN; //I believe it's a safe assumption
+                return ActivityKind.NOT_WORN; //I believe it's a safe assumption
             case TYPE_RIDE_BIKE:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             default:
             case TYPE_UNSET: // fall through
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
-    public static int toRawActivityType(int activityKind) {
+    public static int toRawActivityType(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return TYPE_ACTIVITY;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return TYPE_DEEP_SLEEP;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return TYPE_LIGHT_SLEEP;
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_WORN:
                 return TYPE_NONWEAR;
-            case ActivityKind.TYPE_UNKNOWN: // fall through
+            case UNKNOWN: // fall through
             default:
                 return TYPE_UNSET;
         }

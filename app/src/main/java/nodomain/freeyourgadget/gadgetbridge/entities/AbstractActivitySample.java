@@ -17,14 +17,15 @@
 package nodomain.freeyourgadget.gadgetbridge.entities;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public abstract class AbstractActivitySample implements ActivitySample {
-    private SampleProvider mProvider;
+    private SampleProvider<?> mProvider;
 
     @Override
-    public SampleProvider getProvider() {
+    public SampleProvider<?> getProvider() {
         return mProvider;
     }
 
@@ -33,7 +34,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
     }
 
     @Override
-    public int getKind() {
+    public ActivityKind getKind() {
         return getProvider().normalizeType(getRawKind());
     }
 
@@ -90,7 +91,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
 
     @Override
     public String toString() {
-        int kind = getProvider() != null ? getKind() : ActivitySample.NOT_MEASURED;
+        ActivityKind kind = getProvider() != null ? getKind() : ActivityKind.NOT_MEASURED;
         float intensity = getProvider() != null ? getIntensity() : ActivitySample.NOT_MEASURED;
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(getTimestamp())) +

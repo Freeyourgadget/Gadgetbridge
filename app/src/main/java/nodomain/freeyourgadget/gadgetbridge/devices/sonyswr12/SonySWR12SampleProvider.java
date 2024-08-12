@@ -58,30 +58,30 @@ public class SonySWR12SampleProvider extends AbstractSampleProvider<SonySWR12Sam
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case SonySWR12Constants.TYPE_ACTIVITY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case SonySWR12Constants.TYPE_LIGHT:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case SonySWR12Constants.TYPE_DEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case SonySWR12Constants.TYPE_NOT_WORN:
-                return ActivityKind.TYPE_NOT_WORN;
+                return ActivityKind.NOT_WORN;
         }
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return SonySWR12Constants.TYPE_ACTIVITY;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return SonySWR12Constants.TYPE_LIGHT;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return SonySWR12Constants.TYPE_DEEP;
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_WORN:
                 return SonySWR12Constants.TYPE_NOT_WORN;
         }
         return SonySWR12Constants.TYPE_ACTIVITY;

@@ -72,23 +72,23 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case RawTypes.DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case RawTypes.LIGHT_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return RawTypes.DEEP_SLEEP;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return RawTypes.LIGHT_SLEEP;
             default:
                 return RawTypes.NOT_MEASURED;
@@ -294,8 +294,6 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
         public long deviceId = 0;
         public long userId = 0;
 
-        int[] activityTypes = {};
-
         public int sleepModifier = 0;
     }
 
@@ -314,7 +312,7 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
      * Note that the data in the database isn't changed, as the samples are detached.
      */
     @Override
-    protected List<HuaweiActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to, int activityType) {
+    protected List<HuaweiActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to) {
         // Note that the result of this function has to be sorted by timestamp!
 
         List<HuaweiActivitySample> rawSamples = getRawOrderedActivitySamples(timestamp_from, timestamp_to);
@@ -337,7 +335,6 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
             state.deviceId = nextRawSample.getDeviceId();
             state.userId = nextRawSample.getUserId();
         }
-        state.activityTypes = ActivityKind.mapToDBActivityTypes(activityType, this);
 
         while (nextRawSample != null || nextWorkoutSample != null) {
             if (nextRawSample == null) {

@@ -45,12 +45,12 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
     private static final class UnknownSampleProvider implements SampleProvider {
         @Override
-        public int normalizeType(int rawType) {
-            return ActivityKind.TYPE_UNKNOWN;
+        public ActivityKind normalizeType(int rawType) {
+            return ActivityKind.UNKNOWN;
         }
 
         @Override
-        public int toRawActivityKind(int activityKind) {
+        public int toRawActivityKind(ActivityKind activityKind) {
             return 0;
         }
 
@@ -66,11 +66,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
         @Override
         public List getActivitySamples(int timestamp_from, int timestamp_to) {
-            return null;
-        }
-
-        @Override
-        public List getSleepSamples(int timestamp_from, int timestamp_to) {
             return null;
         }
 

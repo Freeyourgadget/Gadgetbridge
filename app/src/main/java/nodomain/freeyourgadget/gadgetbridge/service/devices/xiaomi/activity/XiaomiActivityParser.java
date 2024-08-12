@@ -62,7 +62,7 @@ public abstract class XiaomiActivityParser {
 
             // These will be set later, once we parse the summary
             summary.setEndTime(fileId.getTimestamp());
-            summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
 
             return summary;
         }

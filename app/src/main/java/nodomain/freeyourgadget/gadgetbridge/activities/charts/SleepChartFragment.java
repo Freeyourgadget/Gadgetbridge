@@ -144,12 +144,12 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         if (!sleepSessions.isEmpty()) {
             entries.add(new PieEntry(lightSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_light_sleep)));
             entries.add(new PieEntry(deepSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_deep_sleep)));
-            colors.add(getColorFor(ActivityKind.TYPE_LIGHT_SLEEP));
-            colors.add(getColorFor(ActivityKind.TYPE_DEEP_SLEEP));
+            colors.add(getColorFor(ActivityKind.LIGHT_SLEEP));
+            colors.add(getColorFor(ActivityKind.DEEP_SLEEP));
 
             if (supportsRemSleep(mGBDevice)) {
                 entries.add(new PieEntry(remSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_rem_sleep)));
-                colors.add(getColorFor(ActivityKind.TYPE_REM_SLEEP));
+                colors.add(getColorFor(ActivityKind.REM_SLEEP));
             }
 
         } else {
@@ -266,7 +266,7 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         List<Integer> heartRateValues = new ArrayList<>();
         HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
         for (ActivitySample sample : samples) {
-            if (sample.getKind() == ActivityKind.TYPE_LIGHT_SLEEP || sample.getKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+            if (sample.getKind() == ActivityKind.LIGHT_SLEEP || sample.getKind() == ActivityKind.DEEP_SLEEP) {
                 int heartRate = sample.getHeartRate();
                 if (heartRateUtilsInstance.isValidHeartRateValue(heartRate)) {
                     heartRateValues.add(heartRate);
@@ -309,7 +309,7 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         List<Float> allIntensities = new ArrayList<>();
 
         for (ActivitySample s : samples) {
-            if (s.getKind() == ActivityKind.TYPE_LIGHT_SLEEP || s.getKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+            if (s.getKind() == ActivityKind.LIGHT_SLEEP || s.getKind() == ActivityKind.DEEP_SLEEP) {
                 float intensity = s.getIntensity();
                 allIntensities.add(intensity);
             }
@@ -477,7 +477,6 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
 // temporary fix for totally wrong sleep amounts
-//        return super.getSleepSamples(db, device, tsFrom, tsTo);
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 

@@ -58,53 +58,53 @@ public class SonyWena3ActivitySampleProvider extends AbstractSampleProvider<Wena
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        if(rawType < 0 || rawType >= BehaviorSample.Type.LUT.length) return ActivityKind.TYPE_UNKNOWN;
+    public ActivityKind normalizeType(int rawType) {
+        if(rawType < 0 || rawType >= BehaviorSample.Type.LUT.length) return ActivityKind.UNKNOWN;
 
         BehaviorSample.Type internalType = BehaviorSample.Type.LUT[rawType];
         switch(internalType) {
             case NOT_WEARING:
-                return ActivityKind.TYPE_NOT_WORN;
+                return ActivityKind.NOT_WORN;
 
             case WALK:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case RUN:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case EXERCISE:
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
 
             case SLEEP_LIGHT:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case SLEEP_REM:
-                return ActivityKind.TYPE_REM_SLEEP;
+                return ActivityKind.REM_SLEEP;
             case SLEEP_DEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
 
             case STATIC:
             case SLEEP_AWAKE:
             case UNKNOWN:
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch(activityKind) {
-            case ActivityKind.TYPE_NOT_MEASURED:
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_MEASURED:
+            case NOT_WORN:
                 return BehaviorSample.Type.NOT_WEARING.ordinal();
-            case ActivityKind.TYPE_WALKING:
+            case WALKING:
                 return BehaviorSample.Type.WALK.ordinal();
-            case ActivityKind.TYPE_RUNNING:
+            case RUNNING:
                 return BehaviorSample.Type.RUN.ordinal();
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return BehaviorSample.Type.SLEEP_LIGHT.ordinal();
-            case ActivityKind.TYPE_REM_SLEEP:
+            case REM_SLEEP:
                 return BehaviorSample.Type.SLEEP_REM.ordinal();
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return BehaviorSample.Type.SLEEP_DEEP.ordinal();
-            case ActivityKind.TYPE_EXERCISE:
+            case EXERCISE:
                 return BehaviorSample.Type.EXERCISE.ordinal();
             default:
                 return BehaviorSample.Type.UNKNOWN.ordinal();

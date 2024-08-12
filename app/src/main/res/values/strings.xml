@@ -965,6 +965,7 @@
     <string name="stats_empty_value">-</string>
     <string name="stats_lowest_hr">Lowest HR</string>
     <string name="stats_highest_hr">Highest HR</string>
+    <string name="transition">Transition</string>
     <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">You did not sleep</string>
     <string name="charts_min_max_heartrate_popup">Lowest heart rate: %1$d \nHighest heart rate: %2$d \nMovement intensity: %3$s</string>

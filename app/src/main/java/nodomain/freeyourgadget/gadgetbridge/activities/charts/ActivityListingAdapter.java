@@ -254,7 +254,7 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
 
     @Override
     protected String getActivityName(ActivitySession item) {
-        return ActivityKind.asString(item.getActivityKind(), getContext());
+        return item.getActivityKind().getLabel(getContext());
     }
 
     @Override
@@ -354,6 +354,6 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
 
     @Override
     protected int getIcon(ActivitySession item) {
-        return ActivityKind.getIconId(item.getActivityKind());
+        return item.getActivityKind().getIcon();
     }
 }

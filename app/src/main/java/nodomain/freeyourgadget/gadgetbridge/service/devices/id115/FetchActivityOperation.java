@@ -60,7 +60,7 @@ public class FetchActivityOperation extends AbstractID115Operation {
         outputStream.write(0x01);
         outputStream.write(0x00);
         outputStream.write(0x00);
-        byte cmd[] = outputStream.toByteArray();
+        byte[] cmd = outputStream.toByteArray();
 
         expectedCmd = ID115Constants.CMD_KEY_FETCH_ACTIVITY_TODAY;
         expectedSeq = 1;
@@ -74,7 +74,7 @@ public class FetchActivityOperation extends AbstractID115Operation {
     @Override
     void handleResponse(byte[] data) {
         if (!isOperationRunning()) {
-            LOG.error("ignoring notification because operation is not running. Data length: " + data.length);
+            LOG.error("ignoring notification because operation is not running. Data length: {}", data.length);
             getSupport().logMessageContent(data);
             return;
         }
@@ -97,7 +97,7 @@ public class FetchActivityOperation extends AbstractID115Operation {
                 }
                 expectedSeq += 1;
 
-                byte payload[] = new byte[data.length - 4];
+                byte[] payload = new byte[data.length - 4];
                 System.arraycopy(data, 4, payload, 0, payload.length);
                 packets.add(payload);
             }
@@ -129,7 +129,7 @@ public class FetchActivityOperation extends AbstractID115Operation {
                 ID115ActivitySample sample = parseSample(sampleData);
                 if (sample != null) {
                     sample.setTimestamp(ts);
-                    sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+                    sample.setRawKind(ActivityKind.ACTIVITY.getCode());
                     samples.add(sample);
                 }
                 ts += dt;

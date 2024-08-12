@@ -390,17 +390,17 @@ class BangleJSActivityTrack {
             summary.setName(log);
             summary.setStartTime(startTime);
             summary.setEndTime(endTime);
-            int activityKind;
+            ActivityKind activityKind;
             if (analyticsObject.has("Speed")) {
                 if ((float) 3 > averageOfJSONArray(analyticsObject.getJSONArray("Speed"))) {
-                    activityKind = ActivityKind.TYPE_WALKING;
+                    activityKind = ActivityKind.WALKING;
                 } else {
-                    activityKind = ActivityKind.TYPE_RUNNING;
+                    activityKind = ActivityKind.RUNNING;
                 }
             } else {
-                activityKind = ActivityKind.TYPE_ACTIVITY;
+                activityKind = ActivityKind.ACTIVITY;
             }
-            summary.setActivityKind(activityKind); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
+            summary.setActivityKind(activityKind.getCode()); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
             summary.setRawDetailsPath(String.valueOf(inputFile));
 
 
@@ -577,23 +577,23 @@ class BangleJSActivityTrack {
 
             ActivityTrackExporter exporter = createExporter();
             String trackType = "track";
-            switch (summary.getActivityKind()) {
-                case ActivityKind.TYPE_CYCLING:
+            switch (ActivityKind.fromCode(summary.getActivityKind())) {
+                case CYCLING:
                     trackType = context.getString(R.string.activity_type_biking);
                     break;
-                case ActivityKind.TYPE_RUNNING:
+                case RUNNING:
                     trackType = context.getString(R.string.activity_type_running);
                     break;
-                case ActivityKind.TYPE_WALKING:
+                case WALKING:
                     trackType = context.getString(R.string.activity_type_walking);
                     break;
-                case ActivityKind.TYPE_HIKING:
+                case HIKING:
                     trackType = context.getString(R.string.activity_type_hiking);
                     break;
-                case ActivityKind.TYPE_CLIMBING:
+                case CLIMBING:
                     trackType = context.getString(R.string.activity_type_climbing);
                     break;
-                case ActivityKind.TYPE_SWIMMING:
+                case SWIMMING:
                     trackType = context.getString(R.string.activity_type_swimming);
                     break;
             }

@@ -119,7 +119,7 @@ public class LiveWorkoutHandler implements IncomingMessageHandler {
             baseActivitySummary = new BaseActivitySummary();
         }
 
-        baseActivitySummary.setActivityKind(withingsWorkoutType.toActivityKind());
+        baseActivitySummary.setActivityKind(withingsWorkoutType.toActivityKind().getCode());
     }
 
     private void sendGpsState() {

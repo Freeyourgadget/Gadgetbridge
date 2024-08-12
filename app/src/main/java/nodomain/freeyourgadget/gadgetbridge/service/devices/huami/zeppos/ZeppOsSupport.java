@@ -1409,11 +1409,11 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
             case WORKOUT_CMD_APP_OPEN:
                 final ZeppOsActivityType activityType = ZeppOsActivityType.fromCode(payload[3]);
                 final boolean workoutNeedsGps = (payload[2] == 1);
-                final int activityKind;
+                final ActivityKind activityKind;
 
                 if (activityType == null) {
                     LOG.warn("Unknown workout activity type {}", String.format("0x%x", payload[3]));
-                    activityKind = ActivityKind.TYPE_UNKNOWN;
+                    activityKind = ActivityKind.UNKNOWN;
                 } else {
                     activityKind = activityType.toActivityKind();
                 }

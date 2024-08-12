@@ -18,8 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
 
 /*
-* @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
-*/
+ * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
+ */
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
@@ -45,36 +46,28 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusDataRecord;
 
 public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealthActivitySample> {
-
-    private GBDevice mDevice;
-    private DaoSession mSession;
-
     public HPlusHealthSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
-
-        mSession = session;
-        mDevice = device;
     }
 
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case HPlusDataRecord.TYPE_DAY_SLOT:
             case HPlusDataRecord.TYPE_DAY_SUMMARY:
             case HPlusDataRecord.TYPE_REALTIME:
             case HPlusDataRecord.TYPE_SLEEP:
             case HPlusDataRecord.TYPE_UNKNOWN:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
             default:
-                return rawType;
+                return ActivityKind.fromCode(rawType);
         }
     }
 
-    public int toRawActivityKind(int activityKind) {
-        switch (activityKind){
-            case ActivityKind.TYPE_DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+    public int toRawActivityKind(ActivityKind activityKind) {
+        switch (activityKind) {
+            case DEEP_SLEEP:
+            case LIGHT_SLEEP:
+                return activityKind.getCode();
             default:
                 return HPlusDataRecord.TYPE_DAY_SLOT;
         }
@@ -113,20 +106,10 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         return getSession().getHPlusHealthActivitySampleDao();
     }
 
-
-    public List<HPlusHealthActivitySample> getActivityamples(int timestamp_from, int timestamp_to) {
-        return getAllActivitySamples(timestamp_from, timestamp_to);
-    }
-
-    @NonNull
-    public List<HPlusHealthActivitySample> getSleepSamples(int timestamp_from, int timestamp_to) {
-        return getAllActivitySamples(timestamp_from, timestamp_to);
-    }
-
     @NonNull
     @Override
     public List<HPlusHealthActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
-        List<HPlusHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to, ActivityKind.TYPE_ALL);
+        List<HPlusHealthActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
 
         Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
         if (dbDevice == null) {
@@ -141,7 +124,6 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
                 HPlusHealthActivityOverlayDao.Properties.TimestampTo.ge(timestamp_from));
 
         List<HPlusHealthActivityOverlay> overlayRecords = qb.build().list();
-
 
 
         //Apply Overlays
@@ -167,22 +149,22 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
             long nonSleepTimeEnd = 0;
             for (HPlusHealthActivitySample sample : samples) {
-                if (sample.getRawKind() == ActivityKind.TYPE_NOT_WORN)
+                if (sample.getRawKind() == ActivityKind.NOT_WORN.getCode())
                     continue;
 
                 if (sample.getTimestamp() >= overlay.getTimestampFrom() && sample.getTimestamp() < overlay.getTimestampTo()) {
-                    if (overlay.getRawKind() == ActivityKind.TYPE_NOT_WORN || overlay.getRawKind() == ActivityKind.TYPE_LIGHT_SLEEP || overlay.getRawKind() == ActivityKind.TYPE_DEEP_SLEEP) {
-                        if (sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT && sample.getSteps() > 0){
+                    if (overlay.getRawKind() == ActivityKind.NOT_WORN.getCode() || overlay.getRawKind() == ActivityKind.LIGHT_SLEEP.getCode() || overlay.getRawKind() == ActivityKind.DEEP_SLEEP.getCode()) {
+                        if (sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT && sample.getSteps() > 0) {
                             nonSleepTimeEnd = sample.getTimestamp() + 10 * 60; // 10 minutes
                             continue;
-                        }else if(sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME && sample.getTimestamp() <= nonSleepTimeEnd){
+                        } else if (sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME && sample.getTimestamp() <= nonSleepTimeEnd) {
                             continue;
                         }
 
-                        if (overlay.getRawKind() == ActivityKind.TYPE_NOT_WORN)
+                        if (overlay.getRawKind() == ActivityKind.NOT_WORN.getCode())
                             sample.setHeartRate(0);
 
-                        if (sample.getRawKind() != ActivityKind.TYPE_NOT_WORN)
+                        if (sample.getRawKind() != ActivityKind.NOT_WORN.getCode())
                             sample.setRawKind(overlay.getRawKind());
 
                         sample.setRawIntensity(10);
@@ -190,7 +172,6 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
                 }
             }
         }
-
 
 
         //Fix Step counters
@@ -207,19 +188,19 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         int stepsTodayCount = 0;
         HPlusHealthActivitySample lastSample = null;
 
-        for (HPlusHealthActivitySample sample: samples) {
-             if (sample.getTimestamp() >= today.getTimeInMillis() / 1000) {
+        for (HPlusHealthActivitySample sample : samples) {
+            if (sample.getTimestamp() >= today.getTimeInMillis() / 1000) {
 
-                /**Strategy is:
+                /* Strategy is:
                  * Calculate max steps from realtime messages
                  * Calculate sum of steps from day 10 minute slot summaries
                  */
 
-                 if(sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME) {
+                if (sample.getRawKind() == HPlusDataRecord.TYPE_REALTIME) {
                     stepsTodayMax = Math.max(stepsTodayMax, sample.getSteps());
-                 }else if(sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT) {
-                     stepsTodayCount += sample.getSteps();
-                 }
+                } else if (sample.getRawKind() == HPlusDataRecord.TYPE_DAY_SLOT) {
+                    stepsTodayCount += sample.getSteps();
+                }
 
                 sample.setSteps(ActivitySample.NOT_MEASURED);
                 lastSample = sample;
@@ -230,7 +211,7 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
             }
         }
 
-        if(lastSample != null)
+        if (lastSample != null)
             lastSample.setSteps(Math.max(stepsTodayCount, stepsTodayMax));
 
         detachFromSession();
@@ -238,13 +219,13 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
         return samples;
     }
 
-    private List<HPlusHealthActivitySample> insertVirtualItem(List<HPlusHealthActivitySample> samples, int timestamp, long deviceId, long userId) {
+    private void insertVirtualItem(List<HPlusHealthActivitySample> samples, int timestamp, long deviceId, long userId) {
         HPlusHealthActivitySample sample = new HPlusHealthActivitySample(
                 timestamp,            // ts
                 deviceId,
                 userId,          // User id
                 null,                         // Raw Data
-                ActivityKind.TYPE_UNKNOWN,
+                ActivityKind.UNKNOWN.getCode(),
                 1, // Intensity
                 ActivitySample.NOT_MEASURED, // Steps
                 ActivitySample.NOT_MEASURED, // HR
@@ -254,8 +235,6 @@ public class HPlusHealthSampleProvider extends AbstractSampleProvider<HPlusHealt
 
         sample.setProvider(this);
         samples.add(sample);
-
-        return samples;
     }
 }
 

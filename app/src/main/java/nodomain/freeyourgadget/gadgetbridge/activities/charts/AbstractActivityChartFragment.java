@@ -45,11 +45,12 @@ import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractActivityChartFragment<D extends ChartsData> extends AbstractChartFragment<D>  {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractActivityChartFragment.class);
+
+    public static final float Y_VALUE_DEEP_SLEEP = 0.01f;
 
     public boolean supportsHeartrate(GBDevice device) {
         DeviceCoordinator coordinator = device.getDeviceCoordinator();
@@ -62,11 +63,11 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     }
 
     protected static final class ActivityConfig {
-        public final int type;
+        public final ActivityKind type;
         public final String label;
         public final Integer color;
 
-        public ActivityConfig(int kind, String label, Integer color) {
+        public ActivityConfig(ActivityKind kind, String label, Integer color) {
             this.type = kind;
             this.label = label;
             this.color = color;
@@ -122,22 +123,22 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
         HEARTRATE_AVERAGE_LABEL = getContext().getString(R.string.charts_legend_heartrate_average);
 
-        akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
-        akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
-        akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
-        akRemSleep = new ActivityConfig(ActivityKind.TYPE_REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_rem_sleep), AK_REM_SLEEP_COLOR);
-        akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
+        akActivity = new ActivityConfig(ActivityKind.ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
+        akLightSleep = new ActivityConfig(ActivityKind.LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
+        akDeepSleep = new ActivityConfig(ActivityKind.DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
+        akRemSleep = new ActivityConfig(ActivityKind.REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_rem_sleep), AK_REM_SLEEP_COLOR);
+        akNotWorn = new ActivityConfig(ActivityKind.NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
     }
 
-    protected Integer getColorFor(int activityKind) {
+    protected Integer getColorFor(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return akDeepSleep.color;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return akLightSleep.color;
-            case ActivityKind.TYPE_REM_SLEEP:
+            case REM_SLEEP:
                 return akRemSleep.color;
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return akActivity.color;
         }
         return akActivity.color;
@@ -166,12 +167,6 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         return provider.getActivitySamples(tsFrom, tsTo);
     }
 
-
-    protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        return provider.getSleepSamples(tsFrom, tsTo);
-    }
-
     public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
 //        Calendar cal = GregorianCalendar.getInstance();
 //        cal.clear();
@@ -187,7 +182,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             boolean annotate = true;
             boolean use_steps_as_movement;
 
-            int last_type = ActivityKind.TYPE_UNKNOWN;
+            ActivityKind last_type = ActivityKind.UNKNOWN;
 
             int numEntries = samples.size();
             List<Entry> activityEntries = new ArrayList<>(numEntries);
@@ -203,7 +198,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
             for (int i = 0; i < numEntries; i++) {
                 ActivitySample sample = samples.get(i);
-                int type = sample.getKind();
+                ActivityKind type = sample.getKind();
                 int ts = tsTranslation.shorten(sample.getTimestamp());
 
 //                System.out.println(ts);
@@ -223,7 +218,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
                 float value = movement;
                 switch (type) {
-                    case ActivityKind.TYPE_DEEP_SLEEP:
+                    case DEEP_SLEEP:
                         if (last_type != type) { //FIXME: this is ugly but it works (repeated in each case)
                             deepSleepEntries.add(createLineEntry(0, ts - 1));
 
@@ -232,9 +227,9 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
-                        deepSleepEntries.add(createLineEntry(value + SleepUtils.Y_VALUE_DEEP_SLEEP, ts));
+                        deepSleepEntries.add(createLineEntry(value + Y_VALUE_DEEP_SLEEP, ts));
                         break;
-                    case ActivityKind.TYPE_LIGHT_SLEEP:
+                    case LIGHT_SLEEP:
                         if (last_type != type) {
                             lightSleepEntries.add(createLineEntry(0, ts - 1));
 
@@ -245,7 +240,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                         }
                         lightSleepEntries.add(createLineEntry(value, ts));
                         break;
-                    case ActivityKind.TYPE_REM_SLEEP:
+                    case REM_SLEEP:
                         if (last_type != type) {
                             remSleepEntries.add(createLineEntry(0, ts - 1));
 
@@ -256,7 +251,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                         }
                         remSleepEntries.add(createLineEntry(value, ts));
                         break;
-                    case ActivityKind.TYPE_NOT_WORN:
+                    case NOT_WORN:
                         if (last_type != type) {
                             notWornEntries.add(createLineEntry(0, ts - 1));
 
@@ -265,7 +260,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             remSleepEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
-                        notWornEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
+                        notWornEntries.add(createLineEntry(Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
                         break;
                     default:
 //                        short steps = sample.getSteps();
@@ -284,7 +279,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                         }
                         activityEntries.add(createLineEntry(value, ts));
                 }
-                if (hr && sample.getKind() != ActivityKind.TYPE_NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                if (hr && sample.getKind() != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
                     if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                         heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
                         heartrateEntries.add(createLineEntry(0, ts - 1));

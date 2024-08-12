@@ -60,28 +60,28 @@ public class LefunSampleProvider extends AbstractSampleProvider<LefunActivitySam
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case LefunConstants.DB_ACTIVITY_KIND_ACTIVITY:
             case LefunConstants.DB_ACTIVITY_KIND_HEART_RATE:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case LefunConstants.DB_ACTIVITY_KIND_LIGHT_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case LefunConstants.DB_ACTIVITY_KIND_DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return LefunConstants.DB_ACTIVITY_KIND_ACTIVITY;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return LefunConstants.DB_ACTIVITY_KIND_LIGHT_SLEEP;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return LefunConstants.DB_ACTIVITY_KIND_DEEP_SLEEP;
             default:
                 return LefunConstants.DB_ACTIVITY_KIND_UNKNOWN;

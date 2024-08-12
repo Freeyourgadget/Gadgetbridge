@@ -261,7 +261,7 @@ public class ControlCenterv2 extends AppCompatActivity
             // Signal DeviceCommunicationService to fetch activity for all connected devices
             Intent intent = new Intent(getApplicationContext(), DeviceCommunicationService.class);
             intent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA)
-                .putExtra(DeviceService.EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
+                .putExtra(DeviceService.EXTRA_RECORDED_DATA_TYPES, ActivityKind.ACTIVITY);
             startService(intent);
             // Hide 'refreshing' animation immediately if no health devices are connected
             List<GBDevice> devices1 = GBApplication.app().getDeviceManager().getDevices();

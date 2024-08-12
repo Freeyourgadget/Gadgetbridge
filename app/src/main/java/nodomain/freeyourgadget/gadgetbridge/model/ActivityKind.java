@@ -20,238 +20,97 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 import android.content.Context;
 
 import androidx.annotation.DrawableRes;
-
-import java.util.Arrays;
+import androidx.annotation.StringRes;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 
-public class ActivityKind {
-    public static final int TYPE_NOT_MEASURED = -1;
-    public static final int TYPE_UNKNOWN = 0x00000000;
-    public static final int TYPE_ACTIVITY = 0x00000001;
-    public static final int TYPE_LIGHT_SLEEP = 0x00000002;
-    public static final int TYPE_DEEP_SLEEP = 0x00000004;
-    public static final int TYPE_NOT_WORN = 0x00000008;
-    public static final int TYPE_RUNNING = 0x00000010;
-    public static final int TYPE_WALKING = 0x00000020;
-    public static final int TYPE_SWIMMING = 0x00000040;
-    public static final int TYPE_CYCLING = 0x00000080;
-    public static final int TYPE_TREADMILL = 0x00000100;
-    public static final int TYPE_EXERCISE = 0x00000200;
-    public static final int TYPE_SWIMMING_OPENWATER = 0x00000400;
-    public static final int TYPE_INDOOR_CYCLING = 0x00000800;
-    public static final int TYPE_ELLIPTICAL_TRAINER = 0x00001000;
-    public static final int TYPE_JUMP_ROPING = 0x00002000;
-    public static final int TYPE_YOGA = 0x00004000;
-    public static final int TYPE_SOCCER = 0x00008000;
-    public static final int TYPE_ROWING_MACHINE = 0x00010000;
-    public static final int TYPE_CRICKET = 0x00020000;
-    public static final int TYPE_BASKETBALL = 0x00040000;
-    public static final int TYPE_PINGPONG = 0x00080000;
-    public static final int TYPE_BADMINTON = 0x00100000;
-    public static final int TYPE_STRENGTH_TRAINING = 0x00200000;
-    public static final int TYPE_HIKING = 0x00400000;
-    public static final int TYPE_CLIMBING = 0x00800000;
-    public static final int TYPE_REM_SLEEP = 0x01000000;
-    public static final int TYPE_AWAKE_SLEEP = 0x02000000;
+public enum ActivityKind {
+    NOT_MEASURED(-1, R.string.activity_type_not_measured, R.drawable.ic_activity_not_measured),
+    UNKNOWN(0x00000000, R.string.activity_type_unknown),
+    ACTIVITY(0x00000001, R.string.activity_type_activity),
+    LIGHT_SLEEP(0x00000002, R.string.activity_type_light_sleep, R.drawable.ic_activity_sleep),
+    DEEP_SLEEP(0x00000004, R.string.activity_type_deep_sleep, R.drawable.ic_activity_sleep),
+    NOT_WORN(0x00000008, R.string.activity_type_not_worn),
+    RUNNING(0x00000010, R.string.activity_type_running, R.drawable.ic_activity_running),
+    WALKING(0x00000020, R.string.activity_type_walking, R.drawable.ic_activity_walking),
+    SWIMMING(0x00000040, R.string.activity_type_swimming, R.drawable.ic_activity_swimming),
+    CYCLING(0x00000080, R.string.activity_type_biking, R.drawable.ic_activity_biking),
+    TREADMILL(0x00000100, R.string.activity_type_treadmill, R.drawable.ic_activity_threadmill),
+    EXERCISE(0x00000200, R.string.activity_type_exercise, R.drawable.ic_activity_exercise),
+    SWIMMING_OPENWATER(0x00000400, R.string.activity_type_swimming_openwater, R.drawable.ic_activity_swimming),
+    INDOOR_CYCLING(0x00000800, R.string.activity_type_indoor_cycling, R.drawable.ic_activity_bike_trainer),
+    ELLIPTICAL_TRAINER(0x00001000, R.string.activity_type_elliptical_trainer, R.drawable.ic_activity_eliptical),
+    JUMP_ROPING(0x00002000, R.string.activity_type_jump_roping, R.drawable.ic_activity_rope_jump),
+    YOGA(0x00004000, R.string.activity_type_yoga, R.drawable.ic_activity_yoga),
+    SOCCER(0x00008000, R.string.activity_type_soccer, R.drawable.ic_activity_soccer),
+    ROWING_MACHINE(0x00010000, R.string.activity_type_rowing_machine, R.drawable.ic_activity_rowing),
+    CRICKET(0x00020000, R.string.activity_type_cricket, R.drawable.ic_activity_cricket),
+    BASKETBALL(0x00040000, R.string.activity_type_basketball, R.drawable.ic_activity_basketball),
+    PINGPONG(0x00080000, R.string.activity_type_pingpong, R.drawable.ic_activity_pingpong),
+    BADMINTON(0x00100000, R.string.activity_type_badminton, R.drawable.ic_activity_badmington),
+    STRENGTH_TRAINING(0x00200000, R.string.activity_type_strength_training),
+    HIKING(0x00400000, R.string.activity_type_hiking, R.drawable.ic_activity_hiking),
+    CLIMBING(0x00800000, R.string.activity_type_climbing, R.drawable.ic_activity_climbing),
+    REM_SLEEP(0x01000000, R.string.abstract_chart_fragment_kind_rem_sleep, R.drawable.ic_activity_sleep),
+    SLEEP_ANY(0x00000002 | 0x00000004 | 0x01000000 | 0x02000000, R.string.menuitem_sleep, R.drawable.ic_activity_sleep),
+    AWAKE_SLEEP(0x02000000, R.string.abstract_chart_fragment_kind_awake_sleep, R.drawable.ic_activity_sleep),
 
-    private static final int TYPES_COUNT = 26;
+    // FIXME: Deprecate these - they're just kept around while we do not support reading from the old db
+    VIVOMOVE_HR_TRANSITION(0x00000001 | 0x00000010 | 0x00000020 | 0x00000200 | 0x00000040, R.string.transition),
+    ;
 
-    public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP | TYPE_REM_SLEEP | TYPE_AWAKE_SLEEP;
-    public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
+    private final int code;
+    private final int label;
+    private final int icon;
 
-    public static int[] mapToDBActivityTypes(int types, SampleProvider provider) {
-        int[] result = new int[TYPES_COUNT];
-        int i = 0;
-        if ((types & ActivityKind.TYPE_ACTIVITY) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_ACTIVITY);
-        }
-        if ((types & ActivityKind.TYPE_DEEP_SLEEP) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_DEEP_SLEEP);
-        }
-        if ((types & ActivityKind.TYPE_LIGHT_SLEEP) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_LIGHT_SLEEP);
-        }
-        if ((types & ActivityKind.TYPE_NOT_WORN) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_NOT_WORN);
-        }
-        if ((types & ActivityKind.TYPE_RUNNING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_RUNNING);
-        }
-        if ((types & ActivityKind.TYPE_WALKING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_WALKING);
-        }
-        if ((types & ActivityKind.TYPE_HIKING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_HIKING);
-        }
-        if ((types & ActivityKind.TYPE_CLIMBING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_CLIMBING);
-        }
-        if ((types & ActivityKind.TYPE_SWIMMING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_SWIMMING);
-        }
-        if ((types & ActivityKind.TYPE_CYCLING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_CYCLING);
-        }
-        if ((types & ActivityKind.TYPE_TREADMILL) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_TREADMILL);
-        }
-        if ((types & ActivityKind.TYPE_EXERCISE) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_EXERCISE);
-        }
-        if ((types & ActivityKind.TYPE_SWIMMING_OPENWATER) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_SWIMMING_OPENWATER);
-        }
-        if ((types & ActivityKind.TYPE_INDOOR_CYCLING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_INDOOR_CYCLING);
-        }
-        if ((types & ActivityKind.TYPE_ELLIPTICAL_TRAINER) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_ELLIPTICAL_TRAINER);
-        }
-        if ((types & ActivityKind.TYPE_JUMP_ROPING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_JUMP_ROPING);
-        }
-        if ((types & ActivityKind.TYPE_YOGA) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_YOGA);
-        }
-        if ((types & ActivityKind.TYPE_ROWING_MACHINE) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_ROWING_MACHINE);
-        }
-        if ((types & ActivityKind.TYPE_CRICKET) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_CRICKET);
-        }
-        if ((types & ActivityKind.TYPE_BASKETBALL) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_BASKETBALL);
-        }
-        if ((types & ActivityKind.TYPE_PINGPONG) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_PINGPONG);
-        }
-        if ((types & ActivityKind.TYPE_BADMINTON) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_BADMINTON);
-        }
-        if ((types & ActivityKind.TYPE_STRENGTH_TRAINING) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_STRENGTH_TRAINING);
-        }
-        if ((types & ActivityKind.TYPE_REM_SLEEP) != 0) {
-            result[i++] = provider.toRawActivityKind(TYPE_REM_SLEEP);
-        }
-
-        return Arrays.copyOf(result, i);
+    ActivityKind(final int code) {
+        this(code, R.string.activity_type_unknown);
     }
 
-    public static String asString(int kind, Context context) {
-        switch (kind) {
-            case TYPE_NOT_MEASURED:
-                return context.getString(R.string.activity_type_not_measured);
-            case TYPE_ACTIVITY:
-                return context.getString(R.string.activity_type_activity);
-            case TYPE_LIGHT_SLEEP:
-                return context.getString(R.string.activity_type_light_sleep);
-            case TYPE_DEEP_SLEEP:
-                return context.getString(R.string.activity_type_deep_sleep);
-            case TYPE_NOT_WORN:
-                return context.getString(R.string.activity_type_not_worn);
-            case TYPE_RUNNING:
-                return context.getString(R.string.activity_type_running);
-            case TYPE_WALKING:
-                return context.getString(R.string.activity_type_walking);
-            case TYPE_HIKING:
-                return context.getString(R.string.activity_type_hiking);
-            case TYPE_CLIMBING:
-                return context.getString(R.string.activity_type_climbing);
-            case TYPE_SWIMMING:
-                return context.getString(R.string.activity_type_swimming);
-            case TYPE_CYCLING:
-                return context.getString(R.string.activity_type_biking);
-            case TYPE_TREADMILL:
-                return context.getString(R.string.activity_type_treadmill);
-            case TYPE_EXERCISE:
-                return context.getString(R.string.activity_type_exercise);
-            case TYPE_SWIMMING_OPENWATER:
-                return context.getString(R.string.activity_type_swimming_openwater);
-            case TYPE_INDOOR_CYCLING:
-                return context.getString(R.string.activity_type_indoor_cycling);
-            case TYPE_ELLIPTICAL_TRAINER:
-                return context.getString(R.string.activity_type_elliptical_trainer);
-            case TYPE_JUMP_ROPING:
-                return context.getString(R.string.activity_type_jump_roping);
-            case TYPE_YOGA:
-                return context.getString(R.string.activity_type_yoga);
-            case TYPE_SOCCER:
-                return context.getString(R.string.activity_type_soccer);
-            case TYPE_ROWING_MACHINE:
-                return context.getString(R.string.activity_type_rowing_machine);
-            case TYPE_CRICKET:
-                return context.getString(R.string.activity_type_cricket);
-            case TYPE_BASKETBALL:
-                return context.getString(R.string.activity_type_basketball);
-            case TYPE_PINGPONG:
-                return context.getString(R.string.activity_type_pingpong);
-            case TYPE_BADMINTON:
-                return context.getString(R.string.activity_type_badminton);
-            case TYPE_STRENGTH_TRAINING:
-                return context.getString(R.string.activity_type_strength_training);
-            case TYPE_UNKNOWN:
-            default:
-                return context.getString(R.string.activity_type_unknown);
-        }
+    ActivityKind(final int code, @StringRes final int label) {
+        this(code, label, R.drawable.ic_activity_unknown_small);
+    }
+
+    ActivityKind(final int code, @StringRes final int label, @DrawableRes final int icon) {
+        this.code = code;
+        this.label = label;
+        this.icon = icon;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    @StringRes
+    public int getLabel() {
+        return label;
+    }
+
+    public String getLabel(final Context context) {
+        return context.getString(label);
     }
 
     @DrawableRes
-    public static int getIconId(int kind) {
-        switch (kind) {
-            case TYPE_NOT_MEASURED:
-                return R.drawable.ic_activity_not_measured;
-            case TYPE_LIGHT_SLEEP:
-            case TYPE_DEEP_SLEEP:
-            case TYPE_REM_SLEEP:
-                return R.drawable.ic_activity_sleep;
-            case TYPE_RUNNING:
-                return R.drawable.ic_activity_running;
-            case TYPE_WALKING:
-                return R.drawable.ic_activity_walking;
-            case TYPE_HIKING:
-                return R.drawable.ic_activity_hiking;
-            case TYPE_CLIMBING:
-                return R.drawable.ic_activity_climbing;
-            case TYPE_CYCLING:
-                return R.drawable.ic_activity_biking;
-            case TYPE_TREADMILL:
-                return R.drawable.ic_activity_threadmill;
-            case TYPE_EXERCISE:
-                return R.drawable.ic_activity_exercise;
-            case TYPE_SWIMMING:
-            case TYPE_SWIMMING_OPENWATER:
-                return R.drawable.ic_activity_swimming;
-            case TYPE_INDOOR_CYCLING:
-                return R.drawable.ic_activity_bike_trainer;
-            case TYPE_ELLIPTICAL_TRAINER:
-                return R.drawable.ic_activity_eliptical;
-            case TYPE_JUMP_ROPING:
-                return R.drawable.ic_activity_rope_jump;
-            case TYPE_YOGA:
-                return R.drawable.ic_activity_yoga;
-            case TYPE_SOCCER:
-                return R.drawable.ic_activity_soccer;
-            case TYPE_ROWING_MACHINE:
-                return R.drawable.ic_activity_rowing;
-            case TYPE_CRICKET:
-                return R.drawable.ic_activity_cricket;
-            case TYPE_BASKETBALL:
-                return R.drawable.ic_activity_basketball;
-            case TYPE_PINGPONG:
-                return R.drawable.ic_activity_pingpong;
-            case TYPE_BADMINTON:
-                return R.drawable.ic_activity_badmington;
-            case TYPE_STRENGTH_TRAINING:
-                return R.drawable.ic_activity_unknown_small; //FIXME: find icon
+    public int getIcon() {
+        return icon;
+    }
 
-            case TYPE_NOT_WORN: // fall through
-            case TYPE_ACTIVITY: // fall through
-            case TYPE_UNKNOWN: // fall through
-            default:
-                return R.drawable.ic_activity_unknown_small;
+    public static ActivityKind fromCode(final int code) {
+        for (final ActivityKind kind : ActivityKind.values()) {
+            if (kind.code == code) {
+                return kind;
+            }
         }
+
+        //throw new IllegalArgumentException("Unknown ActivityKind code " + code);
+        return UNKNOWN;
+    }
+
+    public static boolean isSleep(final ActivityKind activityKind) {
+        return activityKind == ActivityKind.SLEEP_ANY
+                || activityKind == ActivityKind.LIGHT_SLEEP
+                || activityKind == ActivityKind.DEEP_SLEEP
+                || activityKind == ActivityKind.REM_SLEEP
+                || activityKind == ActivityKind.AWAKE_SLEEP;
     }
 }

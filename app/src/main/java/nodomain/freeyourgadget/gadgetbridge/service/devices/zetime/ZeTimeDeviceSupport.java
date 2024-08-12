@@ -1152,7 +1152,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sample.setCaloriesBurnt((msg[18] << 24) & 0xff000000 | (msg[17] << 16) & 0xff0000 | (msg[16] << 8) & 0xff00 | (msg[15] & 0xff));
         sample.setDistanceMeters((msg[22] << 24) & 0xff000000 | (msg[21] << 16) & 0xff0000 | (msg[20] << 8) & 0xff00 | (msg[19] & 0xff));
         sample.setActiveTimeMinutes((msg[26] << 24) & 0xff000000 | (msg[25] << 16) & 0xff0000 | (msg[24] << 8) & 0xff00 | (msg[23] & 0xff));
-        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        sample.setRawKind(ActivityKind.ACTIVITY.getCode());
         sample.setRawIntensity(sample.getSteps());
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -1195,11 +1195,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         timestamp -= ((now.get(Calendar.ZONE_OFFSET) / 1000) + (now.get(Calendar.DST_OFFSET) / 1000));  // TimeZone hour + daylight saving
         sample.setTimestamp(timestamp);
         if (msg[11] == 0) {
-            sample.setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+            sample.setRawKind(ActivityKind.DEEP_SLEEP.getCode());
         } else if (msg[11] == 1) {
-            sample.setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+            sample.setRawKind(ActivityKind.LIGHT_SLEEP.getCode());
         } else {
-            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
         }
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {

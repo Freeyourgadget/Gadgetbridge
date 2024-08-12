@@ -47,48 +47,48 @@ public enum HuamiSportsActivityType {
         this.code = code;
     }
 
-    public int toActivityKind() {
+    public ActivityKind toActivityKind() {
         switch (this) {
             case OutdoorRunning:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case OutdoorHiking:
-                return ActivityKind.TYPE_HIKING;
+                return ActivityKind.HIKING;
             case Climbing:
-                return ActivityKind.TYPE_CLIMBING;
+                return ActivityKind.CLIMBING;
             case Treadmill:
-                return ActivityKind.TYPE_TREADMILL;
+                return ActivityKind.TREADMILL;
             case Cycling:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case Walking:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case Exercise:
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
             case Swimming:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case OpenWaterSwimming:
-                return ActivityKind.TYPE_SWIMMING_OPENWATER;
+                return ActivityKind.SWIMMING_OPENWATER;
             case IndoorCycling:
-                return ActivityKind.TYPE_INDOOR_CYCLING;
+                return ActivityKind.INDOOR_CYCLING;
             case EllipticalTrainer:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case Soccer:
-                return ActivityKind.TYPE_SOCCER;
+                return ActivityKind.SOCCER;
             case JumpRope:
-                return ActivityKind.TYPE_JUMP_ROPING;
+                return ActivityKind.JUMP_ROPING;
             case RowingMachine:
-                return ActivityKind.TYPE_ROWING_MACHINE;
+                return ActivityKind.ROWING_MACHINE;
             case Yoga:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
             case Cricket:
-                return ActivityKind.TYPE_CRICKET;
+                return ActivityKind.CRICKET;
             case Basketball:
-                return ActivityKind.TYPE_BASKETBALL;
+                return ActivityKind.BASKETBALL;
             case PingPong:
-                return ActivityKind.TYPE_PINGPONG;
+                return ActivityKind.PINGPONG;
             case Badminton:
-                return ActivityKind.TYPE_BADMINTON;
+                return ActivityKind.BADMINTON;
             case StrengthTraining:
-                return ActivityKind.TYPE_STRENGTH_TRAINING;
+                return ActivityKind.STRENGTH_TRAINING;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
@@ -102,47 +102,47 @@ public enum HuamiSportsActivityType {
         throw new RuntimeException("No matching HuamiSportsActivityType for code: " + huamiCode);
     }
 
-    public static HuamiSportsActivityType fromActivityKind(int activityKind) {
+    public static HuamiSportsActivityType fromActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_RUNNING:
+            case RUNNING:
                 return OutdoorRunning;
-            case ActivityKind.TYPE_HIKING:
+            case HIKING:
                 return OutdoorHiking;
-            case ActivityKind.TYPE_CLIMBING:
+            case CLIMBING:
                 return Climbing;
-            case ActivityKind.TYPE_TREADMILL:
+            case TREADMILL:
                 return Treadmill;
-            case ActivityKind.TYPE_CYCLING:
+            case CYCLING:
                 return Cycling;
-            case ActivityKind.TYPE_WALKING:
+            case WALKING:
                 return Walking;
-            case ActivityKind.TYPE_EXERCISE:
+            case EXERCISE:
                 return Exercise;
-            case ActivityKind.TYPE_SWIMMING:
+            case SWIMMING:
                 return Swimming;
-            case ActivityKind.TYPE_SWIMMING_OPENWATER:
+            case SWIMMING_OPENWATER:
                 return OpenWaterSwimming;
-            case ActivityKind.TYPE_INDOOR_CYCLING:
+            case INDOOR_CYCLING:
                 return IndoorCycling;
-            case ActivityKind.TYPE_ELLIPTICAL_TRAINER:
+            case ELLIPTICAL_TRAINER:
                 return EllipticalTrainer;
-            case ActivityKind.TYPE_SOCCER:
+            case SOCCER:
                 return Soccer;
-            case ActivityKind.TYPE_JUMP_ROPING:
+            case JUMP_ROPING:
                 return JumpRope;
-            case ActivityKind.TYPE_ROWING_MACHINE:
+            case ROWING_MACHINE:
                 return RowingMachine;
-            case ActivityKind.TYPE_YOGA:
+            case YOGA:
                 return Yoga;
-            case ActivityKind.TYPE_CRICKET:
+            case CRICKET:
                 return Cricket;
-            case ActivityKind.TYPE_BASKETBALL:
+            case BASKETBALL:
                 return Basketball;
-            case ActivityKind.TYPE_PINGPONG:
+            case PINGPONG:
                 return PingPong;
-            case ActivityKind.TYPE_BADMINTON:
+            case BADMINTON:
                 return Badminton;
-            case ActivityKind.TYPE_STRENGTH_TRAINING:
+            case STRENGTH_TRAINING:
                 return StrengthTraining;
 
         }

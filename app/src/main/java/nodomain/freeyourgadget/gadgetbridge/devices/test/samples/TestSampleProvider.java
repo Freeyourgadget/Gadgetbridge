@@ -69,13 +69,13 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
     }
 
     @Override
-    public int normalizeType(final int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(final int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(final int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(final ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 
     @Override
@@ -89,15 +89,15 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
     }
 
     @Override
-    protected List<TestActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to, final int activityType) {
+    protected List<TestActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to) {
         final List<TestActivitySample> samples = new ArrayList<>();
 
         int[] sleepStages = new int[] {
-                ActivityKind.TYPE_LIGHT_SLEEP,
-                ActivityKind.TYPE_DEEP_SLEEP,
+                ActivityKind.LIGHT_SLEEP.getCode(),
+                ActivityKind.DEEP_SLEEP.getCode(),
         };
         if (getDevice().getDeviceCoordinator().supportsRemSleep()) {
-            sleepStages = ArrayUtils.add(sleepStages, ActivityKind.TYPE_REM_SLEEP);
+            sleepStages = ArrayUtils.add(sleepStages, ActivityKind.REM_SLEEP.getCode());
         }
         int sleepStageCurrent = 0;
         int sleepStageDirection = 1;
@@ -141,7 +141,7 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
             if (TestDeviceRand.randBool(ts, 0.85f)) {
                 samples.add(new TestActivitySample(
                         (int) (ts / 1000),
-                        isSleep ? sleepStages[sleepStageCurrent] : ActivityKind.TYPE_UNKNOWN,
+                        isSleep ? sleepStages[sleepStageCurrent] : ActivityKind.UNKNOWN.getCode(),
                         isActive ? steps : 0,
                         intensity,
                         hr
@@ -187,7 +187,7 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
         }
 
         @Override
-        public SampleProvider getProvider() {
+        public SampleProvider<?> getProvider() {
             return TestSampleProvider.this;
         }
 
@@ -222,8 +222,8 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
         }
 
         @Override
-        public int getKind() {
-            return kind;
+        public ActivityKind getKind() {
+            return ActivityKind.fromCode(kind);
         }
 
         @Override

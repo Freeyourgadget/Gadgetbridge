@@ -66,17 +66,17 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case TYPE_ACTIVITY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             default: // fall through
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         return TYPE_ACTIVITY;
     }
 
@@ -97,8 +97,7 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
     public void upsertSample(final BangleJSActivitySample sample) {
         final List<BangleJSActivitySample> nearSamples = getGBActivitySamples(
                 sample.getTimestamp() - 60 * 2,
-                sample.getTimestamp() + 60 * 2,
-                normalizeType(sample.getRawKind())
+                sample.getTimestamp() + 60 * 2
         );
 
         if (nearSamples.isEmpty()) {

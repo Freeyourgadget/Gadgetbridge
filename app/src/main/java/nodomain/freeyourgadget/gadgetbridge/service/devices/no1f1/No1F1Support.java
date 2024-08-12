@@ -484,7 +484,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
 
     private void handleActivityData(byte[] data) {
         if (data[1] == (byte) 0xfd) {
-            LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
+            LOG.info("CRC received: {}, calculated: {}", data[2] & 0xff, crc & 0xff);
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
                 GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
@@ -492,7 +492,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
                 }
-            } else if (samples.size() > 0) {
+            } else if (!samples.isEmpty()) {
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
                     Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
@@ -501,13 +501,13 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         samples.get(i).setDeviceId(deviceId);
                         samples.get(i).setUserId(userId);
                         if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
-                            samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
+                            samples.get(i).setRawKind(ActivityKind.ACTIVITY.getCode());
                             samples.get(i).setRawIntensity(samples.get(i).getSteps());
                         } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                             if (samples.get(i).getRawIntensity() < 7)
-                                samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
+                                samples.get(i).setRawKind(ActivityKind.DEEP_SLEEP.getCode());
                             else
-                                samples.get(i).setRawKind(ActivityKind.TYPE_LIGHT_SLEEP);
+                                samples.get(i).setRawKind(ActivityKind.LIGHT_SLEEP.getCode());
                         }
                         provider.addGBActivitySample(samples.get(i));
                     }
@@ -542,15 +542,18 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
                 timestamp.set(Calendar.MINUTE, 0);
                 sample.setSteps(data[6] * 256 + (data[7] & 0xff));
+                //noinspection lossy-conversions
                 crc ^= (data[6] ^ data[7]);
             } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                 timestamp.set(Calendar.MINUTE, data[6] & 0xff);
                 sample.setRawIntensity(data[7] * 256 + (data[8] & 0xff));
+                //noinspection lossy-conversions
                 crc ^= (data[7] ^ data[8]);
                 startProgress = 33;
             } else if (data[0] == No1F1Constants.CMD_FETCH_HEARTRATE) {
                 timestamp.set(Calendar.MINUTE, data[6] & 0xff);
                 sample.setHeartRate(data[7] & 0xff);
+                //noinspection lossy-conversions
                 crc ^= (data[6] ^ data[7]);
                 startProgress = 66;
             }

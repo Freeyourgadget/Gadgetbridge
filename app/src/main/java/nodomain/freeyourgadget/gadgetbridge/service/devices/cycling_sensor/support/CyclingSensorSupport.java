@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.cycling_sensor.support;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityKind.TYPE_CYCLING;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityKind.CYCLING;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;

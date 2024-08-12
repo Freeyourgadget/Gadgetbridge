@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardSleepW
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStepsWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardTodayWidget;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -422,11 +423,11 @@ public class DashboardFragment extends Fragment {
         }
 
         public static class GeneralizedActivity implements Serializable {
-            public int activityKind;
+            public ActivityKind activityKind;
             public long timeFrom;
             public long timeTo;
 
-            public GeneralizedActivity(int activityKind, long timeFrom, long timeTo) {
+            public GeneralizedActivity(ActivityKind activityKind, long timeFrom, long timeTo) {
                 this.activityKind = activityKind;
                 this.timeFrom = timeFrom;
                 this.timeTo = timeTo;

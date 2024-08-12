@@ -24,28 +24,28 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public enum CmfActivityType {
     // Core (non-removable in official app)
-    INDOOR_RUNNING(0x03, R.string.activity_type_indoor_running, ActivityKind.TYPE_RUNNING),
-    OUTDOOR_RUNNING(0x02, R.string.activity_type_outdoor_running, ActivityKind.TYPE_RUNNING),
+    INDOOR_RUNNING(0x03, R.string.activity_type_indoor_running, ActivityKind.RUNNING),
+    OUTDOOR_RUNNING(0x02, R.string.activity_type_outdoor_running, ActivityKind.RUNNING),
     // Fitness
-    OUTDOOR_WALKING(0x01, R.string.activity_type_outdoor_walking, ActivityKind.TYPE_WALKING),
-    INDOOR_WALKING(0x19, R.string.activity_type_indoor_walking, ActivityKind.TYPE_WALKING),
-    OUTDOOR_CYCLING(0x05, R.string.activity_type_outdoor_cycling, ActivityKind.TYPE_CYCLING),
-    INDOOR_CYCLING(0x72, R.string.activity_type_indoor_cycling, ActivityKind.TYPE_INDOOR_CYCLING),
-    MOUNTAIN_HIKE(0x04, R.string.activity_type_mountain_hike, ActivityKind.TYPE_HIKING),
-    HIKING(0x1A, R.string.activity_type_hiking, ActivityKind.TYPE_HIKING),
+    OUTDOOR_WALKING(0x01, R.string.activity_type_outdoor_walking, ActivityKind.WALKING),
+    INDOOR_WALKING(0x19, R.string.activity_type_indoor_walking, ActivityKind.WALKING),
+    OUTDOOR_CYCLING(0x05, R.string.activity_type_outdoor_cycling, ActivityKind.CYCLING),
+    INDOOR_CYCLING(0x72, R.string.activity_type_indoor_cycling, ActivityKind.INDOOR_CYCLING),
+    MOUNTAIN_HIKE(0x04, R.string.activity_type_mountain_hike, ActivityKind.HIKING),
+    HIKING(0x1A, R.string.activity_type_hiking, ActivityKind.HIKING),
     CROSS_TRAINER(0x18, R.string.activity_type_cross_trainer),
-    FREE_TRAINING(0x10, R.string.activity_type_free_training, ActivityKind.TYPE_STRENGTH_TRAINING),
-    STRENGTH_TRAINING(0x13, R.string.activity_type_strength_training, ActivityKind.TYPE_STRENGTH_TRAINING),
-    YOGA(0x0F, R.string.activity_type_yoga, ActivityKind.TYPE_YOGA),
+    FREE_TRAINING(0x10, R.string.activity_type_free_training, ActivityKind.STRENGTH_TRAINING),
+    STRENGTH_TRAINING(0x13, R.string.activity_type_strength_training, ActivityKind.STRENGTH_TRAINING),
+    YOGA(0x0F, R.string.activity_type_yoga, ActivityKind.YOGA),
     BOXING(0x21, R.string.activity_type_boxing),
-    ROWER(0x0E, R.string.activity_type_rower, ActivityKind.TYPE_ROWING_MACHINE),
+    ROWER(0x0E, R.string.activity_type_rower, ActivityKind.ROWING_MACHINE),
     DYNAMIC_CYCLE(0x0D, R.string.activity_type_dynamic_cycle),
     STAIR_STEPPER(0x73, R.string.activity_type_stair_stepper),
-    TREADMILL(0x26, R.string.activity_type_treadmill, ActivityKind.TYPE_TREADMILL),
+    TREADMILL(0x26, R.string.activity_type_treadmill, ActivityKind.TREADMILL),
     KICKBOXING(0x35, R.string.activity_type_kickboxing),
     HIIT(0x5C, R.string.activity_type_hiit),
     FITNESS_EXERCISES(0x4E, R.string.activity_type_fitness_exercises),
-    JUMP_ROPING(0x06, R.string.activity_type_jump_roping, ActivityKind.TYPE_JUMP_ROPING), // moved to leisure sports in watch 2
+    JUMP_ROPING(0x06, R.string.activity_type_jump_roping, ActivityKind.JUMP_ROPING), // moved to leisure sports in watch 2
     PILATES(0x2C, R.string.activity_type_pilates),
     CROSSFIT(0x74, R.string.activity_type_crossfit),
     FUNCTIONAL_TRAINING(0x2E, R.string.activity_type_functional_training),
@@ -106,7 +106,7 @@ public enum CmfActivityType {
     KARTING(0xA0, R.string.activity_type_karting),
     // Ball sports
     BADMINTON(0x09, R.string.activity_type_badminton),
-    TABLE_TENNIS(0x0A, R.string.activity_type_table_tennis, ActivityKind.TYPE_PINGPONG),
+    TABLE_TENNIS(0x0A, R.string.activity_type_table_tennis, ActivityKind.PINGPONG),
     TENNIS(0x0C, R.string.activity_type_tennis),
     BILLIARDS(0x7C, R.string.activity_type_billiards),
     BOWLING(0x3B, R.string.activity_type_bowling),
@@ -120,8 +120,8 @@ public enum CmfActivityType {
     HOCKEY(0x1E, R.string.activity_type_hockey),
     SQUASH(0x3C, R.string.activity_type_squash),
     DODGEBALL(0x81, R.string.activity_type_dodgeball),
-    SOCCER(0x07, R.string.activity_type_soccer, ActivityKind.TYPE_SOCCER),
-    BASKETBALL(0x08, R.string.activity_type_basketball, ActivityKind.TYPE_BASKETBALL),
+    SOCCER(0x07, R.string.activity_type_soccer, ActivityKind.SOCCER),
+    BASKETBALL(0x08, R.string.activity_type_basketball, ActivityKind.BASKETBALL),
     AUSTRALIAN_FOOTBALL(0x37, R.string.activity_type_australian_football),
     GOLF(0x45, R.string.activity_type_golf),
     PICKLEBALL(0x5B, R.string.activity_type_pickleball),
@@ -157,13 +157,13 @@ public enum CmfActivityType {
     private final byte code;
     @StringRes
     private final int nameRes;
-    private final int activityKind;
+    private final ActivityKind activityKind;
 
     CmfActivityType(final int code, final int nameRes) {
-        this(code, nameRes, ActivityKind.TYPE_UNKNOWN);
+        this(code, nameRes, ActivityKind.UNKNOWN);
     }
 
-    CmfActivityType(final int code, final int nameRes, final int activityKind) {
+    CmfActivityType(final int code, final int nameRes, final ActivityKind activityKind) {
         this.code = (byte) code;
         this.nameRes = nameRes;
         this.activityKind = activityKind;
@@ -173,7 +173,7 @@ public enum CmfActivityType {
         return code;
     }
 
-    public int getActivityKind() {
+    public ActivityKind getActivityKind() {
         return activityKind;
     }
 

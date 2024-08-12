@@ -63,14 +63,14 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
             final ZeppOsActivityType activityType = ZeppOsActivityType
                     .fromCode((byte) summaryProto.getType().getType());
 
-            final int activityKind;
+            final ActivityKind activityKind;
             if (activityType != null) {
                 activityKind = activityType.toActivityKind();
             } else {
                 LOG.warn("Unknown workout activity type code {}", String.format("0x%X", summaryProto.getType().getType()));
-                activityKind = ActivityKind.TYPE_UNKNOWN;
+                activityKind = ActivityKind.UNKNOWN;
             }
-            summary.setActivityKind(activityKind);
+            summary.setActivityKind(activityKind.getCode());
         }
 
         if (summaryProto.hasTime()) {

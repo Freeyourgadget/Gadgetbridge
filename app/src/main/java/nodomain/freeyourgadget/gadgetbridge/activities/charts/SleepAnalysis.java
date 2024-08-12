@@ -59,11 +59,11 @@ public class SleepAnalysis {
 
             if (previousSample != null) {
                 long durationSinceLastSample = sample.getTimestamp() - previousSample.getTimestamp();
-                if (sample.getKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                if (sample.getKind() == ActivityKind.LIGHT_SLEEP) {
                     lightSleepDuration += durationSinceLastSample;
-                } else if (sample.getKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+                } else if (sample.getKind() == ActivityKind.DEEP_SLEEP) {
                     deepSleepDuration += durationSinceLastSample;
-                } else if (sample.getKind() == ActivityKind.TYPE_REM_SLEEP) {
+                } else if (sample.getKind() == ActivityKind.REM_SLEEP) {
                     remSleepDuration += durationSinceLastSample;
                 } else {
                     durationSinceLastSleep += durationSinceLastSample;
@@ -88,9 +88,9 @@ public class SleepAnalysis {
     }
 
     private boolean isSleep(ActivitySample sample) {
-        return sample.getKind() == ActivityKind.TYPE_DEEP_SLEEP ||
-                sample.getKind() == ActivityKind.TYPE_LIGHT_SLEEP ||
-                sample.getKind() == ActivityKind.TYPE_REM_SLEEP;
+        return sample.getKind() == ActivityKind.DEEP_SLEEP ||
+                sample.getKind() == ActivityKind.LIGHT_SLEEP ||
+                sample.getKind() == ActivityKind.REM_SLEEP;
     }
 
     private Date getDateFromSample(ActivitySample sample) {

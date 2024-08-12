@@ -19,8 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.List;
-
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -28,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
 
 public class HybridHRActivitySampleProvider extends AbstractSampleProvider<HybridHRActivitySample> {
@@ -59,13 +58,13 @@ public class HybridHRActivitySampleProvider extends AbstractSampleProvider<Hybri
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        if(rawType == -1) return 0;
+    public ActivityKind normalizeType(int rawType) {
+        if (rawType == -1) return ActivityKind.UNKNOWN;
         return ActivityEntry.WEARING_STATE.fromValue((byte) rawType).getActivityKind();
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         return 0;
     }
 
@@ -77,17 +76,5 @@ public class HybridHRActivitySampleProvider extends AbstractSampleProvider<Hybri
     @Override
     public HybridHRActivitySample createActivitySample() {
         return new HybridHRActivitySample();
-    }
-
-    @NonNull
-    @Override
-    public List<HybridHRActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
-        return super.getActivitySamples(timestamp_from, timestamp_to);
-    }
-
-    @NonNull
-    @Override
-    public List<HybridHRActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
-        return super.getAllActivitySamples(timestamp_from, timestamp_to);
     }
 }

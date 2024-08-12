@@ -159,55 +159,55 @@ public enum ZeppOsActivityType {
         return code;
     }
 
-    public int toActivityKind() {
+    public ActivityKind toActivityKind() {
         switch (this) {
             case Badminton:
-                return ActivityKind.TYPE_BADMINTON;
+                return ActivityKind.BADMINTON;
             case Basketball:
-                return ActivityKind.TYPE_BASKETBALL;
+                return ActivityKind.BASKETBALL;
             case Cricket:
-                return ActivityKind.TYPE_CRICKET;
+                return ActivityKind.CRICKET;
             case Elliptical:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case Freestyle:
             case IndoorFitness:
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
             case IndoorCycling:
-                return ActivityKind.TYPE_INDOOR_CYCLING;
+                return ActivityKind.INDOOR_CYCLING;
             case JumpRope:
-                return ActivityKind.TYPE_JUMP_ROPING;
+                return ActivityKind.JUMP_ROPING;
             case OutdoorCycling:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case OutdoorHiking:
-                return ActivityKind.TYPE_HIKING;
+                return ActivityKind.HIKING;
             case OutdoorRunning:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case OutdoorSwimming:
-                return ActivityKind.TYPE_SWIMMING_OPENWATER;
+                return ActivityKind.SWIMMING_OPENWATER;
             case PoolSwimming:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case RockClimbing:
-                return ActivityKind.TYPE_CLIMBING;
+                return ActivityKind.CLIMBING;
             case Rowing:
-                return ActivityKind.TYPE_ROWING_MACHINE;
+                return ActivityKind.ROWING_MACHINE;
             case Soccer:
-                return ActivityKind.TYPE_SOCCER;
+                return ActivityKind.SOCCER;
             case TableTennis:
-                return ActivityKind.TYPE_PINGPONG;
+                return ActivityKind.PINGPONG;
             case Treadmill:
-                return ActivityKind.TYPE_TREADMILL;
+                return ActivityKind.TREADMILL;
             case Walking:
             case RaceWalking:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case Strength:
-                return ActivityKind.TYPE_STRENGTH_TRAINING;
+                return ActivityKind.STRENGTH_TRAINING;
             case Yoga:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
         }
 
         LOG.warn("Unmapped workout type {}", this);
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     public static ZeppOsActivityType fromCode(final byte code) {

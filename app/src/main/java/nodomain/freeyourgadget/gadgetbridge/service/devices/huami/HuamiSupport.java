@@ -1945,11 +1945,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 break;
             case HuamiDeviceEvent.WORKOUT_STARTING:
                 final HuamiWorkoutTrackActivityType activityType = HuamiWorkoutTrackActivityType.fromCode(value[3]);
-                final int activityKind;
+                final ActivityKind activityKind;
 
                 if (activityType == null) {
                     LOG.warn("Unknown workout activity type {}", String.format("0x%02x", value[3]));
-                    activityKind = ActivityKind.TYPE_UNKNOWN;
+                    activityKind = ActivityKind.UNKNOWN;
                 } else {
                     activityKind = activityType.toActivityKind();
                 }
@@ -1975,14 +1975,14 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     /**
      * Track the {@link nodomain.freeyourgadget.gadgetbridge.model.ActivityKind} that was opened, for the same reasons as {@code workoutNeedsGps}.
      */
-    private int workoutActivityKind = ActivityKind.TYPE_UNKNOWN;
+    private ActivityKind workoutActivityKind = ActivityKind.UNKNOWN;
 
     /**
      * Track the last time we actually sent a gps location. We need to signal that GPS as re-acquired if the last update was too long ago.
      */
     private long lastPhoneGpsSent = 0;
 
-    protected void onWorkoutOpen(final boolean needsGps, final int activityKind) {
+    protected void onWorkoutOpen(final boolean needsGps, final ActivityKind activityKind) {
         this.workoutNeedsGps = needsGps;
         this.workoutActivityKind = activityKind;
 

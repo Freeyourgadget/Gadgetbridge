@@ -220,7 +220,7 @@ public class GB {
                 builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
                 if (device.getDeviceCoordinator().supportsActivityDataFetching()) {
                     deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
-                    deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
+                    deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.ACTIVITY);
                     PendingIntent fetchPendingIntent = PendingIntentUtils.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
                     builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
                 }
@@ -269,7 +269,7 @@ public class GB {
                 Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
                 deviceCommunicationServiceIntent.setPackage(BuildConfig.APPLICATION_ID);
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
-                deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
+                deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.ACTIVITY);
                 PendingIntent fetchPendingIntent = PendingIntentUtils.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT, false);
                 builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
             }

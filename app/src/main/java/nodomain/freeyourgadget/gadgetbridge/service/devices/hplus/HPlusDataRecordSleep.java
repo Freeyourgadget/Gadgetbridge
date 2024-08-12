@@ -128,8 +128,8 @@ public class HPlusDataRecordSleep extends HPlusDataRecord {
         List<RecordInterval> intervals = new ArrayList<>();
 
         int ts = bedTimeStart + lightSleepMinutes * 60;
-        intervals.add(new RecordInterval(bedTimeStart, ts, ActivityKind.TYPE_LIGHT_SLEEP));
-        intervals.add(new RecordInterval(ts, bedTimeEnd, ActivityKind.TYPE_DEEP_SLEEP));
+        intervals.add(new RecordInterval(bedTimeStart, ts, ActivityKind.LIGHT_SLEEP));
+        intervals.add(new RecordInterval(ts, bedTimeEnd, ActivityKind.DEEP_SLEEP));
         return intervals;
     }
 

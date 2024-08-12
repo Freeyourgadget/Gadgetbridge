@@ -21,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 public abstract class AbstractPebbleHealthActivitySample extends AbstractActivitySample {
     abstract public byte[] getRawPebbleHealthData();
 
-    private transient int rawActivityKind = ActivityKind.TYPE_UNKNOWN;
+    private transient int rawActivityKind = ActivityKind.UNKNOWN.getCode();
 
     @Override
     public int getRawKind() {

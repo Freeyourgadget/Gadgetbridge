@@ -22,6 +22,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 /**
  * Interface to retrieve samples from the database, and also create and add samples to the database.
@@ -38,9 +39,9 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     int PROVIDER_PEBBLE_MISFIT = 3;
     int PROVIDER_PEBBLE_HEALTH = 4;
 
-    int normalizeType(int rawType);
+    ActivityKind normalizeType(int rawType);
 
-    int toRawActivityKind(int activityKind);
+    int toRawActivityKind(ActivityKind activityKind);
 
     float normalizeIntensity(int rawIntensity);
 
@@ -62,16 +63,6 @@ public interface SampleProvider<T extends AbstractActivitySample> {
      */
     @NonNull
     List<T> getActivitySamples(int timestamp_from, int timestamp_to);
-
-    /**
-     * Returns the list of all samples that represent "sleeping", within the
-     * given time span.
-     * @param timestamp_from the start timestamp
-     * @param timestamp_to the end timestamp
-     * @return the list of samples of type sleep
-     */
-    @NonNull
-    List<T> getSleepSamples(int timestamp_from, int timestamp_to);
 
     /**
      * Adds the given sample to the database. An existing sample with the same

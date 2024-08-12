@@ -75,7 +75,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     long dateFromFilter = 0;
     long dateToFilter = 0;
     String nameContainsFilter;
-    HashMap<String, Integer> activityKindMap = new HashMap<>(1);
+    HashMap<String, ActivityKind> activityKindMap = new HashMap<>(1);
     List<Long> itemsFilter;
     long deviceFilter;
     long initial_deviceFilter;
@@ -87,7 +87,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getIntent().getExtras();
 
-        activityKindMap = (HashMap<String, Integer>) bundle.getSerializable("activityKindMap");
+        activityKindMap = (HashMap<String, ActivityKind>) bundle.getSerializable("activityKindMap");
         itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
         activityFilter = bundle.getInt("activityFilter", 0);
         dateFromFilter = bundle.getLong("dateFromFilter", 0);
@@ -120,13 +120,13 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         final Spinner filterKindSpinner = findViewById(R.id.select_kind);
         ArrayList<SpinnerWithIconItem> kindArray = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> item : activityKindMap.entrySet()) {
-            if (item.getValue() == 0) continue; //do not put here All devices, but we do need them in the array
-            kindArray.add(new SpinnerWithIconItem(item.getKey(), new Long(item.getValue()), ActivityKind.getIconId(item.getValue())));
+        for (Map.Entry<String, ActivityKind> item : activityKindMap.entrySet()) {
+            if (item.getValue() == ActivityKind.UNKNOWN) continue; //do not put here All devices, but we do need them in the array
+            kindArray.add(new SpinnerWithIconItem(item.getKey(), (long) item.getValue().getCode(), item.getValue().getIcon()));
         }
 
         //ensure that all items is always first in the list, this is an issue on old android
-        SpinnerWithIconItem allActivities = new SpinnerWithIconItem(getString(R.string.activity_summaries_all_activities), new Long(0), ActivityKind.getIconId(0));
+        SpinnerWithIconItem allActivities = new SpinnerWithIconItem(getString(R.string.activity_summaries_all_activities), (long) ActivityKind.UNKNOWN.getCode(), ActivityKind.UNKNOWN.getIcon());
         kindArray.add(0, allActivities);
 
         SpinnerWithIconAdapter adapter = new SpinnerWithIconAdapter(this,
@@ -407,12 +407,14 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         return newMap;
     }
 
-    public SpinnerWithIconItem getKindByValue(Integer value) {
-        for (Map.Entry<String, Integer> entry : activityKindMap.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return new SpinnerWithIconItem(entry.getKey(),
-                        new Long(entry.getValue()),
-                        ActivityKind.getIconId(entry.getValue()));
+    public SpinnerWithIconItem getKindByValue(int value) {
+        for (Map.Entry<String, ActivityKind> entry : activityKindMap.entrySet()) {
+            if (value == entry.getValue().getCode()) {
+                return new SpinnerWithIconItem(
+                        entry.getKey(),
+                        (long) entry.getValue().getCode(),
+                        entry.getValue().getIcon()
+                );
             }
         }
         return null;
@@ -434,7 +436,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
             SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
             String activity = selectedItem.getText();
-            activityFilter = activityKindMap.get(activity);
+            activityFilter = activityKindMap.get(activity).getCode();
             update_filter_fields();
         }
 

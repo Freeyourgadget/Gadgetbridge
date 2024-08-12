@@ -111,7 +111,7 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
             // Set the info on the activity track
             activityTrack.setUser(user);
             activityTrack.setDevice(device);
-            activityTrack.setName(ActivityKind.asString(summary.getActivityKind(), support.getContext()));
+            activityTrack.setName(ActivityKind.fromCode(summary.getActivityKind()).getLabel(support.getContext()));
 
             // Save the raw bytes
             final String rawBytesPath = saveRawBytes(fileId, bytes);
@@ -149,6 +149,7 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
     private String saveRawBytes(final XiaomiActivityFileId fileId, final byte[] bytes) {
         try {
             final File targetFolder = new File(FileUtils.getExternalFilesDir(), "rawDetails");
+            //noinspection ResultOfMethodCallIgnored
             targetFolder.mkdirs();
             final File targetFile = new File(targetFolder, fileId.getFilename());
             FileOutputStream outputStream = new FileOutputStream(targetFile);

@@ -26,27 +26,21 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MakibesHR3ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class MakibesHR3SampleProvider extends AbstractSampleProvider<MakibesHR3ActivitySample> {
-
-    private GBDevice mDevice;
-    private DaoSession mSession;
-
     public MakibesHR3SampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
-
-        mSession = session;
-        mDevice = device;
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 
     @Override

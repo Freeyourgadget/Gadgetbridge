@@ -61,7 +61,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
 
         short version = buffer.getShort(); // version
         LOG.debug("Got sport summary version " + version + " total bytes=" + buffer.capacity());
-        int activityKind = ActivityKind.TYPE_UNKNOWN;
+        ActivityKind activityKind = ActivityKind.UNKNOWN;
         int rawKind = BLETypeConversions.toUnsigned(buffer.getShort());
         try {
             HuamiSportsActivityType activityType = HuamiSportsActivityType.fromCode(rawKind);
@@ -70,7 +70,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             LOG.error("Error mapping activity kind: " + ex.getMessage(), ex);
             summaryData.add("Raw Activity Kind", rawKind, UNIT_NONE);
         }
-        summary.setActivityKind(activityKind);
+        summary.setActivityKind(activityKind.getCode());
 
         // FIXME: should honor timezone we were in at that time etc
         long timestamp_start = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
@@ -192,7 +192,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             averageStride = buffer.getShort();
             maxHR = buffer.getShort();
 
-            if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING || activityKind == ActivityKind.TYPE_HIKING || activityKind == ActivityKind.TYPE_CLIMBING) {
+            if (activityKind == ActivityKind.CYCLING || activityKind == ActivityKind.RUNNING || activityKind == ActivityKind.HIKING || activityKind == ActivityKind.CLIMBING) {
                 // this had nonsense data with treadmill on bip s, need to test it with running
                 // for cycling it seems to work... hmm...
                 // 28 bytes
@@ -203,7 +203,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 descentSeconds = buffer.getInt() / 1000; //ms?
                 flatDistance = buffer.getFloat();
                 flatSeconds = buffer.getInt() / 1000; // ms?
-            } else if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
+            } else if (activityKind == ActivityKind.SWIMMING || activityKind == ActivityKind.SWIMMING_OPENWATER) {
                 // offset 0x8c
                 /*
                     data on the bip s display (example)
@@ -252,7 +252,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             totalStride = buffer.getFloat();
 
             buffer.getInt(); // unknown
-            if (activityKind == ActivityKind.TYPE_SWIMMING) {
+            if (activityKind == ActivityKind.SWIMMING) {
                 // 28 bytes
                 averageStrokeDistance = buffer.getFloat();
                 averageStrokesPerSecond = buffer.getFloat();
@@ -339,11 +339,11 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         summaryData.add(CADENCE_MIN, minCadence, UNIT_SPM);
         summaryData.add(CADENCE_AVG, averageCadence, UNIT_SPM);
 
-        if (!(activityKind == ActivityKind.TYPE_ELLIPTICAL_TRAINER ||
-                activityKind == ActivityKind.TYPE_JUMP_ROPING ||
-                activityKind == ActivityKind.TYPE_EXERCISE ||
-                activityKind == ActivityKind.TYPE_YOGA ||
-                activityKind == ActivityKind.TYPE_INDOOR_CYCLING)) {
+        if (!(activityKind == ActivityKind.ELLIPTICAL_TRAINER ||
+                activityKind == ActivityKind.JUMP_ROPING ||
+                activityKind == ActivityKind.EXERCISE ||
+                activityKind == ActivityKind.YOGA ||
+                activityKind == ActivityKind.INDOOR_CYCLING)) {
             summaryData.add(PACE_MIN, minPace, UNIT_SECONDS_PER_M);
             summaryData.add(PACE_MAX, maxPace, UNIT_SECONDS_PER_M);
             // summaryData.add("averagePace", averagePace, UNIT_SECONDS_PER_M);
@@ -359,7 +359,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         summaryData.add(STRIDE_MIN, minStride, UNIT_CM);
         // summaryData.add("averageStride2", averageStride2, UNIT_CM);
 
-        if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
+        if (activityKind == ActivityKind.SWIMMING || activityKind == ActivityKind.SWIMMING_OPENWATER) {
             summaryData.add(STROKE_DISTANCE_AVG, averageStrokeDistance, UNIT_METERS);
             summaryData.add(STROKE_AVG_PER_SECOND, averageStrokesPerSecond, UNIT_STROKES_PER_SECOND);
             summaryData.add(LAP_PACE_AVERAGE, averageLapPace, "second");

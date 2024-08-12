@@ -580,12 +580,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         if (heartRate > 0) {
             sample.setHeartRate(heartRate);
             sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
-            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+            sample.setRawKind(ActivityKind.ACTIVITY.getCode());
         } else {
             if (heartRate == MakibesHR3Constants.ARG_HEARTRATE_NO_TARGET) {
-                sample.setRawKind(ActivityKind.TYPE_NOT_WORN);
+                sample.setRawKind(ActivityKind.NOT_WORN.getCode());
             } else if (heartRate == MakibesHR3Constants.ARG_HEARTRATE_NO_READING) {
-                sample.setRawKind(ActivityKind.TYPE_NOT_MEASURED);
+                sample.setRawKind(ActivityKind.NOT_MEASURED.getCode());
             } else {
                 LOG.warn("invalid heart rate reading: " + heartRate);
                 return;
@@ -608,7 +608,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         sample.setHeartRate(heartRate);
         sample.setTimestamp(timeStamp);
 
-        sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+        sample.setRawKind(ActivityKind.ACTIVITY.getCode());
 
         this.addGBActivitySample(sample);
     }
@@ -622,12 +622,12 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         int newSteps = (steps - dayStepCount);
 
         if (newSteps > 0) {
-            LOG.debug("adding " + newSteps + " steps");
+            LOG.debug("adding {} steps", newSteps);
 
             sample.setSteps(steps - dayStepCount);
             sample.setTimestamp(timeStamp);
 
-            sample.setRawKind(ActivityKind.TYPE_ACTIVITY);
+            sample.setRawKind(ActivityKind.ACTIVITY.getCode());
 
             this.addGBActivitySample(sample);
         }
@@ -637,7 +637,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
      * The time is the start of the measurement. Each measurement lasts 1h.
      */
     private void onReceiveStepsSample(int year, int month, int day, int hour, int minute, int steps) {
-        LOG.debug("received steps sample " + year + "-" + month + "-" + day + " " + hour + ":" + minute + " " + steps);
+        LOG.debug("received steps sample {}-{}-{} {}:{} {}", year, month, day, hour, minute, steps);
 
         Calendar calendar = new GregorianCalendar(year, month - 1, day, hour + 1, minute);
 

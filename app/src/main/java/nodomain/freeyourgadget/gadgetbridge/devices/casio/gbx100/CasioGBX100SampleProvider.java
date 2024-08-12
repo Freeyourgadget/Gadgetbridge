@@ -19,11 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
-
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
@@ -31,22 +26,21 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class CasioGBX100SampleProvider extends AbstractSampleProvider<CasioGBX100ActivitySample> {
-    private static final Logger LOG = LoggerFactory.getLogger(CasioGBX100SampleProvider.class);
-
     public CasioGBX100SampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 
     @Override
-    public int normalizeType(int rawType) {
-        return rawType;
+    public ActivityKind normalizeType(int rawType) {
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
-        return activityKind;
+    public int toRawActivityKind(ActivityKind activityKind) {
+        return activityKind.getCode();
     }
 
     @Override
@@ -82,18 +76,5 @@ public class CasioGBX100SampleProvider extends AbstractSampleProvider<CasioGBX10
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
         return CasioGBX100ActivitySampleDao.Properties.DeviceId;
-    }
-
-
-    @NonNull
-    @Override
-    public List<CasioGBX100ActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
-        return super.getActivitySamples(timestamp_from, timestamp_to);
-    }
-
-    @NonNull
-    @Override
-    public List<CasioGBX100ActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
-        return super.getActivitySamples(timestamp_from, timestamp_to);
     }
 }

@@ -42,36 +42,36 @@ public class MiBandSampleProvider extends AbstractMiBandSampleProvider {
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         switch (rawType) {
             case TYPE_DEEP_SLEEP:
-                return ActivityKind.TYPE_DEEP_SLEEP;
+                return ActivityKind.DEEP_SLEEP;
             case TYPE_LIGHT_SLEEP:
-                return ActivityKind.TYPE_LIGHT_SLEEP;
+                return ActivityKind.LIGHT_SLEEP;
             case TYPE_ACTIVITY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case TYPE_NONWEAR:
-                return ActivityKind.TYPE_NOT_WORN;
+                return ActivityKind.NOT_WORN;
             case TYPE_CHARGING:
-                return ActivityKind.TYPE_NOT_WORN; //I believe it's a safe assumption
+                return ActivityKind.NOT_WORN; //I believe it's a safe assumption
             default:
 //            case TYPE_UNKNOWN: // fall through
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
+    public int toRawActivityKind(ActivityKind activityKind) {
         switch (activityKind) {
-            case ActivityKind.TYPE_ACTIVITY:
+            case ACTIVITY:
                 return TYPE_ACTIVITY;
-            case ActivityKind.TYPE_DEEP_SLEEP:
+            case DEEP_SLEEP:
                 return TYPE_DEEP_SLEEP;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
+            case LIGHT_SLEEP:
                 return TYPE_LIGHT_SLEEP;
-            case ActivityKind.TYPE_NOT_WORN:
+            case NOT_WORN:
                 return TYPE_NONWEAR;
-            case ActivityKind.TYPE_UNKNOWN: // fall through
+            case UNKNOWN: // fall through
             default:
                 return TYPE_UNKNOWN;
         }

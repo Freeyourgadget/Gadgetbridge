@@ -99,23 +99,23 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             final ActivityTrack track = detailsParser.parse(buffer.toByteArray());
             final ActivityTrackExporter exporter = createExporter();
             final String trackType;
-            switch (summary.getActivityKind()) {
-                case ActivityKind.TYPE_CYCLING:
+            switch (ActivityKind.fromCode(summary.getActivityKind())) {
+                case CYCLING:
                     trackType = getContext().getString(R.string.activity_type_biking);
                     break;
-                case ActivityKind.TYPE_RUNNING:
+                case RUNNING:
                     trackType = getContext().getString(R.string.activity_type_running);
                     break;
-                case ActivityKind.TYPE_WALKING:
+                case WALKING:
                     trackType = getContext().getString(R.string.activity_type_walking);
                     break;
-                case ActivityKind.TYPE_HIKING:
+                case HIKING:
                     trackType = getContext().getString(R.string.activity_type_hiking);
                     break;
-                case ActivityKind.TYPE_CLIMBING:
+                case CLIMBING:
                     trackType = getContext().getString(R.string.activity_type_climbing);
                     break;
-                case ActivityKind.TYPE_SWIMMING:
+                case SWIMMING:
                     trackType = getContext().getString(R.string.activity_type_swimming);
                     break;
                 default:
@@ -207,6 +207,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
         try {
             final File targetFolder = new File(FileUtils.getExternalFilesDir(), "rawDetails");
+            //noinspection ResultOfMethodCallIgnored
             targetFolder.mkdirs();
             final File targetFile = new File(targetFolder, fileName);
             outputStream = new FileOutputStream(targetFile);

@@ -122,46 +122,46 @@ public class HuaweiWorkoutGbParser {
         }
     }
 
-    public static int huaweiTypeToGbType(byte huaweiType) {
+    public static ActivityKind huaweiTypeToGbType(byte huaweiType) {
         int type = huaweiType & 0xFF;
         switch (type) {
             case 1:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case 2:
             case 13:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case 6:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case 3:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case 7:
-                return ActivityKind.TYPE_INDOOR_CYCLING;
+                return ActivityKind.INDOOR_CYCLING;
             case 129:
-                return ActivityKind.TYPE_BADMINTON;
+                return ActivityKind.BADMINTON;
             case 130:
-                return ActivityKind.TYPE_EXERCISE; // TODO: Tennis
+                return ActivityKind.EXERCISE; // TODO: Tennis
             case 131:
-                return ActivityKind.TYPE_SOCCER;
+                return ActivityKind.SOCCER;
             case 132:
-                return ActivityKind.TYPE_BASKETBALL;
+                return ActivityKind.BASKETBALL;
             case 133:
-                return ActivityKind.TYPE_EXERCISE; // TODO: Volleyball
+                return ActivityKind.EXERCISE; // TODO: Volleyball
             case 134:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case 135:
-                return ActivityKind.TYPE_ROWING_MACHINE;
+                return ActivityKind.ROWING_MACHINE;
             case 163:
-                return ActivityKind.TYPE_EXERCISE; // TODO: Roller skating
+                return ActivityKind.EXERCISE; // TODO: Roller skating
             case 173:
-                return ActivityKind.TYPE_EXERCISE; // TODO: Laser tag
+                return ActivityKind.EXERCISE; // TODO: Laser tag
             case 177:
-                return ActivityKind.TYPE_EXERCISE; // TODO: stair climbing
+                return ActivityKind.EXERCISE; // TODO: stair climbing
             case 196:
-                return ActivityKind.TYPE_EXERCISE; // TODO: fishing
+                return ActivityKind.EXERCISE; // TODO: fishing
             case 216:
-                return ActivityKind.TYPE_EXERCISE; // TODO: motor racing
+                return ActivityKind.EXERCISE; // TODO: motor racing
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 
@@ -204,7 +204,7 @@ public class HuaweiWorkoutGbParser {
             if (!duplicates.isEmpty())
                 previous = duplicates.get(0);
 
-            int type = huaweiTypeToGbType(summary.getType());
+            ActivityKind type = huaweiTypeToGbType(summary.getType());
 
             JSONObject jsonObject = new JSONObject();
 
@@ -274,7 +274,7 @@ public class HuaweiWorkoutGbParser {
             }
 
             boolean unknownData = false;
-            if (dataSamples.size() != 0) {
+            if (!dataSamples.isEmpty()) {
                 int speed = 0;
                 int speedCount = 0;
                 boolean stepRatePresent = false;
@@ -712,7 +712,7 @@ public class HuaweiWorkoutGbParser {
                         "Workout " + summary.getWorkoutNumber(),
                         start,
                         end,
-                        type,
+                        type.getCode(),
                         null,
                         null,
                         null,
@@ -729,7 +729,7 @@ public class HuaweiWorkoutGbParser {
                         previous.getName(),
                         start,
                         end,
-                        type,
+                        type.getCode(),
                         previous.getBaseLongitude(),
                         previous.getBaseLatitude(),
                         previous.getBaseAltitude(),

@@ -61,7 +61,7 @@ public enum WithingsActivityType {
     RIDING(26),
     OTHER(36);
 
-    private int code;
+    private final int code;
 
     WithingsActivityType(int typeCode) {
         this.code = typeCode;
@@ -80,80 +80,80 @@ public enum WithingsActivityType {
         return code;
     }
 
-    public int toActivityKind() {
+    public ActivityKind toActivityKind() {
         switch (this) {
             case WALKING:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case RUNNING:
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case HIKING:
-                return ActivityKind.TYPE_HIKING;
+                return ActivityKind.HIKING;
             case BIKING:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
             case SWIMMING:
-                return ActivityKind.TYPE_SWIMMING;
+                return ActivityKind.SWIMMING;
             case SURFING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case KITESURFING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case WINDSURFING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case TENNIS:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case PINGPONG:
-                return ActivityKind.TYPE_PINGPONG;
+                return ActivityKind.PINGPONG;
             case SQUASH:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case BADMINTON:
-                return ActivityKind.TYPE_BADMINTON;
+                return ActivityKind.BADMINTON;
             case WEIGHTLIFTING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case GYMNASTICS:
-                return ActivityKind.TYPE_EXERCISE;
+                return ActivityKind.EXERCISE;
             case ELLIPTICAL:
-                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+                return ActivityKind.ELLIPTICAL_TRAINER;
             case PILATES:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
             case BASKETBALL:
-                return ActivityKind.TYPE_BASKETBALL;
+                return ActivityKind.BASKETBALL;
             case SOCCER:
-                return ActivityKind.TYPE_SOCCER;
+                return ActivityKind.SOCCER;
             case FOOTBALL:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case RUGBY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case VOLLEYBALL:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case GOLFING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case YOGA:
-                return ActivityKind.TYPE_YOGA;
+                return ActivityKind.YOGA;
             case DANCING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case BOXING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case SKIING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case SNOWBOARDING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case ROWING:
-                return ActivityKind.TYPE_ROWING_MACHINE;
+                return ActivityKind.ROWING_MACHINE;
             case ZUMBA:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case BASEBALL:
-                return ActivityKind.TYPE_CRICKET;
+                return ActivityKind.CRICKET;
             case HANDBALL:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case HOCKEY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case ICEHOCKEY:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             case CLIMBING:
-                return ActivityKind.TYPE_CLIMBING;
+                return ActivityKind.CLIMBING;
             case ICESKATING:
-                return ActivityKind.TYPE_ACTIVITY;
+                return ActivityKind.ACTIVITY;
             default:
-                return ActivityKind.TYPE_UNKNOWN;
+                return ActivityKind.UNKNOWN;
         }
     }
 

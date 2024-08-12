@@ -44,17 +44,17 @@ public class SampleProviderTest extends TestBase {
     @Test
     public void testActivityKind() {
         MiBandSampleProvider sampleProvider = new MiBandSampleProvider(dummyGBDevice, daoSession);
-        int type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_ACTIVITY);
-        assertEquals(ActivityKind.TYPE_ACTIVITY, type);
+        ActivityKind type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_ACTIVITY);
+        assertEquals(ActivityKind.ACTIVITY, type);
 
         type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_DEEP_SLEEP);
-        assertEquals(ActivityKind.TYPE_DEEP_SLEEP, type);
+        assertEquals(ActivityKind.DEEP_SLEEP, type);
 
         type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_LIGHT_SLEEP);
-        assertEquals(ActivityKind.TYPE_LIGHT_SLEEP, type);
+        assertEquals(ActivityKind.LIGHT_SLEEP, type);
 
         type = sampleProvider.normalizeType(MiBandSampleProvider.TYPE_NONWEAR);
-        assertEquals(ActivityKind.TYPE_NOT_WORN, type);
+        assertEquals(ActivityKind.NOT_WORN, type);
     }
 
     @Test
@@ -77,16 +77,6 @@ public class SampleProviderTest extends TestBase {
         assertEquals(0, samples.size());
 
         samples = sampleProvider.getActivitySamples(1, -1);
-        assertEquals(0, samples.size());
-
-        // and sleep
-        samples = sampleProvider.getSleepSamples(0, 0);
-        assertEquals(0, samples.size());
-
-        samples = sampleProvider.getSleepSamples(-1, 1);
-        assertEquals(0, samples.size());
-
-        samples = sampleProvider.getSleepSamples(1, -1);
         assertEquals(0, samples.size());
     }
 
@@ -144,30 +134,16 @@ public class SampleProviderTest extends TestBase {
         samples = sampleProvider.getActivitySamples(1, -1);
         assertEquals(0, samples.size());
 
-        // and sleep
-        samples = sampleProvider.getSleepSamples(0, 0);
-        assertEquals(0, samples.size());
-
-        samples = sampleProvider.getSleepSamples(-1, 1);
-        assertEquals(0, samples.size());
-
-        samples = sampleProvider.getSleepSamples(1, -1);
-        assertEquals(0, samples.size());
-
         // finally checks for existing timestamps
         List<MiBandActivitySample> allSamples = sampleProvider.getAllActivitySamples(0, 10000);
         assertEquals(4, allSamples.size());
         List<MiBandActivitySample> activitySamples = sampleProvider.getActivitySamples(0, 10000);
         assertEquals(2, activitySamples.size());
-        List<MiBandActivitySample> sleepSamples = sampleProvider.getSleepSamples(0, 10000);
-        assertEquals(2, sleepSamples.size());
 
         // now with more strict time ranges
         allSamples = sampleProvider.getAllActivitySamples(0, 1300);
         assertEquals(3, allSamples.size());
         activitySamples = sampleProvider.getActivitySamples(10, 150);
         assertEquals(1, activitySamples.size());
-        sleepSamples = sampleProvider.getSleepSamples(1500, 2500);
-        assertEquals(1, sleepSamples.size());
     }
 }

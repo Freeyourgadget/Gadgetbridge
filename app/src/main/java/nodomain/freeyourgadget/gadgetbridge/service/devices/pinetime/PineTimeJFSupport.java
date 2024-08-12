@@ -1126,7 +1126,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             sample.setTimestamp(timeStamp);
 
             // since it's a local timestamp, it should NOT be treated as Activity because it will spoil activity charts
-            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
 
             this.addGBActivitySample(sample);
 
@@ -1152,7 +1152,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             sample.setHeartRate(heartrate);
             sample.setTimestamp(timeStamp);
             // since it's a local timestamp, it should NOT be treated as Activity because it will spoil activity charts
-            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
 
             this.addGBActivitySample(sample);
 

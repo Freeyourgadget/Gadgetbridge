@@ -93,11 +93,11 @@ public class DailyTotals {
         long totalSecondsLightSleep = 0;
         long totalSecondsRemSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
-            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
+            if (amount.getActivityKind() == ActivityKind.DEEP_SLEEP) {
                 totalSecondsDeepSleep += amount.getTotalSeconds();
-            } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+            } else if (amount.getActivityKind() == ActivityKind.LIGHT_SLEEP) {
                 totalSecondsLightSleep += amount.getTotalSeconds();
-            } else if (amount.getActivityKind() == ActivityKind.TYPE_REM_SLEEP) {
+            } else if (amount.getActivityKind() == ActivityKind.REM_SLEEP) {
                 totalSecondsRemSleep += amount.getTotalSeconds();
             }
         }

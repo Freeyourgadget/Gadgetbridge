@@ -102,13 +102,13 @@ public class XiaomiSimpleActivityParser {
                 // TODO use XiaomiWorkoutType
                 switch (value.intValue()) {
                     case 2:
-                        summary.setActivityKind(ActivityKind.TYPE_WALKING);
+                        summary.setActivityKind(ActivityKind.WALKING.getCode());
                         break;
                     case 6:
-                        summary.setActivityKind(ActivityKind.TYPE_CYCLING);
+                        summary.setActivityKind(ActivityKind.CYCLING.getCode());
                         break;
                     default:
-                        summary.setActivityKind(ActivityKind.TYPE_UNKNOWN);
+                        summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
                 }
             } else {
                 summaryData.add(dataEntry.getKey(), value.floatValue(), dataEntry.getUnit());

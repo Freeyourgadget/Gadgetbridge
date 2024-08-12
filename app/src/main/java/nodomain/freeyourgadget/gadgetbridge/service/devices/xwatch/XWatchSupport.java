@@ -359,7 +359,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                         value[5]
                 );
 
-                category = ActivityKind.TYPE_ACTIVITY;
+                category = ActivityKind.ACTIVITY.getCode();
                 intensity = (value[7] & 255) + ((value[8] & 255) << 8);
                 steps = (value[9] & 255) + ((value[10] & 255) << 8);
 

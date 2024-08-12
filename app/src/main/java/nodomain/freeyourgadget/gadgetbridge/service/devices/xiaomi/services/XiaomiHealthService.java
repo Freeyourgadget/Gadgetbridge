@@ -752,23 +752,23 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         }
     }
 
-    private int sportToActivityKind(final int sport) {
+    private ActivityKind sportToActivityKind(final int sport) {
         switch (sport) {
             case 1: // outdoor run
             case 5: // trail run
-                return ActivityKind.TYPE_RUNNING;
+                return ActivityKind.RUNNING;
             case 2:
-                return ActivityKind.TYPE_WALKING;
+                return ActivityKind.WALKING;
             case 3: // hiking
             case 4: // trekking
-                return ActivityKind.TYPE_HIKING;
+                return ActivityKind.HIKING;
             case 6:
-                return ActivityKind.TYPE_CYCLING;
+                return ActivityKind.CYCLING;
         }
 
         LOG.warn("Unknown sport {}", sport);
 
-        return ActivityKind.TYPE_UNKNOWN;
+        return ActivityKind.UNKNOWN;
     }
 
     public XiaomiActivityFileFetcher getActivityFetcher() {
@@ -931,10 +931,10 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             sample.setTimestamp(ts);
             sample.setHeartRate(realTimeStats.getHeartRate());
             sample.setSteps(realTimeStats.getSteps() - previousSteps);
-            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
             sample.setHeartRate(realTimeStats.getHeartRate());
             sample.setRawIntensity(ActivitySample.NOT_MEASURED);
-            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
         } catch (final Exception e) {
             LOG.error("Error creating activity sample", e);
             return;
