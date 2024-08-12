@@ -3182,4 +3182,8 @@
     <string name="soundcore_equalizer_band7">Band 7</string>
     <string name="soundcore_equalizer_band6">Band 6</string>
     <string name="soundcore_equalizer_band8">Band 8</string>
+    <string name="body_energy_lost">Verloren</string>
+    <string name="body_energy_legend_level">Körperliches Energieniveau</string>
+    <string name="body_energy_gained">Gewonnen</string>
+    <string name="body_energy">Körperenergie</string>
 </resources>
