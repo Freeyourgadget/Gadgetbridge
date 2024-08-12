@@ -1720,6 +1720,7 @@
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
     <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
     <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>
@@ -2606,6 +2607,13 @@
     <string name="soundcore_equalizer_band9">Band 9</string>
     <string name="soundcore_equalizer_frequency">Frequency</string>
     <string name="soundcore_equalizer_value">Value</string>
+    <string name="miscale_weight_unit_title">Weight Unit</string>
+    <string name="miscale_weight_unit_summary">Set unit of weight for displayed measurements</string>
+    <string name="miscale_weight_unit_metric">Metric (kg)</string>
+    <string name="miscale_weight_unit_imperial">Imperial (lbs)</string>
+    <string name="miscale_weight_unit_chinese">Chinese (jin)</string>
+    <string name="miscale_small_objects_title">Small Objects</string>
+    <string name="miscale_small_objects_summary">Store weight of objects lighter than 10 kg</string>
     <string name="protocol_version">Protocol Version</string>
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>

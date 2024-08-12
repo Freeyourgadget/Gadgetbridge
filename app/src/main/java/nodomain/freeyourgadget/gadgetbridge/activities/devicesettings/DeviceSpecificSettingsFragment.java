@@ -757,6 +757,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ANC_MODE_EARBUD);
         addPreferenceHandlerFor(PREF_MOONDROP_TOUCH_ANC_MODE_TRIGGER);
 
+        addPreferenceHandlerFor(PREF_MISCALE_WEIGHT_UNIT);
+        addPreferenceHandlerFor(PREF_MISCALE_SMALL_OBJECTS);
+
         addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);

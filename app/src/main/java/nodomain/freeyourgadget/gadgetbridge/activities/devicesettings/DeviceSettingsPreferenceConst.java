@@ -449,6 +449,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_MOONDROP_TOUCH_ANC_MODE_EARBUD = "pref_moondrop_touch_anc_mode_earbud";
     public static final String PREF_MOONDROP_TOUCH_ANC_MODE_TRIGGER = "pref_moondrop_touch_anc_mode_trigger";
 
+    public static final String PREF_MISCALE_WEIGHT_UNIT = "pref_miscale_weight_unit";
+    public static final String PREF_MISCALE_SMALL_OBJECTS = "pref_miscale_small_objects";
+
     public static final String PREF_QC35_NOISE_CANCELLING_LEVEL = "qc35_noise_cancelling_level";
 
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD = "prefs_activity_in_device_card";

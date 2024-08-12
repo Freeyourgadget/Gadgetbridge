@@ -3722,6 +3722,18 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="miscale_weight_unit_names">
+        <item>@string/miscale_weight_unit_metric</item>
+        <item>@string/miscale_weight_unit_imperial</item>
+        <item>@string/miscale_weight_unit_chinese</item>
+    </string-array>
+
+    <string-array name="miscale_weight_unit_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="fitness_tracking_apps_package_names">
         <item>de.dennisguse.opentracks</item>
         <item>de.dennisguse.opentracks.playStore</item>
