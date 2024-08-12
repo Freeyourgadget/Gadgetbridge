@@ -50,9 +50,13 @@ public class SoundcoreMotion300SettingsCustomizer implements DeviceSpecificSetti
         if (!preference.getKey().equals(PREF_SOUNDCORE_EQUALIZER_PRESET))
             return;
 
-        String preset = ((ListPreference)preference).getEntry().toString();
+        CharSequence preset = ((ListPreference)preference).getEntry();
+
+        if (preset == null)
+            return;
+
         Preference pref = handler.findPreference(PREF_SOUNDCORE_EQUALIZER_CUSTOM);
-        boolean customEnabled = preset.equals(handler.getContext().getString(R.string.custom));
+        boolean customEnabled = preset.toString().equals(handler.getContext().getString(R.string.custom));
 
         if (pref != null)
             pref.setEnabled(customEnabled);

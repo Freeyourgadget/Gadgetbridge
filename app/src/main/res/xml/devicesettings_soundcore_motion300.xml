@@ -7,6 +7,7 @@
         android:layout="@layout/preference_checkbox"
         android:title="@string/soundcore_voice_prompts" />
     <ListPreference
+        android:defaultValue="70"
         android:entries="@array/soundcore_button_brightness_names"
         android:entryValues="@array/soundcore_button_brightness_values"
         android:icon="@drawable/ic_wb_sunny"
@@ -14,6 +15,7 @@
         android:summary="%s"
         android:title="@string/soundcore_button_brightness" />
     <ListPreference
+        android:defaultValue="3"
         android:entries="@array/soundcore_auto_power_off_names"
         android:entryValues="@array/soundcore_auto_power_off_values"
         android:icon="@drawable/ic_power_settings_new"
