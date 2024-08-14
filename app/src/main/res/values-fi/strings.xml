@@ -593,4 +593,9 @@
     <string name="gadgetbridge_running_main_nightly">Gadgetbridge Nightly on käynnissä</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge Nightly</string>
     <string name="application_name_main_nightly">Gadgetbridge Nightly</string>
+    <string name="device_not_connected">Ei yhdistetty.</string>
+    <string name="pref_header_audio">Ääni</string>
+    <string name="dateformat_time">Aika</string>
+    <string name="dateformat_date_time">Aika ja päivämäärä</string>
+    <string name="prefs_find_phone">Etsi puhelin</string>
 </resources>
