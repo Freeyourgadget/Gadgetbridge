@@ -32,6 +32,8 @@ public abstract class GFDIStatusMessage extends GFDIMessage {
             return FitDefinitionStatusMessage.parseIncoming(reader, originalGarminMessage);
         } else if (GarminMessage.FIT_DATA.equals(originalGarminMessage)) {
             return FitDataStatusMessage.parseIncoming(reader, originalGarminMessage);
+        } else if (GarminMessage.AUTH_NEGOTIATION.equals(originalGarminMessage)) {
+            return AuthNegotiationStatusMessage.parseIncoming(reader, originalGarminMessage);
         } else {
             final Status status = Status.fromCode(reader.readByte());
 

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.EnumUtils;
 
 import java.util.EnumSet;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.AuthNegotiationStatusMessage;
+
 public class AuthNegotiationMessage extends GFDIMessage {
 
     private final int unknown;
@@ -16,7 +18,7 @@ public class AuthNegotiationMessage extends GFDIMessage {
 
         LOG.info("Message {}, unkByte: {}, flags: {}", garminMessage, unknown, requestedAuthFlags);
 
-        this.statusMessage = getStatusMessage();
+        this.statusMessage = new AuthNegotiationStatusMessage(garminMessage, Status.ACK, AuthNegotiationStatusMessage.AuthNegotiationStatus.GUESS_OK, 0, EnumSet.noneOf(AuthFlags.class));
     }
 
     public static AuthNegotiationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
@@ -38,10 +40,10 @@ public class AuthNegotiationMessage extends GFDIMessage {
         writer.writeByte(0);
         writer.writeInt((int) EnumUtils.generateBitVector(AuthFlags.class, EnumSet.noneOf(AuthFlags.class)));
 
-        return true;
+        return false;
     }
 
-    private enum AuthFlags {
+    public enum AuthFlags {
         UNK_00000001, //saw in logs
         UNK_00000010,
         UNK_00000100,
