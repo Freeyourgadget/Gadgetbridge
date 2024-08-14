@@ -3182,4 +3182,5 @@
     <string name="body_energy_legend_level">Nivel de Body Energy</string>
     <string name="body_energy">Body Energy</string>
     <string name="body_energy_gained">Ganada</string>
+    <string name="transition">Transición</string>
 </resources>
