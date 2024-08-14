@@ -1289,7 +1289,7 @@
     <string name="button_watchface_add_widget">添加窗口小部件</string>
     <string name="button_watchface_select_image">修改背景图片</string>
     <string name="button_watchface_edit_name">编辑名称</string>
-    <string name="set">设置为</string>
+    <string name="set">设置</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
     <string name="watchface_upload_failed">上传表盘失败，请再试一次。</string>
     <string name="watchface_cache_confirm_overwrite">在缓存中发现同名的表盘，是否要覆盖？</string>
