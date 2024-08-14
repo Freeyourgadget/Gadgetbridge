@@ -538,7 +538,7 @@
     <string name="horizontal">Horizontaal</string>
     <string name="vertical">Verticaal</string>
     <string name="watch9_pairing_tap_hint">Wanneer het horloge trilt, schud het of druk op de knop.</string>
-    <string name="you_slept">Je sliep van %1$s tot %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">Je hebt niet geslapen</string>
     <string name="mi3_prefs_band_screen_unlock">Band scherm vrijgeven</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Veeg omhoog om het scherm vrij te geven</string>
@@ -937,7 +937,7 @@
     <string name="device_requires_key">SLEUTEL VEREIST, LANG INDRUKKEN OM IN TE VOEREN</string>
     <string name="device_is_currently_bonded">REEDS GEKOPPELD</string>
     <string name="companiondevice_pairing_details">Schakelt de nieuwe CompanionDevice API-ondersteuning in (heeft alleen een effect op Android 8 of hoger), wat de betrouwbaarheid verhoogt als de service op de achtergrond opnieuw moet worden opgestart, vereist opnieuw koppelen met Gadgetbridge om effect te hebben</string>
-    <string name="companiondevice_pairing">CompanionApparaat koppelen</string>
+    <string name="companiondevice_pairing">Companion-apparaat koppelen</string>
     <string name="require_location_provider">Locatie moet ingeschakeld zijn</string>
     <string name="minAltitude">Minimaal</string>
     <string name="maxAltitude">Maximaal</string>
@@ -2207,8 +2207,8 @@
     <string name="fossil_hr_confirmation_skipped">Bevestiging op apparaat overslaan</string>
     <string name="fossil_hr_confirmation_timeout">Time-out voor bevestiging</string>
     <string name="fossil_hr_confirm_connection">Bevestig alstublieft op het horloge</string>
-    <string name="debug_companion_show_associated">Toon CompanionDevice-koppelingen</string>
-    <string name="debug_companion_pair_current">Koppel het huidige apparaat als CompanionDevice</string>
+    <string name="debug_companion_show_associated">Toon Companion-apparaatkoppelingen</string>
+    <string name="debug_companion_pair_current">Koppel het huidige apparaat als Companion-apparaat</string>
     <string name="activity_error_share_failed">Bestand delen is mislukt.</string>
     <string name="activity_detail_share_gps_label">GPS-track delen</string>
     <string name="activity_detail_share_raw_summary">Ruwe samenvatting delen</string>
@@ -2841,12 +2841,12 @@
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="alarm_smart_wakeup_interval_default">5 minuten</string>
     <string name="alarm_smart_wakeup_interval">Interval slim wekken:</string>
-    <string name="companion_pairing_request_title">Bijbehorend apparaat</string>
+    <string name="companion_pairing_request_title">Companion-apparaat</string>
     <string name="unbind_before_pair_title">Al gekoppeld</string>
     <string name="unbind_before_pair_message">Dit apparaat is al gekoppeld aan de Android-instellingen, waardoor het koppelen op sommige apparaten kan mislukken.
 \n
 \nAls het toevoegen van het apparaat mislukt, verwijder het dan in de Android-instellingen en probeer het opnieuw.</string>
-    <string name="companion_pairing_request_description">Koppel je dit apparaat als begeleider?
+    <string name="companion_pairing_request_description">Koppel je dit apparaat als Companion?
 \n
 \nDit wordt aanbevolen voor sommige functies zoals zoeken naar apparaten en biedt een betere verbinding.</string>
     <string name="devicesetting_scannable_minimum_unseen_summary">Na te zijn gevonden, moet het apparaat deze tijd buiten bereik zijn om opnieuw gevonden te kunnen worden</string>
@@ -3107,4 +3107,27 @@
     <string name="devicetype_nothing_cmf_buds_pro_2">CMF Buds Pro 2</string>
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_vivosport">Garmin Vívosport</string>
+    <string name="minutes_60">60 minuten</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="sleep_colored_stats_deep_avg">Diep gemiddeld</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">Laagste HR</string>
+    <string name="hrv_status_day_avg">Daggemiddelde</string>
+    <string name="hrv_status_day_avg_legend">Daggemiddelde (ms)</string>
+    <string name="hrv_status_balanced">Gebalanceerd</string>
+    <string name="hrv_status_unbalanced">Uit balans</string>
+    <string name="minutes_20">20 minuten</string>
+    <string name="hrv_status_seven_days_avg">7-dagengemiddelde</string>
+    <string name="hrv_status_seven_days_avg_status">Status</string>
+    <string name="sleep_colored_stats_deep">Diep</string>
+    <string name="sleep_colored_stats_light">Licht</string>
+    <string name="sleep_colored_stats_light_avg">Licht gemiddeld</string>
+    <string name="sleep_colored_stats_rem_avg">REM gemiddeld</string>
+    <string name="find_my_phone_companion_warning">Companion-koppeling is vereist voor de telefoon-vinden-functionaliteit. Klik hier voor meer informatie.</string>
+    <string name="stats_highest_hr">Hoogste HR</string>
+    <string name="hrv_status">HRV-status</string>
+    <string name="hrv_status_low">Laag</string>
+    <string name="hrv_status_poor">Slecht</string>
+    <string name="hrv_status_last_night">Afgelopen nacht</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
