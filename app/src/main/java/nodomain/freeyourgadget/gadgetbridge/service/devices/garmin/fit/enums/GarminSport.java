@@ -2,7 +2,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums;
 
 import java.util.Optional;
 
-// Taken from CHANGELOG.fit of a Venu 3, Garmin API doc and FIT files
+// Taken from CHANGELOG.fit of a Venu 3,
+// Garmin API doc (https://developer.garmin.com/connect-iq/api-docs/Toybox/Activity.html)
+// and FIT files
 public enum GarminSport {
     NAVIGATE(0, 50),
     RUN(1, 0),
@@ -28,7 +30,7 @@ public enum GarminSport {
     PLATFORM_TENNIS(8, 93),
     TABLE_TENNIS(8, 97),
     AMERICAN_FOOTBALL(9, 0),
-    TRAINING(10, O),
+    TRAINING(10, 0),
     STRENGTH(10, 20),
     CARDIO(10, 26),
     YOGA(10, 43),
