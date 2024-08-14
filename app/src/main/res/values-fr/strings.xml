@@ -3107,4 +3107,5 @@ Temps de sommeil préféré en heures</string>
     <string name="hrv_status_seven_days_avg_long">Moyenne sur 7 jours</string>
     <string name="hrv_status_baseline_label">Ligne de base</string>
     <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="activity_prefs_height_inches">Taille en pouces</string>
 </resources>
