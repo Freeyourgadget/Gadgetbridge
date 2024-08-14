@@ -402,6 +402,10 @@ public class FitImporter {
             case CLIMB_INDOOR:
             case BOULDERING:
                 return ActivityKind.TYPE_CLIMBING;
+            case BASKETBALL:
+                return ActivityKind.TYPE_BASKETBALL;
+            case JUMP_ROPE:
+                return ActivityKind.TYPE_JUMP_ROPING;
         }
 
         return ActivityKind.TYPE_UNKNOWN;
