@@ -2671,7 +2671,7 @@
     <string name="dnd_all_day">Весь день</string>
     <string name="pref_header_audio">Аудіо</string>
     <string name="pref_header_generic">Загальні</string>
-    <string name="pref_summary_notification_wake_on_open">Вмикати та розблоковувати Android пристрій, коли гаджет надсилає відповідь \"ВІДКРИТО\" назад. Потрібно бути в довіреному стані.</string>
+    <string name="pref_summary_notification_wake_on_open">Вмикати та розблоковувати Android пристрій, коли гаджет надсилає відповідь \"ВІДКРИТО\". Має бути в довіреному стані.</string>
     <string name="proprietary_app_warning">Ця функція потребує встановлення пропрієтарного застосунку</string>
     <string name="pref_title_notification_wake_on_open">Автоматичне увімкнення та розблокування</string>
     <string name="fw_upgrade_notice_amazfitbip3">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit Bip 3.
@@ -2682,7 +2682,7 @@
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="busy_task_fetch_sports_details_interrupted">Отримання спортивних подробиць було перервано</string>
-    <string name="prefs_heartrate_alert_active_high_threshold">Межа попередження про пульс під час сильної активності</string>
+    <string name="prefs_heartrate_alert_active_high_threshold">Поріг попередження про високий пульс</string>
     <string name="notif_battery_full_title">Батарея пристрою повністю заряджена!</string>
     <string name="notif_battery_full">%1$s батарея повністю заряджена</string>
     <string name="pref_touch_tone">Сигнал при дотику</string>
@@ -2868,4 +2868,43 @@
     <string name="stats_empty_value">-</string>
     <string name="stats_lowest_hr">Найнижчий пульс</string>
     <string name="stats_highest_hr">Найвищий пульс</string>
+    <string name="pref_dashboard_all_devices_title">Усі пристрої</string>
+    <string name="pref_title_notification_times_enabled">Час сповіщень</string>
+    <string name="garmin_agps_local_file">Локальний файл</string>
+    <string name="no_folder_selected">Теку не вибрано</string>
+    <string name="minutes_20">20 хвилин</string>
+    <string name="pref_sleepasandroid_feat_oximetry">Оксиметрія</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Інтервал вимірювання пульсу</string>
+    <string name="minutes_60">60 хвилин</string>
+    <string name="folder">Тека</string>
+    <string name="pref_summary_notification_times_enabled">Надсилати сповіщення лише у вказаний проміжок часу</string>
+    <string name="pref_title_wheel_diameter">Діаметр колеса</string>
+    <string name="pref_title_bottom_navigation_bar">Нижня панель навігації</string>
+    <string name="pref_sleepasandroid_feat_heartrate">Пульс</string>
+    <string name="bottom_nav_devices">Пристрої</string>
+    <string name="pref_dashboard_select_devices_title">Вибрати пристрої...</string>
+    <string name="chart_cycling_point_label_distance">Сьогодні: %.1f км
+\nВсього: %.1f км</string>
+    <string name="pref_sleepasandroid_feat_spo2">SPO2</string>
+    <string name="pref_sleepasandroid_feat_movement">Акселерометр</string>
+    <string name="folder_is_empty">Тека порожня</string>
+    <string name="chart_cycling_point_label_speed">%.1f км/год</string>
+    <string name="loading">Завантаження…</string>
+    <string name="show_in_notification">Показати сповіщення</string>
+    <string name="unsupported">Не підтримується</string>
+    <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
+    <string name="min_val">Мінімум: %d</string>
+    <string name="max_val">Максимум: %d</string>
+    <string name="battery_full_notify_enabled">Сповіщати про завершення заряджання</string>
+    <string name="battery_percentage_str">%1$s%%</string>
+    <string name="pref_sleepasandroid_feat_alarms">Будильники</string>
+    <string name="battery_low_notify_enabled">Сповіщати про низький заряд</string>
+    <string name="battery_low_threshold">Поріг низького заряду</string>
+    <string name="battery_full_threshold">Поріг завершення заряджання</string>
+    <string name="default_percentage">Усталено (%1$d%%)</string>
+    <string name="pref_header_calls_and_notifications">Виклики та сповіщення</string>
+    <string name="pref_sleepasandroid_feat_notifications">Сповіщення</string>
+    <string name="url">URL</string>
+    <string name="hrv_status">Стан HRV</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
