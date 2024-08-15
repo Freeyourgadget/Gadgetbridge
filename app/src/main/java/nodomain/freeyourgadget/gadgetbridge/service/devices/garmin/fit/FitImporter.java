@@ -357,55 +357,15 @@ public class FitImporter {
 
     private ActivityKind getActivityKind(final Integer sport, final Integer subsport) {
         final Optional<GarminSport> garminSport = GarminSport.fromCodes(sport, subsport);
-        if (garminSport.isEmpty()) {
+        if (garminSport.isPresent()) {
+            return garminSport.get().getActivityKind();
+        } else {
             LOG.warn("Unknown garmin sport {}/{}", sport, subsport);
-            return ActivityKind.UNKNOWN;
-        }
 
-        switch (garminSport.get()) {
-            case RUN:
-            case PUSH_RUN_SPEED:
-            case INDOOR_PUSH_RUN_SPEED:
-            case INDOOR_TRACK:
-                return ActivityKind.RUNNING;
-            case TREADMILL:
-                return ActivityKind.TREADMILL;
-            case E_BIKE:
-            case BIKE:
-            case BIKE_COMMUTE:
-                return ActivityKind.CYCLING;
-            case BIKE_INDOOR:
-                return ActivityKind.INDOOR_CYCLING;
-            case ELLIPTICAL:
-                return ActivityKind.ELLIPTICAL_TRAINER;
-            case STAIR_STEPPER:
-            case PILATES:
-            case CARDIO:
-                return ActivityKind.EXERCISE;
-            case POOL_SWIM:
-                return ActivityKind.SWIMMING;
-            case OPEN_WATER:
-                return ActivityKind.SWIMMING_OPENWATER;
-            case SOCCER:
-                return ActivityKind.SOCCER;
-            case STRENGTH:
-                return ActivityKind.STRENGTH_TRAINING;
-            case YOGA:
-                return ActivityKind.YOGA;
-            case WALK:
-            case WALK_INDOOR:
-            case PUSH_WALK_SPEED:
-            case INDOOR_PUSH_WALK_SPEED:
-                return ActivityKind.WALKING;
-            case HIKE:
-                return ActivityKind.HIKING;
-            case CLIMB_INDOOR:
-            case BOULDERING:
-                return ActivityKind.CLIMBING;
-            case BASKETBALL:
-                return ActivityKind.BASKETBALL;
-            case JUMP_ROPE:
-                return ActivityKind.JUMP_ROPING;
+            final Optional<GarminSport> optGarminSportFallback = GarminSport.fromCodes(sport, 0);
+            if (!optGarminSportFallback.isEmpty()) {
+                return optGarminSportFallback.get().getActivityKind();
+            }
         }
 
         return ActivityKind.UNKNOWN;
