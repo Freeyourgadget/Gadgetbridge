@@ -3280,4 +3280,8 @@
     <string name="activity_type_table_football">桌上足球</string>
     <string name="activity_type_wall_ball">墙球</string>
     <string name="activity_type_water_polo">水球</string>
+    <string name="activity_type_water_skiing">滑水</string>
+    <string name="activity_type_shooting">射击</string>
+    <string name="activity_type_video_gaming">打游戏</string>
+    <string name="activity_type_winter_sport">冬季运动</string>
 </resources>
