@@ -3176,4 +3176,5 @@
     <string name="soundcore_equalizer_band8">الفرقة 8</string>
     <string name="soundcore_equalizer_band9">الفرقة 9</string>
     <string name="soundcore_equalizer_frequency">التردد</string>
+    <string name="transition">الانتقال</string>
 </resources>
