@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
@@ -415,7 +416,18 @@ public class AsynchronousResponse {
 
     private void handleFileUpload(HuaweiPacket response) throws Request.ResponseParseException  {
         if (response.serviceId == FileUpload.id) {
-             if (response.commandId == FileUpload.FileHashSend.id) {
+            if (response.commandId == FileUpload.FileInfoSend.id) {
+                if (!(response instanceof FileUpload.FileInfoSend.Response))
+                    throw new Request.ResponseTypeMismatchException(response, FileUpload.FileInfoSend.Response.class);
+                FileUpload.FileInfoSend.Response resp = (FileUpload.FileInfoSend.Response) response;
+                if (resp.result == 140004) {
+                    LOG.error("Too many watchfaces installed");
+                    support.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(support.getContext().getString(R.string.cannot_upload_watchface_too_many_watchfaces_installed), Toast.LENGTH_LONG, GB.ERROR));
+                } else if (resp.result == 140009) {
+                    LOG.error("Insufficient space for upload");
+                    support.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(support.getContext().getString(R.string.insufficient_space_for_upload), Toast.LENGTH_LONG, GB.ERROR));
+                }
+            } else if (response.commandId == FileUpload.FileHashSend.id) {
                  if (!(response instanceof FileUpload.FileHashSend.Response))
                      throw new Request.ResponseTypeMismatchException(response, FileUpload.FileHashSend.Response.class);
                  FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;

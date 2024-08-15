@@ -47,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
@@ -255,6 +256,14 @@ public class HuaweiSupportProvider {
             leSupport.evaluateGBDeviceEvent(deviceEvent);
         } else {
             brSupport.evaluateGBDeviceEvent(deviceEvent);
+        }
+    }
+
+    public void handleGBDeviceEvent(GBDeviceEventDisplayMessage message) {
+        if (isBLE()) {
+            leSupport.handleGBDeviceEvent(message);
+        } else {
+            brSupport.handleGBDeviceEvent(message);
         }
     }
 

@@ -578,12 +578,14 @@ public class HuaweiPacket {
                 }
             case FileUpload.id:
                 switch(this.commandId) {
-                    case FileUpload.FileNextChunkParams.id:
-                        return new FileUpload.FileNextChunkParams(paramsProvider).fromPacket(this);
-                    case FileUpload.FileUploadConsultAck.id:
-                        return new FileUpload.FileUploadConsultAck.Response(paramsProvider).fromPacket(this);
+                    case FileUpload.FileInfoSend.id:
+                        return new FileUpload.FileInfoSend.Response(paramsProvider).fromPacket(this);
                     case FileUpload.FileHashSend.id:
                         return new FileUpload.FileHashSend.Response(paramsProvider).fromPacket(this);
+                    case FileUpload.FileUploadConsultAck.id:
+                        return new FileUpload.FileUploadConsultAck.Response(paramsProvider).fromPacket(this);
+                    case FileUpload.FileNextChunkParams.id:
+                        return new FileUpload.FileNextChunkParams(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
@@ -594,10 +596,10 @@ public class HuaweiPacket {
                         return new Watchface.WatchfaceParams.Response(paramsProvider).fromPacket(this);
                     case Watchface.DeviceWatchInfo.id:
                         return new Watchface.DeviceWatchInfo.Response(paramsProvider).fromPacket(this);
-                    case Watchface.WatchfaceNameInfo.id:
-                        return new Watchface.WatchfaceNameInfo.Response(paramsProvider).fromPacket(this);
                     case Watchface.WatchfaceConfirm.id:
                         return new Watchface.WatchfaceConfirm.Response(paramsProvider).fromPacket(this);
+                    case Watchface.WatchfaceNameInfo.id:
+                        return new Watchface.WatchfaceNameInfo.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

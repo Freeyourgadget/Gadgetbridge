@@ -72,8 +72,13 @@ public class FileUpload {
         }
 
         public static class Response extends HuaweiPacket {
+            public int result = 0;
             public Response (ParamsProvider paramsProvider) {
                 super(paramsProvider);
+            }
+            @Override
+            public void parseTlv() throws HuaweiPacket.ParseException {
+                this.result = this.tlv.getInteger(0x7f);
             }
         }
     }
