@@ -3178,4 +3178,5 @@
     <string name="body_energy_legend_level">身体能量水平</string>
     <string name="body_energy">身体能量</string>
     <string name="body_energy_lost">已流失</string>
+    <string name="transition">过渡</string>
 </resources>
