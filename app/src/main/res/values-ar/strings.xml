@@ -3191,4 +3191,13 @@
     <string name="activity_type_xc_classic_ski">XC التزلج الكلاسيكي</string>
     <string name="activity_type_e_bike">الدراجة الكهربائية</string>
     <string name="activity_type_breathwork">الأعمال التنفسية</string>
+    <string name="activity_type_driving">القيادة</string>
+    <string name="activity_type_hang_gliding">طيران شراعي معلق</string>
+    <string name="activity_type_inline_skating">التزلج المضمن</string>
+    <string name="activity_type_flying">الطيران</string>
+    <string name="activity_type_boating">ركوب القوارب</string>
+    <string name="activity_type_mountaineering">تسلق جبال</string>
+    <string name="activity_type_multisport">الرياضات المتعددة</string>
+    <string name="activity_type_paddling">تجديف</string>
+    <string name="activity_type_motorcycling">ركوب الدراجات النارية</string>
 </resources>
