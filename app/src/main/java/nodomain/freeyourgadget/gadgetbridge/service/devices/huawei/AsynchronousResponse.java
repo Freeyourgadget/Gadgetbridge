@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadComplete;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendMenstrualModifyTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadAck;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadChunk;
@@ -510,6 +511,15 @@ public class AsynchronousResponse {
                 // TODO: exception?
                 return;
             }
+
+            // Send back OK
+            try {
+                SendGpsStatusRequest sendGpsStatusRequest = new SendGpsStatusRequest(this.support);
+                sendGpsStatusRequest.doPerform();
+            } catch (IOException e) {
+                LOG.error("Could not send back OK");
+            }
+
             support.setGps(((GpsAndTime.GpsStatus.Response) response).enableGps);
         }
     }

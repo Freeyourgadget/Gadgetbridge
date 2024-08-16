@@ -88,6 +88,21 @@ public class GpsAndTime {
     public static class GpsStatus {
         public static final byte id = 0x02;
 
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+
+                this.serviceId = GpsAndTime.id;
+                this.commandId = id;
+
+                // Currently only sends "OK" value
+                this.tlv = new HuaweiTLV().put(0x7f, 0x186A0);
+
+                this.isEncrypted = true;
+                this.complete = true;
+            }
+        }
+
         public static class Response extends HuaweiPacket {
             public boolean enableGps;
 
