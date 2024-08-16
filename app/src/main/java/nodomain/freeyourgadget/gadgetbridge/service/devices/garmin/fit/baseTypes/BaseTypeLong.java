@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
@@ -27,22 +28,22 @@ public class BaseTypeLong implements BaseTypeInterface {
     }
 
     @Override
-    public Object decode(ByteBuffer byteBuffer, int scale, int offset) {
+    public Object decode(ByteBuffer byteBuffer, double scale, int offset) {
         BigInteger i = unsigned ? BigInteger.valueOf(byteBuffer.getLong() & 0xFFFFFFFFFFFFFFFFL) : BigInteger.valueOf(byteBuffer.getLong());
         if (!unsigned && (i.compareTo(min) < 0 || i.compareTo(max) > 0))
             return null;
         if (i.compareTo(BigInteger.valueOf(invalid)) == 0)
             return null;
-        return (i.longValue() + offset) / scale;
+        return new BigDecimal(i).divide(BigDecimal.valueOf(scale)).subtract(BigDecimal.valueOf(offset)).toBigInteger().longValue();
     }
 
     @Override
-    public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+    public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {
         if (null == o) {
             invalidate(byteBuffer);
             return;
         }
-        BigInteger i = BigInteger.valueOf(((Number) o).longValue() * scale - offset);
+        BigInteger i = new BigDecimal(((Number) o).longValue()).multiply(BigDecimal.valueOf(scale)).add(BigDecimal.valueOf(offset)).toBigInteger();
         if (!unsigned && (i.compareTo(min) < 0 || i.compareTo(max) > 0)) {
             invalidate(byteBuffer);
             return;

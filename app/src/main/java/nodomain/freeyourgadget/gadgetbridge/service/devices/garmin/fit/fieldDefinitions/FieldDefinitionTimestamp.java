@@ -7,7 +7,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.Garmin
 
 public class FieldDefinitionTimestamp extends FieldDefinition {
     public FieldDefinitionTimestamp(int localNumber, int size, BaseType baseType, String name) {
-        super(localNumber, size, baseType, name, 1, GARMIN_TIME_EPOCH);
+        super(localNumber, size, baseType, name, 1, -GARMIN_TIME_EPOCH);
     }
 
 //    @Override

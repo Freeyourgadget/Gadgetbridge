@@ -19,23 +19,23 @@ public class BaseTypeDouble implements BaseTypeInterface {
     }
 
     @Override
-    public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
+    public Object decode(final ByteBuffer byteBuffer, double scale, int offset) {
         double d = byteBuffer.getDouble();
         if (d < min || d > max) {
             return null;
         }
         if (Double.isNaN(d) || d == invalid)
             return null;
-        return (d + offset) / scale;
+        return (d / scale) - offset;
     }
 
     @Override
-    public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+    public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {
         if (null == o) {
             invalidate(byteBuffer);
             return;
         }
-        double d = ((Number) o).doubleValue() * scale - offset;
+        double d = (((Number) o).doubleValue() + offset) * scale;
         if (d < min || d > max) {
             invalidate(byteBuffer);
             return;

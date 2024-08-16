@@ -19,23 +19,23 @@ public class BaseTypeFloat implements BaseTypeInterface {
     }
 
     @Override
-    public Object decode(ByteBuffer byteBuffer, int scale, int offset) {
+    public Object decode(ByteBuffer byteBuffer, double scale, int offset) {
         float f = byteBuffer.getFloat();
         if (f < min || f > max) {
             return null;
         }
         if (Float.isNaN(f) || f == invalid)
             return null;
-        return (f + offset) / scale;
+        return (float) (f / scale) - offset;
     }
 
     @Override
-    public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+    public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {
         if (null == o) {
             invalidate(byteBuffer);
             return;
         }
-        float f = ((Number) o).floatValue() * scale - offset;
+        float f = (float) ((((Number) o).floatValue() + offset) * scale);
         if (f < min || f > max) {
             invalidate(byteBuffer);
             return;

@@ -48,11 +48,11 @@ public enum BaseType {
         return identifier;
     }
 
-    public Object decode(ByteBuffer byteBuffer, int scale, int offset) {
+    public Object decode(ByteBuffer byteBuffer, double scale, int offset) {
         return baseTypeInterface.decode(byteBuffer, scale, offset);
     }
 
-    public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+    public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {
         baseTypeInterface.encode(byteBuffer, o, scale, offset);
     }
 

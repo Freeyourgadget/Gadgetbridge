@@ -26,22 +26,22 @@ public class BaseTypeInt implements BaseTypeInterface {
     }
 
     @Override
-    public Object decode(final ByteBuffer byteBuffer, int scale, int offset) {
+    public Object decode(final ByteBuffer byteBuffer, double scale, int offset) {
         long i = unsigned ? Integer.toUnsignedLong(byteBuffer.getInt()) : byteBuffer.getInt();
         if (i < min || i > max)
             return null;
         if (i == invalid)
             return null;
-        return ((i + offset) / scale);
+        return (Math.round(i / scale) - offset);
     }
 
     @Override
-    public void encode(ByteBuffer byteBuffer, Object o, int scale, int offset) {
+    public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {
         if (null == o) {
             invalidate(byteBuffer);
             return;
         }
-        long l = ((Number) o).longValue() * scale - offset;
+        long l = (long) ((((Number) o).longValue() + offset) * scale);
         if (l < min || l > max) {
             invalidate(byteBuffer);
             return;
