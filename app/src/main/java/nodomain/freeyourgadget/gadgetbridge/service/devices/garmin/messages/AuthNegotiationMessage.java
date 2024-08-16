@@ -18,7 +18,7 @@ public class AuthNegotiationMessage extends GFDIMessage {
 
         LOG.info("Message {}, unkByte: {}, flags: {}", garminMessage, unknown, requestedAuthFlags);
 
-        this.statusMessage = new AuthNegotiationStatusMessage(garminMessage, Status.ACK, AuthNegotiationStatusMessage.AuthNegotiationStatus.GUESS_OK, 0, EnumSet.noneOf(AuthFlags.class));
+        this.statusMessage = new AuthNegotiationStatusMessage(garminMessage, Status.ACK, AuthNegotiationStatusMessage.AuthNegotiationStatus.GUESS_OK, this.unknown, requestedAuthFlags);
     }
 
     public static AuthNegotiationMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
