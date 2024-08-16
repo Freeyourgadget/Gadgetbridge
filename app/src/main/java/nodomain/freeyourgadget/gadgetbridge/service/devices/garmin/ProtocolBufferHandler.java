@@ -350,55 +350,55 @@ public class ProtocolBufferHandler implements MessageHandler {
             // Mark canned messages as supported
             deviceSupport.evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(GarminPreferences.PREF_FEAT_CANNED_MESSAGES, true));
 
-            if (this.cannedListTypeMap.isEmpty()) {
-                List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes = smsNotificationService.getSmsCannedListRequest().getRequestedTypesList();
-                for (GdiSmsNotification.SmsNotificationService.CannedListType type :
-                        requestedTypes) {
-                    if (GdiSmsNotification.SmsNotificationService.CannedListType.SMS_MESSAGE_RESPONSE.equals(type)) {
-                        final ArrayList<String> messages = new ArrayList<>();
-                        for (int i = 1; i <= 16; i++) {
-                            String message = deviceSupport.getDevicePrefs().getString("canned_reply_" + i, null);
-                            if (message != null && !message.isEmpty()) {
-                                messages.add(message);
-                            }
-                        }
-                        if (!messages.isEmpty())
-                            this.cannedListTypeMap.put(type, messages.toArray(new String[0]));
-                    } else if (GdiSmsNotification.SmsNotificationService.CannedListType.PHONE_CALL_RESPONSE.equals(type)) {
-                        final ArrayList<String> messages = new ArrayList<>();
-                        for (int i = 1; i <= 16; i++) {
-                            String message = deviceSupport.getDevicePrefs().getString("canned_message_dismisscall_" + i, null);
-                            if (message != null && !message.isEmpty()) {
-                                messages.add(message);
-                            }
-                        }
-                        if (!messages.isEmpty())
-                            this.cannedListTypeMap.put(type, messages.toArray(new String[0]));
-                    }
-                }
-
-            }
-
             List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes = smsNotificationService.getSmsCannedListRequest().getRequestedTypesList();
+
+            populateCannedListTypeMap(requestedTypes);
 
             GdiSmsNotification.SmsNotificationService.SmsCannedListResponse.Builder builder = GdiSmsNotification.SmsNotificationService.SmsCannedListResponse.newBuilder()
                     .setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.SUCCESS);
+            boolean found = false;
             for (GdiSmsNotification.SmsNotificationService.CannedListType requestedType : requestedTypes) {
                 if (this.cannedListTypeMap.containsKey(requestedType)) {
+                    found = true;
                     builder.addLists(GdiSmsNotification.SmsNotificationService.SmsCannedList.newBuilder()
                             .addAllResponse(Arrays.asList(Objects.requireNonNull(this.cannedListTypeMap.get(requestedType))))
                             .setType(requestedType)
                     );
                 } else {
-                    builder.setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.GENERIC_ERROR);
-                    LOG.info("Missing canned messages data for type {}", requestedType);
+                    LOG.warn("Missing canned messages data for type {}", requestedType);
                 }
             }
+            if (!found)
+                builder.setStatus(GdiSmsNotification.SmsNotificationService.ResponseStatus.GENERIC_ERROR);
 
             return GdiSmartProto.Smart.newBuilder().setSmsNotificationService(GdiSmsNotification.SmsNotificationService.newBuilder().setSmsCannedListResponse(builder)).build();
         } else {
             LOG.warn("Protobuf smsNotificationService request not implemented: {}", smsNotificationService);
             return null;
+        }
+    }
+
+    private void populateCannedListTypeMap(List<GdiSmsNotification.SmsNotificationService.CannedListType> requestedTypes) {
+        if (this.cannedListTypeMap.isEmpty()) {
+            for (GdiSmsNotification.SmsNotificationService.CannedListType type :
+                    requestedTypes) {
+                String preferencesPrefix = "";
+                if (GdiSmsNotification.SmsNotificationService.CannedListType.SMS_MESSAGE_RESPONSE.equals(type))
+                    preferencesPrefix = "canned_reply_";
+                else if (GdiSmsNotification.SmsNotificationService.CannedListType.PHONE_CALL_RESPONSE.equals(type))
+                    preferencesPrefix = "canned_message_dismisscall_";
+                else
+                    continue;
+                final ArrayList<String> messages = new ArrayList<>();
+                for (int i = 1; i <= 16; i++) {
+                    String message = deviceSupport.getDevicePrefs().getString(preferencesPrefix + i, null);
+                    if (message != null && !message.isEmpty()) {
+                        messages.add(message);
+                    }
+                }
+                if (!messages.isEmpty())
+                    this.cannedListTypeMap.put(type, messages.toArray(new String[0]));
+            }
         }
     }
 
