@@ -3179,4 +3179,16 @@
     <string name="hrv_status_last_night_highest_5">Afgelopen nacht 5-minutengemiddelde</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
+    <string name="activity_type_indoor_track">Binnenbaan</string>
+    <string name="activity_type_handcycling">Handfietsen</string>
+    <string name="activity_type_e_bike">E-Bike</string>
+    <string name="activity_type_bike_commute">Woon-werk-fietsen</string>
+    <string name="activity_type_american_football">American Football</string>
+    <string name="activity_type_training">Training</string>
+    <string name="activity_type_navigate">Navigeren</string>
+    <string name="activity_type_handcycling_indoor">Binnen handfietsen</string>
+    <string name="activity_type_transition">Overgang</string>
+    <string name="activity_type_fitness_equipment">Fitness-apparaten</string>
+    <string name="activity_type_platform_tennis">Platformtennis</string>
+    <string name="activity_type_cardio">Cardio</string>
 </resources>
