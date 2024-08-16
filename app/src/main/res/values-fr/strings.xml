@@ -3108,4 +3108,10 @@ Temps de sommeil préféré en heures</string>
     <string name="hrv_status_baseline_label">Ligne de base</string>
     <string name="gps_glonass">GPS + GLONASS</string>
     <string name="activity_prefs_height_inches">Taille en pouces</string>
+    <string name="activity_type_tae_bo">Tae Bo</string>
+    <string name="transition">Transition</string>
+    <string name="activity_type_beach_soccer">Beach Soccer</string>
+    <string name="activity_type_beach_volleyball">Beach-volley</string>
+    <string name="activity_type_gateball">Gateball</string>
+    <string name="activity_type_sepak_takraw">Sepak Takraw</string>
 </resources>
