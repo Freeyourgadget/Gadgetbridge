@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionAlarm;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionDayOfWeek;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionFileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalSource;
@@ -47,6 +48,8 @@ public class FieldDefinitionFactory {
                 return new FieldDefinitionSleepStage(localNumber, size, baseType, name);
             case WEATHER_AQI:
                 return new FieldDefinitionWeatherAqi(localNumber, size, baseType, name);
+            case COORDINATE:
+                return new FieldDefinitionCoordinate(localNumber, size, baseType, name);
             default:
                 return new FieldDefinition(localNumber, size, baseType, name);
         }
@@ -66,5 +69,6 @@ public class FieldDefinitionFactory {
         LANGUAGE,
         SLEEP_STAGE,
         WEATHER_AQI,
+        COORDINATE
     }
 }

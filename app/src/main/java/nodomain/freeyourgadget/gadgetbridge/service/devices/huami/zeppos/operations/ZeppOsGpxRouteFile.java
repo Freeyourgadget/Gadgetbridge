@@ -18,12 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operat
 
 import android.location.Location;
 
-import androidx.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -31,9 +28,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
-import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParseException;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxTrackPoint;
@@ -44,15 +39,6 @@ public class ZeppOsGpxRouteFile {
 
     private static final double COORD_MULTIPLIER = 3000000.0;
 
-    public static final byte[] XML_HEADER = new byte[]{
-            '<', '?', 'x', 'm', 'l'
-    };
-
-    // Some gpx files start with "<gpx" directly.. this needs to be improved
-    public static final byte[] GPX_START = new byte[]{
-            '<', 'g', 'p', 'x'
-    };
-
     private final byte[] xmlBytes;
     private final long timestamp;
     private final GpxFile gpxFile;
@@ -60,34 +46,11 @@ public class ZeppOsGpxRouteFile {
     public ZeppOsGpxRouteFile(final byte[] xmlBytes) {
         this.xmlBytes = xmlBytes;
         this.timestamp = System.currentTimeMillis() / 1000;
-        this.gpxFile = parseGpx(xmlBytes);
+        this.gpxFile = GpxParser.parseGpx(xmlBytes);
     }
 
     public boolean isValid() {
         return this.gpxFile != null;
-    }
-
-    @Nullable
-    public static GpxFile parseGpx(final byte[] xmlBytes) {
-        if (!isGpxFile(xmlBytes)) {
-            return null;
-        }
-
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlBytes)) {
-            final GpxParser gpxParser = new GpxParser(bais);
-            return gpxParser.getGpxFile();
-        } catch (final IOException e) {
-            LOG.error("Failed to read xml", e);
-        } catch (final GpxParseException e) {
-            LOG.error("Failed to parse gpx", e);
-        }
-
-        return null;
-    }
-
-    public static boolean isGpxFile(final byte[] data) {
-        // TODO improve this
-        return ArrayUtils.equals(data, XML_HEADER, 0) || ArrayUtils.equals(data, GPX_START, 0);
     }
 
     public long getTimestamp() {
@@ -108,7 +71,6 @@ public class ZeppOsGpxRouteFile {
 
     public byte[] getEncodedBytes() {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final GpxFile gpxFile = parseGpx(xmlBytes);
         if (gpxFile == null) {
             LOG.error("Failed to read gpx file - this should never happen");
             return null;

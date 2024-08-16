@@ -364,9 +364,9 @@ public class GarminSupportTest extends TestBase {
                 "FitFileId{manufacturer=15, type=ACTIVITY, product=9001, serial_number=1701}, " +
                 "FitDeveloperData{application_id=[1,1,2,3,5,8,13,21,34,55,89,144,233,121,98,219], developer_data_index=0}, " +
                 "FitFieldDescription{developer_data_index=0, field_definition_number=0, fit_base_type_id=1, field_name=doughnuts_earned, units=doughnuts}, " +
-                "FitRecord{heart_rate=140, unknown_4(UINT8/1)=88, distance=510, unknown_6(UINT16/2)=47488, doughnuts_earned=1}, " +
-                "FitRecord{heart_rate=143, unknown_4(UINT8/1)=90, distance=2080, unknown_6(UINT16/2)=36416, doughnuts_earned=2}, " +
-                "FitRecord{heart_rate=144, unknown_4(UINT8/1)=92, distance=3710, unknown_6(UINT16/2)=35344, doughnuts_earned=3}" +
+                "FitRecord{heart_rate=140, unknown_4(UINT8/1)=88, distance=510, speed=47, doughnuts_earned=1}, " +
+                "FitRecord{heart_rate=143, unknown_4(UINT8/1)=90, distance=2080, speed=36, doughnuts_earned=2}, " +
+                "FitRecord{heart_rate=144, unknown_4(UINT8/1)=92, distance=3710, speed=35, doughnuts_earned=3}" +
                 "]";
 
         FitFile fitFile = FitFile.parseIncoming(fileContents);

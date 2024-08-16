@@ -26,13 +26,18 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
-    public Long getLatitude() {
-        return (Long) getFieldByNumber(0);
+    public Double getLatitude() {
+        return (Double) getFieldByNumber(0);
     }
 
     @Nullable
-    public Long getLongitude() {
-        return (Long) getFieldByNumber(1);
+    public Double getLongitude() {
+        return (Double) getFieldByNumber(1);
+    }
+
+    @Nullable
+    public Integer getAltitude() {
+        return (Integer) getFieldByNumber(2);
     }
 
     @Nullable
@@ -43,6 +48,11 @@ public class FitRecord extends RecordData {
     @Nullable
     public Long getDistance() {
         return (Long) getFieldByNumber(5);
+    }
+
+    @Nullable
+    public Integer getSpeed() {
+        return (Integer) getFieldByNumber(6);
     }
 
     @Nullable
@@ -77,9 +87,9 @@ public class FitRecord extends RecordData {
         activityPoint.setTime(new Date(getComputedTimestamp()));
         if (getLatitude() != null && getLongitude() != null) {
             activityPoint.setLocation(new GPSCoordinate(
-                    GarminUtils.semicirclesToDegrees(getLongitude().longValue()),
-                    GarminUtils.semicirclesToDegrees(getLatitude().longValue()),
-                    getEnhancedAltitude() != null ? getEnhancedAltitude() / 10d : GPSCoordinate.UNKNOWN_ALTITUDE
+                    getLongitude(),
+                    getLatitude(),
+                    getEnhancedAltitude() != null ? getEnhancedAltitude() : GPSCoordinate.UNKNOWN_ALTITUDE
             ));
         }
         if (getHeartRate() != null) {

@@ -21,6 +21,51 @@ public class FitLap extends RecordData {
     }
 
     @Nullable
+    public Double getStartLat() {
+        return (Double) getFieldByNumber(3);
+    }
+
+    @Nullable
+    public Double getStartLong() {
+        return (Double) getFieldByNumber(4);
+    }
+
+    @Nullable
+    public Double getEndLat() {
+        return (Double) getFieldByNumber(5);
+    }
+
+    @Nullable
+    public Double getEndLong() {
+        return (Double) getFieldByNumber(6);
+    }
+
+    @Nullable
+    public Long getTotalElapsedTime() {
+        return (Long) getFieldByNumber(7);
+    }
+
+    @Nullable
+    public Long getTotalTimerTime() {
+        return (Long) getFieldByNumber(8);
+    }
+
+    @Nullable
+    public Long getTotalDistance() {
+        return (Long) getFieldByNumber(9);
+    }
+
+    @Nullable
+    public Integer getTotalAscent() {
+        return (Integer) getFieldByNumber(21);
+    }
+
+    @Nullable
+    public Integer getTotalDescent() {
+        return (Integer) getFieldByNumber(22);
+    }
+
+    @Nullable
     public Long getTimestamp() {
         return (Long) getFieldByNumber(253);
     }

@@ -144,7 +144,12 @@ public class FitFile {
         this.header.generateOutgoingDataPayload(writer);
         writer.writeBytes(temporary.getBytes());
         writer.writeShort(ChecksumCalculator.computeCrc(writer.getBytes(), this.header.getHeaderSize(), writer.getBytes().length - this.header.getHeaderSize()));
+    }
 
+    public byte[] getOutgoingMessage() {
+        final MessageWriter writer = new MessageWriter();
+        this.generateOutgoingDataPayload(writer);
+        return writer.getBytes();
     }
 
     @NonNull

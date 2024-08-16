@@ -79,6 +79,7 @@ public class FileType {
         FBT_PTD_BACKUP(128, 74),
 
         // Other files
+        DOWNLOAD_COURSE(255, 4),
         ERROR_SHUTDOWN_REPORTS(255, 245),
         IQ_ERROR_REPORTS(255, 244),
         ULF_LOGS(255, 247),

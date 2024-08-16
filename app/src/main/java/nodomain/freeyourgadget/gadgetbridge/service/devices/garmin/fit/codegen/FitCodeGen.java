@@ -252,6 +252,8 @@ public class FitCodeGen {
                     return FieldDefinitionSleepStage.SleepStage.class;
                 case WEATHER_AQI:
                     return FieldDefinitionWeatherAqi.AQI_LEVELS.class;
+                case COORDINATE:
+                    return Double.class;
             }
 
             throw new RuntimeException("Unknown field type " + primitive.getType());

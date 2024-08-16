@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminGpxRouteInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -794,6 +795,14 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                                     )
                             ).build()
             ));
+        }
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        final GarminGpxRouteInstallHandler garminGpxRouteInstallHandler = new GarminGpxRouteInstallHandler(uri, getContext());
+        if (garminGpxRouteInstallHandler.isValid()) {
+            communicator.sendMessage("upload course file", fileTransferHandler.initiateUpload(garminGpxRouteInstallHandler.getGpxRouteFileConverter().getConvertedFile().getOutgoingMessage(), FileType.FILETYPE.DOWNLOAD_COURSE).getOutgoingMessage());
         }
     }
 

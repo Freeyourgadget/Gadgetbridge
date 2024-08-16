@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.CreateFileMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.DownloadRequestMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.FileTransferDataMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDIMessage;
@@ -87,10 +88,10 @@ public class FileTransferHandler implements MessageHandler {
 //        return new DownloadRequestMessage(0, 0, DownloadRequestMessage.REQUEST_TYPE.NEW, 0, 0);
 //    }
 //
-//    public CreateFileMessage initiateUpload(byte[] fileAsByteArray, FileType.FILETYPE filetype) {
-//        upload.setCurrentlyUploading(new FileFragment(new DirectoryEntry(0, filetype, 0, 0, 0, fileAsByteArray.length, null), fileAsByteArray));
-//        return new CreateFileMessage(fileAsByteArray.length, filetype);
-//    }
+public CreateFileMessage initiateUpload(byte[] fileAsByteArray, FileType.FILETYPE filetype) {
+    upload.setCurrentlyUploading(new FileFragment(new DirectoryEntry(0, filetype, 0, 0, 0, fileAsByteArray.length, null), fileAsByteArray));
+    return new CreateFileMessage(fileAsByteArray.length, filetype);
+}
 
 
     public class Download {
@@ -296,7 +297,7 @@ public class FileTransferHandler implements MessageHandler {
 
         private FileTransferDataMessage take() {
             final int currentOffset = this.dataHolder.position();
-            final byte[] chunk = new byte[Math.min(this.dataHolder.remaining(), getMaxBlockSize())];
+            final byte[] chunk = new byte[Math.min(this.dataHolder.remaining(), getMaxBlockSize() - 13)]; //actual payload in FileTransferDataMessage
             this.dataHolder.get(chunk);
             setRunningCrc(ChecksumCalculator.computeCrc(getRunningCrc(), chunk, 0, chunk.length));
             return new FileTransferDataMessage(chunk, currentOffset, getRunningCrc());

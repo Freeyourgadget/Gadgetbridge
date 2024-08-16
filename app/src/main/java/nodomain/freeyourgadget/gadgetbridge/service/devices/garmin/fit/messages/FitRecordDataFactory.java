@@ -37,6 +37,8 @@ public class FitRecordDataFactory {
                 return new FitEvent(recordDefinition, recordHeader);
             case 23:
                 return new FitDeviceInfo(recordDefinition, recordHeader);
+            case 31:
+                return new FitCourse(recordDefinition, recordHeader);
             case 49:
                 return new FitFileCreator(recordDefinition, recordHeader);
             case 55:

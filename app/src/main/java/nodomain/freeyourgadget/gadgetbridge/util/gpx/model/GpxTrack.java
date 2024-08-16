@@ -20,10 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GpxTrack {
+    private final String name;
+
+    private final String type;
     private final List<GpxTrackSegment> trackSegments;
 
-    public GpxTrack(final List<GpxTrackSegment> trackSegments) {
+    public GpxTrack(String name, String type, final List<GpxTrackSegment> trackSegments) {
+        this.name = name;
+        this.type = type;
         this.trackSegments = trackSegments;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public List<GpxTrackSegment> getTrackSegments() {
@@ -41,7 +54,19 @@ public class GpxTrack {
     }
 
     public static class Builder {
+        private String name;
+        private String type;
         private final List<GpxTrackSegment> trackSegments = new ArrayList<>();
+
+        public Builder withName(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withType(final String type) {
+            this.type = type;
+            return this;
+        }
 
         public Builder withTrackSegment(final GpxTrackSegment trackSegment) {
             trackSegments.add(trackSegment);
@@ -49,7 +74,7 @@ public class GpxTrack {
         }
 
         public GpxTrack build() {
-            return new GpxTrack(trackSegments);
+            return new GpxTrack(name, type, trackSegments);
         }
     }
 }

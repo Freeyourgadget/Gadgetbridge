@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import android.location.Location;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
@@ -49,6 +51,34 @@ public class GPSCoordinate {
 
     public double getAltitude() {
         return altitude;
+    }
+
+    public double getDistance(GPSCoordinate source) {
+        final Location end = new Location("end");
+        end.setLatitude(this.getLatitude());
+        end.setLongitude(this.getLongitude());
+
+        final Location start = new Location("start");
+        start.setLatitude(source.getLatitude());
+        start.setLongitude(source.getLongitude());
+
+        return end.distanceTo(start);
+    }
+
+    public double getAltitudeDifference(GPSCoordinate source) {
+        if (this.getAltitude() == UNKNOWN_ALTITUDE)
+            return 0;
+        if (source.getAltitude() == UNKNOWN_ALTITUDE)
+            return 0;
+        return this.getAltitude() - source.getAltitude();
+    }
+
+    public double getAscent(GPSCoordinate source) {
+        return Math.max(0, this.getAltitudeDifference(source));
+    }
+
+    public double getDescent(GPSCoordinate source) {
+        return Math.max(0, -this.getAltitudeDifference(source));
     }
 
     @Override

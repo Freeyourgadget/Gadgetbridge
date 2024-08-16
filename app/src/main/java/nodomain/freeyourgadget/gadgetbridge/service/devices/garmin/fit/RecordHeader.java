@@ -69,7 +69,7 @@ public class RecordHeader {
 
     public byte generateOutgoingDataPayload() { //TODO: unclear if correct
         if (!definition && !developerData) {
-            assert timeOffset != null;
+            if (timeOffset != null)
             return (byte) (timeOffset | (((byte) localMessageType) << 5));
         }
         byte base = (byte) localMessageType;

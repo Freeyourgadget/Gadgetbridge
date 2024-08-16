@@ -91,8 +91,8 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(0, BaseType.ENUM, "event"), // 9 lap
             new FieldDefinitionPrimitive(1, BaseType.ENUM, "event_type"), // 1 stop
             new FieldDefinitionPrimitive(2, BaseType.UINT32, "start_time"),
-            new FieldDefinitionPrimitive(3, BaseType.SINT32, "start_latitude"),
-            new FieldDefinitionPrimitive(4, BaseType.SINT32, "start_longitude"),
+            new FieldDefinitionPrimitive(3, BaseType.SINT32, "start_latitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(4, BaseType.SINT32, "start_longitude", FieldDefinitionFactory.FIELD.COORDINATE),
             new FieldDefinitionPrimitive(5, BaseType.ENUM, "sport"),
             new FieldDefinitionPrimitive(6, BaseType.ENUM, "sub_sport"),
             new FieldDefinitionPrimitive(7, BaseType.UINT32, "total_elapsed_time"), // with pauses
@@ -106,16 +106,27 @@ public class GlobalFITMessage {
     ));
 
     public static GlobalFITMessage LAP = new GlobalFITMessage(19, "LAP", Arrays.asList(
+            new FieldDefinitionPrimitive(3, BaseType.SINT32, "start_lat", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(4, BaseType.SINT32, "start_long", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(5, BaseType.SINT32, "end_lat", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(6, BaseType.SINT32, "end_long", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(7, BaseType.UINT32, "total_elapsed_time", 1000, 0), // s
+            new FieldDefinitionPrimitive(8, BaseType.UINT32, "total_timer_time", 1000, 0), // s
+            new FieldDefinitionPrimitive(9, BaseType.UINT32, "total_distance", 100, 0), // m
+            new FieldDefinitionPrimitive(21, BaseType.UINT16, "total_ascent"), // m
+            new FieldDefinitionPrimitive(22, BaseType.UINT16, "total_descent"), // m
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
     public static GlobalFITMessage RECORD = new GlobalFITMessage(20, "RECORD", Arrays.asList(
-            new FieldDefinitionPrimitive(0, BaseType.SINT32, "latitude"),
-            new FieldDefinitionPrimitive(1, BaseType.SINT32, "longitude"),
+            new FieldDefinitionPrimitive(0, BaseType.SINT32, "latitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(1, BaseType.SINT32, "longitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(2, BaseType.UINT16, "altitude", 5, 500), // m
             new FieldDefinitionPrimitive(3, BaseType.UINT8, "heart_rate"),
             new FieldDefinitionPrimitive(5, BaseType.UINT32, "distance", 100, 0), // m
+            new FieldDefinitionPrimitive(6, BaseType.UINT16, "speed", 1000, 0), // m/s
             new FieldDefinitionPrimitive(73, BaseType.UINT32, "enhanced_speed"), // mm/s
-            new FieldDefinitionPrimitive(78, BaseType.UINT32, "enhanced_altitude"), // dm
+            new FieldDefinitionPrimitive(78, BaseType.UINT32, "enhanced_altitude", 5, 500), // m
             new FieldDefinitionPrimitive(136, BaseType.UINT8, "wrist_heart_rate"),
             new FieldDefinitionPrimitive(143, BaseType.UINT8, "body_battery"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
@@ -135,6 +146,11 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(4, BaseType.UINT16, "product"),
             new FieldDefinitionPrimitive(5, BaseType.UINT16, "software_version"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
+    public static GlobalFITMessage COURSE = new GlobalFITMessage(31, "COURSE", Arrays.asList(
+            new FieldDefinitionPrimitive(4, BaseType.ENUM, "sport"),
+            new FieldDefinitionPrimitive(5, BaseType.STRING, 16, "name")
     ));
 
     public static GlobalFITMessage FILE_CREATOR = new GlobalFITMessage(49, "FILE_CREATOR", Arrays.asList(
@@ -282,6 +298,7 @@ public class GlobalFITMessage {
         put(20, RECORD);
         put(21, EVENT);
         put(23, DEVICE_INFO);
+        put(31, COURSE);
         put(49, FILE_CREATOR);
         put(55, MONITORING);
         put(127, CONNECTIVITY);

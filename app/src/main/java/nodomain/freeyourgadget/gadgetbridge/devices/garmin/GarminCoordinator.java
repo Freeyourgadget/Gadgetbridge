@@ -1,6 +1,10 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +16,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
@@ -264,5 +269,15 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean supports(final GBDevice device, final GarminCapability capability) {
         return getPrefs(device).getStringSet(GarminPreferences.PREF_GARMIN_CAPABILITIES, Collections.emptySet())
                 .contains(capability.name());
+    }
+
+    @Nullable
+    @Override
+    public InstallHandler findInstallHandler(Uri uri, Context context) {
+
+        final GarminGpxRouteInstallHandler garminGpxRouteInstallHandler = new GarminGpxRouteInstallHandler(uri, context);
+        if (garminGpxRouteInstallHandler.isValid())
+            return garminGpxRouteInstallHandler;
+        return null;
     }
 }

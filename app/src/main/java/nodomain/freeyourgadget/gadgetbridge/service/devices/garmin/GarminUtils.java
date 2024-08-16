@@ -10,10 +10,6 @@ public final class GarminUtils {
         // utility class
     }
 
-    public static double semicirclesToDegrees(final long semicircles) {
-        return semicircles * (180.0D / 0x80000000L);
-    }
-
     public static GdiCore.CoreService.LocationData toLocationData(final Location location, final GdiCore.CoreService.DataType dataType) {
         final GdiCore.CoreService.LatLon positionForWatch = GdiCore.CoreService.LatLon.newBuilder()
                 .setLat((int) ((location.getLatitude() * 2.147483648E9d) / 180.0d))
