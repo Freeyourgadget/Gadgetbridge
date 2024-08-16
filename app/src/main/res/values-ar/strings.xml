@@ -3177,4 +3177,18 @@
     <string name="soundcore_equalizer_band9">الفرقة 9</string>
     <string name="soundcore_equalizer_frequency">التردد</string>
     <string name="transition">الانتقال</string>
+    <string name="activity_type_navigate">الملاحة</string>
+    <string name="activity_type_indoor_track">المسار الداخلي</string>
+    <string name="activity_type_handcycling">التدوير اليدوي</string>
+    <string name="activity_type_bike_commute">تنقُّل بالدراجة</string>
+    <string name="activity_type_handcycling_indoor">ركوب الدراجات اليدوية في الأماكن المغلقة</string>
+    <string name="activity_type_transition">الانتقال</string>
+    <string name="activity_type_fitness_equipment">معدات اللياقة</string>
+    <string name="activity_type_platform_tennis">تنس المنصة</string>
+    <string name="activity_type_american_football">كرة القدم الأمريكية</string>
+    <string name="activity_type_training">التدريب</string>
+    <string name="activity_type_cardio">القلب</string>
+    <string name="activity_type_xc_classic_ski">XC التزلج الكلاسيكي</string>
+    <string name="activity_type_e_bike">الدراجة الكهربائية</string>
+    <string name="activity_type_breathwork">الأعمال التنفسية</string>
 </resources>
