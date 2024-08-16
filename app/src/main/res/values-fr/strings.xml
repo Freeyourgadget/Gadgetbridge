@@ -3142,4 +3142,19 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_american_football">Football américain</string>
     <string name="activity_type_cardio">Cardio</string>
     <string name="activity_type_motorcycling">Moto</string>
+    <string name="activity_type_sail_race">Régate</string>
+    <string name="activity_type_snowmobiling">Motoneige</string>
+    <string name="activity_type_stand_up_paddleboarding">Standup paddle</string>
+    <string name="activity_type_wakeboarding">Wakeboard</string>
+    <string name="activity_type_rafting">Rafting</string>
+    <string name="activity_type_tactical">Tactique</string>
+    <string name="activity_type_jumpmaster">Jumpmaster</string>
+    <string name="activity_type_floor_climbing">Montée d\'étages</string>
+    <string name="activity_type_softball_slow_pitch">Softball</string>
+    <string name="activity_type_sail_expedition">Expéd. voilier</string>
+    <string name="activity_type_ice_skating">Patins à glace</string>
+    <string name="activity_type_sky_diving">Parachutisme</string>
+    <string name="activity_type_snowshoe">Raquet. neige</string>
+    <string name="activity_type_kayaking">Kayak</string>
+    <string name="activity_type_water_skiing">Ski nautique</string>
 </resources>
