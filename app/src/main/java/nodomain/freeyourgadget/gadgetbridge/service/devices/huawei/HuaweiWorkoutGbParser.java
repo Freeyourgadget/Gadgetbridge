@@ -26,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import de.greenrobot.dao.query.CloseableListIterator;
 import de.greenrobot.dao.query.QueryBuilder;
@@ -55,6 +56,136 @@ public class HuaweiWorkoutGbParser {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiWorkoutGbParser.class);
 
     // TODO: Might be nicer to propagate the exceptions, so they can be handled upstream
+
+    public enum HuaweiActivityType {
+        // Based on nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport
+
+        RUNNING(1, ActivityKind.RUNNING),
+        WALKING(2, ActivityKind.WALKING),
+        CYCLING(3, ActivityKind.CYCLING),
+        INDOOR_RUN(5, ActivityKind.INDOOR_RUNNING),
+        POOL_SWIM(6, ActivityKind.POOL_SWIM),
+        INDOOR_CYCLE(7, ActivityKind.INDOOR_CYCLING),
+        OPEN_WATER_SWIM(8, ActivityKind.SWIMMING_OPENWATER),
+        INDOOR_WALK(13, ActivityKind.INDOOR_WALKING),
+        JUMP_ROPING(21, ActivityKind.JUMP_ROPING),
+        PING_PONG(128, ActivityKind.PINGPONG),
+        BADMINTON(129, ActivityKind.BADMINTON),
+        TENNIS(130, ActivityKind.TENNIS),
+        SOCCER(131, ActivityKind.SOCCER),
+        BASKETBALL(132, ActivityKind.BASKETBALL),
+        VOLLEYBALL(133, ActivityKind.VOLLEYBALL),
+        ELLIPTICAL_TRAINER(134, ActivityKind.ELLIPTICAL_TRAINER),
+        ROWING_MACHINE(135, ActivityKind.ROWING_MACHINE),
+        STEPPER(136, ActivityKind.STEPPER),
+        YOGA(137, ActivityKind.YOGA),
+        PILATES(138, ActivityKind.PILATES),
+        AEROBICS(139, ActivityKind.AEROBICS),
+        STRENGTH_TRAINING(140, ActivityKind.STRENGTH_TRAINING),
+        SPINNING(141, ActivityKind.SPINNING),
+        AIR_WALKER(142, ActivityKind.AIR_WALKER),
+        HIIT(143, ActivityKind.HIIT),
+        CROSSFIT(145, ActivityKind.CROSSFIT),
+        FUNCTIONAL_TRAINING(146, ActivityKind.FUNCTIONAL_TRAINING),
+        PHYSICAL_TRAINING(147, ActivityKind.PHYSICAL_TRAINING),
+        TAEKWONDO(148, ActivityKind.TAEKWONDO),
+        BOXING(149, ActivityKind.BOXING),
+        FREE_SPARRING(150, ActivityKind.FREE_SPARRING),
+        KARATE(151, ActivityKind.KARATE),
+        FENCING(152, ActivityKind.FENCING),
+        BELLY_DANCE(153, ActivityKind.BELLY_DANCE),
+        JAZZ_DANCE(154, ActivityKind.JAZZ_DANCE),
+        LATIN_DANCE(155, ActivityKind.LATIN_DANCE),
+        BALLET(156, ActivityKind.BALLET),
+        CORE_TRAINING(157, ActivityKind.CORE_TRAINING),
+        BODY_COMBAT(158, ActivityKind.BODY_COMBAT),
+        KENDO(159, ActivityKind.KENDO),
+        SINGLE_BAR(160, ActivityKind.HORIZONTAL_BAR),
+        PARALLEL_BARS(161, ActivityKind.PARALLEL_BARS),
+        STREET_DANCE(162, ActivityKind.STREET_DANCE),
+        ROLLER_SKATING(163, ActivityKind.ROLLER_SKATING),
+        MARTIAL_ARTS(164, ActivityKind.MARTIAL_ARTS),
+        PLAZA_DANCING(165, ActivityKind.PLAZA_DANCING),
+        TAI_CHI(166, ActivityKind.TAI_CHI),
+        DANCE(167, ActivityKind.DANCE),
+        HULA_HOOP(168, ActivityKind.HULA_HOOP),
+        FRISBEE(169, ActivityKind.FRISBEE),
+        DARTS(170, ActivityKind.DARTS),
+        ARCHERY(171, ActivityKind.ARCHERY),
+        HORSE_RIDING(172, ActivityKind.HORSE_RIDING),
+        LASER_TAG(173, ActivityKind.LASER_TAG),
+        KITE_FLYING(174, ActivityKind.KITE_FLYING),
+        TUG_OF_WAR(175, ActivityKind.TUG_OF_WAR),
+        SWINGING(176, ActivityKind.SWING),
+        STAIR_CLIMBING(177, ActivityKind.STAIRS),
+        OBSTACLE_RACE(178, ActivityKind.OBSTACLE_RACE),
+        BILLIARD_POOL(179, ActivityKind.BILLIARD_POOL),
+        BOWLING(180, ActivityKind.BOWLING),
+        SHUTTLECOCK(181, ActivityKind.SHUTTLECOCK),
+        HANDBALL(182, ActivityKind.HANDBALL),
+        BASEBALL(183, ActivityKind.BASEBALL),
+        SOFTBALL(184, ActivityKind.SOFTBALL),
+        CRICKET(185, ActivityKind.CRICKET),
+        RUGBY(186, ActivityKind.RUGBY),
+        BEACH_SOCCER(187, ActivityKind.BEACH_SOCCER),
+        BEACH_VOLLEYBALL(188, ActivityKind.BEACH_VOLLEYBALL),
+        GATEBALL(189, ActivityKind.GATEBALL),
+        HOCKEY(190, ActivityKind.HOCKEY),
+        SQUASH(191, ActivityKind.SQUASH),
+        SEPAK_TAKRAW(192, ActivityKind.SEPAK_TAKRAW),
+        DODGEBALL(193, ActivityKind.DODGEBALL),
+        SAILING(194, ActivityKind.SAILING),
+        SURFING(195, ActivityKind.SURFING),
+        FISHING(196, ActivityKind.FISHING),
+        RAFTING(197, ActivityKind.RAFTING),
+        DRAGON_BOATING(198, ActivityKind.DRAGON_BOAT),
+        CANOEING(199, ActivityKind.CANOEING),
+        ROWING(200, ActivityKind.ROWING),
+        WATER_SCOOTER(201, ActivityKind.WATER_SCOOTER),
+        STAND_UP_PADDLEBOARDING(202, ActivityKind.STAND_UP_PADDLEBOARDING),
+        ICE_SKATING(203, ActivityKind.ICE_SKATING),
+        ICE_HOCKEY(204, ActivityKind.ICE_HOCKEY),
+        CURLING(205, ActivityKind.CURLING),
+        BOBSLEIGH(206, ActivityKind.BOBSLEIGH),
+        SLEDDING(207, ActivityKind.SLEDDING),
+        BIATHLON(208, ActivityKind.BIATHLON),
+        SKATEBOARDING(209, ActivityKind.SKATEBOARDING),
+        ROCK_CLIMBING(210, ActivityKind.ROCK_CLIMBING),
+        BUNGEE_JUMPING(211, ActivityKind.BUNGEE_JUMPING),
+        PARKOUR(212, ActivityKind.PARKOUR),
+        BMX(213, ActivityKind.BMX),
+        ORIENTEERING(214, ActivityKind.ORIENTEERING),
+        PARACHUTING(215, ActivityKind.PARACHUTING),
+        MOTOR_AUTO_RACING(216, ActivityKind.AUTO_RACING),
+        ESPORTS(223, ActivityKind.ESPORTS),
+        PADEL(224, ActivityKind.PADEL),
+        OTHER(255, ActivityKind.EXERCISE)
+        ;
+
+        private final byte type;
+        private final ActivityKind activityKind;
+
+        HuaweiActivityType(final int type, final ActivityKind activityKind) {
+            this.type = (byte) type;
+            this.activityKind = activityKind;
+        }
+
+        public ActivityKind getActivityKind() {
+            return activityKind;
+        }
+
+        public byte getType() {
+            return type;
+        }
+
+        public static Optional<HuaweiActivityType> fromByte(final byte type) {
+            for (final HuaweiActivityType value : HuaweiActivityType.values()) {
+                if (value.getType() == type)
+                    return Optional.of(value);
+            }
+            return Optional.empty();
+        }
+    }
 
     public static void parseAllWorkouts() {
         parseUnknownWorkoutData();
@@ -123,46 +254,11 @@ public class HuaweiWorkoutGbParser {
     }
 
     public static ActivityKind huaweiTypeToGbType(byte huaweiType) {
-        int type = huaweiType & 0xFF;
-        switch (type) {
-            case 1:
-                return ActivityKind.RUNNING;
-            case 2:
-            case 13:
-                return ActivityKind.WALKING;
-            case 6:
-                return ActivityKind.SWIMMING;
-            case 3:
-                return ActivityKind.CYCLING;
-            case 7:
-                return ActivityKind.INDOOR_CYCLING;
-            case 129:
-                return ActivityKind.BADMINTON;
-            case 130:
-                return ActivityKind.EXERCISE; // TODO: Tennis
-            case 131:
-                return ActivityKind.SOCCER;
-            case 132:
-                return ActivityKind.BASKETBALL;
-            case 133:
-                return ActivityKind.EXERCISE; // TODO: Volleyball
-            case 134:
-                return ActivityKind.ELLIPTICAL_TRAINER;
-            case 135:
-                return ActivityKind.ROWING_MACHINE;
-            case 163:
-                return ActivityKind.EXERCISE; // TODO: Roller skating
-            case 173:
-                return ActivityKind.EXERCISE; // TODO: Laser tag
-            case 177:
-                return ActivityKind.EXERCISE; // TODO: stair climbing
-            case 196:
-                return ActivityKind.EXERCISE; // TODO: fishing
-            case 216:
-                return ActivityKind.EXERCISE; // TODO: motor racing
-            default:
-                return ActivityKind.UNKNOWN;
-        }
+        final Optional<HuaweiActivityType> type = HuaweiActivityType.fromByte(huaweiType);
+        if (type.isPresent())
+            return type.get().getActivityKind();
+        else
+            return ActivityKind.UNKNOWN;
     }
 
     public static void parseWorkout(Long workoutId) {

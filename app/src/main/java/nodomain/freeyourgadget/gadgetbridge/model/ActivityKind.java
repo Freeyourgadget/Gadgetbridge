@@ -280,6 +280,19 @@ public enum ActivityKind {
     WALL_BALL(0x040000e0, R.string.activity_type_wall_ball),
     WATER_POLO(0x040000e1, R.string.activity_type_water_polo),
     WEIQI(0x040000e3, R.string.activity_type_weiqi),
+    FREE_SPARRING(0x040000e4, R.string.activity_type_free_sparring),
+    BODY_COMBAT(0x040000e5, R.string.activity_type_body_combat),
+    PLAZA_DANCING(0x040000e6, R.string.activity_type_plaza_dancing),
+    LASER_TAG(0x040000e7, R.string.activity_type_laser_tag),
+    OBSTACLE_RACE(0x040000e8, R.string.activity_type_obstacle_race),
+    BILLIARD_POOL(0x040000e9, R.string.activity_type_billiard_pool),
+    CANOEING(0x040000ea, R.string.activity_type_canoeing),
+    WATER_SCOOTER(0x040000eb, R.string.activity_type_water_scooter),
+    BOBSLEIGH(0x040000ec, R.string.activity_type_bobsleigh),
+    SLEDDING(0x040000ed, R.string.activity_type_sledding),
+    BIATHLON(0x040000ee, R.string.activity_type_biathlon),
+    BUNGEE_JUMPING(0x040000ef, R.string.activity_type_bungee_jumping),
+    ORIENTEERING(0x040000f0, R.string.activity_type_orienteering),
     ;
 
     private final int code;
