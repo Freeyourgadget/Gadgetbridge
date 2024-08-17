@@ -85,6 +85,7 @@ public class DailyTotals {
         long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
         long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
+        // Purposely not including awake sleep
         return new long[]{steps, sleep[0] + sleep[1] + sleep[2]};
     }
 
@@ -92,6 +93,7 @@ public class DailyTotals {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
         long totalSecondsRemSleep = 0;
+        long totalSecondsAwakeSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             if (amount.getActivityKind() == ActivityKind.DEEP_SLEEP) {
                 totalSecondsDeepSleep += amount.getTotalSeconds();
@@ -99,12 +101,15 @@ public class DailyTotals {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             } else if (amount.getActivityKind() == ActivityKind.REM_SLEEP) {
                 totalSecondsRemSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.AWAKE_SLEEP) {
+                totalSecondsAwakeSleep += amount.getTotalSeconds();
             }
         }
         long totalMinutesDeepSleep = (totalSecondsDeepSleep / 60);
         long totalMinutesLightSleep = (totalSecondsLightSleep / 60);
         long totalMinutesRemSleep = (totalSecondsRemSleep / 60);
-        return new long[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
+        long totalMinutesAwakeSleep = (totalSecondsAwakeSleep / 60);
+        return new long[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep, totalMinutesAwakeSleep};
     }
 
 

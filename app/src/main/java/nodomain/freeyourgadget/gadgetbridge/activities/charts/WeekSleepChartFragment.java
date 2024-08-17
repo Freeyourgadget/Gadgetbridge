@@ -52,6 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
+    private TextView awakeSleepTimeText;
+    private LinearLayout awakeSleepTimeTextWrapper;
     private TextView remSleepTimeText;
     private LinearLayout remSleepTimeTextWrapper;
     private TextView deepSleepTimeText;
@@ -77,6 +79,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -TOTAL_DAYS + 1);
         TOTAL_DAYS_FOR_AVERAGE=0;
+        long awakeWeeklyTotal = 0;
         long remWeeklyTotal = 0;
         long deepWeeklyTotal = 0;
         long lightWeeklyTotal = 0;
@@ -90,13 +93,12 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
             float[] totalAmounts = getTotalsForActivityAmounts(amounts);
             deepWeeklyTotal += (long) totalAmounts[0];
             lightWeeklyTotal += (long) totalAmounts[1];
-            if (supportsRemSleep(device)) {
-                remWeeklyTotal += (long) totalAmounts[2];
-            }
+            remWeeklyTotal += (long) totalAmounts[2];
+            awakeWeeklyTotal += (long) totalAmounts[3];
             day.add(Calendar.DATE, 1);
         }
 
-        return new MySleepWeeklyData(remWeeklyTotal, deepWeeklyTotal, lightWeeklyTotal);
+        return new MySleepWeeklyData(awakeWeeklyTotal, remWeeklyTotal, deepWeeklyTotal, lightWeeklyTotal);
     }
 
         @Override
@@ -112,6 +114,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         mWeekChart = rootView.findViewById(R.id.weekstepschart);
         remSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_rem_time);
         remSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_rem_time_wrapper);
+        awakeSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_awake_time);
+        awakeSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_awake_time_wrapper);
         deepSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_deep_time);
         lightSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_light_time);
         sleepDatesText = rootView.findViewById(R.id.sleep_dates);
@@ -147,10 +151,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
             lightSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgLight, TimeUnit.MINUTES));
             float avgRem = Math.abs(this.mySleepWeeklyData.getTotalRem() / TOTAL_DAYS_FOR_AVERAGE);
             remSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgRem, TimeUnit.MINUTES));
+            float avgAwake = Math.abs(this.mySleepWeeklyData.getTotalAwake() / TOTAL_DAYS_FOR_AVERAGE);
+            awakeSleepTimeText.setText(DateTimeUtils.formatDurationHoursMinutes((int) avgAwake, TimeUnit.MINUTES));
         } else {
             deepSleepTimeText.setText("-");
             lightSleepTimeText.setText("-");
             remSleepTimeText.setText("-");
+            awakeSleepTimeText.setText("-");
         }
 
         if (!supportsRemSleep(getChartsHost().getDevice())) {
@@ -237,6 +244,7 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
         long totalSecondsRemSleep = 0;
+        long totalSecondsAwakeSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             if (amount.getActivityKind() == ActivityKind.DEEP_SLEEP) {
                 totalSecondsDeepSleep += amount.getTotalSeconds();
@@ -244,16 +252,15 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             } else if (amount.getActivityKind() == ActivityKind.REM_SLEEP) {
                 totalSecondsRemSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.AWAKE_SLEEP) {
+                totalSecondsAwakeSleep += amount.getTotalSeconds();
             }
         }
         int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
         int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
         int totalMinutesRemSleep = (int) (totalSecondsRemSleep / 60);
-        if (supportsRemSleep(getChartsHost().getDevice())) {
-            return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
-        } else {
-            return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
-        }
+        int totalMinutesAwakeSleep = (int) (totalSecondsAwakeSleep / 60);
+        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep, totalMinutesAwakeSleep};
     }
 
     @Override
@@ -349,16 +356,22 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     private static class MySleepWeeklyData {
+        private long totalAwake;
         private long totalRem;
         private long totalDeep;
         private long totalLight;
         private int totalDaysForAverage;
 
-        public MySleepWeeklyData(long totalRem, long totalDeep, long totalLight) {
+        public MySleepWeeklyData(long totalAwake, long totalRem, long totalDeep, long totalLight) {
             this.totalDeep = totalDeep;
             this.totalRem = totalRem;
+            this.totalAwake = totalAwake;
             this.totalLight = totalLight;
             this.totalDaysForAverage = 0;
+        }
+
+        public long getTotalAwake() {
+            return this.totalAwake;
         }
 
         public long getTotalRem() {

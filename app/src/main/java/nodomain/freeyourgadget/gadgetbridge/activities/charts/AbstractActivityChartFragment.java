@@ -78,6 +78,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     protected ActivityConfig akLightSleep;
     protected ActivityConfig akDeepSleep;
     protected ActivityConfig akRemSleep;
+    protected ActivityConfig akAwakeSleep;
     protected ActivityConfig akNotWorn;
 
     protected int BACKGROUND_COLOR;
@@ -89,6 +90,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
     protected int AK_REM_SLEEP_COLOR;
+    protected int AK_AWAKE_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
     protected int AK_NOT_WORN_COLOR;
 
@@ -117,6 +119,8 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         AK_LIGHT_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_rem_sleep, runningColor, true);
         AK_REM_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_awake_sleep, runningColor, true);
+        AK_AWAKE_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
         AK_NOT_WORN_COLOR = runningColor.data;
 
@@ -127,6 +131,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         akLightSleep = new ActivityConfig(ActivityKind.LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
         akDeepSleep = new ActivityConfig(ActivityKind.DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
         akRemSleep = new ActivityConfig(ActivityKind.REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_rem_sleep), AK_REM_SLEEP_COLOR);
+        akAwakeSleep = new ActivityConfig(ActivityKind.REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_awake_sleep), AK_AWAKE_SLEEP_COLOR);
         akNotWorn = new ActivityConfig(ActivityKind.NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
     }
 
@@ -138,6 +143,8 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                 return akLightSleep.color;
             case REM_SLEEP:
                 return akRemSleep.color;
+            case AWAKE_SLEEP:
+                return akAwakeSleep.color;
             case ACTIVITY:
                 return akActivity.color;
         }

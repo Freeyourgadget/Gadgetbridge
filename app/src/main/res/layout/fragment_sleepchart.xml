@@ -154,6 +154,42 @@
                         android:text="@string/sleep_colored_stats_rem"
                         android:textSize="12sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sleep_chart_legend_awake_time_wrapper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="20dip"
+                    android:paddingRight="20dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/chart_awake_sleep_dark" />
+
+                    <TextView
+                        android:id="@+id/sleep_chart_legend_awake_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="20dip"
+                        android:gravity="center"
+                        android:text="@string/stats_empty_value"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/sleep_chart_legend_awake_legend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center"
+                        android:text="@string/abstract_chart_fragment_kind_awake_sleep"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </TableRow>
         </TableLayout>
 

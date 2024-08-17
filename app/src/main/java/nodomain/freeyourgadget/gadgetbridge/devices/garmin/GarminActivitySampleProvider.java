@@ -174,6 +174,9 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
                     sample.setRawKind(sleepType.getCode());
 
                     switch (sleepType) {
+                        case AWAKE_SLEEP:
+                            sample.setRawIntensity(50);
+                            break;
                         case DEEP_SLEEP:
                             sample.setRawIntensity(20);
                             break;
@@ -197,6 +200,8 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         }
 
         switch (sleepStage) {
+            case AWAKE:
+                return ActivityKind.AWAKE_SLEEP;
             case LIGHT:
                 return ActivityKind.LIGHT_SLEEP;
             case DEEP:

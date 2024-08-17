@@ -27,6 +27,7 @@
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_light</item>
+        <item name="chart_awake_sleep">@color/chart_awake_sleep_light</item>
         <item name="chart_activity">@color/chart_activity_light</item>
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
         <item name="alternate_row_background">@color/alternate_row_background_light</item>
@@ -68,6 +69,7 @@
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_dark</item>
+        <item name="chart_awake_sleep">@color/chart_awake_sleep_dark</item>
         <item name="chart_activity">@color/chart_activity_dark</item>
         <item name="chart_not_worn">@color/chart_not_worn_dark</item>
         <item name="alternate_row_background">@color/alternate_row_background_dark</item>

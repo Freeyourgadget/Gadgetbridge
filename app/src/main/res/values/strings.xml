@@ -976,7 +976,7 @@
     <string name="abstract_chart_fragment_kind_light_sleep">Light sleep</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Deep sleep</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">REM sleep</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">Awake sleep</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Awake</string>
     <string name="abstract_chart_fragment_kind_not_worn">Not worn</string>
     <string name="sleep_colored_stats_deep">Deep</string>
     <string name="sleep_colored_stats_light">Light</string>
@@ -984,6 +984,7 @@
     <string name="sleep_colored_stats_deep_avg">Deep AVG</string>
     <string name="sleep_colored_stats_light_avg">Light AVG</string>
     <string name="sleep_colored_stats_rem_avg">REM AVG</string>
+    <string name="sleep_colored_stats_awake_avg">Awake AVG</string>
     <string name="stats_empty_value">-</string>
     <string name="stats_lowest_hr">Lowest HR</string>
     <string name="stats_highest_hr">Highest HR</string>

@@ -140,6 +140,39 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"/>
                 </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/sleep_chart_legend_awake_time_wrapper"
+                        android:orientation="vertical"
+                        android:paddingTop="20dip"
+                        android:paddingLeft="20dip"
+                        android:paddingRight="20dip"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                >
+                    <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="5dp"
+                            android:background="@color/chart_awake_sleep_dark"/>
+                    <TextView
+                            android:layout_marginTop="20dip"
+                            android:id="@+id/sleep_chart_legend_awake_time"
+                            android:text="@string/stats_empty_value"
+                            android:textSize="20sp"
+                            android:layout_gravity="start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"/>
+                    <TextView
+                            android:id="@+id/sleep_chart_legend_awake_legend"
+                            android:text="@string/sleep_colored_stats_awake_avg"
+                            android:textSize="12sp"
+                            android:layout_gravity="start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"/>
+                </LinearLayout>
             </TableRow>
         </TableLayout>
 

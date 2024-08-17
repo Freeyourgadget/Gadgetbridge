@@ -68,6 +68,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
     private TextView mSleepchartInfo;
     private TextView remSleepTimeText;
     private LinearLayout remSleepTimeTextWrapper;
+    private TextView awakeSleepTimeText;
+    private LinearLayout awakeSleepTimeTextWrapper;
     private TextView deepSleepTimeText;
     private TextView lightSleepTimeText;
     private TextView lowestHrText;
@@ -132,7 +134,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         final long lightSleepDuration = calculateLightSleepDuration(sleepSessions);
         final long deepSleepDuration = calculateDeepSleepDuration(sleepSessions);
         final long remSleepDuration = calculateRemSleepDuration(sleepSessions);
-        final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration;
+        final long awakeSleepDuration = calculateAwakeSleepDuration(sleepSessions);
+        final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration + awakeSleepDuration;
 
         final List<PieEntry> entries = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
@@ -147,6 +150,9 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
                 entries.add(new PieEntry(remSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_rem_sleep)));
                 colors.add(getColorFor(ActivityKind.REM_SLEEP));
             }
+
+            entries.add(new PieEntry(awakeSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep)));
+            colors.add(getColorFor(ActivityKind.AWAKE_SLEEP));
 
         } else {
             entries.add(new PieEntry(1));
@@ -163,11 +169,12 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         data.setDataSet(set);
 
         String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
+        String totalAwake = DateTimeUtils.formatDurationHoursMinutes(awakeSleepDuration, TimeUnit.SECONDS);
         String totalRem = DateTimeUtils.formatDurationHoursMinutes(remSleepDuration, TimeUnit.SECONDS);
         String totalDeep = DateTimeUtils.formatDurationHoursMinutes(deepSleepDuration, TimeUnit.SECONDS);
         String totalLight = DateTimeUtils.formatDurationHoursMinutes(lightSleepDuration, TimeUnit.SECONDS);
         //setupLegend(pieChart);
-        return new MySleepChartsData(data, sleepSessions, totalSleep, totalRem, totalDeep, totalLight);
+        return new MySleepChartsData(data, sleepSessions, totalSleep, totalAwake, totalRem, totalDeep, totalLight);
     }
 
     private long calculateLightSleepDuration(List<SleepSession> sleepSessions) {
@@ -194,6 +201,14 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         return result;
     }
 
+    private long calculateAwakeSleepDuration(List<SleepSession> sleepSessions) {
+        long result = 0;
+        for (SleepSession sleepSession : sleepSessions) {
+            result += sleepSession.getAwakeSleepDuration();
+        }
+        return result;
+    }
+
     @Override
     protected void updateChartsnUIThread(MyChartsData mcd) {
         MySleepChartsData pieData = mcd.getPieData();
@@ -207,10 +222,12 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         mSleepAmountChart.setCenterTextColor(GBApplication.getTextColor(getContext()));
         mSleepAmountChart.setCenterText(pieData.getTotalSleep());
         if (!pieData.sleepSessions.isEmpty()) {
+            awakeSleepTimeText.setText(pieData.getTotalAwake());
             remSleepTimeText.setText(pieData.getTotalRem());
             deepSleepTimeText.setText(pieData.getTotalDeep());
             lightSleepTimeText.setText(pieData.getTotalLight());
         } else {
+            awakeSleepTimeText.setText("-");
             remSleepTimeText.setText("-");
             deepSleepTimeText.setText("-");
             lightSleepTimeText.setText("-");
@@ -357,6 +374,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         mSleepchartInfo = rootView.findViewById(R.id.sleepchart_info);
         remSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_rem_time);
         remSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_rem_time_wrapper);
+        awakeSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_awake_time);
+        awakeSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_awake_time_wrapper);
         deepSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_deep_time);
         lightSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_light_time);
         lowestHrText = rootView.findViewById(R.id.sleep_hr_lowest);
@@ -484,15 +503,17 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
 
     private static class MySleepChartsData extends ChartsData {
         private String totalSleep;
+        private String totalAwake;
         private String totalRem;
         private String totalDeep;
         private String totalLight;
         private final PieData pieData;
         private final List<SleepSession> sleepSessions;
 
-        public MySleepChartsData(PieData pieData, List<SleepSession> sleepSessions, String totalSleep, String totalRem, String totalDeep, String totalLight) {
+        public MySleepChartsData(PieData pieData, List<SleepSession> sleepSessions, String totalSleep, String totalAwake, String totalRem, String totalDeep, String totalLight) {
             this.pieData = pieData;
             this.sleepSessions = sleepSessions;
+            this.totalAwake = totalAwake;
             this.totalSleep = totalSleep;
             this.totalRem = totalRem;
             this.totalDeep = totalDeep;
@@ -505,6 +526,10 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
 
         public CharSequence getTotalSleep() {
             return totalSleep;
+        }
+
+        public CharSequence getTotalAwake() {
+            return totalAwake;
         }
 
         public CharSequence getTotalRem() {

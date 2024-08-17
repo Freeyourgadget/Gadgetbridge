@@ -31,6 +31,9 @@
     <color name="chart_rem_sleep_light" type="color">#e427c7</color>
     <color name="chart_rem_sleep_dark" type="color">#e427c7</color>
 
+    <color name="chart_awake_sleep_light" type="color">#ff866e</color>
+    <color name="chart_awake_sleep_dark" type="color">#ff866e</color>
+
     <color name="chart_activity_light" type="color">#60bd6d</color>
     <color name="chart_activity_dark" type="color">#59b22c</color>
 
