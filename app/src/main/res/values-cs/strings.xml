@@ -3205,4 +3205,6 @@
     <string name="activity_type_american_football">Americký fotbal</string>
     <string name="activity_type_training">Trénink</string>
     <string name="activity_type_hang_gliding">Závěsné létání</string>
+    <string name="activity_type_ice_skating">Bruslení</string>
+    <string name="activity_type_sail_expedition">Výlet na plachetnici</string>
 </resources>
