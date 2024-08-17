@@ -2398,7 +2398,7 @@
     <string name="info_menu_structure_removed">Struktura menu odstraněna</string>
     <string name="pref_title_casio_alert_calendar">Upozornění pro oznámení kalendáře</string>
     <string name="pref_summary_casio_alert_calendar">Upozornit (vibrovat/pípnout) na oznámení kalendáře</string>
-    <string name="pref_title_send_app_notifications">Poslat oznámení</string>
+    <string name="pref_title_send_app_notifications">Posílat oznámení</string>
     <string name="pref_summary_send_app_notifications">Poslat oznámení aplikací do zařízení</string>
     <string name="spanish_mx">Španělština (Mexiko)</string>
     <string name="spanish_us">Španělština (Spojené státy)</string>
@@ -3263,4 +3263,27 @@
     <string name="activity_type_finswimming">Ploutvové plavání</string>
     <string name="activity_type_frisbee">Frisbee</string>
     <string name="activity_type_futsal">Futsal</string>
+    <string name="activity_type_hacky_sack">Hacky sack</string>
+    <string name="activity_type_snorkeling">Šnorchlování</string>
+    <string name="activity_type_wall_ball">Medicinbal</string>
+    <string name="activity_type_water_polo">Vodní pólo</string>
+    <string name="activity_type_hip_hop">Hip-hop</string>
+    <string name="activity_type_parallel_bars">Bradla</string>
+    <string name="activity_type_race_walking">Sportovní chůze</string>
+    <string name="activity_type_hula_hoop">Hula hoop</string>
+    <string name="activity_type_jai_alai">Jai alai</string>
+    <string name="activity_type_jujitsu">Ju-jitsu</string>
+    <string name="activity_type_modern_dance">Moderní tanec</string>
+    <string name="activity_type_judo">Judo</string>
+    <string name="activity_type_muay_thai">Muaythai</string>
+    <string name="activity_type_mass_gymnastics">Hromadná gymnastika</string>
+    <string name="activity_type_shuffleboard">Shuffleboarding</string>
+    <string name="activity_type_pole_dance">Pole dance</string>
+    <string name="activity_type_square_dance">Square dance</string>
+    <string name="activity_type_weiqi">Weiqi</string>
+    <string name="activity_type_stair_climber">Stairclimber</string>
+    <string name="activity_type_somatosensory_game">Somatosenzorická hra</string>
+    <string name="activity_type_spinning">Spinning</string>
+    <string name="activity_type_tug_of_war">Přetahování lanem</string>
+    <string name="activity_type_table_football">Stolní fotbal</string>
 </resources>
