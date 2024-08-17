@@ -77,6 +77,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @NonNull
     @Override
+    @Deprecated // use getAllActivitySamples
     public List<T> getActivitySamples(int timestamp_from, int timestamp_to) {
         if (getRawKindSampleProperty() != null) {
             return getGBActivitySamples(timestamp_from, timestamp_to);
