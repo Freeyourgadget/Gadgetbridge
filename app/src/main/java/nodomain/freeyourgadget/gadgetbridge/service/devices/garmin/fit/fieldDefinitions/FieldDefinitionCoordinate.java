@@ -15,7 +15,11 @@ public class FieldDefinitionCoordinate extends FieldDefinition {
 
     @Override
     public Object decode(ByteBuffer byteBuffer) {
-        return ((long) baseType.decode(byteBuffer, 1, 0)) * conversionFactor;
+        final Object rawValue = baseType.decode(byteBuffer, 1, 0);
+        if (rawValue == null) {
+            return null;
+        }
+        return ((long) rawValue) * conversionFactor;
     }
 
     @Override

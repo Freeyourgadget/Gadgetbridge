@@ -84,7 +84,7 @@ public class FitRecord extends RecordData {
 
     public ActivityPoint toActivityPoint() {
         final ActivityPoint activityPoint = new ActivityPoint();
-        activityPoint.setTime(new Date(getComputedTimestamp()));
+        activityPoint.setTime(new Date(getComputedTimestamp() * 1000L));
         if (getLatitude() != null && getLongitude() != null) {
             activityPoint.setLocation(new GPSCoordinate(
                     getLongitude(),
