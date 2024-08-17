@@ -128,7 +128,7 @@ public class FitFile {
         if (!canGenerateOutput)
             throw new IllegalArgumentException("Generation of previously parsed FIT file not supported.");
 
-        MessageWriter temporary = new MessageWriter();
+        MessageWriter temporary = new MessageWriter(writer.getLimit());
         temporary.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         RecordDefinition prevDefinition = null;
         for (final RecordData rd : dataRecords) {
@@ -147,7 +147,24 @@ public class FitFile {
     }
 
     public byte[] getOutgoingMessage() {
-        final MessageWriter writer = new MessageWriter();
+        // Compute the worst case scenario buffer size for the fit file
+        // A ~1.6MB gpx file with ~16k points results in a ~320KB buffer, ~150KB of which get actually used
+        final int dataRecordsSize = dataRecords.stream()
+                .mapToInt(r -> {
+                    // Worst case scenario, for each data record
+
+                    // one distinct record definition: 5 bytes + (number of field definitions * 3 + 1)
+                    final List<FieldDefinition> definitions = r.getRecordDefinition().getFieldDefinitions();
+                    final int recordDefinitionOverhead = 5 + (definitions != null ? definitions.size() * 3 + 1 : 0);
+
+                    // 1 + size of the value holder
+                    final int dataRecordOverhead = 1 + r.valueHolder.limit();
+
+                    return recordDefinitionOverhead + dataRecordOverhead;
+                }).sum();
+
+        // Final size = 14b header + data records + 2b crc
+        final MessageWriter writer = new MessageWriter(14 + dataRecordsSize + 2);
         this.generateOutgoingDataPayload(writer);
         return writer.getBytes();
     }

@@ -57,8 +57,6 @@ public class MessageWriter {
         final int size = bytes.length;
         if (size > 255) throw new IllegalArgumentException("Too long string");
 
-        if (byteBuffer.position() + 1 + size > byteBuffer.capacity())
-            throw new IllegalStateException();
         byteBuffer.put((byte) size);
         byteBuffer.put(bytes);
     }
@@ -76,12 +74,15 @@ public class MessageWriter {
         return byteBuffer.position();
     }
 
+    public int getLimit() {
+        return byteBuffer.limit();
+    }
+
     public void writeBytes(byte[] bytes) {
         writeBytes(bytes, 0, bytes.length);
     }
 
     public void writeBytes(byte[] bytes, int offset, int size) {
-        if (byteBuffer.position() + size > byteBuffer.capacity()) throw new IllegalStateException();
         byteBuffer.put(Arrays.copyOfRange(bytes, offset, offset + size));
     }
 }
