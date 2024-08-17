@@ -3297,4 +3297,6 @@
     <string name="activity_type_tug_of_war">Halat çekme</string>
     <string name="activity_type_wall_ball">Duvar topu</string>
     <string name="activity_type_weiqi">Go (Weiqi)</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Saat arayüzü yüklenemiyor, çok fazla saat arayüzü kurulu</string>
+    <string name="insufficient_space_for_upload">Yükleme için yeterli alan yok</string>
 </resources>
