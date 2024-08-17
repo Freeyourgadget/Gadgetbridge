@@ -6,7 +6,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes
 public class FieldDefinitionTemperature extends FieldDefinition {
 
     public FieldDefinitionTemperature(int localNumber, int size, BaseType baseType, String name) {
-        super(localNumber, size, baseType, name, 1, 273);
+        super(localNumber, size, baseType, name, 1, -273);
     }
 
 }
