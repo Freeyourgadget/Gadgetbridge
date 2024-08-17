@@ -3207,4 +3207,14 @@
     <string name="activity_type_hang_gliding">Závěsné létání</string>
     <string name="activity_type_ice_skating">Bruslení</string>
     <string name="activity_type_sail_expedition">Výlet na plachetnici</string>
+    <string name="activity_type_sky_diving">Skydiving</string>
+    <string name="activity_type_snowshoe">Sněžnice</string>
+    <string name="activity_type_kayaking">Jízda na kajaku</string>
+    <string name="activity_type_rafting">Rafting</string>
+    <string name="activity_type_wakeboarding">Wakeboarding</string>
+    <string name="activity_type_water_skiing">Vodní lyžování</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Nepodařilo se nahrát ciferník, je nainstalováno příliš mnoho ciferníků</string>
+    <string name="insufficient_space_for_upload">Nedostatek místa pro nahrání</string>
+    <string name="activity_type_snowmobiling">Jízda na sněžném skútru</string>
+    <string name="activity_type_stand_up_paddleboarding">Paddleboarding ve stoje</string>
 </resources>
