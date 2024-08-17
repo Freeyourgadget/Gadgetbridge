@@ -1262,4 +1262,14 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         LOG.debug(logMessage);
         //GB.toast(getContext(), toastMessage, Toast.LENGTH_LONG, GB.WARN);
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

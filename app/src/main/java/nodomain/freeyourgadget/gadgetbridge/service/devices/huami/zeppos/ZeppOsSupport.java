@@ -240,7 +240,8 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
 
     /**
      * Do not reset the gatt callback implicitly, as that would interrupt operations.
-     * See https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2912 for more information.
+     * See <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2912">#2912</a> for more
+     * information.
      */
     @Override
     public boolean getImplicitCallbackModify() {
@@ -557,6 +558,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
 
     @Override
     public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        //noinspection unchecked
         contactsService.setContacts((List<Contact>) contacts);
     }
 
@@ -643,6 +645,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
                     // Write the agps epo update to a temporary file in cache, so we can reuse the firmware update operation
                     final File cacheDir = getContext().getCacheDir();
                     final File agpsCacheDir = new File(cacheDir, "zepp-os-agps");
+                    //noinspection ResultOfMethodCallIgnored
                     agpsCacheDir.mkdir();
                     final File uihhFile = new File(agpsCacheDir, "epo-agps.uihh");
 
@@ -1048,6 +1051,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
         final String timeFormat = gbPrefs.getTimeFormat();
 
         // FIXME: This "works", but the band does not update when the setting changes, so we don't do anything
+        //noinspection ConstantValue
         if (true) {
             LOG.warn("setDateTime is disabled");
             return this;
@@ -1519,6 +1523,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     }
 
     protected void handle2021Weather(final byte[] payload) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (payload[0]) {
             case WEATHER_CMD_DEFAULT_LOCATION_ACK:
                 LOG.info("Weather default location ACK, status = {}", payload[1]);
@@ -1546,6 +1551,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     }
 
     protected void handle2021UserInfo(final byte[] payload) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (payload[0]) {
             case USER_INFO_CMD_SET_ACK:
                 LOG.info("Got user info set ack, status = {}", payload[1]);
@@ -1571,7 +1577,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
             case STEPS_CMD_REALTIME_NOTIFICATION:
                 LOG.info("Got steps notification");
                 if (payload.length != 14) {
-                    LOG.error("Unexpected steps reply payload length {}", payload.length);
+                    LOG.error("Unexpected realtime notification payload length {}", payload.length);
                     return;
                 }
                 handleRealtimeSteps(subarray(payload, 1, 14));
@@ -1582,6 +1588,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
     }
 
     protected void handle2021VibrationPatterns(final byte[] payload) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (payload[0]) {
             case VIBRATION_PATTERN_ACK:
                 LOG.info("Vibration Patterns ACK, status = {}", payload[1]);
@@ -1669,6 +1676,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
         try {
             final String validFilename = FileUtils.makeValidFileName(filename);
             final File targetFolder = new File(FileUtils.getExternalFilesDir(), fileDownloadsDir);
+            //noinspection ResultOfMethodCallIgnored
             targetFolder.mkdirs();
             targetFile = new File(targetFolder, validFilename);
         } catch (final IOException e) {
@@ -1678,6 +1686,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
 
         try (FileOutputStream outputStream = new FileOutputStream(targetFile)) {
             final File targetFolder = new File(FileUtils.getExternalFilesDir(), fileDownloadsDir);
+            //noinspection ResultOfMethodCallIgnored
             targetFolder.mkdirs();
             outputStream.write(data);
         } catch (final IOException e) {

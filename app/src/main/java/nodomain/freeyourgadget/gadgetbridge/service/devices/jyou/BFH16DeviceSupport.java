@@ -53,7 +53,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.jyou;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.net.Uri;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -71,13 +70,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
@@ -546,4 +540,13 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         return null;
     }
 
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

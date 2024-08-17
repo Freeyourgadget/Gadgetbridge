@@ -622,4 +622,14 @@ public final class HamaFit6900DeviceSupport extends AbstractBTLEDeviceSupport {
         event.level = level;
         evaluateGBDeviceEvent(event); */
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

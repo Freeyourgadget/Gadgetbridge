@@ -21,7 +21,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
@@ -36,7 +35,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.greenrobot.dao.query.Query;
@@ -64,15 +62,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.LefunSleepSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -1027,5 +1020,15 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                         GB.ERROR, e);
             }
         }
+    }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
     }
 }

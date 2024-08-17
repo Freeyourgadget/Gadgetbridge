@@ -296,4 +296,14 @@ public class FemometerVinca2DeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.error("Error acquiring database", e);
         }
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

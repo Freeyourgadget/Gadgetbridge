@@ -111,11 +111,6 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public boolean getImplicitCallbackModify() {
-        return delegate.getImplicitCallbackModify();
-    }
-
-    @Override
     public void dispose() {
         delegate.dispose();
     }

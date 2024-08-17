@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 
-import android.net.Uri;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,5 +52,15 @@ public abstract class CasioSupport extends AbstractBTLEDeviceSupport {
         mFirstConnect = false;
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
+    }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
     }
 }

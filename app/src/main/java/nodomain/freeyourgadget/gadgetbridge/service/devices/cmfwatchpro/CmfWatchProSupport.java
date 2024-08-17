@@ -111,17 +111,6 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
     public boolean useAutoConnect() {
         return true;
     }
-
-    @Override
-    public boolean getImplicitCallbackModify() {
-        return false;
-    }
-
-    @Override
-    public boolean getSendWriteRequestResponse() {
-        return true;
-    }
-
     @Override
     protected TransactionBuilder initializeDevice(final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));

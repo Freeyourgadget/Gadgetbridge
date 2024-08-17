@@ -276,4 +276,13 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         evaluateGBDeviceEvent(event);
     }
 
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

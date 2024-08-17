@@ -187,4 +187,14 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
     public void onTestNewFunction() {
         supportProvider.onTestNewFunction();
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

@@ -22,7 +22,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +60,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     private Map<UUID, BluetoothGattCharacteristic> mAvailableCharacteristics;
     private final Set<UUID> mSupportedServices = new HashSet<>(4);
     private final Set<BluetoothGattService> mSupportedServerServices = new HashSet<>(4);
-    private Logger logger;
+    private final Logger logger;
 
     private final List<AbstractBleProfile<?>> mSupportedProfiles = new ArrayList<>();
     public static final String BASE_UUID = "0000%s-0000-1000-8000-00805f9b34fb"; //this is common for all BTLE devices. see http://stackoverflow.com/questions/18699251/finding-out-android-bluetooth-le-gatt-profiles
@@ -93,16 +92,28 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     /**
+     * Returns whether the gatt callback should be implicitly set to the one on the transaction,
+     * even if it was not set directly on the transaction. If true, the gatt callback will always
+     * be set to the one in the transaction, even if null and not explicitly set to null.
+     * See <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2912">#2912</a> for
+     * more information. This is false by default, but we are making it configurable to avoid breaking
+     * older devices that rely on this behavior, so all older devices got this overridden to true.
+     */
+    public boolean getImplicitCallbackModify() {
+        return false;
+    }
+
+    /**
      * Whether to send a write request response to the device, if requested. The standard actually
-     * expects this to happen, but Gadgetbridge did not originally support it. This is set to false
-     * to prevent breaking devices that are somehow not expecting the response.
+     * expects this to happen, but Gadgetbridge did not originally support it. This is set to true
+     * on all older devices that were not confirmed to handle the response well after this was introduced.
      * <p>
-     * See also: https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2831#issuecomment-941568
+     * See also: <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2831#issuecomment-941568">#2831#issuecomment-941568</a>
      *
      * @return whether to send write request responses, if a response is requested
      */
     public boolean getSendWriteRequestResponse() {
-        return false;
+        return true;
     }
 
     @Override
@@ -116,7 +127,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     /**
      * Subclasses should populate the given builder to initialize the device (if necessary).
      *
-     * @param builder
      * @return the same builder as passed as the argument
      */
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -183,12 +193,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     /**
      * Ensures that the device is connected and (only then) performs the actions of the given
      * transaction builder.
-     *
+     * <p>
      * In contrast to {@link #performInitialized(String)}, no initialization sequence is performed
      * with the device, only the actions of the given builder are executed.
-     * @param transaction
-     * @throws IOException
-     * @see {@link #performInitialized(String)}
+     * @throws IOException if unable to connect to the device
+     * @see #performInitialized(String)
      */
     public void performConnected(Transaction transaction) throws IOException {
         if (!isConnected()) {
@@ -203,7 +212,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * Performs the actions of the given transaction as soon as possible,
      * that is, before any other queued transactions, but after the actions
      * of the currently executing transaction.
-     * @param builder
      */
     public void performImmediately(TransactionBuilder builder) throws IOException {
         if (!isConnected()) {
@@ -220,7 +228,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * Subclasses should call this method to add services they support.
      * Only supported services will be queried for characteristics.
      *
-     * @param aSupportedService
+     * @param aSupportedService supported service uuid
      * @see #getCharacteristic(UUID)
      */
     protected void addSupportedService(UUID aSupportedService) {
@@ -233,7 +241,6 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     /**
      * Subclasses should call this method to add server services they support.
-     * @param service
      */
     protected void addSupportedServerService(BluetoothGattService service) {
         mSupportedServerServices.add(service);
@@ -243,7 +250,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
      * Returns the characteristic matching the given UUID. Only characteristics
      * are returned whose service is marked as supported.
      *
-     * @param uuid
+     * @param uuid characteristic uuid
      * @return the characteristic for the given UUID or <code>null</code>
      * @see #addSupportedService(UUID)
      */
@@ -265,16 +272,16 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         Map<UUID, BluetoothGattCharacteristic> newCharacteristics = new HashMap<>();
         for (BluetoothGattService service : discoveredGattServices) {
             if (supportedServices.contains(service.getUuid())) {
-                logger.debug("discovered supported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
+                logger.debug("discovered supported service: {}: {}", BleNamesResolver.resolveServiceName(service.getUuid().toString()), service.getUuid());
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 if (characteristics == null || characteristics.isEmpty()) {
-                    logger.warn("Supported LE service " + service.getUuid() + "did not return any characteristics");
+                    logger.warn("Supported LE service {} did not return any characteristics", service.getUuid());
                     continue;
                 }
                 HashMap<UUID, BluetoothGattCharacteristic> intmAvailableCharacteristics = new HashMap<>(characteristics.size());
                 for (BluetoothGattCharacteristic characteristic : characteristics) {
                     intmAvailableCharacteristics.put(characteristic.getUuid(), characteristic);
-                    logger.info("    characteristic: " + BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()) + ": " + characteristic.getUuid());
+                    logger.info("    characteristic: {}: {}", BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString()), characteristic.getUuid());
                 }
                 newCharacteristics.putAll(intmAvailableCharacteristics);
 
@@ -282,7 +289,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
                     mAvailableCharacteristics = newCharacteristics;
                 }
             } else {
-                logger.debug("discovered unsupported service: " + BleNamesResolver.resolveServiceName(service.getUuid().toString()) + ": " + service.getUuid());
+                logger.debug("discovered unsupported service: {}: {}", BleNamesResolver.resolveServiceName(service.getUuid().toString()), service.getUuid());
             }
         }
     }
@@ -293,18 +300,16 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     /**
      * Utility method that may be used to log incoming messages when we don't know how to deal with them yet.
-     *
-     * @param value
      */
     public void logMessageContent(byte[] value) {
-        logger.info("RECEIVED DATA WITH LENGTH: " + ((value != null) ? value.length : "(null)"));
+        logger.info("RECEIVED DATA WITH LENGTH: {}", (value != null) ? value.length : "(null)");
         Logging.logBytes(logger, value);
     }
 
     // default implementations of event handler methods (gatt callbacks)
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             profile.onConnectionStateChange(gatt, status, newState);
         }
     }
@@ -323,7 +328,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic, int status) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             if (profile.onCharacteristicRead(gatt, characteristic, status)) {
                 return true;
             }
@@ -334,7 +339,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean onCharacteristicWrite(BluetoothGatt gatt,
                                          BluetoothGattCharacteristic characteristic, int status) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             if (profile.onCharacteristicWrite(gatt, characteristic, status)) {
                 return true;
             }
@@ -344,7 +349,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public boolean onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             if (profile.onDescriptorRead(gatt, descriptor, status)) {
                 return true;
             }
@@ -354,7 +359,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public boolean onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             if (profile.onDescriptorWrite(gatt, descriptor, status)) {
                 return true;
             }
@@ -363,14 +368,9 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
-    public void onSleepAsAndroidAction(String action, Bundle extras) {
-
-    }
-
-    @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             if (profile.onCharacteristicChanged(gatt, characteristic)) {
                 return true;
             }
@@ -380,7 +380,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-        for (AbstractBleProfile profile : mSupportedProfiles) {
+        for (AbstractBleProfile<?> profile : mSupportedProfiles) {
             profile.onReadRemoteRssi(gatt, rssi, status);
         }
     }

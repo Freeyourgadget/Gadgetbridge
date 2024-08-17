@@ -122,11 +122,6 @@ public class XiaomiSupport extends AbstractDeviceSupport {
         }
     }
 
-    @Override
-    public boolean getImplicitCallbackModify() {
-        return false;
-    }
-
     private DeviceCoordinator.ConnectionType getForcedConnectionTypeFromPrefs() {
         final String connTypeAuto = getContext().getString(R.string.pref_force_connection_type_auto_value);
         String connTypePref = getDevicePrefs().getString(PREF_FORCE_CONNECTION_TYPE, connTypeAuto);
@@ -415,6 +410,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
 
     @Override
     public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        //noinspection unchecked
         phonebookService.setContacts((List<Contact>) contacts);
     }
 
@@ -521,7 +517,7 @@ public class XiaomiSupport extends AbstractDeviceSupport {
                         LOG.warn("Failed to parse {}", fileId);
                     }
                 } catch (final Exception ex) {
-                    LOG.error("Exception while parsing " + fileId, ex);
+                    LOG.error("Exception while parsing {}", fileId, ex);
                 }
             }
         } catch (final Exception e) {

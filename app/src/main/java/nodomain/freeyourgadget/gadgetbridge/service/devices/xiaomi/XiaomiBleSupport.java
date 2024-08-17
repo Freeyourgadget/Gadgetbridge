@@ -208,11 +208,6 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         }
 
         @Override
-        public boolean getImplicitCallbackModify() {
-            return mXiaomiSupport.getImplicitCallbackModify();
-        }
-
-        @Override
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);
 

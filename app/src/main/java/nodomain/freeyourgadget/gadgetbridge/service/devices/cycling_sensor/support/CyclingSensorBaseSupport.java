@@ -13,4 +13,14 @@ public class CyclingSensorBaseSupport extends AbstractBTLEDeviceSupport {
     public boolean useAutoConnect() {
         return false;
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

@@ -112,7 +112,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlRecei
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
@@ -185,11 +184,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     @Override
     public boolean getScanReconnect(){
         return this.scanReconnect;
-    }
-
-    @Override
-    public boolean getImplicitCallbackModify() {
-        return true;
     }
 
     @Override

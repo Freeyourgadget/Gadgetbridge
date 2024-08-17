@@ -1068,4 +1068,14 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast("Failed to send settings update", Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
+    }
 }

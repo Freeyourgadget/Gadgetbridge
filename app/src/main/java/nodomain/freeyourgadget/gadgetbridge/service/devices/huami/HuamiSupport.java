@@ -26,8 +26,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
@@ -4312,5 +4310,15 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     protected void handleRawSensorData(final byte[] value) {
         LOG.warn("handleRawSensorData not implemented for HuamiSupport");
+    }
+
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
+    public boolean getSendWriteRequestResponse() {
+        return false;
     }
 }
