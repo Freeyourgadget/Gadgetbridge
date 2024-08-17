@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -39,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSleepStageSampl
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
@@ -55,7 +57,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -203,7 +204,7 @@ public class FitImporter {
             } else if (record instanceof FitHrvSummary) {
                 final FitHrvSummary hrvSummary = (FitHrvSummary) record;
                 LOG.trace("HRV summary at {}: {}", ts, record);
-                final GarminHrvSummarySample sample = new GarminHrvSummarySample( );
+                final GarminHrvSummarySample sample = new GarminHrvSummarySample();
                 sample.setTimestamp(ts * 1000L);
                 sample.setWeeklyAverage(hrvSummary.getWeeklyAverage());
                 sample.setLastNightAverage(hrvSummary.getLastNightAverage());
@@ -284,8 +285,18 @@ public class FitImporter {
 
         LOG.debug("Persisting workout for {}", fileId);
 
-        final BaseActivitySummary summary = new BaseActivitySummary();
-        summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
+        final BaseActivitySummary summary;
+
+        // This ensures idempotency when re-processing
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            final DaoSession session = dbHandler.getDaoSession();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+            summary = findOrCreateBaseActivitySummary(session, device, user, Objects.requireNonNull(fileId.getTimeCreated()).intValue());
+        } catch (final Exception e) {
+            GB.toast(context, "Error finding base summary", Toast.LENGTH_LONG, GB.ERROR, e);
+            return;
+        }
 
         final ActivitySummaryData summaryData = new ActivitySummaryData();
 
@@ -297,17 +308,12 @@ public class FitImporter {
             activityKind = getActivityKind(session.getSport(), session.getSubSport());
         }
         summary.setActivityKind(activityKind.getCode());
-        if (session.getStartTime() == null) {
-            LOG.error("No session start time for {}", fileId);
-            return;
-        }
-        summary.setStartTime(new Date(GarminTimeUtils.garminTimestampToJavaMillis(session.getStartTime().intValue())));
 
         if (session.getTotalElapsedTime() == null) {
             LOG.error("No elapsed time for {}", fileId);
             return;
         }
-        summary.setEndTime(new Date(GarminTimeUtils.garminTimestampToJavaMillis(session.getStartTime().intValue() + session.getTotalElapsedTime().intValue() / 1000)));
+        summary.setEndTime(new Date(summary.getStartTime().getTime() + session.getTotalElapsedTime().intValue()));
 
         if (session.getTotalTimerTime() != null) {
             summaryData.add(ACTIVE_SECONDS, session.getTotalTimerTime() / 1000f, UNIT_SECONDS);
@@ -369,6 +375,34 @@ public class FitImporter {
         }
 
         return ActivityKind.UNKNOWN;
+    }
+
+    protected static BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
+                                                                         final Device device,
+                                                                         final User user,
+                                                                         final int timestampSeconds) {
+        final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
+        final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
+        qb.where(BaseActivitySummaryDao.Properties.StartTime.eq(new Date(timestampSeconds * 1000L)));
+        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()));
+        qb.where(BaseActivitySummaryDao.Properties.UserId.eq(user.getId()));
+        final List<BaseActivitySummary> summaries = qb.build().list();
+        if (summaries.isEmpty()) {
+            final BaseActivitySummary summary = new BaseActivitySummary();
+            summary.setStartTime(new Date(timestampSeconds * 1000L));
+            summary.setDevice(device);
+            summary.setUser(user);
+
+            // These will be set later, once we parse the summary
+            summary.setEndTime(new Date(timestampSeconds * 1000L));
+            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
+
+            return summary;
+        }
+        if (summaries.size() > 1) {
+            LOG.warn("Found multiple summaries for {}", timestampSeconds);
+        }
+        return summaries.get(0);
     }
 
     private void reset() {

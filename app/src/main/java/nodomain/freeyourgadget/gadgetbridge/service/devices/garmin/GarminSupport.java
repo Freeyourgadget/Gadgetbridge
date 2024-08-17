@@ -811,12 +811,15 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         parseAllFitFilesFromStorage();
     }
 
+    boolean parsingFitFilesFromStorage = false;
+
     private void parseAllFitFilesFromStorage() {
-        // This function as-is should only be used for debug purposes
-        if (!BuildConfig.DEBUG) {
-            LOG.error("This should never be used in release builds");
+        if (parsingFitFilesFromStorage) {
+            GB.toast(getContext(), "Already parsing!", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
+
+        parsingFitFilesFromStorage = true;
 
         LOG.info("Parsing all fit files from storage");
 
@@ -826,32 +829,38 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             if (!exportDir.exists() || !exportDir.isDirectory()) {
                 LOG.error("export directory {} not found", exportDir);
+                GB.toast(getContext(), "export directory " + exportDir + " not found", Toast.LENGTH_LONG, GB.ERROR);
                 return;
             }
 
             fitFiles = exportDir.listFiles((dir, name) -> name.endsWith(".fit"));
             if (fitFiles == null) {
                 LOG.error("fitFiles is null for {}", exportDir);
+                GB.toast(getContext(), "fitFiles is null for " + exportDir, Toast.LENGTH_LONG, GB.ERROR);
                 return;
             }
             if (fitFiles.length == 0) {
                 LOG.error("No fit files found in {}", exportDir);
+                GB.toast(getContext(), "No fit files found in " + exportDir, Toast.LENGTH_LONG, GB.ERROR);
                 return;
             }
         } catch (final Exception e) {
             LOG.error("Failed to parse from storage", e);
+            GB.toast(getContext(), "Failed to parse from storage", Toast.LENGTH_LONG, GB.ERROR, e);
             return;
         }
 
+        GB.toast(getContext(), "Check notification for progress", Toast.LENGTH_LONG, GB.INFO);
+
         GB.updateTransferNotification("Parsing fit files", "...", true, 0, getContext());
 
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            final DaoSession session = handler.getDaoSession();
-            final Device device = DBHelper.getDevice(gbDevice, session);
-            getCoordinator().deleteAllActivityData(device, session);
-        } catch (final Exception e) {
-            GB.toast(getContext(), "Error deleting activity data", Toast.LENGTH_LONG, GB.ERROR, e);
-        }
+        //try (DBHandler handler = GBApplication.acquireDB()) {
+        //    final DaoSession session = handler.getDaoSession();
+        //    final Device device = DBHelper.getDevice(gbDevice, session);
+        //    //getCoordinator().deleteAllActivityData(device, session);
+        //} catch (final Exception e) {
+        //    GB.toast(getContext(), "Error deleting activity data", Toast.LENGTH_LONG, GB.ERROR, e);
+        //}
 
         final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
         final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
@@ -871,6 +880,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
             @Override
             public void onFinish() {
+                parsingFitFilesFromStorage = false;
                 GB.updateTransferNotification("", "", false, 100, getContext());
                 GB.signalActivityDataFinish();
             }
