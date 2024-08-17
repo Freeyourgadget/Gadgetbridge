@@ -3090,4 +3090,14 @@
     <string name="activity_type_parkour">Паркур</string>
     <string name="devicetype_nothing_cmf_watch_pro_2">CMF Watch Pro 2</string>
     <string name="pref_summary_notification_times_enabled">Отправлять уведомления только в этом временном диапазоне</string>
+    <string name="minutes_20">20 минут</string>
+    <string name="stats_empty_value">-</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Загрузка циферблата невозможна. Установлено слишком много циферблатов</string>
+    <string name="insufficient_space_for_upload">Недостаточно места для загрузки</string>
+    <string name="gps_glonass">GPS + ГЛОНАСС</string>
+    <string name="minutes_60">60 минут</string>
+    <string name="hrv_status">Состояние ВСР</string>
+    <string name="sleep_colored_stats_deep">Глубокий</string>
+    <string name="sleep_colored_stats_light">Лёгкий</string>
+    <string name="pref_header_hrv_status">Состояние ВСР</string>
 </resources>
