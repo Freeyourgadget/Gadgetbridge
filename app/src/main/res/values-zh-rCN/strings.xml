@@ -3284,4 +3284,6 @@
     <string name="activity_type_shooting">射击</string>
     <string name="activity_type_video_gaming">打游戏</string>
     <string name="activity_type_winter_sport">冬季运动</string>
+    <string name="insufficient_space_for_upload">空间不足，无法上传</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">无法上传表盘，安装的表盘过多</string>
 </resources>
