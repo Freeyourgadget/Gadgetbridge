@@ -271,6 +271,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
                 .contains(capability.name());
     }
 
+    @Override
+    public boolean supportsFlashing() {
+        return true;
+    }
+
     @Nullable
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
