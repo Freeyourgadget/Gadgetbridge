@@ -3299,4 +3299,5 @@
     <string name="activity_type_biathlon">Biatlon</string>
     <string name="activity_type_bungee_jumping">Bungee jumping</string>
     <string name="activity_type_orienteering">Orientační běh</string>
+    <string name="devicetype_garmin_venu">Garmin Venu</string>
 </resources>
