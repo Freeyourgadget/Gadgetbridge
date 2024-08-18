@@ -8,6 +8,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 // Garmin API doc (https://developer.garmin.com/connect-iq/api-docs/Toybox/Activity.html)
 // and FIT files
 public enum GarminSport {
+    GENERIC(0, 0, ActivityKind.ACTIVITY),
     NAVIGATE(0, 50, ActivityKind.NAVIGATE),
     RUN(1, 0, ActivityKind.RUNNING),
     TREADMILL(1, 1, ActivityKind.TREADMILL),

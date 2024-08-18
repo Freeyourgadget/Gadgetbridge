@@ -21,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxTrackSegment;
 public class GpxRouteFileConverter {
     private static final Logger LOG = LoggerFactory.getLogger(GpxRouteFileConverter.class);
     final double speed = 1.4; // m/s // TODO: make this configurable (and activity dependent?)
-    final int activity = GarminSport.RUN.getType(); //TODO: make this configurable
+    final int activity = GarminSport.GENERIC.getType(); //TODO: make this configurable
     private final long timestamp;
     private final GpxFile gpxFile;
     private FitFile convertedFile;
