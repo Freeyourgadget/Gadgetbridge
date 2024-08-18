@@ -223,12 +223,13 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                             finalDay,
                             finalCounter,
                             sample.getTimestamp(),
-                            avgHRV, sample.getWeeklyAverage(),
-                            sample.getLastNightAverage(),
-                            sample.getLastNight5MinHigh(),
-                            sample.getBaselineBalancedLower(),
-                            sample.getBaselineBalancedUpper(),
-                            sample.getStatus()
+                            avgHRV,
+                            sample.getWeeklyAverage() != null ? sample.getWeeklyAverage() : 0,
+                            sample.getLastNightAverage() != null ? sample.getLastNightAverage() : 0,
+                            sample.getLastNight5MinHigh() != null ? sample.getLastNight5MinHigh() : 0,
+                            sample.getBaselineBalancedLower() != null ? sample.getBaselineBalancedLower() : 0,
+                            sample.getBaselineBalancedUpper() != null ? sample.getBaselineBalancedUpper() : 0,
+                            sample.getStatus() != null ? sample.getStatus() : HrvSummarySample.Status.NONE
                     ));
                 });
             } else {
