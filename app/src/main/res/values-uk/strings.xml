@@ -97,13 +97,13 @@
     <string name="cannot_connect_bt_address_invalid_">Не вдалося з\'єднатися. Неправильна адреса Bluetooth?</string>
     <string name="gadgetbridge_running_generic">Gadgetbridge запущено</string>
     <string name="installing_binary_d_d">Встановлення двійкового файлу %1$d/%2$d</string>
-    <string name="installation_failed_">Встановлення не вдалося</string>
+    <string name="installation_failed_">Не вдалося встановити</string>
     <string name="installation_successful">Встановлено</string>
     <string name="firmware_install_warning">ВИ НАМАГАЄТЕСЯ ВСТАНОВИТИ МІКРОПРОГРАМУ, ПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК.
 \n
 \n
 \nЦя мікропрограма для апаратного забезпечення версії: %s</string>
-    <string name="app_install_info">Ви збираєтеся встановити наступний застосунок:
+    <string name="app_install_info">Ви збираєтеся встановити цей застосунок:
 \n
 \n%1$s
 \nВерсія %2$s від %3$s
@@ -127,9 +127,9 @@
     <string name="other">Інша</string>
     <string name="left">Лівій</string>
     <string name="right">Правій</string>
-    <string name="miband_pairing_using_dummy_userdata">Недостатньо дійсних даних про користувача, наразі використовуються дані про користувача за замовчуванням.</string>
-    <string name="miband_pairing_tap_hint">Коли ваш Mi Band вібруватиме й блиматиме, торкніться його декілька разів.</string>
-    <string name="appinstaller_install">Встановити</string>
+    <string name="miband_pairing_using_dummy_userdata">Недостатньо дійсних даних про користувача, наразі використовуються усталені дані про користувача.</string>
+    <string name="miband_pairing_tap_hint">Коли ваш Mi Band вібруватиме й блиматиме, торкніться його кілька разів.</string>
+    <string name="appinstaller_install">Установити</string>
     <string name="discovery_note">Примітка:</string>
     <string name="candidate_item_device_image">Зображення пристрою</string>
     <string name="miband_prefs_alias">Ім\'я або псевдонім</string>
@@ -317,10 +317,10 @@
     <string name="pref_pebble_privacy_mode_complete">Показувати лише піктограму сповіщення</string>
     <string name="pref_title_location_aquire">Визначити місцеперебування</string>
     <string name="pref_title_location_keep_uptodate">Оновлювати місцеперебування</string>
-    <string name="pref_summary_location_keep_uptodate">Пробувати отримати поточне місцеперебування під час роботи, у випадку невдачі застосовується збережене місцезнаходження, як резервне</string>
+    <string name="pref_summary_location_keep_uptodate">Пробувати отримати поточне місцеперебування під час роботи, у випадку невдачі застосовується збережене місцеперебування, як резервне</string>
     <string name="toast_enable_networklocationprovider">Увімкніть мережне розташування</string>
     <string name="toast_aqurired_networklocation">місцеперебування визначено</string>
-    <string name="pref_title_pebble_enable_applogs">Увімкнути логування застосунків годинника</string>
+    <string name="pref_title_pebble_enable_applogs">Увімкнути журнал застосунків годинника</string>
     <string name="pref_title_pebble_enable_bgjs">Увімкнути фоновий JS</string>
     <string name="prefs_title_all_day_heart_rate">Вимірювання пульсу протягом дня</string>
     <string name="prefs_screen_orientation">Орієнтація екрана</string>
@@ -475,7 +475,7 @@
     <string name="pref_title_pebble_mtu_limit">Обмеження GATT MTU для Pebble 2/LE</string>
     <string name="pref_summary_pebble_mtu_limit">Якщо ваш Pebble 2/LE не працює, так, як потрібно, спробуйте цей пареметр для обмеження MTU (в діапазоні 20–512)</string>
     <string name="pref_summary_pebble_enable_applogs">Це призведе до того, що журнали від застосунків годинника будуть реєструватися Gadgetbridge (потребує пере\'зєднання)</string>
-    <string name="pref_title_pebble_always_ack_pebblekit">Передчасне підтвердженгя ACK PebbleKit</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">Передчасне підтвердження ACK PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Це призведе до того, що повідомлення, які надсилаються до зовнішніх сторонніх застосунків, будуть завжди підтверджуватися завжди та негайно</string>
     <string name="tap_connected_device_for_app_mananger">Торкніться під\'єднаного пристрою для виклику менеджера застосунків</string>
     <string name="tap_connected_device_for_activity">Торкніться під\'єднаного пристрою для перегляду даних про діяльність</string>
@@ -586,7 +586,7 @@
     <string name="interval_forty_five_minutes">кожні 45 хвилин</string>
     <string name="pref_title_support_voip_calls">Увімкнути VoIP-виклики</string>
     <string name="title_activity_device_specific_settings">Специфічні налаштування пристрою</string>
-    <string name="pref_title_authkey">Ключ для автентифікації</string>
+    <string name="pref_title_authkey">Ключ автентифікації</string>
     <string name="dutch">Нідерландська</string>
     <string name="turkish">Турецька</string>
     <string name="ukrainian">Українська</string>
@@ -623,7 +623,7 @@
     <string name="pref_disable_new_ble_scanning">Вимкнути пошук нових BLE</string>
     <string name="pref_summary_disable_new_ble_scanning">Увімкніть цей параметр, якщо ваш пристрій не знайдено під час пошуку</string>
     <string name="alarm_snooze">Відкласти</string>
-    <string name="discovery_connected_devices_hint">Зробіть ваш пристрій виявним. Недавно під\'єднані пристрої, ймовірно, не будуть виявлені. Активуйте місцезнаходження (GPS) на Android 6+. Вимкніть захист приватності для Gadgetbridge, оскільки це може призвести до збою та перезавантаження вашого телефону. Якщо за кілька хвилин не буде виявлено жодного пристрою, повторіть спробу після перезавантаження вашого мобільного пристрою.</string>
+    <string name="discovery_connected_devices_hint">Зробіть ваш пристрій виявним. Недавно під\'єднані пристрої, ймовірно, не будуть виявлені. Активуйте місцеперебування (GPS) на Android 6+. Вимкніть захист приватності для Gadgetbridge, оскільки це може призвести до збою та перезавантаження вашого телефону. Якщо за кілька хвилин не буде виявлено жодного пристрою, повторіть спробу після перезавантаження вашого мобільного пристрою.</string>
     <string name="pref_title_low_latency_fw_update">Використовувати режим низької затримки для встановлення мікропрограми</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет вібруватиме за досягнення щоденної мети з кількості кроків</string>
     <string name="mi2_prefs_display_items_summary">Оберіть елементи для показу на екрані браслета</string>
@@ -722,7 +722,7 @@
     <string name="activity_prefs_distance_meters">Щоденна мета: відстань у метрах</string>
     <string name="activity_prefs_activetime_minutes">Щоденна мета: тривалість діяльності у хвилинах</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
-    <string name="pref_summary_authkey">Змініть ключ автентифікації на загальний ключ на всіх ваших пристроях Android, з якими потрібно з\'єднатися. Попередній стандартний ключ за замовчуванням для всіх пристроїв – 0123456789@ABCDE</string>
+    <string name="pref_summary_authkey">Змініть ключ автентифікації на загальний ключ на всіх ваших пристроях Android, з якими потрібно з\'єднатися. Попередній усталений ключ для всіх пристроїв – 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit Cor 2.
 \n
@@ -776,7 +776,7 @@
     <string name="prefs_find_phone_summary">Використовуйте свій браслет, щоб відтворити мелодію виклику на вашому телефоні.</string>
     <string name="prefs_find_phone_duration">Тривалість мелодії в секундах</string>
     <string name="maximum_duration">Тривалість</string>
-    <string name="discovery_need_to_enter_authkey">Цей пристрій потребує секретний ключ для автентифікації, натисніть та утримуйте, щоб ввести його. Прочитайте про це у вікі.</string>
+    <string name="discovery_need_to_enter_authkey">Цей пристрій потребує секретний ключ автентифікації, затисніть, щоб ввести його. Прочитайте про це у вікі.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit Bip Lite.
 \n
 \nСпочатку встановіть файл .fw, потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
@@ -825,7 +825,7 @@
     <string name="error_no_location_access">Для належної роботи сканування потрібно увімкнути та надати доступ до місцеперебування</string>
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Дозволяти високий MTU</string>
-    <string name="pref_summary_allow_high_mtu">Збільшує швидкість передачі даних, але може не працювати на деяких Android пристроях.</string>
+    <string name="pref_summary_allow_high_mtu">Підвищує швидкість передачі даних, але може не працювати на деяких пристроях Android.</string>
     <string name="hr_widget_steps">Кроки</string>
     <string name="hr_widget_calories">Калорії</string>
     <string name="hr_widget_battery">Акумулятор</string>
@@ -847,7 +847,7 @@
     <string name="title_activity_LenovoWatch_calibration">Калібрування Watch X Plus</string>
     <string name="pref_title_vibration_strength">Сила вібрації</string>
     <string name="pref_title_relax_firmware_checks">Увімкніть це, якщо ви хочете встановити мікропрограму, яка не призначена для вашого пристрою (на ваш власний ризик)</string>
-    <string name="pref_summary_relax_firmware_checks">Зменшити вимоги до мікропрограми</string>
+    <string name="pref_summary_relax_firmware_checks">Знизити вимоги до мікропрограми</string>
     <string name="pref_title_sync_caldendar">Синхронізувати події календаря</string>
     <string name="pref_summary_sync_calendar">Надсилати сповіщення календаря, навіть коли пристрій від\'єднано</string>
     <string name="pref_summary_custom_deviceicon">Показувати специфічну піктограму сповіщень від Android замість Gadgetbridge коли пристрій під\'єднано</string>
@@ -1180,7 +1180,7 @@
     <string name="prefs_charts_tabs_summary">Відображуванні вкладки діаграм</string>
     <string name="chart_get_active_and_synchronize">Виконайте декілька вправ та синхронізуйте пристрій.</string>
     <string name="chart_no_active_data">Діяльності не виявлено.</string>
-    <string name="discovery_entered_invalid_authkey">Введений вами ключ для автентифікації недійсний! Натисніть та утримуйте, щоб відредагування.</string>
+    <string name="discovery_entered_invalid_authkey">Введений вами ключ автентифікації недійсний! Затисніть, щоб редагувати.</string>
     <string name="pref_summary_connected_advertisement">Робить пристрій доступним для виявлення через Bluetooth, навіть коли він під\'єднаний</string>
     <string name="pref_title_connected_advertisement">Видимий коли під\'єднаний</string>
     <string name="fw_upgrade_notice_amazfitneo">Ви збираєтеся встановити мікропрограму %s на ваш Amazfit Neo.
@@ -1250,7 +1250,7 @@
     <string name="activity_summary_detail_clear_gpx_track">Очистити GPX-трек</string>
     <string name="activity_summary_detail_select_gpx_track">Вибрати GPX-трек</string>
     <string name="set">Змінити</string>
-    <string name="watchface_install_info">Ви збираєтеся встановити наступний циферблат:
+    <string name="watchface_install_info">Ви збираєтеся встановити цей циферблат:
 \n
 \n%1$s
 \nВерсія %2$s від %3$s
@@ -1705,7 +1705,7 @@
     <string name="pref_summary_banglejs_text_bitmap">Якщо слово не відтворюється шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge та відображати растрове зображення на годиннику</string>
     <string name="pref_workout_start_on_phone_title">Відстеження фітнес-застосунку</string>
     <string name="pref_workout_start_on_phone_summary">Починати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
-    <string name="pref_workout_send_gps_title">Надсилати GPS дані під час тренування</string>
+    <string name="pref_workout_send_gps_title">Надсилати дані GPS під час тренування</string>
     <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на браслет під час тренування</string>
     <string name="notification_channel_gps">GPS-стеження</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
@@ -1741,8 +1741,8 @@
     <string name="scandinavian">Скандинавська</string>
     <string name="controlcenter_set_preferences">Установити параметри</string>
     <string name="controlcenter_toggle_details">Перемкнути подробиці</string>
-    <string name="pref_explanation_authkey">Деякі пристрої потребують спеціальний ключ створення пари для першої ініціалізації пристрою. Натисніть тут для отримання додаткової інформації у вікі.</string>
-    <string name="pref_explanation_authkey_new_protocol">Якщо ви отримали повідомлення \"Оновіть застосунок до найновішої версії\" на браслеті, переконайтеся, що перевірили \"Новий протокол автентифікації\" вище. Натисніть тут для отримання додаткової у вікі.</string>
+    <string name="pref_explanation_authkey">Деякі пристрої потребують спеціальний ключ створення пари для першої ініціалізації пристрою. Торкніться тут, щоб переглянути подробиці у вікі.</string>
+    <string name="pref_explanation_authkey_new_protocol">Якщо ви отримали повідомлення \"Оновіть застосунок до найновішої версії\" на браслеті, переконайтеся, що перевірили \"Новий протокол автентифікації\" вище. Торкніться тут, щоб переглянути подробиці у вікі.</string>
     <string name="controlcenter_connected_fraction">Під\'єднано: %d/%d</string>
     <string name="connection_over_bt_classic">З\'єднання через класичний Bluetooth</string>
     <string name="controlcenter_add_new_folder">Додати нову теку</string>
@@ -2121,7 +2121,7 @@
     <string name="pref_workout_detection_enabled_summary">Увімкнути автоматичне виявлення цього тренування</string>
     <string name="pref_workout_detection_ask_first">Спочатку запитувати мене</string>
     <string name="pref_workout_detection_time_summary">Кількість хвилин, протягом яких має тривати тренування, перш ніж його буде виявлено</string>
-    <string name="pref_workout_detection_ask_first_summary">Вимагати підтвердження на годиннику при виявленні цього тренування</string>
+    <string name="pref_workout_detection_ask_first_summary">Вимагати підтвердження на годиннику, якщо виявлено це тренування</string>
     <string name="pref_workout_detection_enabled">Виявлення увімкнено</string>
     <string name="pref_workout_detection_time">Хвилин активності до визначення</string>
     <string name="georgian">Грузинська</string>
@@ -2131,7 +2131,7 @@
     <string name="pref_camera_remote_title">Віддалене керування камерою</string>
     <string name="pref_camera_remote_summary">Дозволяє годиннику керувати камерою телефону</string>
     <string name="pref_workout_keep_screen_on_title">Лишати екран увімкненим під час тренування</string>
-    <string name="pref_workout_keep_screen_on_summary">Екран залишатиметься увімкненим під час тренування, а яскравість буде регулюватися для безперервного відображення даних про тренування в режимі реального часу</string>
+    <string name="pref_workout_keep_screen_on_summary">Екран залишатиметься увімкненим під час тренування, а яскравість буде регулюватися для безперервного показу даних про тренування в режимі реального часу</string>
     <string name="status">Стан</string>
     <string name="stop">Зупинити</string>
     <string name="wifi_hotspot_configuration">Налаштування точки доступу Wi-Fi</string>
@@ -2153,9 +2153,9 @@
     <string name="croatian">Хорватська</string>
     <string name="sony_speak_to_chat_summary">Автоматично вимикати шумопоглинання, коли ви починаєте говорити.</string>
     <string name="pref_morning_updates_title">Ранкові оновлення</string>
-    <string name="pref_morning_updates_summary">Оновлення відображатимуться кожного ранку</string>
+    <string name="pref_morning_updates_summary">Оновлення показуватимуться щоранку</string>
     <string name="pref_morning_updates_categories_title">Категорії ранкових оновлень</string>
-    <string name="pref_morning_updates_categories_summary">Список категорій для відображення щоранку</string>
+    <string name="pref_morning_updates_categories_summary">Список категорій для показу щоранку</string>
     <string name="yesterdays_activity">Учорашня діяльність</string>
     <string name="bluetooth_calls">Виклики через Bluetooth</string>
     <string name="bluetooth_calls_pairing">Сполучення викликів Bluetooth</string>
