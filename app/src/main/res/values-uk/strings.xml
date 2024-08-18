@@ -44,7 +44,7 @@
     <string name="pref_default">Типово</string>
     <string name="pref_header_datetime">Дата й час</string>
     <string name="pref_title_datetime_syctimeonconnect">Синхронізувати час</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час з пристроями Gadgetbridge при з\'єднанні, після зміни часу або часового поясу в системі Android, а також періодично</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Синхронізувати час з пристроями Gadgetbridge під час з\'єднання, після зміни часу або часового поясу в системі Android, а також періодично</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_theme_light">Світла</string>
     <string name="pref_theme_dark">Темна</string>
@@ -281,8 +281,8 @@
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_charts_swipe">Увімкнути можливість гортання ліворуч/праворуч у діаграмах діяльності</string>
     <string name="pref_title_minimize_priority">Сховати сповіщення Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Значок в рядку стану та сповіщення на екрані блокування відображаються</string>
-    <string name="pref_summary_minimize_priority_on">Значок в рядку стану та сповіщення на екрані блокування не відображаються</string>
+    <string name="pref_summary_minimize_priority_off">Піктограма в рядку стану та сповіщення на екрані блокування відображаються</string>
+    <string name="pref_summary_minimize_priority_on">Піктограма в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які надсилають сповіщення на Pebble через PebbleKit.</string>
     <string name="pref_summary_notification_filter">Блокувати всі сповіщення, якщо на телефоні ввімкнено режим \"Не турбувати\"</string>
     <string name="pref_title_transliteration">Транслітерація</string>
@@ -299,7 +299,7 @@
     <string name="pref_title_canned_messages_dismisscall">Відхилені виклики</string>
     <string name="pref_title_canned_messages_set">Оновити на пристрої</string>
     <string name="pref_title_enable_outgoing_call">Підтримка вихідних викликів</string>
-    <string name="pref_summary_enable_outgoing_call">Вимкнення цього параметра призведе до припинення вібрації на Pebble 2/LE при вихідних дзвінках</string>
+    <string name="pref_summary_enable_outgoing_call">Вимкнення цього параметра призведе до припинення вібрації на Pebble 2/LE при вихідних викликах</string>
     <string name="pref_header_pebble_timeline">Часова шкала Pebble</string>
     <string name="pref_title_enable_calendar_sync">Синхронізувати календар</string>
     <string name="pref_summary_enable_calendar_sync">Надсилати події календаря до часової шкали</string>
@@ -1589,9 +1589,9 @@
     <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
     <string name="menuitem_email">Ел. пошта</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Android застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
+    <string name="about_description_banglejs_main">Android-застосунок для Bangle.js створений на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
-\nЧерез політику Google Play Store, ми не можемо розміщувати посилання на пожертвування в самому застосунку, але якщо він вам подобається, розгляньте можливість пожертвування через домашню сторінку Gadgetbridge нижче.</string>
+\nЧерез політику Google Play Маркету, ми не можемо розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти нам через домашню сторінку Gadgetbridge нижче.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js запущено</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1610,7 +1610,7 @@
 \n
 \nЗгідно з правилами Google Play Маркету, нам не дозволено вказувати посилання на допомогу в самому застосунку, але якщо він вам до вподоби, ви можете посприяти розвитку проєкту через домашню сторінку Gadgetbridge нижче.</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
-    <string name="about_description_main_nightly">Незалежна від хмари, вільна з ліцензією Copyleft заміна закритих застосунків від інших виробників для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас вже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальнику Pebble.</string>
+    <string name="about_description_main_nightly">Незалежна від хмари, вільна з ліцензією Copyleft заміна закритих застосунків від інших виробників для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас уже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальнику Pebble.</string>
     <string name="about_description_main_nopebble">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. У цій версії постачальник Pebble перейменований для запобігання конфліктів, тому деякі інтеграції, пов\'язані з Pebble, не працюватимуть, але його можна встановити разом із наявним установленим Gadgetbridge.</string>
     <string name="pref_device_action_fitness_app_control_toggle">Перемкнути стеження фітнес-застосунку</string>
     <string name="world_clock_delete_confirm_title">Видалити \'%1$s\'</string>
@@ -1702,7 +1702,7 @@
     <string name="pref_summary_device_intents">Дозволити застосункам для годинника Bangle.js надсилати Android Intents та іншим застосункам на Android (наприклад, Tasker) надсилати дані до Bangle.js з com.banglejs.uart.tx Intent. Для роботи у фоновому режимі потрібен дозвіл на показ поверх інших застосунків.</string>
     <string name="pref_title_device_intents">Дозволити Intents</string>
     <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
-    <string name="pref_summary_banglejs_text_bitmap">Якщо слово не відтворюється шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge та відображати растрове зображення на годиннику</string>
+    <string name="pref_summary_banglejs_text_bitmap">Якщо слово не відтворюється шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge та показувати растрове зображення на годиннику</string>
     <string name="pref_workout_start_on_phone_title">Відстеження фітнес-застосунку</string>
     <string name="pref_workout_start_on_phone_summary">Починати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
     <string name="pref_workout_send_gps_title">Надсилати дані GPS під час тренування</string>
@@ -1767,15 +1767,15 @@
     <string name="autoconnect_from_device_title">Під\'єднуватися після з\'єднання з пристрою</string>
     <string name="watchface_dialog_widget_timezone_duration">Тривалість показу годинника (в секундах)</string>
     <string name="open_fw_installer_warning_title">Попередження</string>
-    <string name="open_fw_installer_pick_file">Обрати файл</string>
-    <string name="open_fw_installer_connect_minimum_one_device">Будь ласка, під\'єднайте ПРИНАЙМНІ ОДИН пристрій, на який ви хочете надіслати файл.</string>
+    <string name="open_fw_installer_pick_file">Вибрати файл</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Під\'єднайте ПРИНАЙМНІ ОДИН пристрій, на який ви хочете надіслати файл.</string>
     <string name="open_fw_installer_info_text">Встановлювач мікропрограм/циферблатів/застосунків/файлів дає змогу завантажувати/встановлювати підтримувані файли (мікропрограми, циферблати, застосунки, GPS, ресурси та шрифти...) на пристрій. Додаткову інформацію дивіться у вікі: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="open_fw_installer_warning_text">Ця функція може зламати ваш пристрій. Однак цього ніколи не траплялося у жодного з розробників під час встановлення, але пам\'ятайте, що ви робите це на власний ризик.</string>
     <string name="open_fw_installer_getting_files_title">Отримання файлу мікропрограми/застосунку</string>
     <string name="open_fw_installer_getting_files_text">Оскільки ми можемо не поширювати файли мікропрограм, вам доведеться самостійно знайти ці файли. Це означає, що вам потрібно буде шукати файли в apk-файлах, в мережі, на форумах, на Amazfitwatchfaces (для пристроїв Miband/Amazfit) тощо.</string>
     <string name="open_fw_installer_info_text_title">Встановлювач файлів</string>
-    <string name="open_fw_installer_select_file">Виберіть файл, який ви хочете завантажити на пристрій: %s</string>
-    <string name="open_fw_installer_connect_maximum_one_device">Будь ласка, під\'єднайте ЛИШЕ ОДИН пристрій, на який ви хочете надіслати файл.</string>
+    <string name="open_fw_installer_select_file">Виберіть файл, який ви хочете вивантажити на пристрій: %s</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Під\'єднайте ЛИШЕ ОДИН пристрій, на який ви хочете надіслати файл.</string>
     <string name="open_fw_installer_ensure_device_connected">Переконайтеся, що пристрій %s під\'єднано</string>
     <string name="appmanager_item_outdated">(застарілий)</string>
     <string name="appmanager_app_share">Поділитися</string>
@@ -1823,9 +1823,9 @@
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">Про Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="about_description_banglejs_nightly">Android застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
+    <string name="about_description_banglejs_nightly">Android-застосунок для Bangle.js створений на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
-\nЧерез політику Google Play Store, ми не можемо розміщувати посилання на пожертвування в самому застосунку, але якщо він вам подобається, розгляньте можливість пожертвування через домашню сторінку Gadgetbridge нижче.</string>
+\nЧерез політику Google Play Маркету, ми не можемо розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість підтримати нас через домашню сторінку Gadgetbridge нижче.</string>
     <string name="prefs_hourly_chime">Дзвін щогодини</string>
     <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
     <string name="step_streaks_achievements_sharing_title">Досягнення кількості кроків</string>
@@ -1898,7 +1898,7 @@
     <string name="menuitem_workout_status">Стан тренування</string>
     <string name="menuitem_personal_activity_intelligence">Персональний індекс активності (PAI)</string>
     <string name="pref_title_notifications_ignore_low_priority">Нехтувати сповіщеннями з низьким пріоритетом</string>
-    <string name="pref_summary_notifications_ignore_low_priority">Не надсилати на годинник сповіщення з низьким й найнижчим пріоритетом</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Не надсилати на годинник сповіщення з низьким і найнижчим пріоритетом</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з\'єднанням Bluetooth через Intent API</string>
@@ -2058,7 +2058,7 @@
     <string name="menuitem_eject_water">Видалення води</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Скоротити мітки часу отримання</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Скорочувати мітки часу отримання до хвилин. Вимкніть цей параметр, щоб залишити мітки часу в секундах, якщо у вас виникнуть проблеми під час отримання дуже коротких тренувань.</string>
-    <string name="pref_summary_notification_media_ignores_application_list">Обробляти медіа сповіщення перед списком застосунків. Якщо цей параметр не обрано, медіазастосунки повинні бути дозволені у списку застосунків, щоб елементи керування медіа працювали на пристрої.</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Обробляти медіасповіщення перед списком застосунків. Якщо цей параметр не обрано, медіазастосунки повинні бути дозволені у списку застосунків, щоб елементи керування медіа працювали на пристрої.</string>
     <string name="pref_title_notification_media_ignores_application_list">Медіасповіщення ігнорують список застосунків</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Вилучити налаштування пристрою\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Це призведе до скидання налаштувань пристрою для всіх під\'єднаних пристроїв. Ви впевнені\?</string>
@@ -2163,12 +2163,12 @@
     <string name="pref_display_caller_summary">Показувати номер телефону або ім\'я для вхідних викликів</string>
     <string name="pref_pair_bluetooth_calls_title">Пара для викликів через Bluetooth</string>
     <string name="pref_pair_bluetooth_calls_help_title">Як отримувати виклики через Bluetooth</string>
-    <string name="pref_pair_bluetooth_calls_help_1">1. Натисніть кнопку нижче, щоб розпочати процес створення пари.</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Торкніться кнопки нижче, щоб розпочати процес створення пари.</string>
     <string name="pref_summary_receive_calls_watch">Здійснювати та приймати виклики безпосередньо на годиннику</string>
     <string name="pref_display_caller_title">Показати контактну інформацію</string>
-    <string name="pref_pair_bluetooth_calls_help_summary">Для отримання дзвінків через Bluetooth вам потрібно з\'єднати свій телефон з другим екземпляром годинника.</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Щоб отримувати виклики через Bluetooth вам потрібно з\'єднати свій телефон з другим екземпляром годинника.</string>
     <string name="pref_pair_bluetooth_calls_summary">Натисніть тут, щоб розпочати процес створення пари</string>
-    <string name="pref_pair_bluetooth_calls_help_2">2. Перейдіть до налаштувань Bluetooth на своєму телефоні та створіть пару з новим пристроєм, який з’явиться (назву схожа на вашого поточний годинник, але з суфіксом, наприклад, \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Перейдіть до налаштувань Bluetooth на своєму телефоні та створіть пару з новим пристроєм, який з’явиться (назву схожу на назву вашого поточного годинника, але з суфіксом, наприклад, \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_warning">УВАГА: Якщо ви увімкнете виклики через Bluetooth без створення пари з другим екземпляром, сповіщення про виклики можуть не працювати так, як потрібно.</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Увімкніть налаштування викликів через Bluetooth нижче.</string>
     <string name="pref_title_notification_cache_while_disconnected">Кеш поза зоною досяжності</string>
@@ -2263,11 +2263,11 @@
     <string name="pref_summary_banglejs_phone_gps_enbale">Використовувати дані GPS телефону, щоб перезаписати дані GPS браслета</string>
     <string name="action_changelog">Журнал змін</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Використовувати дані GPS телефону</string>
-    <string name="pref_title_banglejs_phone_gps_network_only">Використовувати лише мережу для визначення місцезнаходження</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Використовувати лише мережу для визначення місця перебування</string>
     <string name="title">Назва</string>
     <string name="pref_summary_banglejs_phone_gps_update_interval">Інтервал, з якою частотою позиція GPS оновлюється, у мілісекундах</string>
     <string name="pref_title_banglejs_phone_gps_update_interval">Інтервал оновлення даних GPS</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Визначати місцезнаходження лише за допомогою мережевого постачальника. Це зменшує споживання енергії за рахунок точності. Потрібне повторне під\'єднання.</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Визначати місце перебування лише за допомогою мережевого постачальника. Це знижує споживання енергії за рахунок точності. Потрібне повторне під\'єднання.</string>
     <string name="description">Опис</string>
     <string name="preview_image">Попередній перегляд зображення</string>
     <string name="status_icon">Піктограма стану</string>
