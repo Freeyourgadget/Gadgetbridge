@@ -3299,4 +3299,17 @@
     <string name="activity_type_weiqi">Go (Weiqi)</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">Saat arayüzü yüklenemiyor, çok fazla saat arayüzü kurulu</string>
     <string name="insufficient_space_for_upload">Yükleme için yeterli alan yok</string>
+    <string name="activity_type_free_sparring">Serbest çalışma</string>
+    <string name="activity_type_body_combat">Vücut savaşı</string>
+    <string name="activity_type_plaza_dancing">Plaza dansı</string>
+    <string name="activity_type_laser_tag">Laser tag</string>
+    <string name="activity_type_canoeing">Kano sporu</string>
+    <string name="activity_type_water_scooter">Su motoru</string>
+    <string name="activity_type_bobsleigh">Bobsled</string>
+    <string name="activity_type_sledding">Kızak kayma</string>
+    <string name="activity_type_biathlon">Biatlon</string>
+    <string name="activity_type_bungee_jumping">Bungee jumping</string>
+    <string name="activity_type_orienteering">Yön bulma</string>
+    <string name="activity_type_obstacle_race">Engelli koşu</string>
+    <string name="activity_type_billiard_pool">Havuz</string>
 </resources>
