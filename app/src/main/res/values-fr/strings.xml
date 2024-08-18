@@ -2736,7 +2736,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_pickleball">Pickleball</string>
     <string name="activity_type_lacross">Lacrosse</string>
     <string name="activity_type_shot">Tir</string>
-    <string name="activity_type_sailing">Navigation maritime</string>
+    <string name="activity_type_sailing">Voile</string>
     <string name="activity_type_jet_skiing">Jet Ski</string>
     <string name="activity_type_skating">Patinage</string>
     <string name="activity_type_ice_hockey">Hockey sur glace</string>
@@ -3199,4 +3199,22 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_tug_of_war">Tir à la corde</string>
     <string name="activity_type_muay_thai">Muay thai</string>
     <string name="activity_type_water_polo">Water-polo</string>
+    <string name="activity_type_paddling">Sport à pagaie</string>
+    <string name="activity_type_para_sport">Handisport</string>
+    <string name="activity_type_air_walker">Déambulateur aérien</string>
+    <string name="activity_type_bridge">Bridge</string>
+    <string name="activity_type_cardio_combat">Cardio combat</string>
+    <string name="activity_type_checkers">Dames</string>
+    <string name="activity_type_finswimming">Nage avec palmes</string>
+    <string name="activity_type_flowriding">Flowriding</string>
+    <string name="activity_type_folk_dance">Danse traditionnelle</string>
+    <string name="activity_type_hacky_sack">Footbag</string>
+    <string name="activity_type_jai_alai">Pelote basque</string>
+    <string name="activity_type_mass_gymnastics">Massue (gymnastique)</string>
+    <string name="activity_type_modern_dance">Danse moderne</string>
+    <string name="activity_type_race_walking">Marche athlétique</string>
+    <string name="activity_type_somatosensory_game">Jeux de Somesthésie</string>
+    <string name="activity_type_spinning">Spinning</string>
+    <string name="activity_type_stair_climber">Montée de marches</string>
+    <string name="activity_type_table_football">Baby-foot</string>
 </resources>
