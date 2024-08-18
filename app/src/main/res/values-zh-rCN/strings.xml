@@ -3286,4 +3286,17 @@
     <string name="activity_type_winter_sport">冬季运动</string>
     <string name="insufficient_space_for_upload">空间不足，无法上传</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">无法上传表盘，安装的表盘过多</string>
+    <string name="activity_type_free_sparring">自由陪练</string>
+    <string name="activity_type_body_combat">身体格斗</string>
+    <string name="activity_type_plaza_dancing">广场舞</string>
+    <string name="activity_type_laser_tag">激光标签</string>
+    <string name="activity_type_obstacle_race">障碍赛</string>
+    <string name="activity_type_billiard_pool">水池</string>
+    <string name="activity_type_canoeing">划独木舟</string>
+    <string name="activity_type_water_scooter">水上滑板车</string>
+    <string name="activity_type_bobsleigh">有舵雪橇</string>
+    <string name="activity_type_sledding">雪橇</string>
+    <string name="activity_type_biathlon">冬季两项</string>
+    <string name="activity_type_bungee_jumping">蹦极</string>
+    <string name="activity_type_orienteering">定向运动</string>
 </resources>
