@@ -2797,4 +2797,16 @@
     <string name="activity_type_long_jump">Skok w dal</string>
     <string name="activity_type_high_jump">Skok wzwyż</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
+    <string name="minutes_20">20 minut</string>
+    <string name="sleep_colored_stats_deep">Głęboki</string>
+    <string name="sleep_colored_stats_light">Płytki</string>
+    <string name="sleep_colored_stats_deep_avg">Głęboki AVG</string>
+    <string name="sleep_colored_stats_light_avg">Płytki AVG</string>
+    <string name="sleep_colored_stats_rem_avg">REM AVG</string>
+    <string name="stats_empty_value">-</string>
+    <string name="pref_header_audio">Audio</string>
+    <string name="minutes_60">60 minut</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="proprietary_app_warning">Ta funkcja wymaga instalacji wlasnościowej aplikacji</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
 </resources>
