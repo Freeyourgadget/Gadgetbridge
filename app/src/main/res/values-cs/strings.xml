@@ -1016,7 +1016,7 @@
     <string name="activity_type_indoor_cycling">Sálová Cyklistika</string>
     <string name="activity_type_swimming_openwater">Plavání (otevřená voda)</string>
     <string name="activity_filter_name_contains">Štítek</string>
-    <string name="activity_summary_edit_name_title">Editovat štítek</string>
+    <string name="activity_summary_edit_name_title">Upravit štítek</string>
     <string name="activity_summaries_all_activities">Všechny aktivity</string>
     <string name="activity_summary_yesterday">Včera</string>
     <string name="activity_summary_today">Dnes</string>
@@ -1249,9 +1249,9 @@
     <string name="gpx_receiver_overwrite_some_files">Některé soubory již existují. Přepsat\?</string>
     <string name="gpx_receiver_files_received">GPX soubor(ů) přijato:</string>
     <string name="gpx_receiver_activity_title">GPX Přijímač Gadgetbridge</string>
-    <string name="activity_summary_detail_editing_gpx_track">Editace linkování GPX trasy</string>
-    <string name="activity_summary_detail_clear_gpx_track">Odlinkovat GPX trasu</string>
-    <string name="activity_summary_detail_select_gpx_track">Vybrat GPX trasu</string>
+    <string name="activity_summary_detail_editing_gpx_track">Úprava propojené trasy GPX</string>
+    <string name="activity_summary_detail_clear_gpx_track">Vymazat trasu GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">Vybrat trasu GPX</string>
     <string name="set">Nastavit</string>
     <string name="watchface_setting_wrist_flick_duration">Doba trvání (v ms)</string>
     <string name="watchface_setting_wrist_flick_minute">Minutová ručička (-360 až 360)</string>
@@ -2228,7 +2228,7 @@
     <string name="pref_show_changelog_summary">Zobrazí seznam změn od poslední aktualizace Gadgetbridge</string>
     <string name="activity_detail_share_raw_summary">Sdílet Souhrn Nezpracovaných Dat</string>
     <string name="activity_detail_share_raw_details">Sdílet Detaily Nezpracovaných Dat</string>
-    <string name="stress_relaxed">Uvolněný/á</string>
+    <string name="stress_relaxed">Uvolněný</string>
     <string name="stress_mild">Mírný</string>
     <string name="ftp_server_root_dir">Kořenový adresář</string>
     <string name="username">Uživatelské jméno</string>
@@ -3286,4 +3286,17 @@
     <string name="activity_type_spinning">Spinning</string>
     <string name="activity_type_tug_of_war">Přetahování lanem</string>
     <string name="activity_type_table_football">Stolní fotbal</string>
+    <string name="activity_type_free_sparring">Volný sparing</string>
+    <string name="activity_type_body_combat">Body combat</string>
+    <string name="activity_type_plaza_dancing">Tanec na náměstí</string>
+    <string name="activity_type_laser_tag">Laser Tag</string>
+    <string name="activity_type_obstacle_race">Překážkový běh</string>
+    <string name="activity_type_billiard_pool">Pool</string>
+    <string name="activity_type_canoeing">Kanoistika</string>
+    <string name="activity_type_water_scooter">Vodní skútr</string>
+    <string name="activity_type_bobsleigh">Boby</string>
+    <string name="activity_type_sledding">Sáňkování</string>
+    <string name="activity_type_biathlon">Biatlon</string>
+    <string name="activity_type_bungee_jumping">Bungee jumping</string>
+    <string name="activity_type_orienteering">Orientační běh</string>
 </resources>
