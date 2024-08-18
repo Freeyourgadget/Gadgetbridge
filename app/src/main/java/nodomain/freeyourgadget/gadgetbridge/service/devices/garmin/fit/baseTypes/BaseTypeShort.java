@@ -32,7 +32,7 @@ public class BaseTypeShort implements BaseTypeInterface {
             return null;
         if (s == invalid)
             return null;
-        return (int) Math.round(s / scale) - offset;
+        return (s / scale) - offset;
     }
 
     @Override

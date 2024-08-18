@@ -26,7 +26,7 @@ public class BaseTypeFloat implements BaseTypeInterface {
         }
         if (Float.isNaN(f) || f == invalid)
             return null;
-        return (float) (f / scale) - offset;
+        return (f / scale) - offset;
     }
 
     @Override

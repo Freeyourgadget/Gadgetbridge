@@ -21,8 +21,8 @@ public class FitHrvValue extends RecordData {
     }
 
     @Nullable
-    public Integer getValue() {
-        return (Integer) getFieldByNumber(0);
+    public Float getValue() {
+        return (Float) getFieldByNumber(0);
     }
 
     @Nullable

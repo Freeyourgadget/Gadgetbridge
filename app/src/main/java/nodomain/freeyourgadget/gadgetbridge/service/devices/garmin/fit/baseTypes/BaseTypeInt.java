@@ -32,7 +32,7 @@ public class BaseTypeInt implements BaseTypeInterface {
             return null;
         if (i == invalid)
             return null;
-        return (Math.round(i / scale) - offset);
+        return (i / scale) - offset;
     }
 
     @Override

@@ -206,12 +206,24 @@ public class FitImporter {
                 LOG.trace("HRV summary at {}: {}", ts, record);
                 final GarminHrvSummarySample sample = new GarminHrvSummarySample();
                 sample.setTimestamp(ts * 1000L);
-                sample.setWeeklyAverage(hrvSummary.getWeeklyAverage());
-                sample.setLastNightAverage(hrvSummary.getLastNightAverage());
-                sample.setLastNight5MinHigh(hrvSummary.getLastNight5MinHigh());
-                sample.setBaselineLowUpper(hrvSummary.getBaselineLowUpper());
-                sample.setBaselineBalancedLower(hrvSummary.getBaselineBalancedLower());
-                sample.setBaselineBalancedUpper(hrvSummary.getBaselineBalancedUpper());
+                if (hrvSummary.getWeeklyAverage() != null) {
+                    sample.setWeeklyAverage(Math.round(hrvSummary.getWeeklyAverage()));
+                }
+                if (hrvSummary.getLastNightAverage() != null) {
+                    sample.setLastNightAverage(Math.round(hrvSummary.getLastNightAverage()));
+                }
+                if (hrvSummary.getLastNight5MinHigh() != null) {
+                    sample.setLastNight5MinHigh(Math.round(hrvSummary.getLastNight5MinHigh()));
+                }
+                if (hrvSummary.getBaselineLowUpper() != null) {
+                    sample.setBaselineLowUpper(Math.round(hrvSummary.getBaselineLowUpper()));
+                }
+                if (hrvSummary.getBaselineBalancedLower() != null) {
+                    sample.setBaselineBalancedLower(Math.round(hrvSummary.getBaselineBalancedLower()));
+                }
+                if (hrvSummary.getBaselineBalancedUpper() != null) {
+                    sample.setBaselineBalancedUpper(Math.round(hrvSummary.getBaselineBalancedUpper()));
+                }
                 final FieldDefinitionHrvStatus.HrvStatus status = hrvSummary.getStatus();
                 if (status != null) {
                     sample.setStatusNum(status.getId());
@@ -226,7 +238,7 @@ public class FitImporter {
                 LOG.trace("HRV value at {}: {}", ts, hrvValue.getValue());
                 final GarminHrvValueSample sample = new GarminHrvValueSample();
                 sample.setTimestamp(ts * 1000L);
-                sample.setValue(hrvValue.getValue());
+                sample.setValue(Math.round(hrvValue.getValue()));
                 hrvValueSamples.add(sample);
             } else {
                 LOG.trace("Unknown record: {}", record);

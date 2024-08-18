@@ -45,8 +45,8 @@ public class FitWeather extends RecordData {
     }
 
     @Nullable
-    public Integer getWindSpeed() {
-        return (Integer) getFieldByNumber(4);
+    public Float getWindSpeed() {
+        return (Float) getFieldByNumber(4);
     }
 
     @Nullable

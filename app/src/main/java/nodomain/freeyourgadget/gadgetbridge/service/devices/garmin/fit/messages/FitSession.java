@@ -36,13 +36,13 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
-    public Long getStartLatitude() {
-        return (Long) getFieldByNumber(3);
+    public Double getStartLatitude() {
+        return (Double) getFieldByNumber(3);
     }
 
     @Nullable
-    public Long getStartLongitude() {
-        return (Long) getFieldByNumber(4);
+    public Double getStartLongitude() {
+        return (Double) getFieldByNumber(4);
     }
 
     @Nullable

@@ -336,7 +336,7 @@ public class GarminSupportTest extends TestBase {
                 "FitFileId{serial_number=3889965805, manufacturer=1, product=1561, type=SETTINGS}, " +
                 "FitFileCreator{software_version=340}, " +
                 "FitDeviceSettings{utc_offset=0, time_offset=0, active_time_zone=0, unknown_3(ENUM/1)=0, time_mode=0, time_zone_offset=0, unknown_10(ENUM/1)=3, unknown_11(ENUM/1)=0, backlight_mode=2, unknown_13(UINT8/1)=0, unknown_14(UINT8/1)=0, unknown_15(UINT8/1)=50, unknown_21(ENUM/1)=1, unknown_22(ENUM/1)=0, unknown_26(ENUM/1)=254, unknown_27(ENUM/1)=0, unknown_29(ENUM/1)=0, unknown_52(ENUM/1)=0, unknown_53(ENUM/1)=1}, " +
-                "FitUserProfile{friendly_name=edge510, weight=78, gender=1, age=41, height=183, language=english, elev_setting=metric, weight_setting=metric, resting_heart_rate=60, default_max_biking_heart_rate=185, default_max_heart_rate=185, hr_setting=1, speed_setting=metric, dist_setting=metric, power_setting=1, activity_class=168, position_setting=2, temperature_setting=metric}, " +
+                "FitUserProfile{friendly_name=edge510, weight=78.0, gender=1, age=41, height=183, language=english, elev_setting=metric, weight_setting=metric, resting_heart_rate=60, default_max_biking_heart_rate=185, default_max_heart_rate=185, hr_setting=1, speed_setting=metric, dist_setting=metric, power_setting=1, activity_class=168, position_setting=2, temperature_setting=metric}, " +
                 "RecordData{UNK_4, unknown_254(UINT16/2)=0, unknown_1(UINT16Z/2)=50008, unknown_0(UINT8/1)=1, unknown_3(UINT8Z/1)=1}, " +
                 "RecordData{UNK_6, unknown_0(STRING/4)=EVO, unknown_3(UINT32/4)=45719172, unknown_39(UINT8Z/4)=[39,53,,], unknown_41(UINT8Z/12)=[23,21,19,18,17,16,15,14,13,12,11,], unknown_254(UINT16/2)=0, unknown_7(UINT16Z/2)=47617, unknown_8(UINT16/2)=2096, unknown_9(UINT16/2)=0, unknown_10(UINT16/2)=80, unknown_11(UINT16/2)=500, unknown_12(UINT8/1)=1, unknown_13(UINT8/1)=1, unknown_14(UINT8/1)=0, unknown_15(UINT8/1)=0, unknown_16(UINT8/1)=0, unknown_17(UINT8/1)=0, unknown_18(UINT8/1)=1, unknown_19(UINT8/1)=254, unknown_20(UINT8/1)=1, unknown_24(UINT8Z/1)=5, unknown_35(UINT8/3)=[0,50,], unknown_36(ENUM/1)=4, unknown_38(UINT8Z/1)=2, unknown_40(UINT8Z/1)=11, unknown_44(ENUM/1)=0}, " +
                 "RecordData{UNK_6, unknown_0(STRING/5)=P2SL, unknown_3(UINT32/4)=0, unknown_39(UINT8Z/4)=[39,53,,], unknown_41(UINT8Z/12)=[23,21,19,18,17,16,15,14,13,12,11,], unknown_254(UINT16/2)=1, unknown_7(UINT16Z/2)=28209, unknown_8(UINT16/2)=2096, unknown_9(UINT16/2)=0, unknown_10(UINT16/2)=90, unknown_11(UINT16/2)=500, unknown_12(UINT8/1)=1, unknown_13(UINT8/1)=1, unknown_14(UINT8/1)=0, unknown_15(UINT8/1)=0, unknown_16(UINT8/1)=0, unknown_17(UINT8/1)=0, unknown_18(UINT8/1)=1, unknown_19(UINT8/1)=254, unknown_20(UINT8/1)=1, unknown_24(UINT8Z/1)=5, unknown_35(UINT8/3)=[0,118,190], unknown_36(ENUM/1)=4, unknown_38(UINT8Z/1)=2, unknown_40(UINT8Z/1)=11, unknown_44(ENUM/1)=0}, " +
@@ -364,9 +364,9 @@ public class GarminSupportTest extends TestBase {
                 "FitFileId{manufacturer=15, type=ACTIVITY, product=9001, serial_number=1701}, " +
                 "FitDeveloperData{application_id=[1,1,2,3,5,8,13,21,34,55,89,144,233,121,98,219], developer_data_index=0}, " +
                 "FitFieldDescription{developer_data_index=0, field_definition_number=0, fit_base_type_id=1, field_name=doughnuts_earned, units=doughnuts}, " +
-                "FitRecord{heart_rate=140, unknown_4(UINT8/1)=88, distance=510, speed=47, doughnuts_earned=1}, " +
-                "FitRecord{heart_rate=143, unknown_4(UINT8/1)=90, distance=2080, speed=36, doughnuts_earned=2}, " +
-                "FitRecord{heart_rate=144, unknown_4(UINT8/1)=92, distance=3710, speed=35, doughnuts_earned=3}" +
+                "FitRecord{heart_rate=140, unknown_4(UINT8/1)=88, distance=510.0, speed=47.488, doughnuts_earned=1}, " +
+                "FitRecord{heart_rate=143, unknown_4(UINT8/1)=90, distance=2080.0, speed=36.416, doughnuts_earned=2}, " +
+                "FitRecord{heart_rate=144, unknown_4(UINT8/1)=92, distance=3710.0, speed=35.344, doughnuts_earned=3}" +
                 "]";
 
         FitFile fitFile = FitFile.parseIncoming(fileContents);
