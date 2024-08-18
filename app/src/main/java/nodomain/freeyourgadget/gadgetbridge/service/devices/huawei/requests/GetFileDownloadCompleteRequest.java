@@ -30,7 +30,7 @@ public class GetFileDownloadCompleteRequest extends Request {
 
     public GetFileDownloadCompleteRequest(HuaweiSupportProvider support, HuaweiFileDownloadManager.FileRequest request) {
         super(support);
-        if (request.newSync) {
+        if (request.isNewSync()) {
             this.serviceId = FileDownloadService2C.id;
             this.commandId = FileDownloadService2C.FileDownloadCompleteRequest.id;
         } else {
@@ -43,8 +43,8 @@ public class GetFileDownloadCompleteRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            if (request.newSync)
-                return new FileDownloadService2C.FileDownloadCompleteRequest(paramsProvider, this.request.fileId).serialize();
+            if (request.isNewSync())
+                return new FileDownloadService2C.FileDownloadCompleteRequest(paramsProvider, this.request.getFileId()).serialize();
             else
                 return new FileDownloadService0A.FileDownloadCompleteRequest(paramsProvider).serialize();
         } catch (HuaweiPacket.CryptoException e) {

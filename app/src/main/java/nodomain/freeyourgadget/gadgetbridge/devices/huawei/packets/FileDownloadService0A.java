@@ -31,6 +31,7 @@ public class FileDownloadService0A {
     Type of files that can be downloaded through here:
     - debug files
     - sleep files
+    - gps files
     - rrisqi file
      */
 
@@ -68,6 +69,26 @@ public class FileDownloadService0A {
             }
         }
 
+        public static class GpsFileRequest extends HuaweiPacket {
+            public GpsFileRequest(ParamsProvider paramsProvider, short workoutId) {
+                super(paramsProvider);
+
+                this.serviceId = FileDownloadService0A.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x02, (byte) 0x02)
+                        .put(0x86, new HuaweiTLV()
+                                .put(0x07, (byte) 0x01)         // Might be type?
+                                .put(0x88, new HuaweiTLV()
+                                        .put(0x09, workoutId)
+                                )
+                        );
+
+                this.complete = true;
+            }
+        }
+
         public static class Response extends HuaweiPacket {
             public String[] fileNames;
 
@@ -77,7 +98,11 @@ public class FileDownloadService0A {
 
             @Override
             public void parseTlv() throws ParseException {
-                String possibleNames = this.tlv.getString(0x01);
+                String possibleNames;
+                if (this.tlv.contains(0x01))
+                    possibleNames = this.tlv.getString(0x01);
+                else // For GPS, also has workoutId (0x09) and another tag (0x0e), not sure of the meaning
+                    possibleNames = this.tlv.getObject(0x8b).getObject(0x8c).getString(0x0d);
                 fileNames = possibleNames.split(";");
             }
         }
@@ -87,13 +112,16 @@ public class FileDownloadService0A {
         public static final int id = 0x02;
 
         public static class Request extends HuaweiPacket {
-            public Request(ParamsProvider paramsProvider) {
+            public Request(ParamsProvider paramsProvider, boolean truSleep) {
                 super(paramsProvider);
 
                 this.serviceId = FileDownloadService0A.id;
                 this.commandId = id;
 
-                this.tlv = new HuaweiTLV().put(0x06, (byte) 1);
+                if (truSleep)
+                    this.tlv = new HuaweiTLV().put(0x06, (byte) 0x01);
+                else
+                    this.tlv = new HuaweiTLV().put(0x06, (byte) 0x02).put(0x07, (byte) 0x03);
 
                 this.complete = true;
             }
@@ -151,7 +179,8 @@ public class FileDownloadService0A {
 
             @Override
             public void parseTlv() throws ParseException {
-                this.fileLength = this.tlv.getInteger(0x02);
+                if (this.tlv.contains(0x02))
+                    this.fileLength = this.tlv.getInteger(0x02);
                 if (this.tlv.contains(0x04))
                     this.transferType = this.tlv.getByte(0x04);
                 if (this.tlv.contains(0x05))

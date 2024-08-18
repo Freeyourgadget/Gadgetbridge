@@ -304,6 +304,10 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
     }
 
     public void parseWorkout(Long workoutId) {
+        LOG.debug("Parsing workout ID {}", workoutId);
+        if (workoutId == null)
+            return;
+
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession session = db.getDaoSession();
             final Device device = DBHelper.getDevice(gbDevice, session);
@@ -718,6 +722,11 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
             if (baseSummary.getName() == null) {
                 baseSummary.setName("Workout " + summary.getWorkoutNumber());
             }
+
+            if (baseSummary.getGpxTrack() == null) {
+                baseSummary.setGpxTrack(summary.getGpxFileLocation());
+            }
+
             // start time never changes
             baseSummary.setEndTime(new Date(summary.getEndTimestamp() * 1000L));
             baseSummary.setActivityKind(type.getCode());

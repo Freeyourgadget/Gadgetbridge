@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
@@ -102,48 +103,153 @@ public class HuaweiFileDownloadManager {
         }
     }
 
-    /**
-     * Only for internal use
-     */
     public enum FileType {
         DEBUG,
         SLEEP_STATE,
         SLEEP_DATA,
+        GPS,
         UNKNOWN // Never for input!
     }
 
-    /**
-     * Only for internal use, though also used in exception
-     */
+    public static class FileDownloadCallback {
+        public void downloadComplete(FileRequest fileRequest) {  }
+
+        public void downloadException(HuaweiFileDownloadException e) {
+            if (e.fileRequest != null)
+                LOG.error("Error downloading file: {}{}", e.fileRequest.getFilename(), e.fileRequest.isNewSync() ? " (newsync)" : "", e);
+            else
+                LOG.error("Error in file download", e);
+        }
+    }
+
     public static class FileRequest {
         // Inputs
 
-        public String filename;
-        public FileType fileType;
-        public boolean newSync;
+        private final String filename;
+        private final FileType fileType;
+        private final boolean newSync;
 
-        // Sleep type only
-        public int startTime;
-        public int endTime;
+        FileDownloadCallback fileDownloadCallback = null;
 
+        // Sleep type only - for 2C GPS they are set to zero
+        private int startTime = 0;
+        private int endTime = 0;
+
+        // GPS type only
+        private short workoutId;
+        private Long databaseId;
+
+        private FileRequest(String filename, FileType fileType, boolean newSync, int startTime, int endTime, FileDownloadCallback fileDownloadCallback) {
+            this.filename = filename;
+            this.fileType = fileType;
+            this.newSync = newSync;
+            this.fileDownloadCallback = fileDownloadCallback;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        public static FileRequest sleepStateFileRequest(boolean supportsTruSleepNewSync, int startTime, int endTime, FileDownloadCallback fileDownloadCallback) {
+            return new FileRequest("sleep_state.bin", FileType.SLEEP_STATE, supportsTruSleepNewSync, startTime, endTime, fileDownloadCallback);
+        }
+
+        public static FileRequest sleepDataFileRequest(boolean supportsTruSleepNewSync, int startTime, int endTime, FileDownloadCallback fileDownloadCallback) {
+            return new FileRequest("sleep_data.bin", FileType.SLEEP_DATA, supportsTruSleepNewSync, startTime, endTime, fileDownloadCallback);
+        }
+
+        private FileRequest(String filename, FileType fileType, boolean newSync, FileDownloadCallback fileDownloadCallback) {
+            this.filename = filename;
+            this.fileType = fileType;
+            this.newSync = newSync;
+            this.fileDownloadCallback = fileDownloadCallback;
+        }
+
+        public static FileRequest debugFileRequest(String filename, FileDownloadCallback fileDownloadCallback) {
+            return new FileRequest(filename, FileType.DEBUG, false, fileDownloadCallback);
+        }
+
+        private FileRequest(@Nullable String filename, FileType fileType, boolean newSync, short workoutId, Long databaseId, FileDownloadCallback fileDownloadCallback) {
+            this.filename = filename;
+            this.fileType = fileType;
+            this.newSync = newSync;
+            this.fileDownloadCallback = fileDownloadCallback;
+            this.workoutId = workoutId;
+            this.databaseId = databaseId;
+        }
+
+        public static FileRequest workoutGpsFileRequest(boolean newSync, short workoutId, Long databaseId, FileDownloadCallback fileDownloadCallback) {
+            if (newSync)
+                return new FileRequest(String.format(Locale.getDefault(), "%d_gps.bin", workoutId), FileType.GPS, true, workoutId, databaseId, fileDownloadCallback);
+            else
+                return new FileRequest(null, FileType.GPS, false, workoutId, databaseId, fileDownloadCallback);
+        }
 
         // Retrieved
 
-        public int fileSize;
-        public int maxBlockSize;
-        public int timeout; // TODO: unit?
-        public ByteBuffer buffer;
+        private int fileSize;
+        private int maxBlockSize;
+        private int timeout; // TODO: unit?
+        private ByteBuffer buffer;
 
-        public int startOfBlockOffset;
-        public int currentBlockSize;
+        private int startOfBlockOffset;
+        private int currentBlockSize;
 
         // Old sync only
-        public String[] filenames;
-        public byte lastPacketNumber;
+        private String[] filenames;
+        private byte lastPacketNumber;
 
         // New sync only
-        public byte fileId;
-        public boolean noEncrypt;
+        private byte fileId;
+        private boolean noEncrypt;
+
+        public byte getFileId() {
+            return fileId;
+        }
+
+        public String getFilename() {
+            return filename;
+        }
+
+        public FileType getFileType() {
+            return fileType;
+        }
+
+        public byte[] getData() {
+            if (buffer == null)
+                return new byte[] {};
+            return buffer.array();
+        }
+
+        public int getCurrentOffset() {
+            return buffer.position();
+        }
+
+        public boolean isNewSync() {
+            return newSync;
+        }
+
+        public int getStartTime() {
+            return startTime;
+        }
+
+        public int getEndTime() {
+            return endTime;
+        }
+
+        public short getWorkoutId() {
+            return workoutId;
+        }
+
+        public Long getDatabaseId() {
+            return databaseId;
+        }
+
+        public int getCurrentBlockSize() {
+            return currentBlockSize;
+        }
+
+        public boolean isNoEncrypt() {
+            return noEncrypt;
+        }
     }
 
     /**
@@ -219,37 +325,25 @@ public class HuaweiFileDownloadManager {
     private final ArrayList<FileRequest> fileRequests;
     private FileRequest currentFileRequest;
 
+    // If the GB interface needs to be updated at the end of the queue of downloads
+    private boolean needSync = false;
+
     public HuaweiFileDownloadManager(HuaweiSupportProvider supportProvider) {
         this.supportProvider = supportProvider;
         handler = new Handler(Looper.getMainLooper());
         isBusy = false;
         fileRequests = new ArrayList<>();
         timeout = () -> {
-            this.supportProvider.downloadException(new HuaweiFileDownloadTimeoutException(currentFileRequest));
+            this.currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadTimeoutException(currentFileRequest));
             reset();
         };
     }
 
-    public void downloadDebug(String filename) {
-        FileRequest request = new FileRequest();
-        request.filename = filename;
-        request.fileType = FileType.DEBUG;
-        request.newSync = false;
+    public void addToQueue(FileRequest fileRequest, boolean needSync) {
         synchronized (supportProvider) {
-            fileRequests.add(request);
-        }
-        startDownload();
-    }
-
-    public void downloadSleep(boolean supportsTruSleepNewSync, String filename, int startTime, int endTime) {
-        FileRequest request = new FileRequest();
-        request.filename = filename;
-        request.fileType = (filename.equals("sleep_state.bin"))?FileType.SLEEP_STATE: FileType.SLEEP_DATA;
-        request.newSync = supportsTruSleepNewSync;
-        request.startTime = startTime;
-        request.endTime = endTime;
-        synchronized (supportProvider) {
-            fileRequests.add(request);
+            fileRequests.add(fileRequest);
+            if (needSync)
+                this.needSync = true;
         }
         startDownload();
     }
@@ -275,7 +369,7 @@ public class HuaweiFileDownloadManager {
 
                 @Override
                 public void handleException(Request.ResponseParseException e) {
-                    supportProvider.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
+                    currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
                 }
             });
         }
@@ -285,11 +379,15 @@ public class HuaweiFileDownloadManager {
         initFileDataReceiver(); // Make sure the fileDataReceiver is ready
 
         synchronized (this.supportProvider) {
-            if (this.isBusy)
+            if (this.isBusy) {
+                LOG.debug("A new download is started while a previous is in progress.");
                 return; // Already downloading, this file will come eventually
+            }
             if (this.fileRequests.isEmpty()) {
                 // No more files to download
-                supportProvider.downloadQueueEmpty();
+                supportProvider.downloadQueueEmpty(this.needSync);
+                // Don't need sync after this anymore
+                this.needSync = false;
                 return;
             }
             this.isBusy = true;
@@ -305,7 +403,7 @@ public class HuaweiFileDownloadManager {
                 GetFileDownloadInitRequest r = (GetFileDownloadInitRequest) request;
                 if (r.newSync) {
                     if (!currentFileRequest.filename.equals(r.filename)) {
-                        supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(
+                        currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(
                                 currentFileRequest,
                                 r.filename
                         ));
@@ -313,7 +411,7 @@ public class HuaweiFileDownloadManager {
                         return;
                     }
                     if (currentFileRequest.fileType != r.fileType) {
-                        supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(
+                        currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(
                                 currentFileRequest,
                                 r.fileType
                         ));
@@ -329,13 +427,39 @@ public class HuaweiFileDownloadManager {
                     }
                     getFileInfo();
                 } else {
-                    if (!arrayContains(r.filenames, currentFileRequest.filename)) {
-                        supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(
-                                currentFileRequest,
-                                r.filenames
-                        ));
-                        reset();
-                        return;
+                    if (currentFileRequest.fileType == FileType.GPS) {
+                        if (r.filenames.length == 0) {
+                            reset();
+                            return;
+                        }
+                        for (String filename : r.filenames) {
+                            // We only download the gps file itself right now
+                            if (!filename.contains("_gps.bin"))
+                                continue;
+
+                            // Add download request with the filename at the start of the queue
+                            FileRequest fileRequest = new FileRequest(
+                                    filename,
+                                    FileType.GPS,
+                                    currentFileRequest.newSync,
+                                    currentFileRequest.workoutId,
+                                    currentFileRequest.databaseId,
+                                    currentFileRequest.fileDownloadCallback
+                            );
+                            synchronized (supportProvider) {
+                                fileRequests.add(0, fileRequest);
+                            }
+                        }
+                        currentFileRequest = fileRequests.remove(0); // Replace with the file to download
+                    } else {
+                        if (!arrayContains(r.filenames, currentFileRequest.filename)) {
+                            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(
+                                    currentFileRequest,
+                                    r.filenames
+                            ));
+                            reset();
+                            return;
+                        }
                     }
                     currentFileRequest.filenames = r.filenames;
                     getDownloadParameters();
@@ -344,13 +468,13 @@ public class HuaweiFileDownloadManager {
 
             @Override
             public void handleException(Request.ResponseParseException e) {
-                supportProvider.downloadException(new HuaweiFileDownloadRequestException(currentFileRequest, this.getClass(), e));
+                currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadRequestException(currentFileRequest, this.getClass(), e));
             }
         });
         try {
             getFileDownloadInitRequest.doPerform();
         } catch (IOException e) {
-            supportProvider.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileDownloadInitRequest, e));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileDownloadInitRequest, e));
             reset();
         }
     }
@@ -359,7 +483,10 @@ public class HuaweiFileDownloadManager {
         // Old sync only, can never be multiple at the same time
         // Assuming currentRequest is the correct one the entire time
         // Which may no longer be the case when we implement multi-download for new sync
-        GetFileParametersRequest getFileParametersRequest = new GetFileParametersRequest(supportProvider);
+        GetFileParametersRequest getFileParametersRequest = new GetFileParametersRequest(supportProvider,
+                currentFileRequest.fileType == FileType.SLEEP_STATE ||
+                        currentFileRequest.fileType == FileType.SLEEP_DATA
+        );
         getFileParametersRequest.setFinalizeReq(new Request.RequestCallback() {
             @Override
             public void call() {
@@ -370,14 +497,14 @@ public class HuaweiFileDownloadManager {
 
             @Override
             public void handleException(Request.ResponseParseException e) {
-                supportProvider.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
+                currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
                 reset();
             }
         });
         try {
             getFileParametersRequest.doPerform();
         } catch (IOException e) {
-            supportProvider.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileParametersRequest, e));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileParametersRequest, e));
             reset();
         }
     }
@@ -390,7 +517,7 @@ public class HuaweiFileDownloadManager {
                 GetFileInfoRequest r = (GetFileInfoRequest) request;
                 if (r.newSync) {
                     if (currentFileRequest.fileId != r.fileId) {
-                        supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, r.fileId, true));
+                        currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, r.fileId, true));
                         reset();
                         return;
                     }
@@ -412,21 +539,19 @@ public class HuaweiFileDownloadManager {
 
             @Override
             public void handleException(Request.ResponseParseException e) {
-                supportProvider.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
+                currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadRequestException(null, this.getClass(), e));
                 reset();
             }
         });
         try {
             getFileInfoRequest.doPerform();
         } catch (IOException e) {
-            supportProvider.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileInfoRequest, e));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileInfoRequest, e));
             reset();
         }
     }
 
     private void downloadNextFileBlock() {
-        handler.removeCallbacks(this.timeout);
-
         if (currentFileRequest.buffer == null) // New file
             currentFileRequest.buffer = ByteBuffer.allocate(currentFileRequest.fileSize);
         currentFileRequest.lastPacketNumber = -1; // Counts per block
@@ -438,6 +563,9 @@ public class HuaweiFileDownloadManager {
 
         // Start listening for file data
         this.supportProvider.addInProgressRequest(fileDataReceiver);
+
+        handler.removeCallbacks(this.timeout);
+        handler.postDelayed(HuaweiFileDownloadManager.this.timeout, currentFileRequest.timeout * 1000L);
 
         GetFileBlockRequest getFileBlockRequest = new GetFileBlockRequest(supportProvider, currentFileRequest);
         getFileBlockRequest.setFinalizeReq(new Request.RequestCallback() {
@@ -451,20 +579,20 @@ public class HuaweiFileDownloadManager {
         try {
             getFileBlockRequest.doPerform();
         } catch (IOException e) {
-            supportProvider.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileBlockRequest, e));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileBlockRequest, e));
             reset();
         }
     }
 
     private void handleFileData(boolean newSync, byte number, byte[] data) {
         if (newSync && currentFileRequest.fileId != number) {
-            supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, number, true));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, number, true));
             reset();
             return;
         }
         if (!newSync) {
             if (currentFileRequest.lastPacketNumber != number - 1) {
-                supportProvider.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, number, false));
+                currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadFileMismatchException(currentFileRequest, number, false));
                 reset();
                 return;
             }
@@ -496,13 +624,12 @@ public class HuaweiFileDownloadManager {
         try {
             getFileDownloadCompleteRequest.doPerform();
         } catch (IOException e) {
-            supportProvider.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileDownloadCompleteRequest, e));
+            currentFileRequest.fileDownloadCallback.downloadException(new HuaweiFileDownloadSendException(currentFileRequest, getFileDownloadCompleteRequest, e));
             reset();
         }
 
         // Handle file data
-        if (currentFileRequest.buffer != null) // File size was zero
-            supportProvider.downloadComplete(currentFileRequest.filename, currentFileRequest.buffer.array());
+        currentFileRequest.fileDownloadCallback.downloadComplete(currentFileRequest);
 
         if (!this.currentFileRequest.newSync && !this.fileRequests.isEmpty() && !this.fileRequests.get(0).newSync) {
             // Old sync can potentially take a shortcut

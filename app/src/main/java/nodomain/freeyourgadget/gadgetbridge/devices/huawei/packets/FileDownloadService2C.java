@@ -33,6 +33,7 @@ public class FileDownloadService2C {
     public enum FileType {
         SLEEP_STATE,
         SLEEP_DATA,
+        GPS,
         UNKNOWN; // Never use this as input
 
         static byte fileTypeToByte(FileType fileType) {
@@ -41,6 +42,8 @@ public class FileDownloadService2C {
                     return (byte) 0x0e;
                 case SLEEP_DATA:
                     return (byte) 0x0f;
+                case GPS:
+                    return (byte) 0x11;
                 default:
                     throw new RuntimeException();
             }
@@ -52,6 +55,8 @@ public class FileDownloadService2C {
                     return FileType.SLEEP_STATE;
                 case 0x0f:
                     return FileType.SLEEP_DATA;
+                case 0x11:
+                    return FileType.GPS;
                 default:
                     return FileType.UNKNOWN;
             }

@@ -40,7 +40,7 @@ public class GetFileInfoRequest extends Request {
 
     public GetFileInfoRequest(HuaweiSupportProvider support, HuaweiFileDownloadManager.FileRequest request) {
         super(support);
-        if (request.newSync) {
+        if (request.isNewSync()) {
             this.serviceId = FileDownloadService2C.id;
             this.commandId = FileDownloadService2C.FileInfo.id;
         } else {
@@ -53,10 +53,10 @@ public class GetFileInfoRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            if (this.request.newSync)
-                return new FileDownloadService2C.FileInfo.Request(paramsProvider, this.request.fileId).serialize();
+            if (this.request.isNewSync())
+                return new FileDownloadService2C.FileInfo.Request(paramsProvider, this.request.getFileId()).serialize();
             else
-                return new FileDownloadService0A.FileInfo.Request(paramsProvider, this.request.filename).serialize();
+                return new FileDownloadService0A.FileInfo.Request(paramsProvider, this.request.getFilename()).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }

@@ -29,7 +29,9 @@ import java.util.TreeMap;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
@@ -40,10 +42,20 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications.NotificationConstraintsType;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
+
+import androidx.annotation.NonNull;
 
 public class HuaweiCoordinator {
     Logger LOG = LoggerFactory.getLogger(HuaweiCoordinator.class);
@@ -56,6 +68,7 @@ public class HuaweiCoordinator {
     ByteBuffer notificationConstraints = null;
 
     private boolean supportsTruSleepNewSync = false;
+    private boolean supportsGpsNewSync = false;
 
     private Watchface.WatchfaceDeviceParams watchfaceDeviceParams;
 
@@ -90,6 +103,28 @@ public class HuaweiCoordinator {
                     this.maxContactsCount = getCapabilitiesSharedPreferences().getInt(key, 0);
             }
         }
+    }
+
+    protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
+        long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getHuaweiActivitySampleDao().queryBuilder();
+        qb.where(HuaweiActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+
+        QueryBuilder<HuaweiWorkoutSummarySample> qb2 = session.getHuaweiWorkoutSummarySampleDao().queryBuilder();
+        List<HuaweiWorkoutSummarySample> workouts = qb2.where(HuaweiWorkoutSummarySampleDao.Properties.DeviceId.eq(deviceId)).build().list();
+        for (HuaweiWorkoutSummarySample sample : workouts) {
+            session.getHuaweiWorkoutDataSampleDao().queryBuilder().where(
+                    HuaweiWorkoutDataSampleDao.Properties.WorkoutId.eq(sample.getWorkoutId())
+            ).buildDelete().executeDeleteWithoutDetachingEntities();
+
+            session.getHuaweiWorkoutPaceSampleDao().queryBuilder().where(
+                    HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(sample.getWorkoutId())
+            ).buildDelete().executeDeleteWithoutDetachingEntities();
+        }
+
+        session.getHuaweiWorkoutSummarySampleDao().queryBuilder().where(HuaweiWorkoutSummarySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+
+        session.getBaseActivitySummaryDao().queryBuilder().where(BaseActivitySummaryDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     private SharedPreferences getCapabilitiesSharedPreferences() {
@@ -693,5 +728,13 @@ public class HuaweiCoordinator {
 
     public void setSupportsTruSleepNewSync(boolean supportsTruSleepNewSync) {
         this.supportsTruSleepNewSync = supportsTruSleepNewSync;
+    }
+
+    public boolean isSupportsGpsNewSync() {
+        return supportsGpsNewSync;
+    }
+
+    public void setSupportsGpsNewSync(boolean supportsGpsNewSync) {
+        this.supportsGpsNewSync = supportsGpsNewSync;
     }
 }

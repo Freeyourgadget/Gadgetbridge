@@ -113,6 +113,7 @@ public class GetWorkoutDataRequest extends Request {
             this.nextRequest(nextRequest);
         } else {
             new HuaweiWorkoutGbParser(getDevice()).parseWorkout(this.databaseId);
+            supportProvider.downloadWorkoutGpsFiles(this.workoutNumbers.workoutNumber, this.databaseId);
 
             if (!remainder.isEmpty()) {
                 GetWorkoutTotalsRequest nextRequest = new GetWorkoutTotalsRequest(

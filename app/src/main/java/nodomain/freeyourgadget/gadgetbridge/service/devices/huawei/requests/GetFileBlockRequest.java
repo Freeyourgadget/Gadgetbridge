@@ -29,7 +29,7 @@ public class GetFileBlockRequest extends Request {
 
     public GetFileBlockRequest(HuaweiSupportProvider support, HuaweiFileDownloadManager.FileRequest request) {
         super(support);
-        if (request.newSync) {
+        if (request.isNewSync()) {
             this.serviceId = FileDownloadService2C.id;
             this.commandId = FileDownloadService2C.RequestBlock.id;
         } else {
@@ -42,20 +42,20 @@ public class GetFileBlockRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws Request.RequestCreationException {
         try {
-            if (this.request.newSync)
+            if (this.request.isNewSync())
                 return new FileDownloadService2C.RequestBlock(
                         paramsProvider,
-                        this.request.fileId,
-                        this.request.buffer.position(),
-                        this.request.currentBlockSize,
-                        this.request.noEncrypt
+                        this.request.getFileId(),
+                        this.request.getCurrentOffset(),
+                        this.request.getCurrentBlockSize(),
+                        this.request.isNoEncrypt()
                 ).serialize();
             else
                 return new FileDownloadService0A.RequestBlock.Request(
                         paramsProvider,
-                        this.request.filename,
-                        this.request.buffer.position(),
-                        this.request.currentBlockSize
+                        this.request.getFilename(),
+                        this.request.getCurrentOffset(),
+                        this.request.getCurrentBlockSize()
                 ).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new Request.RequestCreationException(e);

@@ -56,5 +56,6 @@ public class GetSettingRelatedRequest extends Request {
         LOG.debug("handle Setting Related");
 
         supportProvider.getHuaweiCoordinator().setSupportsTruSleepNewSync(((DeviceConfig.SettingRelated.Response) receivedPacket).truSleepNewSync);
+        supportProvider.getHuaweiCoordinator().setSupportsGpsNewSync(((DeviceConfig.SettingRelated.Response) receivedPacket).gpsNewSync);
     }
 }

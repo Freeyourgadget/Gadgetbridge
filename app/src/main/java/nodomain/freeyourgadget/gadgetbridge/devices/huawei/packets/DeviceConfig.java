@@ -1515,6 +1515,7 @@ public class DeviceConfig {
 
         public static class Response extends HuaweiPacket {
             public boolean truSleepNewSync = false;
+            public boolean gpsNewSync = false;
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -1532,6 +1533,7 @@ public class DeviceConfig {
                     // Tag 2 -> File support
                     byte value = this.tlv.getByte(0x02);
                     truSleepNewSync = (value & 2) != 0;
+                    gpsNewSync = (value & 8) != 0;
                 }
 
                 // Tag 3 -> SmartWatchVersion

@@ -41,7 +41,7 @@ public class GetFileDownloadInitRequest extends Request {
 
     public GetFileDownloadInitRequest(HuaweiSupportProvider support, HuaweiFileDownloadManager.FileRequest request) {
         super(support);
-        if (request.newSync) {
+        if (request.isNewSync()) {
             this.serviceId = FileDownloadService2C.id;
             this.commandId = FileDownloadService2C.FileDownloadInit.id;
         } else {
@@ -57,6 +57,8 @@ public class GetFileDownloadInitRequest extends Request {
                 return FileDownloadService2C.FileType.SLEEP_STATE;
             case SLEEP_DATA:
                 return FileDownloadService2C.FileType.SLEEP_DATA;
+            case GPS:
+                return FileDownloadService2C.FileType.GPS;
             default:
                 return FileDownloadService2C.FileType.UNKNOWN;
         }
@@ -68,6 +70,8 @@ public class GetFileDownloadInitRequest extends Request {
                 return HuaweiFileDownloadManager.FileType.SLEEP_STATE;
             case SLEEP_DATA:
                 return HuaweiFileDownloadManager.FileType.SLEEP_DATA;
+            case GPS:
+                return HuaweiFileDownloadManager.FileType.GPS;
             default:
                 return HuaweiFileDownloadManager.FileType.UNKNOWN;
         }
@@ -76,16 +80,18 @@ public class GetFileDownloadInitRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            if (this.request.newSync) {
-                FileDownloadService2C.FileType type = convertFileTypeTo2C(request.fileType);
+            if (this.request.isNewSync()) {
+                FileDownloadService2C.FileType type = convertFileTypeTo2C(request.getFileType());
                 if (type == FileDownloadService2C.FileType.UNKNOWN)
-                    throw new RequestCreationException("Cannot convert type " + request.fileType);
-                return new FileDownloadService2C.FileDownloadInit.Request(paramsProvider, request.filename, type, request.startTime, request.endTime).serialize();
+                    throw new RequestCreationException("Cannot convert type " + request.getFileType());
+                return new FileDownloadService2C.FileDownloadInit.Request(paramsProvider, request.getFilename(), type, request.getStartTime(), request.getEndTime()).serialize();
             } else {
-                if (this.request.fileType == HuaweiFileDownloadManager.FileType.DEBUG)
+                if (this.request.getFileType() == HuaweiFileDownloadManager.FileType.DEBUG)
                     return new FileDownloadService0A.FileDownloadInit.DebugFilesRequest(paramsProvider).serialize();
-                else if (this.request.fileType == HuaweiFileDownloadManager.FileType.SLEEP_STATE)
-                    return new FileDownloadService0A.FileDownloadInit.SleepFilesRequest(paramsProvider, request.startTime, request.endTime).serialize();
+                else if (this.request.getFileType() == HuaweiFileDownloadManager.FileType.SLEEP_STATE)
+                    return new FileDownloadService0A.FileDownloadInit.SleepFilesRequest(paramsProvider, request.getStartTime(), request.getEndTime()).serialize();
+                else if (this.request.getFileType() == HuaweiFileDownloadManager.FileType.GPS)
+                    return new FileDownloadService0A.FileDownloadInit.GpsFileRequest(paramsProvider, request.getWorkoutId()).serialize();
                 else
                     throw new RequestCreationException("Unknown file type");
             }

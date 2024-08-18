@@ -24,19 +24,22 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupport
 
 public class GetFileParametersRequest extends Request {
 
+    private final boolean truSleep;
+
     private int maxBlockSize;
     private int timeout;
 
-    public GetFileParametersRequest(HuaweiSupportProvider support) {
+    public GetFileParametersRequest(HuaweiSupportProvider support, boolean truSleep) {
         super(support);
         this.serviceId = FileDownloadService0A.id;
         this.commandId = FileDownloadService0A.FileParameters.id;
+        this.truSleep = truSleep;
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
-            return new FileDownloadService0A.FileParameters.Request(paramsProvider).serialize();
+            return new FileDownloadService0A.FileParameters.Request(paramsProvider, truSleep).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }

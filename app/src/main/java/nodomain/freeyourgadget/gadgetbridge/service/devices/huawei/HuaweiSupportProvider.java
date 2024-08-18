@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier.HuaweiDeviceType;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiGpsParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTruSleepParser;
@@ -71,6 +73,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
+import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -79,11 +83,14 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
+import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -166,12 +173,56 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetN
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetWorkModeRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class HuaweiSupportProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiSupportProvider.class);
+
+    private class SyncState {
+        private boolean activitySync = false;
+        private boolean workoutSync = false;
+        private int workoutGpsDownload = 0;
+
+        public void setActivitySync(boolean state) {
+            this.activitySync = state;
+            updateState();
+        }
+
+        public void setWorkoutSync(boolean state) {
+            this.workoutSync = state;
+            updateState();
+        }
+
+        public void startWorkoutGpsDownload() {
+            this.workoutGpsDownload += 1;
+        }
+
+        public void stopWorkoutGpsDownload() {
+            this.workoutGpsDownload -= 1;
+            updateState();
+        }
+
+        public void updateState() {
+            updateState(true);
+        }
+
+        public void updateState(boolean needSync) {
+            if (!activitySync && !workoutSync && workoutGpsDownload == 0) {
+                if (getDevice().isBusy()) {
+                    getDevice().unsetBusyTask();
+                    getDevice().sendDeviceUpdateIntent(context);
+                }
+                if (needSync)
+                    GB.signalActivityDataFinish(getDevice());
+            }
+        }
+    }
+
+    private final SyncState syncState = new SyncState();
 
     private final int initTimeout = 2000;
 
@@ -1097,6 +1148,8 @@ public class HuaweiSupportProvider {
     }
 
     private void fetchActivityData() {
+        syncState.setActivitySync(true);
+
         int sleepStart = 0;
         int stepStart = 0;
         final int end = (int) (System.currentTimeMillis() / 1000);
@@ -1144,13 +1197,13 @@ public class HuaweiSupportProvider {
             @Override
             public void call() {
                 if (!downloadTruSleepData(start, end))
-                    handleSyncFinished();
+                    syncState.setActivitySync(false);
             }
 
             @Override
             public void handleException(Request.ResponseParseException e) {
                 LOG.error("Fitness totals exception", e);
-                handleSyncFinished();
+                syncState.setActivitySync(false);
             }
         });
 
@@ -1161,14 +1214,14 @@ public class HuaweiSupportProvider {
                     getFitnessTotalsRequest.doPerform();
                 } catch (IOException e) {
                     LOG.error("Exception on starting fitness totals request", e);
-                    handleSyncFinished();
+                    syncState.setActivitySync(false);
                 }
             }
 
             @Override
             public void handleException(Request.ResponseParseException e) {
                 LOG.error("Step data count exception", e);
-                handleSyncFinished();
+                syncState.setActivitySync(false);
             }
         });
 
@@ -1179,14 +1232,14 @@ public class HuaweiSupportProvider {
                     getStepDataCountRequest.doPerform();
                 } catch (IOException e) {
                     LOG.error("Exception on starting step data count request", e);
-                    handleSyncFinished();
+                    syncState.setActivitySync(false);
                 }
             }
 
             @Override
             public void handleException(Request.ResponseParseException e) {
                 LOG.error("Sleep data count exception", e);
-                handleSyncFinished();
+                syncState.setActivitySync(false);
             }
         });
 
@@ -1194,11 +1247,13 @@ public class HuaweiSupportProvider {
             getSleepDataCountRequest.doPerform();
         } catch (IOException e) {
             LOG.error("Exception on starting sleep data count request", e);
-            handleSyncFinished();
+            syncState.setActivitySync(false);
         }
     }
 
     private void fetchWorkoutData() {
+        syncState.setWorkoutSync(true);
+
         int start = 0;
         int end = (int) (System.currentTimeMillis() / 1000);
 
@@ -1261,13 +1316,13 @@ public class HuaweiSupportProvider {
         getWorkoutCountRequest.setFinalizeReq(new RequestCallback() {
             @Override
             public void call() {
-                handleSyncFinished();
+                syncState.setWorkoutSync(false);
             }
 
             @Override
             public void handleException(Request.ResponseParseException e) {
                 LOG.error("Workout parsing exception", e);
-                handleSyncFinished();
+                syncState.setWorkoutSync(false);
             }
         });
 
@@ -1275,16 +1330,8 @@ public class HuaweiSupportProvider {
             getWorkoutCountRequest.doPerform();
         } catch (IOException e) {
             LOG.error("Exception on starting workout count request", e);
-            handleSyncFinished();
+            syncState.setWorkoutSync(false);
         }
-    }
-
-    private void handleSyncFinished() {
-        if (gbDevice.isBusy()) {
-            gbDevice.unsetBusyTask();
-            gbDevice.sendDeviceUpdateIntent(context);
-        }
-        GB.signalActivityDataFinish(getDevice());
     }
 
     public void onReset(int flags) {
@@ -1559,7 +1606,8 @@ public class HuaweiSupportProvider {
                     packet.poolLength,
                     packet.laps,
                     packet.avgSwolf,
-                    raw
+                    raw,
+                    null
             );
             db.getDaoSession().getHuaweiWorkoutSummarySampleDao().insertOrReplace(summarySample);
 
@@ -2073,52 +2121,151 @@ public class HuaweiSupportProvider {
         if (!getHuaweiCoordinator().supportsTruSleep())
             return false;
 
-        huaweiFileDownloadManager.downloadSleep(
+        huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.sleepStateFileRequest(
                 getHuaweiCoordinator().getSupportsTruSleepNewSync(),
-                "sleep_state.bin", // new String[] {"sleep_state.bin"}, // Later also "sleep_data.bin", but we don't use it right now
                 start,
-                end
-        );
+                end,
+                new HuaweiFileDownloadManager.FileDownloadCallback() {
+                    @Override
+                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
+                        if (fileRequest.getData().length != 0) {
+                            LOG.debug("Parsing sleep state file");
+                            HuaweiTruSleepParser.TruSleepStatus[] results = HuaweiTruSleepParser.parseState(fileRequest.getData());
+                            for (HuaweiTruSleepParser.TruSleepStatus status : results)
+                                addSleepActivity(status.startTime, status.endTime, (byte) 0x06, (byte) 0x0a);
+                        } else
+                            LOG.debug("Sleep state file empty");
+                        syncState.setActivitySync(false);
+                    }
+
+                    @Override
+                    public void downloadException(HuaweiFileDownloadManager.HuaweiFileDownloadException e) {
+                        super.downloadException(e);
+                        syncState.setActivitySync(false);
+                    }
+                }
+        ), true);
         return true;
     }
 
-    /**
-     * Called when a file download is complete
-     * @param fileName Filename of the file
-     * @param fileContents Contents of the file
-     */
-    public void downloadComplete(String fileName, byte[] fileContents) {
-        LOG.debug("File download complete: {}: {}", fileName, GB.hexdump(fileContents));
+    public void downloadWorkoutGpsFiles(short workoutId, Long databaseId) {
+        syncState.startWorkoutGpsDownload();
 
-        if (fileName.equals("sleep_state.bin")) {
-            HuaweiTruSleepParser.TruSleepStatus[] results = HuaweiTruSleepParser.parseState(fileContents);
-            for (HuaweiTruSleepParser.TruSleepStatus status : results)
-                addSleepActivity(status.startTime, status.endTime, (byte) 0x06, (byte) 0x0a);
-            // This should only be called once per sync - also if we start downloading more sleep data
-            GB.signalActivityDataFinish(getDevice());
-            // Unsetting busy is done at the end of all downloads
-        } // "sleep_data.bin" later as well
+        huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.workoutGpsFileRequest(
+                getHuaweiCoordinator().isSupportsGpsNewSync(),
+                workoutId,
+                databaseId,
+                new HuaweiFileDownloadManager.FileDownloadCallback() {
+                    @Override
+                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
+                        syncState.stopWorkoutGpsDownload();
+
+                        if (fileRequest.getData().length == 0) {
+                            LOG.debug("GPS file empty");
+                            return;
+                        }
+
+                        LOG.debug("Parsing GPS file");
+
+                        HuaweiGpsParser.GpsPoint[] points = HuaweiGpsParser.parseHuaweiGps(fileRequest.getData());
+
+                        LOG.debug("Received {} GPS points", points.length);
+
+                        if (points.length == 0) {
+                            LOG.debug("No GPS points returned");
+                            return;
+                        }
+
+                        ActivityTrack track = new ActivityTrack();
+
+                        track.setName("Workout " + fileRequest.getWorkoutId());
+                        track.setBaseTime(DateTimeUtils.parseTimeStamp(points[0].timestamp));
+
+                        try (DBHandler db = GBApplication.acquireDB()) {
+                            track.setUser(DBHelper.getUser(db.getDaoSession()));
+                            track.setDevice(DBHelper.getDevice(gbDevice, db.getDaoSession()));
+                        } catch (Exception e) {
+                            LOG.error("Cannot acquire DB, set user, or set device for Activity track, continuing anyway");
+                        }
+
+                        for (HuaweiGpsParser.GpsPoint point : points) {
+                            GPSCoordinate coordinate;
+                            if (point.altitudeSupported)
+                                coordinate = new GPSCoordinate(point.longitude, point.latitude, point.altitude);
+                            else
+                                coordinate = new GPSCoordinate(point.longitude, point.latitude);
+
+                            ActivityPoint activityPoint = new ActivityPoint();
+                            activityPoint.setTime(DateTimeUtils.parseTimeStamp(point.timestamp));
+                            activityPoint.setLocation(coordinate);
+
+                            track.addTrackPoint(activityPoint);
+                        }
+
+                        String filename = FileUtils.makeValidFileName("workout_" + fileRequest.getWorkoutId() + "_" + points[0].timestamp + ".gpx");
+                        File targetFile;
+                        try {
+                            targetFile = new File(
+                                    getDevice().getDeviceCoordinator().getWritableExportDirectory(getDevice()),
+                                    filename
+                            );
+                        } catch (IOException e) {
+                            // TODO: Translatable string
+                            GB.toast(context, "Could not open Workout GPS file to write to", Toast.LENGTH_SHORT, GB.ERROR, e);
+                            LOG.error("Could not open Workout GPS file to write to", e);
+                            return;
+                        }
+
+                        GPXExporter exporter = new GPXExporter();
+                        exporter.setCreator(GBApplication.app().getNameAndVersion());
+                        try {
+                            exporter.performExport(track, targetFile);
+                        } catch (IOException | ActivityTrackExporter.GPXTrackEmptyException e) {
+                            // TODO: Translatable string
+                            GB.toast(context, "Failed to export Workout GPX file", Toast.LENGTH_SHORT, GB.ERROR, e);
+                            LOG.error("Failed to export Workout GPX file", e);
+                            return;
+                        }
+
+                        Long databaseId = fileRequest.getDatabaseId();
+                        if (databaseId == null) {
+                            // TODO: Translatable string
+                            GB.toast(context, "Cannot link GPX to workout", Toast.LENGTH_SHORT, GB.ERROR);
+                            LOG.error("Cannot link GPX to workout");
+                            return;
+                        }
+
+                        try (DBHandler db = GBApplication.acquireDB()) {
+                            DaoSession daoSession = db.getDaoSession();
+                            HuaweiWorkoutSummarySample sample = daoSession.getHuaweiWorkoutSummarySampleDao().load(databaseId);
+                            sample.setGpxFileLocation(targetFile.getAbsolutePath());
+                            sample.update();
+                        } catch (Exception e) {
+                            // TODO: Translatable string
+                            GB.toast(context, "Failed to save Workout GPX file location", Toast.LENGTH_SHORT, GB.ERROR, e);
+                            LOG.error("Failed to save Workout GPX file location", e);
+                            return;
+                        }
+
+                        new HuaweiWorkoutGbParser(getDevice()).parseWorkout(databaseId);
+
+                        LOG.debug("Completed workout GPS parsing and inserting");
+                    }
+
+                    @Override
+                    public void downloadException(HuaweiFileDownloadManager.HuaweiFileDownloadException e) {
+                        super.downloadException(e);
+                        syncState.stopWorkoutGpsDownload();
+                    }
+                }
+        ), true);
     }
 
     /**
      * Called when there are no more files left to download
      */
-    public void downloadQueueEmpty() {
-        if (gbDevice.isBusy()) {
-            gbDevice.unsetBusyTask();
-            gbDevice.sendDeviceUpdateIntent(context);
-        }
-    }
-
-    public void downloadException(HuaweiFileDownloadManager.HuaweiFileDownloadException e) {
-        GB.toast("Error downloading file", Toast.LENGTH_SHORT, GB.ERROR, e);
-        if (e.fileRequest != null)
-            LOG.error("Error downloading file: {}{}", e.fileRequest.filename, e.fileRequest.newSync ? " (newsync)" : "", e);
-        else
-            LOG.error("Error in file download", e);
-
-        // We also reset the sync state, just to get back to working as nicely as possible
-        handleSyncFinished();
+    public void downloadQueueEmpty(boolean needSync) {
+        syncState.updateState(needSync);
     }
 
     public void onTestNewFunction() {
@@ -2126,17 +2273,27 @@ public class HuaweiSupportProvider {
         gbDevice.setBusyTask("Downloading file...");
         gbDevice.sendDeviceUpdateIntent(getContext());
 
-        huaweiFileDownloadManager.downloadSleep(
+        huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.sleepStateFileRequest(
                 getHuaweiCoordinator().getSupportsTruSleepNewSync(),
-                "sleep_state.bin",
                 0,
-                (int) (System.currentTimeMillis() / 1000)
-        );
-        huaweiFileDownloadManager.downloadSleep(
+                (int) (System.currentTimeMillis() / 1000),
+                new HuaweiFileDownloadManager.FileDownloadCallback() {
+                    @Override
+                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
+                        // Handle file contents
+                    }
+                }
+        ), true);
+        huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.sleepDataFileRequest(
                 getHuaweiCoordinator().getSupportsTruSleepNewSync(),
-                "sleep_data.bin",
                 0,
-                (int) (System.currentTimeMillis() / 1000)
-        );
+                (int) (System.currentTimeMillis() / 1000),
+                new HuaweiFileDownloadManager.FileDownloadCallback() {
+                    @Override
+                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
+                        // Handle file contents
+                    }
+                }
+        ), true);
     }
 }

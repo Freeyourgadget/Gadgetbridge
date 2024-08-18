@@ -46,7 +46,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(78, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(79, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -137,8 +137,8 @@ public class GBDaoGenerator {
         addHuaweiActivitySample(schema, user, device);
 
         Entity huaweiWorkoutSummary = addHuaweiWorkoutSummarySample(schema, user, device);
-        addHuaweiWorkoutDataSample(schema, user, device, huaweiWorkoutSummary);
-        addHuaweiWorkoutPaceSample(schema, user, device, huaweiWorkoutSummary);
+        addHuaweiWorkoutDataSample(schema, huaweiWorkoutSummary);
+        addHuaweiWorkoutPaceSample(schema, huaweiWorkoutSummary);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -1307,10 +1307,12 @@ public class GBDaoGenerator {
 
         workoutSummary.addByteArrayProperty("rawData");
 
+        workoutSummary.addStringProperty("gpxFileLocation");
+
         return workoutSummary;
     }
 
-    private static Entity addHuaweiWorkoutDataSample(Schema schema, Entity user, Entity device, Entity summaryEntity) {
+    private static Entity addHuaweiWorkoutDataSample(Schema schema, Entity summaryEntity) {
         Entity workoutDataSample = addEntity(schema, "HuaweiWorkoutDataSample");
 
         workoutDataSample.setJavaDoc("Contains Huawei Workout data samples (multiple per workout)");
@@ -1345,7 +1347,7 @@ public class GBDaoGenerator {
         return workoutDataSample;
     }
 
-    private static Entity addHuaweiWorkoutPaceSample(Schema schema, Entity user, Entity device, Entity summaryEntity) {
+    private static Entity addHuaweiWorkoutPaceSample(Schema schema, Entity summaryEntity) {
         Entity workoutPaceSample = addEntity(schema, "HuaweiWorkoutPaceSample");
 
         workoutPaceSample.setJavaDoc("Contains Huawei Workout pace data samples (one per workout)");
