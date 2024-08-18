@@ -22,33 +22,33 @@ public class FitHrvSummary extends RecordData {
     }
 
     @Nullable
-    public Integer getWeeklyAverage() {
-        return (Integer) getFieldByNumber(0);
+    public Float getWeeklyAverage() {
+        return (Float) getFieldByNumber(0);
     }
 
     @Nullable
-    public Integer getLastNightAverage() {
-        return (Integer) getFieldByNumber(1);
+    public Float getLastNightAverage() {
+        return (Float) getFieldByNumber(1);
     }
 
     @Nullable
-    public Integer getLastNight5MinHigh() {
-        return (Integer) getFieldByNumber(2);
+    public Float getLastNight5MinHigh() {
+        return (Float) getFieldByNumber(2);
     }
 
     @Nullable
-    public Integer getBaselineLowUpper() {
-        return (Integer) getFieldByNumber(3);
+    public Float getBaselineLowUpper() {
+        return (Float) getFieldByNumber(3);
     }
 
     @Nullable
-    public Integer getBaselineBalancedLower() {
-        return (Integer) getFieldByNumber(4);
+    public Float getBaselineBalancedLower() {
+        return (Float) getFieldByNumber(4);
     }
 
     @Nullable
-    public Integer getBaselineBalancedUpper() {
-        return (Integer) getFieldByNumber(5);
+    public Float getBaselineBalancedUpper() {
+        return (Float) getFieldByNumber(5);
     }
 
     @Nullable

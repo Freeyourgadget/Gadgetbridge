@@ -36,8 +36,8 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
-    public Integer getAltitude() {
-        return (Integer) getFieldByNumber(2);
+    public Float getAltitude() {
+        return (Float) getFieldByNumber(2);
     }
 
     @Nullable
@@ -46,13 +46,13 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
-    public Long getDistance() {
-        return (Long) getFieldByNumber(5);
+    public Double getDistance() {
+        return (Double) getFieldByNumber(5);
     }
 
     @Nullable
-    public Integer getSpeed() {
-        return (Integer) getFieldByNumber(6);
+    public Float getSpeed() {
+        return (Float) getFieldByNumber(6);
     }
 
     @Nullable
@@ -61,8 +61,8 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
-    public Long getEnhancedAltitude() {
-        return (Long) getFieldByNumber(78);
+    public Double getEnhancedAltitude() {
+        return (Double) getFieldByNumber(78);
     }
 
     @Nullable

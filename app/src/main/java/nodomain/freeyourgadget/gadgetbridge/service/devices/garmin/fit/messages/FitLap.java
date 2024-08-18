@@ -41,18 +41,18 @@ public class FitLap extends RecordData {
     }
 
     @Nullable
-    public Long getTotalElapsedTime() {
-        return (Long) getFieldByNumber(7);
+    public Double getTotalElapsedTime() {
+        return (Double) getFieldByNumber(7);
     }
 
     @Nullable
-    public Long getTotalTimerTime() {
-        return (Long) getFieldByNumber(8);
+    public Double getTotalTimerTime() {
+        return (Double) getFieldByNumber(8);
     }
 
     @Nullable
-    public Long getTotalDistance() {
-        return (Long) getFieldByNumber(9);
+    public Double getTotalDistance() {
+        return (Double) getFieldByNumber(9);
     }
 
     @Nullable

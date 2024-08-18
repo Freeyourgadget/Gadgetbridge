@@ -49,7 +49,45 @@ public enum BaseType {
     }
 
     public Object decode(ByteBuffer byteBuffer, double scale, int offset) {
-        return baseTypeInterface.decode(byteBuffer, scale, offset);
+        Object raw = baseTypeInterface.decode(byteBuffer, scale, offset);
+        if (raw == null)
+            return null;
+
+        //the following returns STRING basetype but also all specialized FieldDefinition classes
+        if (!Number.class.isAssignableFrom(raw.getClass()))
+            return raw;
+
+        switch (this) {
+            case ENUM:
+            case SINT8:
+            case UINT8:
+            case SINT16:
+            case UINT16:
+            case UINT8Z:
+            case UINT16Z:
+            case BASE_TYPE_BYTE:
+                if (scale != 1) {
+                    return ((Number) raw).floatValue();
+                } else {
+                    return ((Number) raw).intValue();
+                }
+            case SINT32:
+            case UINT32:
+            case UINT32Z:
+            case SINT64:
+            case UINT64:
+            case UINT64Z:
+                if (scale != 1) {
+                    return ((Number) raw).doubleValue();
+                } else {
+                    return ((Number) raw).longValue();
+                }
+            case FLOAT32:
+                return ((Number) raw).floatValue();
+            case FLOAT64:
+                return ((Number) raw).doubleValue();
+        }
+        return raw;
     }
 
     public void encode(ByteBuffer byteBuffer, Object o, double scale, int offset) {

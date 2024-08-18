@@ -34,7 +34,7 @@ public class BaseTypeByte implements BaseTypeInterface {
             return null;
         if (b == invalid)
             return null;
-        return (int) (Math.round(b / scale) - offset);
+        return (b / scale) - offset;
     }
 
     @Override

@@ -43,8 +43,8 @@ public class FitUserProfile extends RecordData {
     }
 
     @Nullable
-    public Integer getWeight() {
-        return (Integer) getFieldByNumber(4);
+    public Float getWeight() {
+        return (Float) getFieldByNumber(4);
     }
 
     @Nullable

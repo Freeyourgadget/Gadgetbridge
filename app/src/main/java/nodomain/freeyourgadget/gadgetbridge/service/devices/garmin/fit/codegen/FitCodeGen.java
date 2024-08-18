@@ -268,14 +268,22 @@ public class FitCodeGen {
             case UINT8Z:
             case UINT16Z:
             case BASE_TYPE_BYTE:
-                return Integer.class;
+                if (primitive.getScale() != 1) {
+                    return Float.class;
+                } else {
+                    return Integer.class;
+                }
             case SINT32:
             case UINT32:
             case UINT32Z:
             case SINT64:
             case UINT64:
             case UINT64Z:
-                return Long.class;
+                if (primitive.getScale() != 1) {
+                    return Double.class;
+                } else {
+                    return Long.class;
+                }
             case STRING:
                 return String.class;
             case FLOAT32:
