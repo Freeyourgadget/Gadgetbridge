@@ -27,6 +27,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 import net.e175.klaus.solarpositioning.SunriseTransitSet;
@@ -39,11 +41,12 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -54,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -87,6 +91,10 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
     public static final UUID UUID_CHARACTERISTIC_CMF_DATA_WRITE = UUID.fromString("02f00000-0000-0000-0000-00000000ffe1");
     public static final UUID UUID_CHARACTERISTIC_CMF_DATA_READ = UUID.fromString("02f00000-0000-0000-0000-00000000ffe2");
 
+    public static final UUID UUID_SERVICE_CMF_SHELL = UUID.fromString("77d4e67c-2fe2-2334-0d35-9ccd078f529c");
+    public static final UUID UUID_CHARACTERISTIC_CMF_SHELL_WRITE = UUID.fromString("77d4ff01-2fe2-2334-0d35-9ccd078f529c");
+    public static final UUID UUID_CHARACTERISTIC_CMF_SHELL_READ = UUID.fromString("77d4ff02-2fe2-2334-0d35-9ccd078f529c");
+
     // An a5 byte is used a lot in single payloads, probably as a "proof of encryption"?
     public static final byte A5 = (byte) 0xa5;
 
@@ -94,6 +102,9 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
     private CmfCharacteristic characteristicCommandWrite;
     private CmfCharacteristic characteristicDataRead;
     private CmfCharacteristic characteristicDataWrite;
+
+    private final byte[] authRandom1 = new byte[16];
+    private final byte[] authAppSecret = new byte[16];
 
     private final CmfActivitySync activitySync = new CmfActivitySync(this);
     private final CmfPreferences preferences = new CmfPreferences(this);
@@ -105,6 +116,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         super(LOG);
         addSupportedService(UUID_SERVICE_CMF_CMD);
         addSupportedService(UUID_SERVICE_CMF_DATA);
+        addSupportedService(UUID_SERVICE_CMF_SHELL);
     }
 
     @Override
@@ -143,6 +155,16 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
             return builder;
         }
 
+        final BluetoothGattCharacteristic btCharacteristicShellWrite = getCharacteristic(UUID_CHARACTERISTIC_CMF_SHELL_WRITE);
+        if (btCharacteristicShellWrite == null) {
+            LOG.warn("Characteristic shell write is null");
+        }
+
+        final BluetoothGattCharacteristic btCharacteristicShellRead = getCharacteristic(UUID_CHARACTERISTIC_CMF_SHELL_READ);
+        if (btCharacteristicShellRead == null) {
+            LOG.warn("Characteristic shell read is null");
+        }
+
         dataUploader = new CmfDataUploader(this);
 
         characteristicCommandRead = new CmfCharacteristic(btCharacteristicCommandRead, this);
@@ -150,20 +172,29 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         characteristicDataRead = new CmfCharacteristic(btCharacteristicDataRead, dataUploader);
         characteristicDataWrite = new CmfCharacteristic(btCharacteristicDataWrite, null);
 
-        final byte[] secretKey = getSecretKey(getDevice());
-        characteristicCommandRead.setSessionKey(secretKey);
-        characteristicCommandWrite.setSessionKey(secretKey);
-        characteristicDataRead.setSessionKey(secretKey);
-        characteristicDataWrite.setSessionKey(secretKey);
-
-        builder.notify(btCharacteristicCommandWrite, true);
         builder.notify(btCharacteristicCommandRead, true);
-        builder.notify(btCharacteristicDataWrite, true);
         builder.notify(btCharacteristicDataRead, true);
+        if (btCharacteristicShellRead != null) {
+            builder.notify(btCharacteristicShellRead, true);
+        }
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
 
-        sendCommand(builder, CmfCommand.AUTH_PHONE_NAME, ArrayUtils.addAll(new byte[]{A5}, Build.MODEL.getBytes(StandardCharsets.UTF_8)));
+        final byte[] secretKey = getSecretKey(getDevice());
+
+        if (secretKey != null) {
+            characteristicCommandRead.setSessionKey(secretKey);
+            characteristicCommandWrite.setSessionKey(secretKey);
+            characteristicDataRead.setSessionKey(secretKey);
+            characteristicDataWrite.setSessionKey(secretKey);
+
+            sendCommand(builder, CmfCommand.AUTH_PHONE_NAME, ArrayUtils.addAll(new byte[]{A5}, Build.MODEL.getBytes(StandardCharsets.UTF_8)));
+        } else if (btCharacteristicShellWrite != null) {
+            builder.write(getCharacteristic(UUID_CHARACTERISTIC_CMF_SHELL_WRITE), "AT GETSECRET".getBytes());
+        } else {
+            GB.toast(getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
+            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.NOT_CONNECTED, getContext()));
+        }
 
         return builder;
     }
@@ -190,6 +221,9 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
             return true;
         } else if (characteristicUUID.equals(characteristicDataRead.getCharacteristicUUID())) {
             characteristicDataRead.onCharacteristicChanged(value);
+            return true;
+        } else if (characteristicUUID.equals(UUID_CHARACTERISTIC_CMF_SHELL_READ)) {
+            handleShellCommand(value);
             return true;
         }
 
@@ -218,6 +252,51 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         }
 
         switch (cmd) {
+            case AUTH_PAIR_REPLY:
+                final byte[] authRandom2 = ArrayUtils.subarray(payload, 0, 16);
+                final byte[] signedAuthRandom2 = ArrayUtils.subarray(payload, 16, 48);
+
+                LOG.debug("authRandom2: {}", GB.hexdump(authRandom2));
+                LOG.debug("signedAuthRandom2: {}", GB.hexdump(signedAuthRandom2));
+
+                try {
+                    // Validate random2 signature
+                    final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+                    sha256.update(authRandom2);
+                    sha256.update(authAppSecret);
+                    byte[] random2verify = sha256.digest();
+
+                    if (!Arrays.equals(signedAuthRandom2, random2verify)) {
+                        LOG.error("random2 signature mismatch");
+                        authNegotiationFailed();
+                        return;
+                    }
+
+                    // Compute K1 and update preferences
+                    sha256.reset();
+                    sha256.update(authRandom1);
+                    sha256.update(authRandom2);
+                    sha256.update(authAppSecret);
+                    final byte[] k1full = sha256.digest();
+                    final byte[] secretKey = ArrayUtils.subarray(k1full, 0, 16);
+
+                    LOG.debug("Negotiated K1: {}", k1full);
+
+                    evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences("authkey", GB.hexdump(secretKey)));
+
+                    characteristicCommandRead.setSessionKey(secretKey);
+                    characteristicCommandWrite.setSessionKey(secretKey);
+                    characteristicDataRead.setSessionKey(secretKey);
+                    characteristicDataWrite.setSessionKey(secretKey);
+
+                    sendCommand("auth step 2", CmfCommand.AUTH_PHONE_NAME, ArrayUtils.addAll(new byte[]{A5}, Build.MODEL.getBytes(StandardCharsets.UTF_8)));
+                } catch (final Exception e) {
+                    LOG.error("Failed to negotiate K1", e);
+                    authNegotiationFailed();
+                    return;
+                }
+
+                return;
             case AUTH_FAILED:
                 LOG.error("Authentication failed, disconnecting");
                 GB.toast(getContext(), R.string.authentication_failed_check_key, Toast.LENGTH_LONG, GB.WARN);
@@ -244,7 +323,7 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
                     characteristicCommandWrite.setSessionKey(sessionKey);
                     characteristicDataRead.setSessionKey(sessionKey);
                     characteristicDataWrite.setSessionKey(sessionKey);
-                } catch (final GeneralSecurityException e) {
+                } catch (final Exception e) {
                     LOG.error("Failed to compute session key from auth nonce", e);
                     return;
                 }
@@ -363,22 +442,69 @@ public class CmfWatchProSupport extends AbstractBTLEDeviceSupport implements Cmf
         builder.queue(getQueue());
     }
 
-    private static byte[] getSecretKey(final GBDevice device) {
-        final byte[] authKeyBytes = new byte[16];
+    private void handleShellCommand(final byte[] bytes) {
+        final String shellCommand = new String(bytes).strip();
+        if (!shellCommand.startsWith("GETSECRET:")) {
+            LOG.error("Got unknown shell command: {}", GB.hexdump(bytes));
+            return;
+        }
 
+        if (!shellCommand.endsWith(",OK")) {
+            LOG.error("Failed to get secret: {}", GB.hexdump(bytes));
+            authNegotiationFailed();
+            return;
+        }
+
+        final byte[] signedRandom1;
+        try {
+            new Random().nextBytes(authRandom1);
+            final byte[] secretBytes = GB.hexStringToByteArray(shellCommand.substring(10, 10 + 32));
+            System.arraycopy(secretBytes, 0, authAppSecret, 0, authAppSecret.length);
+
+            final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            sha256.update(authRandom1);
+            sha256.update(authAppSecret);
+            signedRandom1 = sha256.digest();
+
+            LOG.debug("authRandom1: {}", GB.hexdump(authRandom1));
+            LOG.debug("authAppSecret: {}", GB.hexdump(authAppSecret));
+            LOG.debug("signedRandom1: {}", GB.hexdump(signedRandom1));
+        } catch (final Exception e) {
+            LOG.error("Failed to generate signed random1", e);
+            authNegotiationFailed();
+            return;
+        }
+
+        sendCommand("auth send signed random1", CmfCommand.AUTH_PAIR_REQUEST, ArrayUtils.addAll(authRandom1, signedRandom1));
+    }
+
+    private void authNegotiationFailed() {
+        GB.toast(getContext(), R.string.authentication_failed_negotiation, Toast.LENGTH_LONG, GB.WARN);
+        final GBDevice device = getDevice();
+        if (device != null) {
+            GBApplication.deviceService(device).disconnect();
+        }
+    }
+
+    @Nullable
+    private static byte[] getSecretKey(final GBDevice device) {
         final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
 
         final String authKey = sharedPrefs.getString("authkey", "").trim();
-        if (StringUtils.isNotBlank(authKey)) {
-            final byte[] srcBytes;
-            // Allow both with and without 0x, to avoid user mistakes
-            if (authKey.length() == 34 && authKey.startsWith("0x")) {
-                srcBytes = GB.hexStringToByteArray(authKey.trim().substring(2));
-            } else {
-                srcBytes = GB.hexStringToByteArray(authKey.trim());
-            }
-            System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));
+        if (StringUtils.isBlank(authKey)) {
+            return null;
         }
+
+        final byte[] authKeyBytes = new byte[16];
+
+        final byte[] srcBytes;
+        // Allow both with and without 0x, to avoid user mistakes
+        if (authKey.length() == 34 && authKey.startsWith("0x")) {
+            srcBytes = GB.hexStringToByteArray(authKey.trim().substring(2));
+        } else {
+            srcBytes = GB.hexStringToByteArray(authKey.trim());
+        }
+        System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));
 
         return authKeyBytes;
     }

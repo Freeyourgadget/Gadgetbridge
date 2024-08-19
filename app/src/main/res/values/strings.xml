@@ -1156,6 +1156,7 @@
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="authentication_failed_check_key">Authentication failed, please check auth key</string>
+    <string name="authentication_failed_negotiation">Authentication key negotiation failed</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
     <string name="device_hw">Hardware revision: %1$s</string>
     <string name="device_fw">Firmware version: %1$s</string>

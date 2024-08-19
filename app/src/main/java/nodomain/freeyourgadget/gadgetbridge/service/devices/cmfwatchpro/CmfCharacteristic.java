@@ -182,6 +182,8 @@ public class CmfCharacteristic {
 
     private boolean shouldEncrypt(final CmfCommand cmd) {
         switch (cmd) {
+            case AUTH_PAIR_REQUEST:
+            case AUTH_PAIR_REPLY:
             case DATA_CHUNK_WRITE_AGPS:
             case DATA_CHUNK_WRITE_WATCHFACE:
                 return false;
@@ -199,7 +201,7 @@ public class CmfCharacteristic {
             return;
         }
 
-        final int encryptedPayloadLength = buf.getShort();
+        final int payloadLength = buf.getShort();
         final int cmd1 = buf.getShort() & 0xFFFF;
         final int chunkCount = buf.getShort();
         final int chunkIndex = buf.getShort();
@@ -208,23 +210,29 @@ public class CmfCharacteristic {
         final CmfCommand cmd = CmfCommand.fromCodes(cmd1, cmd2);
 
         final byte[] payload;
-        if (encryptedPayloadLength > 0) {
-            final byte[] encryptedPayload = new byte[encryptedPayloadLength];
-            buf.get(encryptedPayload);
-
+        if (payloadLength > 0) {
             try {
-                final byte[] decryptedPayload = CryptoUtils.decryptAES_CBC_Pad(encryptedPayload, sessionKey, AES_IV);
-                payload = ArrayUtils.subarray(decryptedPayload, 0, decryptedPayload.length - 4);
-                final int expectedCrc = BLETypeConversions.toUint32(decryptedPayload, decryptedPayload.length - 4);
-                final CRC32 crc = new CRC32();
-                crc.update(payload, 0, payload.length);
-                final int actualCrc = (int) crc.getValue();
-                if (actualCrc != expectedCrc) {
-                    LOG.error("Payload CRC mismatch for {}: got {}, expected {}", cmd, String.format("%08X", actualCrc), String.format("%08X", expectedCrc));
-                    if (chunkCount > 1) {
-                        chunkBuffers.remove(cmd);
+                if (cmd == null || shouldEncrypt(cmd)) {
+                    final byte[] encryptedPayload = new byte[payloadLength];
+                    buf.get(encryptedPayload);
+
+                    final byte[] decryptedPayload = CryptoUtils.decryptAES_CBC_Pad(encryptedPayload, sessionKey, AES_IV);
+                    payload = ArrayUtils.subarray(decryptedPayload, 0, decryptedPayload.length - 4);
+                    final int expectedCrc = BLETypeConversions.toUint32(decryptedPayload, decryptedPayload.length - 4);
+                    final CRC32 crc = new CRC32();
+                    crc.update(payload, 0, payload.length);
+                    final int actualCrc = (int) crc.getValue();
+                    if (actualCrc != expectedCrc) {
+                        LOG.error("Payload CRC mismatch for {}: got {}, expected {}", cmd, String.format("%08X", actualCrc), String.format("%08X", expectedCrc));
+                        if (chunkCount > 1) {
+                            chunkBuffers.remove(cmd);
+                        }
+                        return;
                     }
-                    return;
+                } else {
+                    // Plaintext payload - it does not have the crc, but the length still includes it (?)
+                    payload = new byte[buf.limit() - buf.position()];
+                    buf.get(payload);
                 }
             } catch (final GeneralSecurityException e) {
                 LOG.error("Failed to decrypt payload for {} ({}/{})", cmd, String.format("0x%04x", cmd1), String.format("0x%04x", cmd2), e);
