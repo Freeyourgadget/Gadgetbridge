@@ -1066,14 +1066,14 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "MoyoungActivitySample");
         activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
-        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE).codeBeforeGetter("@Override\n    public int getRawIntensity() {\n        return getSteps();\n    }\n\n");
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty("dataSource").notNull();
         activitySample.addIntProperty("caloriesBurnt").notNull();
         activitySample.addIntProperty("distanceMeters").notNull();
-        addHeartRateProperties(activitySample);
-        addBloodPressureProperies(activitySample);
-        addBloodOxidationProperies(activitySample);
+//        addHeartRateProperties(activitySample);
+//        addBloodPressureProperies(activitySample);
+//        addBloodOxidationProperies(activitySample);
         activitySample.addIntProperty("batteryLevel").notNull();
         return activitySample;
     }

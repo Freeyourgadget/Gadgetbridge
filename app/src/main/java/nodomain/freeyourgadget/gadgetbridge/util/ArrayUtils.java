@@ -119,6 +119,8 @@ public class ArrayUtils {
             if (array[i] == value) return i;
         }
         return -1;
+    }
+
     /**
      * Check if a byte array contains all zeros
      * @param array The array to check

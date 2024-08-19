@@ -98,41 +98,41 @@ public class MoyoungSampleProvider extends AbstractSampleProvider<MoyoungActivit
     }
 
     @Override
-    public int normalizeType(int rawType) {
+    public ActivityKind normalizeType(int rawType) {
         if (rawType == ACTIVITY_NOT_MEASURED)
-            return ActivityKind.TYPE_NOT_MEASURED;
+            return ActivityKind.NOT_MEASURED;
         else if (rawType == ACTIVITY_SLEEP_LIGHT)
-            return ActivityKind.TYPE_LIGHT_SLEEP;
+            return ActivityKind.LIGHT_SLEEP;
         else if (rawType == ACTIVITY_SLEEP_RESTFUL)
-            return ActivityKind.TYPE_DEEP_SLEEP;
+            return ActivityKind.DEEP_SLEEP;
         else if (rawType == ACTIVITY_SLEEP_START || rawType == ACTIVITY_SLEEP_END)
-            return ActivityKind.TYPE_NOT_MEASURED;
+            return ActivityKind.NOT_MEASURED;
         else if (rawType == ACTIVITY_TRAINING_WALK)
-            return ActivityKind.TYPE_WALKING;
+            return ActivityKind.WALKING;
         else if (rawType == ACTIVITY_TRAINING_RUN)
-            return ActivityKind.TYPE_RUNNING;
+            return ActivityKind.RUNNING;
         else if (rawType == ACTIVITY_TRAINING_BIKING)
-            return ActivityKind.TYPE_CYCLING;
+            return ActivityKind.CYCLING;
         else if (rawType == ACTIVITY_TRAINING_SWIM)
-            return ActivityKind.TYPE_SWIMMING;
+            return ActivityKind.SWIMMING;
         else if (rawType == ACTIVITY_TRAINING_ROPE || rawType == ACTIVITY_TRAINING_BADMINTON ||
             rawType == ACTIVITY_TRAINING_BASKETBALL || rawType == ACTIVITY_TRAINING_FOOTBALL ||
             rawType == ACTIVITY_TRAINING_MOUNTAINEERING || rawType == ACTIVITY_TRAINING_TENNIS ||
             rawType == ACTIVITY_TRAINING_RUGBY || rawType == ACTIVITY_TRAINING_GOLF)
-            return ActivityKind.TYPE_EXERCISE;
+            return ActivityKind.EXERCISE;
         else
-            return ActivityKind.TYPE_ACTIVITY;
+            return ActivityKind.ACTIVITY;
     }
 
     @Override
-    public int toRawActivityKind(int activityKind) {
-        if (activityKind == ActivityKind.TYPE_NOT_MEASURED)
+    public int toRawActivityKind(ActivityKind activityKind) {
+        if (activityKind == ActivityKind.NOT_MEASURED)
             return ACTIVITY_NOT_MEASURED;
-        else if (activityKind == ActivityKind.TYPE_LIGHT_SLEEP)
+        else if (activityKind == ActivityKind.LIGHT_SLEEP)
             return ACTIVITY_SLEEP_LIGHT;
-        else if (activityKind == ActivityKind.TYPE_DEEP_SLEEP)
+        else if (activityKind == ActivityKind.DEEP_SLEEP)
             return ACTIVITY_SLEEP_RESTFUL;
-        else if (activityKind == ActivityKind.TYPE_ACTIVITY)
+        else if (activityKind == ActivityKind.ACTIVITY)
             return ACTIVITY_NOT_MEASURED; // TODO: ?
         else
             throw new IllegalArgumentException("Invalid Gadgetbridge activity kind: " + activityKind);

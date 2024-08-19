@@ -17,15 +17,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.moyoung;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -33,7 +29,6 @@ import java.util.Collections;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumDeviceVersion;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumMetricSystem;
@@ -50,21 +45,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSett
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung.MoyoungDeviceSupport;
 
-public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.DAFIT;
-    }
-
-    @Override
-    public String getManufacturer() {
-        return "Media-Tech";
-    }
+public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @NonNull
     @Override
@@ -77,12 +62,8 @@ public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        // TODO: It would be nice to also filter on "manufacturer" (which is used as a protocol version) being MOYOUNG-V2 or MOYOUNG but I have no idea if it's possible to do that at this point
-        if (candidate.supportsService(MoyoungConstants.UUID_SERVICE_MOYOUNG)) {
-            return DeviceType.DAFIT;
-        }
-        return DeviceType.UNKNOWN;
+    public Class<? extends DeviceSupport> getDeviceSupportClass() {
+        return MoyoungDeviceSupport.class;
     }
 
     @Override
@@ -90,15 +71,9 @@ public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
         return BONDING_STYLE_NONE;
     }
 
-    @Nullable
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-
+        // TODO: remove device specific data
     }
 
     @Override
@@ -117,23 +92,8 @@ public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
-    }
-
-    @Override
-    public boolean supportsScreenshots() {
-        return false;
-    }
-
-    @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 3;
-    }
-
-    @Override
-    public boolean supportsSmartWakeup(GBDevice device) {
-        return false;
     }
 
     @Override
@@ -142,18 +102,8 @@ public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
-        return false;
-    }
-
-    @Override
-    public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
-    }
-
-    @Override
     public boolean supportsCalendarEvents() {
-        return false;
+        return true;
     }
 
     @Override
@@ -178,27 +128,8 @@ public class MoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsMusicInfo() {
-        return false;
+        return true;
     }
-
-    @Override
-    public boolean supportsLedColor() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRgbLedColor() {
-        return false;
-    }
-
-    @NonNull
-    @Override
-    public int[] getColorPresets() {
-        return new int[0];
-    }
-
-    @Override
-    public boolean supportsUnicodeEmojis() { return false; }
 
     private static final MoyoungSetting[] MOYOUNG_SETTINGS = new MoyoungSetting[] {
         new MoyoungSettingUserInfo("USER_INFO", MoyoungConstants.CMD_SET_USER_INFO),

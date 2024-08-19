@@ -27,13 +27,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.AbstractMoyoungDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSetting;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class QuerySettingsOperation extends AbstractBTLEOperation<MoyoungDeviceSupport> {
 
@@ -51,7 +50,7 @@ public class QuerySettingsOperation extends AbstractBTLEOperation<MoyoungDeviceS
 
     public QuerySettingsOperation(MoyoungDeviceSupport support) {
         super(support);
-        MoyoungDeviceCoordinator coordinator = (MoyoungDeviceCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        AbstractMoyoungDeviceCoordinator coordinator = (AbstractMoyoungDeviceCoordinator) getDevice().getDeviceCoordinator();
         this.settingsToQuery = coordinator.getSupportedSettings();
     }
 

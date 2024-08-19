@@ -189,9 +189,9 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
                 sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
                 sample.setHeartRate(measurement != 0 ? measurement : ActivitySample.NOT_MEASURED);
-                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
                 provider.addGBActivitySample(sample);
                 LOG.info("Adding a training sample: " + sample.toString());
@@ -229,7 +229,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null && getDevice().isConnected()) {
             unsetBusy();
-            GB.signalActivityDataFinish();
+            GB.signalActivityDataFinish(getDevice());
         }
     }
 }

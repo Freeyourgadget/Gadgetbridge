@@ -20,7 +20,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Handler;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -42,7 +41,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -57,25 +55,20 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventConfigurationRead;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.AbstractMoyoungDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungWeatherForecast;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungWeatherToday;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungDeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumDeviceVersion;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumLanguage;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumMetricSystem;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumTimeSystem;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSetting;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingEnum;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingLanguage;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingRemindersToMove;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingTimeRange;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -86,12 +79,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -107,7 +96,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.Dev
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.heartrate.HeartRateProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -174,8 +162,8 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         sendSetting(builder, getSetting("USER_INFO"), new ActivityUser()); // these settings are write-only, so write them just in case because there is no way to know if they desynced somehow
         sendSetting(builder, getSetting("GOAL_STEP"), new ActivityUser().getStepsGoal());
         batteryInfoProfile.requestBatteryInfo(builder);
-        batteryInfoProfile.enableNotify(builder);
-        heartRateProfile.enableNotify(builder);
+        batteryInfoProfile.enableNotify(builder, true);
+        heartRateProfile.enableNotify(builder, true);
         builder.notify(getCharacteristic(MoyoungConstants.UUID_CHARACTERISTIC_STEPS), true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
@@ -261,9 +249,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
             sample.setHeartRate(heartRate);
-            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
             addGBActivitySample(sample);
             broadcastSample(sample);
@@ -290,9 +278,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
             sample.setHeartRate(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodOxidation(percent);
+//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodOxidation(percent);
 
             addGBActivitySample(sample);
             broadcastSample(sample);
@@ -319,9 +307,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
             sample.setHeartRate(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureSystolic(data1);
-            sample.setBloodPressureDiastolic(data2);
-            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureSystolic(data1);
+//            sample.setBloodPressureDiastolic(data2);
+//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
             addGBActivitySample(sample);
             broadcastSample(sample);
@@ -462,9 +450,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
         sample.setHeartRate(ActivitySample.NOT_MEASURED);
-        sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-        sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-        sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//        sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//        sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//        sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
         addGBActivitySample(sample);
         broadcastSample(sample);
@@ -505,21 +493,11 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-        // not supported :(
-    }
-
-    @Override
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING)
             sendNotification(MoyoungConstants.NOTIFICATION_TYPE_CALL, NotificationUtils.getPreferredTextFor(callSpec));
         else
             sendNotification(MoyoungConstants.NOTIFICATION_TYPE_CALL_OFF_HOOK, "");
-    }
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-        // not supported :(
     }
 
     private void setTime(TransactionBuilder builder) {
@@ -632,46 +610,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-        // not supported :(
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-        // not supported :(
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAppInfoReq() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0)
         {
@@ -734,9 +672,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setCaloriesBurnt(0);
 
             sample.setHeartRate(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
             provider.addGBActivitySample(sample);
             broadcastSample(sample);
@@ -831,9 +769,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setCaloriesBurnt(newCalories);
 
                 sample.setHeartRate(ActivitySample.NOT_MEASURED);
-                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
                 provider.addGBActivitySample(sample);
                 if (isRealtime)
@@ -936,9 +874,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 prevSegmentSample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
                 prevSegmentSample.setHeartRate(ActivitySample.NOT_MEASURED);
-                prevSegmentSample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-                prevSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-                prevSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//                prevSegmentSample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//                prevSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//                prevSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
                 addGBActivitySampleIfNotExists(provider, prevSegmentSample);
 
@@ -958,9 +896,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 nextSegmentSample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
 
                 nextSegmentSample.setHeartRate(ActivitySample.NOT_MEASURED);
-                nextSegmentSample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-                nextSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-                nextSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
+//                nextSegmentSample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
+//                nextSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
+//                nextSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
                 addGBActivitySampleIfNotExists(provider, nextSegmentSample);
 
@@ -1031,7 +969,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     summary.setDevice(device);
                     summary.setUser(user);
 
-                    int gbType = provider.normalizeType(type);
+                    ActivityKind gbType = provider.normalizeType(type);
                     String name;
                     if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_ROPE)
                         name = "Rope";
@@ -1050,9 +988,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_GOLF)
                         name = "Golf";
                     else
-                        name = ActivityKind.asString(gbType, getContext());
+                        name = gbType.name();
                     summary.setName(name);
-                    summary.setActivityKind(gbType);
+                    summary.setActivityKind(gbType.getCode());
 
                     summary.setStartTime(startTime);
                     summary.setEndTime(endTime);
@@ -1139,16 +1077,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         if (start)
         {
@@ -1157,7 +1085,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_FIND_MY_WATCH, new byte[0]));
                 builder.queue(getQueue());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error while finding device: ", e);
             }
         }
         else
@@ -1166,29 +1094,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    @Override
-    public void onSetConstantVibration(int integer) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onScreenshotReq() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-        throw new UnsupportedOperationException();
-    }
-
     @SuppressWarnings("unchecked")
     private <T extends MoyoungSetting> T getSetting(String id) {
-        MoyoungDeviceCoordinator coordinator = (MoyoungDeviceCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        AbstractMoyoungDeviceCoordinator coordinator = (AbstractMoyoungDeviceCoordinator) getDevice().getDeviceCoordinator();
         for(MoyoungSetting setting : coordinator.getSupportedSettings())
         {
             if (setting.name.equals(id))
@@ -1274,19 +1182,19 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(getSetting("TIME_SYSTEM"), timeSystem);
                 break;
 
-            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
-                String metricSystemPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
-
-                MoyoungEnumMetricSystem metricSystem;
-                if (metricSystemPref.equals(getContext().getString(R.string.p_unit_metric)))
-                    metricSystem = MoyoungEnumMetricSystem.METRIC_SYSTEM;
-                else if (metricSystemPref.equals(getContext().getString(R.string.p_unit_imperial)))
-                    metricSystem = MoyoungEnumMetricSystem.IMPERIAL_SYSTEM;
-                else
-                    throw new IllegalArgumentException();
-
-                sendSetting(getSetting("METRIC_SYSTEM"), metricSystem);
-                break;
+//            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
+//                String metricSystemPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
+//
+//                MoyoungEnumMetricSystem metricSystem;
+//                if (metricSystemPref.equals(getContext().getString(R.string.p_unit_metric)))
+//                    metricSystem = MoyoungEnumMetricSystem.METRIC_SYSTEM;
+//                else if (metricSystemPref.equals(getContext().getString(R.string.p_unit_imperial)))
+//                    metricSystem = MoyoungEnumMetricSystem.IMPERIAL_SYSTEM;
+//                else
+//                    throw new IllegalArgumentException();
+//
+//                sendSetting(getSetting("METRIC_SYSTEM"), metricSystem);
+//                break;
 
             case MoyoungConstants.PREF_WATCH_FACE:
                 String watchFacePref = prefs.getString(MoyoungConstants.PREF_WATCH_FACE, String.valueOf(1));
@@ -1310,47 +1218,47 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(versionSetting, versionSetting.findByValue(versionNum));
                 break;
 
-            case MiBandConst.PREF_DO_NOT_DISTURB:
-            case MiBandConst.PREF_DO_NOT_DISTURB_START:
-            case MiBandConst.PREF_DO_NOT_DISTURB_END:
-                String doNotDisturbPref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-                boolean doNotDisturbEnabled = !MiBandConst.PREF_DO_NOT_DISTURB_OFF.equals(doNotDisturbPref);
+//            case MiBandConst.PREF_DO_NOT_DISTURB:
+//            case MiBandConst.PREF_DO_NOT_DISTURB_START:
+//            case MiBandConst.PREF_DO_NOT_DISTURB_END:
+//                String doNotDisturbPref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+//                boolean doNotDisturbEnabled = !MiBandConst.PREF_DO_NOT_DISTURB_OFF.equals(doNotDisturbPref);
+//
+//                Calendar doNotDisturbStart = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00");
+//                Calendar doNotDisturbEnd = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00");
+//
+//                MoyoungSettingTimeRange.TimeRange doNotDisturb;
+//                if (doNotDisturbEnabled)
+//                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange(
+//                        (byte) doNotDisturbStart.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbStart.get(Calendar.MINUTE),
+//                        (byte) doNotDisturbEnd.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbEnd.get(Calendar.MINUTE));
+//                else
+//                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+//
+//                sendSetting(getSetting("DO_NOT_DISTURB_TIME"), doNotDisturb);
+//                break;
 
-                Calendar doNotDisturbStart = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00");
-                Calendar doNotDisturbEnd = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00");
-
-                MoyoungSettingTimeRange.TimeRange doNotDisturb;
-                if (doNotDisturbEnabled)
-                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange(
-                        (byte) doNotDisturbStart.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbStart.get(Calendar.MINUTE),
-                        (byte) doNotDisturbEnd.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbEnd.get(Calendar.MINUTE));
-                else
-                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
-
-                sendSetting(getSetting("DO_NOT_DISTURB_TIME"), doNotDisturb);
-                break;
-
-            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
-            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
-            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
-                String quickViewPref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-                boolean quickViewEnabled = !quickViewPref.equals(getContext().getString(R.string.p_off));
-                boolean quickViewScheduled = quickViewPref.equals(getContext().getString(R.string.p_scheduled));
-
-                Calendar quickViewStart = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
-                Calendar quickViewEnd = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
-
-                MoyoungSettingTimeRange.TimeRange quickViewTime;
-                if (quickViewEnabled && quickViewScheduled)
-                    quickViewTime = new MoyoungSettingTimeRange.TimeRange(
-                        (byte) quickViewStart.get(Calendar.HOUR_OF_DAY), (byte) quickViewStart.get(Calendar.MINUTE),
-                        (byte) quickViewEnd.get(Calendar.HOUR_OF_DAY), (byte) quickViewEnd.get(Calendar.MINUTE));
-                else
-                    quickViewTime = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
-
-                sendSetting(getSetting("QUICK_VIEW"), quickViewEnabled);
-                sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
-                break;
+//            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+//            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
+//            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
+//                String quickViewPref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+//                boolean quickViewEnabled = !quickViewPref.equals(getContext().getString(R.string.p_off));
+//                boolean quickViewScheduled = quickViewPref.equals(getContext().getString(R.string.p_scheduled));
+//
+//                Calendar quickViewStart = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+//                Calendar quickViewEnd = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+//
+//                MoyoungSettingTimeRange.TimeRange quickViewTime;
+//                if (quickViewEnabled && quickViewScheduled)
+//                    quickViewTime = new MoyoungSettingTimeRange.TimeRange(
+//                        (byte) quickViewStart.get(Calendar.HOUR_OF_DAY), (byte) quickViewStart.get(Calendar.MINUTE),
+//                        (byte) quickViewEnd.get(Calendar.HOUR_OF_DAY), (byte) quickViewEnd.get(Calendar.MINUTE));
+//                else
+//                    quickViewTime = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+//
+//                sendSetting(getSetting("QUICK_VIEW"), quickViewEnabled);
+//                sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
+//                break;
 
             case MoyoungConstants.PREF_SEDENTARY_REMINDER:
                 String sedentaryReminderPref = prefs.getString(MoyoungConstants.PREF_SEDENTARY_REMINDER, "off");
@@ -1397,9 +1305,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 querySetting(getSetting("TIME_SYSTEM"));
                 break;
 
-            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
-                querySetting(getSetting("METRIC_SYSTEM"));
-                break;
+//            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
+//                querySetting(getSetting("METRIC_SYSTEM"));
+//                break;
 
             case MoyoungConstants.PREF_WATCH_FACE:
                 querySetting(getSetting("DISPLAY_WATCH_FACE"));
@@ -1413,18 +1321,18 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 querySetting(getSetting("DEVICE_VERSION"));
                 break;
 
-            case MiBandConst.PREF_DO_NOT_DISTURB:
-            case MiBandConst.PREF_DO_NOT_DISTURB_START:
-            case MiBandConst.PREF_DO_NOT_DISTURB_END:
-                querySetting(getSetting("DO_NOT_DISTURB_TIME"));
-                break;
+//            case MiBandConst.PREF_DO_NOT_DISTURB:
+//            case MiBandConst.PREF_DO_NOT_DISTURB_START:
+//            case MiBandConst.PREF_DO_NOT_DISTURB_END:
+//                querySetting(getSetting("DO_NOT_DISTURB_TIME"));
+//                break;
 
-            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
-            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
-            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
-                querySetting(getSetting("QUICK_VIEW"));
-                querySetting(getSetting("QUICK_VIEW_TIME"));
-                break;
+//            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+//            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
+//            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
+//                querySetting(getSetting("QUICK_VIEW"));
+//                querySetting(getSetting("QUICK_VIEW_TIME"));
+//                break;
 
             case MoyoungConstants.PREF_SEDENTARY_REMINDER:
                 querySetting(getSetting("SEDENTARY_REMINDER"));
@@ -1440,10 +1348,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 return;
         }
 
-        GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
-        configReadEvent.config = config;
-        configReadEvent.event = GBDeviceEventConfigurationRead.Event.IN_PROGRESS;
-        evaluateGBDeviceEvent(configReadEvent);
+//        GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
+//        configReadEvent.config = config;
+//        configReadEvent.event = GBDeviceEventConfigurationRead.Event.IN_PROGRESS;
+//        evaluateGBDeviceEvent(configReadEvent);
     }
 
     public void onReadConfigurationDone(MoyoungSetting setting, Object value, byte[] data)
@@ -1463,15 +1371,15 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     throw new IllegalArgumentException("Invalid value");
                 break;
 
-            case "METRIC_SYSTEM":
-                MoyoungEnumMetricSystem metricSystem = (MoyoungEnumMetricSystem) value;
-                if (metricSystem == MoyoungEnumMetricSystem.METRIC_SYSTEM)
-                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
-                else if (metricSystem == MoyoungEnumMetricSystem.IMPERIAL_SYSTEM)
-                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_imperial));
-                else
-                    throw new IllegalArgumentException("Invalid value");
-                break;
+//            case "METRIC_SYSTEM":
+//                MoyoungEnumMetricSystem metricSystem = (MoyoungEnumMetricSystem) value;
+//                if (metricSystem == MoyoungEnumMetricSystem.METRIC_SYSTEM)
+//                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
+//                else if (metricSystem == MoyoungEnumMetricSystem.IMPERIAL_SYSTEM)
+//                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_imperial));
+//                else
+//                    throw new IllegalArgumentException("Invalid value");
+//                break;
 
             case "DISPLAY_WATCH_FACE":
                 byte watchFace = (Byte) value;
@@ -1493,37 +1401,37 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 changedProperties.put(MoyoungConstants.PREF_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
                 break;
 
-            case "DO_NOT_DISTURB_TIME":
-                MoyoungSettingTimeRange.TimeRange doNotDisturb = (MoyoungSettingTimeRange.TimeRange) value;
-                if (doNotDisturb.start_h == 0 && doNotDisturb.start_m == 0 &&
-                    doNotDisturb.end_h == 0 && doNotDisturb.end_m == 0)
-                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-                else
-                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED);
-                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_START, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.start_h, doNotDisturb.start_m));
-                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_END, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.end_h, doNotDisturb.end_m));
-                break;
+//            case "DO_NOT_DISTURB_TIME":
+//                MoyoungSettingTimeRange.TimeRange doNotDisturb = (MoyoungSettingTimeRange.TimeRange) value;
+//                if (doNotDisturb.start_h == 0 && doNotDisturb.start_m == 0 &&
+//                    doNotDisturb.end_h == 0 && doNotDisturb.end_m == 0)
+//                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+//                else
+//                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED);
+//                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_START, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.start_h, doNotDisturb.start_m));
+//                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_END, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.end_h, doNotDisturb.end_m));
+//                break;
 
-            case "QUICK_VIEW":
-                boolean quickViewEnabled = (Boolean) value;
-                boolean quickViewScheduled = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_scheduled));
-                changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, quickViewEnabled ? (quickViewScheduled ? getContext().getString(R.string.p_scheduled) : getContext().getString(R.string.p_on)) : getContext().getString(R.string.p_off));
-                break;
+//            case "QUICK_VIEW":
+//                boolean quickViewEnabled = (Boolean) value;
+//                boolean quickViewScheduled = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_scheduled));
+//                changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, quickViewEnabled ? (quickViewScheduled ? getContext().getString(R.string.p_scheduled) : getContext().getString(R.string.p_on)) : getContext().getString(R.string.p_off));
+//                break;
 
-            case "QUICK_VIEW_TIME":
-                boolean quickViewEnabled2 = !prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_off));
-                MoyoungSettingTimeRange.TimeRange quickViewTime = (MoyoungSettingTimeRange.TimeRange) value;
-                if (quickViewEnabled2)
-                {
-                    if (quickViewTime.start_h == 0 && quickViewTime.start_m == 0 &&
-                        quickViewTime.end_h == 0 && quickViewTime.end_m == 0)
-                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
-                    else
-                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_scheduled));
-                }
-                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_START, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.start_h, quickViewTime.start_m));
-                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_END, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.end_h, quickViewTime.end_m));
-                break;
+//            case "QUICK_VIEW_TIME":
+//                boolean quickViewEnabled2 = !prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_off));
+//                MoyoungSettingTimeRange.TimeRange quickViewTime = (MoyoungSettingTimeRange.TimeRange) value;
+//                if (quickViewEnabled2)
+//                {
+//                    if (quickViewTime.start_h == 0 && quickViewTime.start_m == 0 &&
+//                        quickViewTime.end_h == 0 && quickViewTime.end_m == 0)
+//                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
+//                    else
+//                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_scheduled));
+//                }
+//                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_START, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.start_h, quickViewTime.start_m));
+//                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_END, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.end_h, quickViewTime.end_m));
+//                break;
 
             case "SEDENTARY_REMINDER":
                 boolean sedentaryReminderEnabled = (Boolean) value;
@@ -1541,13 +1449,13 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         for (Map.Entry<String, String> property : changedProperties.entrySet())
             prefsEditor.putString(property.getKey(), property.getValue());
         prefsEditor.apply();
-        for (Map.Entry<String, String> property : changedProperties.entrySet())
-        {
-            GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
-            configReadEvent.config = property.getKey();
-            configReadEvent.event = GBDeviceEventConfigurationRead.Event.SUCCESS;
-            evaluateGBDeviceEvent(configReadEvent);
-        }
+//        for (Map.Entry<String, String> property : changedProperties.entrySet())
+//        {
+//            GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
+//            configReadEvent.config = property.getKey();
+//            configReadEvent.event = GBDeviceEventConfigurationRead.Event.SUCCESS;
+//            evaluateGBDeviceEvent(configReadEvent);
+//        }
     }
 
     @Override
@@ -1555,13 +1463,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             new QuerySettingsOperation(this).perform();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug("Error while testing new function: ", e);
         }
     }
 
     @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
+    public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
         try {
+            WeatherSpec weatherSpec = weatherSpecs.get(0);
             TransactionBuilder builder = performInitialized("onSendWeather");
 
             MoyoungWeatherToday weatherToday = new MoyoungWeatherToday(weatherSpec);
@@ -1593,15 +1502,5 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onSetFmFrequency(float frequency) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onSetLedColor(int color) {
-        throw new UnsupportedOperationException();
     }
 }

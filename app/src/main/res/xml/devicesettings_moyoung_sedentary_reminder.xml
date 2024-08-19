@@ -16,7 +16,6 @@
             android:entryValues="@array/sedentary_reminder_values"
             android:key="sedentary_reminder"
             android:summary="%s"
-            app:dependentValue="@string/p_on"
             android:title="@string/pref_sedentary_reminder" />
 
         <androidx.preference.EditTextPreference

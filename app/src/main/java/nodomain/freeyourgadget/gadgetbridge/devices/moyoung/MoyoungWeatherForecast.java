@@ -29,7 +29,7 @@ public class MoyoungWeatherForecast {
         this.maxTemp = maxTemp;
     }
 
-    public MoyoungWeatherForecast(WeatherSpec.Forecast forecast)
+    public MoyoungWeatherForecast(WeatherSpec.Daily forecast)
     {
         conditionId = MoyoungConstants.openWeatherConditionToMoyoungConditionId(forecast.conditionCode);
         minTemp = (byte)(forecast.minTemp - 273); // Kelvin -> Celcius

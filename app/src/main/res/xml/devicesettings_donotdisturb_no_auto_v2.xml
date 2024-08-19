@@ -18,7 +18,6 @@
             android:entryValues="@array/do_not_disturb_no_auto_values"
             android:key="do_not_disturb"
             android:summary="%s"
-            app:dependentValue="@string/p_scheduled"
             android:title="@string/mi2_prefs_do_not_disturb" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference

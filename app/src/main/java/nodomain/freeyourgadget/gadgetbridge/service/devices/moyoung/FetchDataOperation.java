@@ -205,7 +205,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null && getDevice().isConnected()) {
             unsetBusy();
-            GB.signalActivityDataFinish();
+            GB.signalActivityDataFinish(getDevice());
         }
     }
 }
