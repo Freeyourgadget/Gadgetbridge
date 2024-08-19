@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -142,10 +143,10 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
 
         // Prepare circular chart
         long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
-        int width = 500;
-        int height = 500;
-        int barWidth = 40;
-        int hourTextSp = 12;
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int height = width;
+        int barWidth = Math.round(width * 0.08f);
+        int hourTextSp = Math.round(width * 0.024f);
         float hourTextPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, hourTextSp, requireContext().getResources().getDisplayMetrics());
         float outerCircleMargin = mode_24h ? barWidth / 2f : barWidth / 2f + hourTextPixels * 1.3f;
         float innerCircleMargin = outerCircleMargin + barWidth * 1.3f;

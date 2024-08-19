@@ -16,8 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
@@ -105,9 +109,14 @@ public class DashboardDistanceWidget extends AbstractDashboardWidget {
             String distanceFormatted = FormatUtils.getFormattedDistanceLabel(dashboardData.getDistanceTotal());
             distanceText.setText(distanceFormatted);
 
-            // Draw gauge
-            distanceGauge.setImageBitmap(drawGauge(200, 15, color_distance, dashboardData.getDistanceGoalFactor()));
+            final int width = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    150,
+                    GBApplication.getContext().getResources().getDisplayMetrics()
+            );
 
+            // Draw gauge
+            distanceGauge.setImageBitmap(drawGauge(width, Math.round(width * 0.075f), color_distance, dashboardData.getDistanceGoalFactor()));
         }
     }
 }

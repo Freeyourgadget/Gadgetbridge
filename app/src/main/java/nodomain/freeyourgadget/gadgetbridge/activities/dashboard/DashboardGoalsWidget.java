@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -117,9 +118,9 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
 
         @Override
         protected Void doInBackground(Void... params) {
-            int width = 500;
-            int height = 500;
-            int barWidth = 20;
+            int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+            int height = width;
+            int barWidth = Math.round(height * 0.04f);
             int barMargin = (int) Math.ceil(barWidth / 2f);
 
             goalsBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
