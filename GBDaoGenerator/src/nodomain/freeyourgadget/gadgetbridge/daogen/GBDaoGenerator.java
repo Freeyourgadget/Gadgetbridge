@@ -153,6 +153,7 @@ public class GBDaoGenerator {
         addColmiSleepStageSample(schema, user, device);
         addColmiHrvValueSample(schema, user, device);
         addColmiHrvSummarySample(schema, user, device);
+        addMoyoungActivitySample(schema, user, device);
 
         addHuaweiActivitySample(schema, user, device);
 
@@ -1061,8 +1062,8 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
-    private static Entity addDaFitActivitySample(Schema schema, Entity user, Entity device) {
-        Entity activitySample = addEntity(schema, "DaFitActivitySample");
+    private static Entity addMoyoungActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "MoyoungActivitySample");
         activitySample.implementsSerializable();
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE).codeBeforeGetter("@Override\n    public int getRawIntensity() {\n        return getSteps();\n    }\n\n");

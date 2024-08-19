@@ -2634,24 +2634,24 @@
         <item>ru_RU</item>
     </string-array>
 
-    <string-array name="pref_dafit_watch_face">
+    <string-array name="pref_moyoung_watch_face">
         <item>Watch face 1</item>
         <item>Watch face 2</item>
         <item>Watch face 3</item>
     </string-array>
 
-    <string-array name="pref_dafit_watch_face_values">
+    <string-array name="pref_moyoung_watch_face_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
 
-    <string-array name="pref_dafit_device_version">
+    <string-array name="pref_moyoung_device_version">
         <item>Chinese edition</item>
         <item>International edition</item>
     </string-array>
 
-    <string-array name="pref_dafit_device_version_values">
+    <string-array name="pref_moyoung_device_version_values">
         <item>0</item>
         <item>1</item>
     </string-array>
