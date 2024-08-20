@@ -30,11 +30,6 @@ public class NotificationDataStatusMessage extends GFDIStatusMessage {
         return status.equals(Status.ACK) && transferStatus.equals(TransferStatus.OK);
     }
 
-    @Override
-    protected boolean generateOutgoing() {
-        return false;
-    }
-
     public enum TransferStatus {
         OK,
         RESEND,

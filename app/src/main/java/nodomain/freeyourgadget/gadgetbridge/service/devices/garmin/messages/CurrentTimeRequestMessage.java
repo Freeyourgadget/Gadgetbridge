@@ -15,7 +15,7 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
     public CurrentTimeRequestMessage(int referenceID, GarminMessage garminMessage) {
         this.garminMessage = garminMessage;
         this.referenceID = referenceID;
-        this.statusMessage = this.getStatusMessage();
+        this.statusMessage = null; //our outgoing message is an ACK message
     }
 
     public static CurrentTimeRequestMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {

@@ -8,7 +8,7 @@ public class MusicControlCapabilitiesMessage extends GFDIMessage {
     public MusicControlCapabilitiesMessage(GarminMessage garminMessage, int supportedCapabilities) {
         this.garminMessage = garminMessage;
         this.supportedCapabilities = supportedCapabilities;
-        this.statusMessage = this.getStatusMessage();
+        this.statusMessage = null; //our outgoing message is an ACK message
     }
 
     public static MusicControlCapabilitiesMessage parseIncoming(MessageReader reader, GarminMessage garminMessage) {
