@@ -1664,6 +1664,7 @@
     <string name="devicetype_garmin_venu">Garmin Venu</string>
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
+    <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
     <string name="devicetype_garmin_venu_3">Garmin Venu 3</string>
     <string name="devicetype_garmin_venu_3s">Garmin Venu 3S</string>
     <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
