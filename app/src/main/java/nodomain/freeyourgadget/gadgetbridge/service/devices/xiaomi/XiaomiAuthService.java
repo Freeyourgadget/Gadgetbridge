@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.widget.Toast;
@@ -46,7 +47,6 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -65,6 +65,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
     public static final int CMD_AUTH = 27;
 
     private boolean encryptionInitialized = false;
+    private boolean checkDecryptionMac = true;
 
     private final byte[] secretKey = new byte[16];
     private final byte[] nonce = new byte[16];
@@ -102,6 +103,12 @@ public class XiaomiAuthService extends AbstractXiaomiService {
                 .build();
 
         getSupport().sendCommand("auth step 1", command);
+    }
+
+    @Override
+    public void setContext(final Context context) {
+        super.setContext(context);
+        this.checkDecryptionMac = getCoordinator().checkDecryptionMac();
     }
 
     @Override
@@ -180,7 +187,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         packetNonce.putInt(0);
 
         try {
-            return decrypt(decryptionKey, packetNonce.array(), arr);
+            return decrypt(decryptionKey, packetNonce.array(), arr, checkDecryptionMac);
         } catch (final CryptoException e) {
             throw new RuntimeException("failed to decrypt", e);
         }
@@ -323,7 +330,7 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
     public static byte[] encrypt(final byte[] key, final byte[] nonce, final byte[] payload) throws
             CryptoException {
-        final CCMBlockCipher cipher = createBlockCipher(true, new SecretKeySpec(key, "AES"), nonce);
+        final CCMBlockCipher cipher = createBlockCipher(true, new SecretKeySpec(key, "AES"), 32, nonce);
         final byte[] out = new byte[cipher.getOutputSize(payload.length)];
         final int outBytes = cipher.processBytes(payload, 0, payload.length, out, 0);
         cipher.doFinal(out, outBytes);
@@ -332,20 +339,24 @@ public class XiaomiAuthService extends AbstractXiaomiService {
 
     public static byte[] decrypt(final byte[] key,
                                  final byte[] nonce,
-                                 final byte[] encryptedPayload) throws CryptoException {
-        final CCMBlockCipher cipher = createBlockCipher(false, new SecretKeySpec(key, "AES"), nonce);
-        final byte[] decrypted = new byte[cipher.getOutputSize(encryptedPayload.length)];
-        cipher.doFinal(decrypted, cipher.processBytes(encryptedPayload, 0, encryptedPayload.length, decrypted, 0));
+                                 final byte[] encryptedPayload,
+                                 final boolean checkMac) throws CryptoException {
+        final int macSizeBits = checkMac ? 32 : 0;
+        final int actualEncryptedLength = checkMac ? encryptedPayload.length : encryptedPayload.length - 4;
+        final CCMBlockCipher cipher = createBlockCipher(false, new SecretKeySpec(key, "AES"), macSizeBits, nonce);
+        final byte[] decrypted = new byte[cipher.getOutputSize(actualEncryptedLength)];
+        cipher.doFinal(decrypted, cipher.processBytes(encryptedPayload, 0, actualEncryptedLength, decrypted, 0));
         return decrypted;
     }
 
     public static CCMBlockCipher createBlockCipher(final boolean forEncrypt,
                                                    final SecretKey secretKey,
+                                                   final int macSizeBits,
                                                    final byte[] nonce) {
         final AESEngine aesFastEngine = new AESEngine();
         aesFastEngine.init(forEncrypt, new KeyParameter(secretKey.getEncoded()));
         final CCMBlockCipher blockCipher = new CCMBlockCipher(aesFastEngine);
-        blockCipher.init(forEncrypt, new AEADParameters(new KeyParameter(secretKey.getEncoded()), 32, nonce, null));
+        blockCipher.init(forEncrypt, new AEADParameters(new KeyParameter(secretKey.getEncoded()), macSizeBits, nonce, null));
         return blockCipher;
     }
 }

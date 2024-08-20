@@ -577,4 +577,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean supports(final GBDevice device, final String feature) {
         return getPrefs(device).getBoolean(feature, false);
     }
+
+    public boolean checkDecryptionMac() {
+        return true;
+    }
 }

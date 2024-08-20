@@ -66,4 +66,10 @@ public class RedmiSmartBandProCoordinator extends XiaomiCoordinator {
     public PasswordCapabilityImpl.Mode getPasswordCapability() {
         return PasswordCapabilityImpl.Mode.NUMBERS_4_DIGITS_0_TO_9;
     }
+
+    @Override
+    public boolean checkDecryptionMac() {
+        // https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3766
+        return false;
+    }
 }
