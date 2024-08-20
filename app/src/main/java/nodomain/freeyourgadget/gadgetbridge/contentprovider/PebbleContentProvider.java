@@ -29,10 +29,11 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class PebbleContentProvider extends ContentProvider {
 
@@ -65,6 +66,7 @@ public class PebbleContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
 
         return true;
@@ -76,12 +78,12 @@ public class PebbleContentProvider extends ContentProvider {
             MatrixCursor mc = new MatrixCursor(columnNames);
             int connected = 0;
             int pebbleKit = 0;
-            Prefs prefs = GBApplication.getPrefs();
-            if (prefs.getBoolean("pebble_enable_pebblekit", false)) {
-                pebbleKit = 1;
-            }
             String fwString = "unknown";
             if (mGBDevice != null && mGBDevice.getType() == DeviceType.PEBBLE && mGBDevice.isInitialized()) {
+                final DevicePrefs deviceSpecificSharedPrefsrefs = GBApplication.getDevicePrefs(mGBDevice.getAddress());
+                if (deviceSpecificSharedPrefsrefs.getBoolean("third_party_apps_set_settings", false)) {
+                    pebbleKit = 1;
+                }
                 connected = 1;
                 fwString = mGBDevice.getFirmwareVersion();
             }

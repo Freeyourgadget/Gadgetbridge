@@ -11,13 +11,6 @@
             android:summary="@string/pref_summary_enable_outgoing_call"
             android:title="@string/pref_title_enable_outgoing_call"
             app:iconSpaceReserved="false" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="pebble_enable_pebblekit"
-            android:layout="@layout/preference_checkbox"
-            android:summary="@string/pref_summary_enable_pebblekit"
-            android:title="@string/pref_title_enable_pebblekit"
-            app:iconSpaceReserved="false" />
         <EditTextPreference
             android:defaultValue="12"
             android:inputType="number"

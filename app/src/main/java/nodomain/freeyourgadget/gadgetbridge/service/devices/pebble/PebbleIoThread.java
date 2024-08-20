@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.webkit.ValueCallback;
@@ -146,10 +147,11 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
+        final SharedPreferences deviceSpecificSharedPrefsrefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
-        mEnablePebblekit = prefs.getBoolean("pebble_enable_pebblekit", false);
+        mEnablePebblekit = deviceSpecificSharedPrefsrefs.getBoolean("third_party_apps_set_settings", false);
         mPebbleProtocol.setAlwaysACKPebbleKit(prefs.getBoolean("pebble_always_ack_pebblekit", false));
         mPebbleProtocol.setEnablePebbleKit(mEnablePebblekit);
 
