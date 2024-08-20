@@ -764,6 +764,11 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_MISCALE_WEIGHT_UNIT);
         addPreferenceHandlerFor(PREF_MISCALE_SMALL_OBJECTS);
 
+        addPreferenceHandlerFor(PREF_MIJIA_LYWSD_COMFORT_TEMPERATURE_LOWER);
+        addPreferenceHandlerFor(PREF_MIJIA_LYWSD_COMFORT_TEMPERATURE_UPPER);
+        addPreferenceHandlerFor(PREF_MIJIA_LYWSD_COMFORT_HUMIDITY_LOWER);
+        addPreferenceHandlerFor(PREF_MIJIA_LYWSD_COMFORT_HUMIDITY_UPPER);
+
         addPreferenceHandlerFor(PREF_FEMOMETER_MEASUREMENT_MODE);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);

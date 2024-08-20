@@ -459,6 +459,13 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_MISCALE_WEIGHT_UNIT = "pref_miscale_weight_unit";
     public static final String PREF_MISCALE_SMALL_OBJECTS = "pref_miscale_small_objects";
 
+    public static final String PREF_MIJIA_LYWSD_COMFORT_CHARACTERISTIC_LENGTH = "pref_mijia_lywsd_comfort_characteristic_length";
+    public static final String PREF_MIJIA_LYWSD_COMFORT_LEVEL = "pref_mijia_lywsd_comfort_level";
+    public static final String PREF_MIJIA_LYWSD_COMFORT_TEMPERATURE_LOWER = "pref_mijia_lywsd_comfort_temperature_lower";
+    public static final String PREF_MIJIA_LYWSD_COMFORT_TEMPERATURE_UPPER = "pref_mijia_lywsd_comfort_temperature_upper";
+    public static final String PREF_MIJIA_LYWSD_COMFORT_HUMIDITY_LOWER = "pref_mijia_lywsd_comfort_humidity_lower";
+    public static final String PREF_MIJIA_LYWSD_COMFORT_HUMIDITY_UPPER = "pref_mijia_lywsd_comfort_humidity_upper";
+
     public static final String PREF_QC35_NOISE_CANCELLING_LEVEL = "qc35_noise_cancelling_level";
 
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD = "prefs_activity_in_device_card";

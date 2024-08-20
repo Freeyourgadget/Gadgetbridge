@@ -22,6 +22,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -51,6 +52,11 @@ public abstract class AbstractMijiaLywsdCoordinator extends AbstractBLEDeviceCoo
         return "Xiaomi";
     }
 
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
+        return new MijiaLywsdSettingsCustomizer();
+    }
+
     @NonNull
     @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
@@ -60,6 +66,7 @@ public abstract class AbstractMijiaLywsdCoordinator extends AbstractBLEDeviceCoo
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
+                R.xml.devicesettings_mijia_lywsd,
                 R.xml.devicesettings_temperature_scale_cf,
         };
     }

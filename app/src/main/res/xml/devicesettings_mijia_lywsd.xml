@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:persistent="false"
+        android:icon="@drawable/ic_chair"
+        android:key="pref_mijia_lywsd_comfort_level"
+        android:title="@string/mijia_lywsd_comfort_level_title"
+        android:summary="@string/mijia_lywsd_comfort_level_summary">
+        <PreferenceCategory
+            android:icon="@drawable/ic_thermometer"
+            android:title="@string/mijia_lywsd_comfort_temperature_title"
+            android:summary="@string/mijia_lywsd_comfort_temperature_summary">
+            <SeekBarPreference
+                android:defaultValue="19"
+                android:max="60"
+                android:key="pref_mijia_lywsd_comfort_temperature_lower"
+                android:title="@string/mijia_lywsd_comfort_lower"
+                app:showSeekBarValue="true" />
+            <SeekBarPreference
+                android:defaultValue="27"
+                android:max="60"
+                android:key="pref_mijia_lywsd_comfort_temperature_upper"
+                android:title="@string/mijia_lywsd_comfort_upper"
+                app:showSeekBarValue="true" />
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:icon="@drawable/ic_humidity_mid"
+            android:title="@string/mijia_lywsd_comfort_humidity_title"
+            android:summary="@string/mijia_lywsd_comfort_humidity_summary">
+            <SeekBarPreference
+                android:defaultValue="20"
+                android:max="100"
+                android:key="pref_mijia_lywsd_comfort_humidity_lower"
+                android:title="@string/mijia_lywsd_comfort_lower"
+                app:showSeekBarValue="true" />
+            <SeekBarPreference
+                android:defaultValue="85"
+                android:max="100"
+                android:key="pref_mijia_lywsd_comfort_humidity_upper"
+                android:title="@string/mijia_lywsd_comfort_upper"
+                app:showSeekBarValue="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</PreferenceScreen>

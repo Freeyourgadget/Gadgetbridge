@@ -2725,6 +2725,14 @@
     <string name="miscale_weight_unit_chinese">Chinese (jin)</string>
     <string name="miscale_small_objects_title">Small Objects</string>
     <string name="miscale_small_objects_summary">Store weight of objects lighter than 10 kg</string>
+    <string name="mijia_lywsd_comfort_level_title">Comfort Level</string>
+    <string name="mijia_lywsd_comfort_level_summary">Configure the temperature and humidity limits for the displayed emoji</string>
+    <string name="mijia_lywsd_comfort_temperature_title">Temperature (°C)</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">Recommended range: 19 - 27</string>
+    <string name="mijia_lywsd_comfort_humidity_title">Humidity (%)</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">Recommended range: 20 - 85</string>
+    <string name="mijia_lywsd_comfort_lower">Lower Limit</string>
+    <string name="mijia_lywsd_comfort_upper">Upper Limit</string>
     <string name="protocol_version">Protocol Version</string>
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>
