@@ -3314,4 +3314,5 @@
     <string name="activity_type_billiard_pool">Havuz</string>
     <string name="authentication_failed_negotiation">Kimlik doğrulama anahtarı anlaşması başarısız oldu</string>
     <string name="devicetype_garmin_venu">Garmin Venu</string>
+    <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
 </resources>
