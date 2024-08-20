@@ -171,6 +171,10 @@
             android:label="@string/activity_prefs_charts"
             android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />
         <activity
+            android:name=".activities.files.FileManagerActivity"
+            android:label="@string/activity_data_management_directory_content_title"
+            android:parentActivityName=".activities.DataManagementActivity" />
+        <activity
             android:name=".activities.discovery.DiscoveryPairingPreferenceActivity"
             android:label="@string/activity_prefs_discovery_pairing"
             android:parentActivityName=".activities.SettingsActivity" />

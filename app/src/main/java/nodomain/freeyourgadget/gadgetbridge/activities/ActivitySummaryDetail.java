@@ -630,7 +630,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         if (gpxTrack != null) {
             try {
-                AndroidUtils.viewFile(gpxTrack, Intent.ACTION_VIEW, context);
+                AndroidUtils.viewFile(gpxTrack, "application/gpx+xml", context);
             } catch (IOException e) {
                 GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             }

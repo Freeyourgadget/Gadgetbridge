@@ -265,14 +265,14 @@ public class AndroidUtils {
         throw new IllegalArgumentException("Unable to decode the given uri to a file path: " + uri);
     }
 
-    public static void viewFile(String path, String action, Context context) throws IOException {
-        Intent intent = new Intent(action);
+    public static void viewFile(String path, String mimeType, Context context) throws IOException {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         File file = new File(path);
 
         Uri contentUri = FileProvider.getUriForFile(context,
                 context.getApplicationContext().getPackageName() + ".screenshot_provider", file);
         intent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(contentUri,"application/gpx+xml");
+        intent.setDataAndType(contentUri, mimeType);
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {

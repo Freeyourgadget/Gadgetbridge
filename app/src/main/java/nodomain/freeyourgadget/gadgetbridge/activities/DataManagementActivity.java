@@ -48,6 +48,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.files.FileManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
@@ -89,31 +90,9 @@ public class DataManagementActivity extends AbstractGBActivity {
         });
 
         Button showContentDataButton = findViewById(R.id.showContentDataButton);
-        showContentDataButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File export_path = null;
-                try {
-                    export_path = FileUtils.getExternalFilesDir();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DataManagementActivity.this);
-                builder.setTitle("Export/Import directory content:");
-
-                ArrayAdapter<String> directory_listing = new ArrayAdapter<String>(DataManagementActivity.this, android.R.layout.simple_list_item_1, export_path.list());
-
-                builder.setSingleChoiceItems(directory_listing, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-            }
+        showContentDataButton.setOnClickListener(v -> {
+            final Intent fileManagerIntent = new Intent(DataManagementActivity.this, FileManagerActivity.class);
+            startActivity(fileManagerIntent);
         });
 
         int oldDBVisibility = hasOldActivityDatabase() ? View.VISIBLE : View.GONE;
