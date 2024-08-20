@@ -45,7 +45,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(76, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(77, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -116,6 +116,7 @@ public class GBDaoGenerator {
         addGarminEventSample(schema, user, device);
         addGarminHrvSummarySample(schema, user, device);
         addGarminHrvValueSample(schema, user, device);
+        addPendingFile(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
         addWena3CaloriesSample(schema, user, device);
@@ -753,6 +754,28 @@ public class GBDaoGenerator {
         addCommonTimeSampleProperties("AbstractHrvValueSample", hrvValueSample, user, device);
         hrvValueSample.addIntProperty("value").notNull().codeBeforeGetter(OVERRIDE);
         return hrvValueSample;
+    }
+
+    private static Entity addPendingFile(Schema schema, Entity user, Entity device) {
+        Entity pendingFile = addEntity(schema, "PendingFile");
+        pendingFile.setJavaDoc(
+                "This class represents a file that was fetched from the device and is pending processing."
+        );
+
+        // We need a single-column primary key so that we can delete records
+        pendingFile.addIdProperty().autoincrement();
+
+        Property path = pendingFile.addStringProperty("path").notNull().getProperty();
+        Property deviceId = pendingFile.addLongProperty("deviceId").notNull().getProperty();
+        pendingFile.addToOne(device, deviceId);
+
+        final Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(path);
+        indexUnique.makeUnique();
+        pendingFile.addIndex(indexUnique);
+
+        return pendingFile;
     }
 
     private static Entity addWatchXPlusHealthActivitySample(Schema schema, Entity user, Entity device) {

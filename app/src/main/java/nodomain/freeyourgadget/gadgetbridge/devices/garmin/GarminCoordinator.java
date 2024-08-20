@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.PendingFileDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
@@ -70,6 +71,10 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
         session.getBaseActivitySummaryDao().queryBuilder()
                 .where(BaseActivitySummaryDao.Properties.DeviceId.eq(deviceId))
+                .buildDelete().executeDeleteWithoutDetachingEntities();
+
+        session.getPendingFileDao().queryBuilder()
+                .where(PendingFileDao.Properties.DeviceId.eq(deviceId))
                 .buildDelete().executeDeleteWithoutDetachingEntities();
     }
 

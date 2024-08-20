@@ -29,19 +29,18 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.PendingFileProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminGpxRouteInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -97,7 +96,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private final Queue<FileTransferHandler.DirectoryEntry> filesToDownload;
     private final List<MessageHandler> messageHandlers;
     private final List<FileType> supportedFileTypeList = new ArrayList<>();
-    private final List<File> filesToProcess = new ArrayList<>();
     private ICommunicator communicator;
     private MusicStateSpec musicStateSpec;
     private Timer musicStateTimer;
@@ -298,7 +296,15 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             LOG.debug("FILE DOWNLOAD COMPLETE {}", filename);
 
             if (entry.getFiletype().isFitFile()) {
-                filesToProcess.add(new File(((FileDownloadedDeviceEvent) deviceEvent).localPath));
+                try (DBHandler handler = GBApplication.acquireDB()) {
+                    final DaoSession session = handler.getDaoSession();
+
+                    final PendingFileProvider pendingFileProvider = new PendingFileProvider(gbDevice, session);
+
+                    pendingFileProvider.addPendingFile(((FileDownloadedDeviceEvent) deviceEvent).localPath);
+                } catch (final Exception e) {
+                    GB.toast(getContext(), "Error saving pending file", Toast.LENGTH_LONG, GB.ERROR, e);
+                }
             }
 
             if (!getKeepActivityDataOnDevice()) { // delete file from watch upon successful download
@@ -309,6 +315,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         super.evaluateGBDeviceEvent(deviceEvent);
     }
 
+    /** @noinspection BooleanMethodIsAlwaysInverted*/
     private boolean getKeepActivityDataOnDevice() {
         return getDevicePrefs().getBoolean("keep_activity_data_on_device", false);
     }
@@ -423,6 +430,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
         for (int day = 0; day < 4; day++) {
             if (day < weather.forecasts.size()) {
+                //noinspection ExtractMethodRecommender
                 WeatherSpec.Daily daily = weather.forecasts.get(day);
                 int ts = weather.timestamp + (day + 1) * 24 * 60 * 60;
                 RecordData weatherDailyForecast = new RecordData(recordDefinitionDaily, recordDefinitionDaily.getRecordHeader());
@@ -477,6 +485,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             return;
         }
 
+        //noinspection SwitchStatementWithTooFewBranches
         switch (config) {
             case PREF_SEND_APP_NOTIFICATIONS:
                 NotificationSubscriptionDeviceEvent notificationSubscriptionDeviceEvent = new NotificationSubscriptionDeviceEvent();
@@ -484,8 +493,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 evaluateGBDeviceEvent(notificationSubscriptionDeviceEvent);
                 return;
         }
-
-
     }
 
     private void processDownloadQueue() {
@@ -515,7 +522,23 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
 
         if (filesToDownload.isEmpty() && !fileTransferHandler.isDownloading() && isBusyFetching) {
+            final List<File> filesToProcess;
+            try (DBHandler handler = GBApplication.acquireDB()) {
+                final DaoSession session = handler.getDaoSession();
+
+                final PendingFileProvider pendingFileProvider = new PendingFileProvider(gbDevice, session);
+
+                filesToProcess = pendingFileProvider.getAllPendingFiles()
+                        .stream()
+                        .map(pf -> new File(pf.getPath()))
+                        .collect(Collectors.toList());
+            } catch (final Exception e) {
+                LOG.error("Failed to get pending files", e);
+                return;
+            }
+
             if (filesToProcess.isEmpty()) {
+                LOG.debug("No pending files to process");
                 // No downloaded fit files to process
                 if (gbDevice.isBusy() && isBusyFetching) {
                     GB.signalActivityDataFinish();
@@ -530,19 +553,17 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             // Keep the device marked as busy while we process the files asynchronously
 
             final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
-            final List<File> filesToProcessClone = new ArrayList<>(filesToProcess);
-            filesToProcess.clear();
             final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
-            fitAsyncProcessor.process(filesToProcessClone, new FitAsyncProcessor.Callback() {
+            fitAsyncProcessor.process(filesToProcess, new FitAsyncProcessor.Callback() {
                 @Override
                 public void onProgress(final int i) {
                     final long now = System.currentTimeMillis();
                     if (now - lastNotificationUpdateTs[0] > 1500L) {
                         lastNotificationUpdateTs[0] = now;
                         GB.updateTransferNotification(
-                                "Parsing fit files", "File " + i + " of " + filesToProcessClone.size(),
+                                "Parsing fit files", "File " + i + " of " + filesToProcess.size(),
                                 true,
-                                (i * 100) / filesToProcessClone.size(), getContext()
+                                (i * 100) / filesToProcess.size(), getContext()
                         );
                     }
                 }

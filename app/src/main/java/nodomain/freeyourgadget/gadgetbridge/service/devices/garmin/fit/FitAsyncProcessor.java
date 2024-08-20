@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import android.content.Context;
 import android.os.Handler;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.PendingFileProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FitAsyncProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(FitAsyncProcessor.class);
@@ -45,6 +52,17 @@ public class FitAsyncProcessor {
                         fitImporter.importFile(file);
                     } catch (final Exception ex) {
                         LOG.error("Exception while importing {}", file, ex);
+                        continue; // do not remove from pending files
+                    }
+
+                    try (DBHandler handler = GBApplication.acquireDB()) {
+                        final DaoSession session = handler.getDaoSession();
+
+                        final PendingFileProvider pendingFileProvider = new PendingFileProvider(gbDevice, session);
+
+                        pendingFileProvider.removePendingFile(file.getPath());
+                    } catch (final Exception e) {
+                        LOG.error("Exception while removing pending file {}", file, e);
                     }
                 }
             } catch (final Exception e) {
