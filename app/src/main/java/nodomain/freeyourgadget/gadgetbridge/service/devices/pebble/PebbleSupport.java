@@ -35,7 +35,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -153,7 +152,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        String currentPrivacyMode = GBApplication.getPrefs().getString("pebble_pref_privacy_mode", getContext().getString(R.string.p_pebble_privacy_mode_off));
+        String currentPrivacyMode = GBApplication.getDevicePrefs(gbDevice.getAddress()).getString("pebble_pref_privacy_mode", getContext().getString(R.string.p_pebble_privacy_mode_off));
         if (getContext().getString(R.string.p_pebble_privacy_mode_complete).equals(currentPrivacyMode)) {
             notificationSpec.body = null;
             notificationSpec.sender = null;
@@ -177,7 +176,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     @Override
     public void onSetCallState(CallSpec callSpec) {
         if (reconnect()) {
-            if ((callSpec.command != CallSpec.CALL_OUTGOING) || GBApplication.getPrefs().getBoolean("pebble_enable_outgoing_call", true)) {
+            if ((callSpec.command != CallSpec.CALL_OUTGOING) || GBApplication.getDevicePrefs(gbDevice.getAddress()).getBoolean("pebble_enable_outgoing_call", true)) {
                 super.onSetCallState(callSpec);
             }
         }

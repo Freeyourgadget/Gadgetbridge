@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
 
@@ -79,7 +80,7 @@ public class GBWebClient extends WebViewClient {
 
     private WebResourceResponse mimicReply(Uri requestedUri) {
         if (requestedUri.getHost() != null && (StringUtils.indexOfAny(requestedUri.getHost(), AllowedDomains) != -1)) {
-            if (GBApplication.getPrefs().isBackgroundJsEnabled() && WebViewSingleton.getInstance().internetHelperBound) {
+            if (WebViewSingleton.getInstance().internetHelperBound) {
                 LOG.debug("WEBVIEW forwarding request to the internet helper");
                 Bundle bundle = new Bundle();
                 bundle.putString("URL", requestedUri.toString());

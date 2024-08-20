@@ -21,15 +21,17 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 abstract class DatalogSessionPebbleHealth extends DatalogSession {
 
     private final GBDevice mDevice;
+    private final DevicePrefs devicePrefs;
 
     DatalogSessionPebbleHealth(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize, GBDevice device) {
         super(id, uuid, timestamp, tag, itemType, itemSize);
         mDevice = device;
+        devicePrefs = GBApplication.getDevicePrefs(mDevice.getAddress());
     }
 
     public GBDevice getDevice() {
@@ -37,12 +39,10 @@ abstract class DatalogSessionPebbleHealth extends DatalogSession {
     }
 
     boolean isPebbleHealthEnabled() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean("pebble_sync_health", true);
+        return devicePrefs.getBoolean("pebble_sync_health", true);
     }
 
     boolean storePebbleHealthRawRecord() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean("pebble_health_store_raw", true);
+        return devicePrefs.getBoolean("pebble_health_store_raw", true);
     }
 }

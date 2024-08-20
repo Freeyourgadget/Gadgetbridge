@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleMisfitSamplePro
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 class AppMessageHandlerMisfit extends AppMessageHandler {
 
@@ -59,8 +58,7 @@ class AppMessageHandlerMisfit extends AppMessageHandler {
 
     @Override
     public boolean isEnabled() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean("pebble_sync_misfit", true);
+        return devicePrefs.getBoolean("pebble_sync_misfit", true);
     }
 
     @Override

@@ -22,7 +22,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ParcelUuid;
 import android.webkit.ValueCallback;
@@ -59,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppMessage
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.pebble.GBDeviceEventDataLogging;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PBWReader;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleInstallable;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -69,11 +69,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 class PebbleIoThread extends GBDeviceIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleIoThread.class);
 
     private final Prefs prefs = GBApplication.getPrefs();
+    private final DevicePrefs devicePrefs;
 
     private final PebbleProtocol mPebbleProtocol;
     private final PebbleSupport mPebbleSupport;
@@ -147,12 +149,12 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
-        final SharedPreferences deviceSpecificSharedPrefsrefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        devicePrefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
-        mEnablePebblekit = deviceSpecificSharedPrefsrefs.getBoolean("third_party_apps_set_settings", false);
-        mPebbleProtocol.setAlwaysACKPebbleKit(prefs.getBoolean("pebble_always_ack_pebblekit", false));
+        mEnablePebblekit = devicePrefs.getBoolean("third_party_apps_set_settings", false);
+        mPebbleProtocol.setAlwaysACKPebbleKit(devicePrefs.getBoolean("pebble_always_ack_pebblekit", false));
         mPebbleProtocol.setEnablePebbleKit(mEnablePebblekit);
 
         mPebbleActiveAppTracker = new PebbleActiveAppTracker();
@@ -183,7 +185,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 mOutStream = mTCPSocket.getOutputStream();
             } else {
                 mIsTCP = false;
-                if (gbDevice.getVolatileAddress() != null && prefs.getBoolean("pebble_force_le", false)) {
+                if (gbDevice.getVolatileAddress() != null && devicePrefs.getBoolean("pebble_force_le", false)) {
                     deviceAddress = gbDevice.getVolatileAddress();
                 }
                 BluetoothDevice btDevice = mBtAdapter.getRemoteDevice(deviceAddress);
@@ -211,9 +213,10 @@ class PebbleIoThread extends GBDeviceIoThread {
                     mOutStream = mBtSocket.getOutputStream();
                 }
             }
-            if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
+            if (((PebbleCoordinator) gbDevice.getDeviceCoordinator()).isBackgroundJsEnabled(gbDevice)) {
                 Intent startIntent = new Intent(getContext(), ExternalPebbleJSActivity.class);
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
                 startIntent.putExtra(ExternalPebbleJSActivity.START_BG_WEBVIEW, true);
                 getContext().startActivity(startIntent);
             } else {
@@ -230,7 +233,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        mPebbleProtocol.setForceProtocol(prefs.getBoolean("pebble_force_protocol", false));
+        mPebbleProtocol.setForceProtocol(devicePrefs.getBoolean("pebble_force_protocol", false));
 
         mIsConnected = true;
         write(mPebbleProtocol.encodeFirmwareVersionReq());
@@ -414,7 +417,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
         }
 
-        if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
+        if (((PebbleCoordinator) gbDevice.getDeviceCoordinator()).isBackgroundJsEnabled(gbDevice)) {
             WebViewSingleton.getInstance().disposeWebView();
         }
 
@@ -478,7 +481,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                 LOG.info("syncing time");
                 write(mPebbleProtocol.encodeSetTime());
             }
-            write(mPebbleProtocol.encodeEnableAppLogs(prefs.getBoolean("pebble_enable_applogs", false)));
+            write(mPebbleProtocol.encodeEnableAppLogs(devicePrefs.getBoolean("pebble_enable_applogs", false)));
             write(mPebbleProtocol.encodeReportDataLogSessions());
             gbDevice.setState(GBDevice.State.INITIALIZED);
             return false;
@@ -542,7 +545,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     break;
                 case START:
                     LOG.info("got GBDeviceEventAppManagement START event for uuid: " + appMgmt.uuid);
-                    if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
+                    if (((PebbleCoordinator) gbDevice.getDeviceCoordinator()).isBackgroundJsEnabled(gbDevice)) {
                         if (mPebbleProtocol.hasAppMessageHandler(appMgmt.uuid)) {
                             WebViewSingleton.getInstance().stopJavascriptInterface();
                         } else {
@@ -565,7 +568,7 @@ class PebbleIoThread extends GBDeviceIoThread {
             setInstallSlot(appInfoEvent.freeSlot);
             return false;
         } else if (deviceEvent instanceof GBDeviceEventAppMessage) {
-            if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
+            if (((PebbleCoordinator) gbDevice.getDeviceCoordinator()).isBackgroundJsEnabled(gbDevice)) {
                 sendAppMessageJS((GBDeviceEventAppMessage) deviceEvent);
             }
             if (mEnablePebblekit) {

@@ -44,6 +44,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -51,7 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBChromeClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.GBWebClient;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.WebViewSingleton;
@@ -120,14 +120,14 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
             currentDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
             currentUUID = (UUID) extras.getSerializable(DeviceService.EXTRA_APP_UUID);
 
-            if (extras.getBoolean(START_BG_WEBVIEW, false)) {
+            if (currentDevice != null && extras.getBoolean(START_BG_WEBVIEW, false) && ((PebbleCoordinator) currentDevice.getDeviceCoordinator()).isBackgroundJsEnabled(currentDevice)) {
                 startBackgroundWebViewAndFinish();
                 return;
             }
             showConfig = extras.getBoolean(SHOW_CONFIG, false);
         }
 
-        if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
+        if (currentDevice != null && ((PebbleCoordinator) currentDevice.getDeviceCoordinator()).isBackgroundJsEnabled(currentDevice)) {
             if (showConfig) {
                 Objects.requireNonNull(currentDevice, "Must provide a device when invoking this activity");
                 Objects.requireNonNull(currentUUID, "Must provide a uuid when invoking this activity");
@@ -144,11 +144,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
     }
 
     private void startBackgroundWebViewAndFinish() {
-        if (GBApplication.getPrefs().isBackgroundJsEnabled()) {
-            WebViewSingleton.ensureCreated(this);
-        } else {
-            LOG.warn("BGJs disabled, not starting webview");
-        }
+        WebViewSingleton.ensureCreated(this);
         finish();
     }
 

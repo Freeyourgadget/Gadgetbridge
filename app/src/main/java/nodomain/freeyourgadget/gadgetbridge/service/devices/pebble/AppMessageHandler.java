@@ -29,21 +29,26 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 class AppMessageHandler {
     final PebbleProtocol mPebbleProtocol;
     final UUID mUUID;
     Map<String, Integer> messageKeys;
+    protected final DevicePrefs devicePrefs;
+
 
     AppMessageHandler(UUID uuid, PebbleProtocol pebbleProtocol) {
         mUUID = uuid;
         mPebbleProtocol = pebbleProtocol;
+        devicePrefs = GBApplication.getDevicePrefs(pebbleProtocol.getDevice().getAddress());
     }
 
     public boolean isEnabled() {

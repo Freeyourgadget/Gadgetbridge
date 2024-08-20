@@ -36,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -47,14 +49,16 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PebbleHealthActivitySampleD
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMisfitSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.PebbleMorpheuzSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
+    private static final String BG_JS_ENABLED = "pebble_enable_background_javascript";
+    private static final boolean BG_JS_ENABLED_DEFAULT = false;
+
     public PebbleCoordinator() {
     }
 
@@ -83,7 +87,7 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        Prefs prefs = GBApplication.getPrefs();
+        DevicePrefs prefs = GBApplication.getDevicePrefs(device.getAddress());
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
@@ -223,15 +227,30 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
         return true;
     }
 
+//    @Override
+//    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+//        return new int[]{
+//                ,
+//                R.xml.devicesettings_transliteration
+//        };
+//    }
+
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_autoremove_notifications,
-                R.xml.devicesettings_canned_reply_16,
-                R.xml.devicesettings_canned_dismisscall_16,
-                R.xml.devicesettings_sync_calendar,
-                R.xml.devicesettings_transliteration
-        };
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_autoremove_notifications);
+        notifications.add(R.xml.devicesettings_canned_reply_16);
+        notifications.add(R.xml.devicesettings_canned_dismisscall_16);
+        notifications.add(R.xml.devicesettings_transliteration);
+
+        final List<Integer> calendar = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALENDAR);
+        calendar.add(R.xml.devicesettings_sync_calendar);
+
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_pebble_preferences);
+
+        return deviceSpecificSettings;
     }
 
     @NonNull
@@ -259,4 +278,10 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     public int getDisabledIconResource() {
         return R.drawable.ic_device_pebble_disabled;
     }
+
+    public boolean isBackgroundJsEnabled(final GBDevice device) {
+        DevicePrefs deviceSpecificPreferences = GBApplication.getDevicePrefs(device.getAddress());
+        return deviceSpecificPreferences.getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
+    }
+
 }
