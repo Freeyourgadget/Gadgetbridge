@@ -141,7 +141,9 @@ public class XiaomiScheduleService extends AbstractXiaomiService {
 
     @Override
     public void initialize() {
-        requestAlarms();
+        if (getCoordinator().supportsAlarms()) {
+            requestAlarms();
+        }
         requestReminders();
         requestWorldClocks();
         getSupport().sendCommand("get sleep mode", COMMAND_TYPE, CMD_SLEEP_MODE_GET);

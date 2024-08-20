@@ -69,7 +69,14 @@ public class RedmiSmartBandProCoordinator extends XiaomiCoordinator {
 
     @Override
     public boolean checkDecryptionMac() {
+        // Sometimes it fails to decrypt with an invalid mac
         // https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3766
+        return false;
+    }
+
+    @Override
+    public boolean supportsAlarms() {
+        // Crashes when requesting alarms
         return false;
     }
 }

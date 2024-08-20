@@ -581,4 +581,14 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean checkDecryptionMac() {
         return true;
     }
+
+    /**
+     * Whether the device supports alarms. This differs from {@link #getAlarmSlotCount} since that
+     * returns the number of alarms dynamically after requesting them, but some devices will crash
+     * if we even attempt to request alarms and they do not support them - see
+     * <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3766">#3766</a>
+     */
+    public boolean supportsAlarms() {
+        return true;
+    }
 }
