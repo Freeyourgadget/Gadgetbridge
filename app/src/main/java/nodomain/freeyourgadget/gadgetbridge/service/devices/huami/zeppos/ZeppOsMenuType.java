@@ -109,6 +109,7 @@ public class ZeppOsMenuType {
         put("00000029", "body_composition");
         put("0000002A", "readiness");
         put("0000002B", "zepp_pay");
+        put("000FFD39", "hrv");
     }};
 
     public static final Map<String, String> controlCenterNameLookup = new HashMap<String, String>() {{

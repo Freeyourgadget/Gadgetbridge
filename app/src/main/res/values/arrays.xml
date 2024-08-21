@@ -887,6 +887,7 @@
         <item>@string/menuitem_thermometer</item>
         <item>@string/menuitem_workout_shortcuts</item>
         <item>@string/menuitem_apps_shortcuts</item>
+        <item>@string/hrv</item>
         <!-- dummy item -->
         <item>@string/menuitem_more</item>
     </string-array>
@@ -941,6 +942,7 @@
         <item>thermometer</item>
         <item>workout_shortcuts</item>
         <item>apps_shortcuts</item>
+        <item>hrv</item>
         <!-- dummy item -->
         <item>more</item>
     </string-array>

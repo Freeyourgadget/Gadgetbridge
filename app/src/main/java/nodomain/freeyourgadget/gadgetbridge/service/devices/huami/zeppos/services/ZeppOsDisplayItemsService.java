@@ -16,8 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
-import static org.apache.commons.lang3.ArrayUtils.subarray;
+import androidx.annotation.Nullable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +29,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
@@ -88,33 +93,33 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
 
     @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        final byte menuType;
+
         switch (config) {
             case HuamiConst.PREF_DISPLAY_ITEMS:
             case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
-                setDisplayItems(
-                        DISPLAY_ITEMS_MENU,
-                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
-                        new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()))
-                );
-                return true;
+                menuType = DISPLAY_ITEMS_MENU;
+                break;
             case HuamiConst.PREF_SHORTCUTS:
             case HuamiConst.PREF_SHORTCUTS_SORTABLE:
-                setDisplayItems(
-                        DISPLAY_ITEMS_SHORTCUTS,
-                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
-                        new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()))
-                );
-                return true;
+                menuType = DISPLAY_ITEMS_SHORTCUTS;
+                break;
             case HuamiConst.PREF_CONTROL_CENTER_SORTABLE:
-                setDisplayItems(
-                        DISPLAY_ITEMS_CONTROL_CENTER,
-                        new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
-                        new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
-                );
-                return true;
+                menuType = DISPLAY_ITEMS_CONTROL_CENTER;
+                break;
+            default:
+                return false;
         }
 
-        return false;
+        setDisplayItems(
+                menuType,
+                new ArrayList<>(prefs.getList(DeviceSettingsUtils.getPrefPossibleValuesKey(config), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(config, Collections.emptyList())),
+                FlagsMap.fromPrefValue(prefs.getString(config + "_flags", "{}"))
+        );
+
+
+        return true;
     }
 
     @Override
@@ -132,43 +137,39 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
         write(builder, new byte[]{CMD_REQUEST, type});
     }
 
-    private void decodeAndUpdateDisplayItems(final byte[] payload) {
-        LOG.info("Got display items from band, type={}", payload[1]);
+    private void decodeAndUpdateDisplayItems(final byte[] payloadd) {
+        final ByteBuffer buf = ByteBuffer.wrap(payloadd).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(); // discard the command byte
 
-        final int numberScreens = payload[2];
-        final int expectedLength = 4 + numberScreens * 12;
-        if (payload.length != 4 + numberScreens * 12) {
-            LOG.error("Unexpected display items payload length {}, expected {}", payload.length, expectedLength);
-            return;
-        }
+        final int type = buf.get();
+        final int numberScreens = buf.getShort();
+
+        LOG.info("Got {} display items of type {}", numberScreens, type);
 
         final String prefKey;
         final Map<String, String> idMap;
-        switch (payload[1]) {
+        switch (type) {
             case DISPLAY_ITEMS_MENU:
-                LOG.info("Got {} display items", numberScreens);
                 prefKey = HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
                 idMap = ZeppOsMenuType.displayItemNameLookup;
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
-                LOG.info("Got {} shortcuts", numberScreens);
                 prefKey = HuamiConst.PREF_SHORTCUTS_SORTABLE;
                 idMap = ZeppOsMenuType.shortcutsNameLookup;
                 break;
             case DISPLAY_ITEMS_CONTROL_CENTER:
-                LOG.info("Got {} control center", numberScreens);
                 prefKey = HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
                 idMap = ZeppOsMenuType.controlCenterNameLookup;
                 break;
             default:
-                LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
+                LOG.error("Unknown display items type {}", String.format("0x%x", type));
                 return;
         }
         final String allScreensPrefKey = DeviceSettingsUtils.getPrefPossibleValuesKey(prefKey);
 
         final boolean menuHasMoreSection;
 
-        if (payload[1] == DISPLAY_ITEMS_MENU) {
+        if (type == DISPLAY_ITEMS_MENU) {
             menuHasMoreSection = getCoordinator().mainMenuHasMoreSection();
         } else {
             menuHasMoreSection = false;
@@ -177,6 +178,10 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
         final String[] mainScreensArr = new String[numberScreens];
         final String[] moreScreensArr = new String[numberScreens];
         final List<String> allScreens = new LinkedList<>();
+
+        // we need to save the flags so that we can send them when setting the screens
+        final FlagsMap flagsMap = new FlagsMap();
+
         if (menuHasMoreSection) {
             // The band doesn't report the "more" screen, so we add it
             allScreens.add("more");
@@ -184,12 +189,32 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
 
         for (int i = 0; i < numberScreens; i++) {
             // Screen IDs are sent as literal hex strings
-            final String screenId = new String(subarray(payload, 4 + i * 12, 4 + i * 12 + 8));
+            final String screenId = StringUtils.untilNullTerminator(buf);
             final String screenNameOrId = idMap.containsKey(screenId) ? idMap.get(screenId) : screenId;
             allScreens.add(screenNameOrId);
 
-            final int screenSectionVal = payload[4 + i * 12 + 9];
-            final int screenPosition = payload[4 + i * 12 + 10];
+            final int screenSectionVal = buf.get();
+            final int screenPosition = buf.get();
+            final int flags = buf.get();
+            if (flags != 0) {
+                final Flags flagsObj = new Flags();
+
+                flagsObj.value = flags;
+
+                // 1 = settings / can't be removed
+
+                if ((flags & 2) != 0 || (flags & 4) != 0) {
+                    // unsure which flag indicates the version and which indicates the unknown string
+                    flagsObj.version = StringUtils.untilNullTerminator(buf);
+
+                    if ((flags & 2) != 0 && (flags & 4) != 0) {
+                        // but if both are set, we have a 2nd string
+                        flagsObj.unk = StringUtils.untilNullTerminator(buf);
+                    }
+                }
+
+                flagsMap.put(screenId, flagsObj);
+            }
 
             if (screenPosition >= numberScreens) {
                 LOG.warn("Invalid screen position {}, ignoring", screenPosition);
@@ -230,6 +255,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
         final String allScreensPrefValue = StringUtils.join(",", allScreens.toArray(new String[0])).toString();
         final String prefValue = StringUtils.join(",", screens.toArray(new String[0])).toString();
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(prefKey + "_flags", flagsMap.toPrefValue())
                 .withPreference(allScreensPrefKey, allScreensPrefValue)
                 .withPreference(prefKey, prefValue);
 
@@ -238,10 +264,11 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
 
     private void setDisplayItems(final byte menuType,
                                  final List<String> allSettings,
-                                 List<String> enabledList) {
+                                 List<String> enabledList,
+                                 final FlagsMap flags) {
         try {
             final TransactionBuilder builder = new TransactionBuilder("set display items type " + menuType);
-            setDisplayItems(builder, menuType, allSettings, enabledList);
+            setDisplayItems(builder, menuType, allSettings, enabledList, flags);
             builder.queue(getSupport().getQueue());
         } catch (final Exception e) {
             LOG.error("Failed to set display items", e);
@@ -251,7 +278,8 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
     private void setDisplayItems(final TransactionBuilder builder,
                                  final byte menuType,
                                  final List<String> allSettings,
-                                 List<String> enabledList) {
+                                 List<String> enabledList,
+                                 final FlagsMap flagsMap) {
         final boolean isMainMenu = menuType == DISPLAY_ITEMS_MENU;
         final boolean isShortcuts = menuType == DISPLAY_ITEMS_SHORTCUTS;
         final boolean hasMoreSection;
@@ -283,6 +311,11 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             return;
         }
 
+        if (flagsMap == null) {
+            LOG.error("Flags map is missing");
+            return;
+        }
+
         if (isMainMenu && !enabledList.contains("settings")) {
             // Settings can't be disabled
             enabledList.add("settings");
@@ -302,13 +335,22 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             numItems--;
         }
 
-        final ByteBuffer buf = ByteBuffer.allocate(4 + numItems * 12);
+        int flagsOverhead = 0;
+        for (final Map.Entry<String, Flags> e : flagsMap.entrySet()) {
+            if (e.getValue().version != null) {
+                flagsOverhead += e.getValue().version.getBytes(StandardCharsets.UTF_8).length + 1;
+            }
+            if (e.getValue().unk != null) {
+                flagsOverhead += e.getValue().unk.getBytes(StandardCharsets.UTF_8).length + 1;
+            }
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(4 + numItems * 12 + flagsOverhead);
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         buf.put(CMD_CREATE);
         buf.put(menuType);
-        buf.put((byte) numItems);
-        buf.put((byte) 0x00);
+        buf.putShort((short) numItems);
 
         byte pos = 0;
         boolean inMoreSection = false;
@@ -323,7 +365,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
                 continue;
             }
 
-            final String id = idMap.containsKey(name) ? idMap.get(name) : name;
+            final String id = idMap.containsKey(name) ? Objects.requireNonNull(idMap.get(name)) : name;
             if (!ID_REGEX.matcher(id).find()) {
                 LOG.error("Screen item id '{}' is not 8-char hex string", id);
                 continue;
@@ -343,7 +385,20 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             buf.put((byte) 0);
             buf.put(sectionKey);
             buf.put(pos++);
-            buf.put((byte) (id.equals("00000013") ? 1 : 0));
+            final Flags flags = flagsMap.get(id);
+            if (flags != null && flags.value != 0) {
+                buf.put((byte) (flags.value));
+                if (flags.version != null) {
+                    buf.put(flags.version.getBytes(StandardCharsets.UTF_8));
+                    buf.put((byte) 0);
+                }
+                if (flags.unk != null) {
+                    buf.put(flags.unk.getBytes(StandardCharsets.UTF_8));
+                    buf.put((byte) 0);
+                }
+            } else {
+                buf.put((byte) 0);
+            }
         }
 
         // Set all disabled items
@@ -353,7 +408,7 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
                 continue;
             }
 
-            final String id = idMap.containsKey(name) ? idMap.get(name) : name;
+            final String id = idMap.containsKey(name) ? Objects.requireNonNull(idMap.get(name)) : name;
             if (!ID_REGEX.matcher(id).find()) {
                 LOG.error("Screen item id '{}' is not 8-char hex string", id);
                 continue;
@@ -364,9 +419,92 @@ public class ZeppOsDisplayItemsService extends AbstractZeppOsService {
             buf.put((byte) 0);
             buf.put(DISPLAY_ITEMS_SECTION_DISABLED);
             buf.put(pos++);
-            buf.put((byte) (id.equals("00000013") ? 1 : 0));
+            final Flags flags = flagsMap.get(id);
+            if (flags != null && flags.value != 0) {
+                buf.put((byte) (flags.value));
+                if (flags.version != null) {
+                    buf.put(flags.version.getBytes(StandardCharsets.UTF_8));
+                    buf.put((byte) 0);
+                }
+                if (flags.unk != null) {
+                    buf.put(flags.unk.getBytes(StandardCharsets.UTF_8));
+                    buf.put((byte) 0);
+                }
+            } else {
+                buf.put((byte) 0);
+            }
         }
 
         write(builder, buf.array());
+    }
+
+    private static class Flags {
+        private int value = 0;
+        private String version = null;
+        private String unk = null;
+    }
+
+    /**
+     * When requesting the items from the watch, it sends a bitmask with flags, and a version / unknown
+     * string. We need to persist this so that we can send it back when setting the display items.
+     */
+    private static class FlagsMap extends HashMap<String, Flags> {
+        @Nullable
+        private String toPrefValue() {
+            final JSONObject jsonObject = new JSONObject();
+
+            for (final Map.Entry<String, Flags> e : entrySet()) {
+                final JSONObject entryObj = new JSONObject();
+
+                try {
+                    entryObj.put("value", e.getValue().value);
+                    if (e.getValue().version != null) {
+                        entryObj.put("version", e.getValue().version);
+                    }
+                    if (e.getValue().unk != null) {
+                        entryObj.put("unk", e.getValue().unk);
+                    }
+                    jsonObject.put(e.getKey(), entryObj);
+                } catch (final JSONException ex) {
+                    LOG.error("This should never happen", ex);
+                    return null;
+                }
+            }
+
+            return jsonObject.toString();
+        }
+
+        @Nullable
+        private static FlagsMap fromPrefValue(final String value) {
+            final FlagsMap flagsMap = new FlagsMap();
+
+            final JSONObject flagsMapObj;
+            try {
+                flagsMapObj = new JSONObject(value);
+
+                final Iterator<String> keys = flagsMapObj.keys();
+                while (keys.hasNext()) {
+                    final String id = keys.next();
+                    final JSONObject flagsObj = flagsMapObj.getJSONObject(id);
+
+                    final Flags flags = new Flags();
+                    if (flagsObj.has("value")) {
+                        flags.value = flagsObj.getInt("value");
+                    }
+                    if (flagsObj.has("version")) {
+                        flags.version = flagsObj.getString("version");
+                    }
+                    if (flagsObj.has("unk")) {
+                        flags.unk = flagsObj.getString("unk");
+                    }
+                    flagsMap.put(id, flags);
+                }
+
+                return flagsMap;
+            } catch (final JSONException ex) {
+                LOG.error("This should never happen", ex);
+                return null;
+            }
+        }
     }
 }
