@@ -3315,4 +3315,5 @@
     <string name="authentication_failed_negotiation">Kimlik doğrulama anahtarı anlaşması başarısız oldu</string>
     <string name="devicetype_garmin_venu">Garmin Venu</string>
     <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
+    <string name="estimatedSweatLoss">Tahmini Ter Kaybı</string>
 </resources>
