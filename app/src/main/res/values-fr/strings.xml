@@ -3304,4 +3304,7 @@ Temps de sommeil préféré en heures</string>
     <string name="intent_api_broadcast_activity_sync_summary">Envoyer une notification lorsque la synchronisation des activités est terminée pour tout les appareils</string>
     <string name="hrv_status_last_night_highest_5">Nuit dernière moy. max. de 5 min</string>
     <string name="devicetype_vivitar_hr_bp_monitor_activity_tracker">Vivitar HR &amp; BP Monitor Activity Tracker</string>
+    <string name="devicetype_garmin_venu">Garmin Venu</string>
+    <string name="authentication_failed_negotiation">Échec de la négociation de la clé d\'authentification</string>
+    <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
 </resources>
