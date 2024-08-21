@@ -90,6 +90,8 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
         READINESS("34", "1"),
         ALEXA("35", "1"),
         ZEPP_PAY("37", "1"),
+        CALORIES("38", "1"),
+        HRV("1047865", "1"),
         ;
 
         private final String appNum;
@@ -194,11 +196,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
             final String appNum = StringUtils.untilNullTerminator(buf);
             final String cardNum = StringUtils.untilNullTerminator(buf);
             final boolean enabled = buf.get() == 0x01;
-            final byte b = buf.get();
-            if (b != 0) {
-                LOG.warn("Unexpected byte {} at pos {}", b, buf.position() - 1);
-                return;
-            }
+            final String version = StringUtils.untilNullTerminator(buf);
             final ShortcutCard card = ShortcutCard.fromCodes(appNum, cardNum);
             final String cardPrefValue;
             if (card != null) {

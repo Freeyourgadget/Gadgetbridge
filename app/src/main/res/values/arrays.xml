@@ -954,6 +954,7 @@
         <item>@string/menuitem_sleep</item>
         <item>@string/menuitem_hr</item>
         <item>@string/menuitem_activity</item>
+        <item>@string/calories</item>
         <item>@string/menuitem_spo2</item>
         <item>@string/menuitem_phone</item>
         <item>@string/menuitem_events</item>
@@ -973,6 +974,7 @@
         <item>@string/menuitem_recommendation</item>
         <item>@string/menuitem_zepp_coach</item>
         <item>@string/menuitem_zepp_pay</item>
+        <item>@string/hrv</item>
         <item>@string/menuitem_readiness</item>
         <item>@string/menuitem_body_composition</item>
         <item>@string/menuitem_thermometer</item>
@@ -990,6 +992,7 @@
         <item>sleep</item>
         <item>heartrate</item>
         <item>activity</item>
+        <item>calories</item>
         <item>spo2</item>
         <item>phone</item>
         <item>events</item>
@@ -1009,6 +1012,7 @@
         <item>recommendation</item>
         <item>zepp_coach</item>
         <item>zepp_pay</item>
+        <item>hrv</item>
         <item>readiness</item>
         <item>body_composition</item>
         <item>thermometer</item>
