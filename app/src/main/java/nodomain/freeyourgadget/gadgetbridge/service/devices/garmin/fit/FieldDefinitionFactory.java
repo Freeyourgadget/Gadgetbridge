@@ -7,6 +7,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionFileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalSource;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionGoalType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrTimeInZone;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrZoneHighBoundary;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionLanguage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionMeasurementSystem;
@@ -34,6 +36,10 @@ public class FieldDefinitionFactory {
                 return new FieldDefinitionGoalType(localNumber, size, baseType, name);
             case HRV_STATUS:
                 return new FieldDefinitionHrvStatus(localNumber, size, baseType, name);
+            case HR_TIME_IN_ZONE:
+                return new FieldDefinitionHrTimeInZone(localNumber, size, baseType, name);
+            case HR_ZONE_HIGH_BOUNDARY:
+                return new FieldDefinitionHrZoneHighBoundary(localNumber, size, baseType, name);
             case MEASUREMENT_SYSTEM:
                 return new FieldDefinitionMeasurementSystem(localNumber, size, baseType, name);
             case TEMPERATURE:
@@ -62,6 +68,8 @@ public class FieldDefinitionFactory {
         GOAL_SOURCE,
         GOAL_TYPE,
         HRV_STATUS,
+        HR_TIME_IN_ZONE,
+        HR_ZONE_HIGH_BOUNDARY,
         MEASUREMENT_SYSTEM,
         TEMPERATURE,
         TIMESTAMP,

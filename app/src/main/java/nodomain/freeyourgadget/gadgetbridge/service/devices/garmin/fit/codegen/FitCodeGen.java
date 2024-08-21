@@ -190,7 +190,19 @@ public class FitCodeGen {
             sb.append("\n");
             sb.append("    @Nullable\n");
             sb.append("    public ").append(fieldTypeName).append(method(" get", primitive)).append("() {\n");
-            sb.append("        return (").append(fieldTypeName).append(") getFieldByNumber(").append(primitive.getNumber()).append(");\n");
+            if (fieldTypeName.endsWith("[]")) {
+                // Special case for arrays, since these are decoded in RecordData and we can't easily decode them with the correct type
+                // FIXME this should be refactored...
+                final String simpleTypeName = fieldTypeName.replace("[]", "");
+                sb.append("        final Object[] objectsArray = (Object[]) getFieldByNumber(").append(primitive.getNumber()).append(");\n");
+                sb.append("        final ").append(fieldTypeName).append(" ret = new ").append(simpleTypeName).append("[objectsArray.length];\n");
+                sb.append("        for (int i = 0; i < objectsArray.length; i++) {\n");
+                sb.append("            ret[i] = (").append(simpleTypeName).append(") objectsArray[i];\n");
+                sb.append("        }\n");
+                sb.append("        return ret;\n");
+            } else {
+                sb.append("        return (").append(fieldTypeName).append(") getFieldByNumber(").append(primitive.getNumber()).append(");\n");
+            }
             sb.append("    }\n");
         }
 
@@ -238,6 +250,10 @@ public class FitCodeGen {
                     return FieldDefinitionGoalType.Type.class;
                 case HRV_STATUS:
                     return FieldDefinitionHrvStatus.HrvStatus.class;
+                case HR_TIME_IN_ZONE:
+                    return Double[].class;
+                case HR_ZONE_HIGH_BOUNDARY:
+                    return Integer[].class;
                 case MEASUREMENT_SYSTEM:
                     return FieldDefinitionMeasurementSystem.Type.class;
                 case TEMPERATURE:

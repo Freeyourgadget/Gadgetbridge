@@ -99,9 +99,12 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(8, BaseType.UINT32, "total_timer_time"), // no pauses
             new FieldDefinitionPrimitive(9, BaseType.UINT32, "total_distance"),
             new FieldDefinitionPrimitive(11, BaseType.UINT16, "total_calories"),
+            new FieldDefinitionPrimitive(16, BaseType.UINT8, "average_heart_rate"),
+            new FieldDefinitionPrimitive(17, BaseType.UINT8, "max_heart_rate"),
             new FieldDefinitionPrimitive(22, BaseType.UINT16, "total_ascent"),
             new FieldDefinitionPrimitive(23, BaseType.UINT16, "total_descent"),
             new FieldDefinitionPrimitive(110, BaseType.STRING, 64, "sport_profile_name"),
+            new FieldDefinitionPrimitive(178, BaseType.UINT16, "estimated_sweat_loss"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
@@ -231,8 +234,8 @@ public class GlobalFITMessage {
     public static GlobalFITMessage TIME_IN_ZONE = new GlobalFITMessage(216, "TIME_IN_ZONE", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT16, "reference_message"),
             new FieldDefinitionPrimitive(1, BaseType.UINT16, "reference_index"),
-            new FieldDefinitionPrimitive(2, BaseType.UINT32, "time_in_zone"), // seconds
-            new FieldDefinitionPrimitive(6, BaseType.UINT8, "hr_zone_high_boundary"), // bpm
+            new FieldDefinitionPrimitive(2, BaseType.UINT32, "time_in_zone", FieldDefinitionFactory.FIELD.HR_TIME_IN_ZONE), // seconds
+            new FieldDefinitionPrimitive(6, BaseType.UINT8, "hr_zone_high_boundary", FieldDefinitionFactory.FIELD.HR_ZONE_HIGH_BOUNDARY), // bpm
             new FieldDefinitionPrimitive(10, BaseType.ENUM, "hr_calc_type"), // 1 percent max hr
             new FieldDefinitionPrimitive(11, BaseType.UINT8, "max_heart_rate"),
             new FieldDefinitionPrimitive(12, BaseType.UINT8, "resting_heart_rate"),
@@ -242,6 +245,14 @@ public class GlobalFITMessage {
 
     public static GlobalFITMessage ALARM_SETTINGS = new GlobalFITMessage(222, "ALARM_SETTINGS", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT16, "time", FieldDefinitionFactory.FIELD.ALARM)
+    ));
+
+    public static GlobalFITMessage SET = new GlobalFITMessage(225, "SET", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT32, "duration"),
+            new FieldDefinitionPrimitive(5, BaseType.UINT8, "set_type"), // 1 active 0 rest
+            new FieldDefinitionPrimitive(6, BaseType.UINT32, "start_time", FieldDefinitionFactory.FIELD.TIMESTAMP),
+            new FieldDefinitionPrimitive(10, BaseType.UINT16, "message_index"),
+            new FieldDefinitionPrimitive(254, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
     public static GlobalFITMessage STRESS_LEVEL = new GlobalFITMessage(227, "STRESS_LEVEL", Arrays.asList(
@@ -309,6 +320,7 @@ public class GlobalFITMessage {
         put(207, DEVELOPER_DATA);
         put(216, TIME_IN_ZONE);
         put(222, ALARM_SETTINGS);
+        put(225, SET);
         put(227, STRESS_LEVEL);
         put(269, SPO2);
         put(275, SLEEP_STAGE);

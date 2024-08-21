@@ -76,6 +76,16 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
+    public Integer getAverageHeartRate() {
+        return (Integer) getFieldByNumber(16);
+    }
+
+    @Nullable
+    public Integer getMaxHeartRate() {
+        return (Integer) getFieldByNumber(17);
+    }
+
+    @Nullable
     public Integer getTotalAscent() {
         return (Integer) getFieldByNumber(22);
     }
@@ -88,6 +98,11 @@ public class FitSession extends RecordData {
     @Nullable
     public String getSportProfileName() {
         return (String) getFieldByNumber(110);
+    }
+
+    @Nullable
+    public Integer getEstimatedSweatLoss() {
+        return (Integer) getFieldByNumber(178);
     }
 
     @Nullable

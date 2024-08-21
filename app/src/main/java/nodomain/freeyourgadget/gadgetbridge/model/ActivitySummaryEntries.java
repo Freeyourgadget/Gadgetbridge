@@ -105,6 +105,7 @@ public class ActivitySummaryEntries {
     public static final String WORKOUT_LOAD = "currentWorkoutLoad";
     public static final String MAXIMUM_OXYGEN_UPTAKE = "maximumOxygenUptake";
     public static final String RECOVERY_TIME = "recoveryTime";
+    public static final String ESTIMATED_SWEAT_LOSS = "estimatedSweatLoss";
 
     public static final String CYCLING_POWER_AVERAGE = "cyclingPowerAverage";
     public static final String CYCLING_POWER_MIN = "cyclingPowerMin";
@@ -114,6 +115,7 @@ public class ActivitySummaryEntries {
     public static final String UNIT_CM = "cm";
     public static final String UNIT_UNIX_EPOCH_SECONDS = "unix_epoch_seconds";
     public static final String UNIT_KCAL = "calories_unit";
+    public static final String UNIT_ML = "ml";
     public static final String UNIT_LAPS = "laps_unit";
     public static final String UNIT_KILOMETERS = "km";
     public static final String UNIT_METERS = "meters";

@@ -59,6 +59,8 @@ public class FitRecordDataFactory {
                 return new FitTimeInZone(recordDefinition, recordHeader);
             case 222:
                 return new FitAlarmSettings(recordDefinition, recordHeader);
+            case 225:
+                return new FitSet(recordDefinition, recordHeader);
             case 227:
                 return new FitStressLevel(recordDefinition, recordHeader);
             case 269:

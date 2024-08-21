@@ -2092,6 +2092,7 @@
     <string name="anaerobicTrainingEffect">Anaerobic Effect</string>
     <string name="currentWorkoutLoad">Workout Load</string>
     <string name="maximumOxygenUptake">Maximum Oxygen Uptake</string>
+    <string name="estimatedSweatLoss">Estimated Sweat Loss</string>
     <string name="averageStride">Average Stride</string>
     <string name="maxStride">Max Stride</string>
     <string name="minStride">Min Stride</string>

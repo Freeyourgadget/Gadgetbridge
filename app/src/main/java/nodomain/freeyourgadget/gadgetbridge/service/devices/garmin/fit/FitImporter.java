@@ -5,8 +5,19 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CALORIES_BURNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DESCENT_DISTANCE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DISTANCE_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ESTIMATED_SWEAT_LOSS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MAX;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_AEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_ANAEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_EXTREME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_FAT_BURN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_NA;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_BPM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KCAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
 
 import android.content.Context;
@@ -336,6 +347,15 @@ public class FitImporter {
         if (session.getTotalCalories() != null) {
             summaryData.add(CALORIES_BURNT, session.getTotalCalories(), UNIT_KCAL);
         }
+        if (session.getEstimatedSweatLoss() != null) {
+            summaryData.add(ESTIMATED_SWEAT_LOSS, session.getEstimatedSweatLoss(), UNIT_ML);
+        }
+        if (session.getAverageHeartRate() != null) {
+            summaryData.add(HR_AVG, session.getAverageHeartRate(), UNIT_BPM);
+        }
+        if (session.getMaxHeartRate() != null) {
+            summaryData.add(HR_MAX, session.getMaxHeartRate(), UNIT_BPM);
+        }
         if (session.getTotalAscent() != null) {
             summaryData.add(ASCENT_DISTANCE, session.getTotalAscent(), UNIT_METERS);
         }
@@ -343,16 +363,21 @@ public class FitImporter {
             summaryData.add(DESCENT_DISTANCE, session.getTotalDescent(), UNIT_METERS);
         }
 
-        //FitTimeInZone timeInZone = null;
-        //for (final FitTimeInZone fitTimeInZone : timesInZone) {
-        //    // Find the firt time in zone for the session (assumes single-session)
-        //    if (fitTimeInZone.getReferenceMessage() != null && fitTimeInZone.getReferenceMessage() == 18) {
-        //        timeInZone = fitTimeInZone;
-        //        break;
-        //    }
-        //}
-        //if (timeInZone != null) {
-        //}
+        for (final FitTimeInZone fitTimeInZone : timesInZone) {
+            // Find the firt time in zone for the session (assumes single-session)
+            if (fitTimeInZone.getReferenceMessage() != null && fitTimeInZone.getReferenceMessage() == 18) {
+                final Double[] timeInZone = fitTimeInZone.getTimeInZone();
+                if (timeInZone != null && timeInZone.length == 6) {
+                    summaryData.add(HR_ZONE_NA, timeInZone[0].floatValue(), UNIT_SECONDS);
+                    summaryData.add(HR_ZONE_WARM_UP, timeInZone[1].floatValue(), UNIT_SECONDS);
+                    summaryData.add(HR_ZONE_FAT_BURN, timeInZone[2].floatValue(), UNIT_SECONDS);
+                    summaryData.add(HR_ZONE_AEROBIC, timeInZone[3].floatValue(), UNIT_SECONDS);
+                    summaryData.add(HR_ZONE_ANAEROBIC, timeInZone[4].floatValue(), UNIT_SECONDS);
+                    summaryData.add(HR_ZONE_EXTREME, timeInZone[5].floatValue(), UNIT_SECONDS);
+                }
+                break;
+            }
+        }
 
         summary.setSummaryData(summaryData.toString());
         if (file != null) {

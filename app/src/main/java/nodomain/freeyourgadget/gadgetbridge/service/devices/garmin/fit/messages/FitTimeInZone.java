@@ -31,13 +31,23 @@ public class FitTimeInZone extends RecordData {
     }
 
     @Nullable
-    public Long getTimeInZone() {
-        return (Long) getFieldByNumber(2);
+    public Double[] getTimeInZone() {
+        final Object[] objectsArray = (Object[]) getFieldByNumber(2);
+        final Double[] ret = new Double[objectsArray.length];
+        for (int i = 0; i < objectsArray.length; i++) {
+            ret[i] = (Double) objectsArray[i];
+        }
+        return ret;
     }
 
     @Nullable
-    public Integer getHrZoneHighBoundary() {
-        return (Integer) getFieldByNumber(6);
+    public Integer[] getHrZoneHighBoundary() {
+        final Object[] objectsArray = (Object[]) getFieldByNumber(6);
+        final Integer[] ret = new Integer[objectsArray.length];
+        for (int i = 0; i < objectsArray.length; i++) {
+            ret[i] = (Integer) objectsArray[i];
+        }
+        return ret;
     }
 
     @Nullable
