@@ -3222,4 +3222,13 @@
     <string name="activity_type_bike_commute">Desplazarse en bicicleta</string>
     <string name="activity_type_ice_skating">Patinaje sobre hielo</string>
     <string name="activity_type_sky_diving">Paracaidismo</string>
+    <string name="activity_type_racquetball">Ráquetbol</string>
+    <string name="activity_type_softball_slow_pitch">lanzamiento lento de softbol</string>
+    <string name="activity_type_shooting">Disparar</string>
+    <string name="activity_type_winter_sport">Deporte de invierno</string>
+    <string name="activity_type_health_snapshot">Panorama de salud</string>
+    <string name="activity_type_marine">Marina</string>
+    <string name="activity_type_video_gaming">Videojuegos</string>
+    <string name="activity_type_racket">Raqueta</string>
+    <string name="activity_type_padel">Pádel</string>
 </resources>
