@@ -3,24 +3,37 @@
 #### Next version (WIP)
 * Initial support for CMF Buds Pro 2
 * Initial support for CMF Watch Pro 2
-* Initial support for Garmin Fenix 5/6, Forerunner 255/255S Music, Vivoactive 3, Vivomove Trend, Vivosport
-* Initial support for Huawei Watch 3 / 3 Pro
+* Initial support for Garmin Fenix 5/5 Plus/6, Forerunner 255/255S Music/965, Venu/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
+* Initial support for Huawei Watch 3 / 3 Pro / GT Runner
 * Initial support for Moondrop Space Travel
+* Initial support for Soundcore Motion 300
 * Initial support for Vivitar HR & BP Monitor Activity Tracker
 * Cycling sensor: Improve cycling data display
 * CMF Watch Pro: Fix activity transfer
+* CMF Watch Pro 2: Negotiate authentication key
 * Fossil HR: Minor watchface fixes
+* Fossil HR: Fix crash on disconnection
+* Garmin: Display HRV and body energy
+* Garmin: Fix canned replies reset to defaults
+* Garmin: Fix weather temperature and speed units
+* Garmin: Improve activity sleep and workout parsing
+* Garmin: Upload gpx to watch
 * Huawei: Add battery polling
 * Huawei: Fix watchface upload, activity sync, event alarms, weather for some devices
 * Huawei: Fix some reconnection issues
 * Huawei: Improve watchface install support
 * Huawei: Map more workout types
 * Huawei: Simple TruSleep support
+* Huawei Band 9: Improved support
+* Huawei: Fix crash when notification has no text
+* Redmi Smart Band Pro: Fix crash on connection and activity sync issues
 * Sony Headphones: Enable read aloud incoming notifications and auto call pickup
 * UM25C: Fix some disconnection issues
 * Xiaomi Protobuf: Fix deleting first widget screen
 * Xiaomi Protobuf: Parse freestyle and HIIT workouts
 * Zepp OS 3: Fix file transfer (notification icons, gpx upload, agps updates)
+* Zepp OS 4: Fix shortcuts, shortcut cards
+* Add more activity types (CMF, Garmin, Huawei, Zepp OS)
 * Allow configuration of notification times
 * Fix crash when companion pairing
 * Fix emoji when some connected device does not support them
@@ -28,6 +41,9 @@
 * Fix reconnection when device connects back during BLE scan
 * Use default system TTS language
 * Change device icons to use theme colors
+* Data Management: Allow browse folders, open and share files
+* UI: Improvements for large screen resolutions and font sizes
+* UI: Sleep tabs refactor
 
 #### 0.81.0
 * Experimental support for Amazfit Bip 5 Unity
