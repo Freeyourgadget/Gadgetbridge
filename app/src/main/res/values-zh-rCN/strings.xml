@@ -3303,4 +3303,5 @@
     <string name="authentication_failed_negotiation">认证密钥协商失败</string>
     <string name="devicetype_garmin_venu_2s">佳明 Venu 2S</string>
     <string name="estimatedSweatLoss">估计出汗量</string>
+    <string name="hrv">HRV</string>
 </resources>
