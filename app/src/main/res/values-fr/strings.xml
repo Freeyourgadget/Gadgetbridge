@@ -3307,4 +3307,15 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_garmin_venu">Garmin Venu</string>
     <string name="authentication_failed_negotiation">Échec de la négociation de la clé d\'authentification</string>
     <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
+    <string name="hrv">VFC</string>
+    <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
+    <string name="miscale_weight_unit_imperial">Impérial (lb)</string>
+    <string name="miscale_weight_unit_chinese">Chinois (jin)</string>
+    <string name="miscale_small_objects_title">Petits objets</string>
+    <string name="miscale_small_objects_summary">Stocker le poids des objets plus légers que 10 kg</string>
+    <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
+    <string name="estimatedSweatLoss">Estimation de la transpiration</string>
+    <string name="miscale_weight_unit_title">Unité de poids</string>
+    <string name="miscale_weight_unit_summary">Définir l’unité de poids pour les mesures affichées</string>
+    <string name="miscale_weight_unit_metric">Métrique (kg)</string>
 </resources>
