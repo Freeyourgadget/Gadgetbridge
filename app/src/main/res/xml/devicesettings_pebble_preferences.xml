@@ -30,7 +30,6 @@
             android:title="@string/pref_title_enable_outgoing_call"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <!--
     <PreferenceCategory
         android:title="@string/pref_header_pebble_timeline"
         app:iconSpaceReserved="false">
@@ -41,7 +40,6 @@
             android:title="@string/pref_title_sunrise_sunset"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    -->
     <PreferenceCategory
         android:title="@string/pref_header_activitytrackers"
         app:iconSpaceReserved="false">

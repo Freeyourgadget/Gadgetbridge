@@ -22,7 +22,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
@@ -61,10 +60,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!GBApplication.getPrefs().getBoolean("send_sunrise_sunset", false)) {
-            LOG.info("won't send sunrise and sunset events (disabled in preferences)");
-            return;
-        }
         LOG.info("will resend sunrise and sunset events");
 
         final GregorianCalendar dateTimeTomorrow = new GregorianCalendar(TimeZone.getTimeZone("UTC"));

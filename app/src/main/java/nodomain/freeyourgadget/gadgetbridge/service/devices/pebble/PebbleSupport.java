@@ -18,8 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.pebble;
 
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.util.Pair;
+
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +37,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -47,10 +51,36 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class PebbleSupport extends AbstractSerialDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleSupport.class);
+    private AlarmReceiver mAlarmReceiver = null;
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        unregisterSunriseSunsetAlarmReceiver();
+    }
+
+    private void registerSunriseSunsetAlarmReceiver() {
+        if (!getDevicePrefs().getBoolean("send_sunrise_sunset", false)) {
+            LOG.info("won't register sunrise and sunset receiver (disabled in preferences)");
+            return;
+        }
+        unregisterSunriseSunsetAlarmReceiver();
+        LOG.info("registering sunrise and sunset receiver");
+        this.mAlarmReceiver = new AlarmReceiver();
+        ContextCompat.registerReceiver(GBApplication.getContext(), mAlarmReceiver, new IntentFilter("DAILY_ALARM"), ContextCompat.RECEIVER_EXPORTED);
+    }
+
+    private void unregisterSunriseSunsetAlarmReceiver() {
+        if (mAlarmReceiver != null) {
+            GBApplication.getContext().unregisterReceiver(mAlarmReceiver);
+            mAlarmReceiver = null;
+        }
+    }
 
     @Override
     public boolean connect() {
         getDeviceIOThread().start();
+        registerSunriseSunsetAlarmReceiver();
         return true;
     }
 
