@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
@@ -58,6 +59,20 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     private TextView sleepDatesText;
     private MySleepWeeklyData mySleepWeeklyData;
 
+    public static WeekSleepChartFragment newInstance ( int totalDays ) {
+        WeekSleepChartFragment fragmentFirst = new WeekSleepChartFragment();
+        Bundle args = new Bundle();
+        args.putInt("totalDays", totalDays);
+        fragmentFirst.setArguments(args);
+        return fragmentFirst;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TOTAL_DAYS = getArguments() != null ? getArguments().getInt("totalDays") : 0;
+    }
+
     private MySleepWeeklyData getMySleepWeeklyData(DBHandler db, Calendar day, GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -TOTAL_DAYS + 1);
@@ -84,12 +99,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return new MySleepWeeklyData(remWeeklyTotal, deepWeeklyTotal, lightWeeklyTotal);
     }
 
-    @Override
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mLocale = getResources().getConfiguration().locale;
         View rootView = inflater.inflate(R.layout.fragment_weeksleep_chart, container, false);
-
         final int goal = getGoal();
         if (goal >= 0) {
             mTargetValue = goal;
@@ -114,17 +128,17 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     protected void updateChartsnUIThread(MyChartsData mcd) {
         setupLegend(mWeekChart);
 
-        //set custom renderer for 30days bar charts
-        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+        if (TOTAL_DAYS > 7) {
             mWeekChart.setRenderer(new AngledLabelsChartRenderer(mWeekChart, mWeekChart.getAnimator(), mWeekChart.getViewPortHandler()));
+        } else {
+            mWeekChart.setScaleEnabled(false);
+            mWeekChart.setTouchEnabled(false);
         }
 
         mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
-        mWeekChart.getBarData().setValueTextSize(14f);
-        mWeekChart.setScaleEnabled(false);
-        mWeekChart.setTouchEnabled(false);
+        mWeekChart.getBarData().setValueTextSize(10f);
 
         if (TOTAL_DAYS_FOR_AVERAGE > 0) {
             float avgDeep = Math.abs(this.mySleepWeeklyData.getTotalDeep() / TOTAL_DAYS_FOR_AVERAGE);

@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import static java.util.stream.Collectors.toCollection;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

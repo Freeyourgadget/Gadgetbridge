@@ -382,7 +382,7 @@ public class LiveActivityFragment extends AbstractActivityChartFragment<ChartsDa
     }
 
     @Override
-    protected void onMadeInvisibleInActivity() {
+    public void onMadeInvisibleInActivity() {
         enableRealtimeTracking(false);
         super.onMadeInvisibleInActivity();
     }

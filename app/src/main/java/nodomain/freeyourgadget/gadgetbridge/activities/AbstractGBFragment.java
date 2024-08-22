@@ -45,7 +45,7 @@ public abstract class AbstractGBFragment extends Fragment {
      * @see #isVisibleInActivity()
      * @see #onMadeVisibleInActivity()
      */
-    protected void onMadeInvisibleInActivity() {
+    public void onMadeInvisibleInActivity() {
         mVisibleInActivity = false;
     }
 

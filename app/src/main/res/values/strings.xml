@@ -1576,6 +1576,7 @@
     <string name="hrv_status_unit">%1$d ms</string>
     <string name="hrv_status_baseline">%1$d-%2$d ms</string>
     <string name="hrv_status_baseline_label">Baseline</string>
+    <string name="steps_distance_unit">%1$,.2f km</string>
     <string name="body_energy_gained">Gained</string>
     <string name="body_energy_lost">Lost</string>
     <string name="body_energy_legend_level">Body Energy Level</string>
@@ -2071,6 +2072,10 @@
     <string name="minAltitude">Minimum</string>
     <string name="averageAltitude">Average</string>
     <string name="steps">Steps</string>
+    <string name="steps_avg">Steps AVG</string>
+    <string name="steps_total">Steps Total</string>
+    <string name="distance_avg">Distance AVG</string>
+    <string name="distance_total">Distance Total</string>
     <string name="activeSeconds">Active</string>
     <string name="caloriesBurnt">Calories</string>
     <string name="maxSpeed">Maximum</string>

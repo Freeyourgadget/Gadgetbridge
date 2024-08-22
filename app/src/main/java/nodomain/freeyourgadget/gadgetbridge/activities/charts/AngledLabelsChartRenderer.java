@@ -30,7 +30,6 @@ public class AngledLabelsChartRenderer extends BarChartRenderer {
 
     @Override
     public void drawValue(Canvas canvas, String valueText, float x, float y, int color) {
-
         mValuePaint.setColor(color);
         //move position to the center of bar
         x = x + 8;

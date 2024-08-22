@@ -85,7 +85,6 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         }
         if (!coordinator.supportsSleepMeasurement()) {
             tabList.remove("sleep");
-            tabList.remove("sleepweek");
         }
         if (!coordinator.supportsStressMeasurement()) {
             tabList.remove("stress");
@@ -143,9 +142,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "activitylist":
                     return new ActivityListingChartFragment();
                 case "sleep":
-                    return new SleepChartFragment();
-                case "sleepweek":
-                    return new WeekSleepChartFragment();
+                    return new SleepCollectionFragment();
                 case "hrvstatus":
                     return new HRVStatusFragment();
                 case "bodyenergy":
@@ -155,7 +152,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "pai":
                     return new PaiChartFragment();
                 case "stepsweek":
-                    return new WeekStepsChartFragment();
+                    return new StepsCollectionFragment();
                 case "speedzones":
                     return new SpeedZonesFragment();
                 case "livestats":
@@ -183,14 +180,6 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
             }
         }
 
-        public String getStepsTitle() {
-            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
-                return getString(R.string.weekstepschart_steps_a_month);
-            } else {
-                return getString(R.string.weekstepschart_steps_a_week);
-            }
-        }
-
         @Override
         public CharSequence getPageTitle(int position) {
             switch (enabledTabsList.get(position)) {
@@ -200,8 +189,6 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.charts_activity_list);
                 case "sleep":
                     return getString(R.string.sleepchart_your_sleep);
-                case "sleepweek":
-                    return getSleepTitle();
                 case "hrvstatus":
                     return getString(R.string.pref_header_hrv_status);
                 case "bodyenergy":
@@ -211,7 +198,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "pai":
                     return getString(getDevice().getDeviceCoordinator().getPaiName());
                 case "stepsweek":
-                    return getStepsTitle();
+                    return getString(R.string.steps);
                 case "speedzones":
                     return getString(R.string.stats_title);
                 case "livestats":

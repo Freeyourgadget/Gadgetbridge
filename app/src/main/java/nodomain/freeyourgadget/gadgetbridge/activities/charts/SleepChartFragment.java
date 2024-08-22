@@ -26,11 +26,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
@@ -41,7 +38,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -239,7 +235,7 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         highestHrText.setText(String.valueOf(heartRateMax != 0 ? heartRateMax : "-"));
         movementIntensityText.setText(intensityTotal != 0 ? new DecimalFormat("###.#").format(intensityTotal) : "-");
 
-        mSleepAmountChart.setHoleRadius(75);
+        mSleepAmountChart.setHoleRadius(85);
         mSleepAmountChart.setDrawEntryLabels(false);
         mSleepAmountChart.getLegend().setEnabled(false);
 

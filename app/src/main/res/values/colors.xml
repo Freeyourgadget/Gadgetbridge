@@ -49,6 +49,7 @@
     <color name="hrv_status_poor" type="color">#be03fc</color>
     <color name="hrv_status_char_line_color" type="color">#d12a2a</color>
     <color name="body_energy_level_color" type="color">#5ac234</color>
+    <color name="steps_color" type="color">#00c9bf</color>
 
     <color name="value_line_color" type="color">#858585</color>
     <color name="gauge_line_color" type="color">#383838</color>
