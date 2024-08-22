@@ -47,7 +47,6 @@ public class PebbleSettingsActivity extends AbstractSettingsActivityV2 {
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.pebble_preferences, rootKey);
 
-            setInputTypeFor("pebble_reconnect_attempts", InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor("pebble_mtu_limit", InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor("pebble_emu_port", InputType.TYPE_CLASS_NUMBER);
 
