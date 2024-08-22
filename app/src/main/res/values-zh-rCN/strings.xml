@@ -3304,4 +3304,13 @@
     <string name="devicetype_garmin_venu_2s">佳明 Venu 2S</string>
     <string name="estimatedSweatLoss">估计出汗量</string>
     <string name="hrv">HRV</string>
+    <string name="devicetype_mismartscale">小米智能体重秤 2</string>
+    <string name="devicetype_micompositionscale">小米体脂秤 2</string>
+    <string name="miscale_weight_unit_imperial">英制（磅）</string>
+    <string name="miscale_weight_unit_chinese">中华（斤）</string>
+    <string name="miscale_small_objects_summary">存储重量小于10公斤的物体</string>
+    <string name="miscale_weight_unit_title">重量单位</string>
+    <string name="miscale_weight_unit_summary">设置显示测量值的重量单位</string>
+    <string name="miscale_weight_unit_metric">公制（公斤）</string>
+    <string name="miscale_small_objects_title">小物体</string>
 </resources>
