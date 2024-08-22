@@ -90,6 +90,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -258,11 +259,8 @@ public class ControlCenterv2 extends AppCompatActivity
         // Set pull-down-to-refresh action
         swipeLayout = findViewById(R.id.dashboard_swipe_layout);
         swipeLayout.setOnRefreshListener(() -> {
-            // Signal DeviceCommunicationService to fetch activity for all connected devices
-            Intent intent = new Intent(getApplicationContext(), DeviceCommunicationService.class);
-            intent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA)
-                .putExtra(DeviceService.EXTRA_RECORDED_DATA_TYPES, ActivityKind.ACTIVITY);
-            startService(intent);
+            // Fetch activity for all connected devices
+            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_SYNC);
             // Hide 'refreshing' animation immediately if no health devices are connected
             List<GBDevice> devices1 = GBApplication.app().getDeviceManager().getDevices();
             for (GBDevice dev : devices1) {
