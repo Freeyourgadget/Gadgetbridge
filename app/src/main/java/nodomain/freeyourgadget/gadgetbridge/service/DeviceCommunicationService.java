@@ -836,8 +836,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 notificationSpec.sender = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SENDER);
                 notificationSpec.subject = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
                 notificationSpec.title = intentCopy.getStringExtra(EXTRA_NOTIFICATION_TITLE);
+                if(notificationSpec.title == null) {
+                    notificationSpec.title = "";
+                }
                 notificationSpec.key = intentCopy.getStringExtra(EXTRA_NOTIFICATION_KEY);
                 notificationSpec.body = intentCopy.getStringExtra(EXTRA_NOTIFICATION_BODY);
+                if(notificationSpec.body == null) {
+                    notificationSpec.body = "";
+                }
                 notificationSpec.sourceName = intentCopy.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intentCopy.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intentCopy.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
