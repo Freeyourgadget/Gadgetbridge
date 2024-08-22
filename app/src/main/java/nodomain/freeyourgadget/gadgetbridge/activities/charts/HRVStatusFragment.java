@@ -149,7 +149,9 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                 lineEntries.add(new Entry(day.i, day.dayAvg));
             } else {
                 if (!lineEntries.isEmpty()) {
-                    lineDataSets.add(createDataSet(lineEntries));
+                    List<Entry> clone = new ArrayList<>(lineEntries.size());
+                    clone.addAll(lineEntries);
+                    lineDataSets.add(createDataSet(clone));
                     lineEntries.clear();
                 }
             }
