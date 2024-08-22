@@ -146,9 +146,16 @@ public class BodyEnergyFragment extends AbstractChartFragment<BodyEnergyFragment
         lineDataSets.add(lineDataSet);
         final LineData lineData = new LineData(lineDataSets);
         bodyEnergyChart.setData(lineData);
-        bodyEnergyGauge.setImageBitmap(drawGauge(
+
+        final int width = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
                 300,
-                20,
+                GBApplication.getContext().getResources().getDisplayMetrics()
+        );
+
+        bodyEnergyGauge.setImageBitmap(drawGauge(
+                width,
+                width / 15,
                 getResources().getColor(R.color.body_energy_level_color),
                 newestValue,
                 100
@@ -216,7 +223,7 @@ public class BodyEnergyFragment extends AbstractChartFragment<BodyEnergyFragment
 
         Paint textPaint = new Paint();
         textPaint.setColor(TEXT_COLOR);
-        float textPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, requireContext().getResources().getDisplayMetrics());
+        float textPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.06f, requireContext().getResources().getDisplayMetrics());
         textPaint.setTextSize(textPixels);
         textPaint.setTextAlign(Paint.Align.CENTER);
         int yPos = (int) ((float) height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
@@ -224,7 +231,7 @@ public class BodyEnergyFragment extends AbstractChartFragment<BodyEnergyFragment
         Paint textLowerPaint = new Paint();
         textLowerPaint.setColor(TEXT_COLOR);
         textLowerPaint.setTextAlign(Paint.Align.CENTER);
-        float textLowerPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8, requireContext().getResources().getDisplayMetrics());
+        float textLowerPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.025f, requireContext().getResources().getDisplayMetrics());
         textLowerPaint.setTextSize(textLowerPixels);
         int yPosLowerText = (int) ((float) height / 2 - textPaint.ascent()) ;
         canvas.drawText(String.valueOf(maxValue), width / 2f, yPosLowerText, textLowerPaint);
