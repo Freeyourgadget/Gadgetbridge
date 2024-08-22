@@ -3326,4 +3326,9 @@
     <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
     <string name="miscale_small_objects_summary">Ağırlığı 10 kg\'dan az nesneleri kaydet</string>
     <string name="miscale_weight_unit_chinese">Çin (jin)</string>
+    <string name="steps_distance_unit">%1$,.2f km</string>
+    <string name="steps_avg">Ortalama Adım Sayısı</string>
+    <string name="distance_total">Toplam Mesafe</string>
+    <string name="steps_total">Toplam Adım Sayısı</string>
+    <string name="distance_avg">Ortalama Mesafe</string>
 </resources>
