@@ -3301,4 +3301,21 @@
     <string name="activity_type_bobsleigh">Bobsleeën</string>
     <string name="activity_type_sledding">Sleeën</string>
     <string name="activity_type_orienteering">Oriëntatieloop</string>
+    <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
+    <string name="hrv">HRV</string>
+    <string name="steps_distance_unit">%1$,.2f km</string>
+    <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
+    <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
+    <string name="steps_avg">Stappen gemiddeld</string>
+    <string name="steps_total">Stappen totaal</string>
+    <string name="miscale_weight_unit_title">Gewichtseenheid</string>
+    <string name="miscale_weight_unit_summary">Ingestelde eenheid voor het weergeven van gewicht</string>
+    <string name="miscale_weight_unit_metric">Metrisch (kg)</string>
+    <string name="miscale_weight_unit_imperial">Amerikaans (lbs)</string>
+    <string name="miscale_weight_unit_chinese">Chinees (jin)</string>
+    <string name="miscale_small_objects_title">Kleine objecten</string>
+    <string name="miscale_small_objects_summary">Sla gemeten gewichten onder de 10kg op</string>
+    <string name="distance_avg">Afstand gemiddeld</string>
+    <string name="distance_total">Afstand totaal</string>
+    <string name="estimatedSweatLoss">Geschatte zweetverlies</string>
 </resources>
