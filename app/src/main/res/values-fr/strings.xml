@@ -3318,4 +3318,9 @@ Temps de sommeil préféré en heures</string>
     <string name="miscale_weight_unit_title">Unité de poids</string>
     <string name="miscale_weight_unit_summary">Définir l’unité de poids pour les mesures affichées</string>
     <string name="miscale_weight_unit_metric">Métrique (kg)</string>
+    <string name="steps_distance_unit">%1$,.2f km</string>
+    <string name="steps_total">Pas total</string>
+    <string name="distance_total">Distance totale</string>
+    <string name="steps_avg">Moy. de pas</string>
+    <string name="distance_avg">Distance moy.</string>
 </resources>
