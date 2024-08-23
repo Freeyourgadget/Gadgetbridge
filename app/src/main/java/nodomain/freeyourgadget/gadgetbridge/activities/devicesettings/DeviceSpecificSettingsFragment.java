@@ -827,6 +827,11 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
 
         addPreferenceHandlerFor(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE);
 
+        addPreferenceHandlerFor(PREFS_KEY_DEVICE_BLE_API_DEVICE_STATE);
+        addPreferenceHandlerFor(PREFS_KEY_DEVICE_BLE_API_DEVICE_READ_WRITE);
+        addPreferenceHandlerFor(PREFS_KEY_DEVICE_BLE_API_DEVICE_NOTIFY);
+        addPreferenceHandlerFor(PREFS_KEY_DEVICE_BLE_API_PACKAGE);
+
         addPreferenceHandlerFor("lock");
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
@@ -1307,6 +1312,12 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     DeviceSpecificSettingsScreen.DEVELOPER,
                     R.xml.devicesettings_settings_third_party_apps
             );
+            if(coordinator.getConnectionType().usesBluetoothLE()) {
+                deviceSpecificSettings.addRootScreen(
+                        DeviceSpecificSettingsScreen.DEVELOPER,
+                        R.xml.devicesettings_ble_api
+                );
+            }
         }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);

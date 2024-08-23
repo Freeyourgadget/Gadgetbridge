@@ -190,6 +190,20 @@ public class StringUtils {
         return GB.hexdump(array, 0, -1);
     }
 
+    public static byte[] hexToBytes(String hexString) {
+        if((hexString.length() % 2) == 1) {
+            // pad with zero
+            hexString = "0" + hexString;
+        }
+        byte[] bytes = new byte[hexString.length() / 2];
+        for(int i = 0; i < bytes.length; i++) {
+            String slice = hexString.substring(i * 2, i * 2 + 2);
+            bytes[i] = (byte) Integer.parseInt(slice, 16);
+        }
+
+        return bytes;
+    }
+
     /**
      * Creates a shortened version of an Android package name by using only the first
      * character of every non-last part of the package name.

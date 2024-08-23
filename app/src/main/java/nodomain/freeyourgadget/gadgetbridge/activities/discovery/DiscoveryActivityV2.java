@@ -748,7 +748,12 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
                 .setView(linearLayout)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     if (selectedUnsupportedDeviceKey != DebugActivity.SELECT_DEVICE) {
-                        DebugActivity.createTestDevice(DiscoveryActivityV2.this, selectedUnsupportedDeviceKey, deviceCandidate.getMacAddress());
+                        DebugActivity.createTestDevice(
+                                DiscoveryActivityV2.this,
+                                selectedUnsupportedDeviceKey,
+                                deviceCandidate.getMacAddress(),
+                                deviceCandidate.getName()
+                        );
                         finish();
                     }
                 })

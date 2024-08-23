@@ -3255,4 +3255,13 @@
     <string name="pref_header_deprecated_functionalities_warning">The following functionalities have been deprecated and will be removed soon from the software.\nIf you need to enable one of the following settings be sure to get in touch with the project team.</string>
     <string name="pref_deprecated_media_control_title">Deprecated media control</string>
     <string name="pref_deprecated_media_control_summary">Send media control commands as key events instead of the media controller.</string>
+    <string name="devicetype_ble_gatt_client">Generic BLE GATT Client</string>
+    <string name="prefs_title_gatt_client_notification_intents">Broadcast GATT notification Intents through BLE Intent API</string>
+    <string name="prefs_summary_gatt_client_notification_intents">Receive BLE characteristic changes through Intents</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">Allow GATT interaction through BLE Intent API</string>
+    <string name="prefs_summary_gatt_client_allow_gatt_interactions">Allow to send BLE characteristic read/write and connect commands</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">Receive BLE connection state changes via Intents</string>
+    <string name="prefs_title_gatt_client_api_package">BLE API package</string>
+    <string name="prefs_summary_gatt_client_api_package">Restrict BLE Intent API communication to this package</string>
+    <string name="prefs_title_ble_intent_api">BLE Intent API</string>
 </resources>

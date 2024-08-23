@@ -101,7 +101,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BleIntentApi;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
@@ -289,16 +291,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             "com.spotify.music.playbackstatechanged"
     };
 
-    private final String COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
-    private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
-    private final String ACTION_DEVICE_SCANNED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_SCANNED";
     private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
     private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
+    private final String API_LEGACY_COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
+    private final String API_LEGACY_ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
+    private final String API_LEGACY_ACTION_DEVICE_SCANNED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_SCANNED";
+
     private void sendDeviceAPIBroadcast(String address, String action){
         if(!allowBluetoothIntentApi){
-            GB.log("not sending API event due to settings", GB.INFO, null);
+            LOG.debug("not sending API event due to settings");
             return;
         }
         Intent intent = new Intent(action);
@@ -308,14 +311,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private void sendDeviceConnectedBroadcast(String address){
-        sendDeviceAPIBroadcast(address, ACTION_DEVICE_CONNECTED);
+        sendDeviceAPIBroadcast(address, API_LEGACY_ACTION_DEVICE_CONNECTED);
     }
 
     BroadcastReceiver bluetoothCommandReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()){
-                case COMMAND_BLUETOOTH_CONNECT:
+                case API_LEGACY_COMMAND_BLUETOOTH_CONNECT:
                     if(!allowBluetoothIntentApi){
                         GB.log("Connection API not allowed in settings", GB.ERROR, null);
                         return;
@@ -333,6 +336,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     if(isDeviceConnected(address)){
                         GB.log(String.format("device %s already connected", address), GB.INFO, null);
                         sendDeviceConnectedBroadcast(address);
+
                         return;
                     }
 
@@ -404,11 +408,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 GBDevice.DeviceUpdateSubject subject = (GBDevice.DeviceUpdateSubject) intent.getSerializableExtra(GBDevice.EXTRA_UPDATE_SUBJECT);
 
                 if(subject == GBDevice.DeviceUpdateSubject.DEVICE_STATE && device.isInitialized()){
-                    LOG.debug("device state update reason");
                     sendDeviceConnectedBroadcast(device.getAddress());
                     sendCachedNotifications(device);
-                }else if(subject == GBDevice.DeviceUpdateSubject.CONNECTION_STATE && (device.getState() == GBDevice.State.SCANNED)){
-                    sendDeviceAPIBroadcast(device.getAddress(), ACTION_DEVICE_SCANNED);
+                }else if(subject == GBDevice.DeviceUpdateSubject.DEVICE_STATE && (device.getState() == GBDevice.State.SCANNED)){
+                    sendDeviceAPIBroadcast(device.getAddress(), API_LEGACY_ACTION_DEVICE_SCANNED);
                 }
             }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
                 String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
@@ -449,14 +452,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     }
 
                     target.setState(GBDevice.State.SCANNED);
-                    target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+                    target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.DEVICE_STATE);
                     new Handler().postDelayed(() -> {
                         if(target.getState() != GBDevice.State.SCANNED){
                             return;
                         }
                         deviceLastScannedTimestamps.put(target.getAddress(), System.currentTimeMillis());
                         target.setState(GBDevice.State.WAITING_FOR_SCAN);
-                        target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
+                        target.sendDeviceUpdateIntent(DeviceCommunicationService.this, GBDevice.DeviceUpdateSubject.DEVICE_STATE);
                     }, timeoutSeconds * 1000);
                     return;
                 }
@@ -508,7 +511,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         ContextCompat.registerReceiver(this, mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"), ContextCompat.RECEIVER_EXPORTED);
 
         IntentFilter bluetoothCommandFilter = new IntentFilter();
-        bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
+        bluetoothCommandFilter.addAction(API_LEGACY_COMMAND_BLUETOOTH_CONNECT);
         ContextCompat.registerReceiver(this, bluetoothCommandReceiver, bluetoothCommandFilter, ContextCompat.RECEIVER_EXPORTED);
 
         final IntentFilter deviceSettingsIntentFilter = new IntentFilter();
@@ -557,7 +560,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             createDeviceStruct(device);
             device.setState(GBDevice.State.WAITING_FOR_SCAN);
-            device.sendDeviceUpdateIntent(this);
+            device.sendDeviceUpdateIntent(this, GBDevice.DeviceUpdateSubject.DEVICE_STATE);
         }
     }
 

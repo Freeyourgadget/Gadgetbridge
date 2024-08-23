@@ -526,4 +526,9 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL = "pref_cycling_persistence_interval";
     public static final String PREF_CYCLING_SENSOR_WHEEL_DIAMETER = "pref_cycling_wheel_diameter";
+
+    public static final String PREFS_KEY_DEVICE_BLE_API_DEVICE_STATE = "prefs_device_ble_api_state";
+    public static final String PREFS_KEY_DEVICE_BLE_API_DEVICE_READ_WRITE = "prefs_device_ble_api_characteristic_read_write";
+    public static final String PREFS_KEY_DEVICE_BLE_API_DEVICE_NOTIFY = "prefs_device_ble_api_characteristic_notify";
+    public static final String PREFS_KEY_DEVICE_BLE_API_PACKAGE = "prefs_device_ble_api_package";
 }

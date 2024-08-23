@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/prefs_title_ble_intent_api" />
+
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_bluetooth"
+        android:key="prefs_device_ble_api_characteristic_read_write"
+        android:layout="@layout/preference_checkbox"
+        android:title="@string/prefs_title_gatt_client_allow_gatt_interactions"
+        android:summary="@string/prefs_summary_gatt_client_allow_gatt_interactions"
+        android:defaultValue="false" />
+
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_bluetooth"
+        android:key="prefs_device_ble_api_characteristic_notify"
+        android:layout="@layout/preference_checkbox"
+        android:title="@string/prefs_title_gatt_client_notification_intents"
+        android:summary="@string/prefs_summary_gatt_client_notification_intents"
+        android:defaultValue="false" />
+
+    <EditTextPreference
+        android:key="prefs_device_ble_api_package"
+        android:title="@string/prefs_title_gatt_client_api_package"
+        android:summary="@string/prefs_summary_gatt_client_api_package" />
+
+</PreferenceScreen>

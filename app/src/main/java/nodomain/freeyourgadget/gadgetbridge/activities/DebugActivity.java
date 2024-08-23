@@ -621,7 +621,7 @@ public class DebugActivity extends AbstractGBActivity {
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                createTestDevice(DebugActivity.this, selectedTestDeviceKey, selectedTestDeviceMAC);
+                                createTestDevice(DebugActivity.this, selectedTestDeviceKey, selectedTestDeviceMAC, null);
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -1037,16 +1037,19 @@ public class DebugActivity extends AbstractGBActivity {
         spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
     }
 
-    public static void createTestDevice(Context context, long deviceKey, String deviceMac) {
+    public static void createTestDevice(Context context, long deviceKey, String deviceMac, String deviceName) {
         if (deviceKey == SELECT_DEVICE) {
             return;
         }
         DeviceType deviceType = DeviceType.values()[(int) deviceKey];
-        String deviceName = deviceType.name();
-        int deviceNameResource = deviceType.getDeviceCoordinator().getDeviceNameResource();
-        if(deviceNameResource != 0){
-            deviceName = context.getString(deviceNameResource);
-        }
+        if(deviceName == null) {
+            int deviceNameResource = deviceType.getDeviceCoordinator().getDeviceNameResource();
+            if(deviceNameResource == 0){
+                deviceName = deviceType.name();
+            }else {
+                deviceName = context.getString(deviceNameResource);
+            }
+        };
         try (
             DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
@@ -1221,6 +1224,9 @@ public class DebugActivity extends AbstractGBActivity {
         TreeMap <String, Pair<Long, Integer>> sortedMap = new TreeMap<>(newMap);
         newMap = new LinkedHashMap<>(1);
         newMap.put(app.getString(R.string.widget_settings_select_device_title), new Pair(SELECT_DEVICE, R.drawable.ic_device_unknown));
+        newMap.put(app.getString(R.string.devicetype_scannable), new Pair((long) DeviceType.SCANNABLE.ordinal(), R.drawable.ic_device_scannable));
+        newMap.put(app.getString(R.string.devicetype_ble_gatt_client), new Pair((long) DeviceType.BLE_GATT_CLIENT.ordinal(), R.drawable.ic_device_scannable));
+
         newMap.putAll(sortedMap);
 
         return newMap;
