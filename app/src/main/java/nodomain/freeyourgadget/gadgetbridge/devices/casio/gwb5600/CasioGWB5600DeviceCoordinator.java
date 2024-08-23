@@ -84,14 +84,6 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
         };
     }
 
-
-    // all further methods are boring since they do nothing
-
-    @Override
-    public Class<? extends Activity> getPairingActivity() {
-        return null;
-    }
-
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
     }
@@ -102,22 +94,6 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
-    @NonNull
-    @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return CasioGWB5600DeviceSupport.class;
     }
@@ -127,38 +103,4 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
         return R.string.devicetype_casiogwb5600;
     }
 
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
-    }
-
-    @Override
-    public boolean supportsActivityDataFetching() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsActivityTracking() {
-        return false;
-    }
-
-    @Override
-    public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
-    }
-
-    @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
-    }
 }
