@@ -402,9 +402,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
         builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
         if (version >= 5) {
-            builder.addFloat(SPEED_AVG, UNIT_METERS_PER_SECOND);
+            builder.addFloat(SPEED_AVG, UNIT_KMPH);
         }
-        builder.addFloat(SPEED_MAX, UNIT_METERS_PER_SECOND);
+        builder.addFloat(SPEED_MAX, UNIT_KMPH);
         builder.addInt(STEPS, UNIT_STEPS);
         if (version >= 5) {
             builder.addUnknown(4);
