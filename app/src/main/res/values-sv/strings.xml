@@ -367,4 +367,5 @@
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="pref_header_datetime">Datum och Tid</string>
     <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="pref_time_sync"></string>
 </resources>
