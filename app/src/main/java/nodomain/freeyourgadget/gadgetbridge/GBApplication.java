@@ -122,7 +122,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 33;
+    private static final int CURRENT_PREFS_VERSION = 34;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1567,6 +1567,47 @@ public class GBApplication extends Application {
                     final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
                     deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
                     deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 34) {
+            // Migrate Mi Band preferences to device-specific
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
+                    if (deviceType == MIBAND || deviceType == MIBAND2 || deviceType == MIBAND2_HRX) {
+                        final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                        final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic_sms", sharedPrefs.getString("mi_vibration_profile_generic_sms", "staccato"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic_sms", sharedPrefs.getString("mi_vibration_count_generic_sms", "3"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_incoming_call", sharedPrefs.getString("mi_vibration_profile_incoming_call", "ring"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_incoming_call", sharedPrefs.getString("mi_vibration_count_incoming_call", "60"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic_email", sharedPrefs.getString("mi_vibration_profile_generic_email", "medium"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic_email", sharedPrefs.getString("mi_vibration_count_generic_email", "2"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic_chat", sharedPrefs.getString("mi_vibration_profile_generic_chat", "waterdrop"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic_chat", sharedPrefs.getString("mi_vibration_count_generic_chat", "3"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic_social", sharedPrefs.getString("mi_vibration_profile_generic_social", "waterdrop"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic_social", sharedPrefs.getString("mi_vibration_count_generic_social", "3"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_alarm_clock", sharedPrefs.getString("mi_vibration_profile_alarm_clock", "alarm_clock"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_alarm_clock", sharedPrefs.getString("mi_vibration_count_alarm_clock", "3"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic_navigation", sharedPrefs.getString("mi_vibration_profile_generic_navigation", "waterdrop"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic_navigation", sharedPrefs.getString("mi_vibration_count_generic_navigation", "3"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_profile_generic", sharedPrefs.getString("mi_vibration_profile_generic", "waterdrop"));
+                        deviceSharedPrefsEdit.putString("mi_vibration_count_generic", sharedPrefs.getString("mi_vibration_count_generic", "3"));
+
+                        if (deviceType == MIBAND) {
+                            deviceSharedPrefsEdit.putBoolean("keep_activity_data_on_device", sharedPrefs.getBoolean("mi_dont_ack_transfer", false));
+                        }
+
+                        deviceSharedPrefsEdit.apply();
+                    }
                 }
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");

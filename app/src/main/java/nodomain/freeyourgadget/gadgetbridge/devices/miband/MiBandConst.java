@@ -22,9 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public final class MiBandConst {
-    public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
-    public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
     public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
 	public static final String PREF_MI2_DISPLAY_ITEM_CLOCK = "clock";
@@ -35,7 +33,6 @@ public final class MiBandConst {
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
     public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "rotate_wrist_to_cycle_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
-    public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
     public static final String PREF_SWIPE_UNLOCK = "swipe_unlock";
     public static final String PREF_NIGHT_MODE = "night_mode";

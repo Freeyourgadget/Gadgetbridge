@@ -271,11 +271,6 @@
         app:iconSpaceReserved="false">
 
         <Preference
-            android:icon="@drawable/ic_device_miband"
-            android:key="pref_key_miband"
-            android:title="@string/preferences_miband_1_2_settings" />
-
-        <Preference
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">

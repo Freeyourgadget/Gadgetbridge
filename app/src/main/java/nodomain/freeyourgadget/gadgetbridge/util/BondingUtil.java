@@ -156,19 +156,6 @@ public class BondingUtil {
         }
     }
 
-
-    /**
-     * Returns true if GB should pair
-     */
-    public static boolean shouldUseBonding() {
-        // TODO: Migrate to generic "should even try bonding" preference key
-
-        // There are connection problems on certain Galaxy S devices at least
-        // try to connect without BT pairing (bonding)
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getPreferences().getBoolean(MiBandConst.PREF_MIBAND_SETUP_BT_PAIRING, true);
-    }
-
     /**
      * Connects to the device and calls callback
      */

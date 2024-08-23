@@ -366,8 +366,8 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 // Unfortunately this extra pairing causes problems when bonding is not used/does not work
 // so we only do this when configured to keep data on the device
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+        Prefs prefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
+        if (prefs.getBoolean("keep_activity_data_on_device", false)) {
             LOG.info("Attempting to pair MI device...");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);
             if (characteristic != null) {
@@ -483,7 +483,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private void performPreferredNotification(String task, @Nullable SimpleNotification simpleNotification, String notificationOrigin, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
             int vibrateDuration = getPreferredVibrateDuration(notificationOrigin, prefs);
             int vibratePause = getPreferredVibratePause(notificationOrigin, prefs);
             short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);

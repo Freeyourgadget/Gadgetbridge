@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <Preference
-        android:icon="@drawable/ic_warning"
-        android:key="preferences_miband_1_2_warning"
-        android:summary="@string/preferences_miband_1_2_warning" />
-
-    <PreferenceCategory
-        android:key="pref_category_miband_notification"
-        android:title="@string/pref_header_vibration_settings"
-        app:iconSpaceReserved="false">
+    <PreferenceScreen
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_patterns_key"
+        android:persistent="false"
+        android:summary="@string/pref_screen_vibration_patterns_summary"
+        android:title="@string/pref_screen_vibration_patterns_title">
 
         <PreferenceScreen
             android:icon="@drawable/ic_message_outline"
             android:key="vibration_profile_key_generic_sms"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_sms">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_sms"
-                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="@string/p_staccato"
@@ -53,11 +45,6 @@
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_incoming_call">
 
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_incoming_call"
-                app:iconSpaceReserved="false" />
-
             <ListPreference
                 android:defaultValue="@string/p_ring"
                 android:entries="@array/vibration_profile"
@@ -82,11 +69,6 @@
             android:key="vibration_profile_key_generic_email"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_email">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_email"
-                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="@string/p_medium"
@@ -118,11 +100,6 @@
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_chat">
 
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_generic_chat"
-                app:iconSpaceReserved="false" />
-
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
@@ -152,11 +129,6 @@
             android:key="vibration_profile_key_generic_social"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_social">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_generic_social"
-                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
@@ -188,11 +160,6 @@
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_alarm_clock">
 
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_alarm_clock"
-                app:iconSpaceReserved="false" />
-
             <ListPreference
                 android:defaultValue="@string/p_alarm_clock"
                 android:entries="@array/vibration_profile"
@@ -222,11 +189,6 @@
             android:key="vibration_profile_key_generic_navigation"
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_navigation">
-
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_generic_navigation"
-                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
@@ -258,11 +220,6 @@
             android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic">
 
-            <!-- workaround for missing toolbar -->
-            <PreferenceCategory
-                android:title="@string/pref_screen_notification_profile_generic"
-                app:iconSpaceReserved="false" />
-
             <ListPreference
                 android:defaultValue="@string/p_waterdrop"
                 android:entries="@array/vibration_profile"
@@ -287,32 +244,5 @@
                 app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="pref_key_development"
-        android:title="@string/pref_header_development"
-        app:iconSpaceReserved="false">
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="mi_setup_bt_pairing"
-            android:layout="@layout/preference_checkbox"
-            android:summary="@string/pref_summary_setup_bt_pairing"
-            android:title="@string/pref_title_setup_bt_pairing"
-            app:iconSpaceReserved="false" />
-        <EditTextPreference
-            android:digits="0123456789ABCDEF:"
-            android:key="development_miaddr"
-            android:maxLength="17"
-            android:title="@string/pref_title_development_miaddr"
-            app:iconSpaceReserved="false"
-            app:useSimpleSummaryProvider="true" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="mi_dont_ack_transfer"
-            android:layout="@layout/preference_checkbox"
-            android:summary="@string/pref_summary_keep_data_on_device"
-            android:title="@string/pref_title_keep_data_on_device"
-            app:iconSpaceReserved="false" />
-    </PreferenceCategory>
-</PreferenceScreen>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

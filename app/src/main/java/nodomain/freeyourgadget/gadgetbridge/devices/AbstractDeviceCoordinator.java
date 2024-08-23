@@ -159,12 +159,6 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             prefs.getPreferences().edit().putStringSet(GBPrefs.LAST_DEVICE_ADDRESSES, lastDeviceAddresses).apply();
         }
 
-        String macAddress = prefs.getPreferences().getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-        if (gbDevice.getAddress().equals(macAddress)) {
-            LOG.debug("#1605 removing devel miband");
-            prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS).apply();
-        }
-
         GBApplication.deleteDeviceSpecificSharedPrefs(gbDevice.getAddress());
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {

@@ -410,13 +410,13 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time, getDevice().getAddress());
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = GBApplication.getDevicePrefs(getDevice().getAddress());
 
         byte[] ackChecksum = new byte[]{
                 (byte) (bytesTransferred & 0xff),
                 (byte) (0xff & (bytesTransferred >> 8))
         };
-        if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+        if (prefs.getBoolean("keep_activity_data_on_device", false)) {
             ackChecksum = new byte[]{
                     (byte) (~bytesTransferred & 0xff),
                     (byte) (0xff & (~bytesTransferred >> 8))
@@ -445,7 +445,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
             //When we ack this chunk, the transfer is done.
             if (getDevice().isBusy() && bytesTransferred == 0) {
                 //if we are not clearing miband's data, we have to stop the sync
-                if (prefs.getBoolean(MiBandConst.PREF_MIBAND_DONT_ACK_TRANSFER, false)) {
+                if (prefs.getBoolean("keep_activity_data_on_device", false)) {
                     builder = performInitialized("send acknowledge");
                     builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
                     getSupport().setHighLatency(builder);

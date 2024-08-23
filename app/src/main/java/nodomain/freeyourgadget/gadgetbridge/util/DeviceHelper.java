@@ -101,15 +101,10 @@ public class DeviceHelper {
 
         Set<GBDevice> availableDevices = new LinkedHashSet<>(getDatabaseDevices());
         Prefs prefs = GBApplication.getPrefs();
-        String miAddress = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-        if (miAddress.length() > 0) {
-            GBDevice miDevice = new GBDevice(miAddress, "MI", null, null, DeviceType.MIBAND);
-            availableDevices.add(miDevice);
-        }
 
         String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
         String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
-        if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
+        if (pebbleEmuAddr.length() >= 7 && !pebbleEmuPort.isEmpty()) {
             GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", null, DeviceType.PEBBLE);
             availableDevices.add(pebbleEmuDevice);
         }

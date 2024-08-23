@@ -847,7 +847,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
             short vibrateTimes = getPreferredVibrateCount(notificationOrigin, prefs);
             VibrationProfile profile = getPreferredVibrateProfile(notificationOrigin, prefs, vibrateTimes);
             profile.setAlertLevel(alertLevel);

@@ -22,26 +22,21 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.EnumSet;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
 
 public class MiBand2Coordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand2Coordinator.class);
-
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.MI_BAND2_NAME, Pattern.CASE_INSENSITIVE);
@@ -55,11 +50,6 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return true;
-    }
-
-    @Override
-    public boolean supportsWeather() {
-        return false;
     }
 
     @Override
@@ -85,12 +75,19 @@ public class MiBand2Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_rotatewrist_cycleinfo,
                 R.xml.devicesettings_buttonactions,
+                R.xml.devicesettings_miband_vibrationpatterns,
                 R.xml.devicesettings_reserve_alarms_calendar,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration
         };
+    }
+
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
+        // For the vibration patterns, which are still legacy mi_ ones
+        return new MiBandSettingsCustomizer(device);
     }
 
     @NonNull
