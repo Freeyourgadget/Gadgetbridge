@@ -222,9 +222,9 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
         }
 
         @Override
-        public void disconnect() {
+        public void dispose() {
             mXiaomiSupport.onDisconnect();
-            super.disconnect();
+            super.dispose();
         }
     };
 
@@ -329,5 +329,13 @@ public class XiaomiBleSupport extends XiaomiConnectionSupport {
     @Override
     public void dispose() {
         commsSupport.dispose();
+        if (characteristicCommandRead != null)
+            characteristicCommandRead.dispose();
+        if (characteristicCommandWrite != null)
+            characteristicCommandWrite.dispose();
+        if (characteristicDataUpload != null)
+            characteristicDataUpload.dispose();
+        if (characteristicActivityData != null)
+            characteristicActivityData.dispose();
     }
 }
