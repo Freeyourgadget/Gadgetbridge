@@ -3323,4 +3323,27 @@ Temps de sommeil préféré en heures</string>
     <string name="distance_total">Distance totale</string>
     <string name="steps_avg">Moy. de pas</string>
     <string name="distance_avg">Distance moy.</string>
+    <string name="pref_time_sync">Synchronisation automatique de l’heure</string>
+    <string name="minutes_15">15 minutes</string>
+    <string name="minutes_45">45 minutes</string>
+    <string name="minutes_75">75 minutes</string>
+    <string name="minutes_90">90 minutes</string>
+    <string name="minutes_120">120 minutes</string>
+    <string name="minutes_150">150 minutes</string>
+    <string name="minutes_180">180 minutes</string>
+    <string name="minutes_210">210 minutes</string>
+    <string name="minutes_240">240 minutes</string>
+    <string name="minutes_255">255 minutes</string>
+    <string name="minutes_3">3 minutes</string>
+    <string name="minutes_4">4 minutes</string>
+    <string name="pref_app_connection_duration">Durée de connexion à l’application</string>
+    <string name="user_feedback_set_settings_ok">Paramètres envoyés à l’appareil.</string>
+    <string name="minutes_2">2 minutes</string>
+    <string name="minutes_6">6 minutes</string>
+    <string name="minutes_7">7 minutes</string>
+    <string name="minutes_8">8 minutes</string>
+    <string name="minutes_9">9 minutes</string>
+    <string name="dateformat_day_month">Jour, Mois</string>
+    <string name="dateformat_month_day">Mois, Jour</string>
+    <string name="prefs_light_duration_longer">Durée plus longue de la lumière</string>
 </resources>
