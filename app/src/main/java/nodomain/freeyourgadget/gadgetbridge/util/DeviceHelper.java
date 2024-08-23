@@ -101,13 +101,6 @@ public class DeviceHelper {
 
         Set<GBDevice> availableDevices = new LinkedHashSet<>(getDatabaseDevices());
         Prefs prefs = GBApplication.getPrefs();
-
-        String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
-        String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
-        if (pebbleEmuAddr.length() >= 7 && !pebbleEmuPort.isEmpty()) {
-            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", null, DeviceType.PEBBLE);
-            availableDevices.add(pebbleEmuDevice);
-        }
         return availableDevices;
     }
 

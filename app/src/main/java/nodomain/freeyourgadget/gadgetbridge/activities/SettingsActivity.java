@@ -66,7 +66,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryPairingPreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
-import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
@@ -121,15 +120,6 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
             if (pref != null) {
                 pref.setOnPreferenceClickListener(preference -> {
                     Intent enableIntent = new Intent(requireContext(), ChartsPreferencesActivity.class);
-                    startActivity(enableIntent);
-                    return true;
-                });
-            }
-
-            pref = findPreference("pref_key_pebble");
-            if (pref != null) {
-                pref.setOnPreferenceClickListener(preference -> {
-                    Intent enableIntent = new Intent(requireContext(), PebbleSettingsActivity.class);
                     startActivity(enableIntent);
                     return true;
                 });

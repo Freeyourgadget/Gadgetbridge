@@ -16,4 +16,15 @@
         android:summary="@string/auto_reconnect_ble_scan_summary"
         android:layout="@layout/preference_checkbox"
         app:iconSpaceReserved="false" />
+    <PreferenceCategory
+        android:title="@string/pref_title_pebble_settings"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_force_le"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_forcele"
+            android:title="@string/pref_title_pebble_forcele"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
 </PreferenceScreen>

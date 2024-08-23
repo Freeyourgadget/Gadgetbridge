@@ -187,10 +187,6 @@
             android:label="@string/loading"
             android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
         <activity
-            android:name=".devices.pebble.PebbleSettingsActivity"
-            android:label="@string/pref_title_pebble_settings"
-            android:parentActivityName=".activities.SettingsActivity" />
-        <activity
             android:name=".activities.ActivitySummariesActivity"
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />
