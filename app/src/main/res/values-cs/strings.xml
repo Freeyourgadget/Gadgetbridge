@@ -3319,4 +3319,26 @@
     <string name="minutes_90">90 minut</string>
     <string name="minutes_120">120 minut</string>
     <string name="minutes_150">150 minut</string>
+    <string name="minutes_180">180 minut</string>
+    <string name="minutes_210">210 minut</string>
+    <string name="dateformat_day_month">Den, měsíc</string>
+    <string name="dateformat_month_day">Měsíc, den</string>
+    <string name="steps_distance_unit">%1$,.2f km</string>
+    <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
+    <string name="steps_total">Celkem kroků</string>
+    <string name="steps_avg">Průměrně kroků</string>
+    <string name="distance_avg">Průměrná vzdálenost</string>
+    <string name="distance_total">Celková vzdálenost</string>
+    <string name="prefs_light_duration_longer">Delší trvání podsvícení</string>
+    <string name="miscale_weight_unit_title">Jednotka váhy</string>
+    <string name="miscale_weight_unit_summary">Nastavte jednotku váhy pro zobrazená měření</string>
+    <string name="pref_app_connection_duration">Délka spojení s aplikací</string>
+    <string name="miscale_weight_unit_metric">Metrická (kg)</string>
+    <string name="minutes_240">240 minut</string>
+    <string name="miscale_weight_unit_imperial">Imperiální (lb)</string>
+    <string name="minutes_255">255 minut</string>
+    <string name="miscale_weight_unit_chinese">Čínská (jin)</string>
+    <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
+    <string name="miscale_small_objects_title">Malé objekty</string>
+    <string name="miscale_small_objects_summary">Ukládat váhu objektů lehčích než 10 kg</string>
 </resources>
