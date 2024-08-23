@@ -3318,4 +3318,5 @@
     <string name="miscale_weight_unit_metric">Sistema métrico (kg)</string>
     <string name="miscale_weight_unit_imperial">Imperial (lbs)</string>
     <string name="miscale_weight_unit_title">Unidad de peso</string>
+    <string name="activity_type_grinding">Rutina</string>
 </resources>
