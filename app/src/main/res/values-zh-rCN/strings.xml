@@ -3318,4 +3318,27 @@
     <string name="distance_avg">平均距离</string>
     <string name="steps_distance_unit">%1$,.2f 公千米</string>
     <string name="distance_total">总距离</string>
+    <string name="minutes_2">2 分钟</string>
+    <string name="minutes_3">3 分钟</string>
+    <string name="minutes_6">6 分钟</string>
+    <string name="minutes_7">7 分钟</string>
+    <string name="minutes_75">75 分钟</string>
+    <string name="minutes_120">120 分钟</string>
+    <string name="minutes_150">150 分钟</string>
+    <string name="minutes_180">180 分钟</string>
+    <string name="minutes_210">210 分钟</string>
+    <string name="pref_app_connection_duration">应用程序连接时长</string>
+    <string name="minutes_4">4 分钟</string>
+    <string name="minutes_45">45 分钟</string>
+    <string name="pref_time_sync">自动时间同步</string>
+    <string name="minutes_9">9 分钟</string>
+    <string name="minutes_90">90 分钟</string>
+    <string name="minutes_255">255 分钟</string>
+    <string name="user_feedback_set_settings_ok">发送设置到设备。</string>
+    <string name="minutes_15">15 分钟</string>
+    <string name="minutes_8">8 分钟</string>
+    <string name="dateformat_day_month">日，月</string>
+    <string name="minutes_240">240 分钟</string>
+    <string name="dateformat_month_day">月，日</string>
+    <string name="prefs_light_duration_longer">光照时间更长</string>
 </resources>
