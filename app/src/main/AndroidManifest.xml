@@ -208,6 +208,10 @@
             android:label="@string/devicetype_vesc"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".devices.thermalprinter.SendToPrinterActivity"
+            android:label="@string/devicetype_generic_thermal_printer"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
             android:parentActivityName=".activities.ControlCenterv2"

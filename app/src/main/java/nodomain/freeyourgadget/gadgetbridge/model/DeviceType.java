@@ -230,6 +230,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.soundcore.liberty4_nc.Soundc
 import nodomain.freeyourgadget.gadgetbridge.devices.soundcore.motion300.SoundcoreMotion300Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.supercars.SuperCarsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.thermalprinter.ThermalPrinterCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vesc.VescCoordinator;
@@ -498,6 +499,7 @@ public enum DeviceType {
     COLMI_R06(ColmiR06Coordinator.class),
     SCANNABLE(ScannableDeviceCoordinator.class),
     CYCLING_SENSOR(CyclingSensorCoordinator.class),
+    GENERIC_THERMAL_PRINTER(ThermalPrinterCoordinator.class),
     TEST(TestDeviceCoordinator.class);
 
     private DeviceCoordinator coordinator;
