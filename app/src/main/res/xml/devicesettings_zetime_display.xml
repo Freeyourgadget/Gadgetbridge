@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue="30"
+        android:inputType="number"
+        android:key="zetime_screentime"
+        android:maxLength="5"
+        android:title="@string/zetime_title_screentime"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="zetime_handmove_display"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/zetime_handmove_display_summary"
+        android:title="@string/zetime_handmove_display"
+        app:iconSpaceReserved="false" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/zetime_analog_mode"
+        android:entryValues="@array/zetime_analog_mode_values"
+        android:key="zetime_analog_mode"
+        android:title="@string/zetime_analog_mode"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

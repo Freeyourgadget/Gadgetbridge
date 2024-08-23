@@ -59,8 +59,8 @@ public class ZeppOsSettingsCustomizer extends HuamiSettingsCustomizer {
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
-        super.customizeSettings(handler, prefs);
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
+        super.customizeSettings(handler, prefs, rootKey);
 
         // These are not reported by the normal configs
         populateOrHideListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);

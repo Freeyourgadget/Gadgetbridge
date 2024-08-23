@@ -51,7 +51,7 @@ public class GalaxyBudsSettingsCustomizer implements DeviceSpecificSettingsCusto
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs, final String rootKey) {
 
         final Preference pref_galaxy_buds_pro_balance = handler.findPreference(PREF_GALAXY_BUDS_PRO_BALANCE);
         if (pref_galaxy_buds_pro_balance != null) {

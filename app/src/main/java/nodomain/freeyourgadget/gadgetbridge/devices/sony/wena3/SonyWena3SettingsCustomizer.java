@@ -29,7 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class SonyWena3SettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     @Override
-    public void customizeSettings(DeviceSpecificSettingsHandler handler, Prefs prefs) {
+    public void customizeSettings(DeviceSpecificSettingsHandler handler, Prefs prefs, final String rootKey) {
         handler.addPreferenceHandlerFor(SonyWena3SettingKeys.RICH_DESIGN_MODE);
         handler.addPreferenceHandlerFor(SonyWena3SettingKeys.LARGE_FONT_SIZE);
         handler.addPreferenceHandlerFor(SonyWena3SettingKeys.WEATHER_IN_STATUSBAR);

@@ -35,7 +35,7 @@ public class CmfWatchProSettingsCustomizer implements DeviceSpecificSettingsCust
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final String[] prefsToHide = new String[]{
                 "pref_key_header_heartrate_sleep",
                 DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION,

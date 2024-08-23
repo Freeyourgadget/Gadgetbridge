@@ -122,7 +122,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 34;
+    private static final int CURRENT_PREFS_VERSION = 35;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1605,6 +1605,72 @@ public class GBApplication extends Application {
                         if (deviceType == MIBAND) {
                             deviceSharedPrefsEdit.putBoolean("keep_activity_data_on_device", sharedPrefs.getBoolean("mi_dont_ack_transfer", false));
                         }
+
+                        deviceSharedPrefsEdit.apply();
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 35) {
+            // Migrate ZeTime preferences to device-specific
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
+                    if (deviceType == DeviceType.ZETIME) {
+                        final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                        final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                        // Vibration Profiles
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_sms", sharedPrefs.getString("zetime_vibration_profile_sms", "2"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_incoming_call", sharedPrefs.getString("zetime_vibration_profile_incoming_call", "13"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_missed_call", sharedPrefs.getString("zetime_vibration_profile_missed_call", "12"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_generic_email", sharedPrefs.getString("zetime_vibration_profile_generic_email", "12"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_generic_social", sharedPrefs.getString("zetime_vibration_profile_generic_social", "12"));
+                        deviceSharedPrefsEdit.putString("zetime_alarm_signaling", sharedPrefs.getString("zetime_alarm_signaling", "11"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_calendar", sharedPrefs.getString("zetime_vibration_profile_calendar", "12"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_inactivity", sharedPrefs.getString("zetime_vibration_profile_inactivity", "12"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_lowpower", sharedPrefs.getString("zetime_vibration_profile_lowpower", "4"));
+                        deviceSharedPrefsEdit.putString("zetime_vibration_profile_antiloss", sharedPrefs.getString("zetime_vibration_profile_antiloss", "13"));
+                        // DND
+                        deviceSharedPrefsEdit.putString("do_not_disturb_no_auto", sharedPrefs.getString("do_not_disturb", "off"));
+                        deviceSharedPrefsEdit.putString("do_not_disturb_no_auto_start", sharedPrefs.getString("do_not_disturb_start", "22:00"));
+                        deviceSharedPrefsEdit.putString("do_not_disturb_no_auto_end", sharedPrefs.getString("do_not_disturb_end", "07:00"));
+                        // HR
+                        deviceSharedPrefsEdit.putString("heartrate_measurement_interval", sharedPrefs.getString("heartrate_measurement_interval", "0"));
+                        deviceSharedPrefsEdit.putBoolean("zetime_heartrate_alarm_enable", sharedPrefs.getBoolean("zetime_heartrate_alarm_enable", false));
+                        deviceSharedPrefsEdit.putString("alarm_max_heart_rate", sharedPrefs.getString("alarm_max_heart_rate", "180"));
+                        deviceSharedPrefsEdit.putString("alarm_min_heart_rate", sharedPrefs.getString("alarm_min_heart_rate", "60"));
+                        // Inactivity warnings
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_enable", sharedPrefs.getBoolean("inactivity_warnings_enable", false));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_threshold", sharedPrefs.getString("inactivity_warnings_threshold", "60"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_start", sharedPrefs.getString("inactivity_warnings_start", "06:00"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_end", sharedPrefs.getString("inactivity_warnings_end", "22:00"));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_mo", sharedPrefs.getBoolean("inactivity_warnings_mo", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_tu", sharedPrefs.getBoolean("inactivity_warnings_tu", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_we", sharedPrefs.getBoolean("inactivity_warnings_we", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_th", sharedPrefs.getBoolean("inactivity_warnings_th", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_fr", sharedPrefs.getBoolean("inactivity_warnings_fr", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_sa", sharedPrefs.getBoolean("inactivity_warnings_sa", false));
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_su", sharedPrefs.getBoolean("inactivity_warnings_su", false));
+                        // Developer settings
+                        deviceSharedPrefsEdit.putBoolean("keep_activity_data_on_device", sharedPrefs.getBoolean("zetime_dont_del_actdata", false));
+                        // Activity info
+                        deviceSharedPrefsEdit.putBoolean("zetime_activity_tracking", sharedPrefs.getBoolean("zetime_activity_tracking", false));
+                        deviceSharedPrefsEdit.putString("zetime_calories_type", sharedPrefs.getString("zetime_calories_type", "0"));
+                        // Display
+                        deviceSharedPrefsEdit.putString("zetime_screentime", sharedPrefs.getString("zetime_screentime", "30"));
+                        deviceSharedPrefsEdit.putBoolean("zetime_handmove_display", sharedPrefs.getBoolean("zetime_handmove_display", false));
+                        deviceSharedPrefsEdit.putString("zetime_analog_mode", sharedPrefs.getString("zetime_analog_mode", "0"));
+                        // Date format
+                        deviceSharedPrefsEdit.putString("zetime_date_format", sharedPrefs.getString("zetime_date_format", "2"));
+                        // Unused, but migrate it anyway
+                        deviceSharedPrefsEdit.putString("zetime_shock_strength", sharedPrefs.getString("zetime_shock_strength", "255"));
 
                         deviceSharedPrefsEdit.apply();
                     }

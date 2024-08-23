@@ -38,10 +38,12 @@ public interface DeviceSpecificSettingsCustomizer extends Parcelable {
 
     /**
      * Customize the settings on the {@link DeviceSpecificSettingsFragment}.
+     *
      * @param handler the {@link DeviceSpecificSettingsHandler}
-     * @param prefs the {@link android.content.SharedPreferences}
+     * @param prefs   the {@link android.content.SharedPreferences}
+     * @param rootKey the root key of the current screen
      */
-    void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs);
+    void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs, final String rootKey);
 
     /**
      * Keys of preferences which should print its values as a summary below the preference name.

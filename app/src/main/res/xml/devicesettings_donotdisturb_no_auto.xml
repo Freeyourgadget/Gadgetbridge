@@ -7,9 +7,6 @@
         android:summary="@string/mi2_prefs_do_not_disturb_summary"
         android:title="@string/mi2_prefs_do_not_disturb">
 
-        <!-- workaround for missing toolbar -->
-        <PreferenceCategory android:title="@string/mi2_prefs_do_not_disturb" />
-
         <ListPreference
             android:defaultValue="@string/p_off"
             android:entries="@array/do_not_disturb_no_auto"

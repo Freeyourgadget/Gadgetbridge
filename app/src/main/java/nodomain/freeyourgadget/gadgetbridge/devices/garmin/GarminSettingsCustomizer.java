@@ -49,7 +49,7 @@ public class GarminSettingsCustomizer implements DeviceSpecificSettingsCustomize
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final Preference realtimeSettings = handler.findPreference(GarminPreferences.PREF_GARMIN_REALTIME_SETTINGS);
         if (realtimeSettings != null) {
             realtimeSettings.setOnPreferenceClickListener(preference -> {

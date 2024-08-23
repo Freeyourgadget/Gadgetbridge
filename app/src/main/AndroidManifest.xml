@@ -191,10 +191,6 @@
             android:label="@string/pref_title_pebble_settings"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
-            android:name=".devices.zetime.ZeTimePreferenceActivity"
-            android:label="@string/zetime_title_settings"
-            android:parentActivityName=".activities.SettingsActivity" />
-        <activity
             android:name=".activities.ActivitySummariesActivity"
             android:label="@string/activity_summaries"
             android:parentActivityName=".activities.ControlCenterv2" />

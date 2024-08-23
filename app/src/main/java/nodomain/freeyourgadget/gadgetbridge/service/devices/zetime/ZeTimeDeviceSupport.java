@@ -169,9 +169,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_HANDMOVE_DISPLAY:
                     setDisplayOnMovement(builder);
                     break;
-                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB:
-                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START:
-                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END:
                     setDoNotDisturb(builder);
                     break;
                 case ZeTimeConstants.PREF_CALORIES_TYPE:
@@ -216,10 +216,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                     setHeartRateLimits(builder);
                     break;
                 case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL:
-                case ZeTimeConstants.PREF_USER_SLEEP_GOAL:
-                case ZeTimeConstants.PREF_USER_CALORIES_GOAL:
-                case ZeTimeConstants.PREF_USER_DISTANCE_GOAL:
-                case ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL:
+                case ActivityUser.PREF_USER_SLEEP_DURATION:
+                case ActivityUser.PREF_USER_CALORIES_BURNT:
+                case ActivityUser.PREF_USER_DISTANCE_METERS:
+                case ActivityUser.PREF_USER_ACTIVETIME_MINUTES:
                     setUserGoals(builder);
                     break;
             }
@@ -282,7 +282,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setAlarms");
 
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
 
             for (Alarm alarm : alarms) {
                 if (remindersOnWatch[alarm.getPosition()][0] == 0) {
@@ -657,6 +657,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         int notification_length = body_length;
         byte[] subject = null;
         byte[] notification;
+        //noinspection ExtractMethodRecommender
         Calendar time = GregorianCalendar.getInstance();
         // convert every single digit of the date to ascii characters
         // we do it like so: use the base chrachter of '0' and add the digit
@@ -883,7 +884,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 return true;
             }
         } else {
-            LOG.info("Unhandled characteristic changed: " + characteristicUUID);
+            LOG.warn("Unhandled characteristic changed: {}", characteristicUUID);
             logMessageContent(characteristic.getValue());
         }
         return false;
@@ -926,7 +927,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private ZeTimeDeviceSupport requestBatteryInfo(TransactionBuilder builder) {
+    private void requestBatteryInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Battery Info!");
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_BATTERY_POWER,
@@ -936,10 +937,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x00,
                 ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-        return this;
     }
 
-    private ZeTimeDeviceSupport requestDeviceInfo(TransactionBuilder builder) {
+    private void requestDeviceInfo(TransactionBuilder builder) {
         LOG.debug("Requesting Device Info!");
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_WATCH_ID,
@@ -967,10 +967,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x02,
                 ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-        return this;
     }
 
-    private ZeTimeDeviceSupport requestActivityInfo(TransactionBuilder builder) {
+    private void requestActivityInfo(TransactionBuilder builder) {
         builder.write(writeCharacteristic, new byte[]{ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_AVAIABLE_DATA,
                 ZeTimeConstants.CMD_REQUEST,
@@ -979,7 +978,6 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 0x00,
                 ZeTimeConstants.CMD_END});
         builder.write(ackCharacteristic, new byte[]{ZeTimeConstants.CMD_ACK_WRITE});
-        return this;
     }
 
     private ZeTimeDeviceSupport requestShockStrength(TransactionBuilder builder) {
@@ -1166,7 +1164,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         progressSteps = (msg[5] & 0xff) | ((msg[6] << 8) & 0xff00);
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSteps * 100 / availableStepsData, getContext());
         if (progressSteps == availableStepsData) {
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
             progressSteps = 0;
             availableStepsData = 0;
             GB.updateTransferNotification(null, "", false, 100, getContext());
@@ -1213,7 +1211,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         progressSleep = (msg[5] & 0xff) | (msg[6] << 8) & 0xff00;
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progressSleep * 100 / availableSleepData, getContext());
         if (progressSleep == availableSleepData) {
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
             progressSleep = 0;
             availableSleepData = 0;
             GB.updateTransferNotification(null, "", false, 100, getContext());
@@ -1272,7 +1270,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         if (progressHeartRate == availableHeartRateData) {
-            Prefs prefs = GBApplication.getPrefs();
+            Prefs prefs = getDevicePrefs();
             progressHeartRate = 0;
             availableHeartRateData = 0;
             GB.updateTransferNotification(null, "", false, 100, getContext());
@@ -1446,7 +1444,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setScreenTime(TransactionBuilder builder) {
-        int value = GBApplication.getPrefs().getInt(ZeTimeConstants.PREF_SCREENTIME, 30);
+        int value = getDevicePrefs().getInt(ZeTimeConstants.PREF_SCREENTIME, 30);
         if (value > ZeTimeConstants.MAX_SCREEN_ON_TIME) {
             GB.toast(getContext(), "Value for screen on time is greater than 18h! ", Toast.LENGTH_LONG, GB.ERROR);
             value = ZeTimeConstants.MAX_SCREEN_ON_TIME;
@@ -1552,7 +1550,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setHeartRateLimits(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
 
         boolean alarmEnabled = prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_HEARTRATE_ALARM, false);
         int maxHR = prefs.getInt(ZeTimeConstants.PREF_ZETIME_MAX_HEARTRATE, 180);
@@ -1582,7 +1580,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setAnalogMode(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         int mode = prefs.getInt(ZeTimeConstants.PREF_ANALOG_MODE, 0);
 
         byte[] analog = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1597,7 +1595,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setActivityTracking(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         boolean tracking = prefs.getBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
 
         byte[] activity = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1614,7 +1612,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setDisplayOnMovement(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         boolean movement = prefs.getBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, false);
 
         byte[] handmove = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1633,11 +1631,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setDoNotDisturb(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
-        String scheduled = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "off");
+        Prefs prefs = getDevicePrefs();
+        String scheduled = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, "off");
         String dndScheduled = getContext().getString(R.string.p_scheduled);
-        String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, "22:00");
-        String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, "07:00");
+        String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START, "22:00");
+        String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END, "07:00");
         DateFormat df_start = new SimpleDateFormat("HH:mm");
         DateFormat df_end = new SimpleDateFormat("HH:mm");
         Calendar calendar = GregorianCalendar.getInstance();
@@ -1673,7 +1671,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setCaloriesType(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         int type = prefs.getInt(ZeTimeConstants.PREF_CALORIES_TYPE, 0);
 
         byte[] calories = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1715,7 +1713,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setDateFormate(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         int type = prefs.getInt(ZeTimeConstants.PREF_DATE_FORMAT, 0);
 
         byte[] dateformat = {ZeTimeConstants.CMD_PREAMBLE,
@@ -1737,7 +1735,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setInactivityAlert(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
         int threshold = prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
 
@@ -1803,7 +1801,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setShockStrength(TransactionBuilder builder) {
-        Prefs prefs = GBApplication.getPrefs();
+        Prefs prefs = getDevicePrefs();
         int shockStrength = prefs.getInt(ZeTimeConstants.PREF_SHOCK_STRENGTH, 255);
 
         byte[] strength = {
@@ -1819,50 +1817,66 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         sendMsgToWatch(builder, strength);
     }
 
-    private void setSignaling(TransactionBuilder builder, String signalingType) {
-        Prefs prefs = GBApplication.getPrefs();
-        int signalType = prefs.getInt(signalingType, 0);
+    private void setSignaling(final TransactionBuilder builder, final String signalingType) {
+        final Prefs prefs = getDevicePrefs();
 
-        byte[] signaling = {
+        final byte typeByte;
+        final int signalTypeDefault;
+
+        switch (signalingType) {
+            case ZeTimeConstants.PREF_SMS_SIGNALING:
+                typeByte = ZeTimeConstants.SMS_TYPE;
+                signalTypeDefault = 2;
+                break;
+            case ZeTimeConstants.PREF_CALL_SIGNALING:
+                typeByte = ZeTimeConstants.CALL_TYPE;
+                signalTypeDefault = 13;
+                break;
+            case ZeTimeConstants.PREF_MISSED_CALL_SIGNALING:
+                typeByte = ZeTimeConstants.MISSED_CALL_TYPE;
+                signalTypeDefault = 12;
+                break;
+            case ZeTimeConstants.PREF_EMAIL_SIGNALING:
+                typeByte = ZeTimeConstants.EMAIL_TYPE;
+                signalTypeDefault = 12;
+                break;
+            case ZeTimeConstants.PREF_SOCIAL_SIGNALING:
+                typeByte = ZeTimeConstants.SOCIAL_TYPE;
+                signalTypeDefault = 12;
+                break;
+            case ZeTimeConstants.PREF_CALENDAR_SIGNALING:
+                typeByte = ZeTimeConstants.CALENDAR_TYPE;
+                signalTypeDefault = 12;
+                break;
+            case ZeTimeConstants.PREF_INACTIVITY_SIGNALING:
+                typeByte = ZeTimeConstants.INACTIVITY_TYPE;
+                signalTypeDefault = 12;
+                break;
+            case ZeTimeConstants.PREF_LOW_POWER_SIGNALING:
+                typeByte = ZeTimeConstants.LOW_POWER_TYPE;
+                signalTypeDefault = 4;
+                break;
+            case ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING:
+                typeByte = ZeTimeConstants.ANTI_LOSS_TYPE;
+                signalTypeDefault = 13;
+                break;
+            default:
+                LOG.error("Unknown signaling type {}", signalingType);
+                return;
+        }
+
+        final int signalType = prefs.getInt(signalingType, signalTypeDefault);
+
+        final byte[] signaling = {
                 ZeTimeConstants.CMD_PREAMBLE,
                 ZeTimeConstants.CMD_SHOCK_MODE,
                 ZeTimeConstants.CMD_SEND,
                 (byte) 0x2,
                 (byte) 0x0,
-                (byte) 0x0,
+                typeByte,
                 (byte) signalType,
                 ZeTimeConstants.CMD_END
         };
-
-        switch (signalingType) {
-            case ZeTimeConstants.PREF_SMS_SIGNALING:
-                signaling[5] = ZeTimeConstants.SMS_TYPE;
-                break;
-            case ZeTimeConstants.PREF_CALL_SIGNALING:
-                signaling[5] = ZeTimeConstants.CALL_TYPE;
-                break;
-            case ZeTimeConstants.PREF_MISSED_CALL_SIGNALING:
-                signaling[5] = ZeTimeConstants.MISSED_CALL_TYPE;
-                break;
-            case ZeTimeConstants.PREF_EMAIL_SIGNALING:
-                signaling[5] = ZeTimeConstants.EMAIL_TYPE;
-                break;
-            case ZeTimeConstants.PREF_SOCIAL_SIGNALING:
-                signaling[5] = ZeTimeConstants.SOCIAL_TYPE;
-                break;
-            case ZeTimeConstants.PREF_CALENDAR_SIGNALING:
-                signaling[5] = ZeTimeConstants.CALENDAR_TYPE;
-                break;
-            case ZeTimeConstants.PREF_INACTIVITY_SIGNALING:
-                signaling[5] = ZeTimeConstants.INACTIVITY_TYPE;
-                break;
-            case ZeTimeConstants.PREF_LOW_POWER_SIGNALING:
-                signaling[5] = ZeTimeConstants.LOW_POWER_TYPE;
-                break;
-            case ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING:
-                signaling[5] = ZeTimeConstants.ANTI_LOSS_TYPE;
-                break;
-        }
 
         sendMsgToWatch(builder, signaling);
     }
@@ -1970,24 +1984,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getDateTimeFormat(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_DATE_FORMAT, Integer.toString(msg[5]));
-        prefs.apply();
 
         String timeFormat = "24h";
-
-        SharedPreferences.Editor prefsEditor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
-
         if (msg[6] == 2) {
             timeFormat = "am/pm";
         }
-        prefsEditor.putString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, timeFormat);
-        prefsEditor.apply();
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, timeFormat);
+
+        prefs.apply();
     }
 
     private void getSignaling(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING, Integer.toString(msg[5]));
         prefs.putString(ZeTimeConstants.PREF_CALL_SIGNALING, Integer.toString(msg[7]));
@@ -2002,40 +2013,36 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getDoNotDisturb(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
         String starttime = String.format("%02d:%02d", msg[6], msg[7]);
         String endtime = String.format("%02d:%02d", msg[8], msg[9]);
 
         if (0x1 == msg[5]) {
-            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "scheduled");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, "scheduled");
         } else {
-            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "off");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, "off");
         }
-        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, starttime);
-        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, endtime);
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START, starttime);
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END, endtime);
         prefs.apply();
     }
 
     private void getAnalogMode(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_ANALOG_MODE, Integer.toString(msg[5]));
         prefs.apply();
     }
 
     private void getActivityTracking(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
 
-        if (0x1 == msg[6]) {
-            prefs.putBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, false);
-        } else {
-            prefs.putBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, true);
-        }
+        prefs.putBoolean(ZeTimeConstants.PREF_ACTIVITY_TRACKING, 0x1 != msg[6]);
         prefs.apply();
     }
 
     private void getScreenTime(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
 
         prefs.putString(ZeTimeConstants.PREF_SCREENTIME, Integer.toString((msg[5] | (msg[6] << 8))));
         prefs.apply();
@@ -2053,18 +2060,18 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getHeartRateMeasurement(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
         prefs.putString(ZeTimeConstants.PREF_ZETIME_HEARTRATE_INTERVAL, Integer.toString((msg[5] * 60))); // multiply with 60 because of the conversion from minutes to seconds
         prefs.apply();
     }
 
     private void getHeartRateLimits(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
         prefs.apply();
     }
 
     private void getInactivityAlert(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
         String starttime = String.format("%02d:%02d", msg[7], msg[8]);
         String endtime = String.format("%02d:%02d", msg[9], msg[10]);
 
@@ -2113,7 +2120,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getCaloriesType(byte[] msg) {
-        SharedPreferences prefs = GBApplication.getPrefs().getPreferences();
+        SharedPreferences prefs = getDevicePrefs().getPreferences();
         SharedPreferences.Editor myedit = prefs.edit();
 
         myedit.putString(ZeTimeConstants.PREF_CALORIES_TYPE, Integer.toString(msg[5]));
@@ -2121,7 +2128,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void getDisplayOnMovement(byte[] msg) {
-        SharedPreferences.Editor prefs = GBApplication.getPrefs().getPreferences().edit();
+        SharedPreferences.Editor prefs = getDevicePrefs().getPreferences().edit();
         if (0 != (msg[6] & (1 << 6))) {
             prefs.putBoolean(ZeTimeConstants.PREF_HANDMOVE_DISPLAY, true);
         } else {

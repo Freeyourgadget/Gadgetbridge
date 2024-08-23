@@ -37,7 +37,7 @@ public class TestDeviceSpecificSettingsCustomizer implements DeviceSpecificSetti
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final Preference pref = handler.findPreference(TestDeviceConst.PREF_TEST_FEATURES);
         if (pref == null) {
             return;

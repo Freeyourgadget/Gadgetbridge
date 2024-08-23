@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_patterns_key"
+        android:persistent="false"
+        android:summary="@string/pref_screen_vibration_patterns_summary"
+        android:title="@string/pref_screen_vibration_patterns_title">
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:icon="@drawable/ic_message_outline"
+            android:key="zetime_vibration_profile_sms"
+            android:title="@string/pref_screen_notification_profile_sms"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="13"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:icon="@drawable/ic_phone"
+            android:key="zetime_vibration_profile_incoming_call"
+            android:title="@string/pref_screen_notification_profile_incoming_call"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="12"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:icon="@drawable/ic_phone_missed_outline"
+            android:key="zetime_vibration_profile_missed_call"
+            android:title="@string/pref_screen_notification_profile_missed_call"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="12"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:icon="@drawable/ic_email"
+            android:key="zetime_vibration_profile_generic_email"
+            android:title="@string/pref_screen_notification_profile_email"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_person"
+            android:defaultValue="12"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_vibration_profile_generic_social"
+            android:title="@string/pref_screen_notification_profile_generic_social"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_access_alarms"
+            android:defaultValue="11"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_alarm_signaling"
+            android:title="@string/pref_screen_notification_profile_alarm_clock"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_calendar_to"
+            android:defaultValue="12"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_vibration_profile_calendar"
+            android:title="@string/pref_screen_notification_profile_calendar"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_chair"
+            android:defaultValue="12"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_vibration_profile_inactivity"
+            android:title="@string/pref_screen_notification_profile_inactivity"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_battery"
+            android:defaultValue="4"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_vibration_profile_lowpower"
+            android:title="@string/pref_screen_notification_profile_low_power"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:icon="@drawable/ic_signal_cellular_connected_no_internet_4_bar"
+            android:defaultValue="13"
+            android:entries="@array/zetime_signaling_types"
+            android:entryValues="@array/zetime_signaling_types_values"
+            android:key="zetime_vibration_profile_antiloss"
+            android:title="@string/pref_screen_notification_profile_anti_loss"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceScreen>
+</PreferenceScreen>

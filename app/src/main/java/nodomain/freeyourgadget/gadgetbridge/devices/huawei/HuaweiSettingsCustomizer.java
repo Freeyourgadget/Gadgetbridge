@@ -40,7 +40,6 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_DEBUG_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_TRUSLEEP;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.PREF_HUAWEI_WORKMODE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 
 public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     final GBDevice device;
@@ -93,7 +92,7 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs, final String rootKey) {
 
         handler.addPreferenceHandlerFor(PREF_FORCE_OPTIONS);
         handler.addPreferenceHandlerFor(PREF_FORCE_ENABLE_SMART_ALARM);

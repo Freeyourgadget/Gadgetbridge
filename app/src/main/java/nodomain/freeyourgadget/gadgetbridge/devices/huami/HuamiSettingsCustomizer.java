@@ -51,7 +51,7 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final Preference hrAlertActivePref = handler.findPreference(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ACTIVE_HIGH_THRESHOLD);
         if (hrAlertActivePref != null) {
             hrAlertActivePref.setVisible(false);

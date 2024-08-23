@@ -192,7 +192,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
             }
         }
 
-        setChangeListener();
+        setChangeListener(rootKey);
     }
 
     private void addDynamicSettings(final String rootKey) {
@@ -334,7 +334,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         });
     }
 
-    private void setChangeListener() {
+    private void setChangeListener(final String rootKey) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
 
         final Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
@@ -1255,7 +1255,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         }
 
         if (deviceSpecificSettingsCustomizer != null) {
-            deviceSpecificSettingsCustomizer.customizeSettings(this, prefs);
+            deviceSpecificSettingsCustomizer.customizeSettings(this, prefs, rootKey);
         }
     }
 

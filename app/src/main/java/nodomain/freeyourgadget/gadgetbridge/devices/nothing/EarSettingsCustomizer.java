@@ -49,7 +49,7 @@ public class EarSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final AbstractEarCoordinator earCoordinator = (AbstractEarCoordinator) handler.getDevice().getDeviceCoordinator();
 
         if (!earCoordinator.supportsLightAncAndTransparency()) {

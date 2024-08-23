@@ -55,7 +55,6 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -118,7 +117,7 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs, final String rootKey) {
         final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) device.getDeviceCoordinator();
 
         // Only enable the focus on voice check and voice level slider if the ambient sound control mode is ambient sound

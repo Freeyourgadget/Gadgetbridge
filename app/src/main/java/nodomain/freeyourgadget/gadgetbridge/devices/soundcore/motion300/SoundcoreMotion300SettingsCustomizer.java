@@ -63,7 +63,7 @@ public class SoundcoreMotion300SettingsCustomizer implements DeviceSpecificSetti
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         ListPreference equalizerDirection = handler.findPreference(PREF_SOUNDCORE_EQUALIZER_DIRECTION);
 
         if (equalizerDirection != null) {

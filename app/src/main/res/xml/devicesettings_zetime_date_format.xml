@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="2"
+        android:entries="@array/zetime_date_format"
+        android:entryValues="@array/zetime_date_format_values"
+        android:icon="@drawable/ic_access_time"
+        android:key="zetime_date_format"
+        android:title="@string/zetime_date_format"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

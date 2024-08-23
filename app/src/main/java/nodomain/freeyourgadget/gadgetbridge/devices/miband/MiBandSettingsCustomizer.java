@@ -45,7 +45,7 @@ public class MiBandSettingsCustomizer implements DeviceSpecificSettingsCustomize
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         for (final NotificationType type : NotificationType.values()) {
             String countPrefKey = "mi_vibration_count_" + type.getGenericType();
             handler.setInputTypeFor(countPrefKey, InputType.TYPE_CLASS_NUMBER);

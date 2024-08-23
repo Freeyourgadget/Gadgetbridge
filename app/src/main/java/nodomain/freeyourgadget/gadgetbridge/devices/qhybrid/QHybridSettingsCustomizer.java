@@ -20,7 +20,7 @@ public class QHybridSettingsCustomizer implements DeviceSpecificSettingsCustomiz
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final Preference pref = handler.findPreference("pref_key_qhybrid_legacy");
         if (pref != null) {
             pref.setOnPreferenceClickListener(preference -> {

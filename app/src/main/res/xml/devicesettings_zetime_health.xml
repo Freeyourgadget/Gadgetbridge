@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/prefs_zetime_heartrate_measurement_interval"
+        android:entryValues="@array/prefs_zetime_heartrate_measurement_interval_values"
+        android:icon="@drawable/ic_heart"
+        android:key="heartrate_measurement_interval"
+        android:title="@string/prefs_title_heartrate_measurement_interval"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_heartrate"
+        android:key="zetime_heartrate_alarm_key"
+        android:persistent="false"
+        android:summary="@string/zetime_title_heart_rate_alarm_summary"
+        android:title="@string/zetime_title_heart_rate_alarm"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="zetime_heartrate_alarm_enable"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/zetime_title_heart_rate_alarm_summary"
+            android:title="@string/zetime_title_heart_rate_alarm"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="180"
+            android:dependency="zetime_heartrate_alarm_enable"
+            android:inputType="number"
+            android:key="alarm_max_heart_rate"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_alarm_max_heart_rate"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dependency="zetime_heartrate_alarm_enable"
+            android:inputType="number"
+            android:key="alarm_min_heart_rate"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_alarm_min_heart_rate"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_chair"
+        android:key="inactivity_warnings_key"
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+        android:title="@string/mi2_prefs_inactivity_warnings"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="inactivity_warnings_enable"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+            android:title="@string/mi2_prefs_inactivity_warnings"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dependency="inactivity_warnings_enable"
+            android:inputType="numberSigned"
+            android:key="inactivity_warnings_threshold"
+            android:maxLength="3"
+            android:title="@string/mi2_prefs_inactivity_warnings_threshold"
+            app:iconSpaceReserved="false" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start"
+            app:iconSpaceReserved="false" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end"
+            app:iconSpaceReserved="false" />
+
+        <PreferenceCategory
+            android:dependency="inactivity_warnings_enable"
+            android:title="@string/zetime_prefs_inactivity_repetitions"
+            app:iconSpaceReserved="false">
+
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_mo"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_mo"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_tu"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_tu"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_we"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_we"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_th"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_th"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_fr"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_fr"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_sa"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_sa"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="inactivity_warnings_su"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/zetime_prefs_inactivity_su"
+                app:iconSpaceReserved="false" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</PreferenceScreen>

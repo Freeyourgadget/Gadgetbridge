@@ -72,7 +72,7 @@ public class BangleJSSettingsCustomizer implements DeviceSpecificSettingsCustomi
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final String rootKey) {
         final Preference fullSyncPref = handler.findPreference(PREF_BANGLEJS_ACTIVITY_FULL_SYNC_TRIGGER);
         if (fullSyncPref != null) {
             fullSyncPref.setOnPreferenceClickListener(preference -> {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="zetime_activity_tracking"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/zetime_activity_tracking_summary"
+        android:title="@string/zetime_activity_tracking"
+        app:iconSpaceReserved="false" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/zetime_calories_type"
+        android:entryValues="@array/zetime_calories_type_values"
+        android:key="zetime_calories_type"
+        android:title="@string/zetime_calories_type"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>
