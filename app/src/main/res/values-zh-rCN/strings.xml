@@ -3313,4 +3313,9 @@
     <string name="miscale_weight_unit_summary">设置显示测量值的重量单位</string>
     <string name="miscale_weight_unit_metric">公制（公斤）</string>
     <string name="miscale_small_objects_title">小物体</string>
+    <string name="steps_avg">平均步数</string>
+    <string name="steps_total">总步数</string>
+    <string name="distance_avg">平均距离</string>
+    <string name="steps_distance_unit">%1$,.2f 公千米</string>
+    <string name="distance_total">总距离</string>
 </resources>
