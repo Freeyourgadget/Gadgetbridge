@@ -31,9 +31,11 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LANE_LENGTH;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAP_PACE_AVERAGE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_AVG_SECONDS_KM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MIN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.RECOVERY_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKES;
@@ -52,8 +54,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KMPH;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_LAPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS_PER_SECOND;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_KM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_M;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SPM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STEPS;
@@ -374,6 +378,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             case 4:
                 headerSize = 7;
                 break;
+            case 5:
+                headerSize = 9;
+                break;
             default:
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
                 return null;
@@ -389,8 +396,19 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(DISTANCE_METERS, UNIT_METERS);
         builder.addUnknown(2);
         builder.addShort(CALORIES_BURNT, UNIT_KCAL);
-        builder.addUnknown(12);
+        if (version >= 5) {
+            builder.addInt(PACE_AVG_SECONDS_KM, UNIT_SECONDS_PER_KM);
+        }
+        builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
+        builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
+        if (version >= 5) {
+            builder.addFloat(SPEED_AVG, UNIT_METERS_PER_SECOND);
+        }
+        builder.addFloat(SPEED_MAX, UNIT_METERS_PER_SECOND);
         builder.addInt(STEPS, UNIT_STEPS);
+        if (version >= 5) {
+            builder.addUnknown(4);
+        }
         builder.addUnknown(2);
         builder.addByte(HR_AVG, UNIT_BPM);
         builder.addByte(HR_MAX, UNIT_BPM);
