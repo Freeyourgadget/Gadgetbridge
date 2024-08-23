@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ListPreference
+        android:defaultValue="@string/p_pebble_privacy_mode_off"
+        android:entries="@array/pebble_privacymode"
+        android:entryValues="@array/pebble_privacymode_values"
+        android:key="pebble_pref_privacy_mode"
+        android:summary="%s"
+        android:title="@string/pref_title_pebble_privacy_mode"
+        app:iconSpaceReserved="false" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="pebble_enable_outgoing_call"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_summary_enable_outgoing_call"
+        android:title="@string/pref_title_enable_outgoing_call"
+        app:iconSpaceReserved="false" />
+</androidx.preference.PreferenceScreen>

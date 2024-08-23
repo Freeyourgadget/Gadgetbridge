@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<PreferenceCategory
+        android:title="@string/pref_header_pebble_timeline"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:key="send_sunrise_sunset"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_sunrise_sunset"
+            android:title="@string/pref_title_sunrise_sunset"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

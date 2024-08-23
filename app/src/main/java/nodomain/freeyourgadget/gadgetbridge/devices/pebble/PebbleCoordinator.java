@@ -227,28 +227,26 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
         return true;
     }
 
-//    @Override
-//    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-//        return new int[]{
-//                ,
-//                R.xml.devicesettings_transliteration
-//        };
-//    }
-
     @Override
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
         final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALLS_AND_NOTIFICATIONS);
         notifications.add(R.xml.devicesettings_autoremove_notifications);
+        notifications.add(R.xml.devicesettings_pebble_calls_notifications);
         notifications.add(R.xml.devicesettings_canned_reply_16);
         notifications.add(R.xml.devicesettings_canned_dismisscall_16);
         notifications.add(R.xml.devicesettings_transliteration);
 
         final List<Integer> calendar = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALENDAR);
         calendar.add(R.xml.devicesettings_sync_calendar);
+        calendar.add(R.xml.devicesettings_pebble_calendar);
 
-        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_pebble_preferences);
+        final List<Integer> activity = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.ACTIVITY_INFO);
+        activity.add(R.xml.devicesettings_pebble_activity);
+
+        final List<Integer> dev = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        dev.add(R.xml.devicesettings_pebble_developer);
 
         return deviceSpecificSettings;
     }

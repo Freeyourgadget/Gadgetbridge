@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/pref_header_development"
+        app:iconSpaceReserved="false">
+        <EditTextPreference
+            android:defaultValue="512"
+            android:inputType="number"
+            android:key="pebble_mtu_limit"
+            android:maxLength="3"
+            android:summary="@string/pref_summary_pebble_mtu_limit"
+            android:title="@string/pref_title_pebble_mtu_limit"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_force_untested"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_forceuntested"
+            android:title="@string/pref_title_pebble_forceuntested"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_force_protocol"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_forceprotocol"
+            android:title="@string/pref_title_pebble_forceprotocol"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_gatt_clientonly"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_gatt_clientonly"
+            android:title="@string/pref_title_pebble_gatt_clientonly"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_enable_applogs"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_enable_applogs"
+            android:title="@string/pref_title_pebble_enable_applogs"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pebble_always_ack_pebblekit"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
+            android:title="@string/pref_title_pebble_always_ack_pebblekit"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="pebble_force_untested"
+            android:key="pebble_enable_background_javascript"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_pebble_enable_bgjs"
+            android:title="@string/pref_title_pebble_enable_bgjs"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
