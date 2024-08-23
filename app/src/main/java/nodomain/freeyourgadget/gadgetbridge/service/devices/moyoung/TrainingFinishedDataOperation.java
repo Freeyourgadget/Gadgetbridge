@@ -183,7 +183,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
                 sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED); // Training type will be taken later from CMD_QUERY_MOVEMENT_HEART_RATE (it's not present in the main data packet)
                 sample.setDataSource(MoyoungSampleProvider.SOURCE_TRAINING_HEARTRATE);
 
-                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 sample.setSteps(ActivitySample.NOT_MEASURED);
                 sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
                 sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);

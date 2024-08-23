@@ -243,7 +243,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
             sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
 
-            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
             sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
@@ -272,7 +272,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
             sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
 
-            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
             sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
@@ -301,7 +301,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
             sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
 
-            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
             sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
             sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
@@ -437,25 +437,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.warn("Battery info: " + info);
         batteryCmd.level = (short) info.getPercentCharged();
         handleGBDeviceEvent(batteryCmd);
-
-        MoyoungActivitySample sample = new MoyoungActivitySample();
-        sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
-
-        sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-        sample.setDataSource(MoyoungSampleProvider.SOURCE_BATTERY);
-
-        sample.setBatteryLevel(batteryCmd.level);
-        sample.setSteps(ActivitySample.NOT_MEASURED);
-        sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
-        sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
-
-        sample.setHeartRate(ActivitySample.NOT_MEASURED);
-//        sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//        sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//        sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
-
-        addGBActivitySample(sample);
-        broadcastSample(sample);
     }
 
     @Override
@@ -666,7 +647,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
             sample.setDataSource(MoyoungSampleProvider.SOURCE_STEPS_IDLE);
 
-            sample.setBatteryLevel(batteryCmd.level);
+//            sample.setBatteryLevel(batteryCmd.level);
             sample.setSteps(0);
             sample.setDistanceMeters(0);
             sample.setCaloriesBurnt(0);
@@ -763,7 +744,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
                 sample.setDataSource(daysAgo == 0 ? MoyoungSampleProvider.SOURCE_STEPS_REALTIME : MoyoungSampleProvider.SOURCE_STEPS_SUMMARY);
 
-                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 sample.setSteps(newSteps);
                 sample.setDistanceMeters(newDistance);
                 sample.setCaloriesBurnt(newCalories);
@@ -868,7 +849,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 prevSegmentSample.setRawKind(prevActivityType);
                 prevSegmentSample.setDataSource(MoyoungSampleProvider.SOURCE_SLEEP_SUMMARY);
 
-                prevSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//                prevSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 prevSegmentSample.setSteps(ActivitySample.NOT_MEASURED);
                 prevSegmentSample.setDistanceMeters(ActivitySample.NOT_MEASURED);
                 prevSegmentSample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
@@ -890,7 +871,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 nextSegmentSample.setRawKind(activityType);
                 nextSegmentSample.setDataSource(MoyoungSampleProvider.SOURCE_SLEEP_SUMMARY);
 
-                nextSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//                nextSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 nextSegmentSample.setSteps(ActivitySample.NOT_MEASURED);
                 nextSegmentSample.setDistanceMeters(ActivitySample.NOT_MEASURED);
                 nextSegmentSample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);

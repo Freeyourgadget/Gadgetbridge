@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.moyoung;
 
+import androidx.annotation.DrawableRes;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,19 @@ public class ColmiI28UltraCoordinator extends AbstractMoyoungDeviceCoordinator {
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_colmi_i28_ultra;
+    }
+
+
+    @Override
+    @DrawableRes
+    public int getDefaultIconResource() {
+        return R.drawable.ic_device_miwatch;
+    }
+
+    @Override
+    @DrawableRes
+    public int getDisabledIconResource() {
+        return R.drawable.ic_device_miwatch_disabled;
     }
 
     @Override
