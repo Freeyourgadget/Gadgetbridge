@@ -3345,4 +3345,10 @@
     <string name="minutes_90">90 minutos</string>
     <string name="prefs_light_duration_longer">Mayor duración de la iluminación</string>
     <string name="pref_app_connection_duration">Duración de la conexión a la aplicación</string>
+    <string name="devicetype_colmi_r02">Colmi R02</string>
+    <string name="devicetype_colmi_r03">Colmi R03</string>
+    <string name="devicetype_colmi_r06">Colmi R06</string>
+    <string name="smart_ring_measurement_error_unknown">Error de medición desconocido del anillo: %d</string>
+    <string name="busy_task_fetch_sleep_data">Obteniendo datos del sueño</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Error de medición. ¿Están orientados correctamente los sensores del anillo?</string>
 </resources>
