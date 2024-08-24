@@ -3346,4 +3346,11 @@ Temps de sommeil préféré en heures</string>
     <string name="dateformat_day_month">Jour, Mois</string>
     <string name="dateformat_month_day">Mois, Jour</string>
     <string name="prefs_light_duration_longer">Durée plus longue de la lumière</string>
+    <string name="busy_task_fetch_sleep_data">Obtenir les données de sommeil</string>
+    <string name="devicetype_colmi_r02">Colmi R02</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Erreur de mesure. Les capteurs de l\'anneau sont-ils correctement orientés ?</string>
+    <string name="devicetype_colmi_r03">Colmi R03</string>
+    <string name="devicetype_colmi_r06">Colmi R06</string>
+    <string name="smart_ring_measurement_error_unknown">Erreur de mesure inconnue %d reçue de l\'anneau</string>
+    <string name="stress_average">Moyen</string>
 </resources>
