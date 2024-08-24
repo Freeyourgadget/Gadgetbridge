@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 import android.util.Pair;
 
 import org.slf4j.Logger;
@@ -113,7 +112,7 @@ public class QuerySettingsOperation extends AbstractBTLEOperation<MoyoungDeviceS
             if (setting.cmdQuery == packetType)
             {
                 Object value = setting.decode(payload);
-                Log.i("SETTING QUERY", setting.name + " = " + value.toString());
+                LOG.info("SETTING QUERY " + setting.name + " = " + value.toString());
                 received[i] = true;
                 handled = true;
             }

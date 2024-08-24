@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 import android.util.Pair;
 
 import org.slf4j.Logger;
@@ -81,7 +80,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
             UUID charUuid = characteristic.getUuid();
             if (charUuid.equals(MoyoungConstants.UUID_CHARACTERISTIC_STEPS)) {
                 byte[] data = characteristic.getValue();
-                Log.i("TODAY STEPS", "data: " + Logging.formatBytes(data));
+                LOG.info("TODAY STEPS data: " + Logging.formatBytes(data));
                 decodeSteps(0, data);
                 return true;
             }
@@ -120,7 +119,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
 
     private boolean handlePacket(byte packetType, byte[] payload) {
         if (packetType == MoyoungConstants.CMD_SYNC_SLEEP) {
-            Log.i("TODAY SLEEP", "data: " + Logging.formatBytes(payload));
+            LOG.info("TODAY SLEEP data: " + Logging.formatBytes(payload));
             decodeSleep(0, payload);
             return true;
         }
@@ -135,22 +134,22 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
             //       in the app itself and all past data is getting messed up because of it)
 
             if (dataType == MoyoungConstants.ARG_SYNC_YESTERDAY_STEPS) {
-                Log.i("2 DAYS AGO STEPS", "data: " + Logging.formatBytes(data));
+                LOG.info("2 DAYS AGO STEPS data: " + Logging.formatBytes(data));
                 decodeSteps(2, data);
                 return true;
             }
             else if (dataType == MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS) {
-                Log.i("YESTERDAY STEPS", "data: " + Logging.formatBytes(data));
+                LOG.info("YESTERDAY STEPS data: " + Logging.formatBytes(data));
                 decodeSteps(1, data);
                 return true;
             }
             else if (dataType == MoyoungConstants.ARG_SYNC_YESTERDAY_SLEEP) {
-                Log.i("2 DAYS AGO SLEEP", "data: " + Logging.formatBytes(data));
+                LOG.info("2 DAYS AGO SLEEP data: " + Logging.formatBytes(data));
                 decodeSleep(2, data);
                 return true;
             }
             else if (dataType == MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_SLEEP) {
-                Log.i("YESTERDAY SLEEP", "data: " + Logging.formatBytes(data));
+                LOG.info("YESTERDAY SLEEP data: " + Logging.formatBytes(data));
                 decodeSleep(1, data);
                 return true;
             }

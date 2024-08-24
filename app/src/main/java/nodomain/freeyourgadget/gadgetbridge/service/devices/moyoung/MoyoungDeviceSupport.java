@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -211,7 +210,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (charUuid.equals(MoyoungConstants.UUID_CHARACTERISTIC_STEPS))
         {
             byte[] payload = characteristic.getValue();
-            Log.i("AAAAAAAAAAAAAAAA", "Update step count: " + Logging.formatBytes(characteristic.getValue()));
+            LOG.info("Update step count: " + Logging.formatBytes(characteristic.getValue()));
             handleStepsHistory(0, payload, true);
             return true;
         }
@@ -224,7 +223,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     byte packetType = packet.first;
                     byte[] payload = packet.second;
 
-                    Log.i("AAAAAAAAAAAAAAAA", "Response for: " + packetType);
+                    LOG.info("Response for: " + packetType);
 
                     if (handlePacket(packetType, payload))
                         return true;
@@ -240,7 +239,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == MoyoungConstants.CMD_TRIGGER_MEASURE_HEARTRATE)
         {
             int heartRate = payload[0];
-            Log.i("XXXXXXXX", "Measure heart rate finished: " + heartRate + " BPM");
+            LOG.info("Measure heart rate finished: " + heartRate + " BPM");
 
             try (DBHandler dbHandler = GBApplication.acquireDB()) {
                 MoyoungHeartRateSampleProvider sampleProvider = new MoyoungHeartRateSampleProvider(getDevice(), dbHandler.getDaoSession());
@@ -267,7 +266,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == MoyoungConstants.CMD_TRIGGER_MEASURE_BLOOD_OXYGEN)
         {
             int percent = payload[0];
-            Log.i("XXXXXXXX", "Measure blood oxygen finished: " + percent + "%");
+            LOG.info("Measure blood oxygen finished: " + percent + "%");
 
             try (DBHandler dbHandler = GBApplication.acquireDB()) {
                 MoyoungSpo2SampleProvider sampleProvider = new MoyoungSpo2SampleProvider(getDevice(), dbHandler.getDaoSession());
@@ -293,7 +292,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int dataUnknown = payload[0];
             int data1 = payload[1];
             int data2 = payload[2];
-            Log.i("XXXXXXXX", "Measure blood pressure finished: " + data1 + "/" + data2 + " (" + dataUnknown + ")");
+            LOG.info("Measure blood pressure finished: " + data1 + "/" + data2 + " (" + dataUnknown + ")");
 
             try (DBHandler dbHandler = GBApplication.acquireDB()) {
                 MoyoungBloodPressureSampleProvider sampleProvider = new MoyoungBloodPressureSampleProvider(getDevice(), dbHandler.getDaoSession());
@@ -323,7 +322,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             try {
                 new TrainingFinishedDataOperation(this, payload).perform();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("TrainingFinishedDataOperation failed: ", e);
             }
         }
 
@@ -412,7 +411,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 provider.addGBActivitySample(sample);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Error saving samples: ", ex);
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
@@ -454,7 +453,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SEND_MESSAGE, payload));
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error sending notification: ", e);
         }
     }
 
@@ -494,7 +493,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             setTime(builder);
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error setting time: ", e);
         }
     }
 
@@ -585,7 +584,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error setting alarms: ", e);
         }
     }
 
@@ -596,7 +595,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             try {
                 new FetchDataOperation(this).perform();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error fetching data: ", e);
             }
         }
     }
@@ -657,7 +656,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
             LOG.info("Adding an idle sample: " + sample.toString());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Error saving samples: ", ex);
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
@@ -676,7 +675,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         System.arraycopy(data, 6, bArr2, 0, 3);
         int calories = BytesToInt24(bArr2);
 
-        Log.i("steps[" + daysAgo + "]", "steps=" + steps + ", distance=" + distance + ", calories=" + calories);
+        LOG.info("steps[" + daysAgo + "] steps=" + steps + ", distance=" + distance + ", calories=" + calories);
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             User user = DBHelper.getUser(dbHandler.getDaoSession());
@@ -753,7 +752,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Adding a sample: " + sample.toString());
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Error saving samples: ", ex);
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
@@ -773,7 +772,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int start_h = data[3*i + 1];
             int start_m = data[3*i + 2];
 
-            Log.i("sleep[" + daysAgo + "][" + i + "]", "type=" + type + ", start_h=" + start_h + ", start_m=" + start_m);
+            LOG.info("sleep[" + daysAgo + "][" + i + "] type=" + type + ", start_h=" + start_h + ", start_m=" + start_m);
 
             // SleepAnalysis measures sleep fragment type by marking the END of the fragment.
             // The watch provides data by marking the START of the fragment.
@@ -880,7 +879,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     prevActivityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_START;
                 prevSampleTimestamp = thisSampleTimestamp;
             } catch (Exception ex) {
-                ex.printStackTrace();
+                LOG.error("Error saving samples: ", ex);
                 GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
             }
@@ -907,7 +906,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int steps = buffer.getInt();
             int distance = buffer.getInt();
             int calories = buffer.getShort();
-            Log.i("Training data", "start=" + startTime + " end=" + endTime + " totalTimeWithoutPause=" + validTime + " num=" + num + " type=" + type + " steps=" + steps + " distance=" + distance + " calories=" + calories);
+            LOG.info("Training data: start=" + startTime + " end=" + endTime + " totalTimeWithoutPause=" + validTime + " num=" + num + " type=" + type + " steps=" + steps + " distance=" + distance + " calories=" + calories);
 
             // NOTE: We are ignoring the step/distance/calories data here
             // If we had the phone connected, the realtime data is already stored anyway, and I'm
@@ -970,7 +969,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     provider.updateActivityInRange((int)(startTime.getTime() / 1000), (int)(endTime.getTime() / 1000), type);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                LOG.error("Error saving samples: ", ex);
                 GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                 GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
             }
@@ -1003,7 +1002,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SHUTDOWN, new byte[] { -1 }));
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error sending reset command: ", e);
         }
     }
 
@@ -1014,7 +1013,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_TRIGGER_MEASURE_HEARTRATE, new byte[] { start ? (byte)0 : (byte)-1 }));
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error sending heart rate test command: ", e);
         }
     }
 
@@ -1080,7 +1079,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             time = new SimpleDateFormat("HH:mm").parse(timePref);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error("Error parsing time: ", e);
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(time);
@@ -1099,7 +1098,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sendSetting(builder, setting, newValue);
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error sending setting: ", e);
         }
     }
 
@@ -1116,13 +1115,13 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
             queriedSettings.add(setting);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error querying setting: ", e);
         }
     }
 
     @Override
     public void onSendConfiguration(String config) {
-        Log.i("OOOOOOOOOOOOOOOOsend", config);
+        LOG.info("Send configuration: " + config);
 
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         switch (config) {
@@ -1255,7 +1254,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReadConfiguration(String config) {
-        Log.i("OOOOOOOOOOOOOOOOread", config);
+        LOG.info("Read configuration: " + config);
 
         switch (config) {
             /* These use the global Gadgetbridge configuration and are always forced on device upon connection
@@ -1325,7 +1324,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     public void onReadConfigurationDone(MoyoungSetting setting, Object value, byte[] data)
     {
-        Log.i("CONFIG", setting.name + " = " + value);
+        LOG.info("CONFIG " + setting.name + " = " + value);
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         Map<String, String> changedProperties = new ArrayMap<>();
         SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
@@ -1469,7 +1468,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error sending weather: ", e);
         }
     }
 }

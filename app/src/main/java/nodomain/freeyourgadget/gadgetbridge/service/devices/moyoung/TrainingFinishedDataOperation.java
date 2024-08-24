@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -50,7 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class TrainingFinishedDataOperation extends AbstractBTLEOperation<MoyoungDeviceSupport> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FetchDataOperation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TrainingFinishedDataOperation.class);
 
     private final byte[] firstPacketData;
     private final long firstPacketTimeInMillis;
@@ -119,7 +118,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
 
 
     private void handleTrainingHealthRatePacket(byte[] payload, boolean isFirst) {
-        Log.i("TRAINING DATA", "data: " + Logging.formatBytes(payload));
+        LOG.info("TRAINING DATA: " + Logging.formatBytes(payload));
         byte sequenceType = payload[0];
         if (isFirst != (sequenceType == MoyoungConstants.ARG_TRANSMISSION_FIRST))
             throw new IllegalArgumentException("Expected packet to be " + (isFirst ? "first" : "continued") + " but got packet of type " + sequenceType);
@@ -140,7 +139,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
             getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_QUERY_LAST_DYNAMIC_RATE, new byte[0]));
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error fetching training data: ", e);
             GB.toast(getContext(), "Error fetching training data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
             operationFinished();
@@ -149,7 +148,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
 
     private void processAllData() {
         byte[] completeData = data.toByteArray();
-        Log.i("HAVE COMPLETE DATA", Logging.formatBytes(completeData));
+        LOG.info("HAVE COMPLETE DATA: " + Logging.formatBytes(completeData));
         ByteBuffer dataBuffer = ByteBuffer.wrap(completeData);
         dataBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -165,14 +164,14 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
 
             MoyoungHeartRateSampleProvider provider = new MoyoungHeartRateSampleProvider(getDevice(), dbHandler.getDaoSession());
 
-            Log.i("START DATE", dateRecorded.getTime().toString());
+            LOG.info("START DATE: " + dateRecorded.getTime().toString());
             while (dataBuffer.hasRemaining())
             {
                 int measurement = dataBuffer.get() & 0xFF;
                 if (!dataBuffer.hasRemaining())
                     dateRecorded.setTimeInMillis(firstPacketTimeInMillis); // the last sample is captured exactly at the end of measurement
 
-                Log.i("MEASUREMENT", "at " + dateRecorded.getTime().toString() + " was " + measurement);
+                LOG.info("MEASUREMENT: at " + dateRecorded.getTime().toString() + " was " + measurement);
 
                 MoyoungHeartRateSample sample = new MoyoungHeartRateSample();
                 sample.setDevice(device);
@@ -186,7 +185,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
                 dateRecorded.add(Calendar.MINUTE, 1);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Error saving samples: ", ex);
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
         }
@@ -196,7 +195,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
             getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_QUERY_MOVEMENT_HEART_RATE, new byte[] { }));
             builder.queue(getQueue());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error fetching training data: ", e);
             GB.toast(getContext(), "Error fetching training data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
             operationFinished();
