@@ -3341,4 +3341,10 @@
     <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
     <string name="miscale_small_objects_title">Malé objekty</string>
     <string name="miscale_small_objects_summary">Ukládat váhu objektů lehčích než 10 kg</string>
+    <string name="busy_task_fetch_sleep_data">Stahování dat o spánku</string>
+    <string name="devicetype_colmi_r02">Colmi R02</string>
+    <string name="devicetype_colmi_r03">Colmi R03</string>
+    <string name="devicetype_colmi_r06">Colmi R06</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Chyba měření. Jsou senzory prstenu správně orientovány?</string>
+    <string name="smart_ring_measurement_error_unknown">Neznámá chyba měření %d získaná z prstenu</string>
 </resources>
