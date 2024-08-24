@@ -954,6 +954,7 @@
     <string name="lack_of_step">Lack of steps: %1$d</string>
     <string name="overstep">Overstep: %1$d</string>
     <string name="average">Average: %1$s</string>
+    <string name="stress_average">Average</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Truncate fetch operation timestamps</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Truncate the fetch operation timestamps to minutes. Disable this setting to keep the timestamps in seconds, if you face issues while fetching very short workouts.</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>

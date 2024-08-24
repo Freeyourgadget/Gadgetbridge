@@ -150,7 +150,7 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
 
         } else {
             entries.add(new PieEntry(1));
-            colors.add(Color.GRAY);
+            colors.add(getResources().getColor(R.color.gauge_line_color));
         }
 
         PieDataSet set = new PieDataSet(entries, "");

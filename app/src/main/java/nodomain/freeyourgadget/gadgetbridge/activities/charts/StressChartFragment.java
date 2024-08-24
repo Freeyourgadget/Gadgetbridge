@@ -18,10 +18,16 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -45,7 +51,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +74,11 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
 
     private LineChart mStressChart;
     private PieChart mStressLevelsPieChart;
+    private TextView stressChartRelaxedTime;
+    private TextView stressChartMildTime;
+    private TextView stressChartModerateTime;
+    private TextView stressChartHighTime;
+    private TextView stressDate;
 
     private int BACKGROUND_COLOR;
     private int DESCRIPTION_COLOR;
@@ -115,10 +128,48 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
     @Override
     protected void updateChartsnUIThread(final StressChartsData stressData) {
         final PieData pieData = stressData.getPieData();
-        if (stressData.getAverage() > 0) {
-            mStressLevelsPieChart.setCenterText(requireContext().getString(R.string.average, String.valueOf(stressData.getAverage())));
+
+        Date date = new Date((long) this.getTSEnd() * 1000);
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
+        stressDate.setText(formattedDate);
+
+        Map<StressType, Integer> stressZoneTimes = stressData.getStressZoneTimes();
+        Integer relaxedTime = stressZoneTimes.get(StressType.RELAXED);
+        if (0 < relaxedTime) {
+            stressChartRelaxedTime.setText(DateTimeUtils.formatDurationHoursMinutes(relaxedTime, TimeUnit.SECONDS));
         } else {
-            mStressLevelsPieChart.setCenterText(requireContext().getString(R.string.no_data));
+            stressChartRelaxedTime.setText(R.string.stats_empty_value);
+        }
+        Integer mildTime = stressZoneTimes.get(StressType.MILD);
+        if (mildTime > 0) {
+            stressChartMildTime.setText(DateTimeUtils.formatDurationHoursMinutes(mildTime, TimeUnit.SECONDS));
+        } else {
+            stressChartMildTime.setText(R.string.stats_empty_value);
+        }
+        Integer moderateTime = stressZoneTimes.get(StressType.MODERATE);
+        if (moderateTime > 0) {
+            stressChartModerateTime.setText(DateTimeUtils.formatDurationHoursMinutes(moderateTime, TimeUnit.SECONDS));
+        } else {
+            stressChartModerateTime.setText(R.string.stats_empty_value);
+        }
+        Integer highTime = stressZoneTimes.get(StressType.HIGH);
+        if (highTime > 0) {
+            stressChartHighTime.setText(DateTimeUtils.formatDurationHoursMinutes(highTime, TimeUnit.SECONDS));
+        } else {
+            stressChartHighTime.setText(R.string.stats_empty_value);
+        }
+
+        if (stressData.getAverage() > 0) {
+            int noc = String.valueOf(stressData.getAverage()).length();
+            SpannableString pieChartCenterText = new SpannableString(stressData.getAverage() + "\n" + requireContext().getString(R.string.stress_average));
+            pieChartCenterText.setSpan(new RelativeSizeSpan(1.75f), 0, noc, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pieChartCenterText.setSpan(new RelativeSizeSpan(0.72f), noc, pieChartCenterText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mStressLevelsPieChart.setCenterText(pieChartCenterText);
+        } else {
+            SpannableString pieChartCenterText = new SpannableString("-\n" + requireContext().getString(R.string.stress_average));
+            pieChartCenterText.setSpan(new RelativeSizeSpan(1.25f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pieChartCenterText.setSpan(new RelativeSizeSpan(0.72f), 2, pieChartCenterText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mStressLevelsPieChart.setCenterText(pieChartCenterText);
         }
         mStressLevelsPieChart.setData(pieData);
 
@@ -147,8 +198,19 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
                              final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_stresschart, container, false);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rootView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                getChartsHost().enableSwipeRefresh(scrollY == 0);
+            });
+        }
+
         mStressChart = rootView.findViewById(R.id.stress_line_chart);
         mStressLevelsPieChart = rootView.findViewById(R.id.stress_pie_chart);
+        stressChartRelaxedTime = rootView.findViewById(R.id.stress_chart_relaxed_time);
+        stressChartMildTime = rootView.findViewById(R.id.stress_chart_mild_time);
+        stressChartModerateTime = rootView.findViewById(R.id.stress_chart_moderate_time);
+        stressChartHighTime = rootView.findViewById(R.id.stress_chart_high_time);
+        stressDate = rootView.findViewById(R.id.stress_date);
 
         setupLineChart();
         setupPieChart();
@@ -165,6 +227,12 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         mStressLevelsPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
         mStressLevelsPieChart.getDescription().setText("");
         mStressLevelsPieChart.setNoDataText("");
+        mStressLevelsPieChart.setTouchEnabled(false);
+        mStressLevelsPieChart.setCenterTextColor(GBApplication.getTextColor(getContext()));
+        mStressLevelsPieChart.setCenterTextSize(18f);
+        mStressLevelsPieChart.setHoleColor(getContext().getResources().getColor(R.color.transparent));
+        mStressLevelsPieChart.setHoleRadius(85);
+        mStressLevelsPieChart.setDrawEntryLabels(false);
         mStressLevelsPieChart.getLegend().setEnabled(false);
     }
 
@@ -380,16 +448,23 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
             final List<ILineDataSet> lineDataSets = new ArrayList<>();
             final List<PieEntry> pieEntries = new ArrayList<>();
             final List<Integer> pieColors = new ArrayList<>();
+            final Map<StressType, Integer> stressZoneTimes = new HashMap<>();
 
             for (final StressType stressType : StressType.values()) {
                 final List<Entry> stressEntries = lineEntriesPerLevel.get(stressType);
                 lineDataSets.add(createDataSet(stressType, stressEntries));
 
                 final Integer stressTime = accumulator.get(stressType);
+                stressZoneTimes.put(stressType, stressTime);
                 if (stressType != StressType.UNKNOWN && stressTime != null && stressTime != 0) {
                     pieEntries.add(new PieEntry(stressTime, stressType.getLabel(requireContext())));
                     pieColors.add(stressType.getColor(requireContext()));
                 }
+            }
+
+            if (pieEntries.isEmpty()) {
+                pieEntries.add(new PieEntry(1));
+                pieColors.add(getResources().getColor(R.color.gauge_line_color));
             }
 
             final PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
@@ -404,12 +479,14 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
             pieDataSet.setValueTextSize(13f);
             pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
             pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+            pieDataSet.setDrawValues(false);
+            pieDataSet.setSliceSpace(2f);
             final PieData pieData = new PieData(pieDataSet);
 
             final LineData lineData = new LineData(lineDataSets);
             final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
             final DefaultChartsData<LineData> chartsData = new DefaultChartsData<>(lineData, xValueFormatter);
-            return new StressChartsData(pieData, chartsData, Math.round((float) averageSum / averageNumSamples));
+            return new StressChartsData(pieData, chartsData, Math.round((float) averageSum / averageNumSamples), stressZoneTimes);
         }
     }
 
@@ -417,11 +494,17 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         private final PieData pieData;
         private final DefaultChartsData<LineData> chartsData;
         private final int average;
+        private Map<StressType, Integer> stressZoneTimes;
 
-        public StressChartsData(final PieData pieData, final DefaultChartsData<LineData> chartsData, final int average) {
+        public StressChartsData(final PieData pieData, final DefaultChartsData<LineData> chartsData, final int average, Map<StressType, Integer> stressZoneTimes) {
             this.pieData = pieData;
             this.chartsData = chartsData;
             this.average = average;
+            this.stressZoneTimes = stressZoneTimes;
+        }
+
+        public Map<StressType, Integer> getStressZoneTimes() {
+            return stressZoneTimes;
         }
 
         public PieData getPieData() {
