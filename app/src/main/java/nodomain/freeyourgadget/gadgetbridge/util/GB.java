@@ -677,8 +677,10 @@ public class GB {
         }
     }
 
-    public static void signalActivityDataFinish() {
+    public static void signalActivityDataFinish(final GBDevice device) {
         final Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
+        intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+
         LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
 
         if (!GBApplication.getPrefs().getBoolean("intent_api_broadcast_activity_sync", false)) {

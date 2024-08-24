@@ -2320,7 +2320,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
                         devEvtsDataLogging = new GBDeviceEvent[]{dataLogging, null};
                     }
                     if (datalogSession.uuid.equals(UUID_ZERO) && (datalogSession.tag == 81 || datalogSession.tag == 83 || datalogSession.tag == 84)) {
-                        GB.signalActivityDataFinish();
+                        GB.signalActivityDataFinish(getDevice());
                     }
                     mDatalogSessions.remove(id);
                 }

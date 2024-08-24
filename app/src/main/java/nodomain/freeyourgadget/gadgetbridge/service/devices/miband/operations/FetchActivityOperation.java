@@ -200,7 +200,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         activityStruct = null;
         operationFinished();
         unsetBusy();
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
     }
 
     /**

@@ -572,10 +572,10 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void fetchRecordedDataFinished() {
         GB.updateTransferNotification(null, "", false, 100, getContext());
-        GB.signalActivityDataFinish();
         LOG.info("Sync finished!");
         getDevice().unsetBusyTask();
         getDevice().sendDeviceUpdateIntent(getContext());
+        GB.signalActivityDataFinish(getDevice());
     }
 
     private void fetchHistoryActivity() {

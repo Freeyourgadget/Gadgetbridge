@@ -70,7 +70,7 @@ class AppMessageHandlerMisfit extends AppMessageHandler {
                     LOG.info("incoming data start");
                     break;
                 case KEY_INCOMING_DATA_END:
-                    GB.signalActivityDataFinish();
+                    GB.signalActivityDataFinish(getDevice());
                     LOG.info("incoming data end");
                     break;
                 case KEY_INCOMING_DATA:

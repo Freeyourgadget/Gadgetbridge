@@ -297,7 +297,7 @@ public final class BtLEQueue {
 
     private void setDeviceConnectionState(final State newState) {
         new Handler(Looper.getMainLooper()).post(() -> {
-            LOG.debug("new device connection state: " + newState);
+            LOG.debug("new device connection state: {}", newState);
             mGbDevice.setState(newState);
             mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
         });

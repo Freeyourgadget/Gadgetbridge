@@ -21,6 +21,7 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -143,7 +144,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     private String expandedFolderName = "";
     private ViewGroup parent;
     private HashMap<String, long[]> deviceActivityMap = new HashMap();
-    private StableIdGenerator idGenerator = new StableIdGenerator();
+    private final StableIdGenerator idGenerator = new StableIdGenerator();
 
     public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList, HashMap<String,long[]> deviceMap) {
         super(new GBDeviceDiffUtil());
@@ -153,8 +154,20 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         this.deviceActivityMap = deviceMap;
     }
 
-    public void rebuildFolders(){
+    public void rebuildFolders() {
         this.devicesListWithFolders = enrichDeviceListWithFolder(deviceList);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public final void refreshSingleDevice(final GBDevice device) {
+        final int i = devicesListWithFolders.indexOf(device);
+        if (i > 0) {
+            notifyItemChanged(i);
+        } else {
+            // Somehow the device was not on the list - rebuild everything
+            rebuildFolders();
+            notifyDataSetChanged();
+        }
     }
 
     private List<GBDevice> enrichDeviceListWithFolder(List<GBDevice> deviceList) {
@@ -221,10 +234,10 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(expandedFolderName.equals(folder.getName())){
+                if (expandedFolderName.equals(folder.getName())){
                     // collapse open folder
                     expandedFolderName = "";
-                }else {
+                } else {
                     expandedFolderName = folder.getName();
                 }
                 rebuildFolders();

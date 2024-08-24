@@ -668,6 +668,7 @@ class BangleJSActivityTrack {
         resetPacketCount();
         device.unsetBusyTask();
         device.sendDeviceUpdateIntent(context);
+        GB.signalActivityDataFinish(device);
         GB.updateTransferNotification(null, "", false, 100, context);
         GB.toast(context.getString(R.string.activity_detail_end_label) + " : " + context.getString(R.string.busy_task_fetch_sports_details), Toast.LENGTH_SHORT, GB.INFO);
     }

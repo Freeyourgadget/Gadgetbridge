@@ -1240,7 +1240,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 provider.addGBActivitySample(sample);
             }
 
-            GB.signalActivityDataFinish();
+            GB.signalActivityDataFinish(getDevice());
 
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);

@@ -109,7 +109,7 @@ class AppMessageHandlerMorpheuz extends AppMessageHandler {
         for (Pair<Integer, Object> pair : pairs) {
             if (Objects.equals(pair.first, keyTransmit)) {
                 ctrl_message |= CTRL_TRANSMIT_DONE;
-                GB.signalActivityDataFinish();
+                GB.signalActivityDataFinish(getDevice());
             } else if (pair.first.equals(keyGoneoff)) {
                 alarm_gone_off = (int) pair.second;
                 LOG.info("got gone off: " + alarm_gone_off / 60 + ":" + alarm_gone_off % 60);

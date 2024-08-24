@@ -468,7 +468,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
         getDeviceSupport().getDevice().unsetBusyTask();
         GB.updateTransferNotification(null, "", false, 100, getContext());
         getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDeviceSupport().getDevice());
     }
 
     @Override

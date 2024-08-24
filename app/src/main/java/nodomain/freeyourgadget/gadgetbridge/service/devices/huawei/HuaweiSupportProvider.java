@@ -810,7 +810,7 @@ public class HuaweiSupportProvider {
 
         // Properly update the device card
         gbDevice.sendDeviceUpdateIntent(GBApplication.getContext());
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
     }
 
     public void setProtocolVersion(byte protocolVersion) {
@@ -1289,7 +1289,7 @@ public class HuaweiSupportProvider {
             gbDevice.unsetBusyTask();
             gbDevice.sendDeviceUpdateIntent(context);
         }
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
     }
 
     public void onReset(int flags) {
@@ -2118,7 +2118,7 @@ public class HuaweiSupportProvider {
             for (HuaweiTruSleepParser.TruSleepStatus status : results)
                 addSleepActivity(status.startTime, status.endTime, (byte) 0x06, (byte) 0x0a);
             // This should only be called once per sync - also if we start downloading more sleep data
-            GB.signalActivityDataFinish();
+            GB.signalActivityDataFinish(getDevice());
             // Unsetting busy is done at the end of all downloads
         } // "sleep_data.bin" later as well
     }

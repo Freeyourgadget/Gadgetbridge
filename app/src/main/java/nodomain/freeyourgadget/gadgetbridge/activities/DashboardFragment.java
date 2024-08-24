@@ -93,10 +93,12 @@ public class DashboardFragment extends Fragment {
             String action = intent.getAction();
             if (action == null) return;
             switch (action) {
-                case GBDevice.ACTION_DEVICE_CHANGED:
-                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                case GBApplication.ACTION_NEW_DATA:
+                    final GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     if (dev != null && !dev.isBusy()) {
-                        refresh();
+                        if (dashboardData.showAllDevices || dashboardData.showDeviceList.contains(dev.getAddress())) {
+                            refresh();
+                        }
                     }
                     break;
                 case ACTION_CONFIG_CHANGE:
@@ -140,6 +142,7 @@ public class DashboardFragment extends Fragment {
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        filterLocal.addAction(GBApplication.ACTION_NEW_DATA);
         filterLocal.addAction(ACTION_CONFIG_CHANGE);
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(mReceiver, filterLocal);
 

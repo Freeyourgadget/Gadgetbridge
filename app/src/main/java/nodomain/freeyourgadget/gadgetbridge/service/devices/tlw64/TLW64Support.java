@@ -543,7 +543,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                         if (getDevice().isBusy()) {
                             getDevice().unsetBusyTask();
                             getDevice().sendDeviceUpdateIntent(getContext());
-                            GB.signalActivityDataFinish();
+                            GB.signalActivityDataFinish(getDevice());
                         }
                     }
                 } catch (Exception ex) {

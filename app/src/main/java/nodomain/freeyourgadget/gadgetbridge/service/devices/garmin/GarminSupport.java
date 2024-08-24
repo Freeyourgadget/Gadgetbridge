@@ -541,8 +541,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 LOG.debug("No pending files to process");
                 // No downloaded fit files to process
                 if (gbDevice.isBusy() && isBusyFetching) {
-                    GB.signalActivityDataFinish();
                     getDevice().unsetBusyTask();
+                    GB.signalActivityDataFinish(getDevice());
                     GB.updateTransferNotification(null, "", false, 100, getContext());
                     getDevice().sendDeviceUpdateIntent(getContext());
                 }
@@ -570,8 +570,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
                 @Override
                 public void onFinish() {
-                    GB.signalActivityDataFinish();
                     getDevice().unsetBusyTask();
+                    GB.signalActivityDataFinish(getDevice());
                     GB.updateTransferNotification(null, "", false, 100, getContext());
                     getDevice().sendDeviceUpdateIntent(getContext());
                     isBusyFetching = false;
@@ -903,7 +903,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
             public void onFinish() {
                 parsingFitFilesFromStorage = false;
                 GB.updateTransferNotification("", "", false, 100, getContext());
-                GB.signalActivityDataFinish();
+                GB.signalActivityDataFinish(getDevice());
             }
         });
     }

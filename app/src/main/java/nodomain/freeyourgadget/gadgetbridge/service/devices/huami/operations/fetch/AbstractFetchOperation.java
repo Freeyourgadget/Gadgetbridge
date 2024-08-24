@@ -155,7 +155,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         LOG.debug("All operations finished");
 
         GB.updateTransferNotification(null, "", false, 100, getContext());
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
         operationFinished();
         unsetBusy();
     }

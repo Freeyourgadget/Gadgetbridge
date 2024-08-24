@@ -1033,6 +1033,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             getHeartRateData();
         } else if (availableSleepData > 0) {
             getSleepData();
+        } else {
+            GB.signalActivityDataFinish(getDevice());
         }
     }
 
@@ -1179,6 +1181,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 getHeartRateData();
             } else if (availableSleepData > 0) {
                 getSleepData();
+            } else {
+                GB.signalActivityDataFinish(getDevice());
             }
         }
     }
@@ -1217,7 +1221,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.updateTransferNotification(null, "", false, 100, getContext());
             if (getDevice().isBusy()) {
                 getDevice().unsetBusyTask();
-                GB.signalActivityDataFinish();
+                GB.signalActivityDataFinish(getDevice());
             }
             if (!prefs.getBoolean(ZeTimeConstants.PREF_ZETIME_DONT_DEL_ACTDATA, false)) {
                 deleteSleepData();
@@ -1283,6 +1287,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             if (availableSleepData > 0) {
                 getSleepData();
+            } else {
+                GB.signalActivityDataFinish(getDevice());
             }
         }
     }

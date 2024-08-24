@@ -1251,7 +1251,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
                             GB.updateTransferNotification(null, "", false, 100, getContext());
-                            GB.signalActivityDataFinish();
+                            GB.signalActivityDataFinish(getDeviceSupport().getDevice());
                             LOG.debug("Synchronized activity data");
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);

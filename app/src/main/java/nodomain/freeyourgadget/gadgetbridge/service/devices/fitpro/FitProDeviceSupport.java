@@ -365,7 +365,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
     public void indicateFinishedFetchingOperation() {
         //LOG.debug("download finish announced");
         GB.updateTransferNotification(null, "", false, 100, getContext());
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
         unsetBusy();
     }
 
@@ -1354,7 +1354,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         addGBActivitySample(sample);
         broadcastSample(sample);
-        GB.signalActivityDataFinish();
+        GB.signalActivityDataFinish(getDevice());
     }
 
     public void handleDayTotalsData(int steps, int distance, int calories) {

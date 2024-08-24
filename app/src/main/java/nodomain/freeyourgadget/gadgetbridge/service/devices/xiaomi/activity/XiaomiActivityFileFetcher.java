@@ -146,8 +146,8 @@ public class XiaomiActivityFileFetcher {
         if (fileId == null) {
             LOG.debug("Nothing more to fetch");
             isFetching = false;
-            GB.signalActivityDataFinish();
             mHealthService.getSupport().getDevice().unsetBusyTask();
+            GB.signalActivityDataFinish(mHealthService.getSupport().getDevice());
             GB.updateTransferNotification(null, "", false, 100, mHealthService.getSupport().getContext());
             mHealthService.getSupport().getDevice().sendDeviceUpdateIntent(mHealthService.getSupport().getContext());
             return;
