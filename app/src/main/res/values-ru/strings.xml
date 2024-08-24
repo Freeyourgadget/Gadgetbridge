@@ -3100,4 +3100,23 @@
     <string name="sleep_colored_stats_deep">Глубокий</string>
     <string name="sleep_colored_stats_light">Лёгкий</string>
     <string name="pref_header_hrv_status">Состояние ВСР</string>
+    <string name="minutes_7">7 минут</string>
+    <string name="minutes_2">2 минуты</string>
+    <string name="minutes_6">6 минут</string>
+    <string name="minutes_9">9 минут</string>
+    <string name="minutes_15">15 минут</string>
+    <string name="minutes_45">45 минут</string>
+    <string name="minutes_150">150 минут</string>
+    <string name="minutes_180">180 минут</string>
+    <string name="minutes_210">210 минут</string>
+    <string name="minutes_240">240 минут</string>
+    <string name="minutes_255">255 минут</string>
+    <string name="dateformat_month_day">Месяц, день</string>
+    <string name="dateformat_day_month">День, месяц</string>
+    <string name="minutes_8">8 минут</string>
+    <string name="minutes_120">120 минут</string>
+    <string name="minutes_3">3 минуты</string>
+    <string name="minutes_4">4 минуты</string>
+    <string name="minutes_75">75 минут</string>
+    <string name="minutes_90">90 минут</string>
 </resources>
