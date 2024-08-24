@@ -64,6 +64,6 @@ public class HeartRateUtils {
     }
 
     public boolean isValidHeartRateValue(int value) {
-        return value >= getMinHeartRate() && value <= getMaxHeartRate();
+        return value > 0 && value >= getMinHeartRate() && value <= getMaxHeartRate();
     }
 }
