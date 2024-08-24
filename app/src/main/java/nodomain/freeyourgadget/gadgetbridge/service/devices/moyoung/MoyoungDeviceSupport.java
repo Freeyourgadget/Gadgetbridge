@@ -223,7 +223,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     byte packetType = packet.first;
                     byte[] payload = packet.second;
 
-                    LOG.info("Response for: " + packetType);
+                    LOG.info("Response for: " + Logging.formatBytes(new byte[]{packetType}));
 
                     if (handlePacket(packetType, payload))
                         return true;
@@ -253,7 +253,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setUserId(userId);
 
                 sampleProvider.addSample(sample);
-//                broadcastSample(sample);
+                broadcastSample(sample);
             } catch (Exception e) {
                 LOG.error("Error acquiring database for recording heart rate samples", e);
             }
@@ -362,6 +362,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == MoyoungConstants.CMD_SWITCH_CAMERA_VIEW)
         {
             // TODO: trigger camera photo
+            LOG.info("Camera shutter triggered from watch");
             return true;
         }
 
@@ -389,7 +390,31 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
 
-        LOG.warn("Unhandled packet " + packetType + ": " + Logging.formatBytes(payload));
+        if (packetType == MoyoungConstants.CMD_QUERY_DISPLAY_WATCH_FACE)
+        {
+            LOG.info("Watchface changed on watch to nr {}", payload[0]);
+            return true;
+        }
+
+        if (packetType == MoyoungConstants.CMD_QUERY_STOCKS)
+        {
+            LOG.info("Stocks queried from watch");
+            return true;
+        }
+
+        if (packetType == MoyoungConstants.CMD_DAGPT)
+        {
+            LOG.info("Da GPT started on watch");
+            return true;
+        }
+
+        if (packetType == MoyoungConstants.CMD_FIND_MY_PHONE)
+        {
+            LOG.info("Find my phone started on watch");
+            return true;
+        }
+
+        LOG.warn("Unhandled packet " + Logging.formatBytes(new byte[]{packetType}) + ": " + Logging.formatBytes(payload));
         return false;
     }
 
@@ -421,6 +446,16 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
             .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
             .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+    }
+
+    private void broadcastSample(MoyoungHeartRateSample sample) {
+        MoyoungActivitySample genericSample = new MoyoungActivitySample();
+        genericSample.setTimestamp((int) (sample.getTimestamp() / 1000));
+        genericSample.setHeartRate(sample.getHeartRate());
+        Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, genericSample)
+                .putExtra(DeviceService.EXTRA_TIMESTAMP, genericSample.getTimestamp());
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
@@ -1452,8 +1487,8 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             packetWeatherToday.put(weatherToday.city.getBytes("unicodebigunmarked"));
             sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
 
-            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(7 * 3);
-            for(int i = 0; i < 7; i++)
+            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(6 * 3);
+            for(int i = 0; i < 6; i++)
             {
                 MoyoungWeatherForecast forecast;
                 if (weatherSpec.forecasts.size() > i)

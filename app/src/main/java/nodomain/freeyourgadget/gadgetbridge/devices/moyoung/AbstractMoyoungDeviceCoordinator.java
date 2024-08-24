@@ -106,6 +106,11 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
     }
 
     @Override
+    public boolean supportsSpo2(GBDevice device) {
+        return true;
+    }
+
+    @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new MoyoungActivitySampleProvider(device, session);
     }
@@ -185,7 +190,6 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-            R.xml.devicesettings_personalinfo,
             //R.xml.devicesettings_steplength, // TODO is this needed? does it work? write-only so hard to tell
             R.xml.devicesettings_moyoung_device_version,
             R.xml.devicesettings_moyoung_language,
@@ -195,8 +199,9 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
             //R.xml.devicesettings_moyoung_othermessage, // not implemented because this doesn't really do anything on the watch side, only enables/disables sending of "other" notifications in the app (no idea why they store the setting on the watch)
             R.xml.devicesettings_liftwrist_display,
             R.xml.devicesettings_moyoung_sedentary_reminder,
-            R.xml.devicesettings_donotdisturb_no_auto_v2,
+            R.xml.devicesettings_donotdisturb_no_auto,
             //R.xml.devicesettings_moyoung_breathinglight, // No idea what this does but it doesn't seem to change anything
+            R.xml.devicesettings_world_clocks,
         };
     }
 

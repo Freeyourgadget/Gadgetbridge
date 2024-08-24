@@ -7,10 +7,7 @@
         android:persistent="false"
         android:title="@string/pref_sedentary_reminder">
 
-        <!-- workaround for missing toolbar -->
-        <PreferenceCategory android:title="@string/pref_sedentary_reminder" />
-
-        <nodomain.freeyourgadget.gadgetbridge.util.XListPreference
+        <ListPreference
             android:defaultValue="@string/p_off"
             android:entries="@array/sedentary_reminder"
             android:entryValues="@array/sedentary_reminder_values"

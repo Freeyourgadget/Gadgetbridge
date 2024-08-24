@@ -2638,12 +2638,26 @@
         <item>Watch face 1</item>
         <item>Watch face 2</item>
         <item>Watch face 3</item>
+        <item>Watch face 4</item>
+        <item>Watch face 5</item>
+        <item>Watch face 6</item>
+        <item>Watch face 7</item>
+        <item>Watch face 8</item>
+        <item>Watch face 9</item>
+        <item>Watch face 10</item>
     </string-array>
 
     <string-array name="pref_moyoung_watch_face_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 
     <string-array name="pref_moyoung_device_version">

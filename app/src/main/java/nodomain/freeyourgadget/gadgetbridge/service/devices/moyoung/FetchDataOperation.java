@@ -185,7 +185,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
     private void updateProgressAndCheckFinish()
     {
         int count = 0;
-        int total = receivedSteps.length + receivedSleep.length + 1;
+        int total = receivedSteps.length + receivedSleep.length;
         for(int i = 0; i < receivedSteps.length; i++)
             if (receivedSteps[i])
                 ++count;
@@ -195,6 +195,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
         if (receivedTrainingData)
             ++count;
         GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, 100 * count / total, getContext());
+        LOG.debug("Fetching activity data status: {} out of {}", count, total);
         if (count == total)
             operationFinished();
     }

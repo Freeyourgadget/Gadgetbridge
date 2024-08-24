@@ -267,6 +267,8 @@ public class MoyoungConstants {
     public static final byte CMD_QUERY_BREATHING_LIGHT = -120;                      //     {} -> {value}
     public static final byte CMD_SET_BREATHING_LIGHT = 120;                         //     {enabled ? 1 : 0}
 
+    public static final byte CMD_QUERY_STOCKS = (byte) 0xb9;
+    public static final byte CMD_DAGPT = (byte) 0xbb;
 
     public static final byte TRAINING_TYPE_WALK = 0;
     public static final byte TRAINING_TYPE_RUN = 1;
