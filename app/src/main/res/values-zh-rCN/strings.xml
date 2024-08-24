@@ -3341,4 +3341,10 @@
     <string name="minutes_240">240 分钟</string>
     <string name="dateformat_month_day">月，日</string>
     <string name="prefs_light_duration_longer">光照时间更长</string>
+    <string name="devicetype_colmi_r06">Colmi R06</string>
+    <string name="smart_ring_measurement_error_unknown">从戒指收到未知测量错误 %d</string>
+    <string name="busy_task_fetch_sleep_data">正在获取睡眠数据</string>
+    <string name="devicetype_colmi_r02">Colmi R02</string>
+    <string name="devicetype_colmi_r03">Colmi R03</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">测量存在误差。戒指的传感器方向是否正确？</string>
 </resources>
