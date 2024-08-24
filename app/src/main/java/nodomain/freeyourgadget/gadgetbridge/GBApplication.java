@@ -68,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -122,7 +123,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 35;
+    private static final int CURRENT_PREFS_VERSION = 36;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1679,6 +1680,44 @@ public class GBApplication extends Application {
                 Log.w(TAG, "error acquiring DB lock");
             }
         }
+        if (oldVersion < 36) {
+            // Migrate Pebble preferences to device-specific
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
+                    if (deviceType == PEBBLE) {
+                        final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                        final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                        deviceSharedPrefsEdit.putBoolean("pebble_enable_outgoing_call", sharedPrefs.getBoolean("pebble_enable_outgoing_call", true));
+                        deviceSharedPrefsEdit.putString("pebble_pref_privacy_mode", sharedPrefs.getString("pebble_pref_privacy_mode", getString(R.string.p_pebble_privacy_mode_off)));
+                        deviceSharedPrefsEdit.putBoolean("send_sunrise_sunset", sharedPrefs.getBoolean("send_sunrise_sunset", false));
+                        deviceSharedPrefsEdit.putString("pebble_activitytracker", sharedPrefs.getString("pebble_activitytracker", String.valueOf(SampleProvider.PROVIDER_PEBBLE_HEALTH)));
+                        deviceSharedPrefsEdit.putBoolean("pebble_sync_health", sharedPrefs.getBoolean("pebble_sync_health", true));
+                        deviceSharedPrefsEdit.putBoolean("pebble_health_store_raw", sharedPrefs.getBoolean("pebble_health_store_raw", true));
+                        deviceSharedPrefsEdit.putBoolean("pebble_sync_misfit", sharedPrefs.getBoolean("pebble_sync_misfit", true));
+                        deviceSharedPrefsEdit.putBoolean("pebble_sync_morpheuz", sharedPrefs.getBoolean("pebble_sync_morpheuz", true));
+                        deviceSharedPrefsEdit.putBoolean("pebble_force_protocol", sharedPrefs.getBoolean("pebble_force_protocol", false));
+                        deviceSharedPrefsEdit.putBoolean("pebble_force_untested", sharedPrefs.getBoolean("pebble_force_untested", false));
+                        deviceSharedPrefsEdit.putBoolean("pebble_force_le", sharedPrefs.getBoolean("pebble_force_le", false));
+                        deviceSharedPrefsEdit.putString("pebble_mtu_limit", sharedPrefs.getString("pebble_mtu_limit", "512"));
+                        deviceSharedPrefsEdit.putBoolean("pebble_gatt_clientonly", sharedPrefs.getBoolean("pebble_gatt_clientonly", false));
+                        deviceSharedPrefsEdit.putBoolean("pebble_enable_applogs", sharedPrefs.getBoolean("pebble_enable_applogs", false));
+                        deviceSharedPrefsEdit.putBoolean("third_party_apps_set_settings", sharedPrefs.getBoolean("pebble_enable_pebblekit", false));
+                        deviceSharedPrefsEdit.putBoolean("pebble_always_ack_pebblekit", sharedPrefs.getBoolean("pebble_always_ack_pebblekit", false));
+                        deviceSharedPrefsEdit.putBoolean("pebble_enable_background_javascript", sharedPrefs.getBoolean("pebble_enable_background_javascript", false));
+
+                        deviceSharedPrefsEdit.apply();
+                    }
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
