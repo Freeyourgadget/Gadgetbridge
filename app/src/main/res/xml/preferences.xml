@@ -266,17 +266,6 @@
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/preferences_category_device_specific_settings"
-        app:iconSpaceReserved="false">
-
-        <Preference
-            android:icon="@drawable/ic_device_pebble"
-            android:key="pref_key_pebble"
-            android:title="@string/pref_title_pebble_settings">
-        </Preference>
-
-    </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/pref_header_auto_export"
