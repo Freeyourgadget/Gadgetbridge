@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -273,6 +275,15 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
         if (itemId == R.id.charts_fetch_activity_data) {
             fetchRecordedData();
             return true;
+        } else if (itemId == R.id.charts_set_date) {
+            final Calendar currentDate = Calendar.getInstance();
+            currentDate.setTime(getEndDate());
+            new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
+                currentDate.set(year, monthOfYear, dayOfMonth);
+                setEndDate(currentDate.getTime());
+                setStartDate(DateTimeUtils.shiftByDays(getEndDate(), -1));
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
+            }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
         } else if (itemId == R.id.prefs_charts_menu) {
             Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
             startActivityForResult(settingsIntent, REQUEST_CODE_PREFERENCES);
