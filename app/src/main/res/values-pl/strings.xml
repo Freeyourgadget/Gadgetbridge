@@ -1958,10 +1958,10 @@
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
     <string name="pref_chart_sleep_lines_limit">Ile wierszy sesji snu pokazać przed ich przewinięciem</string>
     <string name="supercars_lights_blinking_label">Mruganie</string>
-    <string name="hrZoneAnaerobic">Ćwiczenia beztlenowe</string>
+    <string name="hrZoneAnaerobic">Anaerobowa</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
     <string name="hrZoneNa">N/A</string>
-    <string name="hrZoneAerobic">Aerobik</string>
+    <string name="hrZoneAerobic">Aerobowa</string>
     <string name="sports_activity_confirm_delete_title">Usuń %d aktywności</string>
     <string name="sports_activity_confirm_delete_description">Czy na pewno chcesz usunąć %d aktywności\?</string>
     <string name="accuracy">Dokładność</string>
@@ -2022,7 +2022,7 @@
     <string name="activity_prefs_target_weight_kg">Docelowa waga [kg]</string>
     <string name="menuitem_wechat_pay">WeChat Pay</string>
     <string name="function_enabled">Włączono</string>
-    <string name="anaerobicTrainingEffect">Efekt beztlenowy</string>
+    <string name="anaerobicTrainingEffect">Efekt anerobowy</string>
     <string name="pref_title_touch_spotify_official_app">Spotify (wyłącznie oficjalna aplikacja)</string>
     <string name="sony_ambient_sound_control_button_mode_nc_as_off">Redukcja szumów, dźwięk otoczenia, wył</string>
     <string name="sony_ambient_sound_control_button_mode_nc_as">Redukcja szumów, dźwięk otoczenia</string>
@@ -2736,7 +2736,7 @@
     <string name="activity_type_physical_training">Trening fizyczny</string>
     <string name="activity_type_karate">Karate</string>
     <string name="activity_type_fitness_gaming">Gra fitness</string>
-    <string name="activity_type_aerobic_exercise">Aerobik</string>
+    <string name="activity_type_aerobic_exercise">Ćwiczenia aerobowe</string>
     <string name="activity_type_push_ups">Pompki</string>
     <string name="activity_type_pull_ups">Podciąganie się</string>
     <string name="activity_type_plank">Plank</string>
@@ -3160,4 +3160,18 @@
 \nJest to rekomendowane dla takich funkcji, jak znajdź urządzenie oraz oferuje lepsze połączenie.</string>
     <string name="state_scanned">Zeskanowano</string>
     <string name="pref_dashboard_widget_today_upside_down_summary">W trybie 24 godzinnym, rysuj północ na dole, a południe na górze wykresu</string>
+    <string name="garmin_agps_local_file">Plik lokalny</string>
+    <string name="folder">Folder</string>
+    <string name="no_folder_selected">Nie wybrano folderu</string>
+    <string name="insufficient_space_for_upload">Niewystarczające miejsce na przesył</string>
+    <string name="watchface_resolution_doesnt_match">Rozdzielczość tarczy jest niedopasowana do rozdzielczości ekranu urządzenia. Wymiary tarczy to %1$s, a ekranu urządzenia to %2$s</string>
+    <string name="min_val">Minimum: %d</string>
+    <string name="max_val">Maximum: %d</string>
+    <string name="unsupported">Niewspierane</string>
+    <string name="smart_ring_measurement_error_unknown">Otrzymano nieznany błąd pomiaru %d z pierścienia</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Nie można wysłać tarczy, zainstalowano zbyt wiele tarczy</string>
+    <string name="pref_summary_huawei_account">Konto Huawei używane w procesie parowania. Ustawienie go pozwala na parowanie bez przywracania do ustawień fabrycznych.</string>
+    <string name="pref_fetch_unknown_files_title">Pobieraj nieznane pliki</string>
+    <string name="pref_fetch_unknown_files_summary">Pobieraj dane o nieznanych aktywnościach z zegarka. Nie będą one przetwarzane, ale zostaną zapisane na telefonie.</string>
+    <string name="folder_is_empty">Folder jest pusty</string>
 </resources>
