@@ -26,11 +26,13 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.Collections;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumDeviceVersion;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumMetricSystem;
@@ -46,6 +48,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSett
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingUserInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungBloodPressureSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungHeartRateSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
@@ -76,7 +82,17 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-        // TODO: remove device specific data
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb;
+
+        qb = session.getMoyoungActivitySampleDao().queryBuilder();
+        qb.where(MoyoungActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        qb = session.getMoyoungHeartRateSampleDao().queryBuilder();
+        qb.where(MoyoungHeartRateSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        qb = session.getMoyoungSpo2SampleDao().queryBuilder();
+        qb.where(MoyoungSpo2SampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        qb = session.getMoyoungBloodPressureSampleDao().queryBuilder();
+        qb.where(MoyoungBloodPressureSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
@@ -91,7 +107,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new MoyoungSampleProvider(device, session);
+        return new MoyoungActivitySampleProvider(device, session);
     }
 
     @Override

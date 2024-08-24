@@ -59,9 +59,12 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.AbstractMoyoungDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungWeatherForecast;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungWeatherToday;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungBloodPressureSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungHeartRateSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumDeviceVersion;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumLanguage;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumTimeSystem;
@@ -73,6 +76,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungBloodPressureSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungHeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungSpo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -102,7 +108,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
-
     private static final Logger LOG = LoggerFactory.getLogger(MoyoungDeviceSupport.class);
     private static final long IDLE_STEPS_INTERVAL = 5 * 60 * 1000;
 
@@ -237,24 +242,22 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int heartRate = payload[0];
             Log.i("XXXXXXXX", "Measure heart rate finished: " + heartRate + " BPM");
 
-            MoyoungActivitySample sample = new MoyoungActivitySample();
-            sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                MoyoungHeartRateSampleProvider sampleProvider = new MoyoungHeartRateSampleProvider(getDevice(), dbHandler.getDaoSession());
+                Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
 
-            sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-            sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
+                MoyoungHeartRateSample sample = new MoyoungHeartRateSample();
+                sample.setTimestamp(System.currentTimeMillis());
+                sample.setHeartRate(heartRate);
+                sample.setDeviceId(deviceId);
+                sample.setUserId(userId);
 
-//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
-            sample.setSteps(ActivitySample.NOT_MEASURED);
-            sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
-            sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
-
-            sample.setHeartRate(heartRate);
-//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
-
-            addGBActivitySample(sample);
-            broadcastSample(sample);
+                sampleProvider.addSample(sample);
+//                broadcastSample(sample);
+            } catch (Exception e) {
+                LOG.error("Error acquiring database for recording heart rate samples", e);
+            }
 
             if (realTimeHeartRate)
                 onHeartRateTest();
@@ -266,24 +269,22 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int percent = payload[0];
             Log.i("XXXXXXXX", "Measure blood oxygen finished: " + percent + "%");
 
-            MoyoungActivitySample sample = new MoyoungActivitySample();
-            sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                MoyoungSpo2SampleProvider sampleProvider = new MoyoungSpo2SampleProvider(getDevice(), dbHandler.getDaoSession());
+                Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
 
-            sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-            sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
+                MoyoungSpo2Sample sample = new MoyoungSpo2Sample();
+                sample.setTimestamp(System.currentTimeMillis());
+                sample.setSpo2(percent);
+                sample.setDeviceId(deviceId);
+                sample.setUserId(userId);
 
-//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
-            sample.setSteps(ActivitySample.NOT_MEASURED);
-            sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
-            sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
-
-            sample.setHeartRate(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodOxidation(percent);
-
-            addGBActivitySample(sample);
-            broadcastSample(sample);
+                sampleProvider.addSample(sample);
+//                broadcastSample(sample);
+            } catch (Exception e) {
+                LOG.error("Error acquiring database for recording SpO2 samples", e);
+            }
 
             return true;
         }
@@ -294,25 +295,23 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             int data2 = payload[2];
             Log.i("XXXXXXXX", "Measure blood pressure finished: " + data1 + "/" + data2 + " (" + dataUnknown + ")");
 
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                MoyoungBloodPressureSampleProvider sampleProvider = new MoyoungBloodPressureSampleProvider(getDevice(), dbHandler.getDaoSession());
+                Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
 
-            MoyoungActivitySample sample = new MoyoungActivitySample();
-            sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+                MoyoungBloodPressureSample sample = new MoyoungBloodPressureSample();
+                sample.setTimestamp(System.currentTimeMillis());
+                sample.setBpSystolic(data1);
+                sample.setBpSystolic(data2);
+                sample.setDeviceId(deviceId);
+                sample.setUserId(userId);
 
-            sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-            sample.setDataSource(MoyoungSampleProvider.SOURCE_SINGLE_MEASURE);
-
-//            sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
-            sample.setSteps(ActivitySample.NOT_MEASURED);
-            sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
-            sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
-
-            sample.setHeartRate(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureSystolic(data1);
-//            sample.setBloodPressureDiastolic(data2);
-//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
-
-            addGBActivitySample(sample);
-            broadcastSample(sample);
+                sampleProvider.addSample(sample);
+//                broadcastSample(sample);
+            } catch (Exception e) {
+                LOG.error("Error acquiring database for recording blood pressure samples", e);
+            }
 
             return true;
         }
@@ -404,7 +403,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             User user = DBHelper.getUser(dbHandler.getDaoSession());
             Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-            MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+            MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
 
             for (MoyoungActivitySample sample : samples) {
                 sample.setDevice(device);
@@ -634,7 +633,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             User user = DBHelper.getUser(dbHandler.getDaoSession());
             Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-            MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+            MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
 
             int currentSampleTimestamp = (int)(Calendar.getInstance().getTimeInMillis() / 1000);
 
@@ -644,21 +643,17 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sample.setProvider(provider);
             sample.setTimestamp(currentSampleTimestamp);
 
-            sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-            sample.setDataSource(MoyoungSampleProvider.SOURCE_STEPS_IDLE);
+            sample.setRawKind(MoyoungActivitySampleProvider.ACTIVITY_NOT_MEASURED);
+            sample.setDataSource(MoyoungActivitySampleProvider.SOURCE_STEPS_IDLE);
 
-//            sample.setBatteryLevel(batteryCmd.level);
             sample.setSteps(0);
             sample.setDistanceMeters(0);
             sample.setCaloriesBurnt(0);
 
             sample.setHeartRate(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//            sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
-            provider.addGBActivitySample(sample);
-            broadcastSample(sample);
+//            provider.addGBActivitySample(sample);
+//            broadcastSample(sample);
 
             LOG.info("Adding an idle sample: " + sample.toString());
         } catch (Exception ex) {
@@ -687,7 +682,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             User user = DBHelper.getUser(dbHandler.getDaoSession());
             Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-            MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+            MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
 
             Calendar thisSample = Calendar.getInstance();
             if (daysAgo != 0)
@@ -741,18 +736,11 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setProvider(provider);
                 sample.setTimestamp(thisSampleTimestamp);
 
-                sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED);
-                sample.setDataSource(daysAgo == 0 ? MoyoungSampleProvider.SOURCE_STEPS_REALTIME : MoyoungSampleProvider.SOURCE_STEPS_SUMMARY);
-
-//                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
+//                sample.setRawKind(MoyoungActivitySampleProvider.ACTIVITY_NOT_MEASURED);
+                sample.setDataSource(daysAgo == 0 ? MoyoungActivitySampleProvider.SOURCE_STEPS_REALTIME : MoyoungActivitySampleProvider.SOURCE_STEPS_SUMMARY);
                 sample.setSteps(newSteps);
                 sample.setDistanceMeters(newDistance);
                 sample.setCaloriesBurnt(newCalories);
-
-                sample.setHeartRate(ActivitySample.NOT_MEASURED);
-//                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
                 provider.addGBActivitySample(sample);
                 if (isRealtime)
@@ -776,7 +764,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (data.length % 3 != 0)
             throw new IllegalArgumentException();
 
-        int prevActivityType = MoyoungSampleProvider.ACTIVITY_SLEEP_START;
+        int prevActivityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_START;
         int prevSampleTimestamp = -1;
 
         for(int i = 0; i < data.length / 3; i++)
@@ -816,7 +804,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 User user = DBHelper.getUser(dbHandler.getDaoSession());
                 Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-                MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+                MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
 
                 Calendar thisSample = Calendar.getInstance();
                 thisSample.add(Calendar.HOUR_OF_DAY, 4); // the clock assumes the sleep day changes at 20:00, so move the time forward to make the day correct
@@ -831,11 +819,11 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
                 int activityType;
                 if (type == MoyoungConstants.SLEEP_SOBER)
-                    activityType = MoyoungSampleProvider.ACTIVITY_SLEEP_END;
+                    activityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_END;
                 else if (type == MoyoungConstants.SLEEP_LIGHT)
-                    activityType = MoyoungSampleProvider.ACTIVITY_SLEEP_LIGHT;
+                    activityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_LIGHT;
                 else if (type == MoyoungConstants.SLEEP_RESTFUL)
-                    activityType = MoyoungSampleProvider.ACTIVITY_SLEEP_RESTFUL;
+                    activityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_RESTFUL;
                 else
                     throw new IllegalArgumentException("Invalid sleep type");
 
@@ -847,7 +835,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 prevSegmentSample.setTimestamp(thisSampleTimestamp - 1);
 
                 prevSegmentSample.setRawKind(prevActivityType);
-                prevSegmentSample.setDataSource(MoyoungSampleProvider.SOURCE_SLEEP_SUMMARY);
+                prevSegmentSample.setDataSource(MoyoungActivitySampleProvider.SOURCE_SLEEP_SUMMARY);
 
 //                prevSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 prevSegmentSample.setSteps(ActivitySample.NOT_MEASURED);
@@ -859,7 +847,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                prevSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
 //                prevSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
-                addGBActivitySampleIfNotExists(provider, prevSegmentSample);
+//                addGBActivitySampleIfNotExists(provider, prevSegmentSample);
 
                 // Insert the start of new segment sample
                 MoyoungActivitySample nextSegmentSample = new MoyoungActivitySample();
@@ -869,7 +857,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 nextSegmentSample.setTimestamp(thisSampleTimestamp);
 
                 nextSegmentSample.setRawKind(activityType);
-                nextSegmentSample.setDataSource(MoyoungSampleProvider.SOURCE_SLEEP_SUMMARY);
+                nextSegmentSample.setDataSource(MoyoungActivitySampleProvider.SOURCE_SLEEP_SUMMARY);
 
 //                nextSegmentSample.setBatteryLevel(ActivitySample.NOT_MEASURED);
                 nextSegmentSample.setSteps(ActivitySample.NOT_MEASURED);
@@ -881,15 +869,15 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                nextSegmentSample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
 //                nextSegmentSample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
-                addGBActivitySampleIfNotExists(provider, nextSegmentSample);
+//                addGBActivitySampleIfNotExists(provider, nextSegmentSample);
 
                 // Set the activity type on all samples in this time period
-                if (prevActivityType != MoyoungSampleProvider.ACTIVITY_SLEEP_START)
-                    provider.updateActivityInRange(prevSampleTimestamp, thisSampleTimestamp, prevActivityType);
+                if (prevActivityType != MoyoungActivitySampleProvider.ACTIVITY_SLEEP_START)
+//                    provider.updateActivityInRange(prevSampleTimestamp, thisSampleTimestamp, prevActivityType);
 
                 prevActivityType = activityType;
-                if (prevActivityType == MoyoungSampleProvider.ACTIVITY_SLEEP_END)
-                    prevActivityType = MoyoungSampleProvider.ACTIVITY_SLEEP_START;
+                if (prevActivityType == MoyoungActivitySampleProvider.ACTIVITY_SLEEP_END)
+                    prevActivityType = MoyoungActivitySampleProvider.ACTIVITY_SLEEP_START;
                 prevSampleTimestamp = thisSampleTimestamp;
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -930,7 +918,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 User user = DBHelper.getUser(dbHandler.getDaoSession());
                 Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-                MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+                MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
                 BaseActivitySummaryDao summaryDao = provider.getSession().getBaseActivitySummaryDao();
 
                 QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
@@ -952,21 +940,21 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
                     ActivityKind gbType = provider.normalizeType(type);
                     String name;
-                    if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_ROPE)
+                    if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_ROPE)
                         name = "Rope";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_BADMINTON)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_BADMINTON)
                         name = "Badminton";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_BASKETBALL)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_BASKETBALL)
                         name = "Basketball";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_FOOTBALL)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_FOOTBALL)
                         name = "Football";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_MOUNTAINEERING)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_MOUNTAINEERING)
                         name = "Mountaineering";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_TENNIS)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_TENNIS)
                         name = "Tennis";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_RUGBY)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_RUGBY)
                         name = "Rugby";
-                    else if (type == MoyoungSampleProvider.ACTIVITY_TRAINING_GOLF)
+                    else if (type == MoyoungActivitySampleProvider.ACTIVITY_TRAINING_GOLF)
                         name = "Golf";
                     else
                         name = gbType.name();
@@ -989,7 +977,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void addGBActivitySampleIfNotExists(MoyoungSampleProvider provider, MoyoungActivitySample sample)
+    private void addGBActivitySampleIfNotExists(MoyoungActivitySampleProvider provider, MoyoungActivitySample sample)
     {
         boolean alreadyHaveThisSample = false;
         for (MoyoungActivitySample sample2 : provider.getAllActivitySamples(sample.getTimestamp() - 1, sample.getTimestamp() + 1))

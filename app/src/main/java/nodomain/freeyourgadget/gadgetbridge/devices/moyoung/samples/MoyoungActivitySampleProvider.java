@@ -14,14 +14,20 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.moyoung;
+package nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -29,15 +35,19 @@ import de.greenrobot.dao.internal.SqlUtils;
 import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungHeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-public class MoyoungSampleProvider extends AbstractSampleProvider<MoyoungActivitySample> {
+public class MoyoungActivitySampleProvider extends AbstractSampleProvider<MoyoungActivitySample> {
+    private static final Logger LOG = LoggerFactory.getLogger(MoyoungActivitySampleProvider.class);
+
     public static final int SOURCE_NOT_MEASURED = -1;
     public static final int SOURCE_STEPS_REALTIME = 1;     // steps gathered at realtime from the steps characteristic
     public static final int SOURCE_STEPS_SUMMARY = 2;      // steps gathered from the daily summary
@@ -65,7 +75,7 @@ public class MoyoungSampleProvider extends AbstractSampleProvider<MoyoungActivit
     public static final int ACTIVITY_SLEEP_START = 18;
     public static final int ACTIVITY_SLEEP_END = 19;
 
-    public MoyoungSampleProvider(GBDevice device, DaoSession session) {
+    public MoyoungActivitySampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 
@@ -144,6 +154,66 @@ public class MoyoungSampleProvider extends AbstractSampleProvider<MoyoungActivit
             return Float.NEGATIVE_INFINITY;
         else
             return rawIntensity;
+    }
+
+    @Override
+    protected List<MoyoungActivitySample> getGBActivitySamples(final int timestamp_from, final int timestamp_to) {
+        LOG.trace(
+                "Getting Moyoung activity samples between {} and {}",
+                timestamp_from,
+                timestamp_to
+        );
+        final long nanoStart = System.nanoTime();
+
+        final List<MoyoungActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
+        final Map<Integer, MoyoungActivitySample> sampleByTs = new HashMap<>();
+        for (final MoyoungActivitySample sample : samples) {
+            sampleByTs.put(sample.getTimestamp(), sample);
+        }
+
+        overlayHeartRate(sampleByTs, timestamp_from, timestamp_to);
+//        overlaySleep(sampleByTs, timestamp_from, timestamp_to);
+
+        // Add empty dummy samples every 5 min to make sure the charts and stats aren't too malformed
+        // This is necessary due to the Colmi rings just reporting steps/calories/distance aggregates per hour
+//        for (int i=timestamp_from; i<=timestamp_to; i+=300) {
+//            MoyoungActivitySample sample = sampleByTs.get(i);
+//            if (sample == null) {
+//                sample = new MoyoungActivitySample();
+//                sample.setTimestamp(i);
+//                sample.setProvider(this);
+//                sample.setRawKind(ActivitySample.NOT_MEASURED);
+//                sampleByTs.put(i, sample);
+//            }
+//        }
+
+        final List<MoyoungActivitySample> finalSamples = new ArrayList<>(sampleByTs.values());
+        Collections.sort(finalSamples, (a, b) -> Integer.compare(a.getTimestamp(), b.getTimestamp()));
+
+        final long nanoEnd = System.nanoTime();
+        final long executionTime = (nanoEnd - nanoStart) / 1000000;
+        LOG.trace("Getting Moyoung samples took {}ms", executionTime);
+
+        return finalSamples;
+    }
+
+    private void overlayHeartRate(final Map<Integer, MoyoungActivitySample> sampleByTs, final int timestamp_from, final int timestamp_to) {
+        final MoyoungHeartRateSampleProvider heartRateSampleProvider = new MoyoungHeartRateSampleProvider(getDevice(), getSession());
+        final List<MoyoungHeartRateSample> hrSamples = heartRateSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
+
+        for (final MoyoungHeartRateSample hrSample : hrSamples) {
+            // round to the nearest minute, we don't need per-second granularity
+            final int tsSeconds = (int) ((hrSample.getTimestamp() / 1000) / 60) * 60;
+            MoyoungActivitySample sample = sampleByTs.get(tsSeconds);
+            if (sample == null) {
+                sample = new MoyoungActivitySample();
+                sample.setTimestamp(tsSeconds);
+                sample.setProvider(this);
+                sampleByTs.put(tsSeconds, sample);
+            }
+
+            sample.setHeartRate(hrSample.getHeartRate());
+        }
     }
 
     /**

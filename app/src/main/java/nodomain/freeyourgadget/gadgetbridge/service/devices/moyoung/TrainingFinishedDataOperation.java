@@ -38,9 +38,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungHeartRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungHeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
@@ -163,7 +163,7 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
             User user = DBHelper.getUser(dbHandler.getDaoSession());
             Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
 
-            MoyoungSampleProvider provider = new MoyoungSampleProvider(getDevice(), dbHandler.getDaoSession());
+            MoyoungHeartRateSampleProvider provider = new MoyoungHeartRateSampleProvider(getDevice(), dbHandler.getDaoSession());
 
             Log.i("START DATE", dateRecorded.getTime().toString());
             while (dataBuffer.hasRemaining())
@@ -174,26 +174,13 @@ public class TrainingFinishedDataOperation extends AbstractBTLEOperation<Moyoung
 
                 Log.i("MEASUREMENT", "at " + dateRecorded.getTime().toString() + " was " + measurement);
 
-                MoyoungActivitySample sample = new MoyoungActivitySample();
+                MoyoungHeartRateSample sample = new MoyoungHeartRateSample();
                 sample.setDevice(device);
                 sample.setUser(user);
-                sample.setProvider(provider);
                 sample.setTimestamp((int)(dateRecorded.getTimeInMillis() / 1000));
-
-                sample.setRawKind(MoyoungSampleProvider.ACTIVITY_NOT_MEASURED); // Training type will be taken later from CMD_QUERY_MOVEMENT_HEART_RATE (it's not present in the main data packet)
-                sample.setDataSource(MoyoungSampleProvider.SOURCE_TRAINING_HEARTRATE);
-
-//                sample.setBatteryLevel(ActivitySample.NOT_MEASURED);
-                sample.setSteps(ActivitySample.NOT_MEASURED);
-                sample.setDistanceMeters(ActivitySample.NOT_MEASURED);
-                sample.setCaloriesBurnt(ActivitySample.NOT_MEASURED);
-
                 sample.setHeartRate(measurement != 0 ? measurement : ActivitySample.NOT_MEASURED);
-//                sample.setBloodPressureSystolic(ActivitySample.NOT_MEASURED);
-//                sample.setBloodPressureDiastolic(ActivitySample.NOT_MEASURED);
-//                sample.setBloodOxidation(ActivitySample.NOT_MEASURED);
 
-                provider.addGBActivitySample(sample);
+                provider.addSample(sample);
                 LOG.info("Adding a training sample: " + sample.toString());
 
                 dateRecorded.add(Calendar.MINUTE, 1);
