@@ -1886,6 +1886,7 @@
     <string name="menuitem_events">Events</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_temperature">Temperature</string>
+    <string name="menuitem_weight">Weight</string>
     <string name="menuitem_barometer">Barometer</string>
     <string name="menuitem_flashlight">Flashlight</string>
     <string name='menuitem_email'>E-mail</string>
@@ -2491,6 +2492,9 @@
     <string name="stress_high">High</string>
     <string name="pai_total">Total</string>
     <string name="pai_day">Day increase</string>
+    <string name="weight_kg">%1$.2f kg</string>
+    <string name="weight_lbs">%1$.2f lbs</string>
+    <string name="target">Target</string>
     <string name="sony_ambient_sound">Mode</string>
     <string name="sony_ambient_sound_off">Off</string>
     <string name="sony_ambient_sound_noise_cancelling">Noise Cancelling</string>

@@ -3041,6 +3041,7 @@
         <item>@string/liveactivity_live_activity</item>
         <item>@string/pref_header_spo2</item>
         <item>@string/menuitem_temperature</item>
+        <item>@string/menuitem_weight</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_values">
@@ -3056,6 +3057,7 @@
         <item>@string/p_live_stats</item>
         <item>@string/p_spo2</item>
         <item>@string/p_temperature</item>
+        <item>@string/p_weight</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">
@@ -3072,6 +3074,7 @@
         <item>@string/p_live_stats</item>
         <item>@string/p_spo2</item>
         <item>@string/p_temperature</item>
+        <item>@string/p_weight</item>
     </string-array>
 
 

@@ -112,6 +112,7 @@
     <item name="p_live_stats" type="string">livestats</item>
     <item name="p_spo2" type="string">spo2</item>
     <item name="p_temperature" type="string">temperature</item>
+    <item name="p_weight" type="string">weight</item>
 
     <item name="p_message_privacy_mode_off" type="string">off</item>
     <item name="p_message_privacy_mode_complete" type="string">complete</item>

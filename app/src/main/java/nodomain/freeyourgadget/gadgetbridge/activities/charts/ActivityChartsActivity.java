@@ -110,6 +110,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if(!coordinator.supportsCyclingData()) {
             tabList.remove("cycling");
         }
+        if (!coordinator.supportsWeightMeasurement()) {
+            tabList.remove("weight");
+        }
         if (!coordinator.supportsHrvMeasurement()) {
             tabList.remove("hrvstatus");
         }
@@ -163,6 +166,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new TemperatureChartFragment();
                 case "cycling":
                     return new CyclingChartFragment();
+                case "weight":
+                    return new WeightChartFragment();
             }
             return null;
         }
@@ -209,6 +214,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.menuitem_temperature);
                 case "cycling":
                     return getString(R.string.title_cycling);
+                case "weight":
+                    return getString(R.string.menuitem_weight);
             }
             return super.getPageTitle(position);
         }
