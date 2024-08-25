@@ -1310,6 +1310,7 @@
     <string name="activity_type_not_measured">Not measured</string>
     <string name="activity_type_activity">Activity</string>
     <string name="activity_type_light_sleep">Light sleep</string>
+    <string name="activity_type_rem_sleep">REM sleep</string>
     <string name="activity_type_deep_sleep">Deep sleep</string>
     <string name="activity_type_not_worn">Device not worn</string>
     <string name="activity_type_running">Running</string>

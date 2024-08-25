@@ -135,7 +135,7 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         final long deepSleepDuration = calculateDeepSleepDuration(sleepSessions);
         final long remSleepDuration = calculateRemSleepDuration(sleepSessions);
         final long awakeSleepDuration = calculateAwakeSleepDuration(sleepSessions);
-        final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration + awakeSleepDuration;
+        final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration;
 
         final List<PieEntry> entries = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
@@ -151,9 +151,10 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
                 colors.add(getColorFor(ActivityKind.REM_SLEEP));
             }
 
-            entries.add(new PieEntry(awakeSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep)));
-            colors.add(getColorFor(ActivityKind.AWAKE_SLEEP));
-
+            if (supportsAwakeSleep(mGBDevice)) {
+                entries.add(new PieEntry(awakeSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep)));
+                colors.add(getColorFor(ActivityKind.AWAKE_SLEEP));
+            }
         } else {
             entries.add(new PieEntry(1));
             colors.add(getResources().getColor(R.color.gauge_line_color));
@@ -234,6 +235,9 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         }
         if (!supportsRemSleep(getChartsHost().getDevice())) {
             remSleepTimeTextWrapper.setVisibility(View.GONE);
+        }
+        if (!supportsAwakeSleep(getChartsHost().getDevice())) {
+            awakeSleepTimeTextWrapper.setVisibility(View.GONE);
         }
         mSleepAmountChart.setCenterTextSize(18f);
         mSleepAmountChart.setHoleColor(getContext().getResources().getColor(R.color.transparent));
@@ -455,22 +459,29 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
 
     @Override
     protected void setupLegend(Chart<?> chart) {
-        List<LegendEntry> legendEntries = new ArrayList<>(3);
+        List<LegendEntry> legendEntries = new ArrayList<>(4);
         LegendEntry lightSleepEntry = new LegendEntry();
-        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_light);
         lightSleepEntry.formColor = akLightSleep.color;
         legendEntries.add(lightSleepEntry);
 
         LegendEntry deepSleepEntry = new LegendEntry();
-        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_deep);
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
 
         if (supportsRemSleep(getChartsHost().getDevice())) {
             LegendEntry remSleepEntry = new LegendEntry();
-            remSleepEntry.label = akRemSleep.label;
+            remSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_rem);
             remSleepEntry.formColor = akRemSleep.color;
             legendEntries.add(remSleepEntry);
+        }
+
+        if (supportsAwakeSleep(getChartsHost().getDevice())) {
+            LegendEntry awakeSleepEntry = new LegendEntry();
+            awakeSleepEntry.label = getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep);
+            awakeSleepEntry.formColor = akAwakeSleep.color;
+            legendEntries.add(awakeSleepEntry);
         }
 
         if (supportsHeartrate(getChartsHost().getDevice())) {

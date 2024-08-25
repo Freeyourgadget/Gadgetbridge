@@ -62,6 +62,11 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         return coordinator != null && coordinator.supportsRemSleep();
     }
 
+    public boolean supportsAwakeSleep(GBDevice device) {
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
+        return coordinator != null && coordinator.supportsAwakeSleep();
+    }
+
     protected static final class ActivityConfig {
         public final ActivityKind type;
         public final String label;
@@ -196,6 +201,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             List<Entry> deepSleepEntries = new ArrayList<>(numEntries);
             List<Entry> lightSleepEntries = new ArrayList<>(numEntries);
             List<Entry> remSleepEntries = new ArrayList<>(numEntries);
+            List<Entry> awakeSleepEntries = new ArrayList<>(numEntries);
             List<Entry> notWornEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
@@ -233,6 +239,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             remSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
+                            awakeSleepEntries.add(createLineEntry(0, ts));
                         }
                         deepSleepEntries.add(createLineEntry(value + Y_VALUE_DEEP_SLEEP, ts));
                         break;
@@ -244,6 +251,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             remSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
+                            awakeSleepEntries.add(createLineEntry(0, ts));
                         }
                         lightSleepEntries.add(createLineEntry(value, ts));
                         break;
@@ -255,8 +263,21 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             deepSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
+                            awakeSleepEntries.add(createLineEntry(0, ts));
                         }
                         remSleepEntries.add(createLineEntry(value, ts));
+                        break;
+                    case AWAKE_SLEEP:
+                        if (last_type != type) {
+                            awakeSleepEntries.add(createLineEntry(0, ts - 1));
+
+                            lightSleepEntries.add(createLineEntry(0, ts));
+                            deepSleepEntries.add(createLineEntry(0, ts));
+                            notWornEntries.add(createLineEntry(0, ts));
+                            activityEntries.add(createLineEntry(0, ts));
+                            remSleepEntries.add(createLineEntry(0, ts));
+                        }
+                        awakeSleepEntries.add(createLineEntry(value, ts));
                         break;
                     case NOT_WORN:
                         if (last_type != type) {
@@ -266,6 +287,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                             deepSleepEntries.add(createLineEntry(0, ts));
                             remSleepEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
+                            awakeSleepEntries.add(createLineEntry(0, ts));
                         }
                         notWornEntries.add(createLineEntry(Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
                         break;
@@ -334,6 +356,10 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             if (supportsRemSleep(gbDevice)) {
                 LineDataSet remSleepSet = createDataSet(remSleepEntries, akRemSleep.color, "REM Sleep");
                 lineDataSets.add(remSleepSet);
+            }
+            if (supportsAwakeSleep(gbDevice)) {
+                LineDataSet awakeSleepSet = createDataSet(awakeSleepEntries, akAwakeSleep.color, "Awake Sleep");
+                lineDataSets.add(awakeSleepSet);
             }
             LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, "Not worn");
             lineDataSets.add(notWornSet);

@@ -231,6 +231,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAwakeSleep() {
+        return true;
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return true;
     }

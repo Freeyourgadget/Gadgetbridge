@@ -94,7 +94,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
             deepWeeklyTotal += (long) totalAmounts[0];
             lightWeeklyTotal += (long) totalAmounts[1];
             remWeeklyTotal += (long) totalAmounts[2];
-            awakeWeeklyTotal += (long) totalAmounts[3];
+
+            if (supportsAwakeSleep(getChartsHost().getDevice())) {
+                awakeWeeklyTotal += (long) totalAmounts[3];
+            }
+
             day.add(Calendar.DATE, 1);
         }
 
@@ -128,21 +132,25 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return rootView;
     }
 
-    @Override
-    protected void updateChartsnUIThread(MyChartsData mcd) {
-        setupLegend(mWeekChart);
-
+    protected void setupWeekChart() {
+        super.setupWeekChart();
         if (TOTAL_DAYS > 7) {
             mWeekChart.setRenderer(new AngledLabelsChartRenderer(mWeekChart, mWeekChart.getAnimator(), mWeekChart.getViewPortHandler()));
         } else {
             mWeekChart.setScaleEnabled(false);
             mWeekChart.setTouchEnabled(false);
         }
+    }
+
+    @Override
+    protected void updateChartsnUIThread(MyChartsData mcd) {
+        setupLegend(mWeekChart);
 
         mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
         mWeekChart.getBarData().setValueTextSize(10f);
+        mWeekChart.getBarData().setValueFormatter(new BarChartStackedTimeValueFormatter(false, "", 0));
 
         if (TOTAL_DAYS_FOR_AVERAGE > 0) {
             float avgDeep = Math.abs(this.mySleepWeeklyData.getTotalDeep() / TOTAL_DAYS_FOR_AVERAGE);
@@ -162,6 +170,10 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
         if (!supportsRemSleep(getChartsHost().getDevice())) {
             remSleepTimeTextWrapper.setVisibility(View.GONE);
+        }
+
+        if (!supportsAwakeSleep(getChartsHost().getDevice())) {
+            awakeSleepTimeTextWrapper.setVisibility(View.GONE);
         }
 
         Date to = new Date((long) this.getTSEnd() * 1000);
@@ -260,7 +272,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
         int totalMinutesRemSleep = (int) (totalSecondsRemSleep / 60);
         int totalMinutesAwakeSleep = (int) (totalSecondsAwakeSleep / 60);
-        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep, totalMinutesAwakeSleep};
+
+        float[] activityAmountsTotals =  {totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
+        if (supportsAwakeSleep(getChartsHost().getDevice())) {
+            activityAmountsTotals = ArrayUtils.add(activityAmountsTotals, totalMinutesAwakeSleep);
+        }
+
+        return activityAmountsTotals;
     }
 
     @Override
@@ -276,6 +294,9 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         };
         if (supportsRemSleep(getChartsHost().getDevice())) {
             labels = ArrayUtils.add(labels,  getString(R.string.abstract_chart_fragment_kind_rem_sleep));
+        }
+        if (supportsAwakeSleep(getChartsHost().getDevice())) {
+            labels = ArrayUtils.add(labels,  getString(R.string.abstract_chart_fragment_kind_awake_sleep));
         }
         return labels;
     }
@@ -316,6 +337,9 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         if (supportsRemSleep(getChartsHost().getDevice())) {
             colors = ArrayUtils.add(colors, akRemSleep.color);
         }
+        if (supportsAwakeSleep(getChartsHost().getDevice())) {
+            colors = ArrayUtils.add(colors, akAwakeSleep.color);
+        }
         return colors;
     }
 
@@ -324,20 +348,27 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         List<LegendEntry> legendEntries = new ArrayList<>(2);
 
         LegendEntry lightSleepEntry = new LegendEntry();
-        lightSleepEntry.label = akLightSleep.label;
+        lightSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_light);
         lightSleepEntry.formColor = akLightSleep.color;
         legendEntries.add(lightSleepEntry);
 
         LegendEntry deepSleepEntry = new LegendEntry();
-        deepSleepEntry.label = akDeepSleep.label;
+        deepSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_deep);
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
 
         if (supportsRemSleep(getChartsHost().getDevice())) {
             LegendEntry remSleepEntry = new LegendEntry();
-            remSleepEntry.label = akRemSleep.label;
+            remSleepEntry.label = getActivity().getString(R.string.sleep_colored_stats_rem);
             remSleepEntry.formColor = akRemSleep.color;
             legendEntries.add(remSleepEntry);
+        }
+
+        if (supportsAwakeSleep(getChartsHost().getDevice())) {
+            LegendEntry awakeSleepEntry = new LegendEntry();
+            awakeSleepEntry.label = getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep);
+            awakeSleepEntry.formColor = akAwakeSleep.color;
+            legendEntries.add(awakeSleepEntry);
         }
 
         chart.getLegend().setCustom(legendEntries);

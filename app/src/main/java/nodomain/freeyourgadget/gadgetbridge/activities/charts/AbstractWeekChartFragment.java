@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -221,6 +222,12 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         mLocale = getResources().getConfiguration().locale;
 
         View rootView = inflater.inflate(R.layout.fragment_weeksteps_chart, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rootView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                getChartsHost().enableSwipeRefresh(scrollY == 0);
+            });
+        }
 
         final int goal = getGoal();
         if (goal >= 0) {

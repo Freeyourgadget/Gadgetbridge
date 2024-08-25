@@ -551,6 +551,11 @@ public interface DeviceCoordinator {
     boolean supportsRemSleep();
 
     /**
+     * Indicates whether the device supports Awake sleep tracking.
+     */
+    boolean supportsAwakeSleep();
+
+    /**
      * Indicates whether the device supports current weather and/or weather
      * forecast display.
      */

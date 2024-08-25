@@ -115,7 +115,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         l_deep_sleep.setSpan(new ForegroundColorSpan(color_deep_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableString l_light_sleep = new SpannableString("■ " + getString(R.string.activity_type_light_sleep));
         l_light_sleep.setSpan(new ForegroundColorSpan(color_light_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_rem_sleep = new SpannableString("■ " + getString(R.string.abstract_chart_fragment_kind_rem_sleep));
+        SpannableString l_rem_sleep = new SpannableString("■ " + getString(R.string.activity_type_rem_sleep));
         l_rem_sleep.setSpan(new ForegroundColorSpan(color_rem_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableStringBuilder legendBuilder = new SpannableStringBuilder();
         legend.setText(legendBuilder.append(l_not_worn).append(" ").append(l_worn).append("\n").append(l_activity).append(" ").append(l_exercise).append("\n").append(l_light_sleep).append(" ").append(l_deep_sleep).append(" ").append(l_rem_sleep));
