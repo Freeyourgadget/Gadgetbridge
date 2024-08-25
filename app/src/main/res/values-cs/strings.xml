@@ -3348,4 +3348,5 @@
     <string name="smart_ring_measurement_error_worn_incorrectly">Chyba měření. Jsou senzory prstenu správně orientovány?</string>
     <string name="smart_ring_measurement_error_unknown">Neznámá chyba měření %d získaná z prstenu</string>
     <string name="stress_average">Průměr</string>
+    <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
 </resources>
