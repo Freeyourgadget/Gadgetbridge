@@ -3361,4 +3361,5 @@
     <string name="prefs_light_duration_longer">Daha uzun ışık süresi</string>
     <string name="pref_app_connection_duration">Uygulama bağlantı süresi</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Ölçüm hatası. Yüzüğün sensörleri doğru konumlandırıldı mı?</string>
+    <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
 </resources>
