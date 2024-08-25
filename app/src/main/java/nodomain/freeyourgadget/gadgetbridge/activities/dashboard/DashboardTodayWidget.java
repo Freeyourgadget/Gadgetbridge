@@ -267,6 +267,10 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_deep_sleep);
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                } else if (activity.activityKind == ActivityKind.AWAKE_SLEEP) {
+                        paint.setStrokeWidth(barWidth);
+                        paint.setColor(color_awake_sleep);
+                        canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.EXERCISE) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_exercise);

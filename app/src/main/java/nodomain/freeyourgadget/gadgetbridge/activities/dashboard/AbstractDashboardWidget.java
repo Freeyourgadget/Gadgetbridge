@@ -45,6 +45,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
     protected @ColorInt int color_deep_sleep = Color.rgb(0, 84, 163);
     protected @ColorInt int color_light_sleep = Color.rgb(7, 158, 243);
     protected @ColorInt int color_rem_sleep = Color.rgb(228, 39, 199);
+    protected @ColorInt int color_awake_sleep = Color.rgb(0xff, 0x86, 0x6e);
     protected @ColorInt int color_distance = Color.BLUE;
     protected @ColorInt int color_active_time = Color.rgb(170, 0, 255);
 
