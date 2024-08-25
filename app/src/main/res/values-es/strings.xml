@@ -3351,4 +3351,7 @@
     <string name="smart_ring_measurement_error_unknown">Error de medición desconocido del anillo: %d</string>
     <string name="busy_task_fetch_sleep_data">Obteniendo datos del sueño</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Error de medición. ¿Están orientados correctamente los sensores del anillo?</string>
+    <string name="stress_average">Promedio</string>
+    <string name="devicetype_mijia_xmwsdj04">Sensor de temperatura y humedad Mijia 2 (tinta electrónica)</string>
+    <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
 </resources>
