@@ -3354,4 +3354,8 @@
     <string name="stress_average">Promedio</string>
     <string name="devicetype_mijia_xmwsdj04">Sensor de temperatura y humedad Mijia 2 (tinta electrónica)</string>
     <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
+    <string name="weight_kg">%1$.2f kg</string>
+    <string name="weight_lbs">%1$.2f lbs</string>
+    <string name="target">Objetivo</string>
+    <string name="menuitem_weight">Peso</string>
 </resources>
