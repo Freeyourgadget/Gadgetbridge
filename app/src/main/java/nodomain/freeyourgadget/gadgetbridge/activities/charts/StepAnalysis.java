@@ -67,8 +67,13 @@ public class StepAnalysis {
                 totalDailySteps += steps;
             }
 
-            if (!ActivityKind.isSleep(sample.getKind()) //anything but sleep counts
-                    && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
+            /*
+             * FIXME This should only consider non-sleep samples. However, this always had the wrong
+             *  check for that, so it processed everything. In #3977, that was corrected, which
+             *  introduces a regression for some devices such as the Amazfit Bip. Processing everything
+             *  seems to work, but this logic needs to be reviewed.
+             */
+            if (!(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
 
                 if (sessionStart == null) {
                     sessionStart = getDateFromSample(sample);
