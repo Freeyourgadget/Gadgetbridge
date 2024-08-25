@@ -3140,7 +3140,7 @@
     <string name="hrv_status_last_night_highest_5">Anoche, media máxima de 5 minutos</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
     <string name="devicetype_garmin_fenix_5_plus">Garmin Fenix 5 Plus</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">Interrupción del descanso</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Despierto</string>
     <string name="gps_glonass">GPS + GLONASS</string>
     <string name="minutes_20">20 minutos</string>
     <string name="devicetype_soundcore_motion300">Soundcore Motion 300</string>
@@ -3359,4 +3359,5 @@
     <string name="target">Objetivo</string>
     <string name="menuitem_weight">Peso</string>
     <string name="activity_type_rem_sleep">Sueño REM</string>
+    <string name="sleep_colored_stats_awake_avg">Promedio despierto</string>
 </resources>
