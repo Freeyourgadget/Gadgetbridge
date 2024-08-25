@@ -3358,4 +3358,5 @@
     <string name="weight_lbs">%1$.2f lbs</string>
     <string name="target">Objetivo</string>
     <string name="menuitem_weight">Peso</string>
+    <string name="activity_type_rem_sleep">Sueño REM</string>
 </resources>
