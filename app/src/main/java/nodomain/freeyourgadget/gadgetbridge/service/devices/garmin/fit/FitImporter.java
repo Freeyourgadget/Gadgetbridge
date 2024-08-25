@@ -14,11 +14,20 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_FAT_BURN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_NA;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LACTATE_THRESHOLD_HR;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.RECOVERY_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_AEROBIC;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_ANAEROBIC;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_BPM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_HOURS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KCAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML_KG_MIN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.WORKOUT_LOAD;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -76,6 +85,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvSummary;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvValue;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoring;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitPhysiologicalMetrics;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSession;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSleepStage;
@@ -105,6 +115,7 @@ public class FitImporter {
     private FitFileId fileId = null;
     private FitSession session = null;
     private FitSport sport = null;
+    private FitPhysiologicalMetrics physiologicalMetrics = null;
 
     public FitImporter(final Context context, final GBDevice gbDevice) {
         this.context = context;
@@ -201,6 +212,9 @@ public class FitImporter {
                     // We only support 1 session
                     session = (FitSession) record;
                 }
+            } else if (record instanceof FitPhysiologicalMetrics) {
+                LOG.debug("Physiological Metrics: {}", record);
+                physiologicalMetrics = (FitPhysiologicalMetrics) record;
             } else if (record instanceof FitSport) {
                 LOG.debug("Sport: {}", record);
                 if (sport != null) {
@@ -379,6 +393,25 @@ public class FitImporter {
             }
         }
 
+        if (physiologicalMetrics != null) {
+            // TODO lactate_threshold_heart_rate
+            if (physiologicalMetrics.getAerobicEffect() != null) {
+                summaryData.add(TRAINING_EFFECT_AEROBIC, physiologicalMetrics.getAerobicEffect(), UNIT_NONE);
+            }
+            if (physiologicalMetrics.getAnaerobicEffect() != null) {
+                summaryData.add(TRAINING_EFFECT_ANAEROBIC, physiologicalMetrics.getAnaerobicEffect(), UNIT_NONE);
+            }
+            if (physiologicalMetrics.getMetMax() != null) {
+                summaryData.add(MAXIMUM_OXYGEN_UPTAKE, physiologicalMetrics.getMetMax().floatValue() * 3.5f, UNIT_ML_KG_MIN);
+            }
+            if (physiologicalMetrics.getRecoveryTime() != null) {
+                summaryData.add(RECOVERY_TIME, physiologicalMetrics.getRecoveryTime() / 60f, UNIT_HOURS);
+            }
+            if (physiologicalMetrics.getLactateThresholdHeartRate() != null) {
+                summaryData.add(LACTATE_THRESHOLD_HR, physiologicalMetrics.getLactateThresholdHeartRate(), UNIT_BPM);
+            }
+        }
+
         summary.setSummaryData(summaryData.toString());
         if (file != null) {
             summary.setRawDetailsPath(file.getAbsolutePath());
@@ -457,6 +490,7 @@ public class FitImporter {
         fileId = null;
         session = null;
         sport = null;
+        physiologicalMetrics = null;
     }
 
     private void persistActivitySamples() {

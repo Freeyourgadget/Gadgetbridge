@@ -47,6 +47,8 @@ public class FitRecordDataFactory {
                 return new FitConnectivity(recordDefinition, recordHeader);
             case 128:
                 return new FitWeather(recordDefinition, recordHeader);
+            case 140:
+                return new FitPhysiologicalMetrics(recordDefinition, recordHeader);
             case 159:
                 return new FitWatchfaceSettings(recordDefinition, recordHeader);
             case 160:

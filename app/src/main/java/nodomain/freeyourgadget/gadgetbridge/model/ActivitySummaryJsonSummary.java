@@ -226,7 +226,7 @@ public class ActivitySummaryJsonSummary {
             ));
             put("TrainingEffect", Arrays.asList(
                     TRAINING_EFFECT_AEROBIC, TRAINING_EFFECT_ANAEROBIC, WORKOUT_LOAD,
-                    MAXIMUM_OXYGEN_UPTAKE
+                    MAXIMUM_OXYGEN_UPTAKE, RECOVERY_TIME, LACTATE_THRESHOLD_HR
             ));
             put("laps", Arrays.asList(
                     LAP_PACE_AVERAGE, LAPS, LANE_LENGTH

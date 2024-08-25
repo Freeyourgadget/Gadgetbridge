@@ -208,6 +208,17 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
+    // https://github.com/GoldenCheetah/GoldenCheetah/blob/71e3928bc614f3209d9977d90cc50b942999b855/src/FileIO/FitRideFile.cpp#L1998
+    public static GlobalFITMessage PHYSIOLOGICAL_METRICS = new GlobalFITMessage(140, "PHYSIOLOGICAL_METRICS", Arrays.asList(
+            new FieldDefinitionPrimitive(4, BaseType.UINT8, "aerobic_effect", 10, 0),
+            new FieldDefinitionPrimitive(7, BaseType.SINT32, "met_max", 65536, 0),
+            new FieldDefinitionPrimitive(9, BaseType.UINT16, "recovery_time", 1, 0), // minutes
+            new FieldDefinitionPrimitive(14, BaseType.UINT16, "lactate_threshold_heart_rate", 1, 0), // bpm
+            //new FieldDefinitionPrimitive(15, BaseType.UINT16, "lactate_threshold_speed", 1, 0), // m/s // TODO confirm scale
+            new FieldDefinitionPrimitive(20, BaseType.UINT8, "anaerobic_effect", 10, 0),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static GlobalFITMessage WATCHFACE_SETTINGS = new GlobalFITMessage(159, "WATCHFACE_SETTINGS", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.ENUM, "mode"), //1=analog
             new FieldDefinitionPrimitive(1, BaseType.BASE_TYPE_BYTE, "layout")
@@ -314,6 +325,7 @@ public class GlobalFITMessage {
         put(55, MONITORING);
         put(127, CONNECTIVITY);
         put(128, WEATHER);
+        put(140, PHYSIOLOGICAL_METRICS);
         put(159, WATCHFACE_SETTINGS);
         put(160, GPS_METADATA);
         put(206, FIELD_DESCRIPTION);
