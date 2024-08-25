@@ -676,7 +676,7 @@ public class GBApplication extends Application {
             editor.remove(globalPref);
             editor.apply();
         } catch (Exception e) {
-            Log.w(TAG, "error acquiring DB lock");
+            Log.e(TAG, "Failed to migrate " + globalPref, e);
         }
     }
 
@@ -704,7 +704,7 @@ public class GBApplication extends Application {
                 }
             }
         } catch (Exception e) {
-            Log.w(TAG, "error acquiring DB lock");
+            Log.e(TAG, "Failed to migrate device types", e);
         }
     }
 
@@ -861,7 +861,7 @@ public class GBApplication extends Application {
                 editor.remove("miband3_language");
 
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 3", e);
             }
         }
         if (oldVersion < 4) {
@@ -881,7 +881,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 4", e);
             }
         }
         if (oldVersion < 5) {
@@ -945,7 +945,7 @@ public class GBApplication extends Application {
                 editor.remove("zetime_wrist");
 
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 5", e);
             }
         }
         if (oldVersion < 6) {
@@ -981,7 +981,7 @@ public class GBApplication extends Application {
                 migrateBooleanPrefToPerDevicePref("transliteration", false, "pref_transliteration_enabled", (ArrayList)activeDevices);
                 Log.w(TAG, "migrating transliteration settings");
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock and migrating prefs");
+                Log.e(TAG, "Failed to migrate prefs to version 9", e);
             }
         }
         if (oldVersion < 10) {
@@ -1002,7 +1002,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 10", e);
             }
         }
         if (oldVersion < 11) {
@@ -1093,7 +1093,7 @@ public class GBApplication extends Application {
                 editor.remove("mi2_inactivity_warnings_end");
                 editor.remove("mi_fitness_goal");
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 11", e);
             }
         }
         if (oldVersion < 12) {
@@ -1133,7 +1133,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 13", e);
             }
         }
 
@@ -1157,7 +1157,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 14", e);
             }
         }
 
@@ -1176,7 +1176,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 15", e);
             }
         }
 
@@ -1200,7 +1200,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 16", e);
             }
         }
 
@@ -1224,7 +1224,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 17", e);
             }
 
             editor.remove(GBPrefs.CALENDAR_BLACKLIST);
@@ -1250,7 +1250,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 18", e);
             }
         }
 
@@ -1285,7 +1285,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 20", e);
             }
         }
 
@@ -1315,7 +1315,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 21", e);
             }
         }
 
@@ -1335,7 +1335,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 22", e);
             }
         }
 
@@ -1364,7 +1364,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 26", e);
             }
         }
 
@@ -1395,7 +1395,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 27", e);
             }
         }
 
@@ -1436,7 +1436,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 28", e);
             }
         }
 
@@ -1458,7 +1458,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 29", e);
             }
         }
 
@@ -1480,7 +1480,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 30", e);
             }
         }
 
@@ -1510,7 +1510,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 31", e);
             }
         }
 
@@ -1540,7 +1540,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 32", e);
             }
         }
 
@@ -1570,7 +1570,7 @@ public class GBApplication extends Application {
                     deviceSharedPrefsEdit.apply();
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 33", e);
             }
         }
 
@@ -1611,7 +1611,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 34", e);
             }
         }
 
@@ -1677,7 +1677,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 35", e);
             }
         }
         if (oldVersion < 36) {
@@ -1714,7 +1714,7 @@ public class GBApplication extends Application {
                     }
                 }
             } catch (Exception e) {
-                Log.w(TAG, "error acquiring DB lock");
+                Log.e(TAG, "Failed to migrate prefs to version 36", e);
             }
         }
 
