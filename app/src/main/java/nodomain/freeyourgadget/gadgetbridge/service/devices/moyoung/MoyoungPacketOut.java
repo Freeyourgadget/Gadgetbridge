@@ -59,12 +59,12 @@ public class MoyoungPacketOut extends MoyoungPacket {
      * @param payload The packet payload
      * @return The encoded packet
      */
-    public static byte[] buildPacket(byte packetType, @NonNull byte[] payload)
+    public static byte[] buildPacket(int mtu, byte packetType, @NonNull byte[] payload)
     {
         byte[] packet = new byte[payload.length + 5];
         packet[0] = (byte)0xFE;
         packet[1] = (byte)0xEA;
-        if (MoyoungDeviceSupport.MTU == 20)
+        if (mtu == 20)
         {
             packet[2] = 16;
             packet[3] = (byte)(packet.length & 0xFF);

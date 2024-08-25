@@ -130,10 +130,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private Handler idleUpdateHandler = new Handler();
 
-    public static final int MTU = 20; // TODO: there seems to be some way to change this value...?
+    private int mtu = 20;
     private MoyoungPacketIn packetIn = new MoyoungPacketIn();
 
     private boolean realTimeHeartRate;
+
+    public int getMtu() {
+        return this.mtu;
+    }
 
     public MoyoungDeviceSupport() {
         super(LOG);
@@ -159,6 +163,8 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        mtu = ((AbstractMoyoungDeviceCoordinator) getDevice().getDeviceCoordinator()).getMtu();
+
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         builder.notify(getCharacteristic(MoyoungConstants.UUID_CHARACTERISTIC_DATA_IN), true);
         deviceInfoProfile.requestDeviceInfo(builder);
@@ -172,7 +178,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
         // TODO: I would prefer this to be done when the alarms screen is open, not on initialization...
-        sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_QUERY_ALARM_CLOCK, new byte[0]));
+        sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_QUERY_ALARM_CLOCK, new byte[0]));
 
         return builder;
     }
@@ -197,7 +203,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         MoyoungPacketOut packetOut = new MoyoungPacketOut(packet);
 
-        byte[] fragment = new byte[MTU];
+        byte[] fragment = new byte[Math.min(packet.length, mtu)];
         while(packetOut.getFragment(fragment))
         {
             builder.write(getTargetCharacteristicForPacketType(packet[4]), fragment.clone());
@@ -485,7 +491,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             byte[] payload = new byte[str.length + 1];
             payload[0] = type;
             System.arraycopy(str, 0, payload, 1, str.length);
-            sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SEND_MESSAGE, payload));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SEND_MESSAGE, payload));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.error("Error sending notification: ", e);
@@ -518,7 +524,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         ByteBuffer buffer = ByteBuffer.allocate(5);
         buffer.putInt(MoyoungConstants.LocalTimeToWatchTime(new Date())); // The watch is hardcoded to GMT+8 internally...
         buffer.put((byte)8); // I guess this means GMT+8 but changing it has no effect at all (it was hardcoded in the original app too)
-        sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_TIME, buffer.array()));
+        sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SYNC_TIME, buffer.array()));
     }
 
     @Override
@@ -615,7 +621,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 else
                     repeat = 2;
                 buffer.put(repeat);
-                sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SET_ALARM_CLOCK, buffer.array()));
+                sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_ALARM_CLOCK, buffer.array()));
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -1034,7 +1040,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
         try {
             TransactionBuilder builder = performInitialized("shutdown");
-            sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SHUTDOWN, new byte[] { -1 }));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SHUTDOWN, new byte[] { -1 }));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.error("Error sending reset command: ", e);
@@ -1045,7 +1051,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     {
         try {
             TransactionBuilder builder = performInitialized("onHeartRateTest");
-            sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_TRIGGER_MEASURE_HEARTRATE, new byte[] { start ? (byte)0 : (byte)-1 }));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_TRIGGER_MEASURE_HEARTRATE, new byte[] { start ? (byte)0 : (byte)-1 }));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.error("Error sending heart rate test command: ", e);
@@ -1085,7 +1091,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         {
             try {
                 TransactionBuilder builder = performInitialized("onFindDevice");
-                sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_FIND_MY_WATCH, new byte[0]));
+                sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_FIND_MY_WATCH, new byte[0]));
                 builder.queue(getQueue());
             } catch (IOException e) {
                 LOG.error("Error while finding device: ", e);
@@ -1123,7 +1129,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private <T> void sendSetting(TransactionBuilder builder, MoyoungSetting<T> setting, T newValue)
     {
-        sendPacket(builder, MoyoungPacketOut.buildPacket(setting.cmdSet, setting.encode(newValue)));
+        sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, setting.cmdSet, setting.encode(newValue)));
     }
 
     private <T> void sendSetting(MoyoungSetting<T> setting, T newValue)
@@ -1146,7 +1152,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
         try {
             TransactionBuilder builder = performInitialized("querySetting");
-            sendPacket(builder, MoyoungPacketOut.buildPacket(setting.cmdQuery, new byte[0]));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, setting.cmdQuery, new byte[0]));
             builder.queue(getQueue());
             queriedSettings.add(setting);
         } catch (IOException e) {
@@ -1485,10 +1491,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 packetWeatherToday.putShort(weatherToday.pm25);
             packetWeatherToday.put(weatherToday.lunar_or_festival.getBytes("unicodebigunmarked"));
             packetWeatherToday.put(weatherToday.city.getBytes("unicodebigunmarked"));
-            sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
 
-            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(6 * 3);
-            for(int i = 0; i < 6; i++)
+            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(7 * 3);
+            for(int i = 0; i < 7; i++)
             {
                 MoyoungWeatherForecast forecast;
                 if (weatherSpec.forecasts.size() > i)
@@ -1499,7 +1505,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 packetWeatherForecast.put(forecast.minTemp);
                 packetWeatherForecast.put(forecast.maxTemp);
             }
-            sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SET_WEATHER_FUTURE, packetWeatherForecast.array()));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_FUTURE, packetWeatherForecast.array()));
 
             builder.queue(getQueue());
         } catch (IOException e) {

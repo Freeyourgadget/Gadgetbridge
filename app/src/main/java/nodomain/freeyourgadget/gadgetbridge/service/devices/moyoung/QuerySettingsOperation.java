@@ -68,7 +68,7 @@ public class QuerySettingsOperation extends AbstractBTLEOperation<MoyoungDeviceS
             if (setting.cmdQuery == -1)
                 continue;
 
-            getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(setting.cmdQuery, new byte[0]));
+            getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), setting.cmdQuery, new byte[0]));
         }
         builder.queue(getQueue());
     }

@@ -57,13 +57,13 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
     @Override
     protected void doPerform() throws IOException {
         TransactionBuilder builder = performInitialized("FetchDataOperation");
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_YESTERDAY_SLEEP }));
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_SLEEP }));
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_SLEEP, new byte[0]));
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_YESTERDAY_STEPS }));
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_YESTERDAY_SLEEP }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_SLEEP }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_SLEEP, new byte[0]));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_YESTERDAY_STEPS }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS }));
         builder.read(getCharacteristic(MoyoungConstants.UUID_CHARACTERISTIC_STEPS));
-        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(MoyoungConstants.CMD_QUERY_MOVEMENT_HEART_RATE, new byte[] { }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_QUERY_MOVEMENT_HEART_RATE, new byte[] { }));
         builder.queue(getQueue());
 
         updateProgressAndCheckFinish();

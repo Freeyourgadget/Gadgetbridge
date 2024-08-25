@@ -55,4 +55,9 @@ public class ColmiI28UltraCoordinator extends AbstractMoyoungDeviceCoordinator {
     public String getManufacturer() {
         return "Colmi";
     }
+
+    @Override
+    public int getMtu() {
+        return 508;
+    }
 }

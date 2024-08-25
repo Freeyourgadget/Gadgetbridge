@@ -208,4 +208,8 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
     public MoyoungSetting[] getSupportedSettings() {
         return MOYOUNG_SETTINGS;
     }
+
+    public int getMtu() {
+        return 20;
+    }
 }
