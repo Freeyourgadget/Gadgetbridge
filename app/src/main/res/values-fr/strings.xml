@@ -3363,4 +3363,5 @@ Temps de sommeil préféré en heures</string>
     <string name="sleep_colored_stats_awake_avg">Moy. éveillé</string>
     <string name="weight_lbs">%1$.2f lbs</string>
     <string name="weight_kg">%1$.2f kg</string>
+    <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
 </resources>
