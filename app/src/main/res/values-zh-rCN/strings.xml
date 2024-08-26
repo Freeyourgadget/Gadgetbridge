@@ -3109,7 +3109,7 @@
     <string name="devicetype_garmin_forerunner_255_music">佳明 Forerunner 255 Music</string>
     <string name="devicetype_huawei_watchgtrunner">华为手表GT星夜跑者</string>
     <string name="find_my_phone_companion_warning">查找手机需要同伴配对。 点击这里查看更多信息。</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">清醒睡眠</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">清醒</string>
     <string name="sleep_colored_stats_light">浅</string>
     <string name="sleep_colored_stats_rem">快速眼动睡眠</string>
     <string name="sleep_colored_stats_deep_avg">平均深度</string>
@@ -3347,4 +3347,15 @@
     <string name="devicetype_colmi_r02">Colmi R02</string>
     <string name="devicetype_colmi_r03">Colmi R03</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">测量存在误差。戒指的传感器方向是否正确？</string>
+    <string name="stress_average">平均</string>
+    <string name="menuitem_weight">重量</string>
+    <string name="lactateThresholdHeartRate">乳酸阈心率</string>
+    <string name="devicetype_mijia_xmwsdj04">米家温湿度传感器2（电子墨水屏）</string>
+    <string name="devicetype_honor_watchgs3">荣耀手表GS 3</string>
+    <string name="sleep_colored_stats_awake_avg">平均清醒</string>
+    <string name="activity_type_rem_sleep">快速眼动睡眠</string>
+    <string name="recoveryTime">恢复时间</string>
+    <string name="weight_kg">%1$.2f 千克</string>
+    <string name="weight_lbs">%1$.2f 磅</string>
+    <string name="target">目标</string>
 </resources>
