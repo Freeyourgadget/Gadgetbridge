@@ -3362,4 +3362,5 @@
     <string name="sleep_colored_stats_awake_avg">Promedio despierto</string>
     <string name="lactateThresholdHeartRate">Frecuencia cardíaca con umbral de lactato</string>
     <string name="recoveryTime">Tiempo de recuperación</string>
+    <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
 </resources>
