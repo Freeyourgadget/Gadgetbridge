@@ -38,10 +38,15 @@ public class CmfWorkoutSummaryParser implements ActivitySummaryParser {
     }
 
     @Override
-    public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary) {
-        final ActivitySummaryData summaryData = new ActivitySummaryData();
+    public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary, final boolean forDetails) {
+        final byte[] rawSummaryData = summary.getRawSummaryData();
+        if (rawSummaryData == null) {
+            return summary;
+        }
 
-        final ByteBuffer buf = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
+        final ByteBuffer buf = ByteBuffer.wrap(rawSummaryData).order(ByteOrder.LITTLE_ENDIAN);
+
+        final ActivitySummaryData summaryData = new ActivitySummaryData();
 
         final int startTime = buf.getInt();
         final int duration = buf.getShort();

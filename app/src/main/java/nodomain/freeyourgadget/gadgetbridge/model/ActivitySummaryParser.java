@@ -19,5 +19,15 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 
 public interface ActivitySummaryParser {
-    BaseActivitySummary parseBinaryData(BaseActivitySummary summary);
+    /**
+     * Re-parse an existing {@link BaseActivitySummary}, updating it from the existing binary data.
+     *
+     * @param summary    the existing {@link BaseActivitySummary}. It's not guaranteed that it
+     *                   contains any raw binary data.
+     * @param forDetails whether the parsing is for the details page. If this is false, the parser
+     *                   should avoid slow operations such as reading and parsing raw files from
+     *                   storage.
+     * @return the update {@link BaseActivitySummary}
+     */
+    BaseActivitySummary parseBinaryData(BaseActivitySummary summary, final boolean forDetails);
 }

@@ -45,6 +45,10 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
     @Override
     protected void parseBinaryData(final BaseActivitySummary summary, final Date startTime) {
         final byte[] rawData = summary.getRawSummaryData();
+        if (rawData == null) {
+            return;
+        }
+
         final int version = (rawData[0] & 0xff) | ((rawData[1] & 0xff) << 8);
         if (version != 0x8000) {
             LOG.warn("Unexpected binary data version {}, parsing might fail", version);
@@ -85,7 +89,7 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
             summary.setBaseLatitude(summaryProto.getLocation().getBaseLatitude());
             summary.setBaseAltitude(summaryProto.getLocation().getBaseAltitude() / 2);
             // TODO: Min/Max Latitude/Longitude
-            summaryData.add(ALTITUDE_BASE, summaryProto.getLocation().getBaseAltitude() / 2, UNIT_METERS);
+            summaryData.add(ALTITUDE_BASE, summaryProto.getLocation().getBaseAltitude() / 2f, UNIT_METERS);
         }
 
         if (summaryProto.hasHeartRate()) {
@@ -136,12 +140,12 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
         }
 
         if (summaryProto.hasAltitude()) {
-            summaryData.add(ALTITUDE_MAX, summaryProto.getAltitude().getMaxAltitude() / 200, UNIT_METERS);
-            summaryData.add(ALTITUDE_MIN, summaryProto.getAltitude().getMinAltitude() / 200, UNIT_METERS);
-            summaryData.add(ALTITUDE_AVG, summaryProto.getAltitude().getAvgAltitude() / 200, UNIT_METERS);
+            summaryData.add(ALTITUDE_MAX, summaryProto.getAltitude().getMaxAltitude() / 200f, UNIT_METERS);
+            summaryData.add(ALTITUDE_MIN, summaryProto.getAltitude().getMinAltitude() / 200f, UNIT_METERS);
+            summaryData.add(ALTITUDE_AVG, summaryProto.getAltitude().getAvgAltitude() / 200f, UNIT_METERS);
             // TODO totalClimbing
-            summaryData.add(ELEVATION_GAIN, summaryProto.getAltitude().getElevationGain() / 100, UNIT_METERS);
-            summaryData.add(ELEVATION_LOSS, summaryProto.getAltitude().getElevationLoss() / 100, UNIT_METERS);
+            summaryData.add(ELEVATION_GAIN, summaryProto.getAltitude().getElevationGain() / 100f, UNIT_METERS);
+            summaryData.add(ELEVATION_LOSS, summaryProto.getAltitude().getElevationLoss() / 100f, UNIT_METERS);
         }
 
         if (summaryProto.hasElevation()) {

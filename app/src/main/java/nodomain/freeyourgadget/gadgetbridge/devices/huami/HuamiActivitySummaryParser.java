@@ -40,7 +40,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
     private static final Logger LOG = LoggerFactory.getLogger(HuamiActivityDetailsParser.class);
     protected ActivitySummaryData summaryData = new ActivitySummaryData();
 
-    public BaseActivitySummary parseBinaryData(BaseActivitySummary summary) {
+    public BaseActivitySummary parseBinaryData(BaseActivitySummary summary, final boolean forDetails) {
         Date startTime = summary.getStartTime();
         if (startTime == null) {
             LOG.error("Due to a bug, we can only parse the summary when startTime is already set");
@@ -57,7 +57,11 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
     }
 
     protected void parseBinaryData(BaseActivitySummary summary, Date startTime) {
-        ByteBuffer buffer = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
+        final byte[] rawSummaryData = summary.getRawSummaryData();
+        if (rawSummaryData == null) {
+            return;
+        }
+        final ByteBuffer buffer = ByteBuffer.wrap(rawSummaryData).order(ByteOrder.LITTLE_ENDIAN);
 
         short version = buffer.getShort(); // version
         LOG.debug("Got sport summary version " + version + " total bytes=" + buffer.capacity());

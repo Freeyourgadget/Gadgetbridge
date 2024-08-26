@@ -207,7 +207,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
 
             final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(device);
             final ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, sportitem);
-            JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData();
+            JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData(false);
 
             if (summarySubdata != null) {
                 try {

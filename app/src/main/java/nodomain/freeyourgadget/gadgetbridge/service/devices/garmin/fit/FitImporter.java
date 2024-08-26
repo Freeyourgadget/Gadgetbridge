@@ -1,34 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ACTIVE_SECONDS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ASCENT_DISTANCE;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CALORIES_BURNT;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DESCENT_DISTANCE;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DISTANCE_METERS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ESTIMATED_SWEAT_LOSS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_AVG;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MAX;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_AEROBIC;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_ANAEROBIC;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_EXTREME;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_FAT_BURN;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_NA;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LACTATE_THRESHOLD_HR;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.RECOVERY_TIME;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_AEROBIC;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TRAINING_EFFECT_ANAEROBIC;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_BPM;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_HOURS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KCAL;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML_KG_MIN;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.WORKOUT_LOAD;
-
 import android.content.Context;
 import android.widget.Toast;
 
@@ -43,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -59,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleP
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSleepStageSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminStressSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminWorkoutParser;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -74,10 +45,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitEvent;
@@ -109,25 +78,29 @@ public class FitImporter {
     private final List<GarminSleepStageSample> sleepStageSamples = new ArrayList<>();
     private final List<GarminHrvSummarySample> hrvSummarySamples = new ArrayList<>();
     private final List<GarminHrvValueSample> hrvValueSamples = new ArrayList<>();
-    private final List<FitTimeInZone> timesInZone = new ArrayList<>();
-    private final List<ActivityPoint> activityPoints = new ArrayList<>();
     private final Map<Integer, Integer> unknownRecords = new HashMap<>();
     private FitFileId fileId = null;
-    private FitSession session = null;
-    private FitSport sport = null;
-    private FitPhysiologicalMetrics physiologicalMetrics = null;
+
+    private final GarminWorkoutParser workoutParser = new GarminWorkoutParser();
 
     public FitImporter(final Context context, final GBDevice gbDevice) {
         this.context = context;
         this.gbDevice = gbDevice;
     }
 
+    /** @noinspection StatementWithEmptyBody*/
     public void importFile(final File file) throws IOException {
         reset();
 
         final FitFile fitFile = FitFile.parseIncoming(file);
 
         for (final RecordData record : fitFile.getRecords()) {
+            if (fileId != null && fileId.getType() == FileType.FILETYPE.ACTIVITY) {
+                if (workoutParser.handleRecord(record)) {
+                    continue;
+                }
+            }
+
             final Long ts = record.getComputedTimestamp();
 
             if (record instanceof FitFileId) {
@@ -203,29 +176,15 @@ public class FitImporter {
                 }
                 events.add(sample);
             } else if (record instanceof FitRecord) {
-                activityPoints.add(((FitRecord) record).toActivityPoint());
+                // handled in workout parser
             } else if (record instanceof FitSession) {
-                LOG.debug("Session: {}", record);
-                if (session != null) {
-                    LOG.warn("Got multiple sessions - NOT SUPPORTED: {}", record);
-                } else {
-                    // We only support 1 session
-                    session = (FitSession) record;
-                }
+                // handled in workout parser
             } else if (record instanceof FitPhysiologicalMetrics) {
-                LOG.debug("Physiological Metrics: {}", record);
-                physiologicalMetrics = (FitPhysiologicalMetrics) record;
+                // handled in workout parser
             } else if (record instanceof FitSport) {
-                LOG.debug("Sport: {}", record);
-                if (sport != null) {
-                    LOG.warn("Got multiple sports - NOT SUPPORTED: {}", record);
-                } else {
-                    // We only support 1 sport
-                    sport = (FitSport) record;
-                }
+                // handled in workout parser
             } else if (record instanceof FitTimeInZone) {
-                LOG.trace("Time in zone: {}", record);
-                timesInZone.add((FitTimeInZone) record);
+                // handled in workout parser
             } else if (record instanceof FitHrvSummary) {
                 final FitHrvSummary hrvSummary = (FitHrvSummary) record;
                 LOG.trace("HRV summary at {}: {}", ts, record);
@@ -315,11 +274,6 @@ public class FitImporter {
     }
 
     private void persistWorkout(final File file) {
-        if (session == null) {
-            LOG.error("Got workout from {}, but no session", fileId);
-            return;
-        }
-
         LOG.debug("Persisting workout for {}", fileId);
 
         final BaseActivitySummary summary;
@@ -335,87 +289,9 @@ public class FitImporter {
             return;
         }
 
-        final ActivitySummaryData summaryData = new ActivitySummaryData();
+        workoutParser.updateSummary(summary);
 
-        final ActivityKind activityKind;
-        if (sport != null) {
-            summary.setName(sport.getName());
-            activityKind = getActivityKind(sport.getSport(), sport.getSubSport());
-        } else {
-            activityKind = getActivityKind(session.getSport(), session.getSubSport());
-        }
-        summary.setActivityKind(activityKind.getCode());
-
-        if (session.getTotalElapsedTime() == null) {
-            LOG.error("No elapsed time for {}", fileId);
-            return;
-        }
-        summary.setEndTime(new Date(summary.getStartTime().getTime() + session.getTotalElapsedTime().intValue()));
-
-        if (session.getTotalTimerTime() != null) {
-            summaryData.add(ACTIVE_SECONDS, session.getTotalTimerTime() / 1000f, UNIT_SECONDS);
-        }
-        if (session.getTotalDistance() != null) {
-            summaryData.add(DISTANCE_METERS, session.getTotalDistance() / 100f, UNIT_METERS);
-        }
-        if (session.getTotalCalories() != null) {
-            summaryData.add(CALORIES_BURNT, session.getTotalCalories(), UNIT_KCAL);
-        }
-        if (session.getEstimatedSweatLoss() != null) {
-            summaryData.add(ESTIMATED_SWEAT_LOSS, session.getEstimatedSweatLoss(), UNIT_ML);
-        }
-        if (session.getAverageHeartRate() != null) {
-            summaryData.add(HR_AVG, session.getAverageHeartRate(), UNIT_BPM);
-        }
-        if (session.getMaxHeartRate() != null) {
-            summaryData.add(HR_MAX, session.getMaxHeartRate(), UNIT_BPM);
-        }
-        if (session.getTotalAscent() != null) {
-            summaryData.add(ASCENT_DISTANCE, session.getTotalAscent(), UNIT_METERS);
-        }
-        if (session.getTotalDescent() != null) {
-            summaryData.add(DESCENT_DISTANCE, session.getTotalDescent(), UNIT_METERS);
-        }
-
-        for (final FitTimeInZone fitTimeInZone : timesInZone) {
-            // Find the firt time in zone for the session (assumes single-session)
-            if (fitTimeInZone.getReferenceMessage() != null && fitTimeInZone.getReferenceMessage() == 18) {
-                final Double[] timeInZone = fitTimeInZone.getTimeInZone();
-                if (timeInZone != null && timeInZone.length == 6) {
-                    summaryData.add(HR_ZONE_NA, timeInZone[0].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_WARM_UP, timeInZone[1].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_FAT_BURN, timeInZone[2].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_AEROBIC, timeInZone[3].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_ANAEROBIC, timeInZone[4].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_EXTREME, timeInZone[5].floatValue(), UNIT_SECONDS);
-                }
-                break;
-            }
-        }
-
-        if (physiologicalMetrics != null) {
-            // TODO lactate_threshold_heart_rate
-            if (physiologicalMetrics.getAerobicEffect() != null) {
-                summaryData.add(TRAINING_EFFECT_AEROBIC, physiologicalMetrics.getAerobicEffect(), UNIT_NONE);
-            }
-            if (physiologicalMetrics.getAnaerobicEffect() != null) {
-                summaryData.add(TRAINING_EFFECT_ANAEROBIC, physiologicalMetrics.getAnaerobicEffect(), UNIT_NONE);
-            }
-            if (physiologicalMetrics.getMetMax() != null) {
-                summaryData.add(MAXIMUM_OXYGEN_UPTAKE, physiologicalMetrics.getMetMax().floatValue() * 3.5f, UNIT_ML_KG_MIN);
-            }
-            if (physiologicalMetrics.getRecoveryTime() != null) {
-                summaryData.add(RECOVERY_TIME, physiologicalMetrics.getRecoveryTime() / 60f, UNIT_HOURS);
-            }
-            if (physiologicalMetrics.getLactateThresholdHeartRate() != null) {
-                summaryData.add(LACTATE_THRESHOLD_HR, physiologicalMetrics.getLactateThresholdHeartRate(), UNIT_BPM);
-            }
-        }
-
-        summary.setSummaryData(summaryData.toString());
-        if (file != null) {
-            summary.setRawDetailsPath(file.getAbsolutePath());
-        }
+        summary.setRawDetailsPath(file.getAbsolutePath());
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             final DaoSession session = dbHandler.getDaoSession();
@@ -429,22 +305,6 @@ public class FitImporter {
         } catch (final Exception e) {
             GB.toast(context, "Error saving workout", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    private ActivityKind getActivityKind(final Integer sport, final Integer subsport) {
-        final Optional<GarminSport> garminSport = GarminSport.fromCodes(sport, subsport);
-        if (garminSport.isPresent()) {
-            return garminSport.get().getActivityKind();
-        } else {
-            LOG.warn("Unknown garmin sport {}/{}", sport, subsport);
-
-            final Optional<GarminSport> optGarminSportFallback = GarminSport.fromCodes(sport, 0);
-            if (!optGarminSportFallback.isEmpty()) {
-                return optGarminSportFallback.get().getActivityKind();
-            }
-        }
-
-        return ActivityKind.UNKNOWN;
     }
 
     protected static BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
@@ -484,13 +344,9 @@ public class FitImporter {
         sleepStageSamples.clear();
         hrvSummarySamples.clear();
         hrvValueSamples.clear();
-        timesInZone.clear();
-        activityPoints.clear();
         unknownRecords.clear();
         fileId = null;
-        session = null;
-        sport = null;
-        physiologicalMetrics = null;
+        workoutParser.reset();
     }
 
     private void persistActivitySamples() {

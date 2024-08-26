@@ -21,7 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 
 public class TestActivitySummaryParser implements ActivitySummaryParser {
     @Override
-    public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary) {
+    public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary, final boolean forDetails) {
         return summary;
     }
 }

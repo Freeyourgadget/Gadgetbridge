@@ -408,7 +408,7 @@ public class CmfActivitySync {
             summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
 
             try {
-                summary = summaryParser.parseBinaryData(summary);
+                summary = summaryParser.parseBinaryData(summary, true);
             } catch (final Exception e) {
                 LOG.error("Failed to parse workout summary", e);
                 GB.toast(getContext(), "Failed to parse workout summary", Toast.LENGTH_LONG, GB.ERROR, e);

@@ -81,7 +81,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         summary.setStartTime(getLastStartTimestamp().getTime()); // due to a bug this has to be set
         summary.setRawSummaryData(buffer.toByteArray());
         try {
-            summary = summaryParser.parseBinaryData(summary);
+            summary = summaryParser.parseBinaryData(summary, true);
         } catch (final Exception e) {
             GB.toast(getContext(), "Failed to parse activity summary", Toast.LENGTH_LONG, GB.ERROR, e);
             return false;

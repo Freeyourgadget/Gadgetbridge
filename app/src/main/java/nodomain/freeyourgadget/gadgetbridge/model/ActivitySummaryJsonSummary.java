@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,8 +46,8 @@ public class ActivitySummaryJsonSummary {
         this.baseActivitySummary=baseActivitySummary;
     }
 
-    private JSONObject setSummaryData(BaseActivitySummary item){
-        String summary = getCorrectSummary(item);
+    private JSONObject setSummaryData(BaseActivitySummary item, final boolean forDetails){
+        String summary = getCorrectSummary(item, forDetails);
         JSONObject jsonSummary = getJSONSummary(summary);
         if (jsonSummary != null) {
             //add additionally computed values here
@@ -84,16 +83,16 @@ public class ActivitySummaryJsonSummary {
         return jsonSummary;
     }
 
-    public JSONObject getSummaryData(){
+    public JSONObject getSummaryData(final boolean forDetails){
         //returns json with summaryData
-        if (summaryData==null) summaryData=setSummaryData(baseActivitySummary);
+        if (summaryData==null) summaryData=setSummaryData(baseActivitySummary, forDetails);
         return summaryData;
     }
 
-    private String getCorrectSummary(BaseActivitySummary item){
-        if (item.getRawSummaryData() != null) {
+    private String getCorrectSummary(BaseActivitySummary item, final boolean forDetails){
+        if (item.getRawSummaryData() != null || item.getRawDetailsPath() != null) {
             try {
-                item = summaryParser.parseBinaryData(item);
+                item = summaryParser.parseBinaryData(item, forDetails);
             } catch (final Exception e) {
                 LOG.error("Failed to re-parse corrected summary", e);
             }
@@ -114,7 +113,7 @@ public class ActivitySummaryJsonSummary {
 
     public JSONObject getSummaryGroupedList() {
         //returns list grouped by activity groups as per createActivitySummaryGroups
-        if (summaryData==null) summaryData=setSummaryData(baseActivitySummary);
+        if (summaryData==null) summaryData=setSummaryData(baseActivitySummary, true);
         if (summaryGroupedList==null) summaryGroupedList=setSummaryGroupedList(summaryData);
         return summaryGroupedList;
     }
