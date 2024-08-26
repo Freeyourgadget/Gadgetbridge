@@ -2574,7 +2574,7 @@
     <string name="prefs_wena3_menu_icon_hint">Ikona nastavení je vždy poslední</string>
     <string name="prefs_wena3_auto_power_off_turn_off_time_item">Čas vypnutí</string>
     <string name="prefs_wena3_button_action_item_long">Dlouhé stisknutí</string>
-    <string name="devicetype_mijia_lywsd03">Senzor teploty a vlhkosti Mijia 2</string>
+    <string name="devicetype_mijia_lywsd03">Xiaomi Mi Temperature and Humidity Monitor 2</string>
     <string name="prefs_wena3_home_icon_name_calories">Kalorie</string>
     <string name="activity_type_mountain_hike">Horská tůra</string>
     <string name="activity_type_kendo">Kendó</string>
@@ -3109,7 +3109,7 @@
     <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
     <string name="find_my_phone_companion_warning">Pro nalezení telefonu je vyžadována doprovodná aplikace. Klepněte sem pro více informací.</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">Probuzení</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Vzhůru</string>
     <string name="sleep_colored_stats_deep">Hluboký</string>
     <string name="sleep_colored_stats_light">Lehký</string>
     <string name="sleep_colored_stats_rem">REM</string>
@@ -3349,4 +3349,14 @@
     <string name="smart_ring_measurement_error_unknown">Neznámá chyba měření %d získaná z prstenu</string>
     <string name="stress_average">Průměr</string>
     <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
+    <string name="devicetype_mijia_xmwsdj04">Xiaomi Mi Temperature and Humidity Monitor 2 (E-ink)</string>
+    <string name="menuitem_weight">Váha</string>
+    <string name="sleep_colored_stats_awake_avg">Prům. vzhůru</string>
+    <string name="activity_type_rem_sleep">Spánek REM</string>
+    <string name="lactateThresholdHeartRate">Laktátový práh srdeční frekvence</string>
+    <string name="recoveryTime">Doba zotavení</string>
+    <string name="target">Cíl</string>
+    <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
+    <string name="weight_lbs">%1$.2f lb</string>
+    <string name="weight_kg">%1$.2f kg</string>
 </resources>
