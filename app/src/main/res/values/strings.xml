@@ -1697,6 +1697,7 @@
     <string name="devicetype_garmin_epix_pro">Garmin Epix Pro</string>
     <string name="devicetype_garmin_fenix_5">Garmin Fenix 5</string>
     <string name="devicetype_garmin_fenix_5_plus">Garmin Fenix 5 Plus</string>
+    <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
     <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
