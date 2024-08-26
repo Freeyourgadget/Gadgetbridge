@@ -3122,7 +3122,7 @@
     <string name="devicetype_garmin_forerunner_255_music">Garmin Forerunner 255 Music</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
     <string name="find_my_phone_companion_warning">Telefon bulmak için yardımcı eşleştirme gereklidir. Daha fazla bilgi için buraya tıklayın.</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">Uyanık uyku</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Uyanık</string>
     <string name="sleep_colored_stats_deep">Derin</string>
     <string name="sleep_colored_stats_rem">REM</string>
     <string name="sleep_colored_stats_light_avg">Hafif AVG</string>
@@ -3362,4 +3362,14 @@
     <string name="pref_app_connection_duration">Uygulama bağlantı süresi</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Ölçüm hatası. Yüzüğün sensörleri doğru konumlandırıldı mı?</string>
     <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
+    <string name="devicetype_mijia_xmwsdj04">Mijia Sıcaklık ve Nem Sensörü 2 (E-ink)</string>
+    <string name="sleep_colored_stats_awake_avg">Uyanık ortalaması</string>
+    <string name="activity_type_rem_sleep">REM uykusu</string>
+    <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
+    <string name="lactateThresholdHeartRate">Laktat Eşiği Kalp Ritmi</string>
+    <string name="recoveryTime">İyileşme Süresi</string>
+    <string name="weight_kg">%1$.2f kg</string>
+    <string name="weight_lbs">%1$.2f paunt</string>
+    <string name="target">Hedef</string>
+    <string name="menuitem_weight">Ağırlık</string>
 </resources>
