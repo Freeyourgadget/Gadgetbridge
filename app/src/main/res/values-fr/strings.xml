@@ -3353,4 +3353,14 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_colmi_r06">Colmi R06</string>
     <string name="smart_ring_measurement_error_unknown">Erreur de mesure inconnue %d reçue de l\'anneau</string>
     <string name="stress_average">Moyen</string>
+    <string name="devicetype_mijia_xmwsdj04">Mijia Temperature and Humidity Sensor 2 (E-ink)</string>
+    <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
+    <string name="activity_type_rem_sleep">Sommeil REM</string>
+    <string name="menuitem_weight">Poids</string>
+    <string name="target">Cible</string>
+    <string name="lactateThresholdHeartRate">Fréquence cardiaque du seuil de lactate</string>
+    <string name="recoveryTime">Temps de récupération</string>
+    <string name="sleep_colored_stats_awake_avg">Moy. éveillé</string>
+    <string name="weight_lbs">%1$.2f lbs</string>
+    <string name="weight_kg">%1$.2f kg</string>
 </resources>
