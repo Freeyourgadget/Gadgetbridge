@@ -3358,4 +3358,5 @@
     <string name="weight_kg">%1$.2f 千克</string>
     <string name="weight_lbs">%1$.2f 磅</string>
     <string name="target">目标</string>
+    <string name="devicetype_garmin_fenix_5x_plus">佳明 Fenix 5X Plus</string>
 </resources>
