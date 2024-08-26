@@ -3360,4 +3360,6 @@
     <string name="menuitem_weight">Peso</string>
     <string name="activity_type_rem_sleep">Sueño REM</string>
     <string name="sleep_colored_stats_awake_avg">Promedio despierto</string>
+    <string name="lactateThresholdHeartRate">Frecuencia cardíaca con umbral de lactato</string>
+    <string name="recoveryTime">Tiempo de recuperación</string>
 </resources>
