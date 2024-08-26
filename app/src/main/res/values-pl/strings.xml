@@ -2125,7 +2125,7 @@
     <string name="pref_gps_combination">Mieszanie GPS</string>
     <string name="pref_gps_satellite_search">Wyszukiwanie satelit</string>
     <string name="pref_crown_vibration">Wibracja koronki</string>
-    <string name="pref_alert_tone">Ton alertu</string>
+    <string name="pref_alert_tone">Dźwięk alertu</string>
     <string name="pref_cover_to_mute">Przykryj, aby wyciszyć</string>
     <string name="pref_workout_detection_summary">Automatyczny kierunek ćwiczeń</string>
     <string name="pref_screen_notification_profile_todo_list">Lista Do zrobienia</string>
@@ -3174,4 +3174,11 @@
     <string name="pref_fetch_unknown_files_title">Pobieraj nieznane pliki</string>
     <string name="pref_fetch_unknown_files_summary">Pobieraj dane o nieznanych aktywnościach z zegarka. Nie będą one przetwarzane, ale zostaną zapisane na telefonie.</string>
     <string name="folder_is_empty">Folder jest pusty</string>
+    <string name="pref_title_notification_wake_on_open">Automatycznie wybudż i odblokuj</string>
+    <string name="pref_summary_notification_wake_on_open">Wybudź i odblokuj urządzenie z systemem Android kiedy gadżet wyśle sygnał OTWÓRZ. Musi być w stanie zaufanym.</string>
+    <string name="estimatedSweatLoss">Szacowana utrata potu</string>
+    <string name="pref_touch_tone">Dźwięk dotyku</string>
+    <string name="pref_time_sync">Automatyczna synchronizacja czasu</string>
+    <string name="recoveryTime">Czas regeneracji</string>
+    <string name="lactateThresholdHeartRate">Tętno progu mleczanowego</string>
 </resources>
