@@ -381,11 +381,46 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         }
     }
 
+    public interface UpdateValuesHandler {
+        public void apply(byte[][] data);
+    }
+    public interface ReadValuesHandler {
+        public boolean apply(byte[][] data);
+    }
+
     public abstract class DeviceSetting {
         // which features to request
         public abstract FeatureRequest[] getFeatureRequests();
         // compares and updates watch data, cached previous data and GB state, returns true if data was changed
         public abstract boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor);
+
+        public final boolean mergeValues(byte[][] data, byte[][] previous, UpdateValuesHandler updateValues, ReadValuesHandler readValues) {
+            boolean needsUpdating = false;
+            // check if GB state has changed
+            if (previous != null) {
+                byte[][] copies = new byte[previous.length][];
+                for (int i = 0; i < previous.length; i++) {
+                       copies[i] = previous[i].clone();
+                }
+                updateValues.apply(copies);
+                for (int i = 0; i < previous.length; i++) {
+                    if (!Arrays.equals(previous[i], copies[i])) {
+                        needsUpdating = true;
+                        break;
+                    }
+                }
+            }
+            // update GB state and check if data needs change
+            if (!needsUpdating) {
+                needsUpdating = readValues.apply(data);
+            }
+            // maybe update data
+            if (needsUpdating) {
+                updateValues.apply(data);
+                return true;
+            }
+            return false;
+        }
     };
 
     ArrayList<DeviceSetting> deviceSettings = new ArrayList();
@@ -442,7 +477,30 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         builder.queue(getQueue());
     }
 
-    public class DeviceAlarms extends DeviceSetting {
+    public abstract class DeviceItems<Item> extends DeviceSetting {
+
+        public void onSet(ArrayList<? extends Item> items) {
+            if (!isInitialized()) {
+                return;
+            }
+            byte[][] currentValues = featureCache.get(getFeatureRequests());
+            if (currentValues == null) {
+                return;
+            }
+            updateValues(currentValues, items);
+
+            SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+            featureCache.save(editor);
+            editor.apply();
+
+            sendSettingsToDevice(currentValues);
+        }
+
+        public abstract void updateValues(byte[][] data, List<? extends Item> items);
+
+    }
+
+    public class DeviceAlarms extends DeviceItems<Alarm> {
 
         @Override
         public FeatureRequest[] getFeatureRequests() {
@@ -457,6 +515,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
             }
         };
 
+        @Override
         public void updateValues(byte[][] data, List<? extends Alarm> alarms) {
             for (Alarm alarm: alarms) {
                 updateValues(data, alarm);
@@ -491,7 +550,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
             LinkedHashSet<Integer> foundAlarms = new LinkedHashSet();
             for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm: DBHelper.getAlarms(gbDevice)) {
                 foundAlarms.add(alarm.getPosition());
-                if (mergeValues(data, previous, alarm)) {
+                if (mergeValues(data, previous, uData -> updateValues(uData, alarm), rData -> readValues(rData, alarm, false))) {
                     changed = true;
                 }
             }
@@ -507,34 +566,6 @@ public abstract class Casio2C2DSupport extends CasioSupport {
                 }
             }
             return changed;
-        }
-
-        public boolean mergeValues(byte[][] data, byte[][] previous, nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm) {
-            LOG.info("merge " + alarm.getPosition() + " : " + Arrays.toString(data[1]));
-            boolean needsUpdating = false;
-            // check if GB state has changed
-            if (previous != null) {
-                byte[][] copies = new byte[][] {previous[0].clone(), previous[1].clone()};
-                updateValues(copies, alarm);
-                if (!Arrays.equals(previous[0], copies[0]) || ! Arrays.equals(previous[1], copies[1])) {
-                    LOG.info("GB changed");
-                    needsUpdating = true;
-                }
-            }
-            // update GB state and check if data needs change
-            if (!needsUpdating) {
-                needsUpdating = readValues(data, alarm, false);
-                if (needsUpdating) {
-                    LOG.info("updated from watch");
-                }
-            }
-            // maybe update data
-            if (needsUpdating) {
-                updateValues(data, alarm);
-                LOG.info("updated from GB");
-                return true;
-            }
-            return false;
         }
 
         public boolean readValues(byte[][] data, nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm, boolean forceStore) {
@@ -567,21 +598,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        if (!isInitialized()) {
-            return;
-        }
-        byte[][] currentValues = featureCache.get(deviceAlarms.getFeatureRequests());
-        if (currentValues == null) {
-            LOG.error("unknown current alarm watch values");
-            return;
-        }
-        deviceAlarms.updateValues(currentValues, alarms);
-
-        SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
-        featureCache.save(editor);
-        editor.apply();
-
-        sendSettingsToDevice(currentValues);
+        deviceAlarms.onSet(alarms);
     }
 
     public abstract class DevicePreference extends DeviceSetting {
@@ -604,25 +621,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
         @Override
         public final boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor) {
-            boolean needsUpdating = false;
-            // check if GB state has changed
-            if (previous != null) {
-                byte[] copy = previous[0].clone();
-                updateValue(copy);
-                if (!Arrays.equals(previous[0], copy)) {
-                    needsUpdating = true;
-                }
-            }
-            // update GB state and check if data needs change
-            if (!needsUpdating) {
-                needsUpdating = readValue(data[0], editor);
-            }
-            // maybe update data
-            if (needsUpdating) {
-                updateValue(data[0]);
-                return true;
-            }
-            return false;
+            return mergeValues(data, previous, uData -> updateValue(uData[0]), rData -> readValue(rData[0], editor));
         }
 
         public abstract boolean readValue(byte[] data, SharedPreferences.Editor editor);
