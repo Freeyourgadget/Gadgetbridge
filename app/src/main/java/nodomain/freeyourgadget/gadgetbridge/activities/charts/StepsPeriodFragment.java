@@ -112,10 +112,11 @@ public class StepsPeriodFragment extends StepsFragment<StepsPeriodFragment.Steps
         yAxisLeft.setEnabled(true);
         yAxisLeft.setTextColor(CHART_TEXT_COLOR);
         yAxisLeft.setAxisMinimum(0f);
-        final LimitLine target = new LimitLine(STEPS_GOAL);
-        target.setLineColor(Color.GRAY);
-        target.enableDashedLine(10f, 10f, 0f);
-        yAxisLeft.addLimitLine(target);
+        final LimitLine goalLine = new LimitLine(STEPS_GOAL);
+        goalLine.setLineColor(getResources().getColor(R.color.steps_color));
+        goalLine.setLineWidth(1.5f);
+        goalLine.enableDashedLine(15f, 10f, 0f);
+        yAxisLeft.addLimitLine(goalLine);
 
         final YAxis yAxisRight = stepsChart.getAxisRight();
         yAxisRight.setEnabled(true);
@@ -166,6 +167,7 @@ public class StepsPeriodFragment extends StepsFragment<StepsPeriodFragment.Steps
         set.setColors(getResources().getColor(R.color.steps_color));
         final XAxis x = stepsChart.getXAxis();
         x.setValueFormatter(getStepsChartDayValueFormatter(stepsData));
+        stepsChart.getAxisLeft().setAxisMaximum(Math.max(set.getYMax(), STEPS_GOAL) + 2000);
 
         BarData barData = new BarData(set);
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);

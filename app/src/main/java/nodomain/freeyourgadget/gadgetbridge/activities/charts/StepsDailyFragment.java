@@ -25,7 +25,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
@@ -34,10 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -144,10 +140,6 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
         stepsEntry.label = getString(R.string.steps);
         stepsEntry.formColor = getResources().getColor(R.color.steps_color);
         legendEntries.add(stepsEntry);
-        final LegendEntry goalEntry = new LegendEntry();
-        goalEntry.label = getString(R.string.miband_prefs_fitness_goal);
-        goalEntry.formColor = Color.GRAY;
-        legendEntries.add(goalEntry);
         stepsChart.getLegend().setTextColor(TEXT_COLOR);
         stepsChart.getLegend().setCustom(legendEntries);
 
@@ -184,11 +176,12 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
         lineDataSet.setFillColor(getResources().getColor(R.color.steps_color ));
 
         final LimitLine goalLine = new LimitLine(STEPS_GOAL);
-        goalLine.setLineColor(Color.GRAY);
+        goalLine.setLineColor(getResources().getColor(R.color.steps_color));
         goalLine.setLineWidth(1.5f);
-        goalLine.enableDashedLine(10f, 10f, 0f);
+        goalLine.enableDashedLine(15f, 10f, 0f);
         stepsChart.getAxisLeft().removeAllLimitLines();
         stepsChart.getAxisLeft().addLimitLine(goalLine);
+        stepsChart.getAxisLeft().setAxisMaximum(Math.max(lineDataSet.getYMax(), STEPS_GOAL) + 2000);
 
         final List<ILineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(lineDataSet);

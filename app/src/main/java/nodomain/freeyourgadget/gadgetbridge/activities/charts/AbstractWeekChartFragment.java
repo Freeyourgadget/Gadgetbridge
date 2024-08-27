@@ -147,7 +147,12 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
         barData.setValueTextSize(10f);
 
+        barChart.getAxisLeft().setAxisMaximum(Math.max(set.getYMax(), mTargetValue) + 60);
+
         LimitLine target = new LimitLine(mTargetValue);
+        target.setLineWidth(1.5f);
+        target.enableDashedLine(15f, 10f, 0f);
+        target.setLineColor(getResources().getColor(R.color.chart_deep_sleep_dark));
         barChart.getAxisLeft().removeAllLimitLines();
         barChart.getAxisLeft().addLimitLine(target);
 
@@ -156,6 +161,8 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
             average = Math.abs(balance / TOTAL_DAYS_FOR_AVERAGE);
         }
         LimitLine average_line = new LimitLine(average);
+        average_line.setLineWidth(1.5f);
+        average_line.enableDashedLine(15f, 10f, 0f);
         average_line.setLabel(getString(R.string.average, getAverage(average)));
 
         if (average > (mTargetValue)) {
