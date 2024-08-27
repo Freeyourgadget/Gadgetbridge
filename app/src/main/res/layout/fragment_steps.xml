@@ -123,14 +123,15 @@
             </TableRow>
         </TableLayout>
 
-        <TextView
-            android:id="@+id/steps_chart_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text=""
-            android:paddingLeft="20dip"
-            android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250sp">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/steps_daily_chart"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

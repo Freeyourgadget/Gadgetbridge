@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.app.Activity;
-import android.os.Bundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
-abstract class StepsFragment extends AbstractChartFragment<StepsDailyFragment.StepsData> {
+abstract class StepsFragment<T extends ChartsData> extends AbstractChartFragment<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(StepsDailyFragment.class);
 
     protected int CHART_TEXT_COLOR;
@@ -93,7 +92,7 @@ abstract class StepsFragment extends AbstractChartFragment<StepsDailyFragment.St
         return amounts;
     }
 
-    private List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, int offsetHours, GBDevice device) {
+    protected List<? extends ActivitySample> getSamplesOfDay(DBHandler db, Calendar day, int offsetHours, GBDevice device) {
         int startTs;
         int endTs;
 
@@ -126,28 +125,5 @@ abstract class StepsFragment extends AbstractChartFragment<StepsDailyFragment.St
         }
     }
 
-    protected static class StepsData extends ChartsData {
-        List<StepsDay> days;
-        long stepsDailyAvg = 0;
-        double distanceDailyAvg = 0;
-        long totalSteps = 0;
-        double totalDistance = 0;
-        StepsDay todayStepsDay;
-        protected StepsData(List<StepsDay> days) {
-            this.days = days;
-            int daysCounter = 0;
-            for(StepsDay day : days) {
-                this.totalSteps += day.steps;
-                this.totalDistance += day.distance;
-                if (day.steps > 0) {
-                    daysCounter++;
-                }
-            }
-            if (daysCounter > 0) {
-                this.stepsDailyAvg = this.totalSteps / daysCounter;
-                this.distanceDailyAvg = this.totalDistance / daysCounter;
-            }
-            this.todayStepsDay = days.get(days.size() - 1);
-        }
-    }
+
 }

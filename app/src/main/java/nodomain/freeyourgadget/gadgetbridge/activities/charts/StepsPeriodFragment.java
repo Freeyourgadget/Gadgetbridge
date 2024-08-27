@@ -34,9 +34,8 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wena3.protocol.packets.settings.DayStartHourSetting;
 
-public class StepsPeriodFragment extends StepsFragment {
+public class StepsPeriodFragment extends StepsFragment<StepsPeriodFragment.StepsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(BodyEnergyFragment.class);
 
     private TextView mDateView;
@@ -113,7 +112,9 @@ public class StepsPeriodFragment extends StepsFragment {
         yAxisLeft.setEnabled(true);
         yAxisLeft.setTextColor(CHART_TEXT_COLOR);
         yAxisLeft.setAxisMinimum(0f);
-        LimitLine target = new LimitLine(STEPS_GOAL);
+        final LimitLine target = new LimitLine(STEPS_GOAL);
+        target.setLineColor(Color.GRAY);
+        target.enableDashedLine(10f, 10f, 0f);
         yAxisLeft.addLimitLine(target);
 
         final YAxis yAxisRight = stepsChart.getAxisRight();
@@ -138,7 +139,7 @@ public class StepsPeriodFragment extends StepsFragment {
     }
 
     @Override
-    protected StepsFragment.StepsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+    protected StepsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
         Date to = new Date((long) this.getTSEnd() * 1000);
         Date from = DateUtils.addDays(to,-(TOTAL_DAYS - 1));
@@ -147,11 +148,11 @@ public class StepsPeriodFragment extends StepsFragment {
         mDateView.setText(fromFormattedDate + " - " + toFormattedDate);
         day.setTime(to);
         List<StepsDay> stepsDaysData = getMyStepsDaysData(db, day, device);
-        return new StepsFragment.StepsData(stepsDaysData);
+        return new StepsData(stepsDaysData);
     }
 
     @Override
-    protected void updateChartsnUIThread(StepsPeriodFragment.StepsData stepsData) {
+    protected void updateChartsnUIThread(StepsData stepsData) {
         stepsChart.setData(null);
 
         List<BarEntry> entries = new ArrayList<>();
@@ -197,4 +198,29 @@ public class StepsPeriodFragment extends StepsFragment {
     }
 
     protected void setupLegend(Chart<?> chart) {}
+
+    protected static class StepsData extends ChartsData {
+        List<StepsDay> days;
+        long stepsDailyAvg = 0;
+        double distanceDailyAvg = 0;
+        long totalSteps = 0;
+        double totalDistance = 0;
+        StepsDay todayStepsDay;
+        protected StepsData(List<StepsDay> days) {
+            this.days = days;
+            int daysCounter = 0;
+            for(StepsDay day : days) {
+                this.totalSteps += day.steps;
+                this.totalDistance += day.distance;
+                if (day.steps > 0) {
+                    daysCounter++;
+                }
+            }
+            if (daysCounter > 0) {
+                this.stepsDailyAvg = this.totalSteps / daysCounter;
+                this.distanceDailyAvg = this.totalDistance / daysCounter;
+            }
+            this.todayStepsDay = days.get(days.size() - 1);
+        }
+    }
 }
