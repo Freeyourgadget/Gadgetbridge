@@ -274,9 +274,11 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         }
 
         final int lastTimestamp = ret.get(ret.size() - 1).getTimestamp();
-        if (timestamp_to - lastTimestamp > 60) {
+        // Do not generate fake samples into the future
+        final long minTo = Math.min(timestamp_to, System.currentTimeMillis() / 1000L);
+        if (minTo - lastTimestamp > 60) {
             // Gap at the end
-            for (int ts = lastTimestamp + 60; ts <= timestamp_to; ts += 60) {
+            for (int ts = lastTimestamp + 60; ts <= minTo; ts += 60) {
                 final T dummySample = createActivitySample();
                 dummySample.setTimestamp(ts);
                 dummySample.setRawKind(ActivityKind.UNKNOWN.getCode());
