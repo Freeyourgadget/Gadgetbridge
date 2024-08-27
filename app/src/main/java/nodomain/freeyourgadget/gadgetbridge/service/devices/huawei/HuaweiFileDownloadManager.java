@@ -107,7 +107,8 @@ public class HuaweiFileDownloadManager {
      */
     public enum FileType {
         DEBUG,
-        SLEEP,
+        SLEEP_STATE,
+        SLEEP_DATA,
         UNKNOWN // Never for input!
     }
 
@@ -243,7 +244,7 @@ public class HuaweiFileDownloadManager {
     public void downloadSleep(boolean supportsTruSleepNewSync, String filename, int startTime, int endTime) {
         FileRequest request = new FileRequest();
         request.filename = filename;
-        request.fileType = FileType.SLEEP;
+        request.fileType = (filename.equals("sleep_state.bin"))?FileType.SLEEP_STATE: FileType.SLEEP_DATA;
         request.newSync = supportsTruSleepNewSync;
         request.startTime = startTime;
         request.endTime = endTime;

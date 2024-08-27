@@ -53,8 +53,10 @@ public class GetFileDownloadInitRequest extends Request {
 
     private FileDownloadService2C.FileType convertFileTypeTo2C(HuaweiFileDownloadManager.FileType type) {
         switch (type) {
-            case SLEEP:
-                return FileDownloadService2C.FileType.SLEEP;
+            case SLEEP_STATE:
+                return FileDownloadService2C.FileType.SLEEP_STATE;
+            case SLEEP_DATA:
+                return FileDownloadService2C.FileType.SLEEP_DATA;
             default:
                 return FileDownloadService2C.FileType.UNKNOWN;
         }
@@ -62,8 +64,10 @@ public class GetFileDownloadInitRequest extends Request {
 
     private HuaweiFileDownloadManager.FileType convertFileTypeFrom2C(FileDownloadService2C.FileType type) {
         switch (type) {
-            case SLEEP:
-                return HuaweiFileDownloadManager.FileType.SLEEP;
+            case SLEEP_STATE:
+                return HuaweiFileDownloadManager.FileType.SLEEP_STATE;
+            case SLEEP_DATA:
+                return HuaweiFileDownloadManager.FileType.SLEEP_DATA;
             default:
                 return HuaweiFileDownloadManager.FileType.UNKNOWN;
         }
@@ -80,7 +84,7 @@ public class GetFileDownloadInitRequest extends Request {
             } else {
                 if (this.request.fileType == HuaweiFileDownloadManager.FileType.DEBUG)
                     return new FileDownloadService0A.FileDownloadInit.DebugFilesRequest(paramsProvider).serialize();
-                else if (this.request.fileType == HuaweiFileDownloadManager.FileType.SLEEP)
+                else if (this.request.fileType == HuaweiFileDownloadManager.FileType.SLEEP_STATE)
                     return new FileDownloadService0A.FileDownloadInit.SleepFilesRequest(paramsProvider, request.startTime, request.endTime).serialize();
                 else
                     throw new RequestCreationException("Unknown file type");

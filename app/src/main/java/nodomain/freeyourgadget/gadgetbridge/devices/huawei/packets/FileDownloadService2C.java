@@ -31,13 +31,16 @@ public class FileDownloadService2C {
     public static final int id = 0x2c;
 
     public enum FileType {
-        SLEEP,
+        SLEEP_STATE,
+        SLEEP_DATA,
         UNKNOWN; // Never use this as input
 
         static byte fileTypeToByte(FileType fileType) {
             switch (fileType) {
-                case SLEEP:
+                case SLEEP_STATE:
                     return (byte) 0x0e;
+                case SLEEP_DATA:
+                    return (byte) 0x0f;
                 default:
                     throw new RuntimeException();
             }
@@ -46,7 +49,9 @@ public class FileDownloadService2C {
         static FileType byteToFileType(byte b) {
             switch (b) {
                 case 0x0e:
-                    return FileType.SLEEP;
+                    return FileType.SLEEP_STATE;
+                case 0x0f:
+                    return FileType.SLEEP_DATA;
                 default:
                     return FileType.UNKNOWN;
             }
