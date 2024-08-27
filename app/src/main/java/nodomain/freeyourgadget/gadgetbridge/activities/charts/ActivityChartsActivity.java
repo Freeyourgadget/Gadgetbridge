@@ -145,7 +145,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "activitylist":
                     return new ActivityListingChartFragment();
                 case "sleep":
-                    return new SleepCollectionFragment();
+                    return SleepCollectionFragment.newInstance(enabledTabsList.size() == 1);
                 case "hrvstatus":
                     return new HRVStatusFragment();
                 case "bodyenergy":
@@ -155,7 +155,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "pai":
                     return new PaiChartFragment();
                 case "stepsweek":
-                    return new StepsCollectionFragment();
+                    return StepsCollectionFragment.newInstance(enabledTabsList.size() == 1);
                 case "speedzones":
                     return new SpeedZonesFragment();
                 case "livestats":
@@ -175,14 +175,6 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         @Override
         public int getCount() {
             return enabledTabsList.toArray().length;
-        }
-
-        private String getSleepTitle() {
-            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
-                return getString(R.string.weeksleepchart_sleep_a_month);
-            } else {
-                return getString(R.string.weeksleepchart_sleep_a_week);
-            }
         }
 
         @Override

@@ -520,7 +520,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         }
     }
 
-    protected enum StressType {
+    public enum StressType {
         UNKNOWN(R.string.unknown, R.color.chart_stress_unknown),
         RELAXED(R.string.stress_relaxed, R.color.chart_stress_relaxed),
         MILD(R.string.stress_mild, R.color.chart_stress_mild),

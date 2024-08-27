@@ -627,6 +627,8 @@
     <string name="android_pairing_hint">Use the Android Bluetooth pairing dialog to pair the device.</string>
     <string name="title_activity_mi_band_pairing">Pair your Mi Band</string>
     <string name="pairing">Pairing with %s…</string>
+    <string name="choose_device">Choose a device</string>
+    <string name="no_supported_devices_found">No supported devices found</string>
     <string name="pairing_creating_bond_with">"Creating bond with %1$s (%2$s)"</string>
     <string name="pairing_unable_to_pair_with">"Unable to pair with %1$s (%2$s)"</string>
     <string name="pairing_in_progress">Bonding in progress: %1$s (%2$s)</string>
@@ -1870,6 +1872,9 @@
     <string name="menuitem_more">More</string>
     <string name="menuitem_nfc">NFC</string>
     <string name="menuitem_stress">Stress</string>
+    <string name="menuitem_stress_simple">Stress (simple)</string>
+    <string name="menuitem_stress_segmented">Stress (segmented)</string>
+    <string name="menuitem_stress_breakdown">Stress (breakdown)</string>
     <string name="menuitem_pai">PAI</string>
     <string name="menuitem_hr">Heart Rate</string>
     <string name="menuitem_spo2">SpO2</string>

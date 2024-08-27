@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
 
-abstract class NestedFragmentAdapter extends FragmentStateAdapter {
+public abstract class NestedFragmentAdapter extends FragmentStateAdapter {
     protected FragmentManager fragmentManager;
 
     public NestedFragmentAdapter(AbstractGBFragment fragment, FragmentManager childFragmentManager) {

@@ -123,7 +123,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 36;
+    private static final int CURRENT_PREFS_VERSION = 37;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1718,6 +1718,13 @@ public class GBApplication extends Application {
             }
         }
 
+        if (oldVersion < 37) {
+            // Add new dashboard widgets
+            final String dashboardWidgetsOrder = sharedPrefs.getString("pref_dashboard_widgets_order", null);
+            if (!StringUtils.isBlank(dashboardWidgetsOrder) && !dashboardWidgetsOrder.contains("bodyenergy")) {
+                editor.putString("pref_dashboard_widgets_order", dashboardWidgetsOrder + ",bodyenergy,stress_segmented,hrv");
+            }
+        }
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
