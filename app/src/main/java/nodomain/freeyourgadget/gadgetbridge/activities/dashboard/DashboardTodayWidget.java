@@ -35,6 +35,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +58,10 @@ import java.util.TreeMap;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.SampleXLabelFormatter;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.TimestampTranslation;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -68,7 +80,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     private static final Logger LOG = LoggerFactory.getLogger(DashboardTodayWidget.class);
 
     private View todayView;
-    private ImageView todayChart;
+    private LineChart mActivityChart;
 
     private boolean mode_24h;
 
@@ -94,33 +106,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         todayView = inflater.inflate(R.layout.dashboard_widget_today, container, false);
-        todayChart = todayView.findViewById(R.id.dashboard_today_chart);
-
-        // Determine whether to draw a single or a double chart. In case 24h mode is selected,
-        // use just the outer chart (chart_12_24) for all data.
-        Prefs prefs = GBApplication.getPrefs();
-        mode_24h = prefs.getBoolean("dashboard_widget_today_24h", false);
-
-        // Initialize legend
-        TextView legend = todayView.findViewById(R.id.dashboard_piechart_legend);
-        SpannableString l_not_worn = new SpannableString("■ " + getString(R.string.abstract_chart_fragment_kind_not_worn));
-        l_not_worn.setSpan(new ForegroundColorSpan(color_not_worn), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_worn = new SpannableString("■ " + getString(R.string.activity_type_worn));
-        l_worn.setSpan(new ForegroundColorSpan(color_worn), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_activity = new SpannableString("■ " + getString(R.string.activity_type_activity));
-        l_activity.setSpan(new ForegroundColorSpan(color_activity), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_exercise = new SpannableString("■ " + getString(R.string.activity_type_exercise));
-        l_exercise.setSpan(new ForegroundColorSpan(color_exercise), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_deep_sleep = new SpannableString("■ " + getString(R.string.activity_type_deep_sleep));
-        l_deep_sleep.setSpan(new ForegroundColorSpan(color_deep_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_light_sleep = new SpannableString("■ " + getString(R.string.activity_type_light_sleep));
-        l_light_sleep.setSpan(new ForegroundColorSpan(color_light_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString l_rem_sleep = new SpannableString("■ " + getString(R.string.activity_type_rem_sleep));
-        l_rem_sleep.setSpan(new ForegroundColorSpan(color_rem_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableStringBuilder legendBuilder = new SpannableStringBuilder();
-        legend.setText(legendBuilder.append(l_not_worn).append(" ").append(l_worn).append("\n").append(l_activity).append(" ").append(l_exercise).append("\n").append(l_light_sleep).append(" ").append(l_deep_sleep).append(" ").append(l_rem_sleep));
-
-        legend.setVisibility(prefs.getBoolean("dashboard_widget_today_legend", true) ? View.VISIBLE : View.GONE);
+        mActivityChart = todayView.findViewById(R.id.dashboard_today_horizontal);
 
         if (dashboardData.generalizedActivities.isEmpty()) {
             fillData();
@@ -134,202 +120,118 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     @Override
     public void onResume() {
         super.onResume();
-        if (todayChart != null) fillData();
+        if (mActivityChart != null) fillData();
     }
 
     private void draw() {
-        Prefs prefs = GBApplication.getPrefs();
-        boolean upsideDown24h = prefs.getBoolean("dashboard_widget_today_24h_upside_down", false);
-
-        // Prepare circular chart
-        long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int height = width;
-        int barWidth = Math.round(width * 0.08f);
-        int hourTextSp = Math.round(width * 0.024f);
-        float hourTextPixels = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP,
-                hourTextSp,
-                GBApplication.getContext().getResources().getDisplayMetrics()
-        );
-        float outerCircleMargin = mode_24h ? barWidth / 2f : barWidth / 2f + hourTextPixels * 1.3f;
-        float innerCircleMargin = outerCircleMargin + barWidth * 1.3f;
-        float degreeFactor = mode_24h ? 240 : 120;
-        Bitmap todayBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(todayBitmap);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
-
-        // Draw clock stripes
-        float clockMargin = outerCircleMargin + (mode_24h ? barWidth : barWidth*2.3f);
-        int clockStripesInterval = mode_24h ? 15 : 30;
-        float clockStripesWidth = barWidth / 3f;
-        paint.setStrokeWidth(clockStripesWidth);
-        paint.setColor(color_worn);
-        for (int i=0; i<360; i+=clockStripesInterval) {
-            canvas.drawArc(clockMargin, clockMargin, width - clockMargin, height - clockMargin, i, 1, false, paint);
-        }
-
-        // Draw hours
-        boolean normalClock = DateFormat.is24HourFormat(GBApplication.getContext());
-        Map<Integer, String> hours = new HashMap<Integer, String>() {
-            {
-                put(0, normalClock ? (mode_24h ? "0" : "12") : "12pm");
-                put(3, "3");
-                put(6, normalClock ? "6" : "6am");
-                put(9, "9");
-                put(12, normalClock ? (mode_24h ? "12" : "0") : "12am");
-                put(15, normalClock ? "15" : "3");
-                put(18, normalClock ? "18" : "6pm");
-                put(21, normalClock ? "21" : "9");
-            }
-        };
-        Paint textPaint = new Paint();
-        textPaint.setAntiAlias(true);
-        textPaint.setColor(color_worn);
-        textPaint.setTextSize(hourTextPixels);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        Rect textBounds = new Rect();
-        if (mode_24h && upsideDown24h) {
-            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
-            canvas.drawText(hours.get(0), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
-            textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
-            canvas.drawText(hours.get(6), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
-            canvas.drawText(hours.get(12), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
-            textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
-            canvas.drawText(hours.get(18), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
-        } else if (mode_24h) {
-            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
-            canvas.drawText(hours.get(0), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
-            textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
-            canvas.drawText(hours.get(6), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
-            canvas.drawText(hours.get(12), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
-            textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
-            canvas.drawText(hours.get(18), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
-        } else {
-            textPaint.getTextBounds(hours.get(0), 0, hours.get(0).length(), textBounds);
-            canvas.drawText(hours.get(0), width / 2f, textBounds.height(), textPaint);
-            textPaint.getTextBounds(hours.get(3), 0, hours.get(3).length(), textBounds);
-            canvas.drawText(hours.get(3), width - (clockMargin + clockStripesWidth + textBounds.width()), height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(6), 0, hours.get(6).length(), textBounds);
-            canvas.drawText(hours.get(6), width / 2f, height - (clockMargin + clockStripesWidth), textPaint);
-            textPaint.getTextBounds(hours.get(9), 0, hours.get(9).length(), textBounds);
-            canvas.drawText(hours.get(9), clockMargin + clockStripesWidth + textBounds.width() / 2f, height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(12), 0, hours.get(12).length(), textBounds);
-            canvas.drawText(hours.get(12), width / 2f, clockMargin + clockStripesWidth + textBounds.height(), textPaint);
-            textPaint.getTextBounds(hours.get(15), 0, hours.get(15).length(), textBounds);
-            canvas.drawText(hours.get(15), (float) (width - Math.ceil(textBounds.width() / 2f)), height / 2f + textBounds.height() / 2f, textPaint);
-            textPaint.getTextBounds(hours.get(18), 0, hours.get(18).length(), textBounds);
-            canvas.drawText(hours.get(18), width / 2f, height - textBounds.height() / 2f, textPaint);
-            textPaint.setTextAlign(Paint.Align.LEFT);
-            textPaint.getTextBounds(hours.get(21), 0, hours.get(21).length(), textBounds);
-            canvas.drawText(hours.get(21), 1, height / 2f + textBounds.height() / 2f, textPaint);
-        }
-
-        // Draw generalized activities on circular chart
-        long secondIndex = dashboardData.timeFrom;
-        long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
-        int startAngle = mode_24h && upsideDown24h ? 90 : 270;
+        mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+        //mActivityChart.getXAxis().setValueFormatter(mcd.getChartsData().getXValueFormatter());
+        mActivityChart.getAxisLeft().setDrawLabels(false);
+        final Map<ActivityKind, List<Entry>> entries = new HashMap<ActivityKind, List<Entry>>() {{
+            put(ActivityKind.NOT_MEASURED, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.NOT_WORN, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.LIGHT_SLEEP, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.SLEEP_ANY, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.REM_SLEEP, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.DEEP_SLEEP, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.AWAKE_SLEEP, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.EXERCISE, new ArrayList<>(dashboardData.generalizedActivities.size()));
+            put(ActivityKind.ACTIVITY, new ArrayList<>(dashboardData.generalizedActivities.size()));
+        }};
+        final Map<ActivityKind, Integer> colors = new HashMap<ActivityKind, Integer>() {{
+            put(ActivityKind.NOT_MEASURED, color_worn);
+            put(ActivityKind.NOT_WORN, color_not_worn);
+            put(ActivityKind.LIGHT_SLEEP, color_light_sleep);
+            put(ActivityKind.SLEEP_ANY, color_light_sleep);
+            put(ActivityKind.REM_SLEEP, color_rem_sleep);
+            put(ActivityKind.DEEP_SLEEP, color_deep_sleep);
+            put(ActivityKind.AWAKE_SLEEP, color_awake_sleep);
+            put(ActivityKind.EXERCISE, color_exercise);
+            put(ActivityKind.ACTIVITY, color_activity);
+        }};
+        final Map<ActivityKind, String> labels = new HashMap<ActivityKind, String>() {{
+            put(ActivityKind.NOT_MEASURED, "Worn");
+            put(ActivityKind.NOT_WORN, "Not Worn");
+            put(ActivityKind.LIGHT_SLEEP, "Light Sleep");
+            put(ActivityKind.SLEEP_ANY, "Sleep");
+            put(ActivityKind.REM_SLEEP, "REM Sleep");
+            put(ActivityKind.DEEP_SLEEP, "Deep Sleep");
+            put(ActivityKind.AWAKE_SLEEP, "Awake Sleep");
+            put(ActivityKind.EXERCISE, "Exercise");
+            put(ActivityKind.ACTIVITY, "Activity");
+        }};
+        final Map<ActivityKind, Integer> height = new HashMap<ActivityKind, Integer>() {{
+            put(ActivityKind.NOT_MEASURED, 10);
+            put(ActivityKind.NOT_WORN, 5);
+            put(ActivityKind.LIGHT_SLEEP, 30);
+            put(ActivityKind.SLEEP_ANY, 30);
+            put(ActivityKind.REM_SLEEP, 35);
+            put(ActivityKind.DEEP_SLEEP, 25);
+            put(ActivityKind.AWAKE_SLEEP, 40);
+            put(ActivityKind.EXERCISE, 35);
+            put(ActivityKind.ACTIVITY, 30);
+        }};
         synchronized (dashboardData.generalizedActivities) {
-            for (DashboardFragment.DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
-                // Determine margin depending on 24h/12h mode
-                float margin = (mode_24h || activity.timeFrom >= midDaySecond) ? outerCircleMargin : innerCircleMargin;
-                // Draw inactive slices
-                if (!mode_24h && secondIndex < midDaySecond && activity.timeFrom >= midDaySecond) {
-                    paint.setStrokeWidth(barWidth / 3f);
-                    paint.setColor(color_unknown);
-                    canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
-                    secondIndex = midDaySecond;
-                }
-                if (activity.timeFrom > secondIndex) {
-                    paint.setStrokeWidth(barWidth / 3f);
-                    paint.setColor(color_unknown);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (activity.timeFrom - secondIndex) / degreeFactor, false, paint);
-                }
-                float start_angle = startAngle + (activity.timeFrom - dashboardData.timeFrom) / degreeFactor;
-                float sweep_angle = (activity.timeTo - activity.timeFrom) / degreeFactor;
-                if (activity.activityKind == ActivityKind.NOT_MEASURED) {
-                    paint.setStrokeWidth(barWidth / 3f);
-                    paint.setColor(color_worn);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.NOT_WORN) {
-                    paint.setStrokeWidth(barWidth / 3f);
-                    paint.setColor(color_not_worn);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.LIGHT_SLEEP || activity.activityKind == ActivityKind.SLEEP_ANY) {
-                    paint.setStrokeWidth(barWidth);
-                    paint.setColor(color_light_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.REM_SLEEP) {
-                    paint.setStrokeWidth(barWidth);
-                    paint.setColor(color_rem_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.DEEP_SLEEP) {
-                    paint.setStrokeWidth(barWidth);
-                    paint.setColor(color_deep_sleep);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.AWAKE_SLEEP) {
-                        paint.setStrokeWidth(barWidth);
-                        paint.setColor(color_awake_sleep);
-                        canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else if (activity.activityKind == ActivityKind.EXERCISE) {
-                    paint.setStrokeWidth(barWidth);
-                    paint.setColor(color_exercise);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                } else {
-                    paint.setStrokeWidth(barWidth);
-                    paint.setColor(color_activity);
-                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
-                }
-                secondIndex = activity.timeTo;
-            }
-        }
-        // Fill remaining time until current time in 12h mode before midday
-        if (!mode_24h && currentTime < midDaySecond) {
-            // Fill inner bar up until current time
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
-            // Fill inner bar up until midday
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (currentTime - dashboardData.timeFrom) / degreeFactor, (midDaySecond - currentTime) / degreeFactor, false, paint);
-            // Fill outer bar up until midnight
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, 0, 360, false, paint);
-        }
-        // Fill remaining time until current time in 24h mode or in 12h mode after midday
-        if ((mode_24h || currentTime >= midDaySecond) && currentTime < dashboardData.timeTo) {
-            // Fill inner bar up until midday
-            if (!mode_24h && secondIndex < midDaySecond) {
-                paint.setStrokeWidth(barWidth / 3f);
-                paint.setColor(color_unknown);
-                canvas.drawArc(innerCircleMargin, innerCircleMargin, width - innerCircleMargin, height - innerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (midDaySecond - secondIndex) / degreeFactor, false, paint);
-                secondIndex = midDaySecond;
-            }
-            // Fill outer bar up until current time
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (currentTime - secondIndex) / degreeFactor, false, paint);
-            // Fill outer bar up until midnight
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (currentTime - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - currentTime) / degreeFactor, false, paint);
-        }
-        // Only when displaying a past day
-        if (secondIndex < dashboardData.timeTo && currentTime > dashboardData.timeTo) {
-            // Fill outer bar up until midnight
-            paint.setStrokeWidth(barWidth / 3f);
-            paint.setColor(color_unknown);
-            canvas.drawArc(outerCircleMargin, outerCircleMargin, width - outerCircleMargin, height - outerCircleMargin, startAngle + (secondIndex - dashboardData.timeFrom) / degreeFactor, (dashboardData.timeTo - secondIndex) / degreeFactor, false, paint);
-        }
+            TimestampTranslation tsTranslation = new TimestampTranslation();
 
-        todayChart.setImageBitmap(todayBitmap);
+            for (DashboardFragment.DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
+                if (!entries.containsKey(activity.activityKind)) {
+                    LOG.error("???? {}", activity.activityKind);
+                    continue;
+                }
+                int tsFrom = tsTranslation.shorten((int) activity.timeFrom);
+                int tsTo = tsTranslation.shorten((int) activity.timeTo);
+
+                entries.get(activity.activityKind).add(new Entry(tsFrom, height.get(activity.activityKind)));
+                entries.get(activity.activityKind).add(new Entry(tsTo, height.get(activity.activityKind)));
+
+                for (final Map.Entry<ActivityKind, List<Entry>> e : entries.entrySet()) {
+                    if (e.getKey() != activity.activityKind) {
+                        entries.get(e.getKey()).add(new Entry(tsFrom, 0));
+                        entries.get(e.getKey()).add(new Entry(tsTo, 0));
+                    }
+                }
+            }
+
+            for (final Map.Entry<ActivityKind, List<Entry>> e : entries.entrySet()) {
+                List<Entry> e2 = entries.get(e.getKey());
+                e2.add(new Entry(e2.get(e2.size() - 1).getX(), 0));
+                e2.add(new Entry(tsTranslation.shorten(dashboardData.timeTo), 0));
+            }
+
+            List<ILineDataSet> lineDataSets = new ArrayList<>();
+            for (final Map.Entry<ActivityKind, List<Entry>> e : entries.entrySet()) {
+                lineDataSets.add(createDataSet(e.getValue(), colors.get(e.getKey()), labels.get(e.getKey())));
+            }
+
+            LineData lineData = new LineData(lineDataSets);
+            mActivityChart.setData(lineData);
+            mActivityChart.setDrawGridBackground(false);
+            mActivityChart.setDrawBorders(false);
+            mActivityChart.getAxisRight().setEnabled(false);
+            mActivityChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            mActivityChart.getXAxis().setDrawGridLines(false);
+            mActivityChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation));
+            mActivityChart.getAxisLeft().setDrawGridLines(false);
+            mActivityChart.getAxisRight().setDrawGridLines(false);
+            mActivityChart.getLegend().setEnabled(false);
+            mActivityChart.animateX(250, Easing.EaseInOutQuart);
+        }
     }
+
+    protected LineDataSet createDataSet(List<Entry> values, Integer color, String label) {
+        LineDataSet set1 = new LineDataSet(values, label);
+        set1.setColor(color);
+        set1.setDrawFilled(true);
+        set1.setDrawCircles(false);
+        set1.setFillColor(color);
+        set1.setFillAlpha(255);
+        set1.setDrawValues(false);
+        //set1.setValueTextColor(CHART_TEXT_COLOR);
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+        return set1;
+    }
+
 
     protected void fillData() {
         if (todayView == null) return;

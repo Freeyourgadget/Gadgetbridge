@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-class SampleXLabelFormatter extends ValueFormatter {
+public class SampleXLabelFormatter extends ValueFormatter {
     private final TimestampTranslation tsTranslation;
     @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
