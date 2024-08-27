@@ -21,30 +21,23 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpop.AmazfitPopSupport;
 
 public class AmazfitPopCoordinator extends AmazfitBipUCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitPopCoordinator.class);
-
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("Amazfit Pop", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        AmazfitPopFWInstallHandler handler = new AmazfitPopFWInstallHandler(uri, context);
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        final AmazfitPopFWInstallHandler handler = new AmazfitPopFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
@@ -52,7 +45,6 @@ public class AmazfitPopCoordinator extends AmazfitBipUCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_amazfit_pop;
     }
-
 
     @Override
     public int getDefaultIconResource() {

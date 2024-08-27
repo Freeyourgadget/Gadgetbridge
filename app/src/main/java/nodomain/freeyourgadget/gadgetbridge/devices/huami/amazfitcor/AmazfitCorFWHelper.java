@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.Ama
 
 public class AmazfitCorFWHelper extends HuamiFWHelper {
 
-    public AmazfitCorFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitCorFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

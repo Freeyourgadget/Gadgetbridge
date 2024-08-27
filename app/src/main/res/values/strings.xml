@@ -204,6 +204,7 @@
     <string name="pref_header_health">Health</string>
     <string name="pref_header_sound_vibration">Sound &amp; Vibration</string>
     <string name="pref_header_offline_voice">Offline Voice</string>
+    <string name="pref_header_sound">Sound</string>
     <string name="pref_header_time">Time</string>
     <string name="pref_header_workout">Workout</string>
     <string name="pref_header_equalizer">Equalizer</string>

@@ -22,41 +22,36 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 
 public class MiBand4Coordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand4Coordinator.class);
-
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.MI_BAND4_NAME, Pattern.CASE_INSENSITIVE);
     }
 
     @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        MiBand4FWInstallHandler handler = new MiBand4FWInstallHandler(uri, context);
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        final MiBand4FWInstallHandler handler = new MiBand4FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
     }
 
     @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
+    public boolean supportsHeartRateMeasurement(final GBDevice device) {
         return true;
     }
 
@@ -76,37 +71,48 @@ public class MiBand4Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_miband3,
-                R.xml.devicesettings_vibrationpatterns,
-                R.xml.devicesettings_wearlocation,
-                R.xml.devicesettings_heartrate_sleep_activity,
-                R.xml.devicesettings_goal_notification,
-                R.xml.devicesettings_custom_emoji_font,
-                R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_dateformat,
-                R.xml.devicesettings_nightmode,
-                R.xml.devicesettings_liftwrist_display_sensitivity,
-                R.xml.devicesettings_inactivity_dnd,
-                R.xml.devicesettings_workout_start_on_phone,
-                R.xml.devicesettings_workout_send_gps_to_band,
-                R.xml.devicesettings_swipeunlock,
-                R.xml.devicesettings_password,
-                R.xml.devicesettings_sync_calendar,
-                R.xml.devicesettings_reserve_reminders_calendar,
-                R.xml.devicesettings_expose_hr_thirdparty,
-                R.xml.devicesettings_bt_connected_advertisement,
-                R.xml.devicesettings_device_actions,
-                R.xml.devicesettings_high_mtu,
-                R.xml.devicesettings_overwrite_settings_on_connection,
-                R.xml.devicesettings_huami2021_fetch_operation_time_unit,
-                R.xml.devicesettings_transliteration
-        };
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+
+        final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
+        generic.add(R.xml.devicesettings_wearlocation);
+        final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
+        dateTime.add(R.xml.devicesettings_timeformat);
+        dateTime.add(R.xml.devicesettings_dateformat);
+        final List<Integer> display = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY);
+        display.add(R.xml.devicesettings_miband3);
+        display.add(R.xml.devicesettings_nightmode);
+        display.add(R.xml.devicesettings_liftwrist_display_sensitivity);
+        display.add(R.xml.devicesettings_swipeunlock);
+        display.add(R.xml.devicesettings_password);
+        final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
+        health.add(R.xml.devicesettings_heartrate_sleep_activity);
+        health.add(R.xml.devicesettings_inactivity_dnd);
+        health.add(R.xml.devicesettings_goal_notification);
+        final List<Integer> workout = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.WORKOUT);
+        workout.add(R.xml.devicesettings_workout_start_on_phone);
+        workout.add(R.xml.devicesettings_workout_send_gps_to_band);
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_custom_emoji_font);
+        notifications.add(R.xml.devicesettings_vibrationpatterns);
+        notifications.add(R.xml.devicesettings_transliteration);
+        final List<Integer> calendar = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALENDAR);
+        calendar.add(R.xml.devicesettings_sync_calendar);
+        calendar.add(R.xml.devicesettings_reserve_reminders_calendar);
+        final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
+        connection.add(R.xml.devicesettings_expose_hr_thirdparty);
+        connection.add(R.xml.devicesettings_bt_connected_advertisement);
+        connection.add(R.xml.devicesettings_device_actions);
+        connection.add(R.xml.devicesettings_high_mtu);
+        connection.add(R.xml.devicesettings_overwrite_settings_on_connection);
+        final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        developer.add(R.xml.devicesettings_huami2021_fetch_operation_time_unit);
+
+        return deviceSpecificSettings;
     }
 
     @Override
-    public String[] getSupportedLanguageSettings(GBDevice device) {
+    public String[] getSupportedLanguageSettings(final GBDevice device) {
         return new String[]{
                 "auto",
                 "ar_SA",
@@ -156,12 +162,10 @@ public class MiBand4Coordinator extends HuamiCoordinator {
         return MiBand4Support.class;
     }
 
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_miband4;
     }
-
 
     @Override
     public int getDefaultIconResource() {

@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.
 
 public class AmazfitVergeLFWHelper extends HuamiFWHelper {
 
-    public AmazfitVergeLFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitVergeLFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

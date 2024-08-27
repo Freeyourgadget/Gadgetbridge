@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareT
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     protected AbstractHuamiFirmwareInfo firmwareInfo;
 
-    public HuamiFWHelper(Uri uri, Context context) throws IOException {
+    public HuamiFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

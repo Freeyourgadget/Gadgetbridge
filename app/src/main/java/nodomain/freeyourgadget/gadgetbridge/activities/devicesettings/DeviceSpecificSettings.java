@@ -126,6 +126,15 @@ public class DeviceSpecificSettings implements Parcelable {
         return subScreens.get(key);
     }
 
+    public List<Integer> getAllNonRootScreens() {
+        final List<Integer> allScreens = new ArrayList<>();
+        for (final List<Integer> screens : subScreens.values()) {
+            allScreens.addAll(screens);
+        }
+        allScreens.removeAll(rootScreens);
+        return allScreens;
+    }
+
     public List<Integer> getAllScreens() {
         final List<Integer> allScreens = new ArrayList<>(rootScreens);
         for (final List<Integer> screens : subScreens.values()) {

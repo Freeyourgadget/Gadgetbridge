@@ -28,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 class ZeppEFWInstallHandler extends AbstractMiBandFWInstallHandler {
-    ZeppEFWInstallHandler(Uri uri, Context context) {
+    ZeppEFWInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }
 
@@ -38,12 +38,12 @@ class ZeppEFWInstallHandler extends AbstractMiBandFWInstallHandler {
     }
 
     @Override
-    protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
+    protected AbstractMiBandFWHelper createHelper(final Uri uri, final Context context) throws IOException {
         return new ZeppEFWHelper(uri, context);
     }
 
     @Override
-    protected boolean isSupportedDeviceType(GBDevice device) {
+    protected boolean isSupportedDeviceType(final GBDevice device) {
         return device.getType() == DeviceType.ZEPP_E;
     }
 }

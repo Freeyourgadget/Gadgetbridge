@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.Ama
 
 public class AmazfitGTRLiteFWHelper extends HuamiFWHelper {
 
-    public AmazfitGTRLiteFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitGTRLiteFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

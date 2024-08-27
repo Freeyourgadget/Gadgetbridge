@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand
 
 public class MiBand5FWHelper extends HuamiFWHelper {
 
-    public MiBand5FWHelper(Uri uri, Context context) throws IOException {
+    public MiBand5FWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

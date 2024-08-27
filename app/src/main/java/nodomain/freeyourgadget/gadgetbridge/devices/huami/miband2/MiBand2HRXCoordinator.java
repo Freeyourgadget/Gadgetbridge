@@ -23,10 +23,13 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -46,7 +49,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
         return null;
     }
 
@@ -61,21 +64,31 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_miband2,
-                R.xml.devicesettings_wearlocation,
-                R.xml.devicesettings_heartrate_sleep,
-                R.xml.devicesettings_goal_notification,
-                R.xml.devicesettings_donotdisturb_withauto,
-                R.xml.devicesettings_liftwrist_display,
-                R.xml.devicesettings_inactivity_dnd,
-                R.xml.devicesettings_rotatewrist_cycleinfo,
-                R.xml.devicesettings_miband_vibrationpatterns,
-                R.xml.devicesettings_overwrite_settings_on_connection,
-                R.xml.devicesettings_huami2021_fetch_operation_time_unit,
-                R.xml.devicesettings_transliteration
-        };
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+
+        final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
+        generic.add(R.xml.devicesettings_wearlocation);
+        final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
+        dateTime.add(R.xml.devicesettings_miband2_dateformat);
+        final List<Integer> display = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY);
+        display.add(R.xml.devicesettings_miband2_display);
+        display.add(R.xml.devicesettings_liftwrist_display);
+        display.add(R.xml.devicesettings_rotatewrist_cycleinfo);
+        final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
+        health.add(R.xml.devicesettings_heartrate_sleep);
+        health.add(R.xml.devicesettings_inactivity_dnd);
+        health.add(R.xml.devicesettings_goal_notification);
+        final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
+        notifications.add(R.xml.devicesettings_donotdisturb_withauto);
+        notifications.add(R.xml.devicesettings_miband_vibrationpatterns);
+        notifications.add(R.xml.devicesettings_transliteration);
+        final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
+        connection.add(R.xml.devicesettings_overwrite_settings_on_connection);
+        final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        developer.add(R.xml.devicesettings_huami2021_fetch_operation_time_unit);
+
+        return deviceSpecificSettings;
     }
 
     @Override

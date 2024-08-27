@@ -29,7 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 class MiBand4FWInstallHandler extends AbstractMiBandFWInstallHandler {
-    MiBand4FWInstallHandler(Uri uri, Context context) {
+    MiBand4FWInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }
 
@@ -39,12 +39,12 @@ class MiBand4FWInstallHandler extends AbstractMiBandFWInstallHandler {
     }
 
     @Override
-    protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
+    protected AbstractMiBandFWHelper createHelper(final Uri uri, final Context context) throws IOException {
         return new MiBand4FWHelper(uri, context);
     }
 
     @Override
-    protected boolean isSupportedDeviceType(GBDevice device) {
+    protected boolean isSupportedDeviceType(final GBDevice device) {
         return device.getType() == DeviceType.MIBAND4;
     }
 }

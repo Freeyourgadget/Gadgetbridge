@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.A
 
 public class AmazfitBand5FWHelper extends HuamiFWHelper {
 
-    public AmazfitBand5FWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitBand5FWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

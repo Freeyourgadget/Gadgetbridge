@@ -20,12 +20,4 @@
         android:persistent="true"
         android:summary="@string/bip_prefs_shotcuts_summary"
         android:title="@string/bip_prefs_shortcuts" />
-    <ListPreference
-        android:icon="@drawable/ic_language"
-        android:defaultValue="auto"
-        android:entries="@array/pref_amazfitbip_language"
-        android:entryValues="@array/pref_amazfitbip_language_values"
-        android:key="language"
-        android:summary="%s"
-        android:title="@string/pref_title_language" />
 </androidx.preference.PreferenceScreen>

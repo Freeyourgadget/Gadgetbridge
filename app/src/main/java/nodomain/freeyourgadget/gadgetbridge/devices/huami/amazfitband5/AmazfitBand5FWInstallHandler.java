@@ -28,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 class AmazfitBand5FWInstallHandler extends AbstractMiBandFWInstallHandler {
-    AmazfitBand5FWInstallHandler(Uri uri, Context context) {
+    AmazfitBand5FWInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }
 
@@ -38,12 +38,12 @@ class AmazfitBand5FWInstallHandler extends AbstractMiBandFWInstallHandler {
     }
 
     @Override
-    protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
+    protected AbstractMiBandFWHelper createHelper(final Uri uri, final Context context) throws IOException {
         return new AmazfitBand5FWHelper(uri, context);
     }
 
     @Override
-    protected boolean isSupportedDeviceType(GBDevice device) {
+    protected boolean isSupportedDeviceType(final GBDevice device) {
         return device.getType() == DeviceType.AMAZFITBAND5;
     }
 }

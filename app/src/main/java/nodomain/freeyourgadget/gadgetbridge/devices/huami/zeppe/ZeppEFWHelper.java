@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppEFir
 
 public class ZeppEFWHelper extends HuamiFWHelper {
 
-    public ZeppEFWHelper(Uri uri, Context context) throws IOException {
+    public ZeppEFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

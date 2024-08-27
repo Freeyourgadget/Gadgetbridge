@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2FWInstallHandler.class);
 
-    MiBand2FWInstallHandler(Uri uri, Context context) {
+    MiBand2FWInstallHandler(final Uri uri, final Context context) {
         super(uri, context);
     }
 
@@ -86,7 +86,7 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
         }
     }
 
-    private Version getFirmwareVersionOf(GBDevice device) {
+    private Version getFirmwareVersionOf(final GBDevice device) {
         String version = device.getFirmwareVersion();
         if (version == null || version.length() == 0) {
             return null;
@@ -111,12 +111,12 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     }
 
     @Override
-    protected AbstractMiBandFWHelper createHelper(Uri uri, Context context) throws IOException {
+    protected AbstractMiBandFWHelper createHelper(final Uri uri, final Context context) throws IOException {
         return new MiBand2FWHelper(uri, context);
     }
 
     @Override
-    protected boolean isSupportedDeviceType(GBDevice device) {
+    protected boolean isSupportedDeviceType(final GBDevice device) {
         return device.getType() == DeviceType.MIBAND2 || device.getType() == DeviceType.MIBAND2_HRX;
     }
 }

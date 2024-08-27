@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpoppro.
 
 public class AmazfitPopProFWHelper extends HuamiFWHelper {
 
-    public AmazfitPopProFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitPopProFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

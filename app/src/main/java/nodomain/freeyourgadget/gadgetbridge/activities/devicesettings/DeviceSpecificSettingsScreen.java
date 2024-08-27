@@ -37,6 +37,7 @@ public enum DeviceSpecificSettingsScreen {
     WORKOUT("pref_screen_workout", R.xml.devicesettings_root_workout),
     HEALTH("pref_screen_health", R.xml.devicesettings_root_health),
     TOUCH_OPTIONS("pref_screen_touch_options", R.xml.devicesettings_root_touch_options),
+    SOUND("pref_screen_sound", R.xml.devicesettings_root_touch_options),
     ;
 
     private final String key;

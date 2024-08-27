@@ -18,13 +18,4 @@
         android:summary="@string/mi2_enable_text_notifications_summary"
         android:title="@string/mi2_enable_text_notifications" />
 
-    <ListPreference
-        android:defaultValue="@string/p_dateformat_time"
-        android:icon="@drawable/ic_access_time"
-        android:entries="@array/mi2_dateformats"
-        android:entryValues="@array/mi2_dateformats_values"
-        android:key="mi2_dateformat"
-        android:summary="%s"
-        android:title="@string/miband2_prefs_dateformat" />
-
 </androidx.preference.PreferenceScreen>

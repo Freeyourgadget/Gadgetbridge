@@ -28,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 
 public class AmazfitBipLiteFWHelper extends HuamiFWHelper {
 
-    public AmazfitBipLiteFWHelper(Uri uri, Context context) throws IOException {
+    public AmazfitBipLiteFWHelper(final Uri uri, final Context context) throws IOException {
         super(uri, context);
     }
 

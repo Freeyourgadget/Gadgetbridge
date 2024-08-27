@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,6 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
@@ -45,7 +43,6 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabi
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiExtendedSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
@@ -75,7 +72,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageT
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.devices.SleepAsAndroidFeature;
 
 public abstract class ZeppOsCoordinator extends HuamiCoordinator {
@@ -146,11 +142,6 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsRealtimeData() {
-        return true;
-    }
-
-    @Override
     public boolean supportsWeather() {
         return true;
     }
@@ -176,7 +167,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsSpo2(GBDevice device) {
+    public boolean supportsSpo2(final GBDevice device) {
         return true;
     }
 
@@ -253,11 +244,6 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     @Override
     public boolean supportsAppListFetching() {
         return true;
-    }
-
-    @Override
-    public boolean supportsAppReordering() {
-        return false;
     }
 
     @Override
@@ -605,10 +591,6 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
 
     private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {
         return ZeppOsConfigService.deviceHasConfig(getPrefs(device), config);
-    }
-
-    public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
-        return devicePrefs.getBoolean(DeviceSettingsUtils.getPrefKnownConfig(config.name()), false);
     }
 
     public static boolean experimentalFeatures(final GBDevice device) {
