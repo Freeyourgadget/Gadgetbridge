@@ -3200,4 +3200,5 @@
     <string name="activity_type_multisport">الرياضات المتعددة</string>
     <string name="activity_type_paddling">تجديف</string>
     <string name="activity_type_motorcycling">ركوب الدراجات النارية</string>
+    <string name="pref_header_sound">الصوت</string>
 </resources>
