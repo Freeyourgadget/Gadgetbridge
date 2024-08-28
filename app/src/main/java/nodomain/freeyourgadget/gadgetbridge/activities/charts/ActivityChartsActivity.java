@@ -17,7 +17,13 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -25,10 +31,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -107,7 +115,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsTemperatureMeasurement()) {
             tabList.remove("temperature");
         }
-        if(!coordinator.supportsCyclingData()) {
+        if (!coordinator.supportsCyclingData()) {
             tabList.remove("cycling");
         }
         if (!coordinator.supportsWeightMeasurement()) {
@@ -136,6 +144,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
@@ -169,7 +178,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "weight":
                     return new WeightChartFragment();
             }
-            return null;
+
+            return new UnknownFragment();
         }
 
         @Override
@@ -209,7 +219,27 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "weight":
                     return getString(R.string.menuitem_weight);
             }
-            return super.getPageTitle(position);
+
+            return String.format(Locale.getDefault(), "Unknown %d", position);
+        }
+    }
+
+    /**
+     * A dummy fragment to avoid a crash when we get a unknown tab position (eg. broken
+     * preference migration).
+     */
+    public static class UnknownFragment extends AbstractGBFragment {
+        @Override
+        public View onCreateView(@NonNull final LayoutInflater inflater,
+                                 final ViewGroup container,
+                                 final Bundle savedInstanceState) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        protected CharSequence getTitle() {
+            return "Unknown";
         }
     }
 }
