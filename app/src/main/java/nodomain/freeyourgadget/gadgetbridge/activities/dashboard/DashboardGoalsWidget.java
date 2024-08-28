@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Arjan Schrijver
+/*  Copyright (C) 2023-2024 Arjan Schrijver, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -90,8 +90,6 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
         Prefs prefs = GBApplication.getPrefs();
         legend.setVisibility(prefs.getBoolean("dashboard_widget_goals_legend", true) ? View.VISIBLE : View.GONE);
 
-        fillData();
-
         return goalsView;
     }
 
@@ -118,6 +116,8 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
 
         @Override
         protected Void doInBackground(Void... params) {
+            final long nanoStart = System.nanoTime();
+
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             int height = width;
             int barWidth = Math.round(height * 0.04f);
@@ -160,6 +160,11 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
             paint.setStrokeWidth(barWidth);
             paint.setColor(color_light_sleep);
             canvas.drawArc(barMargin, barMargin, width - barMargin, height - barMargin, 270, 360 * dashboardData.getSleepMinutesGoalFactor(), false, paint);
+
+            final long nanoEnd = System.nanoTime();
+            final long executionTime = (nanoEnd - nanoStart) / 1000000;
+            LOG.debug("fillData for {} took {}ms", DashboardGoalsWidget.this.getClass().getSimpleName(), executionTime);
+
             return null;
         }
 

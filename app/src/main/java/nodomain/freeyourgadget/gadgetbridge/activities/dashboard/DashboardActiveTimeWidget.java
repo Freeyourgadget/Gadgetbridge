@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Arjan Schrijver
+/*  Copyright (C) 2023-2024 Arjan Schrijver, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -16,19 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 
@@ -37,13 +28,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
  * Use the {@link DashboardActiveTimeWidget#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardActiveTimeWidget extends AbstractDashboardWidget {
-    private static final Logger LOG = LoggerFactory.getLogger(DashboardActiveTimeWidget.class);
-    private TextView activeTime;
-    private ImageView activeTimeGauge;
-
+public class DashboardActiveTimeWidget extends AbstractGaugeWidget {
     public DashboardActiveTimeWidget() {
-        // Required empty public constructor
+        super(R.string.activity_list_summary_active_time, "activity");
     }
 
     /**
@@ -53,69 +40,35 @@ public class DashboardActiveTimeWidget extends AbstractDashboardWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardActiveTimeWidget.
      */
-    public static DashboardActiveTimeWidget newInstance(DashboardFragment.DashboardData dashboardData) {
-        DashboardActiveTimeWidget fragment = new DashboardActiveTimeWidget();
-        Bundle args = new Bundle();
+    public static DashboardActiveTimeWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+        final DashboardActiveTimeWidget fragment = new DashboardActiveTimeWidget();
+        final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.dashboard_widget_active_time, container, false);
-        activeTime = fragmentView.findViewById(R.id.activetime_text);
-        activeTimeGauge = fragmentView.findViewById(R.id.activetime_gauge);
-
-        fillData();
-
-        return fragmentView;
+    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+        dashboardData.getActiveMinutesTotal();
+        dashboardData.getActiveMinutesGoalFactor();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (activeTime != null && activeTimeGauge != null) fillData();
-    }
+    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+        final long totalActiveMinutes = dashboardData.getActiveMinutesTotal();
+        final String valueText = String.format(
+                Locale.ROOT,
+                "%d:%02d",
+                (int) Math.floor(totalActiveMinutes / 60f),
+                (int) (totalActiveMinutes % 60f)
+        );
 
-    @Override
-    protected void fillData() {
-        if (activeTimeGauge == null) return;
-        activeTimeGauge.post(new Runnable() {
-            @Override
-            public void run() {
-                FillDataAsyncTask myAsyncTask = new FillDataAsyncTask();
-                myAsyncTask.execute();
-            }
-        });
-    }
+        setText(valueText);
 
-    private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            dashboardData.getActiveMinutesTotal();
-            dashboardData.getActiveMinutesGoalFactor();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
-
-            // Update text representation
-            long totalActiveMinutes = dashboardData.getActiveMinutesTotal();
-            String activeHours = String.format("%d", (int) Math.floor(totalActiveMinutes / 60f));
-            String activeMinutes = String.format("%02d", (int) (totalActiveMinutes % 60f));
-            activeTime.setText(activeHours + ":" + activeMinutes);
-
-            final int width = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    150,
-                    GBApplication.getContext().getResources().getDisplayMetrics()
-            );
-
-            // Draw gauge
-            activeTimeGauge.setImageBitmap(drawGauge(width, Math.round(width * 0.075f), color_active_time, dashboardData.getActiveMinutesGoalFactor()));
-        }
+        drawSimpleGauge(
+                color_active_time,
+                dashboardData.getActiveMinutesGoalFactor()
+        );
     }
 }

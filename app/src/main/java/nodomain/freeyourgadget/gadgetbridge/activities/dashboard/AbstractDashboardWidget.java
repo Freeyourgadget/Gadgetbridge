@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Arjan Schrijver
+/*  Copyright (C) 2023-2024 Arjan Schrijver, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -16,19 +16,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class AbstractDashboardWidget extends Fragment {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDashboardWidget.class);
@@ -57,37 +69,67 @@ public abstract class AbstractDashboardWidget extends Fragment {
         }
     }
 
-
     public void update() {
         fillData();
     }
 
     protected abstract void fillData();
 
-    /**
-     * @param width Bitmap width in pixels
-     * @param barWidth Gauge bar width in pixels
-     * @param filledColor Color of the filled part of the gauge
-     * @param filledFactor Factor between 0 and 1 that determines the amount of the gauge that should be filled
-     * @return Bitmap containing the gauge
-     */
-    Bitmap drawGauge(int width, int barWidth, @ColorInt int filledColor, float filledFactor) {
-        int height = width / 2;
-        int barMargin = (int) Math.ceil(barWidth / 2f);
+    protected boolean isSupportedBy(final GBDevice device) {
+        return device.getDeviceCoordinator().supportsActivityTracking();
+    }
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(barWidth * 0.75f);
-        paint.setColor(color_unknown);
-        canvas.drawArc(barMargin, barMargin, width - barMargin, width - barMargin, 180 + 180 * filledFactor, 180 - 180 * filledFactor, false, paint);
-        paint.setStrokeWidth(barWidth);
-        paint.setColor(filledColor);
-        canvas.drawArc(barMargin, barMargin, width - barMargin, width - barMargin, 180, 180 * filledFactor, false, paint);
+    protected List<GBDevice> getSupportedDevices(final DashboardFragment.DashboardData dashboardData) {
+        return GBApplication.app().getDeviceManager().getDevices()
+                .stream()
+                .filter(dev -> dashboardData.showAllDevices || dashboardData.showDeviceList.contains(dev.getAddress()))
+                .filter(this::isSupportedBy)
+                .collect(Collectors.toList());
+    }
 
-        return bitmap;
+    protected void onClickOpenChart(final View view, final String chart, final int label) {
+        view.setOnClickListener(v -> {
+            chooseDevice(dashboardData, device -> {
+                final Intent startIntent;
+                startIntent = new Intent(requireContext(), ActivityChartsActivity.class);
+                startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                startIntent.putExtra(ActivityChartsActivity.EXTRA_SINGLE_FRAGMENT_NAME, chart);
+                startIntent.putExtra(ActivityChartsActivity.EXTRA_ACTIONBAR_TITLE, label);
+                startIntent.putExtra(ActivityChartsActivity.EXTRA_TIMESTAMP, dashboardData.timeTo);
+                requireContext().startActivity(startIntent);
+            });
+        });
+    }
+
+    protected void chooseDevice(final DashboardFragment.DashboardData dashboardData,
+                                final Consumer<GBDevice> consumer) {
+        final List<GBDevice> devices = getSupportedDevices(dashboardData);
+
+        if (devices.size() == 1) {
+            consumer.accept(devices.get(0));
+            return;
+        }
+
+        if (devices.isEmpty()) {
+            GB.toast(GBApplication.getContext(), R.string.no_supported_devices_found, Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        final String[] deviceNames = devices.stream()
+                .map(GBDevice::getAliasOrName)
+                .toArray(String[]::new);
+
+        final Context activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        new MaterialAlertDialogBuilder(activity)
+                .setCancelable(true)
+                .setTitle(R.string.choose_device)
+                .setItems(deviceNames, (dialog, which) -> consumer.accept(devices.get(which)))
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                })
+                .show();
     }
 }

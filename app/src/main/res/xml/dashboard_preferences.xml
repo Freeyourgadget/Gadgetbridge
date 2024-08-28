@@ -20,7 +20,7 @@
             android:summary="@string/pref_dashboard_cards_summary"
             app:iconSpaceReserved="false" />
         <com.mobeta.android.dslv.DragSortListPreference
-            android:defaultValue="@array/pref_dashboard_widgets_order_values"
+            android:defaultValue="@array/pref_dashboard_widgets_order_default"
             android:dialogTitle="@string/menuitem_widgets"
             android:entries="@array/pref_dashboard_widgets_order"
             android:entryValues="@array/pref_dashboard_widgets_order_values"

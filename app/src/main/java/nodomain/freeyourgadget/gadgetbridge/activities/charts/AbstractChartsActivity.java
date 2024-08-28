@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,18 +30,27 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,8 +66,10 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     public static final String STATE_START_DATE = "stateStartDate";
     public static final String STATE_END_DATE = "stateEndDate";
 
-    public static final String EXTRA_FRAGMENT_ID = "fragment";
-    public static final int REQUEST_CODE_PREFERENCES = 1;
+    public static final String EXTRA_FRAGMENT_ID = "fragmentId";
+    public static final String EXTRA_SINGLE_FRAGMENT_NAME = "singleFragmentName";
+    public static final String EXTRA_ACTIONBAR_TITLE = "actionbarTitle";
+    public static final String EXTRA_TIMESTAMP = "timestamp";
 
     private TextView mDateControl;
 
@@ -70,13 +82,19 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     private GBDevice mGBDevice;
     private ViewGroup dateBar;
 
+    private ActivityResultLauncher<Intent> chartsPreferencesLauncher;
+    private final ActivityResultCallback<ActivityResult> chartsPreferencesCallback = result -> {
+        recreate();
+    };
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+        public void onReceive(final Context context, final Intent intent) {
+            final String action = intent.getAction();
+            //noinspection SwitchStatementWithTooFewBranches
             switch (Objects.requireNonNull(action)) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
-                    GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                    final GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     if (dev != null) {
                         refreshBusyState(dev);
                     }
@@ -85,11 +103,11 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
         }
     };
 
-    private void refreshBusyState(GBDevice dev) {
+    private void refreshBusyState(final GBDevice dev) {
         if (dev.isBusy()) {
             swipeLayout.setRefreshing(true);
         } else {
-            boolean wasBusy = swipeLayout.isRefreshing();
+            final boolean wasBusy = swipeLayout.isRefreshing();
             swipeLayout.setRefreshing(false);
             if (wasBusy) {
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
@@ -99,31 +117,51 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
-        int tabFragmentToOpen = -1;
 
+        final Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
+
+        mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+
+        chartsPreferencesLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                chartsPreferencesCallback
+        );
+
+        // Set start and end date
         if (savedInstanceState != null) {
             setEndDate(new Date(savedInstanceState.getLong(STATE_END_DATE, System.currentTimeMillis())));
-            setStartDate(new Date(savedInstanceState.getLong(STATE_START_DATE, DateTimeUtils.shiftByDays(getEndDate(), -1).getTime())));
+        } else if (extras.containsKey(EXTRA_TIMESTAMP)) {
+            final int endTimestamp = extras.getInt(EXTRA_TIMESTAMP, 0);
+            setEndDate(new Date(endTimestamp * 1000L));
         } else {
             setEndDate(new Date());
-            setStartDate(DateTimeUtils.shiftByDays(getEndDate(), -1));
         }
+        setStartDate(DateTimeUtils.shiftByDays(getEndDate(), -1));
 
         final IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
-        final Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
-            tabFragmentToOpen = extras.getInt(EXTRA_FRAGMENT_ID);
-        } else {
-            throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        // Open the specified fragment, if any, and setup single page view if specified
+        final int tabFragmentIdToOpen = extras.getInt(EXTRA_FRAGMENT_ID, -1);
+        final String singleFragmentName = extras.getString(EXTRA_SINGLE_FRAGMENT_NAME, null);
+        final int actionbarTitle = extras.getInt(EXTRA_ACTIONBAR_TITLE, 0);
+
+        if (tabFragmentIdToOpen >= 0 && singleFragmentName != null) {
+            throw new IllegalArgumentException("Must specify either fragment ID or single fragment name, not both");
         }
-        enabledTabsList = fillChartsTabsList();
+
+        if (singleFragmentName != null) {
+            enabledTabsList = Collections.singletonList(singleFragmentName);
+        } else {
+            enabledTabsList = fillChartsTabsList();
+        }
 
         swipeLayout = findViewById(R.id.activity_swipe_layout);
         swipeLayout.setOnRefreshListener(this::fetchRecordedData);
@@ -132,8 +170,23 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
         // Set up the ViewPager with the sections adapter.
         final NonSwipeableViewPager viewPager = findViewById(R.id.charts_pager);
         viewPager.setAdapter(getPagerAdapter());
-        if (tabFragmentToOpen > -1) {
-            viewPager.setCurrentItem(tabFragmentToOpen);  // open the tab as specified in the intent
+        if (tabFragmentIdToOpen > -1) {
+            viewPager.setCurrentItem(tabFragmentIdToOpen);  // open the tab as specified in the intent
+        }
+
+        viewPager.setAllowSwipe(singleFragmentName == null && GBApplication.getPrefs().getBoolean("charts_allow_swipe", true));
+
+        if (singleFragmentName != null) {
+            final TabLayout tabLayout = findViewById(R.id.charts_pagerTabStrip);
+            tabLayout.setVisibility(TextView.GONE);
+        }
+
+        if (actionbarTitle != 0) {
+            final ActionBar actionBar = getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.setTitle(actionbarTitle);
+            }
         }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -158,19 +211,19 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
             new ShowDurationDialog(detailedDuration, AbstractChartsActivity.this).show();
         });
 
-        Button mPrevButton = findViewById(R.id.charts_previous_day);
+        final Button mPrevButton = findViewById(R.id.charts_previous_day);
         mPrevButton.setOnClickListener(v -> handleButtonClicked(DATE_PREV_DAY));
-        Button mNextButton = findViewById(R.id.charts_next_day);
+        final Button mNextButton = findViewById(R.id.charts_next_day);
         mNextButton.setOnClickListener(v -> handleButtonClicked(DATE_NEXT_DAY));
 
-        Button mPrevWeekButton = findViewById(R.id.charts_previous_week);
+        final Button mPrevWeekButton = findViewById(R.id.charts_previous_week);
         mPrevWeekButton.setOnClickListener(v -> handleButtonClicked(DATE_PREV_WEEK));
-        Button mNextWeekButton = findViewById(R.id.charts_next_week);
+        final Button mNextWeekButton = findViewById(R.id.charts_next_week);
         mNextWeekButton.setOnClickListener(v -> handleButtonClicked(DATE_NEXT_WEEK));
 
-        Button mPrevMonthButton = findViewById(R.id.charts_previous_month);
+        final Button mPrevMonthButton = findViewById(R.id.charts_previous_month);
         mPrevMonthButton.setOnClickListener(v -> handleButtonClicked(DATE_PREV_MONTH));
-        Button mNextMonthButton = findViewById(R.id.charts_next_month);
+        final Button mNextMonthButton = findViewById(R.id.charts_next_month);
         mNextMonthButton.setOnClickListener(v -> handleButtonClicked(DATE_NEXT_MONTH));
     }
 
@@ -193,7 +246,7 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     protected abstract List<String> fillChartsTabsList();
 
     private String formatDetailedDuration() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         final String dateStringFrom = dateFormat.format(getStartDate());
         final String dateStringTo = dateFormat.format(getEndDate());
 
@@ -262,15 +315,7 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PREFERENCES) {
-            this.recreate();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         final int itemId = item.getItemId();
         if (itemId == R.id.charts_fetch_activity_data) {
             fetchRecordedData();
@@ -285,8 +330,8 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(REFRESH));
             }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
         } else if (itemId == R.id.prefs_charts_menu) {
-            Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
-            startActivityForResult(settingsIntent, REQUEST_CODE_PREFERENCES);
+            final Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
+            chartsPreferencesLauncher.launch(settingsIntent);
             return true;
         }
 
@@ -294,7 +339,7 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     }
 
     @Override
-    public void enableSwipeRefresh(boolean enable) {
+    public void enableSwipeRefresh(final boolean enable) {
         swipeLayout.setEnabled(enable && allowRefresh());
     }
 

@@ -25,14 +25,19 @@ import androidx.viewpager.widget.ViewPager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class NonSwipeableViewPager extends ViewPager {
+    private boolean allowSwipe = true;
 
     public NonSwipeableViewPager(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
+    public void setAllowSwipe(final boolean allowSwipe) {
+        this.allowSwipe = allowSwipe;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(final MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
+        if (allowSwipe) {
             return super.onInterceptTouchEvent(ev);
         }
         return false;
@@ -40,7 +45,7 @@ public class NonSwipeableViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(final MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
+        if (allowSwipe) {
             return super.onTouchEvent(ev);
         }
         return false;

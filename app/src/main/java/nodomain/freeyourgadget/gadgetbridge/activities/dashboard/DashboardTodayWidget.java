@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Arjan Schrijver
+/*  Copyright (C) 2023-2024 Arjan Schrijver, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -122,9 +122,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
 
         legend.setVisibility(prefs.getBoolean("dashboard_widget_today_legend", true) ? View.VISIBLE : View.GONE);
 
-        if (dashboardData.generalizedActivities.isEmpty()) {
-            fillData();
-        } else {
+        if (!dashboardData.generalizedActivities.isEmpty()) {
             draw();
         }
 
@@ -147,7 +145,11 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         int height = width;
         int barWidth = Math.round(width * 0.08f);
         int hourTextSp = Math.round(width * 0.024f);
-        float hourTextPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, hourTextSp, requireContext().getResources().getDisplayMetrics());
+        float hourTextPixels = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                hourTextSp,
+                GBApplication.getContext().getResources().getDisplayMetrics()
+        );
         float outerCircleMargin = mode_24h ? barWidth / 2f : barWidth / 2f + hourTextPixels * 1.3f;
         float innerCircleMargin = outerCircleMargin + barWidth * 1.3f;
         float degreeFactor = mode_24h ? 240 : 120;
@@ -168,7 +170,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         }
 
         // Draw hours
-        boolean normalClock = DateFormat.is24HourFormat(getContext());
+        boolean normalClock = DateFormat.is24HourFormat(GBApplication.getContext());
         Map<Integer, String> hours = new HashMap<Integer, String>() {
             {
                 put(0, normalClock ? (mode_24h ? "0" : "12") : "12pm");
@@ -435,6 +437,8 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
 
         @Override
         protected Void doInBackground(Void... params) {
+            final long nanoStart = System.nanoTime();
+
             // Retrieve activity data
             dashboardData.generalizedActivities.clear();
             List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
@@ -476,16 +480,21 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 addActivity(session.getStartTime().getTime() / 1000, session.getEndTime().getTime() / 1000, ActivityKind.ACTIVITY);
             }
             createGeneralizedActivities();
+
+            final long nanoEnd = System.nanoTime();
+            final long executionTime = (nanoEnd - nanoStart) / 1000000;
+            LOG.debug("fillData for {} took {}ms", DashboardTodayWidget.this.getClass().getSimpleName(), executionTime);
+
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void unused) {
+        protected void onPostExecute(final Void unused) {
             super.onPostExecute(unused);
             try {
                 draw();
-            } catch (IllegalStateException e) {
-                LOG.warn("calling draw() failed: " + e.getMessage());
+            } catch (final Exception e) {
+                LOG.error("calling draw() failed", e);
             }
         }
     }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Arjan Schrijver, José Rebelo
+/*  Copyright (C) 2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -18,31 +18,20 @@ package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
 import android.os.Bundle;
 
-import java.util.Locale;
-
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.StressChartFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardStressData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-/**
- * A simple {@link AbstractDashboardWidget} subclass.
- * Use the {@link DashboardSleepWidget#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DashboardSleepWidget extends AbstractGaugeWidget {
-    public DashboardSleepWidget() {
-        super(R.string.menuitem_sleep, "sleep");
+public class DashboardStressSimpleWidget extends AbstractGaugeWidget {
+    public DashboardStressSimpleWidget() {
+        super(R.string.menuitem_stress, "stress");
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param dashboardData An instance of DashboardFragment.DashboardData.
-     * @return A new instance of fragment DashboardSleepWidget.
-     */
-    public static DashboardSleepWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
-        final DashboardSleepWidget fragment = new DashboardSleepWidget();
+    public static DashboardStressSimpleWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+        final DashboardStressSimpleWidget fragment = new DashboardStressSimpleWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
         fragment.setArguments(args);
@@ -51,29 +40,31 @@ public class DashboardSleepWidget extends AbstractGaugeWidget {
 
     @Override
     protected boolean isSupportedBy(final GBDevice device) {
-        return device.getDeviceCoordinator().supportsSleepMeasurement();
+        return device.getDeviceCoordinator().supportsStressMeasurement();
     }
 
     @Override
     protected void populateData(final DashboardFragment.DashboardData dashboardData) {
-        dashboardData.getSleepMinutesTotal();
-        dashboardData.getSleepMinutesGoalFactor();
+        dashboardData.computeIfAbsent("stress", () -> DashboardStressData.compute(dashboardData));
     }
 
     @Override
     protected void draw(final DashboardFragment.DashboardData dashboardData) {
-        final long totalSleepMinutes = dashboardData.getSleepMinutesTotal();
-        final String valueText = String.format(
-                Locale.ROOT,
-                "%d:%02d",
-                (int) Math.floor(totalSleepMinutes / 60f),
-                (int) (totalSleepMinutes % 60f)
-        );
+        final DashboardStressData stressData = (DashboardStressData) dashboardData.get("stress");
+        if (stressData == null) {
+            drawSimpleGauge(0, -1);
+            return;
+        }
+
+        final int color = StressChartFragment.StressType.fromStress(
+                stressData.value,
+                stressData.ranges
+        ).getColor(GBApplication.getContext());
+
+        final float value = stressData.value / 100f;
+        final String valueText = String.valueOf(stressData.value);
 
         setText(valueText);
-        drawSimpleGauge(
-                color_light_sleep,
-                dashboardData.getSleepMinutesGoalFactor()
-        );
+        drawSimpleGauge(color, value);
     }
 }
