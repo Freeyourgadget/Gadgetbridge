@@ -315,7 +315,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(fragmentId, widgetObj)
-                .commit();
+                .commitAllowingStateLoss(); // FIXME: #4007
 
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(
                 GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
