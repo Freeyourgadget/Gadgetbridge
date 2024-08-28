@@ -140,4 +140,11 @@ public class ActivitySummaryEntries {
     public static final String UNIT_DEGREES = "degrees";
 
     public static final String GROUP_PACE = "Pace";
+
+    /**
+     * Used to signal that this activity has a gps track. This is currently used by ActivitySummaryDetail
+     * to display the share and view gpx buttons, even though there's no gpx file.
+     * FIXME: We should have a cleaner way of doing this.
+     */
+    public static final String INTERNAL_HAS_GPS = "internal_hasGps";
 }

@@ -575,7 +575,7 @@ class BangleJSActivityTrack {
                 point = new ActivityPoint();
             }
 
-            ActivityTrackExporter exporter = createExporter();
+            ActivityTrackExporter exporter = new GPXExporter();
             String trackType = "track";
             switch (ActivityKind.fromCode(summary.getActivityKind())) {
                 case CYCLING:
@@ -810,12 +810,6 @@ class BangleJSActivityTrack {
         } catch (IOException e) {
             LOG.error("Could not write to file", e);
         }
-    }
-
-    private static ActivityTrackExporter createExporter() {
-        GPXExporter exporter = new GPXExporter();
-        exporter.setCreator(GBApplication.app().getNameAndVersion());
-        return exporter;
     }
 
     private static JSONObject addSummaryData(JSONObject summaryData, String key, float value, String unit) {

@@ -132,6 +132,9 @@ public class ActivitySummaryJsonSummary {
 
         while (keys.hasNext()) {
             String key = keys.next();
+            if (INTERNAL_HAS_GPS.equals(key)) {
+                continue;
+            }
             try {
                 JSONObject innerData = (JSONObject) summaryDatalist.get(key);
                 Object value = innerData.get("value");

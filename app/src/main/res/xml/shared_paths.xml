@@ -4,4 +4,5 @@
     <external-path name="external_files" path="."/>
     <files-path name="gpx" path="./" />
     <cache-path name="raw" path="raw/" />
+    <cache-path name="gpx" path="gpx/" />
 </paths>

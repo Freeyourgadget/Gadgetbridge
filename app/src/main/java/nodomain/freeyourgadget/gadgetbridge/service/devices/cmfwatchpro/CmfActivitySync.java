@@ -544,7 +544,6 @@ public class CmfActivitySync {
     @Nullable
     private File exportGpx(final BaseActivitySummary summary, final ActivityTrack activityTrack) {
         final GPXExporter exporter = new GPXExporter();
-        exporter.setCreator(GBApplication.app().getNameAndVersion());
 
         final String gpxFileName = FileUtils.makeValidFileName("gadgetbridge-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
         final File gpxTargetFile;

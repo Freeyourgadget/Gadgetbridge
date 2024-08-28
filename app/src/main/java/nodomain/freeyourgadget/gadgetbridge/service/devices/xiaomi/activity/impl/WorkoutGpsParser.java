@@ -118,7 +118,6 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
 
             // Save the gpx file
             final GPXExporter exporter = new GPXExporter();
-            exporter.setCreator(GBApplication.app().getNameAndVersion());
 
             final String gpxFileName = FileUtils.makeValidFileName("gadgetbridge-" + DateTimeUtils.formatIso8601(fileId.getTimestamp()) + ".gpx");
             final File gpxTargetFile = new File(FileUtils.getExternalFilesDir(), gpxFileName);

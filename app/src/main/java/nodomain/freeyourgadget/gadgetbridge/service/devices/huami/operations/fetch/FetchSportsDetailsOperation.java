@@ -97,7 +97,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
         try {
             final ActivityTrack track = detailsParser.parse(buffer.toByteArray());
-            final ActivityTrackExporter exporter = createExporter();
+            final ActivityTrackExporter exporter = new GPXExporter();
             final String trackType;
             switch (ActivityKind.fromCode(summary.getActivityKind())) {
                 case CYCLING:
@@ -181,12 +181,6 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
         LOG.info("Doing another fetch since last sync timestamp is still too old: {}", DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
         return true;
-    }
-
-    private ActivityTrackExporter createExporter() {
-        final GPXExporter exporter = new GPXExporter();
-        exporter.setCreator(GBApplication.app().getNameAndVersion());
-        return exporter;
     }
 
     @Override

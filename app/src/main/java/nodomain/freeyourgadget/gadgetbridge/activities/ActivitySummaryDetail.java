@@ -49,6 +49,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
@@ -73,20 +74,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
+import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -141,7 +146,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final long dateToFilter = bundle.getLong("dateToFilter", 0);
         final long deviceFilter = bundle.getLong("deviceFilter", 0);
         final String nameContainsFilter = bundle.getString("nameContainsFilter");
-        final List itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
+        final List<Long> itemsFilter = (List<Long>) bundle.getSerializable("itemsFilter");
 
         final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
         final ScrollView layout = findViewById(R.id.activity_summary_detail_scroll_layout);
@@ -184,11 +189,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (getTrackFile() != null) {
-                        showCanvas();
+                    if (itemHasGps()) {
+                        showGpsCanvas();
                         activitySummariesGpsFragment.set_data(getTrackFile());
                     } else {
-                        hideCanvas();
+                        hideGpsCanvas();
                     }
 
                     layout.startAnimation(animFadeRight);
@@ -206,11 +211,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (getTrackFile() != null) {
-                        showCanvas();
+                    if (itemHasGps()) {
+                        showGpsCanvas();
                         activitySummariesGpsFragment.set_data(getTrackFile());
                     } else {
-                        hideCanvas();
+                        hideGpsCanvas();
                     }
 
 
@@ -227,11 +232,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
             activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-            if (getTrackFile() != null) {
-                showCanvas();
+            if (itemHasGps()) {
+                showGpsCanvas();
                 activitySummariesGpsFragment.set_data(getTrackFile());
             } else {
-                hideCanvas();
+                hideGpsCanvas();
             }
         }
 
@@ -320,11 +325,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         currentItem.setGpxTrack(selectedGpxFile);
                                         currentItem.update();
-                                        if (getTrackFile() != null) {
-                                            showCanvas();
+                                        if (itemHasGps()) {
+                                            showGpsCanvas();
                                             activitySummariesGpsFragment.set_data(getTrackFile());
                                         } else {
-                                            hideCanvas();
+                                            hideGpsCanvas();
                                         }
                                     }
                                 })
@@ -590,14 +595,14 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void take_share_screenshot(Context context) {
         final ScrollView layout = findViewById(R.id.activity_summary_detail_scroll_layout);
-        int width = layout.getChildAt(0).getHeight();
-        int height = layout.getChildAt(0).getWidth();
-        Bitmap screenShot = getScreenShot(layout, width, height, context);
+        final int width = layout.getChildAt(0).getWidth();
+        final int height = layout.getChildAt(0).getHeight();
+        final Bitmap screenShot = getScreenShot(layout, height, width, context);
 
-        String fileName = FileUtils.makeValidFileName("Screenshot-" + ActivityKind.fromCode(currentItem.getActivityKind()).getLabel(context).toLowerCase() + "-" + DateTimeUtils.formatIso8601(currentItem.getStartTime()) + ".png");
+        final String fileName = FileUtils.makeValidFileName("Screenshot-" + ActivityKind.fromCode(currentItem.getActivityKind()).getLabel(context).toLowerCase() + "-" + DateTimeUtils.formatIso8601(currentItem.getStartTime()) + ".png");
         try {
-            File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
-            FileOutputStream fOut = new FileOutputStream(targetFile);
+            final File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+            final FileOutputStream fOut = new FileOutputStream(targetFile);
             screenShot.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
@@ -626,25 +631,68 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void viewGpxTrack(Context context) {
-        final String gpxTrack = currentItem.getGpxTrack();
-
-        if (gpxTrack != null) {
-            try {
-                AndroidUtils.viewFile(gpxTrack, "application/gpx+xml", context);
-            } catch (IOException e) {
-                GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-            }
-        } else {
+        final File trackFile = getTrackFile();
+        if (trackFile == null) {
             GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
+            return;
+        }
+
+        try {
+            if (trackFile.getName().endsWith(".gpx")) {
+                AndroidUtils.viewFile(trackFile.getPath(), "application/gpx+xml", context);
+            } else if (trackFile.getName().endsWith(".fit")) {
+                final File gpxFile = convertFitToGpx(trackFile);
+                AndroidUtils.viewFile(gpxFile.getPath(), "application/gpx+xml", context);
+            } else {
+                GB.toast(getApplicationContext(), "Unknown track format", Toast.LENGTH_LONG, GB.INFO);
+            }
+        } catch (final Exception e) {
+            GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 
-    private static void shareGpxTrack(final Context context, final BaseActivitySummary summary) {
+    private void shareGpxTrack(final Context context, final BaseActivitySummary summary) {
+        final File trackFile = getTrackFile();
+        if (trackFile == null) {
+            GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
+            return;
+        }
+
         try {
-            AndroidUtils.shareFile(context, new File(summary.getGpxTrack()));
+            if (trackFile.getName().endsWith(".gpx")) {
+                AndroidUtils.shareFile(context, trackFile);
+            } else if (trackFile.getName().endsWith(".fit")) {
+                final File gpxFile = convertFitToGpx(trackFile);
+                AndroidUtils.shareFile(context, gpxFile);
+            } else {
+                GB.toast(getApplicationContext(), "Unknown track format", Toast.LENGTH_LONG, GB.INFO);
+            }
         } catch (final Exception e) {
             GB.toast(context, "Unable to share GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
         }
+    }
+
+    private File convertFitToGpx(final File file) throws IOException, ActivityTrackExporter.GPXTrackEmptyException {
+        final FitFile fitFile = FitFile.parseIncoming(file);
+        final List<ActivityPoint> activityPoints = fitFile.getRecords().stream()
+                .filter(r -> r instanceof FitRecord)
+                .map(r -> ((FitRecord) r).toActivityPoint())
+                .filter(ap -> ap.getLocation() != null)
+                .collect(Collectors.toList());
+
+        final ActivityTrack activityTrack = new ActivityTrack();
+        activityTrack.setName(currentItem.getName());
+        activityTrack.addTrackPoints(activityPoints);
+
+        final File cacheDir = getCacheDir();
+        final File rawCacheDir = new File(cacheDir, "gpx");
+        rawCacheDir.mkdir();
+        final File gpxFile = new File(rawCacheDir, file.getName().replace(".fit", ".gpx"));
+
+        final GPXExporter gpxExporter = new GPXExporter();
+        gpxExporter.performExport(activityTrack, gpxFile);
+
+        return gpxFile;
     }
 
     private static void shareRawSummary(final Context context, final BaseActivitySummary summary) {
@@ -681,7 +729,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         boolean hasRawDetails = false;
 
         if (currentItem != null) {
-            hasGpx = currentItem.getGpxTrack() != null;
+            hasGpx = itemHasGps();
             hasRawSummary = currentItem.getRawSummaryData() != null;
 
             final String rawDetailsPath = currentItem.getRawDetailsPath();
@@ -698,20 +746,40 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         devToolsMenu.setVisible(devToolsMenu.getSubMenu().hasVisibleItems());
     }
 
-    private void showCanvas() {
-        View gpsView = findViewById(R.id.gpsFragmentHolder);
-        ViewGroup.LayoutParams params = gpsView.getLayoutParams();
+    private void showGpsCanvas() {
+        final View gpsView = findViewById(R.id.gpsFragmentHolder);
+        final ViewGroup.LayoutParams params = gpsView.getLayoutParams();
         params.height = (int) (300 * getApplicationContext().getResources().getDisplayMetrics().density);
         gpsView.setLayoutParams(params);
     }
 
-    private void hideCanvas() {
-        View gpsView = findViewById(R.id.gpsFragmentHolder);
-        ViewGroup.LayoutParams params = gpsView.getLayoutParams();
+    private void hideGpsCanvas() {
+        final View gpsView = findViewById(R.id.gpsFragmentHolder);
+        final ViewGroup.LayoutParams params = gpsView.getLayoutParams();
         params.height = 0;
         gpsView.setLayoutParams(params);
     }
 
+    private boolean itemHasGps() {
+        if (currentItem.getGpxTrack() != null) {
+            return new File(currentItem.getGpxTrack()).canRead();
+        }
+        final String summaryData = currentItem.getSummaryData();
+        if (summaryData.contains(INTERNAL_HAS_GPS)) {
+            try {
+                final JSONObject summaryDataObject = new JSONObject(summaryData);
+                final JSONObject internalHasGps = summaryDataObject.getJSONObject(INTERNAL_HAS_GPS);
+                return "true".equals(internalHasGps.optString("value", "false"));
+            } catch (final JSONException e) {
+                LOG.error("Failed to parse summary data json", e);
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    @Nullable
     private File getTrackFile() {
         final String gpxTrack = currentItem.getGpxTrack();
         if (gpxTrack != null) {
@@ -734,9 +802,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         return null;
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.activity_take_screenshot_menu, menu);
@@ -744,21 +811,12 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         return true;
     }
 
-    private GBDevice getGBDevice(Device findDevice) {
-        DaoSession daoSession;
-        GBApplication gbApp = (GBApplication) getApplicationContext();
-        List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
-
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            daoSession = handler.getDaoSession();
-            for (GBDevice device : devices) {
-                Device dbDevice = DBHelper.findDevice(device, daoSession);
-                if (dbDevice.equals(findDevice)) return device;
-            }
-        } catch (Exception e) {
-            LOG.debug("Error getting device: " + e);
-        }
-        return null;
+    @Nullable
+    private static GBDevice getGBDevice(final Device findDevice) {
+        return GBApplication.app().getDeviceManager().getDevices()
+                .stream()
+                .filter(d -> d.getAddress().equalsIgnoreCase(findDevice.getIdentifier()))
+                .findFirst()
+                .orElse(null);
     }
-
 }
