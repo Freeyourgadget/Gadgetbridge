@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
+import android.media.session.PlaybackState;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 
@@ -35,6 +36,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class GBMusicControlReceiver extends BroadcastReceiver {
@@ -43,13 +45,13 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
     public static final String ACTION_MUSICCONTROL = "nodomain.freeyourgadget.gadgetbridge.musiccontrol";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        GBDeviceEventMusicControl.Event musicCmd = GBDeviceEventMusicControl.Event.values()[intent.getIntExtra("event", 0)];
-        int keyCode = -1;
-        int volumeAdjust = AudioManager.ADJUST_LOWER;
+    public void onReceive(final Context context, final Intent intent) {
+        final int event = intent.getIntExtra("event", 0);
+        final GBDeviceEventMusicControl.Event musicCmd = GBDeviceEventMusicControl.Event.values()[event];
+        final int keyCode;
 
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        
+        final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
         switch (musicCmd) {
             case NEXT:
                 keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
@@ -73,70 +75,144 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
                 keyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
                 break;
             case VOLUMEUP:
-                // change default and fall through, :P
-                volumeAdjust = AudioManager.ADJUST_RAISE;
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+                sendPhoneVolume(audioManager);
+                return;
             case VOLUMEDOWN:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, volumeAdjust, 0);
-
-                final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                final int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                final int volumePercentage = (byte) Math.round(100 * (volumeLevel / (float) volumeMax));
-
-                GBApplication.deviceService().onSetPhoneVolume(volumePercentage);
-                break;
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
+                sendPhoneVolume(audioManager);
+                return;
             default:
+                LOG.error("Unknown event {}", event);
                 return;
         }
 
-        if (keyCode != -1) {
-            String audioPlayer = getAudioPlayer(context);
+        final GBPrefs prefs = GBApplication.getPrefs();
 
-            LOG.debug("keypress: " + musicCmd.toString() + " sent to: " + audioPlayer);
+        if (prefs.getBoolean("pref_deprecated_media_control", false)) {
+            // Deprecated path - mb_intents works for some players and not others, and vice-versa
 
-            long eventtime = SystemClock.uptimeMillis();
-            
-            if (GBApplication.getPrefs().getBoolean("mb_intents", false)) {
-                Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-                KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
+            final long eventTime = SystemClock.uptimeMillis();
+
+            if (prefs.getBoolean("mb_intents", false)) {
+                String audioPlayer = getAudioPlayer(context);
+
+                LOG.debug("Sending key press {} to {}", musicCmd, audioPlayer);
+
+                final Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                final KeyEvent downEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, keyCode, 0);
                 downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
                 if (!"default".equals(audioPlayer)) {
                     downIntent.setPackage(audioPlayer);
                 }
                 context.sendOrderedBroadcast(downIntent, null);
 
-                Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-                KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
+                final Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+                final KeyEvent upEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_UP, keyCode, 0);
                 upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
                 if (!"default".equals(audioPlayer)) {
                     upIntent.setPackage(audioPlayer);
                 }
                 context.sendOrderedBroadcast(upIntent, null);
             } else {
-                KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, keyCode, 0);
+                LOG.debug("Sending key press {} generally", musicCmd);
+                final KeyEvent downEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_DOWN, keyCode, 0);
                 audioManager.dispatchMediaKeyEvent(downEvent);
 
-                KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, keyCode, 0);
+                final KeyEvent upEvent = new KeyEvent(eventTime, eventTime, KeyEvent.ACTION_UP, keyCode, 0);
                 audioManager.dispatchMediaKeyEvent(upEvent);
+            }
+        } else {
+            try {
+                final MediaSessionManager mediaSessionManager = (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
+                final List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                        new ComponentName(context, NotificationListener.class)
+                );
+
+                if (controllers.isEmpty()) {
+                    LOG.warn("No media controller found to handle {}", musicCmd);
+                    return;
+                }
+
+                final MediaController controller = controllers.get(0);
+
+                switch (musicCmd) {
+                    case NEXT:
+                        controller.getTransportControls().skipToNext();
+                        return;
+                    case PREVIOUS:
+                        controller.getTransportControls().skipToPrevious();
+                        return;
+                    case PLAY:
+                        controller.getTransportControls().play();
+                        return;
+                    case PAUSE:
+                        controller.getTransportControls().pause();
+                        return;
+                    case PLAYPAUSE:
+                        final PlaybackState playbackState = controller.getPlaybackState();
+                        if (playbackState != null) {
+                            switch (playbackState.getState()) {
+                                case PlaybackState.STATE_NONE:
+                                case PlaybackState.STATE_STOPPED:
+                                case PlaybackState.STATE_PAUSED:
+                                case PlaybackState.STATE_FAST_FORWARDING:
+                                case PlaybackState.STATE_REWINDING:
+                                    controller.getTransportControls().play();
+                                    return;
+                                case PlaybackState.STATE_PLAYING:
+                                    controller.getTransportControls().pause();
+                                    return;
+                                default:
+                                    return;
+                            }
+                        } else {
+                            LOG.warn("Failed to determine playback state, attempting to play");
+                            controller.getTransportControls().play();
+                        }
+                        return;
+                    case REWIND:
+                        controller.getTransportControls().rewind();
+                        return;
+                    case FORWARD:
+                        controller.getTransportControls().fastForward();
+                }
+            } catch (final SecurityException e) {
+                LOG.warn("Failed to get media controller - did not grant notification access?", e);
+            } catch (final Exception e) {
+                LOG.error("Failed to get media controller", e);
             }
         }
     }
 
-    private String getAudioPlayer(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
-        String audioPlayer = prefs.getString("audio_player", "default");
-        MediaSessionManager mediaSessionManager =
-                (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
+    private static void sendPhoneVolume(final AudioManager audioManager) {
+        final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        final int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        final int volumePercentage = (byte) Math.round(100 * (volumeLevel / (float) volumeMax));
+
+        GBApplication.deviceService().onSetPhoneVolume(volumePercentage);
+    }
+
+    @Deprecated
+    private static String getAudioPlayer(final Context context) {
+        final Prefs prefs = GBApplication.getPrefs();
+        final String audioPlayer = prefs.getString("audio_player", "default");
+        final MediaSessionManager mediaSessionManager = (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
         try {
-            List<MediaController> controllers = mediaSessionManager.getActiveSessions(
-                    new ComponentName(context, NotificationListener.class));
-            try {
-                MediaController controller = controllers.get(0);
-                audioPlayer = controller.getPackageName();
-            } catch (IndexOutOfBoundsException e) {
-                LOG.error("No media controller available", e);
+            final List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                    new ComponentName(context, NotificationListener.class)
+            );
+
+            if (controllers.isEmpty()) {
+                LOG.warn("No media controller available");
+                return audioPlayer;
             }
-        } catch (SecurityException e) {
+
+            return controllers.get(0).getPackageName();
+        } catch (final SecurityException e) {
             LOG.warn("No permission to get media sessions - did not grant notification access?", e);
+        } catch (final Exception e) {
+            LOG.error("Failed to get media controller", e);
         }
 
         return audioPlayer;

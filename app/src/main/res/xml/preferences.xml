@@ -42,22 +42,6 @@
             android:title="@string/pref_title_bottom_navigation_bar"
             app:iconSpaceReserved="false" />
 
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="mb_intents"
-            android:layout="@layout/preference_checkbox"
-            android:summary="@string/pref_summary_mb_intents"
-            android:title="@string/pref_title_mb_intents"
-            app:iconSpaceReserved="false" />
-
-        <ListPreference
-            android:defaultValue="default"
-            android:dependency="mb_intents"
-            android:key="audio_player"
-            android:summary="%s"
-            android:title="@string/pref_title_audio_player"
-            app:iconSpaceReserved="false" />
-
         <Preference
             android:key="pref_category_dashboard"
             android:title="@string/bottom_nav_dashboard"
@@ -400,6 +384,51 @@
                 android:layout="@layout/preference_checkbox"
                 android:summary="@string/intent_api_allow_debug_commands_summary"
                 android:title="@string/intent_api_allow_debug_commands_title"
+                app:iconSpaceReserved="false" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+
+    <PreferenceScreen
+        android:key="pref_screen_deprecated_functionalities"
+        android:title="@string/pref_header_deprecated_functionalities"
+        app:iconSpaceReserved="false">
+
+        <PreferenceCategory
+            android:key="pref_key_deprecated_functionalities"
+            android:title="@string/pref_header_deprecated_functionalities_warning"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false" />
+
+        <PreferenceCategory
+            android:key="pref_header_media_control"
+            android:title="@string/pref_deprecated_media_control_title"
+            app:iconSpaceReserved="false"
+            app:singleLineTitle="false">
+
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="pref_deprecated_media_control"
+                android:layout="@layout/preference_checkbox"
+                android:summary="@string/pref_deprecated_media_control_summary"
+                android:title="@string/pref_deprecated_media_control_title"
+                app:iconSpaceReserved="false" />
+
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:dependency="pref_deprecated_media_control"
+                android:key="mb_intents"
+                android:layout="@layout/preference_checkbox"
+                android:summary="@string/pref_summary_mb_intents"
+                android:title="@string/pref_title_mb_intents"
+                app:iconSpaceReserved="false" />
+
+            <ListPreference
+                android:defaultValue="default"
+                android:dependency="mb_intents"
+                android:key="audio_player"
+                android:summary="%s"
+                android:title="@string/pref_title_audio_player"
                 app:iconSpaceReserved="false" />
         </PreferenceCategory>
     </PreferenceScreen>

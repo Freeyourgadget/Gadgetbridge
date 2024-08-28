@@ -3234,4 +3234,8 @@
     <string name="insufficient_space_for_upload">"Insufficient space for upload"</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Measurement error. Are the ring\'s sensors oriented correctly?</string>
     <string name="smart_ring_measurement_error_unknown">Unknown measurement error %d received from ring</string>
+    <string name="pref_header_deprecated_functionalities">Deprecated functionalities</string>
+    <string name="pref_header_deprecated_functionalities_warning">The following functionalities have been deprecated and will be removed soon from the software.\nIf you need to enable one of the following settings be sure to get in touch with the project team.</string>
+    <string name="pref_deprecated_media_control_title">Deprecated media control</string>
+    <string name="pref_deprecated_media_control_summary">Send media control commands as key events instead of the media controller.</string>
 </resources>
