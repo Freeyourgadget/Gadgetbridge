@@ -1,7 +1,7 @@
 /*  Copyright (C) 2015-2024 akasaka / Genjitsu Labs, Alicia Hormann, Andreas
     Böhler, Andreas Shimokawa, Arjan Schrijver, Carsten Pfeiffer, Damien Gaignon,
     Daniel Dakhno, Daniele Gobbetti, Dmitry Markin, JohnnySun, José Rebelo,
-    Matthieu Baerts, Nephiel, Petr Vaněk, Uwe Hermann
+    Matthieu Baerts, Nephiel, Petr Vaněk, Uwe Hermann, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -585,6 +585,11 @@ public interface DeviceCoordinator {
      * Indicates the maximum number of reminder slots available in the device.
      */
     int getReminderSlotCount(GBDevice device);
+
+    /**
+     * Indicates whether some reminder slots are used for calendar events.
+     */
+    boolean getReserveReminderSlotsForCalendar();
 
     /**
      * Indicates the maximum number of canned replies available in the device.

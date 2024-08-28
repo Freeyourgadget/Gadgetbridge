@@ -1,7 +1,7 @@
 /*  Copyright (C) 2015-2024 akasaka / Genjitsu Labs, Alicia Hormann, Andreas
     Shimokawa, Arjan Schrijver, Carsten Pfeiffer, Daniel Dakhno, Daniele Gobbetti,
     Davis Mosenkovs, Dmitry Markin, José Rebelo, Matthieu Baerts, Nephiel,
-    Petr Vaněk, Taavi Eomäe
+    Petr Vaněk, Taavi Eomäe, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -564,6 +564,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public int getReminderSlotCount(final GBDevice device) {
         return 0;
+    }
+
+    @Override
+    public boolean getReserveReminderSlotsForCalendar() {
+        return false;
     }
 
     @Override

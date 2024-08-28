@@ -550,6 +550,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return 22; // At least, Mi Fit still allows more
     }
 
+    @Override
+    public boolean getReserveReminderSlotsForCalendar() {
+        return !supportsCalendarEvents();
+    }
+
     public boolean supportsDebugLogs() {
         return true;
     }

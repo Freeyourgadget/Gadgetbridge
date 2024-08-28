@@ -74,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 
 /**
@@ -594,7 +595,7 @@ public class DBHelper {
     @NonNull
     public static List<Alarm> getAlarms(@NonNull GBDevice gbDevice) {
         DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        GBPrefs prefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
 
         int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
         int alarmSlots = coordinator.getAlarmSlotCount(gbDevice);
@@ -637,10 +638,9 @@ public class DBHelper {
     @NonNull
     public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        final GBPrefs prefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
 
-        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);
-
+        final int reservedSlots = prefs.getReservedReminderCalendarSlots(gbDevice);
         final int reminderSlots = coordinator.getReminderSlotCount(gbDevice);
 
         try (DBHandler db = GBApplication.acquireDB()) {

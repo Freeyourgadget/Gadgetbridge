@@ -1,6 +1,6 @@
 /*  Copyright (C) 2016-2024 Andreas Shimokawa, Anemograph, Carsten Pfeiffer,
     Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs, Dikay900, Felix Konstantin
-    Maurer, José Rebelo, Petr Vaněk
+    Maurer, José Rebelo, Petr Vaněk, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -185,6 +185,14 @@ public class GBPrefs extends Prefs {
 
     public LocalTime getNotificationTimesEnd() {
         return getLocalTime("notification_times_end", "22:00");
+    }
+
+    public int getReservedReminderCalendarSlots(GBDevice gbDevice) {
+        if (!gbDevice.getDeviceCoordinator().getReserveReminderSlotsForCalendar())
+            return 0;
+        if (!getBoolean(DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR, false))
+            return 0;
+        return getInt(DeviceSettingsPreferenceConst.PREF_RESERVE_REMINDERS_CALENDAR, 9);
     }
 
     public boolean isMetricUnits() {
