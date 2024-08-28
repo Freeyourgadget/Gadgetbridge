@@ -3363,4 +3363,5 @@
     <string name="lactateThresholdHeartRate">Frecuencia cardíaca con umbral de lactato</string>
     <string name="recoveryTime">Tiempo de recuperación</string>
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
+    <string name="pref_header_sound">Sonido</string>
 </resources>
