@@ -69,7 +69,7 @@ public class WeightMeasurement {
         return new WeightMeasurement(calendar.getTime(), weightKg);
     }
 
-    private static float weightToKg(float weight, byte flags) {
+    public static float weightToKg(float weight, byte flags) {
         boolean isLbs = testBit(flags, 0);
         boolean isJin = testBit(flags, 4);
 

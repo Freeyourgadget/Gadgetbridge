@@ -20,17 +20,26 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miscale;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.miscale.MiScaleSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.MiScaleWeightSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -38,26 +47,19 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
-
     private static final Logger LOG = LoggerFactory.getLogger(MiCompositionScaleDeviceSupport.class);
+
     private static final String UNIT_KG = "kg";
     private static final String UNIT_LBS = "lb";
     private static final String UNIT_JIN = "jīn";
+
     private final DeviceInfoProfile<MiCompositionScaleDeviceSupport> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final IntentListener mListener = new IntentListener() {
-        @Override
-        public void notify(Intent intent) {
-            String s = intent.getAction();
-            if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
-                handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-            }
-        }
-    };
 
     public MiCompositionScaleDeviceSupport() {
         super(LOG);
@@ -68,12 +70,20 @@ public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(UUID.fromString("00001530-0000-3512-2118-0009af100700"));
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
+        final IntentListener mListener = intent -> {
+            if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(intent.getAction())) {
+                final Parcelable deviceInfo = intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO);
+                if (deviceInfo != null) {
+                    handleDeviceInfo((DeviceInfo) deviceInfo);
+                }
+            }
+        };
         deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
     }
 
     @Override
-    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+    protected TransactionBuilder initializeDevice(final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         LOG.debug("Requesting Device Info!");
@@ -88,38 +98,34 @@ public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        super.onCharacteristicChanged(gatt, characteristic);
+    public boolean onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            return true;
+        }
 
-        UUID characteristicUUID = characteristic.getUuid();
+        final UUID characteristicUUID = characteristic.getUuid();
         if (characteristicUUID.equals(GattCharacteristic.UUID_CHARACTERISTIC_BODY_COMPOSITION_MEASUREMENT)) {
             final byte[] data = characteristic.getValue();
 
-            boolean stabilized = testBit(data[1], 5) && !testBit(data[1], 7);
-            boolean isLbs = testBit(data[1], 0);
-            boolean isJin = testBit(data[1], 4);
-            boolean isKg = !(isLbs && isJin);
-            String unit = "";
-            if (isKg) {
-                unit = UNIT_KG;
-            } else if (isLbs) {
-                unit = UNIT_LBS;
-            } else if (isJin) {
-                unit = UNIT_JIN;
-            }
+            final byte flags = data[1];
+            final boolean stabilized = testBit(flags, 5) && !testBit(flags, 7);
 
             if (stabilized) {
-                int year = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, 2);
-                int month = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 4);
-                int day = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 5);
-                int hour = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 6);
-                int minute = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 7);
-                int second = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 8);
-                Calendar c = GregorianCalendar.getInstance();
+                final int year = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, 2);
+                final int month = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 4);
+                final int day = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 5);
+                final int hour = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 6);
+                final int minute = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 7);
+                final int second = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 8);
+                final Calendar c = GregorianCalendar.getInstance();
                 c.set(year, month - 1, day, hour, minute, second);
-                Date date = c.getTime();
-                float weight = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, 11) / (isKg ? 200.0f : 100.0f);
-                handleWeightInfo(date, weight, unit);
+                final Date date = c.getTime();
+
+                float weightKg = WeightMeasurement.weightToKg(
+                        characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, 11),
+                        flags
+                );
+                handleWeightInfo(date, weightKg);
             }
 
             return true;
@@ -128,35 +134,38 @@ public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private boolean testBit(byte value, int offset) {
+    private boolean testBit(final byte value, final int offset) {
         return ((value >> offset) & 1) == 1;
     }
 
-    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
-        LOG.warn("Device info: " + info);
+    private void handleDeviceInfo(final DeviceInfo info) {
+        LOG.debug("Device info: {}", info);
         versionCmd.hwVersion = info.getHardwareRevision();
         versionCmd.fwVersion = info.getSoftwareRevision();
         handleGBDeviceEvent(versionCmd);
     }
 
-    private void handleWeightInfo(Date date, float weight, String unit) {
-        // TODO
-        LOG.warn("Weight info: " + weight + unit);
-        GB.toast(weight + unit, Toast.LENGTH_SHORT, GB.INFO);
+    private void handleWeightInfo(final Date date, final float weightKg) {
+        GB.toast(getContext().getString(R.string.weight_kg, weightKg), Toast.LENGTH_SHORT, GB.INFO);
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final MiScaleSampleProvider provider = new MiScaleSampleProvider(getDevice(), db.getDaoSession());
+            final Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+            final Long deviceId = DBHelper.getDevice(getDevice(), db.getDaoSession()).getId();
+
+            provider.addSample(new MiScaleWeightSample(
+                    date.getTime(),
+                    deviceId,
+                    userId,
+                    weightKg
+            ));
+        } catch (final Exception e) {
+            LOG.error("Error saving weight sample", e);
+        }
     }
 
     @Override
     public boolean useAutoConnect() {
-        return false;
-    }
-
-    @Override
-    public boolean getImplicitCallbackModify() {
-        return true;
-    }
-
-    @Override
-    public boolean getSendWriteRequestResponse() {
         return false;
     }
 }
