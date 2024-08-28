@@ -3360,4 +3360,9 @@
     <string name="weight_lbs">%1$.2f lb</string>
     <string name="weight_kg">%1$.2f kg</string>
     <string name="pref_header_sound">Zvuk</string>
+    <string name="workoutSets">Sady</string>
+    <string name="workout_set_repetitions">%1d x</string>
+    <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
+    <string name="workout_set_i">Sada %1d</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lb</string>
 </resources>
