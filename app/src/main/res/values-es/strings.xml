@@ -3364,4 +3364,9 @@
     <string name="recoveryTime">Tiempo de recuperación</string>
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
     <string name="pref_header_sound">Sonido</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lbs</string>
+    <string name="workoutSets">Conjuntos</string>
+    <string name="workout_set_i">Establecer %1d</string>
+    <string name="workout_set_repetitions">%1d x</string>
+    <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
 </resources>
