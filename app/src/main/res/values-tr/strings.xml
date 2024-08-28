@@ -3372,4 +3372,10 @@
     <string name="weight_lbs">%1$.2f paunt</string>
     <string name="target">Hedef</string>
     <string name="menuitem_weight">Ağırlık</string>
+    <string name="pref_header_sound">Ses</string>
+    <string name="workoutSets">Set</string>
+    <string name="workout_set_i">Set %1d</string>
+    <string name="workout_set_repetitions">%1d x</string>
+    <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f paunt</string>
 </resources>
