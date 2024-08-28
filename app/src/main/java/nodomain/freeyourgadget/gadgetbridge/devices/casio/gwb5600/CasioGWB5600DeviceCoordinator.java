@@ -94,6 +94,16 @@ public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
     }
 
     @Override
+    public int getMaximumReminderMessageLength() {
+        return 18;
+    }
+
+    @Override
+    public int getReminderSlotCount(final GBDevice device) {
+        return 5;
+    }
+
+    @Override
     public Class<? extends DeviceSupport> getDeviceSupportClass() {
         return CasioGWB5600DeviceSupport.class;
     }

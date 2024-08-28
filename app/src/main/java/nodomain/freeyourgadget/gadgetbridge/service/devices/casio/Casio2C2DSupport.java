@@ -17,6 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 
 import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.nio.charset.StandardCharsets;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.widget.Toast;
@@ -51,7 +54,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -96,6 +101,8 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     public static final byte FEATURE_DST_WATCH_STATE = 0x1d;
     public static final byte FEATURE_DST_SETTING = 0x1e;
     public static final byte FEATURE_WORLD_CITY = 0x1f;
+    public static final byte FEATURE_REMINDER_TITLE = 0x30;
+    public static final byte FEATURE_REMINDER_TIME = 0x31;
     public static final byte FEATURE_CURRENT_TIME_MANAGER = 0x39;
     public static final byte FEATURE_CONNECTION_PARAMETER_MANAGER = 0x3a;
     public static final byte FEATURE_ADVERTISE_PARAMETER_MANAGER = 0x3b;
@@ -425,9 +432,11 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
     ArrayList<DeviceSetting> deviceSettings = new ArrayList();
     DeviceAlarms deviceAlarms = new DeviceAlarms();
+    DeviceReminders deviceReminders = new DeviceReminders();
     HashMap<String, DevicePreference> devicePreferenceByName = new HashMap();
     {
         deviceSettings.add(deviceAlarms);
+        deviceSettings.add(deviceReminders);
 
         for (DevicePreference pref: supportedDevicePreferences()) {
             deviceSettings.add(pref);
@@ -599,6 +608,105 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         deviceAlarms.onSet(alarms);
+    }
+
+    public class DeviceReminders extends DeviceItems<Reminder> {
+
+        @Override
+        public FeatureRequest[] getFeatureRequests() {
+            final int maxReminders = gbDevice.getDeviceCoordinator().getReminderSlotCount(gbDevice);
+
+            FeatureRequest[] requests = new FeatureRequest[maxReminders*2];
+            for (int i = 0; i < maxReminders; i++) {
+                requests[2*i]   = new FeatureRequest(FEATURE_REMINDER_TITLE, (byte) (i+1));
+                requests[2*i+1] = new FeatureRequest(FEATURE_REMINDER_TIME, (byte) (i+1));
+            }
+            return requests;
+        };
+
+        @Override
+        public void updateValues(byte[][] data, List<? extends Reminder> reminders) {
+            final int maxReminders = gbDevice.getDeviceCoordinator().getReminderSlotCount(gbDevice);
+            for (int i = 0; i < maxReminders; i++) {
+                if (i < reminders.size()) {
+                    updateValues(data, i, reminders.get(i));
+                } else {
+                    Arrays.fill(data[2*i],   2, 20, (byte) 0);
+                    Arrays.fill(data[2*i+1], 2, 10, (byte) 0);
+                }
+            }
+        }
+
+        public void updateValues(byte[][] data, int pos, Reminder reminder) {
+            final byte[] message = reminder.getMessage().getBytes(StandardCharsets.US_ASCII);
+            System.arraycopy(message, 0, data[2*pos], 2, Math.min(message.length, 18));
+            Arrays.fill(data[2*pos], 2+message.length, 20, (byte) 0);
+
+            LocalDate start = LocalDate.ofInstant(reminder.getDate().toInstant(), ZoneId.systemDefault());
+            if (start.getYear() < 2000) {
+                if (reminder.getRepetition() == Reminder.EVERY_WEEK) {
+                    final LocalDate first = LocalDate.of(2000, 1, 1);
+                    start = first.plusDays((start.getDayOfWeek().getValue()-first.getDayOfWeek().getValue())%7);
+                } else {
+                    start = start.withYear(2000);
+                }
+            } else if (start.getYear() > 2099) {
+                if (reminder.getRepetition() == Reminder.EVERY_WEEK) {
+                    final LocalDate last = LocalDate.of(2099, 31, 12);
+                    start = last.minusDays((last.getDayOfWeek().getValue()-start.getDayOfWeek().getValue())%7);
+                } else {
+                    final int dayOfMonth = start.getDayOfMonth();
+                    start = start.withYear(2099);
+                    if (start.getDayOfMonth() != dayOfMonth) {
+                        start = start.withYear(2096); // leap-year
+                    }
+                }
+            }
+
+            byte mode = 0;
+            LocalDate end = start;
+            byte weekdays = 0;
+
+            switch (reminder.getRepetition()) {
+            case Reminder.EVERY_DAY:
+                mode = 0x0B;
+                end = LocalDate.of(2099,12,31);
+                break;
+            case Reminder.EVERY_WEEK:
+                mode = 0x05;
+                weekdays = (byte) (1 << (start.getDayOfWeek().getValue()%7)); // Sunday is 1<<0
+                break;
+            case Reminder.EVERY_MONTH:
+                mode = 0x11;
+                break;
+            case Reminder.EVERY_YEAR:
+                mode = 0x09;
+                break;
+            default:
+                mode = 0x01;
+            }
+
+            data[2*pos+1][2] = mode;
+            data[2*pos+1][3] = BcdUtil.toBcd8(start.getYear()-2000);
+            data[2*pos+1][4] = BcdUtil.toBcd8(start.getMonthValue());
+            data[2*pos+1][5] = BcdUtil.toBcd8(start.getDayOfMonth());
+            data[2*pos+1][6] = BcdUtil.toBcd8(end.getYear()-2000);
+            data[2*pos+1][7] = BcdUtil.toBcd8(end.getMonthValue());
+            data[2*pos+1][8] = BcdUtil.toBcd8(end.getDayOfMonth());
+            data[2*pos+1][9] = weekdays;
+        }
+
+        @Override
+        public final boolean mergeValues(byte[][] data, byte[][] previous, SharedPreferences.Editor editor) {
+            List<? extends Reminder> reminders = DBHelper.getReminders(gbDevice);
+            // always overwrite watch values
+            return mergeValues(data, previous, uData -> updateValues(uData, reminders), rData -> false);
+        }
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        deviceReminders.onSet(reminders);
     }
 
     public abstract class DevicePreference extends DeviceSetting {
