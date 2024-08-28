@@ -75,7 +75,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         }
 
         final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
-        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(getDevice());
+        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(getDevice(), getContext());
 
         BaseActivitySummary summary = new BaseActivitySummary();
         summary.setStartTime(getLastStartTimestamp().getTime()); // due to a bug this has to be set

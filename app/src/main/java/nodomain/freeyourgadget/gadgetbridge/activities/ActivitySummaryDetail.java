@@ -422,7 +422,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void makeSummaryContent(BaseActivitySummary item) {
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice);
+        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice, this);
 
         //make view of data from summaryData of item
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));

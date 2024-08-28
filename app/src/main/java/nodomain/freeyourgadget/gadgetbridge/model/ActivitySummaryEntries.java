@@ -112,6 +112,8 @@ public class ActivitySummaryEntries {
     public static final String CYCLING_POWER_MIN = "cyclingPowerMin";
     public static final String CYCLING_POWER_MAX = "cyclingPowerMax";
 
+    public static final String SETS = "workoutSets";
+
     public static final String UNIT_BPM = "bpm";
     public static final String UNIT_CM = "cm";
     public static final String UNIT_UNIX_EPOCH_SECONDS = "unix_epoch_seconds";

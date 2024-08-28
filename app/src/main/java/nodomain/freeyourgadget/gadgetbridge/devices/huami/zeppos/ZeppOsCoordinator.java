@@ -296,7 +296,7 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context) {
         return new ZeppOsActivitySummaryParser();
     }
 

@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
 
+import android.content.Context;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
@@ -23,17 +28,26 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.Gar
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitPhysiologicalMetrics;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSession;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSet;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitTimeInZone;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class GarminWorkoutParser implements ActivitySummaryParser {
     private static final Logger LOG = LoggerFactory.getLogger(GarminWorkoutParser.class);
+
+    private final Context context;
 
     private final List<FitTimeInZone> timesInZone = new ArrayList<>();
     private final List<ActivityPoint> activityPoints = new ArrayList<>();
     private FitSession session = null;
     private FitSport sport = null;
     private FitPhysiologicalMetrics physiologicalMetrics = null;
+    private final List<FitSet> sets = new ArrayList<>();
+
+    public GarminWorkoutParser(final Context context) {
+        this.context = context;
+    }
 
     @Override
     public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary, final boolean forDetails) {
@@ -84,6 +98,7 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         session = null;
         sport = null;
         physiologicalMetrics = null;
+        sets.clear();
     }
 
     public boolean handleRecord(final RecordData record) {
@@ -111,6 +126,9 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         } else if (record instanceof FitTimeInZone) {
             LOG.trace("Time in zone: {}", record);
             timesInZone.add((FitTimeInZone) record);
+        } else if (record instanceof FitSet) {
+            LOG.trace("Set: {}", record);
+            sets.add((FitSet) record);
         } else {
             return false;
         }
@@ -195,6 +213,40 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
             }
             if (physiologicalMetrics.getLactateThresholdHeartRate() != null) {
                 summaryData.add(LACTATE_THRESHOLD_HR, physiologicalMetrics.getLactateThresholdHeartRate(), UNIT_BPM);
+            }
+        }
+
+        if (!sets.isEmpty()) {
+            final boolean isMetric = GBApplication.getPrefs().isMetricUnits();
+
+            int i = 1;
+            for (final FitSet set : sets) {
+                if (set.getSetType() != null && set.getDuration() != null && set.getSetType() == 1) {
+                    final StringBuilder sb = new StringBuilder();
+
+                    if (set.getRepetitions() != null) {
+                        if (set.getWeight() != null) {
+                            if (isMetric) {
+                                sb.append(context.getString(R.string.workout_set_repetitions_weight_kg, set.getRepetitions(), set.getWeight()));
+                            } else {
+                                sb.append(context.getString(R.string.workout_set_repetitions_weight_lbs, set.getRepetitions(), set.getWeight() * 2.2046226f));
+                            }
+                        } else {
+                            sb.append(context.getString(R.string.workout_set_repetitions, set.getRepetitions()));
+                        }
+
+                        sb.append(", ");
+                    }
+
+                    sb.append(DateTimeUtils.formatDurationHoursMinutes(set.getDuration().longValue(), TimeUnit.SECONDS));
+
+                    summaryData.add(
+                            SETS,
+                            context.getString(R.string.workout_set_i, i),
+                            sb.toString()
+                    );
+                    i++;
+                }
             }
         }
 

@@ -21,8 +21,18 @@ public class FitSet extends RecordData {
     }
 
     @Nullable
-    public Long getDuration() {
-        return (Long) getFieldByNumber(0);
+    public Double getDuration() {
+        return (Double) getFieldByNumber(0);
+    }
+
+    @Nullable
+    public Integer getRepetitions() {
+        return (Integer) getFieldByNumber(3);
+    }
+
+    @Nullable
+    public Float getWeight() {
+        return (Float) getFieldByNumber(4);
     }
 
     @Nullable
@@ -33,6 +43,11 @@ public class FitSet extends RecordData {
     @Nullable
     public Long getStartTime() {
         return (Long) getFieldByNumber(6);
+    }
+
+    @Nullable
+    public Integer getCategory() {
+        return (Integer) getFieldByNumber(7);
     }
 
     @Nullable

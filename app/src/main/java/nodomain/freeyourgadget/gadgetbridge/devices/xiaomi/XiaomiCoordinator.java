@@ -20,6 +20,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.Xiaomi
 
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
+import android.content.Context;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -167,7 +168,7 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Nullable
     @Override
-    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context) {
         return new WorkoutSummaryParser();
     }
 

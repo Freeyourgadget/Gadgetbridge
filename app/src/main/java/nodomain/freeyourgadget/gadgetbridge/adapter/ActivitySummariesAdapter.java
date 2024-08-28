@@ -40,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -52,7 +51,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -205,7 +203,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
                 }
             }
 
-            final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(device);
+            final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(device, getContext());
             final ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, sportitem);
             JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData(false);
 

@@ -81,11 +81,12 @@ public class FitImporter {
     private final Map<Integer, Integer> unknownRecords = new HashMap<>();
     private FitFileId fileId = null;
 
-    private final GarminWorkoutParser workoutParser = new GarminWorkoutParser();
+    private final GarminWorkoutParser workoutParser;
 
     public FitImporter(final Context context, final GBDevice gbDevice) {
         this.context = context;
         this.gbDevice = gbDevice;
+        this.workoutParser = new GarminWorkoutParser(context);
     }
 
     /** @noinspection StatementWithEmptyBody*/

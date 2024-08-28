@@ -36,6 +36,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -183,5 +185,9 @@ public class GBPrefs extends Prefs {
 
     public LocalTime getNotificationTimesEnd() {
         return getLocalTime("notification_times_end", "22:00");
+    }
+
+    public boolean isMetricUnits() {
+        return getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, "metric").equals("metric");
     }
 }

@@ -193,6 +193,8 @@ public class ActivitySummaryJsonSummary {
         }
         return defaultGroup;
     }
+
+    /** @noinspection ArraysAsListWithZeroOrOneArgument*/
     private JSONObject createActivitySummaryGroups(){
         final Map<String, List<String>> groupDefinitions = new LinkedHashMap<String, List<String>>() {{
             // NB: Default group Activity must be present in this definition, otherwise it wouldn't
@@ -236,6 +238,8 @@ public class ActivitySummaryJsonSummary {
                     GROUND_CONTACT_TIME_AVG, IMPACT_AVG, IMPACT_MAX, SWING_ANGLE_AVG,
                     FORE_FOOT_LANDINGS, MID_FOOT_LANDINGS, BACK_FOOT_LANDINGS,
                     EVERSION_ANGLE_AVG, EVERSION_ANGLE_MAX
+            ));
+            put(SETS, Arrays.asList(
             ));
         }};
 

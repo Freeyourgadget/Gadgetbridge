@@ -182,8 +182,8 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Nullable
     @Override
-    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
-        return supportsActivityTracks() ? new TestActivitySummaryParser() : super.getActivitySummaryParser(device);
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context) {
+        return supportsActivityTracks() ? new TestActivitySummaryParser() : super.getActivitySummaryParser(device, context);
     }
 
     @Override

@@ -60,11 +60,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
-import nodomain.freeyourgadget.gadgetbridge.model.TimeSample;
 import nodomain.freeyourgadget.gadgetbridge.model.WeightSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.SleepAsAndroidSender;
 
 /**
  * This interface is implemented at least once for every supported gadget device.
@@ -367,7 +365,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    ActivitySummaryParser getActivitySummaryParser(final GBDevice device);
+    ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context);
 
     /**
      * Returns true if this device/coordinator supports installing files like firmware,
