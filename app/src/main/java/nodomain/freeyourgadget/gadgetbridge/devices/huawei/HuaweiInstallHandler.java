@@ -108,16 +108,9 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             LOG.debug("Initialized HuaweiInstallHandler");
         } else if (helper.isAPP()) {
-            final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
+            final HuaweiAppManager.AppConfig config = helper.getAppConfig();
 
-            String screenWindow = String.format("%d*%d", huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().height,
-                    huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().width);
-
-            String screenShape = huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().screenShape;
-
-            HuaweiAppManager.AppConfig config = helper.getAppconfig();
-
-            this.valid = config.checkDistroFilters(screenShape, screenWindow);
+            this.valid = true; //NOTE: nothing to verify for now
 
             installActivity.setInstallEnabled(true);
 

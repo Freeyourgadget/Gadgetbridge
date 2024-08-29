@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +24,6 @@ public class HuaweiAppManager {
         public String vendor;
         public String version;
 
-        JSONObject distroFilters = null;
 
         public AppConfig(String jsonStr) {
 
@@ -36,49 +33,8 @@ public class HuaweiAppManager {
                 this.vendor = config.getJSONObject("app").getString("vendor");
                 this.version = config.getJSONObject("app").getJSONObject("version").getString("name");
 
-                parseDistroFilters(config);
-
             } catch (Exception e) {
                 LOG.error("Error decode app config", e);
-            }
-        }
-
-        private void parseDistroFilters(JSONObject config) {
-            try {
-                distroFilters = config.getJSONObject("module").getJSONObject("distroFilter");
-            } catch (Exception e) {
-                LOG.error("Error decode app config distroFilter", e);
-            }
-        }
-
-        private boolean isValInArray(JSONArray arr, String value) throws JSONException {
-            for (int i = 0; i < arr.length(); i++) {
-                if (arr.getString(i).equals(value))
-                    return true;
-            }
-            return false;
-        }
-
-        public boolean checkDistroFilters(String screenShape, String screenWindow) {
-            if (distroFilters == null)
-                return false;
-            try {
-                boolean screenShapeSupported = false;
-                boolean screenWindowSupported = false;
-                if (distroFilters.has("screenShape")) {
-                    JSONArray values = distroFilters.getJSONObject("screenShape").getJSONArray("value");
-                    String policy = distroFilters.getJSONObject("screenShape").getString("policy");
-                    screenShapeSupported = isValInArray(values, screenShape) && policy.equals("include");
-                }
-                if (distroFilters.has("screenWindow")) {
-                    JSONArray values = distroFilters.getJSONObject("screenWindow").getJSONArray("value");
-                    String policy = distroFilters.getJSONObject("screenWindow").getString("policy");
-                    screenWindowSupported = isValInArray(values, screenWindow) && policy.equals("include");
-                }
-                return screenShapeSupported && screenWindowSupported;
-            } catch (Exception e) {
-                LOG.error("Error decode app config distroFilter", e);
-                return false;
             }
         }
 

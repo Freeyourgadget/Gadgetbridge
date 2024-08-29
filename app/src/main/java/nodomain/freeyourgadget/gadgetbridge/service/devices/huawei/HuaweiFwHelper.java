@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiAppParser;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiBinAppParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
@@ -71,7 +71,6 @@ public class HuaweiFwHelper {
     private void parseFile() {
         if(parseAsApp()) {
             assert appConfig.bundleName != null;
-            assert appConfig.distroFilters != null;
             fileType = FileUpload.Filetype.app;
         } else if (parseAsWatchFace()) {
             assert watchfaceDescription.screen != null;
@@ -99,7 +98,7 @@ public class HuaweiFwHelper {
             buffer.flush();
             byte[] hap_data = buffer.toByteArray();
 
-            HuaweiAppParser app = new HuaweiAppParser();
+            HuaweiBinAppParser app = new HuaweiBinAppParser();
             app.parseData(hap_data);
 
             byte[] config = app.getEntryContent("config.json");
@@ -212,7 +211,7 @@ public class HuaweiFwHelper {
         return watchfaceDescription;
     }
 
-    public HuaweiAppManager.AppConfig getAppconfig() {
+    public HuaweiAppManager.AppConfig getAppConfig() {
         return appConfig;
     }
 
