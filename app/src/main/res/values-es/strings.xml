@@ -3369,4 +3369,9 @@
     <string name="workout_set_i">Establecer %1d</string>
     <string name="workout_set_repetitions">%1d x</string>
     <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
+    <string name="choose_device">Eligir un dispositivo</string>
+    <string name="no_supported_devices_found">No se encontraron dispositivos compatibles</string>
+    <string name="menuitem_stress_simple">Estrés (sencillo)</string>
+    <string name="menuitem_stress_breakdown">Estrés (crisis nerviosa)</string>
+    <string name="menuitem_stress_segmented">Estrés (segmentado)</string>
 </resources>
