@@ -36,11 +36,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.Casio2C2DDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
 
-public class CasioGWB5600DeviceCoordinator extends CasioDeviceCoordinator {
+public class CasioGWB5600DeviceCoordinator extends Casio2C2DDeviceCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("CASIO GW-B5600");

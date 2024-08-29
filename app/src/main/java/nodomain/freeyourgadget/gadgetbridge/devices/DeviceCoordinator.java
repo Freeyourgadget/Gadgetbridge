@@ -587,6 +587,11 @@ public interface DeviceCoordinator {
     int getReminderSlotCount(GBDevice device);
 
     /**
+     * Indicates whether reminders have a time of day.
+     */
+    boolean getRemindersHaveTime();
+
+    /**
      * Indicates whether some reminder slots are used for calendar events.
      */
     boolean getReserveReminderSlotsForCalendar();

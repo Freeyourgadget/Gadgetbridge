@@ -92,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="visible"
         app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card_date"
@@ -134,7 +135,7 @@
         app:cardBackgroundColor="?attr/cardview_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_time"
+        app:layout_constraintTop_toBottomOf="@id/card_date"
         card_view:cardElevation="3dp"
         card_view:contentPadding="4dp">
 

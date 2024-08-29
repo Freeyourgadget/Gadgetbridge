@@ -1,4 +1,5 @@
-/*  Copyright (C) 2021-2024 Arjan Schrijver, Daniel Dakhno, José Rebelo
+/*  Copyright (C) 2021-2024 Arjan Schrijver, Daniel Dakhno, José Rebelo,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -37,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -64,7 +66,7 @@ public class ConfigureReminders extends AbstractGBActivity {
     private static final int REQ_CONFIGURE_REMINDER = 1;
 
     private GBReminderListAdapter mGBReminderListAdapter;
-    private GBDevice gbDevice;
+    public GBDevice gbDevice;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -154,7 +156,13 @@ public class ConfigureReminders extends AbstractGBActivity {
     private Reminder createDefaultReminder(@NonNull Device device, @NonNull User user) {
         final Reminder reminder = new Reminder();
         reminder.setRepetition(Reminder.ONCE);
-        reminder.setDate(Calendar.getInstance().getTime());
+        if (gbDevice.getDeviceCoordinator().getRemindersHaveTime()) {
+            reminder.setDate(Calendar.getInstance().getTime());
+        } else {
+            Calendar noonGMT = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            noonGMT.set(noonGMT.get(Calendar.YEAR), noonGMT.get(Calendar.MONTH), noonGMT.get(Calendar.DAY_OF_MONTH), 12, 0);
+            reminder.setDate(noonGMT.getTime());
+        }
         reminder.setMessage("");
         reminder.setDeviceId(device.getId());
         reminder.setUserId(user.getId());

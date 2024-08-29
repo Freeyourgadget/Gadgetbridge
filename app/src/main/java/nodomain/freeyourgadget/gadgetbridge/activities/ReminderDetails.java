@@ -1,4 +1,5 @@
-/*  Copyright (C) 2021-2024 Arjan Schrijver, Daniel Dakhno, José Rebelo
+/*  Copyright (C) 2021-2024 Arjan Schrijver, Daniel Dakhno, José Rebelo,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -121,18 +122,22 @@ public class ReminderDetails extends AbstractGBActivity implements TimePickerDia
         });
 
         final View cardTime = findViewById(R.id.card_time);
-        cardTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new TimePickerDialog(
-                        ReminderDetails.this,
-                        ReminderDetails.this,
-                        reminder.getDate().getHours(),
-                        reminder.getDate().getMinutes(),
-                        DateFormat.is24HourFormat(GBApplication.getContext())
-                ).show();
-            }
-        });
+        if (coordinator.getRemindersHaveTime()) {
+            cardTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new TimePickerDialog(
+                            ReminderDetails.this,
+                            ReminderDetails.this,
+                            reminder.getDate().getHours(),
+                            reminder.getDate().getMinutes(),
+                            DateFormat.is24HourFormat(GBApplication.getContext())
+                    ).show();
+                }
+            });
+        } else {
+            cardTime.setVisibility(View.GONE);
+        }
 
         reminderText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(coordinator.getMaximumReminderMessageLength())});
         reminderText.addTextChangedListener(new TextWatcher() {

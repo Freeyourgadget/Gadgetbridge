@@ -567,6 +567,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean getRemindersHaveTime() {
+        return true;
+    }
+
+    @Override
     public boolean getReserveReminderSlotsForCalendar() {
         return false;
     }

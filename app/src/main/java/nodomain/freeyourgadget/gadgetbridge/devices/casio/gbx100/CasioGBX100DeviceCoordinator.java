@@ -34,7 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.Casio2C2DDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
-public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
+public class CasioGBX100DeviceCoordinator extends Casio2C2DDeviceCoordinator {
     /** CASIO brand identifier in GB Device name */
     public static final String CASIO_IDENTIFIER = "CASIO";
 
