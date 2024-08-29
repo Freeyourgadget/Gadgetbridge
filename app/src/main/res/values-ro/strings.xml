@@ -20,8 +20,8 @@
     <string name="appmananger_app_reinstall">Reinstalează</string>
     <string name="appmanager_health_activate">Activează</string>
     <string name="appmanager_health_deactivate">Dezactivează</string>
-    <string name="appmanager_hrm_activate">Activează măsurarea ritmului cardiac</string>
-    <string name="appmanager_hrm_deactivate">Dezactivează măsurarea ritmului cardiac</string>
+    <string name="appmanager_hrm_activate">Activează măsurarea pulsului</string>
+    <string name="appmanager_hrm_deactivate">Dezactivează măsurarea pulsului</string>
     <string name="appmanager_weather_activate">Activează Aplicația meteo de sistem</string>
     <string name="appmanager_weather_deactivate">Dezactivează aplicația Meteo de sistem</string>
     <string name="app_configure">Configurează</string>
@@ -62,7 +62,7 @@
     <string name="controlcenter_snackbar_requested_screenshot">Creare captură de ecran</string>
     <string name="title_activity_debug">Depanare</string>
     <string name="appmanager_installed_watchapps">Aplicații instalate</string>
-    <string name="appmanager_installed_watchfaces">Fețe de ceas instalate</string>
+    <string name="appmanager_installed_watchfaces">Cadrane instalate</string>
     <string name="appmananger_app_delete">Șterge</string>
     <string name="appmanager_app_openinstore">Caută in magazinul Pebble</string>
     <string name="appmanager_weather_install_provider">Instalează aplicația Notificări Meteo</string>
@@ -165,7 +165,7 @@
     <string name="power_saving">Economisirea energiei</string>
     <string name="find_lost_device_message">Cauți %1$s?</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js rulează</string>
-    <string name="controlcenter_get_heartrate_measurement">Măsurarea ritmului cardiac</string>
+    <string name="controlcenter_get_heartrate_measurement">Măsurarea pulsului</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js rulează</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Arată numărul total de pași</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
@@ -266,7 +266,7 @@
     <string name="pref_title_enable_calendar_sync">Sincronizare calendar</string>
     <string name="pref_title_custom_deviceicon">Afișează pictograma de notificare specifică dispozitivului</string>
     <string name="pref_title_pebble_forcele">Preferă întotdeauna BLE</string>
-    <string name="pref_title_expose_hr">Acces la monitorul ritmului cardiac</string>
+    <string name="pref_title_expose_hr">Acces la monitorizarea pulsului</string>
     <string name="pref_display_add_device_fab">Buton de conectare a dispozitivului nou</string>
     <string name="preferences_hplus_settings">Setări HPlus/Makibes</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Oprit - ignoră, Activat - respinge</string>
@@ -326,7 +326,7 @@
     <string name="pref_header_activitytrackers">Urmărirea activității</string>
     <string name="pref_title_pebble_activitytracker">Monitorul de activitate preferat</string>
     <string name="heartrate_bpm_45">45 de bătăi/min</string>
-    <string name="prefs_title_heartrate_measurement_interval">Măsurarea ritmului cardiac pe parcursul zilei</string>
+    <string name="prefs_title_heartrate_measurement_interval">Măsurarea pulsului pe parcursul zilei</string>
     <string name="pref_screen_notification_profile_event_reminder">Memento de eveniment</string>
     <string name="pref_screen_notification_profile_find_device">Căutarea dispozitivului</string>
     <string name="interval_one_minute">o dată pe minut</string>
@@ -362,7 +362,7 @@
     <string name="pref_theme_black_background">Utilizare fundal negru în Tema întunecată</string>
     <string name="pref_summary_notification_delay_calls">Întârziere înainte de a trimite notificări privind apelurile primite către dispozitiv, în secunde.</string>
     <string name="pref_title_canned_reply_suffix">Sufix comun</string>
-    <string name="activity_prefs_alarm_min_heart_rate">Ritmul cardiac minim</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Puls minim</string>
     <string name="pref_screen_notification_profile_calendar">Notificare calendar</string>
     <string name="reminder_time">Timp</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Accesează setările Bluetooth de pe telefon și asociază cu noul dispozitiv care apare în listă (nume similar cu ceasul actual, dar cu un sufix, de exemplu „Amazfit GTR 4 - AFC8”).</string>
@@ -613,7 +613,7 @@
     <string name="pref_summary_pebble_mtu_limit">Dacă Pebble 2/Pebble LE nu funcționează conform așteptărilor, încearcă această setare pentru a limita MTU (interval valid 20–512)</string>
     <string name="pref_summary_pebble_enable_bgjs">Când este activată, interfața ceasului poate afișa informații despre vreme, despre baterie etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Încercări de reconectare</string>
-    <string name="pref_summary_expose_hr">Permite altor aplicații să acceseze senzorul de ritm cardiac în timp ce sunt conectate prin Gadgetbridge</string>
+    <string name="pref_summary_expose_hr">Permite altor aplicații să acceseze datele senzorului de puls în timp ce sunt conectate prin Gadgetbridge</string>
     <string name="pref_title_connected_advertisement">Vizibil atunci când este conectat</string>
     <string name="pref_title_use_custom_font">Utilizează font personalizat</string>
     <string name="pref_summary_allow_high_mtu">Mărește viteza de transfer, dar este posibil să nu funcționeze pe unele dispozitive Android.</string>
@@ -623,7 +623,7 @@
     <string name="pref_summary_sync_calendar">Activează alertele din calendar, chiar și atunci când este deconectat</string>
     <string name="pref_display_add_device_fab_on">Vizibil mereu</string>
     <string name="pref_summary_huami_force_new_protocol">Activează dacă dispozitivul nu se mai conectează după o actualizare a firmware-ului</string>
-    <string name="prefs_title_all_day_heart_rate">Măsurarea ritmului cardiac pe tot parcursul zilei</string>
+    <string name="prefs_title_all_day_heart_rate">Măsurarea pulsului pe tot parcursul zilei</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Repetă notificările despre apel</string>
     <string name="prefs_notifications_and_calls_continious_ring">Notificare în timpul soneriei telefonului</string>
     <string name="pref_notifications_and_calls_enable_misscall">Notificare pentru apel pierdut</string>
@@ -632,11 +632,11 @@
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplică acțiunea butonului ceasului</string>
     <string name="pref_header_device_spec_settings">Setările dispozitivului</string>
     <string name="pref_summary_device_spec_settings_title_force_time">Sincronizare automată forțată a orei la reconectare. Acele analogice pot indica timpul greșit!</string>
-    <string name="zetime_title_heartrate">Setări ale ritmului cardiac</string>
+    <string name="zetime_title_heartrate">Setări ale pulsului</string>
     <string name="zetime_title_screentime">Durata afișării în secunde</string>
-    <string name="zetime_title_heart_rate_alarm">Alarma de ritm cardiac</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Ceasul va avertiza când ritmul cardiac depășește limitele.</string>
-    <string name="activity_prefs_alarm_max_heart_rate">Ritmul cardiac maxim</string>
+    <string name="zetime_title_heart_rate_alarm">Alarmă de puls</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Ceasul va avertiza când pulsul depășește limitele.</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Puls maxim</string>
     <string name="zetime_analog_mode_handsandsteps">Mâinile și pașii</string>
     <string name="zetime_prefs_inactivity_we">Miercuri</string>
     <string name="zetime_prefs_inactivity_th">Joi</string>
@@ -645,7 +645,7 @@
     <string name="zetime_signaling_beep_twice">Bip de două ori</string>
     <string name="title_activity_device_specific_settings">Setări specifice dispozitivului</string>
     <string name="pref_explanation_authkey">Unele dispozitive necesită o cheie de asociere specială pentru prima inițializare a dispozitivului. Atinge aici pentru mai multe detalii în wiki.</string>
-    <string name="prefs_hr_alarm_activity">Alarma de ritm cardiac în timpul activității sportive</string>
+    <string name="prefs_hr_alarm_activity">Alarma de puls în timpul activității sportive</string>
     <string name="prefs_hr_alarm_low">Limită inferioară</string>
     <string name="pref_gps_header">GPS</string>
     <string name="pref_gps_satellite_search">Căutare sateliți</string>
@@ -675,7 +675,7 @@
     <string name="busy_task_fetch_activity_data">Preluare date de activitate</string>
     <string name="busy_task_fetch_debug_logs">Se preiau jurnalele de depanare</string>
     <string name="busy_task_fetch_stress_data">Preluarea datelor de stres</string>
-    <string name="busy_task_fetch_hr_data">Preluare date privind ritmul cardiac</string>
+    <string name="busy_task_fetch_hr_data">Preluare date privind pulsul</string>
     <string name="vibration_profile_long">Lung</string>
     <string name="vibration_try">Încearcă</string>
     <string name="pref_screen_notification_profile_sms">Notificare SMS</string>
@@ -787,4 +787,395 @@
     <string name="devicestatus_disconnected">Dispozitivul s-a deconectat!</string>
     <string name="updating_firmware">Actualizare firmware…</string>
     <string name="fwapp_install_device_not_supported">Fișierul nu poate fi instalat, dispozitivul nu este acceptat.</string>
+    <string name="charts_activity_list">Lista de activități</string>
+    <string name="watchface_dialog_widget_color_black">Negru</string>
+    <string name="watchface_dialog_widget_type">Tip</string>
+    <string name="unknown">Necunoscut</string>
+    <string name="watchface_widget_type_date">Dată</string>
+    <string name="watchface_dialog_widget_x_coordinate">Coordonata X (max. 240)</string>
+    <string name="femometer_measurement_mode_precise">Mod precis (3 min)</string>
+    <string name="pref_title_auto_export_enabled">Export automat activat</string>
+    <string name="pref_auto_fetch">Preluare automată a datelor despre activitate</string>
+    <string name="pref_auto_fetch_summary">Preluarea are loc la deblocarea ecranului. Funcționează numai dacă este setat un mecanism de blocare!</string>
+    <string name="pref_auto_fetch_limit_fetches">Timp minim între preluări</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Preluare la fiecare %d minute</string>
+    <string name="pref_disable_new_ble_scanning">Dezactivează noua scanare BLE</string>
+    <string name="calories">Calorii</string>
+    <string name="pref_title_dont_ack_transfer">Nu confirma transmiterea datelor de activitate</string>
+    <string name="button_watchface_settings">Setări cadran</string>
+    <string name="zepp_os_watchface_minimalist">Minimalist</string>
+    <string name="activity_list_summary_distance">Distanță</string>
+    <string name="minutes_20">20 de minute</string>
+    <string name="minutes_60">60 de minute</string>
+    <string name="pref_enable_unsupported_settings_title">Activează setările neacceptate</string>
+    <string name="pref_title_third_party_app_device_settings">Permite aplicațiilor terțe să modifice setările</string>
+    <string name="sleep_colored_stats_deep_avg">Mediu profund</string>
+    <string name="sleep_colored_stats_light_avg">Mediu ușor</string>
+    <string name="stats_empty_value">-</string>
+    <string name="stats_lowest_hr">Cel mai mic puls</string>
+    <string name="stats_highest_hr">Cel mai mare puls</string>
+    <string name="femometer_measurement_mode_quick">Modul rapid (30s)</string>
+    <string name="pref_workout_detection_title">Detectarea antrenamentului</string>
+    <string name="prefs_charts_tabs">File de diagrame</string>
+    <string name="clock">Ceas</string>
+    <string name="abstract_chart_fragment_kind_light_sleep">Somn ușor</string>
+    <string name="you_slept">%1$s - %2$s</string>
+    <string name="charts_min_max_heartrate_popup">Cel mai mic puls: %1$d
+\nCel mai mare puls: %2$d
+\nIntensitatea mișcării: %3$s</string>
+    <string name="watchface_setting_desc_wrist_flick">(pentru a dezactiva complet, activează mișcarea relativă și setează toate valorile la 0)</string>
+    <string name="notif_battery_low_title">Bateria gadgetului scăzută!</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Ascunde textul la expirarea timpului</string>
+    <string name="alarm_fri_short">Vin</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Ești pe cale să instalezi firmware-ul %s pe Amazfit GTR.
+\n
+\nAsigură-te că instalezi fișierul .fw, iar după aceea fișierul .res. Ceasul se va reporni după instalarea fișierului .fw.
+\n
+\nNotă: Nu trebuie să instalezi .res dacă este exact același cu cel instalat anterior.
+\n
+\nACȚIONEZI PE PROPRIU RISC!</string>
+    <string name="transition">Tranziție</string>
+    <string name="world_clock_no_free_slots_title">Nu sunt slot-uri libere</string>
+    <string name="alarm_mon_short">Lun</string>
+    <string name="user_feedback_miband_set_alarms_failed">A apărut o eroare la setarea alarmelor, încearcă din nou.</string>
+    <string name="prefs_find_phone_duration">Durata soneriei în secunde</string>
+    <string name="prefs_find_phone_summary">Folosește brățara pentru a reda tonul de apel al telefonului.</string>
+    <string name="watchface_dialog_widget_preset_right">Dreapta</string>
+    <string name="watchface_widget_type_weather">Meteo</string>
+    <string name="watchface_dialog_widget_color">Culoare</string>
+    <string name="watchface_widget_type_battery">Baterie</string>
+    <string name="watchface_setting_power_saving_display">Nu se actualizează informațiile de pe ecran când dispozitivul este scos</string>
+    <string name="watchface_widget_type_steps">Pași</string>
+    <string name="button_watchface_edit_name">Editează numele</string>
+    <string name="uploadwatchfaceoperation_complete">Instalarea cadranului ceasului a fost finalizată</string>
+    <string name="prefs_enable_find_phone">Activează „Găsește telefonul”</string>
+    <string name="title_activity_alarm_details">Detalii alarmă</string>
+    <string name="title_activity_reminder_details">Detalii memento</string>
+    <string name="you_did_not_sleep">Nu ai dormit</string>
+    <string name="live_activity_current_steps_per_minute">Pași actuali pe minut</string>
+    <string name="minutes_30">30 de minute</string>
+    <string name="watchface_setting_wrist_flick_minute">Ac minute (de la -360 la 360)</string>
+    <string name="test">Testare</string>
+    <string name="test_notification">Notificare de testare</string>
+    <string name="cannot_connect">Nu se poate conecta: %1$s</string>
+    <string name="miband_prefs_hr_sleep_detection">Utilizează senzorul de puls pentru a îmbunătăți detectarea somnului</string>
+    <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
+    <string name="world_clock_label">Etichetă</string>
+    <string name="chart_get_active_and_synchronize">Fă ceva activitate și sincronizează dispozitivul.</string>
+    <string name="prefs_activity_monitoring_title">Monitorizarea activității</string>
+    <string name="liveactivity_live_activity">Activitate curentă</string>
+    <string name="activity_summary_today">Astăzi</string>
+    <string name="kind_watchface">Cadran</string>
+    <string name="minHR">Puls minim</string>
+    <string name="watchface_setting_display_refresh_partial">Reîmprospătare parțială (în minute)</string>
+    <string name="watchface_widget_type_chance_rain">Șanse de ploaie</string>
+    <string name="power_mode_title">Modul de alimentare ceas</string>
+    <string name="pref_workout_send_gps_summary">Trimite locația GPS curentă către bandă în timpul unui antrenament</string>
+    <string name="pref_sleep_mode_sleep_screen_title">Ecran de repaus</string>
+    <string name="world_clock_code">Cod</string>
+    <string name="title_activity_contact_details">Detalii contact</string>
+    <string name="title_activity_world_clock_details">Detalii ceas mondial</string>
+    <string name="alarm_sun_short">Dum</string>
+    <string name="alarm_tue_short">Mar</string>
+    <string name="user_feedback_miband_activity_data_transfer">Urmează transferarea %1$s de date începând de la %2$s</string>
+    <string name="prefs_heartrate_alert_high_threshold">Pragul maxim de alertă a pulsului</string>
+    <string name="prefs_spo2_monitoring_description">Monitorizează automat nivelul de oxigen din sânge pe parcursul zilei</string>
+    <string name="prefs_spo2_monitoring_title">Monitorizarea oxigenului din sânge</string>
+    <string name="dbaccess_error_executing">Eroare la executarea „%1$s”</string>
+    <string name="installer_activity_unable_to_find_handler">Imposibil de găsit un manipulator pentru a instala acest fișier.</string>
+    <string name="controlcenter_start_activitymonitor">Activitatea ta</string>
+    <string name="weeksleepchart_today_sleep_description">Somn astăzi, obiectiv: %1$s</string>
+    <string name="weeksleepchart_sleep_a_week">Somn săptămânal</string>
+    <string name="chart_steps">Pași</string>
+    <string name="prefs_find_phone">Găsește telefonul</string>
+    <string name="prefs_shortcut_cards_summary">Carduri de comandă rapidă văzute când glisezi spre dreapta pe cadranul ceasului. Când rulează o aplicație, cardurile generate automat nu sunt afectate de această setare.</string>
+    <string name="pref_dashboard_widget_today_24h_title">Mod 24 ore</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Nu se poate încărca cadranul de ceas, sunt instalate prea multe cadrane de ceas</string>
+    <string name="prefs_disconnect_notification">Notificare de deconectare</string>
+    <string name="not_connected">Nu este conectat</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Ecran de configurare a cadranului pentru ceasuri cu versiunea de firmware DN1.0.2.19r și anterioară</string>
+    <string name="pref_workout_detection_categories_title">Categorii de antrenament</string>
+    <string name="pref_summary_disable_new_ble_scanning">Bifează această opțiune dacă dispozitivul nu poate fi găsit în timpul descoperirii</string>
+    <string name="alarm_smart_wakeup">Trezire inteligentă</string>
+    <string name="alarm_snooze">Amânare</string>
+    <string name="minutes_1">1 minut</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Reducerea marcajelor de timp ale operațiunilor de preluare</string>
+    <string name="live_activity_total_steps">Pași total</string>
+    <string name="pref_summary_third_party_app_device_settings">Permite altor aplicații terțe instalate să seteze setările dispozitivului prin intenții.</string>
+    <string name="DEVINFO_HR_VER">"HR: "</string>
+    <string name="watchface_dialog_widget_cat_position">Poziție</string>
+    <string name="button_watchface_save_apply">Salvează și aplică</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Al doilea widget de fus orar</string>
+    <string name="watchface_setting_light_up_on_notification">Aprinde la o nouă notificare</string>
+    <string name="world_clock_delete_confirm_description">Sigur dorești să ștergi ceasul mondial?</string>
+    <string name="alarm_sat_short">Sâm</string>
+    <string name="pbw_installhandler_pebble_firmware">Firmware Pebble %1$s</string>
+    <string name="miband_fwinstaller_untested_version">Versiune netestată!</string>
+    <string name="fwappinstaller_connection_state">Conexiune la dispozitiv: %1$s</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">Bateria dispozitivului este prea scăzută</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">Problemă cu transferul de metadate a firmware-ului</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">Dispozitivul nu are suficient spațiu liber</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">Instalarea firmware-ului s-a încheiat, dispozitivul se repornește…</string>
+    <string name="live_activity_steps_history">Istoricul pașilor</string>
+    <string name="prefs_always_on_display_follow_watchface">Stilul urmează cadranul de ceas</string>
+    <string name="pref_dashboard_widget_today_title">Diagrama de activitate</string>
+    <string name="zepp_os_watchface_vibrant">Vibrant</string>
+    <string name="watchface_widget_type_uv_index">Indice UV</string>
+    <string name="weekstepschart_steps_a_week">Pași pe săptămână</string>
+    <string name="zepp_os_watchface_multiple_data">Date multiple</string>
+    <string name="button_watchface_add_widget">Adaugă widget</string>
+    <string name="watchface_widget_type_heart_rate">Puls</string>
+    <string name="pref_sleepasandroid_feat_heartrate">Puls</string>
+    <string name="watchface_dialog_widget_timezone_duration">Durata vizibilității ceasului (în secunde)</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Reconstruiește cadranul ceasului pentru un meniu personalizat</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Interval de măsurare a pulsului</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Timpul de așteptare pentru reîmprospătarea afișajului</string>
+    <string name="watchface_setting_button_toggle_widgets">Comutare widget-uri</string>
+    <string name="watchface_cache_confirm_overwrite">Un cadran de ceas cu acest nume există deja în cache. Dorești să-l suprascrii?</string>
+    <string name="watchface_upload_failed">Încărcarea cadranului de ceas a eșuat. Încearcă din nou.</string>
+    <string name="pai_chart_per_month">PAI pe lună</string>
+    <string name="hrv">HRV</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="seconds_9">9 secunde</string>
+    <string name="seconds_7">7 secunde</string>
+    <string name="seconds_8">8 secunde</string>
+    <string name="sleep_colored_stats_light">Ușor</string>
+    <string name="watchface_widget_type_active_mins">Minute de activitate</string>
+    <string name="watchface_setting_title_power_saving">Economisire energie</string>
+    <string name="watchface_dialog_widget_background">Fundal</string>
+    <string name="notif_export_failed_title">Exportul bazei de date a eșuat! Verifică setările.</string>
+    <string name="notif_battery_full_title">Bateria este încărcată!</string>
+    <string name="sleepchart_your_sleep">Somn</string>
+    <string name="notif_battery_full">Bateria %1$s este încărcată complet</string>
+    <string name="pai_chart_per_week">PAI pe săptămână</string>
+    <string name="blood_pressure">Tensiunea arterială</string>
+    <string name="no_limit">Fără limite</string>
+    <string name="seconds_5">5 secunde</string>
+    <string name="heart_rate">Puls</string>
+    <string name="getting_heart_rate">Măsurare</string>
+    <string name="heart_rate_result">Rezultatele măsurătorilor</string>
+    <string name="movement_intensity">Intensitatea mișcării</string>
+    <string name="seconds_6">6 secunde</string>
+    <string name="live_activity_steps_per_minute_history">Istoricul pașilor pe minut</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Somn REM</string>
+    <string name="pref_title_keep_data_on_device">Păstrează datele despre activitate pe dispozitiv</string>
+    <string name="miband_fwinstaller_incompatible_version">Firmware incompatibil</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Monitorizarea calității respirației în somn</string>
+    <string name="miband_prefs_device_time_offset_hours">Compensarea timpului dispozitivului în ore (pentru detectarea somnului lucrătorilor în ture)</string>
+    <string name="miband2_prefs_dateformat">Formatul datei</string>
+    <string name="dateformat_date_time">Timp și dată</string>
+    <string name="prefs_disconnect_notification_summary">Notificare pe dispozitiv când este deconectat de la Bluetooth.</string>
+    <string name="mi2_prefs_button_actions">Acțiunile butonului</string>
+    <string name="weather_notification_label">Asigură-te că acest skin este activat în aplicația Notificare vreme pentru a obține informații despre vreme pe Pebble.
+\n
+\nNu este necesară nicio configurație aici.
+\n
+\nPoți activa aplicația meteo de sistem a Pebble din gestionarea aplicației.
+\n
+\nCadranele de ceas acceptate vor afișa automat vremea.</string>
+    <string name="button_watchface_select_image">Schimbă imaginea de fundal</string>
+    <string name="watchface_widget_type_calories">Calorii</string>
+    <string name="watchface_widget_type_2nd_tz">al 2-lea fus orar</string>
+    <string name="averageHR">Puls</string>
+    <string name="qhybrid_title_watchface">Configurarea cadranului ceasului</string>
+    <string name="watchface_widget_type_custom">Widget personalizat</string>
+    <string name="watchface_dialog_widget_timezone">Fus orar</string>
+    <string name="watchface_dialog_title_settings">Setări cadran</string>
+    <string name="watchface_dialog_title_widget">Setări widget</string>
+    <string name="zepp_os_watchface_simplicity_data">Date simple</string>
+    <string name="zetime_title_settings">Setări ZeTime</string>
+    <string name="zetime_heart_rate_alarm_enable">Activează alarma de puls</string>
+    <string name="pref_sleep_mode_smart_enable_summary">Activează automat modul de repaus dacă brățara este purtată în timp ce dormi</string>
+    <string name="pref_header_auto_export">Export automat de date</string>
+    <string name="pref_title_auto_export_location">Locație de export</string>
+    <string name="pref_title_auto_export_interval">Interval de export</string>
+    <string name="pref_summary_auto_export_interval">Export la fiecare %d ore</string>
+    <string name="contact_delete_confirm_description">Sigur dorești să ștergi „%1$s”?</string>
+    <string name="function_enabled">Activat</string>
+    <string name="world_clock_no_free_slots_description">Dispozitivul nu are slot-uri libere pentru ceasurile mondiale (slot-uri totale: %1$s)</string>
+    <string name="alarm_wed_short">Mie</string>
+    <string name="user_feedback_set_settings_ok">Setări trimise pe dispozitiv.</string>
+    <string name="miband_prefs_fitness_goal">Obiectiv zilnic pentru pași</string>
+    <string name="world_clock_timezone">Fus orar</string>
+    <string name="alarm_thu_short">Joi</string>
+    <string name="battery">Baterie</string>
+    <string name="seconds_12">12 secunde</string>
+    <string name="seconds_15">15 secunde</string>
+    <string name="distance">Distanță</string>
+    <string name="seconds_20">20 de secunde</string>
+    <string name="minutes_2">2 minute</string>
+    <string name="minutes_3">3 minute</string>
+    <string name="minutes_4">4 minute</string>
+    <string name="minutes_6">6 minute</string>
+    <string name="minutes_180">180 de minute</string>
+    <string name="minutes_210">210 minute</string>
+    <string name="minutes_240">240 minute</string>
+    <string name="minutes_255">255 minute</string>
+    <string name="minutes_7">7 minute</string>
+    <string name="minutes_8">8 minute</string>
+    <string name="minutes_9">9 minute</string>
+    <string name="minutes_15">15 minute</string>
+    <string name="minutes_45">45 de minute</string>
+    <string name="minutes_75">75 de minute</string>
+    <string name="minutes_90">90 de minute</string>
+    <string name="minutes_120">120 de minute</string>
+    <string name="minutes_150">150 de minute</string>
+    <string name="watchface_setting_wrist_flick_duration">Durată (în ms)</string>
+    <string name="watchface_setting_title_custom_events">Evenimente personalizate</string>
+    <string name="stress_average">Medie</string>
+    <string name="live_activity_max_heart_rate">Frecvența cardiacă actuală/maximă: %1$d / %2$d</string>
+    <string name="uploadwatchfaceoperation_in_progress">Se încarcă cadranul de ceas</string>
+    <string name="zepp_os_watchface_rush">Grabă</string>
+    <string name="zepp_os_watchface_business_style">Stil de afaceri</string>
+    <string name="uploading_watchface">Se încarcă cadranul de ceas…</string>
+    <string name="uploadwatchfaceoperation_failed">Instalarea cadranului ceasului a eșuat</string>
+    <string name="sleep_colored_stats_awake_avg">Mediu treaz</string>
+    <string name="watchface_dialog_widget_y_coordinate">Coordonata Y (max. 240)</string>
+    <string name="watchface_dialog_widget_preset_left">Stânga</string>
+    <string name="qhybrid_title_watchface_designer">Designer cadran de ceas</string>
+    <string name="watchface_resolution_doesnt_match">Rezoluția cadranului ceasului nu se potrivește cu ecranul dispozitivului. Cadranul ceasului este %1$s. Ecranul dispozitivului este %2$s</string>
+    <string name="alarm_smart_wakeup_interval_default">5 minute</string>
+    <string name="alarm_smart_wakeup_interval">Interval de trezire inteligentă:</string>
+    <string name="notif_battery_low_percent">%1$s baterie rămasă: %2$s%%</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">Ultima încărcare: %s
+\n</string>
+    <string name="notif_battery_low_bigtext_number_of_charges">Număr de încărcări: %s</string>
+    <string name="watchface_setting_button_toggle_backlight">Pornire iluminare</string>
+    <string name="watchface_setting_display_refresh_full">Reîmprospătare completă (în minute)</string>
+    <string name="watchface_setting_title_wrist_flick">Mișcarea încheieturii mâinii</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Mișcarea acelor în raport cu timpul</string>
+    <string name="watchface_setting_wrist_flick_hour">Ac oră (de la -360 la 360)</string>
+    <string name="weeksteps_today_steps_description">Pași astăzi, obiectiv: %1$s</string>
+    <string name="overstep">Depășire: %1$d</string>
+    <string name="app_install_info">Ești pe cale să instalezi următoarea aplicație:
+\n
+\n%1$s
+\nVersiunea %2$s de la %3$s
+\n</string>
+    <string name="firmware_install_warning">ÎNCERCI SĂ INSTALEZI UN FIRMWARE, ACȚIONEZI PE PROPRIU RISC.
+\n
+\n
+\nAcest firmware este pentru Revizia HW: %s</string>
+    <string name="activity_list_summary_active_time">Timp de activitate</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarme trimise pe dispozitiv.</string>
+    <string name="prefs_spo2_alert_threshold">Pragul de alertă SPO2</string>
+    <string name="num_min">%d minute</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activitate</string>
+    <string name="activity_list_summary_active_steps">Pași activi</string>
+    <string name="maxHR">Puls maxim</string>
+    <string name="pref_header_hrv_status">Starea HRV</string>
+    <string name="hrv_status">Starea HRV</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Problemă cu transferul de firmware. NU REPORNI Mi Band-ul!</string>
+    <string name="updatefirmwareoperation_update_complete">Instalarea firmware-ului este finalizată</string>
+    <string name="watchface_dialog_widget_preset_top">Sus</string>
+    <string name="watchface_dialog_widget_preset_bottom">Jos</string>
+    <string name="watchface_dialog_widget_cat_generic">General</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Widget personalizat</string>
+    <string name="watchface_dialog_widget_presets">Presetări poziție</string>
+    <string name="pref_title_device_intents">Permite intenții</string>
+    <string name="pref_summary_device_intents">Permite aplicațiilor de ceas Bangle.js să trimită intenții Android și permite altor aplicații de pe Android (cum ar fi Tasker) să trimită date către Bangle.js cu intenția com.banglejs.uart.tx. Este necesară permisiunea de afișare peste alte aplicații pentru a funcționa în fundal.</string>
+    <string name="femometer_measurement_mode_normal">Mod normal (60s-90s)</string>
+    <string name="preferences_makibes_hr3_settings">Setări Makibes HR3</string>
+    <string name="pref_morning_updates_categories_title">Categorii actualizări de dimineață</string>
+    <string name="pref_morning_updates_categories_summary">Listă de categorii de afișat în fiecare dimineață</string>
+    <string name="pref_workout_send_gps_title">Trimite GPS în timpul antrenamentului</string>
+    <string name="pref_workout_keep_screen_on_title">Păstrează ecranul pornit în timpul unui antrenament</string>
+    <string name="pref_workout_detection_summary">Detectează automat antrenamentul</string>
+    <string name="pref_workout_detection_categories_summary">Categoriile de antrenamente de detectat automat</string>
+    <string name="pref_workout_detection_alert_title">Alertă</string>
+    <string name="pref_workout_detection_alert_summary">Notifică când este detectat un antrenament</string>
+    <string name="pref_workout_detection_sensitivity">Sensibilitate</string>
+    <string name="pref_workout_detection_enabled_summary">Activează detectarea automată a acestui antrenament</string>
+    <string name="pref_workout_detection_ask_first">Întreabă-mă mai întâi</string>
+    <string name="pref_workout_detection_ask_first_summary">Solicită confirmarea pe ceas când se detectează acest antrenament</string>
+    <string name="pref_workout_detection_time">Minute de activitate înainte de detectare</string>
+    <string name="pref_workout_detection_time_summary">Cantitatea de minute în care antrenamentul trebuie să fie în curs înainte de a-l detecta</string>
+    <string name="pref_sleep_mode_title">Modul de repaus</string>
+    <string name="pref_sleep_mode_smart_enable_title">Activare inteligentă</string>
+    <string name="pref_header_auto_fetch">Preluare automată</string>
+    <string name="connecting">Se conectează</string>
+    <string name="_unknown_">(necunoscut)</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Aceasta este o notificare de testare de la Gadgetbridge</string>
+    <string name="watchface_install_info">Ești pe cale să instalezi următorul cadran de ceas:
+\n
+\n%1$s
+\nVersiunea %2$s de la %3$s
+\n</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Afișează ecranul de repaus când se trezește ecranul în timpul somnului, pentru a reduce distracția</string>
+    <string name="average">Medie: %1$s</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Treaz</string>
+    <string name="sleep_colored_stats_deep">Adânc</string>
+    <string name="sleep_colored_stats_rem">REM</string>
+    <string name="sleep_colored_stats_rem_avg">Mediu REM</string>
+    <string name="contact_no_free_slots_description">Dispozitivul nu are slot-uri libere pentru persoane de contact (slot-uri totale: %1$s)</string>
+    <string name="world_clock_delete_confirm_title">Șterge \'%1$s\'</string>
+    <string name="prefs_heartrate_alert_experimental_title">Alertă de puls (experimental)</string>
+    <string name="watchface_dialog_widget_color_white">Alb</string>
+    <string name="watchface_dialog_widget_width">Lățimea widget-ului (în pixeli)</string>
+    <string name="watchface_setting_power_saving_hands">Dezactivează mișcările mâinii când cureaua este îndepărtată</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Afișare cerc la expirarea timpului</string>
+    <string name="pref_workout_detection_enabled">Detectare activată</string>
+    <string name="pref_workout_keep_screen_on_summary">Ecranul va rămâne pornit în timpul unui antrenament, iar luminozitatea va fi ajustată pentru a afișa continuu date de antrenament în timp real</string>
+    <string name="connected">Conectat</string>
+    <string name="unknown_state">Stare necunoscută</string>
+    <string name="prefs_heartrate_alert_threshold">Pragul de alertă a pulsului</string>
+    <string name="prefs_relaxation_reminder_description">Vibrează banda pentru a te anunța dacă valoarea stresului este mai mare de 80</string>
+    <string name="prefs_activity_monitoring_description">Crește automat frecvența de detectare a pulsului atunci când banda detectează exerciții fizice, pentru a crește acuratețea obținerii pulsului.</string>
+    <string name="notif_battery_low">Bateria %1$s este descărcată</string>
+    <string name="notif_battery_low_extended">Bateria %1$s descărcată: %2$s</string>
+    <string name="prefs_charts_tabs_summary">File vizibile ale diagramelor</string>
+    <string name="seconds_10">10 secunde</string>
+    <string name="seconds_11">11 secunde</string>
+    <string name="seconds_13">13 secunde</string>
+    <string name="seconds_14">14 secunde</string>
+    <string name="seconds_25">25 de secunde</string>
+    <string name="seconds_30">30 de secunde</string>
+    <string name="minutes_5">5 minute</string>
+    <string name="minutes_10">10 minute</string>
+    <string name="abstract_chart_fragment_kind_deep_sleep">Somn profund</string>
+    <string name="abstract_chart_fragment_kind_not_worn">Nu a fost purtat</string>
+    <string name="device_not_connected">Nu este conectat.</string>
+    <string name="user_feedback_all_alarms_disabled">Toate alarmele sunt dezactivate</string>
+    <string name="live_activity_start_your_activity">Începe activitatea</string>
+    <string name="abstract_chart_fragment_kind_activity">Activitate</string>
+    <string name="dateformat_time">Timp</string>
+    <string name="activity_filter_to_placeholder">astăzi</string>
+    <string name="fw_upgrade_notice_amazfitbip3">Ești pe cale să instalezi firmware-ul %s pe Amazfit Bip 3.
+\n
+\nAsigură-te că instalezi fișierul .fw, iar după aceea fișierul .res. Ceasul se va reporni după instalarea fișierului .fw.
+\n
+\nNotă: Nu trebuie să instalezi .res dacă este exact același cu cel instalat anterior.
+\n
+\nACȚIONEZI PE PROPRIU RISC!</string>
+    <string name="lack_of_step">Lipsa pașilor: %1$d</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">Ești pe cale să instalezi firmware-ul %s pe Amazfit Bip 3 Pro.
+\n
+\nAsigură-te că instalezi fișierul .fw, iar după aceea fișierul .res. Ceasul se va reporni după instalarea fișierului .fw.
+\n
+\nNotă: Nu trebuie să instalezi .res dacă este exact același cu cel instalat anterior.
+\n
+\nACȚIONEZI PE PROPRIU RISC!</string>
+    <string name="watchface_dialog_title_set_name">Setează numele cadranului ceasului</string>
+    <string name="button_watchface_preview">Previzualizare pe ceas</string>
+    <string name="fw_upgrade_notice_amazfitgts">Ești pe cale să instalezi firmware-ul %s pe Amazfit GTS.
+\n
+\nAsigură-te că instalezi fișierul .fw, iar după aceea fișierul .res. Ceasul se va reporni după instalarea fișierului .fw.
+\n
+\nNotă: Nu trebuie să instalezi .res dacă este exact același cu cel instalat anterior.
+\n
+\nACȚIONEZI PE PROPRIU RISC!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Ești pe cale să instalezi firmware-ul %s pe Amazfit T-Rex.
+\n
+\nAtenție: mai întâi instalează fișierul .fw, apoi fișierul .res și abia apoi fișierul .gps. După instalarea .fw, ceasul se va reporni.
+\n
+\nNotă: nu trebuie să instalezi .res și .gps dacă aceste fișiere sunt exact aceleași cu cele instalate anterior.
+\n
+\nACȚIONEZI PE PROPRIU RISC!</string>
+    <string name="chart_no_active_data">Nu au fost detectate activități.</string>
+    <string name="chart_no_data_synchronize">Fără date. Sincronizezi dispozitivul?</string>
+    <string name="prefs_heartrate_alert_experimental_description">Vibrare atunci când pulsul depășește un prag, fără activitate fizică evidentă în ultimele 10 minute. Această caracteristică este experimentală și nu a fost testată pe larg.</string>
+    <string name="prefs_stress_monitoring_title">Monitorizarea stresului</string>
+    <string name="prefs_stress_monitoring_description">Monitorizarea nivelului de stres în timpul odihnei</string>
+    <string name="prefs_relaxation_reminder_title">Memento de relaxare</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Afișează activitatea într-un singur cerc de 24 de ore în loc de un cerc dublu de 12 ore</string>
 </resources>
