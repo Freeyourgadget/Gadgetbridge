@@ -66,7 +66,7 @@ public class ConfigureReminders extends AbstractGBActivity {
     private static final int REQ_CONFIGURE_REMINDER = 1;
 
     private GBReminderListAdapter mGBReminderListAdapter;
-    public GBDevice gbDevice;
+    private GBDevice gbDevice;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -89,7 +89,7 @@ public class ConfigureReminders extends AbstractGBActivity {
 
         gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
-        mGBReminderListAdapter = new GBReminderListAdapter(this);
+        mGBReminderListAdapter = new GBReminderListAdapter(this, gbDevice.getDeviceCoordinator().getRemindersHaveTime());
 
         final RecyclerView remindersRecyclerView = findViewById(R.id.reminder_list);
         remindersRecyclerView.setHasFixedSize(true);
