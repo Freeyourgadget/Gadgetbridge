@@ -51,7 +51,7 @@ public class MiCompositionScaleCoordinator extends AbstractBLEDeviceCoordinator 
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("MIBCS", Pattern.CASE_INSENSITIVE);
+        return Pattern.compile("MIBCS|MIBFS", Pattern.CASE_INSENSITIVE);
     }
 
     @NonNull

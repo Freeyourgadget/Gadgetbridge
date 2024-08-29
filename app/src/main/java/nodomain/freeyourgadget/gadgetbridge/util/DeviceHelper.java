@@ -38,6 +38,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -118,8 +119,7 @@ public class DeviceHelper {
     private DeviceType[] getOrderedDeviceTypes(){
         if(orderedDeviceTypes == null){
             ArrayList<DeviceType> orderedDevices = new ArrayList<>(Arrays.asList(DeviceType.values()));
-            Collections.sort(orderedDevices, (dc1, dc2) -> dc1.getDeviceCoordinator().getOrderPriority() -
-                    dc2.getDeviceCoordinator().getOrderPriority());
+            Collections.sort(orderedDevices, Comparator.comparingInt(dc -> dc.getDeviceCoordinator().getOrderPriority()));
             orderedDeviceTypes = orderedDevices.toArray(new DeviceType[0]);
         }
 

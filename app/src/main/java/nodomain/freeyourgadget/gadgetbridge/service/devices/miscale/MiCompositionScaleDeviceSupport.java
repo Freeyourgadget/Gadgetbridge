@@ -19,18 +19,15 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.miscale;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Intent;
 import android.os.Parcelable;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -53,10 +50,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class MiCompositionScaleDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MiCompositionScaleDeviceSupport.class);
-
-    private static final String UNIT_KG = "kg";
-    private static final String UNIT_LBS = "lb";
-    private static final String UNIT_JIN = "jīn";
 
     private final DeviceInfoProfile<MiCompositionScaleDeviceSupport> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
