@@ -129,8 +129,10 @@ public class App {
                     this.params.screenShape = subTlv.getString(0x06);
                     this.params.width = subTlv.getShort(0x07);
                     this.params.height = subTlv.getShort(0x08);
-                    this.params.unknown3 = subTlv.getInteger(0x09);
-                    this.params.buildType = subTlv.getString(0x0a);
+                    if (subTlv.contains(0x09))
+                        this.params.unknown3 = subTlv.getInteger(0x09);
+                    if(subTlv.contains(0x0a))
+                        this.params.buildType = subTlv.getString(0x0a);
                 }
             }
         }
