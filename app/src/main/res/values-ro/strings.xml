@@ -763,4 +763,28 @@
     <string name="pref_agps_update_time">Ora actualizării AGPS</string>
     <string name="pref_morning_updates_title">Actualizări de dimineață</string>
     <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="lack_of_sleep">Lipsa somnului: %1$s</string>
+    <string name="prefs_sounds">Sunete</string>
+    <string name="devicestatus_upload_aborted">Încărcarea a fost anulată!</string>
+    <string name="devicestatus_upload_started">Încărcarea a început</string>
+    <string name="devicestatus_disconnecting">Dispozitivul se deconectează!</string>
+    <string name="activity_list_summary_activities">Activități</string>
+    <string name="activity_list_summary_intensity">Intensitate
+\nmișcare</string>
+    <string name="prefs_sounds_summary">Configurează când dispozitivul va emite un bip</string>
+    <string name="devicestatus_upload_starting">Încărcarea începe</string>
+    <string name="devicestatus_connecting">Dispozitivul se conectează</string>
+    <string name="fwapp_install_device_not_ready">Fișierul nu poate fi instalat, dispozitivul nu este pregătit.</string>
+    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
+    <string name="miband_fwinstaller_compatible_version">Versiune compatibilă</string>
+    <string name="overslept">Somn excesiv: %1$s</string>
+    <string name="devicestatus_upload_completed">Încărcarea a fost finalizată</string>
+    <string name="devicestatus_upload_failed">Încărcarea a eșuat</string>
+    <string name="devicestatus_upload_validating">Încărcarea este în curs de validare</string>
+    <string name="dialog_hide">Ascunde</string>
+    <string name="show_ongoing_activity">Afișează o fereastră pop-up cu activitatea în curs</string>
+    <string name="devicestatus_connected">Dispozitivul este conectat</string>
+    <string name="devicestatus_disconnected">Dispozitivul s-a deconectat!</string>
+    <string name="updating_firmware">Actualizare firmware…</string>
+    <string name="fwapp_install_device_not_supported">Fișierul nu poate fi instalat, dispozitivul nu este acceptat.</string>
 </resources>
