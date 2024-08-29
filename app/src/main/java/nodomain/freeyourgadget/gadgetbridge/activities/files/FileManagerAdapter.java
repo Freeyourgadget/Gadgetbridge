@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,11 +51,13 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
     private final List<File> fileList;
     private final Context mContext;
 
+    private final FileFilter fileFilter;
+
     public FileManagerAdapter(final Context context, final File directory) {
         mContext = context;
 
         // FIXME: This can be slow, make it async
-        fileList = Arrays.asList(directory.listFiles());
+        fileList = new ArrayList<>(Arrays.asList(directory.listFiles()));
         fileList.sort((f1, f2) -> {
             if (f1.isDirectory() && f2.isFile())
                 return -1;
@@ -62,6 +66,8 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
 
             return String.CASE_INSENSITIVE_ORDER.compare(f1.getName(), f2.getName());
         });
+
+        fileFilter = new FileFilter(this, fileList);
     }
 
     @NonNull
@@ -125,6 +131,10 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
         return fileList.size();
     }
 
+    public Filter getFilter() {
+        return fileFilter;
+    }
+
     public static class FileManagerViewHolder extends RecyclerView.ViewHolder {
         final ImageView icon;
         final TextView name;
@@ -148,5 +158,49 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
         final String[] units = new String[]{"B", "kB", "MB", "GB", "TB", "PB", "EB"};
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return SIZE_FORMAT.format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    private class FileFilter extends Filter {
+        private final FileManagerAdapter adapter;
+        private final List<File> originalList;
+        private final List<File> filteredList;
+
+        private FileFilter(final FileManagerAdapter adapter, final List<File> originalList) {
+            super();
+            this.originalList = new ArrayList<>(originalList);
+            this.filteredList = new ArrayList<>();
+            this.adapter = adapter;
+        }
+
+
+        @Override
+        protected FilterResults performFiltering(final CharSequence filter) {
+            filteredList.clear();
+            final Filter.FilterResults results = new Filter.FilterResults();
+
+            if (filter == null || filter.length() == 0)
+                filteredList.addAll(originalList);
+            else {
+                final String filterPattern = filter.toString().toLowerCase().trim();
+
+                for (File f : originalList) {
+                    final CharSequence name = f.getName();
+                    if (name.toString().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(f);
+                    }
+                }
+            }
+
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(final CharSequence constraint, final FilterResults filterResults) {
+            adapter.fileList.clear();
+            adapter.fileList.addAll((List<File>) filterResults.values);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

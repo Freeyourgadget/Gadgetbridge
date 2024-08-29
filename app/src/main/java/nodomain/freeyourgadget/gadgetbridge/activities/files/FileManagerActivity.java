@@ -17,10 +17,16 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.files;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,15 +41,18 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class FileManagerActivity extends AbstractGBActivity {
+public class FileManagerActivity extends AbstractGBActivity implements MenuProvider {
     private static final Logger LOG = LoggerFactory.getLogger(FileManagerActivity.class);
 
     public static final String EXTRA_PATH = "path";
+
+    private SearchView searchView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_manager);
+        addMenuProvider(this);
 
         final RecyclerView fileListView = findViewById(R.id.fileListView);
         fileListView.setLayoutManager(new LinearLayoutManager(this));
@@ -76,6 +85,40 @@ public class FileManagerActivity extends AbstractGBActivity {
         final FileManagerAdapter appListAdapter = new FileManagerAdapter(this, directory);
 
         fileListView.setAdapter(appListAdapter);
+
+        searchView = findViewById(R.id.fileListSearchView);
+        searchView.setIconifiedByDefault(false);
+        searchView.setVisibility(View.GONE);
+        searchView.setIconified(false);
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                appListAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull final Menu menu, @NonNull final MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_file_manager, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull final MenuItem menuItem) {
+        final int itemId = menuItem.getItemId();
+        if (itemId == R.id.file_manager_search) {
+            searchView.setVisibility(View.VISIBLE);
+            searchView.requestFocus();
+        }
+        return false;
     }
 
     @Override

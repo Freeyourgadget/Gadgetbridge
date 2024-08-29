@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.files.FileManagerActivity">
+    <item
+        android:id="@+id/file_manager_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="always" />
+</menu>
