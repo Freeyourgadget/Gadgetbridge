@@ -117,6 +117,8 @@ public class FileManagerActivity extends AbstractGBActivity implements MenuProvi
         if (itemId == R.id.file_manager_search) {
             searchView.setVisibility(View.VISIBLE);
             searchView.requestFocus();
+            searchView.setIconified(true);
+            searchView.setIconified(false);
         }
         return false;
     }
