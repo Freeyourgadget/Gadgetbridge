@@ -3360,4 +3360,9 @@
     <string name="target">目标</string>
     <string name="devicetype_garmin_fenix_5x_plus">佳明 Fenix 5X Plus</string>
     <string name="pref_header_sound">声音</string>
+    <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f 公斤</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f 磅</string>
+    <string name="workoutSets">设置</string>
+    <string name="workout_set_i">设置 %1d</string>
+    <string name="workout_set_repetitions">%1d x</string>
 </resources>
