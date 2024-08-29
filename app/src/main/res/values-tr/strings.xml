@@ -3378,4 +3378,9 @@
     <string name="workout_set_repetitions">%1d x</string>
     <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
     <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f paunt</string>
+    <string name="no_supported_devices_found">Desteklenen aygıt bulunamadı</string>
+    <string name="menuitem_stress_segmented">Stres (bölümlenmiş)</string>
+    <string name="menuitem_stress_breakdown">Stres (çöküş)</string>
+    <string name="menuitem_stress_simple">Stres (basit)</string>
+    <string name="choose_device">Aygıt seç</string>
 </resources>
