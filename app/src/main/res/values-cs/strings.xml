@@ -1934,7 +1934,7 @@
     <string name="pref_summary_overwrite_settings_on_connection">Přepsat všechna nastavení na náramku při jeho připojení.</string>
     <string name="pref_workout_detection_title">Rozpoznání cvičení</string>
     <string name="function_enabled">Povoleno</string>
-    <string name="charts_legend_stress_average">Průměrný stress</string>
+    <string name="charts_legend_stress_average">Průměrný stres</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="pref_screen_auto_brightness_summary">Automaticky nastavit jas obrazovky v závislosti na okolním osvětlení</string>
     <string name="activity_prefs_goal_standing_time_minutes">Denní cíl: čas vestoje v minutách</string>
@@ -3365,4 +3365,9 @@
     <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
     <string name="workout_set_i">Sada %1d</string>
     <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lb</string>
+    <string name="menuitem_stress_breakdown">Stres (podrobně)</string>
+    <string name="menuitem_stress_simple">Stres (jednoduchý)</string>
+    <string name="menuitem_stress_segmented">Stres (rozdělený)</string>
+    <string name="choose_device">Vyberte zařízení</string>
+    <string name="no_supported_devices_found">Nenalezena žádná podporovaná zařízení</string>
 </resources>
