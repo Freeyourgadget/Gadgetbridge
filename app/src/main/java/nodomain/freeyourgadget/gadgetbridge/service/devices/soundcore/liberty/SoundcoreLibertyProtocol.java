@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty3_pro;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
 
@@ -11,7 +11,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -30,8 +29,6 @@ public class SoundcoreLibertyProtocol extends GBDeviceProtocol {
     private static final int battery_case = 0;
     private static final int battery_earphone_left = 1;
     private static final int battery_earphone_right = 2;
-
-    final UUID UUID_DEVICE_CTRL = UUID.fromString("0cf12d31-fac3-4553-bd80-d6832e7b3952");
 
     protected SoundcoreLibertyProtocol(GBDevice device) {
         super(device);

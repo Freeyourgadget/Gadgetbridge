@@ -1,4 +1,5 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty4_nc;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty;
+
 enum TapFunction {
     VOLUME_DOWN(1),
     VOLUME_UP(0),

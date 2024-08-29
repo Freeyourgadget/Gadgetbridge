@@ -14,7 +14,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty4_nc.SoundcoreLiberty4NCDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty.SoundcoreLiberty4NCDeviceSupport;
 
 public class SoundcoreLiberty4NCCoordinator extends AbstractDeviceCoordinator {
     @Override

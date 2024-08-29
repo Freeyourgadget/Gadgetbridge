@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty3_pro;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.soundcore.liberty;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
 
@@ -18,14 +18,22 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 
 public class SoundcoreLibertyIOThread extends BtClassicIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(SoundcoreLibertyIOThread.class);
     private final SoundcoreLibertyProtocol mSoundcoreProtocol;
+    private final UUID mUuidToConnect;
 
-    public SoundcoreLibertyIOThread(GBDevice gbDevice, Context context, SoundcoreLibertyProtocol deviceProtocol, SoundcoreLiberty3ProDeviceSupport deviceSupport, BluetoothAdapter btAdapter) {
+    public SoundcoreLibertyIOThread(final GBDevice gbDevice,
+                                    final Context context,
+                                    final SoundcoreLibertyProtocol deviceProtocol,
+                                    final UUID uuidToConnect,
+                                    final AbstractSerialDeviceSupport deviceSupport,
+                                    final BluetoothAdapter btAdapter) {
         super(gbDevice, context, deviceProtocol, deviceSupport, btAdapter);
         mSoundcoreProtocol = deviceProtocol;
+        mUuidToConnect = uuidToConnect;
     }
 
     @Override
@@ -36,14 +44,14 @@ public class SoundcoreLibertyIOThread extends BtClassicIoThread {
 
     @NonNull
     protected UUID getUuidToConnect(@NonNull ParcelUuid[] uuids) {
-        return mSoundcoreProtocol.UUID_DEVICE_CTRL;
+        return mUuidToConnect;
     }
 
     @Override
     protected byte[] parseIncoming(InputStream inStream) throws IOException {
         byte[] buffer = new byte[1048576]; //HUGE read
         int bytes = inStream.read(buffer);
-        LOG.debug("read " + bytes + " bytes. " + hexdump(buffer, 0, bytes));
+        LOG.debug("read {} bytes. {}", bytes, hexdump(buffer, 0, bytes));
         return Arrays.copyOf(buffer, bytes);
     }
 }
