@@ -3365,4 +3365,9 @@
     <string name="workoutSets">设置</string>
     <string name="workout_set_i">设置 %1d</string>
     <string name="workout_set_repetitions">%1d x</string>
+    <string name="menuitem_stress_breakdown">压力（分解）</string>
+    <string name="choose_device">选择设备</string>
+    <string name="no_supported_devices_found">未找到支持的设备</string>
+    <string name="menuitem_stress_simple">压力（简单）</string>
+    <string name="menuitem_stress_segmented">压力（分段）</string>
 </resources>
