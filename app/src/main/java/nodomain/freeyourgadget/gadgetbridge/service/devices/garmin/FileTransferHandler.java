@@ -248,7 +248,7 @@ public CreateFileMessage initiateUpload(byte[] fileAsByteArray, FileType.FILETYP
 
     public static class FileFragment {
         private final DirectoryEntry directoryEntry;
-        private final int maxBlockSize = 500;
+        private final int maxBlockSize = 500; //TODO: why 500?
         private int dataSize;
         private ByteBuffer dataHolder;
         private int runningCrc;
@@ -268,7 +268,7 @@ public CreateFileMessage initiateUpload(byte[] fileAsByteArray, FileType.FILETYP
         }
 
         private int getMaxBlockSize() {
-            return Math.max(maxBlockSize, GFDIMessage.getMaxPacketSize());
+            return Math.min(maxBlockSize, GFDIMessage.getMaxPacketSize()); //TODO: can we use GFDIMessage.getMaxPacketSize() directly?
         }
 
         public String getFileName() {
