@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActi
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications.NotificationConstraintsType;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
@@ -58,6 +58,8 @@ public class HuaweiCoordinator {
     private boolean supportsTruSleepNewSync = false;
 
     private Watchface.WatchfaceDeviceParams watchfaceDeviceParams;
+
+    private App.AppDeviceParams appDeviceParams;
 
     private final HuaweiCoordinatorSupplier parent;
 
@@ -405,6 +407,8 @@ public class HuaweiCoordinator {
 
     public boolean supportsWatchfaceParams(){ return supportsCommandForService(0x27, 0x01);}
 
+    public boolean supportsAppParams(){ return supportsCommandForService(0x2a, 0x06);}
+
     public boolean supportsWeather() {
         return supportsCommandForService(0x0f, 0x01);
     }
@@ -584,20 +588,26 @@ public class HuaweiCoordinator {
         this.watchfaceDeviceParams = watchfaceDeviceParams;
     }
 
+    public void setAppDeviceParams(App.AppDeviceParams appDeviceParams) {
+        this.appDeviceParams = appDeviceParams;
+    }
+
+    public App.AppDeviceParams getAppDeviceParams() {
+        return appDeviceParams;
+    }
+
     public Class<? extends Activity> getAppManagerActivity() {
         return AppManagerActivity.class;
     }
 
-    public boolean getSupportsAppListFetching() {
-        return true;
-    }
+    public boolean getSupportsAppListFetching() { return true; }
 
     public boolean getSupportsAppsManagement(GBDevice device) {
         return true;
     }
 
     public boolean getSupportsInstalledAppManagement(GBDevice device) {
-        return false;
+        return this.supportsAppParams(); // NOTE: this check can be incorrect. But looks like it works
     }
 
     public boolean getSupportsCachedAppManagement(GBDevice device) {

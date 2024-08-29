@@ -25,10 +25,13 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiAppParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBZipFile;
@@ -47,6 +50,7 @@ public class HuaweiFwHelper {
 
     Bitmap watchfacePreviewBitmap;
     HuaweiWatchfaceManager.WatchfaceDescription watchfaceDescription;
+    HuaweiAppManager.AppConfig appConfig;
     Context mContext;
 
     public HuaweiFwHelper(final Uri uri, final Context context) {
@@ -65,12 +69,66 @@ public class HuaweiFwHelper {
     }
 
     private void parseFile() {
-        if (parseAsWatchFace()) {
+        if(parseAsApp()) {
+            assert appConfig.bundleName != null;
+            assert appConfig.distroFilters != null;
+            fileType = FileUpload.Filetype.app;
+        } else if (parseAsWatchFace()) {
             assert watchfaceDescription.screen != null;
             assert watchfaceDescription.title != null;
             fileType = FileUpload.Filetype.watchface;
         }
     }
+
+    boolean parseAsApp() {
+
+        try {
+            final UriHelper uriHelper = UriHelper.get(uri, this.mContext);
+
+            InputStream inputStream = uriHelper.openInputStream();
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+            int nRead;
+            byte[] data = new byte[4];
+
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+
+            buffer.flush();
+            byte[] hap_data = buffer.toByteArray();
+
+            HuaweiAppParser app = new HuaweiAppParser();
+            app.parseData(hap_data);
+
+            byte[] config = app.getEntryContent("config.json");
+            if(config == null)
+                return false;
+            appConfig = new HuaweiAppManager.AppConfig(new String(config));
+            fileName = app.getPackageName() + "_INSTALL"; //TODO: INSTALL or UPDATE suffix
+
+            fw = hap_data;
+            fileSize = fw.length;
+
+            byte[] icon = app.getEntryContent("icon_small.png");
+            if(icon != null) {
+                watchfacePreviewBitmap = BitmapFactory.decodeByteArray(icon, 0, icon.length);
+            }
+
+            return true;
+
+        } catch (FileNotFoundException e) {
+            LOG.error("The watchface file was not found.", e);
+        } catch (IOException e) {
+            LOG.error("General IO error occurred.", e);
+        } catch (Exception e) {
+            LOG.error("Unknown error occurred.", e);
+        }
+
+        return false;
+    }
+
 
     public byte[] getBytes() {
         return fw;
@@ -137,8 +195,13 @@ public class HuaweiFwHelper {
     public boolean isWatchface() {
         return fileType == FileUpload.Filetype.watchface;
     }
+
+    public boolean isAPP() {
+        return fileType == FileUpload.Filetype.app;
+    }
+
     public boolean isValid() {
-        return isWatchface();
+        return isWatchface() || isAPP();
     }
 
     public Bitmap getWatchfacePreviewBitmap() {
@@ -147,6 +210,10 @@ public class HuaweiFwHelper {
 
     public HuaweiWatchfaceManager.WatchfaceDescription getWatchfaceDescription() {
         return watchfaceDescription;
+    }
+
+    public HuaweiAppManager.AppConfig getAppconfig() {
+        return appConfig;
     }
 
     public byte getFileType() {

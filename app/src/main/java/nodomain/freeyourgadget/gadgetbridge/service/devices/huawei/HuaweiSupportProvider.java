@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -78,6 +79,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -89,6 +91,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAppInfoParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
@@ -204,6 +207,8 @@ public class HuaweiSupportProvider {
 
     protected HuaweiFileDownloadManager huaweiFileDownloadManager = new HuaweiFileDownloadManager(this);
 
+    protected HuaweiAppManager huaweiAppManager = new HuaweiAppManager(this);
+
     public HuaweiCoordinatorSupplier getCoordinator() {
         return ((HuaweiCoordinatorSupplier) this.gbDevice.getDeviceCoordinator());
     }
@@ -215,6 +220,9 @@ public class HuaweiSupportProvider {
         return huaweiWatchfaceManager;
     }
 
+    public HuaweiAppManager getHuaweiAppManager() {
+        return huaweiAppManager;
+    }
     public HuaweiSupportProvider(HuaweiBRSupport support) {
         this.brSupport = support;
     }
@@ -801,6 +809,11 @@ public class HuaweiSupportProvider {
             if (getHuaweiCoordinator().supportsCameraRemote() && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false)) {
                 SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA);
                 sendCameraRemoteSetupEvent.doPerform();
+            }
+
+            if (getHuaweiCoordinator().supportsAppParams()) {
+                GetAppInfoParams getAppInfoParams = new GetAppInfoParams(this);
+                getAppInfoParams.doPerform();
             }
         } catch (IOException e) {
             GB.toast(getContext(), "Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR,
@@ -2029,19 +2042,50 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to update progress notification", e);
         }
     }
+    private List<GBDeviceApp> gbWatchFaces = null;
+    private List<GBDeviceApp> gbWatchApps = null;
+
+    public void setGbWatchFaces(List<GBDeviceApp> gbWatchFaces) {
+        this.gbWatchFaces = gbWatchFaces;
+        updateAppList();
+    }
+
+    public void setGbWatchApps(List<GBDeviceApp> gbWatchApps) {
+        this.gbWatchApps = gbWatchApps;
+        updateAppList();
+    }
+    private void updateAppList() {
+        ArrayList<GBDeviceApp> gbDeviceApps=new ArrayList<>();
+        if(this.gbWatchFaces != null)
+            gbDeviceApps.addAll(this.gbWatchFaces);
+        if(this.gbWatchApps != null)
+            gbDeviceApps.addAll(this.gbWatchApps);
+        final GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
+        appInfoCmd.apps = gbDeviceApps.toArray(new GBDeviceApp[0]);
+        evaluateGBDeviceEvent(appInfoCmd);
+    }
 
     public void onAppInfoReq() {
+        this.gbWatchFaces = null;
+        this.gbWatchApps = null;
         huaweiWatchfaceManager.requestWatchfaceList();
+        huaweiAppManager.requestAppList();
     }
     
     public void onAppStart(final UUID uuid, boolean start) {
         if (start) {
-            huaweiWatchfaceManager.setWatchface(uuid);
+            //NOTE: to prevent exception in watchfaces code
+            if(!huaweiAppManager.startApp(uuid)) {
+                huaweiWatchfaceManager.setWatchface(uuid);
+            }
         }
     }
 
     public void onAppDelete(final UUID uuid) {
-        huaweiWatchfaceManager.deleteWatchface(uuid);
+        //NOTE: to prevent exception in watchfaces code
+        if(!huaweiAppManager.deleteApp(uuid)){
+            huaweiWatchfaceManager.deleteWatchface(uuid);
+        }
     }
 
     public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {

@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiAppManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiFwHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiWatchfaceManager;
 
@@ -56,56 +57,107 @@ public class HuaweiInstallHandler implements InstallHandler {
             return;
         }
 
-        final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
+        if(helper.isWatchface()) {
+            final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
 
-        HuaweiWatchfaceManager.WatchfaceDescription description = helper.getWatchfaceDescription();
+            HuaweiWatchfaceManager.WatchfaceDescription description = helper.getWatchfaceDescription();
 
-        HuaweiWatchfaceManager.Resolution resolution = new HuaweiWatchfaceManager.Resolution();
-        String deviceScreen =  String.format("%d*%d",huaweiCoordinatorSupplier.getHuaweiCoordinator().getHeight(),
-                huaweiCoordinatorSupplier.getHuaweiCoordinator().getWidth());
-        this.valid = resolution.isValid(description.screen, deviceScreen);
+            HuaweiWatchfaceManager.Resolution resolution = new HuaweiWatchfaceManager.Resolution();
+            String deviceScreen = String.format("%d*%d", huaweiCoordinatorSupplier.getHuaweiCoordinator().getHeight(),
+                    huaweiCoordinatorSupplier.getHuaweiCoordinator().getWidth());
+            this.valid = resolution.isValid(description.screen, deviceScreen);
 
-        installActivity.setInstallEnabled(true);
+            installActivity.setInstallEnabled(true);
 
-        GenericItem installItem = new GenericItem();
+            GenericItem installItem = new GenericItem();
 
 
-        if (helper.getWatchfacePreviewBitmap() != null) {
-            installItem.setPreview(helper.getWatchfacePreviewBitmap());
+            if (helper.getWatchfacePreviewBitmap() != null) {
+                installItem.setPreview(helper.getWatchfacePreviewBitmap());
+            }
+
+            installItem.setName(description.title);
+            installActivity.setInstallItem(installItem);
+            if (device.isBusy()) {
+                LOG.error("Firmware cannot be installed (device busy)");
+                installActivity.setInfoText("Firmware cannot be installed (device busy)");
+                installActivity.setInfoText(device.getBusyTask());
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!device.isConnected()) {
+                LOG.error("Firmware cannot be installed (not connected or wrong device)");
+                installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!this.valid) {
+                LOG.error("Watchface cannot be installed");
+                installActivity.setInfoText(context.getString(R.string.watchface_resolution_doesnt_match,
+                        resolution.screenByThemeVersion(description.screen), deviceScreen));
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            installItem.setDetails(description.version);
+
+            installItem.setIcon(R.drawable.ic_watchface);
+            installActivity.setInfoText(context.getString(R.string.watchface_install_info, installItem.getName(), description.version, description.author));
+
+            LOG.debug("Initialized HuaweiInstallHandler");
+        } else if (helper.isAPP()) {
+            final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
+
+            String screenWindow = String.format("%d*%d", huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().height,
+                    huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().width);
+
+            String screenShape = huaweiCoordinatorSupplier.getHuaweiCoordinator().getAppDeviceParams().screenShape;
+
+            HuaweiAppManager.AppConfig config = helper.getAppconfig();
+
+            this.valid = config.checkDistroFilters(screenShape, screenWindow);
+
+            installActivity.setInstallEnabled(true);
+
+            GenericItem installItem = new GenericItem();
+
+            if (helper.getWatchfacePreviewBitmap() != null) {
+                installItem.setPreview(helper.getWatchfacePreviewBitmap());
+            }
+
+            installItem.setName(config.bundleName);
+            installActivity.setInstallItem(installItem);
+            if (device.isBusy()) {
+                LOG.error("Firmware cannot be installed (device busy)");
+                installActivity.setInfoText("Firmware cannot be installed (device busy)");
+                installActivity.setInfoText(device.getBusyTask());
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!device.isConnected()) {
+                LOG.error("Firmware cannot be installed (not connected or wrong device)");
+                installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!this.valid) {
+                LOG.error("App cannot be installed");
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            installItem.setDetails(config.version);
+
+            installItem.setIcon(R.drawable.ic_watchapp);
+
+            installActivity.setInfoText(context.getString(R.string.app_install_info, installItem.getName(), config.version, config.vendor));
+
+            LOG.debug("Initialized HuaweiInstallHandler");
         }
-
-        installItem.setName(description.title);
-        installActivity.setInstallItem(installItem);
-        if (device.isBusy()) {
-            LOG.error("Firmware cannot be installed (device busy)");
-            installActivity.setInfoText("Firmware cannot be installed (device busy)");
-            installActivity.setInfoText(device.getBusyTask());
-            installActivity.setInstallEnabled(false);
-            return;
-        }
-
-        if ( !device.isConnected()) {
-            LOG.error("Firmware cannot be installed (not connected or wrong device)");
-            installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
-            installActivity.setInstallEnabled(false);
-            return;
-        }
-
-        if (!this.valid) {
-            LOG.error("Watchface cannot be installed");
-            installActivity.setInfoText(context.getString(R.string.watchface_resolution_doesnt_match,
-                     resolution.screenByThemeVersion(description.screen), deviceScreen));
-            installActivity.setInstallEnabled(false);
-            return;
-        }
-
-
-        //installItem.setDetails(description.version);
-
-        installItem.setIcon(R.drawable.ic_watchface);
-        installActivity.setInfoText(context.getString(R.string.watchface_install_info, installItem.getName(), description.version, description.author));
-
-        LOG.debug("Initialized HuaweiInstallHandler");
 
     }
 

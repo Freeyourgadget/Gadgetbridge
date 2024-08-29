@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelated;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
@@ -612,6 +613,16 @@ public class HuaweiPacket {
                         return new FileDownloadService2C.FileInfo.Response(paramsProvider).fromPacket(this);
                     case FileDownloadService2C.BlockResponse.id:
                         return new FileDownloadService2C.BlockResponse(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
+            case App.id:
+                switch (this.commandId) {
+                    case App.AppNames.id:
+                        return new App.AppNames.Response(paramsProvider).fromPacket(this);
+                    case App.AppInfoParams.id:
+                        return new App.AppInfoParams.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

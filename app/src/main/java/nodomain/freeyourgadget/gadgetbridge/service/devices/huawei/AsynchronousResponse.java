@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMes
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
@@ -117,6 +118,7 @@ public class AsynchronousResponse {
             handleFileUpload(response);
             handleWatchface(response);
             handleCameraRemote(response);
+            handleApp(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -496,6 +498,22 @@ public class AsynchronousResponse {
                         sendWatchfaceOperation.doPerform();
                     }
                 } catch (IOException e) {
+                    LOG.error("Could not send watchface confirm request", e);
+                }
+
+            }
+        }
+    }
+
+    private void handleApp(HuaweiPacket response) throws Request.ResponseParseException {
+        if (response.serviceId == App.id) {
+            if (response.commandId == 0x2) {
+                try {
+                    byte status = response.getTlv().getByte(0x1);
+                    if(status == (byte)0x66 || status == (byte)0x69) {
+                        this.support.getHuaweiAppManager().requestAppList();
+                    }
+                } catch (HuaweiPacket.MissingTagException e) {
                     LOG.error("Could not send watchface confirm request", e);
                 }
 

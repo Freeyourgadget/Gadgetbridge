@@ -39,7 +39,8 @@ public class FileUpload {
         public static final byte watchface = 1;
         public static final byte music = 2;
         public static final byte backgroundImage = 3;
-        public static final byte app = 7;
+        public static final byte app = 6;
+        public static final byte firmware = 7;
     }
 
 
