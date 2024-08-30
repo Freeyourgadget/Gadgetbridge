@@ -3376,4 +3376,9 @@
     <string name="menuitem_stress_segmented">Estrés (segmentado)</string>
     <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
     <string name="search">Buscar</string>
+    <string name="pref_deprecated_media_control_title">Control multimedia obsoleto</string>
+    <string name="pref_header_deprecated_functionalities">Funciones obsoletas</string>
+    <string name="pref_header_deprecated_functionalities_warning">Las siguientes funcionalidades han quedado obsoletas y se eliminarán pronto del software.
+\nSi necesitas activar alguna de las siguientes opciones, póngate en contacto con el equipo del proyecto.</string>
+    <string name="pref_deprecated_media_control_summary">Enviar comandos de control de medios como eventos clave en lugar del controlador de medios.</string>
 </resources>
