@@ -64,6 +64,7 @@ public class FetchDataOperation extends AbstractBTLEOperation<MoyoungDeviceSuppo
         getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_SYNC_PAST_SLEEP_AND_STEP, new byte[] { MoyoungConstants.ARG_SYNC_DAY_BEFORE_YESTERDAY_STEPS }));
         builder.read(getCharacteristic(MoyoungConstants.UUID_CHARACTERISTIC_STEPS));
         getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_QUERY_MOVEMENT_HEART_RATE, new byte[] { }));
+        getSupport().sendPacket(builder, MoyoungPacketOut.buildPacket(getSupport().getMtu(), MoyoungConstants.CMD_QUERY_PAST_HEART_RATE_1, new byte[] { 0x00 }));
         builder.queue(getQueue());
 
         updateProgressAndCheckFinish();

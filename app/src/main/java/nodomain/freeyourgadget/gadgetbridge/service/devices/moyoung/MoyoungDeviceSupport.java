@@ -49,6 +49,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -332,6 +333,12 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             } catch (IOException e) {
                 LOG.error("TrainingFinishedDataOperation failed: ", e);
             }
+        }
+
+        if (packetType == MoyoungConstants.CMD_QUERY_PAST_HEART_RATE_1)
+        {
+            handleHeartRateHistory(payload);
+            return true;
         }
 
         if (packetType == MoyoungConstants.CMD_NOTIFY_PHONE_OPERATION)
@@ -709,8 +716,57 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    public void handleStepsHistory(int daysAgo, byte[] data, boolean isRealtime)
-    {
+    private void handleHeartRateHistory(byte[] data) {
+        final int packetIndex = data[0];
+        final int daysAgo = Math.floorDiv(packetIndex, 4);
+        final int startHour = (packetIndex % 4) * 6;  // There are 6 hours of data in every packet
+        final ArrayList<MoyoungHeartRateSample> hrSamples = new ArrayList<>();
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -daysAgo);
+        cal.set(Calendar.SECOND, 0);
+        int index = 1;
+        for (int hour=startHour; hour<startHour+6; hour++) {
+            cal.set(Calendar.HOUR_OF_DAY, hour);
+            for (int minute=0; minute<60; minute+=5) {
+                cal.set(Calendar.MINUTE, minute);
+                int hr = data[index] & 0xff;
+                if (HeartRateUtils.getInstance().isValidHeartRateValue(hr)) {
+                    MoyoungHeartRateSample sample = new MoyoungHeartRateSample();
+                    sample.setTimestamp(cal.getTimeInMillis());
+                    sample.setHeartRate(hr);
+                    hrSamples.add(sample);
+                    LOG.info("Parsed HR sample: {}", sample);
+                }
+                index++;
+            }
+        }
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            MoyoungHeartRateSampleProvider sampleProvider = new MoyoungHeartRateSampleProvider(getDevice(), dbHandler.getDaoSession());
+            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
+
+            for (MoyoungHeartRateSample sample : hrSamples) {
+                sample.setDeviceId(deviceId);
+                sample.setUserId(userId);
+            }
+
+            sampleProvider.addSamples(hrSamples);
+        } catch (Exception e) {
+            LOG.error("Error acquiring database for recording heart rate samples", e);
+        }
+
+        // Request next batch
+        if (packetIndex >= 7) return;  // 8 packets = 2 days, the maximum
+        try {
+            TransactionBuilder builder = performInitialized("FetchHROperation");
+            sendPacket(builder, MoyoungPacketOut.buildPacket(getMtu(), MoyoungConstants.CMD_QUERY_PAST_HEART_RATE_1, new byte[]{(byte) (packetIndex+1)}));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Failed sending HR history request packet: ", e);
+        }
+    }
+
+    public void handleStepsHistory(int daysAgo, byte[] data, boolean isRealtime) {
         if (data.length != 9)
             throw new IllegalArgumentException();
 
