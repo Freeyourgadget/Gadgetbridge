@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.AbstractMoyoungDeviceCoordinator;
@@ -134,6 +135,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     private MoyoungPacketIn packetIn = new MoyoungPacketIn();
 
     private boolean realTimeHeartRate;
+    private boolean findMyPhoneActive = false;
 
     public int getMtu() {
         return this.mtu;
@@ -417,6 +419,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == MoyoungConstants.CMD_FIND_MY_PHONE)
         {
             LOG.info("Find my phone started on watch");
+            GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+            findPhoneEvent.event = findMyPhoneActive ? GBDeviceEventFindPhone.Event.STOP : GBDeviceEventFindPhone.Event.START;
+            evaluateGBDeviceEvent(findPhoneEvent);
+            findMyPhoneActive = !findMyPhoneActive;
             return true;
         }
 
