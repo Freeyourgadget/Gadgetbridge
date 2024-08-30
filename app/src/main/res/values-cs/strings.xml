@@ -3372,4 +3372,9 @@
     <string name="no_supported_devices_found">Nenalezena žádná podporovaná zařízení</string>
     <string name="search">Hledat</string>
     <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
+    <string name="pref_deprecated_media_control_title">Zastaralé ovládání médií</string>
+    <string name="pref_deprecated_media_control_summary">Posílat příkazy ovládání médií jako události, namísto ovladače médií.</string>
+    <string name="pref_header_deprecated_functionalities">Zastaralé funkce</string>
+    <string name="pref_header_deprecated_functionalities_warning">Následující funkce jsou zastaralé a budou z tohoto software brzy odstraněny.
+\nPokud potřebujete jedno z následujících nastavení povolit, kontaktujte prosím projektový tým.</string>
 </resources>
