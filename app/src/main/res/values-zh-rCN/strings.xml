@@ -3370,4 +3370,6 @@
     <string name="no_supported_devices_found">未找到支持的设备</string>
     <string name="menuitem_stress_simple">压力（简单）</string>
     <string name="menuitem_stress_segmented">压力（分段）</string>
+    <string name="search">搜索</string>
+    <string name="devicetype_soundcore_liberty4_nc">声阔 Liberty 4 NC</string>
 </resources>
