@@ -381,6 +381,15 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 });
             }
 
+            pref = findPreference("pref_category_notifications");
+            if (pref != null) {
+                pref.setOnPreferenceClickListener(preference -> {
+                    Intent enableIntent = new Intent(requireContext(), NotificationManagementActivity.class);
+                    startActivity(enableIntent);
+                    return true;
+                });
+            }
+
             final Preference theme = findPreference("pref_key_theme");
             final Preference amoled_black = findPreference("pref_key_theme_amoled_black");
 
@@ -558,7 +567,7 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
         private void setLocationPreferences(Location location) {
             String latitude = String.format(Locale.US, "%.6g", location.getLatitude());
             String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
-            LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
+            LOG.info("got location. Lat: {} Lng: {}", latitude, longitude);
             GB.toast(requireContext(), getString(R.string.toast_aqurired_networklocation), 2000, 0);
             GBApplication.getPrefs().getPreferences()
                     .edit()

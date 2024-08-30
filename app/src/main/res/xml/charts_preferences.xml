@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- this only shows up when a device is set
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_tabs"
+        android:defaultValue="@array/pref_charts_tabs_items_default"
+        android:dialogTitle="@string/prefs_charts_tabs"
+        android:entries="@array/pref_charts_tabs_items"
+        android:entryValues="@array/pref_charts_tabs_values"
+        android:key="charts_tabs"
+        android:persistent="false"
+        android:summary="@string/prefs_charts_tabs_summary"
+        android:title="@string/prefs_charts_tabs" />-->
+
     <PreferenceCategory
         android:key="pref_charts"
         android:title="@string/activity_prefs_charts"

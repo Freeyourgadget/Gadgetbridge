@@ -412,10 +412,6 @@ public class ControlCenterv2 extends AppCompatActivity
             final Intent dbIntent = new Intent(this, DataManagementActivity.class);
             startActivity(dbIntent);
             return false;
-        } else if (itemId == R.id.action_notification_management) {
-            final Intent blIntent = new Intent(this, NotificationManagementActivity.class);
-            startActivity(blIntent);
-            return false;
         } else if (itemId == R.id.device_action_discover) {
             launchDiscoveryActivity();
             return false;

@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 
-import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -36,7 +35,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class NotificationManagementActivity extends AbstractSettingsActivityV2 {
-    private static final Logger LOG = LoggerFactory.getLogger(NotificationManagementActivity.class);
     private static final int RINGTONE_REQUEST_CODE = 4712;
     private static final String DEFAULT_RINGTONE_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString();
 
@@ -51,6 +49,8 @@ public class NotificationManagementActivity extends AbstractSettingsActivityV2 {
     }
 
     public static class NotificationPreferencesFragment extends AbstractPreferenceFragment {
+        private static final Logger LOG = LoggerFactory.getLogger(NotificationPreferencesFragment.class);
+
         static final String FRAGMENT_TAG = "NOTIFICATION_PREFERENCES_FRAGMENT";
 
         @Override
