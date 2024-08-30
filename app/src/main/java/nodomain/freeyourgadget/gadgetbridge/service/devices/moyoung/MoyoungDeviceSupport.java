@@ -513,16 +513,21 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        String sender = StringUtils.getFirstOf(notificationSpec.sender, StringUtils.getFirstOf(notificationSpec.sourceName, notificationSpec.sourceAppId));
-        if (sender.isEmpty())
-            sender = "(unknown)";
+        final String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
-        String text = NotificationUtils.getPreferredTextFor(notificationSpec, 0, 75, getContext());
-        if (text.isEmpty())
-            text = StringUtils.getFirstOf(StringUtils.getFirstOf(notificationSpec.title, notificationSpec.subject), notificationSpec.body);
+        String message = StringUtils.truncate(senderOrTitle, 32) + ":";
+        if (notificationSpec.subject != null) {
+            message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
+        }
+        if (notificationSpec.body != null) {
+            message += StringUtils.truncate(notificationSpec.body, 512);
+        }
+        if (notificationSpec.body == null && notificationSpec.subject == null) {
+            message += " ";
+        }
 
         // The notification is split at first : into sender and text
-        sendNotification(MoyoungConstants.notificationType(notificationSpec.type), sender + ":" + text);
+        sendNotification(MoyoungConstants.notificationType(notificationSpec.type), message);
     }
 
     @Override
