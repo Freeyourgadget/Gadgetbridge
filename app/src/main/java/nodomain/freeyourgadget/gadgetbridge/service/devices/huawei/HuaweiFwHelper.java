@@ -48,7 +48,7 @@ public class HuaweiFwHelper {
     private byte fileType = 0;
     String fileName = "";
 
-    Bitmap watchfacePreviewBitmap;
+    Bitmap previewBitmap;
     HuaweiWatchfaceManager.WatchfaceDescription watchfaceDescription;
     HuaweiAppManager.AppConfig appConfig;
     Context mContext;
@@ -83,7 +83,6 @@ public class HuaweiFwHelper {
 
         try {
             final UriHelper uriHelper = UriHelper.get(uri, this.mContext);
-
             InputStream inputStream = uriHelper.openInputStream();
 
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -96,10 +95,12 @@ public class HuaweiFwHelper {
             }
 
             buffer.flush();
-            byte[] hap_data = buffer.toByteArray();
+            byte[] appData = buffer.toByteArray();
+
+            inputStream.close();
 
             HuaweiBinAppParser app = new HuaweiBinAppParser();
-            app.parseData(hap_data);
+            app.parseData(appData);
 
             byte[] config = app.getEntryContent("config.json");
             if(config == null)
@@ -107,20 +108,22 @@ public class HuaweiFwHelper {
             appConfig = new HuaweiAppManager.AppConfig(new String(config));
             fileName = app.getPackageName() + "_INSTALL"; //TODO: INSTALL or UPDATE suffix
 
-            fw = hap_data;
+            fw = appData;
             fileSize = fw.length;
 
             byte[] icon = app.getEntryContent("icon_small.png");
             if(icon != null) {
-                watchfacePreviewBitmap = BitmapFactory.decodeByteArray(icon, 0, icon.length);
+                previewBitmap = BitmapFactory.decodeByteArray(icon, 0, icon.length);
             }
 
             return true;
 
         } catch (FileNotFoundException e) {
-            LOG.error("The watchface file was not found.", e);
+            LOG.error("The app file was not found.", e);
         } catch (IOException e) {
             LOG.error("General IO error occurred.", e);
+        } catch (HuaweiBinAppParser.HuaweiBinAppParseError e) {
+            LOG.error("Error parsing app File", e);
         } catch (Exception e) {
             LOG.error("Unknown error occurred.", e);
         }
@@ -164,7 +167,7 @@ public class HuaweiFwHelper {
             watchfaceDescription = new HuaweiWatchfaceManager.WatchfaceDescription(xmlDescription);
             if (watchfacePackage.fileExists("preview/cover.jpg")) {
                 final byte[] preview = watchfacePackage.getFileFromZip("preview/cover.jpg");
-                watchfacePreviewBitmap = BitmapFactory.decodeByteArray(preview, 0, preview.length);
+                previewBitmap = BitmapFactory.decodeByteArray(preview, 0, preview.length);
             }
 
             byte[] watchfaceZip = watchfacePackage.getFileFromZip("com.huawei.watchface");
@@ -203,8 +206,8 @@ public class HuaweiFwHelper {
         return isWatchface() || isAPP();
     }
 
-    public Bitmap getWatchfacePreviewBitmap() {
-        return watchfacePreviewBitmap;
+    public Bitmap getPreviewBitmap() {
+        return previewBitmap;
     }
 
     public HuaweiWatchfaceManager.WatchfaceDescription getWatchfaceDescription() {

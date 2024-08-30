@@ -72,8 +72,8 @@ public class HuaweiInstallHandler implements InstallHandler {
             GenericItem installItem = new GenericItem();
 
 
-            if (helper.getWatchfacePreviewBitmap() != null) {
-                installItem.setPreview(helper.getWatchfacePreviewBitmap());
+            if (helper.getPreviewBitmap() != null) {
+                installItem.setPreview(helper.getPreviewBitmap());
             }
 
             installItem.setName(description.title);
@@ -116,8 +116,8 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             GenericItem installItem = new GenericItem();
 
-            if (helper.getWatchfacePreviewBitmap() != null) {
-                installItem.setPreview(helper.getWatchfacePreviewBitmap());
+            if (helper.getPreviewBitmap() != null) {
+                installItem.setPreview(helper.getPreviewBitmap());
             }
 
             installItem.setName(config.bundleName);
