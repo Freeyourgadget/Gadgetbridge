@@ -23,13 +23,18 @@ import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungActivitySampleProvider;
@@ -58,7 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung.MoyoungDeviceSupport;
 
-public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoordinator {
+public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
@@ -160,11 +165,12 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
         return true;
     }
 
-    private static final MoyoungSetting[] MOYOUNG_SETTINGS = new MoyoungSetting[] {
+    private static final MoyoungSetting[] MOYOUNG_SETTINGS = {
         new MoyoungSettingUserInfo("USER_INFO", MoyoungConstants.CMD_SET_USER_INFO),
         new MoyoungSettingByte("STEP_LENGTH", (byte)-1, MoyoungConstants.CMD_SET_STEP_LENGTH),
         // (*) new MoyoungSettingEnum<>("DOMINANT_HAND", MoyoungConstants.CMD_QUERY_DOMINANT_HAND, MoyoungConstants.CMD_SET_DOMINANT_HAND, MoyoungEnumDominantHand.class),
         new MoyoungSettingInt("GOAL_STEP", MoyoungConstants.CMD_QUERY_GOAL_STEP, MoyoungConstants.CMD_SET_GOAL_STEP),
+        new MoyoungSettingByte("HR_AUTO_INTERVAL", MoyoungConstants.CMD_QUERY_TIMING_MEASURE_HEART_RATE, MoyoungConstants.CMD_SET_TIMING_MEASURE_HEART_RATE),
 
         new MoyoungSettingEnum<>("DEVICE_VERSION", MoyoungConstants.CMD_QUERY_DEVICE_VERSION, MoyoungConstants.CMD_SET_DEVICE_VERSION, MoyoungEnumDeviceVersion.class),
         new MoyoungSettingLanguage("DEVICE_LANGUAGE", MoyoungConstants.CMD_QUERY_DEVICE_LANGUAGE, MoyoungConstants.CMD_SET_DEVICE_LANGUAGE),
@@ -187,22 +193,41 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractDeviceCoo
         new MoyoungSettingBool("BREATHING_LIGHT", MoyoungConstants.CMD_QUERY_BREATHING_LIGHT, MoyoungConstants.CMD_SET_BREATHING_LIGHT)
     };
 
+
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-            //R.xml.devicesettings_steplength, // TODO is this needed? does it work? write-only so hard to tell
-            R.xml.devicesettings_moyoung_device_version,
-            R.xml.devicesettings_moyoung_language,
-            R.xml.devicesettings_timeformat,
-            R.xml.devicesettings_measurementsystem,
-            R.xml.devicesettings_moyoung_watchface,
-            //R.xml.devicesettings_moyoung_othermessage, // not implemented because this doesn't really do anything on the watch side, only enables/disables sending of "other" notifications in the app (no idea why they store the setting on the watch)
-            R.xml.devicesettings_liftwrist_display,
-            R.xml.devicesettings_moyoung_sedentary_reminder,
-            R.xml.devicesettings_donotdisturb_no_auto,
-            //R.xml.devicesettings_moyoung_breathinglight, // No idea what this does but it doesn't seem to change anything
-            R.xml.devicesettings_world_clocks,
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
+        final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
+        generic.add(R.xml.devicesettings_moyoung_device_version);
+        generic.add(R.xml.devicesettings_colmi_r0x);
+        generic.add(R.xml.devicesettings_timeformat);
+        generic.add(R.xml.devicesettings_measurementsystem);
+        generic.add(R.xml.devicesettings_moyoung_watchface);
+        generic.add(R.xml.devicesettings_liftwrist_display);
+        generic.add(R.xml.devicesettings_moyoung_sedentary_reminder);
+        generic.add(R.xml.devicesettings_donotdisturb_no_auto);
+        generic.add(R.xml.devicesettings_world_clocks);
+        generic.add(R.xml.devicesettings_sync_calendar);
+        return deviceSpecificSettings;
+    }
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "en_US",
+                "nl_NL",
         };
+    }
+
+    @Override
+    public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {
+        return Arrays.asList(
+                HeartRateCapability.MeasurementInterval.OFF,
+                HeartRateCapability.MeasurementInterval.MINUTES_5,
+                HeartRateCapability.MeasurementInterval.MINUTES_10,
+                HeartRateCapability.MeasurementInterval.MINUTES_15,
+                HeartRateCapability.MeasurementInterval.MINUTES_30
+        );
     }
 
     public MoyoungSetting[] getSupportedSettings() {

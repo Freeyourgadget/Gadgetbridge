@@ -111,8 +111,12 @@ public class QuerySettingsOperation extends AbstractBTLEOperation<MoyoungDeviceS
                 continue;
             if (setting.cmdQuery == packetType)
             {
-                Object value = setting.decode(payload);
-                LOG.info("SETTING QUERY " + setting.name + " = " + value.toString());
+                try {
+                    Object value = setting.decode(payload);
+                    LOG.info("SETTING QUERY " + setting.name + " = " + value.toString());
+                } catch (Exception e) {
+                    LOG.error("Parse error in packet for setting " + setting.name + ": ", e);
+                }
                 received[i] = true;
                 handled = true;
             }

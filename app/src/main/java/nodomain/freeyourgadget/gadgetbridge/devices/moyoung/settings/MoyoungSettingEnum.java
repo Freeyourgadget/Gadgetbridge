@@ -42,8 +42,8 @@ public class MoyoungSettingEnum<T extends Enum <?> & MoyoungEnum> extends Moyoun
 
     @Override
     public T decode(byte[] data) {
-        if (data.length != 1)
-            throw new IllegalArgumentException("Wrong data length, should be 1, was " + data.length);
+        if (data.length < 1)
+            throw new IllegalArgumentException("Wrong data length, should be at least 1, was " + data.length);
 
         return findByValue(data[0]);
     }

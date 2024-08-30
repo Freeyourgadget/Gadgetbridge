@@ -92,6 +92,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -117,20 +118,17 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     private final HeartRateProfile<MoyoungDeviceSupport> heartRateProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
-    private final IntentListener mListener = new IntentListener() {
-        @Override
-        public void notify(Intent intent) {
-            String s = intent.getAction();
-            if (Objects.equals(s, DeviceInfoProfile.ACTION_DEVICE_INFO)) {
-                handleDeviceInfo((DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-            }
-            if (Objects.equals(s, BatteryInfoProfile.ACTION_BATTERY_INFO)) {
-                handleBatteryInfo((BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
-            }
+    private final IntentListener mListener = intent -> {
+        String s = intent.getAction();
+        if (Objects.equals(s, DeviceInfoProfile.ACTION_DEVICE_INFO)) {
+            handleDeviceInfo(intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+        }
+        if (Objects.equals(s, BatteryInfoProfile.ACTION_BATTERY_INFO)) {
+            handleBatteryInfo(intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
         }
     };
 
-    private Handler idleUpdateHandler = new Handler();
+    private final Handler idleUpdateHandler = new Handler();
 
     private int mtu = 20;
     private MoyoungPacketIn packetIn = new MoyoungPacketIn();
@@ -437,30 +435,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void addGBActivitySample(MoyoungActivitySample sample) {
-        addGBActivitySamples(new MoyoungActivitySample[] { sample });
-    }
-
-    private void addGBActivitySamples(MoyoungActivitySample[] samples) {
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            User user = DBHelper.getUser(dbHandler.getDaoSession());
-            Device device = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession());
-
-            MoyoungActivitySampleProvider provider = new MoyoungActivitySampleProvider(getDevice(), dbHandler.getDaoSession());
-
-            for (MoyoungActivitySample sample : samples) {
-                sample.setDevice(device);
-                sample.setUser(user);
-                sample.setProvider(provider);
-                provider.addGBActivitySample(sample);
-            }
-        } catch (Exception ex) {
-            LOG.error("Error saving samples: ", ex);
-            GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
-        }
-    }
-
     private void broadcastSample(MoyoungActivitySample sample) {
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
             .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
@@ -659,12 +633,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private static int BytesToInt24(byte[] bArr) {
-        if (bArr.length != 3)
-            throw new IllegalArgumentException();
-        return ((bArr[2] << 24) >>> 8) | ((bArr[1] << 8) & 0xFF00) | (bArr[0] & 0xFF);
-    }
-
     private Runnable updateIdleStepsRunnable = new Runnable() {
         @Override
         public void run() {
@@ -777,13 +745,13 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
         byte[] bArr2 = new byte[3];
         System.arraycopy(data, 0, bArr2, 0, 3);
-        int steps = BytesToInt24(bArr2);
+        int steps = BLETypeConversions.toUint24(bArr2);
         System.arraycopy(data, 3, bArr2, 0, 3);
-        int distance = BytesToInt24(bArr2);
+        int distance = BLETypeConversions.toUint24(bArr2);
         System.arraycopy(data, 6, bArr2, 0, 3);
-        int calories = BytesToInt24(bArr2);
+        int calories = BLETypeConversions.toUint24(bArr2);
 
-        LOG.info("steps[" + daysAgo + "] steps=" + steps + ", distance=" + distance + ", calories=" + calories);
+        LOG.info("steps[{}] steps={}, distance={}, calories={}", daysAgo, steps, distance, calories);
 
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             User user = DBHelper.getUser(dbHandler.getDaoSession());
@@ -833,7 +801,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
             if (newSteps < 0 || newDistance < 0 || newCalories < 0)
             {
-                LOG.warn("Ignoring a sample that would generate negative values: steps += " + newSteps + ", distance +=" + newDistance + ", calories += " + newCalories);
+                LOG.warn("Ignoring a sample that would generate negative values: steps += {}, distance +={}, calories += {}", newSteps, newDistance, newCalories);
             }
             else if (newSteps != 0 || newDistance != 0 || newCalories != 0 || daysAgo == 0)
             {
@@ -857,7 +825,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     broadcastSample(sample);
                 }
 
-                LOG.info("Adding a sample: " + sample.toString());
+                LOG.info("Adding a sample: {}", sample);
             }
         } catch (Exception ex) {
             LOG.error("Error saving samples: ", ex);
@@ -1084,22 +1052,6 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void addGBActivitySampleIfNotExists(MoyoungActivitySampleProvider provider, MoyoungActivitySample sample)
-    {
-        boolean alreadyHaveThisSample = false;
-        for (MoyoungActivitySample sample2 : provider.getAllActivitySamples(sample.getTimestamp() - 1, sample.getTimestamp() + 1))
-        {
-            if (sample2.getTimestamp() == sample2.getTimestamp() && sample2.getRawKind() == sample.getRawKind())
-                alreadyHaveThisSample = true;
-        }
-
-        if (!alreadyHaveThisSample)
-        {
-            provider.addGBActivitySample(sample);
-            LOG.info("Adding a sample: " + sample.toString());
-        }
-    }
-
     @Override
     public void onReset(int flags) {
         // TODO: this shuts down the watch, rather than rebooting it - perhaps add a new operation type?
@@ -1231,7 +1183,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendConfiguration(String config) {
         LOG.info("Send configuration: " + config);
 
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        Prefs prefs = getDevicePrefs();
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
             case ActivityUser.PREF_USER_WEIGHT_KG:
@@ -1433,7 +1385,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onReadConfigurationDone(MoyoungSetting setting, Object value, byte[] data)
     {
         LOG.info("CONFIG " + setting.name + " = " + value);
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        Prefs prefs = getDevicePrefs();
         Map<String, String> changedProperties = new ArrayMap<>();
         SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
         switch (setting.name) {

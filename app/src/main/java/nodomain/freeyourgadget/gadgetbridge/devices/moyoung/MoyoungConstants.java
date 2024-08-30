@@ -145,6 +145,12 @@ public class MoyoungConstants {
     public static final byte CMD_SET_TIMING_MEASURE_HEART_RATE = 31;                // (*) {i}, i >= 0, 0 is disabled
     public static final byte CMD_START_STOP_MEASURE_DYNAMIC_RATE = 104;             // (*) {enabled ? 0 : -1}
 
+    public static final byte HR_INTERVAL_OFF = 0;
+    public static final byte HR_INTERVAL_5MIN = 1;
+    public static final byte HR_INTERVAL_10MIN = 2;
+    public static final byte HR_INTERVAL_20MIN = 4;
+    public static final byte HR_INTERVAL_30MIN = 6;
+
     public static final byte CMD_TRIGGER_MEASURE_BLOOD_PRESSURE = 105;              // (?) {0, 0, 0} to start, {-1, -1, -1} to stop -> {unused?, num1, num2}
     public static final byte CMD_TRIGGER_MEASURE_BLOOD_OXYGEN = 107;                // (?) {start ? 0 : -1} -> {num}
     public static final byte CMD_TRIGGER_MEASURE_HEARTRATE = 109;                   //     {start ? 0 : -1} -> {bpm}
