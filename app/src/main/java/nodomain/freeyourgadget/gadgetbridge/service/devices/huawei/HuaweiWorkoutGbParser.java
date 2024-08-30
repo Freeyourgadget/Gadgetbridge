@@ -412,11 +412,12 @@ public class HuaweiWorkoutGbParser {
                 int cyclingPowerCount = 0;
                 int avgAltitude = 0;
                 int altitudeCount = 0;
-                int minAltitude = 0;
-                int maxAltitude = 0;
+                int minAltitude = Integer.MAX_VALUE;
+                int maxAltitude = Integer.MIN_VALUE;
                 Integer previousAlt = null;
                 int sumAltitudeUp = 0;
                 int sumAltitudeDown = 0;
+
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
                     if (dataSample.getSpeed() != -1) {
                         speed += dataSample.getSpeed();
