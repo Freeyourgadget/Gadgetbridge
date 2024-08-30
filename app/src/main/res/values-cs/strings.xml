@@ -368,7 +368,7 @@
     <string name="miband2_prefs_timeformat">Formát času Mi2</string>
     <string name="action_donate">Podpořit</string>
     <string name="title_activity_calblacklist">Zakázané kalendáře</string>
-    <string name="pref_call_privacy_mode_number">Skrýť číslo, ale zobrazit jméno</string>
+    <string name="pref_call_privacy_mode_number">Skrýt číslo, ale zobrazit jméno</string>
     <string name="pref_blacklist_calendars">Zakázané kalendáře</string>
     <string name="pref_header_pebble_timeline">Časová osa Pebble</string>
     <string name="pref_title_enable_calendar_sync">Synchronizace kalendáře</string>
@@ -3370,4 +3370,6 @@
     <string name="menuitem_stress_segmented">Stres (rozdělený)</string>
     <string name="choose_device">Vyberte zařízení</string>
     <string name="no_supported_devices_found">Nenalezena žádná podporovaná zařízení</string>
+    <string name="search">Hledat</string>
+    <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
 </resources>
