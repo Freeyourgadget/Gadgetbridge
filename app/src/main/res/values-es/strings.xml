@@ -3374,4 +3374,6 @@
     <string name="menuitem_stress_simple">Estrés (sencillo)</string>
     <string name="menuitem_stress_breakdown">Estrés (crisis nerviosa)</string>
     <string name="menuitem_stress_segmented">Estrés (segmentado)</string>
+    <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
+    <string name="search">Buscar</string>
 </resources>
