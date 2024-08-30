@@ -3383,4 +3383,6 @@
     <string name="menuitem_stress_breakdown">Stres (çöküş)</string>
     <string name="menuitem_stress_simple">Stres (basit)</string>
     <string name="choose_device">Aygıt seç</string>
+    <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
+    <string name="search">Ara</string>
 </resources>
