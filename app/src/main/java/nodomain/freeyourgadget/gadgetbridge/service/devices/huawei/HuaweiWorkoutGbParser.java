@@ -709,28 +709,28 @@ public class HuaweiWorkoutGbParser {
 
                 if (altitudeCount > 0) {
                     JSONObject avgAltitudeJson = new JSONObject();
-                    avgAltitudeJson.put("value", avgAltitude);
-                    avgAltitudeJson.put("unit", "");
+                    avgAltitudeJson.put("value", avgAltitude / 10.0);
+                    avgAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
                     jsonObject.put(ActivitySummaryEntries.ALTITUDE_AVG, avgAltitudeJson);
 
                     JSONObject minAltitudeJson = new JSONObject();
-                    minAltitudeJson.put("value", minAltitude);
-                    minAltitudeJson.put("unit", "");
+                    minAltitudeJson.put("value", minAltitude / 10.0);
+                    minAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
                     jsonObject.put(ActivitySummaryEntries.ALTITUDE_MIN, minAltitudeJson);
 
                     JSONObject maxAltitudeJson = new JSONObject();
-                    maxAltitudeJson.put("value", maxAltitude);
-                    maxAltitudeJson.put("unit", "");
+                    maxAltitudeJson.put("value", maxAltitude / 10.0);
+                    maxAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
                     jsonObject.put(ActivitySummaryEntries.ALTITUDE_MAX, maxAltitudeJson);
 
                     JSONObject sumUpAltitudeJson = new JSONObject();
-                    sumUpAltitudeJson.put("value", sumAltitudeUp);
-                    sumUpAltitudeJson.put("unit", "");
+                    sumUpAltitudeJson.put("value", sumAltitudeUp / 10.0);
+                    sumUpAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
                     jsonObject.put(ActivitySummaryEntries.ELEVATION_GAIN, sumUpAltitudeJson);
 
                     JSONObject sumDownAltitudeJson = new JSONObject();
-                    sumDownAltitudeJson.put("value", sumAltitudeDown);
-                    sumDownAltitudeJson.put("unit", "");
+                    sumDownAltitudeJson.put("value", sumAltitudeDown / 10.0);
+                    sumDownAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
                     jsonObject.put(ActivitySummaryEntries.ELEVATION_LOSS, sumDownAltitudeJson);
                 }
             }
