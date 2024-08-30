@@ -3385,4 +3385,9 @@
     <string name="choose_device">Aygıt seç</string>
     <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
     <string name="search">Ara</string>
+    <string name="pref_header_deprecated_functionalities">Kullanımdan kaldırılan işlevler</string>
+    <string name="pref_header_deprecated_functionalities_warning">Aşağıdaki işlevler kullanımdan kaldırıldı ve yakında yazılımdan kaldırılacak.
+\nAşağıdaki ayarlardan birini etkinleştirmeniz gerekiyorsa, proje takımıyla iletişime geçin.</string>
+    <string name="pref_deprecated_media_control_title">Kullanımdan kaldırılan medya denetimi</string>
+    <string name="pref_deprecated_media_control_summary">Medya denetim komutlarını medya denetleyicisi yerine tuş olayları olarak gönder.</string>
 </resources>
