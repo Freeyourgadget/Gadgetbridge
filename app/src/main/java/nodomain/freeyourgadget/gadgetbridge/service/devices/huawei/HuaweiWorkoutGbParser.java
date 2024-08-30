@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
 import android.widget.Toast;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -54,7 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
  */
 public class HuaweiWorkoutGbParser {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiWorkoutGbParser.class);
-
+    
     // TODO: Might be nicer to propagate the exceptions, so they can be handled upstream
 
     public enum HuaweiActivityType {
@@ -302,71 +302,34 @@ public class HuaweiWorkoutGbParser {
 
             ActivityKind type = huaweiTypeToGbType(summary.getType());
 
-            JSONObject jsonObject = new JSONObject();
+            ActivitySummaryData summaryData = new ActivitySummaryData();
 
-            JSONObject calories = new JSONObject();
-            calories.put("value", summary.getCalories());
-            calories.put("unit", ActivitySummaryEntries.UNIT_KCAL);
-            jsonObject.put(ActivitySummaryEntries.CALORIES_BURNT, calories);
-
-            JSONObject distance = new JSONObject();
-            distance.put("value", summary.getDistance());
-            distance.put("unit", ActivitySummaryEntries.UNIT_METERS);
-            jsonObject.put(ActivitySummaryEntries.DISTANCE_METERS, distance);
-
-            JSONObject steps = new JSONObject();
-            steps.put("value", summary.getStepCount());
-            steps.put("unit", ActivitySummaryEntries.UNIT_STEPS);
-            jsonObject.put(ActivitySummaryEntries.STEPS, steps);
-
-            JSONObject time = new JSONObject();
-            time.put("value", summary.getDuration());
-            time.put("unit", ActivitySummaryEntries.UNIT_SECONDS);
-            jsonObject.put(ActivitySummaryEntries.ACTIVE_SECONDS, time);
-
-            JSONObject status = new JSONObject();
-            status.put("value", summary.getStatus() & 0xFF);
-            status.put("unit", "");
-            jsonObject.put(ActivitySummaryEntries.STATUS, status);
-
-            JSONObject typeJson = new JSONObject();
-            typeJson.put("value", summary.getType() & 0xFF);
-            typeJson.put("unit", "");
-            jsonObject.put(ActivitySummaryEntries.TYPE, typeJson);
+            summaryData.add(ActivitySummaryEntries.CALORIES_BURNT, summary.getCalories(), ActivitySummaryEntries.UNIT_KCAL);
+            summaryData.add(ActivitySummaryEntries.DISTANCE_METERS, summary.getDistance(), ActivitySummaryEntries.UNIT_METERS);
+            summaryData.add(ActivitySummaryEntries.STEPS, summary.getStepCount(), ActivitySummaryEntries.UNIT_STEPS);
+            summaryData.add(ActivitySummaryEntries.ACTIVE_SECONDS, summary.getDuration(), ActivitySummaryEntries.UNIT_SECONDS);
+            summaryData.add(ActivitySummaryEntries.STATUS, summary.getStatus() & 0xFF, ActivitySummaryEntries.UNIT_NONE);
+            summaryData.add(ActivitySummaryEntries.TYPE, summary.getType() & 0xFF, ActivitySummaryEntries.UNIT_NONE);
 
             if (summary.getStrokes() != -1) {
-                JSONObject strokesJson = new JSONObject();
-                strokesJson.put("value", summary.getStrokes());
-                strokesJson.put("unit", ActivitySummaryEntries.UNIT_STROKES);
-                jsonObject.put(ActivitySummaryEntries.STROKES, strokesJson);
+                summaryData.add(ActivitySummaryEntries.STROKES, summary.getStrokes(), ActivitySummaryEntries.UNIT_STROKES);
             }
 
             if (summary.getAvgStrokeRate() != -1) {
-                JSONObject avgStrokeRateJson = new JSONObject();
-                avgStrokeRateJson.put("value", summary.getAvgStrokeRate());
-                avgStrokeRateJson.put("unit", ""); // TODO: find out unit
-                jsonObject.put(ActivitySummaryEntries.STROKE_RATE_AVG, avgStrokeRateJson);
+                // TODO: find out unit
+                summaryData.add(ActivitySummaryEntries.STROKE_RATE_AVG, summary.getAvgStrokeRate(), ActivitySummaryEntries.UNIT_NONE);
             }
 
             if (summary.getPoolLength() != -1) {
-                JSONObject poolLengthJson = new JSONObject();
-                poolLengthJson.put("value", summary.getPoolLength());
-                poolLengthJson.put("unit", ActivitySummaryEntries.UNIT_CM);
-                jsonObject.put(ActivitySummaryEntries.LANE_LENGTH, poolLengthJson);
+                summaryData.add(ActivitySummaryEntries.LANE_LENGTH, summary.getPoolLength(), ActivitySummaryEntries.UNIT_CM);
             }
 
             if (summary.getLaps() != -1) {
-                JSONObject lapsJson = new JSONObject();
-                lapsJson.put("value", summary.getLaps());
-                lapsJson.put("unit", ActivitySummaryEntries.UNIT_LAPS);
-                jsonObject.put(ActivitySummaryEntries.LAPS, lapsJson);
+                summaryData.add(ActivitySummaryEntries.LAPS, summary.getLaps(), ActivitySummaryEntries.UNIT_LAPS);
             }
 
             if (summary.getAvgSwolf() != -1) {
-                JSONObject avgSwolfJson = new JSONObject();
-                avgSwolfJson.put("value", summary.getAvgSwolf());
-                avgSwolfJson.put("unit", "");
-                jsonObject.put(ActivitySummaryEntries.SWOLF_AVG, avgSwolfJson);
+                summaryData.add(ActivitySummaryEntries.SWOLF_AVG, summary.getAvgSwolf(), ActivitySummaryEntries.UNIT_NONE);
             }
 
             boolean unknownData = false;
@@ -550,188 +513,83 @@ public class HuaweiWorkoutGbParser {
                     avgAltitude = avgAltitude / altitudeCount;
 
                 if (speedCount > 0) {
-                    JSONObject speedJson = new JSONObject();
-                    speedJson.put("value", speed / 10);
-                    speedJson.put("unit", ActivitySummaryEntries.UNIT_METERS_PER_SECOND);
-                    jsonObject.put(ActivitySummaryEntries.SPEED_AVG, speedJson);
+                    summaryData.add(ActivitySummaryEntries.SPEED_AVG, speed / 10f, ActivitySummaryEntries.UNIT_METERS_PER_SECOND);
                 }
 
                 if (stepRatePresent) {
-                    JSONObject stepRateSumJson = new JSONObject();
-                    stepRateSumJson.put("value", stepRate);
-                    stepRateSumJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
-                    jsonObject.put(ActivitySummaryEntries.STEP_RATE_SUM, stepRateSumJson);
+                    summaryData.add(ActivitySummaryEntries.STEP_RATE_SUM, stepRate, ActivitySummaryEntries.UNIT_SPM);
 
-                    JSONObject stepRateAvgJson = new JSONObject();
-                    stepRateAvgJson.put("value", avgStepRate);
-                    stepRateAvgJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
-                    jsonObject.put(ActivitySummaryEntries.STEP_RATE_AVG, stepRateAvgJson);
+                    summaryData.add(ActivitySummaryEntries.STEP_RATE_AVG, avgStepRate, ActivitySummaryEntries.UNIT_SPM);
                 }
 
                 if (cadenceCount > 0) {
-                    JSONObject cadenceJson = new JSONObject();
-                    cadenceJson.put("value", cadence);
-                    cadenceJson.put("unit", ActivitySummaryEntries.UNIT_SPM);
-                    jsonObject.put(ActivitySummaryEntries.CADENCE_AVG, cadenceJson);
+                    summaryData.add(ActivitySummaryEntries.CADENCE_AVG, cadence, ActivitySummaryEntries.UNIT_SPM);
                 }
 
                 if (stepLengthCount > 0) {
-                    JSONObject stepLengthJson = new JSONObject();
-                    stepLengthJson.put("value", stepLength);
-                    stepLengthJson.put("unit", ActivitySummaryEntries.UNIT_CM);
-                    jsonObject.put(ActivitySummaryEntries.STEP_LENGTH_AVG, stepLengthJson);
+                    summaryData.add(ActivitySummaryEntries.STEP_LENGTH_AVG, stepLength, ActivitySummaryEntries.UNIT_CM);
                 }
 
                 if (groundContactTimeCount > 0) {
-                    JSONObject groundContactTimeJson = new JSONObject();
-                    groundContactTimeJson.put("value", groundContactTime);
-                    groundContactTimeJson.put("unit", ActivitySummaryEntries.UNIT_MILLISECONDS);
-                    jsonObject.put(ActivitySummaryEntries.GROUND_CONTACT_TIME_AVG, groundContactTimeJson);
+                    summaryData.add(ActivitySummaryEntries.GROUND_CONTACT_TIME_AVG, groundContactTime, ActivitySummaryEntries.UNIT_MILLISECONDS);
                 }
 
                 if (impactCount > 0) {
-                    JSONObject impactJson = new JSONObject();
-                    impactJson.put("value", impact);
-                    impactJson.put("unit", "g");
-                    jsonObject.put(ActivitySummaryEntries.IMPACT_AVG, impactJson);
-
-                    JSONObject maxImpactJson = new JSONObject();
-                    maxImpactJson.put("value", maxImpact);
-                    maxImpactJson.put("unit", "g");
-                    jsonObject.put(ActivitySummaryEntries.IMPACT_MAX, maxImpactJson);
+                    summaryData.add(ActivitySummaryEntries.IMPACT_AVG, impact, "g");
+                    summaryData.add(ActivitySummaryEntries.IMPACT_MAX, maxImpact, "g");
                 }
 
                 if (swingAngleCount > 0) {
-                    JSONObject swingAngleJson = new JSONObject();
-                    swingAngleJson.put("value", swingAngle);
-                    swingAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
-                    jsonObject.put(ActivitySummaryEntries.SWING_ANGLE_AVG, swingAngleJson);
+                    summaryData.add(ActivitySummaryEntries.SWING_ANGLE_AVG, swingAngle, ActivitySummaryEntries.UNIT_DEGREES);
                 }
 
                 if (footLandingPresent) {
-                    JSONObject foreFootLandingJson = new JSONObject();
-                    foreFootLandingJson.put("value", foreFootLanding);
-                    foreFootLandingJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.FORE_FOOT_LANDINGS, foreFootLandingJson);
-
-                    JSONObject midFootLandingJson = new JSONObject();
-                    midFootLandingJson.put("value", midFootLanding);
-                    midFootLandingJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.MID_FOOT_LANDINGS, midFootLandingJson);
-
-                    JSONObject backFootLandingJson = new JSONObject();
-                    backFootLandingJson.put("value", backFootLanding);
-                    backFootLandingJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.BACK_FOOT_LANDINGS, backFootLandingJson);
+                    summaryData.add(ActivitySummaryEntries.FORE_FOOT_LANDINGS, foreFootLanding, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.MID_FOOT_LANDINGS, midFootLanding, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.BACK_FOOT_LANDINGS, backFootLanding, ActivitySummaryEntries.UNIT_NONE);
                 }
 
                 if (eversionAngleCount > 0) {
-                    JSONObject eversionAngleJson = new JSONObject();
-                    eversionAngleJson.put("value", eversionAngle);
-                    eversionAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
-                    jsonObject.put(ActivitySummaryEntries.EVERSION_ANGLE_AVG, eversionAngleJson);
-
-                    JSONObject maxEversionAngleJson = new JSONObject();
-                    maxEversionAngleJson.put("value", maxEversionAngle);
-                    maxEversionAngleJson.put("unit", ActivitySummaryEntries.UNIT_DEGREES);
-                    jsonObject.put(ActivitySummaryEntries.EVERSION_ANGLE_MAX, maxEversionAngleJson);
+                    summaryData.add(ActivitySummaryEntries.EVERSION_ANGLE_AVG, eversionAngle, ActivitySummaryEntries.UNIT_DEGREES);
+                    summaryData.add(ActivitySummaryEntries.EVERSION_ANGLE_MAX, maxEversionAngle, ActivitySummaryEntries.UNIT_DEGREES);
                 }
 
                 if (swolfCount > 0) {
-                    JSONObject swolfJson = new JSONObject();
-                    swolfJson.put("value", swolf);
-                    swolfJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.SWOLF_AVG, swolfJson);
-
-                    JSONObject maxSwolfJson = new JSONObject();
-                    maxSwolfJson.put("value", maxSwolf);
-                    maxSwolfJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.SWOLF_MAX, maxSwolfJson);
-
-                    JSONObject minSwolfJson = new JSONObject();
-                    minSwolfJson.put("value", minSwolf);
-                    minSwolfJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.SWOLF_MIN, minSwolfJson);
+                    summaryData.add(ActivitySummaryEntries.SWOLF_AVG, swolf, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.SWOLF_MAX, maxSwolf, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.SWOLF_MIN, minSwolf, ActivitySummaryEntries.UNIT_NONE);
                 }
 
                 if (strokeRateCount > 0) {
-                    JSONObject strokeRateJson = new JSONObject();
-                    strokeRateJson.put("value", strokeRate);
-                    strokeRateJson.put("unit", ""); // TODO: find out unit?
-                    jsonObject.put(ActivitySummaryEntries.STROKE_RATE_AVG, strokeRateJson);
+                    // TODO: find out unit?
+                    summaryData.add(ActivitySummaryEntries.STROKE_RATE_AVG, strokeRate, ActivitySummaryEntries.UNIT_NONE);
 
-                    JSONObject maxStrokeRateJson = new JSONObject();
-                    maxStrokeRateJson.put("value", maxStrokeRate);
-                    maxStrokeRateJson.put("unit", ""); // TODO: find out unit?
-                    jsonObject.put(ActivitySummaryEntries.STROKE_RATE_MAX, maxStrokeRateJson);
+                    // TODO: find out unit?
+                    summaryData.add(ActivitySummaryEntries.STROKE_RATE_MAX, maxStrokeRate, ActivitySummaryEntries.UNIT_NONE);
                 }
 
                 if (heartRateCount > 0) {
-                    JSONObject heartRateJson = new JSONObject();
-                    heartRateJson.put("value", heartRate);
-                    heartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
-                    jsonObject.put(ActivitySummaryEntries.HR_AVG, heartRateJson);
-
-                    JSONObject maxHeartRateJson = new JSONObject();
-                    maxHeartRateJson.put("value", maxHeartRate);
-                    maxHeartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
-                    jsonObject.put(ActivitySummaryEntries.HR_MAX, maxHeartRateJson);
-
-                    JSONObject minHeartRateJson = new JSONObject();
-                    minHeartRateJson.put("value", minHeartRate);
-                    minHeartRateJson.put("unit", ActivitySummaryEntries.UNIT_BPM);
-                    jsonObject.put(ActivitySummaryEntries.HR_MIN, minHeartRateJson);
+                    summaryData.add(ActivitySummaryEntries.HR_AVG, heartRate, ActivitySummaryEntries.UNIT_BPM);
+                    summaryData.add(ActivitySummaryEntries.HR_MAX, maxHeartRate, ActivitySummaryEntries.UNIT_BPM);
+                    summaryData.add(ActivitySummaryEntries.HR_MIN, minHeartRate, ActivitySummaryEntries.UNIT_BPM);
                 }
 
                 if (sumCalories > 0) {
-                    JSONObject caloriesSumJson = new JSONObject();
-                    caloriesSumJson.put("value", sumCalories);
-                    caloriesSumJson.put("unit", ActivitySummaryEntries.UNIT_KCAL);
-                    jsonObject.put(ActivitySummaryEntries.CALORIES_BURNT, caloriesSumJson);
+                    summaryData.add(ActivitySummaryEntries.CALORIES_BURNT, sumCalories, ActivitySummaryEntries.UNIT_KCAL);
                 }
 
                 if (cyclingPowerCount > 0) {
-                    JSONObject cyclingPowerJson = new JSONObject();
-                    cyclingPowerJson.put("value", cyclingPower);
-                    cyclingPowerJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_AVERAGE, cyclingPowerJson);
-
-                    JSONObject minCyclingPowerJson = new JSONObject();
-                    minCyclingPowerJson.put("value", minCyclingPower);
-                    minCyclingPowerJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_MIN, minCyclingPowerJson);
-
-                    JSONObject maxCyclingPowerJson = new JSONObject();
-                    maxCyclingPowerJson.put("value", maxCyclingPower);
-                    maxCyclingPowerJson.put("unit", "");
-                    jsonObject.put(ActivitySummaryEntries.CYCLING_POWER_MAX, maxCyclingPowerJson);
+                    summaryData.add(ActivitySummaryEntries.CYCLING_POWER_AVERAGE, cyclingPower, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.CYCLING_POWER_MIN, minCyclingPower, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.CYCLING_POWER_MAX, maxCyclingPower, ActivitySummaryEntries.UNIT_NONE);
                 }
 
                 if (altitudeCount > 0) {
-                    JSONObject avgAltitudeJson = new JSONObject();
-                    avgAltitudeJson.put("value", avgAltitude / 10.0);
-                    avgAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_AVG, avgAltitudeJson);
-
-                    JSONObject minAltitudeJson = new JSONObject();
-                    minAltitudeJson.put("value", minAltitude / 10.0);
-                    minAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_MIN, minAltitudeJson);
-
-                    JSONObject maxAltitudeJson = new JSONObject();
-                    maxAltitudeJson.put("value", maxAltitude / 10.0);
-                    maxAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                    jsonObject.put(ActivitySummaryEntries.ALTITUDE_MAX, maxAltitudeJson);
-
-                    JSONObject sumUpAltitudeJson = new JSONObject();
-                    sumUpAltitudeJson.put("value", sumAltitudeUp / 10.0);
-                    sumUpAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                    jsonObject.put(ActivitySummaryEntries.ELEVATION_GAIN, sumUpAltitudeJson);
-
-                    JSONObject sumDownAltitudeJson = new JSONObject();
-                    sumDownAltitudeJson.put("value", sumAltitudeDown / 10.0);
-                    sumDownAltitudeJson.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                    jsonObject.put(ActivitySummaryEntries.ELEVATION_LOSS, sumDownAltitudeJson);
+                    summaryData.add(ActivitySummaryEntries.ALTITUDE_AVG, avgAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+                    summaryData.add(ActivitySummaryEntries.ALTITUDE_MIN, minAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+                    summaryData.add(ActivitySummaryEntries.ALTITUDE_MAX, maxAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+                    summaryData.add(ActivitySummaryEntries.ELEVATION_GAIN, sumAltitudeUp / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+                    summaryData.add(ActivitySummaryEntries.ELEVATION_LOSS, sumAltitudeDown / 10.0f, ActivitySummaryEntries.UNIT_METERS);
                 }
             }
 
@@ -755,51 +613,56 @@ public class HuaweiWorkoutGbParser {
                     typeCount.put(sample.getType(), count);
                     typePace.put(sample.getType(), pace);
 
-                    JSONObject paceDistance = new JSONObject();
-                    paceDistance.put("value", sample.getDistance());
-                    paceDistance.put("unit", ActivitySummaryEntries.UNIT_KILOMETERS);
-                    paceDistance.put("group", ActivitySummaryEntries.GROUP_PACE);
-                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceDistance), index), paceDistance);
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.fmtPaceDistance, index),
+                            sample.getDistance(),
+                            ActivitySummaryEntries.UNIT_KILOMETERS
+                    );
 
-                    JSONObject paceType = new JSONObject();
-                    paceType.put("value", sample.getType());
-                    paceType.put("unit", ""); // TODO: find out types
-                    paceType.put("group", ActivitySummaryEntries.GROUP_PACE);
-                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceType), index), paceType);
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.fmtPaceType, index),
+                            sample.getType(),
+                            ActivitySummaryEntries.UNIT_NONE // TODO: find out types
+                    );
 
-                    JSONObject pacePace = new JSONObject();
-                    pacePace.put("value", sample.getPace());
-                    pacePace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
-                    pacePace.put("group", ActivitySummaryEntries.GROUP_PACE);
-                    jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPacePace), index), pacePace);
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.fmtPacePace, index),
+                            sample.getPace(),
+                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
+                    );
 
                     if (sample.getCorrection() != 0) {
-                        JSONObject paceCorrection = new JSONObject();
-                        paceCorrection.put("value", sample.getCorrection() / 10);
-                        paceCorrection.put("unit", ActivitySummaryEntries.UNIT_METERS);
-                        paceCorrection.put("group", ActivitySummaryEntries.GROUP_PACE);
-                        jsonObject.put(String.format(GBApplication.getLanguage(), GBApplication.getContext().getString(R.string.fmtPaceCorrection), index), paceCorrection);
+                        summaryData.add(
+                                ActivitySummaryEntries.GROUP_PACE,
+                                GBApplication.getContext().getString(R.string.fmtPaceCorrection, index),
+                                sample.getCorrection() / 10f,
+                                ActivitySummaryEntries.UNIT_METERS
+                        );
                     }
                 }
 
                 for (Byte key : typeCount.keySet()) {
                     Integer count = typeCount.get(key);
                     Integer pace = typePace.get(key);
-                    if (count == null || pace == null)
+                    if (count == null || pace == null || count == 0)
                         continue;
-                    JSONObject avgPace = new JSONObject();
-                    avgPace.put("value", pace / count);
-                    avgPace.put("unit", ActivitySummaryEntries.UNIT_SECONDS_PER_KM);
-                    avgPace.put("group", ActivitySummaryEntries.GROUP_PACE);
-                    jsonObject.put(String.format(GBApplication.getContext().getString(R.string.fmtPaceTypeAverage), key), avgPace);
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.fmtPaceTypeAverage, key),
+                            pace / (float) count,
+                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
+                    );
                 }
             }
 
             if (unknownData) {
-                JSONObject unknownDataJson = new JSONObject();
-                unknownDataJson.put("value", GBApplication.getContext().getString(R.string.yes).toUpperCase());
-                unknownDataJson.put("unit", "string");
-                jsonObject.put(GBApplication.getContext().getString(R.string.unknownDataEncountered), unknownDataJson);
+                summaryData.add(
+                        GBApplication.getContext().getString(R.string.unknownDataEncountered),
+                        GBApplication.getContext().getString(R.string.yes).toUpperCase()
+                );
             }
 
             BaseActivitySummary baseSummary;
@@ -817,7 +680,7 @@ public class HuaweiWorkoutGbParser {
                         null,
                         deviceId,
                         userId,
-                        jsonObject.toString(),
+                        summaryData.toString(),
                         null
                 );
             } else {
@@ -834,7 +697,7 @@ public class HuaweiWorkoutGbParser {
                         previous.getRawDetailsPath(),
                         deviceId,
                         userId,
-                        jsonObject.toString(),
+                        summaryData.toString(),
                         null
                 );
             }
