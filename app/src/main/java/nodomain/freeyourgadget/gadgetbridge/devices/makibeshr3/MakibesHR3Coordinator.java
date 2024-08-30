@@ -51,7 +51,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.makibeshr3.MakibesHR3DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.GBApplication.getContext;
@@ -77,18 +76,6 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
         return !lostReminder.equals(getContext().getString(R.string.p_off));
-    }
-
-    public static byte getTimeMode(SharedPreferences sharedPrefs) {
-        GBPrefs gbPrefs = new GBPrefs(new Prefs(sharedPrefs));
-
-        String timeMode = gbPrefs.getTimeFormat();
-
-        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
-            return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
-        } else {
-            return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
-        }
     }
 
     /**

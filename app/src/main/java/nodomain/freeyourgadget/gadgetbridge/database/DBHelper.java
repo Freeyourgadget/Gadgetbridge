@@ -638,9 +638,8 @@ public class DBHelper {
     @NonNull
     public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        final GBPrefs prefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
 
-        final int reservedSlots = prefs.getReservedReminderCalendarSlots(gbDevice);
+        final int reservedSlots = GBApplication.getDevicePrefs(gbDevice.getAddress()).getReservedReminderCalendarSlots(gbDevice);
         final int reminderSlots = coordinator.getReminderSlotCount(gbDevice);
 
         try (DBHandler db = GBApplication.acquireDB()) {

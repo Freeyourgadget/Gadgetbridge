@@ -76,6 +76,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -430,6 +431,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         this.fetch(true);
     }
 
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         LOG.debug(key + " changed");
 
@@ -1000,9 +1002,19 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
         return this;
     }
 
+    public byte getTimeMode(SharedPreferences sharedPrefs) {
+        String timeMode = new DevicePrefs(sharedPrefs).getTimeFormat();
+
+        if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
+            return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;
+        } else {
+            return MakibesHR3Constants.ARG_SET_TIMEMODE_12H;
+        }
+    }
+
     private MakibesHR3DeviceSupport setTimeMode(TransactionBuilder transactionBuilder, SharedPreferences sharedPreferences) {
         return this.setTimeMode(transactionBuilder,
-                MakibesHR3Coordinator.getTimeMode(sharedPreferences));
+                getTimeMode(sharedPreferences));
     }
 
     private MakibesHR3DeviceSupport setEnableRealTimeHeartRate(TransactionBuilder transaction, boolean enable) {

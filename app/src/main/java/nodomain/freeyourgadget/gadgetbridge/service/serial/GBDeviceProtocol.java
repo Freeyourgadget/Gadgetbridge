@@ -32,7 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public abstract class GBDeviceProtocol {
 
@@ -181,7 +181,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    protected Prefs getDevicePrefs() {
-        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+    protected DevicePrefs getDevicePrefs() {
+        return GBApplication.getDevicePrefs(getDevice().getAddress());
     }
 }

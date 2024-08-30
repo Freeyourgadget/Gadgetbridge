@@ -1,6 +1,6 @@
 /*  Copyright (C) 2016-2024 Andreas Shimokawa, Anemograph, Carsten Pfeiffer,
     Daniel Dakhno, Daniele Gobbetti, Davis Mosenkovs, Dikay900, Felix Konstantin
-    Maurer, José Rebelo, Petr Vaněk, Johannes Krude
+    Maurer, José Rebelo, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -25,7 +25,6 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -33,7 +32,6 @@ import androidx.core.app.ActivityCompat;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -117,42 +115,6 @@ public class GBPrefs extends Prefs {
         return 0;
     }
 
-    public String getTimeFormat() {
-        String timeFormat = getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO);
-        if (DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO.equals(timeFormat)) {
-            if (DateFormat.is24HourFormat(GBApplication.getContext())) {
-                timeFormat = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H;
-            } else {
-                timeFormat = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_12H;
-            }
-        }
-
-        return timeFormat;
-    }
-
-    public String getDateFormatDayMonthOrder() {
-        String dateFormat = getString(DeviceSettingsPreferenceConst.PREF_DATEFORMAT, DeviceSettingsPreferenceConst.PREF_DATEFORMAT_AUTO);
-        if (DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO.equals(dateFormat)) {
-            String pattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "dM");
-            boolean quoted = false;
-            for (char c: pattern.toCharArray()) {
-                if (c == '\'') {
-                    quoted = !quoted;
-                    continue;
-                }
-                if (quoted)
-                    continue;
-                if (c == 'd')
-                    return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_DAY_MONTH;
-                if (c == 'M' || c == 'L')
-                    return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_MONTH_DAY;
-            }
-            return DeviceSettingsPreferenceConst.PREF_DATEFORMAT_DAY_MONTH;
-        }
-
-        return dateFormat;
-    }
-
     public float[] getLongLat(Context context) {
         float latitude = getFloat("location_latitude", 0);
         float longitude = getFloat("location_longitude", 0);
@@ -185,14 +147,6 @@ public class GBPrefs extends Prefs {
 
     public LocalTime getNotificationTimesEnd() {
         return getLocalTime("notification_times_end", "22:00");
-    }
-
-    public int getReservedReminderCalendarSlots(GBDevice gbDevice) {
-        if (!gbDevice.getDeviceCoordinator().getReserveReminderSlotsForCalendar())
-            return 0;
-        if (!getBoolean(DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR, false))
-            return 0;
-        return getInt(DeviceSettingsPreferenceConst.PREF_RESERVE_REMINDERS_CALENDAR, 9);
     }
 
     public boolean isMetricUnits() {

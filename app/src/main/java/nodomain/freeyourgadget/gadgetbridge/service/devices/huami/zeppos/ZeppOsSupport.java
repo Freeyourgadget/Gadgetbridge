@@ -1047,8 +1047,7 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
 
     @Override
     protected ZeppOsSupport setTimeFormat(final TransactionBuilder builder) {
-        final GBPrefs gbPrefs = new GBPrefs(getDevicePrefs());
-        final String timeFormat = gbPrefs.getTimeFormat();
+        final String timeFormat = getDevicePrefs().getTimeFormat();
 
         // FIXME: This "works", but the band does not update when the setting changes, so we don't do anything
         //noinspection ConstantValue

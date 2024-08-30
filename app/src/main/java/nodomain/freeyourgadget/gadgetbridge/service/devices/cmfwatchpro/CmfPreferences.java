@@ -208,8 +208,7 @@ public class CmfPreferences {
     }
 
     private void setTimeFormat() {
-        final GBPrefs gbPrefs = new GBPrefs(mSupport.getDevicePrefs());
-        final String timeFormat = gbPrefs.getTimeFormat();
+        final String timeFormat = mSupport.getDevicePrefs().getTimeFormat();
 
         LOG.info("Setting time format to {}", timeFormat);
 

@@ -61,7 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -393,9 +392,8 @@ public final class HamaFit6900DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private Message.TimeFormat getDevicePrefsTimeFormat() {
-        GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
         Message.TimeFormat timeFormat = null;
-        switch (gbPrefs.getTimeFormat()) {
+        switch (getDevicePrefs().getTimeFormat()) {
             case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H:
                 timeFormat = Message.TimeFormat.Format24H;
                 break;

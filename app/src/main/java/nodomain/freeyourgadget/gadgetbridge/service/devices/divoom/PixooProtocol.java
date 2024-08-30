@@ -59,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -185,8 +184,7 @@ public class PixooProtocol extends GBDeviceProtocol {
                         brightness
                 });
             case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
-                final GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress())));
-                final String timeFormat = gbPrefs.getTimeFormat();
+                final String timeFormat = getDevicePrefs().getTimeFormat();
                 final boolean is24hour = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H.equals(timeFormat);
 
                 return encodeProtocol(new byte[]{

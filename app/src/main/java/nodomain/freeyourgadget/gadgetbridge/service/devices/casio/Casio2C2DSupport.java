@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
@@ -734,13 +734,6 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
         public abstract boolean readValue(byte[] data, SharedPreferences.Editor editor);
 
-        protected Prefs getPrefs() {
-            return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        }
-
-        protected GBPrefs getGBPrefs() {
-            return new GBPrefs(getPrefs());
-        }
     };
 
     public abstract Casio2C2DSupport.DevicePreference[] supportedDevicePreferences();
@@ -774,20 +767,20 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
         @Override
         public void updateValue(byte[] data) {
-            data[index] = (byte) getGBValue();
+            data[index] = (byte) getDevicePrefsValue();
         }
 
         @Override
         public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
-            return setGBValue(editor, data[index] & 0xff);
+            return setDevicePrefsValue(editor, data[index] & 0xff);
         }
 
-        public int getGBValue() {
-            return getPrefs().getInt(name, -1);
+        public int getDevicePrefsValue() {
+            return getDevicePrefs().getInt(name, -1);
         }
 
-        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
-            if (value != getGBValue()) {
+        public boolean setDevicePrefsValue(SharedPreferences.Editor editor, int value) {
+            if (value != getDevicePrefsValue()) {
                 editor.putString(name, Integer.toString(value));
             }
             return false;
@@ -800,7 +793,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
 
         @Override
         public void updateValue(byte[] data) {
-            if (getGBValue()) {
+            if (getDevicePrefsValue()) {
                 data[index] &= ~mask;
             } else {
                 data[index] |= mask;
@@ -810,18 +803,18 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         @Override
         public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
             if ((data[index] & mask) == 0) {
-                return setGBValue(editor, true);
+                return setDevicePrefsValue(editor, true);
             } else {
-                return setGBValue(editor, false);
+                return setDevicePrefsValue(editor, false);
             }
         }
 
-        public boolean getGBValue() {
-            return getPrefs().getBoolean(name, false);
+        public boolean getDevicePrefsValue() {
+            return getDevicePrefs().getBoolean(name, false);
         }
 
-        public boolean setGBValue(SharedPreferences.Editor editor, boolean value) {
-            if (value != getGBValue()) {
+        public boolean setDevicePrefsValue(SharedPreferences.Editor editor, boolean value) {
+            if (value != getDevicePrefsValue()) {
                 editor.putBoolean(name, value);
             }
             return false;
@@ -831,7 +824,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     public class InvertedBoolDevicePreference extends BoolDevicePreference {
         @Override
         public void updateValue(byte[] data) {
-            if (getGBValue()) {
+            if (getDevicePrefsValue()) {
                 data[index] |= mask;
             } else {
                 data[index] &= ~mask;
@@ -841,15 +834,15 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         @Override
         public boolean readValue(byte[] data, SharedPreferences.Editor editor) {
             if ((data[index] & mask) == 0) {
-                return setGBValue(editor, false);
+                return setDevicePrefsValue(editor, false);
             } else {
-                return setGBValue(editor, true);
+                return setDevicePrefsValue(editor, true);
             }
         }
     }
 
     interface AutoGetter {
-        public String get(GBPrefs gbPrefs);
+        public String get(DevicePrefs devicePrefs);
     }
 
     public class AutoBoolDevicePreference extends BoolDevicePreference {
@@ -860,15 +853,15 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         String falseValue;
 
         @Override
-        public boolean getGBValue() {
-            return getter.get(getGBPrefs()).equals(trueValue);
+        public boolean getDevicePrefsValue() {
+            return getter.get(getDevicePrefs()).equals(trueValue);
         }
 
         @Override
-        public boolean setGBValue(SharedPreferences.Editor editor, boolean value) {
+        public boolean setDevicePrefsValue(SharedPreferences.Editor editor, boolean value) {
             String strValue = value ? trueValue : falseValue;
-            if (!getter.get(getGBPrefs()).equals(strValue)) {
-                if (getPrefs().getString(name, autoValue).equals(autoValue)) {
+            if (!getter.get(getDevicePrefs()).equals(strValue)) {
+                if (getDevicePrefs().getString(name, autoValue).equals(autoValue)) {
                     return true;
                 } else {
                     editor.putString(name, strValue);
@@ -890,13 +883,13 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         { index = 14; }
 
         @Override
-        public int getGBValue() {
-            return getPrefs().getInt(name, -1);
+        public int getDevicePrefsValue() {
+            return getDevicePrefs().getInt(name, -1);
         }
 
         @Override
-        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
-            if (value != getGBValue()) {
+        public boolean setDevicePrefsValue(SharedPreferences.Editor editor, int value) {
+            if (value != getDevicePrefsValue()) {
                 editor.putString(name, Integer.toString(value));
             }
             return false;
@@ -955,8 +948,8 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         String[] languages = { "en_US", "es_ES", "fr_FR"," de_DE", "it_IT", "ru_RU" };
 
         @Override
-        public int getGBValue() {
-            String value = getPrefs().getString(name, PREF_LANGUAGE_AUTO);
+        public int getDevicePrefsValue() {
+            String value = getDevicePrefs().getString(name, PREF_LANGUAGE_AUTO);
             int number = 0;
             if (value.equals(PREF_LANGUAGE_AUTO)) {
                 String lang = Locale.getDefault().getLanguage() + "_";
@@ -978,9 +971,9 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         }
 
         @Override
-        public boolean setGBValue(SharedPreferences.Editor editor, int value) {
-            if (getGBValue() != value) {
-                if (getPrefs().getString(name, PREF_LANGUAGE_AUTO).equals(PREF_LANGUAGE_AUTO)) {
+        public boolean setDevicePrefsValue(SharedPreferences.Editor editor, int value) {
+            if (getDevicePrefsValue() != value) {
+                if (getDevicePrefs().getString(name, PREF_LANGUAGE_AUTO).equals(PREF_LANGUAGE_AUTO)) {
                     return true;
                 } else {
                     if (value < languages.length) {

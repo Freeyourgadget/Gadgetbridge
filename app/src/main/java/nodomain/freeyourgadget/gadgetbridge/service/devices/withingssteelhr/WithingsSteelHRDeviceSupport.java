@@ -107,7 +107,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.comm
 import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.communication.notification.NotificationProvider;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.communication.notification.NotificationSource;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -725,10 +724,7 @@ public class WithingsSteelHRDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private short getTimeMode() {
-        GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
-        String tmode = gbPrefs.getTimeFormat();
-
-        if ("24h".equals(tmode)) {
+        if ("24h".equals(getDevicePrefs().getTimeFormat())) {
             return UserUnitConstants.UNIT_24H;
         } else {
             return UserUnitConstants.UNIT_12H;

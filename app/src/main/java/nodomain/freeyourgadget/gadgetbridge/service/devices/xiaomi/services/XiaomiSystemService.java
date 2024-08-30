@@ -59,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPrefere
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.SilentMode;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -287,8 +286,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
         final Calendar now = GregorianCalendar.getInstance();
         final TimeZone tz = TimeZone.getDefault();
 
-        final GBPrefs gbPrefs = new GBPrefs(GBApplication.getDeviceSpecificSharedPrefs(getSupport().getDevice().getAddress()));
-        final String timeFormat = gbPrefs.getTimeFormat();
+        final String timeFormat = getDevicePrefs().getTimeFormat();
         final boolean is24hour = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H.equals(timeFormat);
 
         final XiaomiProto.Clock clock = XiaomiProto.Clock.newBuilder()

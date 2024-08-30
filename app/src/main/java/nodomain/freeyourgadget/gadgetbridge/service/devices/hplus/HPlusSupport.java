@@ -164,13 +164,18 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    public byte getTimeMode() {
+        if ("24h".equals(getDevicePrefs().getTimeFormat())) {
+            return HPlusConstants.ARG_TIMEMODE_24H;
+        } else {
+            return HPlusConstants.ARG_TIMEMODE_12H;
+        }
+    }
 
     private HPlusSupport setTimeMode(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getTimeMode(getDevice().getAddress());
-
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_TIMEMODE,
-                value
+                getTimeMode()
         });
         return this;
     }

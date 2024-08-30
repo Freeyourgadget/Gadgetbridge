@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
@@ -202,9 +201,8 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                 return true;
             } else if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_BASIC) {
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
-                GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress())));
 
-                String timeformat = gbPrefs.getTimeFormat();
+                String timeformat = GBApplication.getDevicePrefs(getDevice().getAddress()).getTimeFormat();
 
                 if(timeformat.equals(getContext().getString(R.string.p_timeformat_24h))) {
                     data[1]  |= 0x01;

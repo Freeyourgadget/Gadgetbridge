@@ -57,7 +57,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 
 public class ConfigureReminders extends AbstractGBActivity {
@@ -103,9 +102,7 @@ public class ConfigureReminders extends AbstractGBActivity {
             public void onClick(View v) {
                 final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
-                final GBPrefs prefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
-
-                int deviceSlots = coordinator.getReminderSlotCount(gbDevice) - prefs.getReservedReminderCalendarSlots(gbDevice);
+                int deviceSlots = coordinator.getReminderSlotCount(gbDevice) - GBApplication.getDevicePrefs(gbDevice.getAddress()).getReservedReminderCalendarSlots(gbDevice);
 
                 if (mGBReminderListAdapter.getItemCount() >= deviceSlots) {
                     // No more free slots

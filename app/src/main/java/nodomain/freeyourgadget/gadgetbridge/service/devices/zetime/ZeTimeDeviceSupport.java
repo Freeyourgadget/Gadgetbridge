@@ -70,7 +70,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
@@ -1692,9 +1691,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void setTimeFormate(TransactionBuilder builder) {
-        GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress())));
-
-        String timeFormat = gbPrefs.getTimeFormat();
+        String timeFormat = getDevicePrefs().getTimeFormat();
         int type = 1;
         if ("am/pm".equals(timeFormat)) {
             type = 2;
