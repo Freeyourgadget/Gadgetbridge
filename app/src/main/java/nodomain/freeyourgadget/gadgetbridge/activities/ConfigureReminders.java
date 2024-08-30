@@ -156,9 +156,9 @@ public class ConfigureReminders extends AbstractGBActivity {
         if (gbDevice.getDeviceCoordinator().getRemindersHaveTime()) {
             reminder.setDate(Calendar.getInstance().getTime());
         } else {
-            Calendar noonGMT = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-            noonGMT.set(noonGMT.get(Calendar.YEAR), noonGMT.get(Calendar.MONTH), noonGMT.get(Calendar.DAY_OF_MONTH), 12, 0);
-            reminder.setDate(noonGMT.getTime());
+            Calendar noonUTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            noonUTC.set(noonUTC.get(Calendar.YEAR), noonUTC.get(Calendar.MONTH), noonUTC.get(Calendar.DAY_OF_MONTH), 12, 0);
+            reminder.setDate(noonUTC.getTime());
         }
         reminder.setMessage("");
         reminder.setDeviceId(device.getId());

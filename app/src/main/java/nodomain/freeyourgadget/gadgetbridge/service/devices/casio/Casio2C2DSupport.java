@@ -642,7 +642,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
             System.arraycopy(message, 0, data[2*pos], 2, Math.min(message.length, 18));
             Arrays.fill(data[2*pos], 2+message.length, 20, (byte) 0);
 
-            LocalDate start = LocalDate.ofInstant(reminder.getDate().toInstant(), ZoneId.of("GMT"));
+            LocalDate start = LocalDate.ofInstant(reminder.getDate().toInstant(), ZoneId.of("UTC"));
             if (start.getYear() < 2000) {
                 if (reminder.getRepetition() == Reminder.EVERY_WEEK) {
                     final LocalDate first = LocalDate.of(2000, 1, 1);
