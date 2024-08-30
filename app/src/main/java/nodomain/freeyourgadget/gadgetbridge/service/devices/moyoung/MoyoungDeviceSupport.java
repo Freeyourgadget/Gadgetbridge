@@ -1499,7 +1499,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             packetWeatherToday.put(weatherToday.city.getBytes("unicodebigunmarked"));
             sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
 
-            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(7 * 3);
+            ByteBuffer packetWeatherForecast = ByteBuffer.allocate(8 * 3);
+            packetWeatherForecast.put(weatherToday.conditionId);
+            packetWeatherForecast.put(weatherToday.currentTemp);
+            packetWeatherForecast.put(weatherToday.currentTemp);
             for(int i = 0; i < 7; i++)
             {
                 MoyoungWeatherForecast forecast;
